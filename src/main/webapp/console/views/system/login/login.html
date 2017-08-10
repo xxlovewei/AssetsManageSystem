@@ -1,0 +1,52 @@
+<style>
+.bg {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	opacity: .8;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+</style>
+<div ng-controller="sysLoginCtl" class="bg"
+	style="height: 100%; background-image: url(./img/bg_img/bg-img-3.jpg)">
+	<div class="middle-box text-center loginscreen  animated fadeInDown">
+		<div>
+			<div>
+				<h1 class="logo-name"></h1>
+			</div>
+			<h3 style="color: white !important">欢迎登录</h3>
+			<form class="m-t" role="form" action="#">
+				<div class="form-group">
+					<input type="text" ng-model="user.user" class="form-control"
+						placeholder="输入帐号" required="">
+				</div>
+				<div class="form-group">
+					<input type="password" ng-model="user.pwd" class="form-control"
+						placeholder="输入密码" required="">
+				</div>
+
+
+				<!--     <a ui-sref="forgot_password"><small>忘记密码?</small></a> -->
+				<!--       <p class="text-muted text-center"><small>Do not have an account?</small></p>
+            <a class="btn btn-sm btn-white btn-block" ui-sref="register">Create an account</a> -->
+			</form>
+			<button ng-click="login()" type="submit"
+				class="btn btn-primary block full-width m-b">登录</button>
+
+			<button ng-click="login('A')">管理员登录--测试</button>
+			<button ng-click="login('D')">开发人员登录--测试</button>
+			<button ng-click="login('N')">普通人员登录--测试</button>
+			<p class="m-t">
+				<small> </small>
+			</p>
+		</div>
+	</div>
+</div>

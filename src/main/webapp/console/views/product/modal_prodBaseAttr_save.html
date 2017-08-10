@@ -1,0 +1,170 @@
+<style>
+.chosen-container {
+	width: 100%;
+}
+</style>
+<div class="modal-content">
+	<div class="modal-header">
+		<button ng-click="cancel()" type="button" class="close">
+			<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+		</button>
+		<h4 class="modal-title">基本资料</h4>
+	</div>
+	<div class="modal-body">
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="ibox">
+				<div class="ibox-content" style="border: none;">
+
+
+					<form class="form-horizontal" name="myForm" novalidate>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span
+								style="color: red">*</span>产品名称</label>
+							<div class="col-sm-10">
+								<input type="text" required ng-maxlength="80"
+									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+									placeholder="请输入内容" name="name" ng-model=prodData.PROD_NAME>
+								<div class="text-danger"
+									ng-if="myForm.name.$dirty && myForm.name.$invalid">
+									<span ng-if="myForm.name.$error.required"> 输入不能为空 </span> <span
+										ng-show="myForm.name.$error.maxlength">不能超过80个字符 </span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">产品编码</label>
+							<div class="col-sm-10">
+								<input type="text"
+									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+									placeholder="请输入内容" ng-model=prodData.CODE>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span
+								style="color: red">*</span>产品标题</label>
+							<div class="col-sm-10">
+								<input type="text" required ng-maxlength="80"
+									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+									placeholder="请输入内容" name="title" ng-model=prodData.TITLE>
+								<div class="text-danger"
+									ng-if="myForm.title.$dirty && myForm.title.$invalid">
+									<span ng-if="myForm.title.$error.required"> 输入不能为空 </span> <span
+										ng-show="myForm.title.$error.maxlength">不能超过80个字符 </span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">品牌</label>
+							<div class="col-sm-10">
+
+								<select class="form-control" ng-model="prodData.BRAND_ID">
+									<option ng-repeat="item in brandOpt" value="{{item.BRAND_ID}}">{{item.NAME}}</option>
+								</select>
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">产品产地</label>
+							<div class="col-sm-10">
+								<input type="text"
+									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+									placeholder="请输入内容" name="place" ng-model=prodData.PLACE>
+
+							</div>
+						</div>
+						<!--  data-mask="999-99-999-9999-9" -->
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span
+								style="color: red">*</span>产品列表价</label>
+							<div class="col-sm-10">
+								<input type="number" required ng-maxlength="120"
+									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+									placeholder="请输入内容(必须)" name="listprice"
+									ng-model="prodData.LIST_PRICE">
+								<div class="text-danger"
+									ng-if="myForm.listprice.$dirty && myForm.listprice.$invalid">
+									<span ng-if="myForm.listprice.$error.required"> 输入不能为空 </span>
+									<span ng-show="myForm.listprice.$error.maxlength">不能超过80个字符
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span
+								style="color: red">*</span>产品列表原价</label>
+							<div class="col-sm-10">
+								<input type="number" required ng-maxlength="120"
+									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+									placeholder="请输入内容(必须)" name="listpriceori"
+									ng-model="prodData.LIST_ORI_PRICE">
+								<div class="text-danger"
+									ng-if="myForm.listpriceori.$dirty && myForm.listpriceori.$invalid">
+									<span ng-if="myForm.listpriceori.$error.required">
+										输入不能为空 </span> <span ng-show="myForm.listpriceori.$error.maxlength">不能超过80个字符
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span
+								style="color: red">*</span>产品单位</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" ng-model=prodData.UNIT
+									placeholder="请输入单位(必须)">
+							</div>
+						</div>
+
+
+						<!-- 其他产品基本属性 -->
+						<div class="hr-line-dashed"></div>
+						<div class="form-group" ng-repeat="item in base_attr">
+							<label class="col-sm-2 control-label"> <span
+								ng-if="item.IS_NEED== 'Y'" style="color: red">* </span>{{item.NAME}}
+							</label>
+							<div class="col-sm-10">
+								<div ng-switch="item.INPUT_TYPE">
+									<div ng-switch-when="input">
+										<input type="text" ng-maxlength="100"
+											class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+											placeholder="请输入内容" ng-model="item.ATTR_SET_VALUE">
+									</div>
+
+									<div ng-switch-when="select-single">
+										<select class="form-control" ng-model="item.ATTR_SET_VALUE">
+											<option ng-repeat="attr in item.LIST"
+												value="{{attr.ATTR_SET_ID}}">{{attr.VALUE}}</option>
+										</select>
+									</div>
+
+									<div ng-switch-when="select-multi">
+										<label ng-repeat="attr in item.LIST"
+											class="checkbox-inline i-checks" style="padding-right: 5px;">
+											<div class="icheckbox_square-green"
+												style="position: relative; padding-right: 3px;">
+												<input ng-change="baseattrvaluechange(item,attr)" icheck
+													type="checkbox" ng-model="attr.STATUS">
+											</div>{{attr.VALUE}}
+										</label>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button ng-click="cancel()" class="btn    btn-warning">取消</button>
+		<button ng-disabled="myForm.$invalid" ng-click="sure()"
+			class="btn   btn-primary">确认</button>
+	</div>
+</div>
