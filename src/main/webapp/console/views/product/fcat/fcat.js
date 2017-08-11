@@ -349,11 +349,11 @@ function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				});
 			}
 		});
-		
-		
-		$scope.ignoreChanges = true;
-		$scope.treeData = angular.copy(data);
-		$scope.treeConfig.version++;
+//		
+//		
+//		$scope.ignoreChanges = true;
+//		$scope.treeData = angular.copy(data);
+//		$scope.treeConfig.version++;
 	}
 	$scope.addattr = function() {
 

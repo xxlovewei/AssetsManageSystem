@@ -2,7 +2,6 @@ package com.dt.module.demo.service;
 
 import org.springframework.stereotype.Service;
 
-import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 
 /** 

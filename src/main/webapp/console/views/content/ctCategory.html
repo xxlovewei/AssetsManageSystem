@@ -1,0 +1,87 @@
+
+<div ng-controller="ctCateSettingCtl">
+
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="ibox">
+					<div class="ibox-content">
+						<form role="form" class="form-inline">
+							<div class="form-group">
+								<label for="class">类目组 </label> <select id="class"
+									style="width: 120px;" chosen disable-search="true"
+									class="chosen-select" no-results-text="'没有找到相应条目'"
+									ng-model="catRootSel" data-placeholder-text-single="'请选择...'"
+									ng-options="item.NAME for item in catRootOpt">
+									<option value=""></option>
+								</select>
+							</div>
+							<button ng-click="query()" class="btn btn-sm btn-primary"
+								type="submit">查询</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="ibox">
+					<div class="ibox-content" style="min-height: 250px;">
+						<div js-tree="treeConfig" ng-model="treeData" tree="treeInstance"
+							tree-events="ready:readyCB;create_node:createNodeCB"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-8">
+
+
+
+
+
+				<div class="ibox float-e-margins" tyle="min-height:250px;">
+					<div class="ibox-title">
+						<h5></h5>
+
+						<div class="ibox-tools">
+							<a href="" ng-click="saveItem()" class="btn btn-primary btn-xs">保存</a>
+						</div>
+
+					</div>
+					<div class="ibox-content">
+						<form method="get" class="form-horizontal ng-pristine ng-valid"
+							style="min-height: 250px;" name="myForm" novalidate>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">名称:</label>
+								<div class="col-sm-10">
+									<input type="text" required ng-maxlength="10"
+										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+										placeholder="请输入内容" name="name" ng-model="item.NAME"
+										class="form-control">
+									<div class="text-danger"
+										ng-if="myForm.name.$dirty && myForm.name.$invalid">
+										<span ng-if="myForm.name.$error.required"> 输入不能为空 </span> <span
+											ng-show="myForm.name.$error.maxlength">不能超过20个字符 </span>
+									</div>
+								</div>
+							</div>
+
+						</form>
+
+
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+
