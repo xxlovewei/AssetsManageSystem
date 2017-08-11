@@ -6,34 +6,7 @@ function prepend(arr, item) {
 	return a;
 }
 
-// 重命名
-function prodCatFItemRenameCtl($log, $http, $rootScope, $scope, $uibModalInstance, id, notify) {
-	$scope.item = {};
-	$scope.item.NAME = "";
-
-	$scope.sure = function() {
-
-		var ps = {};
-		ps.id = id;
-		ps.text = $scope.item.NAME;
-		$http.post($rootScope.project + "/api/categoryF/rename.do", ps).success(function(res) {
-			if (res.success) {
-				$uibModalInstance.close(ps.text);
-			}
-
-			notify({
-				message : res.message
-			});
-		})
-
-	}
-
-	$scope.cancel = function() {
-
-		$uibModalInstance.dismiss('cancel');
-	};
-
-}
+ 
 
 function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 

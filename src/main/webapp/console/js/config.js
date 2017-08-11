@@ -164,7 +164,21 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 				} ]);
 			}
 		}
+	}).state('ct.publishnews', {
+		url : "/publishnews",
+		templateUrl : "views/content/newsPublish.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/content/newsPublish.js' ]
+				} ]);
+			}
+		}
 	});
+	
+	
+ 
 
 	// 系统设置
 	$stateProvider.state('system', {
@@ -195,7 +209,6 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 			}
 		}
 	})
-
 	.state('system.mon_druid', {
 		url : "/mon_druid",
 		templateUrl : "views/system/mon/druid.html",
