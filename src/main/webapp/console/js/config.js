@@ -17,7 +17,7 @@ var app = angular.module('inspinia', [ 'ui.router', // Routing
 'localytics.directives',// chosen
 'treeGrid', 'cgNotify', 'angular-confirm', 'datatables', 'datatables.select',
 		'datatables.buttons',// datatable
-		'swxLocalStorage', 'angular-loading-bar' ])
+		'swxLocalStorage', 'angular-loading-bar' ,'ng.ueditor'])
 
 var $injector = angular.injector();
 app.factory('sessionInjector', [
@@ -122,6 +122,25 @@ function config($locationProvider, $controllerProvider, $compileProvider,
 			}
 		}
 	})
+	
+		// 例子
+	$stateProvider
+			.state('demo', {
+				abstract : true,
+				url : "/demo",
+				templateUrl : "views/common/content.html"
+			}).state('demo.ueditor', {
+				url : "/ueditor",
+				templateUrl : "views/demo/ueditor.html",
+				resolve : {
+					loadPlugin : function($ocLazyLoad) {
+						return $ocLazyLoad.load([ {
+							serie : true,
+							files : [ 'views/demo/ueditor.js' ]
+						} ]);
+					}
+				}
+			})
 
 	// 默认页面需要做检查
 	$stateProvider.state('content', {

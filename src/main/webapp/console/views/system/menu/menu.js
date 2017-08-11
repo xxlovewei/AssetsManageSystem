@@ -124,6 +124,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 			}
 		})
 	}
+	 
 
 	$scope.sure = function() {
 
@@ -134,6 +135,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 		if (angular.isDefined($scope.topMenuSel.MENU_ID)) {
 			ps.MENU_ID = $scope.topMenuSel.MENU_ID;
 		}
+ 
 		if ($scope.item.TYPE == "EDIT") {
 			$log.log("修改")
 			$http.post($rootScope.project + "/api/menu/updateNode.do", ps).success(function(res) {
