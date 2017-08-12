@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+ 
+import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
@@ -13,8 +15,7 @@ import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.content.service.NewsService;
-
-import net.sf.json.JSONObject;
+ 
 
 /**
  * @author: algernonking
@@ -48,7 +49,7 @@ public class NewsController extends BaseController {
 	@Res
 	@Acl
 	public ResData deleteNews(String id) {
-		return null;
+		return newsService.deleteNews(id);
 	}
 	/**
 	 * @Description: 发布新闻
@@ -101,5 +102,21 @@ public class NewsController extends BaseController {
 	public ResData queryNews(String pageSize, String pageIndex) {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return newsService.queryNews(ps, ConvertUtil.toInt(pageSize, -1), ConvertUtil.toInt(pageIndex, -1));
+	}
+	
+	/**
+	 * @Description: 查询新闻分页,用于datatable
+	 */
+	@RequestMapping(value = "/news/queryNewsByDatatable.do")
+	@Res
+	@Acl(value = "allow")
+	public ResData queryNewsByDatatable(String start, String length) {
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		int startV=ConvertUtil.toInt(start);
+		int lengthV=ConvertUtil.toInt(length);
+		int pageIndex=startV/lengthV+1;
+		System.out.println("pageSize"+length);
+		System.out.println("pageIndex"+pageIndex);
+		return newsService.queryNews(ps, ConvertUtil.toInt(length, -1), ConvertUtil.toInt(pageIndex, -1));
 	}
 }

@@ -83,6 +83,7 @@ public class ContentService extends BaseService {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		Update me = new Update("CT_CONTENT");
+		me.set("deleted", "Y");
 		me.where().and("id=?", id).and("type=?", type);
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
@@ -97,24 +98,30 @@ public class ContentService extends BaseService {
 		String sdate = ps.getString("sdate");
 		String edate = ps.getString("edate");
 		String sort = ps.getString("sort");
-		String sql = "select * from CT_CONTENT  where DELETED='N' and type='" + type + "' ";
+		String noContent = ps.getString("noContent", "N");
+		String sql = "select <#CONTENT#> ID,CAT_ID,DIGEST,TITLE,PROFILE,URLTYPE,URL,TYPE,MPIC,MPIC_LOC,HITS,AUTHOR,CREATETIME,MODIFYTIME ,DISPLAY,MARK,TAG from CT_CONTENT  where DELETED='N' and type='"
+				+ type + "' ";
+		if (noContent.equals("Y")) {
+			sql = sql.replaceAll("<#CONTENT#>", "");
+		} else {
+			sql = sql.replaceAll("<#CONTENT#>", "CONTENT,");
+		}
 		if (ToolUtil.isNotEmpty(sdate)) {
 			sql = sql + " and CREATETIME>=to_date('" + sdate + " 00:00:00','yyyy-mm-dd hh24:mi:ss') ";
 		}
 		if (ToolUtil.isNotEmpty(edate)) {
 			sql = sql + " and CREATETIME<=to_date('" + edate + " 23:59:59','yyyy-mm-dd hh24:mi:ss') ";
 		}
-		if (ToolUtil.isNotEmpty(sort)) {
+		if (ToolUtil.isEmpty(sort)) {
 			// 如果是新闻
 			if (type.equals(ContentService.TYPE_NEWS)) {
 				sql = sql + " order by  CREATETIME desc";
-			} else {
-				if (sort.equals(SORT_CREATE)) {
-					sql = sql + " order by  CREATETIME desc";
-				}
 			}
-			
-			//
+		} else {
+			// 按照预定的排序
+			if (sort.equals(SORT_CREATE)) {
+				sql = sql + " order by  CREATETIME desc";
+			}
 		}
 		System.out.println(sql);
 		return sql;

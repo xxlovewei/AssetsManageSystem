@@ -175,6 +175,17 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 				} ]);
 			}
 		}
+	}).state('ct.news_mgr', {
+		url : "/newMgr",
+		templateUrl : "views/content/newsMgr.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/content/newsMgr.js' ]
+				} ]);
+			}
+		}
 	});
 	
 	

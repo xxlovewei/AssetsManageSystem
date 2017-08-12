@@ -57,8 +57,6 @@ public class NewsService extends BaseService {
 	 * @Description: 查找新闻
 	 */
 	public ResData queryNews(TypedHashMap<String, Object> ps, int pageSize, int pageIndex) {
-	
-		ps.containsKey("sort");
 		return contentService.queryContents(ps, pageSize, pageIndex, ContentService.TYPE_NEWS);
 	}
 }
