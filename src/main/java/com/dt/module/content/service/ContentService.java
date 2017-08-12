@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
+import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.PageUtil;
@@ -19,6 +20,7 @@ import com.dt.core.common.util.support.TypedHashMap;
 @Service
 public class ContentService extends BaseService {
 	public static String TYPE_NEWS = "news";
+	public static String TYPE_OHTER = "other";
 	public static String TYPE_DOC = "doc";
 	public static String SORT_CREATE = "create";
 	public static String SORT_MODIFY = "modify";
@@ -29,7 +31,13 @@ public class ContentService extends BaseService {
 	 */
 	public ResData addContent(TypedHashMap<String, Object> ps, String type) {
 		Insert me = new Insert("CT_CONTENT");
-		me.set("ID", UuidUtil.getUUID());
+		String idctl = ps.getString("SELFID", "N");
+		String id = UuidUtil.getUUID();
+		if (idctl.equals("Y")) {
+			// 用覆盖的ID
+			id = ps.getString("ID", id);
+		}
+		me.set("ID", id);
 		me.set("DELETED", "N");
 		me.set("TYPE", type);
 		me.set("DISPLAY", ToolUtil.parseYNValueDefN(ps.getString("DISPLAY")));
@@ -92,7 +100,11 @@ public class ContentService extends BaseService {
 	 * @Description:根据ID查找CT
 	 */
 	public ResData queryContentById(String id) {
-		return ResData.SUCCESS_OPER(db.uniqueRecord("select * from  CT_CONTENT where id=?", id));
+		Rcd rs = db.uniqueRecord("select * from  CT_CONTENT where id=?", id);
+		if (ToolUtil.isEmpty(rs)) {
+			return ResData.FAILURE_NODATA();
+		}
+		return ResData.SUCCESS_OPER(rs.toJsonObject());
 	}
 	private String rebuildQueryContentSql(TypedHashMap<String, Object> ps, String type) {
 		String sdate = ps.getString("sdate");
