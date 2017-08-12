@@ -83,16 +83,20 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 		}
 	}
 
+	function renderMImage(data, type, full) {
+		var html = ""
+		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "file/imagedown.do?id=" + full.MPIC + "  />"
+		return html;
+	}
+
 	$scope.dtColumns = [
 
-	DTColumnBuilder.newColumn('ID').withTitle('主图').withOption('sDefaultContent', ''), DTColumnBuilder.newColumn('TITLE').withTitle('标题').withOption('sDefaultContent', ''),
+	DTColumnBuilder.newColumn('ID').withTitle('主图').withOption('sDefaultContent', '').renderWith(renderMImage),
+			DTColumnBuilder.newColumn('TITLE').withTitle('标题').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('CREATETIME').withTitle('创建时间').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('HITS').withTitle('点击量').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('URLTYPE').withTitle('链接类型').withOption('sDefaultContent', '').renderWith(renderType) ,
+			DTColumnBuilder.newColumn('URLTYPE').withTitle('链接类型').withOption('sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('USER_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
-
- 
-	 
 
 	$scope.row_del = function(id) {
 		$confirm({

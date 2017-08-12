@@ -23,7 +23,7 @@
 
 				<div class="ibox float-e-margins">
 					<div class="ibox-title">
-						<h5>新闻</h5>
+						<h5>发布新闻</h5>
 						<div ibox-tools="" class="ng-scope">
 							<div class="ibox-tools dropdown" uib-dropdown="">
 								<a ng-click="showhide()"> <i class="fa fa-chevron-up"></i></a> <a
@@ -86,7 +86,7 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label">访问地址:</label>
 								<div class="col-sm-10">
-									<input type="text"  ng-maxlength="100"
+									<input type="text" ng-maxlength="100"
 										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
 										placeholder="请输入内容" name="url" ng-model="item.URL"
 										class="form-control">
@@ -99,9 +99,37 @@
 								</div>
 							</div>
 
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><span
+									class="text-danger">*</span>主图:</label>
+								<div class="col-sm-10">
+									<div class="dropzone" drop-zone dzconfig="dtldzconfig"
+										dzeventHandlers="dtldzevent" enctype="multipart/form-data">
+										<div id="dropzone" class="fallback">
+											<input name="file" type="file" multiple="" />
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">主图位置:</label>
+								<div class="col-sm-10">
+									<select chosen disable-search="true" class="chosen-select"
+										no-results-text="'没有找到相应条目'" ng-model="mpicSel"
+										data-placeholder-text-single="'请选择...'"
+										ng-options="item.NAME for item in mpicOpt">
+										<option value=""></option>
+									</select>
+								</div>
+							</div>
+
+
+
 						</form>
 
-						<div id="news" style="margin-top:3rem;margin-bottom: 1.25rem; height: 300px"
+						<div id="news"
+							style="margin-top: 3rem; margin-bottom: 1.25rem; height: 300px"
 							config="_simpleConfig" class="ueditor" ng-model="content"></div>
 
 					</div>

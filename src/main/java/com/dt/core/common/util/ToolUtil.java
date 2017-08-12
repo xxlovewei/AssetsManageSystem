@@ -3,7 +3,9 @@ package com.dt.core.common.util;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -22,6 +24,46 @@ import java.util.Set;
  * 高频方法集合类
  */
 public class ToolUtil {
+	@SuppressWarnings("rawtypes")
+	public static String get(Class cls) {
+		String strURL = "";
+		try {
+			String strClassName = cls.getName();
+			String strPackageName = "";
+			if (cls.getPackage() != null) {
+				strPackageName = cls.getPackage().getName();
+			}
+			String strClassFileName = "";
+			if (!"".equals(strPackageName)) {
+				strClassFileName = strClassName.substring(strPackageName.length() + 1, strClassName.length());
+			} else {
+				strClassFileName = strClassName;
+			}
+			URL url = null;
+			url = cls.getResource(strClassFileName + ".class");
+			strURL = url.toString();
+			strURL = strURL.substring(strURL.indexOf('/') + 1, strURL.lastIndexOf('/'));
+			try {
+				strURL = java.net.URLDecoder.decode(strURL, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			OSType os = OSType.getOSType();
+			if (os == OSType.Windows) {
+			} else if (os == OSType.Linux) {
+				strURL = "/" + strURL;
+			} else {
+				strURL = "/" + strURL;
+			}
+		} catch (Exception c) {
+		}
+		return strURL;
+	}
+	public static String getRealPathInWebApp(String relativePath) {
+		String path = get(ToolUtil.class);
+		path = path.substring(0, path.indexOf("/WEB-INF/"));
+		return path + "/" + relativePath;
+	}
 	/**
 	 * 判断一个对象是否是时间类型
 	 * @author stylefeng

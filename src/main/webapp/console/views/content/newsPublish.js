@@ -2,12 +2,53 @@ function ctNewsPublishCtl($compile, $confirm, $log, notify, $scope, $http, $root
 
 	$scope.accessOpt = [ {
 		ID : "local",
-		NAME : "本地"
+		NAME : "内置"
 	}, {
 		ID : "outer",
 		NAME : "外链"
 	} ]
+
+	$scope.mpicOpt = [ {
+		"ID" : "left",
+		"NAME" : "左侧"
+	}, {
+		"ID" : "right",
+		"NAME" : "右侧"
+	}, {
+		"ID" : "top",
+		"NAME" : "上部"
+	},{
+		"ID" : "bottom",
+		"NAME" : "底部"
+	} ,{
+		"ID" : "center",
+		"NAME" : "居中"
+	}];
+	$scope.mpicSel=$scope.mpicOpt[0];
 	$scope.accessSel = $scope.accessOpt[0];
+
+	$scope.dtldzconfig = {
+		url : 'fileupload.do',
+		maxFilesize : 10000,
+		paramName : "file",
+		maxThumbnailFilesize : 1,
+		// 一个请求上传多个文件
+		uploadMultiple : true,
+		// 当多文件上传,需要设置parallelUploads>=maxFiles
+		parallelUploads : 1,
+		maxFiles : 1,
+		dictDefaultMessage : "点击上传图片",
+		acceptedFiles : "image/jpeg,image/png,image/gif",
+		// 添加上传取消和删除预览图片的链接，默认不添加
+		addRemoveLinks : true,
+		// 关闭自动上传功能，默认会true会自动上传
+		// 也就是添加一张图片向服务器发送一次请求
+		autoProcessQueue : false,
+		init : function() {
+			$scope.myDropzone = this; // closure
+		}
+	};
+	
 	$scope._simpleConfig = {
 		// 这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
 		toolbars : [ [ 'fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat',
@@ -27,9 +68,28 @@ function ctNewsPublishCtl($compile, $confirm, $log, notify, $scope, $http, $root
 	};
 	$scope.content = '';
 	$scope.save = function() {
-		
-		$scope.item.CONTENT=$scope.content;
-		$scope.item.URLTYPE=$scope.accessSel.ID;
+		//处理图片
+		if ($scope.myDropzone.files.length == 0) {
+			notify({
+				message : "请选择新闻主图"
+			});
+			return;
+		}
+		var picid = getUuid();
+		$scope.myDropzone.options.url = $rootScope.project
+				+ 'file/fileupload.do?bus=news&uuid=' + picid
+				+ '&type=image&interval=10000';
+		if(angular.isDefined($scope.myDropzone.files[0].uuid )){
+			//已经上传
+			picid=$scope.myDropzone.files[0].uuid;
+		}else{
+			$scope.myDropzone.uploadFile($scope.myDropzone.files[0])
+		}
+		 
+		$scope.item.MPIC=picid;
+		$scope.item.MPIC_LOC=$scope.mpicSel.ID;
+		$scope.item.CONTENT = $scope.content;
+		$scope.item.URLTYPE = $scope.accessSel.ID;
 		$http.post($rootScope.project + "/api/news/publishNews.do", $scope.item).success(function(res) {
 			if (res.success) {
 
