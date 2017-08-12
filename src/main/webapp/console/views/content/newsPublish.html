@@ -8,6 +8,8 @@
 						<form role="form" class="form-inline">
 							<button ng-click="reset()" class="btn btn-sm btn-primary"
 								type="submit">重置</button>
+							<button ng-click="save()" class="btn btn-sm btn-primary"
+								type="submit" ng-disabled="myForm.$invalid">提 交</button>
 							<!-- 		<button ng-click="ok()" class="btn btn-sm btn-primary"
 								type="submit">提交</button> -->
 						</form>
@@ -40,15 +42,14 @@
 								<label class="col-sm-2 control-label"><span
 									class="text-danger">*</span>标题:</label>
 								<div class="col-sm-10">
-									<input type="text" required ng-maxlength="10"
+									<input type="text" required ng-maxlength="50"
 										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-										placeholder="请输入内容" name="username" ng-model="item.USER_NAME"
+										placeholder="请输入内容" name="title" ng-model="item.TITLE"
 										class="form-control">
 									<div class="text-danger"
-										ng-if="myForm.username.$dirty && myForm.username.$invalid">
-										<span ng-if="myForm.username.$error.required"> 输入不能为空 </span>
-										<span ng-show="myForm.username.$error.maxlength">不能超过20个字符
-										</span>
+										ng-if="myForm.title.$dirty && myForm.title.$invalid">
+										<span ng-if="myForm.title.$error.required"> 输入不能为空 </span> <span
+											ng-show="myForm.title.$error.maxlength">不能超过50个字符 </span>
 									</div>
 
 								</div>
@@ -60,53 +61,48 @@
 								<div class="col-sm-10">
 									<input type="text" required ng-maxlength="10"
 										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-										placeholder="请输入内容" name="name" ng-model="item.NAME"
+										placeholder="请输入内容" name="profile" ng-model="item.PROFILE"
 										class="form-control">
 									<div class="text-danger"
-										ng-if="myForm.name.$dirty && myForm.name.$invalid">
-										<span ng-if="myForm.name.$error.required"> 输入不能为空 </span> <span
-											ng-show="myForm.name.$error.maxlength">不能超过20个字符 </span>
+										ng-if="myForm.profile.$dirty && myForm.profile.$invalid">
+										<span ng-if="myForm.profile.$error.required"> 输入不能为空 </span> <span
+											ng-show="myForm.profile.$error.maxlength">不能超过20个字符 </span>
 									</div>
-
 								</div>
 							</div>
-							<div class="hr-line-dashed"></div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label">手机号:</label>
-								<div class="col-sm-10">
-									<input type="text" ng-model="item.TEL" class="form-control">
-								</div>
-							</div>
-							<div class="hr-line-dashed"></div>
 
 							<div class="form-group">
-								<label class="col-sm-2 control-label">备注:</label>
-								<div class="col-sm-10" style="height: 150px;">
-									<textarea ng-model="item.MARK" style="height: 150px;"
-										type="text" class="form-control"></textarea>
-								</div>
-							</div>
-							<div class="hr-line-dashed"></div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label">帐号状态:</label>
+								<label class="col-sm-2 control-label">访问方式:</label>
 								<div class="col-sm-10">
 									<select chosen disable-search="true" class="chosen-select"
-										no-results-text="'没有找到相应条目'" ng-model="userStatusSel"
+										no-results-text="'没有找到相应条目'" ng-model="accessSel"
 										data-placeholder-text-single="'请选择...'"
-										ng-options="item.name for item in userStatusOpt">
+										ng-options="item.NAME for item in accessOpt">
 										<option value=""></option>
 									</select>
 								</div>
 							</div>
-							<div class="hr-line-dashed"></div>
+
 							<div class="form-group">
-								<div class="col-sm-4 col-sm-offset-2">
-									<button ng-click="ok()" class="btn btn-primary" type="submit"
-										ng-disabled="myForm.$invalid">提 交</button>
+								<label class="col-sm-2 control-label">访问地址:</label>
+								<div class="col-sm-10">
+									<input type="text"  ng-maxlength="100"
+										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+										placeholder="请输入内容" name="url" ng-model="item.URL"
+										class="form-control">
+									<div class="text-danger"
+										ng-if="myForm.url.$dirty && myForm.url.$invalid">
+										<span ng-show="myForm.url.$error.maxlength">不能超过100个字符
+										</span>
+									</div>
+
 								</div>
 							</div>
+
 						</form>
 
+						<div id="news" style="margin-top:3rem;margin-bottom: 1.25rem; height: 300px"
+							config="_simpleConfig" class="ueditor" ng-model="content"></div>
 
 					</div>
 				</div>
