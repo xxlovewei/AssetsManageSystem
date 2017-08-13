@@ -43,7 +43,7 @@ public class LoginController extends BaseController {
 			return ResData.FAILURE("请输入账号或密码");
 		}
 
-		String sql = "select a.*,b.tel,b.mail ,b.name from sys_user_info a left join hrm_employee b on a.user_id=b.user_id where a.deleted='N' ";
+		String sql = "select * from sys_user_info a where a.deleted='N' ";
 
 		if (type == null || type.equals("username")) {
 			sql = sql + " and user_name='" + user + "' ";

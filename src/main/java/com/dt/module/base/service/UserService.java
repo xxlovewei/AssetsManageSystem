@@ -25,22 +25,27 @@ import com.dt.module.base.entity.User;
  * @author: algernonking
  * @date: 2017年8月6日 上午7:31:25
  * @Description: TODO 1>所有的正常用户必须要在sys_user_info登记
-           
  */
 @Service
 public class UserService extends BaseService {
+	// 系统人员
 	public static String USER_TYPE_SYS = "sys";
+	// 组织内人员
 	public static String USER_TYPE_EMPL = "empl";
+	// 会员粉丝人员
+	public static String USER_TYPE_CRM = "crm";
 
 	public static UserService me() {
 		return SpringContextUtil.getBean(UserService.class);
 	}
+	
+	 
 	/**
 	 * @Description: 获得用户信息
 	 */
 	public User getUser(String id) {
 		User user = new User();
-		String sql = "select * from SYS_USER_info a LEFT JOIN  HRM_EMPLOYEE b on a.USER_ID=b.USER_ID where a.user_id=?";
+		String sql = "select * from SYS_USER_info a where a.user_id=?";
 		// 账号状态信息
 		Rcd u_rs = db.uniqueRecord(sql, id);
 		user.setUserId(u_rs.getString("user_id"));
@@ -187,7 +192,7 @@ public class UserService extends BaseService {
 	 * @Description: 根据用户ID查找
 	 */
 	public ResData queryUserById(String user_id) {
-		String sql = "select  a.user_id user_no ,a.user_name,a.locked ,b.* from  (select * from  sys_user_info where user_id=?) a  left join hrm_employee b on a.user_id=b.user_id ";
+		String sql = "select * from sys_user_info where deleted='N' and user_id=?";
 		Rcd rs = db.uniqueRecord(sql, user_id);
 		if (ToolUtil.isEmpty(rs)) {
 			ResData.FAILURE_NODATA();
@@ -198,17 +203,24 @@ public class UserService extends BaseService {
 	 * @Description: 根据用户组查询
 	 */
 	public ResData queryUserByGroup(String group_id) {
-		String basesql = " select a.type ,a.user_id user_no ,a.user_name,a.locked ,b.* from (select * from sys_user_info where deleted='N') a left join hrm_employee b on a.user_id=b.user_id    ";
+		String basesql = " select * from sys_user_info a where deleted='N' ";
 		String sql = "";
 		if (ToolUtil.isEmpty(group_id)) {
 			sql = basesql + " order by a.empl_id";
 		} else {
 			// 选择组
 			sql = " select t1.* from ( " + basesql
-					+ " ) t1 ,sys_user_group_item t2 where t1.user_no=t2.user_id  and group_id='" + group_id
-					+ "' order by t1.user_no  ";
+					+ " ) t1 ,sys_user_group_item t2 where t1.user_id=t2.user_id  and group_id='" + group_id
+					+ "' order by t1.empl_id  ";
 		}
+		
 		return ResData.SUCCESS("操作成功", db.query(sql).toJsonArrayWithJsonObject());
+	}
+	/**
+	 * @Description: 分页查询用户
+	 */
+	public ResData queryUserPage(TypedHashMap<String, Object> ps, String type, int pageSize, int pageIndex) {
+		return ResData.SUCCESS();
 	}
 	/**
 	 * @Description: 按照系统用户ID删除用户,同时删除组织用户及其相关
@@ -223,19 +235,14 @@ public class UserService extends BaseService {
 		ups.set("deleted", "Y");
 		ups.where().and("user_id=?", user_id);
 		db.execute(ups);
-		// 处理组织人员表
-		Update ups1 = new Update("hrm_employee");
-		ups1.set("deleted", "Y");
-		ups1.where().and("user_id=?", user_id);
-		db.execute(ups1);
 		// 删除用户组中的数据
+		String type=getUserType(user_id);
 		db.execute("delete from SYS_USER_GROUP_ITEM where user_id=?", user_id);
-		String type = validUserType(getUserType(user_id));
 		if (type.equals(USER_TYPE_EMPL)) {
 			// 员工表
-			db.execute(
-					"update HRM_ORG_EMPLOYEE set deleted='N' where EMPL_ID in (select EMPL_ID from HRM_EMPLOYEE  where user_id=?)",
-					user_id);
+			Update upshrm = new Update("HRM_ORG_EMPLOYEE");
+			upshrm.set("deleted", "N");
+			upshrm.where().and("empl_id=?", getEmplId(user_id));
 		} else if (type.equals(USER_TYPE_SYS)) {
 			//
 		}
@@ -262,6 +269,7 @@ public class UserService extends BaseService {
 	public ResData addUser(TypedHashMap<String, Object> ps, String type) {
 		ArrayList<String> exeSqls = new ArrayList<String>();
 		type = validUserType(type);
+		String username = "";
 		// 获取user_id和empl_id
 		String user_id = UuidUtil.getUUID();
 		ResData emplRes = getEmplNextId();
@@ -271,40 +279,36 @@ public class UserService extends BaseService {
 		String empl_id = (String) emplRes.getData();
 		/*********************************** 插入sys_user_info表 **************************************/
 		Insert ins = new Insert("sys_user_info");
-		String username = ps.getString("USER_NAME");
-		ins.set("empl_id", empl_id);
+		// 处理登录名
 		if (type.equals(UserService.USER_TYPE_EMPL)) {
 			username = "empl" + empl_id;
+		} else if (type.equals(UserService.USER_TYPE_SYS)) {
+			username = ps.getString("USER_NAME");
 		}
 		if (!ifUserNameValid(username)) {
 			return ResData.FAILURE("登录名不可用");
 		}
 		ins.set("USER_ID", user_id);
+		ins.set("EMPL_ID", empl_id);
 		ins.set("USER_NAME", username);
-		ins.set("PWD", ps.getString("PWD", "0"));
-		ins.set("DELETED", "N");
-		ins.set("TYPE", type);
-		ins.set("LOCKED", ps.getString("LOCKED", "Y"));
-		ins.setIf("ORG_ID", ps.getString("ORG_ID"));
+		ins.set("USER_TYPE", type);
+		ins.setIf("NICKNAME", ps.getString("NICKNAME", "toy"));
+		ins.setIf("NAME", ps.getString("NAME", "toy"));
+		ins.setIf("PWD", ps.getString("PWD", "0"));
 		ins.setIf("STATUS", ps.getString("STATUS"));
+		ins.setIf("ORG_ID", ps.getString("ORG_ID"));
+		ins.setIf("LOCKED", ps.getString("LOCKED", "Y"));
+		ins.setIf("TEL", ps.getString("TEL"));
+		ins.setIf("QQ", ps.getString("QQ"));
+		ins.setIf("MAIL", ps.getString("MAIL"));
+		ins.setIf("PROFILE", ps.getString("PROFILE"));
+		ins.setIf("MARK", ps.getString("MARK"));
+		ins.setIf("HOMEADD_DEF", ps.getString("HOMEADD_DEF"));
+		ins.setIf("RECEADD_DEF", ps.getString("RECEADD_DEF"));
+		ins.setIf("WEIXIN", ps.getString("WEIXIN"));
+		ins.setIf("SEX", ps.getString("SEX", "1"));
+		ins.set("DELETED", "N");
 		exeSqls.add(ins.getSQL());
-		/*********************************** 插入empl表 **************************************/
-		Insert empl = new Insert("hrm_employee");
-		empl.set("user_id", user_id);
-		empl.set("deleted", "N");
-		empl.set("empl_id", empl_id);
-		empl.set("nick", ps.getString("NICK", "toy"));
-		empl.set("sex", ps.getString("SEX", "1"));
-		empl.setIf("name", ps.getString("NAME"));
-		empl.setIf("tel", ps.getString("TEL"));
-		empl.setIf("qq", ps.getString("QQ"));
-		empl.setIf("mail", ps.getString("MAIL"));
-		empl.setIf("profile", ps.getString("PROFILE"));
-		empl.setIf("mark", ps.getString("MARK"));
-		empl.setIf("homeadd_def", ps.getString("HOMEADD_DEF"));
-		empl.setIf("receadd_def", ps.getString("RECEADD_DEF"));
-		empl.setIf("weixin", ps.getString("WEIXIN"));
-		exeSqls.add(empl.getSQL());
 		/*********************************** 组织内用户插入的判断 **************************************/
 		if (type.equals(UserService.USER_TYPE_EMPL)) {
 			// 先判断组织
@@ -375,25 +379,23 @@ public class UserService extends BaseService {
 		}
 		/*********************************** 更新sys_user_info表 **************************************/
 		Update ups = new Update("sys_user_info");
-		ups.set("LOCKED", ps.getString("LOCKED", "Y"));
+		ups.setIf("NICKNAME", ps.getString("NICKNAME", "toy"));
+		ups.setIf("NAME", ps.getString("NAME", "toy"));
+		ups.setIf("PWD", ps.getString("PWD", "0"));
 		ups.setIf("STATUS", ps.getString("STATUS"));
+		ups.setIf("ORG_ID", ps.getString("ORG_ID"));
+		ups.setIf("LOCKED", ps.getString("LOCKED", "Y"));
+		ups.setIf("TEL", ps.getString("TEL"));
+		ups.setIf("QQ", ps.getString("QQ"));
+		ups.setIf("MAIL", ps.getString("MAIL"));
+		ups.setIf("PROFILE", ps.getString("PROFILE"));
+		ups.setIf("MARK", ps.getString("MARK"));
+		ups.setIf("HOMEADD_DEF", ps.getString("HOMEADD_DEF"));
+		ups.setIf("RECEADD_DEF", ps.getString("RECEADD_DEF"));
+		ups.setIf("WEIXIN", ps.getString("WEIXIN"));
+		ups.setIf("SEX", ps.getString("SEX", "1"));
 		ups.where().and("user_id=?", user_id);
 		exeSqls.add(ups.getSQL());
-		/*********************************** 插入empl表 **************************************/
-		Update empl = new Update("hrm_employee");
-		empl.set("nick", ps.getString("NICK", "toy"));
-		empl.set("sex", ps.getString("SEX", "1"));
-		empl.setIf("name", ps.getString("NAME"));
-		empl.setIf("tel", ps.getString("TEL"));
-		empl.setIf("qq", ps.getString("QQ"));
-		empl.setIf("mail", ps.getString("MAIL"));
-		empl.setIf("profile", ps.getString("PROFILE"));
-		empl.setIf("mark", ps.getString("MARK"));
-		empl.setIf("homeadd_def", ps.getString("HOMEADD_DEF"));
-		empl.setIf("receadd_def", ps.getString("RECEADD_DEF"));
-		empl.setIf("weixin", ps.getString("WEIXIN"));
-		empl.where().and("empl_id=?", empl_id);
-		exeSqls.add(empl.getSQL());
 		/*********************************** 组织内用户插入的判断 **************************************/
 		if (type.equals(UserService.USER_TYPE_EMPL)) {
 			// 先判断组织
@@ -488,11 +490,11 @@ public class UserService extends BaseService {
 	 * @Description: 获取用户类型
 	 */
 	public String getUserType(String user_id) {
-		String sql = "select type from sys_user_info where user_id=?";
+		String sql = "select user_type from sys_user_info where user_id=?";
 		Rcd rs = db.uniqueRecord(sql, user_id);
 		if (rs == null) {
 			return null;
 		}
-		return validUserType(rs.getString("type"));
+		return validUserType(rs.getString("user_type"));
 	}
 }

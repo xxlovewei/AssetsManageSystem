@@ -150,14 +150,14 @@ public class ContentService extends BaseService {
 	/**
 	 * @Description:查找页数
 	 */
-	public int queryContentPage(TypedHashMap<String, Object> ps, String type, int pageSize) {
+	public int queryContentPageCount(TypedHashMap<String, Object> ps, String type, int pageSize) {
 		int total = queryContentCount(ps, type);
 		return PageUtil.getTotalPage(total, pageSize);
 	}
 	/**
 	 * @Description:查找CT
 	 */
-	public ResData queryContents(TypedHashMap<String, Object> ps, int pageSize, int pageIndex, String type) {
+	public ResData queryContentPage(TypedHashMap<String, Object> ps, int pageSize, int pageIndex, String type) {
 		String sql = rebuildQueryContentSql(ps, type);
 		return ResData.SUCCESS_OPER(
 				db.query(PageUtil.rebuildOracleSql(sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());

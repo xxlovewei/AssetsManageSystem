@@ -35,6 +35,33 @@ public class ContentCategoryService extends BaseService {
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
+	/**
+	 * @Description: 根据ID显示第一层的数据
+	 */
+	public ResData queryCategoryFirstFloor(String rootId, String isAction) {
+		String sql = "select * from CT_CATEGORY where root=? and deleted='N' and NODE_LEVEL=1";
+		if (ToolUtil.isNotEmpty(isAction)) {
+			sql = sql + " and ISACTION='" + ToolUtil.parseYNValueDefY(isAction) + "'";
+		}
+		sql = sql + " order by od";
+		return ResData.SUCCESS(db.query(sql, rootId).toJsonArrayWithJsonObject());
+	}
+	
+	/**
+	 * @Description: 显示子节点数据
+	 */
+	public ResData queryCategoryChildren(String parentId, String isAction) {
+		String sql = "select * from CT_CATEGORY where parent_id=? and deleted='N' ";
+		if (ToolUtil.isNotEmpty(isAction)) {
+			sql = sql + " and ISACTION='" + ToolUtil.parseYNValueDefY(isAction) + "'";
+		}
+		sql = sql + " order by od";
+		System.out.println(sql);
+		return ResData.SUCCESS(db.query(sql, parentId).toJsonArrayWithJsonObject());
+	}
+	/**
+	 * @Description: 后端angular显示内容
+	 */
 	public ResData queryCategoryTreeList(String root_id) {
 		if (ToolUtil.isEmpty(root_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
@@ -48,19 +75,17 @@ public class ContentCategoryService extends BaseService {
 		root.put("text", root_rs.getString("name"));
 		root.put("type", "root");
 		res.add(root);
-		
 		RcdSet rs = db.query("select * from CT_CATEGORY where root=? and deleted='N'", root_id);
 		JSONObject e = new JSONObject();
 		for (int i = 0; i < rs.size(); i++) {
 			e = new JSONObject();
 			e.put("id", rs.getRcd(i).getString("id"));
 			e.put("text", rs.getRcd(i).getString("name"));
-			e.put("type", "node"); 
+			e.put("type", "node");
 			e.put("parent", rs.getRcd(i).getString("parent_id"));
 			res.add(e);
 		}
 		return ResData.SUCCESS(res);
- 
 	}
 	/**
 	 * @Description:查询某个节点
@@ -84,8 +109,7 @@ public class ContentCategoryService extends BaseService {
 	 * @Description:获取节点下一个序列号
 	 */
 	public String getNextNodeId() {
-		return db.uniqueRecord("select decode(max(id),null,10,max(id)+1) value from CT_CATEGORY ")
-				.getString("value");
+		return db.uniqueRecord("select decode(max(id),null,10,max(id)+1) value from CT_CATEGORY ").getString("value");
 	}
 	/**
 	 * @Description:更新节点数据
@@ -119,33 +143,31 @@ public class ContentCategoryService extends BaseService {
 	// DELETED CHAR
 	public ResData addCategory(TypedHashMap<String, Object> ps) {
 		String old_id = ps.getString("OLD_ID");
-		String old_node_type=ps.getString("OLD_NODE_TYPE");
-		String name=ps.getString("NAME");
-		if(ToolUtil.isOneEmpty(old_id,old_node_type,name)){
+		String old_node_type = ps.getString("OLD_NODE_TYPE");
+		String name = ps.getString("NAME");
+		if (ToolUtil.isOneEmpty(old_id, old_node_type, name)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		String id = this.getNextNodeId();
 		Insert me = new Insert("CT_CATEGORY");
-		
-		if(old_node_type.equals("root")){
-			//树的根节点添加第一个节点
-			me.set("ROOT",old_id);
+		if (old_node_type.equals("root")) {
+			// 树的根节点添加第一个节点
+			me.set("ROOT", old_id);
 			me.set("ROUTE", id);
 			me.set("PARENT_ID", old_id);
 			me.set("NODE_LEVEL", "1");
-		}else{
-			//树的添加节点
+		} else {
+			// 树的添加节点
 			ResData oldNode = queryCategoryById(old_id);
 			if (!oldNode.isSuccess()) {
 				return oldNode;
 			}
-			JSONObject oldData = JSONObject.parseObject(oldNode.getData().toString()) ;
+			JSONObject oldData = JSONObject.parseObject(oldNode.getData().toString());
 			me.set("ROOT", oldData.getString("ROOT"));
 			me.set("ROUTE", oldData.getString("ROUTE") + "-" + id);
 			me.set("PARENT_ID", old_id);
 			me.set("NODE_LEVEL", oldData.getIntValue("NODE_LEVEL") + 1);
 		}
-		
 		me.set("ID", id);
 		me.set("DELETED", "N");
 		me.setIf("MARK", ps.getString("MARK"));

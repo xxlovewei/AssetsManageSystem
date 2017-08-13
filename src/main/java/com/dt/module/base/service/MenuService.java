@@ -20,8 +20,19 @@ import com.dt.core.common.util.support.TypedHashMap;
  */
 @Service
 public class MenuService extends BaseService {
-	
+	public static String TYPE_DIR = "dir";
+	public static String TYPE_MENU = "menu";
+	public static String TYPE_BTN = "BTN";
 
+	public static String validType(String value) {
+		if (ToolUtil.isEmpty(value)) {
+			return TYPE_DIR;
+		}
+		if (value.equals(TYPE_DIR) || value.equals(TYPE_MENU) || value.equals(TYPE_BTN)) {
+			return value;
+		}
+		return TYPE_DIR;
+	}
 	/**
 	 * @Description: 直接查询所有节点
 	 */
@@ -82,32 +93,33 @@ public class MenuService extends BaseService {
 		String key = ps.getString("KEY");
 		String node_id = getNextNodeId();
 		Insert ins = new Insert("sys_menus_node");
-		String type=ps.getString("TYPE", "ADD");
-		if(type.equals("ADDMASTER")){
-			//增加第一个节点
-			if(ToolUtil.isEmpty(menu_id)){
+		String type = ps.getString("ACTIONTYPE", "ADD");
+		if (type.equals("ADDMASTER")) {
+			// 增加第一个节点
+			if (ToolUtil.isEmpty(menu_id)) {
 				return ResData.FAILURE_ERRREQ_PARAMS();
 			}
-			String nodeid=getNextNodeId();
+			String nodeid = getNextNodeId();
 			ins.set("NODE_ID", nodeid);
 			ins.set("PARENT_ID", "0");
 			ins.set("ROUTE", nodeid);
-		}else{
+		} else {
 			ins.set("NODE_ID", node_id);
 			ins.set("PARENT_ID", old_node_id);
 			ins.set("ROUTE", old_route + "-" + node_id);
 		}
 		ins.set("MENU_ID", menu_id);
-		//ins.set("NODE_ID", node_id);
+		// ins.set("NODE_ID", node_id);
 		ins.set("NODE_NAME", node_name);
-		//ins.set("PARENT_ID", old_node_id);
-		//ins.set("ROUTE", old_route + "-" + node_id);
+		// ins.set("PARENT_ID", old_node_id);
+		// ins.set("ROUTE", old_route + "-" + node_id);
 		ins.setIf("KEY", key);
 		ins.set("IS_ACTION", ps.getString("IS_ACTION"));
 		ins.set("DELETED", "N");
 		ins.set("IS_G_SHOW", ps.getString("IS_G_SHOW"));
 		ins.setIf("LOGO", logo);
 		ins.setIf("MARK", mark);
+		ins.setIf("TYPE", validType(ps.getString("TYPE")));
 		db.execute(ins);
 		return ResData.SUCCESS_OPER();
 	}
@@ -145,11 +157,11 @@ public class MenuService extends BaseService {
 		ups.setIf("MODULE_ID", module_id);
 		ups.setIf("IS_ACTION", ps.getString("IS_ACTION"));
 		ups.setIf("IS_G_SHOW", ps.getString("IS_G_SHOW"));
+		ups.setIf("TYPE", validType(ps.getString("TYPE")));
 		ups.where().and("MENU_ID=?", menu_id).and("NODE_ID=?", node_id);
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
 	}
-	
 	/**
 	 * @Description:获取节点下一个序列号
 	 */
@@ -157,20 +169,17 @@ public class MenuService extends BaseService {
 		return db.uniqueRecord("select decode(max(node_id),null,1,max(node_id)+1) value from sys_menus_node ")
 				.getString("value");
 	}
-
 	/**
 	 * @Description:获取树的第一个节点的父节点
 	 */
 	public String getRootParentId(String id) {
-		String sql="select min(parent_id) parent_id from SYS_MENUS_NODE where menu_id=?";
-		Rcd rs=db.uniqueRecord(sql,id);
-		String parent_id=rs.getString("parent_id");
-		if(ToolUtil.isEmpty(parent_id)){
-			 return getNextNodeId();
-		}else{
+		String sql = "select min(parent_id) parent_id from SYS_MENUS_NODE where menu_id=?";
+		Rcd rs = db.uniqueRecord(sql, id);
+		String parent_id = rs.getString("parent_id");
+		if (ToolUtil.isEmpty(parent_id)) {
+			return getNextNodeId();
+		} else {
 			return parent_id;
 		}
-	 
 	}
-	
 }

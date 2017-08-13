@@ -32,15 +32,12 @@ public class ContentCategoryController extends BaseController {
 	public ResData queryRootCategory() {
 		return contentRootCategoryService.queryRootCategory();
 	}
-	
 	@Res
 	@Acl
 	@RequestMapping(value = "/ctCategroy/queryCategoryById.do")
 	public ResData queryCategoryById(String id) {
 		return contentCategoryService.queryCategoryById(id);
 	}
-	
-	
 	@Res
 	@Acl
 	@RequestMapping(value = "/ctCategroy/deleteCategory.do")
@@ -67,7 +64,24 @@ public class ContentCategoryController extends BaseController {
 	public ResData queryCategory(String root) {
 		return contentCategoryService.queryCategory(root);
 	}
-	
+	@Res
+	@Acl(value = "allow")
+	@RequestMapping(value = "/ctCategroy/queryCategoryChildren.do")
+	public ResData queryCategoryChildren() {
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		String parentId = ps.getString("parent_id");
+		String isAction = ps.getString("is_action");
+		return contentCategoryService.queryCategoryChildren(parentId, isAction);
+	}
+	@Res
+	@Acl(value = "allow")
+	@RequestMapping(value = "/ctCategroy/queryCategoryFirstFloor.do")
+	public ResData queryCategoryFirstFloor() {
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		String rootId = ps.getString("root");
+		String isAction = ps.getString("is_action");
+		return contentCategoryService.queryCategoryFirstFloor(rootId, isAction);
+	}
 	@Res
 	@Acl
 	@RequestMapping(value = "/ctCategroy/queryCategoryTreeList.do")

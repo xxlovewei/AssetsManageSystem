@@ -38,7 +38,7 @@ public class CompanyController {
 	 */
 	@RequestMapping(value = "/company/updateCompany.do")
 	@Res
-	@Acl(value="allow")
+	@Acl
 	public ResData updateCompany() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return companyService.updateCompany(ps);

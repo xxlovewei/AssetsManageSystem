@@ -79,16 +79,18 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,
 		},
 
 		types : {
-
 			"default2" : {
 				"valid_children" : "all",
 				icon : 'glyphicon glyphicon-flash'
 			},
-			star : {
-				icon : 'glyphicon glyphicon-star'
+			dir : {
+				icon : 'glyphicon glyphicon-folder-open'
 			},
-			cloud : {
-				icon : 'glyphicon glyphicon-cloud'
+			menu : {
+				icon : 'glyphicon glyphicon-th-list'
+			},
+			btn : {
+				icon : 'glyphicon glyphicon-stop'
 			},
 			root : {
 				valid_children : "folder",

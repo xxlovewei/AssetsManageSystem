@@ -51,12 +51,12 @@ public class NewsService extends BaseService {
 	 * @Description: 新闻页数
 	 */
 	public int queryTotalCount(TypedHashMap<String, Object> ps,int pageSize) {
-		return contentService.queryContentPage(ps, ContentService.TYPE_NEWS, pageSize);
+		return contentService.queryContentPageCount(ps, ContentService.TYPE_NEWS, pageSize);
 	}
 	/**
 	 * @Description: 查找新闻
 	 */
 	public ResData queryNews(TypedHashMap<String, Object> ps, int pageSize, int pageIndex) {
-		return contentService.queryContents(ps, pageSize, pageIndex, ContentService.TYPE_NEWS);
+		return contentService.queryContentPage(ps, pageSize, pageIndex, ContentService.TYPE_NEWS);
 	}
 }

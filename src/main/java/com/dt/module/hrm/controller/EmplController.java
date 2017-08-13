@@ -29,13 +29,14 @@ public class EmplController extends BaseController {
 	@Acl
 	public ResData employeeAdd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		return userService.addUser(ps, UserService.USER_TYPE_EMPL);
+		return emplService.addEmployee(ps);
 	}
 	@RequestMapping("/hrm/employeeUpdate.do")
 	@Res
 	@Acl
 	public ResData employeeUpdate() {
-		return userService.updateUser(HttpKit.getRequestParameters(), UserService.USER_TYPE_EMPL);
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		return emplService.updateEmployee(ps);
 	}
 	@RequestMapping("/hrm/employeeQueryList.do")
 	@Res
@@ -54,10 +55,6 @@ public class EmplController extends BaseController {
 	@Acl
 	@Transactional
 	public ResData employeeDelete(String empl_id) throws IOException {
-		String user_id = userService.getUserId(empl_id);
-		if (ToolUtil.isEmpty(user_id)) {
-			return ResData.FAILURE("用户user_id不存在");
-		}
-		return userService.deleteUser(user_id);
+		return emplService.delEmployee(empl_id);
 	}
 }

@@ -180,7 +180,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			DTColumnBuilder.newColumn('USER_NAME').withTitle('登录名').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('TEL').withTitle('手机号').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('TYPE').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
+			DTColumnBuilder.newColumn('USER_TYPE').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('USER_ID').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus) ]
 
 	console.log($scope.dtColumns);
@@ -221,7 +221,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		var userids = [];
 		for (var i = 0; i < data.length; i++) {
 			// alert($scope.dtOptions.aaData[data[i]].USER_NO)
-			userids.push($scope.dtOptions.aaData[data[i]].USER_NO);
+			userids.push($scope.dtOptions.aaData[data[i]].USER_ID);
 		}
 		angular.toJson(userids)
 		$confirm({

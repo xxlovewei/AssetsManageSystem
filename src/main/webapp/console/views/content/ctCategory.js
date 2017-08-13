@@ -10,6 +10,9 @@ function prepend(arr, item) {
 
 function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
+	$scope.actionOpt=[{ID:"Y",NAME:"有效"},{ID:"N",NAME:"无效"}]
+	$scope.actionSel=$scope.actionOpt[0];
+	
 	$scope.catRootOpt = [];
 	$scope.catRootSel = "";
 	$scope.item = {};
@@ -190,6 +193,11 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 					}).success(function(res) {
 						if (res.success) {
 							$scope.item = res.data;
+							if($scope.item.ISACTION=="Y"){
+								$scope.actionSel=$scope.actionOpt[0];
+							}else{
+								$scope.actionSel=$scope.actionOpt[1];
+							}
 						} else {
 							notify({
 								message : res.message
@@ -231,7 +239,7 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 	}
 
 	$scope.saveItem = function() {
-
+		$scope.item.ISACTION=$scope.actionSel.ID;
 		$http.post($rootScope.project + "/api/ctCategroy/updateCategory.do", $scope.item).success(function(res) {
 			if (res.success) {
 				var inst = $scope.tree;

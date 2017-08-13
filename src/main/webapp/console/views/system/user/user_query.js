@@ -63,7 +63,7 @@ function sysUserQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 			DTColumnBuilder.newColumn('USER_NAME').withTitle('登录名').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('TEL').withTitle('手机号').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('TYPE').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
+			DTColumnBuilder.newColumn('USER_TYPE').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('USER_ID').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
 			DTColumnBuilder.newColumn('USER_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 

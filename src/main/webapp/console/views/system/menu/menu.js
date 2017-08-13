@@ -82,10 +82,19 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 	}, {
 		ID : "N",
 		NAME : "无效"
-	} ]
+	} ];
 	$scope.showSel = $scope.showOpt[0]
 
-	if ($scope.item.TYPE == "ADD") {
+	$scope.nodeOpt = [ {
+		ID : "dir",
+		NAME : "目录"
+	}, {
+		ID : "menu",
+		NAME : "菜单"
+	} ];
+	$scope.nodeSel = $scope.nodeOpt[0];
+
+	if ($scope.item.ACTIONTYPE == "ADD") {
 		$scope.item.NODE_NAME = "";
 		$scope.item.MARK = ""
 		$scope.item.KEY = ""
@@ -95,7 +104,13 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 		$scope.item.MENU_LEVEL = "";
 		$scope.item.OLD_NODE_ID = $scope.item.NODE_ID;
 		$scope.item.OLD_ROUTE = $scope.item.ROUTE;
-	} else if ($scope.item.TYPE == "EDIT") {
+	} else if ($scope.item.ACTIONTYPE == "EDIT") {
+		if ($scope.item.TYPE == "menu") {
+			$scope.nodeSel = $scope.nodeOpt[1];
+		} else if ($scope.item.TYPE == "dir") {
+			$scope.nodeSel = $scope.nodeOpt[0];
+		}
+
 		if ($scope.item.IS_ACTION == "Y") {
 			$scope.actionSel = $scope.actionOpt[0];
 		} else if ($scope.item.IS_ACTION == "N") {
@@ -107,7 +122,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 		} else if ($scope.item.IS_G_SHOW == "N") {
 			$scope.showSel = $scope.showOpt[1]
 		}
-	} else if ($scope.item.TYPE == "ADDMASTER") {
+	} else if ($scope.item.ACTIONTYPE == "ADDMASTER") {
 		$scope.item.NODE_NAME = "";
 		$scope.item.MARK = ""
 		$scope.item.KEY = ""
@@ -124,19 +139,18 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 			}
 		})
 	}
-	 
 
 	$scope.sure = function() {
 
 		var ps = $scope.item;
 		ps.IS_ACTION = $scope.actionSel.ID;
 		ps.IS_G_SHOW = $scope.showSel.ID;
-
+		ps.TYPE = $scope.nodeSel.ID;
 		if (angular.isDefined($scope.topMenuSel.MENU_ID)) {
 			ps.MENU_ID = $scope.topMenuSel.MENU_ID;
 		}
- 
-		if ($scope.item.TYPE == "EDIT") {
+
+		if ($scope.item.ACTIONTYPE == "EDIT") {
 			$log.log("修改")
 			$http.post($rootScope.project + "/api/menu/updateNode.do", ps).success(function(res) {
 				if (res.success) {
@@ -151,7 +165,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 					});
 				}
 			})
-		} else if ($scope.item.TYPE == "ADD" || $scope.item.TYPE == "ADDMASTER") {
+		} else if ($scope.item.ACTIONTYPE == "ADD" || $scope.item.ACTIONTYPE == "ADDMASTER") {
 			$log.log("新增")
 			$http.post($rootScope.project + "/api/menu/addNode.do", ps).success(function(res) {
 				if (res.success) {
@@ -181,7 +195,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 	$scope.topMenuOpt = []
 	$scope.topMenuSel = "";
 
-	$scope.tree_expand_level = 3;
+	$scope.tree_expand_level = 2;
 	$http.post($rootScope.project + "/api/menu/treeTop.do", {}).success(function(res) {
 		if (res.success) {
 			$scope.topMenuOpt = res.data;
@@ -253,7 +267,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 			},
 			add : function(data) { // this works too: $scope.someMethod;
 				var ps = data;
-				ps.TYPE = "ADD";
+				ps.ACTIONTYPE = "ADD";
 				var modalInstance = $uibModal.open({
 					backdrop : true,
 					templateUrl : 'views/system/menu/modal_menu_save.html',
@@ -297,7 +311,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 			},
 			edit : function(data) { // this works too: $scope.someMethod;
 				var ps = data;
-				ps.TYPE = "EDIT";
+				ps.ACTIONTYPE = "EDIT";
 				var modalInstance = $uibModal.open({
 					backdrop : true,
 					templateUrl : 'views/system/menu/modal_menu_save.html',
@@ -355,7 +369,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 
 	$scope.addMasterNode = function() {
 		var ps = {};
-		ps.TYPE = "ADDMASTER";
+		ps.ACTIONTYPE = "ADDMASTER";
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/system/menu/modal_menu_save.html',

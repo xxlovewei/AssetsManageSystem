@@ -186,9 +186,20 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 				} ]);
 			}
 		}
+	}).state('ct.company_profile', {
+		url : "/company_profile",
+		templateUrl : "views/content/company.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/content/company.js' ]
+				} ]);
+			}
+		}
 	});
 	
-	
+ 
  
 
 	// 系统设置
