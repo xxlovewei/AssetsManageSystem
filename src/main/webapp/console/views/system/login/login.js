@@ -19,7 +19,7 @@ function sysLoginCtl($rootScope, $scope, $log, $http, userService, $state,
 		} else if (e == "N") {
 			$scope.user = {
 				user : "juck",
-				pwd : "12"
+				pwd : "0"
 			};
 		}
 
