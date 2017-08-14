@@ -13,13 +13,17 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
+import com.dt.module.base.service.SysUserService;
 import com.dt.module.base.service.UserService;
 
 @Controller
-public class UserController extends BaseController {
+public class SysUserController extends BaseController {
  
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private SysUserService sysUserService;
 
 	@RequestMapping(value = "/user/userSave.do")
 	@Res
@@ -29,9 +33,9 @@ public class UserController extends BaseController {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		String user_id = ps.getString("USER_ID");
 		if (ToolUtil.isEmpty(user_id)) {
-			return userService.addUser(ps, UserService.USER_TYPE_SYS);
+			return sysUserService.addSysUser(ps);
 		} else {
-			return userService.updateUser(ps, UserService.USER_TYPE_SYS);
+			return sysUserService.updateSysUser(ps);
 		}
 	}
 	@RequestMapping(value = "/user/userDelete.do")
@@ -48,7 +52,7 @@ public class UserController extends BaseController {
 		}
 		boolean flag = true;
 		for (int i = 0; i < ids_arr.size(); i++) {
-			if (!userService.deleteUser(ids_arr.getString(i)).isSuccess()) {
+			if (!sysUserService.deleteSysUser(ids_arr.getString(i)).isSuccess()) {
 				flag = false;
 			}
 		}
@@ -62,8 +66,9 @@ public class UserController extends BaseController {
 	@Res
 	@Acl
 	public ResData userQueryById(String user_id) {
-		return userService.queryUserById(user_id);
+		return sysUserService.queryUserById(user_id);
 	}
+	
 	@RequestMapping("/user/userRoleChange.do")
 	@Res
 	@Acl
@@ -79,6 +84,8 @@ public class UserController extends BaseController {
 	public ResData userQueryByGroup(String group_id)  {
 		return userService.queryUserByGroup(group_id);
 	}
+	
+	
 	@RequestMapping("/user/getUserMenus.do")
 	@Res
 	@Acl
@@ -88,4 +95,5 @@ public class UserController extends BaseController {
 		}
 		return ResData.SUCCESS(userService.getMenuTree(user_id, "1"));
 	}
+	
 }

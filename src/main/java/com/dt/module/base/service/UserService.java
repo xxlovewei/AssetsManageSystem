@@ -1,9 +1,9 @@
 package com.dt.module.base.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,12 +34,11 @@ public class UserService extends BaseService {
 	public static String USER_TYPE_EMPL = "empl";
 	// 会员粉丝人员
 	public static String USER_TYPE_CRM = "crm";
+	
 
 	public static UserService me() {
 		return SpringContextUtil.getBean(UserService.class);
 	}
-	
-	 
 	/**
 	 * @Description: 获得用户信息
 	 */
@@ -146,42 +145,42 @@ public class UserService extends BaseService {
 	 * @Description: 判断组织内用户是否存在
 	 */
 	public Boolean isExistEmpl(String empl_id) {
-		if (ToolUtil.isEmpty(empl_id)) {
-			return false;
-		}
-		Rcd rs = db.uniqueRecord("select * from SYS_USER_INFO where deleted='N' and empl_id=?", empl_id);
-		if (rs == null) {
-			return false;
-		}
-		return true;
+		String user_id = getUserId(empl_id);
+		return isExistUser(user_id);
 	}
 	/**
 	 * @Description: 判断用户是否锁定
 	 */
 	public Boolean isLocked(String user_id) {
 		if (ToolUtil.isEmpty(user_id)) {
-			return false;
+			return true;
 		}
 		Rcd rs = db.uniqueRecord("select locked from SYS_USER_INFO where deleted='N' and user_id=?", user_id);
-		if (rs == null) {
-			return false;
-		}
-		if (rs.getString("locked").equals("Y")) {
+		if (rs == null || ToolUtil.parseYNValueDefY(rs.getString("locked")).equals("Y")) {
 			return true;
 		}
 		return false;
 	}
 	/**
-	 * @Description: 判断用户的组织ID
+	 * @Description: 根据user_id获取empl_id
 	 */
 	public String getEmplId(String user_id) {
+		if (ToolUtil.isEmpty(user_id)) {
+			return null;
+		}
 		Rcd rs = db.uniqueRecord("select empl_id from SYS_USER_INFO where deleted='N'  and user_id=?", user_id);
 		if (rs == null) {
 			return null;
 		}
 		return rs.getString("empl_id");
 	}
+	/**
+	 * @Description: 根据empl_id获取user_id
+	 */
 	public String getUserId(String empl_id) {
+		if (ToolUtil.isEmpty(empl_id)) {
+			return null;
+		}
 		Rcd rs = db.uniqueRecord("select user_id from SYS_USER_INFO where deleted='N'  and empl_id=?", empl_id);
 		if (rs == null) {
 			return null;
@@ -213,7 +212,6 @@ public class UserService extends BaseService {
 					+ " ) t1 ,sys_user_group_item t2 where t1.user_id=t2.user_id  and group_id='" + group_id
 					+ "' order by t1.empl_id  ";
 		}
-		
 		return ResData.SUCCESS("操作成功", db.query(sql).toJsonArrayWithJsonObject());
 	}
 	/**
@@ -223,7 +221,7 @@ public class UserService extends BaseService {
 		return ResData.SUCCESS();
 	}
 	/**
-	 * @Description: 按照系统用户ID删除用户,同时删除组织用户及其相关
+	 * @Description: 按照系统用户ID删除用户
 	 */
 	@Transactional
 	public ResData deleteUser(String user_id) {
@@ -235,21 +233,10 @@ public class UserService extends BaseService {
 		ups.set("deleted", "Y");
 		ups.where().and("user_id=?", user_id);
 		db.execute(ups);
-		// 删除用户组中的数据
-		String type=getUserType(user_id);
-		db.execute("delete from SYS_USER_GROUP_ITEM where user_id=?", user_id);
-		if (type.equals(USER_TYPE_EMPL)) {
-			// 员工表
-			Update upshrm = new Update("HRM_ORG_EMPLOYEE");
-			upshrm.set("deleted", "N");
-			upshrm.where().and("empl_id=?", getEmplId(user_id));
-		} else if (type.equals(USER_TYPE_SYS)) {
-			//
-		}
 		return ResData.SUCCESS_OPER();
 	}
 	/**
-	 * @Description: 判断插入用户的类型
+	 * @Description: 判断插入用户的类型,默认返回系统用户类型
 	 */
 	private String validUserType(String type) {
 		if (ToolUtil.isEmpty(type)) {
@@ -262,32 +249,27 @@ public class UserService extends BaseService {
 	}
 	/**
 	 * @Description: 增加用户
-	 * @Description:user:必须(USER_NAME)
-	 * @Description:empl:必须(组织信息NODES(node_id)) type:sys|empl
 	 */
 	@Transactional
 	public ResData addUser(TypedHashMap<String, Object> ps, String type) {
-		ArrayList<String> exeSqls = new ArrayList<String>();
 		type = validUserType(type);
 		String username = "";
-		// 获取user_id和empl_id
 		String user_id = UuidUtil.getUUID();
 		ResData emplRes = getEmplNextId();
-		if (!emplRes.isSuccess()) {
+		if (emplRes.isFailed()) {
 			return ResData.FAILURE("生成序列号失败");
 		}
 		String empl_id = (String) emplRes.getData();
-		/*********************************** 插入sys_user_info表 **************************************/
-		Insert ins = new Insert("sys_user_info");
-		// 处理登录名
+		// 处理唯一登录名
 		if (type.equals(UserService.USER_TYPE_EMPL)) {
-			username = "empl" + empl_id;
+			username = "Empl_" + empl_id;
 		} else if (type.equals(UserService.USER_TYPE_SYS)) {
 			username = ps.getString("USER_NAME");
 		}
 		if (!ifUserNameValid(username)) {
 			return ResData.FAILURE("登录名不可用");
 		}
+		Insert ins = new Insert("sys_user_info");
 		ins.set("USER_ID", user_id);
 		ins.set("EMPL_ID", empl_id);
 		ins.set("USER_NAME", username);
@@ -308,36 +290,8 @@ public class UserService extends BaseService {
 		ins.setIf("WEIXIN", ps.getString("WEIXIN"));
 		ins.setIf("SEX", ps.getString("SEX", "1"));
 		ins.set("DELETED", "N");
-		exeSqls.add(ins.getSQL());
-		/*********************************** 组织内用户插入的判断 **************************************/
-		if (type.equals(UserService.USER_TYPE_EMPL)) {
-			// 先判断组织
-			ResData emplpartRes = ifEmplCanMultiPart();
-			if (!emplpartRes.isSuccess()) {
-				return ResData.FAILURE("组织判断失败,请检查系统参数配置");
-			}
-			String nodes = ps.getString("NODES");
-			if (ToolUtil.isEmpty(nodes)) {
-				return ResData.FAILURE_ERRREQ_PARAMS();
-			}
-			// 用户组织数据
-			JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
-			for (int i = 0; i < nodes_arr.size(); i++) {
-				String node_id = nodes_arr.getJSONObject(i).getString("NODE_ID");
-				Insert ins3 = new Insert("hrm_org_employee");
-				ins3.set("id", UuidUtil.getUUID());
-				ins3.set("node_id", node_id);
-				ins3.set("deleted", "N");
-				ins3.set("empl_id", empl_id);
-				exeSqls.add(ins3.getSQL());
-			}
-		}
-		/*********************************** 插入empl表 **************************************/
-		for (int i = 0; i < exeSqls.size(); i++) {
-			System.out.println(exeSqls.get(i).toString());
-			db.execute(exeSqls.get(i).toString());
-		}
-		return ResData.SUCCESS_OPER();
+		db.execute(ins);
+		return ResData.SUCCESS_OPER(user_id);
 	}
 	/**
 	 * @Description: 获取Empl的下一个ID
@@ -356,28 +310,17 @@ public class UserService extends BaseService {
 		return ResData.SUCCESS_OPER(empl_id);
 	}
 	/**
-	 * @Description: 修改用户
-	 * @Description:user:必须要有user_id
-	 * @Description:empl:必须要有empl_id
+	 * @Description: 根据user_id修改人员表
 	 */
 	@Transactional
 	public ResData updateUser(TypedHashMap<String, Object> ps, String type) {
-		ArrayList<String> exeSqls = new ArrayList<String>();
 		// 最终根据user_id去更新用户数据
 		// 获取用户的user_id,empl_id
 		type = validUserType(type);
-		String user_id = "";
-		String empl_id = "";
-		if (type.equals(UserService.USER_TYPE_EMPL)) {
-			empl_id = ps.getString("EMPL_ID", "");
-			user_id = this.getUserId(empl_id);
-			if (ToolUtil.isOneEmpty(empl_id, user_id)) {
-				return ResData.FAILURE_ERRREQ_PARAMS();
-			}
-		} else if (type.equals(UserService.USER_TYPE_SYS)) {
-			user_id = ps.getString("USER_ID");
+		String user_id = ps.getString("USER_ID");
+		if (ToolUtil.isEmpty(user_id)) {
+			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
-		/*********************************** 更新sys_user_info表 **************************************/
 		Update ups = new Update("sys_user_info");
 		ups.setIf("NICKNAME", ps.getString("NICKNAME", "toy"));
 		ups.setIf("NAME", ps.getString("NAME", "toy"));
@@ -395,46 +338,22 @@ public class UserService extends BaseService {
 		ups.setIf("WEIXIN", ps.getString("WEIXIN"));
 		ups.setIf("SEX", ps.getString("SEX", "1"));
 		ups.where().and("user_id=?", user_id);
-		exeSqls.add(ups.getSQL());
-		/*********************************** 组织内用户插入的判断 **************************************/
-		if (type.equals(UserService.USER_TYPE_EMPL)) {
-			// 先判断组织
-			exeSqls.add("delete from hrm_org_employee where empl_id='" + empl_id + "'");
-			ResData emplpartRes = ifEmplCanMultiPart();
-			if (!emplpartRes.isSuccess()) {
-				return ResData.FAILURE("组织判断失败,请检查系统参数配置");
-			}
-			String nodes = ps.getString("NODES");
-			if (ToolUtil.isEmpty(nodes)) {
-				return ResData.FAILURE_ERRREQ_PARAMS();
-			}
-			// 用户组织数据
-			JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
-			for (int i = 0; i < nodes_arr.size(); i++) {
-				String node_id = nodes_arr.getJSONObject(i).getString("NODE_ID");
-				Insert ins3 = new Insert("hrm_org_employee");
-				ins3.set("id", UuidUtil.getUUID());
-				ins3.set("node_id", node_id);
-				ins3.set("deleted", "N");
-				ins3.set("empl_id", empl_id);
-				exeSqls.add(ins3.getSQL());
-			}
-		}
-		/*********************************** 插入empl表 **************************************/
-		for (int i = 0; i < exeSqls.size(); i++) {
-			System.out.println(exeSqls.get(i).toString());
-			db.execute(exeSqls.get(i).toString());
-		}
+		db.execute(ups);
 		return ResData.SUCCESS_OPER();
 	}
 	/**
 	 * @Description: sys_user_info的user_name是唯一的,判断是否唯一
 	 */
 	public Boolean ifUserNameValid(String user) {
-		if (user != null && db.uniqueRecord("select * from sys_user_info where user_name=?", user) == null) {
-			return true;
+		if (ToolUtil.isEmpty(user)) {
+			return false;
 		}
-		return false;
+		Rcd rs = db.uniqueRecord("select * from sys_user_info where user_name=?", user);
+		if (rs == null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	/**
 	 * @Description: 修改用户角色
@@ -463,38 +382,5 @@ public class UserService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
-	/**
-	 * @Description: 判断用户是否可以存在多个组织中
-	 */
-	public ResData ifEmplCanMultiPart() {
-		// 组织个数控制判断
-		Rcd ctl = db.uniqueRecord("select * from SYS_PARAMS where id='sys_empl_org_num_ctl'");
-		if (ToolUtil.isEmpty(ctl)) {
-			return ResData.FAILURE_SYS_PARAMS();
-		}
-		String ctlstr = ctl.getString("value");
-		if (ToolUtil.isEmpty(ctlstr)) {
-			return ResData.FAILURE_SYS_PARAMS();
-		}
-		String res = "";
-		if (ctlstr.equals("N")) {
-			res = "N";
-		} else if (ctlstr.equals("Y")) {
-			res = "Y";
-		} else {
-			res = "N";
-		}
-		return ResData.SUCCESS_OPER(res);
-	}
-	/**
-	 * @Description: 获取用户类型
-	 */
-	public String getUserType(String user_id) {
-		String sql = "select user_type from sys_user_info where user_id=?";
-		Rcd rs = db.uniqueRecord(sql, user_id);
-		if (rs == null) {
-			return null;
-		}
-		return validUserType(rs.getString("user_type"));
-	}
+	
 }

@@ -42,7 +42,7 @@ public class MenuRoleMapService extends BaseService {
 		JSONArray resarr = new JSONArray();
 		String sql = "select t.* , ( select count(1) from  sys_menus_node where parent_id=t.node_id) children_cnt, (select count(1) from sys_role_module where role_id='"
 				+ role_id + "' and module_id=t.node_id) checked from sys_menus_node t where menu_id='" + menu_id
-				+ "'    and deleted='N' ";
+				+ "'    and deleted='N' order by type ";
 		System.out.println(sql);
 		RcdSet res = db.query(sql);
 		JSONObject e;

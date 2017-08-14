@@ -2,7 +2,7 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal, $uibModal
 
 	$log.warn("window in,", userIds);
 	$scope.userRoles = []
-	$http.post($rootScope.project + "/role/roleQuery.do", {}).success(function(res) {
+	$http.post($rootScope.project + "/api/role/roleQuery.do", {}).success(function(res) {
 		if (res.success) {
 			$scope.userRoles = res.data
 		}
@@ -82,7 +82,6 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 
 	}
 	$scope.sure = function() {
-		$scope.item.USER_ID = $scope.item.USER_NO;
 		$scope.item.LOCKED = $scope.lockedSel.ID;
 		$http.post($rootScope.project + "/user/userSave.do", $scope.item).success(function(res) {
 			if (res.success) {
@@ -267,7 +266,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			size : 'md',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
-					return $scope.dtOptions.aaData[data[0]].USER_NO;
+					return $scope.dtOptions.aaData[data[0]].USER_ID;
 				}
 			}
 		});
@@ -303,7 +302,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		var userids = [];
 		for (var i = 0; i < data.length; i++) {
 			// alert($scope.dtOptions.aaData[data[i]].USER_NO)
-			userids.push($scope.dtOptions.aaData[data[i]].USER_NO);
+			userids.push($scope.dtOptions.aaData[data[i]].USER_ID);
 		}
 
 		var modalInstance = $uibModal.open({

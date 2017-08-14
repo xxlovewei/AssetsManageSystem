@@ -4,6 +4,8 @@ import org.json.JSONObject;
 
 import com.dt.core.common.base.BaseResult;
 
+import net.sf.json.JSONArray;
+
 public class ResData extends BaseResult {
 	public static String TYPE_JSON = "json";
 	public static String TYPE_TEXT = "text";
@@ -13,6 +15,9 @@ public class ResData extends BaseResult {
 
 	public boolean isSuccess() {
 		return success;
+	}
+	public boolean isFailed() {
+		return !success;
 	}
 	public void setSuccess(boolean success) {
 		this.success = success;
@@ -92,7 +97,6 @@ public class ResData extends BaseResult {
 		r.setMessage("操作失败");
 		return r;
 	}
-	
 	public static ResData FAILURE_NODATA() {
 		ResData r = new ResData();
 		r.setSuccess(false);
@@ -102,19 +106,15 @@ public class ResData extends BaseResult {
 	public static ResData FAILURE_ERRREQ_PARAMS() {
 		ResData r = new ResData();
 		r.setSuccess(false);
-		 
 		r.setMessage("参数不正确");
 		return r;
 	}
-	
 	public static ResData FAILURE_SYS_PARAMS() {
 		ResData r = new ResData();
 		r.setSuccess(false);
-		 
 		r.setMessage("系统配置错误");
 		return r;
 	}
-	
 	public static ResData FAILURE_OPER(Object data) {
 		ResData r = new ResData();
 		r.setSuccess(false);
@@ -146,6 +146,14 @@ public class ResData extends BaseResult {
 		r.setMessage("保存成功");
 		r.setSuccess(true);
 		return r;
+	}
+	public JSONObject getDataJSONObject() {
+		JSONObject json = (JSONObject) data;
+		return json;
+	}
+	public JSONArray getDataJSONArray() {
+		JSONArray json = (JSONArray) data;
+		return json;
 	}
 	public String asJson() {
 		JSONObject json = new JSONObject();
