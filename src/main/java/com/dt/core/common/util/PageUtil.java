@@ -26,6 +26,18 @@ public class PageUtil {
 		int totalPage = (total % rows) == 0 ? (total / rows) : ((total / rows) + 1);
 		return totalPage;
 	}
+	//
+	public static String rebuildMysqlSql(String sql, int pageSize, int pageIndex) {
+		if (ToolUtil.isOneEmpty(pageSize, pageIndex) || pageSize == -1 || pageIndex == -1 || pageSize == 0
+				|| pageIndex == 0) {
+			return sql;
+		}
+		int first = pageSize*(pageIndex-1);
+		int second = pageSize;
+		
+		String ressql = " select * from(" + sql + ") u limit " + first + "," + second;
+		return ressql;
+	}
 	public static void main(String[] args) {
 		System.out.println(rebuildOracleSql("select * from CT_CONTENT", -1, 0));
 		System.out.println(getTotalPage(6, 4));

@@ -95,6 +95,7 @@ public abstract class SpringDAO
 
 	public void setDataSource(DataSource ds)
 	{
+		System.out.println("Oracle Db."+ds.hashCode());
 		this.ds=ds;
 		this.jdbcTemplate = new JdbcTemplate(this.ds);
 		this.njdbcTemplate=new NamedParameterJdbcTemplate(this.ds);

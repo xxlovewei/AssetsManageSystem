@@ -34,6 +34,8 @@ public class DB extends SpringOracleDao {
 	@Resource(name = "db")
 	public void setDataSource(DataSource dataSource)
 	{
+		
 		super.setDataSource(dataSource);
+	
 	}
 }

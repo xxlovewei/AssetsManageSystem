@@ -24,7 +24,7 @@
 	<bean id="SpringContextUtil" class="com.dt.core.common.util.SpringContextUtil" />
 
 	<!-- 主数据库 -->
-	<bean id="DB" class="com.dt.core.db.DB" />
+ 	<bean id="DB" class="com.dt.core.db.DB" />  
 
 	<bean id="ApplicationContextListener" class="com.dt.core.common.listener.ApplicationContextListener" />
 
@@ -34,6 +34,44 @@
 		<context:include-filter type="annotation"
 			expression="com.dt.core.common.annotion.impl.GlobalExceptionHandler" />
 	</context:component-scan>
+	
+	
+	
+	<!-- 装载controller -->
+	<context:component-scan base-package="**.controller" />
+	
+		
+	<!-- 配置自定义返回注解 -->
+	<bean id="resreqMessagCover"
+		class="com.dt.core.common.annotion.impl.ResReqDataMessageConvert" />
+	<bean id="resReqSolve" class="com.dt.core.common.annotion.impl.ResReqResolver">
+		<constructor-arg>
+			<list>
+				<ref bean="resreqMessagCover" />
+			</list>
+		</constructor-arg>
+	</bean>
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="false">
+			<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+			<!-- 顺便解决了string 返回乱码问题 -->
+			<bean id="fastJsonHttpMessageConverter"
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<!-- 这里顺序不能反，一定先写text/html,不然ie下出现下载提示 -->
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+		</mvc:message-converters>
+		<mvc:return-value-handlers>
+			<ref bean="resReqSolve" />
+		</mvc:return-value-handlers>
+
+	</mvc:annotation-driven>
 
 </beans>
  
