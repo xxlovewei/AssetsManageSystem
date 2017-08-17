@@ -1,16 +1,23 @@
 package com.dt.core.common.annotion.impl;
 
-import org.json.JSONObject;
-
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseResult;
-
-import net.sf.json.JSONArray;
 
 public class ResData extends BaseResult {
 	public static String TYPE_JSON = "json";
 	public static String TYPE_TEXT = "text";
 	public static String TYPE_HTML = "html";
 	public String TYPE_VALUE = ResData.TYPE_JSON;
+	private Boolean clearStatus = false;
+
+	public Boolean getClearStatus() {
+		return clearStatus;
+	}
+	public void setClearStatus(Boolean clearStatus) {
+		this.clearStatus = clearStatus;
+	}
+
 	private boolean success;
 
 	public boolean isSuccess() {
@@ -151,19 +158,53 @@ public class ResData extends BaseResult {
 		JSONObject json = (JSONObject) data;
 		return json;
 	}
-	public JSONArray getDataJSONArray() {
-		JSONArray json = (JSONArray) data;
-		return json;
+	public JSONArray getDataToJSONArray() {
+		if (data instanceof org.json.JSONArray) {
+			return JSONArray.parseArray(((org.json.JSONArray) (data)).toString());
+		} else if (data instanceof JSONArray) {
+			return (JSONArray) (data);
+		} else {
+			return new JSONArray();
+		}
+	}
+	public JSONObject getDataToJSONObject() {
+		if (data instanceof org.json.JSONObject) {
+			return JSONObject.parseObject(((org.json.JSONObject) (data)).toString());
+		} else if (data instanceof JSONArray) {
+			return (JSONObject) (data);
+		} else {
+			return new JSONObject();
+		}
 	}
 	public String asJson() {
-		JSONObject json = new JSONObject();
-		json.put("success", success);
-		json.put("message", message);
-		if (data instanceof ResData) {
-			json.put("data", ((ResData) data).asJson());
+		if (clearStatus) {
+			if (data instanceof ResData) {
+				return ((ResData) data).asJson();
+			} else if (data instanceof org.json.JSONArray) {
+				return ((org.json.JSONArray) (data)).toString();
+			} else if (data instanceof org.json.JSONObject) {
+				return ((org.json.JSONObject) (data)).toString();
+			} else if (data instanceof JSONObject) {
+				return ((JSONObject) data).toJSONString();
+			} else if (data instanceof JSONArray) {
+				return ((JSONArray) data).toJSONString();
+			} else {
+				return data.toString();
+			}
 		} else {
-			json.put("data", data);
+			JSONObject json = new JSONObject();
+			json.put("success", success);
+			json.put("message", message);
+			if (data instanceof ResData) {
+				json.put("data", ((ResData) data).asJson());
+			} else if (data instanceof org.json.JSONObject) {
+				json.put("data", JSONObject.parseObject(((org.json.JSONObject) (data)).toString()));
+			} else if (data instanceof org.json.JSONArray) {
+				json.put("data", JSONArray.parseArray(((org.json.JSONArray) (data)).toString()));
+			} else {
+				json.put("data", data);
+			}
+			return json.toJSONString();
 		}
-		return json.toString();
 	}
 }

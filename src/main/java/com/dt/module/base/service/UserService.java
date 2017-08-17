@@ -15,6 +15,7 @@ import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
+import com.dt.core.common.util.ConvertUtil;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.UuidUtil;
@@ -92,19 +93,20 @@ public class UserService extends BaseService {
 		String basesql = sql.replaceAll("<#USER_ID#>", user_id);
 		RcdSet first_rs = db.query(basesql, meu_id, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
-			JSONObject first_obj = JSONObject.parseObject(first_rs.getRcd(i).toJsonObject().toString());
+			
+			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
 			String first_key = first_rs.getRcd(i).getString("key");
 			first_obj.put("STATE", first_key);
 			RcdSet second_rs = db.query(basesql, meu_id, first_rs.getRcd(i).getString("node_id"));
 			JSONArray second_arr = new JSONArray();
 			for (int j = 0; j < second_rs.size(); j++) {
-				JSONObject second_obj = JSONObject.parseObject(second_rs.getRcd(j).toJsonObject().toString());
+				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(j).toJsonObject());
 				String second_key = second_rs.getRcd(j).getString("key");
 				second_obj.put("STATE", first_key + "." + second_key);
 				RcdSet third_rs = db.query(basesql, meu_id, second_rs.getRcd(j).getString("node_id"));
 				second_obj.put("CHILDREN_CNT", third_rs.size());
 				// 处理三层
-				JSONArray third_arr = JSONArray.parseArray(third_rs.toJsonArrayWithJsonObject().toString());
+				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
 				for (int f = 0; f < third_arr.size(); f++) {
 					third_arr.getJSONObject(f).put("STATE",
 							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("KEY"));

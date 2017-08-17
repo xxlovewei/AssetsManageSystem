@@ -25,10 +25,7 @@ public class DemoService extends BaseService{
 	};
 	
 	public int query(){
-		
-    System.out.println(super.db.query("select * from PRODUCT_BRAND where IS_DELETED='N' order by od ").toJsonArrayWithJsonObject().toString());
- 
-		
+		 
     return 0;
 	}
 	

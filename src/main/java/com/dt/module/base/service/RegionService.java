@@ -37,6 +37,6 @@ public class RegionService extends BaseService {
 	 */
 	public ResData queryRegionById(String id) {
 		String sql = "select * from sys_region where parentid=?";
-		return ResData.SUCCESS(db.query(sql, id).toJsonArrayWithJsonObject().toString());
+		return ResData.SUCCESS(db.query(sql, id).toJsonArrayWithJsonObject());
 	}
 }

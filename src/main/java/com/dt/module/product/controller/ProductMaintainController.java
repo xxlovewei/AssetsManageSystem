@@ -17,6 +17,7 @@ import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.RcdSet;
+import com.dt.core.common.util.ConvertUtil;
 import com.dt.core.db.DB;
 
 @Controller
@@ -29,7 +30,8 @@ public class ProductMaintainController extends BaseController{
 		JSONObject r = new JSONObject();
 		Rcd rs = db.uniqueRecord("select * from DT_PRODUCT where IS_DELETED='N' and  spu=?", spu);
 		if (rs != null) {
-			r = JSONObject.parseObject(rs.toJsonObject().toString());
+			r = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
+			
 		}
 		return r;
 	}
@@ -67,7 +69,8 @@ public class ProductMaintainController extends BaseController{
 		RcdSet rs=db.query(sepcsql,spu);
 		for(int i=0;i<rs.size();i++){
 			JSONObject e=new JSONObject();
-			e=JSONObject.parseObject(rs.getRcd(i).toJsonObject().toString());
+			e=ConvertUtil.OtherJSONObjectToFastJSONObject(rs.getRcd(i).toJsonObject());
+			
 			String listsql="select * from DT_PRODUCT_SPECGROUP_ITEM where group_id=? and is_deleted='N' order by od";
 			e.put("SPECS", db.query(listsql,rs.getRcd(i).getString("group_id")).toJsonArrayWithJsonObject() );
 			res.add(e);
@@ -121,8 +124,8 @@ public class ProductMaintainController extends BaseController{
 		"a.* "+
 		"from prod_sepc a";
 		RcdSet rs=db.query(skusql,spu);
-		 
-		return JSONObject.parseArray(rs.toJsonArrayWithJsonObject().toString());
+ 
+		return ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
 		
 	}
 	

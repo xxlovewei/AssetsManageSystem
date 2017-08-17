@@ -13,6 +13,7 @@ import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
+import com.dt.core.common.util.ConvertUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.UuidUtil;
 import com.dt.core.common.util.support.TypedHashMap;
@@ -36,7 +37,8 @@ public class ProductService extends BaseService {
 		RcdSet r = db.query(sql, spu);
 		for (int i = 0; i < r.size(); i++) {
 			JSONObject obj = new JSONObject();
-			obj = JSONObject.parseObject(r.getRcd(i).toJsonObject().toString());
+			
+			obj = ConvertUtil.OtherJSONObjectToFastJSONObject(r.getRcd(i).toJsonObject());
 			// 获取属性
 			obj.put("ATTR_SET_IDS", db.query("select * from PRODUCT_SKU_MAP where sku=?", r.getRcd(i).getString("sku"))
 					.toJsonArrayWithJsonObject());
@@ -53,7 +55,8 @@ public class ProductService extends BaseService {
 		JSONArray rs = new JSONArray();
 		for (int i = 0; i < r.size(); i++) {
 			JSONObject e = new JSONObject();
-			e.put(r.getRcd(i).getString("SKU_UUID"), JSONObject.parseObject(r.getRcd(i).toJsonObject().toString()));
+			
+			e.put(r.getRcd(i).getString("SKU_UUID"), ConvertUtil.OtherJSONObjectToFastJSONObject(r.getRcd(i).toJsonObject()));
 			rs.add(e);
 		}
 		return rs;
@@ -73,7 +76,8 @@ public class ProductService extends BaseService {
 				+ "and cat_id in (select cat_id from PRODUCT where spu=? ) " + "order by od ";
 		RcdSet rs = db.query(sql, spu, spu);
 		for (int i = 0; i < rs.size(); i++) {
-			JSONObject e = JSONObject.parseObject(rs.getRcd(i).toJsonObject().toString());
+	
+			JSONObject e = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.getRcd(i).toJsonObject());
 			// 跟随模版排序
 			String isql = "select " + "distinct a.attr_set_id,a.value,od " + "from "
 					+ "PRODUCT_ATTR_SET b,PRODUCT_CATEGORY_ATTR_SET a " + "where " + "a.attr_id=b.attr_id "
@@ -96,7 +100,8 @@ public class ProductService extends BaseService {
 				+ "on a.ATTR_ID=b.ATTR_ID ";
 		RcdSet attr_rs = db.query(basesql, cat_id, spu);
 		for (int i = 0; i < attr_rs.size(); i++) {
-			JSONObject obj = JSONObject.parseObject(attr_rs.getRcd(i).toJsonObject().toString());
+			
+			JSONObject obj = ConvertUtil.OtherJSONObjectToFastJSONObject(attr_rs.getRcd(i).toJsonObject());
 			if (attr_rs.getRcd(i).getString("INPUT_TYPE").equals("input")) {
 				obj.put("ATTR_SET_VALUE", attr_rs.getRcd(i).getString("value"));
 			} else if (attr_rs.getRcd(i).getString("INPUT_TYPE").equals("select-single")) {
@@ -156,7 +161,8 @@ public class ProductService extends BaseService {
 		if (ToolUtil.isEmpty(rs)) {
 			return ResData.FAILURE("商品不存在");
 		}
-		res = JSONObject.parseObject(rs.toJsonObject().toString());
+		 
+		res =ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 		/************** 获得商品基本属性 **************/
 		// 用于修改基本属性
 		res.put("BASE_ATTR", getProdBaseList(spu, rs.getString("cat_id")));

@@ -20,6 +20,7 @@ import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
+import com.dt.core.common.util.ConvertUtil;
 import com.dt.core.db.DB;
 
 /*后台商品类目管理*/
@@ -604,7 +605,8 @@ public class CategoryBackgroundController  extends BaseController{
 		for (int i = 0; i < attr_rs.size(); i++) {
 
 			JSONObject e = new JSONObject();
-			e = JSONObject.parseObject(attr_rs.getRcd(i).toJsonObject().toString());
+			
+			e =ConvertUtil.OtherJSONObjectToFastJSONObject(attr_rs.getRcd(i).toJsonObject());
 
 			// 销售属性必须可枚举,否则不显示,强制不做判断，只支持枚举多选
 			if ("Y".equals(attr_rs.getRcd(i).getString("is_enum"))) {
@@ -636,7 +638,8 @@ public class CategoryBackgroundController  extends BaseController{
 		RcdSet attr_rs = db.query(attrsql, cat_id);
 		for (int i = 0; i < attr_rs.size(); i++) {
 			JSONObject e = new JSONObject();
-			e = JSONObject.parseObject(attr_rs.getRcd(i).toJsonObject().toString());
+			e = ConvertUtil.OtherJSONObjectToFastJSONObject(attr_rs.getRcd(i).toJsonObject());
+			
 			String isql = "select * from PRODUCT_CATEGORY_ATTR_SET where attr_id=?  and is_deleted='N' and cat_id=? order by od";
 			e.put("LIST", db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject());
 			rs.add(e);
@@ -651,7 +654,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 		String sql = "select a.attr_set_id, value from PRODUCT_CATEGORY_ATTR_SET a,PRODUCT_CATEGORY_ATTR b where  a.ATTR_ID=b.ATTR_ID and b.IS_DELETED='N'   and a.IS_DELETED='N' and b.cat_id=?  and b.ATTR_TYPE='sale'  ";
 
-		return JSONArray.parseArray(db.query(sql, cat_id).toJsonArrayWithJsonObject().toString());
+		return ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, cat_id).toJsonArrayWithJsonObject());
 
 	}
 }

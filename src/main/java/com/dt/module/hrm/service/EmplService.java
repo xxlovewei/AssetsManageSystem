@@ -13,6 +13,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.dao.sql.Insert;
+import com.dt.core.common.util.ConvertUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.UuidUtil;
 import com.dt.core.common.util.support.TypedHashMap;
@@ -178,7 +179,8 @@ public class EmplService extends BaseService {
 			return ResData.FAILURE_NODATA();
 		}
 		// 获取组织信息
-		res = JSONObject.parseObject(info.toJsonObject().toString());
+		
+		res = ConvertUtil.OtherJSONObjectToFastJSONObject(info.toJsonObject());
 		res.put("PARTS",
 				db.query(
 						"select a.*,b.node_name from hrm_org_employee a,hrm_org_part b where a.node_id=b.node_id and empl_id=?",

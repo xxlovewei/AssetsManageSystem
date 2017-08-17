@@ -18,6 +18,7 @@ import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.dao.Rcd;
+import com.dt.core.common.util.ConvertUtil;
 import com.dt.core.common.util.TokenUtil;
 import com.dt.core.db.DB;
 import com.dt.core.shiro.ShiroKit;
@@ -77,8 +78,8 @@ public class LoginController extends BaseController {
 		super.getSession().setAttribute("shiroUser", shiroUser);
 		super.getSession().setAttribute("user_id", shiroUser.id);
 		ShiroKit.getSession().setAttribute("sessionFlag", true);
-
-		JSONObject u = JSONObject.parseObject(userrs.toJsonObject().toString());
+		
+		JSONObject u = ConvertUtil.OtherJSONObjectToFastJSONObject(userrs.toJsonObject());
 		// 覆盖重要信息
 		u.put("PWD", "********");
 		r.put("user_info", u);
