@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
- 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
@@ -15,23 +15,20 @@ import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.content.service.NewsService;
- 
+import com.dt.module.content.service.ContentService;;
 
 /**
  * @author: algernonking
  * @date: 2017年8月11日 下午1:00:33
- * @Description: TODO
- * pageSize
- * pageIndex
- * sdate
- * edate
- * sort
+ * @Description: TODO pageSize pageIndex sdate edate sort
  */
 @Controller
 @RequestMapping(value = "/api")
 public class NewsController extends BaseController {
 	@Autowired
 	NewsService newsService;
+	@Autowired
+	ContentService contentService;
 
 	/**
 	 * @Description: 根据ID查找新闻
@@ -79,7 +76,6 @@ public class NewsController extends BaseController {
 		res.put("total", value);
 		return ResData.SUCCESS_OPER(res);
 	}
-	
 	/**
 	 * @Description: 查询新闻页数
 	 */
@@ -103,7 +99,6 @@ public class NewsController extends BaseController {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return newsService.queryNews(ps, ConvertUtil.toInt(pageSize, -1), ConvertUtil.toInt(pageIndex, -1));
 	}
-	
 	/**
 	 * @Description: 查询新闻分页,用于datatable
 	 */
@@ -112,11 +107,21 @@ public class NewsController extends BaseController {
 	@Acl(value = "allow")
 	public ResData queryNewsByDatatable(String start, String length) {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		int startV=ConvertUtil.toInt(start);
-		int lengthV=ConvertUtil.toInt(length);
-		int pageIndex=startV/lengthV+1;
-		System.out.println("pageSize"+length);
-		System.out.println("pageIndex"+pageIndex);
-		return newsService.queryNews(ps, ConvertUtil.toInt(length, -1), ConvertUtil.toInt(pageIndex, -1));
+		int startV = ConvertUtil.toInt(start);
+		int lengthV = ConvertUtil.toInt(length);
+		int pageIndex = startV / lengthV + 1;
+		System.out.println("pageSize" + length);
+		System.out.println("pageIndex" + pageIndex);
+		ResData rsdata = newsService.queryNews(ps, ConvertUtil.toInt(length, -1), ConvertUtil.toInt(pageIndex, -1));
+		int pageCnt = contentService.queryContentPageCount(ps, ContentService.TYPE_NEWS, ConvertUtil.toInt(length, -1));
+		JSONArray data = rsdata.getDataToJSONArray();
+		JSONObject retrunObject = new JSONObject();
+		retrunObject.put("iTotalRecords", pageCnt);
+		retrunObject.put("iTotalDisplayRecords", pageCnt);
+		retrunObject.put("data", data);
+		ResData res = new ResData();
+		res.setClearStatus(true);
+		res.setData(retrunObject);
+		return res;
 	}
 }
