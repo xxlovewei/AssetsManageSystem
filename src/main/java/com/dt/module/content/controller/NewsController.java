@@ -11,6 +11,7 @@ import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.util.ConvertUtil;
+import com.dt.core.common.util.PageUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
@@ -89,31 +90,26 @@ public class NewsController extends BaseController {
 		res.put("total", value);
 		return ResData.SUCCESS_OPER(res);
 	}
-	/**
-	 * @Description: 查询新闻
-	 */
-	@RequestMapping(value = "/news/queryNews.do")
-	@Res
-	@Acl(value = "allow")
-	public ResData queryNews(String pageSize, String pageIndex) {
-		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		return newsService.queryNews(ps, ConvertUtil.toInt(pageSize, -1), ConvertUtil.toInt(pageIndex, -1));
-	}
+ 
+	
 	/**
 	 * @Description: 查询新闻分页,用于datatable
 	 */
-	@RequestMapping(value = "/news/queryNewsByDatatable.do")
+	@RequestMapping(value = "/news/queryNewsByPage.do")
 	@Res
 	@Acl(value = "allow")
-	public ResData queryNewsByDatatable(String start, String length) {
+	public ResData queryNewsByDatatable(String start, String length, String pageSize, String pageIndex) {
+		JSONObject respar = PageUtil.formatPageParameter(start, length, pageSize, pageIndex);
+		if (ToolUtil.isEmpty(respar)) {
+			return ResData.FAILURE_ERRREQ_PARAMS();
+		}
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		int startV = ConvertUtil.toInt(start);
-		int lengthV = ConvertUtil.toInt(length);
-		int pageIndex = startV / lengthV + 1;
-		System.out.println("pageSize" + length);
-		System.out.println("pageIndex" + pageIndex);
-		ResData rsdata = newsService.queryNews(ps, ConvertUtil.toInt(length, -1), ConvertUtil.toInt(pageIndex, -1));
-		int pageCnt = contentService.queryContentPageCount(ps, ContentService.TYPE_NEWS, ConvertUtil.toInt(length, -1));
+		System.out.println(respar.toJSONString());
+		int pagesize = respar.getIntValue("pagesize");
+		int pageindex = respar.getIntValue("pageindex");
+		
+		ResData rsdata = newsService.queryNews(ps, pagesize, pageindex);
+		int pageCnt = contentService.queryContentPageCount(ps, ContentService.TYPE_NEWS, pagesize);
 		JSONArray data = rsdata.getDataToJSONArray();
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pageCnt);

@@ -42,7 +42,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 		"lastName" : "Kyle"
 	} ]
 
-	$scope.URL = $rootScope.project + "/api/news/queryNewsByDatatable.do?noContent=Y";
+	$scope.URL = $rootScope.project + "/api/news/queryNewsByPage.do?noContent=Y";
 	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp('data').withPaginationType('full_numbers').withDisplayLength(10).withOption("ordering", false)
 			.withOption("responsive", true).withOption("searching", false).withOption("paging", true).withOption('bStateSave', true).withOption('bProcessing', false).withOption(
 					'bFilter', false).withOption('bInfo', false).withOption('serverSide', true).withOption('bAutoWidth', false).withOption('createdRow', function(row) {
