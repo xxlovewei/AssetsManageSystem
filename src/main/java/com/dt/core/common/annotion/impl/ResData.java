@@ -154,10 +154,10 @@ public class ResData extends BaseResult {
 		r.setSuccess(true);
 		return r;
 	}
-	public JSONObject getDataJSONObject() {
-		JSONObject json = (JSONObject) data;
-		return json;
-	}
+//	public JSONObject getDataJSONObject() {
+//		JSONObject json = (JSONObject) data;
+//		return json;
+//	}
 	public JSONArray getDataToJSONArray() {
 		if (data instanceof org.json.JSONArray) {
 			return JSONArray.parseArray(((org.json.JSONArray) (data)).toString());
