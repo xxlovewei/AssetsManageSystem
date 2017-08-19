@@ -3,8 +3,10 @@ package com.dt.module.base.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.TypedHashMap;
 
 /**
@@ -39,6 +41,12 @@ public class SysUserService extends BaseService {
 	 * @Description: 根据user_id查找
 	 */
 	public ResData queryUserById(String user_id) {
-		return userService.queryUserById(user_id);
+		JSONObject res=userService.queryUserById(user_id);
+		if(ToolUtil.isEmpty(res)){
+			return ResData.FAILURE_NODATA();
+		}else{
+			return ResData.SUCCESS_OPER();
+		}
+	
 	}
 }

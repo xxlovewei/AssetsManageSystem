@@ -51,7 +51,7 @@ public class EmplService extends BaseService {
 			}
 		}
 		ResData user_rs = userService.addUser(ps, UserService.USER_TYPE_EMPL);
-		String empl_id = userService.getEmplId((String) user_rs.getData());
+		String empl_id = userService.getEmplIdFromUserId((String) user_rs.getData());
 		for (int i = 0; i < nodes_arr.size(); i++) {
 			String node_id = nodes_arr.getJSONObject(i).getString("NODE_ID");
 			Insert ins3 = new Insert("hrm_org_employee");
@@ -75,7 +75,7 @@ public class EmplService extends BaseService {
 	 * @Description: 根据empl_id删除员工
 	 */
 	public ResData delEmployee(String empl_id) {
-		String user_id = userService.getUserId(empl_id);
+		String user_id = userService.getUserIdFromEmpl(empl_id);
 		if (ToolUtil.isEmpty(user_id)) {
 			return ResData.FAILURE("用户user_id不存在");
 		}
@@ -93,7 +93,7 @@ public class EmplService extends BaseService {
 		}
 		// 判断是否需要重置user_id,因为updateUser是根据user_id修改数据
 		if (ToolUtil.isEmpty(user_id)) {
-			user_id = userService.getUserId(empl_id);
+			user_id = userService.getUserIdFromEmpl(empl_id);
 		}
 		ps.put("USER_ID", user_id);
 		/*********************************** 组织内用户插入的判断 **************************************/

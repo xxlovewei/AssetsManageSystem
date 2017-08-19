@@ -1,9 +1,9 @@
 package com.dt.module.base.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +35,6 @@ public class UserService extends BaseService {
 	public static String USER_TYPE_EMPL = "empl";
 	// 会员粉丝人员
 	public static String USER_TYPE_CRM = "crm";
-	
 
 	public static UserService me() {
 		return SpringContextUtil.getBean(UserService.class);
@@ -93,7 +92,6 @@ public class UserService extends BaseService {
 		String basesql = sql.replaceAll("<#USER_ID#>", user_id);
 		RcdSet first_rs = db.query(basesql, meu_id, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
-			
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
 			String first_key = first_rs.getRcd(i).getString("key");
 			first_obj.put("STATE", first_key);
@@ -136,7 +134,7 @@ public class UserService extends BaseService {
 	/**
 	 * @Description: 判断用户是否存在
 	 */
-	public Boolean isExistUser(String user_id) {
+	public Boolean isExistUserId(String user_id) {
 		if (ToolUtil.isEmpty(user_id)
 				|| db.uniqueRecord("select * from SYS_USER_INFO where deleted='N' and user_id=?", user_id) == null) {
 			return false;
@@ -147,26 +145,31 @@ public class UserService extends BaseService {
 	 * @Description: 判断组织内用户是否存在
 	 */
 	public Boolean isExistEmpl(String empl_id) {
-		String user_id = getUserId(empl_id);
-		return isExistUser(user_id);
+		String user_id = getUserIdFromEmpl(empl_id);
+		return isExistUserId(user_id);
 	}
 	/**
 	 * @Description: 判断用户是否锁定
 	 */
 	public Boolean isLocked(String user_id) {
-		if (ToolUtil.isEmpty(user_id)) {
+		JSONObject res = queryUserById(user_id);
+		if (ToolUtil.isEmpty(res)) {
 			return true;
 		}
-		Rcd rs = db.uniqueRecord("select locked from SYS_USER_INFO where deleted='N' and user_id=?", user_id);
-		if (rs == null || ToolUtil.parseYNValueDefY(rs.getString("locked")).equals("Y")) {
+		String locked = res.getString("LOCKED");
+		if (ToolUtil.isEmpty(locked)) {
 			return true;
 		}
-		return false;
+		if (locked.equals("N")) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	/**
 	 * @Description: 根据user_id获取empl_id
 	 */
-	public String getEmplId(String user_id) {
+	public String getEmplIdFromUserId(String user_id) {
 		if (ToolUtil.isEmpty(user_id)) {
 			return null;
 		}
@@ -179,7 +182,7 @@ public class UserService extends BaseService {
 	/**
 	 * @Description: 根据empl_id获取user_id
 	 */
-	public String getUserId(String empl_id) {
+	public String getUserIdFromEmpl(String empl_id) {
 		if (ToolUtil.isEmpty(empl_id)) {
 			return null;
 		}
@@ -190,15 +193,79 @@ public class UserService extends BaseService {
 		return rs.getString("user_id");
 	}
 	/**
+	 * @Description: 根据用户名获取用户ID
+	 */
+	public String getUserIdFromUserName(String username) {
+		if (ToolUtil.isEmpty(username)) {
+			return null;
+		}
+		Rcd rs = db.uniqueRecord("select user_id from SYS_USER_INFO where deleted='N'  and user_name=?", username);
+		if (rs == null) {
+			return null;
+		}
+		return rs.getString("user_id");
+	}
+	/**
+	 * @Description: 根据邮箱获取用户ID
+	 */
+	public ArrayList<String> getUserIdFromMail(String value, String user_type) {
+		ArrayList<String> res = new ArrayList<String>();
+		if (ToolUtil.isOneEmpty(value, user_type)) {
+			return res;
+		}
+		RcdSet rs = db.query("select user_id from SYS_USER_INFO where deleted='N' and user_type=? and mail=?", value,
+				user_type);
+		for (int i = 0; i < rs.size(); i++) {
+			res.add(rs.getRcd(i).getString("user_id"));
+		}
+		return res;
+	}
+	/**
+	 * @Description: 根据手机号获取用户ID
+	 */
+	public ArrayList<String> getUserIdFromMobile(String value, String user_type) {
+		ArrayList<String> res = new ArrayList<String>();
+		if (ToolUtil.isOneEmpty(value, user_type)) {
+			return res;
+		}
+		RcdSet rs = db.query("select user_id from SYS_USER_INFO where deleted='N' and user_type=? and tel=?", value,
+				user_type);
+		for (int i = 0; i < rs.size(); i++) {
+			res.add(rs.getRcd(i).getString("user_id"));
+		}
+		return res;
+	}
+	/**
+	 * @Description: 获取所有用户类型
+	 */
+	public JSONArray getAllUserTypes() {
+		JSONArray res = new JSONArray();
+		return res;
+	}
+	/**
+	 * @Description: 获取当前用户类型
+	 */
+	public String getUserType(String user_id) {
+		JSONObject res = queryUserById(user_id);
+		if (ToolUtil.isEmpty(res)) {
+			return null;
+		}
+		String type = res.getString("TYPE");
+		if (ToolUtil.isEmpty(type)) {
+			return null;
+		}
+		return type;
+	}
+	/**
 	 * @Description: 根据用户ID查找
 	 */
-	public ResData queryUserById(String user_id) {
+	public JSONObject queryUserById(String user_id) {
 		String sql = "select * from sys_user_info where deleted='N' and user_id=?";
 		Rcd rs = db.uniqueRecord(sql, user_id);
 		if (ToolUtil.isEmpty(rs)) {
-			ResData.FAILURE_NODATA();
+			return null;
 		}
-		return ResData.SUCCESS_OPER(rs.toJsonObject());
+		return ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 	}
 	/**
 	 * @Description: 根据用户组查询
@@ -240,21 +307,21 @@ public class UserService extends BaseService {
 	/**
 	 * @Description: 判断插入用户的类型,默认返回系统用户类型
 	 */
-	private String validUserType(String type) {
+	private String validUserType(String type,String def) {
 		if (ToolUtil.isEmpty(type)) {
-			return UserService.USER_TYPE_SYS;
+			return def;
 		}
 		if (type.equals(UserService.USER_TYPE_SYS) || type.equals(UserService.USER_TYPE_EMPL)) {
 			return type;
 		}
-		return UserService.USER_TYPE_SYS;
+		return def;
 	}
 	/**
 	 * @Description: 增加用户
 	 */
 	@Transactional
 	public ResData addUser(TypedHashMap<String, Object> ps, String type) {
-		type = validUserType(type);
+		type = validUserType(type,USER_TYPE_SYS);
 		String username = "";
 		String user_id = UuidUtil.getUUID();
 		ResData emplRes = getEmplNextId();
@@ -318,7 +385,7 @@ public class UserService extends BaseService {
 	public ResData updateUser(TypedHashMap<String, Object> ps, String type) {
 		// 最终根据user_id去更新用户数据
 		// 获取用户的user_id,empl_id
-		type = validUserType(type);
+		type = validUserType(type,USER_TYPE_SYS);
 		String user_id = ps.getString("USER_ID");
 		if (ToolUtil.isEmpty(user_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
@@ -384,5 +451,4 @@ public class UserService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
-	
 }
