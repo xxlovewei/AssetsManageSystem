@@ -26,6 +26,7 @@ public class MenuController extends BaseController {
 	MenuRoleMapService menuRoleMapService;
 
 	@Res
+	@Acl
 	@RequestMapping(value = "/menu/treeTop.do")
 	public ResData treeTop() {
 		return menuRootService.queryMenuRoot();

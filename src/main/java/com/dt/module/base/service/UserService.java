@@ -268,6 +268,18 @@ public class UserService extends BaseService {
 		return ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 	}
 	/**
+	 * @Description: 查询用户拥有的权限信息
+	 */
+	public HashMap<String, String> queryUserRole(String user_id) {
+		HashMap<String, String> res = new HashMap<String, String>();
+		String sql = "select a.*,b.role_name from SYS_USER_ROLE a,SYS_ROLE b where a.ROLE_ID=b.ROLE_ID and user_id=?";
+		RcdSet rs = db.query(sql, user_id);
+		for (int i = 0; i < rs.size(); i++) {
+			res.put(rs.getRcd(i).getString("role_id"), rs.getRcd(i).getString("role_name"));
+		}
+		return res;
+	}
+	/**
 	 * @Description: 根据用户组查询
 	 */
 	public ResData queryUserByGroup(String group_id) {
@@ -307,7 +319,7 @@ public class UserService extends BaseService {
 	/**
 	 * @Description: 判断插入用户的类型,默认返回系统用户类型
 	 */
-	private String validUserType(String type,String def) {
+	private String validUserType(String type, String def) {
 		if (ToolUtil.isEmpty(type)) {
 			return def;
 		}
@@ -321,7 +333,7 @@ public class UserService extends BaseService {
 	 */
 	@Transactional
 	public ResData addUser(TypedHashMap<String, Object> ps, String type) {
-		type = validUserType(type,USER_TYPE_SYS);
+		type = validUserType(type, USER_TYPE_SYS);
 		String username = "";
 		String user_id = UuidUtil.getUUID();
 		ResData emplRes = getEmplNextId();
@@ -385,7 +397,7 @@ public class UserService extends BaseService {
 	public ResData updateUser(TypedHashMap<String, Object> ps, String type) {
 		// 最终根据user_id去更新用户数据
 		// 获取用户的user_id,empl_id
-		type = validUserType(type,USER_TYPE_SYS);
+		type = validUserType(type, USER_TYPE_SYS);
 		String user_id = ps.getString("USER_ID");
 		if (ToolUtil.isEmpty(user_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
@@ -430,7 +442,7 @@ public class UserService extends BaseService {
 	public ResData changeUserRole(TypedHashMap<String, Object> ps) {
 		String userids = ps.getString("USER_IDS");
 		String roles = ps.getString("ROLES");
-		if (userids == null || roles == null) {
+		if (ToolUtil.isOneEmpty(userids, roles)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		JSONArray userids_arr = JSONArray.parseArray(userids);
@@ -446,7 +458,7 @@ public class UserService extends BaseService {
 			db.execute("delete from SYS_USER_ROLE where user_id=?", userids_arr.getString(i));
 			for (int j = 0; j < roles_arr.size(); j++) {
 				db.execute("insert into SYS_USER_ROLE(user_id,role_id) values(?,?)", userids_arr.getString(i),
-						roles_arr.getJSONObject(j).getString("ROLE_ID"));
+						roles_arr.getString(j));
 			}
 		}
 		return ResData.SUCCESS_OPER();

@@ -1,5 +1,9 @@
 package com.dt.module.base.controller;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +22,8 @@ import com.dt.module.base.service.UserService;
 
 @Controller
 public class SysUserController extends BaseController {
- 
 	@Autowired
 	private UserService userService;
-	
 	@Autowired
 	private SysUserService sysUserService;
 
@@ -68,7 +70,22 @@ public class SysUserController extends BaseController {
 	public ResData userQueryById(String user_id) {
 		return sysUserService.queryUserById(user_id);
 	}
-	
+	@RequestMapping("/user/queryRole.do")
+	@Res
+	@Acl
+	public ResData queryRole(String user_id) {
+		if (ToolUtil.isEmpty(user_id)) {
+			return ResData.FAILURE_ERRREQ_PARAMS();
+		}
+		JSONArray res = new JSONArray();
+		HashMap<String, String> map = userService.queryUserRole(user_id);
+		Iterator<Entry<String, String>> i = map.entrySet().iterator();
+		while (i.hasNext()) {
+			Entry<String, String> entry = (Entry<String, String>) i.next();
+			res.add(entry.getKey().toString());
+		}
+		return ResData.SUCCESS_OPER(res);
+	}
 	@RequestMapping("/user/userRoleChange.do")
 	@Res
 	@Acl
@@ -77,15 +94,12 @@ public class SysUserController extends BaseController {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return userService.changeUserRole(ps);
 	}
- 
 	@RequestMapping("/user/userQueryByGroup.do")
 	@Res
 	@Acl
-	public ResData userQueryByGroup(String group_id)  {
+	public ResData userQueryByGroup(String group_id) {
 		return userService.queryUserByGroup(group_id);
 	}
-	
-	
 	@RequestMapping("/user/getUserMenus.do")
 	@Res
 	@Acl
@@ -95,5 +109,4 @@ public class SysUserController extends BaseController {
 		}
 		return ResData.SUCCESS(userService.getMenuTree(user_id, "1"));
 	}
-	
 }

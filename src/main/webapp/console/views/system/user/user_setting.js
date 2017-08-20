@@ -1,10 +1,22 @@
 function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, userIds, $http, $rootScope) {
 
-	$log.warn("window in,", userIds);
+	$log.warn("window in:", userIds);
 	$scope.userRoles = []
-	$http.post($rootScope.project + "/api/role/roleQuery.do", {}).success(function(res) {
+	$http.post($rootScope.project + "/api/role/roleQueryFormatKV.do", {}).success(function(res) {
 		if (res.success) {
-			$scope.userRoles = res.data
+			$scope.userRoles = res.data;
+			// 如果只有一个用户,则加载他的权限信息
+			console.log("user cnt" + angular.fromJson(userIds).length);
+			if (angular.fromJson(userIds).length == 1) {
+				$http.post($rootScope.project + "/user/queryRole.do", {
+					user_id : angular.fromJson(userIds)[0]
+				}).success(function(res) {
+					if (res.success) {
+						$scope.roleSel = res.data;
+					}
+				})
+			}
+
 		}
 	})
 
@@ -16,10 +28,7 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal, $uibModal
 			notify({
 				message : "请至少选择一项角色"
 			});
-			return
-
-						
-
+			return;
 		}
 		var ps = {};
 		ps.USER_IDS = userIds;
@@ -163,7 +172,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		}
 		return res;
 	}
- 
+
 	function renderType(data, type, full) {
 		if (data == "sys") {
 			return "系统";

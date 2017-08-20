@@ -15,8 +15,7 @@
 		<div class="wrapper wrapper-content animated fadeInRight">
 			<div class="ibox">
 				<div class="ibox-content" style="border: none;">
-
-					<select ng-options="c.ROLE_NAME for c in userRoles" multiple
+					<select ng-options="id as name for (id, name) in userRoles" multiple
 						ng-model="roleSel" bs-duallistbox></select>
 
 				</div>

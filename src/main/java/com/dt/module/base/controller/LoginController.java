@@ -39,7 +39,7 @@ public class LoginController extends BaseController {
 			return ResData.FAILURE("请输入账号或密码");
 		}
 		// 验证登录方式及用户类型
-		ResData vlrs = loginService.validLogin(user, type, UserService.USER_TYPE_CRM);
+		ResData vlrs = loginService.validLogin(user, type, UserService.USER_TYPE_EMPL);
 		System.out.println(vlrs.asJson());
 		if (vlrs.isFailed()) {
 			return vlrs;
