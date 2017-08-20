@@ -63,10 +63,10 @@ public class RoleController extends BaseController {
 	@RequestMapping(value = "/role/roleDelete.do")
 	@Res
 	@Acl
-	public ResData roleDelete(String ID) {
-		if (ToolUtil.isEmpty(ID)) {
+	public ResData roleDelete(String role_id) {
+		if (ToolUtil.isEmpty(role_id)) {
 			return ResData.FAILURE_OPER();
 		}
-		return roleService.deleteRole(ID);
+		return roleService.deleteRole(role_id, false);
 	}
 }

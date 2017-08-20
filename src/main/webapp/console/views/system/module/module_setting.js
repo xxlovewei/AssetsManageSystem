@@ -102,7 +102,7 @@ function sysModuleCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 			text : '是否删除功能?'
 		}).then(function() {
 			$http.post($rootScope.project + "/role/roleDelete.do", {
-				ID : id
+				role_id : id
 			}).success(function(res) {
 				if (res.success) {
 					flush();

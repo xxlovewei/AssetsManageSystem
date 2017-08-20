@@ -119,7 +119,7 @@ function sysRoleSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					text : '是否删除功能?'
 				}).then(function() {
 					$http.post($rootScope.project + "/api/role/roleDelete.do", {
-								ID : id
+								role_id : id
 							}).success(function(res) {
 								if (res.success) {
 									flush();
@@ -150,7 +150,6 @@ function sysRoleSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		modalInstance.result.then(function(result) {
 					$log.log("result", result);
 					if (result == "OK") {
-
 						flush();
 					}
 				}, function(reason) {

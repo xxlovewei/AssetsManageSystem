@@ -1,6 +1,7 @@
 package com.dt.module.base.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
@@ -37,11 +38,20 @@ public class RoleService extends BaseService {
 	/**
 	 * @Description: 删除角色
 	 */
-	public ResData deleteRole(String id) {
+	@Transactional
+	public ResData deleteRole(String role_id, Boolean force) {
+		if (!force) {
+			if (db.uniqueRecord("select count(1) value from SYS_USER_ROLE where role_id=?", role_id)
+					.getInteger("value") > 0) {
+				return ResData.FAILURE("该角色使用中不能删除");
+			}
+		}
 		Update ups = new Update("sys_role");
 		ups.set("deleted", "Y");
-		ups.where().and("role_id=?", id);
+		ups.where().and("role_id=?", role_id);
 		db.execute(ups);
+		db.execute("delete from SYS_USER_ROLE where role_id=?",role_id);
+
 		return ResData.SUCCESS_OPER();
 	}
 	/**
@@ -57,7 +67,6 @@ public class RoleService extends BaseService {
 		db.execute(ins);
 		return ResData.SUCCESS_OPER();
 	}
-	
 	/**
 	 * @Description: 修改角色
 	 */
