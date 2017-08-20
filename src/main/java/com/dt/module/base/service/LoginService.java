@@ -43,9 +43,14 @@ public class LoginService extends BaseService {
 	 */
 	public ResData validLoginType(String value, String login_type, String user_type) {
 		ResData res = null;
+		
+		
+		
+		
 		if (ToolUtil.isOneEmpty(value, login_type, user_type)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
+
 		if (login_type.equals(LOGIN_TYPE_EMPL) || login_type.equals(LOGIN_TYPE_USERNAME)
 				|| login_type.equals(LOGIN_TYPE_MOBILE_CODE)) {
 			res = ResData.SUCCESS_OPER();
@@ -73,12 +78,14 @@ public class LoginService extends BaseService {
 	}
 	/**
 	 * @Description:将所有登录方式转换成系统user_id的登录形式,如果可以登录,则返回一组用户数据
+	 * login_type 如果是empl或username忽略user_type类型，因为empl和username全局唯一
 	 */
-	public ResData getLoginValid(String value, String login_type, String user_type) {
+	public ResData validLogin(String value, String login_type, String user_type) {
 		ResData validLogin = validLoginType(value, login_type, user_type);
 		if (validLogin.isFailed()) {
 			return validLogin;
 		}
+		
 		String user_id = "";
 		if (login_type.equals(LOGIN_TYPE_EMPL)) {
 			user_id = userService.getUserIdFromEmpl(value);
@@ -115,6 +122,7 @@ public class LoginService extends BaseService {
 		if (ToolUtil.isEmpty(resObj)) {
 			return ResData.FAILURE_NODATA();
 		} else {
+			System.out.println("user_id"+resObj.toJSONString());
 			return ResData.SUCCESS_OPER(resObj);
 		}
 	}

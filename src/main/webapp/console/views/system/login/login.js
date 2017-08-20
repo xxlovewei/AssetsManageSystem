@@ -3,23 +3,27 @@ function sysLoginCtl($rootScope, $scope, $log, $http, userService, $state,
 
 	$scope.user = {
 		user : "admin",
-		pwd : "admin"
+		pwd : "admin",
+		type:"username"
 	};
 	$scope.login = function(e) {
 		if (e == "A") {
 			$scope.user = {
 				user : "admin",
-				pwd : "admin"
+				pwd : "admin",
+				type:"username"
 			};
 		} else if (e == "D") {
 			$scope.user = {
 				user : "dev",
-				pwd : "12"
+				pwd : "12",
+				type:"username"
 			};
 		} else if (e == "N") {
 			$scope.user = {
 				user : "juck",
-				pwd : "0"
+				pwd : "0",
+				type:"username"
 			};
 		}
 

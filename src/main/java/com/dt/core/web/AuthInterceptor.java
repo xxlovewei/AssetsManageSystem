@@ -25,9 +25,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		String token =TokenUtil.getRequestToken(req);
 		System.out.println("AutoInterceptor:" + url + "," + token+",auth:"+ShiroKit.isAuthenticated());
   
-		if(true){
-			return true;
-		}
+//		if(true){
+//			return true;
+//		}
 	
 		// 没有登录
 		if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
