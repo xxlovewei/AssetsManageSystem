@@ -198,9 +198,108 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 			}
 		}
 	});
-	
- 
- 
+
+	//权限管理
+	$stateProvider.state('privilige', {
+		url : "/privilige",
+		templateUrl : "views/common/content.html"
+	}).state('privilige.role', {
+		url : "/role",
+		abstract : true,
+		templateUrl : "views/common/c.html"
+	}).state('privilige.role.role_setting', {
+		url : "/role_setting",
+		templateUrl : "views/system/role/role_setting.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/role/role_setting.js' ]
+				} ]);
+			}
+		}
+	}).state('privilige.role.role_module_map', {
+		url : "/role_module_map",
+		templateUrl : "views/system/role/role_module_map.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/role/role_module_map.js' ]
+				} ]);
+			}
+		}
+	}).state('privilige.user', {
+		url : "/user",
+		abstract : true,
+		templateUrl : "views/common/c.html"
+	}).state('privilige.user.user_qurey', {
+		url : "/user_qurey",
+		templateUrl : "views/system/user/user_query.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/user/user_query.js' ]
+				} ]);
+			}
+		}
+	}).state(
+			'privilige.user.user_setting',
+			{
+				url : "/user_setting",
+				templateUrl : "views/system/user/user_setting.html",
+				resolve : {
+					loadPlugin : function($ocLazyLoad) {
+						return $ocLazyLoad.load([
+								{
+									name : 'frapontillo.bootstrap-duallistbox',
+									files : [ 'css/plugins/dualListbox/bootstrap-duallistbox.min.css', 'js/plugins/dualListbox/jquery.bootstrap-duallistbox.js',
+											'js/plugins/dualListbox/angular-bootstrap-duallistbox.js' ]
+								}, {
+									serie : true,
+									files : [ 'views/system/user/user_setting.js' ]
+								} ]);
+					}
+				}
+			}).state('privilige.user.user_add', {
+		url : "/user_add",
+		templateUrl : "views/system/user/user_add.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/user/user_add.js' ]
+				} ]);
+			}
+		}
+	}).state('privilige.user.usergroup_mgr', {
+		url : "/usergroup_mgr",
+		templateUrl : "views/system/user/group_setting.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/user/group_setting.js' ]
+				} ]);
+			}
+		}
+	}).state('privilige.module', {
+		url : "/module",
+		abstract : true,
+		templateUrl : "views/common/c.html"
+	}).state('privilige.module.menu_mgr', {
+		url : "/menu_mgr",
+		templateUrl : "views/system/menu/menu.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/menu/menu.js' ]
+				} ]);
+			}
+		}
+	});
 
 	// 系统设置
 	$stateProvider.state('system', {
@@ -230,8 +329,7 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 				} ]);
 			}
 		}
-	})
-	.state('system.mon_druid', {
+	}).state('system.mon_druid', {
 		url : "/mon_druid",
 		templateUrl : "views/system/mon/druid.html",
 		resolve : {
@@ -239,128 +337,6 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 				return $ocLazyLoad.load([ {
 					serie : true,
 					files : [ 'views/system/mon/druid.js' ]
-				} ]);
-			}
-		}
-	}).state('system.role', {
-		url : "/role",
-		abstract : true,
-		templateUrl : "views/common/c.html"
-	}).state('system.role.role_query', {
-		url : "/role_query",
-		templateUrl : "views/system/role/role_query.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/role/role_query.js' ]
-				} ]);
-			}
-		}
-	}).state('system.role.role_setting', {
-		url : "/role_setting",
-		templateUrl : "views/system/role/role_setting.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/role/role_setting.js' ]
-				} ]);
-			}
-		}
-	}).state('system.role.role_module_map', {
-		url : "/role_module_map",
-		templateUrl : "views/system/role/role_module_map.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/role/role_module_map.js' ]
-				} ]);
-			}
-		}
-	}).state('system.module', {
-		url : "/module",
-		abstract : true,
-		templateUrl : "views/common/c.html"
-	}).state('system.module.module_info', {
-		url : "/module_info",
-		templateUrl : "views/system/module/module_query.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/module/module_query.js' ]
-				} ]);
-			}
-		}
-	}).state('system.module.module_setting', {
-		url : "/module_setting",
-		templateUrl : "views/system/module/module_setting.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/module/module_setting.js' ]
-				} ]);
-			}
-		}
-	}).state('system.user', {
-		url : "/user",
-		abstract : true,
-		templateUrl : "views/common/c.html"
-	}).state('system.user.user_qurey', {
-		url : "/user_qurey",
-		templateUrl : "views/system/user/user_query.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/user/user_query.js' ]
-				} ]);
-			}
-		}
-	}).state(
-			'system.user.user_setting',
-			{
-				url : "/user_setting",
-				templateUrl : "views/system/user/user_setting.html",
-				resolve : {
-					loadPlugin : function($ocLazyLoad) {
-						return $ocLazyLoad.load([
-								{
-									name : 'frapontillo.bootstrap-duallistbox',
-									files : [ 'css/plugins/dualListbox/bootstrap-duallistbox.min.css', 'js/plugins/dualListbox/jquery.bootstrap-duallistbox.js',
-											'js/plugins/dualListbox/angular-bootstrap-duallistbox.js' ]
-								}, {
-									serie : true,
-									files : [ 'views/system/user/user_setting.js' ]
-								} ]);
-					}
-				}
-			}).state('system.user.user_add', {
-		url : "/user_add",
-		templateUrl : "views/system/user/user_add.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/user/user_add.js' ]
-				} ]);
-			}
-		}
-	}).state('system.menu', {
-		url : "/menu",
-		abstract : true,
-		templateUrl : "views/common/c.html"
-	}).state('system.menu.menu_mgr', {
-		url : "/menu_mgr",
-		templateUrl : "views/system/menu/menu.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/menu/menu.js' ]
 				} ]);
 			}
 		}
@@ -379,9 +355,7 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 				} ]);
 			}
 		}
-	}).
-
-	state('system.base', {
+	}).state('system.base', {
 		url : "/base",
 		abstract : true,
 		templateUrl : "views/common/c.html"
@@ -418,18 +392,7 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 				} ]);
 			}
 		}
-	}).state('system.usergroup_mgr', {
-		url : "/usergroup_mgr",
-		templateUrl : "views/system/user/group_setting.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/user/group_setting.js' ]
-				} ]);
-			}
-		}
-	})
+	});
 
 	// 组织架构
 	$stateProvider.state('org', {
@@ -552,7 +515,7 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 				} ]);
 			}
 		}
-	})
+	});
 
 	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 	// cookies
