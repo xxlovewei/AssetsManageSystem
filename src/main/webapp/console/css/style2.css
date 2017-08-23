@@ -1,3 +1,14 @@
+
+
+.nav-lank li a:hover,
+.sidebar-nav .metismenu a:focus,
+.sidebar-nav .metismenu a:active {
+    color: #f8f9fa;
+    text-decoration: none;
+    background: #0b7285;
+}
+
+
 /* @import
 	url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700")
 	;

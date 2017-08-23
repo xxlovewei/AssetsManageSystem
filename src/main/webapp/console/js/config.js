@@ -28,10 +28,8 @@ app.factory('sessionInjector', [
 				// 打印每个请求
 				// 每个请求添加token
 				// $log.warn(config);
-
 				// X-Requested-With,将所有请求标记为ajax请求
 				config.headers['X-Requested-With'] = "XMLHttpRequest"
-
 				var userService = $injector.get('userService');
 				var tokenstr = userService.getToken();
 				// $log.warn("set req token:" + tokenstr);
@@ -50,7 +48,6 @@ app.factory('sessionInjector', [
 					$log.warn("res post:", responseObject.config.data);
 					$log.warn("res data:", responseObject.data);
 				}
-
 				// 授权验证
 				if (responseObject.status == "299") {
 					var state = $injector.get('$state');
@@ -60,13 +57,11 @@ app.factory('sessionInjector', [
 				}
 				return responseObject;
 			}
-
 			sessionInjector.requestError = function(rejectReason) {
 				var deferred = $q.defer();
 				$log.warn("myInterceptor.requestError : " + responseObject);
 				return deferred.promise;
 			};
-
 			sessionInjector.responseError = function(responseError) {
 				$log.warn("sessionInjector,responseError", responseError);
 				var notify = $injector.get('notify');
@@ -75,7 +70,6 @@ app.factory('sessionInjector', [
 				});
 				return responseError;
 			};
-
 			return sessionInjector;
 		} ]);
 
@@ -96,13 +90,12 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 	// Configure Idle settings
 	IdleProvider.idle(5); // in seconds
 	IdleProvider.timeout(120); // in seconds
-
 	$urlRouterProvider.otherwise("/show_content");
 
 	$ocLazyLoadProvider.config({
 		// Set to true if you want to see what and when is dynamically
 		// loaded
-		debug : false
+		debug : true
 	});
 
 	// 登录
@@ -199,7 +192,7 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 		}
 	});
 
-	//权限管理
+	// 权限管理
 	$stateProvider.state('privilige', {
 		url : "/privilige",
 		templateUrl : "views/common/content.html"
@@ -399,7 +392,6 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 		abstract : true,
 		url : "/org",
 		templateUrl : "views/common/content.html"
-
 	}).state('org.employee', {
 		url : "/org_employee",
 		templateUrl : "views/org/employee.html",
@@ -567,11 +559,11 @@ app.config(config).run(function($rootScope, $state, $http, $log) {
 	})
 
 	$rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
-		// 预留后期修改
 		$log.warn("$stateChangeError");
 	})
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 		// 所有的路由切换都去检查用户是否登录,放置后台设置acl开发范围时能访问部分route指向都网页
+		$log.warn("$stateChangeStart");
 		$http.post($rootScope.project + "/user/checkLogin.do", {}).success(function(res) {
 			if (!res.success) {
 				// 阻止事件的完成
