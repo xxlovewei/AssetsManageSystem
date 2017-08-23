@@ -15,7 +15,7 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 	// 退出登录
 	$scope.logout = function() {
 		userService.loginout().then(function(result) {
-			console.log("userService logout result", result)
+			$log.warn("userService logout result", result)
 			if (result.success) {
 				$state.go("login");
 			}

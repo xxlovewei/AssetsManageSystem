@@ -545,40 +545,39 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 
 }
 
-app.config(config).run(function($rootScope, $state, $http, $log) {
-	$rootScope.$state = $state;
-	$rootScope.project = '/dt/';
-	$rootScope.$on('$stateNotFound', function(event, unfoundState, fromState, fromParams) {
+app.config(config).run(function($rootScope, $state, $http, $log, $transitions) {
+
+	// 替换了之前的$stateNotFound
+	$state.onInvalid(function(to, from, injector) {
+		$log.warn(to);
+		$log.warn(from);
+		$log.warn(injector);
 		alert("未配置路由");
-		$log.warn("fromState" + angular.toJson(fromState));
-		$log.warn("fromParams" + angular.toJson(fromParams));
-		$log.warn("unfoundState to" + unfoundState.to);
-		$log.warn("unfoundState toParams" + angular.toJson(unfoundState.toParams));
-		$log.warn("unfoundState option", unfoundState);
-
-	})
-
-	$rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
-		$log.warn("$stateChangeError");
-	})
-	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-		// 所有的路由切换都去检查用户是否登录,放置后台设置acl开发范围时能访问部分route指向都网页
-		$log.warn("$stateChangeStart");
-		$http.post($rootScope.project + "/user/checkLogin.do", {}).success(function(res) {
-			if (!res.success) {
-				// 阻止事件的完成
+	});
+	// 替换了之前的$stateChangeStart
+	$transitions.onStart({
+		to : '**'
+	}, function(trans) {
+		var $state = trans.router.stateService;
+		var userService = trans.injector().get('userService');
+		userService.checklogin().then(function(result) {
+			$log.warn("check login result:", result)
+			if (!result.success) {
 				event.preventDefault();
+				return $state.go("login");
 			}
+		}, function(error) {
+			alert('系统错误');
+			event.preventDefault();
+		}, function(progress) {
 		})
 	});
 
-	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-		// 预留后期修改
-		$log.warn("$stateChangeSuccess");
-
-	})
+	$rootScope.$state = $state;
+	$rootScope.project = '/dt/';
 
 });
+ 
 
 // datatable中文配置
 app.factory('DTLang', function() {
