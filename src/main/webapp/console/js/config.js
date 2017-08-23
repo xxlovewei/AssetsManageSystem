@@ -6,17 +6,8 @@
  * 
  */
 
-var app = angular.module('inspinia', [ 'ui.router', // Routing
-'oc.lazyLoad', // ocLazyLoad
-'ui.bootstrap', // Ui
-// Bootstrap
-'pascalprecht.translate', // Angular
-// Translate
-'ngIdle', // Idle
-'ngJsTree', 'ngSanitize', // ngSanitize
-'localytics.directives',// chosen
-'treeGrid', 'cgNotify', 'angular-confirm', 'datatables', 'datatables.select', 'datatables.buttons',// datatable
-'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor' ])
+var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad', 'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree', 'ngSanitize', 'localytics.directives',
+		'treeGrid', 'cgNotify', 'angular-confirm', 'datatables', 'datatables.select', 'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor' ])
 
 var $injector = angular.injector();
 app.factory('sessionInjector', [
@@ -40,7 +31,6 @@ app.factory('sessionInjector', [
 			}
 
 			sessionInjector.response = function(responseObject) {
-				// 打印每个返回
 				// 输出调试信息
 				if (angular.isDefined(responseObject.config) && angular.isDefined(responseObject.config.data) && angular.isDefined(responseObject.config.url)
 						&& angular.isDefined(responseObject.data)) {
@@ -76,7 +66,7 @@ app.factory('sessionInjector', [
 function config($locationProvider, $controllerProvider, $compileProvider, $stateProvider, $filterProvider, $provide, $urlRouterProvider, $ocLazyLoadProvider, IdleProvider,
 		KeepaliveProvider, $httpProvider) {
 
-	// 注入拦截
+	// 拦截请求
 	$httpProvider.interceptors.push('sessionInjector');
 
 	app.register = {
@@ -88,14 +78,12 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 	};
 
 	// Configure Idle settings
-	IdleProvider.idle(5); // in seconds
-	IdleProvider.timeout(120); // in seconds
+	IdleProvider.idle(50); // in seconds
+	IdleProvider.timeout(240); // in seconds
 	$urlRouterProvider.otherwise("/show_content");
 
 	$ocLazyLoadProvider.config({
-		// Set to true if you want to see what and when is dynamically
-		// loaded
-		debug : true
+		debug : false
 	});
 
 	// 登录
@@ -129,6 +117,7 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 			}
 		}
 	});
+
 	// 默认页面需要做检查
 	$stateProvider.state('content', {
 		url : "/show_content",
@@ -577,7 +566,6 @@ app.config(config).run(function($rootScope, $state, $http, $log, $transitions) {
 	$rootScope.project = '/dt/';
 
 });
- 
 
 // datatable中文配置
 app.factory('DTLang', function() {
