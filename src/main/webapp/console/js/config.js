@@ -23,9 +23,9 @@ app.factory('sessionInjector', [
 				// 输出调试信息
 				if (angular.isDefined(responseObject.config) && angular.isDefined(responseObject.config.data) && angular.isDefined(responseObject.config.url)
 						&& angular.isDefined(responseObject.data)) {
-					$log.warn("res url:", responseObject.config.url);
-					$log.warn("res post:", responseObject.config.data);
-					$log.warn("res data:", responseObject.data);
+					$log.warn("$http|res url:", responseObject.config.url);
+					$log.warn("$http|res post:", responseObject.config.data);
+					$log.warn("$http|res data:", responseObject.data);
 				}
 
 				// 授权验证
@@ -115,15 +115,7 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 	// 默认页面需要做检查
 	$stateProvider.state('content', {
 		url : "/show_content",
-		templateUrl : "views/common/content.html",
-		resolve : {
-			check : function($http, $rootScope) {
-				$http.post($rootScope.project + "/user/checkLogin.do", {}).success(function(res) {
-					console.log("ccc");
-				})
-				return "idle";
-			}
-		}
+		templateUrl : "views/common/content.html"
 	})
 
 	// 内容管理
@@ -541,7 +533,7 @@ app.config(config).run(function($rootScope, $state, $http, $log, $transitions) {
 	$transitions.onStart({
 		to : '**'
 	}, function(trans) {
-		console.log(trans);
+		 
 		var $state = trans.router.stateService;
 		var userService = trans.injector().get('userService');
 		var from_arr = trans._treeChanges.from;
@@ -549,14 +541,19 @@ app.config(config).run(function($rootScope, $state, $http, $log, $transitions) {
 		if (from_arr.length > 0) {
 			from = from_arr[from_arr.length - 1].state.name;
 		}
+
 		$log.warn("from:", from);
+		// 不需要检查是否登录
+
 		userService.checklogin().then(function(result) {
-			$log.warn("check login result:", result)
+			$log.warn("check login result,from:" + from + ",result:", result)
 			if (!result.success) {
+				if (from != "login") {
+					$state.go("login", {
+						to : from
+					});
+				}
 				event.preventDefault();
-				return $state.go("login", {
-					to : from
-				});
 			}
 		}, function(error) {
 			alert('系统错误');

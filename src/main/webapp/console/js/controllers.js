@@ -4,14 +4,6 @@
  */
 function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userService) {
 
-	$scope.menuLogoIsExist = function(logo) {
-		if (angular.isDefined(logo) && logo != "") {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	// 退出登录
 	$scope.logout = function() {
 		userService.loginout().then(function(result) {
@@ -25,68 +17,56 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 
 	}
 
-	// 处理左边菜单
+	//处理菜单的logo函数
+	$scope.menuLogoIsExist = function(logo) {
+		if (angular.isDefined(logo) && logo != "") {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	// 监听左边菜单数据
 	$scope.$watch(function() {
 		return $rootScope.dt_sys_menus;
 	}, function() {
-		$log.warn("watch $rootScope.dt_sys_menus change,load from $rootScope", $rootScope.dt_sys_menus);
-		if (angular.isDefined($rootScope.dt_sys_menus)) {
+		$log.warn("watch $rootScope.dt_sys_menus change,load from this,again.", $rootScope.dt_sys_menus);
+		if (angular.isDefined($rootScope.dt_sys_menus) && $rootScope.dt_sys_menus != null) {
 			$scope.menu = $rootScope.dt_sys_menus;
-			$state.go($state.current, '', {
+			$state.go($state.current, null, {
 				reload : true
 			});
 		}
 	}, true);
 
-	// 从localstorage中获取最新菜单,每次登录将会重置
+	// 页面刷新
 	var dt_sys_menu = $localStorage.get("dt_sys_menus");
 	if (angular.isDefined(dt_sys_menu)) {
-		$log.warn("fresh load menus from localstorage");
+		$log.warn("dt_sys_menu load from localstorage");
 		$scope.menu = dt_sys_menu;
 		fixnav();
 	}
 
-	// 用户信息
+	// 监听用户数据
 	$scope.$watch(function() {
 		return $rootScope.dt_sys_user_info;
 	}, function() {
-		if (angular.isDefined($rootScope.dt_sys_user_info)) {
-			$log.warn("user info from mem");
+		$log.warn("watch $rootScope.dt_sys_user_info change,load from this,again.", $rootScope.dt_sys_user_info);
+		if (angular.isDefined($rootScope.dt_sys_user_info) && $rootScope.dt_sys_user_info != null) {
 			$scope.sys_user_info = $rootScope.dt_sys_user_info
 		}
 	}, true);
 
+	// 页面刷新
 	var sys_user_info = $localStorage.get("dt_sys_user_info")
 	if (angular.isDefined(sys_user_info)) {
-		$log.warn("user info from Local");
+		$log.warn("user_info from localstorage");
 		$scope.sys_user_info = sys_user_info;
 	}
 
-	$scope.exampleshow = false;
-
 	// 固定左边导航
 	function fixnav() {
-		// $("body").addClass('fixed-sidebar');
-		// $('.sidebar-collapse').slimScroll({
-		// height : '100%',
-		// railOpacity : 0.9
-		// });
-		// // if ($('#fixedsidebar').is(':checked')) {
-		// // $("body").addClass('fixed-sidebar');
-		// // $('.sidebar-collapse').slimScroll({
-		// // height : '100%',
-		// // railOpacity : 0.9
-		// // });
-		// // } else {
-		// // $('.sidebar-collapse').slimscroll({
-		// // destroy : true
-		// // });
-		// // $('.sidebar-collapse').attr('style', '');
-		// // $("body").removeClass('fixed-sidebar');
-		// // }
 	}
 	fixnav();
 
 };
-// app.register.controller('MainCtrl', MainCtrl);
 angular.module('inspinia').controller('MainCtrl', MainCtrl);

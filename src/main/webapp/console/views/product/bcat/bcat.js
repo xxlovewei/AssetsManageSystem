@@ -826,7 +826,7 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 
 	}
 	$scope.readyCB = function() {
-		console.log('readyCB');
+		 
 		$scope.tree = $scope.treeInstance.jstree(true)
 		// 展开所有节点
 		$scope.tree.open_all();

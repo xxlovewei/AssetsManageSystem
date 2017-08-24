@@ -1,7 +1,6 @@
-function sysLoginCtl($rootScope, $scope, $log, $http, userService, $state, $localStorage, notify, $stateParams) {
+function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService, $state, $localStorage, notify, $stateParams) {
 
 	var to = $stateParams.to;
-	console.log($state);
 	$log.warn("login to:", to);
 	$scope.user = {
 		user : "admin",
@@ -45,21 +44,19 @@ function sysLoginCtl($rootScope, $scope, $log, $http, userService, $state, $loca
 		userService.login($scope.user).then(function(result) {
 			$log.warn("userService result", result)
 			if (result.success) {
-				if (angular.isDefined(to) && to != null && to != 'login') {
-					$log.warn("end:" + to);
-					$state.go(to);
-				} else {
-					$state.go("content");
-				}
+				$timeout(function() {
+					if (angular.isDefined(to) && to != null && to != 'login') {
+						$log.warn("end:" + to);
+						$state.go(to);
+					} else {
+						$state.go("content");
+					}
+				}, 500)
 			} else {
 				notify({
 					message : result.message
 				});
 			}
-		}, function(error) {
-
-		}, function(progress) {
-
 		})
 
 	}
