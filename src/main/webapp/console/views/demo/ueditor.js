@@ -1,5 +1,8 @@
-function demoEditorCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
+function demoEditorCtl($state,DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+	$scope.goto2=function(){
+		$state.go("login",{to:223});
+	}
 	$scope._simpleConfig = {
 		//这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
 			 toolbars: [[

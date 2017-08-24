@@ -17,7 +17,7 @@ function getTree(data, primaryIdName, parentIdName) {
 
 	while (i < len) {
 		item = data[i++];
-		// console.log(item);
+		 
 		primaryKey = item[primaryIdName];
 		treeObjs[primaryKey] = item;
 		parentId = item[parentIdName];

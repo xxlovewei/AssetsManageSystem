@@ -1,5 +1,8 @@
-function sysLoginCtl($rootScope, $scope, $log, $http, userService, $state, $localStorage, notify) {
+function sysLoginCtl($rootScope, $scope, $log, $http, userService, $state, $localStorage, notify, $stateParams) {
 
+	var to = $stateParams.to;
+	console.log($state);
+	$log.warn("login to:", to);
 	$scope.user = {
 		user : "admin",
 		pwd : "admin",
@@ -40,27 +43,14 @@ function sysLoginCtl($rootScope, $scope, $log, $http, userService, $state, $loca
 		}
 
 		userService.login($scope.user).then(function(result) {
-			console.log("userService result", result)
+			$log.warn("userService result", result)
 			if (result.success) {
-				// 登录成功
-				var cmd = "/user/getUserMenus.do"
-				// var cmd="/menu/treeMenus.do"
-				var ps = {};
-				ps.user_id = result.data.user_info.USER_ID;
-				// 获取树
-				$http.post($rootScope.project + cmd, ps).success(function(res) {
-					if (res.success) {
-						$log.warn("###load menus from http######");
-						$rootScope.dt_sys_menus = res.data;
-						$localStorage.put('dt_sys_menus', res.data);
-						$state.go("content");
-					} else {
-						notify({
-							message : result.message
-						});
-					}
-				})
-
+				if (angular.isDefined(to) && to != null && to != 'login') {
+					$log.warn("end:" + to);
+					$state.go(to);
+				} else {
+					$state.go("content");
+				}
 			} else {
 				notify({
 					message : result.message

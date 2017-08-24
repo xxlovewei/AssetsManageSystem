@@ -166,7 +166,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 	}
 	$scope.readyCB = function() {
-		console.log('readyCB');
+		 
 		$scope.tree = $scope.treeInstance.jstree(true)
 		// 展开所有节点
 		$scope.tree.open_all();
@@ -200,12 +200,12 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 	}
 	$scope.cc = function() {
-		console.log('cc')
+		 
 
 	}
 
 	$scope.createCB = function(e, item) {
-		console.log('createCB');
+		 
 	};
 
 	$scope.query = function treeInstance() {

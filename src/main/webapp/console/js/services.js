@@ -7,7 +7,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 				if (res.success) {
 					$rootScope.dt_app_token = ""
 					$localStorage.put('dt_app_token', "");
-				}
+				} 
 				deferred.resolve(res);
 			})
 			return deferred.promise;
@@ -25,6 +25,16 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 						// 用户信息
 						$rootScope.dt_sys_user_info = res.data.user_info;
 						$localStorage.put('dt_sys_user_info', res.data.user_info);
+						var ps={};
+						ps.user_id = res.data.user_info.USER_ID;
+						$http.post($rootScope.project + "/user/getUserMenus.do", ps).success(function(rs) {
+							if (rs.success) {
+								$log.warn("###load menus from http######");
+								$rootScope.dt_sys_menus = rs.data;
+								$localStorage.put('dt_sys_menus', rs.data);
+							}  
+							deferred.resolve(rs);
+						})
 					} else {
 						$log.warn("返回不存在token");
 					}

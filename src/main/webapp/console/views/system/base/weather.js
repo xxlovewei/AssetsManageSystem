@@ -24,12 +24,12 @@ function prodCtl($uibModal, $log, $rootScope, $scope, DTLang, DTOptionsBuilder,
 	};
 
 	$scope.ok = function() {
-		console.log(getUuid());
+	
 		id=getUuid();
 		$scope.myDropzone.options.url = $rootScope.project
 				+ 'file/fileupload.do?bus=prodimgs&uuid=' + id
 				+ '&type=image&interval=10000';
-		console.log($scope.myDropzone.uploadFile($scope.myDropzone.files[0]));
+		$scope.myDropzone.uploadFile($scope.myDropzone.files[0]);
 	}
 
 }

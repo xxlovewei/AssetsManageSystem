@@ -1,11 +1,3 @@
-/**
- * INSPINIA - Responsive Admin Theme
- * 
- * Inspinia theme use AngularUI Router to manage routing and views Each view are
- * defined as state. Initial there are written state for all view in theme.
- * 
- */
-
 var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad', 'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree', 'ngSanitize', 'localytics.directives',
 		'treeGrid', 'cgNotify', 'angular-confirm', 'datatables', 'datatables.select', 'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor' ])
 
@@ -16,14 +8,11 @@ app.factory('sessionInjector', [
 		function($log, $injector) {
 			var sessionInjector = {};
 			sessionInjector.request = function(config) {
-				// 打印每个请求
 				// 每个请求添加token
-				// $log.warn(config);
 				// X-Requested-With,将所有请求标记为ajax请求
 				config.headers['X-Requested-With'] = "XMLHttpRequest"
 				var userService = $injector.get('userService');
 				var tokenstr = userService.getToken();
-				// $log.warn("set req token:" + tokenstr);
 				if (angular.isDefined(tokenstr) && tokenstr.length > 5) {
 					config.headers['dt-token'] = tokenstr;
 				}
@@ -38,6 +27,7 @@ app.factory('sessionInjector', [
 					$log.warn("res post:", responseObject.config.data);
 					$log.warn("res data:", responseObject.data);
 				}
+
 				// 授权验证
 				if (responseObject.status == "299") {
 					var state = $injector.get('$state');
@@ -89,7 +79,11 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 	// 登录
 	$stateProvider.state('login', {
 		url : "/login",
+		transclude : true,
 		templateUrl : "views/system/login/login.html",
+		params : {
+			to : null
+		},
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -125,6 +119,7 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 		resolve : {
 			check : function($http, $rootScope) {
 				$http.post($rootScope.project + "/user/checkLogin.do", {}).success(function(res) {
+					console.log("ccc");
 				})
 				return "idle";
 			}
@@ -533,9 +528,8 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 	} ];
 
 }
-
+// app.run($trace => $trace.enable());
 app.config(config).run(function($rootScope, $state, $http, $log, $transitions) {
-
 	// 替换了之前的$stateNotFound
 	$state.onInvalid(function(to, from, injector) {
 		$log.warn(to);
@@ -547,13 +541,22 @@ app.config(config).run(function($rootScope, $state, $http, $log, $transitions) {
 	$transitions.onStart({
 		to : '**'
 	}, function(trans) {
+		console.log(trans);
 		var $state = trans.router.stateService;
 		var userService = trans.injector().get('userService');
+		var from_arr = trans._treeChanges.from;
+		var from = null;
+		if (from_arr.length > 0) {
+			from = from_arr[from_arr.length - 1].state.name;
+		}
+		$log.warn("from:", from);
 		userService.checklogin().then(function(result) {
 			$log.warn("check login result:", result)
 			if (!result.success) {
 				event.preventDefault();
-				return $state.go("login");
+				return $state.go("login", {
+					to : from
+				});
 			}
 		}, function(error) {
 			alert('系统错误');
@@ -561,11 +564,11 @@ app.config(config).run(function($rootScope, $state, $http, $log, $transitions) {
 		}, function(progress) {
 		})
 	});
-
 	$rootScope.$state = $state;
 	$rootScope.project = '/dt/';
 
 });
+//
 
 // datatable中文配置
 app.factory('DTLang', function() {
@@ -594,4 +597,4 @@ app.factory('DTLang', function() {
 		}
 
 	}
-})
+});

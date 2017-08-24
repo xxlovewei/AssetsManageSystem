@@ -228,7 +228,7 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		var data = $scope.dtInstance.DataTable.rows({
 			selected : true
 		})[0];
-		console.log("select data", data.length);
+		
 		
 		$confirm({
 			text : '是否删除功能?'
