@@ -49,6 +49,8 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			}).withLanguage(DTLang);
+ 		 
+	console.log($scope.dtOptions);	 
 	$scope.dtInstance = {}
 	$scope.reloadData = reloadData;
 	function reloadData() {
