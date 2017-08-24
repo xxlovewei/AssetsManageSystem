@@ -185,10 +185,10 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 	$scope.dtColumns = [ DTColumnBuilder.newColumn(null).withTitle('').withClass('select-checkbox').renderWith(function() {
 		return '';
 	}), DTColumnBuilder.newColumn('EMPL_ID').withTitle('员工编号').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('USER_NAME').withTitle('登录名').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('TEL').withTitle('手机号').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('USER_TYPE').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
+	DTColumnBuilder.newColumn('USER_NAME').withTitle('登录名').withOption('sDefaultContent', ''),
+	DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption('sDefaultContent', ''),
+	DTColumnBuilder.newColumn('TEL').withTitle('手机号').withOption('sDefaultContent', ''),
+	DTColumnBuilder.newColumn('USER_TYPE').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('USER_ID').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus) ]
 
 	console.log($scope.dtColumns);
