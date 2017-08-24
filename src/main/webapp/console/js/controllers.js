@@ -41,7 +41,7 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 	// 页面刷新
 	var dt_sys_menu = $localStorage.get("dt_sys_menus");
 	if (angular.isDefined(dt_sys_menu)) {
-		$log.warn("dt_sys_menu load from localstorage");
+		$log.warn("dt_sys_menu load from localstorage",dt_sys_menu);
 		$scope.menu = dt_sys_menu;
 		fixnav();
 	}
@@ -59,7 +59,7 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 	// 页面刷新
 	var sys_user_info = $localStorage.get("dt_sys_user_info")
 	if (angular.isDefined(sys_user_info)) {
-		$log.warn("user_info from localstorage");
+		$log.warn("user_info from localstorage",sys_user_info);
 		$scope.sys_user_info = sys_user_info;
 	}
 
