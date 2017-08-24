@@ -93,8 +93,8 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 
 	DTColumnBuilder.newColumn('ID').withTitle('主图').withOption('sDefaultContent', '').renderWith(renderMImage),
 			DTColumnBuilder.newColumn('TITLE').withTitle('标题').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('CREATETIME').withTitle('创建时间').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('HITS').withTitle('点击量').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('CREATETIME').withTitle('创建时间').withOption('sDefaultContent', '').withClass('none'),
+			DTColumnBuilder.newColumn('HITS').withTitle('点击量').withOption('sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('URLTYPE').withTitle('链接类型').withOption('sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('USER_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
