@@ -72,7 +72,7 @@ function config(cfpLoadingBarProvider, $locationProvider, $controllerProvider, $
 	IdleProvider.idle(5); // in seconds
 	IdleProvider.timeout(5); // in seconds
 	KeepaliveProvider.interval(2);
-	$urlRouterProvider.otherwise("/show_content");
+	$urlRouterProvider.otherwise("/login");
 
 	$ocLazyLoadProvider.config({
 		debug : false
@@ -87,6 +87,17 @@ function config(cfpLoadingBarProvider, $locationProvider, $controllerProvider, $
 			to : null
 		},
 		resolve : {
+			check : function(userService, $log, $state) {
+				userService.checklogin().then(function(result) {
+					if (result.success) {
+						// 已经登录
+						$log.warn("Cofnig账户已经登录,马上跳转至content");
+						$state.go("content");
+					} else {
+
+					}
+				})
+			},
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,

@@ -56,7 +56,7 @@ h5 {
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {
-  background: #fff; 
+  background: #2F4050 ; 
 }
 .nav.navbar-top-links > li > a:hover,
 .nav.navbar-top-links > li > a:focus {
@@ -210,7 +210,7 @@ ul.nav-second-level {
   margin-bottom: 0;
 }
 .nav.navbar-top-links a {
-  font-size: 14px;
+  font-size: 13px;
 }
 .navbar-form-custom .form-control {
   background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -331,7 +331,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 }
 .navbar-fixed-top,
 .navbar-static-top {
-  background: #f3f3f4;
+  background: #293846;
 }
 .fixed-nav #wrapper {
   margin-top: 0;
