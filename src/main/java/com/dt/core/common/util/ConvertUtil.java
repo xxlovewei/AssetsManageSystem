@@ -21,7 +21,44 @@ public class ConvertUtil {
 	private ConvertUtil() {
 		// 静态类不可实例化
 	}
-	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// toJSONArrayFromString(arr, "id", ",");
+		
+		String str = "";
+		System.out.println(toStringFromJSONArray(str, "id", ",").toJSONString());
+	 
+	}
+	// 将jsonArray[{id:2},{id:1},{id:3}]-->2,1,3
+	public static String toJSONArrayFromString(JSONArray arr, String key, String split) {
+		String res = "";
+		if (ToolUtil.isOneEmpty(arr, key, split)) {
+			return res;
+		}
+		for (int i = 0; i < arr.size(); i++) {
+			JSONObject e = arr.getJSONObject(i);
+			if (e.containsKey(key)) {
+				res = res + split + e.getString(key);
+			}
+		}
+		res = res.replaceFirst(split, "");
+		System.out.println(res);
+		return res;
+	}
+	//将2,1,3->jsonArray[{id:2},{id:1},{id:3}]
+	public static JSONArray toStringFromJSONArray(String str, String key, String split) {
+		JSONArray res = new JSONArray();
+		if (ToolUtil.isOneEmpty(str, key, split)) {
+			return res;
+		}
+		String[] strarr = str.split(split);
+		for (int i = 0; i < strarr.length; i++) {
+			JSONObject e = new JSONObject();
+			e.put(key, strarr[i]);
+			res.add(e);
+		}
+		return res;
+	}
 	public static JSONObject OtherJSONObjectToFastJSONObject(Object value) {
 		if (value instanceof org.json.JSONObject) {
 			return JSONObject.parseObject(((org.json.JSONObject) (value)).toString());

@@ -53,9 +53,10 @@ app.factory('sessionInjector', [
 			return sessionInjector;
 		} ]);
 
-function config($locationProvider, $controllerProvider, $compileProvider, $stateProvider, $filterProvider, $provide, $urlRouterProvider, $ocLazyLoadProvider, IdleProvider,
-		KeepaliveProvider, $httpProvider) {
-
+function config(cfpLoadingBarProvider, $locationProvider, $controllerProvider, $compileProvider, $stateProvider, $filterProvider, $provide, $urlRouterProvider,
+		$ocLazyLoadProvider, IdleProvider, KeepaliveProvider, $httpProvider) {
+	// 圈圈延迟出现控制
+	cfpLoadingBarProvider.latencyThreshold = 1000;
 	// 拦截请求
 	$httpProvider.interceptors.push('sessionInjector');
 
@@ -67,9 +68,10 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 		service : $provide.service
 	};
 
-	// Configure Idle settings
-	IdleProvider.idle(50); // in seconds
-	IdleProvider.timeout(240); // in seconds
+	// 间隔interval秒,超时idle秒后，timeout秒未活动则退出
+	IdleProvider.idle(5); // in seconds
+	IdleProvider.timeout(5); // in seconds
+	KeepaliveProvider.interval(2);
 	$urlRouterProvider.otherwise("/show_content");
 
 	$ocLazyLoadProvider.config({
@@ -521,7 +523,10 @@ function config($locationProvider, $controllerProvider, $compileProvider, $state
 
 }
 // app.run($trace => $trace.enable());
-app.config(config).run(function($rootScope, $state, $http, $log, $transitions) {
+app.config(config).run(function(Idle, $rootScope, $state, $http, $log, $transitions) {
+	// start watching when the app runs. also starts the Keepalive service by
+	// default.
+	Idle.watch();
 	// 替换了之前的$stateNotFound
 	$state.onInvalid(function(to, from, injector) {
 		$log.warn(to);
@@ -533,7 +538,7 @@ app.config(config).run(function($rootScope, $state, $http, $log, $transitions) {
 	$transitions.onStart({
 		to : '**'
 	}, function(trans) {
-		 
+
 		var $state = trans.router.stateService;
 		var userService = trans.injector().get('userService');
 		var from_arr = trans._treeChanges.from;
@@ -563,6 +568,43 @@ app.config(config).run(function($rootScope, $state, $http, $log, $transitions) {
 	});
 	$rootScope.$state = $state;
 	$rootScope.project = '/dt/';
+
+	$rootScope.$on('IdleStart', function() {
+		$log.warn('IdleStart');
+		// the user appears to have gone idle
+	});
+
+	$rootScope.$on('IdleWarn', function(e, countdown) {
+		$log.warn('IdleWarne', e);
+		$log.warn('IdleWarncountdown', countdown);
+		if (countdown == 1) {
+			// 重新激活
+			Idle.watch();
+		}
+		// follows after the IdleStart event, but includes a countdown until the
+		// user is considered timed out
+		// the countdown arg is the number of seconds remaining until then.
+		// you can change the title or display a warning dialog from here.
+		// you can let them resume their session by calling Idle.watch()
+	});
+
+	$rootScope.$on('IdleTimeout', function() {
+		$log.warn('IdleTimeout');
+		// the user has timed out (meaning idleDuration + timeout has passed
+		// without any activity)
+		// this is where you'd log them
+	});
+
+	$rootScope.$on('IdleEnd', function() {
+		$log.warn('IdleEnd');
+		// the user has come back from AFK and is doing stuff. if you are
+		// warning them, you can use this to hide the dialog
+	});
+
+	$rootScope.$on('Keepalive', function() {
+		$log.warn('IdlKeepaliveeEnd');
+		// do something to keep the user's session alive
+	});
 
 });
 //
