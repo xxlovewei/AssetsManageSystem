@@ -101,7 +101,7 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 	// 页面刷新
 	var sys_user_info = $localStorage.get("dt_sys_user_info")
 	if (angular.isDefined(sys_user_info)) {
-		$log.warn("user_info from localstorage", sys_user_info);
+		$log.warn("user_info load from localstorage", sys_user_info);
 		$scope.sys_user_info = sys_user_info;
 	}
 
@@ -117,7 +117,7 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 	}, true);
 	var dt_systems = $localStorage.get("dt_systems")
 	if (angular.isDefined(dt_systems)) {
-		$log.warn("dt_systems from localstorage", dt_systems);
+		$log.warn("dt_systems load from localstorage", dt_systems);
 		$scope.dt_systems = dt_systems;
 	}
 	

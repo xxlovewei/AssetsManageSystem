@@ -1,3 +1,5 @@
+var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad', 'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree', 'ngSanitize', 'localytics.directives',
+		'treeGrid', 'cgNotify', 'angular-confirm', 'datatables', 'datatables.select', 'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor' ])
 var $injector = angular.injector();
 app.factory('sessionInjector', [
 		'$log',
@@ -53,11 +55,10 @@ app.factory('sessionInjector', [
 function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvider, $compileProvider, $stateProvider, $filterProvider, $provide, $urlRouterProvider,
 		$ocLazyLoadProvider, IdleProvider, KeepaliveProvider, $httpProvider) {
 	// 圈圈延迟出现控制
-	console.log("App Config_Main", app);
+	console.log("App main config");
 	cfpLoadingBarProvider.latencyThreshold = 1000;
 	// 拦截请求
 	$httpProvider.interceptors.push('sessionInjector');
-
 	app.register = {
 		controller : $controllerProvider.register,
 		directive : $compileProvider.directive,
@@ -65,19 +66,15 @@ function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvid
 		factory : $provide.factory,
 		service : $provide.service
 	};
-
 	// 间隔interval秒,超时idle秒后，timeout秒未活动则退出
 	IdleProvider.idle(5); // in seconds
 	IdleProvider.timeout(5); // in seconds
 	KeepaliveProvider.interval(2);
 	$urlRouterProvider.otherwise("/login");
-
 	$ocLazyLoadProvider.config({
 		debug : false
 	});
-
 	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-	// cookies
 	// $httpProvider.defaults.withCredentials = false;
 	var param = function(obj) {
 		var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
@@ -109,7 +106,6 @@ function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvid
 	$httpProvider.defaults.transformRequest = [ function(data) {
 		return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
 	} ];
-
 	// 登录
 	$stateProvider.state('login', {
 		url : "/login",
@@ -126,7 +122,6 @@ function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvid
 						$log.warn("Cofnig账户已经登录,马上跳转至content");
 						$state.go("content");
 					} else {
-
 					}
 				})
 			},
@@ -144,12 +139,10 @@ function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvid
 		url : "/show_content",
 		templateUrl : "views/common/content.html"
 	})
-
 }
 
 app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $transitions, $templateCache) {
-
-	console.log("App Main Run", app);
+	console.log("App main run");
 	// start watching when the app runs. also starts the Keepalive service by
 	Idle.watch();
 	// 替换了之前的$stateNotFound
@@ -164,7 +157,7 @@ app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $tra
 		to : '**'
 	}, function(trans) {
 		// 调试阶段去除缓存
-		$templateCache.removeAll();
+		// $templateCache.removeAll();
 		var $state = trans.router.stateService;
 		var userService = trans.injector().get('userService');
 		var from_arr = trans._treeChanges.from;
@@ -183,7 +176,6 @@ app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $tra
 						to : from
 					});
 				} else {
-
 				}
 			}
 		}, function(error) {
@@ -201,7 +193,6 @@ app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $tra
 	});
 
 	$rootScope.$on('IdleWarn', function(e, countdown) {
-		$log.warn('IdleWarne', e);
 		$log.warn('IdleWarncountdown', countdown);
 		if (countdown == 1) {
 			// 重新激活
@@ -234,7 +225,14 @@ app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $tra
 
 });
 
-// datatable中文配置
+app.config(config_shop).run(function() {
+	console.log("App Shop run");
+});
+
+app.config(config_system).run(function() {
+	console.log("App System run");
+});
+
 app.factory('DTLang', function() {
 	return {
 		processing : "处理中...",
@@ -259,6 +257,5 @@ app.factory('DTLang', function() {
 			sortAscending : ": 以升序排列此列",
 			sortDescending : ": 以降序排列此列"
 		}
-
 	}
 });
