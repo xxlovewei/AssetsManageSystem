@@ -44,7 +44,7 @@ public class ContentCategoryService extends BaseService {
 			sql = sql + " and ISACTION='" + ToolUtil.parseYNValueDefY(isAction) + "'";
 		}
 		sql = sql + " order by od";
-		return ResData.SUCCESS(db.query(sql, rootId).toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query(sql, rootId).toJsonArrayWithJsonObject());
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class ContentCategoryService extends BaseService {
 			sql = sql + " and ISACTION='" + ToolUtil.parseYNValueDefY(isAction) + "'";
 		}
 		sql = sql + " order by od";
-		return ResData.SUCCESS(db.query(sql, parentId).toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query(sql, parentId).toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description: 后端angular显示内容
@@ -84,7 +84,7 @@ public class ContentCategoryService extends BaseService {
 			e.put("parent", rs.getRcd(i).getString("parent_id"));
 			res.add(e);
 		}
-		return ResData.SUCCESS(res);
+		return ResData.SUCCESS_OPER(res);
 	}
 	/**
 	 * @Description:查询某个节点
@@ -101,7 +101,7 @@ public class ContentCategoryService extends BaseService {
 	 * @Description:查询所有数据
 	 */
 	public ResData queryCategory(String root) {
-		return ResData.SUCCESS(
+		return ResData.SUCCESS_OPER(
 				db.query("select * from CT_CATEGORY where deleted='N' and root=?", root).toJsonArrayWithJsonObject());
 	}
 	/**

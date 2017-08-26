@@ -155,7 +155,7 @@ public class EmplOrgService extends BaseService {
 		if (rs == null) {
 			return ResData.FAILURE("该节点不存在");
 		} else {
-			return ResData.SUCCESS(rs.toJsonObject());
+			return ResData.SUCCESS_OPER(rs.toJsonObject());
 		}
 	}
 	/**

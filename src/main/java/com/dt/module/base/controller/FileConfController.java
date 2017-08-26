@@ -28,7 +28,7 @@ public class FileConfController extends BaseController{
 	public ResData fileConfQuery(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		RcdSet rs=db.query("select * from SYS_FILE_CONF");
-		return ResData.SUCCESS(rs.toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 	
 	@RequestMapping("/fileConfQueryById.do")
@@ -38,7 +38,7 @@ public class FileConfController extends BaseController{
 
 		
 		Rcd rs=db.uniqueRecord("select * from SYS_FILE_CONF where id=?",request.getParameter("ID"));
-		return ResData.SUCCESS(rs.toJsonObject());
+		return ResData.SUCCESS_OPER(rs.toJsonObject());
 		
 	 
 	}

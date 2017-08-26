@@ -20,7 +20,7 @@ public class BrandService extends BaseService {
 	 * @Description:查询所有品牌
 	 */
 	public ResData queryBrand() {
-		return ResData.SUCCESS(
+		return ResData.SUCCESS_OPER(
 				db.query("select * from PRODUCT_BRAND where IS_DELETED='N' order by od ").toJsonArrayWithJsonObject());
 	}
 	
@@ -70,7 +70,7 @@ public class BrandService extends BaseService {
 	 */
 	public ResData queryBrandById(String brand_id) {
 		return ResData
-				.SUCCESS(db.uniqueRecord("select * from PRODUCT_BRAND where IS_DELETED='N' and brand_id=? ", brand_id)
+				.SUCCESS_OPER(db.uniqueRecord("select * from PRODUCT_BRAND where IS_DELETED='N' and brand_id=? ", brand_id)
 						.toJsonObject());
 	}
 	

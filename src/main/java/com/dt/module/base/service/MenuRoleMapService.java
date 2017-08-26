@@ -71,6 +71,6 @@ public class MenuRoleMapService extends BaseService {
 			e.put("state", stat);
 			resarr.add(e);
 		}
-		return ResData.SUCCESS(resarr);
+		return ResData.SUCCESS_OPER(resarr);
 	}
 }

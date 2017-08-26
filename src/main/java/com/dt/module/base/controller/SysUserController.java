@@ -107,6 +107,6 @@ public class SysUserController extends BaseController {
 		if (ToolUtil.isEmpty(menu_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
-		return ResData.SUCCESS(userService.getMenuTree(getUserId(), menu_id));
+		return ResData.SUCCESS_OPER(userService.getMenuTree(getUserId(), menu_id));
 	}
 }

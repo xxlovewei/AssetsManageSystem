@@ -62,7 +62,7 @@ public class ResData extends BaseResult {
 		r.setData(data);
 		return r;
 	}
-	public static ResData SUCCESS(Object data) {
+	public static ResData SUCCES12S(Object data) {
 		ResData r = new ResData();
 		r.setSuccess(true);
 		r.setMessage("操作成功");

@@ -165,7 +165,7 @@ public class EmplService extends BaseService {
 			bsql = bsql + " and b.name like '%" + name + "%'";
 		}
 		bsql = bsql + " order by name";
-		return ResData.SUCCESS(db.query(bsql).toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query(bsql).toJsonArrayWithJsonObject());
 	}
 	
 	/**

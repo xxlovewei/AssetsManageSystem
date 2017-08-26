@@ -104,7 +104,7 @@ public class CategoryForegroundController extends BaseController{
 	public ResData rootCatQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		 
 		String sql="select * from PRODUCT_CAT_USER_ROOT where is_deleted='N' order by od";
-		return ResData.SUCCESS(db.query(sql).toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 		
 	}
 	
@@ -117,7 +117,7 @@ public class CategoryForegroundController extends BaseController{
 		
 		String id=request.getParameter("ID");
 		String sql="select * from PRODUCT_CAT_USER_ROOT where is_deleted='N' and id=? ";
-		return ResData.SUCCESS(db.uniqueRecord(sql,id).toJsonObject());
+		return ResData.SUCCESS_OPER(db.uniqueRecord(sql,id).toJsonObject());
 		
 	}
 	
@@ -161,7 +161,7 @@ public class CategoryForegroundController extends BaseController{
 			res.add(e);
 		}
 		
-		return ResData.SUCCESS(res);
+		return ResData.SUCCESS_OPER(res);
 	}
 	
 	

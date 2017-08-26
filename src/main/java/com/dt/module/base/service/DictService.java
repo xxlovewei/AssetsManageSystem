@@ -61,7 +61,7 @@ public class DictService extends BaseService {
 	 */
 	public ResData queryDict() {
 		String sql = "select * from sys_dict where deleted='N' ";
-		return ResData.SUCCESS(db.query(sql).toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description:查询某个字典
@@ -72,7 +72,7 @@ public class DictService extends BaseService {
 		if(rs==null){
 			return ResData.FAILURE_NODATA();
 		}else{
-			return ResData.SUCCESS(rs.toJsonObject());
+			return ResData.SUCCESS_OPER(rs.toJsonObject());
 		} 
 	}
 	/**

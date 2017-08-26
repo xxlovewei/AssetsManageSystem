@@ -29,7 +29,7 @@ public class RegionService extends BaseService {
 			e.put("text", rs.getRcd(i).getString("name"));
 			res.add(e);
 		}
-		return ResData.SUCCESS(res);
+		return ResData.SUCCESS_OPER(res);
 	}
 	
 	/**
@@ -37,6 +37,6 @@ public class RegionService extends BaseService {
 	 */
 	public ResData queryRegionById(String id) {
 		String sql = "select * from sys_region where parentid=?";
-		return ResData.SUCCESS(db.query(sql, id).toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query(sql, id).toJsonArrayWithJsonObject());
 	}
 }

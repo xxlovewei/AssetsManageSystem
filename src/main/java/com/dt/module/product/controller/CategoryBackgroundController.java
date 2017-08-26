@@ -81,7 +81,7 @@ public class CategoryBackgroundController  extends BaseController{
 				+ "route,id "
 				+ "from PRODUCT_CATEGORY t where is_deleted='N' and is_cat='Y') outer) outtable order by route ";
 
-		return ResData.SUCCESS(db.query(sql).toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
 	@Res
@@ -123,7 +123,7 @@ public class CategoryBackgroundController  extends BaseController{
 			res.add(e);
 		}
 
-		return ResData.SUCCESS(res);
+		return ResData.SUCCESS_OPER(res);
 	}
 
 	@Res
@@ -162,7 +162,7 @@ public class CategoryBackgroundController  extends BaseController{
 			return ResData.FAILURE_OPER();
 		}
 		String sql = "select * from PRODUCT_CATEGORY_ATTR_SET where is_deleted='N' and attr_id=? order by od";
-		return ResData.SUCCESS(db.query(sql, attr_id).toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query(sql, attr_id).toJsonArrayWithJsonObject());
 	}
 
 	// 获取一个品类下的所有属性数据及属性项目的数据,可能用户加产品的时候需要
@@ -381,7 +381,7 @@ public class CategoryBackgroundController  extends BaseController{
 			return ResData.FAILURE_OPER();
 		}
 		String sql = "select a.* ,decode(a.ATTR_TYPE,'sale','销售属性','base','基本属性','desc','描述属性','未知') attr_type_name from PRODUCT_CATEGORY_ATTR a where  is_deleted='N'  and cat_id=? order by attr_type,od";
-		return ResData.SUCCESS(db.query(sql, cat_id).toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query(sql, cat_id).toJsonArrayWithJsonObject());
 	}
 
 	@Res
@@ -587,7 +587,7 @@ public class CategoryBackgroundController  extends BaseController{
 			rs.put("SALE_ATTR_SET_MAP", getProdBaseAttrValue(cat_id));
 		}
 
-		return ResData.SUCCESS(rs);
+		return ResData.SUCCESS_OPER(rs);
 
 	}
 

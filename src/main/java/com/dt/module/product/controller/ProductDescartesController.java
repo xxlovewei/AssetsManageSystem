@@ -220,6 +220,6 @@ public class ProductDescartesController extends BaseController {
 			res.add(item);
 		}
 
-		return ResData.SUCCESS(res);
+		return ResData.SUCCESS_OPER(res);
 	}
 }

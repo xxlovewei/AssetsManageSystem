@@ -21,7 +21,7 @@ public class RoleService extends BaseService {
 	 * @Description: 查询所有角色
 	 */
 	public ResData queryRole() {
-		return ResData.SUCCESS(db.query("select * from sys_role where deleted='N' ").toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query("select * from sys_role where deleted='N' ").toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description: 查询某个角色
@@ -30,7 +30,7 @@ public class RoleService extends BaseService {
 		String sql = "select * from sys_role where deleted='N' and role_id=?";
 		RcdSet r = db.query(sql, id);
 		if (r.size() > 0) {
-			return ResData.SUCCESS(r.getRcd(0).toJsonObject());
+			return ResData.SUCCESS_OPER(r.getRcd(0).toJsonObject());
 		} else {
 			return ResData.FAILURE_OPER();
 		}

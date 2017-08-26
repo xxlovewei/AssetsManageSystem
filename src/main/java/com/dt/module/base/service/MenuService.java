@@ -39,7 +39,7 @@ public class MenuService extends BaseService {
 	 */
 	public ResData queryMenuNodes(String menu_id) {
 		String sql = "select * from sys_menus_node where menu_id=? order by node_id   ";
-		return ResData.SUCCESS(db.query(sql, menu_id).toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query(sql, menu_id).toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description:按照前端js要求直接生成树的json格式
@@ -76,7 +76,7 @@ public class MenuService extends BaseService {
 			first_obj.put("CHILDREN", second_arr);
 			r.add(first_obj);
 		}
-		return ResData.SUCCESS(r);
+		return ResData.SUCCESS_OPER(r);
 	}
 	/**
 	 * @Description:查询菜单一个节点的数据

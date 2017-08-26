@@ -145,7 +145,7 @@ public class ProductService extends BaseService {
 		}
 		String sql = "select * from PRODUCT where cat_id=? and is_deleted='N' ";
 		RcdSet rs = db.query(sql, cat_id);
-		return ResData.SUCCESS(rs.toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description:按照SPU查询产品信息
@@ -168,7 +168,7 @@ public class ProductService extends BaseService {
 		res.put("BASE_ATTR", getProdBaseList(spu, rs.getString("cat_id")));
 		// 用于修改商品销售属性
 		res.put("SALE_DATA_LIST", getProdSaleList(spu));
-		return ResData.SUCCESS(res);
+		return ResData.SUCCESS_OPER(res);
 	}
 	/**
 	 * @Description:批量上架或下架产品
