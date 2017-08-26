@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,7 @@ import com.dt.module.base.service.UserService;
 
 @Controller
 public class LoginController extends BaseController {
+	private static Logger _log = LoggerFactory.getLogger(LoginController.class);
 	@Autowired
 	LoginService loginService = null;
 
@@ -40,7 +43,6 @@ public class LoginController extends BaseController {
 		}
 		// 验证登录方式及用户类型
 		ResData vlrs = loginService.validLogin(user, type, UserService.USER_TYPE_EMPL);
-		System.out.println(vlrs.asJson());
 		if (vlrs.isFailed()) {
 			return vlrs;
 		}
@@ -67,7 +69,7 @@ public class LoginController extends BaseController {
 		u.put("PWD", "********");
 		r.put("user_info", u);
 		r.put("token", TokenUtil.generateValue());
-		System.out.println(r.toJSONString());
+		_log.info("login:" + r.toJSONString());
 		return ResData.SUCCESS("登录成功", r);
 	}
 	@RequestMapping(value = "/user/checkLogin.do")
@@ -75,7 +77,7 @@ public class LoginController extends BaseController {
 	@Acl
 	public ResData checkLogin(HttpServletRequest request, HttpServletResponse response, String user, String pwd)
 			throws IOException {
-		System.out.println("Check Request,Login User_id:" + ShiroKit.getUser().id + "|"
+		_log.info("Check Request,Login User_id:" + ShiroKit.getUser().id + "|"
 				+ super.getSession().getAttribute("user_id"));
 		if (ShiroKit.isAuthenticated()) {
 			return ResData.SUCCESS("Ok");

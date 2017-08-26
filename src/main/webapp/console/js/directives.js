@@ -40,8 +40,7 @@
 function getUuid() {
 	var len = 32;// 32长度
 	var radix = 16;// 16进制
-	var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-			.split('');
+	var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
 	var uuid = [], i;
 	radix = radix || chars.length;
 	if (len) {
@@ -63,8 +62,7 @@ function getUuid() {
 function pageTitle($rootScope, $timeout) {
 	return {
 		link : function(scope, element) {
-			var listener = function(event, toState, toParams, fromState,
-					fromParams) {
+			var listener = function(event, toState, toParams, fromState, fromParams) {
 				// Default title - load on Dashboard 1
 				var title = 'INSPINIA | Responsive Admin Theme';
 				// Create your own title pattern
@@ -107,6 +105,13 @@ function sideNavigation($timeout) {
 					railOpacity : 0.9,
 				});
 			}
+
+			// Enable initial fixed sidebar
+			$(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
+//			$("body").removeClass('boxed-layout');
+//			$("body").addClass('fixed-nav');
+		 
+
 		}
 	};
 };
@@ -120,16 +125,13 @@ function responsiveVideo() {
 		link : function(scope, element) {
 			var figure = element;
 			var video = element.children();
-			video.attr('data-aspectRatio', video.height() / video.width())
-					.removeAttr('height').removeAttr('width')
+			video.attr('data-aspectRatio', video.height() / video.width()).removeAttr('height').removeAttr('width')
 
 			// We can use $watch on $window.innerWidth also.
-			$(window).resize(
-					function() {
-						var newWidth = figure.width();
-						video.width(newWidth).height(
-								newWidth * video.attr('data-aspectRatio'));
-					}).resize();
+			$(window).resize(function() {
+				var newWidth = figure.width();
+				video.width(newWidth).height(newWidth * video.attr('data-aspectRatio'));
+			}).resize();
 		}
 	}
 }
@@ -150,8 +152,7 @@ function iboxTools($timeout) {
 				var content = ibox.children('.ibox-content');
 				content.slideToggle(200);
 				// Toggle icon from up to down
-				icon.toggleClass('fa-chevron-up')
-						.toggleClass('fa-chevron-down');
+				icon.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
 				ibox.toggleClass('').toggleClass('border-bottom');
 				$timeout(function() {
 					ibox.resize();
@@ -184,8 +185,7 @@ function iboxToolsFullScreen($timeout) {
 				var content = ibox.children('.ibox-content');
 				content.slideToggle(200);
 				// Toggle icon from up to down
-				icon.toggleClass('fa-chevron-up')
-						.toggleClass('fa-chevron-down');
+				icon.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
 				ibox.toggleClass('').toggleClass('border-bottom');
 				$timeout(function() {
 					ibox.resize();
@@ -218,18 +218,19 @@ function iboxToolsFullScreen($timeout) {
 function minimalizaSidebar($timeout) {
 	return {
 		restrict : 'A',
-		template : '<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="" ng-click="minimalize()"><i class="fa fa-bars"></i></a>',
+		template : '<a  class="navbar-minimalize minimalize-styl-2 btn btn-switch" href="" ng-click="minimalize()"><i class="fa fa-bars"></i></a>',
 		controller : function($scope, $element) {
 			$scope.minimalize = function() {
 				$("body").toggleClass("mini-navbar");
-				if (!$('body').hasClass('mini-navbar')
-						|| $('body').hasClass('body-small')) {
+				
+				if (!$('body').hasClass('mini-navbar') || $('body').hasClass('body-small')) {
 					// Hide menu in order to smoothly turn on when maximize menu
 					$('#side-menu').hide();
 					// For smoothly turn on menu
 					setTimeout(function() {
 						$('#side-menu').fadeIn(400);
 					}, 200);
+					
 				} else if ($('body').hasClass('fixed-sidebar')) {
 					$('#side-menu').hide();
 					setTimeout(function() {
@@ -356,32 +357,22 @@ function icheck($timeout) {
 					$(element).iCheck('update');
 				})
 
-				return $(element)
-						.iCheck({
-							checkboxClass : 'icheckbox_square-green',
-							radioClass : 'iradio_square-green'
+				return $(element).iCheck({
+					checkboxClass : 'icheckbox_square-green',
+					radioClass : 'iradio_square-green'
 
-						})
-						.on(
-								'ifChanged',
-								function(event) {
-									if ($(element).attr('type') === 'checkbox'
-											&& $attrs['ngModel']) {
-										$scope
-												.$apply(function() {
-													return ngModel
-															.$setViewValue(event.target.checked);
-												});
-									}
-									if ($(element).attr('type') === 'radio'
-											&& $attrs['ngModel']) {
-										return $scope
-												.$apply(function() {
-													return ngModel
-															.$setViewValue(value);
-												});
-									}
-								});
+				}).on('ifChanged', function(event) {
+					if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
+						$scope.$apply(function() {
+							return ngModel.$setViewValue(event.target.checked);
+						});
+					}
+					if ($(element).attr('type') === 'radio' && $attrs['ngModel']) {
+						return $scope.$apply(function() {
+							return ngModel.$setViewValue(value);
+						});
+					}
+				});
 			});
 		}
 	};
@@ -456,8 +447,7 @@ function dropZone() {
 					} else {
 						scope.dropzone.removeFile(file);
 					}
-					message_error("已超过文件最大限制数目,"
-							+ scope.dropzone.options.maxFiles);
+					message_error("已超过文件最大限制数目," + scope.dropzone.options.maxFiles);
 				}
 
 			};
@@ -688,19 +678,9 @@ function passwordMeter() {
  * 
  * Pass all functions into module
  */
-angular.module('inspinia').directive('pageTitle', pageTitle).directive(
-		'sideNavigation', sideNavigation).directive('iboxTools', iboxTools)
-		.directive('minimalizaSidebar', minimalizaSidebar).directive(
-				'vectorMap', vectorMap).directive('sparkline', sparkline)
-		.directive('icheck', icheck)
-		.directive('ionRangeSlider', ionRangeSlider).directive('dropZone',
-				dropZone).directive('responsiveVideo', responsiveVideo)
-		.directive('chatSlimScroll', chatSlimScroll).directive('customValid',
-				customValid).directive('fullScroll', fullScroll).directive(
-				'closeOffCanvas', closeOffCanvas).directive('clockPicker',
-				clockPicker).directive('landingScrollspy', landingScrollspy)
-		.directive('fitHeight', fitHeight).directive('iboxToolsFullScreen',
-				iboxToolsFullScreen).directive('slimScroll', slimScroll)
-		.directive('truncate', truncate).directive('touchSpin', touchSpin)
-		.directive('markdownEditor', markdownEditor).directive('passwordMeter',
-				passwordMeter).directive('onFinishRender', onFinishRender);
+angular.module('inspinia').directive('pageTitle', pageTitle).directive('sideNavigation', sideNavigation).directive('iboxTools', iboxTools).directive('minimalizaSidebar',
+		minimalizaSidebar).directive('vectorMap', vectorMap).directive('sparkline', sparkline).directive('icheck', icheck).directive('ionRangeSlider', ionRangeSlider).directive(
+		'dropZone', dropZone).directive('responsiveVideo', responsiveVideo).directive('chatSlimScroll', chatSlimScroll).directive('customValid', customValid).directive(
+		'fullScroll', fullScroll).directive('closeOffCanvas', closeOffCanvas).directive('clockPicker', clockPicker).directive('landingScrollspy', landingScrollspy).directive(
+		'fitHeight', fitHeight).directive('iboxToolsFullScreen', iboxToolsFullScreen).directive('slimScroll', slimScroll).directive('truncate', truncate).directive('touchSpin',
+		touchSpin).directive('markdownEditor', markdownEditor).directive('passwordMeter', passwordMeter).directive('onFinishRender', onFinishRender);

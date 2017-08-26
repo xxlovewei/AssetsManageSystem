@@ -326,7 +326,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 .navbar-fixed-top {
   background: #fff;
   transition-duration: 0.4s;
-  border-bottom: 1px solid #e7eaec !important;
+  border-bottom: 1px solid #293846 !important;
   z-index: 2030;
 }
 .navbar-fixed-top,
@@ -649,6 +649,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-danger.btn-outline:hover {
   color: #fff;
 }
+
+
 .btn-primary {
   background-color: #1ab394;
   border-color: #1ab394;
@@ -690,6 +692,54 @@ fieldset[disabled] .btn-primary.active {
   background-color: #1dc5a3;
   border-color: #1dc5a3;
 }
+
+
+/* edit by lank */
+.btn-switch {
+  background-color: #293846;
+  border-color: #293846;
+  color: #FFFFFF;
+}
+.btn-switch:hover,
+.btn-switch:focus,
+.btn-switch:active,
+.btn-switch.active,
+.open .dropdown-toggle.btn-switch,
+.btn-switch:active:focus,
+.btn-switch:active:hover,
+.btn-switch.active:hover,
+.btn-switch.active:focus {
+  background-color: #2F4051;
+  border-color: #2F4051;
+  color: #FFFFFF;
+}
+.btn-switch:active,
+.btn-switch.active,
+.open .dropdown-toggle.btn-switch {
+  background-image: none;
+}
+.btn-switch.disabled,
+.btn-switch.disabled:hover,
+.btn-switch.disabled:focus,
+.btn-switch.disabled:active,
+.btn-switch.disabled.active,
+.btn-switch[disabled],
+.btn-switch[disabled]:hover,
+.btn-switch[disabled]:focus,
+.btn-switch[disabled]:active,
+.btn-switch.active[disabled],
+fieldset[disabled] .btn-switch,
+fieldset[disabled] .btn-switch:hover,
+fieldset[disabled] .btn-switch:focus,
+fieldset[disabled] .btn-switch:active,
+fieldset[disabled] .btn-switch.active {
+  background-color: #2F4051;
+  border-color: #2F4051;
+}
+
+
+
+
 .btn-success {
   background-color: #1c84c6;
   border-color: #1c84c6;
@@ -7706,6 +7756,7 @@ body.rtls.top-navigation .footer.fixed {
 .yellow-skin {
   text-align: center;
 }
+
 .default-skin {
   font-weight: 600;
   background: #283A49;
