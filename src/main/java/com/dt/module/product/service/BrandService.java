@@ -1,11 +1,7 @@
 package com.dt.module.product.service;
 
-import java.util.ArrayList;
-
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.sql.Insert;

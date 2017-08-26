@@ -9,6 +9,7 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.base.service.MenuRoleMapService;
@@ -66,8 +67,11 @@ public class MenuController extends BaseController {
 	@RequestMapping(value = "/menu/treeNodeRoleMap.do")
 	@Res
 	@Acl
-	public ResData treeNodeRoleMap(String ROLE_ID, String MODULES_ARR) {
-		return menuRoleMapService.treeNodeRoleMap(ROLE_ID, MODULES_ARR);
+	public ResData treeNodeRoleMap(String role_id, String modules_arr,String menu_id) {
+		if(ToolUtil.isOneEmpty(role_id,modules_arr,menu_id)){
+			return ResData.FAILURE_ERRREQ_PARAMS();
+		}
+		return menuRoleMapService.treeNodeRoleMap(role_id, modules_arr,menu_id);
 	}
 	@RequestMapping(value = "/menu/treeRoleChecked.do")
 	@Res

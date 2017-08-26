@@ -92,28 +92,35 @@ public class UserService extends BaseService {
 		String mflag = MD5Util.encrypt(user_id + menu_id);
 		if (userMenus.containsKey(mflag)) {
 			_log.info("get menus from map");
-			//return userMenus.get(mflag);
+			// return userMenus.get(mflag);
 		}
-		String sql = "with idtab as ( " + "select distinct  level1 node_id from ( "
-				+ "select * from (select b.module_id,c.route,c.node_name , "
-				+ "decode(instr(route,'-'), 0,route,substr(route,1,instr(route,'-') -1)) level1 "
-				+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
-				+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' ) " + "union all select * from ( "
-				+ "select b.module_id,c.route,c.node_name , " + "decode(LENGTH(route) - LENGTH(REPLACE(route,'-','')), "
-				+ "0 , '-1', " + "1 , substr(route,instr(route,'-',1,1)+1, LENGTH(route)-instr(route,'-',1,1)), "
-				+ "substr(route,instr(route,'-',1,1)+1 ,instr(route,'-',1,2) - instr(route,'-',1,1) -1)) level2 "
-				+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
-				+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' ) " + "union all " + "select * from ( "
-				+ "select b.module_id,c.route,c.node_name , " + "decode(LENGTH(route) - LENGTH(REPLACE(route,'-','')), "
-				+ "0 , '-1', " + "1 , '-1', "
-				+ "2 , substr(route,instr(route,'-',1,2)+1, LENGTH(route)-instr(route,'-',1,2)), "
-				+ "substr(route,instr(route,'-',1,2)+1 ,instr(route,'-',1,3) - instr(route,'-',1,2) -1)) level3 "
-				+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
-				+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' )) where level1<>'-1' " + ") "
-				+ "select * from sys_menus_node a,  idtab b "
-				+ "where a.node_id=b.node_id and menu_id=? and parent_id=? order by sort ";
+		String bastabsql = "";
+		if (user_id.endsWith("sys")) {
+			bastabsql = "select node_id from sys_menus_node ";
+		} else {
+			bastabsql = "select distinct  level1 node_id from ( "
+					+ "select * from (select b.module_id,c.route,c.node_name , "
+					+ "decode(instr(route,'-'), 0,route,substr(route,1,instr(route,'-') -1)) level1 "
+					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
+					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' ) " + "union all select * from ( "
+					+ "select b.module_id,c.route,c.node_name , "
+					+ "decode(LENGTH(route) - LENGTH(REPLACE(route,'-','')), " + "0 , '-1', "
+					+ "1 , substr(route,instr(route,'-',1,1)+1, LENGTH(route)-instr(route,'-',1,1)), "
+					+ "substr(route,instr(route,'-',1,1)+1 ,instr(route,'-',1,2) - instr(route,'-',1,1) -1)) level2 "
+					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
+					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' ) " + "union all " + "select * from ( "
+					+ "select b.module_id,c.route,c.node_name , "
+					+ "decode(LENGTH(route) - LENGTH(REPLACE(route,'-','')), " + "0 , '-1', " + "1 , '-1', "
+					+ "2 , substr(route,instr(route,'-',1,2)+1, LENGTH(route)-instr(route,'-',1,2)), "
+					+ "substr(route,instr(route,'-',1,2)+1 ,instr(route,'-',1,3) - instr(route,'-',1,2) -1)) level3 "
+					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
+					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' )) where level1<>'-1' ";
+		}
+		String basesql = "SELECT * " + "FROM sys_menus_node a, (" + bastabsql + ") b "
+				+ "WHERE a.node_id = b.node_id AND menu_id = ? AND parent_id = ? " + "ORDER BY sort ";
 		JSONArray r = new JSONArray();
-		String basesql = sql.replaceAll("<#USER_ID#>", user_id);
+		basesql = basesql.replaceAll("<#USER_ID#>", user_id);
+		_log.info("getMenu sql:" + basesql);
 		RcdSet first_rs = db.query(basesql, menu_id, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());

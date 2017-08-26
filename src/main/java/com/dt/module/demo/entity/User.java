@@ -20,14 +20,14 @@ public class User implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/** 用户ID */
-    private Long id;
-
-    /** 用户名 */
-    private String name;
-
-    /** 用户年龄 */
-    private Integer age;
+//	/** 用户ID */
+//    private Long id;
+//
+//    /** 用户名 */
+//    private String name;
+//
+//    /** 用户年龄 */
+//    private Integer age;
 
     @TableField(exist = false)
     private String state;

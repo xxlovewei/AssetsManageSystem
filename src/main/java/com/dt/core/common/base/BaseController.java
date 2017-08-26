@@ -5,14 +5,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.session.InvalidSessionException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.util.support.HttpKit;
 
-public class BaseController {
+public class BaseController extends BaseSC {
+	private static Logger _log = LoggerFactory.getLogger(BaseController.class);
 
 	protected HttpServletRequest getHttpServletRequest() {
 		return HttpKit.getRequest();
@@ -31,6 +31,11 @@ public class BaseController {
 	}
 	protected void setAttr(String name, Object value) {
 		HttpKit.getRequest().setAttribute(name, value);
+	}
+	public String getUserId() {
+		String user_id = (String) HttpKit.getRequest().getSession().getAttribute("user_id");
+		_log.info("getUserId:" + user_id);
+		return user_id;
 	}
 	protected Integer getSystemInvokCount() {
 		return (Integer) this.getHttpServletRequest().getServletContext().getAttribute("systemCount");
@@ -99,5 +104,4 @@ public class BaseController {
 			return o.toString();
 		}
 	}
-
 }

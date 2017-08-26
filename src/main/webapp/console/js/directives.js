@@ -89,7 +89,6 @@ function sideNavigation($timeout) {
 			// Call the metsiMenu plugin and plug it to sidebar navigation
 			$timeout(function() {
 				element.metisMenu();
-
 			});
 
 			// Colapse menu in mobile mode after click on element

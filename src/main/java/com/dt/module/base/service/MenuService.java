@@ -170,7 +170,7 @@ public class MenuService extends BaseService {
 	 * @Description:获取节点下一个序列号
 	 */
 	public String getNextNodeId() {
-		return db.uniqueRecord("select decode(max(node_id),null,1,max(node_id)+1) value from sys_menus_node ")
+		return db.uniqueRecord("select case when max(node_id) is null then 50 else max(node_id)+1 end  value from sys_menus_node ")
 				.getString("value");
 	}
 	/**

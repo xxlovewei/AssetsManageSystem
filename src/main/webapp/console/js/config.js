@@ -88,7 +88,7 @@ function config(cfpLoadingBarProvider, $locationProvider, $controllerProvider, $
 		},
 		resolve : {
 			check : function(userService, $log, $state) {
-				userService.checklogin().then(function(result) {
+				userService.checkLogin().then(function(result) {
 					if (result.success) {
 						// 已经登录
 						$log.warn("Cofnig账户已经登录,马上跳转至content");
@@ -560,16 +560,16 @@ app.config(config).run(function(Idle, $rootScope, $state, $http, $log, $transiti
 
 		$log.warn("from:", from);
 		// 不需要检查是否登录
-
-		userService.checklogin().then(function(result) {
+		userService.checkLogin().then(function(result) {
 			$log.warn("check login result,from:" + from + ",result:", result)
 			if (!result.success) {
 				if (from != "login") {
 					$state.go("login", {
 						to : from
 					});
+				} else {
+
 				}
-				event.preventDefault();
 			}
 		}, function(error) {
 			alert('系统错误');

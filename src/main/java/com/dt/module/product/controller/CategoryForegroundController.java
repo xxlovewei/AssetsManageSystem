@@ -35,7 +35,7 @@ public class CategoryForegroundController extends BaseController{
 	
 
 	public int getNextUserCatId(){
-		String sql="select decode(max(id),null,1,max(id)+1) value from (select id from PRODUCT_CAT_USER_ROOT union all select id from PRODUCT_CAT_USER) ";
+		String sql="select case when max(id) is null then 50 else max(id)+1 end value from (select id from PRODUCT_CAT_USER_ROOT union all select id from PRODUCT_CAT_USER)";
 		return db.uniqueRecord(sql).getInteger("value");
 	}
 	

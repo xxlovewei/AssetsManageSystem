@@ -10,7 +10,6 @@ import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.content.service.CompanyService;
-import com.dt.module.content.service.NewsService;
 
 /** 
  * @author: algernonking

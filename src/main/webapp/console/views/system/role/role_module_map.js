@@ -1,32 +1,28 @@
-
-function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,
-		$uibModal) {
+function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 	$scope.topMenuOpt = []
 	$scope.topMenuSel = "";
 
-	$scope.show=false;
+	$scope.show = false;
 	$scope.roleOpt = []
 	$scope.roleSel = "";
 
 	var role_id = "";
 
-	$http.post($rootScope.project + "/api/menu/treeTop.do", {}).success(
-			function(res) {
-				if (res.success) {
-					$scope.topMenuOpt = res.data;
-					if (res.data.length > 0) {
-						$scope.topMenuSel = res.data[0];
+	$http.post($rootScope.project + "/api/menu/treeTop.do", {}).success(function(res) {
+		if (res.success) {
+			$scope.topMenuOpt = res.data;
+			if (res.data.length > 0) {
+				$scope.topMenuSel = res.data[0];
 
-					}
-				}
-			})
+			}
+		}
+	})
 
-	$http.post($rootScope.project + "/api/role/roleQuery.do", {}).success(
-			function(res) {
-				if (res.success) {
-					$scope.roleOpt = res.data;
-				}
-			})
+	$http.post($rootScope.project + "/api/role/roleQuery.do", {}).success(function(res) {
+		if (res.success) {
+			$scope.roleOpt = res.data;
+		}
+	})
 
 	$scope.treeData = [];
 	$scope.ignoreChanges = false;
@@ -36,20 +32,19 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,
 		ps.MENU_ID = $scope.topMenuSel.MENU_ID;
 		ps.ROLE_ID = $scope.roleSel.ROLE_ID;
 		role_id = ps.ROLE_ID;
-		$http.post($rootScope.project + "/api/menu/treeRoleChecked.do", ps)
-				.success(function(res) {
-							if (res.success) {
-								$scope.show=true;
-								 
-								$scope.ignoreChanges = true;
-								$scope.treeData = angular.copy(res.data);
-								$scope.treeConfig.version++;
-							} else {
-								notify({
-											message : res.message
-										});
-							}
-						})
+		$http.post($rootScope.project + "/api/menu/treeRoleChecked.do", ps).success(function(res) {
+			if (res.success) {
+				$scope.show = true;
+
+				$scope.ignoreChanges = true;
+				$scope.treeData = angular.copy(res.data);
+				$scope.treeConfig.version++;
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
 
 	}
 
@@ -58,8 +53,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,
 			multiple : true,
 			animation : true,
 			error : function(error) {
-				$log.error('treeCtrl: error from js tree - '
-						+ angular.toJson(error));
+				$log.error('treeCtrl: error from js tree - ' + angular.toJson(error));
 			},
 			check_callback : true,
 			worker : true
@@ -99,7 +93,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 		},
 		version : 1,
-		plugins : ['themes', 'types', 'contextmenu', 'checkbox'],
+		plugins : [ 'themes', 'types', 'contextmenu', 'checkbox' ],
 		contextmenu : {
 			items : {
 				"createArea" : {
@@ -117,13 +111,13 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,
 						var obj = inst.get_node(data.reference);
 						console.log(obj);
 						inst.create_node(obj, {}, "last", function(new_node) {
-									try {
-										console.log("new_node", new_node);
-										inst.edit(new_node);
-									} catch (ex) {
-										alert(ex);
-									}
-								});
+							try {
+								console.log("new_node", new_node);
+								inst.edit(new_node);
+							} catch (ex) {
+								alert(ex);
+							}
+						});
 					}
 
 				},
@@ -154,10 +148,10 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 	$scope.addNewNode = function() {
 		$scope.treeData.push({
-					id : (newId++).toString(),
-					parent : $scope.newNode.parent,
-					text : $scope.newNode.text
-				});
+			id : (newId++).toString(),
+			parent : $scope.newNode.parent,
+			text : $scope.newNode.text
+		});
 	};
 
 	$scope.ignoreModelChanges = function(t) {
@@ -167,7 +161,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	}
 
 	$scope.readyCB = function() {
-		 
+
 		$scope.tree = $scope.treeInstance.jstree(true)
 
 	}
@@ -175,15 +169,15 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	}
 
 	$scope.createCB = function(e, item) {
-		 
+
 	};
 
 	$scope.query = function treeInstance() {
 		$log.info($scope.topMenuSel, $scope.roleSel);
 		if ($scope.topMenuSel == "" || $scope.roleSel == "") {
 			notify({
-						message : "请选择条件"
-					});
+				message : "请选择条件"
+			});
 			return;
 		}
 
@@ -197,13 +191,14 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,
 		console.log(angular.toJson($scope.tree.get_selected()));
 
 		$http.post($rootScope.project + "/api/menu/treeNodeRoleMap.do", {
-					ROLE_ID : role_id,
-					MODULES_ARR : angular.toJson($scope.tree.get_selected())
-				}).success(function(res) {
-					notify({
-								message : res.message
-							});
-				})
+			role_id : role_id,
+			menu_id : $scope.topMenuSel.MENU_ID,
+			modules_arr : angular.toJson($scope.tree.get_selected())
+		}).success(function(res) {
+			notify({
+				message : res.message
+			});
+		})
 
 	}
 

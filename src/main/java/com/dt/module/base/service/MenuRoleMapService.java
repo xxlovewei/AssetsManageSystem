@@ -21,11 +21,13 @@ public class MenuRoleMapService extends BaseService {
 	 * @Description: 一个角色拥有的节点
 	 */
 	@Transactional
-	public ResData treeNodeRoleMap(String role_id, String modulesarr) {
+	public ResData treeNodeRoleMap(String role_id, String modulesarr, String menu_id) {
 		if (ToolUtil.isOneEmpty(role_id, modulesarr)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
-		db.execute("delete from sys_role_module where role_id=?", role_id);
+		db.execute(
+				"delete from sys_role_module where role_id=? and module_id in (select node_id from SYS_MENUS_NODE where MENU_ID=?)",
+				role_id, menu_id);
 		JSONArray ms = JSONArray.parseArray(modulesarr);
 		for (int i = 0; i < ms.size(); i++) {
 			db.execute("insert into sys_role_module values(?,?)", role_id, ms.getString(i));

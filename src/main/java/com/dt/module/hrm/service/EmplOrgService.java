@@ -63,6 +63,7 @@ public class EmplOrgService extends BaseService {
 			+ "7 , substr(route,instr(route,'-',1,7)+1, LENGTH(route)-instr(route,'-',1,7)), "
 			+ "substr(route,instr(route,'-',1,7)+1 ,instr(route,'-',1,8) - instr(route,'-',1,7) -1)) level8, "
 			+ "route,node_id " + "from hrm_org_part t where 1=1 <#IF#>) outer) out order by route ";
+ 
 
 	/**
 	 * @Description:查询所有组织信息
@@ -162,6 +163,7 @@ public class EmplOrgService extends BaseService {
 	 */
 	public ResData queryEmplOrgLevelList() {
 		String orgsql2 = orgsql.replaceAll("<#IF#>", "");
+		System.out.println(orgsql2);
 		return ResData.SUCCESS_OPER(db.query(orgsql2).toJsonArrayWithJsonObject());
 	}
 	/**

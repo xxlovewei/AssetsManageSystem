@@ -2,15 +2,15 @@ package com.dt.core.common.util;
 
 import java.io.IOException;
 import java.security.SecureRandom;
- 
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
- 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
  
+@SuppressWarnings("restriction")
 public class DESUtil {
  
 	private final static String ENCODING="UTF-8";

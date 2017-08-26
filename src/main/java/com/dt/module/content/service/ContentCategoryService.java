@@ -109,7 +109,7 @@ public class ContentCategoryService extends BaseService {
 	 * @Description:获取节点下一个序列号
 	 */
 	public String getNextNodeId() {
-		return db.uniqueRecord("select decode(max(id),null,10,max(id)+1) value from CT_CATEGORY ").getString("value");
+		return db.uniqueRecord("select case when max(id) is null then 50 else max(id)+1 end  value from CT_CATEGORY").getString("value");
 	}
 	/**
 	 * @Description:更新节点数据

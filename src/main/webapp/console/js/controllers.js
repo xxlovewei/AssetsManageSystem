@@ -2,11 +2,11 @@
  * MainCtrl - controller Contains several global data used in different view
  * 
  */
-function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userService) {
+function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userService, notify,$timeout) {
 
 	$scope.fullScreen = function() {
 		var element = document.documentElement; // 若要全屏页面中div，var element=
-												// document.getElementById("divID");
+		// document.getElementById("divID");
 		// IE 10及以下ActiveXObject
 		if (window.ActiveXObject) {
 			var WsShell = new ActiveXObject('WScript.Shell')
@@ -31,10 +31,14 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 	}
 	// 退出登录
 	$scope.logout = function() {
-		userService.loginout().then(function(result) {
+		userService.logout().then(function(result) {
 			$log.warn("userService logout result", result)
 			if (result.success) {
 				$state.go("login");
+			} else {
+				notify({
+					message : result.message
+				});
 			}
 		}, function(error) {
 		}, function(progress) {
@@ -42,6 +46,22 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 
 	}
 
+	$scope.switchSystem = function(id) {
+		userService.switchSystem(id).then(function(result) {
+			if (result.success) {
+				$timeout(function() {
+					$state.go("content");
+				}, 800);
+			} else {
+				notify({
+					message : result.message
+				});
+			}
+		}, function(error) {
+		}, function(progress) {
+		})
+
+	}
 	// 处理菜单的logo函数
 	$scope.menuLogoIsExist = function(logo) {
 		if (angular.isDefined(logo) && logo != "") {

@@ -6,8 +6,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import com.dt.module.schedule.service.ScheduleMangerService;
-
 /**
  * spring容器初始化完成事件
  * Spring框架加载完成后会publishContextRefreshedEvent事件

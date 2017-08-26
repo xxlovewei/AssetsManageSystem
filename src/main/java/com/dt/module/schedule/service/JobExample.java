@@ -9,8 +9,6 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dt.module.demo.controller.DemoController;
-
 /** 
 * @author 作者 Lank 
 * @version 创建时间：2017年8月1日 下午7:45:13 
