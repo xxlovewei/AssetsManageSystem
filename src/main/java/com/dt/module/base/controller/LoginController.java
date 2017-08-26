@@ -24,6 +24,7 @@ import com.dt.core.common.util.ToolUtil;
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.shiro.ShiroUser;
 import com.dt.module.base.service.LoginService;
+import com.dt.module.base.service.MenuRootService;
 import com.dt.module.base.service.UserService;
 
 @Controller
@@ -32,6 +33,9 @@ public class LoginController extends BaseController {
 	@Autowired
 	LoginService loginService = null;
 
+	@Autowired
+	MenuRootService menuRootService;
+	
 	@Acl(value = "allow")
 	@RequestMapping(value = "/user/login.do")
 	@Res
@@ -68,6 +72,9 @@ public class LoginController extends BaseController {
 		// 覆盖重要信息
 		u.put("PWD", "********");
 		r.put("user_info", u);
+		//系统信息
+		r.put("systems", menuRootService.queryMenuRoot());
+		//r.put
 		r.put("token", TokenUtil.generateValue());
 		_log.info("login:" + r.toJSONString());
 		return ResData.SUCCESS("登录成功", r);

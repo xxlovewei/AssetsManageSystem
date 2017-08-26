@@ -30,7 +30,7 @@ public class MenuController extends BaseController {
 	@Acl
 	@RequestMapping(value = "/menu/treeTop.do")
 	public ResData treeTop() {
-		return menuRootService.queryMenuRoot();
+		return ResData.SUCCESS_OPER(menuRootService.queryMenuRoot());
 	}
 	@RequestMapping(value = "/menu/deleteNode.do")
 	@Res

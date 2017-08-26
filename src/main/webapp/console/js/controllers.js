@@ -1,7 +1,3 @@
-/**
- * MainCtrl - controller Contains several global data used in different view
- * 
- */
 function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userService, notify,$timeout) {
 
 	$scope.fullScreen = function() {
@@ -46,6 +42,7 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 
 	}
 
+	//切换系统
 	$scope.switchSystem = function(id) {
 		userService.switchSystem(id).then(function(result) {
 			if (result.success) {
@@ -108,6 +105,22 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 		$scope.sys_user_info = sys_user_info;
 	}
 
+	
+	//列举系统
+	$scope.$watch(function() {
+		return $rootScope.dt_systems;
+	}, function() {
+		$log.warn("watch $rootScope.dt_systems change,load from this,again.", $rootScope.dt_systems);
+		if (angular.isDefined($rootScope.dt_systems) && $rootScope.dt_systems != null) {
+			$scope.dt_systems = $rootScope.dt_systems
+		}
+	}, true);
+	var dt_systems = $localStorage.get("dt_systems")
+	if (angular.isDefined(dt_systems)) {
+		$log.warn("dt_systems from localstorage", dt_systems);
+		$scope.dt_systems = dt_systems;
+	}
+	
 	// 固定左边导航
 	function fixnav() {
 	}

@@ -2,8 +2,10 @@ package com.dt.module.base.service;
 
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
+import com.dt.core.common.util.ConvertUtil;
 
 /**
  * @author: algernonking
@@ -33,7 +35,7 @@ public class MenuRootService extends BaseService {
 	/**
 	 * @Description: 查询菜单
 	 */
-	public ResData queryMenuRoot() {
-		return ResData.SUCCESS_OPER(db.query("select * from sys_menus order by sort").toJsonArrayWithJsonObject());
+	public JSONArray queryMenuRoot() {
+		return ConvertUtil.OtherJSONObjectToFastJSONArray(db.query("select * from sys_menus order by sort").toJsonArrayWithJsonObject());
 	}
 }

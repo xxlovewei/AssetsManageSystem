@@ -1,4 +1,3 @@
-// userService
 app.service('userService', function($http, $q, $log, $rootScope, $localStorage) {
 	return {
 		logout : function() {
@@ -20,12 +19,18 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 				$log.warn("service login return", res);
 				if (res.success) {
 					if (angular.isDefined(res.data.token)) {
-						// 用户登录后设置token
+						// 用户token
 						$log.warn("set token to $rootScope")
 						$rootScope.dt_app_token = res.data.token;
 						$localStorage.put('dt_app_token', res.data.token);
+						// 用户信息
 						$rootScope.dt_sys_user_info = res.data.user_info;
 						$localStorage.put('dt_sys_user_info', res.data.user_info);
+
+						// 用户拥有的系统资源
+						$rootScope.dt_systems = res.data.systems;
+						$localStorage.put('dt_systems', res.data.systems);
+						//当前默认可能存在Id为1的系统,默认获取该资源
 						$http.post($rootScope.project + "/user/getUserMenus.do", {
 							menu_id : "1"
 						}).success(function(rs) {

@@ -26,7 +26,14 @@ function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService, $st
 				pwd : "0",
 				type : "username"
 			};
-		}
+		} else if (e == "S") {
+			$scope.user = {
+					user : "sys",
+					pwd : "0",
+					type : "username"
+				};
+			}
+
 
 		if ($scope.user.user.length == 0) {
 			notify({
