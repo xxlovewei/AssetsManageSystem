@@ -43,7 +43,7 @@ public class CategoryBackgroundController  extends BaseController{
 				+ "5,level1_name||'->'||level2_name||'->'||level3_name||'->'||level4_name||'->'||level5_name||'->'||level6_name, "
 				+ "6,level1_name||'->'||level2_name||'->'||level3_name||'->'||level4_name||'->'||level5_name||'->'||level6_name||'->'||level7_name, "
 				+ "7,level1_name||'->'||level2_name||'->'||level3_name||'->'||level4_name||'->'||level5_name||'->'||level6_name||'->'||level7_name||'->'||level8_name, "
-				+ "'层级太多' " + ") routename, " + "out.route,out.id from ( " + "select "
+				+ "'层级太多' " + ") routename, " + "outtable.route,outtable.id from ( " + "select "
 				+ "(select text  from PRODUCT_CATEGORY i where i.ID=outer.level1) level1_name, "
 				+ "(select text  from PRODUCT_CATEGORY i where i.ID=outer.level2) level2_name, "
 				+ "(select text  from PRODUCT_CATEGORY i where i.ID=outer.level3) level3_name, "
@@ -79,7 +79,7 @@ public class CategoryBackgroundController  extends BaseController{
 				+ "7 , substr(route,instr(route,'-',1,7)+1, LENGTH(route)-instr(route,'-',1,7)), "
 				+ "substr(route,instr(route,'-',1,7)+1 ,instr(route,'-',1,8) - instr(route,'-',1,7) -1)) level8, "
 				+ "route,id "
-				+ "from PRODUCT_CATEGORY t where is_deleted='N' and is_cat='Y') outer) out order by route ";
+				+ "from PRODUCT_CATEGORY t where is_deleted='N' and is_cat='Y') outer) outtable order by route ";
 
 		return ResData.SUCCESS(db.query(sql).toJsonArrayWithJsonObject());
 	}
@@ -613,7 +613,7 @@ public class CategoryBackgroundController  extends BaseController{
 				 
 				String isql = "select * from PRODUCT_CATEGORY_ATTR_SET where  is_deleted='N' and attr_id=? and cat_id=? order by od";
 				e.put("LIST",
-						db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject());
+						ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject()));
 
 			} else {
 

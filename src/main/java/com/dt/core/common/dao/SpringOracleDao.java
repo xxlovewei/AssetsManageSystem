@@ -5,6 +5,7 @@ import java.util.Map;
 
 public abstract class SpringOracleDao extends SpringDAO
 {
+	
 	protected RcdSet getPageSet(RcdSet set,String sql,int pageIndex,int pageSize,Map<String, Object> params)
 	{
 		if (pageIndex <= 0)
@@ -46,6 +47,11 @@ public abstract class SpringOracleDao extends SpringDAO
 	{
 		return this.uniqueDate("SELECT SYSDATE FROM DUAL");
 	}
+	 
+	public String getDBType(){
+		return "oracle";
+	}
+	
 	
 	
 }

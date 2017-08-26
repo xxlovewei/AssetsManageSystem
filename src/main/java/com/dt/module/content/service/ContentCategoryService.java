@@ -56,7 +56,6 @@ public class ContentCategoryService extends BaseService {
 			sql = sql + " and ISACTION='" + ToolUtil.parseYNValueDefY(isAction) + "'";
 		}
 		sql = sql + " order by od";
-		System.out.println(sql);
 		return ResData.SUCCESS(db.query(sql, parentId).toJsonArrayWithJsonObject());
 	}
 	/**

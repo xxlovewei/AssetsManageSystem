@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,6 +27,7 @@ import com.dt.core.common.base.BaseController;
 @Controller
 public class ProductDescartesController extends BaseController {
 
+	private static Logger _log = LoggerFactory.getLogger(ProductDescartesController.class);
 	/**
 	 * 递归实现dimValue中的笛卡尔积，结果放在result中
 	 * 
@@ -91,7 +94,7 @@ public class ProductDescartesController extends BaseController {
 			int myIndex = 0;
 
 			for (String string : list) {
-				System.out.println(string);
+				_log.info(string);
 				for (int i = 0; i < loopPerItem; i++) {
 					if (myIndex == list.size()) {
 						myIndex = 0;
@@ -149,23 +152,21 @@ public class ProductDescartesController extends BaseController {
 		// 递归实现笛卡尔积
 		recursive(dimValue, recursiveResult, 0, new ArrayList<String>());
 
-		System.out.println("递归实现笛卡尔乘积: 共 " + recursiveResult.size() + " 个结果");
+		_log.info("递归实现笛卡尔乘积: 共 " + recursiveResult.size() + " 个结果");
 		for (List<String> list : recursiveResult) {
 			for (String string : list) {
-				System.out.print(string + " ");
+				_log.info(string + " ");
 			}
-			System.out.println();
 		}
 
 		List<List<String>> circulateResult = new ArrayList<List<String>>();
 		circulate(dimValue, circulateResult);
 
-		System.out.println("循环实现笛卡尔乘积: 共 " + circulateResult.size() + " 个结果");
+		_log.info("循环实现笛卡尔乘积: 共 " + circulateResult.size() + " 个结果");
 		for (List<String> list : circulateResult) {
 			for (String string : list) {
-				System.out.print(string + " ");
+				_log.info(string + " ");
 			}
-			System.out.println();
 		}
 	}
 
@@ -201,7 +202,7 @@ public class ProductDescartesController extends BaseController {
 		circulate(dimValue, circulateResult);
 
 		// 输出
-		System.out.println("循环实现笛卡尔乘积: 共 " + circulateResult.size() + " 个结果");
+		_log.info("循环实现笛卡尔乘积: 共 " + circulateResult.size() + " 个结果");
 
 		JSONArray res = new JSONArray();
 		for (List<String> list : circulateResult) {
@@ -209,12 +210,11 @@ public class ProductDescartesController extends BaseController {
 			JSONObject item = new JSONObject();
 			JSONArray e = new JSONArray();
 			for (String string : list) {
-				System.out.print(string + " ");
+				_log.info(string + " ");
 				JSONObject v = new JSONObject();
 				v.put("ATTR_SET_ID", string);
 				e.add(v);
 			}
-			System.out.println();
 			item.put("ATTR_SET_IDS", e);
 			item.put("SPU", spu);
 			res.add(item);

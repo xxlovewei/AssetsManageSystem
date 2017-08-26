@@ -21,7 +21,6 @@ public class RolesAllowedAnnotationHandler extends AuthorizingAnnotationHandler 
     public void assertAuthorized(Annotation a) throws AuthorizationException {  
         RolesAllowed rrAnnotation = (RolesAllowed) a;  
         String[] roles = rrAnnotation.value();  
-        System.out.println("adf");
         getSubject().checkRoles(Arrays.asList(roles));  
         return;  
     }

@@ -27,7 +27,7 @@ public class EmplOrgService extends BaseService {
 			+ "5,level2_name||'->'||level3_name||'->'||level4_name||'->'||level5_name||'->'||level6_name, "
 			+ "6,level2_name||'->'||level3_name||'->'||level4_name||'->'||level5_name||'->'||level6_name||'->'||level7_name, "
 			+ "7,level2_name||'->'||level3_name||'->'||level4_name||'->'||level5_name||'->'||level6_name||'->'||level7_name||'->'||level8_name, "
-			+ "'层级太多' " + ") routename, " + "out.node_id ,out.levels from ( " + "select "
+			+ "'层级太多' " + ") routename, " + "outtable.node_id ,outtable.levels from ( " + "select "
 			+ "(select org_name  from hrm_org_info i where i.org_id=outer.level1) level1_name, "
 			+ "(select node_name  from hrm_org_part i where i.node_id=outer.level2) level2_name, "
 			+ "(select node_name  from hrm_org_part i where i.node_id=outer.level3) level3_name, "
@@ -62,7 +62,7 @@ public class EmplOrgService extends BaseService {
 			+ "3 , '-1', " + "4 , '-1', " + "5 , '-1', " + "6 , '-1', "
 			+ "7 , substr(route,instr(route,'-',1,7)+1, LENGTH(route)-instr(route,'-',1,7)), "
 			+ "substr(route,instr(route,'-',1,7)+1 ,instr(route,'-',1,8) - instr(route,'-',1,7) -1)) level8, "
-			+ "route,node_id " + "from hrm_org_part t where 1=1 <#IF#>) outer) out order by route ";
+			+ "route,node_id " + "from hrm_org_part t where 1=1 <#IF#>) outer) outtable order by route ";
  
 
 	/**
@@ -163,7 +163,6 @@ public class EmplOrgService extends BaseService {
 	 */
 	public ResData queryEmplOrgLevelList() {
 		String orgsql2 = orgsql.replaceAll("<#IF#>", "");
-		System.out.println(orgsql2);
 		return ResData.SUCCESS_OPER(db.query(orgsql2).toJsonArrayWithJsonObject());
 	}
 	/**

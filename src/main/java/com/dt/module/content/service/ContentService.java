@@ -7,7 +7,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
-import com.dt.core.common.util.PageUtil;
+import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.UuidUtil;
 import com.dt.core.common.util.support.TypedHashMap;
@@ -54,8 +54,8 @@ public class ContentService extends BaseService {
 		me.setIf("TAG", ps.getString("TAG"));
 		me.setIf("CONTENT", ps.getString("CONTENT"));
 		me.setIf("MARK", ps.getString("MARK"));
-		me.setSE("CREATETIME", "sysdate");
-		me.setSE("MODIFYTIME", "sysdate");
+		me.setSE("CREATETIME", DBUtil.getDBDateString(db.getDBType()));
+		me.setSE("MODIFYTIME", DBUtil.getDBDateString(db.getDBType()));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -78,7 +78,7 @@ public class ContentService extends BaseService {
 		me.setIf("AUTHOR", ps.getString("AUTHOR"));
 		me.setIf("TAG", ps.getString("TAG"));
 		me.setIf("MARK", ps.getString("MARK"));
-		me.setSE("MODIFYTIME", "sysdate");
+		me.setSE("MODIFYTIME", DBUtil.getDBDateString(db.getDBType()));
 		me.where().and("ID=?", ps.getString("ID"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
@@ -135,7 +135,6 @@ public class ContentService extends BaseService {
 				sql = sql + " order by  CREATETIME desc";
 			}
 		}
-		System.out.println(sql);
 		return sql;
 	}
 	/**
@@ -152,7 +151,7 @@ public class ContentService extends BaseService {
 	 */
 	public int queryContentPageCount(TypedHashMap<String, Object> ps, String type, int pageSize) {
 		int total = queryContentCount(ps, type);
-		return PageUtil.getTotalPage(total, pageSize);
+		return DBUtil.getTotalPage(total, pageSize);
 	}
 	/**
 	 * @Description:查找CT
@@ -160,6 +159,6 @@ public class ContentService extends BaseService {
 	public ResData queryContentPage(TypedHashMap<String, Object> ps, int pageSize, int pageIndex, String type) {
 		String sql = rebuildQueryContentSql(ps, type);
 		return ResData.SUCCESS_OPER(
-				db.query(PageUtil.rebuildOracleSql(sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
+				db.query(DBUtil.getDBPageSql(db.getDBType(),sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 }

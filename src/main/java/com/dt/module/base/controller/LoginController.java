@@ -41,7 +41,7 @@ public class LoginController extends BaseController {
 	@Res
 	public ResData logindo(String user, String pwd, String type) {
 		JSONObject r = new JSONObject();
-		System.out.println("user:" + user + ",pwd:" + pwd + ",type:" + type);
+		_log.info("user:" + user + ",pwd:" + pwd + ",type:" + type);
 		if (ToolUtil.isOneEmpty(user, pwd)) {
 			return ResData.FAILURE("请输入账号或密码");
 		}

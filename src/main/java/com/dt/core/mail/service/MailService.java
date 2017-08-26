@@ -23,7 +23,7 @@ public class MailService {
 		mailpwd=pwdin;
 	}
 	public void Send(String subject,String htmlbody,String tomail){
-		//System.out.println("stmp:"+mailstmp+",port:"+mailport+",user:"+mailuser+",pwd:"+mailpwd);
+		 
 		//stmp:smtp.yeah.net,port:25,user:ygrdba007@yeah.net,pwd:007ygrdba
 		 Email email = Email.create();
 	        email.from(mailuser).to(tomail);

@@ -22,8 +22,6 @@ public class JobExample implements Job {
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		// TODO Auto-generated method stub
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-		System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
-		System.out.println("testA"+df.format(new Date()));
 		_log.info("hello");
 		try {
 	        Thread.sleep(30000);//括号里面的5000代表5000毫秒，也就是5秒，可以该成你需要的时间

@@ -63,7 +63,6 @@ public class EmplService extends BaseService {
 		}
 		if (user_rs.isSuccess()) {
 			for (int i = 0; i < exeSqls.size(); i++) {
-				System.out.println(exeSqls.get(i).toString());
 				db.execute(exeSqls.get(i).toString());
 			}
 		} else {

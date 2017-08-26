@@ -122,7 +122,6 @@ public class LoginService extends BaseService {
 		if (ToolUtil.isEmpty(resObj)) {
 			return ResData.FAILURE_NODATA();
 		} else {
-			System.out.println("user_id"+resObj.toJSONString());
 			return ResData.SUCCESS_OPER(resObj);
 		}
 	}

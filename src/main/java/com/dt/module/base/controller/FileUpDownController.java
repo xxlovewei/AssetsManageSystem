@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,10 +30,12 @@ import com.dt.core.db.DB;
 
 @Controller()
 @RequestMapping("/file")
-public class fileService extends BaseController {
+public class FileUpDownController extends BaseController {
 	@Autowired
 	private DB db = null;
 
+	private static Logger _log = LoggerFactory.getLogger(FileUpDownController.class);
+	
 	@RequestMapping("/fileupload.do")
 	@Res
 	@Acl(value = "allow")
@@ -56,7 +60,7 @@ public class fileService extends BaseController {
 		String bus_path = fileinfo.getString("path");
 		MultipartResolver resolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 		MultipartHttpServletRequest multipartRequest = resolver.resolveMultipart(request);
-		System.out.println("Type:" + type);
+		_log.info("Type:" + type);
 		if (type.equals("image")) {
 			String name = "Image_" + uuid;
 			// 获得第1张图片（根据前台的name名称得到上传的文件）
@@ -66,26 +70,25 @@ public class fileService extends BaseController {
 			}
 			// dir:/tmp1/wtpwebapps/tt/..
 			String dir = getWebRootDir() + ".." + File.separatorChar;
-			System.out.println("Upload Dir:" + dir);
+			_log.info("Upload Dir:" + dir);
 			Calendar cale = Calendar.getInstance();
 			String path = "upload" + File.separatorChar + bus_path + File.separatorChar + cale.get(Calendar.YEAR) + ""
 					+ File.separatorChar + "" + cale.get(Calendar.MONTH) + "" + File.separatorChar + ""
 					+ cale.get(Calendar.DAY_OF_MONTH) + "" + File.separatorChar;
-			System.out.println("Upload Path:" + path);
+			_log.info("Upload Path:" + path);
 			File f = new File(dir + path + name + ".png");
 			ResData vaf = valid(f);
 			if (!vaf.isSuccess()) {
 				return vaf;
 			}
-			System.out.println("File:" + f.getAbsolutePath());
-			System.out.println("FileParent:" + f.getParentFile().getAbsolutePath());
+			_log.info("File:" + f.getAbsolutePath());
+			_log.info("FileParent:" + f.getParentFile().getAbsolutePath());
 			image.transferTo(f);
 			Insert ins = new Insert("sys_files");
 			ins.set("id", uuid);
 			ins.set("path", path + f.getName());
 			ins.set("type", type);
 			ins.set("bus", bus);
-			System.out.println(ins.getSQL());
 			db.execute(ins);
 		}
 		return ResData.SUCCESS_OPER();
@@ -109,7 +112,7 @@ public class fileService extends BaseController {
 			}
 			String fileurl = set.getString("path");
 			String filePath = getWebRootDir() + ".." + File.separatorChar + fileurl;
-			System.out.println("filePath" + filePath);
+			_log.info("filePath" + filePath);
 			String heightStr = request.getParameter("height");
 			if (heightStr == null || heightStr.isEmpty())
 				heightStr = request.getParameter("h");
@@ -132,19 +135,19 @@ public class fileService extends BaseController {
 			} catch (Exception e) {
 			}
 			file = new File(filePath);
-			System.out.println("图片位置:" + file.getAbsolutePath());
+			_log.info("图片位置:" + file.getAbsolutePath());
 			if (!file.exists()) {
-				System.out.println("图片不存在,去获取默认图片");
+				_log.info("图片不存在,去获取默认图片");
 				file = getDefaultImageFile();
 			} else {
-				System.out.println("图片存在,开始裁截");
+				_log.info("图片存在,开始裁截");
 				int ow = 0;
 				int oh = 0;
-				System.out.println("height" + height);
-				System.out.println("width" + width);
+				_log.info("height" + height);
+				_log.info("width" + width);
 				file = scale5(id, filePath, height, width, ow, oh, fit, crop);
 				if (file == null || !file.exists()) {
-					System.out.println("裁剪失败,去获取默认图片");
+					_log.info("裁剪失败,去获取默认图片");
 					file = getDefaultImageFile();
 				}
 			}
@@ -157,8 +160,7 @@ public class fileService extends BaseController {
 		ImageIO.write(input, "png", response.getOutputStream());
 	}
 	public File getDefaultImageFile() {
-		System.out
-				.println("获取默认图片:" + getWebRootDir() + File.separatorChar + "image" + File.separatorChar + "blank.jpg");
+		_log.info("获取默认图片:" + getWebRootDir() + File.separatorChar + "image" + File.separatorChar + "blank.jpg");
 		return new File(getWebRootDir() + File.separatorChar + "image" + File.separatorChar + "blank.jpg");
 	}
 

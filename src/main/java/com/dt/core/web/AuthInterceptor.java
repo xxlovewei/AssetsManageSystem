@@ -56,7 +56,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				return false;
 			}
 		} else {
-			System.out.println("Allow Any");
+			_log.info("Allow Any");
 			return true;
 		}
 	}

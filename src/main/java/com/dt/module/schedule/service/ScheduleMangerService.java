@@ -18,6 +18,8 @@ import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +37,7 @@ import com.google.common.collect.Maps;
 @Service
 public class ScheduleMangerService {
 
-	
+	private static Logger _log = LoggerFactory.getLogger(ScheduleMangerService.class);
 	@Autowired
 	private DB db;
 	private   SchedulerFactory sf = new StdSchedulerFactory();
@@ -76,9 +78,9 @@ public class ScheduleMangerService {
 		try {
 			Boolean  isShutdown  = sf.getScheduler().isShutdown();
 			if (isShutdown) {
-				System.out.println("this is stop");
+				_log.info("this is stop");
 			} else {
-				System.out.println("this is start");
+				_log.info("this is start");
 			}
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
@@ -169,8 +171,7 @@ public class ScheduleMangerService {
 			Object o = iterator2.next();
 			String key = (String) o;
 			ScheduleJob value = (ScheduleJob) jobs.get(key);
-			// System.out.println(key + ":" + "=" + value.getJobPlanStatus() +
-			// value.getJobtrigger());
+			 
 			object.put("seq", value.getJobSeq());
 			object.put("node", value.getNode());
 			object.put("nodename", value.getNodeName());
@@ -194,8 +195,8 @@ public class ScheduleMangerService {
 		try {
 			scheduler = sf.getScheduler();
 			JobKey jobKey = JobKey.jobKey(job.getJobRunName(), job.getJobGroup());
-			System.out.println("this job " + scheduler.checkExists(jobKey));
-			System.out.println("this groupnames " + scheduler.getJobGroupNames());
+			_log.info("this job " + scheduler.checkExists(jobKey));
+			_log.info("this groupnames " + scheduler.getJobGroupNames());
 
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
@@ -251,7 +252,7 @@ public class ScheduleMangerService {
 				scheduler.scheduleJob(jobDetail, trigger);
 				return true;
 			} else {
-				System.out.println("exits");
+			 
 			}
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block

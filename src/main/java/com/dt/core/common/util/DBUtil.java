@@ -7,11 +7,14 @@ import com.alibaba.fastjson.JSONObject;
  * @date: 2017年8月12日 上午10:21:06
  * @Description: TODO
  */
-public class PageUtil {
+public class DBUtil {
 	/**
 	 * @Description: pageSize:每页显示数
 	 */
-	public static String rebuildOracleSql(String sql, int pageSize, int pageIndex) {
+	public static String TYPE_ORACLE = "oracle";
+	public static String TYPE_MYSQL = "mysql";
+
+	private static String getOraclePageSql(String sql, int pageSize, int pageIndex) {
 		if (ToolUtil.isOneEmpty(pageSize, pageIndex) || pageSize == -1 || pageIndex == -1) {
 			return sql;
 		}
@@ -28,7 +31,7 @@ public class PageUtil {
 		int totalPage = (total % rows) == 0 ? (total / rows) : ((total / rows) + 1);
 		return totalPage;
 	}
-	public static String rebuildMysqlSql(String sql, int pageSize, int pageIndex) {
+	private static String getMysqlPageSql(String sql, int pageSize, int pageIndex) {
 		if (ToolUtil.isOneEmpty(pageSize, pageIndex) || pageSize == -1 || pageIndex == -1 || pageSize == 0
 				|| pageIndex == 0) {
 			return sql;
@@ -38,13 +41,20 @@ public class PageUtil {
 		String ressql = " select * from(" + sql + ") u limit " + first + "," + second;
 		return ressql;
 	}
-	
-	//至少存在一组数据,start,length|pageSize,pageIndex  否则返回null
+	public static String getDBPageSql(String type, String sql, int pageSize, int pageIndex) {
+		if (type.equals(TYPE_ORACLE)) {
+			return getOraclePageSql(sql, pageSize, pageIndex);
+		} else if (type.equals(TYPE_MYSQL)) {
+			return getMysqlPageSql(sql, pageSize, pageIndex);
+		}
+		return sql;
+	}
+	// 至少存在一组数据,start,length|pageSize,pageIndex 否则返回null
 	public static JSONObject formatPageParameter(String start, String length, String pageSize, String pageIndex) {
 		int c_pageIndex = -1;
 		int c_pageSize = -1;
 		if (ToolUtil.isOneEmpty(start, length)) {
-			//start,length数据不存在
+			// start,length数据不存在
 			if (ToolUtil.isOneEmpty(pageIndex, pageSize)) {
 				return null;
 			} else {
@@ -62,8 +72,17 @@ public class PageUtil {
 		res.put("pagesize", c_pageSize);
 		return res;
 	}
+	
+	public static String getDBDateString(String type){
+		if (type.equals(TYPE_ORACLE)) {
+			return "sysdate";
+		} else if (type.equals(TYPE_MYSQL)) {
+			return "now()";
+		}
+		return "";
+	}
 	public static void main(String[] args) {
-		System.out.println(rebuildOracleSql("select * from CT_CONTENT", -1, 0));
+		System.out.println(getOraclePageSql("select * from CT_CONTENT", -1, 0));
 		System.out.println(getTotalPage(6, 4));
 	}
 }

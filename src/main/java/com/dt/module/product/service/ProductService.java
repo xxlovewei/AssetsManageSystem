@@ -308,7 +308,6 @@ public class ProductService extends BaseService {
 		sqls.add("update product set stock=" + totalStock + " where spu='" + spu + "'");
 		// 执行语句
 		for (int j = 0; j < sqls.size(); j++) {
-			System.out.println(sqls.get(j));
 			db.execute(sqls.get(j));
 		}
 		return ResData.SUCCESS_OPER();

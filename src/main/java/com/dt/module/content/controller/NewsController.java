@@ -11,7 +11,7 @@ import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.util.ConvertUtil;
-import com.dt.core.common.util.PageUtil;
+import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
@@ -99,12 +99,11 @@ public class NewsController extends BaseController {
 	@Res
 	@Acl(value = "allow")
 	public ResData queryNewsByDatatable(String start, String length, String pageSize, String pageIndex) {
-		JSONObject respar = PageUtil.formatPageParameter(start, length, pageSize, pageIndex);
+		JSONObject respar = DBUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		System.out.println(respar.toJSONString());
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
 		
