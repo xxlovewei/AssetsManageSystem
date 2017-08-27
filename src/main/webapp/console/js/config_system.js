@@ -5,22 +5,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	});
 
 	console.log("App System config");
-	// $stateProvider.state('demo', {
-	// abstract : true,
-	// url : "/demo",
-	// templateUrl : "views/common/content.html"
-	// }).state('demo.ueditor', {
-	// url : "/ueditor",
-	// templateUrl : "views/demo/ueditor.html",
-	// resolve : {
-	// loadPlugin : function($ocLazyLoad) {
-	// return $ocLazyLoad.load([ {
-	// serie : true,
-	// files : [ 'views/demo/ueditor.js' ]
-	// } ]);
-	// }
-	// }
-	// });
+
 	// 基础数据
 	$stateProvider.state('basedata', {
 		abstract : true,
@@ -243,28 +228,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	}).state('system.task_mgr', {
-		url : "/task_mgr",
-		templateUrl : "views/system/task/task.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/task/task.js' ]
-				} ]);
-			}
-		}
-	}).state('system.mon_druid', {
-		url : "/mon_druid",
-		templateUrl : "views/system/mon/druid.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/mon/druid.js' ]
-				} ]);
-			}
-		}
 	}).state('system.dict_setting', {
 		url : "/dict_setting",
 		templateUrl : "views/system/dict/dict.html",
@@ -324,6 +287,42 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				return $ocLazyLoad.load([ {
 					serie : true,
 					files : [ 'views/org/part.js' ]
+				} ]);
+			}
+		}
+	});
+
+	//运维监控
+	$stateProvider.state('devos', {
+		abstract : true,
+		url : "/devos",
+		templateUrl : "views/common/content.html"
+	}).state('devos.druid', {
+		url : "/druid",
+		templateUrl : "views/system/mon/druid.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/mon/druid.js' ]
+				} ]);
+			}
+		}
+	});
+
+	//任务设置
+	$stateProvider.state('task', {
+		abstract : true,
+		url : "/task",
+		templateUrl : "views/common/content.html"
+	}).state('task.task_mgr', {
+		url : "/task_mgr",
+		templateUrl : "views/system/task/task.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/task/task.js' ]
 				} ]);
 			}
 		}

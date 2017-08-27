@@ -60,15 +60,16 @@ http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 		<property name="validationQuery" value="select 1 from dual" />
 		<property name="proxyFilters">
 			<list>
-				<ref bean="statfilter" />
+				<ref bean="statFilter" />
 				<ref bean="logFilter" />
+				<ref bean="wallFilter" />
 			</list>
 		</property>
-		<property name="filters" value="wall" />
+		<!-- <property name="filters" value="wall" /> -->
 	</bean>
 
 	<!-- 慢SQL记录 *start* -->
-	<bean id="statfilter" class="com.alibaba.druid.filter.stat.StatFilter">
+	<bean id="statFilter" class="com.alibaba.druid.filter.stat.StatFilter">
 		<!-- 开启合并sql -->
 		<property name="mergeSql" value="true" />
 		<!-- 开启慢查询语句,1秒 -->
@@ -76,6 +77,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 		<property name="logSlowSql" value="true" />
 	</bean>
 
+	<!-- logFilter -->
 	<bean id="logFilter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
 		<property name="connectionLogEnabled" value="false" />
 		<property name="statementLogEnabled" value="true" />
@@ -88,8 +90,15 @@ http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 		<property name="dataSource" ref="db" />
 	</bean>
 
+	<bean id="wallFilter" class="com.alibaba.druid.wall.WallFilter">
+		<property name="dbType" value="oracle" />
+	</bean>
+
+
 	<!-- 声明式事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager"
 		proxy-target-class="true" />
+
+
 
 </beans>

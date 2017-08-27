@@ -2,9 +2,6 @@ package com.dt.module.base.controller;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -32,10 +29,9 @@ public class LoginController extends BaseController {
 	private static Logger _log = LoggerFactory.getLogger(LoginController.class);
 	@Autowired
 	LoginService loginService = null;
-
 	@Autowired
 	MenuRootService menuRootService;
-	
+
 	@Acl(value = "allow")
 	@RequestMapping(value = "/user/login.do")
 	@Res
@@ -72,9 +68,9 @@ public class LoginController extends BaseController {
 		// 覆盖重要信息
 		u.put("PWD", "********");
 		r.put("user_info", u);
-		//系统信息
+		// 系统信息
 		r.put("systems", menuRootService.queryMenuRoot());
-		//r.put
+		// r.put
 		r.put("token", TokenUtil.generateValue());
 		_log.info("login:" + r.toJSONString());
 		return ResData.SUCCESS("登录成功", r);
@@ -82,8 +78,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/user/checkLogin.do")
 	@Res
 	@Acl
-	public ResData checkLogin(HttpServletRequest request, HttpServletResponse response, String user, String pwd)
-			throws IOException {
+	public ResData checkLogin() throws IOException {
 		_log.info("Check Request,Login User_id:" + ShiroKit.getUser().id + "|"
 				+ super.getSession().getAttribute("user_id"));
 		if (ShiroKit.isAuthenticated()) {
@@ -95,8 +90,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/user/logout.do")
 	@Res
 	@Acl
-	public ResData loginout(HttpServletRequest request, HttpServletResponse response, String user, String pwd)
-			throws IOException {
+	public ResData loginout(String user, String pwd) throws IOException {
 		ShiroKit.getSubject().logout();
 		return ResData.SUCCESS("成功退出");
 	}

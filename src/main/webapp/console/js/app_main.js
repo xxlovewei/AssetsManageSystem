@@ -157,7 +157,6 @@ app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $tra
 		to : '**'
 	}, function(trans) {
 		// 调试阶段去除缓存
-		// $templateCache.removeAll();
 		var $state = trans.router.stateService;
 		var userService = trans.injector().get('userService');
 		var from_arr = trans._treeChanges.from;
