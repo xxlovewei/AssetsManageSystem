@@ -65,6 +65,9 @@ public class EmplOrgService extends BaseService {
 			+ "route,node_id " + "from hrm_org_part t where 1=1 <#IF#>) outer) outtable order by route ";
  
 
+	public void Test(){
+		
+	}
 	/**
 	 * @Description:查询所有组织信息
 	 */
@@ -83,9 +86,9 @@ public class EmplOrgService extends BaseService {
 		if (ToolUtil.isOneEmpty(parent_id,org_id)) {
 			return ResData.FAILURE("无父节点或无组织节点");
 		}
-		 
-		// 从hrm_org_part,和hrm_org_info表中找到当前route,route的第一个节点为根节点,并且计算下一个ID,
-		String tsql = " select t.* ,(select decode(max(node_id),null,5,max(node_id)+1) value from hrm_org_part) seq  ";
+		
+		// 从hrm_org_part,和hrm_org_info表中找到当前route,route的第一个节点为根节点,id 是hrm_org_part最大
+		String tsql = " select t.* ,(select case when max(node_id) is null then 50 else max(node_id)+1 end  value from hrm_org_part) seq  ";
 		tsql = tsql + " from (select org_id node_id,org_id||'' route from hrm_org_info ";
 		tsql = tsql + " union all ";
 		tsql = tsql + " select node_id node_id,route route from hrm_org_part)t  ";

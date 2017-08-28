@@ -182,11 +182,13 @@ public class SmartImageScalr {
 		String[] ftiTypes = { "width", "height" };
 		for (String crop : CROPS) {
 			for (String fitType : ftiTypes) {
+				@SuppressWarnings("unused")
 				long t0 = System.currentTimeMillis();
 				SmartImageScalr sc = new SmartImageScalr(300, 300, fitType, crop, bi);
 				BufferedImage thumb = sc.scaleAndCrop();
 				ImageIO.write(thumb, format,
 						new File("/Users/leefangjie/Downloads/thumbs/t/" + sc.getFileName(file, format)));
+				@SuppressWarnings("unused")
 				long t1 = System.currentTimeMillis();
 			}
 		}

@@ -27,9 +27,9 @@ http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 		<!-- 配置初始化大小、最小、最大 -->
-		<property name="initialSize" value="5" />
-		<property name="minIdle" value="5" />
-		<property name="maxActive" value="10" />
+		<property name="initialSize" value="10" />
+		<property name="minIdle" value="10" />
+		<property name="maxActive" value="30" />
 
 		<!-- 配置获取连接等待超时的时间 -->
 		<property name="maxWait" value="10000" />
@@ -51,13 +51,19 @@ http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
 		<property name="poolPreparedStatements" value="true" />
 		<property name="maxPoolPreparedStatementPerConnectionSize"
-			value="20" />
+			value="100" />
 
 		<!-- 这里配置提交方式，默认就是TRUE，可以不用配置 -->
 		<property name="defaultAutoCommit" value="true" />
 
 		<!-- 验证连接有效与否的SQL，不同的数据配置不同 -->
 		<property name="validationQuery" value="select 1 from dual" />
+
+		<!-- 打开 removeAbandoned 功能,处理连接泄露 -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 1800 秒，也就是 30 分钟,datasource.getConnontion() 取得的连接必须在removeAbandonedTimeout这么多秒内调用close() -->
+		<property name="removeAbandonedTimeout" value="3600" />
+		<property name="logAbandoned" value="true" />
 		<property name="proxyFilters">
 			<list>
 				<ref bean="statFilter" />
