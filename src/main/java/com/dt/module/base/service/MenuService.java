@@ -24,6 +24,7 @@ public class MenuService extends BaseService {
 	public static String TYPE_DIR = "dir";
 	public static String TYPE_MENU = "menu";
 	public static String TYPE_BTN = "BTN";
+	private String LEVEL_SPLIT = "/";
 
 	public static String validType(String value) {
 		if (ToolUtil.isEmpty(value)) {
@@ -49,8 +50,7 @@ public class MenuService extends BaseService {
 		String basesql = "select * from sys_menus_node where menu_id=? and parent_id=? order by sort";
 		RcdSet first_rs = db.query(basesql, menu_id, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
-		
-			JSONObject first_obj = 	ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
+			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
 			String first_key = first_rs.getRcd(i).getString("key");
 			first_obj.put("STATE", first_key);
 			RcdSet second_rs = db.query(basesql, menu_id, first_rs.getRcd(i).getString("node_id"));
@@ -63,8 +63,6 @@ public class MenuService extends BaseService {
 				second_obj.put("CHILDREN_CNT", third_rs.size());
 				// 处理三层
 				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
-				
-			
 				for (int f = 0; f < third_arr.size(); f++) {
 					third_arr.getJSONObject(f).put("STATE",
 							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("KEY"));
@@ -98,16 +96,17 @@ public class MenuService extends BaseService {
 		String node_id = getNextNodeId();
 		Insert ins = new Insert("sys_menus_node");
 		String type = ps.getString("ACTIONTYPE", "ADD");
+		String nodeid = getNextNodeId();
 		if (type.equals("ADDMASTER")) {
 			// 增加第一个节点
 			if (ToolUtil.isEmpty(menu_id)) {
 				return ResData.FAILURE_ERRREQ_PARAMS();
 			}
-			String nodeid = getNextNodeId();
 			ins.set("NODE_ID", nodeid);
 			ins.set("PARENT_ID", "0");
 			ins.set("ROUTE", nodeid);
 		} else {
+			nodeid = node_id;
 			ins.set("NODE_ID", node_id);
 			ins.set("PARENT_ID", old_node_id);
 			ins.set("ROUTE", old_route + "-" + node_id);
@@ -125,13 +124,14 @@ public class MenuService extends BaseService {
 		ins.setIf("MARK", mark);
 		ins.setIf("TYPE", validType(ps.getString("TYPE")));
 		db.execute(ins);
+		updateRouteName(nodeid, node_name);
 		return ResData.SUCCESS_OPER();
 	}
 	/**
 	 * @Description:删除一个节点
 	 */
 	public ResData deleteNode(String node_id) {
-		int v = db.uniqueRecord("select count(1) value from sys_menus_node where   parent_id=?", node_id)
+		int v = db.uniqueRecord("select count(1) value from sys_menus_node where parent_id=?", node_id)
 				.getInteger("value");
 		if (v > 0) {
 			return ResData.FAILURE("请先删除子节点");
@@ -144,6 +144,7 @@ public class MenuService extends BaseService {
 	 * @Description:更新节点数据
 	 */
 	public ResData updateNode(TypedHashMap<String, Object> ps) {
+		
 		String menu_id = ps.getString("MENU_ID");
 		String node_id = ps.getString("NODE_ID");
 		String node_name = ps.getString("NODE_NAME");
@@ -152,6 +153,10 @@ public class MenuService extends BaseService {
 		String module_id = ps.getString("MODULE_ID");
 		String sort = ps.getString("SORT");
 		String logo = ps.getString("LOGO");
+		
+		if (ToolUtil.isEmpty(node_name)) {
+			return ResData.FAILURE_ERRREQ_PARAMS();
+		}
 		Update ups = new Update("sys_menus_node");
 		ups.set("NODE_NAME", node_name);
 		ups.setIf("KEY", key);
@@ -164,20 +169,52 @@ public class MenuService extends BaseService {
 		ups.setIf("TYPE", validType(ps.getString("TYPE")));
 		ups.where().and("MENU_ID=?", menu_id).and("NODE_ID=?", node_id);
 		db.execute(ups);
+		updateRouteName(node_id, node_name);
 		return ResData.SUCCESS_OPER();
 	}
+	private void updateRouteName(String node_id, String node_name) {
+	 
+		Rcd rs = db.uniqueRecord("select * from sys_menus_node where node_id=?", node_id);
+		// 判断如果一致则不需要更新routename
+		if (ToolUtil.isEmpty(rs)) {
+			return;
+		}
+		if (rs.getString("node_name").equals("node_name")) {
+			return;
+		}
+		String ids = rs.getString("route");
+		JSONArray arr = ConvertUtil.toJSONArrayFromString(ids, "id", "-");
+		String route_name = "";
+		for (int i = 0; i < arr.size(); i++) {
+			route_name = route_name + LEVEL_SPLIT + db
+					.uniqueRecord("select * from sys_menus_node where node_id=?", arr.getJSONObject(i).getString("id"))
+					.getString("node_name");
+		}
+		route_name = route_name.replaceFirst(LEVEL_SPLIT, "");
+		Update me = new Update("sys_menus_node");
+		me.set("route_name", route_name);
+		me.where().and("node_id=?", node_id);
+		db.execute(me);
+		RcdSet rds = db.query("select * from sys_menus_node where parent_id=?", node_id);
+		for (int j = 0; j < rds.size(); j++) {
+			//递归调用
+			updateRouteName(rds.getRcd(j).getString("node_id"), rds.getRcd(j).getString("node_name"));
+		}
+	}
 	/**
-	 * @Description:获取节点下一个序列号
+	 * @Description:获取节点下一个序列号，sys_menus_node表全局唯一
 	 */
 	public String getNextNodeId() {
-		return db.uniqueRecord("select case when max(node_id) is null then 50 else max(node_id)+1 end  value from sys_menus_node ")
+		return db
+				.uniqueRecord(
+						"select case when max(node_id) is null then 50 else max(node_id)+1 end  value from sys_menus_node ")
 				.getString("value");
 	}
 	/**
 	 * @Description:获取树的第一个节点的父节点
 	 */
 	public String getRootParentId(String id) {
-		String sql = "select min(parent_id) parent_id from SYS_MENUS_NODE where menu_id=?";
+		String sql = "select min(parent_id) parent_id from sys_menus_node where menu_id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		String parent_id = rs.getString("parent_id");
 		if (ToolUtil.isEmpty(parent_id)) {

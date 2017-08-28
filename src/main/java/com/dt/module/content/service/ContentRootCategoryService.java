@@ -16,6 +16,6 @@ public class ContentRootCategoryService extends BaseService {
 	 * @Description: 查询主节点
 	 */
 	public ResData queryRootCategory() {
-		return ResData.SUCCESS_OPER(db.query("select * from CT_CATEGORY_ROOT where deleted='N' order by od").toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query("select * from ct_category_root where deleted='N' order by od").toJsonArrayWithJsonObject());
 	}
 }

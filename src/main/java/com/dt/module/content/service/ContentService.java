@@ -30,7 +30,7 @@ public class ContentService extends BaseService {
 	 * @Description:新增CT
 	 */
 	public ResData addContent(TypedHashMap<String, Object> ps, String type) {
-		Insert me = new Insert("CT_CONTENT");
+		Insert me = new Insert("ct_content");
 		String idctl = ps.getString("SELFID", "N");
 		String id = UuidUtil.getUUID();
 		if (idctl.equals("Y")) {
@@ -63,7 +63,7 @@ public class ContentService extends BaseService {
 	 * @Description:修改CT
 	 */
 	public ResData updateContent(TypedHashMap<String, Object> ps) {
-		Update me = new Update("CT_CONTENT");
+		Update me = new Update("ct_content");
 		me.set("DISPLAY", ToolUtil.parseYNValueDefN(ps.getString("DISPLAY")));
 		me.set("DIGEST", ToolUtil.parseYNValueDefN(ps.getString("DIGEST")));
 		me.setIf("CAT_ID", ps.getString("CAT_ID"));
@@ -90,7 +90,7 @@ public class ContentService extends BaseService {
 		if (ToolUtil.isOneEmpty(id, type)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
-		Update me = new Update("CT_CONTENT");
+		Update me = new Update("ct_content");
 		me.set("deleted", "Y");
 		me.where().and("id=?", id).and("type=?", type);
 		db.execute(me);
@@ -100,7 +100,7 @@ public class ContentService extends BaseService {
 	 * @Description:根据ID查找CT
 	 */
 	public ResData queryContentById(String id) {
-		Rcd rs = db.uniqueRecord("select * from  CT_CONTENT where id=?", id);
+		Rcd rs = db.uniqueRecord("select * from ct_content where id=?", id);
 		if (ToolUtil.isEmpty(rs)) {
 			return ResData.FAILURE_NODATA();
 		}
@@ -111,7 +111,7 @@ public class ContentService extends BaseService {
 		String edate = ps.getString("edate");
 		String sort = ps.getString("sort");
 		String noContent = ps.getString("noContent", "N");
-		String sql = "select <#CONTENT#> ID,CAT_ID,DIGEST,TITLE,PROFILE,URLTYPE,URL,TYPE,MPIC,MPIC_LOC,HITS,AUTHOR,CREATETIME,MODIFYTIME ,DISPLAY,MARK,TAG from CT_CONTENT  where DELETED='N' and type='"
+		String sql = "select <#CONTENT#> ID,CAT_ID,DIGEST,TITLE,PROFILE,URLTYPE,URL,TYPE,MPIC,MPIC_LOC,HITS,AUTHOR,CREATETIME,MODIFYTIME ,DISPLAY,MARK,TAG from ct_content  where deleted='N' and type='"
 				+ type + "' ";
 		if (noContent.equals("Y")) {
 			sql = sql.replaceAll("<#CONTENT#>", "");

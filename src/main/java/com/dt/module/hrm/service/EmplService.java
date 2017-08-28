@@ -137,7 +137,7 @@ public class EmplService extends BaseService {
 		if (ToolUtil.isEmpty(node_id)) {
 			return ResData.FAILURE("无节点");
 		}
-		String sql = "select c.* from hrm_org_employee a,SYS_USER_INFO c  where a.empl_id=c.empl_id and c.USER_TYPE= ? and a.node_id=?";
+		String sql = "select c.* from hrm_org_employee a,sys_user_info c  where a.empl_id=c.empl_id and c.user_type= ? and a.node_id=?";
 		RcdSet rs = db.query(sql, UserService.USER_TYPE_EMPL, node_id);
 		return ResData.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
@@ -156,10 +156,10 @@ public class EmplService extends BaseService {
 				ResData.FAILURE("该节点不存在");
 			}
 			String route = routev.getString("route").replaceAll("-", ",");
-			bsql = " select b.*,c.node_name from hrm_org_employee a,SYS_USER_INFO b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+			bsql = " select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
 			bsql = bsql + " and a.node_id in(" + route + ") ";
 		} else {
-			bsql = " select b.*,c.node_name from hrm_org_employee a,SYS_USER_INFO b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+			bsql = " select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
 		}
 		if (name != null && (!name.trim().equals(""))) {
 			bsql = bsql + " and b.name like '%" + name + "%'";

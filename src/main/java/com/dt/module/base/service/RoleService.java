@@ -41,7 +41,7 @@ public class RoleService extends BaseService {
 	@Transactional
 	public ResData deleteRole(String role_id, Boolean force) {
 		if (!force) {
-			if (db.uniqueRecord("select count(1) value from SYS_USER_ROLE where role_id=?", role_id)
+			if (db.uniqueRecord("select count(1) value from sys_user_role where role_id=?", role_id)
 					.getInteger("value") > 0) {
 				return ResData.FAILURE("该角色使用中不能删除");
 			}
@@ -50,7 +50,7 @@ public class RoleService extends BaseService {
 		ups.set("deleted", "Y");
 		ups.where().and("role_id=?", role_id);
 		db.execute(ups);
-		db.execute("delete from SYS_USER_ROLE where role_id=?",role_id);
+		db.execute("delete from sys_user_role where role_id=?",role_id);
 
 		return ResData.SUCCESS_OPER();
 	}

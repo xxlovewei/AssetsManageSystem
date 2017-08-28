@@ -21,14 +21,14 @@ public class BrandService extends BaseService {
 	 */
 	public ResData queryBrand() {
 		return ResData.SUCCESS_OPER(
-				db.query("select * from PRODUCT_BRAND where IS_DELETED='N' order by od ").toJsonArrayWithJsonObject());
+				db.query("select * from product_brand where is_deleted='N' order by od ").toJsonArrayWithJsonObject());
 	}
 	
 	/**
 	 * @Description:删除品牌
 	 */
 	public ResData deleteBrand(String brand_id) {
-		Update ups = new Update("PRODUCT_BRAND");
+		Update ups = new Update("product_brand");
 		ups.set("is_deleted", "Y");
 		ups.where().and("brand_id=?", brand_id);
 		db.execute(ups);
@@ -39,7 +39,7 @@ public class BrandService extends BaseService {
 	 * @Description:添加品牌
 	 */
 	public ResData addBrand(TypedHashMap<String, Object> ps) {
-		Insert ins = new Insert("PRODUCT_BRAND");
+		Insert ins = new Insert("product_brand");
 		ins.set("BRAND_ID", db.getUUID());
 		ins.setIf("BRAND_CODE", ps.getString("BRAND_CODE"));
 		ins.setIf("NAME", ps.getString("NAME"));
@@ -55,7 +55,7 @@ public class BrandService extends BaseService {
 	 */
 	public ResData updateBrand(TypedHashMap<String, Object> ps) {
 		String id = ps.getString("BRAND_ID");
-		Update ups = new Update("PRODUCT_BRAND");
+		Update ups = new Update("product_brand");
 		ups.setIf("BRAND_CODE", ps.getString("BRAND_CODE"));
 		ups.setIf("NAME", ps.getString("NAME"));
 		ups.setIf("MARK", ps.getString("MARK"));
@@ -70,7 +70,7 @@ public class BrandService extends BaseService {
 	 */
 	public ResData queryBrandById(String brand_id) {
 		return ResData
-				.SUCCESS_OPER(db.uniqueRecord("select * from PRODUCT_BRAND where IS_DELETED='N' and brand_id=? ", brand_id)
+				.SUCCESS_OPER(db.uniqueRecord("select * from product_brand where is_deleted='N' and brand_id=? ", brand_id)
 						.toJsonObject());
 	}
 	

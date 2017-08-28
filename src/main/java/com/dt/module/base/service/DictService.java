@@ -67,7 +67,7 @@ public class DictService extends BaseService {
 	 * @Description:查询某个字典
 	 */
 	public ResData queryDictById(String id) {
-		String sql = "select * from SYS_DICT where dict_id=?  ";
+		String sql = "select * from sys_dict where dict_id=?  ";
 		Rcd rs=db.uniqueRecord(sql,id);
 		if(rs==null){
 			return ResData.FAILURE_NODATA();
@@ -79,7 +79,7 @@ public class DictService extends BaseService {
 	 * @Description:删除字典项
 	 */
 	public ResData deleteDictItem(String id) {
-		String sql = "delete from SYS_DICT_ITEM where dict_item_id=?";
+		String sql = "delete from sys_dict_item where dict_item_id=?";
 		db.execute(sql, id);
 		return ResData.SUCCESS_OPER();
 	}
@@ -87,7 +87,7 @@ public class DictService extends BaseService {
 	 * @Description:新增字典项
 	 */
 	public ResData addDictItem(TypedHashMap<String, Object> ps) {
-		Insert me = new Insert("SYS_DICT_ITEM");
+		Insert me = new Insert("sys_dict_item");
 		me.set("dict_id", ps.getString("DICT_ID"));
 		me.set("dict_item_id", UuidUtil.getUUID());
 		me.setIf("name", ps.getString("NAME"));
@@ -101,7 +101,7 @@ public class DictService extends BaseService {
 	 * @Description:修改字典项
 	 */
 	public ResData updateDictItem(TypedHashMap<String, Object> ps) {
-		Update me = new Update("SYS_DICT_ITEM");
+		Update me = new Update("sys_dict_item");
 		me.setIf("name", ps.getString("NAME"));
 		me.setIf("mark", ps.getString("MARK"));
 		me.setIf("sort", ps.getString("SORT"));
@@ -115,13 +115,13 @@ public class DictService extends BaseService {
 	 */
 	public ResData queryDictItem(String id) {
 		return ResData
-				.SUCCESS_OPER(db.query("select * from SYS_DICT_ITEM where dict_id=? order by sort ", id).toJsonArrayWithJsonObject());
+				.SUCCESS_OPER(db.query("select * from sys_dict_item where dict_id=? order by sort ", id).toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description:修改某个字典项
 	 */
 	public ResData queryDictItemById(String dict_item_id) {
-		Rcd rs = db.uniqueRecord("select * from SYS_DICT_ITEM where dict_item_id=?", dict_item_id);
+		Rcd rs = db.uniqueRecord("select * from sys_dict_item where dict_item_id=?", dict_item_id);
 		if (rs == null) {
 			return ResData.FAILURE_NODATA();
 		}

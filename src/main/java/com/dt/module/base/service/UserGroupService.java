@@ -52,11 +52,11 @@ public class UserGroupService extends BaseService {
 	 */
 	@Transactional
 	public ResData deleteUserGroup(String group_id) {
-		if (db.uniqueRecord(" select count(1) cnt from SYS_USER_GROUP_ITEM where group_id=?", group_id)
+		if (db.uniqueRecord(" select count(1) cnt from sys_user_group_item where group_id=?", group_id)
 				.getInteger("cnt") > 0) {
 			ResData.FAILURE("请先删除用户组中的用户");
 		}
-		db.execute("delete from SYS_USER_GROUP where group_id=?", group_id);
+		db.execute("delete from sys_user_group where group_id=?", group_id);
 		return ResData.SUCCESS_OPER();
 	}
 	/**
@@ -64,8 +64,8 @@ public class UserGroupService extends BaseService {
 	 */
 	@Transactional
 	public ResData deleteUserGroupForce(String group_id) {
-		db.execute("delete from SYS_USER_GROUP where group_id=?", group_id);
-		db.execute("delete from SYS_USER_GROUP_ITEM where group_id=?", group_id);
+		db.execute("delete from sys_user_group where group_id=?", group_id);
+		db.execute("delete from sys_user_group_item where group_id=?", group_id);
 		return ResData.SUCCESS_OPER();
 	}
 	/**

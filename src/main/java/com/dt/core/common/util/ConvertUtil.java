@@ -24,13 +24,11 @@ public class ConvertUtil {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// toJSONArrayFromString(arr, "id", ",");
-		
 		String str = "";
-		System.out.println(toStringFromJSONArray(str, "id", ",").toJSONString());
-	 
+		System.out.println(toJSONArrayFromString(str, "id", ",").toJSONString());
 	}
 	// 将jsonArray[{id:2},{id:1},{id:3}]-->2,1,3
-	public static String toJSONArrayFromString(JSONArray arr, String key, String split) {
+	public static String toStringFromJSONArray(JSONArray arr, String key, String split) {
 		String res = "";
 		if (ToolUtil.isOneEmpty(arr, key, split)) {
 			return res;
@@ -45,8 +43,8 @@ public class ConvertUtil {
 		System.out.println(res);
 		return res;
 	}
-	//将2,1,3->jsonArray[{id:2},{id:1},{id:3}]
-	public static JSONArray toStringFromJSONArray(String str, String key, String split) {
+	// 将2,1,3->jsonArray[{id:2},{id:1},{id:3}]
+	public static JSONArray toJSONArrayFromString(String str, String key, String split) {
 		JSONArray res = new JSONArray();
 		if (ToolUtil.isOneEmpty(str, key, split)) {
 			return res;

@@ -27,7 +27,7 @@ public class ParamsService extends BaseService {
 	 */
 	// 类型system|user|sysinter(系统内置，不可改动)
 	public ResData addParams(TypedHashMap<String, Object> ps) {
-		Insert me = new Insert("SYS_PARAMS");
+		Insert me = new Insert("sys_params");
 		me.set("id", UuidUtil.getUUID());
 		me.set("deleted", "N");
 		me.setIf("name", ps.getString("NAME", ""));
@@ -42,14 +42,14 @@ public class ParamsService extends BaseService {
 	 */
 	public ResData queryParams() {
 		// 排除内置
-		String sql = "select * from SYS_PARAMS where deleted='N' and type<>'sysinter' ";
+		String sql = "select * from sys_params where deleted='N' and type<>'sysinter' ";
 		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description: 修改参数
 	 */
 	public ResData updateParams(TypedHashMap<String, Object> ps) {
-		Update me = new Update("SYS_PARAMS");
+		Update me = new Update("sys_params");
 		me.setIf("name", ps.getString("NAME", ""));
 		me.setIf("value", ps.getString("VALUE", ""));
 		me.set("type", ps.getString("TYPE"));
@@ -62,7 +62,7 @@ public class ParamsService extends BaseService {
 	 * @Description: 删除参数
 	 */
 	public ResData deleteParams(String id) {
-		Update me = new Update("SYS_PARAMS");
+		Update me = new Update("sys_params");
 		me.set("deleted", "Y");
 		me.where().and("id=?", id);
 		db.execute(me);
@@ -72,7 +72,7 @@ public class ParamsService extends BaseService {
 	 * @Description: 按照Id查询参数
 	 */
 	public ResData queryParamsById(String id) {
-		String sql = "select * from SYS_PARAMS where deleted='N' and id=?";
+		String sql = "select * from sys_params where deleted='N' and id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (rs == null) {
 			return ResData.FAILURE_NODATA();
@@ -86,12 +86,12 @@ public class ParamsService extends BaseService {
 		if (ToolUtil.isEmpty(id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
-		String sql = "select * from SYS_PARAMS where deleted='N' and id=?";
+		String sql = "select * from sys_params where deleted='N' and id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (rs == null) {
 			// 数据不存在
-			db.execute("delete from SYS_PARAMS where id=?", id);
-			Insert me = new Insert("SYS_PARAMS");
+			db.execute("delete from sys_params where id=?", id);
+			Insert me = new Insert("sys_params");
 			me.set("id", id);
 			me.set("deleted", "N");
 			me.set("type", type);

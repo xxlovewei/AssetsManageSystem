@@ -25,11 +25,11 @@ public class ContentCategoryService extends BaseService {
 	 * @Description: 删除节点
 	 */
 	public ResData deleteCategory(String id) {
-		if (db.uniqueRecord("select count(1) value from CT_CATEGORY where deleted='N' and parent_id=?", id)
+		if (db.uniqueRecord("select count(1) value from ct_category where deleted='N' and parent_id=?", id)
 				.getInteger("value") > 0) {
 			return ResData.FAILURE("请先删除子节点");
 		}
-		Update me = new Update("CT_CATEGORY");
+		Update me = new Update("ct_category");
 		me.set("deleted", "Y");
 		me.where().and("id=?", id);
 		db.execute(me);
@@ -39,9 +39,9 @@ public class ContentCategoryService extends BaseService {
 	 * @Description: 根据ID显示第一层的数据
 	 */
 	public ResData queryCategoryFirstFloor(String rootId, String isAction) {
-		String sql = "select * from CT_CATEGORY where root=? and deleted='N' and NODE_LEVEL=1";
+		String sql = "select * from ct_category where root=? and deleted='N' and node_level=1";
 		if (ToolUtil.isNotEmpty(isAction)) {
-			sql = sql + " and ISACTION='" + ToolUtil.parseYNValueDefY(isAction) + "'";
+			sql = sql + " and isaction='" + ToolUtil.parseYNValueDefY(isAction) + "'";
 		}
 		sql = sql + " order by od";
 		return ResData.SUCCESS_OPER(db.query(sql, rootId).toJsonArrayWithJsonObject());
@@ -51,9 +51,9 @@ public class ContentCategoryService extends BaseService {
 	 * @Description: 显示子节点数据
 	 */
 	public ResData queryCategoryChildren(String parentId, String isAction) {
-		String sql = "select * from CT_CATEGORY where parent_id=? and deleted='N' ";
+		String sql = "select * from ct_category where parent_id=? and deleted='N' ";
 		if (ToolUtil.isNotEmpty(isAction)) {
-			sql = sql + " and ISACTION='" + ToolUtil.parseYNValueDefY(isAction) + "'";
+			sql = sql + " and isaction='" + ToolUtil.parseYNValueDefY(isAction) + "'";
 		}
 		sql = sql + " order by od";
 		return ResData.SUCCESS_OPER(db.query(sql, parentId).toJsonArrayWithJsonObject());
@@ -66,7 +66,7 @@ public class ContentCategoryService extends BaseService {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		JSONArray res = new JSONArray();
-		String rootsql = "select * from CT_CATEGORY_ROOT where ID=?  and deleted='N'";
+		String rootsql = "select * from ct_category_root where ID=?  and deleted='N'";
 		Rcd root_rs = db.uniqueRecord(rootsql, root_id);
 		JSONObject root = new JSONObject();
 		root.put("id", root_id);
@@ -74,7 +74,7 @@ public class ContentCategoryService extends BaseService {
 		root.put("text", root_rs.getString("name"));
 		root.put("type", "root");
 		res.add(root);
-		RcdSet rs = db.query("select * from CT_CATEGORY where root=? and deleted='N'", root_id);
+		RcdSet rs = db.query("select * from ct_category where root=? and deleted='N'", root_id);
 		JSONObject e = new JSONObject();
 		for (int i = 0; i < rs.size(); i++) {
 			e = new JSONObject();
@@ -90,7 +90,7 @@ public class ContentCategoryService extends BaseService {
 	 * @Description:查询某个节点
 	 */
 	public ResData queryCategoryById(String id) {
-		String sql = "select a.*,b.NAME ROOTNAME from  CT_CATEGORY a, CT_CATEGORY_ROOT b where a.ROOT=b.ID and a.id=?";
+		String sql = "select a.*,b.name rootname from  ct_category a, ct_category_root b where a.root=b.id and a.id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (rs == null) {
 			return ResData.FAILURE_NODATA();
@@ -102,13 +102,13 @@ public class ContentCategoryService extends BaseService {
 	 */
 	public ResData queryCategory(String root) {
 		return ResData.SUCCESS_OPER(
-				db.query("select * from CT_CATEGORY where deleted='N' and root=?", root).toJsonArrayWithJsonObject());
+				db.query("select * from ct_category where deleted='N' and root=?", root).toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description:获取节点下一个序列号
 	 */
 	public String getNextNodeId() {
-		return db.uniqueRecord("select case when max(id) is null then 50 else max(id)+1 end  value from CT_CATEGORY").getString("value");
+		return db.uniqueRecord("select case when max(id) is null then 50 else max(id)+1 end value from ct_category").getString("value");
 	}
 	/**
 	 * @Description:更新节点数据
@@ -116,7 +116,7 @@ public class ContentCategoryService extends BaseService {
 	public ResData updateCategory(TypedHashMap<String, Object> ps) {
 		String id = ps.getString("ID");
 		String name = ps.getString("NAME", "idle");
-		Update ups = new Update("CT_CATEGORY");
+		Update ups = new Update("ct_category");
 		ups.setIf("NAME", name);
 		ups.setIf("MPIC", ps.getString("MPIC"));
 		ups.setIf("MARK", ps.getString("MARK"));
@@ -148,7 +148,7 @@ public class ContentCategoryService extends BaseService {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		String id = this.getNextNodeId();
-		Insert me = new Insert("CT_CATEGORY");
+		Insert me = new Insert("ct_category");
 		if (old_node_type.equals("root")) {
 			// 树的根节点添加第一个节点
 			me.set("ROOT", old_id);

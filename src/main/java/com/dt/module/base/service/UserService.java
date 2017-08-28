@@ -63,7 +63,7 @@ public class UserService extends BaseService {
 	 */
 	public User getUser(String id) {
 		User user = new User();
-		String sql = "select * from SYS_USER_info a where a.user_id=?";
+		String sql = "select * from sys_user_info a where a.user_id=?";
 		// 账号状态信息
 		Rcd u_rs = db.uniqueRecord(sql, id);
 		user.setUserId(u_rs.getString("user_id"));
@@ -75,7 +75,7 @@ public class UserService extends BaseService {
 			user.setIsLocked(true);
 		}
 		// 获取角色信息
-		String sql2 = "select a.role_id,b.ROLE_NAME from SYS_USER_ROLE a, sys_role b where a.ROLE_ID=b.ROLE_ID and user_id=?";
+		String sql2 = "select a.role_id,b.role_name from sys_user_role a, sys_role b where a.role_id=b.role_id and user_id=?";
 		RcdSet r_rs = db.query(sql2, id);
 		HashMap<String, String> rmap = new HashMap<String, String>();
 		for (int i = 0; i < r_rs.size(); i++) {
@@ -155,7 +155,7 @@ public class UserService extends BaseService {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findPermissionsByRoleId(String roleId) {
-		return db.query(" select * from SYS_ROLE_MODULE where role_id=?", roleId).toList("module_id");
+		return db.query(" select * from sys_role_module where role_id=?", roleId).toList("module_id");
 	}
 	/**
 	 * @Description: 根据角色id查找角色名称
@@ -168,7 +168,7 @@ public class UserService extends BaseService {
 	 */
 	public Boolean isExistUserId(String user_id) {
 		if (ToolUtil.isEmpty(user_id)
-				|| db.uniqueRecord("select * from SYS_USER_INFO where deleted='N' and user_id=?", user_id) == null) {
+				|| db.uniqueRecord("select * from sys_user_info where deleted='N' and user_id=?", user_id) == null) {
 			return false;
 		}
 		return true;
@@ -205,7 +205,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(user_id)) {
 			return null;
 		}
-		Rcd rs = db.uniqueRecord("select empl_id from SYS_USER_INFO where deleted='N'  and user_id=?", user_id);
+		Rcd rs = db.uniqueRecord("select empl_id from sys_user_info where deleted='N'  and user_id=?", user_id);
 		if (rs == null) {
 			return null;
 		}
@@ -218,7 +218,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(empl_id)) {
 			return null;
 		}
-		Rcd rs = db.uniqueRecord("select user_id from SYS_USER_INFO where deleted='N'  and empl_id=?", empl_id);
+		Rcd rs = db.uniqueRecord("select user_id from sys_user_info where deleted='N'  and empl_id=?", empl_id);
 		if (rs == null) {
 			return null;
 		}
@@ -231,7 +231,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(username)) {
 			return null;
 		}
-		Rcd rs = db.uniqueRecord("select user_id from SYS_USER_INFO where deleted='N'  and user_name=?", username);
+		Rcd rs = db.uniqueRecord("select user_id from sys_user_info where deleted='N'  and user_name=?", username);
 		if (rs == null) {
 			return null;
 		}
@@ -245,7 +245,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isOneEmpty(value, user_type)) {
 			return res;
 		}
-		RcdSet rs = db.query("select user_id from SYS_USER_INFO where deleted='N' and user_type=? and mail=?", value,
+		RcdSet rs = db.query("select user_id from sys_user_info where deleted='N' and user_type=? and mail=?", value,
 				user_type);
 		for (int i = 0; i < rs.size(); i++) {
 			res.add(rs.getRcd(i).getString("user_id"));
@@ -260,7 +260,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isOneEmpty(value, user_type)) {
 			return res;
 		}
-		RcdSet rs = db.query("select user_id from SYS_USER_INFO where deleted='N' and user_type=? and tel=?", value,
+		RcdSet rs = db.query("select user_id from sys_user_info where deleted='N' and user_type=? and tel=?", value,
 				user_type);
 		for (int i = 0; i < rs.size(); i++) {
 			res.add(rs.getRcd(i).getString("user_id"));
@@ -304,7 +304,7 @@ public class UserService extends BaseService {
 	 */
 	public HashMap<String, String> queryUserRole(String user_id) {
 		HashMap<String, String> res = new HashMap<String, String>();
-		String sql = "select a.*,b.role_name from SYS_USER_ROLE a,SYS_ROLE b where a.ROLE_ID=b.ROLE_ID and user_id=?";
+		String sql = "select a.*,b.role_name from sys_user_role a,sys_role b where a.role_id=b.role_id and user_id=?";
 		RcdSet rs = db.query(sql, user_id);
 		for (int i = 0; i < rs.size(); i++) {
 			res.put(rs.getRcd(i).getString("role_id"), rs.getRcd(i).getString("role_name"));
@@ -487,9 +487,9 @@ public class UserService extends BaseService {
 		}
 		for (int i = 0; i < userids_arr.size(); i++) {
 			// 处理用户
-			db.execute("delete from SYS_USER_ROLE where user_id=?", userids_arr.getString(i));
+			db.execute("delete from sys_user_role where user_id=?", userids_arr.getString(i));
 			for (int j = 0; j < roles_arr.size(); j++) {
-				db.execute("insert into SYS_USER_ROLE(user_id,role_id) values(?,?)", userids_arr.getString(i),
+				db.execute("insert into sys_user_role(user_id,role_id) values(?,?)", userids_arr.getString(i),
 						roles_arr.getString(j));
 			}
 		}
