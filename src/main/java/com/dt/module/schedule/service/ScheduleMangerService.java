@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.Job;
@@ -20,51 +19,43 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.common.util.support.ReflectKit;
-import com.dt.core.db.DB;
 import com.dt.module.schedule.entity.ScheduleJob;
 import com.google.common.collect.Maps;
 
-
-
 @Service
-public class ScheduleMangerService {
-
+public class ScheduleMangerService extends BaseService {
 	private static Logger _log = LoggerFactory.getLogger(ScheduleMangerService.class);
-	@Autowired
-	private DB db;
-	private   SchedulerFactory sf = new StdSchedulerFactory();
-	
-	
+	private SchedulerFactory sf = new StdSchedulerFactory();
+
 	public static ScheduleMangerService me() {
 		return SpringContextUtil.getBean(ScheduleMangerService.class);
 	}
-	
-
-	public  void jobInitLoadFromDb() {
+	/**
+	 * @Description: 从数据库中初始化Job状态
+	 */
+	public void jobInitLoadFromDb() {
 		String sql = "select * from sys_job where jobenable='true'";
-		RcdSet res=db.query(sql);
-		for(int i=0;i<res.size();i++){
+		RcdSet res = db.query(sql);
+		for (int i = 0; i < res.size(); i++) {
 			ScheduleJob job = new ScheduleJob();
 			job.setJobSeq(res.getRcd(i).getString("seq"));
 			job.setCronExpression(res.getRcd(i).getString("jobcron"));
 			job.setJobGroup(res.getRcd(i).getString("jobgroup"));
 			job.setJobName(res.getRcd(i).getString("jobname"));
 			job.setJobClassName(res.getRcd(i).getString("jobclassname"));
-			
 			jobAdd(job);
-
 		}
-
 	}
-
+	/**
+	 * @Description: 停止schedule管理
+	 */
 	public void scheduleStop() {
 		try {
 			sf.getScheduler().shutdown();
@@ -73,10 +64,12 @@ public class ScheduleMangerService {
 			e.printStackTrace();
 		}
 	}
-
-	public  void schedulegGetStatus() {
+	/**
+	 * @Description: 获取schedule状态
+	 */
+	public void schedulegGetStatus() {
 		try {
-			Boolean  isShutdown  = sf.getScheduler().isShutdown();
+			Boolean isShutdown = sf.getScheduler().isShutdown();
 			if (isShutdown) {
 				_log.info("this is stop");
 			} else {
@@ -87,43 +80,42 @@ public class ScheduleMangerService {
 			e.printStackTrace();
 		}
 	}
-
-	public  void scheduleStart() {
+	/**
+	 * @Description: 启动schedule管理
+	 */
+	public void scheduleStart() {
 		try {
-			sf.getScheduler().start();;
-	 
+			sf.getScheduler().start();
+			;
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * @Description: 获取所有Job的状态
+	 */
 	@SuppressWarnings("rawtypes")
-	public  JSONArray getJobAll() {
+	public JSONArray getJobAll() {
 		/* 初始化后运行 */
-		String sql = " select t.*,'本地执行' nodename from sys_job t where   jobtype <>'node'  ";                        
-		 
+		String sql = " select t.*,'本地执行' nodename from sys_job t where jobtype <>'node'  ";
 		Map<String, ScheduleJob> jobs = Maps.newLinkedHashMap();
-	 
-		RcdSet res=db.query(sql);
+		RcdSet res = db.query(sql);
 		for (int i = 0; i < res.size(); i++) {
 			ScheduleJob job = new ScheduleJob();
-			 
-			job.setJobSeq(res.getRcd(i).getString("seq").toString());
-			job.setNode(res.getRcd(i).getString("node").toString());
-			job.setNodeName(res.getRcd(i).getString("nodename").toString());
-			job.setJobName(res.getRcd(i).getString("jobname").toString());
-			job.setJobGroup(res.getRcd(i).getString("jobgroup").toString());
-			job.setJobClassName(res.getRcd(i).getString("jobclassname").toString());
-			job.setCronExpression(res.getRcd(i).getString("jobcron").toString());
-			job.setJobType(res.getRcd(i).getString("jobtype").toString());
-			job.setJobEnable(res.getRcd(i).getString("jobenable").toString());
-			job.setJobDesc(res.getRcd(i).getString("mark").toString());
+			job.setJobSeq(res.getRcd(i).getString("seq"));
+			job.setNode(res.getRcd(i).getString("node"));
+			job.setNodeName(res.getRcd(i).getString("nodename"));
+			job.setJobName(res.getRcd(i).getString("jobname"));
+			job.setJobGroup(res.getRcd(i).getString("jobgroup"));
+			job.setJobClassName(res.getRcd(i).getString("jobclassname"));
+			job.setCronExpression(res.getRcd(i).getString("jobcron"));
+			job.setJobType(res.getRcd(i).getString("jobtype"));
+			job.setJobEnable(res.getRcd(i).getString("jobenable"));
+			job.setJobDesc(res.getRcd(i).getString("mark"));
 			job.setJobSource("tab");
-			jobs.put(res.getRcd(i).getString("seq").toString(), job);
+			jobs.put(res.getRcd(i).getString("seq"), job);
 		}
- 
-
 		Scheduler scheduler;
 		try {
 			scheduler = sf.getScheduler();
@@ -140,7 +132,7 @@ public class ScheduleMangerService {
 						jobs.get(seqtmp).setJobTrigger(trigger.getKey() + "");
 					} else {
 						ScheduleJob job = new ScheduleJob();
-						//jobnametest#idle#16051e6d2fdbf49cc3b7b58b57a6acaf
+						// 格式jobnametest#idle#16051e6d2fdbf49cc3b7b58b57a6acaf
 						job.setJobPlanStatus(triggerState.name());
 						job.setJobTrigger(trigger.getKey() + "");
 						job.setJobGroup(jobKey.getGroup());
@@ -156,22 +148,19 @@ public class ScheduleMangerService {
 						jobs.put(seqtmp, job);
 					}
 				}
-			}// end JobKey
-
+			} // end JobKey
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		JSONArray data = new JSONArray();
 		JSONObject object = null;
-		Iterator iterator2 = jobs.keySet().iterator();
-		while (iterator2.hasNext()) {
+		Iterator iteratorjob = jobs.keySet().iterator();
+		while (iteratorjob.hasNext()) {
 			object = new JSONObject();
-			Object o = iterator2.next();
+			Object o = iteratorjob.next();
 			String key = (String) o;
 			ScheduleJob value = (ScheduleJob) jobs.get(key);
-			 
 			object.put("seq", value.getJobSeq());
 			object.put("node", value.getNode());
 			object.put("nodename", value.getNodeName());
@@ -189,7 +178,9 @@ public class ScheduleMangerService {
 		}
 		return data;
 	}
-
+	/**
+	 * @Description: 获取单个Job的状态
+	 */
 	public void jobInfo(ScheduleJob job) {
 		Scheduler scheduler;
 		try {
@@ -197,24 +188,22 @@ public class ScheduleMangerService {
 			JobKey jobKey = JobKey.jobKey(job.getJobRunName(), job.getJobGroup());
 			_log.info("this job " + scheduler.checkExists(jobKey));
 			_log.info("this groupnames " + scheduler.getJobGroupNames());
-
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-	} 
-
+	}
+	/**
+	 * @Description: 获取单个Job的状态
+	 */
 	public JSONObject jobStatus(ScheduleJob job) {
 		JSONObject object = new JSONObject();
 		object.put("jobPlanStatus", "");
 		Scheduler scheduler;
 		try {
 			scheduler = sf.getScheduler();
-
 			JobKey jobKey = JobKey.jobKey(job.getJobRunName(), job.getJobGroup());
 			List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
-
 			if (triggers.size() == 1) {
 				Trigger.TriggerState triggerState = scheduler.getTriggerState(triggers.get(0).getKey());
 				String status = triggerState.name();
@@ -226,14 +215,14 @@ public class ScheduleMangerService {
 		}
 		return object;
 	}
-
-	
+	/**
+	 * @Description: 添加Job
+	 */
 	public boolean jobAdd(ScheduleJob job) {
-		
-		if(jobExist(job)){
+		_log.info("Job add:" + job.getJobClassName() + "," + job.getJobSeq());
+		if (jobExist(job)) {
 			return true;
 		}
-		
 		Scheduler scheduler;
 		try {
 			scheduler = sf.getScheduler();
@@ -242,17 +231,18 @@ public class ScheduleMangerService {
 			if (null == trigger) {
 				/* 创建JobDetail */
 				Class<Job> jobjf = ReflectKit.on(job.getJobClassName()).get();
-				JobDetail jobDetail = ReflectKit.on("org.quartz.JobBuilder").call("newJob", jobjf.newInstance().getClass()).call("withIdentity", job.getJobRunName(), job.getJobGroup()).call("build")
-						.get();
+				JobDetail jobDetail = ReflectKit.on("org.quartz.JobBuilder")
+						.call("newJob", jobjf.newInstance().getClass())
+						.call("withIdentity", job.getJobRunName(), job.getJobGroup()).call("build").get();
 				jobDetail.getJobDataMap().put("scheduleJob", job);
 				/* 表达式调度构建 */
 				CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(job.getCronExpression());
 				/* 按新的cronExpression表达式构建一个新的trigger */
-				trigger = TriggerBuilder.newTrigger().withIdentity(job.getJobRunName(), job.getJobGroup()).withSchedule(scheduleBuilder).build();
+				trigger = TriggerBuilder.newTrigger().withIdentity(job.getJobRunName(), job.getJobGroup())
+						.withSchedule(scheduleBuilder).build();
 				scheduler.scheduleJob(jobDetail, trigger);
 				return true;
 			} else {
-			 
 			}
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
@@ -266,8 +256,11 @@ public class ScheduleMangerService {
 		}
 		return false;
 	}
-
-	public void jobDel(ScheduleJob job) {
+	/**
+	 * @Description: 删除Job
+	 */
+	public Boolean jobDel(ScheduleJob job) {
+		_log.info("Job delete:" + job.getJobClassName() + "," + job.getJobSeq());
 		JobKey jobKey = JobKey.jobKey(job.getJobRunName(), job.getJobGroup());
 		try {
 			Scheduler scheduler = sf.getScheduler();
@@ -275,11 +268,15 @@ public class ScheduleMangerService {
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
-//
+	/**
+	 * @Description: 触发Job
+	 */
 	public void jobTriggerRun(ScheduleJob job) {
-
+		_log.info("Job trigger:" + job.getJobClassName() + "," + job.getJobSeq());
 		JobKey jobKey = JobKey.jobKey(job.getJobRunName(), job.getJobGroup());
 		try {
 			Scheduler scheduler = sf.getScheduler();
@@ -289,9 +286,11 @@ public class ScheduleMangerService {
 			e.printStackTrace();
 		}
 	}
- 
-//
+	/**
+	 * @Description: 停止job
+	 */
 	public void jobPause(ScheduleJob job) {
+		_log.info("Job pause:" + job.getJobClassName() + "," + job.getJobSeq());
 		JobKey jobKey = JobKey.jobKey(job.getJobRunName(), job.getJobGroup());
 		try {
 			Scheduler scheduler = sf.getScheduler();
@@ -301,21 +300,25 @@ public class ScheduleMangerService {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * @Description: job是否存在于队列
+	 */
 	public boolean jobExist(ScheduleJob job) {
-		boolean returnvalue = false;
 		JobKey jobKey = JobKey.jobKey(job.getJobRunName(), job.getJobGroup());
 		try {
 			Scheduler scheduler = sf.getScheduler();
-			returnvalue = scheduler.checkExists(jobKey);
+			return scheduler.checkExists(jobKey);
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return returnvalue;
+		return false;
 	}
-
+	/**
+	 * @Description: 暂停job
+	 */
 	public void jobResume(ScheduleJob job) {
+		_log.info("Job resume:" + job.getJobClassName() + "," + job.getJobSeq());
 		JobKey jobKey = JobKey.jobKey(job.getJobRunName(), job.getJobGroup());
 		try {
 			Scheduler scheduler = sf.getScheduler();
@@ -324,7 +327,5 @@ public class ScheduleMangerService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-
 }

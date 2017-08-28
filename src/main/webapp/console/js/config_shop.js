@@ -3,7 +3,6 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 	$ocLazyLoadProvider.config({
 		debug : false
 	});
-
 	// 产品
 	$stateProvider.state('product', {
 		abstract : true,
@@ -90,13 +89,6 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
-
-	// // 订单
-	// $stateProvider.state('product', {
-	// abstract : true,
-	// url : "/product",
-	// templateUrl : "views/common/content.html"
-	// });
 }
 
 

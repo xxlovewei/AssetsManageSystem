@@ -221,7 +221,6 @@ app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $tra
 		$log.warn('IdlKeepaliveeEnd');
 		// do something to keep the user's session alive
 	});
-
 });
 
 app.config(config_shop).run(function() {

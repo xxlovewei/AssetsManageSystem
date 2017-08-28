@@ -6,14 +6,13 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import com.dt.module.schedule.service.ScheduleMangerService;
+
 /**
- * spring容器初始化完成事件
- * Spring框架加载完成后会publishContextRefreshedEvent事件
- * 创建ContextRefreshedEvent事件监听类 
+ * spring容器初始化完成事件 Spring框架加载完成后会publishContextRefreshedEvent事件 创建ContextRefreshedEvent事件监听类
  */
 @Component("myServletContextListener")
 public class ApplicationContextListener implements ApplicationListener<ContextRefreshedEvent> {
-
 	private static Logger _log = LoggerFactory.getLogger(ApplicationContextListener.class);
 
 	@Override
@@ -21,16 +20,11 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 		// root application context
 		System.out.println("over");
 		if (null == contextRefreshedEvent.getApplicationContext().getParent()) {
-			 _log.debug(">>>>> spring初始化完毕 <<<<<");
-			System.out.println("Job初始化");
-			//遍历job启动
-//			ScheduleMangerService scheduleMangerService=ScheduleMangerService.me();
-//			scheduleMangerService.scheduleStart();
-//			scheduleMangerService.jobInitLoadFromDb();
-			 
-			
-			
-		
+			_log.debug(">>>>> spring初始化完毕 <<<<<");
+			// 遍历job启动
+			ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
+			scheduleMangerService.scheduleStart();
+			scheduleMangerService.jobInitLoadFromDb();
 			// // spring初始化完毕后，通过反射调用所有使用BaseService注解的initMapper方法
 			// Map<String, Object> baseServices =
 			// contextRefreshedEvent.getApplicationContext().getBeansWithAnnotation(BaseService.class);
@@ -45,7 +39,6 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			// e.printStackTrace();
 			// }
 			// }
-
 			// 系统入口初始化
 			// Map<String, BaseInterface> baseInterfaceBeans =
 			// contextRefreshedEvent.getApplicationContext().getBeansOfType(BaseInterface.class);
@@ -59,8 +52,6 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			// e.printStackTrace();
 			// }
 			// }
-
 		}
 	}
-
 }

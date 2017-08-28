@@ -1,11 +1,8 @@
 function config_system($stateProvider, $ocLazyLoadProvider) {
-
 	$ocLazyLoadProvider.config({
 		debug : false
 	});
-
 	console.log("App System config");
-
 	// 基础数据
 	$stateProvider.state('basedata', {
 		abstract : true,
@@ -291,7 +288,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
-
 	//运维监控
 	$stateProvider.state('devos', {
 		abstract : true,
@@ -309,7 +305,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
-
 	//任务设置
 	$stateProvider.state('task', {
 		abstract : true,
@@ -327,9 +322,5 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
-
 }
 
-// app.config(config_system).run(function() {
-// console.log("App System run");
-// });

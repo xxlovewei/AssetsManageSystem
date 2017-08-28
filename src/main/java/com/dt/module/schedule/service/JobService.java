@@ -5,61 +5,61 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.Rcd;
-import com.dt.core.db.DB;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.module.schedule.entity.ScheduleJob;
 
 /**
  * @author 作者 Lank
  * @version 创建时间：2017年8月1日 下午5:50:44 类说明
  */
-
 @Service
-public class JobService {
-
+public class JobService extends BaseService {
 	@Autowired
 	ScheduleMangerService scheduleMangerService = null;
 
-	@Autowired
-	DB db;
-
+	/**
+	 * @Description: 查询job
+	 */
 	public JSONArray queryJob(String type) {
 		JSONArray data = null;
-
-		
 		data = scheduleMangerService.getJobAll();
-
 		return data;
 	}
-
-	private ScheduleJob getScheduleJob(String seq) {
+	/**
+	 * @Description: 根据id获取ScheduleJob
+	 */
+	public ScheduleJob getScheduleJob(String seq) {
 		String sql = "select * from sys_job where seq=?";
-
 		ScheduleJob job = new ScheduleJob();
 		job.setJobInstanceValid(false);
-		Rcd res = db.uniqueRecord(sql,seq);
-		if (res != null) {
-
+		Rcd res = db.uniqueRecord(sql, seq);
+		if (ToolUtil.isNotEmpty(res)) {
 			job.setJobSeq(res.getString("seq").toString());
 			job.setCronExpression(res.getString("jobcron").toString());
 			job.setJobGroup(res.getString("jobgroup").toString());
 			job.setJobName(res.getString("jobname").toString());
 			job.setJobClassName(res.getString("jobclassname").toString());
 			job.setJobInstanceValid(true);
+		}else{
 		}
-
 		return job;
 	}
-
+	/**
+	 * @Description: enableJob,返回job状态
+	 */
 	public JSONObject enableJob(String seq) {
 		ScheduleJob job = getScheduleJob(seq);
 		if (job.isJobInstanceValid()) {
-			db.execute("update sys_job set jobenable='true' where seq=? ",seq);
+			db.execute("update sys_job set jobenable='true' where seq=? ", seq);
 			scheduleMangerService.jobAdd(job);
 		}
 		return scheduleMangerService.jobStatus(job);
 	}
-
+	/**
+	 * @Description: disableJob,返回job状态
+	 */
 	public JSONObject disabledJob(String seq) {
 		ScheduleJob job = getScheduleJob(seq);
 		if (job.isJobInstanceValid()) {
@@ -68,18 +68,23 @@ public class JobService {
 		}
 		return scheduleMangerService.jobStatus(job);
 	}
-
-	public void removejob(String seq, String jobname, String jobgroupname) {
+	/**
+	 * @Description: 删除Job,返回job状态
+	 */
+	public Boolean removejob(String seq, String jobname, String jobgroupname) {
 		ScheduleJob job = getScheduleJob(seq);
-		/* 数据库中删除 */
-		db.execute("delete from sys_job where jobtype<>'sys' and seq=?", seq);
-
 		job.setJobSeq(seq);
 		job.setJobGroup(jobgroupname);
 		job.setJobName(jobname);
-		scheduleMangerService.jobDel(job);
+		if (scheduleMangerService.jobDel(job)) {
+			db.execute("delete from sys_job where jobtype<>'sys' and seq=?", seq);
+			return true;
+		}
+		return false;
 	}
-
+	/**
+	 * @Description: 停止job,返回job状态
+	 */
 	public JSONObject pausejob(String seq) {
 		ScheduleJob job = getScheduleJob(seq);
 		if (job.isJobInstanceValid()) {
@@ -87,18 +92,20 @@ public class JobService {
 		}
 		return scheduleMangerService.jobStatus(job);
 	}
-
+	/**
+	 * @Description: 暂停job,返回job状态
+	 */
 	public JSONObject resumejob(String seq) {
 		ScheduleJob job = getScheduleJob(seq);
 		if (job.isJobInstanceValid()) {
 			scheduleMangerService.jobResume(job);
 		}
 		return scheduleMangerService.jobStatus(job);
-
 	}
-
+	/**
+	 * @Description: job立即运行一次,返回job状态
+	 */
 	public void runoncejob(String seq) {
-
 		ScheduleJob job = getScheduleJob(seq);
 		if (job.isJobInstanceValid()) {
 			if (!scheduleMangerService.jobExist(job)) {
@@ -107,5 +114,4 @@ public class JobService {
 			scheduleMangerService.jobTriggerRun(job);
 		}
 	}
-
 }

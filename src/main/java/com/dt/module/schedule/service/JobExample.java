@@ -1,8 +1,5 @@
 package com.dt.module.schedule.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -21,7 +18,7 @@ public class JobExample implements Job {
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		// TODO Auto-generated method stub
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+		//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		_log.info("hello");
 		try {
 	        Thread.sleep(30000);//括号里面的5000代表5000毫秒，也就是5秒，可以该成你需要的时间
