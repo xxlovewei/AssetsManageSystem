@@ -37,25 +37,25 @@ public class ContentService extends BaseService {
 			// 用覆盖的ID
 			id = ps.getString("ID", id);
 		}
-		me.set("ID", id);
-		me.set("DELETED", "N");
-		me.set("TYPE", type);
-		me.set("DISPLAY", ToolUtil.parseYNValueDefN(ps.getString("DISPLAY")));
-		me.set("DIGEST", ToolUtil.parseYNValueDefN(ps.getString("DIGEST")));
-		me.setIf("CAT_ID", ps.getString("CAT_ID"));
-		me.setIf("TITLE", ps.getString("TITLE"));
-		me.setIf("PROFILE", ps.getString("PROFILE"));
-		me.setIf("URLTYPE", ps.getString("URLTYPE"));
-		me.setIf("URL", ps.getString("URL"));
-		me.setIf("MPIC", ps.getString("MPIC"));
-		me.setIf("MPIC_LOC", ps.getString("MPIC_LOC"));
-		me.setIf("HITS", ps.getString("HITS"));
-		me.setIf("AUTHOR", ps.getString("AUTHOR"));
-		me.setIf("TAG", ps.getString("TAG"));
-		me.setIf("CONTENT", ps.getString("CONTENT"));
-		me.setIf("MARK", ps.getString("MARK"));
-		me.setSE("CREATETIME", DBUtil.getDBDateString(db.getDBType()));
-		me.setSE("MODIFYTIME", DBUtil.getDBDateString(db.getDBType()));
+		me.set("id", id);
+		me.set("deleted", "N");
+		me.set("type", type);
+		me.set("display", ToolUtil.parseYNValueDefN(ps.getString("DISPLAY")));
+		me.set("digest", ToolUtil.parseYNValueDefN(ps.getString("DIGEST")));
+		me.setIf("cat_id", ps.getString("CAT_ID"));
+		me.setIf("title", ps.getString("TITLE"));
+		me.setIf("profile", ps.getString("PROFILE"));
+		me.setIf("urltype", ps.getString("URLTYPE"));
+		me.setIf("url", ps.getString("URL"));
+		me.setIf("mpic", ps.getString("MPIC"));
+		me.setIf("mpic_loc", ps.getString("MPIC_LOC"));
+		me.setIf("hits", ps.getString("HITS"));
+		me.setIf("author", ps.getString("AUTHOR"));
+		me.setIf("tag", ps.getString("TAG"));
+		me.setIf("content", ps.getString("CONTENT"));
+		me.setIf("mark", ps.getString("MARK"));
+		me.setSE("createtime", DBUtil.getDBDateString(db.getDBType()));
+		me.setSE("modifytime", DBUtil.getDBDateString(db.getDBType()));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -64,22 +64,22 @@ public class ContentService extends BaseService {
 	 */
 	public ResData updateContent(TypedHashMap<String, Object> ps) {
 		Update me = new Update("ct_content");
-		me.set("DISPLAY", ToolUtil.parseYNValueDefN(ps.getString("DISPLAY")));
-		me.set("DIGEST", ToolUtil.parseYNValueDefN(ps.getString("DIGEST")));
-		me.setIf("CAT_ID", ps.getString("CAT_ID"));
-		me.setIf("TITLE", ps.getString("TITLE"));
-		me.setIf("PROFILE", ps.getString("PROFILE"));
-		me.setIf("CONTENT", ps.getString("CONTENT"));
-		me.setIf("URLTYPE", ps.getString("URLTYPE"));
-		me.setIf("URL", ps.getString("URL"));
-		me.setIf("MPIC", ps.getString("MPIC"));
-		me.setIf("MPIC_LOC", ps.getString("MPIC_LOC"));
-		me.setIf("HITS", ps.getString("HITS"));
-		me.setIf("AUTHOR", ps.getString("AUTHOR"));
-		me.setIf("TAG", ps.getString("TAG"));
-		me.setIf("MARK", ps.getString("MARK"));
-		me.setSE("MODIFYTIME", DBUtil.getDBDateString(db.getDBType()));
-		me.where().and("ID=?", ps.getString("ID"));
+		me.set("display", ToolUtil.parseYNValueDefN(ps.getString("DISPLAY")));
+		me.set("digest", ToolUtil.parseYNValueDefN(ps.getString("DIGEST")));
+		me.setIf("cat_id", ps.getString("CAT_ID"));
+		me.setIf("title", ps.getString("TITLE"));
+		me.setIf("profile", ps.getString("PROFILE"));
+		me.setIf("content", ps.getString("CONTENT"));
+		me.setIf("urltype", ps.getString("URLTYPE"));
+		me.setIf("url", ps.getString("URL"));
+		me.setIf("mpic", ps.getString("MPIC"));
+		me.setIf("mpic_loc", ps.getString("MPIC_LOC"));
+		me.setIf("hits", ps.getString("HITS"));
+		me.setIf("author", ps.getString("AUTHOR"));
+		me.setIf("tag", ps.getString("TAG"));
+		me.setIf("mark", ps.getString("MARK"));
+		me.setSE("modifytime", DBUtil.getDBDateString(db.getDBType()));
+		me.where().and("id=?", ps.getString("ID"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -111,7 +111,7 @@ public class ContentService extends BaseService {
 		String edate = ps.getString("edate");
 		String sort = ps.getString("sort");
 		String noContent = ps.getString("noContent", "N");
-		String sql = "select <#CONTENT#> ID,CAT_ID,DIGEST,TITLE,PROFILE,URLTYPE,URL,TYPE,MPIC,MPIC_LOC,HITS,AUTHOR,CREATETIME,MODIFYTIME ,DISPLAY,MARK,TAG from ct_content  where deleted='N' and type='"
+		String sql = "select <#CONTENT#> id,cat_id,digest,title,profile,urltype,url,type,mpic,mpic_loc,hits,author,createtime,modifytime ,display,mark,tag from ct_content  where deleted='N' and type='"
 				+ type + "' ";
 		if (noContent.equals("Y")) {
 			sql = sql.replaceAll("<#CONTENT#>", "");
@@ -119,20 +119,20 @@ public class ContentService extends BaseService {
 			sql = sql.replaceAll("<#CONTENT#>", "CONTENT,");
 		}
 		if (ToolUtil.isNotEmpty(sdate)) {
-			sql = sql + " and CREATETIME>=to_date('" + sdate + " 00:00:00','yyyy-mm-dd hh24:mi:ss') ";
+			sql = sql + " and createtime>=to_date('" + sdate + " 00:00:00','yyyy-mm-dd hh24:mi:ss') ";
 		}
 		if (ToolUtil.isNotEmpty(edate)) {
-			sql = sql + " and CREATETIME<=to_date('" + edate + " 23:59:59','yyyy-mm-dd hh24:mi:ss') ";
+			sql = sql + " and createtime<=to_date('" + edate + " 23:59:59','yyyy-mm-dd hh24:mi:ss') ";
 		}
 		if (ToolUtil.isEmpty(sort)) {
 			// 如果是新闻
 			if (type.equals(ContentService.TYPE_NEWS)) {
-				sql = sql + " order by  CREATETIME desc";
+				sql = sql + " order by createtime desc";
 			}
 		} else {
 			// 按照预定的排序
 			if (sort.equals(SORT_CREATE)) {
-				sql = sql + " order by  CREATETIME desc";
+				sql = sql + " order by createtime desc";
 			}
 		}
 		return sql;

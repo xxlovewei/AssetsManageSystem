@@ -26,7 +26,7 @@ public class MenuRoleMapService extends BaseService {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		db.execute(
-				"delete from sys_role_module where role_id=? and module_id in (select node_id from sys_menus_node where MENU_ID=?)",
+				"delete from sys_role_module where role_id=? and module_id in (select node_id from sys_menus_node where menu_id=?)",
 				role_id, menu_id);
 		JSONArray ms = JSONArray.parseArray(modulesarr);
 		for (int i = 0; i < ms.size(); i++) {

@@ -115,7 +115,7 @@ public class DictService extends BaseService {
 	 */
 	public ResData queryDictItem(String id) {
 		return ResData
-				.SUCCESS_OPER(db.query("select * from sys_dict_item where dict_id=? order by sort ", id).toJsonArrayWithJsonObject());
+				.SUCCESS_OPER(db.query("select * from sys_dict_item where dict_id=? order by sort", id).toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description:修改某个字典项

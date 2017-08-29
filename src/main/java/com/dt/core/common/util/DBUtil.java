@@ -82,7 +82,7 @@ public class DBUtil {
 		return "";
 	}
 	public static void main(String[] args) {
-		System.out.println(getOraclePageSql("select * from CT_CONTENT", -1, 0));
+		System.out.println(getOraclePageSql("select * from ct_content", -1, 0));
 		System.out.println(getTotalPage(6, 4));
 	}
 }

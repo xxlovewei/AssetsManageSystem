@@ -66,7 +66,7 @@ public class ContentCategoryService extends BaseService {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		JSONArray res = new JSONArray();
-		String rootsql = "select * from ct_category_root where ID=?  and deleted='N'";
+		String rootsql = "select * from ct_category_root where id=?  and deleted='N'";
 		Rcd root_rs = db.uniqueRecord(rootsql, root_id);
 		JSONObject root = new JSONObject();
 		root.put("id", root_id);
@@ -90,7 +90,7 @@ public class ContentCategoryService extends BaseService {
 	 * @Description:查询某个节点
 	 */
 	public ResData queryCategoryById(String id) {
-		String sql = "select a.*,b.name rootname from  ct_category a, ct_category_root b where a.root=b.id and a.id=?";
+		String sql = "select a.*,b.name rootname from  ct_category a,ct_category_root b where a.root=b.id and a.id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (rs == null) {
 			return ResData.FAILURE_NODATA();
@@ -117,11 +117,11 @@ public class ContentCategoryService extends BaseService {
 		String id = ps.getString("ID");
 		String name = ps.getString("NAME", "idle");
 		Update ups = new Update("ct_category");
-		ups.setIf("NAME", name);
-		ups.setIf("MPIC", ps.getString("MPIC"));
-		ups.setIf("MARK", ps.getString("MARK"));
-		ups.setIf("OD", ps.getString("OD"));
-		ups.setIf("ISACTION", ps.getString("ISACTION"));
+		ups.setIf("name", name);
+		ups.setIf("mpic", ps.getString("MPIC"));
+		ups.setIf("mark", ps.getString("MARK"));
+		ups.setIf("od", ps.getString("OD"));
+		ups.setIf("isaction", ps.getString("ISACTION"));
 		ups.where().and("id=?", id);
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
@@ -151,10 +151,10 @@ public class ContentCategoryService extends BaseService {
 		Insert me = new Insert("ct_category");
 		if (old_node_type.equals("root")) {
 			// 树的根节点添加第一个节点
-			me.set("ROOT", old_id);
-			me.set("ROUTE", id);
-			me.set("PARENT_ID", old_id);
-			me.set("NODE_LEVEL", "1");
+			me.set("root", old_id);
+			me.set("route", id);
+			me.set("parent_id", old_id);
+			me.set("node_level", "1");
 		} else {
 			// 树的添加节点
 			ResData oldNode = queryCategoryById(old_id);
@@ -162,18 +162,18 @@ public class ContentCategoryService extends BaseService {
 				return oldNode;
 			}
 			JSONObject oldData = JSONObject.parseObject(oldNode.getData().toString());
-			me.set("ROOT", oldData.getString("ROOT"));
-			me.set("ROUTE", oldData.getString("ROUTE") + "-" + id);
-			me.set("PARENT_ID", old_id);
-			me.set("NODE_LEVEL", oldData.getIntValue("NODE_LEVEL") + 1);
+			me.set("root", oldData.getString("ROOT"));
+			me.set("route", oldData.getString("ROUTE") + "-" + id);
+			me.set("parent_id", old_id);
+			me.set("node_level", oldData.getIntValue("NODE_LEVEL") + 1);
 		}
-		me.set("ID", id);
-		me.set("DELETED", "N");
-		me.setIf("MARK", ps.getString("MARK"));
-		me.setIf("MPIC", ps.getString("MPIC"));
-		me.setIf("NAME", ps.getString("NAME", "idle"));
-		me.setIf("ISACTION", ps.getString("ISACTION"));
-		me.setIf("OD", ConvertUtil.toInt(ps.getString("OD"), 99));
+		me.set("id", id);
+		me.set("deleted", "N");
+		me.setIf("mark", ps.getString("MARK"));
+		me.setIf("mpic", ps.getString("MPIC"));
+		me.setIf("name", ps.getString("NAME", "idle"));
+		me.setIf("isaction", ps.getString("ISACTION"));
+		me.setIf("od", ConvertUtil.toInt(ps.getString("OD"), 99));
 		db.execute(me);
 		return queryCategoryById(id);
 	}

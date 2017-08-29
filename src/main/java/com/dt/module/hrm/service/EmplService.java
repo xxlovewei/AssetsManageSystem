@@ -156,10 +156,10 @@ public class EmplService extends BaseService {
 				ResData.FAILURE("该节点不存在");
 			}
 			String route = routev.getString("route").replaceAll("-", ",");
-			bsql = " select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+			bsql = "select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
 			bsql = bsql + " and a.node_id in(" + route + ") ";
 		} else {
-			bsql = " select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+			bsql = "select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
 		}
 		if (name != null && (!name.trim().equals(""))) {
 			bsql = bsql + " and b.name like '%" + name + "%'";
