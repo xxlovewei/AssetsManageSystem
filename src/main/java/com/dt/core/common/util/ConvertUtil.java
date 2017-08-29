@@ -21,12 +21,6 @@ public class ConvertUtil {
 	private ConvertUtil() {
 		// 静态类不可实例化
 	}
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		// toJSONArrayFromString(arr, "id", ",");
-		String str = "";
-		System.out.println(toJSONArrayFromString(str, "id", ",").toJSONString());
-	}
 	// 将jsonArray[{id:2},{id:1},{id:3}]-->2,1,3
 	public static String toStringFromJSONArray(JSONArray arr, String key, String split) {
 		String res = "";
@@ -998,5 +992,21 @@ public class ConvertUtil {
 		}
 		return head + s.replaceAll("(零.)*零元", "元").replaceFirst("(零.)+", "").replaceAll("(零.)+", "零").replaceAll("^整$",
 				"零元整");
+	}
+	/**
+	 * 不够位数的在前面补0，保留num的长度位数字
+	 * @param code
+	 * @return // 保留num的位数 // 0 代表前面补充0 // num 代表长度为4 // d 代表参数为正数型
+	 */
+	public static String formatIntToString(String code, int num, int def) {
+		String result = "";
+		int codeint = toInt(code, def);
+		result = String.format("%0" + num + "d", codeint);
+		return result;
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// toJSONArrayFromString(arr, "id", ",");
+		System.out.println(formatIntToString("121", 6,12));
 	}
 }

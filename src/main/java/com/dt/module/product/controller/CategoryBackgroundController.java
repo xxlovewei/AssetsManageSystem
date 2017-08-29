@@ -106,7 +106,7 @@ public class CategoryBackgroundController  extends BaseController{
 		root.put("is_cat", "N");
 		root.put("type", "root");
 		res.add(root);
-		RcdSet rs = db.query("select * from PRODUCT_category where is_deleted='N'");
+		RcdSet rs = db.query("select * from product_category where is_deleted='N'");
 		JSONObject e = new JSONObject();
 		for (int i = 0; i < rs.size(); i++) {
 			e = new JSONObject();
@@ -137,7 +137,7 @@ public class CategoryBackgroundController  extends BaseController{
 			return ResData.FAILURE("请输入正确的参数");
 		}
 
-		Rcd rs = db.uniqueRecord("select count(1) value from PRODUCT_category where is_deleted='N' and parent_id=?",
+		Rcd rs = db.uniqueRecord("select count(1) value from product_category where is_deleted='N' and parent_id=?",
 				id);
 		if (rs.getInteger("value") > 0) {
 			return ResData.FAILURE("先删除子节点");
@@ -161,7 +161,7 @@ public class CategoryBackgroundController  extends BaseController{
 		if (attr_id == null) {
 			return ResData.FAILURE_OPER();
 		}
-		String sql = "select * from PRODUCT_CATEGORY_ATTR_SET where is_deleted='N' and attr_id=? order by od";
+		String sql = "select * from product_category_attr_set where is_deleted='N' and attr_id=? order by od";
 		return ResData.SUCCESS_OPER(db.query(sql, attr_id).toJsonArrayWithJsonObject());
 	}
 
@@ -173,7 +173,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 		String id = request.getParameter("ID");
 
-		Rcd r = db.uniqueRecord("select * from PRODUCT_CATEGORY_ATTR where ID=?", id);
+		Rcd r = db.uniqueRecord("select * from product_category_attr where ID=?", id);
 
 		return ResData.SUCCESS("操作成功", r.toJsonObject());
 	}
@@ -185,7 +185,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 		String attr_id = request.getParameter("attr_id");
 
-		String sql = "select ( select decode(max(attr_set_id),null,1,max(attr_set_id)+1)  value from PRODUCT_CATEGORY_ATTR_SET  ) next_attr_set_id, a.* from PRODUCT_CATEGORY_ATTR a where IS_DELETED='N' and attr_id=?";
+		String sql = "select ( select decode(max(attr_set_id),null,1,max(attr_set_id)+1)  value from product_category_attr_set  ) next_attr_set_id, a.* from PRODUCT_CATEGORY_ATTR a where IS_DELETED='N' and attr_id=?";
 
 		Rcd rs = db.uniqueRecord(sql, attr_id);
 		if (rs == null) {
@@ -195,7 +195,7 @@ public class CategoryBackgroundController  extends BaseController{
 		String next_attr_set_id = rs.getString("next_attr_set_id");
 		String cat_id = rs.getString("cat_id");
 
-		Insert ins = new Insert("PRODUCT_CATEGORY_ATTR_SET");
+		Insert ins = new Insert("product_category_attr_set");
 		ins.set("id", db.getUUID());
 		ins.set("attr_set_id", next_attr_set_id);
 		ins.set("is_deleted", "N");
@@ -217,11 +217,11 @@ public class CategoryBackgroundController  extends BaseController{
 
 		String attr_set_id = request.getParameter("ID");
 
-		Update ups = new Update("PRODUCT_CATEGORY_ATTR_SET");
+		Update ups = new Update("product_category_attr_set");
 		ups.setIf("value", request.getParameter("VALUE"));
 		ups.setIf("od", request.getParameter("OD"));
 		ups.setIf("SN", request.getParameter("SN"));
-		ups.setIf("is_USED", request.getParameter("IS_USED"));
+		ups.setIf("is_used", request.getParameter("IS_USED"));
 		ups.where().and("id=?", attr_set_id);
 
 		db.execute(ups);
@@ -235,7 +235,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 		String id = request.getParameter("ID");
 
-		Update ups = new Update("PRODUCT_CATEGORY_ATTR_SET");
+		Update ups = new Update("product_category_attr_set");
 		ups.set("is_deleted", "Y");
 		ups.where().and("id=?", id);
 		// 是否直接删除?
@@ -257,15 +257,15 @@ public class CategoryBackgroundController  extends BaseController{
 			return ResData.FAILURE_OPER();
 		}
 
-		Rcd cat_rs = db.uniqueRecord("select *  from PRODUCT_CATEGORY where IS_DELETED='N'  and id=? and is_cat='Y'",
+		Rcd cat_rs = db.uniqueRecord("select *  from product_category where is_deleted='N'  and id=? and is_cat='Y'",
 				cat_id);
 		if (cat_rs == null) {
 			return ResData.FAILURE("不存在该品类");
 		}
 
-		String tsql = "select ( select decode(max(attr_id),null,1,max(attr_id)+1) value from PRODUCT_CATEGORY_ATTR) attr_id, ";
+		String tsql = "select ( select decode(max(attr_id),null,1,max(attr_id)+1) value from product_category_attr) attr_id, ";
 		tsql = tsql
-				+ " ( select decode(max(attr_set_id),null,1,max(attr_set_id)+1) value from PRODUCT_CATEGORY_ATTR_SET) attr_set_id ";
+				+ " ( select decode(max(attr_set_id),null,1,max(attr_set_id)+1) value from product_category_attr_set) attr_set_id ";
 		tsql = tsql + " from dual ";
 		Rcd attr_rs = db.uniqueRecord(tsql);
 		if (attr_rs == null) {
@@ -278,36 +278,36 @@ public class CategoryBackgroundController  extends BaseController{
 		String input_type = request.getParameter("INPUT_TYPE");
 		Insert ins = new Insert("PRODUCT_CATEGORY_ATTR");
 		ins.set("id", db.getUUID());
-		ins.set("ATTR_ID", next_attr_id);
-		ins.set("IS_DELETED", "N");
+		ins.set("attr_id", next_attr_id);
+		ins.set("is_deleted", "N");
 		ins.set("is_key", "N");
-		ins.set("IS_NEED", request.getParameter("IS_NEED"));
-		ins.set("CAN_ALIAS", request.getParameter("CAN_ALIAS"));
-		ins.set("NAME", request.getParameter("NAME"));
-		ins.set("CAT_ID", cat_id);
-		ins.set("OD", request.getParameter("OD"));
-		ins.set("ATTR_TYPE", attr_type);
+		ins.set("is_need", request.getParameter("IS_NEED"));
+		ins.set("can_alias", request.getParameter("CAN_ALIAS"));
+		ins.set("name", request.getParameter("NAME"));
+		ins.set("cat_id", cat_id);
+		ins.set("od", request.getParameter("OD"));
+		ins.set("attr_type", attr_type);
 
-		ins.set("IS_USED", request.getParameter("IS_USED"));
-		ins.set("IS_SEARCH", request.getParameter("IS_SEARCH"));
+		ins.set("is_used", request.getParameter("IS_USED"));
+		ins.set("is_search", request.getParameter("IS_SEARCH"));
 
 		// input,select-multi,select-single
 		if (attr_type.equals("sale")) {
 			// 如果是销售属性只支持多选枚举
-			ins.set("IS_INPUT", "N");
-			ins.set("IS_ENUM", "Y");
-			ins.set("INPUT_TYPE", "select-multi");
+			ins.set("is_input", "N");
+			ins.set("is_enum", "Y");
+			ins.set("input_type", "select-multi");
 			if (!input_type.equals("select-multi")) {
 				return ResData.FAILURE("销售元素只能选择多选框");
 			}
 		} else if (attr_type.equals("base")) {
-			ins.set("INPUT_TYPE", input_type);
+			ins.set("input_type", input_type);
 			if (input_type.equals("input")) {
-				ins.set("IS_INPUT", "Y");
-				ins.set("IS_ENUM", "N");
+				ins.set("is_input", "Y");
+				ins.set("is_enum", "N");
 			} else if (input_type.equals("select-single") || input_type.equals("select-multi")) {
-				ins.set("IS_INPUT", "N");
-				ins.set("IS_ENUM", "Y");
+				ins.set("is_input", "N");
+				ins.set("is_enum", "Y");
 			} else {
 				return ResData.FAILURE("请选择正确的属性");
 			}
@@ -328,21 +328,21 @@ public class CategoryBackgroundController  extends BaseController{
 
 		String id = request.getParameter("ID");
 		int uscnt = db.uniqueRecord(
-				"select count(1) value from PRODUCT_ATTR_SET a,PRODUCT_CATEGORY_ATTR b where a.ATTR_ID=b.ATTR_ID and b.id=? and b.IS_DELETED='N' ",
+				"select count(1) value from product_attr_set a,product_category_attr b where a.attr_id=b.attr_id and b.id=? and b.is_deleted='N' ",
 				id).getInteger("value");
 		if (uscnt > 0) {
 			return ResData.FAILURE("已有产品在使用中,暂不可删除");
 		}
 
 		// 如果确实没有使用
-		Update ups = new Update("PRODUCT_CATEGORY_ATTR");
+		Update ups = new Update("product_category_attr");
 		ups.set("is_deleted", "Y");
 		ups.where().and("id=?", id);
 
 		// 删除对应的属性值
-		Update ups2 = new Update("PRODUCT_CATEGORY_ATTR_SET");
+		Update ups2 = new Update("product_category_attr_set");
 		ups2.set("is_deleted", "Y");
-		ups2.where().and("attr_id in (select attr_id from PRODUCT_CATEGORY_ATTR where id=?)", id);
+		ups2.where().and("attr_id in (select attr_id from product_category_attr where id=?)", id);
 
 		db.execute(ups2);
 		db.execute(ups);
@@ -358,13 +358,13 @@ public class CategoryBackgroundController  extends BaseController{
 		if (id == null) {
 			return ResData.FAILURE("请输入ID");
 		}
-		Update ups = new Update("PRODUCT_CATEGORY_ATTR");
-		ups.setIf("IS_NEED", request.getParameter("IS_NEED"));
-		ups.setIf("CAN_ALIAS", request.getParameter("CAN_ALIAS"));
-		ups.setIf("NAME", request.getParameter("NAME"));
-		ups.set("OD", request.getParameter("OD"));
-		ups.set("IS_USED", request.getParameter("IS_USED"));
-		ups.set("IS_SEARCH", request.getParameter("IS_SEARCH"));
+		Update ups = new Update("product_category_attr");
+		ups.setIf("is_need", request.getParameter("IS_NEED"));
+		ups.setIf("can_alias", request.getParameter("CAN_ALIAS"));
+		ups.setIf("name", request.getParameter("NAME"));
+		ups.set("od", request.getParameter("OD"));
+		ups.set("is_used", request.getParameter("IS_USED"));
+		ups.set("is_search", request.getParameter("IS_SEARCH"));
 		ups.where().and("id=?", id);
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
@@ -380,7 +380,7 @@ public class CategoryBackgroundController  extends BaseController{
 		if (cat_id == null) {
 			return ResData.FAILURE_OPER();
 		}
-		String sql = "select a.* ,decode(a.ATTR_TYPE,'sale','销售属性','base','基本属性','desc','描述属性','未知') attr_type_name from PRODUCT_CATEGORY_ATTR a where  is_deleted='N'  and cat_id=? order by attr_type,od";
+		String sql = "select a.* ,decode(a.ATTR_TYPE,'sale','销售属性','base','基本属性','desc','描述属性','未知') attr_type_name from product_category_attr a where  is_deleted='N'  and cat_id=? order by attr_type,od";
 		return ResData.SUCCESS_OPER(db.query(sql, cat_id).toJsonArrayWithJsonObject());
 	}
 
@@ -405,7 +405,7 @@ public class CategoryBackgroundController  extends BaseController{
 		if (id.equals("0")) {
 			return ResData.FAILURE("根节点不允许修改");
 		}
-		Update ups = new Update("PRODUCT_category");
+		Update ups = new Update("product_category");
 		ups.setIf("text", text);
 		ups.where().and("id=?", id);
 		db.execute(ups);
@@ -442,7 +442,7 @@ public class CategoryBackgroundController  extends BaseController{
 		}
 
 		// 获取序列号
-		String next_id = db.uniqueRecord("select decode(max(id),null,1,max(id)+1) value from PRODUCT_category")
+		String next_id = db.uniqueRecord("select decode(max(id),null,1,max(id)+1) value from product_category")
 				.getString("value");
 		if (next_id == null) {
 			return ResData.FAILURE("获取序列号失败");
@@ -470,7 +470,7 @@ public class CategoryBackgroundController  extends BaseController{
 		} else {
 
 			// 获取父节点信息
-			Rcd brs = db.uniqueRecord("select * from PRODUCT_category where is_deleted='N' and id=?", id);
+			Rcd brs = db.uniqueRecord("select * from product_category where is_deleted='N' and id=?", id);
 			if (brs == null) {
 				return ResData.FAILURE("节点不存在");
 			}
@@ -498,9 +498,9 @@ public class CategoryBackgroundController  extends BaseController{
 			ins.set("route", parent_route + "-" + next_id);
 		}
 
-		String tsql = "select ( select decode(max(attr_id),null,1,max(attr_id)+1) value from PRODUCT_CATEGORY_ATTR) attr_id, ";
+		String tsql = "select ( select decode(max(attr_id),null,1,max(attr_id)+1) value from product_category_attr) attr_id, ";
 		tsql = tsql
-				+ " ( select decode(max(attr_set_id),null,1,max(attr_set_id)+1) value from PRODUCT_CATEGORY_ATTR_SET)attr_set_id ";
+				+ " ( select decode(max(attr_set_id),null,1,max(attr_set_id)+1) value from product_category_attr_set)attr_set_id ";
 		tsql = tsql + " from dual ";
 		Rcd attr_rs = db.uniqueRecord(tsql);
 		if (attr_rs == null) {
@@ -593,7 +593,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	private JSONArray getProdSaleAttr(String cat_id, String is_used) {
 		JSONArray rs = new JSONArray();
-		String attrsql = "select * from PRODUCT_CATEGORY_ATTR where  is_deleted='N' and cat_id=? and attr_type='sale' order by od";
+		String attrsql = "select * from product_category_attr where  is_deleted='N' and cat_id=? and attr_type='sale' order by od";
 
 		if (is_used != null) {
 			attrsql = attrsql.replaceAll("<#IS_USED#>", " and is_used='" + is_used + "' ");
@@ -611,7 +611,7 @@ public class CategoryBackgroundController  extends BaseController{
 			// 销售属性必须可枚举,否则不显示,强制不做判断，只支持枚举多选
 			if ("Y".equals(attr_rs.getRcd(i).getString("is_enum"))) {
 				 
-				String isql = "select * from PRODUCT_CATEGORY_ATTR_SET where  is_deleted='N' and attr_id=? and cat_id=? order by od";
+				String isql = "select * from product_category_attr_set where  is_deleted='N' and attr_id=? and cat_id=? order by od";
 				e.put("LIST",
 						ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject()));
 
@@ -627,7 +627,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	private JSONArray getProdBaseAttr(String cat_id, String is_used) {
 		JSONArray rs = new JSONArray();
-		String attrsql = "select * from PRODUCT_CATEGORY_ATTR where cat_id=? and is_deleted='N' and attr_type='base' <#IS_USED#> order by od";
+		String attrsql = "select * from product_category_attr where cat_id=? and is_deleted='N' and attr_type='base' <#IS_USED#> order by od";
 
 		if (is_used != null) {
 			attrsql = attrsql.replaceAll("<#IS_USED#>", " and is_used='" + is_used + "' ");
@@ -640,7 +640,7 @@ public class CategoryBackgroundController  extends BaseController{
 			JSONObject e = new JSONObject();
 			e = ConvertUtil.OtherJSONObjectToFastJSONObject(attr_rs.getRcd(i).toJsonObject());
 			
-			String isql = "select * from PRODUCT_CATEGORY_ATTR_SET where attr_id=?  and is_deleted='N' and cat_id=? order by od";
+			String isql = "select * from product_category_attr_set where attr_id=? and is_deleted='N' and cat_id=? order by od";
 			e.put("LIST", db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject());
 			rs.add(e);
 		}
@@ -652,7 +652,7 @@ public class CategoryBackgroundController  extends BaseController{
 	// 获取品牌下面的所有的值,匹配数据用
 	private JSONArray getProdBaseAttrValue(String cat_id) {
 
-		String sql = "select a.attr_set_id, value from PRODUCT_CATEGORY_ATTR_SET a,PRODUCT_CATEGORY_ATTR b where  a.ATTR_ID=b.ATTR_ID and b.IS_DELETED='N'   and a.IS_DELETED='N' and b.cat_id=?  and b.ATTR_TYPE='sale'  ";
+		String sql = "select a.attr_set_id, value from product_category_attr_set a,product_category_attr b where  a.attr_id=b.attr_id and b.is_deleted='N'   and a.is_deleted='N' and b.cat_id=?  and b.attr_type='sale'";
 
 		return ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, cat_id).toJsonArrayWithJsonObject());
 

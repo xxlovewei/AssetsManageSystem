@@ -410,17 +410,17 @@ public class UserService extends BaseService {
 	 * @Description: 获取Empl的下一个ID
 	 */
 	public ResData getEmplNextId() {
-		Rcd seqrs = db
-				.uniqueRecord("select LPAD(cast(value as int)+1,6,'0') seq from sys_params where id='sys_empl_no'");
-		if (seqrs == null) {
+		Rcd seqrs = db.uniqueRecord(
+				"select case when value is null then '50' else value end seq from sys_params where id='sys_empl_no'");
+		if (ToolUtil.isEmpty(seqrs)) {
 			return ResData.FAILURE("获取员工编号错误,无法生成员工.");
 		}
-		String empl_id = seqrs.getString("seq");
+		String empl_id = (ConvertUtil.toInt(seqrs.getString("seq")) + 1) + "";
 		Update me = new Update("sys_params");
 		me.set("value", empl_id);
 		me.where().and("id=?", "sys_empl_no");
 		db.execute(me);
-		return ResData.SUCCESS_OPER(empl_id);
+		return ResData.SUCCESS_OPER(ConvertUtil.formatIntToString(empl_id, 6, 100));
 	}
 	/**
 	 * @Description: 根据user_id修改人员表

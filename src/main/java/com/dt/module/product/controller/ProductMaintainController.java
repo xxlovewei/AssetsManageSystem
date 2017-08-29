@@ -18,6 +18,7 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.util.ConvertUtil;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.core.db.DB;
 
 @Controller
@@ -29,9 +30,8 @@ public class ProductMaintainController extends BaseController{
 	private JSONObject methodQueryProduct(String spu) {
 		JSONObject r = new JSONObject();
 		Rcd rs = db.uniqueRecord("select * from DT_PRODUCT where IS_DELETED='N' and  spu=?", spu);
-		if (rs != null) {
+		if (ToolUtil.isNotEmpty(r)) {
 			r = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
-			
 		}
 		return r;
 	}

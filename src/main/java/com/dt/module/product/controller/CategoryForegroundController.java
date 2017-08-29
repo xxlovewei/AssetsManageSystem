@@ -35,7 +35,7 @@ public class CategoryForegroundController extends BaseController{
 	
 
 	public int getNextUserCatId(){
-		String sql="select case when max(id) is null then 50 else max(id)+1 end value from (select id from PRODUCT_CAT_USER_ROOT union all select id from PRODUCT_CAT_USER)";
+		String sql="select case when max(id) is null then 50 else max(id)+1 end value from (select id from product_cat_user_root union all select id from product_cat_user)";
 		return db.uniqueRecord(sql).getInteger("value");
 	}
 	
@@ -46,14 +46,14 @@ public class CategoryForegroundController extends BaseController{
 	@RequestMapping("/api/categoryF/rootCatAdd.do")
 	public ResData rootCatAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	 
-		Insert ins=new Insert("PRODUCT_CAT_USER_ROOT");
+		Insert ins=new Insert("product_cat_user_root");
 		
 		String code=request.getParameter("CODE");
 		if(code==null){
 			return ResData.FAILURE("请输入编码");
 		}
 		
-		if (db.uniqueRecord(" select count(1) value from PRODUCT_CAT_USER_ROOT where IS_DELETED='N' and code=? ",code).getInteger("value") >0 ){
+		if (db.uniqueRecord(" select count(1) value from product_cat_user_root where is_deleted='N' and code=? ",code).getInteger("value") >0 ){
 			return ResData.FAILURE("该编码已使用");
 		}
 		
@@ -134,7 +134,7 @@ public class CategoryForegroundController extends BaseController{
 		
 		JSONArray res = new JSONArray();
 		
-		String rootsql="select * from PRODUCT_CAT_USER_ROOT where ID=?  and is_deleted='N'";
+		String rootsql="select * from product_cat_user_root where id=?  and is_deleted='N'";
 		Rcd root_rs=db.uniqueRecord(rootsql,root_id);
 		
 		JSONObject root = new JSONObject();
@@ -144,7 +144,7 @@ public class CategoryForegroundController extends BaseController{
 		root.put("is_cat", "N");
 		root.put("type", "root");
 		res.add(root);
-		RcdSet rs = db.query("select * from PRODUCT_CAT_USER where root_id=? and is_deleted='N'",root_id);
+		RcdSet rs = db.query("select * from product_cat_user where root_id=? and is_deleted='N'",root_id);
 		JSONObject e = new JSONObject();
 		for (int i = 0; i < rs.size(); i++) {
 			e = new JSONObject();
@@ -193,7 +193,7 @@ public class CategoryForegroundController extends BaseController{
 		
 		
 		
-		Insert ins=new Insert("PRODUCT_CAT_USER");
+		Insert ins=new Insert("product_cat_user");
 		int next_id=getNextUserCatId();
 		ins.set("id",next_id );
 		ins.set("is_deleted", "N");
@@ -203,8 +203,8 @@ public class CategoryForegroundController extends BaseController{
 		
 		
 		String curInfosql="";
-		curInfosql=curInfosql+" select 'node' type,route,is_cat,root_id from PRODUCT_CAT_USER where id=? union all " ;
-        curInfosql=curInfosql+" select 'root' type ,'' route,'' is_cat,0 root_id from PRODUCT_CAT_USER_ROOT where id=? ";
+		curInfosql=curInfosql+" select 'node' type,route,is_cat,root_id from product_cat_user where id=? union all " ;
+        curInfosql=curInfosql+" select 'root' type ,'' route,'' is_cat,0 root_id from product_cat_user_root where id=? ";
 		Rcd cur_rs=db.uniqueRecord(curInfosql,id,id);
 		if(cur_rs==null){
 			return ResData.FAILURE_OPER();
@@ -247,8 +247,8 @@ public class CategoryForegroundController extends BaseController{
 		}
 
 		String curInfosql="";
-		curInfosql=curInfosql+" select 'node' type,route,is_cat,root_id from PRODUCT_CAT_USER where id=? union all " ;
-        curInfosql=curInfosql+" select 'root' type ,'' route,'' is_cat,0 root_id from PRODUCT_CAT_USER_ROOT where id=? ";
+		curInfosql=curInfosql+" select 'node' type,route,is_cat,root_id from product_cat_user where id=? union all " ;
+        curInfosql=curInfosql+" select 'root' type ,'' route,'' is_cat,0 root_id from product_cat_user_root where id=? ";
 		Rcd cur_rs=db.uniqueRecord(curInfosql,id,id);
 		if(cur_rs==null){
 			return ResData.FAILURE_OPER();
@@ -259,7 +259,7 @@ public class CategoryForegroundController extends BaseController{
 			//本节点为根节点
 		}
 		
-		Update ups = new Update("PRODUCT_CAT_USER");
+		Update ups = new Update("product_cat_user");
 		ups.setIf("text", text);
 		ups.where().and("id=?", id);
 		db.execute(ups);
