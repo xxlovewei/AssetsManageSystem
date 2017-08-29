@@ -40,12 +40,12 @@ public class BrandService extends BaseService {
 	 */
 	public ResData addBrand(TypedHashMap<String, Object> ps) {
 		Insert ins = new Insert("product_brand");
-		ins.set("BRAND_ID", db.getUUID());
-		ins.setIf("BRAND_CODE", ps.getString("BRAND_CODE"));
-		ins.setIf("NAME", ps.getString("NAME"));
-		ins.setIf("IS_DELETED", "N");
-		ins.setIf("MARK", ps.getString("MARK"));
-		ins.setIf("OD", ps.getString("OD"));
+		ins.set("brand_id", db.getUUID());
+		ins.setIf("brand_code", ps.getString("BRAND_CODE"));
+		ins.setIf("name", ps.getString("NAME"));
+		ins.setIf("is_deleted", "N");
+		ins.setIf("mark", ps.getString("MARK"));
+		ins.setIf("od", ps.getString("OD"));
 		db.execute(ins);
 		return ResData.SUCCESS_OPER();
 	}
@@ -56,10 +56,10 @@ public class BrandService extends BaseService {
 	public ResData updateBrand(TypedHashMap<String, Object> ps) {
 		String id = ps.getString("BRAND_ID");
 		Update ups = new Update("product_brand");
-		ups.setIf("BRAND_CODE", ps.getString("BRAND_CODE"));
-		ups.setIf("NAME", ps.getString("NAME"));
-		ups.setIf("MARK", ps.getString("MARK"));
-		ups.setIf("OD", ps.getString("OD"));
+		ups.setIf("brand_code", ps.getString("BRAND_CODE"));
+		ups.setIf("name", ps.getString("NAME"));
+		ups.setIf("mark", ps.getString("MARK"));
+		ups.setIf("od", ps.getString("OD"));
 		ups.where().and("brand_id=?", id);
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();

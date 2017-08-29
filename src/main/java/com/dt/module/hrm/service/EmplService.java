@@ -76,7 +76,7 @@ public class EmplService extends BaseService {
 	public ResData delEmployee(String empl_id) {
 		String user_id = userService.getUserIdFromEmpl(empl_id);
 		if (ToolUtil.isEmpty(user_id)) {
-			return ResData.FAILURE("用户user_id不存在");
+			return ResData.FAILURE("用户ID不存在");
 		}
 		return userService.deleteUser(user_id);
 	}
@@ -165,6 +165,7 @@ public class EmplService extends BaseService {
 			bsql = bsql + " and b.name like '%" + name + "%'";
 		}
 		bsql = bsql + " order by name";
+		System.out.println(bsql);
 		return ResData.SUCCESS_OPER(db.query(bsql).toJsonArrayWithJsonObject());
 	}
 	

@@ -234,7 +234,7 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			text : '是否删除功能?'
 		}).then(function() {
 			$http.post($rootScope.project + "/hrm/employeeDelete.do", {
-				EMPL_ID : id
+				empl_id : id
 			}).success(function(res) {
 				if (res.success) {
 					flush();

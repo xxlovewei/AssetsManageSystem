@@ -103,7 +103,7 @@ public class SysUserController extends BaseController {
 	@RequestMapping("/user/getUserMenus.do")
 	@Res
 	@Acl
-	public ResData treeDataDirect(String menu_id) {
+	public ResData getUserMenus(String menu_id) {
 		if (ToolUtil.isEmpty(menu_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}

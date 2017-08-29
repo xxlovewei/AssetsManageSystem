@@ -63,7 +63,7 @@ public class RoleService extends BaseService {
 		ins.set("deleted", "N");
 		ins.set("is_action", ps.getString("IS_ACTION"));
 		ins.setIf("role_name", ps.getString("ROLE_NAME"));
-		ins.setIf("MARK", ps.getString("MARK"));
+		ins.setIf("mark", ps.getString("MARK"));
 		db.execute(ins);
 		return ResData.SUCCESS_OPER();
 	}
@@ -74,8 +74,8 @@ public class RoleService extends BaseService {
 		Update ups = new Update("sys_role");
 		ups.set("is_action", ps.getString("IS_ACTION"));
 		ups.setIf("role_name", ps.getString("ROLE_NAME"));
-		ups.setIf("MARK", ps.getString("MARK"));
-		ups.where().and("ROLE_ID=?", ps.getString("ROLE_ID"));
+		ups.setIf("mark", ps.getString("MARK"));
+		ups.where().and("role_id=?", ps.getString("ROLE_ID"));
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
 	}

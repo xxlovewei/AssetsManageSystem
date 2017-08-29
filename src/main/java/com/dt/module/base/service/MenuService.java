@@ -1,6 +1,7 @@
 package com.dt.module.base.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -23,7 +24,7 @@ import com.dt.core.common.util.support.TypedHashMap;
 public class MenuService extends BaseService {
 	public static String TYPE_DIR = "dir";
 	public static String TYPE_MENU = "menu";
-	public static String TYPE_BTN = "BTN";
+	public static String TYPE_BTN = "btn";
 	private String LEVEL_SPLIT = "/";
 
 	public static String validType(String value) {
@@ -39,7 +40,7 @@ public class MenuService extends BaseService {
 	 * @Description: 直接查询所有节点
 	 */
 	public ResData queryMenuNodes(String menu_id) {
-		String sql = "select * from sys_menus_node where menu_id=? order by node_id   ";
+		String sql = "select * from sys_menus_node where menu_id=? order by node_id";
 		return ResData.SUCCESS_OPER(db.query(sql, menu_id).toJsonArrayWithJsonObject());
 	}
 	/**
@@ -85,6 +86,7 @@ public class MenuService extends BaseService {
 	/**
 	 * @Description:添加一个节点
 	 */
+	@Transactional
 	public ResData addNode(TypedHashMap<String, Object> ps) {
 		String menu_id = ps.getString("MENU_ID");
 		String old_node_id = ps.getString("OLD_NODE_ID");
@@ -102,27 +104,27 @@ public class MenuService extends BaseService {
 			if (ToolUtil.isEmpty(menu_id)) {
 				return ResData.FAILURE_ERRREQ_PARAMS();
 			}
-			ins.set("NODE_ID", nodeid);
-			ins.set("PARENT_ID", "0");
-			ins.set("ROUTE", nodeid);
+			ins.set("node_id", nodeid);
+			ins.set("parent_id", "0");
+			ins.set("route", nodeid);
 		} else {
 			nodeid = node_id;
-			ins.set("NODE_ID", node_id);
-			ins.set("PARENT_ID", old_node_id);
-			ins.set("ROUTE", old_route + "-" + node_id);
+			ins.set("node_id", node_id);
+			ins.set("parent_id", old_node_id);
+			ins.set("route", old_route + "-" + node_id);
 		}
-		ins.set("MENU_ID", menu_id);
+		ins.set("menu_id", menu_id);
 		// ins.set("NODE_ID", node_id);
-		ins.set("NODE_NAME", node_name);
+		ins.set("node_name", node_name);
 		// ins.set("PARENT_ID", old_node_id);
 		// ins.set("ROUTE", old_route + "-" + node_id);
-		ins.setIf("KEY", key);
-		ins.set("IS_ACTION", ps.getString("IS_ACTION"));
-		ins.set("DELETED", "N");
-		ins.set("IS_G_SHOW", ps.getString("IS_G_SHOW"));
-		ins.setIf("LOGO", logo);
-		ins.setIf("MARK", mark);
-		ins.setIf("TYPE", validType(ps.getString("TYPE")));
+		ins.setIf("key", key);
+		ins.set("is_action", ps.getString("IS_ACTION"));
+		ins.set("deleted", "N");
+		ins.set("is_g_show", ps.getString("IS_G_SHOW"));
+		ins.setIf("logo", logo);
+		ins.setIf("mark", mark);
+		ins.setIf("type", validType(ps.getString("TYPE")));
 		db.execute(ins);
 		updateRouteName(nodeid, node_name);
 		return ResData.SUCCESS_OPER();
@@ -136,15 +138,15 @@ public class MenuService extends BaseService {
 		if (v > 0) {
 			return ResData.FAILURE("请先删除子节点");
 		} else {
-			db.execute("delete from sys_menus_node where  node_id=?", node_id);
+			db.execute("delete from sys_menus_node where node_id=?", node_id);
 			return ResData.SUCCESS_OPER();
 		}
 	}
 	/**
 	 * @Description:更新节点数据
 	 */
+	@Transactional
 	public ResData updateNode(TypedHashMap<String, Object> ps) {
-		
 		String menu_id = ps.getString("MENU_ID");
 		String node_id = ps.getString("NODE_ID");
 		String node_name = ps.getString("NODE_NAME");
@@ -153,27 +155,28 @@ public class MenuService extends BaseService {
 		String module_id = ps.getString("MODULE_ID");
 		String sort = ps.getString("SORT");
 		String logo = ps.getString("LOGO");
-		
 		if (ToolUtil.isEmpty(node_name)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		Update ups = new Update("sys_menus_node");
-		ups.set("NODE_NAME", node_name);
-		ups.setIf("KEY", key);
-		ups.setIf("SORT", sort);
-		ups.setIf("LOGO", logo);
-		ups.setIf("MARK", mark);
-		ups.setIf("MODULE_ID", module_id);
-		ups.setIf("IS_ACTION", ps.getString("IS_ACTION"));
-		ups.setIf("IS_G_SHOW", ps.getString("IS_G_SHOW"));
-		ups.setIf("TYPE", validType(ps.getString("TYPE")));
-		ups.where().and("MENU_ID=?", menu_id).and("NODE_ID=?", node_id);
+		ups.set("node_name", node_name);
+		ups.setIf("key", key);
+		ups.setIf("sort", sort);
+		ups.setIf("logo", logo);
+		ups.setIf("mark", mark);
+		ups.setIf("module_id", module_id);
+		ups.setIf("is_action", ps.getString("IS_ACTION"));
+		ups.setIf("is_g_show", ps.getString("IS_G_SHOW"));
+		ups.setIf("type", validType(ps.getString("TYPE")));
+		ups.where().and("menu_id=?", menu_id).and("NODE_ID=?", node_id);
 		db.execute(ups);
 		updateRouteName(node_id, node_name);
 		return ResData.SUCCESS_OPER();
 	}
+	/**
+	 * @Description:更新节点路径名称
+	 */
 	private void updateRouteName(String node_id, String node_name) {
-	 
 		Rcd rs = db.uniqueRecord("select * from sys_menus_node where node_id=?", node_id);
 		// 判断如果一致则不需要更新routename
 		if (ToolUtil.isEmpty(rs)) {
@@ -186,18 +189,18 @@ public class MenuService extends BaseService {
 		JSONArray arr = ConvertUtil.toJSONArrayFromString(ids, "id", "-");
 		String route_name = "";
 		for (int i = 0; i < arr.size(); i++) {
-			route_name = route_name + LEVEL_SPLIT + db
-					.uniqueRecord("select * from sys_menus_node where node_id=?", arr.getJSONObject(i).getString("id"))
-					.getString("node_name");
+			route_name = route_name + LEVEL_SPLIT
+					+ db.uniqueRecord("select node_name from sys_menus_node where node_id=?",
+							arr.getJSONObject(i).getString("id")).getString("node_name");
 		}
 		route_name = route_name.replaceFirst(LEVEL_SPLIT, "");
 		Update me = new Update("sys_menus_node");
 		me.set("route_name", route_name);
 		me.where().and("node_id=?", node_id);
 		db.execute(me);
-		RcdSet rds = db.query("select * from sys_menus_node where parent_id=?", node_id);
+		RcdSet rds = db.query("select node_id,node_name from sys_menus_node where parent_id=?", node_id);
 		for (int j = 0; j < rds.size(); j++) {
-			//递归调用
+			// 递归调用
 			updateRouteName(rds.getRcd(j).getString("node_id"), rds.getRcd(j).getString("node_name"));
 		}
 	}
@@ -207,7 +210,7 @@ public class MenuService extends BaseService {
 	public String getNextNodeId() {
 		return db
 				.uniqueRecord(
-						"select case when max(node_id) is null then 50 else max(node_id)+1 end  value from sys_menus_node ")
+						"select case when max(node_id) is null then 50 else max(node_id)+1 end value from sys_menus_node")
 				.getString("value");
 	}
 	/**
