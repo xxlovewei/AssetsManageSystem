@@ -14,6 +14,7 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.db.DB;
 import com.dt.module.demo.service.DemoService;
@@ -56,7 +57,7 @@ public class DemoController extends BaseController {
 	public ResData abc(String id,String value){
 		System.out.println("id"+id);
 		System.out.println("value"+value);
-		if (id==null){
+		if (ToolUtil.isEmpty(id)){
 			
 			db.execute("select 1 from adf");
 			//throw new BizException(BizExceptionEnum.REQUEST_NULL);

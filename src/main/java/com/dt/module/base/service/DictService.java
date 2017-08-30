@@ -7,6 +7,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.UuidUtil;
 import com.dt.core.common.util.support.TypedHashMap;
 
@@ -69,7 +70,7 @@ public class DictService extends BaseService {
 	public ResData queryDictById(String id) {
 		String sql = "select * from sys_dict where dict_id=?  ";
 		Rcd rs=db.uniqueRecord(sql,id);
-		if(rs==null){
+		if(ToolUtil.isEmpty(rs)){
 			return ResData.FAILURE_NODATA();
 		}else{
 			return ResData.SUCCESS_OPER(rs.toJsonObject());

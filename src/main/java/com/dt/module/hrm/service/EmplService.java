@@ -137,7 +137,7 @@ public class EmplService extends BaseService {
 		if (ToolUtil.isEmpty(node_id)) {
 			return ResData.FAILURE("无节点");
 		}
-		String sql = "select c.* from hrm_org_employee a,sys_user_info c  where a.empl_id=c.empl_id and c.user_type= ? and a.node_id=?";
+		String sql = "select c.* from hrm_org_employee a,sys_user_info c where a.empl_id=c.empl_id and c.user_type= ? and a.node_id=?";
 		RcdSet rs = db.query(sql, UserService.USER_TYPE_EMPL, node_id);
 		return ResData.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}

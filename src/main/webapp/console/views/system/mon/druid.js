@@ -1,9 +1,6 @@
  
 
-function sysMonDruidCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
- 
-	
+function sysMonDruidCtl($scope,$rootScope) {	
 	$scope.url=$rootScope.project+"/druid/"
 };
 

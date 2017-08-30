@@ -34,6 +34,13 @@
 
 
 		<dependency>
+			<groupId>net.bull.javamelody</groupId>
+			<artifactId>javamelody-core</artifactId>
+			<version>1.69.0</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>cn.guoyukun.jdbc</groupId>
 			<artifactId>oracle-ojdbc6</artifactId>
 			<version>11.2.0.3.0</version>

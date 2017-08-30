@@ -20,6 +20,7 @@ import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.core.db.DB;
 
 /*前台商品类目管理*/
@@ -49,7 +50,7 @@ public class CategoryForegroundController extends BaseController{
 		Insert ins=new Insert("product_cat_user_root");
 		
 		String code=request.getParameter("CODE");
-		if(code==null){
+		if(ToolUtil.isEmpty(code)){
 			return ResData.FAILURE("请输入编码");
 		}
 		
@@ -87,7 +88,7 @@ public class CategoryForegroundController extends BaseController{
 		
 		//更新的不允许更新code 
 		
-		Update ups=new Update("PRODUCT_CAT_USER_ROOT");
+		Update ups=new Update("product_cat_user_root");
 		ups.set("is_used", request.getParameter("IS_USED"));
 		ups.setIf("text", request.getParameter("TEXT"));
 		ups.setIf("mark", request.getParameter("MARK"));
@@ -103,7 +104,7 @@ public class CategoryForegroundController extends BaseController{
 	@RequestMapping("/api/categoryF/rootCatQuery.do")
 	public ResData rootCatQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		 
-		String sql="select * from PRODUCT_CAT_USER_ROOT where is_deleted='N' order by od";
+		String sql="select * from product_cat_user_root where is_deleted='N' order by od";
 		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 		
 	}
@@ -116,7 +117,7 @@ public class CategoryForegroundController extends BaseController{
 		 
 		
 		String id=request.getParameter("ID");
-		String sql="select * from PRODUCT_CAT_USER_ROOT where is_deleted='N' and id=? ";
+		String sql="select * from product_cat_user_root where is_deleted='N' and id=? ";
 		return ResData.SUCCESS_OPER(db.uniqueRecord(sql,id).toJsonObject());
 		
 	}
@@ -206,7 +207,7 @@ public class CategoryForegroundController extends BaseController{
 		curInfosql=curInfosql+" select 'node' type,route,is_cat,root_id from product_cat_user where id=? union all " ;
         curInfosql=curInfosql+" select 'root' type ,'' route,'' is_cat,0 root_id from product_cat_user_root where id=? ";
 		Rcd cur_rs=db.uniqueRecord(curInfosql,id,id);
-		if(cur_rs==null){
+		if(ToolUtil.isEmpty(cur_rs)){
 			return ResData.FAILURE_OPER();
 		}
 		
@@ -250,7 +251,7 @@ public class CategoryForegroundController extends BaseController{
 		curInfosql=curInfosql+" select 'node' type,route,is_cat,root_id from product_cat_user where id=? union all " ;
         curInfosql=curInfosql+" select 'root' type ,'' route,'' is_cat,0 root_id from product_cat_user_root where id=? ";
 		Rcd cur_rs=db.uniqueRecord(curInfosql,id,id);
-		if(cur_rs==null){
+		if(ToolUtil.isEmpty(cur_rs)){
 			return ResData.FAILURE_OPER();
 		}
 		

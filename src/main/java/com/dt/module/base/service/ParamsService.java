@@ -88,7 +88,7 @@ public class ParamsService extends BaseService {
 		}
 		String sql = "select * from sys_params where deleted='N' and id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
-		if (rs == null) {
+		if (ToolUtil.isEmpty(rs)) {
 			// 数据不存在
 			db.execute("delete from sys_params where id=?", id);
 			Insert me = new Insert("sys_params");

@@ -304,6 +304,17 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('devos.melody', {
+		url : "/melody",
+		templateUrl : "views/system/mon/melody.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/mon/melody.js' ]
+				} ]);
+			}
+		}
 	});
 	//任务设置
 	$stateProvider.state('task', {

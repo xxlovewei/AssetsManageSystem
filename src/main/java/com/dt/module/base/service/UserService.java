@@ -75,7 +75,7 @@ public class UserService extends BaseService {
 			user.setIsLocked(true);
 		}
 		// 获取角色信息
-		String sql2 = "select a.role_id,b.role_name from sys_user_role a, sys_role b where a.role_id=b.role_id and user_id=?";
+		String sql2 = "select a.role_id,b.role_name from sys_user_role a,sys_role b where a.role_id=b.role_id and user_id=?";
 		RcdSet r_rs = db.query(sql2, id);
 		HashMap<String, String> rmap = new HashMap<String, String>();
 		for (int i = 0; i < r_rs.size(); i++) {

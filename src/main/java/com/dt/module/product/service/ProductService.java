@@ -33,14 +33,14 @@ public class ProductService extends BaseService {
 	 */
 	public JSONArray getProdSaleList(String spu) {
 		JSONArray rs = new JSONArray();
-		String sql = "select * from PRODUCT_SKU where spu=? ";
+		String sql = "select * from product_sku where spu=? ";
 		RcdSet r = db.query(sql, spu);
 		for (int i = 0; i < r.size(); i++) {
 			JSONObject obj = new JSONObject();
 			
 			obj = ConvertUtil.OtherJSONObjectToFastJSONObject(r.getRcd(i).toJsonObject());
 			// 获取属性
-			obj.put("ATTR_SET_IDS", db.query("select * from PRODUCT_SKU_MAP where sku=?", r.getRcd(i).getString("sku"))
+			obj.put("ATTR_SET_IDS", db.query("select * from product_sku_map where sku=?", r.getRcd(i).getString("sku"))
 					.toJsonArrayWithJsonObject());
 			rs.add(obj);
 		}
@@ -50,7 +50,7 @@ public class ProductService extends BaseService {
 	 * @Description:获取产品sku
 	 */
 	public JSONArray getProdSkuCombination(String spu) {
-		String sql = "select * from PRODUCT_SKU where spu=?";
+		String sql = "select * from product_sku where spu=?";
 		RcdSet r = db.query(sql, spu);
 		JSONArray rs = new JSONArray();
 		for (int i = 0; i < r.size(); i++) {
@@ -71,18 +71,18 @@ public class ProductService extends BaseService {
 		JSONArray r = new JSONArray();
 		// 跟随模版排序
 		String sql = "select " + "distinct a.attr_id,a.name,od " + "from "
-				+ "PRODUCT_ATTR_SET b,PRODUCT_CATEGORY_ATTR a " + "where " + "a.attr_id=b.attr_id " + "and b.spu=? "
-				+ "and b.is_sku='Y' " + "and ATTR_TYPE='sale' "
-				+ "and cat_id in (select cat_id from PRODUCT where spu=? ) " + "order by od ";
+				+ "product_attr_set b,product_category_attr a " + " where " + "a.attr_id=b.attr_id " + "and b.spu=? "
+				+ "and b.is_sku='Y' " + "and attr_type='sale' "
+				+ "and cat_id in (select cat_id from product where spu=? ) " + "order by od ";
 		RcdSet rs = db.query(sql, spu, spu);
 		for (int i = 0; i < rs.size(); i++) {
 	
 			JSONObject e = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.getRcd(i).toJsonObject());
 			// 跟随模版排序
 			String isql = "select " + "distinct a.attr_set_id,a.value,od " + "from "
-					+ "PRODUCT_ATTR_SET b,PRODUCT_CATEGORY_ATTR_SET a " + "where " + "a.attr_id=b.attr_id "
-					+ "and b.spu=? " + "and b.is_sku='Y' " + "and a.ATTR_ID=? "
-					+ "and cat_id in (select cat_id from PRODUCT where spu=?) " + "order by od ";
+					+ "product_attr_set b,product_category_attr_set a " + "where " + "a.attr_id=b.attr_id "
+					+ "and b.spu=? " + "and b.is_sku='Y' " + "and a.attr_id=? "
+					+ "and cat_id in (select cat_id from product where spu=?) " + "order by od ";
 			e.put("LIST", db.query(isql, spu, rs.getRcd(i).getString("attr_id"), spu).toJsonArrayWithJsonObject());
 			r.add(e);
 		}
@@ -94,10 +94,10 @@ public class ProductService extends BaseService {
 	private JSONArray getProdBaseList(String spu, String cat_id) {
 		JSONArray rs = new JSONArray();
 		String basesql = " " + "select a.*, b.value ,b.attr_set_id from ( "
-				+ "select * from PRODUCT_CATEGORY_ATTR where cat_id=? "
+				+ "select * from product_category_attr where cat_id=? "
 				+ "and is_used='Y' and is_deleted='N' and attr_type='base')a "
-				+ "left join (  select * from PRODUCT_ATTR_SET  where spu=? and is_sku='N') b "
-				+ "on a.ATTR_ID=b.ATTR_ID ";
+				+ "left join (  select * from product_attr_set  where spu=? and is_sku='N') b "
+				+ "on a.attr_id=b.attr_id ";
 		RcdSet attr_rs = db.query(basesql, cat_id, spu);
 		for (int i = 0; i < attr_rs.size(); i++) {
 			
@@ -108,7 +108,7 @@ public class ProductService extends BaseService {
 				obj.put("ATTR_SET_VALUE", attr_rs.getRcd(i).getString("attr_set_id"));
 			}
 			if ("Y".equals(attr_rs.getRcd(i).getString("is_enum"))) {
-				String isql = "select * from PRODUCT_CATEGORY_ATTR_SET where  is_deleted='N' and attr_id=? and cat_id=? order by od";
+				String isql = "select * from product_category_attr_set where is_deleted='N' and attr_id=? and cat_id=? order by od";
 				obj.put("LIST",
 						db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject());
 			} else {
@@ -129,7 +129,7 @@ public class ProductService extends BaseService {
 			return ResData.FAILURE("请选择至少一个商品");
 		}
 		for (int i = 0; i < prod_arr.size(); i++) {
-			Update ups = new Update("PRODUCT");
+			Update ups = new Update("product");
 			ups.set("is_deleted", "Y");
 			ups.where().and("spu=?", prod_arr.getJSONObject(i).getString("spu"));
 			db.execute(ups);
@@ -143,7 +143,7 @@ public class ProductService extends BaseService {
 		if (ToolUtil.isEmpty(cat_id)) {
 			return ResData.FAILURE("请输入品类ID");
 		}
-		String sql = "select * from PRODUCT where cat_id=? and is_deleted='N' ";
+		String sql = "select * from product where cat_id=? and is_deleted='N' ";
 		RcdSet rs = db.query(sql, cat_id);
 		return ResData.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
@@ -156,7 +156,7 @@ public class ProductService extends BaseService {
 			return ResData.FAILURE("请选择商品");
 		}
 		/************** 获得商品公共属性 **************/
-		String sql = "select * from PRODUCT where is_deleted='N' and spu=?";
+		String sql = "select * from product where is_deleted='N' and spu=?";
 		Rcd rs = db.uniqueRecord(sql, spu);
 		if (ToolUtil.isEmpty(rs)) {
 			return ResData.FAILURE("商品不存在");
@@ -185,7 +185,7 @@ public class ProductService extends BaseService {
 			return ResData.FAILURE("请选择至少一个商品");
 		}
 		for (int i = 0; i < prod_arr.size(); i++) {
-			Update ups = new Update("PRODUCT");
+			Update ups = new Update("product");
 			ups.set("is_off", is_off);
 			ups.where().and("spu=?", prod_arr.getJSONObject(i).getString("spu"));
 			db.execute(ups);
@@ -244,7 +244,7 @@ public class ProductService extends BaseService {
 			}
 		}
 		//
-		db.execute("delete from PRODUCT_ATTR_set  where is_sku='N' and spu=?", spu);
+		db.execute("delete from product_attr_set  where is_sku='N' and spu=?", spu);
 		for (int i = 0; i < basesql.size(); i++) {
 			db.execute(basesql.get(i));
 		}

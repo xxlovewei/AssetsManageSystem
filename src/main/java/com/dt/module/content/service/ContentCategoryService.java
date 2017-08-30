@@ -66,7 +66,7 @@ public class ContentCategoryService extends BaseService {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		JSONArray res = new JSONArray();
-		String rootsql = "select * from ct_category_root where id=?  and deleted='N'";
+		String rootsql = "select * from ct_category_root where id=? and deleted='N'";
 		Rcd root_rs = db.uniqueRecord(rootsql, root_id);
 		JSONObject root = new JSONObject();
 		root.put("id", root_id);
@@ -90,7 +90,7 @@ public class ContentCategoryService extends BaseService {
 	 * @Description:查询某个节点
 	 */
 	public ResData queryCategoryById(String id) {
-		String sql = "select a.*,b.name rootname from  ct_category a,ct_category_root b where a.root=b.id and a.id=?";
+		String sql = "select a.*,b.name rootname from ct_category a,ct_category_root b where a.root=b.id and a.id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (rs == null) {
 			return ResData.FAILURE_NODATA();
@@ -129,17 +129,6 @@ public class ContentCategoryService extends BaseService {
 	/**
 	 * @Description:插入节点
 	 */
-	// ID NUMBER(10) not null
-	// ROOT VARCHAR2(50) not null,
-	// NAME VARCHAR2(200),
-	// MPIC VARCHAR2(50),
-	// PARENT_ID NUMBER(10),
-	// ROUTE VARCHAR2(500),
-	// MARK VARCHAR2(500),
-	// NODE_LEVEL NUMBER(2),
-	// OD NUMBER(2),
-	// ISACTION CHAR,
-	// DELETED CHAR
 	public ResData addCategory(TypedHashMap<String, Object> ps) {
 		String old_id = ps.getString("OLD_ID");
 		String old_node_type = ps.getString("OLD_NODE_TYPE");

@@ -34,7 +34,6 @@ public class ContentService extends BaseService {
 		String idctl = ps.getString("SELFID", "N");
 		String id = UuidUtil.getUUID();
 		if (idctl.equals("Y")) {
-			// 用覆盖的ID
 			id = ps.getString("ID", id);
 		}
 		me.set("id", id);
@@ -111,7 +110,7 @@ public class ContentService extends BaseService {
 		String edate = ps.getString("edate");
 		String sort = ps.getString("sort");
 		String noContent = ps.getString("noContent", "N");
-		String sql = "select <#CONTENT#> id,cat_id,digest,title,profile,urltype,url,type,mpic,mpic_loc,hits,author,createtime,modifytime ,display,mark,tag from ct_content  where deleted='N' and type='"
+		String sql = "select <#CONTENT#> id,cat_id,digest,title,profile,urltype,url,type,mpic,mpic_loc,hits,author,createtime,modifytime ,display,mark,tag from ct_content where deleted='N' and type='"
 				+ type + "' ";
 		if (noContent.equals("Y")) {
 			sql = sql.replaceAll("<#CONTENT#>", "");

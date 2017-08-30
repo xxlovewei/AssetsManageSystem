@@ -44,9 +44,6 @@ public class LoginService extends BaseService {
 	public ResData validLoginType(String value, String login_type, String user_type) {
 		ResData res = null;
 		
-		
-		
-		
 		if (ToolUtil.isOneEmpty(value, login_type, user_type)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
