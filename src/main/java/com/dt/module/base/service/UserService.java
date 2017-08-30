@@ -18,6 +18,7 @@ import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.ConvertUtil;
+import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.MD5Util;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.common.util.ToolUtil;
@@ -92,13 +93,12 @@ public class UserService extends BaseService {
 		String mflag = MD5Util.encrypt(user_id + menu_id);
 		if (userMenus.containsKey(mflag)) {
 			_log.info("get menus from map");
-			// return userMenus.get(mflag);
 		}
-		String bastabsql = "";
+		String basesql = "";
 		if (user_id.endsWith("sys")) {
-			bastabsql = "select node_id from sys_menus_node ";
+			basesql = "select * from sys_menus_node where menu_id=? and parent_id = ? order by sort";
 		} else {
-			bastabsql = "select distinct  level1 node_id from ( "
+			basesql = "select distinct  level1 node_id from ( "
 					+ "select * from (select b.module_id,c.route,c.node_name , "
 					+ "decode(instr(route,'-'), 0,route,substr(route,1,instr(route,'-') -1)) level1 "
 					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
@@ -106,7 +106,7 @@ public class UserService extends BaseService {
 					+ "select b.module_id,c.route,c.node_name , "
 					+ "decode(LENGTH(route) - LENGTH(REPLACE(route,'-','')), " + "0 , '-1', "
 					+ "1 , substr(route,instr(route,'-',1,1)+1, LENGTH(route)-instr(route,'-',1,1)), "
-					+ "substr(route,instr(route,'-',1,1)+1 ,instr(route,'-',1,2) - instr(route,'-',1,1) -1)) level2 "
+					+ "substr(route,instr(route,'-',1, 1)+1 ,instr(route,'-',1,2) - instr(route,'-',1,1) -1)) level2 "
 					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
 					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' ) " + "union all " + "select * from ( "
 					+ "select b.module_id,c.route,c.node_name , "
@@ -115,12 +115,12 @@ public class UserService extends BaseService {
 					+ "substr(route,instr(route,'-',1,2)+1 ,instr(route,'-',1,3) - instr(route,'-',1,2) -1)) level3 "
 					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
 					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' )) where level1<>'-1' ";
+			basesql = "select a.* from sys_menus_node a, (" + basesql + ") b "
+					+ "where a.node_id = b.node_id and menu_id = ? and parent_id = ? " + "order BY sort ";
+			basesql = basesql.replaceAll("<#USER_ID#>", user_id);
 		}
-		String basesql = "SELECT * " + "FROM sys_menus_node a, (" + bastabsql + ") b "
-				+ "WHERE a.node_id = b.node_id AND menu_id = ? AND parent_id = ? " + "ORDER BY sort ";
-		JSONArray r = new JSONArray();
-		basesql = basesql.replaceAll("<#USER_ID#>", user_id);
 		_log.info("getMenu sql:" + basesql);
+		JSONArray r = new JSONArray();
 		RcdSet first_rs = db.query(basesql, menu_id, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
@@ -155,7 +155,7 @@ public class UserService extends BaseService {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findPermissionsByRoleId(String roleId) {
-		return db.query(" select * from sys_role_module where role_id=?", roleId).toList("module_id");
+		return db.query("select * from sys_role_module where role_id=?", roleId).toList("module_id");
 	}
 	/**
 	 * @Description: 根据角色id查找角色名称
@@ -205,7 +205,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(user_id)) {
 			return null;
 		}
-		Rcd rs = db.uniqueRecord("select empl_id from sys_user_info where deleted='N'  and user_id=?", user_id);
+		Rcd rs = db.uniqueRecord("select empl_id from sys_user_info where deleted='N' and user_id=?", user_id);
 		if (rs == null) {
 			return null;
 		}
@@ -218,7 +218,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(empl_id)) {
 			return null;
 		}
-		Rcd rs = db.uniqueRecord("select user_id from sys_user_info where deleted='N'  and empl_id=?", empl_id);
+		Rcd rs = db.uniqueRecord("select user_id from sys_user_info where deleted='N' and empl_id=?", empl_id);
 		if (rs == null) {
 			return null;
 		}
@@ -231,7 +231,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(username)) {
 			return null;
 		}
-		Rcd rs = db.uniqueRecord("select user_id from sys_user_info where deleted='N'  and user_name=?", username);
+		Rcd rs = db.uniqueRecord("select user_id from sys_user_info where deleted='N' and user_name=?", username);
 		if (rs == null) {
 			return null;
 		}
@@ -315,14 +315,14 @@ public class UserService extends BaseService {
 	 * @Description: 根据用户组查询
 	 */
 	public ResData queryUserByGroup(String group_id) {
-		String basesql = " select * from sys_user_info a where deleted='N' ";
+		String basesql = "select * from sys_user_info a where deleted='N' ";
 		String sql = "";
 		if (ToolUtil.isEmpty(group_id)) {
 			sql = basesql + " order by a.empl_id";
 		} else {
 			// 选择组
 			sql = " select t1.* from ( " + basesql
-					+ " ) t1 ,sys_user_group_item t2 where t1.user_id=t2.user_id  and group_id='" + group_id
+					+ " ) t1 ,sys_user_group_item t2 where t1.user_id=t2.user_id and group_id='" + group_id
 					+ "' order by t1.empl_id  ";
 		}
 		return ResData.SUCCESS("操作成功", db.query(sql).toJsonArrayWithJsonObject());
@@ -341,7 +341,6 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(user_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
-		// 处理系统人员表
 		Update ups = new Update("sys_user_info");
 		ups.set("deleted", "Y");
 		ups.where().and("user_id=?", user_id);
@@ -375,7 +374,7 @@ public class UserService extends BaseService {
 		String empl_id = (String) emplRes.getData();
 		// 处理唯一登录名
 		if (type.equals(UserService.USER_TYPE_EMPL)) {
-			username = "Empl_" + empl_id;
+			username = "empl" + empl_id;
 		} else if (type.equals(UserService.USER_TYPE_SYS)) {
 			username = ps.getString("USER_NAME");
 		}
@@ -482,7 +481,8 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(roles_arr)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
-		if (userids_arr.size() == 0) {
+		
+		if (userids_arr.isEmpty()) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		for (int i = 0; i < userids_arr.size(); i++) {

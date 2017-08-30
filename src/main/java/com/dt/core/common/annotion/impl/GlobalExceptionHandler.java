@@ -20,6 +20,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ResponseBody
 	public JSONObject handleException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
 		//未完成,后期需要判断是否是ajax请求
+		System.out.println(ExceptionUtils.getFullStackTrace(ex));
 		String msg = ExceptionUtils.getRootCauseMessage(ex);
 		if (msg == null || msg.equals("")) {
 			msg = "服务器出错";
