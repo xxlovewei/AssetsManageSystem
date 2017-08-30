@@ -1,5 +1,7 @@
 package com.dt.module.product.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,8 @@ public class BrandController extends BaseController {
 
 	@RequestMapping("/api/brand/brandQuery.do")
 	@Res
-	@Acl
+	@Acl(value="allow")
+	@RequiresPermissions("account:create")
 	public ResData brandQuery() {
 		return brandService.queryBrand();
 	}

@@ -1,4 +1,4 @@
-package com.dt.core.shiro;
+package com.dt.module.base.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,48 +15,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.db.DB;
+import com.dt.core.shiro.IShiro;
+import com.dt.module.base.entity.ShiroUser;
 import com.dt.module.base.entity.User;
-import com.dt.module.base.service.UserService;
 
 @Service
-//@DependsOn("springContextHolder")
 @Transactional(readOnly = true)
 public class ShiroService implements IShiro {
-
 	@Autowired
 	DB db;
 
 	public static IShiro me() {
 		return SpringContextUtil.getBean(IShiro.class);
 	}
-
 	@Override
 	public User user(String account) {
-
-		// User user = userMgrDao.getByAccount(account);
-
-		// // 账号不存在
-		// if (null == user) {
-		// throw new CredentialsException();
-		// }
-		// // 账号被冻结
-		// if (user.getStatus() != ManagerStatus.OK.getCode()) {
-		// throw new LockedAccountException();
-		// }
 		return new User();
 	}
-
 	@Override
 	public ShiroUser shiroUser(User user) {
 		ShiroUser shiroUser = new ShiroUser();
-
 		shiroUser.setId(user.getUserId()); // 账号id
 		shiroUser.setAccount(user.getAccount());// 账号
 		shiroUser.setName(user.getName());
-
 		List<String> roleList = new ArrayList<String>();
 		List<String> roleNameList = new ArrayList<String>();
-
 		// 角色集合
 		HashMap<String, String> rmap = user.getRolsSet();
 		Iterator iter = rmap.entrySet().iterator();
@@ -69,34 +52,22 @@ public class ShiroService implements IShiro {
 		}
 		shiroUser.setRoleList(roleList);
 		shiroUser.setRoleNames(roleNameList);
-
 		return shiroUser;
 	}
-
 	@Override
 	public List<String> findPermissionsByRoleId(String roleId) {
 		return UserService.me().findPermissionsByRoleId(roleId);
 	}
-
 	@Override
 	public String findRoleNameByRoleId(String roleId) {
 		return UserService.me().findRoleNameByRoleId(roleId);
 	}
-
 	@Override
 	public SimpleAuthenticationInfo info(ShiroUser shiroUser, User user, String realmName) {
 		String credentials = user.getPassword();
-
-		System.out.println("credentials" + credentials);
 		// 密码加盐处理
 		String source = user.getSalt();
-
 		ByteSource credentialsSalt = new Md5Hash(source);
-		// SimpleAuthenticationInfo authenticationInfo = new
-		// SimpleAuthenticationInfo(user.getUsername(),
-		// user.getPassword(), ByteSource.Util.bytes(user.getCredentialsSalt()),
-		// getName());
 		return new SimpleAuthenticationInfo(shiroUser, credentials, credentialsSalt, realmName);
 	}
-
 }

@@ -1,4 +1,4 @@
-package com.dt.core.shiro;
+package com.dt.module.base.entity;
 
 import java.io.Serializable;
 import java.util.List;

@@ -18,7 +18,6 @@ import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.ConvertUtil;
-import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.MD5Util;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.common.util.ToolUtil;
@@ -95,44 +94,45 @@ public class UserService extends BaseService {
 			_log.info("get menus from map");
 		}
 		String basesql = "";
-		if (user_id.endsWith("sys")) {
-			basesql = "select * from sys_menus_node where menu_id=? and parent_id = ? order by sort";
+		if (user_id.equals("sys")) {
+			basesql = "select * from sys_menus_node where menu_id='" + menu_id + "' and parent_id = ? order by sort";
 		} else {
-			basesql = "select distinct  level1 node_id from ( "
+			basesql = "select distinct level1 node_id from ( "
 					+ "select * from (select b.module_id,c.route,c.node_name , "
 					+ "decode(instr(route,'-'), 0,route,substr(route,1,instr(route,'-') -1)) level1 "
 					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
 					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' ) " + "union all select * from ( "
 					+ "select b.module_id,c.route,c.node_name , "
-					+ "decode(LENGTH(route) - LENGTH(REPLACE(route,'-','')), " + "0 , '-1', "
-					+ "1 , substr(route,instr(route,'-',1,1)+1, LENGTH(route)-instr(route,'-',1,1)), "
+					+ "decode(length(route) - length(replace(route,'-','')), " + "0 , '-1', "
+					+ "1 , substr(route,instr(route,'-',1,1)+1, length(route)-instr(route,'-',1,1)), "
 					+ "substr(route,instr(route,'-',1, 1)+1 ,instr(route,'-',1,2) - instr(route,'-',1,1) -1)) level2 "
 					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
 					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' ) " + "union all " + "select * from ( "
 					+ "select b.module_id,c.route,c.node_name , "
-					+ "decode(LENGTH(route) - LENGTH(REPLACE(route,'-','')), " + "0 , '-1', " + "1 , '-1', "
-					+ "2 , substr(route,instr(route,'-',1,2)+1, LENGTH(route)-instr(route,'-',1,2)), "
+					+ "decode(length(route) - length(replace(route,'-','')), " + "0 , '-1', " + "1 , '-1', "
+					+ "2 , substr(route,instr(route,'-',1,2)+1, length(route)-instr(route,'-',1,2)), "
 					+ "substr(route,instr(route,'-',1,2)+1 ,instr(route,'-',1,3) - instr(route,'-',1,2) -1)) level3 "
 					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
 					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' )) where level1<>'-1' ";
 			basesql = "select a.* from sys_menus_node a, (" + basesql + ") b "
-					+ "where a.node_id = b.node_id and menu_id = ? and parent_id = ? " + "order BY sort ";
+					+ "where a.node_id = b.node_id and menu_id = '" + menu_id + "' and parent_id = ? "
+					+ "order by sort ";
 			basesql = basesql.replaceAll("<#USER_ID#>", user_id);
 		}
 		_log.info("getMenu sql:" + basesql);
 		JSONArray r = new JSONArray();
-		RcdSet first_rs = db.query(basesql, menu_id, 0);
+		RcdSet first_rs = db.query(basesql, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
 			String first_key = first_rs.getRcd(i).getString("key");
 			first_obj.put("STATE", first_key);
-			RcdSet second_rs = db.query(basesql, menu_id, first_rs.getRcd(i).getString("node_id"));
+			RcdSet second_rs = db.query(basesql, first_rs.getRcd(i).getString("node_id"));
 			JSONArray second_arr = new JSONArray();
 			for (int j = 0; j < second_rs.size(); j++) {
 				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(j).toJsonObject());
 				String second_key = second_rs.getRcd(j).getString("key");
 				second_obj.put("STATE", first_key + "." + second_key);
-				RcdSet third_rs = db.query(basesql, menu_id, second_rs.getRcd(j).getString("node_id"));
+				RcdSet third_rs = db.query(basesql, second_rs.getRcd(j).getString("node_id"));
 				second_obj.put("CHILDREN_CNT", third_rs.size());
 				// 处理三层
 				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
@@ -481,7 +481,6 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(roles_arr)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
-		
 		if (userids_arr.isEmpty()) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}

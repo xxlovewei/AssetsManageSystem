@@ -25,6 +25,8 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 
+import com.dt.module.base.entity.ShiroUser;
+
 /**
  * shiro工具类
  *

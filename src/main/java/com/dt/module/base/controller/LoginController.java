@@ -19,7 +19,7 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.util.TokenUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.shiro.ShiroKit;
-import com.dt.core.shiro.ShiroUser;
+import com.dt.module.base.entity.ShiroUser;
 import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.MenuRootService;
 import com.dt.module.base.service.UserService;

@@ -5,7 +5,6 @@
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 	default-lazy-init="true">
 
-	<description>Shiro Configuration</description>
 
 	<!-- Shiro's main business-tier object for web-enabled applications -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
@@ -31,14 +30,8 @@
 		<!-- anon 不需要认证, authc 需要认证, user 验证通过或RememberMe登录的都可以 -->
 		<property name="filters">
 			<map>
-				<entry key="role">
-					<bean class="com.dt.core.shiro.RoleAuthorizationFilter" />
-				</entry>
 				<entry key="authc">
 					<bean class="com.dt.core.shiro.FormAuthenticationFilter" />
-				</entry>
-				<entry key="oauth2">
-					<bean class="com.dt.core.shiro.OAuth2Filter" />
 				</entry>
 			</map>
 		</property>
@@ -46,7 +39,9 @@
 			<value>
 				/user/login.do = anon
 				/user/logout.do = anon
-				/** = anon
+				/api/region/getChildren.do = authc[aa,bb]
+				/** = authc
+				/console/#/devos/melody = authc
 			</value>
 		</property>
 	</bean>
@@ -64,12 +59,9 @@
 		<property name="proxyTargetClass" value="true" />
 	</bean>
 
-
 	<bean
 		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
 	</bean>
-
-	 
 
 </beans>  
