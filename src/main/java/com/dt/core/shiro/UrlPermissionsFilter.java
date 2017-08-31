@@ -39,7 +39,6 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 		String[] perms = new String[1];
 		HttpServletRequest req = (HttpServletRequest) request;
 		String path = req.getServletPath();
-		System.out.println(path);
 		perms[0] = path;// path直接作为权限字符串
 		/*
 		 * String regex = "/(.*?)/(.*?)\\.(.*)"; if(url.matches(regex)){ Pattern pattern =
