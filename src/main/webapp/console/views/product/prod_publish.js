@@ -205,7 +205,7 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 		var picid = getUuid();
 		$scope.myDropzone.options.url = $rootScope.project
-				+ 'file/fileupload.do?bus=prodimgs&uuid=' + picid
+				+ '/api/file/fileupload.do?bus=prodimgs&uuid=' + picid
 				+ '&type=image&interval=10000';
 		if ($scope.myDropzone.files.length == 0) {
 			notify({

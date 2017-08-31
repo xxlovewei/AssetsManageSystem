@@ -7,7 +7,7 @@ function groupSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInsta
   
 
 	if (angular.isDefined(id)) {
-		$http.post($rootScope.project + "/user/queryUserGroupById.do", {
+		$http.post($rootScope.project + "/api/user/queryUserGroupById.do", {
 			group_id : id
 		}).success(function(res) {
 			if (res.success) {
@@ -24,7 +24,7 @@ function groupSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInsta
 	}
 	$scope.sure = function() {
 		 
-		$http.post($rootScope.project + "/user/saveUserGroupById.do", $scope.item).success(function(res) {
+		$http.post($rootScope.project + "/api/user/saveUserGroupById.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 			}  
@@ -78,7 +78,7 @@ function sysGroupSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			DTColumnBuilder.newColumn('GROUP_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
-		$http.post($rootScope.project + "/user/queryGroup.do", {}).success(function(res) {
+		$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
 			}
@@ -93,7 +93,7 @@ function sysGroupSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm({
 			text : '是否删除?'
 		}).then(function() {
-			$http.post($rootScope.project + "/user/deleteGroup.do", {
+			$http.post($rootScope.project + "/api/user/deleteGroup.do", {
 				group_id : id
 			}).success(function(res) {
 				flush();

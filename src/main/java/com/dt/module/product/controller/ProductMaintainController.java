@@ -22,6 +22,7 @@ import com.dt.core.common.util.ToolUtil;
 import com.dt.core.db.DB;
 
 @Controller
+@RequestMapping("/api")
 public class ProductMaintainController extends BaseController{
 	@Autowired
 	private DB db = null;
@@ -130,7 +131,7 @@ public class ProductMaintainController extends BaseController{
 	}
 	
 	
-	@RequestMapping("/api/prod/queryBySpu.do")
+	@RequestMapping("/prod/queryBySpu.do")
 	@Res
 	@Acl(value = "allow")
 	public ResData queryBySpu(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -162,7 +163,7 @@ public class ProductMaintainController extends BaseController{
 		return ResData.SUCCESS("成功获取", res);
 	}
 
-	@RequestMapping("/api/prod/queryBySku.do")
+	@RequestMapping("/prod/queryBySku.do")
 	@Res
 	@Acl(value = "allow")
 	public ResData queryBySku(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -175,7 +176,7 @@ public class ProductMaintainController extends BaseController{
 
 	}
 
-	@RequestMapping("/api/prod/prodAdd.do")
+	@RequestMapping("/prod/prodAdd.do")
 	@Res
 	@Acl
 	public ResData prodAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -188,7 +189,7 @@ public class ProductMaintainController extends BaseController{
 
 	}
 
-	@RequestMapping("/api/prod/prodDelete.do")
+	@RequestMapping("/prod/prodDelete.do")
 	@Res
 	@Acl
 	public ResData prodDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -201,7 +202,7 @@ public class ProductMaintainController extends BaseController{
 
 	}
 
-	@RequestMapping("/api/prod/produUpdate.do")
+	@RequestMapping("/prod/produUpdate.do")
 	@Res
 	@Acl
 	public ResData produUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {

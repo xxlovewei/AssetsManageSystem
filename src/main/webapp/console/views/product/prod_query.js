@@ -315,7 +315,7 @@ function prodQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	
 	function renderImage(data, type, full) {
 		var html = ""
-		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "file/imagedown.do?id=" + full.MASTER_PIC + "  />"
+		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "/api/file/imagedown.do?id=" + full.MASTER_PIC + "  />"
 		return html;
 	}
 	$scope.dtColumns = [

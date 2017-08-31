@@ -10,7 +10,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 
 	$scope.userGroupOpt = [];
 	$scope.userGroupSel = "";
-	$http.post($rootScope.project + "/user/queryGroup.do", {}).success(function(res) {
+	$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(function(res) {
 		if (res.success) {
 			$scope.userGroupOpt = prepend(res.data, {
 				GROUP_ID : "ALL",
@@ -87,7 +87,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 
 	function renderMImage(data, type, full) {
 		var html = ""
-		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "file/imagedown.do?id=" + full.MPIC + "  />"
+		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "/api/file/imagedown.do?id=" + full.MPIC + "  />"
 		return html;
 	}
 

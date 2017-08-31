@@ -6,9 +6,9 @@ function hrmEmployeeSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 	$scope.sure = function() {
 		var cmd = "";
 		if (angular.isDefined($scope.item.EMPLOYEE_ID)) {
-			cmd = "/hrm/employeeUpdate.do";
+			cmd = "/api/hrm/employeeUpdate.do";
 		} else {
-			cmd = "/hrm/employeeAdd.do";
+			cmd = "/api/hrm/employeeAdd.do";
 		}
 
 		 
@@ -78,7 +78,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	]
 
 	var org_id = "";
-	$http.post($rootScope.project + "/hrm/orgQuery.do", {}).success(
+	$http.post($rootScope.project + "/api/hrm/orgQuery.do", {}).success(
 			function(res) {
 				if (res.success) {
 					$scope.topMenuOpt = res.data;
@@ -99,7 +99,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		var ps = {};
 		ps.org_id = $scope.topMenuSel.ORG_ID;
 		org_id = ps.org_id;
-		$http.post($rootScope.project + "/hrm/orgNodeTreeQuery.do", ps)
+		$http.post($rootScope.project + "/api/hrm/orgNodeTreeQuery.do", ps)
 				.success(function(res) {
 					if (res.success) {
 					 
@@ -176,7 +176,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			console.log("select node:", node);
 
 		}
-		$http.post($rootScope.project + "/hrm/queryEmplByOrg.do", {
+		$http.post($rootScope.project + "/api/hrm/queryEmplByOrg.do", {
 			node_id : node
 		}).success(function(res) {
 			if (res.success) {

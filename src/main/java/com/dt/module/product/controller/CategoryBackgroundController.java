@@ -25,13 +25,14 @@ import com.dt.core.db.DB;
 
 /*后台商品类目管理*/
 @Controller
+@RequestMapping("/api")
 public class CategoryBackgroundController  extends BaseController{
 	@Autowired
 	private DB db = null;
 
 	@Res
 	@Acl(value = "allow")
-	@RequestMapping("/api/categoryB/prodPublishCatList")
+	@RequestMapping("/categoryB/prodPublishCatList")
 	// 产品发布时选择产品类目
 	public ResData prodPublishCatList(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// resource type url
@@ -86,7 +87,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	@Res
 	@Acl(value = "allow")
-	@RequestMapping("/api/categoryB/queryTreeList.do")
+	@RequestMapping("/categoryB/queryTreeList.do")
 	// 只支持4级商品类目
 	// 后台的子节点为品类,挂载属性模版。
 	// 属性:基本属性,销售属性,描述属性。
@@ -128,7 +129,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	@Res
 	@Acl
-	@RequestMapping("/api/categoryB/delete.do")
+	@RequestMapping("/categoryB/delete.do")
 	public ResData categoryBdelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// resource type url
 		String id = request.getParameter("id");
@@ -154,7 +155,7 @@ public class CategoryBackgroundController  extends BaseController{
 	// 获取一个品类下的单个属性的属性项数据
 	@Res
 	@Acl(value = "allow")
-	@RequestMapping("/api/categoryB/catAttrValueQuery.do")
+	@RequestMapping("/categoryB/catAttrValueQuery.do")
 	public ResData catAttrValueQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String attr_id = request.getParameter("attr_id");
@@ -168,7 +169,7 @@ public class CategoryBackgroundController  extends BaseController{
 	// 获取一个品类下的所有属性数据及属性项目的数据,可能用户加产品的时候需要
 	@Res
 	@Acl(value = "allow")
-	@RequestMapping("/api/categoryB/catAttrQueryById.do")
+	@RequestMapping("/categoryB/catAttrQueryById.do")
 	public ResData catAttrQueryById(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String id = request.getParameter("ID");
@@ -180,7 +181,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	@Res
 	@Acl
-	@RequestMapping("/api/categoryB/catAttrValueAdd.do")
+	@RequestMapping("/categoryB/catAttrValueAdd.do")
 	public ResData catAttrValueAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String attr_id = request.getParameter("attr_id");
@@ -212,7 +213,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	@Res
 	@Acl
-	@RequestMapping("/api/categoryB/catAttrValueUpdate.do")
+	@RequestMapping("/categoryB/catAttrValueUpdate.do")
 	public ResData catAttrValueUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String attr_set_id = request.getParameter("ID");
@@ -230,7 +231,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	@Res
 	@Acl
-	@RequestMapping("/api/categoryB/catAttrValueDel.do")
+	@RequestMapping("/categoryB/catAttrValueDel.do")
 	public ResData catAttrValueDel(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String id = request.getParameter("ID");
@@ -245,7 +246,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	@Res
 	@Acl
-	@RequestMapping("/api/categoryB/catAttrAdd.do")
+	@RequestMapping("/categoryB/catAttrAdd.do")
 	public ResData catAttrAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		// 新增不影响
@@ -323,7 +324,7 @@ public class CategoryBackgroundController  extends BaseController{
 	@Res
 	@Acl
 	@Transactional
-	@RequestMapping("/api/categoryB/catAttrDel.do")
+	@RequestMapping("/categoryB/catAttrDel.do")
 	public ResData catAttrDel(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String id = request.getParameter("ID");
@@ -351,7 +352,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	@Res
 	@Acl
-	@RequestMapping("/api/categoryB/catAttrUpdate.do")
+	@RequestMapping("/categoryB/catAttrUpdate.do")
 	public ResData catAttrUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String id = request.getParameter("ID");
@@ -373,7 +374,7 @@ public class CategoryBackgroundController  extends BaseController{
 	// 获取一个品类下的所有属性数据
 	@Res
 	@Acl(value = "allow")
-	@RequestMapping("/api/categoryB/catAttrQuery.do")
+	@RequestMapping("/categoryB/catAttrQuery.do")
 	public ResData catAttrQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String cat_id = request.getParameter("cat_id");
@@ -386,7 +387,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	@Res
 	@Acl
-	@RequestMapping("/api/categoryB/update.do")
+	@RequestMapping("/categoryB/update.do")
 	public ResData categoryBupdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		return ResData.SUCCESS();
@@ -394,7 +395,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	@Res
 	@Acl
-	@RequestMapping("/api/categoryB/rename.do")
+	@RequestMapping("/categoryB/rename.do")
 	public ResData categoryBrename(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
 		String text = request.getParameter("text");
@@ -415,7 +416,7 @@ public class CategoryBackgroundController  extends BaseController{
 	@Res
 	@Acl
 	@Transactional
-	@RequestMapping("/api/categoryB/add.do")
+	@RequestMapping("/categoryB/add.do")
 	public ResData categoryBadd(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 类目下已经有品类后,则不能在添加层级，原则是:品类是类目的最后一级
 		// 节点类型,root,node,category
@@ -555,7 +556,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	@Res
 	@Acl(value = "allow")
-	@RequestMapping("/api/categoryB/prodPublishCatAttrList.do")
+	@RequestMapping("/categoryB/prodPublishCatAttrList.do")
 	// 获取产品属性
 	public ResData prodPublishCatAttrList(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

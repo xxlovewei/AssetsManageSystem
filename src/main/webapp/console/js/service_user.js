@@ -2,7 +2,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 	return {
 		logout : function() {
 			var deferred = $q.defer();
-			$http.post($rootScope.project + "/user/logout.do", {}).success(function(res) {
+			$http.post($rootScope.project + "/api/user/logout.do", {}).success(function(res) {
 				if (res.success) {
 					$rootScope.dt_app_token = ""
 					$localStorage.put('dt_app_token', "");
@@ -15,7 +15,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 		},
 		login : function(e) {
 			var deferred = $q.defer();
-			$http.post($rootScope.project + "/user/login.do", e).success(function(res) {
+			$http.post($rootScope.project + "/api/user/login.do", e).success(function(res) {
 				$log.warn("service login return", res);
 				if (res.success) {
 					if (angular.isDefined(res.data.token)) {
@@ -31,7 +31,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 						$rootScope.dt_systems = res.data.systems;
 						$localStorage.put('dt_systems', res.data.systems);
 						//当前默认可能存在Id为1的系统,默认获取该资源
-						$http.post($rootScope.project + "/user/getUserMenus.do", {
+						$http.post($rootScope.project + "/api//user/getUserMenus.do", {
 							menu_id : "1"
 						}).success(function(rs) {
 							if (rs.success) {
@@ -60,14 +60,14 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 		checkLogin : function() {
 			var deferred = $q.defer();
 			// 后期需要加上菜单选择判断,当前暂时不实现
-			$http.post($rootScope.project + "/user/checkLogin.do", {}).success(function(res) {
+			$http.post($rootScope.project + "/api/user/checkLogin.do", {}).success(function(res) {
 				deferred.resolve(res);
 			});
 			return deferred.promise;
 		},
 		switchSystem : function(id) {
 			var deferred = $q.defer();
-			$http.post($rootScope.project + "/user/getUserMenus.do", {
+			$http.post($rootScope.project + "/api/user/getUserMenus.do", {
 				menu_id : id
 			}).success(function(rs) {
 				if (rs.success) {

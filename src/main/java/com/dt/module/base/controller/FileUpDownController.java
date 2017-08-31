@@ -29,7 +29,7 @@ import com.dt.core.common.util.ToolUtil;
 import com.dt.core.db.DB;
 
 @Controller()
-@RequestMapping("/file")
+@RequestMapping("/api/file")
 public class FileUpDownController extends BaseController {
 	@Autowired
 	private DB db = null;

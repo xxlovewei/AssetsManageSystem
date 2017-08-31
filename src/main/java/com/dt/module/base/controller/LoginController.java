@@ -25,6 +25,7 @@ import com.dt.module.base.service.MenuRootService;
 import com.dt.module.base.service.UserService;
 
 @Controller
+@RequestMapping("/api")
 public class LoginController extends BaseController {
 	private static Logger _log = LoggerFactory.getLogger(LoginController.class);
 	@Autowired

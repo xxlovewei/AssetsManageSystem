@@ -33,8 +33,8 @@ function ctCompProfileCtl($compile, $confirm, $log, notify, $scope, $http, $root
 				var mockFile = {
 					name : "主图",
 					uuid : $scope.item.MPIC,
-					href : $rootScope.project + "/file/imagedown.do?id=" + $scope.item.MPIC,
-					url : $rootScope.project + "/file/imagedown.do?id=" + $scope.item.MPIC,
+					href : $rootScope.project + "/api/file/imagedown.do?id=" + $scope.item.MPIC,
+					url : $rootScope.project + "/api/file/imagedown.do?id=" + $scope.item.MPIC,
 					status : "success",
 					accepted : true,
 					type : 'image/png'
@@ -42,7 +42,7 @@ function ctCompProfileCtl($compile, $confirm, $log, notify, $scope, $http, $root
 				$scope.myDropzone.emit("addedfile", mockFile);
 				$scope.myDropzone.files.push(mockFile);
 				// manually
-				$scope.myDropzone.createThumbnailFromUrl(mockFile, $rootScope.project + "/file/imagedown.do?id=" + $scope.item.MPIC);
+				$scope.myDropzone.createThumbnailFromUrl(mockFile, $rootScope.project + "/api/file/imagedown.do?id=" + $scope.item.MPIC);
 				$scope.myDropzone.emit("complete", mockFile);
 			}, 600);
 
@@ -78,7 +78,7 @@ function ctCompProfileCtl($compile, $confirm, $log, notify, $scope, $http, $root
 			return;
 		}
 		var picid = getUuid();
-		$scope.myDropzone.options.url = $rootScope.project + 'file/fileupload.do?bus=news&uuid=' + picid + '&type=image&interval=10000';
+		$scope.myDropzone.options.url = $rootScope.project + '/api/file/fileupload.do?bus=news&uuid=' + picid + '&type=image&interval=10000';
 		if (angular.isDefined($scope.myDropzone.files[0].uuid)) {
 			// 已经上传
 			picid = $scope.myDropzone.files[0].uuid;

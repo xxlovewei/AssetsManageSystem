@@ -18,6 +18,7 @@ import com.dt.module.hrm.service.EmplOrgService;
 import com.dt.module.hrm.service.EmplService;
 
 @Controller
+@RequestMapping("/api")
 public class EmplOrgController extends BaseController {
 	@Autowired
 	private EmplOrgService emplOrgService;

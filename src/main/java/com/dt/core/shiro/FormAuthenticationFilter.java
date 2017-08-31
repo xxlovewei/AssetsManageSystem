@@ -87,8 +87,13 @@ public class FormAuthenticationFilter extends AuthenticatingFilter {
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 		String[] rolesArray = (String[]) mappedValue;
+		HttpServletRequest httpReq = (HttpServletRequest) request;
+		String uri = httpReq.getRequestURI();
+		Subject subject = getSubject(request, response);
+		 
+		log.info("isAccessAllowed:" + uri + ",isRemember:" + subject.isRemembered());
 		if (rolesArray == null || rolesArray.length == 0) {
-			// 如果没有设置角色参数，默认成功
+			System.out.println("mappedValue is null");
 			return true;
 		}
 		for (int i = 0; i < rolesArray.length; i++) {
@@ -97,15 +102,6 @@ public class FormAuthenticationFilter extends AuthenticatingFilter {
 		if (mappedValue instanceof HandlerMethod) {
 			System.out.println("trtrtr");
 		}
-		// 获取请求的资源（即请求的URI）
-		HttpServletRequest httpReq = (HttpServletRequest) request;
-		String uri = httpReq.getRequestURI();
-		log.info("isAccessAllowed:" + uri);
-		// 根据请求响应获取已登录的Subject对象。
-		Subject subject = getSubject(request, response);
-		System.out.println("remember" + subject.isRemembered());
-		// 判断登录的用户是否有此权限
-		// System.out.println(subject.isPermitted(uri));
 		// return false;//跳到onAccessDenied处理
 		return true;
 	}

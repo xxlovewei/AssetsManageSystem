@@ -22,7 +22,7 @@ function sysUserAddCtl($confirm, $log, notify, $scope, $http, $rootScope) {
 	$scope.ok = function() {
 		$scope.item.LOCKED = $scope.userStatusSel.id;
 		$log.info($scope.item);
-		$http.post($rootScope.project + "/user/userSave.do", $scope.item).success(
+		$http.post($rootScope.project + "/api/user/userSave.do", $scope.item).success(
 				function(res) {
 					if (res.success) {
 						$scope.item = {};

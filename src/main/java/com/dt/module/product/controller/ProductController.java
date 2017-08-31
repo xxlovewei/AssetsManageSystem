@@ -15,49 +15,50 @@ import com.dt.core.common.util.support.HttpKit;
 import com.dt.module.product.service.ProductService;
 
 @Controller
+@RequestMapping("/api")
 public class ProductController extends BaseController {
 	@Autowired
 	ProductService productService;
 
-	@RequestMapping("/api/product/prodOffOn.do")
+	@RequestMapping("/product/prodOffOn.do")
 	@Res
 	@Acl
 	public ResData prodOffOn(String prods, String is_off) {
 		return productService.prodOffOn(prods, is_off);
 	}
-	@RequestMapping("/api/product/prodModifySaleAttr.do")
+	@RequestMapping("/product/prodModifySaleAttr.do")
 	@Res
 	@Acl
 	@Transactional
 	public ResData prodModifySaleAttr() {
 		return productService.updateProdSaleAttr(HttpKit.getRequestParameters());
 	}
-	@RequestMapping("/api/product/prodModifyBaseAttr.do")
+	@RequestMapping("/product/prodModifyBaseAttr.do")
 	@Res
 	@Acl
 	public ResData prodModifyBaseAttr() {
 		return productService.updateProdBaseAttr(HttpKit.getRequestParameters());
 	}
-	@RequestMapping("/api/product/prodDelete.do")
+	@RequestMapping("/product/prodDelete.do")
 	@Res
 	@Acl
 	public ResData prodDelete(String prods) {
 		return productService.deleteProds(prods);
 	}
-	@RequestMapping("/api/product/prodQueryByCat.do")
+	@RequestMapping("/product/prodQueryByCat.do")
 	@Res
 	@Acl
 	public ResData prodQueryByCat(String cat_id) {
 		return productService.queryProdByCat(cat_id);
 	}
 	// 查询本商品所有信息
-	@RequestMapping("/api/product/prodQueryBySpu.do")
+	@RequestMapping("/product/prodQueryBySpu.do")
 	@Res
 	@Acl
 	public ResData prodQueryBySpu(String spu) throws IOException {
 		return productService.queryProdBySpu(spu);
 	}
-	@RequestMapping("/api/product/prodPublish.do")
+	@RequestMapping("/product/prodPublish.do")
 	@Res
 	@Acl
 	@Transactional

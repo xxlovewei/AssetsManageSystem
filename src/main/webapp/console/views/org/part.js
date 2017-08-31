@@ -6,7 +6,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	$scope.item = {};
 
 	var org_id = "";
-	$http.post($rootScope.project + "/hrm/orgQuery.do", {}).success(
+	$http.post($rootScope.project + "/api/hrm/orgQuery.do", {}).success(
 			function(res) {
 				if (res.success) {
 					$scope.topMenuOpt = res.data;
@@ -27,7 +27,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 		var ps = {};
 		ps.org_id = $scope.topMenuSel.ORG_ID;
 		org_id = ps.org_id;
-		$http.post($rootScope.project + "/hrm/orgNodeTreeQuery.do", ps)
+		$http.post($rootScope.project + "/api/hrm/orgNodeTreeQuery.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						 
@@ -95,7 +95,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
 						console.log("cur:obj", obj);
-						$http.post($rootScope.project + "/hrm/orgNodeSave.do",
+						$http.post($rootScope.project + "/api/hrm/orgNodeSave.do",
 								{
 									NODE_TYPE : obj.type,
 									NODE_NAME : "新节点",
@@ -129,7 +129,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
 						$http.post(
-								$rootScope.project + "/hrm/orgNodeDelete.do", {
+								$rootScope.project + "/api/hrm/orgNodeDelete.do", {
 									node_id : obj.id
 								}).success(function(res) {
 							if (res.success) {
@@ -179,7 +179,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 				if (snodes.length == 1) {
 					var node = snodes[0];
 					console.log("select node:", node);
-					$http.post($rootScope.project + "/hrm/orgNodeQuery.do", {
+					$http.post($rootScope.project + "/api/hrm/orgNodeQuery.do", {
 						node_id : node
 					}).success(function(res) {
 						if (res.success) {
@@ -223,7 +223,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 	$scope.ok = function() {
 		if (angular.isDefined($scope.item.NODE_ID)) {
-			$http.post($rootScope.project + "/hrm/orgNodeSave.do", $scope.item)
+			$http.post($rootScope.project + "/api/hrm/orgNodeSave.do", $scope.item)
 					.success(
 							function(res) {
 								if (res.success) {

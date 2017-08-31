@@ -18,6 +18,7 @@ import com.dt.module.base.service.UserGroupService;
  * @Description: TODO 
  */
 @Controller
+@RequestMapping("/api")
 public class UserGroupController {
 	@Autowired
 	private UserGroupService userGroupService;

@@ -65,7 +65,7 @@ function orgEmpSaveCtl($localStorage, notify, $log, $uibModal,
 
 	if (angular.isDefined(id)) {
 		// 加载数据
-		$http.post($rootScope.project + "/hrm/employeeQueryById.do", {
+		$http.post($rootScope.project + "/api/hrm/employeeQueryById.do", {
 			empl_id : id
 		}).success(function(res) {
 			if (res.success) {
@@ -122,10 +122,10 @@ function orgEmpSaveCtl($localStorage, notify, $log, $uibModal,
 
 		var cmd = "";
 		if (angular.isDefined($scope.data.EMPL_ID)) {
-			cmd = "/hrm/employeeUpdate.do"
+			cmd = "/api/hrm/employeeUpdate.do"
 			$scope.data.OLD_NODES = angular.toJson($scope.data.OLD_PARTS)
 		} else {
-			cmd = "/hrm/employeeAdd.do";
+			cmd = "/api/hrm/employeeAdd.do";
 		}
 	
 		$http.post($rootScope.project + cmd, $scope.data).success(
@@ -152,7 +152,7 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	};
 	$scope.partOpt = [];
 	$scope.partSel = "";
-	$http.post($rootScope.project + "/hrm/orgQueryLevelList.do", {}).success(
+	$http.post($rootScope.project + "/api/hrm/orgQueryLevelList.do", {}).success(
 			function(res) {
 				if (res.success) {
 					var d = res.data;
@@ -211,7 +211,7 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	function flush() {
 
 		$scope.data.NODE_ID = $scope.partSel.NODE_ID;
-		$http.post($rootScope.project + "/hrm/employeeQueryList.do",
+		$http.post($rootScope.project + "/api/hrm/employeeQueryList.do",
 				$scope.data).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
@@ -233,7 +233,7 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm({
 			text : '是否删除功能?'
 		}).then(function() {
-			$http.post($rootScope.project + "/hrm/employeeDelete.do", {
+			$http.post($rootScope.project + "/api/hrm/employeeDelete.do", {
 				empl_id : id
 			}).success(function(res) {
 				if (res.success) {

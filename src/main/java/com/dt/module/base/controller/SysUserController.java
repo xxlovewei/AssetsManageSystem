@@ -21,6 +21,7 @@ import com.dt.module.base.service.SysUserService;
 import com.dt.module.base.service.UserService;
 
 @Controller
+@RequestMapping("/api")
 public class SysUserController extends BaseController {
 	@Autowired
 	private UserService userService;

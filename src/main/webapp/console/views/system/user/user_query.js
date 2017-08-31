@@ -73,7 +73,7 @@ function sysUserQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 			ps.group_id = $scope.userGroupSel.GROUP_ID;
 		}
 
-		$http.post($rootScope.project + "/user/userQueryByGroup.do", ps).success(function(res) {
+		$http.post($rootScope.project + "/api/user/userQueryByGroup.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
 			}

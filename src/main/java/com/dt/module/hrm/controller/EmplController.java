@@ -16,6 +16,7 @@ import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.hrm.service.EmplService;
 
 @Controller
+@RequestMapping("/api")
 public class EmplController extends BaseController {
 	 
 	@Autowired

@@ -25,6 +25,7 @@ import com.dt.module.demo.service.DemoService;
 * 类说明 
 */
 @Controller
+@RequestMapping(value = "/api")
 public class DemoController extends BaseController {
 
 	private static Logger _log = LoggerFactory.getLogger(DemoController.class);

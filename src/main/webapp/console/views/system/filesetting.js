@@ -56,7 +56,7 @@ function sysfileConfCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	function flush() {
 		var ps = {}
 
-		$http.post($rootScope.project + "/file//fileConfQuery.do", ps).success(
+		$http.post($rootScope.project + "/api/file/fileConfQuery.do", ps).success(
 				function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;

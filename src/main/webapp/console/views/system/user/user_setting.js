@@ -8,7 +8,7 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal, $uibModal
 			// 如果只有一个用户,则加载他的权限信息
 			console.log("user cnt" + angular.fromJson(userIds).length);
 			if (angular.fromJson(userIds).length == 1) {
-				$http.post($rootScope.project + "/user/queryRole.do", {
+				$http.post($rootScope.project + "/api/user/queryRole.do", {
 					user_id : angular.fromJson(userIds)[0]
 				}).success(function(res) {
 					if (res.success) {
@@ -33,7 +33,7 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal, $uibModal
 		var ps = {};
 		ps.USER_IDS = userIds;
 		ps.ROLES = angular.toJson($scope.roleSel);
-		$http.post($rootScope.project + "/user/userRoleChange.do", ps).success(function(res) {
+		$http.post($rootScope.project + "/api/user/userRoleChange.do", ps).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 			}
@@ -68,7 +68,7 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 		$uibModalInstance.dismiss('cancel');
 	} else {
 
-		$http.post($rootScope.project + "/user/userQueryById.do", {
+		$http.post($rootScope.project + "/api/user/userQueryById.do", {
 			user_id : id
 		}).success(function(res) {
 			$log.warn(res);
@@ -92,7 +92,7 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 	}
 	$scope.sure = function() {
 		$scope.item.LOCKED = $scope.lockedSel.ID;
-		$http.post($rootScope.project + "/user/userSave.do", $scope.item).success(function(res) {
+		$http.post($rootScope.project + "/api/user/userSave.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 			} else {
@@ -198,7 +198,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			ps.group_id = $scope.userGroupSel.GROUP_ID;
 		}
 
-		$http.post($rootScope.project + "/user/userQueryByGroup.do", ps).success(function(res) {
+		$http.post($rootScope.project + "/api/user/userQueryByGroup.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
 
@@ -235,7 +235,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		$confirm({
 			text : '是否删除选中的用户?'
 		}).then(function() {
-			$http.post($rootScope.project + "/user/userDelete.do", {
+			$http.post($rootScope.project + "/api/user/userDelete.do", {
 				user_ids : angular.toJson(userids)
 			}).success(function(res) {
 				flush();

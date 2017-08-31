@@ -13,23 +13,24 @@ import com.dt.core.common.util.ToolUtil;
 import com.dt.module.schedule.service.JobService;
 
 @Controller
+@RequestMapping("/api")
 public class ScheduleController extends BaseController {
 	@Autowired
 	private JobService jobService = null;
 
-	@RequestMapping("/api/schedule/queryJobs.do")
+	@RequestMapping("/schedule/queryJobs.do")
 	@Res
 	@Acl
 	public Object queryJobs() {
 		return ResData.SUCCESS_OPER(jobService.queryJob(""));
 	}
-	@RequestMapping("/api/schedule/removejob.do")
+	@RequestMapping("/schedule/removejob.do")
 	@Res
 	@Acl
 	public ResData removejob() throws IOException {
 		return ResData.SUCCESS_OPER();
 	}
-	@RequestMapping("/api/schedule/pausejob.do")
+	@RequestMapping("/schedule/pausejob.do")
 	@Res
 	@Acl
 	public ResData pausejob(String seq) {
@@ -39,7 +40,7 @@ public class ScheduleController extends BaseController {
 		jobService.pausejob(seq);
 		return ResData.SUCCESS_OPER();
 	}
-	@RequestMapping("/api/schedule/resumejob.do")
+	@RequestMapping("/schedule/resumejob.do")
 	@Res
 	@Acl
 	public ResData resumejob(String seq) {
@@ -49,7 +50,7 @@ public class ScheduleController extends BaseController {
 		jobService.resumejob(seq);
 		return ResData.SUCCESS_OPER();
 	}
-	@RequestMapping("/api/schedule/enablejob.do")
+	@RequestMapping("/schedule/enablejob.do")
 	@Res
 	@Acl
 	public ResData enablejob(String seq) {
@@ -59,7 +60,7 @@ public class ScheduleController extends BaseController {
 		jobService.enableJob(seq);
 		return ResData.SUCCESS_OPER();
 	}
-	@RequestMapping("/api/schedule/disablejob.do")
+	@RequestMapping("/schedule/disablejob.do")
 	@Res
 	@Acl
 	public ResData disablejob(String seq) throws IOException {
@@ -69,7 +70,7 @@ public class ScheduleController extends BaseController {
 		jobService.disabledJob(seq);
 		return ResData.SUCCESS_OPER();
 	}
-	@RequestMapping("/api/schedule/runonce.do")
+	@RequestMapping("/schedule/runonce.do")
 	@Res
 	@Acl
 	public ResData runonce(String seq) throws IOException {

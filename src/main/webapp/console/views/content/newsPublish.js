@@ -77,7 +77,7 @@ function ctNewsPublishCtl($compile, $confirm, $log, notify, $scope, $http, $root
 		}
 		var picid = getUuid();
 		$scope.myDropzone.options.url = $rootScope.project
-				+ 'file/fileupload.do?bus=news&uuid=' + picid
+				+ '/api/file/fileupload.do?bus=news&uuid=' + picid
 				+ '&type=image&interval=10000';
 		if(angular.isDefined($scope.myDropzone.files[0].uuid )){
 			//已经上传

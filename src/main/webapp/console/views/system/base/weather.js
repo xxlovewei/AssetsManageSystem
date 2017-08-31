@@ -27,7 +27,7 @@ function prodCtl($uibModal, $log, $rootScope, $scope, DTLang, DTOptionsBuilder,
 	
 		id=getUuid();
 		$scope.myDropzone.options.url = $rootScope.project
-				+ 'file/fileupload.do?bus=prodimgs&uuid=' + id
+				+ '/api/file/fileupload.do?bus=prodimgs&uuid=' + id
 				+ '&type=image&interval=10000';
 		$scope.myDropzone.uploadFile($scope.myDropzone.files[0]);
 	}

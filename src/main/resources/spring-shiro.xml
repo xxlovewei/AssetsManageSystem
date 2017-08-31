@@ -33,6 +33,10 @@
 				<entry key="authc">
 					<bean class="com.dt.core.shiro.FormAuthenticationFilter" />
 				</entry>
+				<entry key="perms">
+					<bean class="com.dt.core.shiro.UrlPermissionsFilter" />
+				</entry>
+
 			</map>
 		</property>
 		<property name="filterChainDefinitions">
@@ -40,7 +44,7 @@
 				/user/login.do = anon
 				/user/logout.do = anon
 				/api/region/getChildren.do = authc[aa,bb]
-				/** = authc
+				/** = authc,perms
 				/console/#/devos/melody = authc
 			</value>
 		</property>
