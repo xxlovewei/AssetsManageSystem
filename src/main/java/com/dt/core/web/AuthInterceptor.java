@@ -32,7 +32,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				res.setStatus(298);
 				JSONObject r = new JSONObject();
 				r.put("success", false);
-				r.put("message", "API not Access!");
+				r.put("message", "Api is not accessed!");
 				res.getWriter().print(r.toJSONString());
 				isPass = false;
 			} else {
@@ -44,6 +44,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 					// 判断是否验证
 					if (ShiroKit.isAuthenticated()) {
 						// 其他选择验证,后期在这里实现
+						acl = "all";
 						isPass = true;
 					} else {
 						res.setStatus(299);
@@ -63,8 +64,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 		String url = req.getRequestURI();
 		String token = TokenUtil.getRequestToken(req);
-		_log.info("isPass=" + isPass + ",userId=" + user_id + ",acl=" + acl + ",autoInterceptor=" + url + ",token="
-				+ token + ",isAuth=" + ShiroKit.isAuthenticated());
+		_log.info("userId=" + user_id + ",acl=" + acl + ",autoInterceptor=" + url + ",token=" + token + ",isAuth="
+				+ ShiroKit.isAuthenticated() + "isPass=" + isPass);
 		return isPass;
 	}
 }

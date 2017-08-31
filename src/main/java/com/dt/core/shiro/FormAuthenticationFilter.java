@@ -33,10 +33,9 @@ import org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
 import com.alibaba.fastjson.JSONObject;
-import com.dt.core.common.annotion.Acl;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.StrKit;
 
@@ -86,24 +85,15 @@ public class FormAuthenticationFilter extends AuthenticatingFilter {
 	}
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-		String[] rolesArray = (String[]) mappedValue;
 		HttpServletRequest httpReq = (HttpServletRequest) request;
 		String uri = httpReq.getRequestURI();
 		Subject subject = getSubject(request, response);
-		 
-		log.info("isAccessAllowed:" + uri + ",isRemember:" + subject.isRemembered());
-		if (rolesArray == null || rolesArray.length == 0) {
-			System.out.println("mappedValue is null");
+		log.info("isAccessAllowed:" + uri + ",isRemember:" + ShiroKit.getSubject().isRemembered());
+		// 对公共API放开权限,最后还会有一层判断
+		if (ToolUtil.isNotEmpty(httpReq.getParameter("basePublic"))) {
 			return true;
 		}
-		for (int i = 0; i < rolesArray.length; i++) {
-			System.out.println(rolesArray[i]);
-		}
-		if (mappedValue instanceof HandlerMethod) {
-			System.out.println("trtrtr");
-		}
-		// return false;//跳到onAccessDenied处理
-		return true;
+		return subject.isAuthenticated();
 	}
 	@Override
 	public void setLoginUrl(String loginUrl) {

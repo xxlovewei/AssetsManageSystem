@@ -15,6 +15,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 		},
 		login : function(e) {
 			var deferred = $q.defer();
+			e.basePublic = "yes";
 			$http.post($rootScope.project + "/api/user/login.do", e).success(function(res) {
 				$log.warn("service login return", res);
 				if (res.success) {
@@ -30,7 +31,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 						// 用户拥有的系统资源
 						$rootScope.dt_systems = res.data.systems;
 						$localStorage.put('dt_systems', res.data.systems);
-						//当前默认可能存在Id为1的系统,默认获取该资源
+						// 当前默认可能存在Id为1的系统,默认获取该资源
 						$http.post($rootScope.project + "/api//user/getUserMenus.do", {
 							menu_id : "1"
 						}).success(function(rs) {
