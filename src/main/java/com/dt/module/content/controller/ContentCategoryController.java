@@ -65,7 +65,7 @@ public class ContentCategoryController extends BaseController {
 		return contentCategoryService.queryCategory(root);
 	}
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/ctCategroy/queryCategoryChildren.do")
 	public ResData queryCategoryChildren() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -74,7 +74,7 @@ public class ContentCategoryController extends BaseController {
 		return contentCategoryService.queryCategoryChildren(parentId, isAction);
 	}
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/ctCategroy/queryCategoryFirstFloor.do")
 	public ResData queryCategoryFirstFloor() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();

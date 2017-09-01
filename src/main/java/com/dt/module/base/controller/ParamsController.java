@@ -25,7 +25,7 @@ public class ParamsController {
 
 	@RequestMapping(value = "/params/queryParams.do")
 	@Res
-	@Acl(value="allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData queryParams() {
 		return paramsService.queryParams();
 	}

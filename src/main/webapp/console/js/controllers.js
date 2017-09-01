@@ -32,9 +32,6 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 			if (result.success) {
 				$state.go("login");
 			} else {
-				notify({
-					message : result.message
-				});
 			}
 		}, function(error) {
 		}, function(progress) {

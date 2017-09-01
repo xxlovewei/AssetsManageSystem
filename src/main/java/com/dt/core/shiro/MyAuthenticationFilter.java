@@ -181,13 +181,13 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 						+ "Authentication url [" + getLoginUrl() + "]");
 			}
 			log.info("Not Login,Go to " + getLoginUrl());
-			// 判断如果是ajax请求
+			// 判断如果是返回json
 			if (isReturnJSON(httpRequest)) {
 				httpResponse.setStatus(299);
 				httpResponse.setCharacterEncoding("UTF-8");
 				JSONObject r = new JSONObject();
 				r.put("success", false);
-				r.put("message", "not Login");
+				r.put("message", "not login.");
 				httpResponse.getWriter().print(r.toJSONString());
 			} else {
 				System.out.println("saveRequestAndRedirectToLogin");

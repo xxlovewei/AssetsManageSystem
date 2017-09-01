@@ -34,7 +34,7 @@ public class DemoController extends BaseController {
 	private DB db = null;
 	@Autowired
 	DemoService demoService;
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@Res
 	@RequestMapping("/demo/test.do")
 	public ResData orgDel(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -52,7 +52,7 @@ public class DemoController extends BaseController {
 		return ResData.SUCCESS();
 	}
 	
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@Res
 	@RequestMapping(value="/demo/tes2t.do")
 	public ResData abc(String id,String value){

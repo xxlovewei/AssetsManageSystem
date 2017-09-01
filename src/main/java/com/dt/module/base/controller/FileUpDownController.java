@@ -33,12 +33,11 @@ import com.dt.core.db.DB;
 public class FileUpDownController extends BaseController {
 	@Autowired
 	private DB db = null;
-
 	private static Logger _log = LoggerFactory.getLogger(FileUpDownController.class);
-	
+
 	@RequestMapping("/fileupload.do")
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData fileUpload(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String type = request.getParameter("type");
 		String uuid = request.getParameter("uuid");
@@ -94,7 +93,7 @@ public class FileUpDownController extends BaseController {
 		return ResData.SUCCESS_OPER();
 	}
 	@RequestMapping("/imagedown.do")
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public void imagedown(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = request.getParameter("id");
 		if (id == null || id.equals("")) {
@@ -220,7 +219,6 @@ public class FileUpDownController extends BaseController {
 		return ResData.SUCCESS_OPER();
 	}
 	private static String getWebRootDir() {
-	 
 		return ToolUtil.getRealPathInWebApp("");
 	}
 }

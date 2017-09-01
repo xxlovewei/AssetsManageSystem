@@ -1,6 +1,8 @@
 var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad', 'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree', 'ngSanitize', 'localytics.directives',
 		'treeGrid', 'cgNotify', 'angular-confirm', 'datatables', 'datatables.select', 'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor' ])
 var $injector = angular.injector();
+
+var version="20170906";
 app.factory('sessionInjector', [
 		'$log',
 		'$injector',
@@ -185,7 +187,7 @@ app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $tra
 	});
 	$rootScope.$state = $state;
 	$rootScope.project = '/dt/';
-
+	$rootScope.version = '20170901';
 	$rootScope.$on('IdleStart', function() {
 		$log.warn('IdleStart');
 		// the user appears to have gone idle

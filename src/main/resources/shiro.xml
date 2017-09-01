@@ -72,11 +72,11 @@
 		<!-- 必须 -->
 		<property name="securityManager" ref="securityManager" />
 		<!-- 没有登录的用户请求需要登录的页面时自动跳转到登录页面，可配置也可不配置 -->
-		<!-- <property name="loginUrl" value="/login.jhtml" /> -->
+		<property name="loginUrl" value="/dt/console/#/login" />
 		<!-- 登录成功默认跳转页面，不配置则跳转至”/”，一般可以不配置，直接通过代码进行处理 -->
-		<!-- <property name="successUrl" value="/loginsuccess.jhtml" /> -->
+		<property name="successUrl" value="/dt/console/" />
 		<!-- 没有权限默认跳转的页面 -->
-		<!-- <property name="unauthorizedUrl" value="/error.jhtml" /> -->
+		<property name="unauthorizedUrl" value="/error.jhtml" />
 		<!-- anon 不需要认证, authc 需要认证, user 验证通过或RememberMe登录的都可以 -->
 		<property name="filters">
 			<map>
@@ -96,8 +96,7 @@
 	</bean>
 
 	<!-- 权限资源配置 -->
-	<bean id="chainDefinitionSectionMetaSource"
-		class="com.dt.core.shiro.SimpleFilterChainDefinitionsService">
+	<bean id="chainDefinitionSectionMetaSource" class="com.dt.core.shiro.SimpleFilterChainDefinitionsService">
 		<property name="filterChainDefinitions">
 			<value>
 				/api/user/login.do = anon

@@ -15,7 +15,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/base/area.js' ]
+					files : [ 'views/system/base/area.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -26,7 +26,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/base/weather.js' ]
+					files : [ 'views/system/base/weather.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -43,7 +43,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/user/user_query.js' ]
+					files : [ 'views/system/user/user_query.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -54,7 +54,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/user/group_setting.js' ]
+					files : [ 'views/system/user/group_setting.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -65,7 +65,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/user/user_add.js' ]
+					files : [ 'views/system/user/user_add.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -79,11 +79,11 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 						return $ocLazyLoad.load([
 								{
 									name : 'frapontillo.bootstrap-duallistbox',
-									files : [ 'css/plugins/dualListbox/bootstrap-duallistbox.min.css', 'js/plugins/dualListbox/jquery.bootstrap-duallistbox.js',
-											'js/plugins/dualListbox/angular-bootstrap-duallistbox.js' ]
+									files : [ 'css/plugins/dualListbox/bootstrap-duallistbox.min.css', 'js/plugins/dualListbox/jquery.bootstrap-duallistbox.js?v=' + version,
+											'js/plugins/dualListbox/angular-bootstrap-duallistbox.js?v=' + version ]
 								}, {
 									serie : true,
-									files : [ 'views/system/user/user_setting.js' ]
+									files : [ 'views/system/user/user_setting.js?v=' + version ]
 								} ]);
 					}
 				}
@@ -101,7 +101,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/menu/menu.js' ]
+					files : [ 'views/system/menu/menu.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -119,7 +119,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/role/role_setting.js' ]
+					files : [ 'views/system/role/role_setting.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -130,7 +130,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/role/role_module_map.js' ]
+					files : [ 'views/system/role/role_module_map.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -147,7 +147,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/content/ctCategory.js' ]
+					files : [ 'views/content/ctCategory.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -158,7 +158,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/content/newsPublish.js' ]
+					files : [ 'views/content/newsPublish.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -169,7 +169,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/content/newsMgr.js' ]
+					files : [ 'views/content/newsMgr.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -180,7 +180,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/content/company.js' ]
+					files : [ 'views/content/company.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -202,7 +202,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/role/role_module_map.js' ]
+					files : [ 'views/system/role/role_module_map.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -221,7 +221,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/filesetting.js' ]
+					files : [ 'views/system/filesetting.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -232,7 +232,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/dict/dict.js' ]
+					files : [ 'views/system/dict/dict.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -243,7 +243,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/params/params.js' ]
+					files : [ 'views/system/params/params.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -261,7 +261,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/org/employee.js' ]
+					files : [ 'views/org/employee.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -272,7 +272,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/org/employee_adjust.js' ]
+					files : [ 'views/org/employee_adjust.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -283,12 +283,12 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/org/part.js' ]
+					files : [ 'views/org/part.js?v=' + version ]
 				} ]);
 			}
 		}
 	});
-	//运维监控
+	// 运维监控
 	$stateProvider.state('devos', {
 		abstract : true,
 		url : "/devos",
@@ -300,7 +300,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/mon/druid.js' ]
+					files : [ 'views/system/mon/druid.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -311,12 +311,12 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/mon/melody.js' ]
+					files : [ 'views/system/mon/melody.js?v=' + version ]
 				} ]);
 			}
 		}
 	});
-	//任务设置
+	// 任务设置
 	$stateProvider.state('task', {
 		abstract : true,
 		url : "/task",
@@ -328,10 +328,9 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/task/task.js' ]
+					files : [ 'views/system/task/task.js?v=' + version ]
 				} ]);
 			}
 		}
 	});
 }
-

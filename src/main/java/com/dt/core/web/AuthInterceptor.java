@@ -26,6 +26,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		HttpServletResponse res = (HttpServletResponse) response;
 		response.setCharacterEncoding("UTF-8");
 		if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
+			// 前端shrio已经判断过,第二次判断
 			Acl am = ((HandlerMethod) handler).getMethodAnnotation(Acl.class);
 			// 未设置ACL,全部拒绝
 			if (am == null) {
@@ -34,11 +35,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				r.put("success", false);
 				r.put("message", "Api is not accessed!");
 				res.getWriter().print(r.toJSONString());
-				isPass = true;
+				isPass = false;
 			} else {
 				// 已经设置ACL
-				if (am.value().toLowerCase().equals("allow")) {
-					acl = "allow";
+				if (am.value().toLowerCase().equals(Acl.TYPE_ALLOW)) {
+					acl = Acl.TYPE_ALLOW;
 					isPass = true;
 				} else {
 					// 判断是否验证

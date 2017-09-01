@@ -35,7 +35,7 @@ public class CommonController {
 	// System.out.println(ShiroKit.getSubject().isRemembered());
 	// @RequestMapping("/getAllUrl.do")
 	// @ResponseBody
-	// @Acl(value = "allow")
+ 
 	// public Set<String> getAllUrl(HttpServletRequest request) {
 	// Set<String> result = new HashSet<String>();
 	// WebApplicationContext wc = (WebApplicationContext) request

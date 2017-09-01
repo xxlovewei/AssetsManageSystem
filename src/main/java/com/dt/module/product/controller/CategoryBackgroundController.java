@@ -31,7 +31,7 @@ public class CategoryBackgroundController  extends BaseController{
 	private DB db = null;
 
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryB/prodPublishCatList")
 	// 产品发布时选择产品类目
 	public ResData prodPublishCatList(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -86,7 +86,7 @@ public class CategoryBackgroundController  extends BaseController{
 	}
 
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryB/queryTreeList.do")
 	// 只支持4级商品类目
 	// 后台的子节点为品类,挂载属性模版。
@@ -154,7 +154,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	// 获取一个品类下的单个属性的属性项数据
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryB/catAttrValueQuery.do")
 	public ResData catAttrValueQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -168,7 +168,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	// 获取一个品类下的所有属性数据及属性项目的数据,可能用户加产品的时候需要
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryB/catAttrQueryById.do")
 	public ResData catAttrQueryById(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -373,7 +373,7 @@ public class CategoryBackgroundController  extends BaseController{
 
 	// 获取一个品类下的所有属性数据
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryB/catAttrQuery.do")
 	public ResData catAttrQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -555,7 +555,7 @@ public class CategoryBackgroundController  extends BaseController{
 	}
 
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryB/prodPublishCatAttrList.do")
 	// 获取产品属性
 	public ResData prodPublishCatAttrList(HttpServletRequest request, HttpServletResponse response) throws IOException {

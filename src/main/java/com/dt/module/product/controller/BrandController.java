@@ -22,7 +22,7 @@ public class BrandController extends BaseController {
 
 	@RequestMapping("/brand/brandQuery.do")
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData brandQuery() {
 		return brandService.queryBrand();
 	}

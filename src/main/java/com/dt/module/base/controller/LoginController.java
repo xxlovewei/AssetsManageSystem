@@ -39,7 +39,7 @@ public class LoginController extends BaseController {
 	@Autowired
 	private SessionDAO sessionDAO;
 
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/user/login.do")
 	@Res
 	public ResData logindo(String user, String pwd, String type) {
@@ -84,7 +84,7 @@ public class LoginController extends BaseController {
 	}
 	@RequestMapping(value = "/user/checkLogin.do")
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData checkLogin() throws IOException {
 		if (ShiroKit.isAuthenticated()) {
 			return ResData.SUCCESS("已登录");
@@ -94,7 +94,7 @@ public class LoginController extends BaseController {
 	}
 	@RequestMapping(value = "/user/logout.do")
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData loginout() throws IOException {
 		return ResData.SUCCESS("成功退出");
 	}

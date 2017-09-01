@@ -13,19 +13,18 @@ import com.dt.module.base.service.RegionService;
 @Controller
 @RequestMapping(value = "/api")
 public class RegionController extends BaseController {
-	
 	@Autowired
 	private RegionService regionService = null;
 
-	@RequestMapping(value="/region/queryTree.do")
+	@RequestMapping(value = "/region/queryTree.do")
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData regionqueryTree() {
 		return regionService.queryRegion();
 	}
-	@RequestMapping(value="/region/getChildren.do")
+	@RequestMapping(value = "/region/getChildren.do")
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData getChildrens(String id) {
 		return regionService.queryRegionById(id);
 	}

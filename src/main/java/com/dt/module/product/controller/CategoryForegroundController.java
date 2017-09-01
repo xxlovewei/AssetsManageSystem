@@ -81,14 +81,14 @@ public class CategoryForegroundController extends BaseController {
 		return ResData.SUCCESS_OPER();
 	}
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryF/rootCatQuery.do")
 	public ResData rootCatQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String sql = "select * from product_cat_user_root where is_deleted='N' order by od";
 		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryF/rootCatQueryById.do")
 	public ResData rootCatQueryById(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("ID");
@@ -96,7 +96,7 @@ public class CategoryForegroundController extends BaseController {
 		return ResData.SUCCESS_OPER(db.uniqueRecord(sql, id).toJsonObject());
 	}
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryF/queryTreeList.do")
 	public ResData categoryFqueryTreeList(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// resource type url

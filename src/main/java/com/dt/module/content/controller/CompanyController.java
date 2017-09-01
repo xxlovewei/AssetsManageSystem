@@ -11,24 +11,23 @@ import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.content.service.CompanyService;
 
-/** 
+/**
  * @author: algernonking
- * @date: 2017年8月12日 下午9:39:49 
- * @Description: TODO 
+ * @date: 2017年8月12日 下午9:39:49
+ * @Description: TODO
  */
 @Controller
 @RequestMapping(value = "/api")
 public class CompanyController {
-	
 	@Autowired
 	CompanyService companyService;
-	
+
 	/**
 	 * @Description: 查找公司内容
 	 */
 	@RequestMapping(value = "/company/queryCompany.do")
 	@Res
-	@Acl(value="allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData queryCompany() {
 		return companyService.queryCompany();
 	}
@@ -41,8 +40,5 @@ public class CompanyController {
 	public ResData updateCompany() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return companyService.updateCompany(ps);
-		 
 	}
-	 
 }
-

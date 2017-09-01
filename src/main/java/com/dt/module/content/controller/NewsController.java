@@ -69,7 +69,7 @@ public class NewsController extends BaseController {
 	 */
 	@RequestMapping(value = "/news/queryCount.do")
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData queryNews() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		int value = newsService.queryTotalCount(ps);
@@ -82,7 +82,7 @@ public class NewsController extends BaseController {
 	 */
 	@RequestMapping(value = "/news/queryPage.do")
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData queryPage(String pageSize) {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		int value = newsService.queryTotalCount(ps, ConvertUtil.toInt(pageSize, -1));
@@ -97,7 +97,7 @@ public class NewsController extends BaseController {
 	 */
 	@RequestMapping(value = "/news/queryNewsByPage.do")
 	@Res
-	@Acl(value = "allow")
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData queryNewsByDatatable(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DBUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
