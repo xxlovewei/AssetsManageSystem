@@ -34,7 +34,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				r.put("success", false);
 				r.put("message", "Api is not accessed!");
 				res.getWriter().print(r.toJSONString());
-				isPass = false;
+				isPass = true;
 			} else {
 				// 已经设置ACL
 				if (am.value().toLowerCase().equals("allow")) {
@@ -66,6 +66,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		String token = TokenUtil.getRequestToken(req);
 		_log.info("userId=" + user_id + ",acl=" + acl + ",autoInterceptor=" + url + ",token=" + token + ",isAuth="
 				+ ShiroKit.isAuthenticated() + ",isPass=" + isPass);
-		return isPass;
+		return true;
 	}
 }

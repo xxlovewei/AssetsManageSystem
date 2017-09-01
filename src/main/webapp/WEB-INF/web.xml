@@ -36,9 +36,8 @@
 		 classpath:applicationContext.xml,
 		 classpath:springMVC-servlet.xml,
 		 classpath:ds_db.xml,
-		  classpath:spring-shiro.xml,
+		  classpath:shiro.xml,
 	   	 /WEB-INF/app_config_*.xml
-		
 		</param-value>
 	</context-param>
 	<context-param>

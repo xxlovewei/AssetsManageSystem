@@ -121,7 +121,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 
 	$scope.userGroupOpt = [];
 	$scope.userGroupSel = "";
-	$http.post($rootScope.project + "/user/queryGroup.do", {}).success(function(res) {
+	$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(function(res) {
 		if (res.success) {
 
 			$scope.userGroupOpt = prepend(res.data, {

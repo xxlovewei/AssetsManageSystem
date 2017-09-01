@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.StrKit;
 
@@ -68,31 +67,29 @@ import com.dt.core.common.util.support.StrKit;
  * @see PassThruAuthenticationFilter
  * @since 0.9
  */
-public class FormAuthenticationFilter extends AuthenticatingFilter {
+public class MyAuthenticationFilter extends AuthenticatingFilter {
 	// TODO - complete JavaDoc
 	public static final String DEFAULT_ERROR_KEY_ATTRIBUTE_NAME = "shiroLoginFailure";
 	public static final String DEFAULT_USERNAME_PARAM = "username";
 	public static final String DEFAULT_PASSWORD_PARAM = "password";
 	public static final String DEFAULT_REMEMBER_ME_PARAM = "rememberMe";
-	private static final Logger log = LoggerFactory.getLogger(FormAuthenticationFilter.class);
+	private static final Logger log = LoggerFactory.getLogger(MyAuthenticationFilter.class);
 	private String usernameParam = DEFAULT_USERNAME_PARAM;
 	private String passwordParam = DEFAULT_PASSWORD_PARAM;
 	private String rememberMeParam = DEFAULT_REMEMBER_ME_PARAM;
 	private String failureKeyAttribute = DEFAULT_ERROR_KEY_ATTRIBUTE_NAME;
 
-	public FormAuthenticationFilter() {
+	public MyAuthenticationFilter() {
 		setLoginUrl(DEFAULT_LOGIN_URL);
 	}
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+		// subject.isAuthenticated()表示用户进行了身份验证登录的，即使有Subject.login进行了登
+		// subject.isRemembered()：表示用户是通过记住我登录的，此时可能并不是真正的你,且两者二选一,即subject.isAuthenticated()==true，则subject.isRemembered()==false；反之一样
 		HttpServletRequest httpReq = (HttpServletRequest) request;
 		String uri = httpReq.getRequestURI();
 		Subject subject = getSubject(request, response);
-		log.info("isAccessAllowed:" + uri + ",isRemember:" + ShiroKit.getSubject().isRemembered());
-		// 对公共API放开权限,最后还会有一层判断
-		if (ToolUtil.isNotEmpty(httpReq.getParameter("basePublic"))) {
-			return true;
-		}
+		log.info("url:" + uri + ",isRemember:" + subject.isRemembered() + ",isAuth:" + subject.isAuthenticated());
 		return subject.isAuthenticated();
 	}
 	@Override

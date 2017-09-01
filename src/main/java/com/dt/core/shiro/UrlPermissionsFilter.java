@@ -25,7 +25,9 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 	@Override
 	public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
 			throws IOException {
-		log.info("isAccessAllowed");
+		HttpServletRequest httpReq = (HttpServletRequest) request;
+		String uri = httpReq.getRequestURI();
+		log.info("url:" + uri);
 		buildPermissions(request);
 		// return super.isAccessAllowed(request, response, buildPermissions(request));
 		return true;
