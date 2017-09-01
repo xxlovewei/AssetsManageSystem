@@ -1,0 +1,40 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" CONTENT="-1">
+<meta http-equiv="Cache-Control" CONTENT="no-cache">
+<meta http-equiv="Pragma" CONTENT="no-cache">
+<title>移动端</title>
+</head>
+<body ng-controller="MainCtrl as main"
+	class="{{$state.current.data.specialClass}}" landing-scrollspy
+	id="page-top">
+	<!-- Main view  -->
+	<div ui-view></div>
+	<!-- jQuery and Bootstrap -->
+	<script src="../js/jquery/jquery-3.1.1.min.js"></script>
+	<script src="../js/pace/pace.min.js"></script>
+
+	<!-- Main Angular scripts-->
+	<script src="../js/angular/angular.min.js"></script>
+	<script src="js/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<script src="../js/angular-route/angular-ui-router.min.js"></script>
+	<!-- loading -->
+	<link href="../js/angular_loading_bar/loading-bar.css" rel="stylesheet"
+		type="text/css" />
+	<script src="../js/angular_loading_bar/loading-bar.js"></script>
+	<!-- Anglar App Script,先加载config,后启动app -->
+	<script src="js/config_shop.js?v=20180707"></script>
+	<script src="js/app_main.js?v=20180707"></script>
+	<script src="js/controllers.js"></script>
+</body>
+</html>
