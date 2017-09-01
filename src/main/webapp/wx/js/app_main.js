@@ -1,4 +1,4 @@
-var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad', 'angular-loading-bar' ])
+var app = angular.module('app', [ 'ui.router', 'oc.lazyLoad', 'angular-loading-bar' ])
 var $injector = angular.injector();
 
 var version = "20170906";
@@ -18,9 +18,9 @@ function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvid
 		service : $provide.service
 	};
 
-	$urlRouterProvider.otherwise("/login");
+	$urlRouterProvider.otherwise("/me/profile");
 	$ocLazyLoadProvider.config({
-		debug : false
+		debug : true
 	});
 	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 	// $httpProvider.defaults.withCredentials = false;
@@ -54,35 +54,33 @@ function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvid
 	$httpProvider.defaults.transformRequest = [ function(data) {
 		return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
 	} ];
-	// 登录
-	$stateProvider.state('login', {
-		url : "/login",
-		transclude : true,
-		templateUrl : "views/system/login/login.html",
-		params : {
-			to : null
-		},
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/login/login.js' ]
-				} ]);
-			}
-		}
-	});
-
-	// 默认页面需要做检查
-	$stateProvider.state('content', {
-		url : "/show_content",
-		templateUrl : "views/common/content.html"
-	})
+	// // 登录
+	// $stateProvider.state('login', {
+	// url : "/login",
+	// transclude : true,
+	// templateUrl : "views/system/login/login.html",
+	// params : {
+	// to : null
+	// },
+	// resolve : {
+	// loadPlugin : function($ocLazyLoad) {
+	// return $ocLazyLoad.load([ {
+	// serie : true,
+	// files : [ 'views/system/login/login.js' ]
+	// } ]);
+	// }
+	// }
+	// });
+	//
+	// // 默认页面需要做检查
+	// $stateProvider.state('content', {
+	// url : "/show_content",
+	// templateUrl : "views/common/content.html"
+	// })
 }
 
 app.config(config_main).run(function($rootScope, $state, $http, $log, $transitions, $templateCache) {
 	console.log("App main run");
-	// start watching when the app runs. also starts the Keepalive service by
-	Idle.watch();
 	// 替换了之前的$stateNotFound
 	$state.onInvalid(function(to, from, injector) {
 		$log.warn(to);
@@ -111,6 +109,6 @@ app.config(config_main).run(function($rootScope, $state, $http, $log, $transitio
 
 });
 
-//app.config(config_shop).run(function() {
-//	console.log("App Shop run");
-//});
+app.config(config_shop).run(function() {
+	console.log("App Shop run");
+});

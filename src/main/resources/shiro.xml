@@ -102,8 +102,11 @@
 				/api/user/login.do = anon
 				/api/user/logout.do = logout
 				/console/** = anon
-				/api/** = authc,perms
-				/** = authc
+				/wx/** = anon
+				/public/** = anon
+				/api/** = authc,perms  
+				/** = authc   
+				<!-- /** = anon  -->
 			</value>
 		</property>
 	</bean>
