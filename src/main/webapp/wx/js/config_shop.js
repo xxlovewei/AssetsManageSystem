@@ -46,12 +46,12 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html"
 	}).state('cat.ct', {
 		url : "/ct",
-		templateUrl : "views/cat/content.html",
+		templateUrl : "views/cat/cat.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cat/content.js?v=' + version ]
+					files : [ 'views/cat/cat.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -64,12 +64,12 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html"
 	}).state('shop.ct', {
 		url : "/ct",
-		templateUrl : "views/shop/content.html",
+		templateUrl : "views/shop/shop.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/shop/content.js?v=' + version ]
+					files : [ 'views/shop/shop.js?v=' + version ]
 				} ]);
 			}
 		}
