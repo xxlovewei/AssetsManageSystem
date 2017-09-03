@@ -1,4 +1,4 @@
-var app = angular.module('app', [ 'ui.router', 'oc.lazyLoad', 'angular-loading-bar' ])
+var app = angular.module('app', [ 'ui.router', 'oc.lazyLoad', 'angular-loading-bar','ksSwiper' ])
 var $injector = angular.injector();
 
 var version = "20170906";

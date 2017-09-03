@@ -1,9 +1,9 @@
-
 <style>
 .cat {
-	padding-top:10px;
-	padding-bottom:10px;
+	margin-top: 15px;
+	margin-bottom: 20px;
 	verflow: hidden;
+	padding-bottom: 10px;
 }
 
 .cat_list {
@@ -17,43 +17,106 @@
 }
 
 .cat_list tr td img {
-	width: 40px;
-	height: 40px;
+	width: 45px;
+	height: 45px;
 }
 
 .banner {
 	width: 100%;
+	padding-bottom:20px;
 }
 
+
 .banner span img {
-	width: 100%
+	width: 100%;
+	padding-bottom:8px;
+}
+
+.dlddList {
+	width: 100%;
+}
+
+.dlddList dl {
+	background: red;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	text-align: center;
+}
+
+.dlddList dd {
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	text-align: center;
+	width: 50%;
+	float: left;
+	background: #FFFFFF;
+}
+
+.dlddList dd  div {
+	/* height: 320px; */
+	width: 100%;
+	border: 1px solid #000
+}
+
+.dlddList dd span {
+	display: block;
+}
+
+.dlddList dd span img {
+	margin-top: 12px;
+	margin-bottom: 12px;
+	width: 80%;
+	height: 80%;
+	border: 1px solid red;
+	margin-bottom: 12px;
 }
 </style>
 
+<div ng-controller="indexProdClassCtl">
 
-<div></div>
+	<ks-swiper-container initial-slide="3" loop="true" autoplay="5000"
+		pagination-is-active="true" show-nav-buttons="false"
+		slides-per-view="1" space-between="0" pagination-clickable="true">
+	<ks-swiper-slide class="swiper-slide" ng-repeat="item in indexbanner">
+	<img style="width: 100%" ng-src="{{item.url}}"> </ks-swiper-slide> </ks-swiper-container>
 
 
-<div class="cat">
-	<table class="cat_list">
-		<tr>
-			<td><img src="image/small/roulei.png"> <span>拼团</span></td>
-			<td><img src="image/small/roulei.png"><span>拼团</span></td>
-			<td><img src="image/small/roulei.png"><span>拼团</span></td>
-			<td><img src="image/small/roulei.png"><span>拼团</span></td>
-		</tr>
-	</table>
+	<div class="cat">
+		<table class="cat_list">
+			<tr>
+				<td><img src="image/small/roulei.png"> <span>全部分类</span></td>
+				<td><img src="image/small/xiaxie.png"><span>拼团</span></td>
+				<td><img src="image/small/yubei.png"><span>团购</span></td>
+				<td><img src="image/small/roulei.png"><span>福利专区</span></td>
+			</tr>
+		</table>
+	</div>
+
+	<!-- 图片展示开始 -->
+	<div class="banner">
+		<span> <img src="image/banner/1.jpg">
+		</span> <span> <img src="image/banner/2.jpg">
+		</span> <span> <img src="image/banner/3.jpg">
+		</span><span> <img src="image/banner/4.jpg">
+		</span>
+	</div>
+	<!-- 图片展示结束-->
+
+	<!-- 商品展示开始 -->
+	<div class="dlddList">
+		<dl>
+			<dd ng-repeat="item in prodsList.DATA">
+				<div>
+					<span> <img src="image/product/hanshi1-200x200.jpg">
+					</span> <span
+						style="color: black; text-align: left; padding-left: 20px; padding-right: 20px">
+						{{item.NAME}} </span> <span
+						style="color: red; text-align: left; padding-left: 20px"> ¥
+						{{item.PRICE}}</span>
+				</div>
+			</dd>
+		</dl>
+	</div>
+	<!-- 商品展示结束-->
+	<div style="margin-bottom: 30px"></div>
 </div>
-<!-- 图片展示开始 -->
-<div class="banner">
-	<span> <img src="image/banner/1.jpg">
-	</span> <span> <img src="image/banner/2.jpg">
-	</span> <span> <img src="image/banner/3.jpg">
-	</span><span> <img src="image/banner/4.jpg">
-	</span>
-</div>
-<!-- 图片展示结束-->
-
-<!-- 商品展示开始 -->
-<!-- 商品展示结束-->
-<div style="padding-bottom: 30px"></div>
