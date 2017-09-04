@@ -4,27 +4,28 @@ function MainCtrl($log, $http, $scope, $rootScope, $state) {
 	$rootScope.footData = [ {
 		id : "index",
 		href : "index.ct",
-		image : "glyphicon glyphicon-user",
+		image : "mui-icon mui-icon-home",
 		name : "首页"
 	}, {
 		id : "cat",
 		href : "cat.ct",
-		image : "glyphicon glyphicon-user",
+		image : "mui-icon mui-icon-home",
 		name : "分类"
 	}, {
 		id : "shop",
 		href : "shop.ct",
-		image : "glyphicon glyphicon-user",
+		image : "mui-icon mui-icon-home",
 		name : "购物车"
 	}, {
 		id : "me",
 		href : "me.profile",
-		image : "glyphicon glyphicon-user",
+		image : "mui-icon mui-icon-home",
 		name : "我"
 	} ];
 	$rootScope.footcurrent = "index";
 	$rootScope.foothide = 1;
 	$scope.btmClick = function(item) {
+		//alert(angular.toJson(item));
 		$rootScope.footcurrent = item.id;
 		$state.go(item.href);
 	}

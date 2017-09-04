@@ -3494,7 +3494,7 @@ select:focus
     display: table-cell;
     overflow: hidden;
 
-    width: 1%;
+   /*  width: 1%; */
 
     -webkit-transition: background-color .1s linear;
             transition: background-color .1s linear;

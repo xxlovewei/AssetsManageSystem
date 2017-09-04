@@ -1,1 +1,56 @@
-cat
+
+<div ng-controller="catCtl">
+	<header id="header" class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">分类</h1>
+	</header>
+	<div class="mui-content mui-row mui-fullscreen">
+		<div class="mui-col-xs-3">
+			<div id="segmentedControls"
+				class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+				<a ng-repeat="item in catClass" class="mui-control-item"
+					ng-click="catNavClick(item)"
+					ng-class="{ 'mui-active' : catClassSel == item.ID }">
+					{{item.NAME}} </a>
+			</div>
+		</div>
+		<div id="segmentedControlContents" class="mui-col-xs-9"
+			style="border-left: 1px solid #c8c7cc;">
+			<div id="content1" class="mui-control-content mui-active">
+				<ul class="mui-table-view">
+
+					<li ng-repeat="item in catSubClass" class="mui-table-view-cell">
+						{{item.NAME}}</li>
+
+
+					<li class="mui-table-view-cell">第1个选项卡子项-1</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-2</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-3</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-4</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-5</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-6</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-7</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-8</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-9</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-10</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-11</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-12</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-13</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-14</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-15</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-16</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-17</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-18</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-19</li>
+					<li class="mui-table-view-cell">第1个选项卡子项-20</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	mui.init({
+		swipeBack : true
+	//启用右滑关闭功能
+	});
+</script>

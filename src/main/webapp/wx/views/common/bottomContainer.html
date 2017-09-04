@@ -1,29 +1,10 @@
-<style>
-.btm {
-	width: 100%;
-	text-align: center;
-	background: #404042;
-	height: 57px;
-	color: white;
-}
 
-.btm tr td {
-	width:25%;
-}
-
-.btm tr td span {
-	style: none;
-	display: block;
-}
-
-.btm tr>td.active {
-	color: red;
-}
-</style>
-<table class="btm">
-	<tr>
-		<td ng-class="{ 'active' : footcurrent == item.id }"
-			ng-click="btmClick(item)" ng-repeat="item in footData"><span
-			ng-class="item.image"></span> <span>{{item.name}}</span></td>
-	</tr>
-</table>
+<div class="fixed_bottom">
+	<table class="btm">
+		<tr>
+			<td ng-class="{ 'active' : footcurrent == item.id }"
+				ng-click="btmClick(item)" ng-repeat="item in footData"><span
+				ng-class="item.image"></span> <span>{{item.name}}</span></td>
+		</tr>
+	</table>
+</div>
