@@ -22,12 +22,18 @@ function MainCtrl($log, $http, $scope, $rootScope, $state) {
 		image : "mui-icon mui-icon-home",
 		name : "我"
 	} ];
-	$rootScope.footcurrent = "index";
+
 	$rootScope.foothide = 1;
 	$scope.btmClick = function(item) {
-		//alert(angular.toJson(item));
 		$rootScope.footcurrent = item.id;
 		$state.go(item.href);
 	}
+	// 监听用户数据
+	// $scope.$watch(function() {
+	// return $rootScope.footcurrent;
+	// }, function() {
+	// console.log("cur tab:" + $rootScope.footcurrent);
+	// }, true);
+
 };
 angular.module('app').controller('MainCtrl', MainCtrl);

@@ -1,6 +1,6 @@
 function catCtl($log, $http, $scope, $rootScope, $state) {
 	$rootScope.footcurrent = "cat";
-
+	console.log($rootScope.footcurrent);
 	$scope.catClass = [ {
 		ID : 1,
 		NAME : "衣服"
