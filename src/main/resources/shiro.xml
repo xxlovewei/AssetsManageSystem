@@ -103,6 +103,7 @@
 				/api/user/logout.do = logout
 				/console/** = anon
 				/wx/** = anon
+				/wx3/** = anon
 				/public/** = anon
 				/api/** = authc,perms  
 				/** = authc   

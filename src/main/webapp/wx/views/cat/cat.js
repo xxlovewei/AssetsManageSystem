@@ -1,6 +1,10 @@
 function catCtl($log, $http, $scope, $rootScope, $state) {
 	$rootScope.footcurrent = "cat";
+	$rootScope.footshow = false
 	console.log($rootScope.footcurrent);
+	$scope.goindex=function(){
+		$state.go('index.ct',{},{reload:true});
+	}
 	$scope.catClass = [ {
 		ID : 1,
 		NAME : "衣服"
@@ -13,49 +17,7 @@ function catCtl($log, $http, $scope, $rootScope, $state) {
 	}, {
 		ID : 3,
 		NAME : "汽车"
-	},{
-		ID : 1,
-		NAME : "衣服"
-	}, {
-		ID : 2,
-		NAME : "食物"
-	}, {
-		ID : 3,
-		NAME : "数码"
-	}, {
-		ID : 3,
-		NAME : "汽车"
-	} ,{
-		ID : 1,
-		NAME : "衣服"
-	}, {
-		ID : 2,
-		NAME : "食物"
-	}, {
-		ID : 3,
-		NAME : "数码"
-	}, {
-		ID : 3,
-		NAME : "汽车"
-	} ,{
-		ID : 1,
-		NAME : "衣服"
-	}, {
-		ID : 2,
-		NAME : "食物"
-	}, {
-		ID : 3,
-		NAME : "数码"
-	}, {
-		ID : 3,
-		NAME : "汽车"
-	} , {
-		ID : 3,
-		NAME : "数码"
-	}, {
-		ID : 3,
-		NAME : "汽车"
-	}  ]
+	}   ]
 	$scope.catClassSel=$scope.catClass[0].ID;
 	
 	$scope.catSubClass = [];

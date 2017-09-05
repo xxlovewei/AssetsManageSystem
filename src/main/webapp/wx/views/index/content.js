@@ -1,6 +1,6 @@
 function indexProdClassCtl($log, $http, $scope, $rootScope, $state, $timeout) {
 	$rootScope.footcurrent = "index";
-
+	$rootScope.footshow = true;
 	$scope.swipe = function($event) {
 		console.log($event);
 	};
@@ -49,6 +49,11 @@ function indexProdClassCtl($log, $http, $scope, $rootScope, $state, $timeout) {
 		url : "image/banner/3.jpg",
 		show : "Y"
 	} ];
+	
+	
+	$scope.prodClick=function(){
+		$state.go("product.info");
+	}
 	 
 
 }

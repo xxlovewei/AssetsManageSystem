@@ -74,4 +74,23 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
+	
+	//产品
+	$stateProvider.state('product', {
+		abstract : true,
+		url : "/product",
+		templateUrl : "views/common/content.html"
+	}).state('product.info', {
+		url : "/info",
+		templateUrl : "views/product/product.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/product/product.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
+	
 }

@@ -9,31 +9,42 @@ function MainCtrl($log, $http, $scope, $rootScope, $state) {
 	}, {
 		id : "cat",
 		href : "cat.ct",
-		image : "mui-icon mui-icon-home",
+		image : "mui-icon-extra mui-icon-extra-class",
 		name : "分类"
 	}, {
 		id : "shop",
 		href : "shop.ct",
-		image : "mui-icon mui-icon-home",
+		image : "mui-icon-extra mui-icon-extra-cart",
 		name : "购物车"
 	}, {
 		id : "me",
 		href : "me.profile",
-		image : "mui-icon mui-icon-home",
+		image : "mui-icon mui-icon-contact",
 		name : "我"
 	} ];
 
-	$rootScope.foothide = 1;
-	$scope.btmClick = function(item) {
-		$rootScope.footcurrent = item.id;
-		$state.go(item.href);
-	}
-	// 监听用户数据
-	// $scope.$watch(function() {
-	// return $rootScope.footcurrent;
-	// }, function() {
-	// console.log("cur tab:" + $rootScope.footcurrent);
-	// }, true);
+	$rootScope.footshow = true
+	$scope.footerClick = function(item) {
 
+		$rootScope.footcurrent = item.id;
+		if (item == "index") {
+			$state.go("index.ct");
+		} else if (item == "cat") {
+			$state.go("cat.ct");
+		} else if (item == "shop") {
+			$state.go("shop.ct");
+		} else if (item == "me") {
+			$state.go("me.profile");
+		}
+
+	}
+
+	$scope.goIndex = function() {
+		$state.go("index.ct");
+	}
+
+	$scope.goBack=function(){
+		history.back();
+	}
 };
 angular.module('app').controller('MainCtrl', MainCtrl);
