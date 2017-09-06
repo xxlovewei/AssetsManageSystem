@@ -121,7 +121,7 @@ a {
 }
 
 .my-nav-footer {
-	background-color: #494949
+	background-color: white;
 }
 
 .my-nav-bar {
@@ -138,11 +138,11 @@ a {
 }
 
 .my-footer-ul {
-	
+	border-top:1px solid #cccccc;
 }
 
 .my-footer-ul a {
-	color: #FFF
+	color: black;
 }
 
 .my-footer-ul a.footeractive {
@@ -150,7 +150,7 @@ a {
 }
 
 .my-footer-ul li:hover {
-	background: #333333
+	background: white;
 }
 
 .my-shop-nav {

@@ -1,54 +1,49 @@
-<div  ng-controller="prodCtl">
-		<link href="./css/cartstyle.css" rel="stylesheet" type="text/css" />
-		<link href="./css/optstyle.css" rel="stylesheet" type="text/css" />
-<script>
-function checkIsInteger(str)
-{
-  //如果为空，则通过校验
-  if(str == "")
-    return true;
-     if(/^(\-?)(\d+)$/.test(str))
-       return true;
-     else
-       return false;
-}
-var errordialog=function(c){
-	alert(c)
-}
-//检验商品数量
-function checkCounts(id) {
-    var Counts = $("#" + id).val();
-    if (Counts == "") {
-        errordialog("请填写数量!");
-        return false;
-    }
-    else if (!checkIsInteger(Counts)) {
-        errordialog("商品数量不是整数!");
-        return false;
-    }
-    else if (Counts < 1) {
-        errordialog("商品数量不能小于1!");
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-function addQty(){
-	checkCounts('txtQty');
-	var qty = parseInt($('#txtQty').val());
-	$('#txtQty').val(qty+1);
-}
-function subtractQty(){
-	checkCounts('txtQty');
-	var qty = parseInt($('#txtQty').val());
-	if(qty <=1){
-		errordialog("商品数量不能小于1");
-		return;
-	}
-	$('#txtQty').val(qty-1);
-}
-</script>
+<div class="container"  ng-controller="prodCtl">
+
+	<script>
+		function checkIsInteger(str) {
+			//如果为空，则通过校验
+			if (str == "")
+				return true;
+			if (/^(\-?)(\d+)$/.test(str))
+				return true;
+			else
+				return false;
+		}
+		var errordialog = function(c) {
+			alert(c)
+		}
+		//检验商品数量
+		function checkCounts(id) {
+			var Counts = $("#" + id).val();
+			if (Counts == "") {
+				errordialog("请填写数量!");
+				return false;
+			} else if (!checkIsInteger(Counts)) {
+				errordialog("商品数量不是整数!");
+				return false;
+			} else if (Counts < 1) {
+				errordialog("商品数量不能小于1!");
+				return false;
+			} else {
+				return true;
+			}
+		}
+		function addQty() {
+			checkCounts('txtQty');
+			var qty = parseInt($('#txtQty').val());
+			$('#txtQty').val(qty + 1);
+		}
+		function subtractQty() {
+			checkCounts('txtQty');
+			var qty = parseInt($('#txtQty').val());
+			if (qty <= 1) {
+				errordialog("商品数量不能小于1");
+				return;
+			}
+			$('#txtQty').val(qty - 1);
+		}
+	</script>
 
 	<header data-am-widget="header"
 		class="am-header am-header-default my-header">
@@ -112,7 +107,7 @@ function subtractQty(){
 				</li>
 			</ul>
 		</div>
-		<div class="my-search-title-panel">
+<!-- 		<div class="my-search-title-panel">
 			<p class="my-search-titp-p am-text-sm bold">尺码</p>
 			<p class="size-p" id="sizep">
 				<span data-size="S">S</span><span data-size="M">M</span><span
@@ -122,20 +117,20 @@ function subtractQty(){
 			</p>
 			<script>
 				$(document).ready(function(e) {
-                    $("#sizep span").click(function(){
+					$("#sizep span").click(function() {
 						$("#sizep span").removeClass('click');
 						$(this).addClass('click');
 						var s = $(this).attr('data-size');
 						$("#size").val(s);
 					});
-					$("#colorp span").click(function(){
+					$("#colorp span").click(function() {
 						$("#colorp span").removeClass('click');
 						$(this).addClass('click');
 						var s = $(this).attr('data-color');
 						$("#color").val(s);
 					});
-					
-                });
+
+				});
 			</script>
 			<hr data-am-widget="divider" style=""
 				class="am-divider-default am-margin-bottom-sm" />
@@ -172,7 +167,7 @@ function subtractQty(){
 							class="am-btn am-btn-danger am-btn-block am-radius">立即购买</button></li>
 				</ul>
 			</div>
-		</div>
+		</div> -->
 		<div class="paoduct-title-panel">
 			<h2 class="product-h1">商家信息</h2>
 			<p>
@@ -196,7 +191,7 @@ function subtractQty(){
 	</div>
 	<!-- 商品详情 -->
 
-	<div data-am-widget="tabs" class="am-tabs am-tabs-d2">
+<!-- 	<div data-am-widget="tabs" class="am-tabs am-tabs-d2">
 		<ul class="am-tabs-nav am-cf">
 			<li class="am-active"><a href="[data-tab-panel-0]">详情</a></li>
 			<li class=""><a href="[data-tab-panel-1]">交易记录</a></li>
@@ -221,7 +216,7 @@ function subtractQty(){
 				<div class="am-cf am-padding-sm">
 					<ul class="am-comments-list am-comments-list-flip">
 						<li class="am-comment"><a href=""> <img
-								class="am-comment-avatar" src="default/img1.jpg" alt="" /> <!-- 头像 -->
+								class="am-comment-avatar" src="default/img1.jpg" alt="" /> 头像
 						</a>
 
 							<div class="am-comment-main">
@@ -236,7 +231,7 @@ function subtractQty(){
 									那，那是一封写给南部母亲的信。我茫然站在骑楼下，我又看到永远的樱子走到街心。</div>
 							</div></li>
 						<li class="am-comment"><a href=""> <img
-								class="am-comment-avatar" src="default/img1.jpg" alt="" /> <!-- 头像 -->
+								class="am-comment-avatar" src="default/img1.jpg" alt="" /> 头像
 						</a>
 
 							<div class="am-comment-main">
@@ -251,8 +246,8 @@ function subtractQty(){
 									其实雨下得并不大，却是一生一世中最大的一场雨。而那封信是这样写的，年轻的樱子知不知道呢？</div>
 							</div></li>
 						<li class="am-comment">
-							<!-- 头像显示在右手边 am-comment-flip --> <a href=""> <img
-								class="am-comment-avatar" src="default/img1.jpg" alt="" /> <!-- 头像 -->
+							头像显示在右手边 am-comment-flip <a href=""> <img
+								class="am-comment-avatar" src="default/img1.jpg" alt="" /> 头像
 						</a>
 
 							<div class="am-comment-main">
@@ -271,26 +266,28 @@ function subtractQty(){
 			</div>
 		</div>
 	</div>
-
- 
-	 
+ -->
 
 
 
-	<div class="fixed_bottom">
+
+	<div data-am-widget="navbar" class="am-navbar am-cf" style="background-color:white">
 		<div class="am-g">
 			<div class="am-u-sm-3">4</div>
 			<div class="am-u-sm-3">8</div>
 			<div class="am-u-sm-3" style="padding-left: 0px; padding-right: 0px">
-				<button type="button" style="width: 100%; width: 100%;"
+				<button type="button" style="width: 100%; height: 49px;"
 					class="am-btn am-btn-danger">加入购物车</button>
 			</div>
-			<div class="am-u-sm-3" style="padding-left: 0px; padding-right: 0px">
-				<button type="button" style="width: 100%; width: 100%;"
+			<div class="am-u-sm-3" style="padding-bottom:0px;padding-top:0px;padding-left: 0px; padding-right: 0px">
+				<button type="button" style="width: 100%; height: 49px;"
 					class="am-btn am-btn-warning">立即购买</button>
 			</div>
 		</div>
 	</div>
+
+
+
 
 
 
