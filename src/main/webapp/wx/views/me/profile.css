@@ -1,0 +1,210 @@
+
+/*个人信息*/
+.m-userinfo {
+	position: relative;
+	padding: 20px 0px;
+	overflow: auto;
+	background: #f85e38;
+	background: linear-gradient(#f99847, #f85e38);
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#f99847',
+		endColorStr='#f85e38', gradientType='0');
+}
+
+.m-user {
+	background: #fff;
+}
+
+.m-baseinfo .m-pic {
+	float: left;
+	display: block;
+	width: 72px;
+	height: 72px;
+	margin: 0px 6px;
+}
+
+.m-baseinfo a img, .m-userproperty i img {
+	border-radius: 50%;
+	width: 100%;
+	height: 100%;
+}
+
+.m-userinfo .s-name {
+	display: block;
+	color: #fff;
+	font-size: 16px;
+	line-height: 26px;
+}
+
+.s-prestige {
+	padding: 0px 5px;
+	background: #F4F4F4;
+}
+
+.vip1 span {
+	display: block;
+	width: 51px;
+	height: 22px;
+	background: url(../images/icon_progress_24.png) no-repeat 0 0;
+	margin-bottom: 5px;
+	margin-right: 5px;
+}
+
+.vip1 em, .threeTab {
+	display: none;
+}
+
+a.i-trigger {
+	cursor: pointer;
+	position: relative;
+	z-index: 2;
+	display: block;
+	color: #fff;
+}
+
+.m-info {
+	margin-left: 90px;
+	font-size: 14px;
+}
+
+.m-new {
+	position: absolute;
+	right: 6px;
+	top: 45px;
+	z-index: 22;
+}
+
+.m-new a {
+	color: #fff;
+}
+
+.am-icon-bell-o {
+	margin-right: 10px;
+}
+
+.tipsBox, .safeText, .wallet, .twoTab, .collection {
+	display: none;
+}
+/*资产*/
+.m-userproperty {
+	overflow: hidden;
+	padding: 15px 10px;
+	background: #fff;
+}
+
+.m-userproperty p {
+	float: left;
+	width: 33.33%;
+	text-align: center;
+	font-size: 14px;
+}
+
+.m-userproperty p i {
+	display: block;
+}
+
+.m-userproperty p em {
+	display: block;
+	color: #F40;
+	line-height: 22px;
+}
+
+.m-userproperty p i img {
+	width: 60px;
+	height: 60px;
+}
+
+.m-userproperty .s-bar {
+	display: none;
+}
+
+.box-container-bottom {
+	background: url(../images/side.png) repeat-x;
+	height: 5px;
+}
+
+/*订单*/
+.m-order {
+	overflow: hidden;
+	margin-bottom: 15px;
+	margin-top: 15px;
+	background: #fff;
+}
+
+.m-order li {
+	float: left;
+	width: 20%;
+	color: #4B4B4B;
+	text-align: center;
+}
+
+.m-order li a {
+	padding: 10px 0px;
+	vertical-align: middle;
+	display: block;
+	color: #4B4B4B;
+	text-align: center;
+}
+
+.m-order li a i img {
+	width: 30px;
+	height: 30px;
+	margin: auto;
+}
+
+.m-order li a span {
+	height: 18px;
+	line-height: 18px;
+	display: block;
+}
+
+.m-order li em {
+	color: #F40;
+	margin-left: 5px;
+}
+
+.m-order .i-load-more-item-shadow {
+	background: none;
+	color: #666;
+}
+
+.s-bar {
+	font-size: 15px;
+	border-bottom: 1px solid #ccc;
+	position: relative;
+	padding: 11px 0px 8px;
+	margin: 0px 10px;
+}
+
+.i-load-more-item-shadow {
+	position: absolute;
+	right: 0px;
+	top: 10px;
+	height: 20px;
+	background: #FFF none repeat scroll 0% 0%;
+	font-size: 14px;
+	line-height: 20px;
+	color: #4B4B4B;
+}
+
+.m-order .orderContentBox {
+	display: none;
+}
+
+/*第二套九宫格*/
+.user-suggestion {
+	overflow: hidden;
+	margin-bottom: 200px;
+	background: #fff;
+}
+
+.user-squaredIcon ul li {
+	text-align: center;
+	background-color: white;
+	margin: 10px 0px;
+}
+
+.user-squaredIcon ul li i {
+	padding: 10px 0px;
+	color: #F03726;
+}
+ 
