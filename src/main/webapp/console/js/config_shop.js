@@ -15,7 +15,7 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/product/prod_publish.js?v='+version ]
+					files : [ 'views/product/prod_publish.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -26,7 +26,36 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/product/prod_query.js?v='+version ]
+					files : [ 'views/product/prod_query.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
+
+	// 店铺
+	$stateProvider.state('shop', {
+		abstract : true,
+		url : "/shop",
+		templateUrl : "views/common/content.html"
+	}).state('shop.shop_list', {
+		url : "/shop_list",
+		templateUrl : "views/shop/shop.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/shop/shop.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('shop.shop_info', {
+		url : "/shop_info",
+		templateUrl : "views/shop/myshop.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/shop/myshop.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -44,7 +73,7 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/product/pinp/pinp.js?v='+version ]
+					files : [ 'views/product/pinp/pinp.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -62,7 +91,7 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/product/fcat/fcat.js?v='+version ]
+					files : [ 'views/product/fcat/fcat.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -73,7 +102,7 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/product/bcat/bcat.js?v='+version ]
+					files : [ 'views/product/bcat/bcat.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -84,11 +113,9 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/product/fcat/rootfcat.js?v='+version ]
+					files : [ 'views/product/fcat/rootfcat.js?v=' + version ]
 				} ]);
 			}
 		}
 	});
 }
-
-

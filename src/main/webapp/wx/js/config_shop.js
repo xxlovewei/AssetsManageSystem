@@ -15,6 +15,9 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
+					files : [ 'views/me/profile.css?v=' + version ]
+				} ,{
+					serie : true,
 					files : [ 'views/me/profile.js?v=' + version ]
 				} ]);
 			}
@@ -51,6 +54,9 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
+					files : [ 'views/cat/cat.css?v=' + version ]
+				} ,{
+					serie : true,
 					files : [ 'views/cat/cat.js?v=' + version ]
 				} ]);
 			}
@@ -68,6 +74,9 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/shop/shop.css?v=' + version ]
+				} ,{
 					serie : true,
 					files : [ 'views/shop/shop.js?v=' + version ]
 				} ]);

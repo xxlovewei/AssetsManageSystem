@@ -1,6 +1,6 @@
 function catCtl($log, $http, $scope, $rootScope, $state) {
 	$rootScope.footcurrent = "cat";
-	$rootScope.footshow = false
+	$rootScope.footshow = true
 	console.log($rootScope.footcurrent);
 	$scope.goindex=function(){
 		$state.go('index.ct',{},{reload:true});
