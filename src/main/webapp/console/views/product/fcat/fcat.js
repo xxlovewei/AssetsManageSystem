@@ -127,17 +127,17 @@ function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 						console.log("cur:obj", obj);
 						$http.post(
 								$rootScope.project + "/api/categoryF/add.do", {
-									ACTION : "cate",
+									ACTION : "cat",
 									TEXT : "新品类",
 									ID : obj.id
 								}).success(function(res) {
 							if (res.success) {
 
 								inst.create_node(obj, {
-									id : res.data.ID,
+									id : res.data.id,
 									text : "新品类",
 									parent : obj.id,
-									type : res.data.TYPE
+									type : res.data.type
 								}, "last", function(new_node) {
 									console.log("new_node is:", new_node);
 								});
@@ -183,16 +183,16 @@ function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 							$log.warn(res);
 							if (res.success) {
 								$log.warn({
-									id : res.data.ID,
+									id : res.data.id,
 									text : "新节点",
 									parent : obj.id
 								});
 								inst.create_node(obj, {
 
-									id : res.data.ID,
+									id : res.data.id,
 									text : "新节点",
 									parent : obj.id,
-									type : res.data.TYPE
+									type : res.data.type
 								}, "last", function(new_node) {
 									console.log("new_node is:", new_node);
 								});
@@ -337,7 +337,7 @@ function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flushTree(id){
 		
-		$http.post($rootScope.project + "/api/categoryF/queryTreeList.do", {ROOT_ID:id
+		$http.post($rootScope.project + "/api/categoryF/queryTreeList.do", {root_id:id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.ignoreChanges = true;
@@ -438,18 +438,7 @@ function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').renderWith(renderStatus),
 			DTColumnBuilder.newColumn('ID').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
-
-//	function flush() {
-//
-//		$http.post($rootScope.project + "/api/categoryF/queryTreeList.do", {
-//			ROOT_ID : $scope.catRootSel.ID
-//		}).success(function(res) {
-//			if (res.success) {
-//				$scope.dtOptions.aaData = res.data;
-//			}
-//		})
-//	}
-//	flush();
+ 
 
 	$scope.row_dtl = function(id) {
 

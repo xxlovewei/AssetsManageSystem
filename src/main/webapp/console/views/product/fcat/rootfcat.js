@@ -30,7 +30,7 @@ function prodrootfCatSaveCtl($uibModalInstance, $compile, $confirm, $log,
 	if (angular.isDefined(data.ID)) {
 		$scope.is_code_show=false;
 		$http.post($rootScope.project + "/api/categoryF/rootCatQueryById.do", {
-			ID : data.ID
+			id : data.ID
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data;

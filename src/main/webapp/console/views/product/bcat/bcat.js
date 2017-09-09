@@ -652,17 +652,17 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 						console.log("cur:obj", obj);
 						$http.post(
 								$rootScope.project + "/api/categoryB/add.do", {
-									ACTION : "cate",
+									ACTION : "cat",
 									TEXT : "新品类",
 									ID : obj.id
 								}).success(function(res) {
 							if (res.success) {
 
 								inst.create_node(obj, {
-									id : res.data.ID,
+									id : res.data.id,
 									text : "新品类",
 									parent : obj.id,
-									type : res.data.TYPE
+									type : res.data.type
 								}, "last", function(new_node) {
 									console.log("new_node is:", new_node);
 								});
@@ -706,16 +706,16 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 							$log.warn(res);
 							if (res.success) {
 								$log.warn({
-									id : res.data.ID,
+									id : res.data.id,
 									text : "新节点",
 									parent : obj.id
 								});
+								
 								inst.create_node(obj, {
-
-									id : res.data.ID,
+									id : res.data.id,
 									text : "新节点",
 									parent : obj.id,
-									type : res.data.TYPE
+									type : res.data.type
 								}, "last", function(new_node) {
 									console.log("new_node is:", new_node);
 								});
