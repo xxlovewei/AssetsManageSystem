@@ -1,17 +1,13 @@
 package com.dt.core.common.listener;
 
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.shiro.SimpleFilterChainDefinitionsService;
-import com.dt.module.schedule.service.ScheduleMangerService;
 
 /**
  * spring容器初始化完成事件 Spring框架加载完成后会publishContextRefreshedEvent事件 创建ContextRefreshedEvent事件监听类

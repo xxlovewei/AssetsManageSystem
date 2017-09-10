@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.wx.ps.service.WeiXX509TrustManager;
-import com.dt.module.base.controller.LoginController;
 
 /**
  * @author: algernonking
@@ -32,6 +31,7 @@ public class WxApp {
 	private String secret = "";
 	private String accesstoken = "";
 	private Long lastaccesstoken = 0L;
+	@SuppressWarnings("unused")
 	private String type = "";
 	private final static String access_token_ps_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=#<APPID>#&secret=#<SECRET>#";
 	private static Logger _log = LoggerFactory.getLogger(WxApp.class);

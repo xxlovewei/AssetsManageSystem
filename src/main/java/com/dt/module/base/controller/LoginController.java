@@ -1,20 +1,15 @@
 package com.dt.module.base.controller;
 
 import java.io.IOException;
-import java.util.Collection;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
@@ -36,8 +31,8 @@ public class LoginController extends BaseController {
 	LoginService loginService = null;
 	@Autowired
 	MenuRootService menuRootService;
-	@Autowired
-	private SessionDAO sessionDAO;
+//	@Autowired
+//	private SessionDAO sessionDAO;
 
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/user/login.do")

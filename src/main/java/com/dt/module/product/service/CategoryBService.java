@@ -30,7 +30,7 @@ public class CategoryBService extends BaseService {
 	public static String ACTION_NODE = "node";
 
 	public ResData addCategoryB(TypedHashMap<String, Object> ps) {
-		String nodetype = "node";
+		String nodetype = TYPE_NODE;
 		String id = ps.getString("ID");
 		String action = ps.getString("ACTION");
 		String text = ps.getString("TEXT", "新节点");

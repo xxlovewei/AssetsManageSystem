@@ -167,7 +167,7 @@ function prodCatBUpdateAttrCtl($log, $http, $rootScope, $scope,
 	$scope.multiSel = $scope.multiOpt[0];
 
 	$http.post($rootScope.project + "/api/categoryB/catAttrQueryById.do", {
-		ID : id
+		id : id
 	}).success(function(res) {
 		if (res.success) {
 			console.log(res);
@@ -457,7 +457,7 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 			text : '是否删除该属性?'
 		}).then(function() {
 			$http.post($rootScope.project + "/api/categoryB/catAttrDel.do", {
-				ID : id
+				id : id
 			}).success(function(res) {
 				notify({
 					message : res.message

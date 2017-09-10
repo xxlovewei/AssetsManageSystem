@@ -25,6 +25,7 @@ import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.core.db.DB;
+import com.dt.module.product.service.CategoryAttrService;
 import com.dt.module.product.service.CategoryBService;
 
 /*后台商品类目管理*/
@@ -35,6 +36,8 @@ public class CategoryBackgroundController extends BaseController {
 	private DB db = null;
 	@Autowired
 	CategoryBService categoryBService;
+	@Autowired
+	CategoryAttrService categoryAttrService;
 
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
@@ -116,10 +119,8 @@ public class CategoryBackgroundController extends BaseController {
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryB/catAttrQueryById.do")
-	public ResData catAttrQueryById(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String id = request.getParameter("ID");
-		Rcd r = db.uniqueRecord("select * from product_category_attr where ID=?", id);
-		return ResData.SUCCESS("操作成功", r.toJsonObject());
+	public ResData catAttrQueryById(String id) {
+		return categoryAttrService.queryAttr(id);
 	}
 	@Res
 	@Acl
@@ -174,124 +175,29 @@ public class CategoryBackgroundController extends BaseController {
 	@Res
 	@Acl
 	@RequestMapping("/categoryB/catAttrAdd.do")
-	public ResData catAttrAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// 新增不影响
-		// 删除,策略如果已经被使用就不允许删除
-		// cat_id 是否存在
-		String cat_id = request.getParameter("CAT_ID");
-		if (cat_id == null) {
-			return ResData.FAILURE_OPER();
-		}
-		Rcd cat_rs = db.uniqueRecord("select *  from product_category where is_deleted='N'  and id=? and is_cat='Y'",
-				cat_id);
-		if (cat_rs == null) {
-			return ResData.FAILURE("不存在该品类");
-		}
-		String tsql = "select ( select decode(max(attr_id),null,1,max(attr_id)+1) value from product_category_attr) attr_id, ";
-		tsql = tsql
-				+ " ( select decode(max(attr_set_id),null,1,max(attr_set_id)+1) value from product_category_attr_set) attr_set_id ";
-		tsql = tsql + " from dual ";
-		Rcd attr_rs = db.uniqueRecord(tsql);
-		if (attr_rs == null) {
-			return ResData.FAILURE("生成失败");
-		}
-		// 添加一条销售属性，每个品类必须要有一个销售属性
-		String next_attr_id = attr_rs.getString("attr_id");
-		String attr_type = request.getParameter("ATTR_TYPE");
-		String input_type = request.getParameter("INPUT_TYPE");
-		Insert ins = new Insert("product_category_attr");
-		ins.set("id", db.getUUID());
-		ins.set("attr_id", next_attr_id);
-		ins.set("is_deleted", "N");
-		ins.set("is_key", "N");
-		ins.set("is_need", request.getParameter("IS_NEED"));
-		ins.set("can_alias", request.getParameter("CAN_ALIAS"));
-		ins.set("name", request.getParameter("NAME"));
-		ins.set("cat_id", cat_id);
-		ins.set("od", request.getParameter("OD"));
-		ins.set("attr_type", attr_type);
-		ins.set("is_used", request.getParameter("IS_USED"));
-		ins.set("is_search", request.getParameter("IS_SEARCH"));
-		// input,select-multi,select-single
-		if (attr_type.equals("sale")) {
-			// 如果是销售属性只支持多选枚举
-			ins.set("is_input", "N");
-			ins.set("is_enum", "Y");
-			ins.set("input_type", "select-multi");
-			if (!input_type.equals("select-multi")) {
-				return ResData.FAILURE("销售元素只能选择多选框");
-			}
-		} else if (attr_type.equals("base")) {
-			ins.set("input_type", input_type);
-			if (input_type.equals("input")) {
-				ins.set("is_input", "Y");
-				ins.set("is_enum", "N");
-			} else if (input_type.equals("select-single") || input_type.equals("select-multi")) {
-				ins.set("is_input", "N");
-				ins.set("is_enum", "Y");
-			} else {
-				return ResData.FAILURE("请选择正确的属性");
-			}
-		} else {
-			return ResData.FAILURE("请选择正确的属性");
-		}
-		db.execute(ins);
-		return ResData.SUCCESS_OPER();
+	public ResData catAttrAdd() {
+		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+		return categoryAttrService.addAttr(ps);
 	}
 	@Res
 	@Acl
 	@Transactional
 	@RequestMapping("/categoryB/catAttrDel.do")
-	public ResData catAttrDel(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String id = request.getParameter("ID");
-		int uscnt = db.uniqueRecord(
-				"select count(1) value from product_attr_set a,product_category_attr b where a.attr_id=b.attr_id and b.id=? and b.is_deleted='N' ",
-				id).getInteger("value");
-		if (uscnt > 0) {
-			return ResData.FAILURE("已有产品在使用中,暂不可删除");
-		}
-		// 如果确实没有使用
-		Update ups = new Update("product_category_attr");
-		ups.set("is_deleted", "Y");
-		ups.where().and("id=?", id);
-		// 删除对应的属性值
-		Update ups2 = new Update("product_category_attr_set");
-		ups2.set("is_deleted", "Y");
-		ups2.where().and("attr_id in (select attr_id from product_category_attr where id=?)", id);
-		db.execute(ups2);
-		db.execute(ups);
-		return ResData.SUCCESS_OPER();
+	public ResData catAttrDel(String id) {
+		return categoryAttrService.deleteAttr(id);
 	}
 	@Res
 	@Acl
 	@RequestMapping("/categoryB/catAttrUpdate.do")
-	public ResData catAttrUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String id = request.getParameter("ID");
-		if (id == null) {
-			return ResData.FAILURE("请输入ID");
-		}
-		Update ups = new Update("product_category_attr");
-		ups.setIf("is_need", request.getParameter("IS_NEED"));
-		ups.setIf("can_alias", request.getParameter("CAN_ALIAS"));
-		ups.setIf("name", request.getParameter("NAME"));
-		ups.set("od", request.getParameter("OD"));
-		ups.set("is_used", request.getParameter("IS_USED"));
-		ups.set("is_search", request.getParameter("IS_SEARCH"));
-		ups.where().and("id=?", id);
-		db.execute(ups);
-		return ResData.SUCCESS_OPER();
+	public ResData catAttrUpdate() {
+		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+		return categoryAttrService.updateAttr(ps);
 	}
-	// 获取一个品类下的所有属性数据
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryB/catAttrQuery.do")
-	public ResData catAttrQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String cat_id = request.getParameter("cat_id");
-		if (cat_id == null) {
-			return ResData.FAILURE_OPER();
-		}
-		String sql = "select a.* ,decode(a.ATTR_TYPE,'sale','销售属性','base','基本属性','desc','描述属性','未知') attr_type_name from product_category_attr a where  is_deleted='N'  and cat_id=? order by attr_type,od";
-		return ResData.SUCCESS_OPER(db.query(sql, cat_id).toJsonArrayWithJsonObject());
+	public ResData catAttrQuery(String cat_id) throws IOException {
+		return categoryAttrService.queryAttr(cat_id);
 	}
 	@Res
 	@Acl

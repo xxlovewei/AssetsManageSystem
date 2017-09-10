@@ -1,37 +1,24 @@
 package com.dt.module.product.controller;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.dao.Rcd;
-import com.dt.core.common.dao.RcdSet;
-import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
-import com.dt.core.db.DB;
 import com.dt.module.product.service.CategoryFRootService;
 import com.dt.module.product.service.CategoryFService;
 
-/*前台商品类目管理*/
+ 
 @Controller
 @RequestMapping("/api")
 public class CategoryForegroundController extends BaseController {
-	@Autowired
-	private DB db = null;
+	 
 	@Autowired
 	private CategoryFRootService categoryFRootService;
 	@Autowired
@@ -72,7 +59,7 @@ public class CategoryForegroundController extends BaseController {
 	@Res
 	@Acl
 	@RequestMapping("/categoryF/queryTreeList.do")
-	public ResData categoryFqueryTreeList(String root_id) throws IOException {
+	public ResData categoryFqueryTreeList(String root_id)  {
 		if (ToolUtil.isEmpty(root_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		} else {
@@ -81,7 +68,6 @@ public class CategoryForegroundController extends BaseController {
 	}
 	@Res
 	@Acl
-	@Transactional
 	@RequestMapping("/categoryF/add.do")
 	public ResData categoryFadd() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
@@ -90,7 +76,7 @@ public class CategoryForegroundController extends BaseController {
 	@Res
 	@Acl
 	@RequestMapping("/categoryF/rename.do")
-	public ResData categoryBrename(String id, String text) throws IOException {
+	public ResData categoryBrename(String id, String text)  {
 		return categoryFService.renameCategoryF(id, text);
 	}
 }

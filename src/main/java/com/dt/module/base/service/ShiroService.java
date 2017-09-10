@@ -42,8 +42,9 @@ public class ShiroService implements IShiro {
 		List<String> roleNameList = new ArrayList<String>();
 		// 角色集合
 		HashMap<String, String> rmap = user.getRolsSet();
-		Iterator iter = rmap.entrySet().iterator();
+		Iterator<?> iter = rmap.entrySet().iterator();
 		while (iter.hasNext()) {
+			@SuppressWarnings("rawtypes")
 			Map.Entry entry = (Map.Entry) iter.next();
 			Object key = entry.getKey();
 			Object val = entry.getValue();
