@@ -47,6 +47,15 @@
 						<form class="form-horizontal" name="myForm" novalidate>
 							<div class="form-group">
 								<label class="col-sm-2 control-label"><span
+									style="color: red">*</span>店铺:</label>
+								<div class="col-sm-10">
+									<select class="form-control" ng-model="prodData.SHOP_ID">
+										<option ng-repeat="item in shopOpt" value="{{item.SHOP_ID}}">{{item.SHOP_NAME}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><span
 									style="color: red">*</span>产品名称:</label>
 								<div class="col-sm-10">
 									<input type="text" required ng-maxlength="80"
@@ -85,11 +94,9 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label">品牌:</label>
 								<div class="col-sm-10">
-
 									<select class="form-control" ng-model="prodData.BRAND_ID">
 										<option ng-repeat="item in brandOpt" value="{{item.BRAND_ID}}">{{item.NAME}}</option>
 									</select>
-
 								</div>
 							</div>
 
@@ -259,21 +266,22 @@
 							<table class="table table-bordered table-stripped">
 								<thead>
 									<tr>
-										<th>Image preview</th>
-										<th>Image url</th>
-										<th>Sort order</th>
-										<th>Actions</th>
+										<th>图片</th>
+										<th>地址</th>
+										<th>排序</th>
+										<th>动作</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td><img src="img/gallery/2s.jpg"></td>
+									<tr ng-repeat="item in prodPics">
+										<td><img style="width: 50px; height: 50px;"
+											src="{{project}}/api/file/imagedown.do?id={{item.PIC_ID}}"></td>
 										<td><input type="text" class="form-control" disabled
-											value="http://mydomain.com/images/image1.png"></td>
-										<td><input type="text" class="form-control" value="1">
-										</td>
+											value="{{project}}api/file/imagedown.do?id={{item.PIC_ID}}"></td>
+										<td><input type="text" class="form-control"
+											ng-model=item.OD></td>
 										<td>
-											<button class="btn btn-white">
+											<button ng-click="delpic(item)" class="btn btn-white">
 												<i class="fa fa-trash"></i>
 											</button>
 										</td>
@@ -281,6 +289,8 @@
 								</tbody>
 							</table>
 						</div>
+						<button ng-click="addPicture()" class="btn btn-sm btn-primary"
+							type="submit">添加图片</button>
 					</div>
 					</uib-tab> </uib-tabset>
 				</div>

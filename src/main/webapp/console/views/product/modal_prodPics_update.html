@@ -1,0 +1,52 @@
+<style>
+.chosen-container {
+	width: 100%;
+}
+</style>
+<div class="modal-content">
+	<div class="modal-header">
+		<button ng-click="cancel()" type="button" class="close">
+			<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+		</button>
+		<h4 class="modal-title">产品图片</h4>
+	</div>
+	<div class="modal-body">
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="ibox">
+				<div class="ibox-content" style="border: none;">
+					<table class="table table-bordered table-stripped">
+						<thead>
+							<tr>
+								<th>图片</th>
+								<th>地址</th>
+								<th>排序</th>
+								<th>动作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in prodPics">
+								<td><img style="width: 50px; height: 50px;"
+									src="{{project}}/api/file/imagedown.do?id={{item.PIC_ID}}"></td>
+								<td><input type="text" class="form-control" disabled
+									value="{{project}}api/file/imagedown.do?id={{item.PIC_ID}}"></td>
+								<td><input type="text" class="form-control"
+									ng-model=item.OD></td>
+								<td>
+									<button ng-click="delpic(item)" class="btn btn-white">
+										<i class="fa fa-trash"></i>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<button ng-click="addPicture()" class="btn btn-sm btn-primary"
+						type="submit">添加图片</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button ng-click="cancel()" class="btn btn-warning">取消</button>
+		<button ng-click="sure()" class="btn btn-primary">确认</button>
+	</div>
+</div>

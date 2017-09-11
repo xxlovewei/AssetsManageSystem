@@ -20,6 +20,18 @@ public class ProductController extends BaseController {
 	@Autowired
 	ProductService productService;
 
+	@RequestMapping("/product/getProdPics.do")
+	@Res
+	@Acl
+	public ResData getProdPics(String spu) {
+		return ResData.SUCCESS_OPER(productService.getProdPics(spu));
+	}
+	@RequestMapping("/product/updateProdPics.do")
+	@Res
+	@Acl
+	public ResData updateProdPics(String spu, String pics) {
+		return productService.updateProdPics(spu, pics);
+	}
 	@RequestMapping("/product/prodOffOn.do")
 	@Res
 	@Acl

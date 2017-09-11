@@ -1,6 +1,7 @@
 package com.dt.module.product.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,9 @@ import com.dt.core.common.util.support.TypedHashMap;
 // 注意一个品牌中的ATTR_SET_ID必须唯一。ATTR_SET_ID后期可以不唯一,否则生成的SKU发生错误
 @Service
 public class ProductService extends BaseService {
+	public static String IAMGE_TYPE_PROD = "prod";
+	public static String IAMGE_TYPE_PROD_MOBILE = "mobile";
+
 	/**
 	 * @Description:获取产品销售属性
 	 */
@@ -39,8 +43,10 @@ public class ProductService extends BaseService {
 			JSONObject obj = new JSONObject();
 			obj = ConvertUtil.OtherJSONObjectToFastJSONObject(r.getRcd(i).toJsonObject());
 			// 获取属性
-			obj.put("ATTR_SET_IDS", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query("select * from product_sku_map where sku=?", r.getRcd(i).getString("sku"))
-					.toJsonArrayWithJsonObject()));
+			obj.put("ATTR_SET_IDS",
+					ConvertUtil.OtherJSONObjectToFastJSONArray(
+							db.query("select * from product_sku_map where sku=?", r.getRcd(i).getString("sku"))
+									.toJsonArrayWithJsonObject()));
 			rs.add(obj);
 		}
 		return rs;
@@ -78,10 +84,30 @@ public class ProductService extends BaseService {
 					+ "product_attr_set b,product_category_attr_set a " + "where " + "a.attr_id=b.attr_id "
 					+ "and b.spu=? " + "and b.is_sku='Y' " + "and a.attr_id=? "
 					+ "and cat_id in (select cat_id from product where spu=?) " + "order by od ";
-			e.put("LIST", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(isql, spu, rs.getRcd(i).getString("attr_id"), spu).toJsonArrayWithJsonObject()));
+			e.put("LIST", ConvertUtil.OtherJSONObjectToFastJSONArray(
+					db.query(isql, spu, rs.getRcd(i).getString("attr_id"), spu).toJsonArrayWithJsonObject()));
 			r.add(e);
 		}
 		return r;
+	}
+	/**
+	 * @Description:获取商品的图片列表
+	 */
+	public JSONArray getProdPics(String spu) {
+		return ConvertUtil.OtherJSONObjectToFastJSONArray(
+				db.query("select * from product_pic where spu=? and type=? order by od", spu, IAMGE_TYPE_PROD)
+						.toJsonArrayWithJsonObject());
+	}
+	/**
+	 * @Description:更新商品的图片列表
+	 */
+	public ResData updateProdPics(String spu, String pics) {
+		JSONArray pics_arr = JSONArray.parseArray(pics);
+		ArrayList<String> sqls = updateProdPics(spu, pics_arr);
+		for (int i = 0; i < sqls.size(); i++) {
+			db.execute(sqls.get(i));
+		}
+		return ResData.SUCCESS_OPER();
 	}
 	/**
 	 * @Description:获取商品的基本属性
@@ -374,10 +400,14 @@ public class ProductService extends BaseService {
 		if (ToolUtil.isEmpty("cat_id")) {
 			return ResData.FAILURE("请选择品类");
 		}
+		if (ToolUtil.isEmpty(ps.getString("SHOP_ID"))) {
+			return ResData.FAILURE("必须选择一个店铺");
+		}
 		/************************************ 处理主表 ************************/
 		Insert ins = new Insert("product");
 		int totalStock = 0;
 		ins.set("spu", spu);
+		ins.setIf("shop_id", ps.getString("SHOP_ID"));
 		ins.set("prod_name", ps.getString("PROD_NAME"));
 		ins.set("cat_id", cat_id);
 		ins.set("list_price", ps.getString("LIST_PRICE"));
@@ -448,11 +478,35 @@ public class ProductService extends BaseService {
 		}
 		ins.set("stock", totalStock);
 		/************************************ 处理图片 ************************/
+		String prod_sales = ps.getString("PICS");// 每组SKU数据
+		JSONArray prod_sales_arr = JSONArray.parseArray(prod_sales);
+		if (ToolUtil.isEmpty(prod_sales_arr) || prod_sales_arr.size() == 0) {
+			return ResData.FAILURE("请选择产品图片");
+		}
+		ArrayList<String> picssqls = updateProdPics(spu, prod_sales_arr);
 		/************************************ 更新数据 ************************/
 		basesql.add(ins.getSQL());
 		for (int i = 0; i < basesql.size(); i++) {
 			db.execute(basesql.get(i));
 		}
+		for (int j = 0; j < picssqls.size(); j++) {
+			db.execute(picssqls.get(j));
+		}
 		return ResData.SUCCESS_OPER();
+	}
+	public ArrayList<String> updateProdPics(String spu, JSONArray pics) {
+		ArrayList<String> res = new ArrayList<String>();
+		res.add("delete from product_pic where type='" + IAMGE_TYPE_PROD + "' and spu='" + spu + "'");
+		for (int i = 0; i < pics.size(); i++) {
+			Insert ins = new Insert("product_pic");
+			ins.set("id", UuidUtil.getUUID());
+			ins.set("spu", spu);
+			ins.set("pic_id", pics.getJSONObject(i).getString("PIC_ID"));
+			ins.set("type", IAMGE_TYPE_PROD);
+			ins.set("od", ConvertUtil.toInt(pics.getJSONObject(i).getString("OD"), 1));
+			System.out.println(ins.getSQL());
+			res.add(ins.getSQL());
+		}
+		return res;
 	}
 }

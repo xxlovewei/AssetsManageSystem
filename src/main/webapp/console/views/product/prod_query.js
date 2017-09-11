@@ -5,7 +5,131 @@ function prepend(arr, item) {
 	a.unshift(item);
 	return a;
 }
+function prodPicsAddCtl($compile, $timeout, $confirm, $log, notify, $scope, $http, $rootScope, $uibModalInstance) {
 
+	$scope.dtldzconfig = {
+		url : 'fileupload.do',
+		maxFilesize : 10000,
+		paramName : "file",
+		maxThumbnailFilesize : 1,
+		// 一个请求上传多个文件
+		uploadMultiple : true,
+		// 当多文件上传,需要设置parallelUploads>=maxFiles
+		parallelUploads : 1,
+		maxFiles : 1,
+		dictDefaultMessage : "点击上传图片",
+		acceptedFiles : "image/jpeg,image/png,image/gif",
+		// 添加上传取消和删除预览图片的链接，默认不添加
+		addRemoveLinks : true,
+		// 关闭自动上传功能，默认会true会自动上传
+		// 也就是添加一张图片向服务器发送一次请求
+		autoProcessQueue : false,
+		init : function() {
+			$scope.myDropzone = this; // closure
+		}
+	};
+
+	$scope.sure = function() {
+		if ($scope.myDropzone.files.length == 0) {
+			notify({
+				message : "请选择图片"
+			});
+			return;
+		}
+		var picid = getUuid();
+		$scope.myDropzone.options.url = $rootScope.project + '/api/file/fileupload.do?bus=prodimgs&uuid=' + picid + '&type=image&interval=10000';
+		$scope.myDropzone.uploadFile($scope.myDropzone.files[0])
+		$timeout(function() {
+			$uibModalInstance.close(picid);
+		}, 600);
+	}
+
+	
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+}
+
+function prodPicUpdateCtl($log, $http, $rootScope, $scope, $uibModal, $uibModalInstance, data, notify) {
+
+	$log.warn("window in:", data)
+
+	$scope.prodPics = [];
+	if (angular.isDefined(data.spu)) {
+		$http.post($rootScope.project + "/api/product/getProdPics.do", {
+			spu : data.spu
+		}).success(function(res) {
+			if (res.success) {
+				$scope.prodPics = res.data;
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
+	}
+
+	$scope.addPicture = function() {
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/product/modal_prodPics_add.html',
+			controller : prodPicsAddCtl,
+			size : 'lg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				data : function() {
+					return {}
+				}
+			}
+		});
+
+		modalInstance.result.then(function(result) {
+			$log.warn("result:" + result);
+			$scope.prodPics.push({
+				PIC_ID : result,
+				OD : 1
+			})
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
+
+	}
+	$scope.delpic = function(item) {
+		if ($scope.prodPics.length == 1) {
+			notify({
+				message : "至少保留一张图片"
+			});
+			return;
+		}
+		for (var i = 0; i < $scope.prodPics.length; i++) {
+			if (item.PIC_ID == $scope.prodPics[i].PIC_ID) {
+				$scope.prodPics.splice(i, 1);
+				break;
+			}
+		}
+	}
+	$scope.sure = function() {
+		$http.post($rootScope.project + "/api/product/updateProdPics.do", {
+			spu : data.spu,
+			pics:angular.toJson($scope.prodPics)
+		}).success(function(res) {
+			if (res.success) {
+				$uibModalInstance.close("OK");
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
+		
+		
+	};
+	///product/updateProdPics.do
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+}
 function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance, data, notify) {
 
 	$log.warn("window in:", data);
@@ -73,9 +197,9 @@ function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 
 	// sku列表匹配值,渲染输出
 	$scope.saleValueRender = function(e) {
- 
-		console.log("SALE_ATTR_SET_MAP:",SALE_ATTR_SET_MAP);
-		console.log("e:",e);
+
+		console.log("SALE_ATTR_SET_MAP:", SALE_ATTR_SET_MAP);
+		console.log("e:", e);
 		if (SALE_ATTR_SET_MAP.length == 0) {
 			return e.ATTR_SET_ID;
 		}
@@ -441,12 +565,50 @@ function prodQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 			});
 			return;
 		}
-	
+
 		var ps = arr[0];
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/product/modal_prodSaleAttr_save.html',
 			controller : prodSaleAttrSaveCtl,
+			size : 'lg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				data : function() {
+					return ps
+				}
+			}
+		});
+
+		modalInstance.result.then(function(result) {
+			if (result == "OK") {
+				flush();
+			}
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
+
+	}
+	$scope.prodPicsUpdate = function() {
+		var arr = getSelectItems();
+		if (arr.length == 0) {
+			notify({
+				message : "请选择产品"
+			});
+			return;
+		}
+		if (arr.length > 1) {
+			notify({
+				message : "只能选择一款产品"
+			});
+			return;
+		}
+
+		var ps = arr[0];
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/product/modal_prodPics_update.html',
+			controller : prodPicUpdateCtl,
 			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				data : function() {
