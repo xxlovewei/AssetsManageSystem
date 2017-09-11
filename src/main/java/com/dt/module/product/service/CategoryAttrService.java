@@ -23,6 +23,9 @@ public class CategoryAttrService extends BaseService {
 	public static String ATTR_TYPE_SALE = "sale";
 	public static String ATTR_TYPE_BASE = "base";
 
+	/**
+	 * @Description: 添加属性
+	 */
 	public ResData addAttr(TypedHashMap<String, Object> ps) {
 		String cat_id = ps.getString("CAT_ID");
 		if (ToolUtil.isEmpty(cat_id)) {
@@ -60,14 +63,16 @@ public class CategoryAttrService extends BaseService {
 				ins.set("input_type", INPUTTYPE_SEL_MULTI);
 			}
 		} else if (attr_type.equals(ATTR_TYPE_BASE)) {
-			// 如果是基本属性,支持输入(键盘输入),单选,多选
+			// 如果是基本属性,支持输入(键盘输入),单选,不支持多选
 			ins.set("input_type", input_type);
 			if (input_type.equals(INPUTTYPE_INPUT)) {
 				ins.set("is_input", "Y");
 				ins.set("is_enum", "N");
-			} else if (input_type.equals(INPUTTYPE_SEL_MULTI) || input_type.equals(INPUTTYPE_SEL_SINGLE)) {
+			} else if (input_type.equals(INPUTTYPE_SEL_SINGLE)) {
 				ins.set("is_input", "N");
 				ins.set("is_enum", "Y");
+			} else if (input_type.equals(INPUTTYPE_SEL_MULTI)) {
+				return ResData.FAILURE("基本属性暂不支持多选组件");
 			} else {
 				return ResData.FAILURE_ERRREQ_PARAMS();
 			}
@@ -77,12 +82,18 @@ public class CategoryAttrService extends BaseService {
 		db.execute(ins);
 		return ResData.SUCCESS_OPER();
 	}
+	/**
+	 * @Description: 获取下一个序列号
+	 */
 	public String getNextAttrId() {
 		return db
 				.uniqueRecord(
 						"select case when max(attr_id) is null then 10 else max(attr_id)+1 end value from product_category_attr")
 				.getString("value");
 	}
+	/**
+	 * @Description: 如果该属性没有使用,直接删除
+	 */
 	public ResData deleteAttr(String id) {
 		int uscnt = db.uniqueRecord(
 				"select count(1) value from product_attr_set a,product_category_attr b where a.attr_id=b.attr_id and b.id=? and b.is_deleted='N' ",
@@ -102,6 +113,9 @@ public class CategoryAttrService extends BaseService {
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
 	}
+	/**
+	 * @Description: 更新属性
+	 */
 	public ResData updateAttr(TypedHashMap<String, Object> ps) {
 		String id = ps.getString("ID");
 		if (ToolUtil.isEmpty(id)) {
@@ -118,18 +132,24 @@ public class CategoryAttrService extends BaseService {
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
 	}
+	/**
+	 * @Description: 查询品类的所以属性定义
+	 */
 	public ResData queryAttr(String cat_id) {
 		if (ToolUtil.isEmpty(cat_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
-		String sql = "select a.*,case a.attr_type when 'sale' then '销售属性' when 'base' then '基本属性' else '未知' end attr_type_name from product_category_attr a where is_deleted='N' and cat_id=60 order by attr_type,od";
+		String sql = "select a.*,case a.attr_type when 'sale' then '销售属性' when 'base' then '基本属性' else '未知' end attr_type_name from product_category_attr a where is_deleted='N' and cat_id=? order by attr_type,od";
 		return ResData.SUCCESS_OPER(db.query(sql, cat_id).toJsonArrayWithJsonObject());
 	}
+	/**
+	 * @Description: 根据Id查询单个属性
+	 */
 	public ResData queryAttrById(String id) {
 		if (ToolUtil.isEmpty(id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		Rcd r = db.uniqueRecord("select * from product_category_attr where id=?", id);
-		return ResData.SUCCESS("操作成功", r.toJsonObject());
+		return ResData.SUCCESS_OPER(r.toJsonObject());
 	}
 }

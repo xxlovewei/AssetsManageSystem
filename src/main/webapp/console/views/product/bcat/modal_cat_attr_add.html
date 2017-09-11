@@ -21,7 +21,8 @@
 
 
 						<div class="form-group">
-							<label class="col-sm-2 control-label">属性类型</label>
+							<label class="col-sm-2 control-label"><span
+								class="text-danger">*</span>属性类型:</label>
 							<div class="col-sm-10">
 
 								<select width=100 chosen disable-search="true"
@@ -36,7 +37,8 @@
 
 
 						<div class="form-group">
-							<label class="col-sm-2 control-label">名称</label>
+							<label class="col-sm-2 control-label"><span
+								class="text-danger">*</span>名称:</label>
 							<div class="col-sm-10">
 								<input type="text" required ng-maxlength="100"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
@@ -52,7 +54,7 @@
 
 
 						<div class="form-group">
-							<label class="col-sm-2 control-label">输入类型</label>
+							<label class="col-sm-2 control-label">输入类型:</label>
 							<div class="col-sm-10">
 								<select width=100 chosen disable-search="true"
 									class="chosen-select" no-results-text="'没有找到相应条目'"
@@ -127,7 +129,7 @@
 
 
 						<div class="form-group">
-							<label class="col-sm-2 control-label">是否必填</label>
+							<label class="col-sm-2 control-label">是否必填:</label>
 							<div class="col-sm-10">
 								<select width=100 chosen disable-search="true"
 									class="chosen-select" no-results-text="'没有找到相应条目'"
@@ -141,7 +143,7 @@
 
 
 						<div class="form-group">
-							<label class="col-sm-2 control-label">是否使用中</label>
+							<label class="col-sm-2 control-label">是否使用中:</label>
 							<div class="col-sm-10">
 								<select width=100 chosen disable-search="true"
 									class="chosen-select" no-results-text="'没有找到相应条目'"
@@ -155,7 +157,8 @@
 
 
 						<div class="form-group">
-							<label class="col-sm-2 control-label">排序</label>
+							<label class="col-sm-2 control-label"><span
+								class="text-danger">*</span>排序:</label>
 							<div class="col-sm-10">
 								<input type="number" required ng-maxlength="100"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
@@ -179,7 +182,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button ng-click="cancel()" class="btn    btn-warning">取消</button>
+		<button ng-click="cancel()" class="btn btn-warning">取消</button>
 		<button ng-disabled="myForm.$invalid" ng-click="sure()"
 			class="btn   btn-primary">确认</button>
 	</div>
