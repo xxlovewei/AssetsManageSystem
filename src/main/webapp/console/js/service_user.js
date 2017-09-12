@@ -32,8 +32,13 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 						$rootScope.dt_systems = res.data.systems;
 						$localStorage.put('dt_systems', res.data.systems);
 						// 当前默认可能存在Id为1的系统,默认获取该资源
+						$log.warn(res.data.user_info);
+						var menuid = "";
+						if (angular.isDefined(res.data.user_info.SYSTEM)) {
+							menuid = res.data.user_info.SYSTEM;
+						}
 						$http.post($rootScope.project + "/api//user/getUserMenus.do", {
-							menu_id : "1"
+							menu_id : menuid
 						}).success(function(rs) {
 							if (rs.success) {
 								$log.warn("###Action login,load user_menu from service######");

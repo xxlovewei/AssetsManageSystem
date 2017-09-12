@@ -14,6 +14,7 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
+import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
@@ -109,5 +110,12 @@ public class SysUserController extends BaseController {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		return ResData.SUCCESS_OPER(userService.getMenuTree(getUserId(), menu_id));
+	}
+	@RequestMapping("/user/saveCommonSetting.do")
+	@Res
+	@Acl
+	public ResData saveCommonSetting() {
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		return sysUserService.saveCommonSettings(getUserId(), ps);
 	}
 }

@@ -31,6 +31,25 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
+
+	// 个人设置
+	$stateProvider.state('me', {
+		abstract : true,
+		url : "/me",
+		templateUrl : "views/common/content.html"
+	}).state('me.common_mgr', {
+		url : "/common_mgr",
+		templateUrl : "views/me/common_mgr.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/me/common_mgr.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
+
 	// 用户管理
 	$stateProvider.state('user', {
 		abstract : true,

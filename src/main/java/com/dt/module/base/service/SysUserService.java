@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
+import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.TypedHashMap;
 
@@ -41,12 +42,24 @@ public class SysUserService extends BaseService {
 	 * @Description: 根据user_id查找
 	 */
 	public ResData queryUserById(String user_id) {
-		JSONObject res=userService.queryUserById(user_id);
-		if(ToolUtil.isEmpty(res)){
+		JSONObject res = userService.queryUserById(user_id);
+		if (ToolUtil.isEmpty(res)) {
 			return ResData.FAILURE_NODATA();
-		}else{
+		} else {
 			return ResData.SUCCESS_OPER();
 		}
-	
+	}
+	/**
+	 * @Description: 保存用户通用设置数据
+	 */
+	public ResData saveCommonSettings(String user_id, TypedHashMap<String, Object> ps) {
+		String system = ps.getString("SYSTEM");
+		if (ToolUtil.isNotEmpty(system)) {
+			Update systemups = new Update("sys_user_info");
+			systemups.set("system", system);
+			systemups.where().and("user_id=?", user_id);
+			db.execute(systemups);
+		}
+		return ResData.SUCCESS_OPER();
 	}
 }

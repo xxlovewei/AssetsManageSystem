@@ -401,6 +401,7 @@ public class UserService extends BaseService {
 		ins.setIf("receadd_def", ps.getString("RECEADD_DEF"));
 		ins.setIf("weixin", ps.getString("WEIXIN"));
 		ins.setIf("sex", ps.getString("SEX", "1"));
+		ins.setIf("system",  ps.getString("SYSTEM", "1"));
 		ins.set("deleted", "N");
 		db.execute(ins);
 		return ResData.SUCCESS_OPER(user_id);
