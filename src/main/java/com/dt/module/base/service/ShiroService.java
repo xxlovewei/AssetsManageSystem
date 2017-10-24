@@ -13,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dt.core.common.shiro.IShiro;
+import com.dt.core.common.shiro.ShiroUser;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.db.DB;
-import com.dt.core.shiro.IShiro;
-import com.dt.module.base.entity.ShiroUser;
 import com.dt.module.base.entity.User;
 
 @Service

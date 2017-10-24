@@ -1,4 +1,4 @@
-package com.dt.core.shiro;
+package com.dt.core.common.shiro;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;

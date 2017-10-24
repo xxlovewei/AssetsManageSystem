@@ -1,4 +1,4 @@
-package com.dt.core.shiro;
+package com.dt.core.common.shiro;
 
 import java.util.HashMap;
 import java.util.Iterator;

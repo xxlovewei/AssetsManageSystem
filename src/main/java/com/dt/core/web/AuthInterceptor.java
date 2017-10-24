@@ -10,9 +10,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.Acl;
+import com.dt.core.common.shiro.ShiroKit;
 import com.dt.core.common.util.TokenUtil;
 import com.dt.core.common.util.ToolUtil;
-import com.dt.core.shiro.ShiroKit;
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 	private static Logger _log = LoggerFactory.getLogger(AuthInterceptor.class);

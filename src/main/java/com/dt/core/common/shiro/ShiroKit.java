@@ -1,4 +1,4 @@
-package com.dt.core.shiro;
+package com.dt.core.common.shiro;
 /**
  * Copyright (c) 2015-2017, Chill Zhuang 庄骞 (smallchill@163.com).
  * <p>
@@ -24,8 +24,6 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
-
-import com.dt.module.base.entity.ShiroUser;
 
 /**
  * shiro工具类

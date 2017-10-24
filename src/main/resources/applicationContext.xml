@@ -9,17 +9,17 @@
 
 	<context:annotation-config />
 
-
-	<!-- 装载service -->
+	<!-- 扫描service -->
 	<context:component-scan base-package="**.service" />
-	<!-- 装载controller -->
+	
+	<!-- 扫描controller -->
 	<context:component-scan base-package="**.controller" />
 
-	<!-- 装载shiro -->
-	<context:component-scan base-package="com.dt.core.shiro" />
+	<!-- 扫描shiro -->
+	<context:component-scan base-package="com.dt.core.common.shiro" />
 
 	<!-- 异常处理 -->
-	<context:component-scan base-package="com.dt.core.common.annotion.impl" />
+	<context:component-scan base-package="com.dt.core.common.exception" />
 
 	<!-- 启动时初始化Spring上下文环境工具类 -->
 	<bean id="SpringContextUtil" class="com.dt.core.common.util.SpringContextUtil" />
@@ -29,12 +29,10 @@
 
 	<bean id="ApplicationContextListener" class="com.dt.core.common.listener.ApplicationContextListener" />
 
+	<!-- <context:component-scan base-package="com.dt.core.common.annotion.impl" 
+		use-default-filters="false"> <context:include-filter type="annotation" expression="com.dt.core.common.annotion.impl.GlobalExceptionHandler" 
+		/> </context:component-scan> -->
 
-	<context:component-scan base-package="com.dt.core.common.annotion.impl"
-		use-default-filters="false">
-		<context:include-filter type="annotation"
-			expression="com.dt.core.common.annotion.impl.GlobalExceptionHandler" />
-	</context:component-scan>
 
 	<!-- 配置自定义返回注解 -->
 	<bean id="resreqMessagCover"
@@ -65,10 +63,7 @@
 		<mvc:return-value-handlers>
 			<ref bean="resReqSolve" />
 		</mvc:return-value-handlers>
-
 	</mvc:annotation-driven>
-
-
 
 </beans>
  

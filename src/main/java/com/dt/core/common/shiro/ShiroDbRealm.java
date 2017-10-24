@@ -1,4 +1,4 @@
-package com.dt.core.shiro;
+package com.dt.core.common.shiro;
 
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dt.core.common.util.ToolUtil;
-import com.dt.module.base.entity.ShiroUser;
 import com.dt.module.base.entity.User;
 import com.dt.module.base.service.ShiroService;
 import com.dt.module.base.service.UserService;
