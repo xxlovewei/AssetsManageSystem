@@ -30,6 +30,7 @@ public class DictService extends BaseService {
 	}
 	public ResData addDict(TypedHashMap<String, Object> ps) {
 		 
+	 
 		Insert me = new Insert("sys_dict");
 		me.set("dict_id", UuidUtil.getUUID());
 		me.setIf("name", ps.getString("NAME", ""));

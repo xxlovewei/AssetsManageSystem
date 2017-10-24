@@ -45,4 +45,7 @@ public abstract class SpringMySQLDao extends SpringDAO
 	{
 		return this.uniqueDate("select now()");
 	}
+	public String getDBType(){
+		return "mysql";
+	}
 }
