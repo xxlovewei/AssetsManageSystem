@@ -1,4 +1,4 @@
-package com.dt.core.wx.ps.entity;
+package com.dt.core.common.wx.ps.entity;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.util.ToolUtil;
-import com.dt.core.wx.ps.service.WeiXX509TrustManager;
+import com.dt.core.common.wx.ps.service.WeiXX509TrustManager;
 
 /**
  * @author: algernonking
