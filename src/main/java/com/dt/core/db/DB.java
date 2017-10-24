@@ -19,7 +19,7 @@ public class DB extends SpringOracleDao {
 	}
 	@PostConstruct
 	private void init() {
-		System.out.println("Oracle db is init.");
+		System.out.println("Oracle db init.");
 	}
 	@Resource(name = "db")
 	public void setDataSource(DataSource dataSource) {

@@ -6,8 +6,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import com.dt.core.common.base.BaseService;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.shiro.SimpleFilterChainDefinitionsService;
+import com.dt.module.schedule.service.ScheduleMangerService;
 
 /**
  * spring容器初始化完成事件 Spring框架加载完成后会publishContextRefreshedEvent事件 创建ContextRefreshedEvent事件监听类
@@ -19,19 +21,18 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		// root application context
-		System.out.println("over");
 		if (null == event.getApplicationContext().getParent()) {
 			SpringContextUtil.getApplicationContext();
-			_log.debug(">>>>> spring初始化完毕 <<<<<");
-			
-			//初始化shiro
+			System.out.println(">>>>> spring初始化完毕 <<<<<");
+			// 初始化shiro
 			SimpleFilterChainDefinitionsService.me().updatePermission();
 			// 遍历job启动
-			// ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
-			// scheduleMangerService.scheduleStart();
-			// scheduleMangerService.jobInitLoadFromDb();
+			ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
+			scheduleMangerService.scheduleStart();
+			scheduleMangerService.jobInitLoadFromDb();
+			
 			//SimpleFilterChainDefinitionsService.me().updatePermission();
-			// // spring初始化完毕后，通过反射调用所有使用BaseService注解的initMapper方法
+			// spring初始化完毕后，通过反射调用所有使用BaseService注解的initMapper方法
 			// Map<String, Object> baseServices =
 			// contextRefreshedEvent.getApplicationContext().getBeansWithAnnotation(BaseService.class);
 			// for(Object service : baseServices.values()) {

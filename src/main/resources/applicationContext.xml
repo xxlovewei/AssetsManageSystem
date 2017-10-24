@@ -12,7 +12,8 @@
 
 	<!-- 装载service -->
 	<context:component-scan base-package="**.service" />
-
+	<!-- 装载controller -->
+	<context:component-scan base-package="**.controller" />
 
 	<!-- 装载shiro -->
 	<context:component-scan base-package="com.dt.core.shiro" />
@@ -37,8 +38,7 @@
 
 
 
-	<!-- 装载controller -->
-	<context:component-scan base-package="**.controller" />
+
 
 
 	<!-- 配置自定义返回注解 -->

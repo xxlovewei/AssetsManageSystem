@@ -154,7 +154,6 @@ public class ResData extends BaseResult {
 		r.setSuccess(true);
 		return r;
 	}
-
 	public JSONArray getDataToJSONArray() {
 		if (data instanceof org.json.JSONArray) {
 			return JSONArray.parseArray(((org.json.JSONArray) (data)).toString());

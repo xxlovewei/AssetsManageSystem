@@ -75,11 +75,7 @@ public class BaseController extends BaseSC {
 	// byte[] bytes = FileUtil.toByteArray(filePath);
 	// return renderFile(fileName, bytes);
 	// }
-	/**
-	 * 返回前台文件流
-	 * @author fengshuonan
-	 * @date 2017年2月28日 下午2:53:19
-	 */
+	 
 	/*
 	 * protected ResponseEntity<byte[]> renderFile(String fileName, byte[] fileBytes) { String
 	 * dfileName = null; try { dfileName = new String(fileName.getBytes("gb2312"), "iso8859-1"); }

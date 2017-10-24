@@ -34,7 +34,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		 classpath:applicationContext.xml,
-		 classpath:springMVC-servlet.xml,
+		<!--  classpath:springMVC-servlet.xml, -->
 		 classpath:ds_db.xml,
 		  classpath:shiro.xml,
 	   	 /WEB-INF/app_config_*.xml

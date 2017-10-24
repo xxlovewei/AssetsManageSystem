@@ -23,26 +23,21 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 	public boolean canRead(Type type, Class<?> contextClass, MediaType mediaType) {
 		return ((Class) type).isAssignableFrom(ReqData.class);
 	}
-
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public boolean canWrite(Type type, Class<?> clazz, MediaType mediaType) {
 		return ((Class) type).isAssignableFrom(ResData.class);
 	}
-
 	public List<MediaType> getSupportedMediaTypes() {
 		return Collections.singletonList(MediaType.ALL);
 	}
-
 	protected boolean supports(Class<?> clazz) {
 		return clazz.isAssignableFrom(ResData.class);
 	}
-
 	public Object readInternal(Class<?> clazz, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException {
 		return readMap(inputMessage);
 	}
-
 	private Object readMap(HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
 		Charset cs = Charset.forName("UTF-8");
 		StringBuilder stringBuilder = new StringBuilder();
@@ -65,21 +60,18 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 		requestData.setData(map);
 		return requestData;
 	}
-
 	public void writeInternal(Object o, Type type, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException {
 		StringBuffer str = null;
-		ResData res = (ResData) o;	
-	
-		//后期支持不同类型
-		if (res.TYPE_VALUE.equals(ResData.TYPE_JSON) ){
-			str=new StringBuffer(res.asJson());
-		}else{
-			str=new StringBuffer();
+		ResData res = (ResData) o;
+		// 后期支持不同类型
+		if (res.TYPE_VALUE.equals(ResData.TYPE_JSON)) {
+			str = new StringBuffer(res.asJson());
+		} else {
+			str = new StringBuffer();
 		}
 		outputMessage.getBody().write(str.toString().getBytes());
 	}
-
 	public Object read(Type type, Class<?> contextClass, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException {
 		return readMap(inputMessage);

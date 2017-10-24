@@ -6,8 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
-
 /**
  * @author: algernonking
  * @date: 2017年8月6日 下午3:22:48
@@ -17,7 +15,8 @@ import java.lang.annotation.Target;
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Acl {
-	public static String TYPE_ALLOW = "allow";// allow 全部可访问
+	public static String TYPE_ALLOW = "allow";
 	public static String TYPE_DENY = "deny";
+
 	String value() default TYPE_DENY;
 }
