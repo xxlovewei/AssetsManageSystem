@@ -36,11 +36,6 @@
 			expression="com.dt.core.common.annotion.impl.GlobalExceptionHandler" />
 	</context:component-scan>
 
-
-
-
-
-
 	<!-- 配置自定义返回注解 -->
 	<bean id="resreqMessagCover"
 		class="com.dt.core.common.annotion.impl.ResReqDataMessageConvert" />

@@ -65,7 +65,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 		String url = req.getRequestURI();
 		String token = TokenUtil.getRequestToken(req);
-		_log.info("userId=" + user_id + ",acl=" + acl + ",autoInterceptor=" + url + ",token=" + token + ",isAuth="
+		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",token=" + token + ",isAuth="
 				+ ShiroKit.isAuthenticated() + ",isPass=" + isPass);
 		return true;
 	}

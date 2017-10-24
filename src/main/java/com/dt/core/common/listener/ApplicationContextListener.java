@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-
-import com.dt.core.common.base.BaseService;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.shiro.SimpleFilterChainDefinitionsService;
 import com.dt.module.schedule.service.ScheduleMangerService;
@@ -27,9 +25,9 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			_log.info("更新Chain");
 			SimpleFilterChainDefinitionsService.me().updatePermission();
 			_log.info("启动job");
-			ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
-			scheduleMangerService.scheduleStart();
-			scheduleMangerService.jobInitLoadFromDb();
+			//ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
+			//scheduleMangerService.scheduleStart();
+			//scheduleMangerService.jobInitLoadFromDb();
 			// SimpleFilterChainDefinitionsService.me().updatePermission();
 			// spring初始化完毕后，通过反射调用所有使用BaseService注解的initMapper方法
 			// Map<String, Object> baseServices =
