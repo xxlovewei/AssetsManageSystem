@@ -18,10 +18,13 @@ import com.dt.core.common.util.support.HttpKit;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+	
+	private static Logger _log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+	
+	
 	/**
 	 * @Description:捕获所有Controller中@RequestMapping注解的方法执行过程中抛出的Exception
 	 */
-	private static Logger _log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 	@ExceptionHandler(value = { Exception.class })
 	@ResponseBody
 	public JSONObject handleException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
