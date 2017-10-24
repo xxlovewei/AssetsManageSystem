@@ -1,10 +1,10 @@
-package com.dt.core.mail.service;
+package com.dt.core.common.util;
 
 import jodd.mail.Email;
 import jodd.mail.SendMailSession;
 import jodd.mail.SmtpServer;
 
-public class MailService {
+public class MailUtil {
 
 	/**
 	 * @param args
@@ -15,7 +15,7 @@ public class MailService {
 	private String mailuser="";
 	private String mailpwd="";
 	
-	public MailService(String stmpin,String portin,String userin,String pwdin)
+	public MailUtil(String stmpin,String portin,String userin,String pwdin)
 	{
 		mailstmp=stmpin;
 		mailport=Integer.parseInt(portin); 

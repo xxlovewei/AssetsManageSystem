@@ -24,14 +24,13 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 		if (null == event.getApplicationContext().getParent()) {
 			SpringContextUtil.getApplicationContext();
 			System.out.println(">>>>> spring初始化完毕 <<<<<");
-			// 初始化shiro
+			_log.info("更新Chain");
 			SimpleFilterChainDefinitionsService.me().updatePermission();
-			// 遍历job启动
+			_log.info("启动job");
 			ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
 			scheduleMangerService.scheduleStart();
 			scheduleMangerService.jobInitLoadFromDb();
-			
-			//SimpleFilterChainDefinitionsService.me().updatePermission();
+			// SimpleFilterChainDefinitionsService.me().updatePermission();
 			// spring初始化完毕后，通过反射调用所有使用BaseService注解的initMapper方法
 			// Map<String, Object> baseServices =
 			// contextRefreshedEvent.getApplicationContext().getBeansWithAnnotation(BaseService.class);
