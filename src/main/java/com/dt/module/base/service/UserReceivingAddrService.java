@@ -16,7 +16,7 @@ import com.dt.core.common.util.support.TypedHashMap;
 /**
  * @author: algernonking
  * @date: Oct 25, 2017 5:03:52 PM
- * @Description: TODO
+ * @Description: 收货地址服务
  */
 @Service
 public class UserReceivingAddrService extends BaseService {
@@ -31,7 +31,8 @@ public class UserReceivingAddrService extends BaseService {
 	 * @Description: 获取所有地址
 	 */
 	public JSONArray queryReceivingAddr(String user_id) {
-		RcdSet rs = db.query("select * from sys_user_receivingaddr where is_deleted='N' and user_id=? order by od",
+		RcdSet rs = db.query(
+				"select a.*,case when a.id=b.receaddr_def then 1 else 0 end is_def from sys_user_receivingaddr a,sys_user_info b where a.user_id=b.user_id and a.is_deleted='N' and a.user_id=? order by a.od",
 				user_id);
 		return ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
 	}
@@ -47,7 +48,7 @@ public class UserReceivingAddrService extends BaseService {
 	/**
 	 * @Description: 添加地址,id是系统生产的序列，code是国家编码
 	 */
-	public ResData addReceivingAddr(String user_id,TypedHashMap<String, Object> ps) {
+	public ResData addReceivingAddr(String user_id, TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_user_receivingaddr");
 		me.set("id", db.getUUID());
 		me.set("user_id", user_id);
