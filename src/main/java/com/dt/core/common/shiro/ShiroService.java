@@ -1,4 +1,4 @@
-package com.dt.module.base.service;
+package com.dt.core.common.shiro;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,11 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dt.core.common.shiro.IShiro;
-import com.dt.core.common.shiro.ShiroUser;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.db.DB;
 import com.dt.module.base.entity.User;
+import com.dt.module.base.service.UserService;
 
 @Service
 @Transactional(readOnly = true)

@@ -397,8 +397,8 @@ public class UserService extends BaseService {
 		ins.setIf("mail", ps.getString("MAIL"));
 		ins.setIf("profile", ps.getString("PROFILE"));
 		ins.setIf("mark", ps.getString("MARK"));
-		ins.setIf("homeadd_def", ps.getString("HOMEADD_DEF"));
-		ins.setIf("receadd_def", ps.getString("RECEADD_DEF"));
+		ins.setIf("homeaddr_def", ps.getString("HOMEADDR_DEF"));
+		ins.setIf("receaddr_def", ps.getString("RECEADDR_DEF"));
 		ins.setIf("weixin", ps.getString("WEIXIN"));
 		ins.setIf("sex", ps.getString("SEX", "1"));
 		ins.setIf("system",  ps.getString("SYSTEM", "1"));

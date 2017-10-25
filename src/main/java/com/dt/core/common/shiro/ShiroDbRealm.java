@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import com.dt.core.common.util.ToolUtil;
 import com.dt.module.base.entity.User;
-import com.dt.module.base.service.ShiroService;
 import com.dt.module.base.service.UserService;
 
 public class ShiroDbRealm extends AuthorizingRealm {

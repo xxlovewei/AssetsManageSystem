@@ -104,6 +104,12 @@ public class ResData extends BaseResult {
 		r.setMessage("操作失败");
 		return r;
 	}
+	public static ResData FAILURE_GETUSER() {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setMessage("获取用户id失败");
+		return r;
+	}
 	public static ResData FAILURE_NODATA() {
 		ResData r = new ResData();
 		r.setSuccess(false);
