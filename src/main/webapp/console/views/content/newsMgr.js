@@ -119,7 +119,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 	}
 
 	$scope.query = function() {
-		flush();
+		alert("未实现");
 	}
 	$scope.save = function(id) {
 

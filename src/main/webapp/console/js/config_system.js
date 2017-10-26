@@ -59,6 +59,17 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('me.accesslog', {
+		url : "/accesslog",
+		templateUrl : "views/me/accesslog.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/me/accesslog.js?v=' + version ]
+				} ]);
+			}
+		}
 	});
 
 	// 用户管理
