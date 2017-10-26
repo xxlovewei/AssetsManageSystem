@@ -498,9 +498,7 @@ public class UserService extends BaseService {
 	/**
 	 * @Description: 修改用户密码
 	 */
-	public ResData changeUserPwd(TypedHashMap<String, Object> ps, String user_id) {
-		String opwd = ps.getString("OPWD", "");
-		String npwd = ps.getString("NPWD", "");
+	public ResData changeUserPwd(String opwd, String npwd, String user_id) {
 		String csql = "select count(1) value from sys_user_info where pwd='" + opwd + "' and user_id=?";
 		if (db.uniqueRecord(csql, user_id).getString("value").equals("1")) {
 			Update me = new Update("sys_user_info");
@@ -512,4 +510,6 @@ public class UserService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
+	
+	
 }

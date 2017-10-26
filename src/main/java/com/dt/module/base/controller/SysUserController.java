@@ -122,6 +122,6 @@ public class SysUserController extends BaseController {
 	@Acl
 	public ResData changePwd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		return userService.changeUserPwd(ps, getUserId());
+		return userService.changeUserPwd(ps.getString("OPWD", ""), ps.getString("NPWD", ""), getUserId());
 	}
 }
