@@ -48,6 +48,17 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('me.receivingaddr', {
+		url : "/receivingaddr",
+		templateUrl : "views/me/receaddr.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/me/receaddr.js?v=' + version ]
+				} ]);
+			}
+		}
 	});
 
 	// 用户管理

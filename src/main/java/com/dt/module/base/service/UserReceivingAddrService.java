@@ -32,7 +32,7 @@ public class UserReceivingAddrService extends BaseService {
 	 */
 	public JSONArray queryReceivingAddr(String user_id) {
 		RcdSet rs = db.query(
-				"select a.*,case when a.id=b.receaddr_def then 1 else 0 end is_def from sys_user_receivingaddr a,sys_user_info b where a.user_id=b.user_id and a.is_deleted='N' and a.user_id=? order by a.od",
+				"select a.*,a.provincename||a.cityname||a.areaname||a.ct ctdtl,case when a.id=b.receaddr_def then 1 else 0 end is_def from sys_user_receivingaddr a,sys_user_info b where a.user_id=b.user_id and a.is_deleted='N' and a.user_id=? order by a.od",
 				user_id);
 		return ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
 	}
@@ -43,6 +43,7 @@ public class UserReceivingAddrService extends BaseService {
 		Update me = new Update("sys_user_receivingaddr");
 		me.set("is_deleted", "Y");
 		me.where().and("user_id=?", user_id).and("id=?", addr_id);
+		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
 	/**
@@ -98,6 +99,7 @@ public class UserReceivingAddrService extends BaseService {
 		Update me = new Update("sys_user_receivingaddr");
 		me.setIf("receaddr_dev", addr_id);
 		me.where().and("user_id=?", user_id);
+		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
 }
