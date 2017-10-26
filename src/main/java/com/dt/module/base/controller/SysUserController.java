@@ -117,4 +117,11 @@ public class SysUserController extends BaseController {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return sysUserService.saveCommonSettings(getUserId(), ps);
 	}
+	@RequestMapping("/user/changePwd.do")
+	@Res
+	@Acl
+	public ResData changePwd() {
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		return userService.changeUserPwd(ps, getUserId());
+	}
 }

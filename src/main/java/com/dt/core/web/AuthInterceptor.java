@@ -40,15 +40,18 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		String url = req.getRequestURI();
 		String token = TokenUtil.getRequestToken(req);
 		// 临时日志记录
-		Insert ins = new Insert("sys_log_access");
-		String ip = HttpKit.getIpAddr(request);
-		ins.set("id", db.getUUID());
-		ins.setIf("user_id", user_id);
-		ins.setIf("ip", ip);
-		ins.setIf("url", url);
-		ins.setSE("rtime", DBUtil.getDBDateString(db.getDBType()));
-		ins.setIf("postorget", req.getQueryString());
-		db.execute(ins);
+		if (url.endsWith("checkLogin.do")) {
+		} else {
+			Insert ins = new Insert("sys_log_access");
+			String ip = HttpKit.getIpAddr(request);
+			ins.set("id", db.getUUID());
+			ins.setIf("user_id", user_id);
+			ins.setIf("ip", ip);
+			ins.setIf("url", url);
+			ins.setSE("rtime", DBUtil.getDBDateString(db.getDBType()));
+			ins.setIf("postorget", req.getQueryString());
+			db.execute(ins);
+		}
 		if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
 			// 前端shrio已经判断过,第二次判断
 			Acl am = ((HandlerMethod) handler).getMethodAnnotation(Acl.class);

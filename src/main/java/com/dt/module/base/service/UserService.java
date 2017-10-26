@@ -401,7 +401,7 @@ public class UserService extends BaseService {
 		ins.setIf("receaddr_def", ps.getString("RECEADDR_DEF"));
 		ins.setIf("weixin", ps.getString("WEIXIN"));
 		ins.setIf("sex", ps.getString("SEX", "1"));
-		ins.setIf("system",  ps.getString("SYSTEM", "1"));
+		ins.setIf("system", ps.getString("SYSTEM", "1"));
 		ins.set("deleted", "N");
 		db.execute(ins);
 		return ResData.SUCCESS_OPER(user_id);
@@ -492,6 +492,23 @@ public class UserService extends BaseService {
 				db.execute("insert into sys_user_role(user_id,role_id) values(?,?)", userids_arr.getString(i),
 						roles_arr.getString(j));
 			}
+		}
+		return ResData.SUCCESS_OPER();
+	}
+	/**
+	 * @Description: 修改用户密码
+	 */
+	public ResData changeUserPwd(TypedHashMap<String, Object> ps, String user_id) {
+		String opwd = ps.getString("OPWD", "");
+		String npwd = ps.getString("NPWD", "");
+		String csql = "select count(1) value from sys_user_info where pwd='" + opwd + "' and user_id=?";
+		if (db.uniqueRecord(csql, user_id).getString("value").equals("1")) {
+			Update me = new Update("sys_user_info");
+			me.set("pwd", npwd);
+			me.where().and("user_id=?", user_id);
+			db.execute(me);
+		} else {
+			return ResData.FAILURE("旧密码不正确,请重新输入.");
 		}
 		return ResData.SUCCESS_OPER();
 	}
