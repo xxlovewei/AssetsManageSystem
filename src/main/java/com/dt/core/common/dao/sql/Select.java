@@ -183,8 +183,8 @@ public class Select extends DML implements QueryableSQL
 	public Select selects(String... fld)
 	{
 		 for(String s:fld)
-		 {
-			 this.select(s,null);
+		 {//by lank
+			 this.select(s);
 		 }
 		 return this;
 	}
