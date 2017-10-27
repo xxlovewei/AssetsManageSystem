@@ -2,6 +2,8 @@ package com.dt.module.base.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -19,6 +21,7 @@ import com.dt.core.common.shiro.ShiroKit;
 import com.dt.core.common.shiro.ShiroUser;
 import com.dt.core.common.util.TokenUtil;
 import com.dt.core.common.util.ToolUtil;
+import com.dt.core.common.util.support.HttpKit;
 import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.MenuRootService;
 import com.dt.module.base.service.UserService;
@@ -31,13 +34,13 @@ public class LoginController extends BaseController {
 	LoginService loginService = null;
 	@Autowired
 	MenuRootService menuRootService;
-//	@Autowired
-//	private SessionDAO sessionDAO;
+	// @Autowired
+	// private SessionDAO sessionDAO;
 
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/user/login.do")
 	@Res
-	public ResData logindo(String user, String pwd, String type) {
+	public ResData logindo(String user, String pwd, String type, HttpServletRequest request) {
 		JSONObject r = new JSONObject();
 		_log.info("user:" + user + ",pwd:" + pwd + ",type:" + type);
 		if (ToolUtil.isOneEmpty(user, pwd)) {
@@ -75,6 +78,7 @@ public class LoginController extends BaseController {
 		// r.put
 		r.put("token", TokenUtil.generateValue());
 		_log.info("login:" + r.toJSONString());
+		loginService.recLogin(shiroUser.id, HttpKit.getIpAddr(request));
 		return ResData.SUCCESS("登录成功", r);
 	}
 	@RequestMapping(value = "/user/checkLogin.do")

@@ -27,6 +27,12 @@ public class UserLogController extends BaseController {
 	@Autowired
 	private UserLogService userLogService;
 
+	@RequestMapping("/user/queryLogin.do")
+	@Res
+	@Acl
+	public ResData queryLoginLog() {
+		return userLogService.queryLoginLog(getUserId());
+	}
 	@RequestMapping("/user/queryAccessLog.do")
 	@Res
 	@Acl

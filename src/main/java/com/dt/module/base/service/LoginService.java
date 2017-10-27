@@ -9,6 +9,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
+import com.dt.core.common.dao.sql.Insert;
+import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.ToolUtil;
 
 /**
@@ -43,11 +45,9 @@ public class LoginService extends BaseService {
 	 */
 	public ResData validLoginType(String value, String login_type, String user_type) {
 		ResData res = null;
-		
 		if (ToolUtil.isOneEmpty(value, login_type, user_type)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
-
 		if (login_type.equals(LOGIN_TYPE_EMPL) || login_type.equals(LOGIN_TYPE_USERNAME)
 				|| login_type.equals(LOGIN_TYPE_MOBILE_CODE)) {
 			res = ResData.SUCCESS_OPER();
@@ -74,15 +74,15 @@ public class LoginService extends BaseService {
 		return res;
 	}
 	/**
-	 * @Description:将所有登录方式转换成系统user_id的登录形式,如果可以登录,则返回一组用户数据
-	 * login_type 如果是empl或username忽略user_type类型，因为empl和username全局唯一
+	 * @Description:将所有登录方式转换成系统user_id的登录形式,如果可以登录,则返回一组用户数据 login_type
+	 *                                                        如果是empl或username忽略user_type类型，
+	 *                                                        因为empl和username全局唯一
 	 */
 	public ResData validLogin(String value, String login_type, String user_type) {
 		ResData validLogin = validLoginType(value, login_type, user_type);
 		if (validLogin.isFailed()) {
 			return validLogin;
 		}
-		
 		String user_id = "";
 		if (login_type.equals(LOGIN_TYPE_EMPL)) {
 			user_id = userService.getUserIdFromEmpl(value);
@@ -126,6 +126,14 @@ public class LoginService extends BaseService {
 	 * @Description: 退出登录
 	 */
 	public void logout() {
+	}
+	public void recLogin(String user_id, String ip) {
+		Insert me = new Insert("sys_log_login");
+		me.set("id", db.getUUID());
+		me.setIf("ip", ip);
+		me.setIf("user_id", user_id);
+		me.setSE("rdate", DBUtil.getDBDateString(db.getDBType()));
+		db.execute(me);
 	}
 	/**
 	 * @Description: 检查登录状态
