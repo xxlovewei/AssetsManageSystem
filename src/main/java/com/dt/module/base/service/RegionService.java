@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.RcdSet;
+import com.dt.core.common.util.ToolUtil;
 
 /**
  * @author: algernonking
@@ -31,12 +32,51 @@ public class RegionService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER(res);
 	}
-	
 	/**
 	 * @Description: 获取节点数据
 	 */
 	public ResData queryRegionById(String id) {
 		String sql = "select * from sys_region where parentid=?";
 		return ResData.SUCCESS_OPER(db.query(sql, id).toJsonArrayWithJsonObject());
+	}
+	/**
+	 * @Description:获取省份数据
+	 */
+	public ResData queryShengF(String[] exclude) {
+		String sql = "select * from sys_qud_shengf";
+		ResData res = new ResData();
+		res.setClearStatus(true);
+		res.setData(db.query(sql).toJsonArrayWithJsonObject());
+		return res;
+	}
+	/**
+	 * @Description:获取城市数据
+	 */
+	public ResData queryChengS(String sfid, String[] exclude) {
+		String sql = "select * from sys_qud_chengs ";
+		if (ToolUtil.isEmpty(sfid)) {
+			sql = sql + " where 1=0";
+		} else {
+			sql = sql + " where shengf_id='" + sfid + "'";
+		}
+		ResData res = new ResData();
+		res.setClearStatus(true);
+		res.setData(db.query(sql).toJsonArrayWithJsonObject());
+		return res;
+	}
+	/**
+	 * @Description:获取区县数据
+	 */
+	public ResData queryQuX(String csid, String[] exclude) {
+		String sql = "select * from sys_qud_qux";
+		if (ToolUtil.isEmpty(csid)) {
+			sql = sql + " where 1=0";
+		} else {
+			sql = sql + " where chengs_id='" + csid + "'";
+		}
+		ResData res = new ResData();
+		res.setClearStatus(true);
+		res.setData(db.query(sql).toJsonArrayWithJsonObject());
+		return res;
 	}
 }

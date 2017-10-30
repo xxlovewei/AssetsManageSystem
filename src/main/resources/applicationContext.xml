@@ -11,7 +11,7 @@
 
 	<!-- 扫描service -->
 	<context:component-scan base-package="**.service" />
-	
+
 	<!-- 扫描controller -->
 	<context:component-scan base-package="**.controller" />
 
@@ -20,18 +20,17 @@
 
 	<!-- 异常处理 -->
 	<context:component-scan base-package="com.dt.core.common.exception" />
+	<!-- <context:component-scan base-package="com.dt.core.common.annotion.impl" 
+		use-default-filters="false"> <context:include-filter type="annotation" expression="com.dt.core.common.annotion.impl.GlobalExceptionHandler" 
+		/> </context:component-scan> -->
 
 	<!-- 启动时初始化Spring上下文环境工具类 -->
 	<bean id="SpringContextUtil" class="com.dt.core.common.util.SpringContextUtil" />
 
-	<!-- 主数据库 -->
-	<bean id="DB" class="com.dt.core.db.DB" />
-
+	<!-- 主数据库注入 -->
+	<context:component-scan base-package="com.dt.core.db" />
+	
 	<bean id="ApplicationContextListener" class="com.dt.core.common.listener.ApplicationContextListener" />
-
-	<!-- <context:component-scan base-package="com.dt.core.common.annotion.impl" 
-		use-default-filters="false"> <context:include-filter type="annotation" expression="com.dt.core.common.annotion.impl.GlobalExceptionHandler" 
-		/> </context:component-scan> -->
 
 
 	<!-- 配置自定义返回注解 -->

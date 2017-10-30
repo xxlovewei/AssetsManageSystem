@@ -28,4 +28,31 @@ public class RegionController extends BaseController {
 	public ResData getChildrens(String id) {
 		return regionService.queryRegionById(id);
 	}
+	/**
+	 * @Description:获取省份数据
+	 */
+	@RequestMapping(value = "/qud/queryShengF.do")
+	@Res
+	@Acl(value = Acl.TYPE_ALLOW)
+	public ResData queryShengF(String ex) {
+		return regionService.queryShengF(null);
+	}
+	/**
+	 * @Description:获取城市数据
+	 */
+	@RequestMapping(value = "/qud/queryChengS.do")
+	@Res
+	@Acl(value = Acl.TYPE_ALLOW)
+	public ResData queryChengS(String exclude, String sfid) {
+		return regionService.queryChengS(sfid, null);
+	}
+	/**
+	 * @Description:获取区县数据
+	 */
+	@RequestMapping(value = "/qud/queryQuX.do")
+	@Res
+	@Acl(value = Acl.TYPE_ALLOW)
+	public ResData queryQuX(String exclude, String csid) {
+		return regionService.queryQuX(csid, null);
+	}
 }

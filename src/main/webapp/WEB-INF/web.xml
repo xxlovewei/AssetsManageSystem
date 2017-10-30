@@ -25,31 +25,21 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		 classpath:applicationContext.xml,
-		<!--  classpath:springMVC-servlet.xml, -->
-		 classpath:ds_db.xml,
-		  classpath:shiro.xml,
-	   	 /WEB-INF/app_config_*.xml
+	     classpath:ds_db.xml,
+		 classpath:shiro.xml,
+	   	 /WEB-INF/app_config_servlet.xml
 		</param-value>
 	</context-param>
-	<context-param>
-		<param-name>log4jConfigLocation</param-name>
-		<param-value>classpath:log4j.properties</param-value>
-	</context-param>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	<listener>
-		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-	</listener>
+
+
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -61,6 +51,7 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
@@ -72,6 +63,8 @@
 			<http-only>true</http-only>
 		</cookie-config>
 	</session-config>
+
+	<!-- shiro -->
 	<filter>
 		<filter-name>shiroFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -86,6 +79,7 @@
 	</filter-mapping>
 
 
+	<!-- druid -->
 	<servlet>
 		<servlet-name>DruidStatView</servlet-name>
 		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
@@ -95,7 +89,6 @@
 		<url-pattern>/druid/*</url-pattern>
 	</servlet-mapping>
 
-	<!-- 添加Web应用等监控 -->
 	<filter>
 		<filter-name>DruidWebStatFilter</filter-name>
 		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
@@ -151,5 +144,12 @@
 	<listener>
 		<listener-class>net.bull.javamelody.SessionListener</listener-class>
 	</listener>
-	
+
+
+	<!-- log4j -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.properties</param-value>
+	</context-param>
+
 </web-app>
