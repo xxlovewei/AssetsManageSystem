@@ -15,13 +15,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 
-
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-	
 	private static Logger _log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-	
-	
+
 	/**
 	 * @Description:捕获所有Controller中@RequestMapping注解的方法执行过程中抛出的Exception
 	 */
@@ -29,19 +26,28 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ResponseBody
 	public JSONObject handleException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(ExceptionUtils.getFullStackTrace(ex));
-		if (HttpKit.isAjax(request)) {
-			_log.info("source from ajax!");
-			String msg = ExceptionUtils.getRootCauseMessage(ex);
-			if (ToolUtil.isEmpty(msg)) {
-				msg = "Server is error!";
-			}
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("success", false);
-			jsonObject.put("message", msg);
-			return jsonObject;
-		} else {
-			_log.info("source from others!");
-			return new JSONObject();
+		_log.info("source from ajax!");
+		String msg = ExceptionUtils.getRootCauseMessage(ex);
+		if (ToolUtil.isEmpty(msg)) {
+			msg = "Server is error!";
 		}
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("success", false);
+		jsonObject.put("message", msg);
+		return jsonObject;
+		// if (HttpKit.isAjax(request)) {
+		// _log.info("source from ajax!");
+		// String msg = ExceptionUtils.getRootCauseMessage(ex);
+		// if (ToolUtil.isEmpty(msg)) {
+		// msg = "Server is error!";
+		// }
+		// JSONObject jsonObject = new JSONObject();
+		// jsonObject.put("success", false);
+		// jsonObject.put("message", msg);
+		// return jsonObject;
+		// } else {
+		// _log.info("source from others!");
+		// return new JSONObject();
+		// }
 	}
 }

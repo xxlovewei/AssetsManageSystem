@@ -21,12 +21,9 @@ public class DB extends SpringOracleDao {
 	public static DB instance() {
 		return SpringContextUtil.getBean(DB.class);
 	}
-	@PostConstruct
-	private void init() {
-		_log.info("Oracle db init");
-	}
 	@Resource(name = "db")
 	public void setDataSource(DataSource dataSource) {
+		_log.info("Oracle db setDataSource");
 		super.setDataSource(dataSource);
 	}
 }

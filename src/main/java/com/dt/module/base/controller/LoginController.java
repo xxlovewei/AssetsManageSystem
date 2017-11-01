@@ -34,8 +34,6 @@ public class LoginController extends BaseController {
 	LoginService loginService = null;
 	@Autowired
 	MenuRootService menuRootService;
-	// @Autowired
-	// private SessionDAO sessionDAO;
 
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/user/login.do")
