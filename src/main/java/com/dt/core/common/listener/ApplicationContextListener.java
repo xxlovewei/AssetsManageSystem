@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.dt.core.common.shiro.SimpleFilterChainDefinitionsService;
 import com.dt.core.common.util.SpringContextUtil;
-import com.dt.module.schedule.service.ScheduleMangerService;
 
 /**
  * spring容器初始化完成事件 Spring框架加载完成后会publishContextRefreshedEvent事件 创建ContextRefreshedEvent事件监听类
@@ -24,7 +23,7 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			SpringContextUtil.getApplicationContext();
 			System.out.println(">>>>> spring初始化完毕 <<<<<");
 			_log.info("更新Chain");
-		//	SimpleFilterChainDefinitionsService.me().updatePermission();
+			SimpleFilterChainDefinitionsService.me().updatePermission();
 			_log.info("启动job");
 			//ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
 			//scheduleMangerService.scheduleStart();

@@ -67,6 +67,7 @@ public class LoginController extends BaseController {
 		super.getSession().setAttribute("shiroUser", shiroUser);
 		super.getSession().setAttribute("user_id", shiroUser.id);
 		ShiroKit.getSession().setAttribute("sessionFlag", true);
+		System.out.println("timeout:"+ShiroKit.getSession().getTimeout());
 		JSONObject u = userObj;
 		// 覆盖重要信息
 		u.put("PWD", "********");
