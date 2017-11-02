@@ -6,6 +6,100 @@ function prepend(arr, item) {
 	return a;
 }
 
+function sysStoreSqlSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope, $timeout) {
+	$scope.usedOpt = [ {
+		id : "Y",
+		name : "正常"
+	}, {
+		id : "N",
+		name : "停用"
+	} ];
+	$scope.usedSel = $scope.usedOpt[0];
+
+	$scope.aclOpt = [ {
+		id : "public",
+		name : "公共"
+	}, {
+		id : "user",
+		name : "用户"
+	}, {
+		id : "system",
+		name : "系统"
+	} ];
+	$scope.aclSel = $scope.aclOpt[0];
+
+	$scope.returnOpt = [ {
+		id : "array",
+		name : "数组"
+	}, {
+		id : "object",
+		name : "对象"
+	}, {
+		id : "action",
+		name : "行为"
+	} ];
+	$scope.returnSel = $scope.returnOpt[0];
+
+	if (angular.isDefined(id)) {
+		// 加载数据
+		$http.post($rootScope.project + "/api//store/queryStoreSqlById.do", {
+			store_id : id
+		}).success(function(res) {
+
+			if (res.success) {
+				$scope.item = res.data;
+
+				if ($scope.item.IS_USED == "Y") {
+					$scope.usedSel = $scope.usedOpt[0];
+				} else if ($scope.item.IS_USED == "N") {
+					$scope.usedSel = $scope.usedOpt[1];
+				}
+
+				if (res.data.ACL == "public") {
+					$scope.aclSel = $scope.aclOpt[0];
+				} else if (res.data.ACL == "user") {
+					$scope.aclSel = $scope.aclOpt[1];
+				} else if (res.data.ACL == "system") {
+					$scope.aclSel = $scope.aclOpt[2];
+				}
+
+				if (res.data.RETURN_TYPE == "array") {
+					$scope.returnSel = $scope.returnOpt[0];
+				} else if (res.data.RETURN_TYPE == "object") {
+					$scope.returnSel = $scope.returnOpt[1];
+				} else if (res.data.RETURN_TYPE == "action") {
+					$scope.returnSel = $scope.returnOpt[2];
+				}
+
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+
+		})
+	}
+
+	$scope.sure = function() {
+		$scope.item.IS_USED = $scope.usedSel.id;
+		$scope.item.ACL = $scope.aclSel.id;
+		$scope.item.RETURN_TYPE = $scope.returnSel.id;
+		$http.post($rootScope.project + "/api/store/saveStoreSql.do", $scope.item).success(function(res) {
+			if (res.success) {
+				$uibModalInstance.close("OK");
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
+	};
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+}
 function sysStoreSqlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
@@ -55,8 +149,7 @@ function sysStoreSqlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 	}
 	$scope.dtColumns = [
 
-	DTColumnBuilder.newColumn('STORE_ID').withTitle('ID').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption('sDefaultContent', ''),
+	DTColumnBuilder.newColumn('STORE_ID').withTitle('ID').withOption('sDefaultContent', ''), DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('ACL').withTitle('访问类型').withOption('sDefaultContent', '').renderWith(renderACL),
 			DTColumnBuilder.newColumn('RETURN_TYPE').withTitle('返回类型').withOption('sDefaultContent', '').renderWith(renderRT),
 			DTColumnBuilder.newColumn('IS_USED').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
@@ -89,7 +182,27 @@ function sysStoreSqlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		flush();
 	}
 	$scope.save = function(id) {
-		alert("待开发");
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/system/store/modal_storesqlSave.html',
+			controller : sysStoreSqlSaveCtl,
+			size : 'md',
+			resolve : { // 调用控制器与modal控制器中传递值
+				id : function() {
+					return id;
+				}
+			}
+		});
+		modalInstance.result.then(function(result) {
+			$log.log("result", result);
+			if (result == "OK") {
+				flush();
+			}
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
+
 	}
 
 };

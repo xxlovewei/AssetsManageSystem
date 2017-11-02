@@ -40,6 +40,7 @@ public class StoreSqlService extends BaseService {
 		String sql = "";
 		String store_id = ps.getString("store_id");
 		String return_type = "";
+		String is_used = "N";
 		if (ToolUtil.isNotEmpty(store_id)) {
 			String storesql = "select * from ct_uri where store_id=?";
 			if (ToolUtil.isNotEmpty(acl) && acl.equals(ACL_PUBLIC)) {
@@ -49,7 +50,12 @@ public class StoreSqlService extends BaseService {
 			if (ToolUtil.isNotEmpty(brs)) {
 				sql = brs.getString("sql");
 				return_type = brs.getString("return_type");
+				is_used = brs.getString("is_used");
 			}
+		}
+		// 判断是否可以使用
+		if (!is_used.equals("Y")) {
+			return ResData.FAILURE("功能未激活");
 		}
 		// 处理自定义变量,格式:@var@
 		Iterator<Entry<String, Object>> i = ps.entrySet().iterator();
@@ -92,13 +98,64 @@ public class StoreSqlService extends BaseService {
 		Rcd rs = db.uniqueRecord("select * from ct_uri where store_id=?", store_id);
 		return ResData.SUCCESS_OPER(rs.toJsonObject());
 	}
-	public ResData addStoreSql(TypedHashMap<String, Object> ps, String user_id, String acl) {
+	private ResData checkStoreSqlFormat(TypedHashMap<String, Object> ps) {
+		// 弱弱的检查下
+		String msg = "Sql文本于返回类型不匹配";
+		String sql = ps.getString("SQL", "").trim();
+		String return_type = ps.getString("RETURN_TYPE", RETURN_ACTION);
+		if (sql.toLowerCase().startsWith("select")) {
+			if (return_type.equals(RETURN_ARRARY) || return_type.equals(RETURN_OBJECT)) {
+				return ResData.SUCCESS_OPER();
+			} else {
+				return ResData.FAILURE(msg);
+			}
+		} else {
+			if (return_type.equals(RETURN_ACTION)) {
+				return ResData.SUCCESS_OPER();
+			} else {
+				return ResData.FAILURE(msg);
+			}
+		}
+	}
+	public ResData addStoreSql(TypedHashMap<String, Object> ps, String user_id) {
+		ResData rs = checkStoreSqlFormat(ps);
+		if (rs.isFailed()) {
+			return rs;
+		}
 		Insert me = new Insert("ct_uri");
+		me.set("store_id", db.getUUID());
+		me.setIf("name", ps.getString("NAME"));
+		me.setIf("cat_id", ps.getString("CAT_ID"));
+		me.setIf("uri", ps.getString("URI"));
+		me.setIf("uri_parameter", ps.getString("URI_PARAMETER"));
+		me.setIf("user_id", user_id);
+		me.setIf("sql", ps.getString("SQL"));
+		me.setIf("db_id", ps.getString("DB_ID"));
+		// me.setIf("ctime", ps.getString("ctime"));
+		me.set("is_deleted", "N");
+		me.set("acl", ps.getString("ACL", ACL_USER));
+		me.setIf("mark", ps.getString("MARK"));
+		me.set("return_type", ps.getString("RETURN_TYPE", RETURN_ACTION));
+		me.setIf("is_used", ps.getString("IS_USED"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
-	public ResData updateStoreSql(TypedHashMap<String, Object> ps, String user_id, String acl) {
+	public ResData updateStoreSql(TypedHashMap<String, Object> ps, String user_id) {
+		ResData rs = checkStoreSqlFormat(ps);
+		if (rs.isFailed()) {
+			return rs;
+		}
 		Update me = new Update("ct_uri");
+		me.setIf("name", ps.getString("NAME"));
+		me.setIf("uri", ps.getString("URI"));
+		me.setIf("uri_parameter", ps.getString("URI_PARAMETER"));
+		me.setIf("user_id", user_id);
+		me.setIf("sql", ps.getString("SQL"));
+		me.setIf("db_id", ps.getString("DB_ID"));
+		me.set("acl", ps.getString("ACL", ACL_USER));
+		me.setIf("mark", ps.getString("MARK"));
+		me.set("return_type", ps.getString("RETURN_TYPE", RETURN_ACTION));
+		me.setIf("is_used", ps.getString("IS_USED"));
 		me.where().and("store_id=?", ps.getString("STORE_ID"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();

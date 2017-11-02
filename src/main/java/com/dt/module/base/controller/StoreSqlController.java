@@ -8,6 +8,7 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.base.service.StoreSqlService;
@@ -32,19 +33,31 @@ public class StoreSqlController extends BaseController {
 	@RequestMapping(value = "/store/queryStoreSqlById.do")
 	@Res
 	@Acl
-	public ResData queryStoreSqlById() {
-		return storeSqlService.queryStoreSql(null);
+	public ResData queryStoreSqlById(String store_id) {
+		if (ToolUtil.isEmpty(store_id)) {
+			return ResData.FAILURE_ERRREQ_PARAMS();
+		}
+		return storeSqlService.queryStoreSqlById(store_id);
 	}
 	@RequestMapping(value = "/store/saveStoreSql.do")
 	@Res
 	@Acl
 	public ResData saveStoreSql() {
-		return storeSqlService.queryStoreSql(null);
+		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+		String id = ps.getString("STORE_ID");
+		if (ToolUtil.isEmpty(id)) {
+			return storeSqlService.addStoreSql(ps, null);
+		} else {
+			return storeSqlService.updateStoreSql(ps, null);
+		}
 	}
 	@RequestMapping(value = "/store/deleteStoreSql.do")
 	@Res
 	@Acl
 	public ResData deleteStoreSql(String store_id) {
+		if (ToolUtil.isEmpty(store_id)) {
+			return ResData.FAILURE_ERRREQ_PARAMS();
+		}
 		return storeSqlService.deleteStoreSql(store_id);
 	}
 	@RequestMapping(value = "/store/commandAction.do")
