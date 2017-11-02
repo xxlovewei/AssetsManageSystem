@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
+import com.dt.core.common.base.BaseController;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.base.service.StoreSqlService;
@@ -18,15 +19,46 @@ import com.dt.module.base.service.StoreSqlService;
  */
 @Controller
 @RequestMapping(value = "/api")
-public class StoreSqlController {
+public class StoreSqlController extends BaseController {
 	@Autowired
 	StoreSqlService storeSqlService;
 
-	@RequestMapping(value = "/store/commandQuery.do")
+	@RequestMapping(value = "/store/queryStoreSql.do")
 	@Res
 	@Acl
-	public ResData commandQuery() {
+	public ResData queryStoreSql() {
+		return storeSqlService.queryStoreSql(null);
+	}
+	@RequestMapping(value = "/store/queryStoreSqlById.do")
+	@Res
+	@Acl
+	public ResData queryStoreSqlById() {
+		return storeSqlService.queryStoreSql(null);
+	}
+	@RequestMapping(value = "/store/saveStoreSql.do")
+	@Res
+	@Acl
+	public ResData saveStoreSql() {
+		return storeSqlService.queryStoreSql(null);
+	}
+	@RequestMapping(value = "/store/deleteStoreSql.do")
+	@Res
+	@Acl
+	public ResData deleteStoreSql(String store_id) {
+		return storeSqlService.deleteStoreSql(store_id);
+	}
+	@RequestMapping(value = "/store/commandAction.do")
+	@Res
+	@Acl
+	public ResData commandAction() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		return storeSqlService.commandQuery(ps);
+		return storeSqlService.commandAction(ps, getUserId(), StoreSqlService.ACL_USER);
+	}
+	@RequestMapping(value = "/store/commandActionForPublic.do")
+	@Res
+	@Acl(value = Acl.TYPE_ALLOW)
+	public ResData commandActionForPublic() {
+		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+		return storeSqlService.commandAction(ps, getUserId(), StoreSqlService.ACL_PUBLIC);
 	}
 }

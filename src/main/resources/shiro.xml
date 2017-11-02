@@ -12,7 +12,7 @@
 		<property name="name" value="SHRIOSESSIONID" />
 		<property name="httpOnly" value="true" />
 		<!-- 设置cookies过期时间,-1为关闭浏览器就过期 -->
-		<property name="maxAge" value="2592000" />
+		<property name="maxAge" value="18000" />
 	</bean>
 
 	<!-- 配置session的定时验证检测程序类，以让无效的session释放 -->
@@ -28,8 +28,8 @@
 		<property name="sessionDAO" ref="sessionDAO"></property>
 		<!--Session 超时检测时间 单位：毫秒 -->
 		<property name="sessionValidationInterval" value="10000" />
-		<!-- 定义的是全局的session会话超时时间，此操作会覆盖web.xml文件中的超时时间配置 7200000/2小时 -->
-		<property name="globalSessionTimeout" value="-10000" />
+		<!-- 定义的是全局的session会话超时时间，此操作会覆盖web.xml文件中的超时时间配置 -->
+		<property name="globalSessionTimeout" value="-1000" />
 		<!-- 删除所有无效的Session对象，此时的session被保存在了内存里面 -->
 		<property name="deleteInvalidSessions" value="true" />
 
@@ -54,7 +54,6 @@
 	<!-- 項目自定义的Realm -->
 	<bean id="myShiroRealm" class=" com.dt.core.common.shiro.ShiroDbRealm">
 		<property name="cacheManager" ref="cacheManager" />
-
 	</bean>
 
 
@@ -97,21 +96,18 @@
 	</bean>
 
 	<!-- 权限资源配置 -->
-	<bean id="chainDefinitionSectionMetaSource"
-		class="com.dt.core.common.shiro.SimpleFilterChainDefinitionsService">
+	<bean id="chainDefinitionSectionMetaSource" class="com.dt.core.common.shiro.SimpleFilterChainDefinitionsService">
 		<property name="filterChainDefinitions">
 			<value>
 				/api/user/login.do = anon
 				/api/user/logout.do = logout
-				/console/** =
-				anon
+				/console/** = anon
 				/wx/** = anon
 				/wx3/** = anon
 				/public/** = anon
-				/api/** =
-				authc,perms
-				/** = authc
-				<!-- /** = anon -->
+				/api/** = authc,perms  
+				/** = authc   
+				<!-- /** = anon  -->
 			</value>
 		</property>
 	</bean>
