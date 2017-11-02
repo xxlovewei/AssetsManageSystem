@@ -99,6 +99,10 @@ public class StoreSqlService extends BaseService {
 		return ResData.SUCCESS_OPER(rs.toJsonObject());
 	}
 	private ResData checkStoreSqlFormat(TypedHashMap<String, Object> ps) {
+		
+		//检查alias_id;
+		
+
 		// 弱弱的检查下
 		String msg = "Sql文本于返回类型不匹配";
 		String sql = ps.getString("SQL", "").trim();
@@ -116,6 +120,9 @@ public class StoreSqlService extends BaseService {
 				return ResData.FAILURE(msg);
 			}
 		}
+		
+		
+		
 	}
 	public ResData addStoreSql(TypedHashMap<String, Object> ps, String user_id) {
 		ResData rs = checkStoreSqlFormat(ps);

@@ -1,6 +1,5 @@
 package com.dt.core.db;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
