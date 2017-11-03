@@ -34,7 +34,7 @@ import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSONObject;
+import com.dt.core.common.base.BaseResult;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.StrKit;
 
@@ -180,15 +180,12 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 				log.trace("Attempting to access a path which requires authentication.  Forwarding to the "
 						+ "Authentication url [" + getLoginUrl() + "]");
 			}
-			log.info("Not Login,Go to " + getLoginUrl());
+			log.info("Not Login");
 			// 判断如果是返回json
 			if (isReturnJSON(httpRequest)) {
 				httpResponse.setStatus(299);
 				httpResponse.setCharacterEncoding("UTF-8");
-				JSONObject r = new JSONObject();
-				r.put("success", false);
-				r.put("message", "not login.");
-				httpResponse.getWriter().print(r.toJSONString());
+				httpResponse.getWriter().print(BaseResult.JSON_RETURN_NOT_LOGIN());
 				httpResponse.getWriter().flush();
 				httpResponse.getWriter().close();
 			} else {
@@ -226,7 +223,7 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 		return createToken(username, password, request, response);
 	}
 	protected boolean isRememberMe(ServletRequest request) {
-		log.info("isRememberMe:"+ getRememberMeParam());
+		log.info("isRememberMe:" + getRememberMeParam());
 		return WebUtils.isTrue(request, getRememberMeParam());
 	}
 	protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,

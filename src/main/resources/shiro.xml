@@ -124,7 +124,7 @@
 				/wx/** = anon
 				/wx3/** = anon
 				/public/** = anon
-		 		/api/** = user  
+		 		/api/** = authc,perms  
 			<!-- 	/api/**=perms -->
 				/** = authc
 				<!-- /** = anon -->

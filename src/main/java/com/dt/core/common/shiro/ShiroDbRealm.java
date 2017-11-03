@@ -34,7 +34,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		UserService userService = UserService.me();
 		IShiro shiroService = ShiroService.me();
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-		_log.info("Action|" + "登录认证,Username:" + token.getUsername() + ",Host:" + token.getHost() + ",IsRememberMe:"
+		_log.info("###################Action 登录认证#################Username:" + token.getUsername() + ",Host:" + token.getHost() + ",IsRememberMe:"
 				+ token.isRememberMe());
 		User user = userService.getUser(token.getUsername());
 		ShiroUser shiroUser = shiroService.shiroUser(user);
@@ -49,16 +49,18 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		_log.info("Action:" + "权限认证");
+		_log.info("###################Action 权限认证#################");
 		IShiro shiroService = ShiroService.me();
 		ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
-		System.out.println(shiroUser.id);
+	
+ 
+	 
 		List<String> roleList = shiroUser.getRoleList();
 		Set<String> permissionSet = new HashSet<String>();
 		Set<String> roleNameSet = new HashSet<String>();
 		// 处理每个角色的权限
 		for (String roleId : roleList) {
-			System.out.println("role_id:" + roleId);
+			_log.info("角色ID:" + roleId);
 			List<String> permissions = shiroService.findPermissionsByRoleId(roleId);
 			if (permissions != null) {
 				for (String permission : permissions) {
@@ -67,6 +69,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 					}
 				}
 			}
+			permissionSet.add("/api/hrm/employeeQueryList.do");
 			String roleName = shiroService.findRoleNameByRoleId(roleId);
 			roleNameSet.add(roleName);
 		}

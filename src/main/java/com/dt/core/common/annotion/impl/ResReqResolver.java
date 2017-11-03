@@ -43,9 +43,6 @@ public class ResReqResolver extends AbstractMessageConverterMethodProcessor {
 	public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest) throws Exception {
 		mavContainer.setRequestHandled(true);
-		System.out.println("returnType:"+returnType);
-		System.out.println("returnValue:"+returnValue);
-		
 		writeWithMessageConverters(returnValue, returnType, webRequest);
 	}
 }

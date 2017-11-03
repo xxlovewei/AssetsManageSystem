@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.Acl;
+import com.dt.core.common.base.BaseResult;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.shiro.ShiroKit;
 import com.dt.core.common.util.DBUtil;
@@ -52,16 +52,14 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			ins.setIf("postorget", req.getQueryString());
 			db.execute(ins);
 		}
+		
+		
 		if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
 			// 前端shrio已经判断过,第二次判断
 			Acl am = ((HandlerMethod) handler).getMethodAnnotation(Acl.class);
 			// 未设置ACL,全部拒绝
 			if (am == null) {
-				res.setStatus(298);
-				JSONObject r = new JSONObject();
-				r.put("success", false);
-				r.put("message", "Api is not accessed!");
-				res.getWriter().print(r.toJSONString());
+				res.getWriter().print(BaseResult.JSON_RETURN_NO_PERMITION());
 				res.getWriter().flush();
 				res.getWriter().close();
 				isPass = false;
@@ -78,19 +76,16 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 						isPass = true;
 					} else {
 						res.setStatus(299);
-						JSONObject r = new JSONObject();
-						r.put("success", false);
-						r.put("message", "You are not login!");
-						res.getWriter().print(r.toJSONString());
+						res.getWriter().print(BaseResult.JSON_RETURN_NOT_LOGIN());
 						res.getWriter().flush();
 						res.getWriter().close();
 						isPass = false;
 					}
 				}
 			}
-		} 
+		}
 		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",token=" + token + ",isAuth="
-				+ ShiroKit.isAuthenticated() + ",isPass=" + isPass);
+				+ ShiroKit.isAuthenticated() + ",isPass=" + isPass + ",isRemember:" + ShiroKit.isRemember());
 		return true;
 	}
 }
