@@ -16,79 +16,66 @@ import com.dt.module.base.service.DictService;
 @Controller
 @RequestMapping(value = "/api")
 public class DictController extends BaseController {
- 
 	@Autowired
 	private DictService dictService = null;
 
-	@RequestMapping(value="/dict/queryDict.do")
+	@RequestMapping(value = "/dict/queryDict.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON)
 	public ResData queryDict() {
 		return dictService.queryDict();
 	}
-	
-	
-	@RequestMapping(value="/dict/saveDict.do")
+	@RequestMapping(value = "/dict/saveDict.do")
 	@Res
 	@Acl
 	public ResData saveDict() {
-		TypedHashMap<String, Object> ps =HttpKit.getRequestParameters();
-		String dict_id=ps.getString("DICT_ID");
-		if(ToolUtil.isEmpty(dict_id)){
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		String dict_id = ps.getString("DICT_ID");
+		if (ToolUtil.isEmpty(dict_id)) {
 			return dictService.addDict(ps);
-		}else{
+		} else {
 			return dictService.updateDict(ps);
 		}
-		 
 	}
-	@RequestMapping(value="/dict/deleteDict.do")
+	@RequestMapping(value = "/dict/deleteDict.do")
 	@Res
 	@Acl
 	public ResData deleteDict(String id) {
 		return dictService.deleteDict(id);
 	}
-	
-	
-	@RequestMapping(value="/dict/queryByDictId.do")
+	@RequestMapping(value = "/dict/queryByDictId.do")
 	@Res
 	@Acl
 	public ResData queryByDictId(String id) {
-		
 		return dictService.queryDictById(id);
-	 
 	}
-	
-	
-	@RequestMapping(value="/dict/deleteDictItem.do")
+	@RequestMapping(value = "/dict/deleteDictItem.do")
 	@Res
 	@Acl
 	public ResData deleteDictItem(String id) {
 		return dictService.deleteDictItem(id);
 	}
-	
-	@RequestMapping(value="/dict/queryDictItem.do")
+	@RequestMapping(value = "/dict/queryDictItem.do")
 	@Res
 	@Acl
 	public ResData queryDictItem(String id) {
 		return dictService.queryDictItem(id);
 	}
-	
-	@RequestMapping(value="/dict/queryDictItemById.do")
+	@RequestMapping(value = "/dict/queryDictItemById.do")
 	@Res
 	@Acl
 	public ResData queryDictItemById(String id) {
 		return dictService.queryDictItemById(id);
 	}
-	
-	@RequestMapping(value="/dict/saveDictItem.do")
+	@RequestMapping(value = "/dict/saveDictItem.do")
 	@Res
 	@Acl
 	public ResData saveDictItem() {
-		TypedHashMap<String, Object> ps=HttpKit.getRequestParameters();
-		String id=ps.getString("DICT_ITEM_ID");
-		if(ToolUtil.isEmpty(id)){
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		String id = ps.getString("DICT_ITEM_ID");
+		if (ToolUtil.isEmpty(id)) {
 			return dictService.addDictItem(ps);
-		}else{
+		} else {
 			return dictService.updateDictItem(ps);
 		}
 	}

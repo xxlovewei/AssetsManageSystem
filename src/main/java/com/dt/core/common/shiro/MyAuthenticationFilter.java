@@ -189,6 +189,8 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 				r.put("success", false);
 				r.put("message", "not login.");
 				httpResponse.getWriter().print(r.toJSONString());
+				httpResponse.getWriter().flush();
+				httpResponse.getWriter().close();
 			} else {
 				System.out.println("saveRequestAndRedirectToLogin");
 				saveRequestAndRedirectToLogin(request, response);
@@ -224,7 +226,7 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 		return createToken(username, password, request, response);
 	}
 	protected boolean isRememberMe(ServletRequest request) {
-		log.info("isRememberMe");
+		log.info("isRememberMe:"+ getRememberMeParam());
 		return WebUtils.isTrue(request, getRememberMeParam());
 	}
 	protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,

@@ -62,6 +62,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				r.put("success", false);
 				r.put("message", "Api is not accessed!");
 				res.getWriter().print(r.toJSONString());
+				res.getWriter().flush();
+				res.getWriter().close();
 				isPass = false;
 			} else {
 				// 已经设置ACL
@@ -80,11 +82,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 						r.put("success", false);
 						r.put("message", "You are not login!");
 						res.getWriter().print(r.toJSONString());
+						res.getWriter().flush();
+						res.getWriter().close();
 						isPass = false;
 					}
 				}
 			}
-		}
+		} 
 		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",token=" + token + ",isAuth="
 				+ ShiroKit.isAuthenticated() + ",isPass=" + isPass);
 		return true;

@@ -55,7 +55,7 @@ public class SimpleFilterChainDefinitionsService {
 		log.info("size:" + section.size());
 		return section;
 	}
-	public Map<String, String> initPublicPermission() {
+	public Map<String, String> initCustomPermission() {
 		HashMap<String, String> res = new HashMap<String, String>();
 		WebApplicationContext wc = (WebApplicationContext) SpringContextUtil.getApplicationContext();
 		RequestMappingHandlerMapping bean = wc.getBean(RequestMappingHandlerMapping.class);
@@ -74,6 +74,12 @@ public class SimpleFilterChainDefinitionsService {
 					while (it.hasNext()) {
 						String str = it.next();
 						res.put(str, "anon");
+					}
+				} else if (aclvalue.equals(Acl.TYPE_USER_COMMON)) {
+					Iterator<String> it = pSet.iterator();
+					while (it.hasNext()) {
+						String str = it.next();
+						res.put(str, "user");
 					}
 				}
 			}
@@ -99,11 +105,11 @@ public class SimpleFilterChainDefinitionsService {
 			// 重新构建生成
 			shiroFilterFactoryBean.setFilterChainDefinitions(filterChainDefinitions);
 			// initPublicPermission
-			Map<String, String> publicchains = initPublicPermission();
+			Map<String, String> publicchains = initCustomPermission();
 			for (Map.Entry<String, String> entry : publicchains.entrySet()) {
 				String url = entry.getKey();
 				String chainDefinition = entry.getValue().trim().replace(" ", "");
-				log.info("initPublicPermission:" + url + " " + chainDefinition);
+				log.info("initCustomPermission:" + url + " " + chainDefinition);
 				manager.createChain(url, chainDefinition);
 			}
 			// 加载chainDefinition中的
@@ -111,7 +117,7 @@ public class SimpleFilterChainDefinitionsService {
 			for (Map.Entry<String, String> entry : chains.entrySet()) {
 				String url = entry.getKey();
 				String chainDefinition = entry.getValue().trim().replace(" ", "");
-				log.info("initChainDefinition:" + url + " " + chainDefinition);
+				log.info("initStaticChainDefinition:" + url + " " + chainDefinition);
 				manager.createChain(url, chainDefinition);
 			}
 			log.info("update shiro permission success...");

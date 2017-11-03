@@ -62,7 +62,7 @@ public class StoreSqlController extends BaseController {
 	}
 	@RequestMapping(value = "/store/commandAction.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON)
 	public ResData commandAction() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return storeSqlService.commandAction(ps, getUserId(), StoreSqlService.ACL_USER);

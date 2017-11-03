@@ -37,7 +37,7 @@
 	<!-- 会话验证调度器 -->
 	<bean id="sessionValidationScheduler"
 		class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
-		<property name="interval" value="5000" /><!--检测时间间距，默认是60分钟 -->
+		<property name="interval" value="600000" /><!--检测时间间距，默认是60分钟 -->
 		<property name="sessionManager" ref="sessionManager" />
 	</bean>
 
@@ -124,7 +124,8 @@
 				/wx/** = anon
 				/wx3/** = anon
 				/public/** = anon
-				/api/**= authc,perms
+		 		/api/** = user  
+			<!-- 	/api/**=perms -->
 				/** = authc
 				<!-- /** = anon -->
 			</value>
