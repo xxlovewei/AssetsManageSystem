@@ -4,68 +4,70 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans   
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 	default-lazy-init="true">
-	
-	
+
+
 	<!-- 項目自定义的Realm -->
-	<bean id="myShiroRealm" class=" com.dt.core.common.shiro.ShiroDbRealm">
-		<!-- <property name="cacheManager" ref="cacheManager" /> -->
+	<bean id="myShiroRealm" class="com.dt.core.common.shiro.ShiroDbRealm">
+
 	</bean>
+
 
 	<!-- 配置shiro session 的一个管理器 -->
 	<bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"></bean>
+	<!-- 定义一个会话Cookie模板 -->
 	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-		<property name="name" value="SHRIOSESSIONID" />
+		<property name="name" value="DT_SESSIONID" />
 		<property name="httpOnly" value="true" />
-		<!-- 设置cookies过期时间,-1为关闭浏览器就过期 -->
-		<property name="maxAge" value="18000" />
+		<!-- 设置cookies过期时间,-1为关闭浏览器就过期,2592000 -->
+		<property name="maxAge" value="2592000" />
 	</bean>
 
-	<!-- 配置session的定时验证检测程序类，以让无效的session释放 -->
-	<!-- <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler"> 
-		设置session的失效扫描间隔，单位为毫秒 <property name="sessionValidationInterval" value="100000" 
-		/> 随后还需要定义有一个会话管理器的程序类的引用 <property name="sessionManager" ref="sessionManager" 
-		/> </bean> -->
+	<!-- 会话验证调度器 -->
+	<bean id="sessionValidationScheduler"
+		class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
+		<property name="interval" value="5000" /><!--检测时间间距，默认是60分钟 -->
+		<property name="sessionManager" ref="sessionManager" />
+	</bean>
 
+	<!-- 会话Session ID生成器 -->
+	<bean id="sessionIdGenerator"
+		class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator" />
 	<!-- 用于Web环境的实现，可以替代ServletContainerSessionManager，自己维护着会话，直接废弃了Servlet容器的会话管理 -->
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+
+		<!-- 相隔多久检查一次session的有效性 -->
+		<property name="sessionValidationInterval" value="1800000" />
+
+		<!-- session 有效时间为半小时 （毫秒单位）,此操作会覆盖web.xml文件中的超时时间配置 -->
+		<property name="globalSessionTimeout" value="-1000" />
+
 		<!-- 定义Session可以进行序列化的工具类 -->
 		<property name="sessionDAO" ref="sessionDAO"></property>
-		<!--Session 超时检测时间 单位：毫秒 -->
-		<property name="sessionValidationInterval" value="10000" />
-		<!-- 定义的是全局的session会话超时时间，此操作会覆盖web.xml文件中的超时时间配置 -->
-		<property name="globalSessionTimeout" value="-1000" />
-		<!-- 删除所有无效的Session对象，此时的session被保存在了内存里面 -->
+
+		<!-- 间隔多少时间检查，不配置是60分钟 -->
+		<property name="sessionValidationScheduler" ref="sessionValidationScheduler" />
+		<!-- 是否开启 检测，默认开启 -->
+		<property name="sessionValidationSchedulerEnabled" value="true" />
+		<!-- 删除所有无效的Session对象，此时的session被保存在了内存里面,默认开启 -->
 		<property name="deleteInvalidSessions" value="true" />
 
-		<!-- 定义要使用的无效的Session定时调度器 -->
-		<!-- <property name="sessionValidationScheduler" ref="sessionValidationScheduler" 
-			/> -->
-		<!-- 需要让此session可以使用该定时调度器进行检测 -->
-		<property name="sessionValidationSchedulerEnabled" value="true" />
-
-		<!-- 所有的session一定要将id设置到Cookie之中，需要提供有Cookie的操作模版 -->
+		<!-- 会话模版 所有的session一定要将id设置到Cookie之中，需要提供有Cookie的操作模版 -->
 		<property name="sessionIdCookie" ref="sessionIdCookie" />
-		<!-- 定义sessionIdCookie模版可以进行操作的启用 -->
 		<property name="sessionIdCookieEnabled" value="true" />
-		<!-- <property name="sessionListeners"> <list> <ref bean="simpleShiroSessionListener" 
-			/> </list> </property> -->
 	</bean>
 
 
-
-
-
-
-	<!-- 用户授权信息Cache -->
+	<!-- 用户授权信息Cache,shiro自定的本机内存实现的cacheManager类,后期不满足要求可以自己实现 -->
 	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+
 
 	<!-- 配置SecurityManager的管理 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="myShiroRealm" />
-		<!-- shiro缓存管理器 -->
+		<!--将缓存管理器，交给安全管理器 -->
 		<property name="cacheManager" ref="cacheManager" />
-		<!-- shiro session管理器 -->
+		<!-- 注入session管理器 -->
 		<property name="sessionManager" ref="sessionManager"></property>
 	</bean>
 
@@ -105,13 +107,11 @@
 			<value>
 				/api/user/login.do = anon
 				/api/user/logout.do = logout
-				/console/** =
-				anon
+				/console/** =anon
 				/wx/** = anon
 				/wx3/** = anon
 				/public/** = anon
-				/api/** =
-				authc,perms
+				/api/** =authc,perms
 				/** = authc
 				<!-- /** = anon -->
 			</value>
