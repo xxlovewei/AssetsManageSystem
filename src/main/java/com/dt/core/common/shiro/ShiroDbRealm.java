@@ -23,8 +23,10 @@ import com.dt.module.base.service.UserService;
 public class ShiroDbRealm extends AuthorizingRealm {
 	private static Logger _log = LoggerFactory.getLogger(ShiroDbRealm.class);
 
+	// 用户对应的角色信息与权限信息都保存在数据库中，通过UserService获取数据
+	// private UserService userService = new UserServiceImpl();
 	/**
-	 * 登录认证
+	 * 提供账户信息返回认证信息
 	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
@@ -32,7 +34,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		UserService userService = UserService.me();
 		IShiro shiroService = ShiroService.me();
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-		_log.info("Action:" + "登录认证,token:" + token);
+		_log.info("Action|" + "登录认证,Username:" + token.getUsername() + ",Host:" + token.getHost() + ",IsRememberMe:"
+				+ token.isRememberMe());
 		User user = userService.getUser(token.getUsername());
 		ShiroUser shiroUser = shiroService.shiroUser(user);
 		SimpleAuthenticationInfo info = shiroService.info(shiroUser, user, super.getName());
@@ -40,6 +43,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	}
 	/**
 	 * 权限认证,SecurityUtils.getSubject().isPermitted（）时调用,一般@RequiresPermissions会调用
+	 */
+	/**
+	 * 提供用户信息返回权限信息
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -52,7 +58,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		Set<String> roleNameSet = new HashSet<String>();
 		// 处理每个角色的权限
 		for (String roleId : roleList) {
-			System.out.println("role_id:"+roleId);
+			System.out.println("role_id:" + roleId);
 			List<String> permissions = shiroService.findPermissionsByRoleId(roleId);
 			if (permissions != null) {
 				for (String permission : permissions) {
@@ -70,15 +76,4 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		info.addRoles(roleNameSet);
 		return info;
 	}
-	//
-	// /**
-	// * 设置认证加密方式
-	// */
-	// @Override
-	// public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
-	// HashedCredentialsMatcher md5CredentialsMatcher = new HashedCredentialsMatcher();
-	// md5CredentialsMatcher.setHashAlgorithmName(ShiroKit.hashAlgorithmName);
-	// md5CredentialsMatcher.setHashIterations(ShiroKit.hashIterations);
-	// super.setCredentialsMatcher(md5CredentialsMatcher);
-	// }
 }
