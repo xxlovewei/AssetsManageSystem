@@ -54,6 +54,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		
+		// 此处基本再做权限验证
 		if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
 			// 前端shrio已经判断过,第二次判断
 			Acl am = ((HandlerMethod) handler).getMethodAnnotation(Acl.class);
@@ -64,28 +65,29 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				res.getWriter().close();
 				isPass = false;
 			} else {
+				isPass = true;
 				// 已经设置ACL
-				if (am.value().toLowerCase().equals(Acl.TYPE_ALLOW)) {
-					acl = Acl.TYPE_ALLOW;
-					isPass = true;
-				} else {
-					// 判断是否验证
-					if (ShiroKit.isAuthenticated()) {
-						// 其他选择验证,后期在这里实现
-						acl = "all";
-						isPass = true;
-					} else {
-						res.setStatus(299);
-						res.getWriter().print(BaseResult.JSON_RETURN_NOT_LOGIN());
-						res.getWriter().flush();
-						res.getWriter().close();
-						isPass = false;
-					}
-				}
+				// if (am.value().toLowerCase().equals(Acl.TYPE_ALLOW)) {
+				// acl = Acl.TYPE_ALLOW;
+				// isPass = true;
+				// } else {
+				// // 判断是否验证
+				// if (ShiroKit.isAuthenticated()) {
+				// // 其他选择验证,后期在这里实现
+				// acl = "all";
+				// isPass = true;
+				// } else {
+				// res.setStatus(299);
+				// res.getWriter().print(BaseResult.JSON_RETURN_NOT_LOGIN());
+				// res.getWriter().flush();
+				// res.getWriter().close();
+				// isPass = false;
+				// }
+				// }
 			}
 		}
 		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",token=" + token + ",isAuth="
 				+ ShiroKit.isAuthenticated() + ",isPass=" + isPass + ",isRemember:" + ShiroKit.isRemember());
-		return true;
+		return isPass;
 	}
 }
