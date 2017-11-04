@@ -56,7 +56,6 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 	public boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		System.out.println("adfasdf" + httpRequest.getRequestURL());
 		Subject subject = getSubject(request, response);
 		if (subject.getPrincipal() == null) {// 表示没有登录，重定向到登录页面
 			saveRequest(request);
@@ -71,7 +70,7 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 			}
 		} else {
 			if (isReturnJSON(httpRequest)) {
-				httpResponse.setStatus(299);
+				httpResponse.setStatus(298);
 				httpResponse.setCharacterEncoding("UTF-8");
 				httpResponse.getWriter().print(BaseResult.JSON_RETURN_NO_PERMITION());
 				httpResponse.getWriter().flush();

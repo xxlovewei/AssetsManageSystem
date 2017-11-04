@@ -122,7 +122,7 @@ function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvid
 					if (result.success) {
 						// 已经登录
 						$log.warn("Cofnig账户已经登录,马上跳转至content");
-						$state.go("content");
+					//	$state.go("content");
 					} else {
 					}
 				})

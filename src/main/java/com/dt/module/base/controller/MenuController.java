@@ -58,7 +58,7 @@ public class MenuController extends BaseController {
 	public ResData treeDataDirect(String ID) {
 		return menuService.queryMenuNodes(ID);
 	}
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON)
 	@RequestMapping(value = "/menu/treeMenus.do")
 	@Res
 	public ResData treeMenus() {
@@ -67,11 +67,11 @@ public class MenuController extends BaseController {
 	@RequestMapping(value = "/menu/treeNodeRoleMap.do")
 	@Res
 	@Acl
-	public ResData treeNodeRoleMap(String role_id, String modules_arr,String menu_id) {
-		if(ToolUtil.isOneEmpty(role_id,modules_arr,menu_id)){
+	public ResData treeNodeRoleMap(String role_id, String modules_arr, String menu_id) {
+		if (ToolUtil.isOneEmpty(role_id, modules_arr, menu_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
-		return menuRoleMapService.treeNodeRoleMap(role_id, modules_arr,menu_id);
+		return menuRoleMapService.treeNodeRoleMap(role_id, modules_arr, menu_id);
 	}
 	@RequestMapping(value = "/menu/treeRoleChecked.do")
 	@Res

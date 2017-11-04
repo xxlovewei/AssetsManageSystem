@@ -11,13 +11,13 @@ public class BaseResult {
 		JSONObject r = new JSONObject();
 		r.put("success", false);
 		r.put("code", "299");
-		r.put("message", "you are not login.");
+		r.put("message", "Not Login");
 		return r;
 	}
 	public static JSONObject JSON_RETURN_NO_PERMITION() {
 		JSONObject r = new JSONObject();
 		r.put("success", false);
-		r.put("message", "you are no permission");
+		r.put("message", "Permission denied.");
 		return r;
 	}
 }

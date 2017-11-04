@@ -60,7 +60,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		Set<String> roleNameSet = new HashSet<String>();
 		// 处理每个角色的权限
 		for (String roleId : roleList) {
-			_log.info("角色ID:" + roleId);
+			//_log.info("角色ID:" + roleId);
 			List<String> permissions = shiroService.findPermissionsByRoleId(roleId);
 			if (permissions != null) {
 				for (String permission : permissions) {
@@ -69,7 +69,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 					}
 				}
 			}
-			permissionSet.add("/api/hrm/employeeQueryList.do");
+			//permissionSet.add("/api/hrm/employeeQueryList.do");
 			String roleName = shiroService.findRoleNameByRoleId(roleId);
 			roleNameSet.add(roleName);
 		}
