@@ -79,7 +79,7 @@ public class SimpleFilterChainDefinitionsService {
 					Iterator<String> it = pSet.iterator();
 					while (it.hasNext()) {
 						String str = it.next();
-						res.put(str, "user");
+						res.put(str, "authc,user");
 					}
 				}else{
 //					Iterator<String> it = pSet.iterator();

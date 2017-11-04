@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 
 import com.dt.core.common.shiro.SimpleFilterChainDefinitionsService;
 import com.dt.core.common.util.SpringContextUtil;
-
+import com.dt.module.schedule.service.ScheduleMangerService;
+import com.dt.core.db.DB;
 /**
  * spring容器初始化完成事件 Spring框架加载完成后会publishContextRefreshedEvent事件 创建ContextRefreshedEvent事件监听类
  */
@@ -25,10 +26,10 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			_log.info("更新Chain");
 			SimpleFilterChainDefinitionsService.me().updatePermission();
 			_log.info("启动job");
-			//ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
-			//scheduleMangerService.scheduleStart();
-			//scheduleMangerService.jobInitLoadFromDb();
-			// SimpleFilterChainDefinitionsService.me().updatePermission();
+			ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
+			scheduleMangerService.scheduleStart();
+			scheduleMangerService.jobInitLoadFromDb();
+		
 			// spring初始化完毕后，通过反射调用所有使用BaseService注解的initMapper方法
 			// Map<String, Object> baseServices =
 			// contextRefreshedEvent.getApplicationContext().getBeansWithAnnotation(BaseService.class);

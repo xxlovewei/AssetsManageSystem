@@ -18,6 +18,8 @@ import com.dt.module.schedule.entity.ScheduleJob;
 public class JobService extends BaseService {
 	@Autowired
 	ScheduleMangerService scheduleMangerService = null;
+	public static String TYPE_SYS = "sys";
+	public static String TYPE_USER = "user";
 
 	/**
 	 * @Description: 查询job
@@ -42,7 +44,7 @@ public class JobService extends BaseService {
 			job.setJobName(res.getString("jobname").toString());
 			job.setJobClassName(res.getString("jobclassname").toString());
 			job.setJobInstanceValid(true);
-		}else{
+		} else {
 		}
 		return job;
 	}
