@@ -31,7 +31,7 @@ public class CategoryBackgroundController extends BaseController {
 
 	@Res
 	@Acl
-	@RequestMapping("/categoryB/prodPublishCatList")
+	@RequestMapping("/categoryB/prodPublishCatList.do")
 	public ResData prodPublishCatList() {
 		return categoryBService.queryAllProdCatList();
 	}

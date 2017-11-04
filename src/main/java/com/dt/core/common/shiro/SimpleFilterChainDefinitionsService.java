@@ -81,6 +81,12 @@ public class SimpleFilterChainDefinitionsService {
 						String str = it.next();
 						res.put(str, "user");
 					}
+				}else{
+//					Iterator<String> it = pSet.iterator();
+//					while (it.hasNext()) {
+//						String str = it.next();
+//						System.out.println(str);
+//					}		
 				}
 			}
 			// log.info("url:" + url + ",aclvalue=" + aclvalue);
