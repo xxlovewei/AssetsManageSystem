@@ -51,8 +51,7 @@ function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
 	}, true);
 
 }
-function orgEmpSaveCtl($localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, id, $http, $rootScope, partOpt, $timeout) {
+function orgEmpSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope, partOpt, $timeout) {
 
 	$scope.data = {};
 	$timeout(function() {
@@ -69,7 +68,7 @@ function orgEmpSaveCtl($localStorage, notify, $log, $uibModal,
 			empl_id : id
 		}).success(function(res) {
 			if (res.success) {
-			
+
 				$scope.data = res.data;
 				$scope.data.OLD_PARTS = res.data.PARTS;
 				$timeout(function() {
@@ -87,8 +86,6 @@ function orgEmpSaveCtl($localStorage, notify, $log, $uibModal,
 		$rootScope.sys_partSelItem = [];
 	}
 	$scope.sure = function() {
-
-
 
 		// 跨越controller获取数据数据
 		if (!angular.isDefined($rootScope.sys_partSel)) {
@@ -127,16 +124,15 @@ function orgEmpSaveCtl($localStorage, notify, $log, $uibModal,
 		} else {
 			cmd = "/api/hrm/employeeAdd.do";
 		}
-	
-		$http.post($rootScope.project + cmd, $scope.data).success(
-				function(res) {
-					notify({
-						message : res.message
-					});
-					if (res.success) {
-						$uibModalInstance.close("OK");
-					}
-				})
+
+		$http.post($rootScope.project + cmd, $scope.data).success(function(res) {
+			notify({
+				message : res.message
+			});
+			if (res.success) {
+				$uibModalInstance.close("OK");
+			}
+		})
 
 	}
 	$scope.cancel = function() {
@@ -144,49 +140,44 @@ function orgEmpSaveCtl($localStorage, notify, $log, $uibModal,
 	};
 }
 
-function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.data = {
 		NAME : ""
 	};
 	$scope.partOpt = [];
 	$scope.partSel = "";
-	$http.post($rootScope.project + "/api/hrm/orgQueryLevelList.do", {}).success(
-			function(res) {
-				if (res.success) {
-					var d = res.data;
-					d.splice(0, 0, {
-						"ROUTENAME" : "全部",
-						NODE_ID : "-1",
-						LEVELS : 0
-					})
-					$scope.partOpt = d;
-					$scope.partSel = $scope.partOpt[0];
-				}
+	$http.post($rootScope.project + "/api/hrm/orgQueryLevelList.do", {}).success(function(res) {
+		if (res.success) {
+			var d = res.data;
+			d.splice(0, 0, {
+				"ROUTENAME" : "全部",
+				NODE_ID : "-1",
+				LEVELS : 0
 			})
+			$scope.partOpt = d;
+			$scope.partSel = $scope.partOpt[0];
+		} else {
+			notify({
+				message : res.message
+			});
+		}
+	})
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
-			'full_numbers').withDisplayLength(25).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", false)
-			.withOption("paging", false).withOption('bStateSave', true)
-			.withOption('bProcessing', true).withOption('bFilter', false)
-			.withOption('bInfo', false).withOption('serverSide', false)
-			.withOption('bAutoWidth', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
+			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
+					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			}).withLanguage(DTLang);
-	
+
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.EMPL_ID
-				+ "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.EMPL_ID + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
 		// acthtml = acthtml + " <button ng-click=\"row_detail()\"
 		// class=\"btn-white btn btn-xs\">详细</button> ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.EMPL_ID
-				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.EMPL_ID + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
@@ -197,24 +188,21 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		return res;
 	}
 
-	$scope.dtColumns = [
-			DTColumnBuilder.newColumn('EMPL_ID').withTitle('员工编号').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('NODE_NAME').withTitle('所属').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('ROLE_ID').withTitle('动作').withOption(
-					'sDefaultContent', '').renderWith(renderAction) 
-					]
+	$scope.dtColumns = [ DTColumnBuilder.newColumn('EMPL_ID').withTitle('员工编号').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('NODE_NAME').withTitle('所属').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('ROLE_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 
 		$scope.data.NODE_ID = $scope.partSel.NODE_ID;
-		$http.post($rootScope.project + "/api/hrm/employeeQueryList.do",
-				$scope.data).success(function(res) {
+		$http.post($rootScope.project + "/api/hrm/employeeQueryList.do", $scope.data).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
+			} else {
+				notify({
+					message : res.message
+				});
 			}
 		})
 	}
@@ -223,13 +211,11 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	}
 	$scope.row_del = function(id) {
-		
-		
+
 		var data = $scope.dtInstance.DataTable.rows({
 			selected : true
 		})[0];
-		
-		
+
 		$confirm({
 			text : '是否删除功能?'
 		}).then(function() {
@@ -267,7 +253,7 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 
 		modalInstance.result.then(function(result) {
-			 
+
 			if (result == "OK") {
 				flush();
 			}

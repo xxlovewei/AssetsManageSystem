@@ -81,6 +81,10 @@ function sysGroupSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
+			}else{
+				notify({
+					message : res.message
+				});
 			}
 		})
 	}

@@ -26,6 +26,10 @@ function meRecAddrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 		$http.post($rootScope.project + "/api/user/queryReceivingAddr.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
+			} else {
+				notify({
+					message : res.message
+				});
 			}
 		})
 	}

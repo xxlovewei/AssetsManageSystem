@@ -103,7 +103,7 @@ public class SysUserController extends BaseController {
 	}
 	@RequestMapping("/user/getUserMenus.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON)
 	public ResData getUserMenus(String menu_id) {
 		if (ToolUtil.isEmpty(menu_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
@@ -112,14 +112,14 @@ public class SysUserController extends BaseController {
 	}
 	@RequestMapping("/user/saveCommonSetting.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON)
 	public ResData saveCommonSetting() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return sysUserService.saveCommonSettings(getUserId(), ps);
 	}
 	@RequestMapping("/user/changePwd.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON)
 	public ResData changePwd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return userService.changeUserPwd(ps.getString("OPWD", ""), ps.getString("NPWD", ""), getUserId());

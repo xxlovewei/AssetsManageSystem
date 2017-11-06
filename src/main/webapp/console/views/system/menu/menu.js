@@ -100,6 +100,10 @@ function menuAclCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder, notify,
 		$http.post($rootScope.project + "/api/module/queryModuleItemMap.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
+			} else {
+				notify({
+					message : res.message
+				});
 			}
 		})
 
@@ -209,6 +213,10 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 				if (res.data.length > 0) {
 					$scope.topMenuSel = res.data[0];
 				}
+			}else{
+				notify({
+					message : res.message
+				});
 			}
 		})
 	}
@@ -276,6 +284,10 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 				$scope.topMenuSel = res.data[0];
 				flush();
 			}
+		}else{
+			notify({
+				message : res.message
+			});
 		}
 	})
 

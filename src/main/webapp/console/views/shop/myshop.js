@@ -99,6 +99,10 @@ function myshopListCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $con
 		$http.post($rootScope.project + "/api/shop/queryMyShop.do", {}).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
+			}else{
+				notify({
+					message : res.message
+				});
 			}
 		})
 	}

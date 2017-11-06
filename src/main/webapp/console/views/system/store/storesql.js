@@ -161,6 +161,10 @@ function sysStoreSqlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		$http.post($rootScope.project + "/api/store/queryStoreSql.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
+			}else{
+				notify({
+					message : res.message
+				});
 			}
 		})
 	}

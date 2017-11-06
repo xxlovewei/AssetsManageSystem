@@ -15,12 +15,20 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, 
 				$scope.topMenuSel = res.data[0];
 
 			}
+		} else {
+			notify({
+				message : res.message
+			});
 		}
 	})
 
 	$http.post($rootScope.project + "/api/role/roleQuery.do", {}).success(function(res) {
 		if (res.success) {
 			$scope.roleOpt = res.data;
+		} else {
+			notify({
+				message : res.message
+			});
 		}
 	})
 

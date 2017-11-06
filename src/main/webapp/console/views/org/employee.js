@@ -1,5 +1,4 @@
-function hrmEmployeeSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
-		data, notify) {
+function hrmEmployeeSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance, data, notify) {
 	console.log("window in:", data);
 	$scope.item = data;
 
@@ -11,16 +10,14 @@ function hrmEmployeeSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 			cmd = "/api/hrm/employeeAdd.do";
 		}
 
-		 
-		$http.post($rootScope.project + cmd, $scope.item).success(
-				function(res) {
-					if (res.success) {
-						$uibModalInstance.close("OK");
-					}
-					notify({
-						message : res.message
-					});
-				})
+		$http.post($rootScope.project + cmd, $scope.item).success(function(res) {
+			if (res.success) {
+				$uibModalInstance.close("OK");
+			}
+			notify({
+				message : res.message
+			});
+		})
 
 	}
 
@@ -31,29 +28,21 @@ function hrmEmployeeSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 
 }
 
-function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 	$scope.topMenuOpt = []
 	$scope.topMenuSel = "";
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
-			'full_numbers').withDisplayLength(25).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", false)
-			.withOption("paging", false).withOption('bStateSave', true)
-			.withOption('bProcessing', true).withOption('bFilter', false)
-			.withOption('bInfo', false).withOption('serverSide', false)
-			.withOption('bAutoWidth', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
+			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
+					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			}).withLanguage(DTLang);
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.ROLE_ID
-				+ "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.ROLE_ID
-				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.ROLE_ID + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.ROLE_ID + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
@@ -65,31 +54,30 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 
 	$scope.dtColumns = [
-			
-			DTColumnBuilder.newColumn('EMPL_ID').withTitle('员工编号').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption(
-					'sDefaultContent', '') //,
+
+	DTColumnBuilder.newColumn('EMPL_ID').withTitle('员工编号').withOption('sDefaultContent', ''), DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption('sDefaultContent', '') //,
 	//			DTColumnBuilder.newColumn('ID').withTitle('动作').withOption(
 	//					'sDefaultContent', '').renderWith(renderAction) 
 
 	]
 
 	var org_id = "";
-	$http.post($rootScope.project + "/api/hrm/orgQuery.do", {}).success(
-			function(res) {
-				if (res.success) {
-					$scope.topMenuOpt = res.data;
-					if (res.data.length > 0) {
-						$scope.topMenuSel = res.data[0];
-						// 加载组织信息
-						flush();
+	$http.post($rootScope.project + "/api/hrm/orgQuery.do", {}).success(function(res) {
+		if (res.success) {
+			$scope.topMenuOpt = res.data;
+			if (res.data.length > 0) {
+				$scope.topMenuSel = res.data[0];
+				// 加载组织信息
+				flush();
 
-					}
-				}
-			})
+			}
+		} else {
+			notify({
+				message : res.message
+			});
+		}
+	})
 
 	$scope.treeData = [];
 	$scope.ignoreChanges = false;
@@ -99,19 +87,18 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		var ps = {};
 		ps.org_id = $scope.topMenuSel.ORG_ID;
 		org_id = ps.org_id;
-		$http.post($rootScope.project + "/api/hrm/orgNodeTreeQuery.do", ps)
-				.success(function(res) {
-					if (res.success) {
-					 
-						$scope.ignoreChanges = true;
-						$scope.treeData = angular.copy(res.data);
-						$scope.treeConfig.version++;
-					} else {
-						notify({
-							message : res.message
-						});
-					}
-				})
+		$http.post($rootScope.project + "/api/hrm/orgNodeTreeQuery.do", ps).success(function(res) {
+			if (res.success) {
+
+				$scope.ignoreChanges = true;
+				$scope.treeData = angular.copy(res.data);
+				$scope.treeConfig.version++;
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
 
 	}
 
@@ -120,8 +107,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			multiple : false,
 			animation : true,
 			error : function(error) {
-				$log.error('treeCtrl: error from js tree - '
-						+ angular.toJson(error));
+				$log.error('treeCtrl: error from js tree - ' + angular.toJson(error));
 			},
 			check_callback : true,
 			worker : true
@@ -180,7 +166,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			node_id : node
 		}).success(function(res) {
 			if (res.success) {
-			 
+
 				$scope.dtOptions.aaData = res.data;
 			} else {
 				notify({
@@ -197,7 +183,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	}
 	$scope.readyCB = function() {
-		
+
 		$scope.tree = $scope.treeInstance.jstree(true)
 		// 展开所有节点
 		$scope.tree.open_all();
@@ -214,16 +200,15 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	}
 	$scope.cc = function() {
-		 
 
 	}
 
 	$scope.createCB = function(e, item) {
-		 
+
 	};
 
 	$scope.save = function(id) {
-	 
+
 		var ps = {};
 		var snodes = $scope.tree.get_selected();
 		if (snodes.length == 1) {
@@ -251,7 +236,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 
 		modalInstance.result.then(function(result) {
-		 
+
 			if (result == "OK") {
 				flushEmployee();
 			}

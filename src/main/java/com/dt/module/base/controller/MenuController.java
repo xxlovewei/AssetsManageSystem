@@ -54,7 +54,7 @@ public class MenuController extends BaseController {
 	}
 	@RequestMapping(value = "/menu/treeDataDirect.do")
 	@Res
-	@Acl
+	@Acl(value=Acl.TYPE_USER_COMMON)
 	public ResData treeDataDirect(String ID) {
 		return menuService.queryMenuNodes(ID);
 	}

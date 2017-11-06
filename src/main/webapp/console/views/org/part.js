@@ -16,6 +16,10 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 						flush();
 
 					}
+				}else{
+					notify({
+						message : res.message
+					});
 				}
 			})
 
