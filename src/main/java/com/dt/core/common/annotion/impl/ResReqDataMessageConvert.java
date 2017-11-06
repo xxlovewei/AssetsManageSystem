@@ -20,10 +20,10 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.StreamUtils;
 
 public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverter<Object> {
-	
-	//当返回是json是,自动转换成
-	private static final MediaType UTF8=new MediaType("application","json",Charset.forName("UTF-8"));
-	private boolean writeAcceptCharset=true;
+	// 当返回是json是,自动转换成
+	private static final MediaType UTF8 = new MediaType("application", "json", Charset.forName("UTF-8"));
+	private boolean writeAcceptCharset = true;
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public boolean canRead(Type type, Class<?> contextClass, MediaType mediaType) {
@@ -68,22 +68,24 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 	}
 	public void writeInternal(Object o, Type type, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException {
-		
-		if(writeAcceptCharset) {
+		ResData res = (ResData) o;
+		Charset charset = UTF8.getCharset();
+		String str = "";
+		if (writeAcceptCharset) {
 			outputMessage.getHeaders().setAcceptCharset(getAcceptedCharsets());
-			ResData res = (ResData) o;
-			Charset charset=UTF8.getCharset();
-			StreamUtils.copy(res.asJson(),charset,outputMessage.getBody());
+			if (res.TYPE_VALUE.equals(ResData.TYPE_JSON)) {
+				str = res.asJson();
+			} else {
+				str = "now not support.";
+			}
+			StreamUtils.copy(str, charset, outputMessage.getBody());
+		} else {
+			StreamUtils.copy("now not supprt", charset, outputMessage.getBody());
 		}
-
 	}
-	
-	protected List<Charset> getAcceptedCharsets(){
+	protected List<Charset> getAcceptedCharsets() {
 		return Arrays.asList(UTF8.getCharset());
 	}
-	
-	
-	
 	public Object read(Type type, Class<?> contextClass, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException {
 		return readMap(inputMessage);
