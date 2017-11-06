@@ -13,7 +13,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.util.ToolUtil;
-import com.dt.core.common.util.support.HttpKit;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
