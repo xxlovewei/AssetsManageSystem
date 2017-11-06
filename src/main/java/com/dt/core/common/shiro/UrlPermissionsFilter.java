@@ -36,7 +36,6 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 			throws IOException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		String user_id = (String) req.getSession().getAttribute("user_id");
-		log.info("user_id:" + user_id);
 		// 如果是sys用户则具有最高权限
 		if (ToolUtil.isNotEmpty(user_id) && user_id.equals("sys")) {
 			log.info("sys用户直接访问,无权限判断.");

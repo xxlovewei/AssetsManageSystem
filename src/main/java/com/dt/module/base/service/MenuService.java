@@ -40,7 +40,7 @@ public class MenuService extends BaseService {
 	 * @Description: 直接查询所有节点
 	 */
 	public ResData queryMenuNodes(String menu_id) {
-		String sql = "select a.*,case type when 'dir' then '目录' when 'menu' then '菜单' else '未知' end typetext from sys_menus_node a where menu_id=? order by node_id";
+		String sql = "select (select count(1) from sys_modules_item where module_id=node_id) acl_cnt,a.*,case type when 'dir' then '目录' when 'menu' then '菜单' else '未知' end typetext from sys_menus_node a where menu_id=? order by node_id";
 		return ResData.SUCCESS_OPER(db.query(sql, menu_id).toJsonArrayWithJsonObject());
 	}
 	/**

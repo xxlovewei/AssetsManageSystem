@@ -307,6 +307,11 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 		displayName : "类型",
 		sortingType : "string"
 	}, {
+		field : "ACL_CNT",
+		sortable : false,
+		displayName : "ACL规则数",
+		sortingType : "string"
+	}, {
 		field : "NODE_ID",
 		displayName : "动作",
 		cellTemplate : acthtml,
