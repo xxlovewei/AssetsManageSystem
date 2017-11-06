@@ -36,6 +36,9 @@ public class ApiService extends BaseService {
 		String sql = "select * from sys_api";
 		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
+	public ResData verifyApi() {
+		return ResData.SUCCESS_OPER();
+	}
 	public ResData updateApi() {
 		List<SQL> sqls = new ArrayList<SQL>();
 		WebApplicationContext wc = (WebApplicationContext) SpringContextUtil.getApplicationContext();
@@ -60,7 +63,7 @@ public class ApiService extends BaseService {
 					me.setIf("ctacl", aclvalue);
 					me.setIf("apitype", "url");
 					me.setSE("rectime", DBUtil.getDBDateString(db.getDBType()));
-				//	System.out.println(me.getSQL());
+					// System.out.println(me.getSQL());
 					sqls.add(me);
 				}
 			}
