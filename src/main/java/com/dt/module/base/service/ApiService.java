@@ -29,6 +29,8 @@ import com.dt.core.common.util.ToolUtil;
  */
 @Service
 public class ApiService extends BaseService {
+	
+	
 	public static ApiService me() {
 		return SpringContextUtil.getBean(ApiService.class);
 	}

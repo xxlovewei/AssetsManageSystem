@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dt.core.common.base.BaseResult;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.StrKit;
 
@@ -25,8 +26,7 @@ import com.dt.core.common.util.support.StrKit;
  */
 public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 	private static final Logger log = LoggerFactory.getLogger(UrlPermissionsFilter.class);
-	 
- 
+
 	/**
 	 * @param mappedValue
 	 *            指的是在声明url时指定的权限字符串，如/User/create.do=perms[User:create].我们要动态产生这个权限字符串，所以这个配置对我们没用
@@ -34,10 +34,16 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 	@Override
 	public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
 			throws IOException {
-		HttpServletRequest httpReq = (HttpServletRequest) request;
-		String uri = httpReq.getRequestURI();
-		log.info("url:" + uri);
-		return super.isAccessAllowed(request, response, buildPermissions(request));
+		HttpServletRequest req = (HttpServletRequest) request;
+		String user_id = (String) req.getSession().getAttribute("user_id");
+		log.info("user_id:" + user_id);
+		// 如果是sys用户则具有最高权限
+		if (ToolUtil.isNotEmpty(user_id) && user_id.equals("sys")) {
+			log.info("sys用户直接访问,无权限判断.");
+			return true;
+		} else {
+			return super.isAccessAllowed(request, response, buildPermissions(request));
+		}
 		// return true;
 	}
 	/**
