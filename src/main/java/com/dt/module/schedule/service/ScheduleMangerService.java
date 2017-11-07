@@ -41,7 +41,7 @@ public class ScheduleMangerService extends BaseService {
 	 * @Description: 从数据库中初始化Job状态
 	 */
 	public void jobInitLoadFromDb() {
-		String sql = "select * from sys_job where jobenable='true'";
+		String sql = "select * from sys_job where jobenable='true' and inited='Y'";
 		RcdSet res = db.query(sql);
 		for (int i = 0; i < res.size(); i++) {
 			ScheduleJob job = new ScheduleJob();
