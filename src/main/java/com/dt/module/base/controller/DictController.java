@@ -45,7 +45,7 @@ public class DictController extends BaseController {
 	}
 	@RequestMapping(value = "/dict/queryByDictId.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON)
 	public ResData queryByDictId(String id) {
 		return dictService.queryDictById(id);
 	}
@@ -57,7 +57,7 @@ public class DictController extends BaseController {
 	}
 	@RequestMapping(value = "/dict/queryDictItem.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON)
 	public ResData queryDictItem(String id) {
 		return dictService.queryDictItem(id);
 	}

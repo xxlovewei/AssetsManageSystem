@@ -31,7 +31,7 @@ public class ParamsController {
 	}
 	@RequestMapping(value = "/params/queryParamsById.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData queryParamsById(String id) {
 		return paramsService.queryParamsById(id);
 	}

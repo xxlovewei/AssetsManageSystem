@@ -61,7 +61,8 @@ public class ModuleItemMapService extends BaseService {
 				+ "when b.ctacl ='common' then '用户认证' " + "when b.ctacl ='deny' then '权限认证' "
 				+ "else '未知' end ctacltext "
 				+ "from sys_api b where ctacl not in ('allow') and ct not in ( select ct from sys_modules_item where module_id='"
-				+ module_id + "') order by ctacl desc,url) ";
+				+ module_id + "') order by status,ctacl desc,url) ";
+		System.out.println(sql);
 		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 }
