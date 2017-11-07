@@ -23,7 +23,7 @@ import com.dt.core.db.DB;
 
 @Controller
 @RequestMapping("/api")
-public class ProductMaintainController extends BaseController{
+public class ProductMaintainControllerdel extends BaseController{
 	@Autowired
 	private DB db = null;
 

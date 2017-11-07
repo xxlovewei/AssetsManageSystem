@@ -70,6 +70,7 @@ public class EmplService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 根据empl_id删除员工
 	 */
@@ -80,6 +81,7 @@ public class EmplService extends BaseService {
 		}
 		return userService.deleteUser(user_id);
 	}
+
 	/**
 	 * @Description: 根据empl_id更新员工
 	 */
@@ -95,7 +97,9 @@ public class EmplService extends BaseService {
 			user_id = userService.getUserIdFromEmpl(empl_id);
 		}
 		ps.put("USER_ID", user_id);
-		/*********************************** 组织内用户插入的判断 **************************************/
+		/***********************************
+		 * 组织内用户插入的判断
+		 **************************************/
 		String nodes = ps.getString("NODES");
 		if (ToolUtil.isEmpty(nodes)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
@@ -128,8 +132,7 @@ public class EmplService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
-	
-	
+
 	/**
 	 * @Description: 根据组织ID查找员工
 	 */
@@ -141,7 +144,7 @@ public class EmplService extends BaseService {
 		RcdSet rs = db.query(sql, UserService.USER_TYPE_EMPL, node_id);
 		return ResData.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
-	
+
 	/**
 	 * @Description: 查询员工
 	 */
@@ -168,7 +171,7 @@ public class EmplService extends BaseService {
 		System.out.println(bsql);
 		return ResData.SUCCESS_OPER(db.query(bsql).toJsonArrayWithJsonObject());
 	}
-	
+
 	/**
 	 * @Description: 根据empl_id查找员工
 	 */
@@ -179,16 +182,17 @@ public class EmplService extends BaseService {
 			return ResData.FAILURE_NODATA();
 		}
 		// 获取组织信息
-		
+
 		res = ConvertUtil.OtherJSONObjectToFastJSONObject(info.toJsonObject());
-		res.put("PARTS",
-				db.query(
-						"select a.*,b.node_name from hrm_org_employee a,hrm_org_part b where a.node_id=b.node_id and empl_id=?",
-						empl_id).toJsonArrayWithJsonObject());
+		res.put("PARTS", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(
+				"select a.*,b.node_name from hrm_org_employee a,hrm_org_part b where a.node_id=b.node_id and empl_id=?",
+				empl_id).toJsonArrayWithJsonObject()));
 		return ResData.SUCCESS("获取成功", res);
 	}
+
 	/**
-	 * @Description: 判断用户是否可以存在多个组织中,默认返回N sys_empl_org_num_ctl:N(可以多个组织),Y(只能属于一个组织)
+	 * @Description: 判断用户是否可以存在多个组织中,默认返回N
+	 *               sys_empl_org_num_ctl:N(可以多个组织),Y(只能属于一个组织)
 	 */
 	public String ifEmplCanMultiPart() {
 		ResData emplpartRes = paramsService.queryParamsByIdWithExist("sys_empl_org_num_ctl",

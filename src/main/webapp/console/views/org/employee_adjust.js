@@ -44,7 +44,7 @@ function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
 					if (partsSel.length > 0) {
 						$scope.partSel = partsSel;
 					}
-				}, 100);
+				}, 300);
 			}
 
 		}

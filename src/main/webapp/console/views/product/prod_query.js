@@ -435,6 +435,10 @@ function prodQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 		$http.post($rootScope.project + "/api/product/prodQueryByCat.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
+			}else{
+				notify({
+					message : res.message
+				});
 			}
 		})
 	}
