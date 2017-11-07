@@ -28,7 +28,6 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
 			scheduleMangerService.scheduleStart();
 			scheduleMangerService.jobInitLoadFromDb();
-		
 			// spring初始化完毕后，通过反射调用所有使用BaseService注解的initMapper方法
 			// Map<String, Object> baseServices =
 			// contextRefreshedEvent.getApplicationContext().getBeansWithAnnotation(BaseService.class);
