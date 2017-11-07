@@ -68,8 +68,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 					}
 				}
 			}
-			if (i == 0) {
-				//兼容之前的赋权，后期在处理
+//			if (i == 0) {
+//				//兼容之前的赋权，后期在处理
 //				permissionSet.add("/api/dict/saveDict.do");
 //				permissionSet.add("/api/dict/queryByDictId.do");
 //				permissionSet.add("/api/dict/saveDictItem.do");
@@ -191,13 +191,10 @@ public class ShiroDbRealm extends AuthorizingRealm {
 //				permissionSet.add("/api/schedule/runonce.do");
 //				permissionSet.add("/api/schedule/enablejob.do");
 //				permissionSet.add("/api/schedule/disablejob.do");
-				
-				permissionSet.add("/api/module/queryModuleItemMap.do");
-				permissionSet.add("/api/module/updateModuleItemMap.do");
-				
-				
-			}
-			i++;
+	//			permissionSet.add("/api/module/queryModuleItemMap.do");
+	//			permissionSet.add("/api/module/updateModuleItemMap.do");			
+//			}
+//			i++;
 			String roleName = shiroService.findRoleNameByRoleId(roleId);
 			roleNameSet.add(roleName);
 		}
