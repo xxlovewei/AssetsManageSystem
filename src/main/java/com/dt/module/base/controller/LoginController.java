@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
@@ -21,7 +22,6 @@ import com.dt.core.common.shiro.ShiroKit;
 import com.dt.core.common.shiro.ShiroUser;
 import com.dt.core.common.util.TokenUtil;
 import com.dt.core.common.util.ToolUtil;
-import com.dt.core.common.util.support.HttpKit;
 import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.MenuRootService;
 import com.dt.module.base.service.UserService;
@@ -75,11 +75,13 @@ public class LoginController extends BaseController {
 		// 系统信息
 		r.put("systems", menuRootService.queryMenuRoot());
 		// r.put
+
 		r.put("token", TokenUtil.generateValue());
 		_log.info("login:" + r.toJSONString());
-		loginService.recLogin(shiroUser.id, HttpKit.getIpAddr(request));
+		loginService.recLogin(shiroUser.id, super.getSession().getId(), request);
 		return ResData.SUCCESS("登录成功", r);
 	}
+
 	@RequestMapping(value = "/user/checkLogin.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
@@ -90,6 +92,7 @@ public class LoginController extends BaseController {
 			return ResData.FAILURE("未登录");
 		}
 	}
+
 	@RequestMapping(value = "/user/logout.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)

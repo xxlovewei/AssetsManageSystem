@@ -2,6 +2,8 @@ package com.dt.module.base.service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +12,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.sql.Insert;
+import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.ToolUtil;
+import com.dt.core.common.util.support.HttpKit;
+import com.dt.core.db.DB;
 
 /**
  * @author: algernonking
@@ -38,8 +43,10 @@ public class LoginService extends BaseService {
 		JSONArray res = new JSONArray();
 		return res;
 	}
+
 	public void login() {
 	}
+
 	/**
 	 * @Description:判断登录方式是否有效,user_type中如果存在两条以上数据,则不允许登录
 	 */
@@ -73,6 +80,7 @@ public class LoginService extends BaseService {
 		}
 		return res;
 	}
+
 	/**
 	 * @Description:将所有登录方式转换成系统user_id的登录形式,如果可以登录,则返回一组用户数据 login_type
 	 *                                                        如果是empl或username忽略user_type类型，
@@ -122,22 +130,38 @@ public class LoginService extends BaseService {
 			return ResData.SUCCESS_OPER(resObj);
 		}
 	}
+
 	/**
 	 * @Description: 退出登录
 	 */
 	public void logout() {
 	}
-	public void recLogin(String user_id, String ip) {
+
+	public void recLogin(String user_id, String cookie, HttpServletRequest request) {
 		Insert me = new Insert("sys_log_login");
 		me.set("id", db.getUUID());
-		me.setIf("ip", ip);
+		me.setIf("ip", HttpKit.getIpAddr(request));
 		me.setIf("user_id", user_id);
 		me.setSE("rdate", DBUtil.getDBDateString(db.getDBType()));
 		db.execute(me);
+
+		if (ToolUtil.isNotEmpty(cookie)) {
+			Update ups = new Update("sys_session");
+			ups.set("user_id", user_id);
+			ups.setIf("ip", HttpKit.getIpAddr(request));
+			ups.setSE("login_time", DBUtil.getDBDateString(DB.instance().getDBType()));
+			ups.where().and("cookie=?", cookie);
+			db.execute(ups);
+		}
 	}
+
 	/**
 	 * @Description: 检查登录状态
 	 */
 	public void loginCheck() {
 	}
+	
+	
+	
+	
 }

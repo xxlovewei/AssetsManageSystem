@@ -76,6 +76,10 @@ function sysUserQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 		$http.post($rootScope.project + "/api/user/userQueryByGroup.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
+			}else{
+				notify({
+					message : res.message
+				});
 			}
 		})
 	}

@@ -310,7 +310,18 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	});;
+	}).state('system.onlinesession', {
+		url : "/online",
+		templateUrl : "views/system/user/online.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/user/online.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
 
 	// 组织架构
 	$stateProvider.state('org', {
