@@ -23,7 +23,7 @@
 		<property name="name" value="DT_SESSIONID" />
 		<property name="httpOnly" value="true" />
 		<!-- 设置cookies过期时间,-1为关闭浏览器就过期,2592000 -->
-		<property name="maxAge" value="10000" />
+		<property name="maxAge" value="2592000" />
 	</bean>
 
 	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
