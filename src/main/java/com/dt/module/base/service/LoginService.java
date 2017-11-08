@@ -159,9 +159,13 @@ public class LoginService extends BaseService {
 		db.execute(me);
 
 		if (ToolUtil.isNotEmpty(cookie)) {
+			String agent = request.getHeader("User-Agent");
+			String client=(String) request.getParameter("client");
 			Update ups = new Update("sys_session");
 			ups.set("user_id", user_id);
 			ups.setIf("ip", HttpKit.getIpAddr(request));
+			ups.setIf("agent", agent);
+			ups.setIf("client", client);
 			ups.setSE("login_time", DBUtil.getDBDateString(DB.instance().getDBType()));
 			ups.where().and("cookie=?", cookie);
 			db.execute(ups);

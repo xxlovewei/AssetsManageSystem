@@ -35,13 +35,15 @@ function sysOnlineSessionCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('USER_ID').withTitle('用户名').withOption(
 					'sDefaultContent', '').renderWith(renderUser),
+			DTColumnBuilder.newColumn('IP').withTitle('IP').withOption(
+					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('START_TIME').withTitle('创建时间')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('LOGIN_TIME').withTitle('登录时间')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('LASTACCESS').withTitle('最后访问')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('IP').withTitle('IP').withOption(
+			DTColumnBuilder.newColumn('AGENT').withTitle('Agent').withOption(
 					'sDefaultContent', '') ]
 
 	function flush() {

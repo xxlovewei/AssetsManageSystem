@@ -38,7 +38,13 @@ public class LoginController extends BaseController {
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/user/login.do")
 	@Res
-	public ResData logindo(String user, String pwd, String type, HttpServletRequest request) {
+	public ResData logindo(String user, String pwd, String type, String client, HttpServletRequest request) {
+
+		// 判断client是否存在
+		if (ToolUtil.isEmpty(client)) {
+			return ResData.FAILURE_ERRREQ_PARAMS();
+		}
+
 		JSONObject r = new JSONObject();
 		_log.info("user:" + user + ",pwd:" + pwd + ",type:" + type);
 		if (ToolUtil.isOneEmpty(user, pwd)) {

@@ -16,6 +16,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 		login : function(e) {
 			var deferred = $q.defer();
 			e.basePublic = "yes";
+			e.client="web";
 			$http.post($rootScope.project + "/api/user/login.do", e).success(function(res) {
 				$log.warn("service login return", res);
 				if (res.success) {
