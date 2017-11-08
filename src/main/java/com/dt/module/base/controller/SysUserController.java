@@ -41,6 +41,7 @@ public class SysUserController extends BaseController {
 			return sysUserService.updateSysUser(ps);
 		}
 	}
+
 	@RequestMapping(value = "/user/userDelete.do")
 	@Res
 	@Acl
@@ -65,12 +66,14 @@ public class SysUserController extends BaseController {
 			return ResData.FAILURE("部分用户删除失败,请留意");
 		}
 	}
+
 	@RequestMapping("/user/userQueryById.do")
 	@Res
 	@Acl
 	public ResData userQueryById(String user_id) {
 		return sysUserService.queryUserById(user_id);
 	}
+
 	@RequestMapping("/user/queryRole.do")
 	@Res
 	@Acl
@@ -87,6 +90,7 @@ public class SysUserController extends BaseController {
 		}
 		return ResData.SUCCESS_OPER(res);
 	}
+
 	@RequestMapping("/user/userRoleChange.do")
 	@Res
 	@Acl
@@ -95,12 +99,14 @@ public class SysUserController extends BaseController {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return userService.changeUserRole(ps);
 	}
+
 	@RequestMapping("/user/userQueryByGroup.do")
 	@Res
 	@Acl
 	public ResData userQueryByGroup(String group_id) {
 		return userService.queryUserByGroup(group_id);
 	}
+
 	@RequestMapping("/user/getUserMenus.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON)
@@ -110,6 +116,7 @@ public class SysUserController extends BaseController {
 		}
 		return ResData.SUCCESS_OPER(userService.getMenuTree(getUserId(), menu_id));
 	}
+
 	@RequestMapping("/user/saveCommonSetting.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON)
@@ -117,6 +124,7 @@ public class SysUserController extends BaseController {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return sysUserService.saveCommonSettings(getUserId(), ps);
 	}
+
 	@RequestMapping("/user/changePwd.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON)

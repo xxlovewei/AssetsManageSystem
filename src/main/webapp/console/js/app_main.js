@@ -2,7 +2,7 @@ var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad', 'ui.bootstrap
 		'treeGrid', 'cgNotify', 'angular-confirm', 'datatables', 'datatables.select', 'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor' ])
 var $injector = angular.injector();
 
-var version="20170906";
+var version="20170909";
 app.factory('sessionInjector', [
 		'$log',
 		'$injector',
@@ -121,8 +121,8 @@ function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvid
 				userService.checkLogin().then(function(result) {
 					if (result.success) {
 						// 已经登录
-						$log.warn("Cofnig账户已经登录,马上跳转至content");
-					//	$state.go("content");
+						$log.warn("账户已经登录,马上跳转至content");
+						$state.go("content");
 					} else {
 					}
 				})

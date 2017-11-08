@@ -38,7 +38,7 @@ public class UserReceivingAddrController extends BaseController {
 	}
 	@RequestMapping("/user/queryReceivingAddr.do")
 	@Res
-	@Acl
+	@Acl(value=Acl.TYPE_USER_COMMON)
 	public ResData queryReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
 			return ResData.FAILURE_GETUSER();
@@ -48,7 +48,7 @@ public class UserReceivingAddrController extends BaseController {
 	}
 	@RequestMapping("/user/delReceivingAddr.do")
 	@Res
-	@Acl
+	@Acl(value=Acl.TYPE_USER_COMMON)
 	public ResData delReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
 			return ResData.FAILURE_GETUSER();

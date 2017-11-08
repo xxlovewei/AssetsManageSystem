@@ -11,9 +11,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
+import com.dt.core.common.dao.sql.Delete;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.DBUtil;
+import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.db.DB;
@@ -25,6 +27,11 @@ import com.dt.core.db.DB;
  */
 @Service
 public class LoginService extends BaseService {
+
+	public static LoginService me() {
+		return SpringContextUtil.getBean(LoginService.class);
+	}
+
 	@Autowired
 	UserService userService;
 	/**
@@ -134,7 +141,13 @@ public class LoginService extends BaseService {
 	/**
 	 * @Description: 退出登录
 	 */
-	public void logout() {
+	public void logout(String cookie) {
+		if (ToolUtil.isNotEmpty(cookie)) {
+			Delete del = new Delete();
+			del.from(" sys_session ");
+			del.where().and("cookie=?", cookie);
+			db.execute(del);
+		}
 	}
 
 	public void recLogin(String user_id, String cookie, HttpServletRequest request) {
@@ -160,8 +173,5 @@ public class LoginService extends BaseService {
 	 */
 	public void loginCheck() {
 	}
-	
-	
-	
-	
+
 }

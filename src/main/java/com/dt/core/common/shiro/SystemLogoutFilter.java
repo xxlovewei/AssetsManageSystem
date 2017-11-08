@@ -9,6 +9,8 @@ import org.apache.shiro.web.filter.authc.LogoutFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dt.module.base.service.LoginService;
+
 /**
  * @author: algernonking
  * @date: 2017年8月31日 下午5:46:32
@@ -29,6 +31,7 @@ public class SystemLogoutFilter extends LogoutFilter {
 		String redirectUrl = getRedirectUrl(request, response, subject);
 		log.info(subject.getSession().getId() + " to logout");
 		try {
+			LoginService.me().logout(subject.getSession().getId() + "");
 			subject.logout();
 		} catch (SessionException ise) {
 			log.debug("Encountered session exception during logout.  This can generally safely be ignored.", ise);

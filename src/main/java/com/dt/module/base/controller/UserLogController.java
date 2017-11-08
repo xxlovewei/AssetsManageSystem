@@ -29,13 +29,13 @@ public class UserLogController extends BaseController {
 
 	@RequestMapping("/user/queryLogin.do")
 	@Res
-	@Acl
+	@Acl(value=Acl.TYPE_USER_COMMON)
 	public ResData queryLoginLog() {
 		return userLogService.queryLoginLog(getUserId());
 	}
 	@RequestMapping("/user/queryAccessLog.do")
 	@Res
-	@Acl
+	@Acl(value=Acl.TYPE_USER_COMMON)
 	public ResData queryAccessLog(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DBUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {

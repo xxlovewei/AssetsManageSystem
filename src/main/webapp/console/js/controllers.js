@@ -39,6 +39,11 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 
 	}
 
+	$scope.changepwd=function(){
+		$state.go("me.pwdreset");
+	}
+ 
+	
 	//切换系统
 	$scope.switchSystem = function(id) {
 		userService.switchSystem(id).then(function(result) {

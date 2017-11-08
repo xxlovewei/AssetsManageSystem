@@ -24,7 +24,7 @@ import com.dt.module.mall.service.ShopService;
 public class ShopController extends BaseController {
 	@Autowired
 	private ShopService shopService;
-	
+
 	@Autowired
 	private MyShopService myShopService;
 
@@ -34,18 +34,21 @@ public class ShopController extends BaseController {
 	public ResData deleteShop(String shop_id) {
 		return shopService.deleteShop(shop_id);
 	}
+
 	@RequestMapping("/shop/queryShop.do")
 	@Res
 	@Acl
 	public ResData queryShop() {
 		return shopService.queryShop();
 	}
+
 	@RequestMapping("/shop/queryShopById.do")
 	@Res
 	@Acl
 	public ResData queryShopById(String shop_id) {
 		return shopService.queryShopById(shop_id);
 	}
+
 	@RequestMapping("/shop/saveShop.do")
 	@Res
 	@Acl
@@ -58,12 +61,11 @@ public class ShopController extends BaseController {
 			return shopService.updateShop(ps);
 		}
 	}
-	
+
 	@RequestMapping("/shop/queryMyShop.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON)
 	public ResData queryMyShop() {
-		System.out.println(super.getUserId());
 		return myShopService.queryMyShopByUserId(super.getUserId());
 	}
 }

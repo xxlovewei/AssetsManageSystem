@@ -63,6 +63,9 @@
 		<!-- 定义Session可以进行序列化的工具类 -->
 		<property name="sessionDAO" ref="sessionDAO"></property>
 
+		<!-- 去掉 JSESSIONID -->
+		<property name="sessionIdUrlRewritingEnabled" value="false" />
+
 		<!-- 间隔多少时间检查，不配置是60分钟 -->
 		<property name="sessionValidationScheduler" ref="sessionValidationScheduler" />
 		<!-- 是否开启 检测，默认开启 -->
