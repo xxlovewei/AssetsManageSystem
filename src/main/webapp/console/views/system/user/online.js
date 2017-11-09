@@ -38,13 +38,13 @@ function sysOnlineSessionCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 			DTColumnBuilder.newColumn('IP').withTitle('IP').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('START_TIME').withTitle('创建时间')
-					.withOption('sDefaultContent', ''),
+					.withOption('sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('LOGIN_TIME').withTitle('登录时间')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('LASTACCESS').withTitle('最后访问')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('AGENT').withTitle('Agent').withOption(
-					'sDefaultContent', '') ]
+					'sDefaultContent', '').withClass('none') ]
 
 	function flush() {
 		var ps = {};

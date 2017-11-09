@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.DBUtil;
+import com.dt.core.common.util.MD5Util;
 import com.dt.core.db.DB;
 
 /**
@@ -19,6 +20,7 @@ public class SimpleSessionEntity {
 	private String session;
 	private String start_time;
 	private String client;
+
 	public String getId() {
 		return id;
 	}
@@ -49,7 +51,7 @@ public class SimpleSessionEntity {
 
 	public void save() {
 		Insert me = new Insert("sys_session");
-		me.set("id", cookie);
+		me.set("id", MD5Util.encrypt(cookie + start_time));
 		me.set("cookie", cookie);
 		me.set("dtsession", session + "");
 		me.setIf("start_time", start_time);
@@ -58,7 +60,6 @@ public class SimpleSessionEntity {
 
 	public void update(SimpleSessionEntity entity) {
 		Update me = new Update("sys_session");
-		me.set("id", entity.id);
 		me.set("dtsession", entity.session + "");
 		me.setSE("lastaccess", DBUtil.getDBDateString(DB.instance().getDBType()));
 		me.where().and("cookie=?", entity.cookie);
@@ -73,7 +74,8 @@ public class SimpleSessionEntity {
 	}
 
 	/**
-	 * @param start_time the start_time to set
+	 * @param start_time
+	 *            the start_time to set
 	 */
 	public void setStart_time(String start_time) {
 		this.start_time = start_time;
@@ -87,7 +89,8 @@ public class SimpleSessionEntity {
 	}
 
 	/**
-	 * @param user_id the user_id to set
+	 * @param user_id
+	 *            the user_id to set
 	 */
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
@@ -101,7 +104,8 @@ public class SimpleSessionEntity {
 	}
 
 	/**
-	 * @param client the client to set
+	 * @param client
+	 *            the client to set
 	 */
 	public void setClient(String client) {
 		this.client = client;
