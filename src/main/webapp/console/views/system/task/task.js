@@ -47,8 +47,8 @@ function sysTaskCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 			DTColumnBuilder.newColumn('jobcontent').withTitle('内容').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('jobenable').withTitle('初始化').withOption('sDefaultContent', '').renderWith(renderStatus),
 			DTColumnBuilder.newColumn('jobrunstatus').withTitle('运行状态').withOption('sDefaultContent', '').renderWith(renderRunStatus),
-
-			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('last_run').withTitle('最后运行').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', '').withClass('none'),,
 			DTColumnBuilder.newColumn('seq').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {

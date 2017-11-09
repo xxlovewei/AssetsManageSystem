@@ -21,15 +21,17 @@ public class ScheduleController extends BaseController {
 	@RequestMapping("/schedule/queryJobs.do")
 	@Res
 	@Acl
-	public Object queryJobs() {
-		return ResData.SUCCESS_OPER(jobService.queryJob(""));
+	public Object queryJobs(String type) {
+		return ResData.SUCCESS_OPER(jobService.queryJob(type, getUserId()));
 	}
+
 	@RequestMapping("/schedule/removejob.do")
 	@Res
 	@Acl
 	public ResData removejob() throws IOException {
 		return ResData.SUCCESS_OPER();
 	}
+
 	@RequestMapping("/schedule/pausejob.do")
 	@Res
 	@Acl
@@ -40,6 +42,7 @@ public class ScheduleController extends BaseController {
 		jobService.pausejob(seq);
 		return ResData.SUCCESS_OPER();
 	}
+
 	@RequestMapping("/schedule/resumejob.do")
 	@Res
 	@Acl
@@ -50,6 +53,7 @@ public class ScheduleController extends BaseController {
 		jobService.resumejob(seq);
 		return ResData.SUCCESS_OPER();
 	}
+
 	@RequestMapping("/schedule/enablejob.do")
 	@Res
 	@Acl
@@ -60,6 +64,7 @@ public class ScheduleController extends BaseController {
 		jobService.enableJob(seq);
 		return ResData.SUCCESS_OPER();
 	}
+
 	@RequestMapping("/schedule/disablejob.do")
 	@Res
 	@Acl
@@ -70,6 +75,7 @@ public class ScheduleController extends BaseController {
 		jobService.disabledJob(seq);
 		return ResData.SUCCESS_OPER();
 	}
+
 	@RequestMapping("/schedule/runonce.do")
 	@Res
 	@Acl

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.impl.ResData;
+import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.RcdSet;
@@ -101,7 +102,7 @@ public class UserService extends BaseService {
 			_log.info("get menus from map");
 		}
 		String basesql = "";
-		if (user_id.equals("sys")) {
+		if (BaseCommon.isSuperAdmin(user_id)) {
 			basesql = "select * from sys_menus_node where menu_id='" + menu_id + "' and parent_id = ? order by sort";
 		} else {
 			basesql = "select distinct level1 node_id from ( "
@@ -339,7 +340,7 @@ public class UserService extends BaseService {
 	 * @Description: 根据用户组查询
 	 */
 	public ResData queryUserByGroup(String group_id) {
-		String basesql = "select * from sys_user_info a where deleted='N' ";
+		String basesql = "select * from sys_user_info a where deleted='N' and user_id not in ('"+BaseCommon.getSuperAdmin()+"') ";
 		String sql = "";
 		if (ToolUtil.isEmpty(group_id)) {
 			sql = basesql + " order by a.empl_id";

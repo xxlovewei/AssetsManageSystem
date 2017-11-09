@@ -30,7 +30,7 @@ public class ScheduleJob {
 	private String Jobtrigger = "";
 	private String JobPlanStatus = "";
 	private String JobSource = ""; // tab,scheplan
-
+	private String lastRun="";
 	public String getJobSource() {
 		return JobSource;
 	}
@@ -111,5 +111,17 @@ public class ScheduleJob {
 	}
 	public void setJobPlanStatus(String jobPlanStatus) {
 		JobPlanStatus = jobPlanStatus;
+	}
+	/**
+	 * @return the last_run
+	 */
+	public String getLastRun() {
+		return lastRun;
+	}
+	/**
+	 * @param last_run the last_run to set
+	 */
+	public void setLastRun(String lastRun) {
+		this.lastRun = lastRun;
 	}
 }

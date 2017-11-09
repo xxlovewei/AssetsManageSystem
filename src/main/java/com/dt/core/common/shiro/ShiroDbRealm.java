@@ -71,7 +71,6 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			if (permissions != null) {
 				for (String permission : permissions) {
 					if (ToolUtil.isNotEmpty(permission)) {
-						System.out.println("add:" + permission);
 						permissionSet.add(permission);
 					}
 				}

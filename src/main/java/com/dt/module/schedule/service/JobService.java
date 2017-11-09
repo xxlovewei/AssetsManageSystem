@@ -1,13 +1,19 @@
 package com.dt.module.schedule.service;
 
+import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.Rcd;
+import com.dt.core.common.dao.sql.Update;
+import com.dt.core.common.util.DBUtil;
+import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.common.util.ToolUtil;
+import com.dt.core.db.DB;
 import com.dt.module.schedule.entity.ScheduleJob;
 
 /**
@@ -16,19 +22,34 @@ import com.dt.module.schedule.entity.ScheduleJob;
  */
 @Service
 public class JobService extends BaseService {
+
+	public static JobService me() {
+		return SpringContextUtil.getBean(JobService.class);
+	}
+
 	@Autowired
 	ScheduleMangerService scheduleMangerService = null;
 	public static String TYPE_SYS = "sys";
 	public static String TYPE_USER = "user";
 
+	public Boolean finishedJobUpdate(JobExecutionContext jc) {
+		ScheduleJob job = (ScheduleJob) jc.getJobDetail().getJobDataMap().get("scheduleJob");
+		Update ups = new Update("sys_job");
+		ups.setSE("last_run", DBUtil.getDBDateString(DB.instance().getDBType()));
+		ups.where().and("seq=?", job.getJobSeq() == null ? "" : job.getJobSeq());
+		DB.instance().execute(ups);
+		return true;
+	}
+
 	/**
 	 * @Description: 查询job
 	 */
-	public JSONArray queryJob(String type) {
+	public JSONArray queryJob(String type, String user_id) {
 		JSONArray data = null;
-		data = scheduleMangerService.getJobAll();
+		data = scheduleMangerService.getJobAll(type, user_id);
 		return data;
 	}
+
 	/**
 	 * @Description: 根据id获取ScheduleJob
 	 */
@@ -48,6 +69,7 @@ public class JobService extends BaseService {
 		}
 		return job;
 	}
+
 	/**
 	 * @Description: enableJob,返回job状态
 	 */
@@ -59,6 +81,7 @@ public class JobService extends BaseService {
 		}
 		return scheduleMangerService.jobStatus(job);
 	}
+
 	/**
 	 * @Description: disableJob,返回job状态
 	 */
@@ -70,8 +93,9 @@ public class JobService extends BaseService {
 		}
 		return scheduleMangerService.jobStatus(job);
 	}
+
 	/**
-	 * @Description: 删除Job,返回job状态
+	 * @Description: 删除Job,返回job状态,不允许删除sys的job
 	 */
 	public Boolean removejob(String seq, String jobname, String jobgroupname) {
 		ScheduleJob job = getScheduleJob(seq);
@@ -79,11 +103,12 @@ public class JobService extends BaseService {
 		job.setJobGroup(jobgroupname);
 		job.setJobName(jobname);
 		if (scheduleMangerService.jobDel(job)) {
-			db.execute("delete from sys_job where jobtype<>'sys' and seq=?", seq);
+			db.execute("delete from sys_job where jobtype<>'"+BaseCommon.getSuperAdmin()+"' and seq=?", seq);
 			return true;
 		}
 		return false;
 	}
+
 	/**
 	 * @Description: 停止job,返回job状态
 	 */
@@ -94,6 +119,7 @@ public class JobService extends BaseService {
 		}
 		return scheduleMangerService.jobStatus(job);
 	}
+
 	/**
 	 * @Description: 暂停job,返回job状态
 	 */
@@ -104,6 +130,7 @@ public class JobService extends BaseService {
 		}
 		return scheduleMangerService.jobStatus(job);
 	}
+
 	/**
 	 * @Description: job立即运行一次,返回job状态
 	 */

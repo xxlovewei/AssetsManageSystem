@@ -22,9 +22,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.util.SpringContextUtil;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.ReflectKit;
 import com.dt.module.schedule.entity.ScheduleJob;
 import com.google.common.collect.Maps;
@@ -37,6 +39,7 @@ public class ScheduleMangerService extends BaseService {
 	public static ScheduleMangerService me() {
 		return SpringContextUtil.getBean(ScheduleMangerService.class);
 	}
+
 	/**
 	 * @Description: 从数据库中初始化Job状态
 	 */
@@ -53,6 +56,7 @@ public class ScheduleMangerService extends BaseService {
 			jobAdd(job);
 		}
 	}
+
 	/**
 	 * @Description: 停止schedule管理
 	 */
@@ -64,6 +68,7 @@ public class ScheduleMangerService extends BaseService {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * @Description: 获取schedule状态
 	 */
@@ -80,6 +85,7 @@ public class ScheduleMangerService extends BaseService {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * @Description: 启动schedule管理
 	 */
@@ -92,13 +98,14 @@ public class ScheduleMangerService extends BaseService {
 			e.printStackTrace();
 		}
 	}
+
 	/**
-	 * @Description: 获取所有Job的状态
+	 * @Description: 获取所有Job的状态,只供前端使用
 	 */
 	@SuppressWarnings("rawtypes")
-	public JSONArray getJobAll() {
-		/* 初始化后运行 */
-		String sql = " select t.*,'本地执行' nodename from sys_job t where jobtype <>'node'";
+	public JSONArray getJobAll(String type, String user_id) {
+		
+		String sql = " select t.*,'本地执行' nodename from sys_job t where 1=1 ";
 		Map<String, ScheduleJob> jobs = Maps.newLinkedHashMap();
 		RcdSet res = db.query(sql);
 		for (int i = 0; i < res.size(); i++) {
@@ -113,6 +120,7 @@ public class ScheduleMangerService extends BaseService {
 			job.setJobType(res.getRcd(i).getString("jobtype"));
 			job.setJobEnable(res.getRcd(i).getString("jobenable"));
 			job.setJobDesc(res.getRcd(i).getString("mark"));
+			job.setLastRun(res.getRcd(i).getString("last_run"));
 			job.setJobSource("tab");
 			jobs.put(res.getRcd(i).getString("seq"), job);
 		}
@@ -161,6 +169,7 @@ public class ScheduleMangerService extends BaseService {
 			Object o = iteratorjob.next();
 			String key = (String) o;
 			ScheduleJob value = (ScheduleJob) jobs.get(key);
+			String jobtype = value.getJobType();
 			object.put("seq", value.getJobSeq());
 			object.put("node", value.getNode());
 			object.put("nodename", value.getNodeName());
@@ -172,12 +181,37 @@ public class ScheduleMangerService extends BaseService {
 			object.put("jobenable", value.getJobEnable());
 			object.put("jobrunstatus", value.getJobPlanStatus());
 			object.put("jobtrigger", value.getJobTrigger());
-			object.put("jobtype", value.getJobType());
+			object.put("jobtype", jobtype);
+			object.put("last_run", value.getLastRun());
 			object.put("mark", value.getJobDesc());
-			data.add(object);
+			Boolean ifAdd = false;
+			if (ToolUtil.isEmpty(jobtype)) {
+				ifAdd = true;
+			} else {
+				// type为空或匹配
+				if (ToolUtil.isEmpty(type) || jobtype.equals(type)) {
+					ifAdd = true;
+				} else {
+					ifAdd = false;
+				}
+				// 去掉sys类型的数据
+				if (jobtype.equals(JobService.TYPE_SYS)) {
+					ifAdd = false;
+				}
+				// 判断是否要添加sys的数据
+				if (ToolUtil.isNotEmpty(user_id) && BaseCommon.isSuperAdmin(user_id)) {
+					if (jobtype.equals(JobService.TYPE_SYS)) {
+						ifAdd = true;
+					}
+				}
+			}
+			if (ifAdd) {
+				data.add(object);
+			}
 		}
 		return data;
 	}
+
 	/**
 	 * @Description: 获取单个Job的状态
 	 */
@@ -193,6 +227,7 @@ public class ScheduleMangerService extends BaseService {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * @Description: 获取单个Job的状态
 	 */
@@ -215,6 +250,7 @@ public class ScheduleMangerService extends BaseService {
 		}
 		return object;
 	}
+
 	/**
 	 * @Description: 添加Job
 	 */
@@ -256,6 +292,7 @@ public class ScheduleMangerService extends BaseService {
 		}
 		return false;
 	}
+
 	/**
 	 * @Description: 删除Job
 	 */
@@ -272,6 +309,7 @@ public class ScheduleMangerService extends BaseService {
 		}
 		return true;
 	}
+
 	/**
 	 * @Description: 触发Job
 	 */
@@ -286,6 +324,7 @@ public class ScheduleMangerService extends BaseService {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * @Description: 停止job
 	 */
@@ -300,6 +339,7 @@ public class ScheduleMangerService extends BaseService {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * @Description: job是否存在于队列
 	 */
@@ -314,6 +354,7 @@ public class ScheduleMangerService extends BaseService {
 		}
 		return false;
 	}
+
 	/**
 	 * @Description: 暂停job
 	 */

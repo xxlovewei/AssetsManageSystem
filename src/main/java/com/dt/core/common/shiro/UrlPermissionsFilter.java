@@ -14,6 +14,7 @@ import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseResult;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
@@ -37,7 +38,7 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		String user_id = (String) req.getSession().getAttribute("user_id");
 		// 如果是sys用户则具有最高权限
-		if (ToolUtil.isNotEmpty(user_id) && user_id.equals("sys")) {
+		if (ToolUtil.isNotEmpty(user_id) && BaseCommon.isSuperAdmin(user_id)) {
 			log.info("sys用户直接访问,无权限判断.");
 			return true;
 		} else {
