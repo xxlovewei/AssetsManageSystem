@@ -180,7 +180,7 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 				log.trace("Attempting to access a path which requires authentication.  Forwarding to the "
 						+ "Authentication url [" + getLoginUrl() + "]");
 			}
-			log.info("Not Login");
+			log.info(BaseResult.JSON_RETURN_NOT_LOGIN().toJSONString());
 			// 判断如果是返回json
 			if (isReturnJSON(httpRequest)) {
 				httpResponse.setStatus(299);

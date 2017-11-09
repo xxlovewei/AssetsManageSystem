@@ -35,18 +35,18 @@ function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService, $st
 			}
 
 
-		if ($scope.user.user.length == 0) {
-			notify({
-				message : "请输入账户"
-			});
-			return;
-		}
-		if ($scope.user.pwd.length == 0) {
-			notify({
-				message : "请输入密码"
-			});
-			return;
-		}
+//		if ($scope.user.user.length == 0) {
+//			notify({
+//				message : "请输入账户"
+//			});
+//			return;
+//		}
+//		if ($scope.user.pwd.length == 0) {
+//			notify({
+//				message : "请输入密码"
+//			});
+//			return;
+//		}
 
 		userService.login($scope.user).then(function(result) {
 			$log.warn("userService result", result)

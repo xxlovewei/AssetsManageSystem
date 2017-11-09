@@ -7,7 +7,9 @@ import java.util.Set;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -34,19 +36,25 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		UserService userService = UserService.me();
 		IShiro shiroService = ShiroService.me();
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-		_log.info("###################Action 登录认证#################Username:" + token.getUsername() + ",Host:"
-				+ token.getHost() + ",IsRememberMe:" + token.isRememberMe());
+		_log.info("###################Action 登录认证#################");
+		_log.info("Username:" + token.getUsername());
 		User user = userService.getUser(token.getUsername());
+
+		if (ToolUtil.isEmpty(user.userId)) {
+			throw new UnknownAccountException();//// 没找到帐号
+		}
+
+		if (user.getIsLocked()) {
+			throw new LockedAccountException(); // 帐号锁定
+		}
+
 		ShiroUser shiroUser = shiroService.shiroUser(user);
 		SimpleAuthenticationInfo info = shiroService.info(shiroUser, user, super.getName());
 		return info;
 	}
 
 	/**
-	 * 权限认证,SecurityUtils.getSubject().isPermitted（）时调用,一般@RequiresPermissions会调用
-	 */
-	/**
-	 * 提供用户信息返回权限信息
+	 * 提供用户信息返回权限信息,SecurityUtils.getSubject().isPermitted（）时调用,一般@RequiresPermissions会调用
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {

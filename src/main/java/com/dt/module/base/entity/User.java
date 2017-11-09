@@ -13,7 +13,7 @@ public class User {
 
 	public String password;
 
-	public Boolean isLocked = false;
+	public Boolean isLocked = true;
 
 	public Boolean isAdmin = false;
 

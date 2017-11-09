@@ -18,6 +18,7 @@ public class SimpleSessionEntity {
 	private String cookie;
 	private String session;
 	private String start_time;
+	private String client;
 	public String getId() {
 		return id;
 	}
@@ -90,5 +91,19 @@ public class SimpleSessionEntity {
 	 */
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
+	}
+
+	/**
+	 * @return the client
+	 */
+	public String getClient() {
+		return client;
+	}
+
+	/**
+	 * @param client the client to set
+	 */
+	public void setClient(String client) {
+		this.client = client;
 	}
 }

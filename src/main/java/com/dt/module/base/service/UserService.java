@@ -44,10 +44,12 @@ public class UserService extends BaseService {
 	public static UserService me() {
 		return SpringContextUtil.getBean(UserService.class);
 	}
+
 	public static Boolean clearUserMenus() {
 		userMenus.clear();
 		return true;
 	}
+
 	public static JSONArray getUserMenu(String key) {
 		if (userMenus.containsKey(key)) {
 			return userMenus.get(key);
@@ -55,9 +57,11 @@ public class UserService extends BaseService {
 			return null;
 		}
 	}
+
 	public static void addUserMenu(String key, JSONArray value) {
 		userMenus.put(key, value);
 	}
+
 	/**
 	 * @Description: 获得用户信息
 	 */
@@ -71,13 +75,14 @@ public class UserService extends BaseService {
 		user.setAccount(u_rs.getString("user_name"));
 		user.setName(u_rs.getString("user_name"));
 		user.setSalt("salt");
-		if (u_rs.getString("locked").equals("Y")) {
-			user.setIsLocked(true);
+		if (ToolUtil.isNotEmpty(u_rs.getString("locked")) && u_rs.getString("locked").equals("N")) {
+			user.setIsLocked(false);
 		}
+
 		// 获取角色信息
 		String sql2 = "select a.role_id,b.role_name from sys_user_role a,sys_role b where a.role_id=b.role_id and user_id=?";
 		RcdSet r_rs = db.query(sql2, id);
-		_log.info("已经获取角色数:"+r_rs.size());
+		_log.info("已经获取角色数:" + r_rs.size());
 		HashMap<String, String> rmap = new HashMap<String, String>();
 		for (int i = 0; i < r_rs.size(); i++) {
 			rmap.put(r_rs.getRcd(i).getString("role_id"), r_rs.getRcd(i).getString("role_name"));
@@ -85,6 +90,7 @@ public class UserService extends BaseService {
 		user.setRolsSet(rmap);
 		return user;
 	}
+
 	/**
 	 * @Description: 获得用户菜单,限制3层
 	 */
@@ -151,19 +157,24 @@ public class UserService extends BaseService {
 		userMenus.put(mflag, r);
 		return r;
 	}
+
 	/**
 	 * @Description: 根据角色查处用户的权限
 	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findPermissionsByRoleId(String roleId) {
-		return db.query("select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?", roleId).toList("ct");
+		return db.query(
+				"select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
+				roleId).toList("ct");
 	}
+
 	/**
 	 * @Description: 根据角色id查找角色名称
 	 */
 	public String findRoleNameByRoleId(String roleId) {
 		return db.uniqueRecord("select role_name from sys_role where role_id=?", roleId).getString("role_name");
 	}
+
 	/**
 	 * @Description: 判断用户是否存在
 	 */
@@ -174,6 +185,7 @@ public class UserService extends BaseService {
 		}
 		return true;
 	}
+
 	/**
 	 * @Description: 判断组织内用户是否存在
 	 */
@@ -181,6 +193,7 @@ public class UserService extends BaseService {
 		String user_id = getUserIdFromEmpl(empl_id);
 		return isExistUserId(user_id);
 	}
+
 	/**
 	 * @Description: 判断用户是否锁定
 	 */
@@ -199,6 +212,7 @@ public class UserService extends BaseService {
 			return true;
 		}
 	}
+
 	/**
 	 * @Description: 根据user_id获取empl_id
 	 */
@@ -212,6 +226,7 @@ public class UserService extends BaseService {
 		}
 		return rs.getString("empl_id");
 	}
+
 	/**
 	 * @Description: 根据empl_id获取user_id
 	 */
@@ -225,6 +240,7 @@ public class UserService extends BaseService {
 		}
 		return rs.getString("user_id");
 	}
+
 	/**
 	 * @Description: 根据用户名获取用户ID
 	 */
@@ -238,6 +254,7 @@ public class UserService extends BaseService {
 		}
 		return rs.getString("user_id");
 	}
+
 	/**
 	 * @Description: 根据邮箱获取用户ID
 	 */
@@ -253,6 +270,7 @@ public class UserService extends BaseService {
 		}
 		return res;
 	}
+
 	/**
 	 * @Description: 根据手机号获取用户ID
 	 */
@@ -268,6 +286,7 @@ public class UserService extends BaseService {
 		}
 		return res;
 	}
+
 	/**
 	 * @Description: 获取所有用户类型
 	 */
@@ -275,6 +294,7 @@ public class UserService extends BaseService {
 		JSONArray res = new JSONArray();
 		return res;
 	}
+
 	/**
 	 * @Description: 获取当前用户类型
 	 */
@@ -289,6 +309,7 @@ public class UserService extends BaseService {
 		}
 		return type;
 	}
+
 	/**
 	 * @Description: 根据用户ID查找
 	 */
@@ -300,6 +321,7 @@ public class UserService extends BaseService {
 		}
 		return ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 	}
+
 	/**
 	 * @Description: 查询用户拥有的权限信息
 	 */
@@ -312,6 +334,7 @@ public class UserService extends BaseService {
 		}
 		return res;
 	}
+
 	/**
 	 * @Description: 根据用户组查询
 	 */
@@ -328,12 +351,14 @@ public class UserService extends BaseService {
 		}
 		return ResData.SUCCESS("操作成功", db.query(sql).toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description: 分页查询用户
 	 */
 	public ResData queryUserPage(TypedHashMap<String, Object> ps, String type, int pageSize, int pageIndex) {
 		return ResData.SUCCESS();
 	}
+
 	/**
 	 * @Description: 按照系统用户ID删除用户
 	 */
@@ -348,6 +373,7 @@ public class UserService extends BaseService {
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 判断插入用户的类型,默认返回系统用户类型
 	 */
@@ -360,6 +386,7 @@ public class UserService extends BaseService {
 		}
 		return def;
 	}
+
 	/**
 	 * @Description: 增加用户
 	 */
@@ -407,6 +434,7 @@ public class UserService extends BaseService {
 		db.execute(ins);
 		return ResData.SUCCESS_OPER(user_id);
 	}
+
 	/**
 	 * @Description: 获取Empl的下一个ID
 	 */
@@ -423,6 +451,7 @@ public class UserService extends BaseService {
 		db.execute(me);
 		return ResData.SUCCESS_OPER(ConvertUtil.formatIntToString(empl_id, 6, 100));
 	}
+
 	/**
 	 * @Description: 根据user_id修改人员表
 	 */
@@ -455,6 +484,7 @@ public class UserService extends BaseService {
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: sys_user_info的user_name是唯一的,判断是否唯一
 	 */
@@ -469,6 +499,7 @@ public class UserService extends BaseService {
 			return false;
 		}
 	}
+
 	/**
 	 * @Description: 修改用户角色
 	 */
@@ -496,6 +527,7 @@ public class UserService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 修改用户密码
 	 */
@@ -511,6 +543,5 @@ public class UserService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
-	
-	
+
 }

@@ -3,15 +3,12 @@ package com.dt.core.common.shiro.sessiondao;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.apache.shiro.session.Session;
-
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.shiro.session.mgt.SimpleSession;
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.db.DB;
@@ -43,14 +40,12 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 
 	@Override
 	public void update(Session session) throws UnknownSessionException {
-
 		super.update(session);
 		// 如果会话过期,停止 没必要再更新了
 		if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
 			_log.info("会话无效,不更新存储");
 			return;
 		}
-
 		SimpleSessionEntity entity = new SimpleSessionEntity();
 		entity.setId(session.getId().toString());
 		entity.setCookie(session.getId().toString());
@@ -65,7 +60,6 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 		try {
 			session = super.readSession(sessionId);
 		} catch (Exception e) {
-
 		}
 		// 如果session已经被删除，则从数据库中查询session
 		if (session == null) {
@@ -76,7 +70,9 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 				session = SerializableUtils.deserialize(entity.getSession());
 				if (isExpire(session)) {
 					_log.info("session 已经过期");
-					((SimpleSession) session).setLastAccessTime(new Date());
+					// 后期可以判断只对app进行过期处理
+					session.touch();
+					// ((SimpleSession) session).setLastAccessTime(new Date());
 				} else {
 					_log.info("session 未过期");
 				}
@@ -84,12 +80,6 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 				_log.info("session:" + sessionId + "未在数据库中找到");
 			}
 		}
-
-		// User user = getUser(sessionId);
-		// if(user != null){
-		// // 如果该用户是APP用户（user不为空说明就是），则判断session是否过期，如果过期则修改最后访问时间
-		// ((SimpleSession)session).setLastAccessTime(new Date());
-		// }
 		return session;
 	}
 
@@ -110,19 +100,22 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 	}
 
 	private SimpleSessionEntity getEntity(Serializable sessionId) {
-		String sql = "select * from sys_session where cookie='" + sessionId + "'";
-		Rcd rs = DB.instance().uniqueRecord(sql);
+
+		String sql = "select * from sys_session where cookie=?";
+		if (ToolUtil.isEmpty(sessionId)) {
+			return null;
+		}
+		Rcd rs = DB.instance().uniqueRecord(sql, sessionId);
 		if (ToolUtil.isNotEmpty(rs)) {
 			SimpleSessionEntity res = new SimpleSessionEntity();
 			res.setCookie(rs.getString("cookie"));
 			res.setSession(rs.getString("dtsession"));
 			res.setId(rs.getString("id"));
 			res.setUser_id(rs.getString("user_id"));
+			res.setClient(rs.getString("client"));
 			return res;
 		} else {
-			_log.info("没有从数据库中获取session:" + sessionId);
 			return null;
 		}
-
 	}
 }
