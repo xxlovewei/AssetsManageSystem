@@ -14,8 +14,8 @@ import com.dt.module.schedule.service.JobService;
  * @date: Nov 7, 2017 10:27:05 AM
  * @Description: TODO
  */
-public class sessionClearJob implements Job {
-	private static Logger _log = LoggerFactory.getLogger(sessionClearJob.class);
+public class ClearSessionJob implements Job {
+	private static Logger _log = LoggerFactory.getLogger(ClearSessionJob.class);
 
 	@Override
 	public void execute(JobExecutionContext jc) throws JobExecutionException {

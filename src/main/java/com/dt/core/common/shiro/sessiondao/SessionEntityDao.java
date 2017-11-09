@@ -33,6 +33,7 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = formatter.format(session.getStartTimestamp());
 		entity.setStart_time(dateString);
+		entity.setIp(session.getHost());
 		entity.save();
 		_log.info("create session:" + cookie);
 		return cookie;
@@ -46,9 +47,11 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 			_log.info("会话无效,不更新存储");
 			return;
 		}
+
 		SimpleSessionEntity entity = new SimpleSessionEntity();
 		entity.setId(session.getId().toString());
 		entity.setCookie(session.getId().toString());
+		entity.setIp(session.getHost());
 		entity.setSession(SerializableUtils.serialize(session));
 		entity.update(entity);
 
