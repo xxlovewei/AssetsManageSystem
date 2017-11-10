@@ -55,7 +55,7 @@
 	<!-- 会话验证调度器 -->
 	<bean id="sessionValidationScheduler"
 		class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
-		<property name="interval" value="600000" /><!--检测时间间距，默认是60分钟，600000 -->
+		<property name="interval" value="1800000" /><!--检测时间间距，默认是60分钟，600000 -->
 		<property name="sessionManager" ref="sessionManager" />
 	</bean>
 
