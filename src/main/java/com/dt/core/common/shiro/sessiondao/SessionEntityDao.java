@@ -3,12 +3,14 @@ package com.dt.core.common.shiro.sessiondao;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.db.DB;
@@ -64,6 +66,8 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 			session = super.readSession(sessionId);
 		} catch (Exception e) {
 		}
+		
+		
 		// 如果session已经被删除，则从数据库中查询session
 		if (session == null) {
 			_log.info("session:" + sessionId + "已删除,尝试从数据库中恢复");
