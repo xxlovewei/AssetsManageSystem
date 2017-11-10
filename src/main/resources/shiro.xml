@@ -6,17 +6,28 @@
 	default-lazy-init="true">
 
 
+	<!-- 凭证匹配器 -->
+	<bean id="credentialsMatcher"
+		class="com.dt.core.common.shiro.RetryLimitSimpleCredentialsMatcher">
+		<constructor-arg ref="cacheManager" />
+	</bean>
+
 	<!-- 項目自定义的Realm -->
 	<bean id="myShiroRealm" class="com.dt.core.common.shiro.ShiroDbRealm">
+		<property name="credentialsMatcher" ref="credentialsMatcher" />
+		<property name="cachingEnabled" value="true" />
+		<property name="authorizationCacheName" value="authorizationCache" />
+		<property name="authorizationCachingEnabled" value="true" />
+		<property name="authenticationCacheName" value="authenticationCache" />
+		<property name="authenticationCachingEnabled" value="true" />
+		<property name="cacheManager" ref="cacheManager" />
 	</bean>
 
 
 	<!-- 配置shiro session 的一个管理器 -->
 	<!-- <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"></bean> -->
 	<bean id="sessionDAO" class="com.dt.core.common.shiro.sessiondao.SessionEntityDao"></bean>
-	<!-- <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO"> 
-		<property name="activeSessionsCacheName" value="shiro-activeSessionCache" 
-		/> <property name="sessionIdGenerator" value="sessionIdGenerator" /> </bean> -->
+
 
 	<!-- 定义一个会话Cookie模板 -->
 	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
@@ -80,8 +91,9 @@
 
 
 	<!-- 用户授权信息Cache,shiro自定的本机内存实现的cacheManager类,后期不满足要求可以自己实现 -->
-	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
-
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml" />
+	</bean>
 
 
 	<!-- 配置SecurityManager的管理 -->

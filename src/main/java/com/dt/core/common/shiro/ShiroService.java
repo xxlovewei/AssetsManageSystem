@@ -27,10 +27,12 @@ public class ShiroService implements IShiro {
 	public static IShiro me() {
 		return SpringContextUtil.getBean(IShiro.class);
 	}
+
 	@Override
 	public User user(String account) {
 		return new User();
 	}
+
 	@Override
 	public ShiroUser shiroUser(User user) {
 		ShiroUser shiroUser = new ShiroUser();
@@ -54,20 +56,25 @@ public class ShiroService implements IShiro {
 		shiroUser.setRoleNames(roleNameList);
 		return shiroUser;
 	}
+
 	@Override
 	public List<String> findPermissionsByRoleId(String roleId) {
 		return UserService.me().findPermissionsByRoleId(roleId);
 	}
+
 	@Override
 	public String findRoleNameByRoleId(String roleId) {
 		return UserService.me().findRoleNameByRoleId(roleId);
 	}
+
 	@Override
 	public SimpleAuthenticationInfo info(ShiroUser shiroUser, User user, String realmName) {
 		String credentials = user.getPassword();
 		// 密码加盐处理
 		String source = user.getSalt();
 		ByteSource credentialsSalt = new Md5Hash(source);
+		
+		//参数:用户名,数据库中密码,username+sale,realmName
 		return new SimpleAuthenticationInfo(shiroUser, credentials, credentialsSalt, realmName);
 	}
 }

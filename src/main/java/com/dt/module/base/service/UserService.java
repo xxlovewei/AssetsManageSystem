@@ -75,7 +75,7 @@ public class UserService extends BaseService {
 		user.setPassword(u_rs.getString("pwd"));
 		user.setAccount(u_rs.getString("user_name"));
 		user.setName(u_rs.getString("user_name"));
-		user.setSalt("salt");
+		user.setSalt(MD5Util.encrypt(u_rs.getString("user_id")));
 		if (ToolUtil.isNotEmpty(u_rs.getString("locked")) && u_rs.getString("locked").equals("N")) {
 			user.setIsLocked(false);
 		}
@@ -340,7 +340,8 @@ public class UserService extends BaseService {
 	 * @Description: 根据用户组查询
 	 */
 	public ResData queryUserByGroup(String group_id) {
-		String basesql = "select * from sys_user_info a where deleted='N' and user_id not in ('"+BaseCommon.getSuperAdmin()+"') ";
+		String basesql = "select * from sys_user_info a where deleted='N' and user_id not in ('"
+				+ BaseCommon.getSuperAdmin() + "') ";
 		String sql = "";
 		if (ToolUtil.isEmpty(group_id)) {
 			sql = basesql + " order by a.empl_id";

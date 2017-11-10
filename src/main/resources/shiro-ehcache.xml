@@ -1,10 +1,55 @@
-<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="../config/ehcache.xsd">
-	<!--diskStore：缓存数据持久化的目录 地址 -->
-	<diskStore path="/tmp" />
-	<defaultCache maxElementsInMemory="1000"
-		maxElementsOnDisk="10000000" eternal="false" overflowToDisk="false"
-		diskPersistent="false" timeToIdleSeconds="120" timeToLiveSeconds="120"
-		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU">
-	</defaultCache>
-</ehcache>  
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="shirocache">
+    <diskStore path="java.io.tmpdir" />
+    
+    <cache name="passwordRetryCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="1800"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+    
+   <!--  maxEntriesLocalHeap 缓存最大个数-->
+   <!-- 授权缓存 -->
+    <cache name="authorizationCache"
+           maxEntriesLocalHeap="2000"  
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+ 
+   
+ 	<!--  身份验证缓存 -->
+    <cache name="authenticationCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+ 
+    <cache name="shiro_cache"
+    	  	   maxElementsInMemory="2000"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="0"
+           maxElementsOnDisk="0"
+           overflowToDisk="true"
+           memoryStoreEvictionPolicy="FIFO"
+           statistics="true">
+    </cache>
+     <cache name="shiro-activeSessionCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+</ehcache>

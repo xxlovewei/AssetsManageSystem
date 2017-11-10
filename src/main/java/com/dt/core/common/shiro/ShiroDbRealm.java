@@ -24,22 +24,22 @@ import com.dt.module.base.service.UserService;
 
 public class ShiroDbRealm extends AuthorizingRealm {
 	private static Logger _log = LoggerFactory.getLogger(ShiroDbRealm.class);
-
-	// 用户对应的角色信息与权限信息都保存在数据库中，通过UserService获取数据
-	// private UserService userService = new UserServiceImpl();
+ 
 	/**
 	 * 提供账户信息返回认证信息
 	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
 			throws AuthenticationException {
+ 
 		UserService userService = UserService.me();
 		IShiro shiroService = ShiroService.me();
+		// authcToken 中储存着输入的用户名和密码
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		_log.info("###################Action 登录认证#################");
 		_log.info("Username:" + token.getUsername());
+		// 从数据库中获取密码
 		User user = userService.getUser(token.getUsername());
-
 		if (ToolUtil.isEmpty(user.userId)) {
 			throw new UnknownAccountException();//// 没找到帐号
 		}
@@ -49,6 +49,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		}
 
 		ShiroUser shiroUser = shiroService.shiroUser(user);
+		// 进行对比,成功返回info,shiroUser
 		SimpleAuthenticationInfo info = shiroService.info(shiroUser, user, super.getName());
 		return info;
 	}
