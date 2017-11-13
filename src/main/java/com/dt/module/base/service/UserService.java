@@ -1,6 +1,5 @@
 package com.dt.module.base.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -243,6 +242,21 @@ public class UserService extends BaseService {
 	}
 
 	/**
+	 * @Description: 根据mobile_id获取user_id
+	 */
+	public String[] getUserIdFromMobile(String mobile, String user_type) {
+		if (ToolUtil.isOneEmpty(mobile, user_type)) {
+			return null;
+		}
+		RcdSet rs = db.query("select user_id from sys_user_info where deleted='N' and tel=? and user_type=?", mobile,
+				user_type);
+		if (rs.size() > 0) {
+			return rs.toStringArray("user_id");
+		}
+		return null;
+	}
+
+	/**
 	 * @Description: 根据用户名获取用户ID
 	 */
 	public String getUserIdFromUserName(String username) {
@@ -259,33 +273,15 @@ public class UserService extends BaseService {
 	/**
 	 * @Description: 根据邮箱获取用户ID
 	 */
-	public ArrayList<String> getUserIdFromMail(String value, String user_type) {
-		ArrayList<String> res = new ArrayList<String>();
+	public String[] getUserIdFromMail(String value, String user_type) {
+
 		if (ToolUtil.isOneEmpty(value, user_type)) {
-			return res;
+			return null;
 		}
 		RcdSet rs = db.query("select user_id from sys_user_info where deleted='N' and user_type=? and mail=?", value,
 				user_type);
-		for (int i = 0; i < rs.size(); i++) {
-			res.add(rs.getRcd(i).getString("user_id"));
-		}
-		return res;
-	}
+		return rs.toStringArray("user_id");
 
-	/**
-	 * @Description: 根据手机号获取用户ID
-	 */
-	public ArrayList<String> getUserIdFromMobile(String value, String user_type) {
-		ArrayList<String> res = new ArrayList<String>();
-		if (ToolUtil.isOneEmpty(value, user_type)) {
-			return res;
-		}
-		RcdSet rs = db.query("select user_id from sys_user_info where deleted='N' and user_type=? and tel=?", value,
-				user_type);
-		for (int i = 0; i < rs.size(); i++) {
-			res.add(rs.getRcd(i).getString("user_id"));
-		}
-		return res;
 	}
 
 	/**
