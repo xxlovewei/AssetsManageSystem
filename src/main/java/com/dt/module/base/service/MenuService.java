@@ -40,7 +40,7 @@ public class MenuService extends BaseService {
 	 * @Description: 直接查询所有节点
 	 */
 	public ResData queryMenuNodes(String menu_id) {
-		String sql = "select (select count(1) from sys_modules_item where module_id=node_id) acl_cnt,a.*,case type when 'dir' then '目录' when 'menu' then '菜单' else '未知' end typetext from sys_menus_node a where menu_id=? order by node_id";
+		String sql = "select (select count(1) from sys_modules_item where module_id=node_id) acl_cnt,a.*,case type when 'dir' then '目录' when 'menu' then '菜单' else '未知' end typetext from sys_menus_node a where menu_id=? and deleted='N' order by node_id";
 		return ResData.SUCCESS_OPER(db.query(sql, menu_id).toJsonArrayWithJsonObject());
 	}
 	/**
@@ -48,7 +48,7 @@ public class MenuService extends BaseService {
 	 */
 	public ResData queryMenuNodesTree(String menu_id) {
 		JSONArray r = new JSONArray();
-		String basesql = "select * from sys_menus_node where menu_id=? and parent_id=? order by sort";
+		String basesql = "select * from sys_menus_node where menu_id=? and parent_id=? and deleted='N' order by sort";
 		RcdSet first_rs = db.query(basesql, menu_id, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
@@ -133,12 +133,15 @@ public class MenuService extends BaseService {
 	 * @Description:删除一个节点
 	 */
 	public ResData deleteNode(String node_id) {
-		int v = db.uniqueRecord("select count(1) value from sys_menus_node where parent_id=?", node_id)
+		int v = db.uniqueRecord("select count(1) value from sys_menus_node where deleted='N' and parent_id=? ", node_id)
 				.getInteger("value");
 		if (v > 0) {
 			return ResData.FAILURE("请先删除子节点");
 		} else {
-			db.execute("delete from sys_menus_node where node_id=?", node_id);
+			Update ups=new Update("sys_menus_node");
+			ups.set("deleted", "Y");
+			ups.where().and("node_id=?",node_id);
+			db.execute(ups);
 			return ResData.SUCCESS_OPER();
 		}
 	}
@@ -177,7 +180,7 @@ public class MenuService extends BaseService {
 	 * @Description:更新节点路径名称
 	 */
 	private void updateRouteName(String node_id, String node_name) {
-		Rcd rs = db.uniqueRecord("select * from sys_menus_node where node_id=?", node_id);
+		Rcd rs = db.uniqueRecord("select * from sys_menus_node where deleted='N' and node_id=?", node_id);
 		// 判断如果一致则不需要更新routename
 		if (ToolUtil.isEmpty(rs)) {
 			return;
@@ -190,7 +193,7 @@ public class MenuService extends BaseService {
 		String route_name = "";
 		for (int i = 0; i < arr.size(); i++) {
 			route_name = route_name + LEVEL_SPLIT
-					+ db.uniqueRecord("select node_name from sys_menus_node where node_id=?",
+					+ db.uniqueRecord("select node_name from sys_menus_node where deleted='N' and node_id=?",
 							arr.getJSONObject(i).getString("id")).getString("node_name");
 		}
 		route_name = route_name.replaceFirst(LEVEL_SPLIT, "");
@@ -198,7 +201,7 @@ public class MenuService extends BaseService {
 		me.set("route_name", route_name);
 		me.where().and("node_id=?", node_id);
 		db.execute(me);
-		RcdSet rds = db.query("select node_id,node_name from sys_menus_node where parent_id=?", node_id);
+		RcdSet rds = db.query("select node_id,node_name from sys_menus_node where deleted='N' and parent_id=?", node_id);
 		for (int j = 0; j < rds.size(); j++) {
 			// 递归调用
 			updateRouteName(rds.getRcd(j).getString("node_id"), rds.getRcd(j).getString("node_name"));
@@ -210,14 +213,14 @@ public class MenuService extends BaseService {
 	public String getNextNodeId() {
 		return db
 				.uniqueRecord(
-						"select case when max(node_id) is null then 50 else max(node_id)+1 end value from sys_menus_node")
+						"select case when max(node_id) is null then 50 else max(node_id)+1 end value from sys_menus_node where deleted='N'")
 				.getString("value");
 	}
 	/**
 	 * @Description:获取树的第一个节点的父节点
 	 */
 	public String getRootParentId(String id) {
-		String sql = "select min(parent_id) parent_id from sys_menus_node where menu_id=?";
+		String sql = "select min(parent_id) parent_id from sys_menus_node where deleted='N' and menu_id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		String parent_id = rs.getString("parent_id");
 		if (ToolUtil.isEmpty(parent_id)) {
