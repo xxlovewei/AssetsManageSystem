@@ -26,7 +26,7 @@ public class UserReceivingAddrController extends BaseController {
 
 	@RequestMapping("/user/queryReceivingAddrById.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON,info="获取收货详情")
 	public ResData queryReceivingAddrById() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("ID");
@@ -36,9 +36,10 @@ public class UserReceivingAddrController extends BaseController {
 			return ResData.SUCCESS_OPER(userReceivingAddrService.queryReceivingAddrById(id));
 		}
 	}
+
 	@RequestMapping("/user/queryReceivingAddr.do")
 	@Res
-	@Acl(value=Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.TYPE_USER_COMMON,info="获取所有收货地址")
 	public ResData queryReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
 			return ResData.FAILURE_GETUSER();
@@ -46,9 +47,10 @@ public class UserReceivingAddrController extends BaseController {
 			return ResData.SUCCESS_OPER(userReceivingAddrService.queryReceivingAddr(getUserId()));
 		}
 	}
+
 	@RequestMapping("/user/delReceivingAddr.do")
 	@Res
-	@Acl(value=Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.TYPE_USER_COMMON,info="删除个人收货地址")
 	public ResData delReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
 			return ResData.FAILURE_GETUSER();
@@ -61,9 +63,10 @@ public class UserReceivingAddrController extends BaseController {
 			return userReceivingAddrService.delReceivingAddr(getUserId(), id, false);
 		}
 	}
+
 	@RequestMapping("/user/saveReceivingAddr.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON, info = "修改收货地址")
 	public ResData saveReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
 			return ResData.FAILURE_GETUSER();
@@ -71,11 +74,12 @@ public class UserReceivingAddrController extends BaseController {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("ID");
 		if (ToolUtil.isEmpty(id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return userReceivingAddrService.addReceivingAddr(getUserId(), ps);
 		} else {
 			return userReceivingAddrService.updateReceivingAddr(ps);
 		}
 	}
+
 	@RequestMapping("/user/setDefReceivingAddr.do")
 	@Res
 	@Acl

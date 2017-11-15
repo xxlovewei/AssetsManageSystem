@@ -31,9 +31,19 @@ public class UserReceivingAddrService extends BaseService {
 	 * @Description: 获取所有地址
 	 */
 	public JSONArray queryReceivingAddr(String user_id) {
-		RcdSet rs = db.query(
-				"select a.*,a.provincename||a.cityname||a.areaname||a.ct ctdtl,case when a.id=b.receaddr_def then 1 else 0 end is_def from sys_user_receivingaddr a,sys_user_info b where a.user_id=b.user_id and a.is_deleted='N' and a.user_id=? order by a.od",
-				user_id);
+		String sql="select t.*, "+
+				"t.provincenm||t.citynm||t.areanm ctdtl "+
+				"from ( "+
+				"select "+
+				"(select mingc from sys_qud_shengf where id=a.provinceid)provincenm, "+
+				"(select mingc from sys_qud_chengs where id=a.cityid)citynm, "+
+				"(select mingc from sys_qud_qux where id=a.areaid)areanm, "+
+				"a.*, "+
+				"case when a.id=b.receaddr_def then 1 else 0 end is_def "+
+				"from sys_user_receivingaddr a,sys_user_info b "+
+				"where a.user_id=b.user_id and a.is_deleted='N' and a.user_id=?) t "+
+				"order by od ";
+		RcdSet rs = db.query(sql,user_id);
 		return ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
 	}
 	/**

@@ -78,6 +78,27 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
+	
+
+	// 品牌
+	$stateProvider.state('mallmgr', {
+		abstract : true,
+		url : "/mallmgr",
+		templateUrl : "views/common/content.html"
+	}).state('mallmgr.banner', {
+		url : "/mgr",
+		templateUrl : "views/mall/banner.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/mall/banner.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
+	
+	
 
 	// 类目
 	$stateProvider.state('cat', {
