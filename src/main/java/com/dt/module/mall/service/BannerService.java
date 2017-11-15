@@ -5,28 +5,31 @@ import org.springframework.stereotype.Service;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 
-/**
+/** 
  * @author: algernonking
- * @date: 2017年11月15日 上午10:43:22
- * @Description: TODO
+ * @date: 2017年11月15日 上午11:29:35 
+ * @Description: TODO 
  */
 @Service
-public class NoticeService extends BaseService {
+public class BannerService extends BaseService{
 
-	public ResData addNotice() {
+	
+
+	public ResData addBanner() {
 		return null;
 	}
 
-	public ResData delNotice() {
+	public ResData delBanner() {
 		return null;
 	}
 
-	public ResData queryNoticeById() {
+	public ResData queryBannerById() {
 		return null;
 	}
 
-	public ResData queryNotice() {
+	public ResData queryBanner() {
 		return null;
 	}
-
+	
 }
+

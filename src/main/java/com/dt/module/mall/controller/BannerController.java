@@ -10,6 +10,6 @@ import com.dt.core.common.base.BaseController;
  * @Description: TODO
  */
 @RequestMapping("/api")
-public class AdController extends BaseController {
+public class BannerController extends BaseController {
 	
 }
