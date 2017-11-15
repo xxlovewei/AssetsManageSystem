@@ -11,7 +11,7 @@ import com.dt.core.common.base.BaseService;
  * @Description: TODO 
  */
 @Service
-public class BannerService extends BaseService{
+public class BannerAndItemService extends BaseService{
 
 	
 
@@ -28,6 +28,23 @@ public class BannerService extends BaseService{
 	}
 
 	public ResData queryBanner() {
+		return null;
+	}
+	
+	
+	public ResData addBannerItem() {
+		return null;
+	}
+
+	public ResData delBannerItem() {
+		return null;
+	}
+
+	public ResData queryBannerItemById() {
+		return null;
+	}
+
+	public ResData queryBannerItem() {
 		return null;
 	}
 	
