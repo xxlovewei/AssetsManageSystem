@@ -10,14 +10,16 @@ public class BaseResult {
 	public static JSONObject JSON_RETURN_NOT_LOGIN() {
 		JSONObject r = new JSONObject();
 		r.put("success", false);
-		r.put("code", "299");
-		r.put("message", "Not Login");
+		r.put("code", BaseCodeMsgEnum.SUCCESS_DEF_MSG.getCode());
+		r.put("message", BaseCodeMsgEnum.USER_NOT_LOGIN.getMessage());
 		return r;
 	}
+
 	public static JSONObject JSON_RETURN_NO_PERMITION() {
 		JSONObject r = new JSONObject();
 		r.put("success", false);
-		r.put("message", "Permission denied.");
+		r.put("code", BaseCodeMsgEnum.PERMITION_NOT.getCode());
+		r.put("message", BaseCodeMsgEnum.PERMITION_NOT.getMessage());
 		return r;
 	}
 }

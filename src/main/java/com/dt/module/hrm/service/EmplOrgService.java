@@ -33,6 +33,7 @@ public class EmplOrgService extends BaseService {
 	public ResData queryEmplOrg() {
 		return ResData.SUCCESS_OPER(db.query("select * from hrm_org_info").toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description:添加组织
 	 */
@@ -74,6 +75,7 @@ public class EmplOrgService extends BaseService {
 		ro.put("ID", cur_node_id);
 		return ResData.SUCCESS_OPER(ro);
 	}
+
 	/**
 	 * @Description:修改组织
 	 */
@@ -93,6 +95,7 @@ public class EmplOrgService extends BaseService {
 		ro.put("ID", node_id);
 		return ResData.SUCCESS_OPER(ro);
 	}
+
 	/**
 	 * @Description:更新节点路径名称
 	 */
@@ -124,6 +127,7 @@ public class EmplOrgService extends BaseService {
 			updateRouteName(rds.getRcd(j).getString("node_id"), rds.getRcd(j).getString("node_name"));
 		}
 	}
+
 	/**
 	 * @Description:删除组织
 	 */
@@ -149,6 +153,7 @@ public class EmplOrgService extends BaseService {
 		db.execute("delete from hrm_org_employee where node_id=?", node_id);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:查询某个组织信息
 	 */
@@ -164,6 +169,7 @@ public class EmplOrgService extends BaseService {
 			return ResData.SUCCESS_OPER(rs.toJsonObject());
 		}
 	}
+
 	/**
 	 * @Description:横行显示组织信息,类似A->B->C-D
 	 */
@@ -172,6 +178,7 @@ public class EmplOrgService extends BaseService {
 				.SUCCESS_OPER(db.query("select node_id,route_name routename ,route from hrm_org_part order by route")
 						.toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description:树行显示组织信息
 	 */

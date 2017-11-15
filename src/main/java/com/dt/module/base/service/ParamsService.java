@@ -37,6 +37,7 @@ public class ParamsService extends BaseService {
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 查询所有参数
 	 */
@@ -45,6 +46,7 @@ public class ParamsService extends BaseService {
 		String sql = "select * from sys_params where deleted='N' and type<>'sysinter' ";
 		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description: 修改参数
 	 */
@@ -58,6 +60,7 @@ public class ParamsService extends BaseService {
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 删除参数
 	 */
@@ -68,6 +71,7 @@ public class ParamsService extends BaseService {
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 按照Id查询参数
 	 */
@@ -79,6 +83,7 @@ public class ParamsService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER(rs.toJsonObject());
 	}
+
 	/**
 	 * @Description: 按照Id查询参数,如果不存在则填充数据
 	 */
@@ -86,18 +91,23 @@ public class ParamsService extends BaseService {
 		if (ToolUtil.isEmpty(id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
+
 		String sql = "select * from sys_params where deleted='N' and id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (ToolUtil.isEmpty(rs)) {
 			// 数据不存在
-			db.execute("delete from sys_params where id=?", id);
+			Update ups = new Update("sys_params");
+			ups.set("deleted", "Y");
+			ups.where().and("id=?", id);
 			Insert me = new Insert("sys_params");
+			
 			me.set("id", id);
 			me.set("deleted", "N");
 			me.set("type", type);
-			me.setIf("value",def_value);
-			db.execute(me);
+			me.setIf("value", def_value);
+			db.executes(ups, me);
 		}
+
 		// 重新查询
 		return queryParamsById(id);
 	}

@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
+import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.shiro.ShiroKit;
 import com.dt.core.common.shiro.ShiroUser;
@@ -51,11 +52,10 @@ public class LoginController extends BaseController {
 		if (vlrs.isFailed()) {
 			return vlrs;
 		}
-		String user_id=vlrs.getData().toString();
+		String user_id = vlrs.getData().toString();
 		// 登录操作
 		Subject currentUser = ShiroKit.getSubject();
-		UsernamePasswordToken token = new UsernamePasswordToken(user_id,
-				pwd == null ? null : pwd.toCharArray());
+		UsernamePasswordToken token = new UsernamePasswordToken(user_id, pwd == null ? null : pwd.toCharArray());
 		token.setRememberMe(true);
 		String error = "";
 		try {
@@ -82,7 +82,7 @@ public class LoginController extends BaseController {
 		ShiroKit.getSession().setAttribute("sessionFlag", true);
 
 		JSONObject r = new JSONObject();
-		JSONObject u =loginService.queryLoginUserInfo(user_id);
+		JSONObject u = loginService.queryLoginUserInfo(user_id);
 		// 覆盖重要信息
 		u.put("PWD", "********");
 		r.put("user_info", u);
@@ -99,9 +99,9 @@ public class LoginController extends BaseController {
 	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData checkLogin() throws IOException {
 		if (ShiroKit.isAuthenticated()) {
-			return ResData.SUCCESS("已登录");
+			return ResData.SUCCESS(BaseCodeMsgEnum.USER_ALREADY_LOGIN.getMessage());
 		} else {
-			return ResData.FAILURE("未登录");
+			return ResData.FAILURE_NOT_LOGIN();
 		}
 	}
 
