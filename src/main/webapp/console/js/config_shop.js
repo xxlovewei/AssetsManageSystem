@@ -80,7 +80,7 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 	});
 	
 
-	// 品牌
+	// 商城
 	$stateProvider.state('mallmgr', {
 		abstract : true,
 		url : "/mallmgr",
@@ -93,6 +93,17 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 				return $ocLazyLoad.load([ {
 					serie : true,
 					files : [ 'views/mall/banner.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('mallmgr.notice', {
+		url : "/notice",
+		templateUrl : "views/mall/notice.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/mall/notice.js?v=' + version ]
 				} ]);
 			}
 		}

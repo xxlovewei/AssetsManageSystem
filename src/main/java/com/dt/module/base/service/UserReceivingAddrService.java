@@ -106,8 +106,8 @@ public class UserReceivingAddrService extends BaseService {
 	 * @Description: 修改默认地址
 	 */
 	public ResData updateDefReceivingAddr(String user_id, String addr_id) {
-		Update me = new Update("sys_user_receivingaddr");
-		me.setIf("receaddr_dev", addr_id);
+		Update me = new Update("sys_user_info");
+		me.setIf("receaddr_def", addr_id);
 		me.where().and("user_id=?", user_id);
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
