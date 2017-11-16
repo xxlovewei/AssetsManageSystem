@@ -213,7 +213,7 @@ public class MenuService extends BaseService {
 	public String getNextNodeId() {
 		return db
 				.uniqueRecord(
-						"select case when max(node_id) is null then 50 else max(node_id)+1 end value from sys_menus_node where deleted='N'")
+						"select case when max(node_id) is null then 50 else max(node_id)+1 end value from sys_menus_node ")
 				.getString("value");
 	}
 	/**
