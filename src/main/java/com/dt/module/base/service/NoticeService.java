@@ -65,9 +65,16 @@ public class NoticeService extends BaseService {
 		return ResData.SUCCESS_OPER();
 	}
 
-	public ResData queryNotice(TypedHashMap<String, Object> ps,String type,String is_show, String user_id) {
+	public int queryNoticeCount(TypedHashMap<String, Object> ps, String type, String is_show, String user_id) {
+		String sql = processQuerySql(ps, type, is_show, user_id);
+		sql = "select count(1) cnt from (" + sql + ")";
+		return db.uniqueRecord(sql).getInteger("cnt");
+	}
+
+	private String processQuerySql(TypedHashMap<String, Object> ps, String type, String is_show, String user_id) {
+
 		String sql = "select * from sys_notice where is_delete='N' ";
-	 
+
 		String bdate = ps.getString("BDATE");// 2012-01-01
 		String edate = ps.getString("EDATE");// 2012-01-01
 		if (ToolUtil.isNotEmpty(type)) {
@@ -88,7 +95,16 @@ public class NoticeService extends BaseService {
 		if (ToolUtil.isNotEmpty(bdate)) {
 			sql = sql + " rdate<to_date('" + edate + "','yyyy-mm-dd')";
 		}
-		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+
+		return sql;
+
+	}
+
+	public ResData queryNotice(TypedHashMap<String, Object> ps, String type, String is_show, String user_id,
+			int pageSize, int pageIndex) {
+		String sql = processQuerySql(ps, type, is_show, user_id);
+		return ResData.SUCCESS_OPER(
+				db.query(DBUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 
 	public ResData queryNoticeById(String id) {

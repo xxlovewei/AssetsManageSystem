@@ -102,7 +102,7 @@ public class UserService extends BaseService {
 		}
 		String basesql = "";
 		if (BaseCommon.isSuperAdmin(user_id)) {
-			basesql = "select * from sys_menus_node where menu_id='" + menu_id + "' and parent_id = ? order by sort";
+			basesql = "select * from sys_menus_node where deleted='N' and menu_id='" + menu_id + "' and parent_id = ? order by sort";
 		} else {
 			basesql = "select distinct level1 node_id from ( "
 					+ "select * from (select b.module_id,c.route,c.node_name , "
@@ -121,8 +121,9 @@ public class UserService extends BaseService {
 					+ "substr(route,instr(route,'-',1,2)+1 ,instr(route,'-',1,3) - instr(route,'-',1,2) -1)) level3 "
 					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
 					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' )) where level1<>'-1' ";
+			
 			basesql = "select a.* from sys_menus_node a, (" + basesql + ") b "
-					+ "where a.node_id = b.node_id and menu_id = '" + menu_id + "' and parent_id = ? "
+					+ "where a.deleted='N' and a.node_id = b.node_id and menu_id = '" + menu_id + "' and parent_id = ? "
 					+ "order by sort ";
 			basesql = basesql.replaceAll("<#USER_ID#>", user_id);
 		}

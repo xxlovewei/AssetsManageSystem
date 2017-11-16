@@ -32,6 +32,7 @@ public class NoticesController extends BaseController {
 		return noticeService.queryNoticeById(id);
 	}
 
+	
 	@RequestMapping(value = "/notice/saveNotice.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "保存公告")
@@ -46,7 +47,7 @@ public class NoticesController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/mallnotice/delNotice.do")
+	@RequestMapping(value = "/notice/delNotice.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "删除公告")
 	public ResData delNotice(String id) {
