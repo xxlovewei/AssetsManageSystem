@@ -1,0 +1,54 @@
+<style>
+.chosen-container {
+	width: 100%;
+}
+
+.chosen-container-single {
+	width: 100%
+}
+
+.chosen-container-single {
+	width: 100%
+}
+</style>
+<div class="modal-content">
+	<div class="modal-header">
+		<button ng-click="cancel()" type="button" class="close">
+			<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+		</button>
+		<h4 class="modal-title">商品</h4>
+	</div>
+	<div class="modal-body">
+		<div class="wrapper wrapper-content animated fadeInRight"
+			style="padding-top: 0px !important">
+			<div class="ibox">
+				<div class="ibox-content"
+					style="border: none; padding-top: 0px !important">
+					<form role="form" class="form-inline" action="" style="padding-bottom:8px;">
+				 	<div class="form-group" style="width:450px;">
+							<div class="col-sm-2 control-label"></div>
+							<div class="col-sm-10">
+								<select id="class" chosen disable-search="true" width=100
+									class="chosen-select" no-results-text="'没有找到相应条目'"
+									ng-model="prodcatSel" data-placeholder-text-single="'请选择...'"
+									ng-options="item.ROUTENAME for item in prodcatOpt">
+									<option value=""></option>
+								</select>
+							</div>
+						</div>  
+						<a href="" ng-click="search()" class="btn btn-primary btn-xs">查询</a>
+					</form>
+					<table datatable="ed" dt-options="dtOptions"
+						dt-instance="dtInstance" dt-columns="dtColumns"
+						dt-column-defs="dtColumnDefs" class="table table-hover">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button ng-click="cancel()" class="btn    btn-warning">取消</button>
+		<button ng-disabled="myForm.$invalid" ng-click="sure()"
+			class="btn btn-primary">确认</button>
+	</div>
+</div>

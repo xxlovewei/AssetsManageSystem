@@ -149,5 +149,18 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('cat.indexclass', {
+		url : "/indexclass",
+		templateUrl : "views/mall/indexclass.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/mall/indexclass.js?v=' + version ]
+				} ]);
+			}
+		}
 	});
+	
+	
 }
