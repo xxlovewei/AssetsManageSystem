@@ -46,14 +46,14 @@ public class ClassController extends BaseController {
 
 	@RequestMapping(value = "/class/queryClass.do")
 	@Res
-	@Acl(value = Acl.TYPE_USER_COMMON, info = "删除分类")
+	@Acl(value = Acl.TYPE_USER_COMMON, info = "查询分类")
 	public ResData queryClass(String class_id, String type, String is_used) {
 		return classService.queryClass(class_id, type, is_used);
 	}
 
 	@RequestMapping(value = "/class/queryClassById.do")
 	@Res
-	@Acl(value = Acl.TYPE_USER_COMMON, info = "删除分类")
+	@Acl(value = Acl.TYPE_USER_COMMON, info = "查询单条分类")
 	public ResData queryClassById(String class_id) {
 		return classService.queryClassById(class_id);
 	}
@@ -71,6 +71,16 @@ public class ClassController extends BaseController {
 
 	}
 
+	@RequestMapping(value = "/class/addClassItems.do")
+	@Res
+	@Acl(value = Acl.TYPE_DENY, info = "批量增加分类条目")
+	public ResData addClassItems() {
+
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		return classService.addClassItems(ps);
+
+	}
+
 	@RequestMapping(value = "/class/deleteClassItem.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "删除分类条目")
@@ -80,14 +90,14 @@ public class ClassController extends BaseController {
 
 	@RequestMapping(value = "/class/queryClassItem.do")
 	@Res
-	@Acl(value = Acl.TYPE_USER_COMMON, info = "删除分类条目")
+	@Acl(value = Acl.TYPE_USER_COMMON, info = "查询分类条目")
 	public ResData queryClassItem(String class_id, String is_used) {
 		return classService.queryClassItem(class_id, is_used);
 	}
 
 	@RequestMapping(value = "/class/queryClassItemById.do")
 	@Res
-	@Acl(value = Acl.TYPE_USER_COMMON, info = "删除分类条目")
+	@Acl(value = Acl.TYPE_USER_COMMON, info = "查询单条分类条目")
 	public ResData queryClassItemById(String id) {
 		return classService.queryClassItemById(id);
 	}

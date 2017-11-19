@@ -1,12 +1,17 @@
 package com.dt.module.base.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.sql.Delete;
 import com.dt.core.common.dao.sql.Insert;
+import com.dt.core.common.dao.sql.SQL;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.TypedHashMap;
@@ -87,6 +92,31 @@ public class ClassService extends BaseService {
 		me.setIf("value", ps.getString("VALUE"));
 		me.setIf("od", ps.getString("OD"));
 		db.execute(me);
+		return ResData.SUCCESS_OPER();
+	}
+
+	public ResData addClassItems(TypedHashMap<String, Object> ps) {
+		// IDS
+		String ids = ps.getString("IDS");
+		if (ToolUtil.isEmpty(ids)) {
+			return ResData.FAILURE_ERRREQ_PARAMS();
+		}
+		JSONArray idsarr = (JSONArray) JSONArray.parse(ids);
+		List<SQL> sqls = new ArrayList<SQL>();
+		for (int i = 0; i < idsarr.size(); i++) {
+			Insert me = new Insert("sys_ct_class_item");
+			me.set("id", db.getUUID());
+			me.setIf("class_id", ps.getString("CLASS_ID"));
+			me.setIf("is_used", "Y");
+			me.setIf("value", idsarr.getString(i));
+			me.setIf("od", ps.getString("OD"));
+			System.out.println(me.getSQL());
+			sqls.add(me);
+		}
+		if (sqls.size() > 0) {
+			db.batchExecute(sqls);
+		}
+
 		return ResData.SUCCESS_OPER();
 	}
 

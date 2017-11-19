@@ -182,6 +182,7 @@ function mallbannerCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
+		console.log($scope.dtOptions);
 		var ps = {}
 		ps.banner_id = $scope.bannerSel.BANNER_ID;
 		$http.post($rootScope.project + "/api/banner/queryBannerItems.do", ps)

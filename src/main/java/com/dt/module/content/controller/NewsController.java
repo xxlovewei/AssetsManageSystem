@@ -108,11 +108,11 @@ public class NewsController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		
 		ResData rsdata = newsService.queryNews(ps, pagesize, pageindex);
-		int pageCnt = contentService.queryContentPageCount(ps, ContentService.TYPE_NEWS, pagesize);
+		int count = contentService.queryContentCount(ps, ContentService.TYPE_NEWS);
 		JSONArray data = rsdata.getDataToJSONArray();
 		JSONObject retrunObject = new JSONObject();
-		retrunObject.put("iTotalRecords", pageCnt);
-		retrunObject.put("iTotalDisplayRecords", pageCnt);
+		retrunObject.put("iTotalRecords", count);
+		retrunObject.put("iTotalDisplayRecords", count);
 		retrunObject.put("data", data);
 		ResData res = new ResData();
 		res.setClearStatus(true);

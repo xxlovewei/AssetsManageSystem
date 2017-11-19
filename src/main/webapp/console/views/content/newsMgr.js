@@ -53,11 +53,13 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 	console.log($scope.dtOptions);	 
 	$scope.dtInstance = {}
 	$scope.reloadData = reloadData;
+	var tabdata=[]
 	function reloadData() {
 		var resetPaging = false;
 		$scope.dtInstance.reloadData(callback, resetPaging);
 	}
 	function callback(json) {
+		tabdata=json.data;
 		console.log(json);
 	}
 	function renderAction(data, type, full) {
