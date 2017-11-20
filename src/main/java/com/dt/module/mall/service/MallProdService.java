@@ -34,15 +34,19 @@ public class MallProdService extends BaseService {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		String sql = "select * from product a where cat_id='" + cat_id
-				+ "' and not exists (select * from sys_ct_class_item b where b.value=a.spu and class_id='" + class_id
-				+ "')";
+				+ "' and is_deleted='N' and not exists (select * from sys_ct_class_item b where b.value=a.spu and class_id='"
+				+ class_id + "')";
 		return ResData.SUCCESS_OPER(
 				db.query(DBUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 
 	private String queryClassProdSql(TypedHashMap<String, Object> ps, String class_id) {
 
-		String sql = "select b.id item_id, a.* from product a,sys_ct_class_item b where a.spu=b.value and a.is_deleted='N'and b.class_id='"+class_id+"'";
+		String sql = "select b.id item_id, a.* from product a,sys_ct_class_item b where a.spu=b.value and a.is_deleted='N' ";
+
+		if (ToolUtil.isNotEmpty(class_id)) {
+			sql = sql + " and class_id='" + class_id + "'";
+		}
 		if (ToolUtil.isNotEmpty(ps.getString("IS_USED"))) {
 			sql = sql + " and is_used='" + ps.getString("IS_USED") + "'";
 		}
@@ -53,18 +57,11 @@ public class MallProdService extends BaseService {
 	}
 
 	public int queryClassProdCount(TypedHashMap<String, Object> ps, String class_id) {
-		if (ToolUtil.isEmpty(class_id)) {
-			return 0;
-		}
-
 		String sql = "select count(1) cnt from (" + queryClassProdSql(ps, class_id) + ")";
 		return db.uniqueRecord(sql).getInteger("cnt");
 	}
 
 	public ResData queryClassProd(TypedHashMap<String, Object> ps, String class_id, int pageSize, int pageIndex) {
-		if (ToolUtil.isEmpty(class_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
-		}
 		String sql = queryClassProdSql(ps, class_id);
 		return ResData.SUCCESS_OPER(
 				db.query(DBUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());

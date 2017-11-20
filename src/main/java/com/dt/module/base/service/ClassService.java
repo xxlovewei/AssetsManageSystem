@@ -68,7 +68,7 @@ public class ClassService extends BaseService {
 			sql += " and type='" + type + "' ";
 		}
 		if (ToolUtil.isNotEmpty(is_used)) {
-			sql += " and type='" + is_used + "' ";
+			sql += " and is_used='" + is_used + "' ";
 		}
 		sql += " order by od";
 		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());

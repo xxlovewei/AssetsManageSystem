@@ -1,6 +1,8 @@
 package com.dt.module.product.service;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONArray;
@@ -10,6 +12,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.dao.sql.Insert;
+import com.dt.core.common.dao.sql.SQL;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.ConvertUtil;
 import com.dt.core.common.util.ToolUtil;
@@ -101,9 +104,7 @@ public class ProductService extends BaseService {
 	public ResData updateProdPics(String spu, String pics) {
 		JSONArray pics_arr = JSONArray.parseArray(pics);
 		ArrayList<String> sqls = updateProdPics(spu, pics_arr);
-		for (int i = 0; i < sqls.size(); i++) {
-			db.execute(sqls.get(i));
-		}
+		db.executeStringList(sqls);
 		return ResData.SUCCESS_OPER();
 	}
 	/**
@@ -145,16 +146,18 @@ public class ProductService extends BaseService {
 		if (prod_arr.size() == 0) {
 			return ResData.FAILURE("请选择至少一个商品");
 		}
+		List<SQL> sqls=new ArrayList<SQL>();
 		for (int i = 0; i < prod_arr.size(); i++) {
 			Update ups = new Update("product");
 			ups.set("is_deleted", "Y");
 			ups.where().and("spu=?", prod_arr.getJSONObject(i).getString("spu"));
-			db.execute(ups);
+			sqls.add(ups);
 		}
+		db.executeSQLList(sqls);
 		return ResData.SUCCESS_OPER();
 	}
 	/**
-	 * @Description:按照类目查询产品
+	 * @Description:按照后台类目查询产品
 	 */
 	public ResData queryProdByCat(String cat_id) {
 		if (ToolUtil.isEmpty(cat_id)) {
@@ -491,6 +494,8 @@ public class ProductService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
+	
+	
 	public ArrayList<String> updateProdPics(String spu, JSONArray pics) {
 		ArrayList<String> res = new ArrayList<String>();
 		res.add("delete from product_pic where type='" + IAMGE_TYPE_PROD + "' and spu='" + spu + "'");
@@ -498,9 +503,9 @@ public class ProductService extends BaseService {
 			Insert ins = new Insert("product_pic");
 			ins.set("id", UuidUtil.getUUID());
 			ins.set("spu", spu);
-			ins.set("pic_id", pics.getJSONObject(i).getString("PIC_ID"));
+			ins.setIf("pic_id", pics.getJSONObject(i).getString("PIC_ID"));
 			ins.set("type", IAMGE_TYPE_PROD);
-			ins.set("od", ConvertUtil.toInt(pics.getJSONObject(i).getString("OD"), 1));
+			ins.setIf("od", ConvertUtil.toInt(pics.getJSONObject(i).getString("OD"), 1));
 			System.out.println(ins.getSQL());
 			res.add(ins.getSQL());
 		}

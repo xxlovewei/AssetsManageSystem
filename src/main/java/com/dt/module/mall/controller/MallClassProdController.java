@@ -66,10 +66,7 @@ public class MallClassProdController extends BaseController {
 			String pageIndex) {
 
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		if (ToolUtil.isEmpty(class_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
-		}
-
+		 
 		JSONObject respar = DBUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();

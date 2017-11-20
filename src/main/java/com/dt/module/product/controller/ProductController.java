@@ -22,59 +22,74 @@ public class ProductController extends BaseController {
 
 	@RequestMapping("/product/getProdPics.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_ALLOW, info = "获取产品轮训图片")
 	public ResData getProdPics(String spu) {
 		return ResData.SUCCESS_OPER(productService.getProdPics(spu));
 	}
+
 	@RequestMapping("/product/updateProdPics.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_DENY, info = "更新产品轮训图片")
 	public ResData updateProdPics(String spu, String pics) {
 		return productService.updateProdPics(spu, pics);
 	}
+
 	@RequestMapping("/product/prodOffOn.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_DENY, info = "产品上下架")
 	public ResData prodOffOn(String prods, String is_off) {
 		return productService.prodOffOn(prods, is_off);
 	}
+
 	@RequestMapping("/product/prodModifySaleAttr.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_DENY, info = "修改产品销售属性")
 	@Transactional
 	public ResData prodModifySaleAttr() {
 		return productService.updateProdSaleAttr(HttpKit.getRequestParameters());
 	}
+
 	@RequestMapping("/product/prodModifyBaseAttr.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_DENY, info = "修改产品基本属性")
 	public ResData prodModifyBaseAttr() {
 		return productService.updateProdBaseAttr(HttpKit.getRequestParameters());
 	}
+
 	@RequestMapping("/product/prodDelete.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_DENY, info = "删除产品")
 	public ResData prodDelete(String prods) {
 		return productService.deleteProds(prods);
 	}
+
 	@RequestMapping("/product/prodQueryByCat.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON, info = "按照后台类目查找产品")
 	public ResData prodQueryByCat(String cat_id) {
 		return productService.queryProdByCat(cat_id);
 	}
-	// 查询本商品所有信息
+
 	@RequestMapping("/product/prodQueryBySpu.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_USER_COMMON, info = "根据产品Id产品信息[后台]")
 	public ResData prodQueryBySpu(String spu) throws IOException {
 		return productService.queryProdBySpu(spu);
 	}
+
 	@RequestMapping("/product/prodPublish.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_DENY, info = "后台发布产品")
 	@Transactional
 	public ResData prodPublish() {
+		return productService.publishProduct(HttpKit.getRequestParameters());
+	}
+
+	@RequestMapping("/product/queryProdBySpuForWSC.do")
+	@Res
+	@Acl(value = Acl.TYPE_ALLOW, info = "根据产品Id查询产品信息[微商城]")
+	@Transactional
+	public ResData queryProdBySpuForWSC() {
 		return productService.publishProduct(HttpKit.getRequestParameters());
 	}
 }
