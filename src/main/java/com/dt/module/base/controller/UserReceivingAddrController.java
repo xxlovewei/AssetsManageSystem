@@ -82,7 +82,7 @@ public class UserReceivingAddrController extends BaseController {
 
 	@RequestMapping("/user/setDefReceivingAddr.do")
 	@Res
-	@Acl
+	@Acl(value=Acl.TYPE_USER_COMMON,info="设置默认地址")
 	public ResData setDefReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
 			return ResData.FAILURE_GETUSER();
@@ -95,4 +95,14 @@ public class UserReceivingAddrController extends BaseController {
 			return userReceivingAddrService.updateDefReceivingAddr(getUserId(), id);
 		}
 	}
+	
+
+	@RequestMapping("/user/queryDefReceivingAddr.do")
+	@Res
+	@Acl(value=Acl.TYPE_USER_COMMON,info="查询地址")
+	public ResData queryDefReceivingAddr() {
+		return userReceivingAddrService.queryDefReceivingAddr(getUserId());
+	}
+	
+	
 }

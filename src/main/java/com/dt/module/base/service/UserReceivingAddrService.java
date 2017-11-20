@@ -11,6 +11,7 @@ import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.ConvertUtil;
+import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.TypedHashMap;
 
 /**
@@ -27,25 +28,22 @@ public class UserReceivingAddrService extends BaseService {
 		Rcd rs = db.uniqueRecord("select * from sys_user_receivingaddr where is_deleted='N' and id=?", addr_id);
 		return ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 	}
+
 	/**
 	 * @Description: 获取所有地址
 	 */
 	public JSONArray queryReceivingAddr(String user_id) {
-		String sql="select t.*, "+
-				"t.provincenm||t.citynm||t.areanm ctdtl "+
-				"from ( "+
-				"select "+
-				"(select mingc from sys_qud_shengf where id=a.provinceid)provincenm, "+
-				"(select mingc from sys_qud_chengs where id=a.cityid)citynm, "+
-				"(select mingc from sys_qud_qux where id=a.areaid)areanm, "+
-				"a.*, "+
-				"case when a.id=b.receaddr_def then 1 else 0 end is_def "+
-				"from sys_user_receivingaddr a,sys_user_info b "+
-				"where a.user_id=b.user_id and a.is_deleted='N' and a.user_id=?) t "+
-				"order by od ";
-		RcdSet rs = db.query(sql,user_id);
+		String sql = "select t.*, " + "t.provincenm||t.citynm||t.areanm ctdtl " + "from ( " + "select "
+				+ "(select mingc from sys_qud_shengf where id=a.provinceid)provincenm, "
+				+ "(select mingc from sys_qud_chengs where id=a.cityid)citynm, "
+				+ "(select mingc from sys_qud_qux where id=a.areaid)areanm, " + "a.*, "
+				+ "case when a.id=b.receaddr_def then 1 else 0 end is_def "
+				+ "from sys_user_receivingaddr a,sys_user_info b "
+				+ "where a.user_id=b.user_id and a.is_deleted='N' and a.user_id=?) t " + "order by od ";
+		RcdSet rs = db.query(sql, user_id);
 		return ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description: 删除地址,force，false至少保留一个地址，true强制删除
 	 */
@@ -56,6 +54,7 @@ public class UserReceivingAddrService extends BaseService {
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 添加地址,id是系统生产的序列，code是国家编码
 	 */
@@ -80,6 +79,7 @@ public class UserReceivingAddrService extends BaseService {
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 更新地址
 	 */
@@ -102,6 +102,7 @@ public class UserReceivingAddrService extends BaseService {
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 修改默认地址
 	 */
@@ -112,4 +113,27 @@ public class UserReceivingAddrService extends BaseService {
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
+
+	/**
+	 * @Description: 获取用户默认地址
+	 */
+	public ResData queryDefReceivingAddr(String user_id) {
+
+		String sql = "select b.id from sys_user_info a,sys_user_receivingaddr b where a.receaddr_def=b.id and a.user_id=b.user_id and a.user_id=?";
+		RcdSet rs = db.query(sql, user_id);
+		if (rs.size() > 0) {
+			return ResData.SUCCESS_OPER(queryReceivingAddrById(rs.getRcd(0).getString("id")));
+		}
+		Rcd rs2 = db.uniqueRecord("select id from sys_user_receivingaddr where user_id=?", user_id);
+		if (ToolUtil.isEmpty(rs2)) {
+			return ResData.FAILURE("没有地址,请先完善");
+		} else {
+			return ResData.SUCCESS_OPER(queryReceivingAddrById(rs2.getString("id")));
+		}
+	}
+
+	public JSONObject queryReceivingAddrById1(String id) {
+		return null;
+	}
+
 }

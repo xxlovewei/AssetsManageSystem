@@ -87,7 +87,7 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 	if (angular.isDefined(dt_sys_menu)) {
 		$log.warn("dt_sys_menu load from localstorage", dt_sys_menu);
 		$scope.menu = dt_sys_menu;
-		fixnav();
+		//fixnav();
 	}
 
 	// 监听用户数据
@@ -124,9 +124,9 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 	}
 	
 	// 固定左边导航
-	function fixnav() {
-	}
-	fixnav();
+//	function fixnav() {
+//	}
+//	fixnav();
 
 };
 angular.module('inspinia').controller('MainCtrl', MainCtrl);

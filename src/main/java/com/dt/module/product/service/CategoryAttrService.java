@@ -22,7 +22,7 @@ public class CategoryAttrService extends BaseService {
 	public static String INPUTTYPE_SEL_SINGLE = "select-single";
 	public static String ATTR_TYPE_SALE = "sale";
 	public static String ATTR_TYPE_BASE = "base";
-
+//注意：规格模版属性不能直接删除
 	/**
 	 * @Description: 添加属性
 	 */

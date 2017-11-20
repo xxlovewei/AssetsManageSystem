@@ -51,6 +51,7 @@ public class ProductService extends BaseService {
 		}
 		return rs;
 	}
+
 	/**
 	 * @Description:获取产品sku
 	 */
@@ -66,6 +67,7 @@ public class ProductService extends BaseService {
 		}
 		return rs;
 	}
+
 	/**
 	 * @Description:获取商品的基本属性
 	 */
@@ -90,6 +92,7 @@ public class ProductService extends BaseService {
 		}
 		return r;
 	}
+
 	/**
 	 * @Description:获取商品的图片列表
 	 */
@@ -98,6 +101,7 @@ public class ProductService extends BaseService {
 				db.query("select * from product_pic where spu=? and type=? order by od", spu, IAMGE_TYPE_PROD)
 						.toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description:更新商品的图片列表
 	 */
@@ -107,6 +111,7 @@ public class ProductService extends BaseService {
 		db.executeStringList(sqls);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:获取商品的基本属性
 	 */
@@ -135,6 +140,7 @@ public class ProductService extends BaseService {
 		}
 		return rs;
 	}
+
 	/**
 	 * @Description:批量删除商品
 	 */
@@ -146,7 +152,7 @@ public class ProductService extends BaseService {
 		if (prod_arr.size() == 0) {
 			return ResData.FAILURE("请选择至少一个商品");
 		}
-		List<SQL> sqls=new ArrayList<SQL>();
+		List<SQL> sqls = new ArrayList<SQL>();
 		for (int i = 0; i < prod_arr.size(); i++) {
 			Update ups = new Update("product");
 			ups.set("is_deleted", "Y");
@@ -156,6 +162,7 @@ public class ProductService extends BaseService {
 		db.executeSQLList(sqls);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:按照后台类目查询产品
 	 */
@@ -167,6 +174,7 @@ public class ProductService extends BaseService {
 		RcdSet rs = db.query(sql, cat_id);
 		return ResData.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description:按照SPU查询产品信息
 	 */
@@ -189,6 +197,7 @@ public class ProductService extends BaseService {
 		res.put("SALE_DATA_LIST", getProdSaleList(spu));
 		return ResData.SUCCESS_OPER(res);
 	}
+
 	/**
 	 * @Description:批量上架或下架产品
 	 */
@@ -211,6 +220,7 @@ public class ProductService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:更新产品基本属性
 	 */
@@ -268,6 +278,7 @@ public class ProductService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:获取商品的销售属性
 	 */
@@ -329,6 +340,7 @@ public class ProductService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:获取更新商品规格的语句
 	 */
@@ -390,6 +402,7 @@ public class ProductService extends BaseService {
 		res.put("sqls", sqls);
 		return ResData.SUCCESS_OPER(res);
 	}
+
 	/**
 	 * @Description:发布商品
 	 */
@@ -494,8 +507,10 @@ public class ProductService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER();
 	}
-	
-	
+
+	/**
+	 * @Description:更新产品图片
+	 */
 	public ArrayList<String> updateProdPics(String spu, JSONArray pics) {
 		ArrayList<String> res = new ArrayList<String>();
 		res.add("delete from product_pic where type='" + IAMGE_TYPE_PROD + "' and spu='" + spu + "'");
@@ -511,4 +526,61 @@ public class ProductService extends BaseService {
 		}
 		return res;
 	}
+
+	/**
+	 * @Description:根据产品Id获取销售属性(商城)
+	 */
+	public JSONArray queryProdSaleBySpuForMall(String spu) {
+		JSONArray res = new JSONArray();
+		String sql = "select distinct c.attr_id ,a.name ,a.od,b.cat_id from product_category_attr a,product b,product_attr_set c where a.cat_id=b.cat_id and  b.spu=? and c.spu=b.spu and c.is_sku='Y' and c.attr_id=a.attr_id order by a.od";
+		RcdSet rs = db.query(sql, spu);
+		for (int i = 0; i < rs.size(); i++) {
+			JSONObject e = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.getRcd(i).toJsonObject());
+			System.out.println(e.toJSONString());
+			String esql = "select a.value,a.attr_set_id,a.od from product_category_attr_set a,product_attr_set b where cat_id=? and a.attr_set_id=b.attr_set_id and b.is_sku='Y' and b.attr_id=?  and b.spu=? order by a.od";
+			e.put("childsCurGoods",
+					ConvertUtil.OtherJSONObjectToFastJSONArray(
+							db.query(esql, rs.getRcd(i).getString("cat_id"), rs.getRcd(i).getString("attr_id"), spu)
+									.toJsonArrayWithJsonObject()));
+			res.add(e);
+		}
+		return res;
+	}
+
+	/**
+	 * @Description:产品销售属性选择后获取sku详细数据,sku数据如果不存在则请重新下单或加入购物车
+	 */
+	public ResData queryProdSkuDetail(String spu,String propertyChildIds) {
+		String ids="";
+		String[] items=propertyChildIds.split(",");
+		int cnt=items.length;
+		for(int i=0;i<items.length;i++) {
+			String[] tmpstr=items[i].split(":");
+			if (tmpstr.length==2) {
+				ids=ids+tmpstr[1]+",";
+			}
+		}
+		System.out.println(ids+cnt);
+		ids = ids.substring(0,ids.length() - 1);
+		System.out.println(ids);
+		String sql="select * from product_sku a,(select sku from (select sku,count(1) cnt from product_sku_map where spu=? and attr_set_id in ("+ids+") group by sku ) where cnt=?) b where a.sku=b.sku and a.spu=?";
+		System.out.println(sql);
+		return ResData.SUCCESS_OPER(db.uniqueRecord(sql,spu,cnt,spu).toJsonObject());
+	}
+
+	/**
+	 * @Description:根据产品Id查询产品信息[微商城]
+	 */
+	public ResData queryProdBySpuForMall(String spu) {
+		JSONObject res = new JSONObject();
+		res.put("basicInfo", ConvertUtil.OtherJSONObjectToFastJSONObject(db.uniqueRecord(
+				"select a.*,(select name from product_brand where brand_id=a.brand_id) brand_name from product a where spu=?",
+				spu).toJsonObject()));
+		res.put("pics", getProdPics(spu));
+		res.put("properties", queryProdSaleBySpuForMall(spu));
+		System.out.println(res.toJSONString());
+		return ResData.SUCCESS_OPER(res);
+
+	}
+
 }
