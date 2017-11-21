@@ -96,8 +96,22 @@ public class ProductController extends BaseController {
 	@RequestMapping("/product/queryProdSkuDetail.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "产品销售属性选择后获取sku详细数据")
-	public ResData queryProdSkuDetail(String spu,String propertyChildIds) {
-		return productService.queryProdSkuDetail(spu,propertyChildIds);
+	public ResData queryProdSkuDetail(String spu, String propertyChildIds) {
+		return productService.queryProdSkuDetail(spu, propertyChildIds);
+	}
+
+	@RequestMapping("/product/queryProdBySpuNotSkuForMall.do")
+	@Res
+	@Acl(value = Acl.TYPE_ALLOW, info = "根据产品SPU获取数据[微商城]")
+	public ResData queryProdBySpuNotSkuForMall(String spu) {
+		return productService.queryProdBySpuNotSkuForMall(spu);
+	}
+
+	@RequestMapping("/product/queryProdBySpuSkuForMall.do")
+	@Res
+	@Acl(value = Acl.TYPE_ALLOW, info = "根据产品SPU和SKU获取数据[微商城]")
+	public ResData queryProdBySpuNotSkuForMall(String spu, String sku) {
+		return productService.queryProdBySpuSkuForMall(spu, sku);
 	}
 
 }

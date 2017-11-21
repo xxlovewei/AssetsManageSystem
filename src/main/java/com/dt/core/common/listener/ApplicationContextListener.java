@@ -25,9 +25,9 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			_log.info("更新Chain");
 			SimpleFilterChainDefinitionsService.me().updatePermission();
 			_log.info("启动job");
-			ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
-			scheduleMangerService.scheduleStart();
-			scheduleMangerService.jobInitLoadFromDb();
+//			ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
+//			scheduleMangerService.scheduleStart();
+//			scheduleMangerService.jobInitLoadFromDb();
 			// spring初始化完毕后，通过反射调用所有使用BaseService注解的initMapper方法
 			// Map<String, Object> baseServices =
 			// contextRefreshedEvent.getApplicationContext().getBeansWithAnnotation(BaseService.class);

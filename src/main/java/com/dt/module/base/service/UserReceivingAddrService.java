@@ -25,7 +25,7 @@ public class UserReceivingAddrService extends BaseService {
 	 * @Description: 根据id获取地址
 	 */
 	public JSONObject queryReceivingAddrById(String addr_id) {
-		Rcd rs = db.uniqueRecord("select * from sys_user_receivingaddr where is_deleted='N' and id=?", addr_id);
+		Rcd rs = db.uniqueRecord("select t.*,t.provincenm||t.citynm||t.areaname||t.ct ctdtl from (select (select mingc from sys_qud_shengf where id=a.provinceid)provincenm, (select mingc from sys_qud_chengs where id=a.cityid)citynm, (select mingc from sys_qud_qux where id=a.areaid)areanm,a.* from sys_user_receivingaddr a where is_deleted='N' and id=?) t", addr_id);
 		return ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 	}
 

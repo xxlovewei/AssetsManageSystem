@@ -582,5 +582,25 @@ public class ProductService extends BaseService {
 		return ResData.SUCCESS_OPER(res);
 
 	}
+	
+	/**
+	 * @Description:根据产品SPU和SKU获取数据[微商城]
+	 */
+	public ResData queryProdBySpuSkuForMall(String spu,String sku) {
+		String sql="select * from product_sku where spu=? and sku=?";
+		Rcd rs=db.uniqueRecord(sql,spu,sku);
+		if(ToolUtil.isEmpty(rs)) {
+			return ResData.FAILURE_NODATA();
+		}
+		return ResData.SUCCESS_OPER(rs.toJsonObject());
+	}
+	
+	/**
+	 * @Description:根据产品SPU获取数据[微商城]
+	 */
+	public ResData queryProdBySpuNotSkuForMall(String spu) {
+		String sql="select * from product_sku where spu=?";
+		return ResData.SUCCESS_OPER(db.uniqueRecord(sql).toJsonObject());
+	}
 
 }
