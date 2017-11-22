@@ -29,7 +29,7 @@
 									class="chosen-select" no-results-text="'没有找到相应条目'"
 									ng-model="typeSel" data-placeholder-text-single="'请选择...'"
 									placeholder_text_multiple="'请选择...'"
-									ng-options="item.NAME for item in typeOpt">
+									ng-options="item.name for item in typeOpt">
 									<option value=""></option>
 								</select>
 							</div>
@@ -42,7 +42,7 @@
 							<div class="col-sm-10">
 								<input type="text" required ng-maxlength="100"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入名称" name="name" ng-model="item.NAME">
+									placeholder="请输入名称" name="name" ng-model="item.name">
 								<div class="text-danger"
 									ng-if="myForm.name.$dirty && myForm.name.$invalid">
 									<span ng-if="myForm.name.$error.required"> 输入不能为空 </span> <span
@@ -60,7 +60,7 @@
 									class="chosen-select" no-results-text="'没有找到相应条目'"
 									ng-model="inputtypeSel" data-placeholder-text-single="'请选择...'"
 									placeholder_text_multiple="'请选择...'"
-									ng-options="item.NAME for item in inputtypeOpt">
+									ng-options="item.name for item in inputtypeOpt">
 									<option value=""></option>
 								</select>
 							</div>
@@ -135,7 +135,7 @@
 									class="chosen-select" no-results-text="'没有找到相应条目'"
 									ng-model="mustSel" data-placeholder-text-single="'请选择...'"
 									placeholder_text_multiple="'请选择...'"
-									ng-options="item.NAME for item in mustOpt">
+									ng-options="item.name for item in mustOpt">
 									<option value=""></option>
 								</select>
 							</div>
@@ -149,7 +149,7 @@
 									class="chosen-select" no-results-text="'没有找到相应条目'"
 									ng-model="usedSel" data-placeholder-text-single="'请选择...'"
 									placeholder_text_multiple="'请选择...'"
-									ng-options="item.NAME for item in usedOpt">
+									ng-options="item.name for item in usedOpt">
 									<option value=""></option>
 								</select>
 							</div>
@@ -162,7 +162,7 @@
 							<div class="col-sm-10">
 								<input type="number" required ng-maxlength="100"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入名称" name="sort" ng-model="item.OD">
+									placeholder="请输入名称" name="sort" ng-model="item.od">
 								<div class="text-danger"
 									ng-if="myForm.sort.$dirty && myForm.sort.$invalid">
 									<span ng-if="myForm.sort.$error.required"> 输入不能为空 </span> <span

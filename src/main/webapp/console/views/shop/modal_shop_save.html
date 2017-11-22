@@ -24,7 +24,7 @@
 							<div class="col-sm-10">
 								<input type="text" required ng-maxlength="100"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入名称" name="name" ng-model="item.SHOP_NAME">
+									placeholder="请输入名称" name="name" ng-model="item.shop_name">
 								<div class="text-danger"
 									ng-if="myForm.name.$dirty && myForm.name.$invalid">
 									<span ng-if="myForm.name.$error.required"> 输入不能为空 </span> <span
@@ -41,7 +41,7 @@
 									class="chosen-select" no-results-text="'没有找到相应条目'"
 									ng-model="statusSel" data-placeholder-text-single="'请选择...'"
 									placeholder_text_multiple="'请选择...'"
-									ng-options="item.NAME for item in statusOpt">
+									ng-options="item.name for item in statusOpt">
 									<option value=""></option>
 								</select>
 							</div>
@@ -51,7 +51,7 @@
 							<div class="col-sm-10">
 								<input type="text" required ng-maxlength="100"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="code" ng-model="item.MARK">
+									placeholder="请输入内容" name="code" ng-model="item.mark">
 								<div class="text-danger"
 									ng-if="myForm.mark.$dirty && myForm.mark.$invalid">
 									<span ng-if="myForm.mark.$error.required"> 输入不能为空 </span> <span

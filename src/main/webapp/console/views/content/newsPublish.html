@@ -44,7 +44,7 @@
 								<div class="col-sm-10">
 									<input type="text" required ng-maxlength="50"
 										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-										placeholder="请输入内容" name="title" ng-model="item.TITLE"
+										placeholder="请输入内容" name="title" ng-model="item.title"
 										class="form-control">
 									<div class="text-danger"
 										ng-if="myForm.title.$dirty && myForm.title.$invalid">
@@ -61,7 +61,7 @@
 								<div class="col-sm-10">
 									<input type="text" required ng-maxlength="10"
 										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-										placeholder="请输入内容" name="profile" ng-model="item.PROFILE"
+										placeholder="请输入内容" name="profile" ng-model="item.profile"
 										class="form-control">
 									<div class="text-danger"
 										ng-if="myForm.profile.$dirty && myForm.profile.$invalid">
@@ -77,7 +77,7 @@
 									<select chosen disable-search="true" class="chosen-select"
 										no-results-text="'没有找到相应条目'" ng-model="accessSel"
 										data-placeholder-text-single="'请选择...'"
-										ng-options="item.NAME for item in accessOpt">
+										ng-options="item.name for item in accessOpt">
 										<option value=""></option>
 									</select>
 								</div>
@@ -88,7 +88,7 @@
 								<div class="col-sm-10">
 									<input type="text" ng-maxlength="100"
 										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-										placeholder="请输入内容" name="url" ng-model="item.URL"
+										placeholder="请输入内容" name="url" ng-model="item.url"
 										class="form-control">
 									<div class="text-danger"
 										ng-if="myForm.url.$dirty && myForm.url.$invalid">
@@ -118,7 +118,7 @@
 									<select chosen disable-search="true" class="chosen-select"
 										no-results-text="'没有找到相应条目'" ng-model="mpicSel"
 										data-placeholder-text-single="'请选择...'"
-										ng-options="item.NAME for item in mpicOpt">
+										ng-options="item.name for item in mpicOpt">
 										<option value=""></option>
 									</select>
 								</div>

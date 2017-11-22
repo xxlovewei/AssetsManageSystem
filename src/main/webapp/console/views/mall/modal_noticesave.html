@@ -22,7 +22,7 @@
 							<div class="col-sm-10">
 								<input type="text" required ng-maxlength="10"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="title" ng-model="item.TITLE">
+									placeholder="请输入内容" name="title" ng-model="item.title">
 								<div class="text-danger"
 									ng-if="myForm.title.$dirty && myForm.title.$invalid">
 									<span ng-if="myForm.title.$error.required"> 输入不能为空 </span> <span
@@ -37,7 +37,7 @@
 								<select width=100 chosen disable-search="true"
 									class="chosen-select" no-results-text="'没有找到相应条目'"
 									ng-model="usedSel" data-placeholder-text-single="'请选择...'"
-									ng-options="item.NAME for item in usedOpt">
+									ng-options="item.name for item in usedOpt">
 									<option value=""></option>
 								</select>
 							</div>

@@ -10,7 +10,7 @@
 									style="width: 120px;" chosen disable-search="true"
 									class="chosen-select" no-results-text="'没有找到相应条目'"
 									ng-model="topMenuSel" data-placeholder-text-single="'请选择...'"
-									ng-options="item.ORG_NAME for item in topMenuOpt">
+									ng-options="item.org_name for item in topMenuOpt">
 									<option value=""></option>
 								</select>
 							</div>
@@ -48,7 +48,7 @@
 								<div class="col-sm-10">
 									<input type="text" required ng-maxlength="10"
 										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-										placeholder="请输入内容" name="name" ng-model="item.NODE_NAME"
+										placeholder="请输入内容" name="name" ng-model="item.node_name"
 										class="form-control">
 									<div class="text-danger"
 										ng-if="myForm.name.$dirty && myForm.name.$invalid">
