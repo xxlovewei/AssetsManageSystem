@@ -46,7 +46,7 @@ public class RcdMetaData
 	}
 	public String getColumnLabel(int i)
 	{
-		return columnLabel.get(i);
+		return columnLabel.get(i).toLowerCase();
 	}
 	
 	 

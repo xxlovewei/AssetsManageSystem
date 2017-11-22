@@ -8,6 +8,8 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
+import com.dt.core.common.util.support.HttpKit;
+import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.mall.service.OrderService;
 import com.dt.module.mall.service.ShopService;
 
@@ -26,8 +28,10 @@ public class OrderController extends BaseController {
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "创建订单")
 	public ResData createOrder() {
-		return orderService.createOrder();
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		return orderService.createOrder(ps,getUserId(),OrderService.ORDER_STATUS_WAITTING_PAY);
 	}
+	
 
 	@RequestMapping(value = "/order/cancelOrder.do")
 	@Res
@@ -48,6 +52,16 @@ public class OrderController extends BaseController {
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "修改订单状态")
 	public ResData changeOrderStatus() {
 		return null;
+	}
+
+
+	/** 
+	 * @Title: MISSING 
+	 * @Description: TODO
+	 * @return: void
+	 */
+	public static void main(String[] args) {
+	 
 	}
 	
 }
