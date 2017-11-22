@@ -29,7 +29,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 	function flush() {
 		var ps = {};
-		ps.org_id = $scope.topMenuSel.ORG_ID;
+		ps.org_id = $scope.topMenuSel.org_id;
 		org_id = ps.org_id;
 		$http.post($rootScope.project + "/api/hrm/orgNodeTreeQuery.do", ps)
 				.success(function(res) {
@@ -226,7 +226,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	}
 
 	$scope.ok = function() {
-		if (angular.isDefined($scope.item.NODE_ID)) {
+		if (angular.isDefined($scope.item.node_id)) {
 			$http.post($rootScope.project + "/api/hrm/orgNodeSave.do", $scope.item)
 					.success(
 							function(res) {

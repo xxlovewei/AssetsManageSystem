@@ -239,7 +239,7 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 	}
 
 	$scope.saveItem = function() {
-		$scope.item.ISACTION=$scope.actionSel.ID;
+		$scope.item.isaction=$scope.actionSel.id;
 		$http.post($rootScope.project + "/api/ctCategroy/updateCategory.do", $scope.item).success(function(res) {
 			if (res.success) {
 				var inst = $scope.tree;

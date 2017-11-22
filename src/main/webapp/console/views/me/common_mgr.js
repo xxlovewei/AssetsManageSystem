@@ -11,7 +11,7 @@ function meCommonMgrCtl($localStorage, $confirm, $log, notify, $scope, $http, $r
 		$scope.systemOpt = dt_systems;
 	}
 
-	if (angular.isDefined(sys_user_info.SYSTEM)) {
+	if (angular.isDefined(sys_user_info.system)) {
 		for (var i = 0; i < $scope.systemOpt.length; i++) {
 			if (sys_user_info.system == $scope.systemOpt[i].menu_id) {
 				$scope.systemSel = $scope.systemOpt[i];

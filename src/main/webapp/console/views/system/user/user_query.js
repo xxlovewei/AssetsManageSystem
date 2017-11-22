@@ -39,7 +39,7 @@ function sysUserQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 	}
 	function renderStatus(data, type, full) {
 		var res = "正常";
-		if (full.LOCKED == "Y") {
+		if (full.locked == "Y") {
 			res = "锁定";
 		}
 		return res;
@@ -69,6 +69,7 @@ function sysUserQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 
 	function flush() {
 		var ps = {}
+
 		if ($scope.userGroupSel.group_id != "ALL") {
 			ps.group_id = $scope.userGroupSel.group_id;
 		}

@@ -10,7 +10,7 @@ function meRecAddrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.id + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
+//		acthtml = acthtml + " <button ng-click=\"save('" + full.id + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
 		acthtml = acthtml + " <button ng-click=\"row_del('" + full.id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}

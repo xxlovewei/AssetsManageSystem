@@ -35,8 +35,8 @@ public class MenuController extends BaseController {
 	@RequestMapping(value = "/menu/deleteNode.do")
 	@Res
 	@Acl
-	public ResData deleteNode(String NODE_ID) {
-		return menuService.deleteNode(NODE_ID);
+	public ResData deleteNode(String node_id) {
+		return menuService.deleteNode(node_id);
 	}
 	@RequestMapping(value = "/menu/addNode.do")
 	@Res

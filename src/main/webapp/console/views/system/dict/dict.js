@@ -134,7 +134,7 @@ function sysDictSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		return nRow;
 	}
 	function someClickHandler(data) {
-		flushSubtab(data.DICT_ID);
+		flushSubtab(data.dict_id);
 	}
 
 	function renderMType(data, type, full) {

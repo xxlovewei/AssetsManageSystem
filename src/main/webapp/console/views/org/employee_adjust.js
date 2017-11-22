@@ -109,13 +109,13 @@ function orgEmpSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 
 		}
 		// 检查姓名
-		if (!angular.isDefined($scope.data.NAME)) {
+		if (!angular.isDefined($scope.data.name)) {
 			notify({
 				message : "请输入姓名"
 			});
 			return;
 		}
-		$scope.data.NODES = angular.toJson($rootScope.sys_partSel);
+		$scope.data.nodes = angular.toJson($rootScope.sys_partSel);
 
 		var cmd = "";
 		if (angular.isDefined($scope.data.empl_id)) {
@@ -188,10 +188,10 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 		return res;
 	}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('EMPL_ID').withTitle('员工编号').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('NODE_NAME').withTitle('所属').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('ROLE_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	$scope.dtColumns = [ DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('name').withTitle('姓名').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('node_name').withTitle('所属').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('role_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 

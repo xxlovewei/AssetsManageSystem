@@ -46,7 +46,7 @@ ng-maxlength="20"
 						action="">
 
 
-						<div ng-show="item.ACTIONTYPE=='ADDMASTER'">
+						<div ng-show="item.actiontype=='addmaster'">
 							<div class="form-group">
 								<label class="col-sm-2 control-label"><span
 									class="text-danger">*</span>主菜单:</label>
@@ -81,7 +81,7 @@ ng-maxlength="20"
 							<div class="col-sm-10">
 								<input type="text" ng-maxlength="30"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="key" ng-model="item.KEY">
+									placeholder="请输入内容" name="key" ng-model="item.key">
 								<div class="text-danger"
 									ng-if="myForm.key.$dirty && myForm.key.$invalid">
 									<span ng-if="myForm.key.$error.maxlength">不能超过30个字符 </span>

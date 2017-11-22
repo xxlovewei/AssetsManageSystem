@@ -46,7 +46,7 @@ public class SysUserService extends BaseService {
 		if (ToolUtil.isEmpty(res)) {
 			return ResData.FAILURE_NODATA();
 		} else {
-			return ResData.SUCCESS_OPER();
+			return ResData.SUCCESS_OPER(res);
 		}
 	}
 	/**

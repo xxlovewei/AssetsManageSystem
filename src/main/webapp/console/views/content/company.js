@@ -30,7 +30,7 @@ function ctCompProfileCtl($compile, $confirm, $log, notify, $scope, $http,
 						if (res.success) {
 							// 加载数据
 							$scope.item = res.data;
-							$scope.content = $scope.item.CONTENT;
+							$scope.content = $scope.item.content;
 							// 处理图片
 							setTimeout(function() {
 								// 设置图片

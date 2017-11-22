@@ -31,8 +31,8 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal, $uibModal
 			return;
 		}
 		var ps = {};
-		ps.USER_IDS = userIds;
-		ps.ROLES = angular.toJson($scope.roleSel);
+		ps.user_ids = userIds;
+		ps.roles = angular.toJson($scope.roleSel);
 		$http.post($rootScope.project + "/api/user/userRoleChange.do", ps).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
@@ -74,6 +74,7 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 			$log.warn(res);
 			if (res.success) {
 				$scope.item = res.data;
+	
 				if (angular.isDefined(res.data.locked)) {
 					if (res.data.locked == "Y") {
 						$scope.lockedSel = $scope.lockedOpt[0];
@@ -194,7 +195,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 	console.log($scope.dtColumns);
 	function flush() {
 		var ps = {}
-		if ($scope.userGroupSel.group_id != "all") {
+		if ($scope.userGroupSel.group_id != "ALL") {
 			ps.group_id = $scope.userGroupSel.group_id;
 		}
 
@@ -229,7 +230,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		var userids = [];
 		for (var i = 0; i < data.length; i++) {
 			// alert($scope.dtOptions.aaData[data[i]].USER_NO)
-			userids.push($scope.dtOptions.aaData[data[i]].USER_ID);
+			userids.push($scope.dtOptions.aaData[data[i]].user_id);
 		}
 		angular.toJson(userids)
 		$confirm({

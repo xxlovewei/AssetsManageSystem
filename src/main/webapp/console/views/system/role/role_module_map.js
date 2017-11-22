@@ -200,7 +200,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, 
 
 		$http.post($rootScope.project + "/api/menu/treeNodeRoleMap.do", {
 			role_id : role_id,
-			menu_id : $scope.topMenuSel.MENU_ID,
+			menu_id : $scope.topMenuSel.menu_id,
 			modules_arr : angular.toJson($scope.tree.get_selected())
 		}).success(function(res) {
 			notify({

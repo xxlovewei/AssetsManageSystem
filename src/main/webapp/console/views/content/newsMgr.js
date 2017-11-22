@@ -65,8 +65,8 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
-		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.ID + "')\" class=\"btn-white btn btn-xs\">详细</button> ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.ID + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+//		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.id + "')\" class=\"btn-white btn btn-xs\">详细</button> ";
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
@@ -89,18 +89,18 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 
 	function renderMImage(data, type, full) {
 		var html = ""
-		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "/api/file/imagedown.do?id=" + full.MPIC + "  />"
+		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "/api/file/imagedown.do?id=" + full.mpic + "  />"
 		return html;
 	}
 
 	$scope.dtColumns = [
 
-	DTColumnBuilder.newColumn('ID').withTitle('主图').withOption('sDefaultContent', '').renderWith(renderMImage),
-			DTColumnBuilder.newColumn('TITLE').withTitle('标题').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('CREATETIME').withTitle('创建时间').withOption('sDefaultContent', '').withClass('none'),
-			DTColumnBuilder.newColumn('HITS').withTitle('点击量').withOption('sDefaultContent', '').withClass('none'),
-			DTColumnBuilder.newColumn('URLTYPE').withTitle('链接类型').withOption('sDefaultContent', '').renderWith(renderType),
-			DTColumnBuilder.newColumn('USER_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	DTColumnBuilder.newColumn('id').withTitle('主图').withOption('sDefaultContent', '').renderWith(renderMImage),
+			DTColumnBuilder.newColumn('title').withTitle('标题').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', '').withClass('none'),
+			DTColumnBuilder.newColumn('hits').withTitle('点击量').withOption('sDefaultContent', '').withClass('none'),
+			DTColumnBuilder.newColumn('urltype').withTitle('链接类型').withOption('sDefaultContent', '').renderWith(renderType),
+			DTColumnBuilder.newColumn('user_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	$scope.row_del = function(id) {
 		$confirm({

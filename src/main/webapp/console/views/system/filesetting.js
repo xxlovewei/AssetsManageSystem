@@ -16,10 +16,11 @@ function sysfileConfCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 			}).withLanguage(DTLang);
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
-		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.id + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
-		return acthtml;
+//		var acthtml = " <div class=\"btn-group\"> ";
+//		acthtml = acthtml + " <button ng-click=\"save('" + full.id + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
+//		acthtml = acthtml + " <button ng-click=\"row_del('" + full.id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+//		return acthtml;
+		return "";
 	}
 	function renderStatus(data, type, full) {
 		if (data == "Y") {
@@ -34,7 +35,7 @@ function sysfileConfCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 
 	$scope.dtColumns = [
 
-	DTColumnBuilder.newColumn('ID').withTitle('id').withOption('sDefaultContent', ''), DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption('sDefaultContent', ''),
+	DTColumnBuilder.newColumn('id').withTitle('编号').withOption('sDefaultContent', ''), DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('path').withTitle('路径').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('is_used').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
 			DTColumnBuilder.newColumn('user_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]

@@ -1,11 +1,11 @@
 function ctNewsPublishCtl($compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.accessOpt = [ {
-		ID : "local",
-		NAME : "内置"
+		id : "local",
+		name : "内置"
 	}, {
-		ID : "outer",
-		NAME : "外链"
+		id : "outer",
+		name : "外链"
 	} ]
 
 	$scope.mpicOpt = [ {
@@ -91,11 +91,11 @@ function ctNewsPublishCtl($compile, $confirm, $log, notify, $scope, $http, $root
 		$scope.item.content = $scope.content;
 		$scope.item.urltype = $scope.accessSel.id;
 		$http.post($rootScope.project + "/api/news/publishNews.do", $scope.item).success(function(res) {
-			if (res.success) {
-
-			} else {
-
-			}
+//			if (res.success) {
+//
+//			} else {
+//
+//			}
 			notify({
 				message : res.message
 			});

@@ -45,8 +45,8 @@ public class RoleController extends BaseController {
 	@RequestMapping(value = "/role/roleQueryById.do")
 	@Res
 	@Acl
-	public ResData roleQueryById(String ROLE_ID) {
-		return roleService.queryRoleById(ROLE_ID);
+	public ResData roleQueryById(String role_id) {
+		return roleService.queryRoleById(role_id);
 	}
 	@RequestMapping(value = "/role/roleSave.do")
 	@Res

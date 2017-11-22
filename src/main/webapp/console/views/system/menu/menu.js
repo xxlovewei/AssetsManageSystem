@@ -63,7 +63,7 @@ function menuModuleCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 function menuAclCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder, notify, $log, $uibModal, $uibModalInstance, $scope, data, $http, $rootScope, $compile) {
 	$scope.item = {}
 	$log.log("window in:", data);
-	var mid = data.NODE_ID;
+	var mid = data.node_id;
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(10).withOption("ordering", false).withOption("responsive", true)
 			.withOption("searching", true).withOption("paging", true).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
 					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
@@ -73,7 +73,7 @@ function menuAclCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder, notify,
 				if (angular.isDefined($scope.dtInstance.DataTable)) {
 					$timeout(function() {
 						for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
-							if ($scope.dtOptions.aaData[i].SELECTED == "Y") {
+							if ($scope.dtOptions.aaData[i].selected == "Y") {
 								$scope.dtInstance.DataTable.row(':eq(' + i + ')').select();
 							} else {
 								break;
@@ -246,7 +246,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 					});
 				}
 			})
-		} else if ($scope.item.ACTIONTYPE == "add" || $scope.item.ACTIONTYPE == "addmaster") {
+		} else if ($scope.item.actiontype == "add" || $scope.item.actiontype == "addmaster") {
 			$log.log("新增")
 			$http.post($rootScope.project + "/api/menu/addNode.do", ps).success(function(res) {
 				if (res.success) {
@@ -465,7 +465,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 	var myTreeData = [];
 	function flush() {
 		$http.post($rootScope.project + "/api/menu/treeDataDirect.do", {
-			ID : $scope.topMenuSel.MENU_ID
+			id : $scope.topMenuSel.menu_id
 		}).success(function(res) {
 			if (res.success) {
 				rawTreeData = res.data
