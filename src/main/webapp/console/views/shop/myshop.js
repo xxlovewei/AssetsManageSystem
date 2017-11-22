@@ -18,9 +18,9 @@ function shopSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance, data, n
 	} ];
 	$scope.statusSel = $scope.statusOpt[0];
 
-	if (angular.isDefined(data.SHOP_ID)) {
+	if (angular.isDefined(data.shop_id)) {
 		$http.post($rootScope.project + "/api/shop/queryShopById.do", {
-			shop_id : data.SHOP_ID
+			shop_id : data.shop_id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data;

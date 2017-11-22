@@ -9,12 +9,12 @@ function prepend(arr, item) {
 function prodPinpSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 		data, notify) {
 	$scope.item = {};
-	$scope.item.NAME = "";
-	$scope.item.BRAND_CODE = "";
+	$scope.item.name = "";
+	$scope.item.brand_code = "";
 
-	if (angular.isDefined(data.BRAND_ID)) {
+	if (angular.isDefined(data.brand_id)) {
 		$http.post($rootScope.project + "/api/brand/brandQueryById.do", {
-			brand_id : data.BRAND_ID
+			brand_id : data.brand_id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data;
@@ -66,10 +66,10 @@ function prodPinpCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
-		acthtml = acthtml + " <button ng-click=\"save('" + full.BRAND_ID
+		acthtml = acthtml + " <button ng-click=\"save('" + full.brand_id
 				+ "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
 
-		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.BRAND_ID
+		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.brand_id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 
@@ -86,13 +86,13 @@ function prodPinpCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	$scope.dtColumns = [
 
-			DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption(
+			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('BRAND_CODE').withTitle('编号').withOption(
+			DTColumnBuilder.newColumn('brand_code').withTitle('编号').withOption(
 					'sDefaultContent', ''),
-//			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption(
+//			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 //					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('BRAND_ID').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('brand_id').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
@@ -135,7 +135,7 @@ function prodPinpCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.save = function(id) {
 
 		var ps = {}
-		ps.BRAND_ID = id;
+		ps.brand_id = id;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/product/pinp/modal_pinp_save.html',

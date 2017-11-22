@@ -77,7 +77,7 @@ public class BannerAndItemService extends BaseService {
 		me.set("banner_id", ps.getString("banner_id", ""));
 		me.set("type", ps.getString("type", ""));
 		me.setIf("name", ps.getString("name", ""));
-		me.set("imgurl", ps.getString("imgurl", ""));
+		me.set("pic_id", ps.getString("pic_id", ""));
 		me.setIf("ct", ps.getString("ct", ""));
 		me.setIf("rk", ps.getString("rk", "1"));
 		me.set("is_used", ps.getString("is_used", "Y"));
@@ -88,7 +88,7 @@ public class BannerAndItemService extends BaseService {
 	public ResData updateBannerItem(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_banner_item");
 		me.setIf("name", ps.getString("name", ""));
-		me.set("imgurl", ps.getString("imgurl", ""));
+		me.set("pic_id", ps.getString("pic_id", ""));
 		me.setIf("ct", ps.getString("ct", ""));
 		me.setIf("rk", ps.getString("rk", "1"));
 		me.set("is_used", ps.getString("is_used", "Y"));

@@ -431,7 +431,7 @@ public class ProductService extends BaseService {
 		ins.set("is_deleted", "N");
 		ins.setIf("prod_desc", ps.getString("prod_desc"));
 		ins.setIf("brand_id", ps.getString("brand_id"));
-		ins.setIf("master_pic", ps.getString("master_pic"));
+		ins.setIf("pic_id", ps.getString("pic_id"));
 		ins.set("unit", ps.getString("unit"));
 		ins.set("title", ps.getString("title"));
 		ins.setIf("place", ps.getString("place"));

@@ -137,7 +137,7 @@ function shopListCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confi
 	$scope.save = function(id) {
 
 		var ps = {}
-		ps.SHOP_ID = id;
+		ps.shop_id = id;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/shop/modal_shop_save.html',

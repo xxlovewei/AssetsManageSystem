@@ -82,6 +82,7 @@ public class OrderService extends BaseService {
 		for(int i=0;i<goodsarr.size();i++) {
 			Insert ins=new Insert("mall_order_detail");
 			JSONObject e=goodsarr.getJSONObject(i);
+			System.out.println(e.toJSONString());
 			ins.set("id",db.getUUID() );
 			ins.set("order_id", orderId);
 			ins.set("is_delete", "N");
@@ -91,8 +92,8 @@ public class OrderService extends BaseService {
 			ins.set("buy_number", e.getString("buy_number"));
 			ins.setIf("sku", e.getString("sku"));
 			ins.setIf("label", e.getString("label"));
-			ins.setIf("master_pic", e.getString("master_pic"));
-			ins.setIf("propertyChildIds", e.getString("propertychildids"));
+			ins.setIf("pic_id", e.getString("pic_id"));
+			ins.setIf("propertychildids", e.getString("propertychildids"));
 			ins.setSE("cdate", DBUtil.getDBDateString(db.getDBType()));
 			sqls.add(ins);	
 		}

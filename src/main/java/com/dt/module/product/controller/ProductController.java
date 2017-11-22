@@ -96,8 +96,8 @@ public class ProductController extends BaseController {
 	@RequestMapping("/product/queryProdSkuDetail.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "产品销售属性选择后获取sku详细数据")
-	public ResData queryProdSkuDetail(String spu, String propertyChildIds) {
-		return productService.queryProdSkuDetail(spu, propertyChildIds);
+	public ResData queryProdSkuDetail(String spu, String propertychildids) {
+		return productService.queryProdSkuDetail(spu, propertychildids);
 	}
 
 	@RequestMapping("/product/queryProdBySpuNotSkuForMall.do")

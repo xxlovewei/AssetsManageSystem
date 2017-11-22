@@ -6,7 +6,7 @@
 				<div class="profile-element" uib-dropdown>
 					<img alt="image" class="img-circle" src="img/profile_small.jpg" />
 					<a uib-dropdown-toggle href> <span class="clear"> <span
-							class="block m-t-xs"> <strong class="font-bold">{{sys_user_info.USER_NAME}}</strong>
+							class="block m-t-xs"> <strong class="font-bold">{{sys_user_info.user_name}}</strong>
 						</span> <!--  <span class="text-muted text-xs block">{{sys_user_info.USER_NAME}}
 								 <b class="caret"></b> 
 						</span> -->
@@ -26,9 +26,9 @@
 				ui-sref="{{first.state}}"> <i
 					ng-class="{false: 'fa fa-th-large',true:'{{first.logo}}'}[menuLogoIsExist(first.logo)]"></i>
 					<span class="nav-lank nav-label nav-first-level">{{::first.node_name}}</span>
-					<span ng-if="first.CHILDREN_CNT>0" class="fa arrow"></span>
+					<span ng-if="first.children_cnt>0" class="fa arrow"></span>
 			</a>
-				<ul ng-if="first.CHILDREN_CNT>0"
+				<ul ng-if="first.children_cnt>0"
 					class="nav nav-second-level collapse "
 					ng-class="{in: $state.includes('{{first.state}}')}">
 					<li ng-class="{active: $state.includes('{{second.state}}')}"

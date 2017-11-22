@@ -96,10 +96,10 @@ function mallBannerItemSaveCtl($localStorage, notify, $log, $uibModal,
 			$scope.myDropzone.uploadFile($scope.myDropzone.files[0])
 		}
 		
-		$scope.item.imgurl = picid;
-		$scope.item.IS_USED = $scope.usedSel.ID;
+		$scope.item.pic_id = picid;
+		$scope.item.is_used = $scope.usedSel.id;
 		if (!angular.isDefined(id)) {
-			$scope.item.BANNER_ID = banner_id;
+			$scope.item.banner_id = banner_id;
 		}
 		$http.post($rootScope.project + "/api/banner/saveBannerItem.do",
 				$scope.item).success(function(res) {
@@ -149,9 +149,9 @@ function mallbannerCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.ID
+		acthtml = acthtml + " <button ng-click=\"save('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.ID
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
@@ -164,7 +164,7 @@ function mallbannerCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	function renderImage(data, type, full) {
 		var html = ""
-		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "/api/file/imagedown.do?id=" + full.imgurl + "  />"
+		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "/api/file/imagedown.do?id=" + full.pic_id + "  />"
 		return html;
 	}
 
@@ -184,7 +184,7 @@ function mallbannerCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	function flush() {
 		console.log($scope.dtOptions);
 		var ps = {}
-		ps.banner_id = $scope.bannerSel.BANNER_ID;
+		ps.banner_id = $scope.bannerSel.banner_id;
 		$http.post($rootScope.project + "/api/banner/queryBannerItems.do", ps)
 				.success(function(res) {
 					if (res.success) {
@@ -232,7 +232,7 @@ function mallbannerCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					return id;
 				},
 				banner_id : function() {
-					return $scope.bannerSel.BANNER_ID;
+					return $scope.bannerSel.banner_id;
 				},
 			}
 		});
