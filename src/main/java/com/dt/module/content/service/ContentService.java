@@ -31,28 +31,28 @@ public class ContentService extends BaseService {
 	 */
 	public ResData addContent(TypedHashMap<String, Object> ps, String type) {
 		Insert me = new Insert("ct_content");
-		String idctl = ps.getString("SELFID", "N");
+		String idctl = ps.getString("selfid", "N");
 		String id = UuidUtil.getUUID();
 		if (idctl.equals("Y")) {
-			id = ps.getString("ID", id);
+			id = ps.getString("id", id);
 		}
 		me.set("id", id);
 		me.set("deleted", "N");
 		me.set("type", type);
-		me.set("display", ToolUtil.parseYNValueDefN(ps.getString("DISPLAY")));
-		me.set("digest", ToolUtil.parseYNValueDefN(ps.getString("DIGEST")));
-		me.setIf("cat_id", ps.getString("CAT_ID"));
-		me.setIf("title", ps.getString("TITLE"));
-		me.setIf("profile", ps.getString("PROFILE"));
-		me.setIf("urltype", ps.getString("URLTYPE"));
-		me.setIf("url", ps.getString("URL"));
-		me.setIf("mpic", ps.getString("MPIC"));
-		me.setIf("mpic_loc", ps.getString("MPIC_LOC"));
-		me.setIf("hits", ps.getString("HITS"));
-		me.setIf("author", ps.getString("AUTHOR"));
-		me.setIf("tag", ps.getString("TAG"));
-		me.setIf("content", ps.getString("CONTENT"));
-		me.setIf("mark", ps.getString("MARK"));
+		me.set("display", ToolUtil.parseYNValueDefN(ps.getString("display")));
+		me.set("digest", ToolUtil.parseYNValueDefN(ps.getString("digest")));
+		me.setIf("cat_id", ps.getString("cat_id"));
+		me.setIf("title", ps.getString("title"));
+		me.setIf("profile", ps.getString("profile"));
+		me.setIf("urltype", ps.getString("urltype"));
+		me.setIf("url", ps.getString("url"));
+		me.setIf("mpic", ps.getString("mpic"));
+		me.setIf("mpic_loc", ps.getString("mpic_loc"));
+		me.setIf("hits", ps.getString("hits"));
+		me.setIf("author", ps.getString("author"));
+		me.setIf("tag", ps.getString("tag"));
+		me.setIf("content", ps.getString("content"));
+		me.setIf("mark", ps.getString("mark"));
 		me.setSE("createtime", DBUtil.getDBDateString(db.getDBType()));
 		me.setSE("modifytime", DBUtil.getDBDateString(db.getDBType()));
 		db.execute(me);
@@ -63,22 +63,22 @@ public class ContentService extends BaseService {
 	 */
 	public ResData updateContent(TypedHashMap<String, Object> ps) {
 		Update me = new Update("ct_content");
-		me.set("display", ToolUtil.parseYNValueDefN(ps.getString("DISPLAY")));
-		me.set("digest", ToolUtil.parseYNValueDefN(ps.getString("DIGEST")));
-		me.setIf("cat_id", ps.getString("CAT_ID"));
-		me.setIf("title", ps.getString("TITLE"));
-		me.setIf("profile", ps.getString("PROFILE"));
-		me.setIf("content", ps.getString("CONTENT"));
-		me.setIf("urltype", ps.getString("URLTYPE"));
-		me.setIf("url", ps.getString("URL"));
-		me.setIf("mpic", ps.getString("MPIC"));
-		me.setIf("mpic_loc", ps.getString("MPIC_LOC"));
-		me.setIf("hits", ps.getString("HITS"));
-		me.setIf("author", ps.getString("AUTHOR"));
-		me.setIf("tag", ps.getString("TAG"));
-		me.setIf("mark", ps.getString("MARK"));
+		me.set("display", ToolUtil.parseYNValueDefN(ps.getString("display")));
+		me.set("digest", ToolUtil.parseYNValueDefN(ps.getString("digest")));
+		me.setIf("cat_id", ps.getString("cat_id"));
+		me.setIf("title", ps.getString("title"));
+		me.setIf("profile", ps.getString("profile"));
+		me.setIf("content", ps.getString("content"));
+		me.setIf("urltype", ps.getString("urltype"));
+		me.setIf("url", ps.getString("url"));
+		me.setIf("mpic", ps.getString("mpic"));
+		me.setIf("mpic_loc", ps.getString("mpic_loc"));
+		me.setIf("hits", ps.getString("hits"));
+		me.setIf("author", ps.getString("author"));
+		me.setIf("tag", ps.getString("tag"));
+		me.setIf("mark", ps.getString("mark"));
 		me.setSE("modifytime", DBUtil.getDBDateString(db.getDBType()));
-		me.where().and("id=?", ps.getString("ID"));
+		me.where().and("id=?", ps.getString("id"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}

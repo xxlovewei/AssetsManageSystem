@@ -101,10 +101,10 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 						console.log("cur:obj", obj);
 						$http.post($rootScope.project + "/api/hrm/orgNodeSave.do",
 								{
-									NODE_TYPE : obj.type,
-									NODE_NAME : "新节点",
-									ORG_ID : org_id,
-									PARENT_ID : obj.id
+									node_type : obj.type,
+									node_name : "新节点",
+									org_id : org_id,
+									parent_id : obj.id
 								}).success(function(res) {
 							if (res.success) {
 							 
@@ -232,8 +232,8 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 							function(res) {
 								if (res.success) {
 									var inst = $scope.tree;
-									inst.rename_node($scope.item.NODE_ID,
-											$scope.item.NODE_NAME)
+									inst.rename_node($scope.item.node_id,
+											$scope.item.node_name)
 								}
 
 								notify({

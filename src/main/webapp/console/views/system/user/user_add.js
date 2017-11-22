@@ -15,18 +15,18 @@ function sysUserAddCtl($confirm, $log, notify, $scope, $http, $rootScope) {
 
 	$scope.reset = function() {
 		$scope.item = {};
-		$scope.item.NAME = "";
+		$scope.item.name = "";
 		$scope.userStatusSel = $scope.userStatusOpt[0];
 	}
 
 	$scope.ok = function() {
-		$scope.item.LOCKED = $scope.userStatusSel.id;
+		$scope.item.locked = $scope.userStatusSel.id;
 		$log.info($scope.item);
 		$http.post($rootScope.project + "/api/user/userSave.do", $scope.item).success(
 				function(res) {
 					if (res.success) {
 						$scope.item = {};
-						$scope.item.NAME = "";
+						$scope.item.name = "";
 						$scope.userStatusSel = $scope.userStatusOpt[0];
 					}
 					notify({

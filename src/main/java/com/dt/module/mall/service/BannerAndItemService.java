@@ -27,9 +27,9 @@ public class BannerAndItemService extends BaseService {
 	public ResData addBanner(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_banner");
 		me.set("banner_id", db.getUUID());
-		me.setIf("name", ps.getString("NAME", ""));
-		me.set("type", ps.getString("TYPE", ""));
-		me.set("is_used", ps.getString("IS_USED", "Y"));
+		me.setIf("name", ps.getString("name", ""));
+		me.set("type", ps.getString("type", ""));
+		me.set("is_used", ps.getString("is_used", "Y"));
 		me.set("is_delete", 'N');
 		db.execute(me);
 		return ResData.SUCCESS();
@@ -37,9 +37,9 @@ public class BannerAndItemService extends BaseService {
 
 	public ResData updateBanner(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_banner");
-		me.setIf("name", ps.getString("NAME", ""));
-		me.set("is_used", ps.getString("IS_USED", "Y"));
-		me.where().and("banner_id=?", ps.getString("BANNER_ID", ""));
+		me.setIf("name", ps.getString("name", ""));
+		me.set("is_used", ps.getString("is_used", "Y"));
+		me.where().and("banner_id=?", ps.getString("banner_id", ""));
 		db.execute(me);
 		return ResData.SUCCESS();
 	}
@@ -74,25 +74,25 @@ public class BannerAndItemService extends BaseService {
 	public ResData addBannerItem(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_banner_item");
 		me.set("id", db.getUUID());
-		me.set("banner_id", ps.getString("BANNER_ID", ""));
-		me.set("type", ps.getString("TYPE", ""));
-		me.setIf("name", ps.getString("NAME", ""));
-		me.set("imgurl", ps.getString("IMGURL", ""));
-		me.setIf("ct", ps.getString("CT", ""));
-		me.setIf("rk", ps.getString("RK", "1"));
-		me.set("is_used", ps.getString("IS_USED", "Y"));
+		me.set("banner_id", ps.getString("banner_id", ""));
+		me.set("type", ps.getString("type", ""));
+		me.setIf("name", ps.getString("name", ""));
+		me.set("imgurl", ps.getString("imgurl", ""));
+		me.setIf("ct", ps.getString("ct", ""));
+		me.setIf("rk", ps.getString("rk", "1"));
+		me.set("is_used", ps.getString("is_used", "Y"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
 
 	public ResData updateBannerItem(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_banner_item");
-		me.setIf("name", ps.getString("NAME", ""));
-		me.set("imgurl", ps.getString("IMGURL", ""));
-		me.setIf("ct", ps.getString("CT", ""));
-		me.setIf("rk", ps.getString("RK", "1"));
-		me.set("is_used", ps.getString("IS_USED", "Y"));
-		me.where().and("id=?", ps.getString("ID", ""));
+		me.setIf("name", ps.getString("name", ""));
+		me.set("imgurl", ps.getString("imgurl", ""));
+		me.setIf("ct", ps.getString("ct", ""));
+		me.setIf("rk", ps.getString("rk", "1"));
+		me.set("is_used", ps.getString("is_used", "Y"));
+		me.where().and("id=?", ps.getString("id", ""));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}

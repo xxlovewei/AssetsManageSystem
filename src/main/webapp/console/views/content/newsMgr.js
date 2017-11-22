@@ -13,8 +13,8 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 	$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(function(res) {
 		if (res.success) {
 			$scope.userGroupOpt = prepend(res.data, {
-				GROUP_ID : "ALL",
-				NAME : "全部"
+				group_id : "ALL",
+				name : "全部"
 			});
 			$scope.userGroupSel = $scope.userGroupOpt[0];
 		} else {

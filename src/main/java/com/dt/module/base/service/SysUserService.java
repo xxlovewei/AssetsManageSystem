@@ -53,7 +53,7 @@ public class SysUserService extends BaseService {
 	 * @Description: 保存用户通用设置数据
 	 */
 	public ResData saveCommonSettings(String user_id, TypedHashMap<String, Object> ps) {
-		String system = ps.getString("SYSTEM");
+		String system = ps.getString("system");
 		if (ToolUtil.isNotEmpty(system)) {
 			Update systemups = new Update("sys_user_info");
 			systemups.set("system", system);

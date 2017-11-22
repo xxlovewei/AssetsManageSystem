@@ -25,10 +25,10 @@ public class NoticeService extends BaseService {
 	public ResData addNotice(TypedHashMap<String, Object> ps, String user_id) {
 		Insert me = new Insert("sys_notice");
 		me.set("id", db.getUUID());
-		me.setIf("type", ps.getString("TYPE"));
-		me.setIf("title", ps.getString("TITLE"));
-		me.setIf("ct", ps.getString("CT"));
-		me.setIf("is_show", ps.getString("IS_SHOW", "N"));
+		me.setIf("type", ps.getString("type"));
+		me.setIf("title", ps.getString("title"));
+		me.setIf("ct", ps.getString("ct"));
+		me.setIf("is_show", ps.getString("is_show", "N"));
 		me.set("is_delete", "N");
 		me.setIf("user_id", user_id);
 		me.setSE("rdate", DBUtil.getDBDateString(db.getDBType()));
@@ -56,11 +56,11 @@ public class NoticeService extends BaseService {
 	public ResData updateNotice(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_notice");
 		me.set("id", db.getUUID());
-		me.setIf("title", ps.getString("TITLE"));
-		me.setIf("ct", ps.getString("CT"));
-		me.setIf("is_show", ps.getString("IS_SHOW", "N"));
+		me.setIf("title", ps.getString("title"));
+		me.setIf("ct", ps.getString("ct"));
+		me.setIf("is_show", ps.getString("is_show", "N"));
 		me.setSE("rdate", DBUtil.getDBDateString(db.getDBType()));
-		me.where().and("id=?", ps.getString("ID", ""));
+		me.where().and("id=?", ps.getString("id", ""));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -75,8 +75,8 @@ public class NoticeService extends BaseService {
 
 		String sql = "select * from sys_notice where is_delete='N' ";
 
-		String bdate = ps.getString("BDATE");// 2012-01-01
-		String edate = ps.getString("EDATE");// 2012-01-01
+		String bdate = ps.getString("bdate");// 2012-01-01
+		String edate = ps.getString("edate");// 2012-01-01
 		if (ToolUtil.isNotEmpty(type)) {
 			sql = sql + " and type='" + type + "'";
 		}

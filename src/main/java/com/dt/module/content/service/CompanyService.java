@@ -31,10 +31,10 @@ public class CompanyService extends BaseService {
 		if(!initCompany()){
 			ResData.FAILURE_NODATA();
 		}
-		if (ps.containsKey("ID")) {
-			ps.remove("ID");
+		if (ps.containsKey("id")) {
+			ps.remove("id");
 		}
-		ps.put("ID", COMPANY_ID);
+		ps.put("id", COMPANY_ID);
 		contentService.updateContent(ps);
 		return ResData.SUCCESS_OPER();
 	}
@@ -47,9 +47,9 @@ public class CompanyService extends BaseService {
 			return true;
 		} else {
 			TypedHashMap<String, Object> ps = new TypedHashMap<String, Object>();
-			ps.put("ID", COMPANY_ID);
-			ps.put("SELFID", "Y");
-			ps.put("TITLE", "");
+			ps.put("id", COMPANY_ID);
+			ps.put("selfid", "Y");
+			ps.put("title", "");
 			contentService.addContent(ps, ContentService.TYPE_OHTER);
 			ResData rs2 = contentService.queryContentById(COMPANY_ID);
 			if (rs2.isSuccess()) {

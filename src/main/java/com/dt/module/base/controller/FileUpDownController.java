@@ -51,7 +51,7 @@ public class FileUpDownController extends BaseController {
 		if (bus == null || bus.equals("")) {
 			return ResData.FAILURE("请输入业务号");
 		}
-		Rcd fileinfo = db.uniqueRecord("select * from SYS_FILE_CONF where id=? and is_used='Y'", bus);
+		Rcd fileinfo = db.uniqueRecord("select * from sys_file_conf where id=? and is_used='Y'", bus);
 		if (fileinfo == null) {
 			return ResData.FAILURE("数据库并未配置");
 		}

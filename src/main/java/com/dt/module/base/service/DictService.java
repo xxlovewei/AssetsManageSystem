@@ -33,11 +33,11 @@ public class DictService extends BaseService {
 	 
 		Insert me = new Insert("sys_dict");
 		me.set("dict_id", UuidUtil.getUUID());
-		me.setIf("name", ps.getString("NAME", ""));
-		me.setIf("mark", ps.getString("MARK", ""));
-		me.setIf("status", ps.getString("STATUS", "N"));
+		me.setIf("name", ps.getString("name", ""));
+		me.setIf("mark", ps.getString("mark", ""));
+		me.setIf("status", ps.getString("status", "N"));
 		me.setIf("deleted","N");
-		me.set("dict_level", ps.getString("DICT_LEVEL"));
+		me.set("dict_level", ps.getString("dict_level"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	  
@@ -46,15 +46,15 @@ public class DictService extends BaseService {
 	 * @Description: 更新字典
 	 */
 	public ResData updateDict(TypedHashMap<String, Object> ps) {
-		if (!ps.containsKey("DICT_ID")) {
+		if (!ps.containsKey("dict_id")) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		Update ups = new Update("sys_dict");
-		ups.setIf("name", ps.getString("NAME", ""));
-		ups.setIf("mark", ps.getString("MARK", ""));
-		ups.setIf("status", ps.getString("STATUS", "N"));
-		ups.set("dict_level", ps.getString("DICT_LEVEL"));
-		ups.where().and("dict_id=?", ps.getString("DICT_ID"));
+		ups.setIf("name", ps.getString("name", ""));
+		ups.setIf("mark", ps.getString("mark", ""));
+		ups.setIf("status", ps.getString("status", "N"));
+		ups.set("dict_level", ps.getString("dict_level"));
+		ups.where().and("dict_id=?", ps.getString("dict_id"));
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
 	}
@@ -90,12 +90,12 @@ public class DictService extends BaseService {
 	 */
 	public ResData addDictItem(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_dict_item");
-		me.set("dict_id", ps.getString("DICT_ID"));
+		me.set("dict_id", ps.getString("dict_id"));
 		me.set("dict_item_id", UuidUtil.getUUID());
-		me.setIf("name", ps.getString("NAME"));
-		me.setIf("sort", ps.getString("SORT"));
-		me.setIf("mark", ps.getString("MARK"));
-		me.setIf("code", ps.getString("CODE"));
+		me.setIf("name", ps.getString("name"));
+		me.setIf("sort", ps.getString("sort"));
+		me.setIf("mark", ps.getString("mark"));
+		me.setIf("code", ps.getString("code"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -104,11 +104,11 @@ public class DictService extends BaseService {
 	 */
 	public ResData updateDictItem(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_dict_item");
-		me.setIf("name", ps.getString("NAME"));
-		me.setIf("mark", ps.getString("MARK"));
-		me.setIf("sort", ps.getString("SORT"));
-		me.setIf("code", ps.getString("CODE"));
-		me.where().and("dict_item_id=?", ps.getString("DICT_ITEM_ID"));
+		me.setIf("name", ps.getString("name"));
+		me.setIf("mark", ps.getString("mark"));
+		me.setIf("sort", ps.getString("sort"));
+		me.setIf("code", ps.getString("code"));
+		me.where().and("dict_item_id=?", ps.getString("dict_item_id"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}

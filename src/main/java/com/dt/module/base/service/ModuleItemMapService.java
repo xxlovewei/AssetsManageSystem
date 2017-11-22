@@ -31,7 +31,7 @@ public class ModuleItemMapService extends BaseService {
 			Insert me = new Insert("sys_modules_item");
 			me.set("module_item_id", db.getUUID());
 			me.set("module_id", module_id);
-			me.setIf("ct", items_arr.getJSONObject(i).getString("URL"));
+			me.setIf("ct", items_arr.getJSONObject(i).getString("url"));
 			me.set("status", "Y");
 			me.set("type", "url");
 			sqls.add(me);

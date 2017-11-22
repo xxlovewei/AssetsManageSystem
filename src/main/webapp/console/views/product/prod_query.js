@@ -85,8 +85,8 @@ function prodPicUpdateCtl($log, $http, $rootScope, $scope, $uibModal, $uibModalI
 		modalInstance.result.then(function(result) {
 			$log.warn("result:" + result);
 			$scope.prodPics.push({
-				PIC_ID : result,
-				OD : 1
+				pic_id : result,
+				od : 1
 			})
 		}, function(reason) {
 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
@@ -150,9 +150,9 @@ function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 			$scope.prodSku = res.data.SALE_DATA_LIST;
 			// 获取商品模版数据
 			$http.post($rootScope.project + "/api/categoryB/prodPublishCatAttrList.do", {
-				CAT_ID : $scope.prodData.CAT_ID,
-				IS_USED : "Y",
-				BASE_ATTR : "N"
+				cat_id : $scope.prodData.CAT_ID,
+				is_used : "Y",
+				base_attr : "N"
 			}).success(function(res) {
 				if (res.success) {
 					// 销售属性必须要有,如果没有则提醒下,无法发布产品

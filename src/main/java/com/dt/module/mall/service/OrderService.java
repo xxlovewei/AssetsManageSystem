@@ -64,7 +64,7 @@ public class OrderService extends BaseService {
 
 	public ResData createOrder(TypedHashMap<String, Object> ps,String user_id,String status) {
 		//创建订单
-		if(ToolUtil.isOneEmpty(status,user_id,ps.getString("TOTALAMOUNT"))){
+		if(ToolUtil.isOneEmpty(status,user_id,ps.getString("totalamount"))){
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		
@@ -72,7 +72,7 @@ public class OrderService extends BaseService {
 		String orderId=createOrderId();
 		
 		//订单详细
-		JSONArray goodsarr=JSONArray.parseArray(ps.getString("GOODJSONSTR","[]"));
+		JSONArray goodsarr=JSONArray.parseArray(ps.getString("goodjsonstr","[]"));
 		if(ToolUtil.isEmpty(goodsarr)) {
 			return ResData.FAILURE("创建订单失败,解析失败"); 
 		}
@@ -85,14 +85,14 @@ public class OrderService extends BaseService {
 			ins.set("id",db.getUUID() );
 			ins.set("order_id", orderId);
 			ins.set("is_delete", "N");
-			ins.set("spu", e.getString("SPU"));
-			ins.setIf("prod_name", e.getString("PROD_NAME"));
-			ins.set("price", e.getString("PRICE"));
-			ins.set("buy_number", e.getString("BUY_NUMBER"));
-			ins.setIf("sku", e.getString("SKU"));
-			ins.setIf("label", e.getString("LABEL"));
-			ins.setIf("master_pic", e.getString("MASTER_PIC"));
-			ins.setIf("propertyChildIds", e.getString("PROPERTYCHILDIDS"));
+			ins.set("spu", e.getString("spu"));
+			ins.setIf("prod_name", e.getString("prod_name"));
+			ins.set("price", e.getString("price"));
+			ins.set("buy_number", e.getString("buy_number"));
+			ins.setIf("sku", e.getString("sku"));
+			ins.setIf("label", e.getString("label"));
+			ins.setIf("master_pic", e.getString("master_pic"));
+			ins.setIf("propertyChildIds", e.getString("propertychildids"));
 			ins.setSE("cdate", DBUtil.getDBDateString(db.getDBType()));
 			sqls.add(ins);	
 		}
@@ -103,20 +103,20 @@ public class OrderService extends BaseService {
 		order.set("is_delete", "N");
 		order.set("user_id", user_id);
 		order.set("id", MD5Util.encrypt(db.getUUID().toUpperCase()));
-		order.setIf("order_type",  ps.getString("ORDER_TYPE"));
-		order.setIf("isNeedLogistics",  ps.getString("ISNEEDLOGISTICS","0"));
-		order.setIf("totalamount",  ps.getString("TOTALAMOUNT","0"));
-		order.setIf("provinceId",  ps.getString("PROVINCEID"));
-		order.setIf("cityId",  ps.getString("CITYID"));
-		order.setIf("areaId",  ps.getString("AREAID"));
-		order.setIf("address",  ps.getString("ADDRESS"));
-		order.setIf("linkman",  ps.getString("LINKMAN"));
-		order.setIf("mobile",  ps.getString("MOBILE"));
-		order.setIf("calcute",  ps.getString("CALCUTE"));
-		order.setIf("code",  ps.getString("CODE"));
+		order.setIf("order_type",  ps.getString("order_type"));
+		order.setIf("isNeedLogistics",  ps.getString("isneedlogistics","0"));
+		order.setIf("totalamount",  ps.getString("totalamount","0"));
+		order.setIf("provinceId",  ps.getString("provinceid"));
+		order.setIf("cityId",  ps.getString("cityid"));
+		order.setIf("areaId",  ps.getString("areaid"));
+		order.setIf("address",  ps.getString("address"));
+		order.setIf("linkman",  ps.getString("linkman"));
+		order.setIf("mobile",  ps.getString("mobile"));
+		order.setIf("calcute",  ps.getString("calcute"));
+		order.setIf("code",  ps.getString("code"));
 		order.setIf("status",  status);
 		order.setIf("dtl_number",  goodsarr.size());
-		order.setIf("remark",  ps.getString("REMARK",""));
+		order.setIf("remark",  ps.getString("remark",""));
 		order.setSE("cdate", DBUtil.getDBDateString(db.getDBType()));
 		order.setSE("mdate", DBUtil.getDBDateString(db.getDBType()));
 		sqls.add(order);
@@ -155,10 +155,10 @@ public class OrderService extends BaseService {
 		String sql="select * from mall_order where is_delete='N' ";
 		RcdSet orderrs=db.query(sql);
 		JSONArray orderarr=ConvertUtil.OtherJSONObjectToFastJSONArray(orderrs.toJsonArrayWithJsonObject());
-		res.put("orderList", orderarr);
+		res.put("orderlist", orderarr);
 		
-		res.put("logisticsMap", orderarr);
-		res.put("goodsMap", orderarr);
+		res.put("logisticsmap", orderarr);
+		res.put("goodsmap", orderarr);
 		
 		
 		return ResData.SUCCESS_OPER(res);

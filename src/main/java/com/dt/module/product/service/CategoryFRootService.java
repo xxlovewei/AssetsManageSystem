@@ -22,7 +22,7 @@ public class CategoryFRootService extends BaseService {
 	}
 	public ResData addCategoryFRoot(TypedHashMap<String, Object> ps) {
 		Insert ins = new Insert("product_cat_user_root");
-		String code = ps.getString("CODE");
+		String code = ps.getString("code");
 		if (ToolUtil.isEmpty(code)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
@@ -32,10 +32,10 @@ public class CategoryFRootService extends BaseService {
 		}
 		ins.set("id", getNextUserCatId());
 		ins.set("is_deleted", "N");
-		ins.set("is_used", ps.getString("IS_USED"));
-		ins.setIf("text", ps.getString("TEXT"));
-		ins.setIf("code", ps.getString("CODE"));
-		ins.setIf("mark", ps.getString("MARK"));
+		ins.set("is_used", ps.getString("is_used"));
+		ins.setIf("text", ps.getString("text"));
+		ins.setIf("code", ps.getString("code"));
+		ins.setIf("mark", ps.getString("mark"));
 		db.execute(ins);
 		return ResData.SUCCESS_OPER();
 	}
@@ -54,15 +54,15 @@ public class CategoryFRootService extends BaseService {
 		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 	public ResData updateCategoryFRoot(TypedHashMap<String, Object> ps) {
-		String id = ps.getString("ID");
+		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		// 更新的不允许更新code
 		Update ups = new Update("product_cat_user_root");
-		ups.set("is_used", ps.getString("IS_USED"));
-		ups.setIf("text", ps.getString("TEXT"));
-		ups.setIf("mark", ps.getString("MARK"));
+		ups.set("is_used", ps.getString("is_used"));
+		ups.setIf("text", ps.getString("text"));
+		ups.setIf("mark", ps.getString("mark"));
 		ups.where().and("id=?", id);
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();

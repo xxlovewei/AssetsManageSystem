@@ -13,8 +13,8 @@ function sysUserQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 	$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(function(res) {
 		if (res.success) {
 			$scope.userGroupOpt = prepend(res.data, {
-				GROUP_ID : "ALL",
-				NAME : "全部"
+				group_id : "ALL",
+				name : "全部"
 			});
 			$scope.userGroupSel = $scope.userGroupOpt[0];
 		} else {
@@ -34,7 +34,7 @@ function sysUserQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
-		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.USER_ID + "')\" class=\"btn-white btn btn-xs\">详细</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.user_id + "')\" class=\"btn-white btn btn-xs\">详细</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
@@ -59,18 +59,18 @@ function sysUserQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 	
 	$scope.dtColumns = [
 
-	DTColumnBuilder.newColumn('EMPL_ID').withTitle('员工编号').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('USER_NAME').withTitle('登录名').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('TEL').withTitle('手机号').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('USER_TYPE').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
-			DTColumnBuilder.newColumn('USER_ID').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('USER_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('user_name').withTitle('登录名').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('name').withTitle('姓名').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('tel').withTitle('手机号').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('user_type').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
+			DTColumnBuilder.newColumn('user_id').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('user_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}
-		if ($scope.userGroupSel.GROUP_ID != "ALL") {
-			ps.group_id = $scope.userGroupSel.GROUP_ID;
+		if ($scope.userGroupSel.group_id != "ALL") {
+			ps.group_id = $scope.userGroupSel.group_id;
 		}
 
 		$http.post($rootScope.project + "/api/user/userQueryByGroup.do", ps).success(function(res) {

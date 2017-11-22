@@ -24,11 +24,11 @@ public class ShopService extends BaseService {
 	public ResData addShop(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("mall_shop");
 		me.set("shop_id", UuidUtil.getUUID());
-		me.setIf("shop_name", ps.getString("SHOP_NAME"));
+		me.setIf("shop_name", ps.getString("shop_name"));
 		me.setIf("deleted", "N");
-		me.setIf("status", ps.getString("STATUS"));
-		me.setIf("logo", ps.getString("LOGO"));
-		me.setIf("mark", ps.getString("MARK"));
+		me.setIf("status", ps.getString("status"));
+		me.setIf("logo", ps.getString("logo"));
+		me.setIf("mark", ps.getString("mark"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -43,15 +43,15 @@ public class ShopService extends BaseService {
 		return ResData.SUCCESS_OPER();
 	}
 	public ResData updateShop(TypedHashMap<String, Object> ps) {
-		if (ToolUtil.isEmpty(ps.getString("SHOP_ID"))) {
+		if (ToolUtil.isEmpty(ps.getString("shop_id"))) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		Update me = new Update("mall_shop");
-		me.setIf("shop_name", ps.getString("SHOP_NAME"));
-		me.setIf("status", ps.getString("STATUS"));
-		me.setIf("logo", ps.getString("LOGO"));
-		me.setIf("mark", ps.getString("MARK"));
-		me.where().and("shop_id=?", ps.getString("SHOP_ID"));
+		me.setIf("shop_name", ps.getString("shop_name"));
+		me.setIf("status", ps.getString("status"));
+		me.setIf("logo", ps.getString("logo"));
+		me.setIf("mark", ps.getString("mark"));
+		me.where().and("shop_id=?", ps.getString("shop_id"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}

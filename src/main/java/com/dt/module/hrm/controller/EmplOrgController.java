@@ -43,7 +43,7 @@ public class EmplOrgController extends BaseController {
 	@Transactional
 	public ResData orgNodeSave() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("NODE_ID");
+		String id = ps.getString("node_id");
 		if (ToolUtil.isEmpty(id)) {
 			return emplOrgService.addEmplOrg(ps);
 		} else {

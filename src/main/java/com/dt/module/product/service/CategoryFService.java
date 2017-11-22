@@ -31,9 +31,9 @@ public class CategoryFService extends BaseService {
 		// 类目下已经有品类后,则不能在添加层级，原则是:品类是类目的最后一级
 		// 节点类型,root,node,category
 		String node_type = "node";
-		String id = ps.getString("ID");
-		String action = ps.getString("ACTION");// cate,node
-		String text = ps.getString("TEXT");
+		String id = ps.getString("id");
+		String action = ps.getString("action");// cate,node
+		String text = ps.getString("text");
 		String is_cat = "N";
 		if (action.equals("cat")) {
 			is_cat = "Y";

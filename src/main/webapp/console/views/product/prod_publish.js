@@ -94,7 +94,7 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		if (res.success) {
 			$scope.shopOpt = res.data;
 			if ($scope.shopOpt.length > 0) {
-				$scope.prodData.SHOP_ID = $scope.shopOpt[0].SHOP_ID;
+				$scope.prodData.shop_id = $scope.shopOpt[0].shop_id;
 			}
 
 		} else {
@@ -118,16 +118,16 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 
 	// 监测类目选择变化,动态调整数据
 	var watch2 = $scope.$watch('prodcatSel', function(oldValue, newValue, scope) {
-		if (angular.isDefined($scope.prodcatSel.ID)) {
+		if (angular.isDefined($scope.prodcatSel.id)) {
 			reset();
 			$scope.if_publish = false;
 			$http.post($rootScope.project + "/api/categoryB/prodPublishCatAttrList.do", {
-				CAT_ID : $scope.prodcatSel.ID,
-				IS_USED : "Y"
+				cat_id : $scope.prodcatSel.id,
+				is_used : "Y"
 			}).success(function(res) {
 				if (res.success) {
 					// 销售属性必须要有,如果没有则提醒下,无法发布产品
-					if (res.data.SALE_ATTR.length == 0) {
+					if (res.data.sale_attr.length == 0) {
 						notify({
 							message : "无销售属性,不可发布商品"
 						});
@@ -135,8 +135,8 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 						$scope.if_publish = true;
 					}
 					// 初始化数据属性
-					$scope.sale_attr = res.data.SALE_ATTR;
-					$scope.base_attr = res.data.BASE_ATTR;
+					$scope.sale_attr = res.data.sale_attr;
+					$scope.base_attr = res.data.base_attr;
 					SALE_ATTR_SET_MAP = res.data.SALE_ATTR_SET_MAP;
 				} else {
 					notify({
@@ -156,7 +156,7 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		// $log.warn(item, attrvalue);
 		var isExist = false;
 		for (var i = 0; i < baseAttrValueContain.length; i++) {
-			if (baseAttrValueContain[i].ID == attrvalue.ID) {
+			if (baseAttrValueContain[i].id == attrvalue.id) {
 				// 已经存在,则移除
 				// $log.warn('to remove,' + i);
 				baseAttrValueContain.splice(i, 1);
@@ -172,7 +172,7 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		// $log.warn(item, attrvalue);
 		var isExist = false;
 		for (var i = 0; i < saleAttrValueContain.length; i++) {
-			if (saleAttrValueContain[i].ID == attrvalue.ID) {
+			if (saleAttrValueContain[i].id == attrvalue.id) {
 				// 已经存在,则移除
 				// $log.warn('to remove,' + i);
 				saleAttrValueContain.splice(i, 1);
@@ -211,10 +211,10 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		$log.warn("select attrids:", saleAttrValueContain);
 		var datatmp = {};
 		for (var i = 0; i < saleAttrValueContain.length; i++) {
-			if (!angular.isDefined(datatmp[saleAttrValueContain[i].ATTR_ID])) {
-				datatmp[saleAttrValueContain[i].ATTR_ID] = [];
+			if (!angular.isDefined(datatmp[saleAttrValueContain[i].attr_id])) {
+				datatmp[saleAttrValueContain[i].attr_id] = [];
 			}
-			datatmp[saleAttrValueContain[i].ATTR_ID].push(saleAttrValueContain[i].ATTR_SET_ID)
+			datatmp[saleAttrValueContain[i].attr_id].push(saleAttrValueContain[i].attr_set_id)
 		}
 		$log.warn("After change first:" + angular.toJson(datatmp));
 		var data = [];
@@ -263,8 +263,8 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		modalInstance.result.then(function(result) {
 			$log.warn("result:" + result);
 			$scope.prodPics.push({
-				PIC_ID : result,
-				OD : 1
+				pic_id : result,
+				od : 1
 			})
 		}, function(reason) {
 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
@@ -275,7 +275,7 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 	$scope.delpic = function(item) {
 		console.log(item);
 		for (var i = 0; i < $scope.prodPics.length; i++) {
-			if (item.PIC_ID == $scope.prodPics[i].PIC_ID) {
+			if (item.pic_id == $scope.prodPics[i].pic_id) {
 				$scope.prodPics.splice(i, 1);
 				break;
 			}
@@ -311,21 +311,21 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 			});
 			return;
 		}
-		if (!(angular.isDefined($scope.prodData.LIST_PRICE))) {
+		if (!(angular.isDefined($scope.prodData.list_price))) {
 			notify({
 				message : "请输入产品列表价"
 			});
 			return;
 		}
 
-		if (!(angular.isDefined($scope.prodData.LIST_ORI_PRICE))) {
+		if (!(angular.isDefined($scope.prodData.list_ori_price))) {
 			notify({
 				message : "请输入产品列表原价"
 			});
 			return;
 		}
 
-		if (!(angular.isDefined($scope.prodData.UNIT) && $scope.prodData.UNIT.length > 0)) {
+		if (!(angular.isDefined($scope.prodData.unit) && $scope.prodData.unit.length > 0)) {
 			notify({
 				message : "请输入产品单位"
 			});
@@ -339,17 +339,17 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		var datatmp = {};
 		if (baseAttrValueContain.length >= 0) {
 			for (var i = 0; i < baseAttrValueContain.length; i++) {
-				if (!angular.isDefined(datatmp[baseAttrValueContain[i].ATTR_ID])) {
-					datatmp[baseAttrValueContain[i].ATTR_ID] = [];
+				if (!angular.isDefined(datatmp[baseAttrValueContain[i].attr_id])) {
+					datatmp[baseAttrValueContain[i].attr_id] = [];
 				}
-				datatmp[baseAttrValueContain[i].ATTR_ID].push(baseAttrValueContain[i].ATTR_SET_ID)
+				datatmp[baseAttrValueContain[i].attr_id].push(baseAttrValueContain[i].attr_set_id)
 			}
 			$log.warn("After change first:" + angular.toJson(datatmp));
 			// 做第二次转换
 			$.each(datatmp, function(key, val) {
 				var te = {};
-				te.ATTR_ID = key;
-				te.DATA = datatmp[key];
+				te.attr_id = key;
+				te.data = datatmp[key];
 				multiattrdata.push(te);
 			});
 		}
@@ -359,23 +359,23 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		base_res.attrdata = angular.copy($scope.base_attr);
 		for (var j = 0; j < base_res.attrdata.length; j++) {
 			// 去除list数据,判断是否必须输入
-			base_res.attrdata[j].LIST = [];
+			base_res.attrdata[j].list = [];
 			// ATTR_SET_VALUE
 			$log.warn(base_res.attrdata[j]);
-			if (base_res.attrdata[j].IS_NEED == "Y") {
+			if (base_res.attrdata[j].is_need == "Y") {
 				// 如果是单选和输入则判断ATTR_SET_VALUE是否存在
-				if (base_res.attrdata[j].INPUT_TYPE == "select-single" || base_res.attrdata[j].INPUT_TYPE == "input") {
-					if (!angular.isDefined(base_res.attrdata[j].ATTR_SET_VALUE)) {
+				if (base_res.attrdata[j].input_type == "select-single" || base_res.attrdata[j].input_type == "input") {
+					if (!angular.isDefined(base_res.attrdata[j].attr_set_value)) {
 						notify({
-							message : "请选择属性:" + base_res.attrdata[j].NAME
+							message : "请选择属性:" + base_res.attrdata[j].name
 						});
 						return;
 					}
-				} else if (base_res.attrdata[j].INPUT_TYPE == "select-multi") {
+				} else if (base_res.attrdata[j].input_type == "select-multi") {
 					// 如果是多选则判断datatmp 是否存在
-					if (!angular.isDefined(datatmp[base_res.attrdata[j].ATTR_ID])) {
+					if (!angular.isDefined(datatmp[base_res.attrdata[j].attr_id])) {
 						notify({
-							message : "请选择属性:" + base_res.attrdata[j].NAME
+							message : "请选择属性:" + base_res.attrdata[j].name
 						});
 						return;
 					}
@@ -403,12 +403,12 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 
 		/** ******提交************ */
 
-		$scope.prodData.MASTER_PIC = picid;
-		$scope.prodData.CAT_ID = $scope.prodcatSel.ID
-		$scope.prodData.SALE_RES = angular.toJson(sale_res);
-		$scope.prodData.SALE_KV = angular.toJson(prodSkuKV);
-		$scope.prodData.BASE_RES = angular.toJson(base_res);
-		$scope.prodData.PICS = angular.toJson($scope.prodPics);
+		$scope.prodData.master_pic = picid;
+		$scope.prodData.cat_id = $scope.prodcatSel.id
+		$scope.prodData.sale_res = angular.toJson(sale_res);
+		$scope.prodData.sale_kv = angular.toJson(prodSkuKV);
+		$scope.prodData.base_res = angular.toJson(base_res);
+		$scope.prodData.pics = angular.toJson($scope.prodPics);
 		console.log($scope.prodData);
 		$http.post($rootScope.project + "/api/product/prodPublish.do", $scope.prodData).success(function(res) {
 			if (res.success) {

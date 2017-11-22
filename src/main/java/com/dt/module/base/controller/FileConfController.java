@@ -35,7 +35,7 @@ public class FileConfController extends BaseController {
 	@Acl
 	public ResData fileConfQueryById(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Rcd rs = db.uniqueRecord("select * from sys_file_conf where is_delete='N' and id=?",
-				request.getParameter("ID"));
+				request.getParameter("id"));
 		return ResData.SUCCESS_OPER(rs.toJsonObject());
 	}
 

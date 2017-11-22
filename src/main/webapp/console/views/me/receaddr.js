@@ -10,16 +10,16 @@ function meRecAddrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.ID + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.ID + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.id + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('CONTACTUSER').withTitle('联系人').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('CONTACT').withTitle('联系方式').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('ZCODE').withTitle('邮编').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('CTDTL').withTitle('地址').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	$scope.dtColumns = [ DTColumnBuilder.newColumn('contactuser').withTitle('联系人').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('contact').withTitle('联系方式').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('zcode').withTitle('邮编').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('ctdtl').withTitle('地址').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}
@@ -48,7 +48,7 @@ function meRecAddrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 			text : '是否删除该地址?'
 		}).then(function() {
 			$http.post($rootScope.project + "/api/user/delReceivingAddr.do", {
-				ID : id
+				id : id
 			}).success(function(res) {
 				if (res.success) {
 					flush();

@@ -57,7 +57,7 @@ public class NewsController extends BaseController {
 	@Acl
 	public ResData publishNews() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		String id = ps.getString("ID");
+		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
 			return newsService.addNews(ps);
 		} else {

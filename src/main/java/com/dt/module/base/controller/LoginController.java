@@ -84,7 +84,7 @@ public class LoginController extends BaseController {
 		JSONObject r = new JSONObject();
 		JSONObject u = loginService.queryLoginUserInfo(user_id);
 		// 覆盖重要信息
-		u.put("PWD", "********");
+		u.put("pwd", "********");
 		r.put("user_info", u);
 		// 系统信息
 		r.put("systems", menuRootService.queryMenuRoot());

@@ -13,7 +13,7 @@ function meCommonMgrCtl($localStorage, $confirm, $log, notify, $scope, $http, $r
 
 	if (angular.isDefined(sys_user_info.SYSTEM)) {
 		for (var i = 0; i < $scope.systemOpt.length; i++) {
-			if (sys_user_info.SYSTEM == $scope.systemOpt[i].MENU_ID) {
+			if (sys_user_info.system == $scope.systemOpt[i].menu_id) {
 				$scope.systemSel = $scope.systemOpt[i];
 				break;
 			}
@@ -22,7 +22,7 @@ function meCommonMgrCtl($localStorage, $confirm, $log, notify, $scope, $http, $r
 
 	$scope.saveData = function() {
 		var ps = {};
-		ps.SYSTEM = $scope.systemSel.MENU_ID;
+		ps.system = $scope.systemSel.menu_id;
 		$http.post($rootScope.project + "/api/user/saveCommonSetting.do", ps).success(function(res) {
 			notify({
 				message : res.message

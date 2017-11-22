@@ -31,7 +31,7 @@ public class ClassController extends BaseController {
 	public ResData saveClass() {
 
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		if (ToolUtil.isEmpty(ps.getString("CLASS_ID"))) {
+		if (ToolUtil.isEmpty(ps.getString("class_id"))) {
 			return classService.addClass(ps);
 		}
 		return classService.updateClass(ps);
@@ -64,7 +64,7 @@ public class ClassController extends BaseController {
 	public ResData saveClassItem() {
 
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		if (ToolUtil.isEmpty(ps.getString("ID"))) {
+		if (ToolUtil.isEmpty(ps.getString("id"))) {
 			return classService.addClassItem(ps);
 		}
 		return classService.updateClassItem(ps);

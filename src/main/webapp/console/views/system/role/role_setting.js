@@ -1,11 +1,11 @@
 function roleSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
 
 	$scope.statusOpt = [ {
-		ID : "Y",
-		NAME : "有效"
+		id : "Y",
+		name : "有效"
 	}, {
-		ID : "N",
-		NAME : "无效"
+		id : "N",
+		name : "无效"
 	} ]
 
 	$scope.statusSel = $scope.statusOpt[0];
@@ -13,11 +13,11 @@ function roleSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 	if (angular.isDefined(id)) {
 		// 修改
 		$http.post($rootScope.project + "/api/role/roleQueryById.do", {
-			ROLE_ID : id
+			role_id : id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data
-				if ($scope.item.IS_ACTION == "Y") {
+				if ($scope.item.is_action == "Y") {
 					$scope.statusSel = $scope.statusOpt[0];
 				} else {
 					$scope.statusSel = $scope.statusOpt[1];
@@ -34,7 +34,7 @@ function roleSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 
 	$scope.sure = function() {
 
-		$scope.item.IS_ACTION = $scope.statusSel.ID;
+		$scope.item.is_action = $scope.statusSel.id;
 
 		$http.post($rootScope.project + "/api/role/roleSave.do", $scope.item).success(function(res) {
 			if (res.success) {
@@ -65,24 +65,24 @@ function sysRoleSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.ROLE_ID + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.role_id + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
 		// acthtml = acthtml + " <button ng-click=\"row_detail()\"
 		// class=\"btn-white btn btn-xs\">详细</button> ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.ROLE_ID + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.role_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
 		var res = "无效";
-		if (full.IS_ACTION == "Y") {
+		if (full.is_action == "Y") {
 			res = "有效";
 		}
 		return res;
 	}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('ROLE_NAME').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('IS_ACTION').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('ROLE_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	$scope.dtColumns = [ DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('is_action').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('role_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}

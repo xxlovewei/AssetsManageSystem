@@ -61,9 +61,9 @@ public class RoleService extends BaseService {
 		Insert ins = new Insert("sys_role");
 		ins.set("role_id", db.getUUID());
 		ins.set("deleted", "N");
-		ins.set("is_action", ps.getString("IS_ACTION"));
-		ins.setIf("role_name", ps.getString("ROLE_NAME"));
-		ins.setIf("mark", ps.getString("MARK"));
+		ins.set("is_action", ps.getString("is_action"));
+		ins.setIf("role_name", ps.getString("role_name"));
+		ins.setIf("mark", ps.getString("mark"));
 		db.execute(ins);
 		return ResData.SUCCESS_OPER();
 	}
@@ -72,10 +72,10 @@ public class RoleService extends BaseService {
 	 */
 	public ResData updateRole(TypedHashMap<String, Object> ps) {
 		Update ups = new Update("sys_role");
-		ups.set("is_action", ps.getString("IS_ACTION"));
-		ups.setIf("role_name", ps.getString("ROLE_NAME"));
-		ups.setIf("mark", ps.getString("MARK"));
-		ups.where().and("role_id=?", ps.getString("ROLE_ID"));
+		ups.set("is_action", ps.getString("is_action"));
+		ups.setIf("role_name", ps.getString("role_name"));
+		ups.setIf("mark", ps.getString("mark"));
+		ups.where().and("role_id=?", ps.getString("role_id"));
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
 	}

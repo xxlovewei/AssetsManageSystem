@@ -10,13 +10,13 @@ function prepend(arr, item) {
 function prodCatFItemRenameCtl($log, $http, $rootScope, $scope,
 		$uibModalInstance, id, notify) {
 	$scope.item = {};
-	$scope.item.NAME = "";
+	$scope.item.name = "";
 
 	$scope.sure = function() {
 
 		var ps = {};
 		ps.id = id;
-		ps.text = $scope.item.NAME;
+		ps.text = $scope.item.name;
 		$http.post($rootScope.project + "/api/categoryF/rename.do", ps)
 				.success(function(res) {
 					if (res.success) {
@@ -127,9 +127,9 @@ function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 						console.log("cur:obj", obj);
 						$http.post(
 								$rootScope.project + "/api/categoryF/add.do", {
-									ACTION : "cat",
-									TEXT : "新品类",
-									ID : obj.id
+									action : "cat",
+									text : "新品类",
+									id : obj.id
 								}).success(function(res) {
 							if (res.success) {
 
@@ -175,9 +175,9 @@ function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 						console.log("cur:obj", obj);
 						$http.post(
 								$rootScope.project + "/api/categoryF/add.do", {
-									ACTION : "node",
-									TEXT : "新节点",
-									ID : obj.id
+									action : "node",
+									text : "新节点",
+									id : obj.id
 								}).success(function(res) {
 
 							$log.warn(res);
@@ -430,13 +430,13 @@ function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	$scope.dtColumns = [
 
-			DTColumnBuilder.newColumn('TEXT').withTitle('名称').withOption(
+			DTColumnBuilder.newColumn('text').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption(
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('IS_USED').withTitle('状态').withOption(
+			DTColumnBuilder.newColumn('is_used').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('ID').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
  
 
@@ -445,7 +445,7 @@ function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 
 	$scope.query = function() {
-		flushTree($scope.catRootSel.ID);
+		flushTree($scope.catRootSel.id);
 	}
 	$scope.save = function(id) {
 

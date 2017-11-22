@@ -36,7 +36,7 @@ public class BrandController extends BaseController {
 	@Acl
 	public ResData brandSave() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("BRAND_ID");
+		String id = ps.getString("brand_id");
 		if (ToolUtil.isEmpty(id)) {
 			return brandService.addBrand(ps);
 		} else {

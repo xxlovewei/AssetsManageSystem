@@ -4,7 +4,7 @@ function hrmEmployeeSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance, 
 
 	$scope.sure = function() {
 		var cmd = "";
-		if (angular.isDefined($scope.item.EMPLOYEE_ID)) {
+		if (angular.isDefined($scope.item.employee_id)) {
 			cmd = "/api/hrm/employeeUpdate.do";
 		} else {
 			cmd = "/api/hrm/employeeAdd.do";
@@ -41,13 +41,13 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.ROLE_ID + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.ROLE_ID + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.role_id + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.role_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
 		var res = "无效";
-		if (full.IS_ACTION == "Y") {
+		if (full.is_action == "Y") {
 			res = "有效";
 		}
 		return res;
@@ -55,8 +55,8 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 
 	$scope.dtColumns = [
 
-	DTColumnBuilder.newColumn('EMPL_ID').withTitle('员工编号').withOption('sDefaultContent', ''), DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption('sDefaultContent', '') //,
+	DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption('sDefaultContent', ''), DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', '') //,
 	//			DTColumnBuilder.newColumn('ID').withTitle('动作').withOption(
 	//					'sDefaultContent', '').renderWith(renderAction) 
 
@@ -85,7 +85,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 
 	function flush() {
 		var ps = {};
-		ps.org_id = $scope.topMenuSel.ORG_ID;
+		ps.org_id = $scope.topMenuSel.org_id;
 		org_id = ps.org_id;
 		$http.post($rootScope.project + "/api/hrm/orgNodeTreeQuery.do", ps).success(function(res) {
 			if (res.success) {
@@ -212,7 +212,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		var ps = {};
 		var snodes = $scope.tree.get_selected();
 		if (snodes.length == 1) {
-			ps.NODE_ID = snodes[0];
+			ps.node_id = snodes[0];
 		} else {
 			notify({
 				message : "请先选择节点"
@@ -221,7 +221,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		}
 
 		if (id != "add") {
-			ps.EMPLOYEE_ID = id;
+			ps.employee_id = id;
 		}
 		var modalInstance = $uibModal.open({
 			backdrop : true,

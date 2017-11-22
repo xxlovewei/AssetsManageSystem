@@ -59,23 +59,23 @@ function sysGroupSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.USER_ID + "')\" class=\"btn-white btn btn-xs\">详细</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.user_id + "')\" class=\"btn-white btn btn-xs\">详细</button> </div> ";
 		return acthtml;
 	}
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.GROUP_ID
+		acthtml = acthtml + " <button ng-click=\"save('" + full.group_id
 		+ "')\" class=\"btn-white btn btn-xs\">修改</button>   ";
-		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.GROUP_ID
+		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.group_id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	
 	
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('GROUP_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	$scope.dtColumns = [ DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('group_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(function(res) {

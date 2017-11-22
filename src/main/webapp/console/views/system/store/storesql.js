@@ -49,25 +49,25 @@ function sysStoreSqlSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, 
 			if (res.success) {
 				$scope.item = res.data;
 
-				if ($scope.item.IS_USED == "Y") {
+				if ($scope.item.is_used == "Y") {
 					$scope.usedSel = $scope.usedOpt[0];
-				} else if ($scope.item.IS_USED == "N") {
+				} else if ($scope.item.is_used == "N") {
 					$scope.usedSel = $scope.usedOpt[1];
 				}
 
-				if (res.data.ACL == "public") {
+				if (res.data.acl == "public") {
 					$scope.aclSel = $scope.aclOpt[0];
-				} else if (res.data.ACL == "user") {
+				} else if (res.data.acl == "user") {
 					$scope.aclSel = $scope.aclOpt[1];
-				} else if (res.data.ACL == "system") {
+				} else if (res.data.acl == "system") {
 					$scope.aclSel = $scope.aclOpt[2];
 				}
 
-				if (res.data.RETURN_TYPE == "array") {
+				if (res.data.return_type == "array") {
 					$scope.returnSel = $scope.returnOpt[0];
-				} else if (res.data.RETURN_TYPE == "object") {
+				} else if (res.data.return_type == "object") {
 					$scope.returnSel = $scope.returnOpt[1];
-				} else if (res.data.RETURN_TYPE == "action") {
+				} else if (res.data.return_type == "action") {
 					$scope.returnSel = $scope.returnOpt[2];
 				}
 
@@ -81,9 +81,9 @@ function sysStoreSqlSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, 
 	}
 
 	$scope.sure = function() {
-		$scope.item.IS_USED = $scope.usedSel.id;
-		$scope.item.ACL = $scope.aclSel.id;
-		$scope.item.RETURN_TYPE = $scope.returnSel.id;
+		$scope.item.is_used = $scope.usedSel.id;
+		$scope.item.acl = $scope.aclSel.id;
+		$scope.item.return_type = $scope.returnSel.id;
 		$http.post($rootScope.project + "/api/store/saveStoreSql.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
@@ -111,8 +111,8 @@ function sysStoreSqlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.STORE_ID + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.STORE_ID + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.store_id + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.store_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
@@ -149,12 +149,12 @@ function sysStoreSqlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 	}
 	$scope.dtColumns = [
 
-	DTColumnBuilder.newColumn('STORE_ID').withTitle('ID').withOption('sDefaultContent', ''), DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('ACL').withTitle('访问类型').withOption('sDefaultContent', '').renderWith(renderACL),
-			DTColumnBuilder.newColumn('RETURN_TYPE').withTitle('返回类型').withOption('sDefaultContent', '').renderWith(renderRT),
-			DTColumnBuilder.newColumn('IS_USED').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('SQL').withTitle('SQL文本').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('USER_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	DTColumnBuilder.newColumn('store_id').withTitle('ID').withOption('sDefaultContent', ''), DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('acl').withTitle('访问类型').withOption('sDefaultContent', '').renderWith(renderACL),
+			DTColumnBuilder.newColumn('return_type').withTitle('返回类型').withOption('sDefaultContent', '').renderWith(renderRT),
+			DTColumnBuilder.newColumn('is_used').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('sql').withTitle('SQL文本').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('user_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}

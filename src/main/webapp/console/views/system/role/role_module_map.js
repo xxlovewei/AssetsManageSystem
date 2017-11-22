@@ -37,9 +37,9 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, 
 	$scope.newNode = {};
 	function flush() {
 		var ps = {};
-		ps.MENU_ID = $scope.topMenuSel.MENU_ID;
-		ps.ROLE_ID = $scope.roleSel.ROLE_ID;
-		role_id = ps.ROLE_ID;
+		ps.menu_id = $scope.topMenuSel.menu_id;
+		ps.role_id = $scope.roleSel.role_id;
+		role_id = ps.role_id;
 		$http.post($rootScope.project + "/api/menu/treeRoleChecked.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.show = true;

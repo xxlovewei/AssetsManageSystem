@@ -44,7 +44,7 @@ public class StoreSqlController extends BaseController {
 	@Acl
 	public ResData saveStoreSql() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("STORE_ID");
+		String id = ps.getString("store_id");
 		if (ToolUtil.isEmpty(id)) {
 			return storeSqlService.addStoreSql(ps, null);
 		} else {

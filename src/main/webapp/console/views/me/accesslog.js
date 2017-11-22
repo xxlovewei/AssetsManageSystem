@@ -22,9 +22,9 @@ function meAccessLogCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 	 
 	}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('RTIME').withTitle('日期').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('IP').withTitle('IP').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('URL').withTitle('访问地址').withOption('sDefaultContent', '')
+	$scope.dtColumns = [ DTColumnBuilder.newColumn('rtime').withTitle('日期').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('ip').withTitle('IP').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('url').withTitle('访问地址').withOption('sDefaultContent', '')
 			 ]
  
 

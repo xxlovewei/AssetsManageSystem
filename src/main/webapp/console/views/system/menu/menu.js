@@ -90,9 +90,9 @@ function menuAclCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder, notify,
 
 	$scope.dtColumns = [ DTColumnBuilder.newColumn(null).withTitle('').withClass('select-checkbox').renderWith(function() {
 		return '';
-	}), DTColumnBuilder.newColumn('CTACLTEXT').withTitle('ACL类型').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('URL').withTitle('URL').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption('sDefaultContent', '') ]
+	}), DTColumnBuilder.newColumn('ctacltext').withTitle('ACL类型').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('url').withTitle('URL').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', '') ]
 	// $scope.dtInstance.DataTable.rows('.even').select();
 	function flush() {
 		var ps = {};
@@ -145,68 +145,68 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 	$scope.topMenuOpt = [];
 	$scope.topMenuSel = "";
 	$scope.actionOpt = [ {
-		ID : "Y",
-		NAME : "有效"
+		id : "Y",
+		name : "有效"
 	}, {
-		ID : "N",
-		NAME : "无效"
+		id : "N",
+		name : "无效"
 	} ]
 	$scope.actionSel = $scope.actionOpt[0];
 
 	$scope.showOpt = [ {
-		ID : "Y",
-		NAME : "有效"
+		id : "Y",
+		name : "有效"
 	}, {
-		ID : "N",
-		NAME : "无效"
+		id : "N",
+		name : "无效"
 	} ];
 	$scope.showSel = $scope.showOpt[0]
 
 	$scope.nodeOpt = [ {
-		ID : "dir",
-		NAME : "目录"
+		id : "dir",
+		name : "目录"
 	}, {
-		ID : "menu",
-		NAME : "菜单"
+		id : "menu",
+		name : "菜单"
 	} ];
 	$scope.nodeSel = $scope.nodeOpt[0];
 
-	if ($scope.item.ACTIONTYPE == "ADD") {
-		$scope.item.NODE_NAME = "";
-		$scope.item.MARK = ""
-		$scope.item.KEY = ""
-		$scope.item.LOGO = ""
-		$scope.item.SORT = ""
-		$scope.item.MODULE_ID = "";
-		$scope.item.MENU_LEVEL = "";
-		$scope.item.OLD_NODE_ID = $scope.item.NODE_ID;
-		$scope.item.OLD_ROUTE = $scope.item.ROUTE;
-	} else if ($scope.item.ACTIONTYPE == "EDIT") {
-		if ($scope.item.TYPE == "menu") {
+	if ($scope.item.actiontype == "add") {
+		$scope.item.node_name = "";
+		$scope.item.mark = ""
+		$scope.item.key = ""
+		$scope.item.logo = ""
+		$scope.item.sort = ""
+		$scope.item.module_id = "";
+		$scope.item.menu_level = "";
+		$scope.item.old_node_id = $scope.item.node_id;
+		$scope.item.old_route = $scope.item.route;
+	} else if ($scope.item.actiontype == "edit") {
+		if ($scope.item.type == "menu") {
 			$scope.nodeSel = $scope.nodeOpt[1];
-		} else if ($scope.item.TYPE == "dir") {
+		} else if ($scope.item.type == "dir") {
 			$scope.nodeSel = $scope.nodeOpt[0];
 		}
 
-		if ($scope.item.IS_ACTION == "Y") {
+		if ($scope.item.is_action == "Y") {
 			$scope.actionSel = $scope.actionOpt[0];
-		} else if ($scope.item.IS_ACTION == "N") {
+		} else if ($scope.item.is_action == "N") {
 			$scope.actionSel = $scope.actionOpt[1];
 		}
 
-		if ($scope.item.IS_G_SHOW == "Y") {
+		if ($scope.item.is_g_show == "Y") {
 			$scope.showSel = $scope.showOpt[0]
-		} else if ($scope.item.IS_G_SHOW == "N") {
+		} else if ($scope.item.is_g_show == "N") {
 			$scope.showSel = $scope.showOpt[1]
 		}
-	} else if ($scope.item.ACTIONTYPE == "ADDMASTER") {
-		$scope.item.NODE_NAME = "";
-		$scope.item.MARK = ""
-		$scope.item.KEY = ""
-		$scope.item.LOGO = ""
-		$scope.item.SORT = ""
-		$scope.item.MODULE_ID = "";
-		$scope.item.MENU_LEVEL = "";
+	} else if ($scope.item.actiontype == "addmaster") {
+		$scope.item.node_name = "";
+		$scope.item.mark = ""
+		$scope.item.key = ""
+		$scope.item.logo = ""
+		$scope.item.sort = ""
+		$scope.item.module_id = "";
+		$scope.item.menu_level = "";
 		$http.post($rootScope.project + "/api/menu/treeTop.do", {}).success(function(res) {
 			if (res.success) {
 				$scope.topMenuOpt = res.data;
@@ -224,14 +224,14 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 	$scope.sure = function() {
 
 		var ps = $scope.item;
-		ps.IS_ACTION = $scope.actionSel.ID;
-		ps.IS_G_SHOW = $scope.showSel.ID;
-		ps.TYPE = $scope.nodeSel.ID;
-		if (angular.isDefined($scope.topMenuSel.MENU_ID)) {
-			ps.MENU_ID = $scope.topMenuSel.MENU_ID;
+		ps.is_action = $scope.actionSel.id;
+		ps.is_g_show = $scope.showSel.id;
+		ps.TYPE = $scope.nodeSel.id;
+		if (angular.isDefined($scope.topMenuSel.menu_id)) {
+			ps.menu_id = $scope.topMenuSel.menu_id;
 		}
 
-		if ($scope.item.ACTIONTYPE == "EDIT") {
+		if ($scope.item.actiontype == "edit") {
 			$log.log("修改")
 			$http.post($rootScope.project + "/api/menu/updateNode.do", ps).success(function(res) {
 				if (res.success) {
@@ -246,7 +246,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 					});
 				}
 			})
-		} else if ($scope.item.ACTIONTYPE == "ADD" || $scope.item.ACTIONTYPE == "ADDMASTER") {
+		} else if ($scope.item.ACTIONTYPE == "add" || $scope.item.ACTIONTYPE == "addmaster") {
 			$log.log("新增")
 			$http.post($rootScope.project + "/api/menu/addNode.do", ps).success(function(res) {
 				if (res.success) {
@@ -301,7 +301,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 	var myTreeData = [];
 	$scope.my_tree = tree = {};
 	$scope.expanding_property = {
-		field : "NODE_NAME",
+		field : "node_name",
 		displayName : "名称",
 		sortable : true,
 		filterable : true,
@@ -309,22 +309,22 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 	};
 
 	$scope.col_defs = [ {
-		field : "KEY",
+		field : "key",
 		sortable : false,
 		displayName : "程序键",
 		sortingType : "string"
 	}, {
-		field : "TYPETEXT",
+		field : "typetext",
 		sortable : false,
 		displayName : "类型",
 		sortingType : "string"
 	}, {
-		field : "ACL_CNT",
+		field : "acl_cnt",
 		sortable : false,
 		displayName : "ACL规则数",
 		sortingType : "string"
 	}, {
-		field : "NODE_ID",
+		field : "node_id",
 		displayName : "动作",
 		cellTemplate : acthtml,
 		cellTemplateScope : {
@@ -355,7 +355,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 			},
 			add : function(data) { // this works too: $scope.someMethod;
 				var ps = data;
-				ps.ACTIONTYPE = "ADD";
+				ps.actiontype = "add";
 				var modalInstance = $uibModal.open({
 					backdrop : true,
 					templateUrl : 'views/system/menu/modal_menu_save.html',
@@ -381,8 +381,8 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 			del : function(data) { // this works too: $scope.someMethod;
 				$log.log('del', data);
 				var ps = {};
-				ps.NODE_ID = data.NODE_ID;
-				ps.MENU_ID = data.MENU_ID;
+				ps.node_id = data.node_id;
+				ps.menu_id = data.menu_id;
 				$confirm({
 					text : '是否删除本节点?'
 				}).then(function() {
@@ -400,10 +400,10 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 			acl : function(data) { // this works too: $scope.someMethod;
 				$log.log('acl', data);
 				var ps = {};
-				ps.NODE_ID = data.NODE_ID;
-				ps.MENU_ID = data.MENU_ID;
+				ps.node_id = data.node_id;
+				ps.menu_id = data.menu_id;
 
-				if (data.TYPE != "menu") {
+				if (data.type != "menu") {
 					notify({
 						message : "请选择菜单"
 					});
@@ -434,7 +434,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 			},
 			edit : function(data) { // this works too: $scope.someMethod;
 				var ps = data;
-				ps.ACTIONTYPE = "EDIT";
+				ps.actiontype = "edit";
 				var modalInstance = $uibModal.open({
 					backdrop : true,
 					templateUrl : 'views/system/menu/modal_menu_save.html',
@@ -469,7 +469,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 		}).success(function(res) {
 			if (res.success) {
 				rawTreeData = res.data
-				myTreeData = getTree(rawTreeData, 'NODE_ID', 'PARENT_ID');
+				myTreeData = getTree(rawTreeData, 'node_id', 'parent_id');
 				$scope.tree_data = myTreeData;
 				setTimeout(function() {
 					$log.log($scope.my_tree)
@@ -492,7 +492,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 
 	$scope.addMasterNode = function() {
 		var ps = {};
-		ps.ACTIONTYPE = "ADDMASTER";
+		ps.actiontype = "addmaster";
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/system/menu/modal_menu_save.html',

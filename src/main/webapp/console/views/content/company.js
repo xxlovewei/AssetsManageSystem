@@ -36,13 +36,13 @@ function ctCompProfileCtl($compile, $confirm, $log, notify, $scope, $http,
 								// 设置图片
 								var mockFile = {
 									name : "主图",
-									uuid : $scope.item.MPIC,
+									uuid : $scope.item.mpic,
 									href : $rootScope.project
 											+ "/api/file/imagedown.do?id="
-											+ $scope.item.MPIC,
+											+ $scope.item.mpic,
 									url : $rootScope.project
 											+ "/api/file/imagedown.do?id="
-											+ $scope.item.MPIC,
+											+ $scope.item.mpic,
 									status : "success",
 									accepted : true,
 									type : 'image/png'
@@ -53,7 +53,7 @@ function ctCompProfileCtl($compile, $confirm, $log, notify, $scope, $http,
 								$scope.myDropzone.createThumbnailFromUrl(
 										mockFile, $rootScope.project
 												+ "/api/file/imagedown.do?id="
-												+ $scope.item.MPIC);
+												+ $scope.item.mpic);
 								$scope.myDropzone.emit("complete", mockFile);
 							}, 600);
 
@@ -113,8 +113,8 @@ function ctCompProfileCtl($compile, $confirm, $log, notify, $scope, $http,
 			$scope.myDropzone.uploadFile($scope.myDropzone.files[0])
 		}
 
-		$scope.item.MPIC = picid;
-		$scope.item.CONTENT = $scope.content;
+		$scope.item.mpic = picid;
+		$scope.item.content = $scope.content;
 		$http.post($rootScope.project + "/api/company/updateCompany.do",
 				$scope.item).success(function(res) {
 			notify({

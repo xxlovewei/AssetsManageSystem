@@ -2,13 +2,13 @@
 function prodCatBItemRenameCtl($log, $http, $rootScope, $scope,
 		$uibModalInstance, id, notify) {
 	$scope.item = {};
-	$scope.item.NAME = "";
+	$scope.item.name = "";
 
 	$scope.sure = function() {
 
 		var ps = {};
 		ps.id = id;
-		ps.text = $scope.item.NAME;
+		ps.text = $scope.item.name;
 		$http.post($rootScope.project + "/api/categoryB/rename.do", ps)
 				.success(function(res) {
 					if (res.success) {
@@ -108,61 +108,61 @@ function prodCatBUpdateAttrCtl($log, $http, $rootScope, $scope,
 	console.log("in", id);
 	$scope.item = {};
 
-	$scope.typeOpt = [ {
-		ID : "base",
-		NAME : "基本属性"
+	$scope.typeopt = [ {
+		id : "base",
+		name : "基本属性"
 	}, {
-		ID : "sale",
-		NAME : "销售属性"
+		id : "sale",
+		name : "销售属性"
 	}, {
-		ID : "desc",
-		NAME : "描述属性"
+		id : "desc",
+		name : "描述属性"
 	} ]
 
 	$scope.typeSel = $scope.typeOpt[0];
 
 	$scope.aliasOpt = [ {
-		ID : "Y",
-		NAME : "是"
+		id : "Y",
+		name : "是"
 	}, {
-		ID : "N",
-		NAME : "否"
+		id : "N",
+		name : "否"
 	} ]
 	$scope.aliasSel = $scope.aliasOpt[0];
 
 	$scope.searchOpt = [ {
-		ID : "Y",
-		NAME : "是"
+		id : "Y",
+		name : "是"
 	}, {
-		ID : "N",
-		NAME : "否"
+		id : "N",
+		name : "否"
 	} ]
 	$scope.searchSel = $scope.searchOpt[1];
 
 	$scope.mustOpt = [ {
-		ID : "Y",
-		NAME : "是"
+		id : "Y",
+		name : "是"
 	}, {
-		ID : "N",
-		NAME : "否"
+		id : "N",
+		name : "否"
 	} ]
 	$scope.mustSel = $scope.mustOpt[1];
 
 	$scope.usedOpt = [ {
-		ID : "Y",
-		NAME : "是"
+		id : "Y",
+		name : "是"
 	}, {
-		ID : "N",
-		NAME : "否"
+		id : "N",
+		name : "否"
 	} ]
 	$scope.usedSel = $scope.usedOpt[0];
 
 	$scope.multiOpt = [ {
-		ID : "Y",
-		NAME : "是"
+		id : "Y",
+		name : "是"
 	}, {
-		ID : "N",
-		NAME : "否"
+		id : "N",
+		name : "否"
 	} ]
 	$scope.multiSel = $scope.multiOpt[0];
 
@@ -171,32 +171,32 @@ function prodCatBUpdateAttrCtl($log, $http, $rootScope, $scope,
 	}).success(function(res) {
 		if (res.success) {
 			console.log(res);
-			$scope.item.NAME = res.data.NAME;
-			$scope.item.OD = res.data.OD;
-			$scope.item.ID = res.data.ID;
+			$scope.item.name = res.data.name;
+			$scope.item.od = res.data.od;
+			$scope.item.id = res.data.id;
 			// 是否可别名
-			if (res.data.CAN_ALIAS == "Y") {
+			if (res.data.can_alias == "Y") {
 				$scope.aliasSel = $scope.aliasOpt[0];
 			} else {
 				$scope.aliasSel = $scope.aliasOpt[1];
 			}
 
 			// 是否搜索
-			if (res.data.IS_SEARCH == "Y") {
+			if (res.data.is_search == "Y") {
 				$scope.searchSel = $scope.searchOpt[0];
 			} else {
 				$scope.searchSel = $scope.searchOpt[1];
 			}
 
 			// 是否必须
-			if (res.data.IS_NEED == "Y") {
+			if (res.data.is_need == "Y") {
 				$scope.mustSel = $scope.mustOpt[0];
 			} else {
 				$scope.mustSel = $scope.mustOpt[1];
 			}
 
 			// 是否使用中
-			if (res.data.IS_USED == "Y") {
+			if (res.data.is_used == "Y") {
 				$scope.usedSel = $scope.usedOpt[0];
 			} else {
 				$scope.usedSel = $scope.usedOpt[1];
@@ -212,17 +212,17 @@ function prodCatBUpdateAttrCtl($log, $http, $rootScope, $scope,
 	$scope.sure = function() {
 
 		var ps = {};
-		ps.ID = $scope.item.ID;
-		ps.IS_NEED = $scope.mustSel.ID;
-		ps.CAN_ALIAS = $scope.aliasSel.ID;
-		ps.NAME = $scope.item.NAME
-		ps.ATTR_ID = id;
-		ps.OD = $scope.item.OD
+		ps.id = $scope.item.id;
+		ps.is_need = $scope.mustSel.id;
+		ps.can_alias = $scope.aliasSel.id;
+		ps.name = $scope.item.name
+		ps.attr_id = id;
+		ps.od = $scope.item.od
 		// ps.ATTR_TYPE = $scope.typeSel.ID
 		// ps.IS_MULTI = $scope.multiSel.ID
-		ps.IS_USED = $scope.usedSel.ID;
+		ps.is_used = $scope.usedSel.id;
 		// ps.VALUE_TYPE = "string";
-		ps.IS_SEARCH = $scope.searchSel.ID;
+		ps.is_search = $scope.searchSel.id;
 
 		$http.post($rootScope.project + "/api/categoryB/catAttrUpdate.do", ps)
 				.success(function(res) {
@@ -251,82 +251,82 @@ function prodCatBAddAttrCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 		id, notify) {
 	console.log("in", id);
 	$scope.item = {};
-	$scope.item.NAME = "";
-	$scope.item.OD = 2;
+	$scope.item.name = "";
+	$scope.item.od = 2;
 
 	$scope.typeOpt = [ {
-		ID : "base",
-		NAME : "基本属性"
+		id : "base",
+		name : "基本属性"
 	}, {
-		ID : "sale",
-		NAME : "销售属性"
+		id : "sale",
+		name : "销售属性"
 	} ]
 
 	$scope.typeSel = $scope.typeOpt[0];
 
 	$scope.aliasOpt = [ {
-		ID : "Y",
-		NAME : "是"
+		id : "Y",
+		name : "是"
 	}, {
-		ID : "N",
-		NAME : "否"
+		id : "N",
+		name : "否"
 	} ]
 	$scope.aliasSel = $scope.aliasOpt[0];
 
 	$scope.searchOpt = [ {
-		ID : "Y",
-		NAME : "是"
+		id : "Y",
+		name : "是"
 	}, {
-		ID : "N",
-		NAME : "否"
+		id : "N",
+		name : "否"
 	} ]
 	$scope.searchSel = $scope.searchOpt[1];
 
 	$scope.mustOpt = [ {
-		ID : "Y",
-		NAME : "是"
+		id : "Y",
+		name : "是"
 	}, {
-		ID : "N",
-		NAME : "否"
+		id : "N",
+		name : "否"
 	} ]
 	$scope.mustSel = $scope.mustOpt[1];
 
 	$scope.usedOpt = [ {
-		ID : "Y",
-		NAME : "是"
+		id : "Y",
+		name : "是"
 	}, {
-		ID : "N",
-		NAME : "否"
+		id : "N",
+		name : "否"
 	} ]
 	$scope.usedSel = $scope.usedOpt[0];
 
 	$scope.isenumOpt = [ {
-		ID : "Y",
-		NAME : "是"
+		id : "Y",
+		name : "是"
 	}, {
-		ID : "N",
-		NAME : "否"
+		id : "N",
+		name : "否"
 	} ]
 	$scope.isenumSel = $scope.isenumOpt[0];
 
 	$scope.isinputOpt = [ {
-		ID : "Y",
-		NAME : "是"
+		id : "Y",
+		name : "是"
 	}, {
-		ID : "N",
-		NAME : "否"
+		id : "N",
+		name : "否"
 	} ]
 	$scope.isinputSel = $scope.isinputOpt[1];
 
 	$scope.inputtypeOpt = [ {
-		ID : "input",
-		NAME : "输入框"
+		id : "input",
+		name : "输入框"
 	}, {
-		ID : "select-single",
-		NAME : "单选框"
+		id : "select-single",
+		name : "单选框"
 	}, {
-		ID : "select-multi",
-		NAME : "多选框"
+		id : "select-multi",
+		name : "多选框"
 	} ]
 
 	$scope.inputtypeSel = $scope.inputtypeOpt[0]
@@ -338,8 +338,8 @@ function prodCatBAddAttrCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 			return;
 		}
 
-		if ($scope.typeSel.ID == "base"
-				&& $scope.inputtypeSel.ID == "select-multi") {
+		if ($scope.typeSel.id == "base"
+				&& $scope.inputtypeSel.id == "select-multi") {
 			notify({
 				message : "基本属性的多选暂不支持"
 			})
@@ -348,17 +348,17 @@ function prodCatBAddAttrCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 		}
 
 		var ps = {};
-		ps.IS_NEED = $scope.mustSel.ID;
-		ps.CAN_ALIAS = $scope.aliasSel.ID;
-		ps.NAME = $scope.item.NAME
-		ps.CAT_ID = id;
-		ps.OD = $scope.item.OD
-		ps.ATTR_TYPE = $scope.typeSel.ID
-		ps.IS_ENUM = $scope.isenumSel.ID
-		ps.IS_USED = $scope.usedSel.ID;
-		ps.IS_SEARCH = $scope.searchSel.ID;
-		ps.IS_INPUT = $scope.isinputSel.ID;
-		ps.INPUT_TYPE = $scope.inputtypeSel.ID;
+		ps.is_need = $scope.mustSel.id;
+		ps.can_alias = $scope.aliasSel.id;
+		ps.name = $scope.item.name
+		ps.cat_id = id;
+		ps.od = $scope.item.od
+		ps.attr_type = $scope.typeSel.id
+		ps.is_enum = $scope.isenumSel.id
+		ps.is_used = $scope.usedSel.id;
+		ps.is_search = $scope.searchSel.id;
+		ps.is_input = $scope.isinputSel.id;
+		ps.input_type = $scope.inputtypeSel.id;
 		$http.post($rootScope.project + "/api/categoryB/catAttrAdd.do", ps)
 				.success(function(res) {
 					if (res.success) {
@@ -437,7 +437,7 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 	function renderAction(data, type, full) {
 
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"attrEdit('" + full.ID
+		acthtml = acthtml + " <button ng-click=\"attrEdit('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
 
 		if (full.INPUT_TYPE != "input") {
@@ -446,7 +446,7 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 					+ "')\" class=\"btn-white btn btn-xs\">选项值</button> ";
 		}
 
-		acthtml = acthtml + " <button ng-click=\"attrDel('" + full.ID
+		acthtml = acthtml + " <button ng-click=\"attrDel('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 
 		return acthtml;
@@ -526,19 +526,19 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 	}
 
 	$scope.dtColumns = [
-			DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption(
+			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('INPUT_TYPE').withTitle('输入类型')
+			DTColumnBuilder.newColumn('input_type').withTitle('输入类型')
 					.withOption('sDefaultContent', '').renderWith(renderInput),
-			DTColumnBuilder.newColumn('OD').withTitle('排序').withOption(
+			DTColumnBuilder.newColumn('od').withTitle('排序').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('IS_USED').withTitle('状态').withOption(
+			DTColumnBuilder.newColumn('is_used').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('IS_NEED').withTitle('必填').withOption(
+			DTColumnBuilder.newColumn('is_need').withTitle('必填').withOption(
 					'sDefaultContent', '').renderWith(renderMust),
-			DTColumnBuilder.newColumn('ATTR_TYPE_NAME').withTitle('属性类型')
+			DTColumnBuilder.newColumn('attr_type_name').withTitle('属性类型')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('ATTR_ID').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('attr_id').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction),
 
 	]
@@ -652,9 +652,9 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 						console.log("cur:obj", obj);
 						$http.post(
 								$rootScope.project + "/api/categoryB/add.do", {
-									ACTION : "cat",
-									TEXT : "新品类",
-									ID : obj.id
+									action : "cat",
+									text : "新品类",
+									id : obj.id
 								}).success(function(res) {
 							if (res.success) {
 
@@ -698,9 +698,9 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 						console.log("cur:obj", obj);
 						$http.post(
 								$rootScope.project + "/api/categoryB/add.do", {
-									ACTION : "node",
-									TEXT : "新节点",
-									ID : obj.id
+									action : "node",
+									text : "新节点",
+									id : obj.id
 								}).success(function(res) {
 
 							$log.warn(res);

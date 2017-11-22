@@ -52,7 +52,7 @@ public class UserGroupController extends BaseController{
 	public ResData saveUserGroupById(String group_id) {
 		
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		String id = ps.getString("GROUP_ID");
+		String id = ps.getString("group_id");
 		if (ToolUtil.isEmpty(id)) {
 			return userGroupService.addUserGroup(ps);
 		} else {

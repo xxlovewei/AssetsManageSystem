@@ -13,28 +13,28 @@ function prodrootfCatSaveCtl($uibModalInstance, $compile, $confirm, $log,
 
 	$scope.is_code_show=true;
 	$scope.item = {};
-	$scope.item.MARK = "";
-	$scope.item.CODE = "";
-	$scope.item.TEXT = ""
+	$scope.item.mark = "";
+	$scope.item.code = "";
+	$scope.item.text = ""
 
 	$scope.statusOpt = [ {
-		ID : "Y",
-		NAME : "使用中"
+		id : "Y",
+		name : "使用中"
 	}, {
-		ID : "N",
-		NAME : "停用"
+		id : "N",
+		name : "停用"
 	} ]
 	$scope.statusSel = $scope.statusOpt[0];
 
 	// 如果已经存在ID,则查询数据
-	if (angular.isDefined(data.ID)) {
+	if (angular.isDefined(data.id)) {
 		$scope.is_code_show=false;
 		$http.post($rootScope.project + "/api/categoryF/rootCatQueryById.do", {
-			id : data.ID
+			id : data.id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data;
-				if ($scope.item.IS_USED == "Y") {
+				if ($scope.item.is_used == "Y") {
 					$scope.statusSel = $scope.statusOpt[0];
 				} else {
 					$scope.statusSel = $scope.statusOpt[1];
@@ -50,18 +50,18 @@ function prodrootfCatSaveCtl($uibModalInstance, $compile, $confirm, $log,
 
 	$scope.sure = function() {
 
-		$scope.item.IS_USED = $scope.statusSel.ID;
+		$scope.item.is_used = $scope.statusSel.id;
 
 		var cmd = "";
-		if (angular.isDefined(data.ID)) {
+		if (angular.isDefined(data.id)) {
 			cmd = "/api/categoryF/rootCatUpdate.do";
-			$scope.item.ID = data.ID;
+			$scope.item.ID = data.id;
 		} else {
 			cmd = "/api/categoryF/rootCatAdd.do";
 		}
 
 		//
-		$scope.item.IS_USED = $scope.statusSel.ID;
+		$scope.item.is_used = $scope.statusSel.id;
 		$http.post($rootScope.project + cmd, $scope.item).success(
 				function(res) {
 					if (res.success) {
@@ -99,7 +99,7 @@ function prodrootfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
-		acthtml = acthtml + " <button ng-click=\"save('" + full.ID
+		acthtml = acthtml + " <button ng-click=\"save('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
 
 		// acthtml = acthtml + " <button ng-click=\"row_delete('" + full.ID
@@ -119,15 +119,15 @@ function prodrootfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	$scope.dtColumns = [
 
-			DTColumnBuilder.newColumn('CODE').withTitle('编码').withOption(
+			DTColumnBuilder.newColumn('code').withTitle('编码').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('TEXT').withTitle('名称').withOption(
+			DTColumnBuilder.newColumn('text').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption(
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('IS_USED').withTitle('状态').withOption(
+			DTColumnBuilder.newColumn('is_used').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('ID').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {

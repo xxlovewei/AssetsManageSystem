@@ -24,11 +24,11 @@ function mallBannerItemSaveCtl($localStorage, notify, $log, $uibModal,
 		};
 	
 	$scope.usedOpt = [ {
-		ID : "N",
-		NAME : "未使用"
+		id : "N",
+		name : "未使用"
 	}, {
-		ID : "Y",
-		NAME : "使用中"
+		id : "Y",
+		name : "使用中"
 	} ];
 
 	$scope.usedSel = $scope.usedOpt[0];
@@ -41,7 +41,7 @@ function mallBannerItemSaveCtl($localStorage, notify, $log, $uibModal,
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data
-				if ($scope.item.IS_USED == "Y") {
+				if ($scope.item.is_used == "Y") {
 					$scope.usedSel = $scope.usedOpt[1];
 				} else {
 					$scope.usedSel = $scope.usedOpt[0];
@@ -52,16 +52,16 @@ function mallBannerItemSaveCtl($localStorage, notify, $log, $uibModal,
 					 
 					var mockFile = {
 							name : "图" ,
-							uuid : $scope.item.IMGURL,
-							href : $rootScope.project + "/api/file/imagedown.do?id=" +$scope.item.IMGURL,
-							url : $rootScope.project + "/api/file/imagedown.do?id=" + $scope.item.IMGURL,
+							uuid : $scope.item.imgurl,
+							href : $rootScope.project + "/api/file/imagedown.do?id=" +$scope.item.imgurl,
+							url : $rootScope.project + "/api/file/imagedown.do?id=" + $scope.item.imgurl,
 							status : "success",
 							accepted : true,
 							type : 'image/png'
 						};
 						$scope.myDropzone.emit("addedfile", mockFile);
 						$scope.myDropzone.files.push(mockFile); // file must be
-						$scope.myDropzone.createThumbnailFromUrl(mockFile, $rootScope.project + "/api/file/imagedown.do?id=" +$scope.item.IMGURL);
+						$scope.myDropzone.createThumbnailFromUrl(mockFile, $rootScope.project + "/api/file/imagedown.do?id=" +$scope.item.imgurl);
 						$scope.myDropzone.emit("complete", mockFile);
 
 				}, 600)
@@ -96,7 +96,7 @@ function mallBannerItemSaveCtl($localStorage, notify, $log, $uibModal,
 			$scope.myDropzone.uploadFile($scope.myDropzone.files[0])
 		}
 		
-		$scope.item.IMGURL = picid;
+		$scope.item.imgurl = picid;
 		$scope.item.IS_USED = $scope.usedSel.ID;
 		if (!angular.isDefined(id)) {
 			$scope.item.BANNER_ID = banner_id;
@@ -164,21 +164,21 @@ function mallbannerCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	function renderImage(data, type, full) {
 		var html = ""
-		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "/api/file/imagedown.do?id=" + full.IMGURL + "  />"
+		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "/api/file/imagedown.do?id=" + full.imgurl + "  />"
 		return html;
 	}
 
 	$scope.dtColumns = [
-			DTColumnBuilder.newColumn('ID').withTitle('图片').withOption('sDefaultContent', '').renderWith(renderImage),
-			DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('图片').withOption('sDefaultContent', '').renderWith(renderImage),
+			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('RK').withTitle('排序').withOption(
+			DTColumnBuilder.newColumn('rk').withTitle('排序').withOption(
 					'sDefaultContent', ''),
-//			DTColumnBuilder.newColumn('TYPE').withTitle('类型').withOption(
+//			DTColumnBuilder.newColumn('type').withTitle('类型').withOption(
 //					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('IS_USED').withTitle('状态').withOption(
+			DTColumnBuilder.newColumn('is_used').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('ID').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {

@@ -114,14 +114,14 @@ public class ContentCategoryService extends BaseService {
 	 * @Description:更新节点数据
 	 */
 	public ResData updateCategory(TypedHashMap<String, Object> ps) {
-		String id = ps.getString("ID");
-		String name = ps.getString("NAME", "idle");
+		String id = ps.getString("id");
+		String name = ps.getString("name", "idle");
 		Update ups = new Update("ct_category");
 		ups.setIf("name", name);
-		ups.setIf("mpic", ps.getString("MPIC"));
-		ups.setIf("mark", ps.getString("MARK"));
-		ups.setIf("od", ps.getString("OD"));
-		ups.setIf("isaction", ps.getString("ISACTION"));
+		ups.setIf("mpic", ps.getString("mpic"));
+		ups.setIf("mark", ps.getString("mark"));
+		ups.setIf("od", ps.getString("od"));
+		ups.setIf("isaction", ps.getString("isaction"));
 		ups.where().and("id=?", id);
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
@@ -130,9 +130,9 @@ public class ContentCategoryService extends BaseService {
 	 * @Description:插入节点
 	 */
 	public ResData addCategory(TypedHashMap<String, Object> ps) {
-		String old_id = ps.getString("OLD_ID");
-		String old_node_type = ps.getString("OLD_NODE_TYPE");
-		String name = ps.getString("NAME");
+		String old_id = ps.getString("old_id");
+		String old_node_type = ps.getString("old_node_type");
+		String name = ps.getString("name");
 		if (ToolUtil.isOneEmpty(old_id, old_node_type, name)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
@@ -151,18 +151,18 @@ public class ContentCategoryService extends BaseService {
 				return oldNode;
 			}
 			JSONObject oldData = JSONObject.parseObject(oldNode.getData().toString());
-			me.set("root", oldData.getString("ROOT"));
-			me.set("route", oldData.getString("ROUTE") + "-" + id);
+			me.set("root", oldData.getString("root"));
+			me.set("route", oldData.getString("route") + "-" + id);
 			me.set("parent_id", old_id);
-			me.set("node_level", oldData.getIntValue("NODE_LEVEL") + 1);
+			me.set("node_level", oldData.getIntValue("node_level") + 1);
 		}
 		me.set("id", id);
 		me.set("deleted", "N");
-		me.setIf("mark", ps.getString("MARK"));
-		me.setIf("mpic", ps.getString("MPIC"));
-		me.setIf("name", ps.getString("NAME", "idle"));
-		me.setIf("isaction", ps.getString("ISACTION"));
-		me.setIf("od", ConvertUtil.toInt(ps.getString("OD"), 99));
+		me.setIf("mark", ps.getString("mark"));
+		me.setIf("mpic", ps.getString("mpic"));
+		me.setIf("name", ps.getString("name", "idle"));
+		me.setIf("isaction", ps.getString("isaction"));
+		me.setIf("od", ConvertUtil.toInt(ps.getString("od"), 99));
 		db.execute(me);
 		return queryCategoryById(id);
 	}

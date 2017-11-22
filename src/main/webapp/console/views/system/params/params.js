@@ -3,11 +3,11 @@ function sysParamSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 	$log.warn("window in:" + id);
 	$scope.item = {};
 	$scope.typeOpt = [ {
-		ID : "system",
-		NAME : "系统"
+		id : "system",
+		name : "系统"
 	}, {
-		ID : "user",
-		NAME : "用户"
+		id : "user",
+		name : "用户"
 	} ]
 	$scope.typeSel = $scope.typeOpt[0];
 	if (angular.isDefined(id)) {
@@ -18,9 +18,9 @@ function sysParamSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 			if (res.success) {
 				$scope.item = res.data
 				// DICT_LEVEL
-				if ($scope.item.DICT_LEVEL == "system") {
+				if ($scope.item.dict_level == "system") {
 					$scope.typeSel = $scope.typeOpt[0];
-				} else if ($scope.item.DICT_LEVEL == "user") {
+				} else if ($scope.item.dict_level == "user") {
 					$scope.typeSel = $scope.typeOpt[1];
 				}
 			} else {
@@ -33,7 +33,7 @@ function sysParamSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 
 	$scope.sure = function() {
 
-		$scope.item.TYPE = $scope.typeSel.ID;
+		$scope.item.type = $scope.typeSel.id;
 		$http.post($rootScope.project + "/api/params/saveParams.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
@@ -73,10 +73,10 @@ function sysParamsCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 		return value;
 	}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('VALUE').withTitle('编码').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('TYPE').withTitle('类型').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption('sDefaultContent', '') ]
+	$scope.dtColumns = [ DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('value').withTitle('编码').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('type').withTitle('类型').withOption('sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', '') ]
 
 	function flush() {
 		var ps = {}
@@ -95,7 +95,7 @@ function sysParamsCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 		if (data.length == 0 || data.length > 1) {
 			return;
 		} else {
-			return $scope.dtOptions.aaData[data[0]].ID;
+			return $scope.dtOptions.aaData[data[0]].id;
 		}
 	}
 

@@ -36,7 +36,7 @@ public class CategoryAttrValueService extends BaseService {
 		ins.set("is_deleted", "N");
 		ins.set("attr_id", attr_id);
 		ins.setIf("cat_id", cat_id);
-		ins.setIf("od", ps.getString("OD", "0"));
+		ins.setIf("od", ps.getString("od", "0"));
 		ins.setIf("value", "新选项值");
 		db.execute(ins);
 		return ResData.SUCCESS_OPER();
@@ -75,13 +75,13 @@ public class CategoryAttrValueService extends BaseService {
 	 * @Description: 根据属性值
 	 */
 	public ResData updateAttrValue(TypedHashMap<String, Object> ps) {
-		String attr_set_id = ps.getString("ID");
+		String attr_set_id = ps.getString("id");
 		if (ToolUtil.isEmpty(attr_set_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		Update me = new Update("product_category_attr_set");
-		me.setIf("value", ps.getString("VALUE"));
-		me.setIf("od", ps.getString("OD"));
+		me.setIf("value", ps.getString("value"));
+		me.setIf("od", ps.getString("od"));
 		me.where().and("id=?", attr_set_id);
 		db.execute(me);
 		return ResData.SUCCESS_OPER();

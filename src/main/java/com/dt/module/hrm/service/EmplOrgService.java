@@ -40,9 +40,9 @@ public class EmplOrgService extends BaseService {
 	@Transactional
 	public ResData addEmplOrg(TypedHashMap<String, Object> ps) {
 		String cur_node_id = "";
-		String org_id = ps.getString("ORG_ID");
-		String node_name = ps.getString("NODE_NAME");
-		String parent_id = ps.getString("PARENT_ID");
+		String org_id = ps.getString("org_id");
+		String node_name = ps.getString("node_name");
+		String parent_id = ps.getString("parent_id");
 		_log.info("node_id:" + cur_node_id);
 		_log.info("org_id:" + org_id);
 		_log.info("parent_id:" + parent_id);
@@ -81,8 +81,8 @@ public class EmplOrgService extends BaseService {
 	 */
 	@Transactional
 	public ResData updateEmplOrg(TypedHashMap<String, Object> ps) {
-		String node_id = ps.getString("NODE_ID");
-		String node_name = ps.getString("NODE_NAME");
+		String node_id = ps.getString("node_id");
+		String node_name = ps.getString("node_name");
 		if (ToolUtil.isEmpty(node_name)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}

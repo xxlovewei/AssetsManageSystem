@@ -34,7 +34,7 @@ function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
 				$timeout(function() {
 					for (var i = 0; i < parts.length; i++) {
 						for (var j = 0; j < $scope.partOpt.length; j++) {
-							if ($scope.partOpt[j].NODE_ID == parts[i].NODE_ID) {
+							if ($scope.partOpt[j].node_id == parts[i].node_id) {
 								$log.info("match");
 								partsSel.push($scope.partOpt[j]);
 								break;
@@ -118,9 +118,9 @@ function orgEmpSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 		$scope.data.NODES = angular.toJson($rootScope.sys_partSel);
 
 		var cmd = "";
-		if (angular.isDefined($scope.data.EMPL_ID)) {
+		if (angular.isDefined($scope.data.empl_id)) {
 			cmd = "/api/hrm/employeeUpdate.do"
-			$scope.data.OLD_NODES = angular.toJson($scope.data.OLD_PARTS)
+			$scope.data.old_nodes = angular.toJson($scope.data.old_parts)
 		} else {
 			cmd = "/api/hrm/employeeAdd.do";
 		}
@@ -143,7 +143,7 @@ function orgEmpSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.data = {
-		NAME : ""
+		name : ""
 	};
 	$scope.partOpt = [];
 	$scope.partSel = "";
@@ -151,9 +151,9 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 		if (res.success) {
 			var d = res.data;
 			d.splice(0, 0, {
-				"ROUTENAME" : "全部",
-				NODE_ID : "-1",
-				LEVELS : 0
+				"routename" : "全部",
+				node_id : "-1",
+				levels : 0
 			})
 			$scope.partOpt = d;
 			$scope.partSel = $scope.partOpt[0];
@@ -174,15 +174,15 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.EMPL_ID + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.empl_id + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
 		// acthtml = acthtml + " <button ng-click=\"row_detail()\"
 		// class=\"btn-white btn btn-xs\">详细</button> ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.EMPL_ID + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.empl_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
 		var res = "无效";
-		if (full.IS_ACTION == "Y") {
+		if (full.is_action == "Y") {
 			res = "有效";
 		}
 		return res;
@@ -195,7 +195,7 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 
 	function flush() {
 
-		$scope.data.NODE_ID = $scope.partSel.NODE_ID;
+		$scope.data.node_id = $scope.partSel.node_id;
 		$http.post($rootScope.project + "/api/hrm/employeeQueryList.do", $scope.data).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;

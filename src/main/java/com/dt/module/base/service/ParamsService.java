@@ -30,10 +30,10 @@ public class ParamsService extends BaseService {
 		Insert me = new Insert("sys_params");
 		me.set("id", UuidUtil.getUUID());
 		me.set("deleted", "N");
-		me.setIf("name", ps.getString("NAME", ""));
-		me.setIf("value", ps.getString("VALUE", ""));
-		me.set("type", ps.getString("TYPE"));
-		me.setIf("mark", ps.getString("MARK", ""));
+		me.setIf("name", ps.getString("name", ""));
+		me.setIf("value", ps.getString("value", ""));
+		me.set("type", ps.getString("type"));
+		me.setIf("mark", ps.getString("mark", ""));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -52,11 +52,11 @@ public class ParamsService extends BaseService {
 	 */
 	public ResData updateParams(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_params");
-		me.setIf("name", ps.getString("NAME", ""));
-		me.setIf("value", ps.getString("VALUE", ""));
-		me.set("type", ps.getString("TYPE"));
-		me.setIf("mark", ps.getString("MARK", ""));
-		me.where().and("id=?", ps.getString("ID"));
+		me.setIf("name", ps.getString("name", ""));
+		me.setIf("value", ps.getString("value", ""));
+		me.set("type", ps.getString("type"));
+		me.setIf("mark", ps.getString("mark", ""));
+		me.where().and("id=?", ps.getString("id"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}

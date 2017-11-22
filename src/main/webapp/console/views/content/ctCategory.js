@@ -10,7 +10,7 @@ function prepend(arr, item) {
 
 function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.actionOpt=[{ID:"Y",NAME:"有效"},{ID:"N",NAME:"无效"}]
+	$scope.actionOpt=[{id:"Y",name:"有效"},{id:"N",name:"无效"}]
 	$scope.actionSel=$scope.actionOpt[0];
 	
 	$scope.catRootOpt = [];
@@ -21,7 +21,7 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 			$scope.catRootOpt = res.data;
 			if ($scope.catRootOpt.length > 0) {
 				$scope.catRootSel = $scope.catRootOpt[0];
-				flushTree($scope.catRootSel.ID)
+				flushTree($scope.catRootSel.id)
 			}
 		} else {
 			notify({
@@ -95,16 +95,16 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 						console.log("cur:obj", obj);
 
 						$http.post($rootScope.project + "/api/ctCategroy/addCategory.do", {
-							OLD_NODE_TYPE : obj.type,
-							NAME : "新节点",
-							OLD_ID : obj.id
+							old_node_type : obj.type,
+							name : "新节点",
+							old_id : obj.id
 						}).success(function(res) {
 
 							if (res.success) {
 								inst.create_node(obj, {
-									id : res.data.ID,
+									id : res.data.id,
 									text : "新节点",
-									parent : res.data.PARENT_ID,
+									parent : res.data.parent_id,
 									type : "node"
 								}, "last", function(new_node) {
 									console.log("new_node is:", new_node);
@@ -193,7 +193,7 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 					}).success(function(res) {
 						if (res.success) {
 							$scope.item = res.data;
-							if($scope.item.ISACTION=="Y"){
+							if($scope.item.isaction=="Y"){
 								$scope.actionSel=$scope.actionOpt[0];
 							}else{
 								$scope.actionSel=$scope.actionOpt[1];
@@ -243,7 +243,7 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 		$http.post($rootScope.project + "/api/ctCategroy/updateCategory.do", $scope.item).success(function(res) {
 			if (res.success) {
 				var inst = $scope.tree;
-				inst.rename_node($scope.item.ID, $scope.item.NAME)
+				inst.rename_node($scope.item.id, $scope.item.name)
 			}
 			notify({
 				message : res.message
@@ -252,7 +252,7 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 		});
 	}
 	$scope.query = function() {
-		flushTree($scope.catRootSel.ID);
+		flushTree($scope.catRootSel.id);
 	}
 
 };

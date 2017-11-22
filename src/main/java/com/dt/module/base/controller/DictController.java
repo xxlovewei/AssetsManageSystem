@@ -30,7 +30,7 @@ public class DictController extends BaseController {
 	@Acl
 	public ResData saveDict() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		String dict_id = ps.getString("DICT_ID");
+		String dict_id = ps.getString("dict_id");
 		if (ToolUtil.isEmpty(dict_id)) {
 			return dictService.addDict(ps);
 		} else {
@@ -72,7 +72,7 @@ public class DictController extends BaseController {
 	@Acl
 	public ResData saveDictItem() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		String id = ps.getString("DICT_ITEM_ID");
+		String id = ps.getString("dict_item_id");
 		if (ToolUtil.isEmpty(id)) {
 			return dictService.addDictItem(ps);
 		} else {

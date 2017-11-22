@@ -105,8 +105,8 @@ public class StoreSqlService extends BaseService {
 
 		// 弱弱的检查下
 		String msg = "Sql文本于返回类型不匹配";
-		String sql = ps.getString("SQL", "").trim();
-		String return_type = ps.getString("RETURN_TYPE", RETURN_ACTION);
+		String sql = ps.getString("sql", "").trim();
+		String return_type = ps.getString("return_type", RETURN_ACTION);
 		if (sql.toLowerCase().startsWith("select")) {
 			if (return_type.equals(RETURN_ARRARY) || return_type.equals(RETURN_OBJECT)) {
 				return ResData.SUCCESS_OPER();
@@ -131,19 +131,19 @@ public class StoreSqlService extends BaseService {
 		}
 		Insert me = new Insert("ct_uri");
 		me.set("store_id", db.getUUID());
-		me.setIf("name", ps.getString("NAME"));
-		me.setIf("cat_id", ps.getString("CAT_ID"));
-		me.setIf("uri", ps.getString("URI"));
-		me.setIf("uri_parameter", ps.getString("URI_PARAMETER"));
+		me.setIf("name", ps.getString("name"));
+		me.setIf("cat_id", ps.getString("cat_id"));
+		me.setIf("uri", ps.getString("uri"));
+		me.setIf("uri_parameter", ps.getString("uri_parameter"));
 		me.setIf("user_id", user_id);
-		me.setIf("sql", ps.getString("SQL"));
-		me.setIf("db_id", ps.getString("DB_ID"));
+		me.setIf("sql", ps.getString("sql"));
+		me.setIf("db_id", ps.getString("db_id"));
 		// me.setIf("ctime", ps.getString("ctime"));
 		me.set("is_deleted", "N");
-		me.set("acl", ps.getString("ACL", ACL_USER));
-		me.setIf("mark", ps.getString("MARK"));
-		me.set("return_type", ps.getString("RETURN_TYPE", RETURN_ACTION));
-		me.setIf("is_used", ps.getString("IS_USED"));
+		me.set("acl", ps.getString("acl", ACL_USER));
+		me.setIf("mark", ps.getString("mark"));
+		me.set("return_type", ps.getString("return_type", RETURN_ACTION));
+		me.setIf("is_used", ps.getString("is_used"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -153,17 +153,17 @@ public class StoreSqlService extends BaseService {
 			return rs;
 		}
 		Update me = new Update("ct_uri");
-		me.setIf("name", ps.getString("NAME"));
-		me.setIf("uri", ps.getString("URI"));
-		me.setIf("uri_parameter", ps.getString("URI_PARAMETER"));
+		me.setIf("name", ps.getString("name"));
+		me.setIf("uri", ps.getString("uri"));
+		me.setIf("uri_parameter", ps.getString("uri_parameter"));
 		me.setIf("user_id", user_id);
-		me.setIf("sql", ps.getString("SQL"));
-		me.setIf("db_id", ps.getString("DB_ID"));
-		me.set("acl", ps.getString("ACL", ACL_USER));
-		me.setIf("mark", ps.getString("MARK"));
-		me.set("return_type", ps.getString("RETURN_TYPE", RETURN_ACTION));
-		me.setIf("is_used", ps.getString("IS_USED"));
-		me.where().and("store_id=?", ps.getString("STORE_ID"));
+		me.setIf("sql", ps.getString("sql"));
+		me.setIf("db_id", ps.getString("db_id"));
+		me.set("acl", ps.getString("acl", ACL_USER));
+		me.setIf("mark", ps.getString("mark"));
+		me.set("return_type", ps.getString("return_type", RETURN_ACTION));
+		me.setIf("is_used", ps.getString("is_used"));
+		me.where().and("store_id=?", ps.getString("store_id"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}

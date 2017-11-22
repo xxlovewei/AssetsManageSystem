@@ -55,14 +55,7 @@ public class OrderController extends BaseController {
 	}
 
 
-	/** 
-	 * @Title: MISSING 
-	 * @Description: TODO
-	 * @return: void
-	 */
-	public static void main(String[] args) {
 	 
-	}
 	
 }
 

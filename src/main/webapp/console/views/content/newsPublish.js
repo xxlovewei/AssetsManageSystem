@@ -9,20 +9,20 @@ function ctNewsPublishCtl($compile, $confirm, $log, notify, $scope, $http, $root
 	} ]
 
 	$scope.mpicOpt = [ {
-		"ID" : "left",
-		"NAME" : "左侧"
+		"id" : "left",
+		"name" : "左侧"
 	}, {
-		"ID" : "right",
-		"NAME" : "右侧"
+		"id" : "right",
+		"name" : "右侧"
 	}, {
-		"ID" : "top",
-		"NAME" : "上部"
+		"id" : "top",
+		"name" : "上部"
 	},{
-		"ID" : "bottom",
-		"NAME" : "底部"
+		"id" : "bottom",
+		"name" : "底部"
 	} ,{
-		"ID" : "center",
-		"NAME" : "居中"
+		"id" : "center",
+		"name" : "居中"
 	}];
 	$scope.mpicSel=$scope.mpicOpt[0];
 	$scope.accessSel = $scope.accessOpt[0];
@@ -86,10 +86,10 @@ function ctNewsPublishCtl($compile, $confirm, $log, notify, $scope, $http, $root
 			$scope.myDropzone.uploadFile($scope.myDropzone.files[0])
 		}
 		 
-		$scope.item.MPIC=picid;
-		$scope.item.MPIC_LOC=$scope.mpicSel.ID;
-		$scope.item.CONTENT = $scope.content;
-		$scope.item.URLTYPE = $scope.accessSel.ID;
+		$scope.item.mpic=picid;
+		$scope.item.mpic_loc=$scope.mpicSel.id;
+		$scope.item.content = $scope.content;
+		$scope.item.urltype = $scope.accessSel.id;
 		$http.post($rootScope.project + "/api/news/publishNews.do", $scope.item).success(function(res) {
 			if (res.success) {
 

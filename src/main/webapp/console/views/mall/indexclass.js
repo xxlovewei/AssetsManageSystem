@@ -4,11 +4,11 @@ function indexclassSaveCtl($localStorage, notify, $log, $uibModal,
 	$scope.item = {};
 
 	$scope.statusOpt = [ {
-		ID : "Y",
-		NAME : "有效"
+		id : "Y",
+		name : "有效"
 	}, {
-		ID : "N",
-		NAME : "无效"
+		id : "N",
+		name : "无效"
 	} ]
 	$scope.statusSel = $scope.statusOpt[0];
 	if (angular.isDefined(id)) {
@@ -19,9 +19,9 @@ function indexclassSaveCtl($localStorage, notify, $log, $uibModal,
 			if (res.success) {
 				$scope.item = res.data
 				// STATUS
-				if ($scope.item.IS_USED == "Y") {
+				if ($scope.item.is_used == "Y") {
 					$scope.statusSel = $scope.statusOpt[0];
-				} else if ($scope.item.IS_USED == "N") {
+				} else if ($scope.item.is_used == "N") {
 					$scope.statusSel = $scope.statusOpt[1];
 				}
 
@@ -38,9 +38,9 @@ function indexclassSaveCtl($localStorage, notify, $log, $uibModal,
 	};
 
 	$scope.sure = function() {
-		$scope.item.IS_USED = $scope.statusSel.ID;
-		$scope.item.MODULE = "mall";
-		$scope.item.TYPE = "microshopindex";
+		$scope.item.is_used = $scope.statusSel.id;
+		$scope.item.module = "mall";
+		$scope.item.type = "microshopindex";
 
 		$http.post($rootScope.project + "/api/class/saveClass.do", $scope.item)
 				.success(function(res) {
@@ -64,7 +64,7 @@ function indexClassItemSaveCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 	$scope.prodcatSel = {
 		ID : "-1"
 	};
-	if (!angular.isDefined(data.CLASS_ID)) {
+	if (!angular.isDefined(data.class_id)) {
 		data.CLASS_ID = "-1";
 	}
 	// 获取类目选择
@@ -128,7 +128,7 @@ function indexClassItemSaveCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 		var html = ""
 		html = html + "<img style='height:50px;width:50px;' src="
 				+ $rootScope.project + "/api/file/imagedown.do?id="
-				+ full.MASTER_PIC + "  />"
+				+ full.master_pic + "  />"
 		return html;
 	}
 
@@ -137,15 +137,15 @@ function indexClassItemSaveCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 					'select-checkbox').renderWith(function() {
 				return '';
 			}),
-			DTColumnBuilder.newColumn('MASTER_PIC').withTitle('图片').withOption(
+			DTColumnBuilder.newColumn('master_pic').withTitle('图片').withOption(
 					'sDefaultContent', '').renderWith(renderImage),
-			DTColumnBuilder.newColumn('PROD_NAME').withTitle('商品名称')
+			DTColumnBuilder.newColumn('prod_name').withTitle('商品名称')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('LIST_PRICE').withTitle('列表价')
+			DTColumnBuilder.newColumn('list_price').withTitle('列表价')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('STOCK').withTitle('库存').withOption(
+			DTColumnBuilder.newColumn('stock').withTitle('库存').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('CODE').withTitle('货号').withOption(
+			DTColumnBuilder.newColumn('code').withTitle('货号').withOption(
 					'sDefaultContent', '') ]
 
 	$scope.cancel = function() {
@@ -155,8 +155,8 @@ function indexClassItemSaveCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 	$scope.search = function() {
 		$scope.URL = $rootScope.project
 				+ "/api/class/queryClassProdNotSel.do?cat_id="
-				+ $scope.prodcatSel.ID + "&class_id=" + data.CLASS_ID;
-		$scope.dtOptions.ajax = $scope.URL;
+				+ $scope.prodcatSel.id + "&class_id=" + data.class_id;
+		$scope.dtOptions.ajax = $scope.url;
 		reloadData();
 	}
 	$scope.sure = function() {
@@ -173,12 +173,12 @@ function indexClassItemSaveCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 		var ids = [];
 		for (var i = 0; i < seldata.length; i++) {
 			console.log(tabdata[seldata[i]]);
-			ids.push(tabdata[seldata[i]].SPU);
+			ids.push(tabdata[seldata[i]].spu);
 		}
 
 		var ps = {};
-		ps.CLASS_ID = data.CLASS_ID;
-		ps.IDS = angular.toJson(ids);
+		ps.class_id = data.class_id;
+		ps.ids = angular.toJson(ids);
 		$http.post($rootScope.project + "/api/class/addClassItems.do", ps)
 				.success(function(res) {
 					if (res.success) {
@@ -238,9 +238,9 @@ function shopIndexClassCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 
 	$scope.dtColumns = [
-			DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption(
+			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('IS_USED').withTitle('状态').withOption(
+			DTColumnBuilder.newColumn('is_used').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderMStatus) ]
 
 	function flush() {
@@ -331,7 +331,7 @@ function shopIndexClassCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		if (data.length == 0 || data.length > 1) {
 			return;
 		} else {
-			return $scope.dtOptions.aaData[data[0]].CLASS_ID;
+			return $scope.dtOptions.aaData[data[0]].class_id;
 		}
 	}
 
@@ -360,21 +360,21 @@ function shopIndexClassCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.ITEM_ID
+		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.item_id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 
 	$scope.dtItemColumns = [
-			DTColumnBuilder.newColumn('PROD_NAME').withTitle('名称').withOption(
+			DTColumnBuilder.newColumn('prod_name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('IS_OFF').withTitle('上架').withOption(
+			DTColumnBuilder.newColumn('is_off').withTitle('上架').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('STOCK').withTitle('库存').withOption(
+			DTColumnBuilder.newColumn('stock').withTitle('库存').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('SALES').withTitle('销售').withOption(
+			DTColumnBuilder.newColumn('sales').withTitle('销售').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('SPU').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('spu').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flushSubtab(id,reset) {
@@ -393,7 +393,7 @@ function shopIndexClassCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 		$scope.ITEMURL = $rootScope.project
 				+ "/api/class/queryClassProd.do?class_id=" + class_id
-		$scope.dtItemOptions.ajax = $scope.ITEMURL;
+		$scope.dtItemOptions.ajax = $scope.itemurl;
 		reloadItemData(reset);
 
 	}
@@ -405,9 +405,9 @@ function shopIndexClassCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.row_update = function(id) {
 
 		var ps = {};
-		ps.CLASS_ITEM_ID = id;
-		ps.CLASS_ID = getSelectId();
-		if (!angular.isDefined(ps.CLASS_ID)) {
+		ps.class_item_id = id;
+		ps.class_id = getSelectId();
+		if (!angular.isDefined(ps.class_id)) {
 			notify({
 				message : "ClassId不存在"
 			});

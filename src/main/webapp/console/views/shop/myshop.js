@@ -10,11 +10,11 @@ function shopSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance, data, n
 	$scope.item = {};
 
 	$scope.statusOpt = [ {
-		ID : "stop",
-		NAME : "停业"
+		id : "stop",
+		name : "停业"
 	}, {
-		ID : "normal",
-		NAME : "正常"
+		id : "normal",
+		name : "正常"
 	} ];
 	$scope.statusSel = $scope.statusOpt[0];
 
@@ -24,9 +24,9 @@ function shopSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance, data, n
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data;
-				if (res.data.STATUS == "stop") {
+				if (res.data.status == "stop") {
 					$scope.statusSel = $scope.statusOpt[0];
-				} else if (res.data.STATUS == "normal") {
+				} else if (res.data.status == "normal") {
 					$scope.statusSel = $scope.statusOpt[1];
 				}
 			} else {
@@ -39,7 +39,7 @@ function shopSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance, data, n
 
 	$scope.sure = function() {
 
-		$scope.item.STATUS = $scope.statusSel.ID;
+		$scope.item.status = $scope.statusSel.id;
 		$http.post($rootScope.project + "/api/shop/saveShop.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
@@ -70,7 +70,7 @@ function myshopListCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $con
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
-		acthtml = acthtml + " <button ng-click=\"save('" + full.SHOP_ID + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.shop_id + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
 
 		 
 		return acthtml;
@@ -90,10 +90,10 @@ function myshopListCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $con
 	}
 	$scope.dtColumns = [
 
-	DTColumnBuilder.newColumn('SHOP_NAME').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('STATUS').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('BRAND_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	DTColumnBuilder.newColumn('shop_name').withTitle('名称').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('status').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('brand_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		$http.post($rootScope.project + "/api/shop/queryMyShop.do", {}).success(function(res) {
@@ -137,7 +137,7 @@ function myshopListCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $con
 	$scope.save = function(id) {
 
 		var ps = {}
-		ps.SHOP_ID = id;
+		ps.shop_id = id;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/shop/modal_shop_save.html',

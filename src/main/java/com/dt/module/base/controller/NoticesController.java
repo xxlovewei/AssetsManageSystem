@@ -39,7 +39,7 @@ public class NoticesController extends BaseController {
 	public ResData saveNotice() {
 
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		String id = ps.getString("ID");
+		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
 			return noticeService.addNotice(ps, getUserId());
 		} else {

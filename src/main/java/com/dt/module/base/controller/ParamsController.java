@@ -40,7 +40,7 @@ public class ParamsController {
 	@Acl
 	public ResData saveParams() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		String id = ps.getString("ID");
+		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
 			return paramsService.addParams(ps);
 		} else {

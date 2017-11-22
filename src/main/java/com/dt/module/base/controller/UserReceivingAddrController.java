@@ -29,7 +29,7 @@ public class UserReceivingAddrController extends BaseController {
 	@Acl(value = Acl.TYPE_USER_COMMON,info="获取收货详情")
 	public ResData queryReceivingAddrById() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("ID");
+		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		} else {
@@ -56,7 +56,7 @@ public class UserReceivingAddrController extends BaseController {
 			return ResData.FAILURE_GETUSER();
 		}
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("ID");
+		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		} else {
@@ -72,7 +72,7 @@ public class UserReceivingAddrController extends BaseController {
 			return ResData.FAILURE_GETUSER();
 		}
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("ID");
+		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
 			return userReceivingAddrService.addReceivingAddr(getUserId(), ps);
 		} else {
@@ -88,7 +88,7 @@ public class UserReceivingAddrController extends BaseController {
 			return ResData.FAILURE_GETUSER();
 		}
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("ID");
+		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		} else {

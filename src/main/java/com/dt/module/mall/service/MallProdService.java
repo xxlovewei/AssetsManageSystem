@@ -47,11 +47,11 @@ public class MallProdService extends BaseService {
 		if (ToolUtil.isNotEmpty(class_id)) {
 			sql = sql + " and class_id='" + class_id + "'";
 		}
-		if (ToolUtil.isNotEmpty(ps.getString("IS_USED"))) {
-			sql = sql + " and is_used='" + ps.getString("IS_USED") + "'";
+		if (ToolUtil.isNotEmpty(ps.getString("is_used"))) {
+			sql = sql + " and is_used='" + ps.getString("is_used") + "'";
 		}
-		if (ToolUtil.isNotEmpty(ps.getString("IS_OFF"))) {
-			sql = sql + " and is_off='" + ps.getString("IS_OFF") + "'";
+		if (ToolUtil.isNotEmpty(ps.getString("is_off"))) {
+			sql = sql + " and is_off='" + ps.getString("is_off") + "'";
 		}
 		return sql;
 	}

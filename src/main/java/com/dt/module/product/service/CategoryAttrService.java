@@ -27,7 +27,7 @@ public class CategoryAttrService extends BaseService {
 	 * @Description: 添加属性
 	 */
 	public ResData addAttr(TypedHashMap<String, Object> ps) {
-		String cat_id = ps.getString("CAT_ID");
+		String cat_id = ps.getString("cat_id");
 		if (ToolUtil.isEmpty(cat_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
@@ -38,21 +38,21 @@ public class CategoryAttrService extends BaseService {
 		}
 		// 添加一条销售属性，每个品类必须要有一个销售属性
 		String next_attr_id = getNextAttrId();
-		String attr_type = ps.getString("ATTR_TYPE");
-		String input_type = ps.getString("INPUT_TYPE");
+		String attr_type = ps.getString("attr_type");
+		String input_type = ps.getString("input_type");
 		Insert ins = new Insert("product_category_attr");
 		ins.set("id", db.getUUID());
 		ins.set("attr_id", next_attr_id);
 		ins.set("is_deleted", "N");
 		ins.set("is_key", "N");
-		ins.set("is_need", ps.getString("IS_NEED"));
-		ins.set("can_alias", ps.getString("CAN_ALIAS"));
-		ins.set("name", ps.getString("NAME"));
+		ins.set("is_need", ps.getString("is_need"));
+		ins.set("can_alias", ps.getString("can_alias"));
+		ins.set("name", ps.getString("name"));
 		ins.set("cat_id", cat_id);
-		ins.set("od", ps.getString("OD"));
+		ins.set("od", ps.getString("od"));
 		ins.set("attr_type", attr_type);
-		ins.set("is_used", ps.getString("IS_USED"));
-		ins.set("is_search", ps.getString("IS_SEARCH"));
+		ins.set("is_used", ps.getString("is_used"));
+		ins.set("is_search", ps.getString("is_search"));
 		if (attr_type.equals(ATTR_TYPE_SALE)) {
 			// 如果是销售属性只支持多选枚举
 			ins.set("is_input", "N");
@@ -122,12 +122,12 @@ public class CategoryAttrService extends BaseService {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		Update ups = new Update("product_category_attr");
-		ups.setIf("is_need", ps.getString("IS_NEED"));
-		ups.setIf("can_alias", ps.getString("CAN_ALIAS"));
-		ups.setIf("name", ps.getString("NAME"));
-		ups.setIf("od", ps.getString("OD"));
-		ups.setIf("is_used", ps.getString("IS_USED"));
-		ups.setIf("is_search", ps.getString("IS_SEARCH"));
+		ups.setIf("is_need", ps.getString("is_need"));
+		ups.setIf("can_alias", ps.getString("can_alias"));
+		ups.setIf("name", ps.getString("name"));
+		ups.setIf("od", ps.getString("od"));
+		ups.setIf("is_used", ps.getString("is_used"));
+		ups.setIf("is_search", ps.getString("is_search"));
 		ups.where().and("id=?", id);
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();

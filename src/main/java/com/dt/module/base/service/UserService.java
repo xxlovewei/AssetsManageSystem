@@ -133,26 +133,26 @@ public class UserService extends BaseService {
 		for (int i = 0; i < first_rs.size(); i++) {
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
 			String first_key = first_rs.getRcd(i).getString("key");
-			first_obj.put("STATE", first_key);
+			first_obj.put("state", first_key);
 			RcdSet second_rs = db.query(basesql, first_rs.getRcd(i).getString("node_id"));
 			JSONArray second_arr = new JSONArray();
 			for (int j = 0; j < second_rs.size(); j++) {
 				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(j).toJsonObject());
 				String second_key = second_rs.getRcd(j).getString("key");
-				second_obj.put("STATE", first_key + "." + second_key);
+				second_obj.put("state", first_key + "." + second_key);
 				RcdSet third_rs = db.query(basesql, second_rs.getRcd(j).getString("node_id"));
-				second_obj.put("CHILDREN_CNT", third_rs.size());
+				second_obj.put("children_cnt", third_rs.size());
 				// 处理三层
 				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
 				for (int f = 0; f < third_arr.size(); f++) {
-					third_arr.getJSONObject(f).put("STATE",
-							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("KEY"));
+					third_arr.getJSONObject(f).put("state",
+							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("key"));
 				}
-				second_obj.put("CHILDREN", third_arr);
+				second_obj.put("children", third_arr);
 				second_arr.add(second_obj);
 			}
-			first_obj.put("CHILDREN_CNT", second_rs.size());
-			first_obj.put("CHILDREN", second_arr);
+			first_obj.put("children_cnt", second_rs.size());
+			first_obj.put("children", second_arr);
 			r.add(first_obj);
 		}
 		userMenus.put(mflag, r);
@@ -203,7 +203,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(res)) {
 			return true;
 		}
-		String locked = res.getString("LOCKED");
+		String locked = res.getString("locked");
 		if (ToolUtil.isEmpty(locked)) {
 			return true;
 		}
@@ -301,7 +301,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(res)) {
 			return null;
 		}
-		String type = res.getString("TYPE");
+		String type = res.getString("type");
 		if (ToolUtil.isEmpty(type)) {
 			return null;
 		}
@@ -348,7 +348,8 @@ public class UserService extends BaseService {
 					+ " ) t1 ,sys_user_group_item t2 where t1.user_id=t2.user_id and group_id='" + group_id
 					+ "' order by t1.empl_id  ";
 		}
-		return ResData.SUCCESS("操作成功", db.query(sql).toJsonArrayWithJsonObject());
+		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		 
 	}
 
 	/**
@@ -403,7 +404,7 @@ public class UserService extends BaseService {
 		if (type.equals(UserService.USER_TYPE_EMPL)) {
 			username = "empl" + empl_id;
 		} else if (type.equals(UserService.USER_TYPE_SYS)) {
-			username = ps.getString("USER_NAME");
+			username = ps.getString("user_name");
 		}
 		if (!ifUserNameValid(username)) {
 			return ResData.FAILURE("登录名不可用");
@@ -413,22 +414,22 @@ public class UserService extends BaseService {
 		ins.set("empl_id", empl_id);
 		ins.set("user_name", username);
 		ins.set("user_type", type);
-		ins.setIf("nickname", ps.getString("NICKNAME", "toy"));
-		ins.setIf("name", ps.getString("NAME", "toy"));
-		ins.setIf("pwd", ps.getString("PWD", "0"));
-		ins.setIf("status", ps.getString("STATUS"));
-		ins.setIf("org_id", ps.getString("ORG_ID"));
-		ins.setIf("locked", ps.getString("LOCKED", "Y"));
-		ins.setIf("tel", ps.getString("TEL"));
-		ins.setIf("qq", ps.getString("QQ"));
-		ins.setIf("mail", ps.getString("MAIL"));
-		ins.setIf("profile", ps.getString("PROFILE"));
-		ins.setIf("mark", ps.getString("MARK"));
-		ins.setIf("homeaddr_def", ps.getString("HOMEADDR_DEF"));
-		ins.setIf("receaddr_def", ps.getString("RECEADDR_DEF"));
-		ins.setIf("weixin", ps.getString("WEIXIN"));
-		ins.setIf("sex", ps.getString("SEX", "1"));
-		ins.setIf("system", ps.getString("SYSTEM", "1"));
+		ins.setIf("nickname", ps.getString("nickname", "toy"));
+		ins.setIf("name", ps.getString("name", "toy"));
+		ins.setIf("pwd", ps.getString("pwd", "0"));
+		ins.setIf("status", ps.getString("status"));
+		ins.setIf("org_id", ps.getString("org_id"));
+		ins.setIf("locked", ps.getString("locked", "Y"));
+		ins.setIf("tel", ps.getString("tel"));
+		ins.setIf("qq", ps.getString("qq"));
+		ins.setIf("mail", ps.getString("mail"));
+		ins.setIf("profile", ps.getString("profile"));
+		ins.setIf("mark", ps.getString("mark"));
+		ins.setIf("homeaddr_def", ps.getString("homeaddr_def"));
+		ins.setIf("receaddr_def", ps.getString("receaddr_def"));
+		ins.setIf("weixin", ps.getString("weixin"));
+		ins.setIf("sex", ps.getString("sex", "1"));
+		ins.setIf("system", ps.getString("system", "1"));
 		ins.set("deleted", "N");
 		db.execute(ins);
 		return ResData.SUCCESS_OPER(user_id);
@@ -459,26 +460,26 @@ public class UserService extends BaseService {
 		// 最终根据user_id去更新用户数据
 		// 获取用户的user_id,empl_id
 		type = validUserType(type, USER_TYPE_SYS);
-		String user_id = ps.getString("USER_ID");
+		String user_id = ps.getString("user_id");
 		if (ToolUtil.isEmpty(user_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		Update ups = new Update("sys_user_info");
-		ups.setIf("nickname", ps.getString("NICKNAME", "toy"));
-		ups.setIf("name", ps.getString("NAME", "toy"));
-		ups.setIf("pwd", ps.getString("PWD", "0"));
-		ups.setIf("status", ps.getString("STATUS"));
-		ups.setIf("org_id", ps.getString("ORG_ID"));
-		ups.setIf("locked", ps.getString("LOCKED", "Y"));
-		ups.setIf("tel", ps.getString("TEL"));
-		ups.setIf("qq", ps.getString("QQ"));
-		ups.setIf("mail", ps.getString("MAIL"));
-		ups.setIf("profile", ps.getString("PROFILE"));
-		ups.setIf("mark", ps.getString("MARK"));
-		ups.setIf("homeadd_def", ps.getString("HOMEADD_DEF"));
-		ups.setIf("receadd_def", ps.getString("RECEADD_DEF"));
-		ups.setIf("weixin", ps.getString("WEIXIN"));
-		ups.setIf("sex", ps.getString("SEX", "1"));
+		ups.setIf("nickname", ps.getString("nickname", "toy"));
+		ups.setIf("name", ps.getString("name", "toy"));
+		ups.setIf("pwd", ps.getString("pwd", "0"));
+		ups.setIf("status", ps.getString("status"));
+		ups.setIf("org_id", ps.getString("org_id"));
+		ups.setIf("locked", ps.getString("locked", "Y"));
+		ups.setIf("tel", ps.getString("tel"));
+		ups.setIf("qq", ps.getString("qq"));
+		ups.setIf("mail", ps.getString("mail"));
+		ups.setIf("profile", ps.getString("profile"));
+		ups.setIf("mark", ps.getString("mark"));
+		ups.setIf("homeadd_def", ps.getString("homeadd_def"));
+		ups.setIf("receadd_def", ps.getString("receadd_def"));
+		ups.setIf("weixin", ps.getString("weixin"));
+		ups.setIf("sex", ps.getString("sex", "1"));
 		ups.where().and("user_id=?", user_id);
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
@@ -503,8 +504,8 @@ public class UserService extends BaseService {
 	 * @Description: 修改用户角色
 	 */
 	public ResData changeUserRole(TypedHashMap<String, Object> ps) {
-		String userids = ps.getString("USER_IDS");
-		String roles = ps.getString("ROLES");
+		String userids = ps.getString("user_ids");
+		String roles = ps.getString("roles");
 		if (ToolUtil.isOneEmpty(userids, roles)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}

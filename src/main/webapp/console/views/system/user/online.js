@@ -16,14 +16,14 @@ function sysOnlineSessionCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
-		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.USER_ID
+		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.user_id
 				+ "')\" class=\"btn-white btn btn-xs\">详细</button> </div> ";
 		return acthtml;
 	}
 
 	function renderUser(data, type, full) {
 		if (angular.isDefined(data) && data.length > 0) {
-			return full.NAME;
+			return full.name;
 		} else {
 			return "游客";
 		}
@@ -31,19 +31,19 @@ function sysOnlineSessionCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 
 	$scope.dtColumns = [
 
-			DTColumnBuilder.newColumn('ID').withTitle('ID').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('ID').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('USER_ID').withTitle('用户名').withOption(
+			DTColumnBuilder.newColumn('user_id').withTitle('用户名').withOption(
 					'sDefaultContent', '').renderWith(renderUser),
-			DTColumnBuilder.newColumn('IP').withTitle('IP').withOption(
+			DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('START_TIME').withTitle('创建时间')
+			DTColumnBuilder.newColumn('start_time').withTitle('创建时间')
 					.withOption('sDefaultContent', '').withClass('none'),
-			DTColumnBuilder.newColumn('LOGIN_TIME').withTitle('登录时间')
+			DTColumnBuilder.newColumn('login_time').withTitle('登录时间')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('LASTACCESS').withTitle('最后访问')
+			DTColumnBuilder.newColumn('lastaccess').withTitle('最后访问')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('AGENT').withTitle('Agent').withOption(
+			DTColumnBuilder.newColumn('agent').withTitle('Agent').withOption(
 					'sDefaultContent', '').withClass('none') ]
 
 	function flush() {

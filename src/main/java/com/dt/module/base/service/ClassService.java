@@ -31,13 +31,13 @@ public class ClassService extends BaseService {
 		Insert me = new Insert("sys_ct_class");
 		me.set("class_id", db.getUUID());
 		me.set("is_delete", "N");
-		me.setIf("type", ps.getString("TYPE"));
-		me.setIf("name", ps.getString("NAME"));
-		me.setIf("is_used", ps.getString("IS_USED"));
-		me.setIf("mainimg", ps.getString("MAINIMG"));
-		me.setIf("od", ps.getString("OD"));
-		me.setIf("mark", ps.getString("MARK"));
-		me.setIf("module", ps.getString("MODULE"));
+		me.setIf("type", ps.getString("type"));
+		me.setIf("name", ps.getString("name"));
+		me.setIf("is_used", ps.getString("is_used"));
+		me.setIf("mainimg", ps.getString("mainimg"));
+		me.setIf("od", ps.getString("od"));
+		me.setIf("mark", ps.getString("mark"));
+		me.setIf("module", ps.getString("module"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -52,12 +52,12 @@ public class ClassService extends BaseService {
 
 	public ResData updateClass(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_ct_class");
-		me.setIf("name", ps.getString("NAME"));
-		me.setIf("mainimg", ps.getString("MAINIMG"));
-		me.setIf("is_used", ps.getString("IS_USED"));
-		me.setIf("od", ps.getString("OD"));
-		me.setIf("mark", ps.getString("MARK"));
-		me.where().and("class_id=?", ps.getString("CLASS_ID"));
+		me.setIf("name", ps.getString("name"));
+		me.setIf("mainimg", ps.getString("mainimg"));
+		me.setIf("is_used", ps.getString("is_used"));
+		me.setIf("od", ps.getString("od"));
+		me.setIf("mark", ps.getString("mark"));
+		me.where().and("class_id=?", ps.getString("class_id"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -87,17 +87,17 @@ public class ClassService extends BaseService {
 	public ResData addClassItem(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_ct_class_item");
 		me.set("id", db.getUUID());
-		me.setIf("class_id", ps.getString("CLASS_ID"));
-		me.setIf("is_used", ps.getString("IS_USED"));
-		me.setIf("value", ps.getString("VALUE"));
-		me.setIf("od", ps.getString("OD"));
+		me.setIf("class_id", ps.getString("class_id"));
+		me.setIf("is_used", ps.getString("is_used"));
+		me.setIf("value", ps.getString("value"));
+		me.setIf("od", ps.getString("od"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
 
 	public ResData addClassItems(TypedHashMap<String, Object> ps) {
 		// IDS
-		String ids = ps.getString("IDS");
+		String ids = ps.getString("ids");
 		if (ToolUtil.isEmpty(ids)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
@@ -106,10 +106,10 @@ public class ClassService extends BaseService {
 		for (int i = 0; i < idsarr.size(); i++) {
 			Insert me = new Insert("sys_ct_class_item");
 			me.set("id", db.getUUID());
-			me.setIf("class_id", ps.getString("CLASS_ID"));
+			me.setIf("class_id", ps.getString("class_id"));
 			me.setIf("is_used", "Y");
 			me.setIf("value", idsarr.getString(i));
-			me.setIf("od", ps.getString("OD"));
+			me.setIf("od", ps.getString("od"));
 			System.out.println(me.getSQL());
 			sqls.add(me);
 		}
@@ -130,9 +130,9 @@ public class ClassService extends BaseService {
 
 	public ResData updateClassItem(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_ct_class_item");
-		me.setIf("is_used", ps.getString("IS_USED"));
-		me.setIf("value", ps.getString("VALUE"));
-		me.setIf("od", ps.getString("OD"));
+		me.setIf("is_used", ps.getString("is_used"));
+		me.setIf("value", ps.getString("value"));
+		me.setIf("od", ps.getString("od"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}

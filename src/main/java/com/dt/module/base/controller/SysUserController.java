@@ -34,7 +34,7 @@ public class SysUserController extends BaseController {
 	@Transactional
 	public ResData userSave() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		String user_id = ps.getString("USER_ID");
+		String user_id = ps.getString("user_id");
 		if (ToolUtil.isEmpty(user_id)) {
 			return sysUserService.addSysUser(ps);
 		} else {
@@ -130,6 +130,6 @@ public class SysUserController extends BaseController {
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public ResData changePwd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		return userService.changeUserPwd(ps.getString("OPWD", ""), ps.getString("NPWD", ""), getUserId());
+		return userService.changeUserPwd(ps.getString("opwd", ""), ps.getString("npwd", ""), getUserId());
 	}
 }

@@ -53,26 +53,26 @@ public class MenuService extends BaseService {
 		for (int i = 0; i < first_rs.size(); i++) {
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
 			String first_key = first_rs.getRcd(i).getString("key");
-			first_obj.put("STATE", first_key);
+			first_obj.put("state", first_key);
 			RcdSet second_rs = db.query(basesql, menu_id, first_rs.getRcd(i).getString("node_id"));
 			JSONArray second_arr = new JSONArray();
 			for (int j = 0; j < second_rs.size(); j++) {
 				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(i).toJsonObject());
 				String second_key = second_rs.getRcd(j).getString("key");
-				second_obj.put("STATE", first_key + "." + second_key);
+				second_obj.put("state", first_key + "." + second_key);
 				RcdSet third_rs = db.query(basesql, menu_id, second_rs.getRcd(j).getString("node_id"));
-				second_obj.put("CHILDREN_CNT", third_rs.size());
+				second_obj.put("children_cnt", third_rs.size());
 				// 处理三层
 				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
 				for (int f = 0; f < third_arr.size(); f++) {
-					third_arr.getJSONObject(f).put("STATE",
-							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("KEY"));
+					third_arr.getJSONObject(f).put("state",
+							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("key"));
 				}
-				second_obj.put("CHILDREN", third_arr);
+				second_obj.put("children", third_arr);
 				second_arr.add(second_obj);
 			}
-			first_obj.put("CHILDREN_CNT", second_rs.size());
-			first_obj.put("CHILDREN", second_arr);
+			first_obj.put("children_cnt", second_rs.size());
+			first_obj.put("children", second_arr);
 			r.add(first_obj);
 		}
 		return ResData.SUCCESS_OPER(r);
@@ -88,18 +88,18 @@ public class MenuService extends BaseService {
 	 */
 	@Transactional
 	public ResData addNode(TypedHashMap<String, Object> ps) {
-		String menu_id = ps.getString("MENU_ID");
-		String old_node_id = ps.getString("OLD_NODE_ID");
-		String old_route = ps.getString("OLD_ROUTE");
-		String node_name = ps.getString("NODE_NAME");
-		String mark = ps.getString("MARK");
-		String logo = ps.getString("LOGO");
-		String key = ps.getString("KEY");
+		String menu_id = ps.getString("menu_id");
+		String old_node_id = ps.getString("old_node_id");
+		String old_route = ps.getString("old_route");
+		String node_name = ps.getString("node_name");
+		String mark = ps.getString("mark");
+		String logo = ps.getString("logo");
+		String key = ps.getString("key");
 		String node_id = getNextNodeId();
 		Insert ins = new Insert("sys_menus_node");
-		String type = ps.getString("ACTIONTYPE", "ADD");
+		String type = ps.getString("actiontype", "add");
 		String nodeid = getNextNodeId();
-		if (type.equals("ADDMASTER")) {
+		if (type.equals("addmaster")) {
 			// 增加第一个节点
 			if (ToolUtil.isEmpty(menu_id)) {
 				return ResData.FAILURE_ERRREQ_PARAMS();
@@ -119,12 +119,12 @@ public class MenuService extends BaseService {
 		// ins.set("PARENT_ID", old_node_id);
 		// ins.set("ROUTE", old_route + "-" + node_id);
 		ins.setIf("key", key);
-		ins.set("is_action", ps.getString("IS_ACTION"));
+		ins.set("is_action", ps.getString("is_action"));
 		ins.set("deleted", "N");
-		ins.set("is_g_show", ps.getString("IS_G_SHOW"));
+		ins.set("is_g_show", ps.getString("is_g_show"));
 		ins.setIf("logo", logo);
 		ins.setIf("mark", mark);
-		ins.setIf("type", validType(ps.getString("TYPE")));
+		ins.setIf("type", validType(ps.getString("type")));
 		db.execute(ins);
 		updateRouteName(nodeid, node_name);
 		return ResData.SUCCESS_OPER();
@@ -150,14 +150,14 @@ public class MenuService extends BaseService {
 	 */
 	@Transactional
 	public ResData updateNode(TypedHashMap<String, Object> ps) {
-		String menu_id = ps.getString("MENU_ID");
-		String node_id = ps.getString("NODE_ID");
-		String node_name = ps.getString("NODE_NAME");
-		String mark = ps.getString("MARK");
-		String key = ps.getString("KEY");
-		String module_id = ps.getString("MODULE_ID");
-		String sort = ps.getString("SORT");
-		String logo = ps.getString("LOGO");
+		String menu_id = ps.getString("menu_id");
+		String node_id = ps.getString("node_id");
+		String node_name = ps.getString("node_name");
+		String mark = ps.getString("mark");
+		String key = ps.getString("key");
+		String module_id = ps.getString("module_id");
+		String sort = ps.getString("sort");
+		String logo = ps.getString("logo");
 		if (ToolUtil.isEmpty(node_name)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
@@ -168,10 +168,10 @@ public class MenuService extends BaseService {
 		ups.setIf("logo", logo);
 		ups.setIf("mark", mark);
 		ups.setIf("module_id", module_id);
-		ups.setIf("is_action", ps.getString("IS_ACTION"));
-		ups.setIf("is_g_show", ps.getString("IS_G_SHOW"));
-		ups.setIf("type", validType(ps.getString("TYPE")));
-		ups.where().and("menu_id=?", menu_id).and("NODE_ID=?", node_id);
+		ups.setIf("is_action", ps.getString("is_action"));
+		ups.setIf("is_g_show", ps.getString("is_g_show"));
+		ups.setIf("type", validType(ps.getString("type")));
+		ups.where().and("menu_id=?", menu_id).and("node_id=?", node_id);
 		db.execute(ups);
 		updateRouteName(node_id, node_name);
 		return ResData.SUCCESS_OPER();

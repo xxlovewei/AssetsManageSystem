@@ -43,7 +43,7 @@ public class ProductService extends BaseService {
 			JSONObject obj = new JSONObject();
 			obj = ConvertUtil.OtherJSONObjectToFastJSONObject(r.getRcd(i).toJsonObject());
 			// 获取属性
-			obj.put("ATTR_SET_IDS",
+			obj.put("attr_set_ids",
 					ConvertUtil.OtherJSONObjectToFastJSONArray(
 							db.query("select * from product_sku_map where sku=?", r.getRcd(i).getString("sku"))
 									.toJsonArrayWithJsonObject()));
@@ -61,7 +61,7 @@ public class ProductService extends BaseService {
 		JSONArray rs = new JSONArray();
 		for (int i = 0; i < r.size(); i++) {
 			JSONObject e = new JSONObject();
-			e.put(r.getRcd(i).getString("SKU_UUID"),
+			e.put(r.getRcd(i).getString("sku_uuid"),
 					ConvertUtil.OtherJSONObjectToFastJSONObject(r.getRcd(i).toJsonObject()));
 			rs.add(e);
 		}
@@ -86,7 +86,7 @@ public class ProductService extends BaseService {
 					+ "product_attr_set b,product_category_attr_set a " + "where " + "a.attr_id=b.attr_id "
 					+ "and b.spu=? " + "and b.is_sku='Y' " + "and a.attr_id=? "
 					+ "and cat_id in (select cat_id from product where spu=?) " + "order by od ";
-			e.put("LIST", ConvertUtil.OtherJSONObjectToFastJSONArray(
+			e.put("list", ConvertUtil.OtherJSONObjectToFastJSONArray(
 					db.query(isql, spu, rs.getRcd(i).getString("attr_id"), spu).toJsonArrayWithJsonObject()));
 			r.add(e);
 		}
@@ -126,14 +126,14 @@ public class ProductService extends BaseService {
 		RcdSet attr_rs = db.query(basesql, cat_id, spu);
 		for (int i = 0; i < attr_rs.size(); i++) {
 			JSONObject obj = ConvertUtil.OtherJSONObjectToFastJSONObject(attr_rs.getRcd(i).toJsonObject());
-			if (attr_rs.getRcd(i).getString("INPUT_TYPE").equals(CategoryAttrService.INPUTTYPE_INPUT)) {
-				obj.put("ATTR_SET_VALUE", attr_rs.getRcd(i).getString("value"));
-			} else if (attr_rs.getRcd(i).getString("INPUT_TYPE").equals(CategoryAttrService.INPUTTYPE_SEL_SINGLE)) {
-				obj.put("ATTR_SET_VALUE", attr_rs.getRcd(i).getString("attr_set_id"));
+			if (attr_rs.getRcd(i).getString("input_type").equals(CategoryAttrService.INPUTTYPE_INPUT)) {
+				obj.put("attr_set_value", attr_rs.getRcd(i).getString("value"));
+			} else if (attr_rs.getRcd(i).getString("input_type").equals(CategoryAttrService.INPUTTYPE_SEL_SINGLE)) {
+				obj.put("attr_set_value", attr_rs.getRcd(i).getString("attr_set_id"));
 			}
 			if ("Y".equals(attr_rs.getRcd(i).getString("is_enum"))) {
 				String isql = "select * from product_category_attr_set where is_deleted='N' and attr_id=? and cat_id=? order by od";
-				obj.put("LIST", ConvertUtil.OtherJSONObjectToFastJSONArray(
+				obj.put("list", ConvertUtil.OtherJSONObjectToFastJSONArray(
 						db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject()));
 			}
 			rs.add(obj);
@@ -192,9 +192,9 @@ public class ProductService extends BaseService {
 		res = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 		/************** 获得商品基本属性 **************/
 		// 用于修改基本属性
-		res.put("BASE_ATTR", getProdBaseList(spu, rs.getString("cat_id")));
+		res.put("base_attr", getProdBaseList(spu, rs.getString("cat_id")));
 		// 用于修改商品销售属性
-		res.put("SALE_DATA_LIST", getProdSaleList(spu));
+		res.put("sale_data_list", getProdSaleList(spu));
 		return ResData.SUCCESS_OPER(res);
 	}
 
@@ -228,19 +228,19 @@ public class ProductService extends BaseService {
 	public ResData updateProdBaseAttr(TypedHashMap<String, Object> ps) {
 		/************************************ 处理主表 ************************/
 		ArrayList<String> basesql = new ArrayList<String>();
-		String spu = ps.getString("SPU");
-		String base_data = ps.getString("BASE_RES");
+		String spu = ps.getString("spu");
+		String base_data = ps.getString("base_res");
 		Update ups = new Update("product");
-		ups.set("prod_name", ps.getString("PROD_NAME"));
-		ups.set("list_price", ps.getString("LIST_PRICE"));
-		ups.set("list_ori_price", ps.getString("LIST_ORI_PRICE"));
-		ups.setIf("code", ps.getString("CODE"));
-		ups.setIf("sales", ps.getString("SALES"));
-		ups.setIf("prod_desc", ps.getString("PROD_DESC"));
-		ups.setIf("brand_id", ps.getString("BRAND_ID"));
-		ups.set("unit", ps.getString("UNIT"));
-		ups.set("title", ps.getString("TITLE"));
-		ups.setIf("place", ps.getString("PLACE"));
+		ups.set("prod_name", ps.getString("prod_name"));
+		ups.set("list_price", ps.getString("list_price"));
+		ups.set("list_ori_price", ps.getString("list_ori_price"));
+		ups.setIf("code", ps.getString("code"));
+		ups.setIf("sales", ps.getString("sales"));
+		ups.setIf("prod_desc", ps.getString("prod_desc"));
+		ups.setIf("brand_id", ps.getString("brand_id"));
+		ups.set("unit", ps.getString("unit"));
+		ups.set("title", ps.getString("title"));
+		ups.setIf("place", ps.getString("place"));
 		ups.where().and("spu=?", spu);
 		basesql.add(ups.getSQL());
 		// 处理基本属性
@@ -248,14 +248,14 @@ public class ProductService extends BaseService {
 		for (int i = 0; i < base_arr.size(); i++) {
 			JSONObject obj = base_arr.getJSONObject(i);
 			// 基本属性，不包括多选处理
-			if (obj.getString("ATTR_TYPE").equals(CategoryAttrService.ATTR_TYPE_BASE)
-					&& !obj.getString("INPUT_TYPE").equals(CategoryAttrService.INPUTTYPE_SEL_MULTI)) {
+			if (obj.getString("attr_type").equals(CategoryAttrService.ATTR_TYPE_BASE)
+					&& !obj.getString("input_type").equals(CategoryAttrService.INPUTTYPE_SEL_MULTI)) {
 				// 校验
-				if (obj.getString("IS_NEED").equals("Y")) {
-					if (!obj.containsKey("ATTR_SET_VALUE")) {
+				if (obj.getString("is_need").equals("Y")) {
+					if (!obj.containsKey("attr_set_value")) {
 						return ResData.FAILURE("请输入属性:" + obj.getString("NAME"));
 					}
-					if (obj.getString("ATTR_SET_VALUE").length() == 0) {
+					if (obj.getString("attr_set_value").length() == 0) {
 						return ResData.FAILURE("请输入属性:" + obj.getString("NAME"));
 					}
 				}
@@ -263,11 +263,11 @@ public class ProductService extends BaseService {
 				basins.set("id", db.getUUID());
 				basins.set("spu", spu);
 				basins.set("is_sku", "N");
-				basins.set("attr_id", obj.getString("ATTR_ID"));
-				if (obj.getString("INPUT_TYPE").equals(CategoryAttrService.INPUTTYPE_INPUT)) {
-					basins.set("value", obj.getString("ATTR_SET_VALUE"));
-				} else if (obj.getString("INPUT_TYPE").equals(CategoryAttrService.INPUTTYPE_SEL_SINGLE)) {
-					basins.set("attr_set_id", obj.getString("ATTR_SET_VALUE"));
+				basins.set("attr_id", obj.getString("attr_id"));
+				if (obj.getString("input_type").equals(CategoryAttrService.INPUTTYPE_INPUT)) {
+					basins.set("value", obj.getString("attr_set_value"));
+				} else if (obj.getString("input_type").equals(CategoryAttrService.INPUTTYPE_SEL_SINGLE)) {
+					basins.set("attr_set_id", obj.getString("attr_set_value"));
 				}
 				basesql.add(basins.getSQL());
 			}
@@ -285,10 +285,10 @@ public class ProductService extends BaseService {
 	@Transactional
 	public ResData updateProdSaleAttr(TypedHashMap<String, Object> ps) {
 		int totalStock = 0;
-		String spu = ps.getString("SPU");
-		String rebuild = ps.getString("REBUILD");
-		String sale_data = ps.getString("SALE_RES");
-		String sale_data_kv = ps.getString("SALE_KV");
+		String spu = ps.getString("spu");
+		String rebuild = ps.getString("rebuild");
+		String sale_data = ps.getString("sale_res");
+		String sale_data_kv = ps.getString("sale_kv");
 		JSONArray sale_arr = JSONArray.parseArray(sale_data);
 		JSONArray salekv_arr = JSONArray.parseArray(sale_data_kv);
 		// 检查rebuild参数
@@ -304,16 +304,16 @@ public class ProductService extends BaseService {
 			for (int i = 0; i < sale_arr.size(); i++) {
 				JSONObject sale_obj = sale_arr.getJSONObject(i);
 				Update ups = new Update("product_sku");
-				ups.setIf("code", sale_obj.getString("CODE"));
-				if (ToolUtil.isOneEmpty(sale_obj.getString("PRICE"), sale_obj.getString("STOCK"))) {
+				ups.setIf("code", sale_obj.getString("code"));
+				if (ToolUtil.isOneEmpty(sale_obj.getString("price"), sale_obj.getString("stock"))) {
 					return ResData.FAILURE("请输入正确的价格或库存数");
 				}
-				int stock = sale_obj.getIntValue("STOCK");
-				int price = sale_obj.getIntValue("PRICE");
+				int stock = sale_obj.getIntValue("stock");
+				int price = sale_obj.getIntValue("price");
 				ups.set("stock", stock);
 				ups.set("price", price);
 				totalStock = totalStock + stock;
-				ups.where().and("sku=?", sale_obj.getString("SKU"));
+				ups.where().and("sku=?", sale_obj.getString("sku"));
 				sqls.add(ups.getSQL());
 			}
 		} else if (rebuild.equals("Y")) {
@@ -359,18 +359,18 @@ public class ProductService extends BaseService {
 			sale_ins.set("spu", spu);
 			sale_ins.set("sku", sku);
 			sale_ins.setIf("is_off", "N");
-			sale_ins.setIf("code", sale_obj.getString("CODE"));
-			if (ToolUtil.isOneEmpty(sale_obj.getString("PRICE"), sale_obj.getString("STOCK"))) {
+			sale_ins.setIf("code", sale_obj.getString("code"));
+			if (ToolUtil.isOneEmpty(sale_obj.getString("price"), sale_obj.getString("stock"))) {
 				return ResData.FAILURE("请输入正确的价格或库存数");
 			}
-			int stock = sale_obj.getIntValue("STOCK");
+			int stock = sale_obj.getIntValue("stock");
 			sale_ins.set("stock", stock);
-			sale_ins.set("price", sale_obj.getIntValue("PRICE"));
+			sale_ins.set("price", sale_obj.getIntValue("price"));
 			totalStock = totalStock + stock;
 			// 获得SKU生成sku详细信息
-			JSONArray arrmap = sale_obj.getJSONArray("ATTR_SET_IDS");
+			JSONArray arrmap = sale_obj.getJSONArray("attr_set_ids");
 			for (int j = 0; j < arrmap.size(); j++) {
-				String attr_set_id = arrmap.getJSONObject(j).getString("ATTR_SET_ID");
+				String attr_set_id = arrmap.getJSONObject(j).getString("attr_set_id");
 				skuuuid = skuuuid + "," + attr_set_id;
 				Insert saledelins = new Insert("product_sku_map");
 				saledelins.set("id", UuidUtil.getUUID());
@@ -387,13 +387,13 @@ public class ProductService extends BaseService {
 		// 写入product_attr_set
 		for (int i = 0; i < salekv_arr.size(); i++) {
 			JSONObject salekv_obj = salekv_arr.getJSONObject(i);
-			JSONArray salekv_obj_arr = salekv_obj.getJSONArray("DATA");
+			JSONArray salekv_obj_arr = salekv_obj.getJSONArray("data");
 			for (int j = 0; j < salekv_obj_arr.size(); j++) {
 				Insert ins2 = new Insert("product_attr_set");
 				ins2.set("id", UuidUtil.getUUID());
 				ins2.set("spu", spu);
 				ins2.set("attr_set_id", salekv_obj_arr.getString(j));
-				ins2.set("attr_id", salekv_obj.getString("ATTR_ID"));
+				ins2.set("attr_id", salekv_obj.getString("attr_id"));
 				ins2.set("is_sku", "Y");
 				sqls.add(ins2.getSQL());
 			}
@@ -409,34 +409,34 @@ public class ProductService extends BaseService {
 	public ResData publishProduct(TypedHashMap<String, Object> ps) {
 		ArrayList<String> basesql = new ArrayList<String>();
 		String spu = db.getUUID();
-		String cat_id = ps.getString("CAT_ID");
+		String cat_id = ps.getString("cat_id");
 		if (ToolUtil.isEmpty("cat_id")) {
 			return ResData.FAILURE("请选择品类");
 		}
-		if (ToolUtil.isEmpty(ps.getString("SHOP_ID"))) {
+		if (ToolUtil.isEmpty(ps.getString("shop_id"))) {
 			return ResData.FAILURE("必须选择一个店铺");
 		}
 		/************************************ 处理主表 ************************/
 		Insert ins = new Insert("product");
 		int totalStock = 0;
 		ins.set("spu", spu);
-		ins.setIf("shop_id", ps.getString("SHOP_ID"));
-		ins.set("prod_name", ps.getString("PROD_NAME"));
+		ins.setIf("shop_id", ps.getString("shop_id"));
+		ins.set("prod_name", ps.getString("prod_name"));
 		ins.set("cat_id", cat_id);
-		ins.set("list_price", ps.getString("LIST_PRICE"));
-		ins.set("list_ori_price", ps.getString("LIST_ORI_PRICE"));
-		ins.setIf("code", ps.getString("CODE"));
-		ins.setIf("sales", ps.getString("SALES"));
+		ins.set("list_price", ps.getString("list_price"));
+		ins.set("list_ori_price", ps.getString("list_ori_price"));
+		ins.setIf("code", ps.getString("code"));
+		ins.setIf("sales", ps.getString("sales"));
 		ins.set("is_off", "N");
 		ins.set("is_deleted", "N");
-		ins.setIf("prod_desc", ps.getString("PROD_DESC"));
-		ins.setIf("brand_id", ps.getString("BRAND_ID"));
-		ins.setIf("master_pic", ps.getString("MASTER_PIC"));
-		ins.set("unit", ps.getString("UNIT"));
-		ins.set("title", ps.getString("TITLE"));
-		ins.setIf("place", ps.getString("PLACE"));
+		ins.setIf("prod_desc", ps.getString("prod_desc"));
+		ins.setIf("brand_id", ps.getString("brand_id"));
+		ins.setIf("master_pic", ps.getString("master_pic"));
+		ins.set("unit", ps.getString("unit"));
+		ins.set("title", ps.getString("title"));
+		ins.setIf("place", ps.getString("place"));
 		/************************************ 处理基本属性 ************************/
-		String base_data = ps.getString("BASE_RES");
+		String base_data = ps.getString("base_res");
 		JSONObject base_obj = JSONObject.parseObject(base_data);
 		if (base_obj.containsKey("multiattrdata")) {
 			// 基本属性,多选暂时不支持,处理逻辑复杂
@@ -447,36 +447,36 @@ public class ProductService extends BaseService {
 			for (int i = 0; i < base_arr.size(); i++) {
 				JSONObject obj = base_arr.getJSONObject(i);
 				// 基本属性，不包括多选处理
-				if (obj.getString("ATTR_TYPE").equals(CategoryAttrService.ATTR_TYPE_BASE)
-						&& !obj.getString("INPUT_TYPE").equals(CategoryAttrService.INPUTTYPE_SEL_MULTI)) {
+				if (obj.getString("attr_type").equals(CategoryAttrService.ATTR_TYPE_BASE)
+						&& !obj.getString("input_type").equals(CategoryAttrService.INPUTTYPE_SEL_MULTI)) {
 					// 校验是否必须
-					if (obj.getString("IS_NEED").equals("Y")) {
-						if (!obj.containsKey("ATTR_SET_VALUE")) {
-							return ResData.FAILURE("请输入属性:" + obj.getString("NAME"));
+					if (obj.getString("is_need").equals("Y")) {
+						if (!obj.containsKey("attr_set_value")) {
+							return ResData.FAILURE("请输入属性:" + obj.getString("name"));
 						}
-						if (obj.getString("ATTR_SET_VALUE").trim().equals("")) {
-							return ResData.FAILURE("请输入属性:" + obj.getString("NAME"));
+						if (obj.getString("attr_set_value").trim().equals("")) {
+							return ResData.FAILURE("请输入属性:" + obj.getString("name"));
 						}
 					}
 					Insert basins = new Insert("product_attr_set");
 					basins.set("id", db.getUUID());
 					basins.set("spu", spu);
 					basins.set("is_sku", "N");
-					basins.set("attr_id", obj.getString("ATTR_ID"));
-					if (obj.getString("INPUT_TYPE").equals(CategoryAttrService.INPUTTYPE_INPUT)) {
+					basins.set("attr_id", obj.getString("attr_id"));
+					if (obj.getString("input_type").equals(CategoryAttrService.INPUTTYPE_INPUT)) {
 						// 处理输入
-						basins.set("value", obj.getString("ATTR_SET_VALUE"));
-					} else if (obj.getString("INPUT_TYPE").equals(CategoryAttrService.INPUTTYPE_SEL_SINGLE)) {
+						basins.set("value", obj.getString("attr_set_value"));
+					} else if (obj.getString("input_type").equals(CategoryAttrService.INPUTTYPE_SEL_SINGLE)) {
 						// 处理单选
-						basins.set("attr_set_id", obj.getString("ATTR_SET_VALUE"));
+						basins.set("attr_set_id", obj.getString("attr_set_value"));
 					}
 					basesql.add(basins.getSQL());
 				}
 			}
 		}
 		/********** 处理销售属性(必须存在) *****/
-		String sale_data = ps.getString("SALE_RES");// 每组SKU数据
-		String sale_data_kv = ps.getString("SALE_KV");
+		String sale_data = ps.getString("sale_res");// 每组SKU数据
+		String sale_data_kv = ps.getString("sale_kv");
 		JSONArray sale_arr = JSONArray.parseArray(sale_data);
 		JSONArray salekv_arr = JSONArray.parseArray(sale_data_kv);
 		ResData res = getAddProdSkuSqls(spu, sale_arr, salekv_arr);
@@ -491,7 +491,7 @@ public class ProductService extends BaseService {
 		}
 		ins.set("stock", totalStock);
 		/************************************ 处理图片 ************************/
-		String prod_sales = ps.getString("PICS");// 每组SKU数据
+		String prod_sales = ps.getString("pics");// 每组SKU数据
 		JSONArray prod_sales_arr = JSONArray.parseArray(prod_sales);
 		if (ToolUtil.isEmpty(prod_sales_arr) || prod_sales_arr.size() == 0) {
 			return ResData.FAILURE("请选择产品图片");
@@ -518,9 +518,9 @@ public class ProductService extends BaseService {
 			Insert ins = new Insert("product_pic");
 			ins.set("id", UuidUtil.getUUID());
 			ins.set("spu", spu);
-			ins.setIf("pic_id", pics.getJSONObject(i).getString("PIC_ID"));
+			ins.setIf("pic_id", pics.getJSONObject(i).getString("pic_id"));
 			ins.set("type", IAMGE_TYPE_PROD);
-			ins.setIf("od", ConvertUtil.toInt(pics.getJSONObject(i).getString("OD"), 1));
+			ins.setIf("od", ConvertUtil.toInt(pics.getJSONObject(i).getString("od"), 1));
 			System.out.println(ins.getSQL());
 			res.add(ins.getSQL());
 		}
@@ -538,7 +538,7 @@ public class ProductService extends BaseService {
 			JSONObject e = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.getRcd(i).toJsonObject());
 			System.out.println(e.toJSONString());
 			String esql = "select a.value,a.attr_set_id,a.od from product_category_attr_set a,product_attr_set b where cat_id=? and a.attr_set_id=b.attr_set_id and b.is_sku='Y' and b.attr_id=?  and b.spu=? order by a.od";
-			e.put("childsCurGoods",
+			e.put("childscurgoods",
 					ConvertUtil.OtherJSONObjectToFastJSONArray(
 							db.query(esql, rs.getRcd(i).getString("cat_id"), rs.getRcd(i).getString("attr_id"), spu)
 									.toJsonArrayWithJsonObject()));
@@ -573,7 +573,7 @@ public class ProductService extends BaseService {
 	 */
 	public ResData queryProdBySpuForMall(String spu) {
 		JSONObject res = new JSONObject();
-		res.put("basicInfo", ConvertUtil.OtherJSONObjectToFastJSONObject(db.uniqueRecord(
+		res.put("basicinfo", ConvertUtil.OtherJSONObjectToFastJSONObject(db.uniqueRecord(
 				"select a.*,(select name from product_brand where brand_id=a.brand_id) brand_name from product a where spu=?",
 				spu).toJsonObject()));
 		res.put("pics", getProdPics(spu));

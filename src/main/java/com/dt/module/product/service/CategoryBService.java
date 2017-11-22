@@ -43,9 +43,9 @@ public class CategoryBService extends BaseService {
 	 */
 	public ResData addCategoryB(TypedHashMap<String, Object> ps) {
 		String nodetype = TYPE_NODE;
-		String id = ps.getString("ID");
-		String action = ps.getString("ACTION");
-		String text = ps.getString("TEXT", "新节点");
+		String id = ps.getString("id");
+		String action = ps.getString("action");
+		String text = ps.getString("text", "新节点");
 		if (ToolUtil.isOneEmpty(id, action)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
@@ -108,7 +108,7 @@ public class CategoryBService extends BaseService {
 		if (rs.getInteger("value") > 0) {
 			return ResData.FAILURE("先删除子节点");
 		} else {
-			Update ups = new Update("PRODUCT_category");
+			Update ups = new Update("product_category");
 			ups.set("is_deleted", "Y");
 			ups.where().and("id=?", id);
 			db.execute(ups);
@@ -230,22 +230,22 @@ public class CategoryBService extends BaseService {
 	}
 	public ResData publishCatAttrList(TypedHashMap<String, Object> ps) {
 		JSONObject rs = new JSONObject();
-		String cat_id = ps.getString("CAT_ID"); // 必须存在
-		String base_attr = ToolUtil.parseYNValueDefY(ps.getString("BASE_ATTR", "Y"));
-		String sale_attr = ToolUtil.parseYNValueDefY(ps.getString("SALE_ATTR", "Y"));
-		String is_used = ToolUtil.parseYNValueDefY(ps.getString("IS_USED", ""));
+		String cat_id = ps.getString("cat_id"); // 必须存在
+		String base_attr = ToolUtil.parseYNValueDefY(ps.getString("base_attr", "Y"));
+		String sale_attr = ToolUtil.parseYNValueDefY(ps.getString("sale_attr", "Y"));
+		String is_used = ToolUtil.parseYNValueDefY(ps.getString("is_used", ""));
 		if (ToolUtil.isEmpty(cat_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		// 获得基本属性
 		if (base_attr.equals("Y")) {
-			rs.put("BASE_ATTR", getBaseAttr(cat_id, is_used));
+			rs.put("base_attr", getBaseAttr(cat_id, is_used));
 		}
 		// 获得销售属性
 		if (sale_attr.equals("Y")) {
-			rs.put("SALE_ATTR", getSaleAttr(cat_id, is_used));
+			rs.put("sale_attr", getSaleAttr(cat_id, is_used));
 			// 获取说有该品牌下的销售属性选项值
-			rs.put("SALE_ATTR_SET_MAP", getBaseAttrValueMap(cat_id));
+			rs.put("sale_attr_set_map", getBaseAttrValueMap(cat_id));
 		}
 		return ResData.SUCCESS_OPER(rs);
 	}
@@ -264,7 +264,7 @@ public class CategoryBService extends BaseService {
 			// 销售属性必须可枚举,否则不显示,不多做判断,当前只支持枚举多选
 			if ("Y".equals(attr_rs.getRcd(i).getString("is_enum"))) {
 				String isql = "select * from product_category_attr_set where is_deleted='N' and attr_id=? and cat_id=? order by od";
-				e.put("LIST", ConvertUtil.OtherJSONObjectToFastJSONArray(
+				e.put("list", ConvertUtil.OtherJSONObjectToFastJSONArray(
 						db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject()));
 			}
 			rs.add(e);

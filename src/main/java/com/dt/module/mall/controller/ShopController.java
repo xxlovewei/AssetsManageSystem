@@ -54,7 +54,7 @@ public class ShopController extends BaseController {
 	@Acl
 	public ResData saveShop(String shop_id) {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("SHOP_ID");
+		String id = ps.getString("shop_id");
 		if (ToolUtil.isEmpty(id)) {
 			return shopService.addShop(ps);
 		} else {

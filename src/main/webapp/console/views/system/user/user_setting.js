@@ -52,11 +52,11 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 
 	$scope.item = {}
 	$scope.lockedOpt = [ {
-		ID : "Y",
-		NAME : "锁定"
+		id : "Y",
+		name : "锁定"
 	}, {
-		ID : "N",
-		NAME : "正常"
+		id : "N",
+		name : "正常"
 	} ]
 
 	$scope.lockedSel = $scope.lockedOpt[0];
@@ -74,10 +74,10 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 			$log.warn(res);
 			if (res.success) {
 				$scope.item = res.data;
-				if (angular.isDefined(res.data.LOCKED)) {
-					if (res.data.LOCKED == "Y") {
+				if (angular.isDefined(res.data.locked)) {
+					if (res.data.locked == "Y") {
 						$scope.lockedSel = $scope.lockedOpt[0];
-					} else if (res.data.LOCKED == "N") {
+					} else if (res.data.locked == "N") {
 						$scope.lockedSel = $scope.lockedOpt[1];
 					}
 				}
@@ -125,8 +125,8 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		if (res.success) {
 
 			$scope.userGroupOpt = prepend(res.data, {
-				GROUP_ID : "ALL",
-				NAME : "全部"
+				group_id : "ALL",
+				name : "全部"
 			});
 			$scope.userGroupSel = $scope.userGroupOpt[0];
 		} else {
@@ -162,12 +162,12 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
-		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.USER_ID + "')\" class=\"btn-white btn btn-xs\">详细</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.user_id + "')\" class=\"btn-white btn btn-xs\">详细</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
 		var res = "正常";
-		if (full.LOCKED == "Y") {
+		if (full.locked == "Y") {
 			res = "锁定";
 		}
 		return res;
@@ -184,18 +184,18 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 	}
 	$scope.dtColumns = [ DTColumnBuilder.newColumn(null).withTitle('').withClass('select-checkbox').renderWith(function() {
 		return '';
-	}), DTColumnBuilder.newColumn('EMPL_ID').withTitle('员工编号').withOption('sDefaultContent', ''),
-	DTColumnBuilder.newColumn('USER_NAME').withTitle('登录名').withOption('sDefaultContent', ''),
-	DTColumnBuilder.newColumn('NAME').withTitle('姓名').withOption('sDefaultContent', ''),
-	DTColumnBuilder.newColumn('TEL').withTitle('手机号').withOption('sDefaultContent', ''),
-	DTColumnBuilder.newColumn('USER_TYPE').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
-			DTColumnBuilder.newColumn('USER_ID').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus) ]
+	}), DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption('sDefaultContent', ''),
+	DTColumnBuilder.newColumn('user_name').withTitle('登录名').withOption('sDefaultContent', ''),
+	DTColumnBuilder.newColumn('name').withTitle('姓名').withOption('sDefaultContent', ''),
+	DTColumnBuilder.newColumn('tel').withTitle('手机号').withOption('sDefaultContent', ''),
+	DTColumnBuilder.newColumn('user_type').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
+			DTColumnBuilder.newColumn('user_id').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus) ]
 
 	console.log($scope.dtColumns);
 	function flush() {
 		var ps = {}
-		if ($scope.userGroupSel.GROUP_ID != "ALL") {
-			ps.group_id = $scope.userGroupSel.GROUP_ID;
+		if ($scope.userGroupSel.group_id != "all") {
+			ps.group_id = $scope.userGroupSel.group_id;
 		}
 
 		$http.post($rootScope.project + "/api/user/userQueryByGroup.do", ps).success(function(res) {
@@ -266,7 +266,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			return;
 		}
 
-		$log.warn($scope.dtOptions.aaData[data[0]].USER_ID);
+		$log.warn($scope.dtOptions.aaData[data[0]].user_id);
 
 		var modalInstance = $uibModal.open({
 			backdrop : true,
@@ -275,7 +275,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			size : 'md',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
-					return $scope.dtOptions.aaData[data[0]].USER_ID;
+					return $scope.dtOptions.aaData[data[0]].user_id;
 				}
 			}
 		});
@@ -310,8 +310,8 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 
 		var userids = [];
 		for (var i = 0; i < data.length; i++) {
-			// alert($scope.dtOptions.aaData[data[i]].USER_NO)
-			userids.push($scope.dtOptions.aaData[data[i]].USER_ID);
+			// alert($scope.dtOptions.aaData[data[i]].user_no)
+			userids.push($scope.dtOptions.aaData[data[i]].user_id);
 		}
 
 		var modalInstance = $uibModal.open({

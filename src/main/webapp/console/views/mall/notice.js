@@ -2,11 +2,11 @@ function mallNoticeItemSaveCtl($localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, id, $http, $rootScope) {
 	$log.info("window in:" + id)
 	$scope.usedOpt = [ {
-		ID : "N",
-		NAME : "隐藏"
+		id : "N",
+		name : "隐藏"
 	}, {
-		ID : "Y",
-		NAME : "显示"
+		id : "Y",
+		name : "显示"
 	} ];
 
 	$scope.usedSel = $scope.usedOpt[0];
@@ -52,13 +52,13 @@ function mallNoticeItemSaveCtl($localStorage, notify, $log, $uibModal,
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data
-				if ($scope.item.IS_SHOW == "Y") {
+				if ($scope.item.is_show == "Y") {
 					$scope.usedSel = $scope.usedOpt[1];
 				} else {
 					$scope.usedSel = $scope.usedOpt[0];
 				}
-				if(angular.isDefined(res.data.CT)){
-					$scope.content=res.data.CT;	
+				if(angular.isDefined(res.data.ct)){
+					$scope.content=res.data.ct;	
 				}				
 			} else {
 				notify({
@@ -72,9 +72,9 @@ function mallNoticeItemSaveCtl($localStorage, notify, $log, $uibModal,
 
 	$scope.sure = function() {
 
-		$scope.item.TYPE = "mall";
-		$scope.item.IS_SHOW = $scope.usedSel.ID;
-		$scope.item.CT=$scope.content;
+		$scope.item.type = "mall";
+		$scope.item.is_show = $scope.usedSel.id;
+		$scope.item.ct=$scope.content;
 		$http.post($rootScope.project + "/api/notice/saveNotice.do",
 				$scope.item).success(function(res) {
 			if (res.success) {
@@ -114,15 +114,15 @@ function mallNoticeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.ID
+		acthtml = acthtml + " <button ng-click=\"save('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.ID
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
 		var res = "隐藏";
-		if (full.IS_SHOW== "Y") {
+		if (full.is_show== "Y") {
 			res = "显示";
 		}
 		return res;
@@ -130,13 +130,13 @@ function mallNoticeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	 
 
 	$scope.dtColumns = [
-			DTColumnBuilder.newColumn('TITLE').withTitle('标题').withOption(
+			DTColumnBuilder.newColumn('title').withTitle('标题').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('RDATE').withTitle('修改时间').withOption(
+			DTColumnBuilder.newColumn('rdate').withTitle('修改时间').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('IS_SHOW').withTitle('是否显示').withOption(
+			DTColumnBuilder.newColumn('is_show').withTitle('是否显示').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('ID').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	$scope.row_detail = function(id) {

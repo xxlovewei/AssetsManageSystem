@@ -63,7 +63,7 @@ public class BannerAndItemController extends BaseController {
 	public ResData saveBannerItem() {
 
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("ID");
+		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
 			return bannerAndItemService.addBannerItem(ps);
 		} else {

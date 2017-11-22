@@ -28,9 +28,9 @@ public class UserGroupService extends BaseService {
 		Insert me=new Insert("sys_user_group");
 		me.set("group_id", UuidUtil.getUUID());
 		me.set("deleted", "N");
-		me.setIf("name", ps.getString("NAME"));
-		me.setIf("sort", ConvertUtil.toInt(ps.getString("SORT"), 999));
-		me.set("mark", ps.getString("MARK"));
+		me.setIf("name", ps.getString("name"));
+		me.setIf("sort", ConvertUtil.toInt(ps.getString("sort"), 999));
+		me.set("mark", ps.getString("mark"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -40,10 +40,10 @@ public class UserGroupService extends BaseService {
 	public ResData updateUserGroup(TypedHashMap<String, Object> ps) {
 		Update me=new Update("sys_user_group");
 		me.set("deleted", "N");
-		me.setIf("name", ps.getString("NAME"));
-		me.setIf("sort", ConvertUtil.toInt(ps.getString("SORT"), 999));
-		me.set("mark", ps.getString("MARK"));
-		me.where().and("group_id=?",ps.getString("GROUP_ID"));
+		me.setIf("name", ps.getString("name"));
+		me.setIf("sort", ConvertUtil.toInt(ps.getString("sort"), 999));
+		me.set("mark", ps.getString("mark"));
+		me.where().and("group_id=?",ps.getString("group_id"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}

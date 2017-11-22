@@ -30,7 +30,7 @@ public class ProductMaintainControllerdel extends BaseController{
 	// 获得产品主要内容
 	private JSONObject methodQueryProduct(String spu) {
 		JSONObject r = new JSONObject();
-		Rcd rs = db.uniqueRecord("select * from DT_PRODUCT where IS_DELETED='N' and  spu=?", spu);
+		Rcd rs = db.uniqueRecord("select * from dt_product where is_deleted='N' and  spu=?", spu);
 		if (ToolUtil.isNotEmpty(r)) {
 			r = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 		}
@@ -41,7 +41,7 @@ public class ProductMaintainControllerdel extends BaseController{
 	// type:main,noraml,detail(手机端用),
 	private JSONObject methodQueryProductImage(String spu) {
 		JSONObject r = new JSONObject();
-		String sql = "select * from  DT_PRODUCT_PIC where spu=? order by type,od";
+		String sql = "select * from  dt_product_pic where spu=? order by type,od";
 		RcdSet rs = db.query(sql, spu);
 
 		JSONArray main = new JSONArray();
@@ -56,23 +56,23 @@ public class ProductMaintainControllerdel extends BaseController{
 				detail.add(rs.getRcd(i).toJsonObject());
 			}
 		}
-		r.put("MAIN", main);
-		r.put("NORMAL", normal);
-		r.put("DETAIL", detail);
+		r.put("main", main);
+		r.put("normal", normal);
+		r.put("detail", detail);
 		return r;
 	}
 
 	private JSONArray methodQueryProductSpec(String spu) {
 		
 		JSONArray res=new JSONArray();
-		String sepcsql="select a.*,decode(a.STATUS,'enable','启用','disabled','停用','未知') status_name FROM  DT_PRODUCT_SPECGROUP a ,DT_PRODUCT b where a.SPU=b.SPU and a.spu=?  and a.is_deleted='N' order by od" ;
+		String sepcsql="select a.*,decode(a.status,'enable','启用','disabled','停用','未知') status_name from  dt_product_specgroup a ,dt_product b where a.spu=b.spu and a.spu=?  and a.is_deleted='N' order by od" ;
 		
 		RcdSet rs=db.query(sepcsql,spu);
 		for(int i=0;i<rs.size();i++){
 			JSONObject e=new JSONObject();
 			e=ConvertUtil.OtherJSONObjectToFastJSONObject(rs.getRcd(i).toJsonObject());
 			
-			String listsql="select * from DT_PRODUCT_SPECGROUP_ITEM where group_id=? and is_deleted='N' order by od";
+			String listsql="select * from dt_product_specgroup_item where group_id=? and is_deleted='N' order by od";
 			e.put("SPECS", db.query(listsql,rs.getRcd(i).getString("group_id")).toJsonArrayWithJsonObject() );
 			res.add(e);
 		}

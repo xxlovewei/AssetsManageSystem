@@ -2,19 +2,19 @@ function dictSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 	$log.warn("window in:" + id);
 	$scope.item = {};
 	$scope.typeOpt = [ {
-		ID : "system",
-		NAME : "系统"
+		id : "system",
+		name : "系统"
 	}, {
-		ID : "biz",
-		NAME : "业务"
+		id : "biz",
+		name : "业务"
 	} ]
 	$scope.typeSel = $scope.typeOpt[0];
 	$scope.statusOpt = [ {
-		ID : "Y",
-		NAME : "有效"
+		id : "Y",
+		name : "有效"
 	}, {
-		ID : "N",
-		NAME : "无效"
+		id : "N",
+		name : "无效"
 	} ]
 	$scope.statusSel = $scope.statusOpt[0];
 	if (angular.isDefined(id)) {
@@ -25,15 +25,15 @@ function dictSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 			if (res.success) {
 				$scope.item = res.data
 				// STATUS
-				if ($scope.item.STATUS == "Y") {
+				if ($scope.item.status == "Y") {
 					$scope.statusSel = $scope.statusOpt[0];
-				} else if ($scope.item.STATUS == "N") {
+				} else if ($scope.item.status == "N") {
 					$scope.statusSel = $scope.statusOpt[1];
 				}
 				// DICT_LEVEL
-				if ($scope.item.DICT_LEVEL == "system") {
+				if ($scope.item.dict_level == "system") {
 					$scope.typeSel = $scope.typeOpt[0];
-				} else if ($scope.item.DICT_LEVEL == "biz") {
+				} else if ($scope.item.dict_level == "biz") {
 					$scope.typeSel = $scope.typeOpt[1];
 				}
 			} else {
@@ -49,8 +49,8 @@ function dictSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 	};
 
 	$scope.sure = function() {
-		$scope.item.STATUS = $scope.statusSel.ID;
-		$scope.item.DICT_LEVEL = $scope.typeSel.ID;
+		$scope.item.status = $scope.statusSel.id;
+		$scope.item.dict_level = $scope.typeSel.id;
 		$http.post($rootScope.project + "/api/dict/saveDict.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
@@ -74,7 +74,7 @@ function dictSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 function dictItemSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, data, $http, $rootScope) {
 	$log.warn("window in:" + data);
 	$scope.item = {};
-	$scope.item.DICT_ID = data.dict_id
+	$scope.item.dict_id = data.dict_id
 	if (angular.isDefined(data.dict_item_id)) {
 		// 加载数据
 		$http.post($rootScope.project + "/api/dict/queryDictItemById.do", {
@@ -82,7 +82,7 @@ function dictItemSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data;
-				$scope.item.DICT_ID = data.dict_id;
+				$scope.item.dict_id = data.dict_id;
 			} else {
 				notify({
 					message : res.message
@@ -157,9 +157,9 @@ function sysDictSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		}
 	}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('DICT_LEVEL').withTitle('类型').withOption('sDefaultContent', '').renderWith(renderMType),
-			DTColumnBuilder.newColumn('STATUS').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderMStatus) ]
+	$scope.dtColumns = [ DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('dict_level').withTitle('类型').withOption('sDefaultContent', '').renderWith(renderMType),
+			DTColumnBuilder.newColumn('status').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderMStatus) ]
 
 	function flush() {
 		var ps = {};
@@ -249,7 +249,7 @@ function sysDictSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		if (data.length == 0 || data.length > 1) {
 			return;
 		} else {
-			return $scope.dtOptions.aaData[data[0]].DICT_ID;
+			return $scope.dtOptions.aaData[data[0]].dict_id;
 		}
 	}
 
@@ -265,14 +265,14 @@ function sysDictSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"row_update('" + full.DICT_ITEM_ID + "')\" class=\"btn-white btn btn-xs\">更新</button>   ";
-		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.DICT_ITEM_ID + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"row_update('" + full.dict_item_id + "')\" class=\"btn-white btn btn-xs\">更新</button>   ";
+		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.dict_item_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 
-	$scope.dtItemColumns = [ DTColumnBuilder.newColumn('NAME').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('SORT').withTitle('排序').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('DICT_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	$scope.dtItemColumns = [ DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('sort').withTitle('排序').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('dict_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flushSubtab(id) {
 

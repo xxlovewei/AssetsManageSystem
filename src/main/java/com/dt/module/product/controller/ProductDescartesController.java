@@ -178,11 +178,11 @@ public class ProductDescartesController extends BaseController {
 			for (String string : list) {
 				_log.info(string + " ");
 				JSONObject v = new JSONObject();
-				v.put("ATTR_SET_ID", string);
+				v.put("attr_set_id", string);
 				e.add(v);
 			}
-			item.put("ATTR_SET_IDS", e);
-			item.put("SPU", spu);
+			item.put("attr_set_ids", e);
+			item.put("spu", spu);
 			res.add(item);
 		}
 		return ResData.SUCCESS_OPER(res);

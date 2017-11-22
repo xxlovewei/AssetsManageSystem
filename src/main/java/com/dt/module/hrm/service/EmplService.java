@@ -39,7 +39,7 @@ public class EmplService extends BaseService {
 	public ResData addEmployee(TypedHashMap<String, Object> ps) {
 		ArrayList<String> exeSqls = new ArrayList<String>();
 		// 先判断组织
-		String nodes = ps.getString("NODES");
+		String nodes = ps.getString("nodes");
 		if (ToolUtil.isEmpty(nodes)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
@@ -53,7 +53,7 @@ public class EmplService extends BaseService {
 		ResData user_rs = userService.addUser(ps, UserService.USER_TYPE_EMPL);
 		String empl_id = userService.getEmplIdFromUserId((String) user_rs.getData());
 		for (int i = 0; i < nodes_arr.size(); i++) {
-			String node_id = nodes_arr.getJSONObject(i).getString("NODE_ID");
+			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
 			Insert ins3 = new Insert("hrm_org_employee");
 			ins3.set("id", UuidUtil.getUUID());
 			ins3.set("node_id", node_id);
@@ -87,8 +87,8 @@ public class EmplService extends BaseService {
 	 */
 	public ResData updateEmployee(TypedHashMap<String, Object> ps) {
 		ArrayList<String> exeSqls = new ArrayList<String>();
-		String user_id = ps.getString("USER_ID");
-		String empl_id = ps.getString("EMPL_ID");
+		String user_id = ps.getString("user_id");
+		String empl_id = ps.getString("empl_id");
 		if (ToolUtil.isEmpty(empl_id)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
@@ -96,11 +96,11 @@ public class EmplService extends BaseService {
 		if (ToolUtil.isEmpty(user_id)) {
 			user_id = userService.getUserIdFromEmpl(empl_id);
 		}
-		ps.put("USER_ID", user_id);
+		ps.put("user_id", user_id);
 		/***********************************
 		 * 组织内用户插入的判断
 		 **************************************/
-		String nodes = ps.getString("NODES");
+		String nodes = ps.getString("nodes");
 		if (ToolUtil.isEmpty(nodes)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
@@ -113,7 +113,7 @@ public class EmplService extends BaseService {
 		}
 		exeSqls.add("delete from hrm_org_employee where empl_id='" + empl_id + "'");
 		for (int i = 0; i < nodes_arr.size(); i++) {
-			String node_id = nodes_arr.getJSONObject(i).getString("NODE_ID");
+			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
 			Insert ins3 = new Insert("hrm_org_employee");
 			ins3.set("id", UuidUtil.getUUID());
 			ins3.set("node_id", node_id);
@@ -149,8 +149,8 @@ public class EmplService extends BaseService {
 	 * @Description: 查询员工
 	 */
 	public ResData queryEmplList(TypedHashMap<String, Object> ps) {
-		String node_id = ps.getString("NODE_ID");
-		String name = ps.getString("NAME");
+		String node_id = ps.getString("node_id");
+		String name = ps.getString("name");
 		String bsql = "";
 		if (node_id != null && (!node_id.equals("-1"))) {
 			// 选择需要的节点
@@ -197,6 +197,6 @@ public class EmplService extends BaseService {
 	public String ifEmplCanMultiPart() {
 		ResData emplpartRes = paramsService.queryParamsByIdWithExist("sys_empl_org_num_ctl",
 				ParamsService.TYPE_SYSINTER, "N");
-		return ToolUtil.parseYNValueDefN(emplpartRes.getDataToJSONObject().getString("VALUE"));
+		return ToolUtil.parseYNValueDefN(emplpartRes.getDataToJSONObject().getString("value"));
 	}
 }

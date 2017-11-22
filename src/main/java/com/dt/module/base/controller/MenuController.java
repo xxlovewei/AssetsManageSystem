@@ -55,8 +55,8 @@ public class MenuController extends BaseController {
 	@RequestMapping(value = "/menu/treeDataDirect.do")
 	@Res
 	@Acl(value=Acl.TYPE_USER_COMMON)
-	public ResData treeDataDirect(String ID) {
-		return menuService.queryMenuNodes(ID);
+	public ResData treeDataDirect(String id) {
+		return menuService.queryMenuNodes(id);
 	}
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	@RequestMapping(value = "/menu/treeMenus.do")
@@ -76,7 +76,7 @@ public class MenuController extends BaseController {
 	@RequestMapping(value = "/menu/treeRoleChecked.do")
 	@Res
 	@Acl
-	public ResData treeRoleChecked(String MENU_ID, String ROLE_ID) throws IOException {
-		return menuRoleMapService.treeRoleChecked(MENU_ID, ROLE_ID);
+	public ResData treeRoleChecked(String menu_id, String role_id) throws IOException {
+		return menuRoleMapService.treeRoleChecked(menu_id, role_id);
 	}
 }

@@ -38,7 +38,7 @@ public class RoleController extends BaseController {
 		JSONArray kv = res.getDataToJSONArray();
 		JSONObject obj = new JSONObject();
 		for (int i = 0; i < kv.size(); i++) {
-			obj.put(kv.getJSONObject(i).getString("ROLE_ID"), kv.getJSONObject(i).getString("ROLE_NAME"));
+			obj.put(kv.getJSONObject(i).getString("role_id"), kv.getJSONObject(i).getString("role_name"));
 		}
 		return ResData.SUCCESS_OPER(obj);
 	}
@@ -53,7 +53,7 @@ public class RoleController extends BaseController {
 	@Acl
 	public ResData roleSave() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("ROLE_ID");
+		String id = ps.getString("role_id");
 		if (ToolUtil.isEmpty(id)) {
 			return roleService.addRole(ps);
 		} else {
