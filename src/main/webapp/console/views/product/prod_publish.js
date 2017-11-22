@@ -54,7 +54,7 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 	$scope.sale_attr = [];
 	$scope.if_publish = false;
 	// 销售属性的所有可用键值对数据
-	var SALE_ATTR_SET_MAP = [];
+	var sale_attr_set_map = [];
 
 	$scope.dtldzconfig = {
 		url : 'fileupload.do',
@@ -94,7 +94,7 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		if (res.success) {
 			$scope.shopOpt = res.data;
 			if ($scope.shopOpt.length > 0) {
-				$scope.prodData.shop_id = $scope.shopOpt[0].shop_id;
+				$scope.proddata.shop_id = $scope.shopOpt[0].shop_id;
 			}
 
 		} else {
@@ -137,7 +137,7 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 					// 初始化数据属性
 					$scope.sale_attr = res.data.sale_attr;
 					$scope.base_attr = res.data.base_attr;
-					SALE_ATTR_SET_MAP = res.data.SALE_ATTR_SET_MAP;
+					sale_attr_set_map = res.data.sale_attr_set_map;
 				} else {
 					notify({
 						message : res.message
@@ -148,7 +148,7 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 	});
 
 	// 产品公共属性数据
-	$scope.prodData = {};
+	$scope.proddata = {};
 	/** ***********************处理基本属性数据********************** */
 	// 基本属性数据多选的情况
 	var baseAttrValueContain = [];
@@ -184,16 +184,16 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 
 	// sku列表匹配值,渲染输出
 	$scope.saleValueRender = function(e) {
-		if (SALE_ATTR_SET_MAP.length == 0) {
-			return e.ATTR_SET_ID;
+		if (sale_attr_set_map.length == 0) {
+			return e.attr_set_id;
 		}
-		for (var i = 0; i < SALE_ATTR_SET_MAP.length; i++) {
-			if (SALE_ATTR_SET_MAP[i].ATTR_SET_ID == e.ATTR_SET_ID) {
-				return SALE_ATTR_SET_MAP[i].VALUE;
+		for (var i = 0; i < sale_attr_set_map.length; i++) {
+			if (sale_attr_set_map[i].attr_set_id == e.attr_set_id) {
+				return sale_attr_set_map[i].value;
 				break;
 			}
 		}
-		return e.ATTR_SET_ID;
+		return e.attr_set_id;
 	}
 
 	// 服务端生成SKU
@@ -224,8 +224,8 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		// 生成属性-值数据
 		$.each(datatmp, function(key, val) {
 			var te = {};
-			te.ATTR_ID = key;
-			te.DATA = datatmp[key];
+			te.attr_id = key;
+			te.data = datatmp[key];
 			prodSkuKV.push(te);
 		});
 		$log.warn("After prodSkuKV value:", prodSkuKV);
@@ -298,34 +298,34 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 				message : "请选择一张产品图片"
 			});
 		}
-		if (!(angular.isDefined($scope.prodData.PROD_NAME) && $scope.prodData.PROD_NAME.length > 0)) {
+		if (!(angular.isDefined($scope.proddata.prod_name) && $scope.proddata.prod_name.length > 0)) {
 			notify({
 				message : "请输入产品名称"
 			});
 			return;
 		}
 
-		if (!(angular.isDefined($scope.prodData.TITLE) && $scope.prodData.TITLE.length > 0)) {
+		if (!(angular.isDefined($scope.proddata.title) && $scope.proddata.title.length > 0)) {
 			notify({
 				message : "请输入产品标题"
 			});
 			return;
 		}
-		if (!(angular.isDefined($scope.prodData.list_price))) {
+		if (!(angular.isDefined($scope.proddata.list_price))) {
 			notify({
 				message : "请输入产品列表价"
 			});
 			return;
 		}
 
-		if (!(angular.isDefined($scope.prodData.list_ori_price))) {
+		if (!(angular.isDefined($scope.proddata.list_ori_price))) {
 			notify({
 				message : "请输入产品列表原价"
 			});
 			return;
 		}
 
-		if (!(angular.isDefined($scope.prodData.unit) && $scope.prodData.unit.length > 0)) {
+		if (!(angular.isDefined($scope.proddata.unit) && $scope.proddata.unit.length > 0)) {
 			notify({
 				message : "请输入产品单位"
 			});
@@ -403,14 +403,14 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 
 		/** ******提交************ */
 
-		$scope.prodData.master_pic = picid;
-		$scope.prodData.cat_id = $scope.prodcatSel.id
-		$scope.prodData.sale_res = angular.toJson(sale_res);
-		$scope.prodData.sale_kv = angular.toJson(prodSkuKV);
-		$scope.prodData.base_res = angular.toJson(base_res);
-		$scope.prodData.pics = angular.toJson($scope.prodPics);
-		console.log($scope.prodData);
-		$http.post($rootScope.project + "/api/product/prodPublish.do", $scope.prodData).success(function(res) {
+		$scope.proddata.pic_id = picid;
+		$scope.proddata.cat_id = $scope.prodcatSel.id
+		$scope.proddata.sale_res = angular.toJson(sale_res);
+		$scope.proddata.sale_kv = angular.toJson(prodSkuKV);
+		$scope.proddata.base_res = angular.toJson(base_res);
+		$scope.proddata.pics = angular.toJson($scope.prodPics);
+		console.log($scope.proddata);
+		$http.post($rootScope.project + "/api/product/prodPublish.do", $scope.proddata).success(function(res) {
 			if (res.success) {
 			} else {
 			}

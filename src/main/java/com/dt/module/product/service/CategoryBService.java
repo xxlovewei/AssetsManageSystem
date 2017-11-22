@@ -287,7 +287,7 @@ public class CategoryBService extends BaseService {
 			e = ConvertUtil.OtherJSONObjectToFastJSONObject(attr_rs.getRcd(i).toJsonObject());
 			//不做判断,全部将属性值数据填充
 			String isql = "select * from product_category_attr_set where attr_id=? and is_deleted='N' and cat_id=? order by od";
-			e.put("LIST",ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject()));
+			e.put("list",ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject()));
 			rs.add(e);
 		}
 		return rs;

@@ -70,7 +70,7 @@
 							<div class="col-sm-10">
 								<input type="text"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="place" ng-model=prodData.place>
+									placeholder="请输入内容" name="place" ng-model=proddata.place>
 
 							</div>
 						</div>
@@ -82,7 +82,7 @@
 								<input type="number" required ng-maxlength="120"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
 									placeholder="请输入内容(必须)" name="listprice"
-									ng-model="prodData.list_price">
+									ng-model="proddata.list_price">
 								<div class="text-danger"
 									ng-if="myForm.listprice.$dirty && myForm.listprice.$invalid">
 									<span ng-if="myForm.listprice.$error.required"> 输入不能为空 </span>
@@ -98,7 +98,7 @@
 								<input type="number" required ng-maxlength="120"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
 									placeholder="请输入内容(必须)" name="listpriceori"
-									ng-model="prodData.list_ori_price">
+									ng-model="proddata.list_ori_price">
 								<div class="text-danger"
 									ng-if="myForm.listpriceori.$dirty && myForm.listpriceori.$invalid">
 									<span ng-if="myForm.listpriceori.$error.required">
@@ -112,7 +112,7 @@
 							<label class="col-sm-2 control-label"><span
 								style="color: red">*</span>产品单位:</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" ng-model=prodData.unit
+								<input type="text" class="form-control" ng-model=proddata.unit
 									placeholder="请输入单位(必须)">
 							</div>
 						</div>

@@ -137,7 +137,7 @@ function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 	$scope.prodData = {}
 	// 获取销售属性
 	$scope.sale_attr = [];
-	var SALE_ATTR_SET_MAP = [];
+	var sale_attr_set_map = [];
 	var if_rebuild = "N";
 	// 获取产品信息
 
@@ -147,16 +147,16 @@ function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 		$log.warn(res);
 		if (res.success) {
 			$scope.prodData = res.data;
-			$scope.prodSku = res.data.SALE_DATA_LIST;
+			$scope.prodSku = res.data.sale_data_list;
 			// 获取商品模版数据
 			$http.post($rootScope.project + "/api/categoryB/prodPublishCatAttrList.do", {
-				cat_id : $scope.prodData.CAT_ID,
+				cat_id : $scope.prodData.cat_id,
 				is_used : "Y",
 				base_attr : "N"
 			}).success(function(res) {
 				if (res.success) {
 					// 销售属性必须要有,如果没有则提醒下,无法发布产品
-					if (res.data.SALE_ATTR.length == 0) {
+					if (res.data.sale_attr.length == 0) {
 						notify({
 							message : "无销售属性,不可发布商品"
 						});
@@ -164,8 +164,8 @@ function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 						$scope.if_publish = true;
 					}
 					// 初始化数据属性
-					$scope.sale_attr = res.data.SALE_ATTR;
-					SALE_ATTR_SET_MAP = res.data.SALE_ATTR_SET_MAP;
+					$scope.sale_attr = res.data.sale_attr;
+					sale_attr_set_map = res.data.sale_attr_set_map;
 				} else {
 					notify({
 						message : res.message
@@ -185,7 +185,7 @@ function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 		// $log.warn(item, attrvalue);
 		var isExist = false;
 		for (var i = 0; i < saleAttrValueContain.length; i++) {
-			if (saleAttrValueContain[i].ID == attrvalue.ID) {
+			if (saleAttrValueContain[i].id == attrvalue.id) {
 				// 已经存在,则移除
 				// $log.warn('to remove,' + i);
 				saleAttrValueContain.splice(i, 1);
@@ -198,18 +198,18 @@ function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 	// sku列表匹配值,渲染输出
 	$scope.saleValueRender = function(e) {
 
-		console.log("SALE_ATTR_SET_MAP:", SALE_ATTR_SET_MAP);
+		console.log("sale_attr_set_map:", sale_attr_set_map);
 		console.log("e:", e);
-		if (SALE_ATTR_SET_MAP.length == 0) {
-			return e.ATTR_SET_ID;
+		if (sale_attr_set_map.length == 0) {
+			return e.attr_set_id;
 		}
-		for (var i = 0; i < SALE_ATTR_SET_MAP.length; i++) {
-			if (SALE_ATTR_SET_MAP[i].ATTR_SET_ID == e.ATTR_SET_ID) {
-				return SALE_ATTR_SET_MAP[i].VALUE;
+		for (var i = 0; i < sale_attr_set_map.length; i++) {
+			if (sale_attr_set_map[i].attr_set_id == e.attr_set_id) {
+				return sale_attr_set_map[i].value;
 				break;
 			}
 		}
-		return e.ATTR_SET_ID;
+		return e.attr_set_id;
 	}
 
 	// 服务端生成SKU
@@ -229,10 +229,10 @@ function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 		$log.warn("select attrids:", saleAttrValueContain);
 		var datatmp = {};
 		for (var i = 0; i < saleAttrValueContain.length; i++) {
-			if (!angular.isDefined(datatmp[saleAttrValueContain[i].ATTR_ID])) {
-				datatmp[saleAttrValueContain[i].ATTR_ID] = [];
+			if (!angular.isDefined(datatmp[saleAttrValueContain[i].attr_id])) {
+				datatmp[saleAttrValueContain[i].attr_id] = [];
 			}
-			datatmp[saleAttrValueContain[i].ATTR_ID].push(saleAttrValueContain[i].ATTR_SET_ID)
+			datatmp[saleAttrValueContain[i].attr_id].push(saleAttrValueContain[i].attr_set_id)
 		}
 		$log.warn("After change first:" + angular.toJson(datatmp));
 		var data = [];
@@ -242,8 +242,8 @@ function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 		// 生成属性-值数据
 		$.each(datatmp, function(key, val) {
 			var te = {};
-			te.ATTR_ID = key;
-			te.DATA = datatmp[key];
+			te.attr_id = key;
+			te.data = datatmp[key];
 			prodSkuKV.push(te);
 		});
 		$log.warn("After prodSkuKV value:", prodSkuKV);
@@ -252,7 +252,7 @@ function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 		// 由服务器后端去生成笛卡尔积
 		$http.post($rootScope.project + "/api/product/prodDescartes.do", {
 			data : angular.toJson(data),
-			spu : $scope.prodData.SPU
+			spu : $scope.prodData.spu
 		}).success(function(res) {
 			if (res.success) {
 				$scope.prodSku = res.data;
@@ -268,10 +268,10 @@ function prodSaleAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 	$scope.sure = function() {
 
 		var ps = {};
-		ps.SPU = $scope.prodData.SPU;
-		ps.REBUILD = if_rebuild;
-		ps.SALE_KV = angular.toJson(prodSkuKV);
-		ps.SALE_RES = angular.toJson($scope.prodSku);
+		ps.spu = $scope.prodData.spu;
+		ps.rebuild = if_rebuild;
+		ps.sale_kv = angular.toJson(prodSkuKV);
+		ps.sale_res = angular.toJson($scope.prodSku);
 		$log.warn(ps);
 		$http.post($rootScope.project + "/api/product/prodModifySaleAttr.do", ps).success(function(res) {
 			if (res.success) {
@@ -315,8 +315,8 @@ function prodBaseAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 	}).success(function(res) {
 		$log.warn(res);
 		if (res.success) {
-			$scope.prodData = res.data;
-			$scope.base_attr = res.data.BASE_ATTR;
+			$scope.proddata = res.data;
+			$scope.base_attr = res.data.base_attr;
 			// 获取商品模版数据
 
 		} else {
@@ -330,8 +330,8 @@ function prodBaseAttrSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 
 		var ps = {};
 		$log.warn($scope.base_attr);
-		ps = angular.copy($scope.prodData);
-		ps.BASE_RES = angular.toJson($scope.base_attr);
+		ps = angular.copy($scope.proddata);
+		ps.base_res = angular.toJson($scope.base_attr);
 
 		$log.warn("ps", ps);
 		$http.post($rootScope.project + "/api/product/prodModifyBaseAttr.do", ps).success(function(res) {
@@ -396,8 +396,8 @@ function prodQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.BRAND_ID + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
-		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.BRAND_ID + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.brand_id + "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
+		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.brand_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 
 	}
@@ -416,22 +416,22 @@ function prodQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 
 	function renderImage(data, type, full) {
 		var html = ""
-		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "/api/file/imagedown.do?id=" + full.MASTER_PIC + "  />"
+		html = html + "<img style='height:50px;width:50px;' src=" + $rootScope.project + "/api/file/imagedown.do?id=" + full.pic_id + "  />"
 		return html;
 	}
 	$scope.dtColumns = [ DTColumnBuilder.newColumn(null).withTitle('').withClass('select-checkbox').renderWith(function() {
 		return '';
-	}), DTColumnBuilder.newColumn('MASTER_PIC').withTitle('图片').withOption('sDefaultContent', '').renderWith(renderImage),
-			DTColumnBuilder.newColumn('PROD_NAME').withTitle('商品名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('LIST_PRICE').withTitle('列表价').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('STOCK').withTitle('库存').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('IS_OFF').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('CODE').withTitle('货号').withOption('sDefaultContent', '') ]
+	}), DTColumnBuilder.newColumn('pic_id').withTitle('图片').withOption('sDefaultContent', '').renderWith(renderImage),
+			DTColumnBuilder.newColumn('prod_name').withTitle('商品名称').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('list_price').withTitle('列表价').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('stock').withTitle('库存').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('is_off').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('code').withTitle('货号').withOption('sDefaultContent', '') ]
 
 	function flush() {
 
 		var ps = {};
-		ps.cat_id = $scope.prodcatSel.ID;
+		ps.cat_id = $scope.prodcatSel.id;
 		$http.post($rootScope.project + "/api/product/prodQueryByCat.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
@@ -479,7 +479,7 @@ function prodQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 		})[0];
 		for (var i = 0; i < data.length; i++) {
 			prods.push({
-				spu : $scope.dtOptions.aaData[data[i]].SPU
+				spu : $scope.dtOptions.aaData[data[i]].spu
 			});
 		}
 		return prods;
