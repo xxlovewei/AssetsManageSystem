@@ -157,7 +157,7 @@ function mallbannerCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	function renderStatus(data, type, full) {
 		var res = "无效";
-		if (full.IS_USED == "Y") {
+		if (full.is_used == "Y") {
 			res = "有效";
 		}
 		return res;

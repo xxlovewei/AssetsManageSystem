@@ -38,6 +38,7 @@ public class UserService extends BaseService {
 	public static String USER_TYPE_EMPL = "empl";
 	// 会员粉丝人员
 	public static String USER_TYPE_CRM = "crm";
+	
 	private static HashMap<String, JSONArray> userMenus = new HashMap<String, JSONArray>();
 	private static Logger _log = LoggerFactory.getLogger(UserService.class);
 
@@ -381,7 +382,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(type)) {
 			return def;
 		}
-		if (type.equals(UserService.USER_TYPE_SYS) || type.equals(UserService.USER_TYPE_EMPL)) {
+		if (type.equals(UserService.USER_TYPE_SYS) || type.equals(UserService.USER_TYPE_EMPL)||type.equals(UserService.USER_TYPE_CRM)) {
 			return type;
 		}
 		return def;
@@ -392,44 +393,56 @@ public class UserService extends BaseService {
 	 */
 	@Transactional
 	public ResData addUser(TypedHashMap<String, Object> ps, String type) {
-		type = validUserType(type, USER_TYPE_SYS);
-		String username = "";
+	
 		String user_id = UuidUtil.getUUID();
 		ResData emplRes = getEmplNextId();
 		if (emplRes.isFailed()) {
 			return ResData.FAILURE("生成序列号失败");
 		}
+		//校验用户类型
+		type = validUserType(type, USER_TYPE_SYS);
+		String username = "";
 		String empl_id = (String) emplRes.getData();
 		// 处理唯一登录名
 		if (type.equals(UserService.USER_TYPE_EMPL)) {
 			username = "empl" + empl_id;
 		} else if (type.equals(UserService.USER_TYPE_SYS)) {
-			username = ps.getString("user_name");
+			username = ps.getString("user_name",MD5Util.encrypt(user_id));
+		}else if(type.equals(UserService.USER_TYPE_CRM)){
+			//粉丝，微信注册
+			username =MD5Util.encrypt(db.getUUID());
+			empl_id=username;
 		}
 		if (!ifUserNameValid(username)) {
 			return ResData.FAILURE("登录名不可用");
 		}
+
 		Insert ins = new Insert("sys_user_info");
-		ins.set("user_id", user_id);
-		ins.set("empl_id", empl_id);
-		ins.set("user_name", username);
-		ins.set("user_type", type);
-		ins.setIf("nickname", ps.getString("nickname", "toy"));
-		ins.setIf("name", ps.getString("name", "toy"));
-		ins.setIf("pwd", ps.getString("pwd", "0"));
-		ins.setIf("status", ps.getString("status"));
-		ins.setIf("org_id", ps.getString("org_id"));
-		ins.setIf("locked", ps.getString("locked", "Y"));
-		ins.setIf("tel", ps.getString("tel"));
-		ins.setIf("qq", ps.getString("qq"));
-		ins.setIf("mail", ps.getString("mail"));
-		ins.setIf("profile", ps.getString("profile"));
-		ins.setIf("mark", ps.getString("mark"));
-		ins.setIf("homeaddr_def", ps.getString("homeaddr_def"));
-		ins.setIf("receaddr_def", ps.getString("receaddr_def"));
-		ins.setIf("weixin", ps.getString("weixin"));
-		ins.setIf("sex", ps.getString("sex", "1"));
-		ins.setIf("system", ps.getString("system", "1"));
+		ins.set("user_id", user_id);   //账户系统唯一ID(唯一)
+		ins.set("empl_id", empl_id);  //empl_id
+		ins.set("user_name", username); //账户名称(唯一)
+		ins.set("user_type", type);   //账户类型
+		ins.setIf("nickname", ps.getString("nickname", "toy")); //昵称
+		ins.setIf("name", ps.getString("name", "toy")); //姓名
+		ins.setIf("pwd", ps.getString("pwd", "0"));   //密码
+		ins.setIf("status", ps.getString("status"));  //状态
+		ins.setIf("org_id", ps.getString("org_id"));  //组织Id
+		ins.setIf("locked", ps.getString("locked", "Y")); //是否锁定
+		ins.setIf("tel", ps.getString("tel"));  //手机号
+		ins.setIf("qq", ps.getString("qq"));  //qq
+		ins.setIf("mail", ps.getString("mail"));   //邮箱
+		ins.setIf("profile", ps.getString("profile"));   //介绍
+		ins.setIf("mark", ps.getString("mark"));  //注释
+		ins.setIf("photo", ps.getString("photo"));  //头像
+		ins.setIf("homeaddr_def", ps.getString("homeaddr_def")); //家庭地址
+		ins.setIf("receaddr_def", ps.getString("receaddr_def")); //默认收货地址
+		ins.setIf("weixin", ps.getString("weixin"));   //微信号
+		ins.setIf("sex", ps.getString("sex", "1"));  //性别
+		ins.setIf("system", ps.getString("system", "1")); //系统
+		ins.setIf("shop_id", ps.getString("shop_id")); //默认所属店铺
+		ins.setIf("score", ps.getString("score")); //积分
+		ins.setIf("open_id", ps.getString("open_id")); //微信open_id
+		ins.setIf("avatarurl", ps.getString("avatarurl"));//微信logo
 		ins.set("deleted", "N");
 		db.execute(ins);
 		return ResData.SUCCESS_OPER(user_id);

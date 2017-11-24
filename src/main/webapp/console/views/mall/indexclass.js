@@ -82,7 +82,7 @@ function indexClassItemSaveCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 
 	$scope.URL = $rootScope.project
 			+ "/api/class/queryClassProdNotSel.do?cat_id="
-			+ $scope.prodcatSel.ID + "&class_id=" + data.CLASS_ID;
+			+ $scope.prodcatSel.id + "&class_id=" + data.class_id;
 	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp(
 			'data').withPaginationType('full_numbers').withDisplayLength(10)
 			.withOption("ordering", false).withOption("responsive", true)
@@ -156,7 +156,7 @@ function indexClassItemSaveCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 		$scope.URL = $rootScope.project
 				+ "/api/class/queryClassProdNotSel.do?cat_id="
 				+ $scope.prodcatSel.id + "&class_id=" + data.class_id;
-		$scope.dtOptions.ajax = $scope.url;
+		$scope.dtOptions.ajax = $scope.URL;
 		reloadData();
 	}
 	$scope.sure = function() {

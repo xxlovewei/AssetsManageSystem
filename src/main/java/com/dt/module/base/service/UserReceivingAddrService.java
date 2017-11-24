@@ -80,6 +80,8 @@ public class UserReceivingAddrService extends BaseService {
 		return ResData.SUCCESS_OPER();
 	}
 
+	
+	
 	/**
 	 * @Description: 更新地址
 	 */

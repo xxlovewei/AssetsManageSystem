@@ -15,6 +15,7 @@ import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.SQL;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.ConvertUtil;
+import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.UuidUtil;
 import com.dt.core.common.util.support.TypedHashMap;
@@ -421,20 +422,25 @@ public class ProductService extends BaseService {
 		int totalStock = 0;
 		ins.set("spu", spu);
 		ins.setIf("shop_id", ps.getString("shop_id"));
-		ins.set("prod_name", ps.getString("prod_name"));
+		ins.setIf("prod_name", ps.getString("prod_name"));
 		ins.set("cat_id", cat_id);
-		ins.set("list_price", ps.getString("list_price"));
-		ins.set("list_ori_price", ps.getString("list_ori_price"));
+		ins.setIf("list_price", ps.getString("list_price"));
+		ins.setIf("list_ori_price", ps.getString("list_ori_price"));
 		ins.setIf("code", ps.getString("code"));
-		ins.setIf("sales", ps.getString("sales"));
+		ins.setIf("sales", ps.getString("sales","0"));
 		ins.set("is_off", "N");
-		ins.set("is_deleted", "N");
+		ins.setIf("title", ps.getString("title"));
 		ins.setIf("prod_desc", ps.getString("prod_desc"));
 		ins.setIf("brand_id", ps.getString("brand_id"));
 		ins.setIf("pic_id", ps.getString("pic_id"));
-		ins.set("unit", ps.getString("unit"));
-		ins.set("title", ps.getString("title"));
+		ins.setIf("unit", ps.getString("unit"));
 		ins.setIf("place", ps.getString("place"));
+		ins.setIf("goodreputation", ps.getString("goodreputation", "0"));
+		ins.setIf("bonuspoints", ps.getString("bonuspoints", "0"));
+		ins.setIf("mobile_profile_html", ps.getString("mobile_profile_html", ""));
+		ins.setIf("weight", ps.getString("weight", "0"));
+		ins.setIf("isneedlogistics", ps.getString("isneedlogistics", "1"));
+		ins.setSE("cdate", DBUtil.getDBDateString(db.getDBType()));
 		/************************************ 处理基本属性 ************************/
 		String base_data = ps.getString("base_res");
 		JSONObject base_obj = JSONObject.parseObject(base_data);
@@ -550,22 +556,23 @@ public class ProductService extends BaseService {
 	/**
 	 * @Description:产品销售属性选择后获取sku详细数据,sku数据如果不存在则请重新下单或加入购物车
 	 */
-	public ResData queryProdSkuDetail(String spu,String propertyChildIds) {
-		String ids="";
-		String[] items=propertyChildIds.split(",");
-		int cnt=items.length;
-		for(int i=0;i<items.length;i++) {
-			String[] tmpstr=items[i].split(":");
-			if (tmpstr.length==2) {
-				ids=ids+tmpstr[1]+",";
+	public ResData queryProdSkuDetail(String spu, String propertyChildIds) {
+		String ids = "";
+		String[] items = propertyChildIds.split(",");
+		int cnt = items.length;
+		for (int i = 0; i < items.length; i++) {
+			String[] tmpstr = items[i].split(":");
+			if (tmpstr.length == 2) {
+				ids = ids + tmpstr[1] + ",";
 			}
 		}
-		System.out.println(ids+cnt);
-		ids = ids.substring(0,ids.length() - 1);
+		System.out.println(ids + cnt);
+		ids = ids.substring(0, ids.length() - 1);
 		System.out.println(ids);
-		String sql="select * from product_sku a,(select sku from (select sku,count(1) cnt from product_sku_map where spu=? and attr_set_id in ("+ids+") group by sku ) where cnt=?) b where a.sku=b.sku and a.spu=?";
+		String sql = "select * from product_sku a,(select sku from (select sku,count(1) cnt from product_sku_map where spu=? and attr_set_id in ("
+				+ ids + ") group by sku ) where cnt=?) b where a.sku=b.sku and a.spu=?";
 		System.out.println(sql);
-		return ResData.SUCCESS_OPER(db.uniqueRecord(sql,spu,cnt,spu).toJsonObject());
+		return ResData.SUCCESS_OPER(db.uniqueRecord(sql, spu, cnt, spu).toJsonObject());
 	}
 
 	/**
@@ -582,24 +589,24 @@ public class ProductService extends BaseService {
 		return ResData.SUCCESS_OPER(res);
 
 	}
-	
+
 	/**
 	 * @Description:根据产品SPU和SKU获取数据[微商城]
 	 */
-	public ResData queryProdBySpuSkuForMall(String spu,String sku) {
-		String sql="select * from product_sku where spu=? and sku=?";
-		Rcd rs=db.uniqueRecord(sql,spu,sku);
-		if(ToolUtil.isEmpty(rs)) {
+	public ResData queryProdBySpuSkuForMall(String spu, String sku) {
+		String sql = "select * from product_sku where spu=? and sku=?";
+		Rcd rs = db.uniqueRecord(sql, spu, sku);
+		if (ToolUtil.isEmpty(rs)) {
 			return ResData.FAILURE_NODATA();
 		}
 		return ResData.SUCCESS_OPER(rs.toJsonObject());
 	}
-	
+
 	/**
 	 * @Description:根据产品SPU获取数据[微商城]
 	 */
 	public ResData queryProdBySpuNotSkuForMall(String spu) {
-		String sql="select * from product_sku where spu=?";
+		String sql = "select * from product_sku where spu=?";
 		return ResData.SUCCESS_OPER(db.uniqueRecord(sql).toJsonObject());
 	}
 

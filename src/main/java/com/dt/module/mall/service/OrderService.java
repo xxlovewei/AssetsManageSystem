@@ -89,6 +89,7 @@ public class OrderService extends BaseService {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 
+		
 		List<SQL> sqls = new ArrayList<SQL>();
 		String orderId = createOrderId();
 
@@ -106,6 +107,7 @@ public class OrderService extends BaseService {
 			System.out.println(e.toJSONString());
 			ins.set("id", MD5Util.encrypt(db.getUUID()));
 			ins.set("order_id", orderId);
+			ins.setIf("shop_id", e.getString("shop_id"));
 			ins.set("is_delete", "N");
 			ins.set("spu", e.getString("spu"));
 			ins.setIf("prod_name", e.getString("prod_name"));
@@ -172,7 +174,27 @@ public class OrderService extends BaseService {
 	/**
 	 * @Description: 修改订单价格
 	 */
-	public ResData changeOrderMoney() {
+	public ResData changeOrderMoney(String user_id, String order_id, String newmoney) {
+		if (ToolUtil.isOneEmpty(user_id, order_id, newmoney)) {
+			return ResData.FAILURE_ERRREQ_PARAMS();
+		}
+		// 获取原先金额
+		String oldmoney = db.uniqueRecord("select * from mall_order where order_id=?", order_id)
+				.getString("amountreal");
+		if (ToolUtil.isEmpty(oldmoney)) {
+			return ResData.FAILURE("原金额不正确");
+		}
+		Update ups = new Update("mall_order");
+		ups.set("amountreal", newmoney);
+		ups.setSE("mdate", DBUtil.getDBDateString(db.getDBType()));
+		ups.where().and("order_id=?", order_id);
+
+		// 订单日志
+		if (recordOrderLog(ORDER_ACTION_CHANGE_MONEY, order_id, "修改价格:" + oldmoney + "-->" + newmoney, user_id)) {
+			db.execute(ups);
+		} else {
+			return ResData.FAILURE("操作失败,未写入日志");
+		}
 		return ResData.SUCCESS_OPER();
 	}
 
@@ -182,29 +204,24 @@ public class OrderService extends BaseService {
 	public ResData queryMyOrder(String status, String user_id, int pageSize, int pageIndex) {
 		JSONObject res = new JSONObject();
 
-		String sql = "select a.*, case status when 1 then '已取消' when 2 then '待付款' when 4 then '待发货'  when 6 then '待收货' when 8 then '待评价' when 10 then '已完成' when 12 then '退货中' when 14 then '退货成功' else '未知' end statusstr from mall_order a where is_delete='N' and user_id =?";
+		String sql = "select a.*,case status when 1 then '已取消' when 2 then '待付款' when 4 then '待发货'  when 6 then '待收货' when 8 then '待评价' when 10 then '已完成' when 12 then '退货中' when 14 then '退货成功' else '未知' end statusstr from mall_order a where is_delete='N' and user_id =?";
 		// status 1,2,3,
 		System.out.println(status);
 		if (ToolUtil.isNotEmpty(status)) {
 			sql += " and status in (" + status + ") ";
 		}
-
 		sql += " order by cdate desc";
-
 		RcdSet orderrs = db.query(sql, user_id);
 		JSONArray orderarr = ConvertUtil.OtherJSONObjectToFastJSONArray(orderrs.toJsonArrayWithJsonObject());
 		res.put("orderlist", orderarr);
-
 		// res.put("logisticsmap", orderarr);
 		JSONObject goodsmapobj = new JSONObject();
 		for (int i = 0; i < orderrs.size(); i++) {
 			String goodsql = "select * from mall_order_detail where order_id=?";
 			goodsmapobj.put(orderrs.getRcd(i).getString("id"), ConvertUtil.OtherJSONObjectToFastJSONArray(
 					db.query(goodsql, orderrs.getRcd(i).getString("order_id")).toJsonArrayWithJsonObject()));
-
 		}
 		res.put("goodsmap", goodsmapobj);
-
 		return ResData.SUCCESS_OPER(res);
 	}
 
@@ -232,14 +249,35 @@ public class OrderService extends BaseService {
 	 * @Description: 订单支付成功后改写订单状态
 	 */
 	public ResData payOrderFinish(String order_id, String user_id, String next_status) {
+		List<String> sqls=new ArrayList<String>();
+		
+		//更新订单表
 		Update ups = new Update("mall_order");
 		ups.set("is_pay", "Y");
 		ups.setSE("pdate", DBUtil.getDBDateString(db.getDBType()));
 		ups.setIf("status", next_status);
 		ups.where().and("order_id=?", order_id);
+		sqls.add(ups.getSQL());
+		
+		//更新产品表及减少库存数
+		String sql="select * from mall_order_detail where order_id=?";
+		RcdSet rs=db.query(sql,order_id);
+		for(int i=0;i<rs.size();i++) {
+			String spu=rs.getRcd(i).getString("spu");
+			String sku=rs.getRcd(i).getString("sku");
+			int buy_number=rs.getRcd(i).getInteger("buy_number");
+			//如果sku为空则只减小产品的库存
+			String prodsql="update product set sales=sales+1,stock=stock-"+buy_number+" where spu='"+spu+"'";
+			sqls.add(prodsql);
+			if(ToolUtil.isNotEmpty(sku)) {
+				String prodskusql="update product_sku set stock=stock-"+buy_number+" where sku='"+sku+"'";
+				sqls.add(prodskusql);
+			}
+		}
+		
 		// 订单日志
 		if (recordOrderLog(ORDER_ACTION_PAY, order_id, "订单支付", user_id)) {
-			db.execute(ups);
+			db.executeStringList(sqls);
 		} else {
 			return ResData.FAILURE("操作失败,未写入日志");
 		}
