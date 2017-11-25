@@ -3,6 +3,8 @@ package com.dt.module.base.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -24,6 +26,7 @@ import com.dt.core.common.shiro.ShiroUser;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
+import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.UserService;
 import com.dt.module.base.service.WxUserService;
 
@@ -39,6 +42,8 @@ public class LoginSmallProgramController extends BaseController {
 	WxUserService wxUserService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	LoginService loginService;
 
 	private ResData getOpenIdStr(String code) {
 		ResData res = new ResData();
@@ -67,7 +72,7 @@ public class LoginSmallProgramController extends BaseController {
 	@RequestMapping(value = "/smallprogram/login.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "小程序用户登录")
-	public ResData login(String code) {
+	public ResData login(String code, HttpServletRequest request) {
 		ResData res = new ResData();
 		if (ToolUtil.isEmpty(code)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
@@ -117,7 +122,7 @@ public class LoginSmallProgramController extends BaseController {
 		String cookie = super.getSession().getId();
 		super.getSession().setAttribute("shiroUser", shiroUser);
 		super.getSession().setAttribute("user_id", shiroUser.id);
-
+		loginService.recLogin(shiroUser.id, super.getSession().getId(), request);
 		res.setCode(10003);
 		res.setSuccess(true);
 		res.setData(cookie);

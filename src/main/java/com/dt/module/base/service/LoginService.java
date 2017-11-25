@@ -209,6 +209,7 @@ public class LoginService extends BaseService {
 			ups.setIf("client", client);
 			ups.setSE("login_time", DBUtil.getDBDateString(DB.instance().getDBType()));
 			ups.where().and("cookie=?", cookie);
+			System.out.println(ups.getSQL());
 			db.execute(ups);
 		}
 	}
