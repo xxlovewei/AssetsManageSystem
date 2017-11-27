@@ -32,7 +32,7 @@ public class RetryLimitSimpleCredentialsMatcher extends SimpleCredentialsMatcher
 			retryCount = new AtomicInteger(0);
 			passwordRetryCache.put(username, retryCount);
 		}
-		// 自定义一个验证过程：当用户连续输入密码错误n次以上禁止用户登录一段时间
+		// 自定义一个验证过程：当用户连续输入密码错误n次以上禁止用户登录一段时间,默认为3次
 		if (limitretryCount >= 0) {
 			if (limitretryCount <= 3) {
 				limitretryCount = 3;

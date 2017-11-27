@@ -36,6 +36,7 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 		String dateString = formatter.format(session.getStartTimestamp());
 		entity.setStart_time(dateString);
 		entity.setIp(session.getHost());
+		entity.setToken(cookie.toString());
 		entity.save();
 		_log.info("create session:" + cookie);
 		return cookie;
@@ -49,7 +50,6 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 			_log.info("会话无效,不更新存储");
 			return;
 		}
-
 		SimpleSessionEntity entity = new SimpleSessionEntity();
 		entity.setId(session.getId().toString());
 		entity.setCookie(session.getId().toString());

@@ -21,6 +21,7 @@ public class SimpleSessionEntity {
 	private String start_time;
 	private String client;
 	private String ip;
+	private String token;
 
 	public String getId() {
 		return id;
@@ -56,6 +57,7 @@ public class SimpleSessionEntity {
 		me.set("cookie", cookie);
 		me.set("dtsession", session + "");
 		me.setIf("start_time", start_time);
+		me.setIf("token", token);
 		me.setIf("ip", ip);
 		DB.instance().execute(me);
 	}
@@ -125,5 +127,19 @@ public class SimpleSessionEntity {
 	 */
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+
+	/**
+	 * @return the token
+	 */
+	public String getToken() {
+		return token;
+	}
+
+	/**
+	 * @param token the token to set
+	 */
+	public void setToken(String token) {
+		this.token = token;
 	}
 }
