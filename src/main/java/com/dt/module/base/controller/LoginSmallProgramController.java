@@ -116,8 +116,8 @@ public class LoginSmallProgramController extends BaseController {
 			res.setMessage("登录失败");
 			return res;
 		}
+		
 		// 添加更新sys_session表
-
 		ShiroUser shiroUser = ShiroKit.getUser();
 		String cookie = super.getSession().getId();
 		super.getSession().setAttribute("shiroUser", shiroUser);
@@ -158,6 +158,21 @@ public class LoginSmallProgramController extends BaseController {
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "小程序用户信息")
 	public ResData userQueryById() {
 		return ResData.SUCCESS_OPER(userService.queryUserById(getUserId()));
+	}
+
+	@RequestMapping("/smallprogram/checkLogin.do")
+	@Res
+	@Acl(value = Acl.TYPE_ALLOW, info = "检测登录")
+	public ResData checkLogin() {
+		Subject currentUser = ShiroKit.getSubject();
+		String userId = this.getUserId();
+		System.out.println(userId+","+currentUser.isAuthenticated());
+		
+		if (ToolUtil.isNotEmpty(userId) && userId.length() > 2) {
+			return ResData.SUCCESS_OPER();
+		} else {
+			return ResData.FAILURE();
+		}
 	}
 
 }
