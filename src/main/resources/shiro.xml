@@ -63,9 +63,10 @@
 	<bean id="sessionIdGenerator"
 		class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator" />
 	<!-- 用于Web环境的实现，可以替代ServletContainerSessionManager，自己维护着会话，直接废弃了Servlet容器的会话管理 -->
-	<bean id="sessionManager"
-		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-
+	<!-- <bean id="sessionManager"
+		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager"> -->
+<bean id="sessionManager"
+		class="com.dt.core.common.shiro.DtWebSessionManager">
 		<!-- 相隔多久检查一次session的有效性 -->
 		<property name="sessionValidationInterval" value="1800000" />
 

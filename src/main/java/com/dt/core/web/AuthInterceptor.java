@@ -14,7 +14,6 @@ import com.dt.core.common.base.BaseResult;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.shiro.ShiroKit;
 import com.dt.core.common.util.DBUtil;
-import com.dt.core.common.util.TokenUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.db.DB;
@@ -38,7 +37,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			user_id = ShiroKit.getUser().getId();
 		}
 		String url = req.getRequestURI();
-		String token = TokenUtil.getRequestToken(req);
 		// 临时日志记录
 		if (url.endsWith("checkLogin.do")) {
 		} else {
@@ -86,7 +84,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				// }
 			}
 		}
-		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",token=" + token + ",isAuth="
+		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",isAuth="
 				+ ShiroKit.isAuthenticated() + ",isPass=" + isPass + ",isRemember:" + ShiroKit.isRemember());
 		return isPass;
 	}

@@ -116,16 +116,20 @@ public class LoginSmallProgramController extends BaseController {
 			res.setMessage("登录失败");
 			return res;
 		}
-		
+
 		// 添加更新sys_session表
+		String tid = super.getSession().getId();
 		ShiroUser shiroUser = ShiroKit.getUser();
-		String cookie = super.getSession().getId();
+		JSONObject ret = new JSONObject();
+		ret.put("cookie", tid);
+		ret.put("token", tid);
+
 		super.getSession().setAttribute("shiroUser", shiroUser);
 		super.getSession().setAttribute("user_id", shiroUser.id);
-		loginService.recLogin(shiroUser.id, super.getSession().getId(), request);
+		loginService.recLogin(shiroUser.id, tid, request);
 		res.setCode(10003);
 		res.setSuccess(true);
-		res.setData(cookie);
+		res.setData(ret);
 		return res;
 
 	}
@@ -166,8 +170,8 @@ public class LoginSmallProgramController extends BaseController {
 	public ResData checkLogin() {
 		Subject currentUser = ShiroKit.getSubject();
 		String userId = this.getUserId();
-		System.out.println(userId+","+currentUser.isAuthenticated());
-		
+		System.out.println(userId + "," + currentUser.isAuthenticated());
+
 		if (ToolUtil.isNotEmpty(userId) && userId.length() > 2) {
 			return ResData.SUCCESS_OPER();
 		} else {

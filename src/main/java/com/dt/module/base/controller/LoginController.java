@@ -25,7 +25,6 @@ import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.shiro.ShiroKit;
 import com.dt.core.common.shiro.ShiroUser;
-import com.dt.core.common.util.TokenUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.MenuRootService;
@@ -88,7 +87,7 @@ public class LoginController extends BaseController {
 		r.put("user_info", u);
 		// 系统信息
 		r.put("systems", menuRootService.queryMenuRoot());
-		r.put("token", TokenUtil.generateValue());
+		r.put("token", super.getSession().getId());
 		_log.info("login:" + r.toJSONString());
 		loginService.recLogin(shiroUser.id, super.getSession().getId(), request);
 		return ResData.SUCCESS("登录成功", r);
