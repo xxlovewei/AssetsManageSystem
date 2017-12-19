@@ -326,7 +326,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 .navbar-fixed-top {
   background: #fff;
   transition-duration: 0.4s;
-  border-bottom: 1px solid #293846 !important;
+  border-bottom: 4px solid #293846 !important;
   z-index: 2030;
 }
 .navbar-fixed-top,
