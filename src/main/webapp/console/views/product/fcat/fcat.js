@@ -48,7 +48,7 @@ function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			$scope.catRootOpt = res.data;
 			if ($scope.catRootOpt.length > 0) {
 				$scope.catRootSel = $scope.catRootOpt[0];
-				flushTree($scope.catRootSel.ID)
+				flushTree($scope.catRootSel.id)
 			}
 		} else {
 			notify({

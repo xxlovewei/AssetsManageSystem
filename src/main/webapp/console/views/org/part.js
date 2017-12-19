@@ -165,8 +165,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 	$scope.test = function() {
 		$log.info("测试");
-		console.log($scope.treeData);
-		console.log($scope.tree.get_selected());
+ 
 
 	}
 	$scope.readyCB = function() {
@@ -176,7 +175,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 		$scope.tree.open_all();
 		// 响应节点变化
 		$scope.treeInstance.on("changed.jstree", function(e, data) {
-			console.log(data);
+	
 			if (data.action == "select_node") {
 				// 加载数据
 				var snodes = $scope.tree.get_selected();

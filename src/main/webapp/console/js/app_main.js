@@ -156,11 +156,16 @@ app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $tra
 		alert("未配置路由");
 	});
 	// 替换了之前的$stateChangeStart
-	$transitions.onStart({
+	$transitions.onSuccess({
 		to : '**'
 	}, function(trans) {
-		// 调试阶段去除缓存
+		//删除html缓存
 		var $state = trans.router.stateService;
+		if(angular.isDefined($state.router.globals) &&angular.isDefined($state.router.globals.current)&&angular.isDefined($state.router.globals.current.templateUrl) ){
+			console.log("Remove|"+$state.router.globals.current.templateUrl);
+			$templateCache.remove($state.router.globals.current.templateUrl)
+		}
+		
 		var userService = trans.injector().get('userService');
 		var from_arr = trans._treeChanges.from;
 		var from = null;
