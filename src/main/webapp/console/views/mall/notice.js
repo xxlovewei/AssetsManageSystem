@@ -109,7 +109,7 @@ function mallNoticeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 
 	function callback(json) {
-		console.log(json);
+		 
 	}
 
 	function renderAction(data, type, full) {

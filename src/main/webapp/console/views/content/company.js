@@ -94,7 +94,6 @@ function ctCompProfileCtl($compile, $confirm, $log, notify, $scope, $http,
 	};
 	$scope.content = '';
 	$scope.save = function() {
-		console.log($scope._simpleConfig);
 		// 处理图片
 		if ($scope.myDropzone.files.length == 0) {
 			notify({

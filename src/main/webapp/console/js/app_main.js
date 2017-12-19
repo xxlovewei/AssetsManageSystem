@@ -146,7 +146,7 @@ function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvid
 app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $transitions, $templateCache) {
 	console.log("App main run");
 	// start watching when the app runs. also starts the Keepalive service by
-	Idle.watch();
+	//Idle.watch();
 	// 替换了之前的$stateNotFound
 	$state.onInvalid(function(to, from, injector) {
 		$log.warn(to);
@@ -166,7 +166,6 @@ app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $tra
 		if (from_arr.length > 0) {
 			from = from_arr[from_arr.length - 1].state.name;
 		}
-
 		$log.warn("from:", from);
 		// 不需要检查是否登录
 		userService.checkLogin().then(function(result) {
@@ -197,7 +196,7 @@ app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $tra
 		$log.warn('IdleWarncountdown', countdown);
 		if (countdown == 1) {
 			// 重新激活
-			Idle.watch();
+			//Idle.watch();
 		}
 		// follows after the IdleStart event, but includes a countdown until the
 		// user is considered timed out

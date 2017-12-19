@@ -1,5 +1,7 @@
-function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userService, notify,$timeout) {
-
+function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
+		userService, notify, $timeout) {
+ 
+	//fixed-nav
 	$scope.fullScreen = function() {
 		var element = document.documentElement; // 若要全屏页面中div，var element=
 		// document.getElementById("divID");
@@ -39,12 +41,11 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 
 	}
 
-	$scope.changepwd=function(){
+	$scope.changepwd = function() {
 		$state.go("me.pwdreset");
 	}
- 
-	
-	//切换系统
+
+	// 切换系统
 	$scope.switchSystem = function(id) {
 		userService.switchSystem(id).then(function(result) {
 			if (result.success) {
@@ -73,8 +74,10 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 	$scope.$watch(function() {
 		return $rootScope.dt_sys_menus;
 	}, function() {
-		$log.warn("watch $rootScope.dt_sys_menus change,load from this,again.", $rootScope.dt_sys_menus);
-		if (angular.isDefined($rootScope.dt_sys_menus) && $rootScope.dt_sys_menus != null) {
+		$log.warn("watch $rootScope.dt_sys_menus change,load from this,again.",
+				$rootScope.dt_sys_menus);
+		if (angular.isDefined($rootScope.dt_sys_menus)
+				&& $rootScope.dt_sys_menus != null) {
 			$scope.menu = $rootScope.dt_sys_menus;
 			$state.go($state.current, null, {
 				reload : true
@@ -87,18 +90,25 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 	if (angular.isDefined(dt_sys_menu)) {
 		$log.warn("dt_sys_menu load from localstorage", dt_sys_menu);
 		$scope.menu = dt_sys_menu;
-		//fixnav();
+		// fixnav();
 	}
 
 	// 监听用户数据
-	$scope.$watch(function() {
-		return $rootScope.dt_sys_user_info;
-	}, function() {
-		$log.warn("watch $rootScope.dt_sys_user_info change,load from this,again.", $rootScope.dt_sys_user_info);
-		if (angular.isDefined($rootScope.dt_sys_user_info) && $rootScope.dt_sys_user_info != null) {
-			$scope.sys_user_info = $rootScope.dt_sys_user_info
-		}
-	}, true);
+	$scope
+			.$watch(
+					function() {
+						return $rootScope.dt_sys_user_info;
+					},
+					function() {
+						$log
+								.warn(
+										"watch $rootScope.dt_sys_user_info change,load from this,again.",
+										$rootScope.dt_sys_user_info);
+						if (angular.isDefined($rootScope.dt_sys_user_info)
+								&& $rootScope.dt_sys_user_info != null) {
+							$scope.sys_user_info = $rootScope.dt_sys_user_info
+						}
+					}, true);
 
 	// 页面刷新
 	var sys_user_info = $localStorage.get("dt_sys_user_info")
@@ -107,13 +117,14 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 		$scope.sys_user_info = sys_user_info;
 	}
 
-	
-	//列举系统
+	// 列举系统
 	$scope.$watch(function() {
 		return $rootScope.dt_systems;
 	}, function() {
-		$log.warn("watch $rootScope.dt_systems change,load from this,again.", $rootScope.dt_systems);
-		if (angular.isDefined($rootScope.dt_systems) && $rootScope.dt_systems != null) {
+		$log.warn("watch $rootScope.dt_systems change,load from this,again.",
+				$rootScope.dt_systems);
+		if (angular.isDefined($rootScope.dt_systems)
+				&& $rootScope.dt_systems != null) {
 			$scope.dt_systems = $rootScope.dt_systems
 		}
 	}, true);
@@ -122,11 +133,11 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage, userSe
 		$log.warn("dt_systems load from localstorage", dt_systems);
 		$scope.dt_systems = dt_systems;
 	}
-	
+
 	// 固定左边导航
-//	function fixnav() {
-//	}
-//	fixnav();
+	// function fixnav() {
+	//	}
+	//	fixnav();
 
 };
 angular.module('inspinia').controller('MainCtrl', MainCtrl);

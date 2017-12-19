@@ -50,7 +50,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 				$compile(angular.element(row).contents())($scope);
 			}).withLanguage(DTLang);
  		 
-	console.log($scope.dtOptions);	 
+	 
 	$scope.dtInstance = {}
 	$scope.reloadData = reloadData;
 	var tabdata=[]
@@ -60,7 +60,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 	}
 	function callback(json) {
 		tabdata=json.data;
-		console.log(json);
+	 
 	}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";

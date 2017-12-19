@@ -121,7 +121,7 @@ function indexClassItemSaveCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 	}
 
 	function callback(json) {
-		console.log(json);
+		 
 		tabdata = json.data;
 	}
 	function renderImage(data, type, full) {

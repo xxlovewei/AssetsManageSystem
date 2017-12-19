@@ -92,7 +92,7 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 						// first before after last
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
-						console.log("cur:obj", obj);
+						 
 
 						$http.post($rootScope.project + "/api/ctCategroy/addCategory.do", {
 							old_node_type : obj.type,

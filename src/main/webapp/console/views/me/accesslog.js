@@ -15,7 +15,7 @@ function meAccessLogCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		$scope.dtInstance.reloadData(callback, resetPaging);
 	}
 	function callback(json) {
-		console.log(json);
+	 
 	}
 	
 	function renderAction(data, type, full) {

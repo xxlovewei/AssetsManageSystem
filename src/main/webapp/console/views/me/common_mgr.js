@@ -2,8 +2,8 @@ function meCommonMgrCtl($localStorage, $confirm, $log, notify, $scope, $http, $r
 	var dt_systems = $localStorage.get("dt_systems")
 	var sys_user_info = $localStorage.get("dt_sys_user_info")
 
-	console.log($rootScope);
-	console.log(sys_user_info);
+	$log.warn($rootScope);
+	$log.warn(sys_user_info);
 
 	$scope.systemOpt = [];
 	$scope.systemSel = "";

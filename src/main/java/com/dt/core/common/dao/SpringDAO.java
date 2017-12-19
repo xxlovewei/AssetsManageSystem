@@ -359,7 +359,7 @@ public abstract class SpringDAO
 		return queryPage(sql.getParamNamedSQL(),0,0,sql.getNamedParams());
 	}
 	
-	
+
 	
 	public RcdSet queryPage(SQL sql,int pageSize,int pageIndex){
 		return queryPage(sql.getParamNamedSQL(),pageSize,pageIndex,sql.getNamedParams());
