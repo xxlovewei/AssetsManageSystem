@@ -2,6 +2,7 @@ var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad', 'ui.bootstrap
 		'treeGrid', 'cgNotify', 'angular-confirm', 'datatables', 'datatables.select', 'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor' ])
 var $injector = angular.injector();
 
+
 var version="20171122";
 app.factory('sessionInjector', [
 		'$log',
