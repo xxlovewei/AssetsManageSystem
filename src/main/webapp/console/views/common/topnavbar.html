@@ -1,19 +1,19 @@
 <div class="row border-bottom">
-	<nav class="navbar navbar-fixed-top"   role="navigation">
+	<nav class="navbar navbar-fixed-top" role="navigation">
 		<div class="navbar-header">
 			<span minimaliza-sidebar></span>
 		</div>
 		<ul class="nav navbar-top-links navbar-right">
-			<li uib-dropdown><a uib-dropdown-toggle> <span
+			<li ng-if="dt_systems.length>1" uib-dropdown><a uib-dropdown-toggle> <span
 					class="fa fa-dropbox on fa-square" aria-hidden="true"
 					style="color: white; padding-left: 3px; padding-right: 3px"></span></a>
 				<ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
 					<li><a style="text-align: center">请选择系统切换</a></li>
 					<li role="separator" class="divider"></li>
-					<li ng-click="switchSystem(item.menu_id)" ng-repeat="item in dt_systems"><a
-						class="fa fa-sitemap" href="javascript:;"><i
-							class="zmdi zmdi-shield-security"></i> <span
-							style="padding-left: 6px;">{{item.name}}</span></a></li>
+					<li ng-click="switchSystem(item.menu_id)"
+						ng-repeat="item in dt_systems"><a class="fa fa-sitemap"
+						href="javascript:;"><i class="zmdi zmdi-shield-security"></i>
+							<span style="padding-left: 6px;">{{item.name}}</span></a></li>
 				</ul></li>
 			<li uib-dropdown><a uib-dropdown-toggle> <span
 					class="fa fa-ellipsis-v" aria-hidden="true"
@@ -26,7 +26,8 @@
 					<li><a class="fa fa-user" href="javascript:;" systemid="1"><i
 							class="zmdi zmdi-shield-security"></i> <span
 							style="padding-left: 6px;">个人资料</span></a></li>
-					<li ng-click="changepwd()"><a class="fa fa-key" href="javascript:;" systemid="1"><i
+					<li ng-click="changepwd()"><a class="fa fa-key"
+						href="javascript:;" systemid="1"><i
 							class="zmdi zmdi-shield-security"></i> <span
 							style="padding-left: 6px;">密码修改</span></a></li>
 					<li ng-click="logout()"><a class="fa fa-hand-o-right"

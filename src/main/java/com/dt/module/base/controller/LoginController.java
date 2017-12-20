@@ -86,7 +86,7 @@ public class LoginController extends BaseController {
 		u.put("pwd", "********");
 		r.put("user_info", u);
 		// 系统信息
-		r.put("systems", menuRootService.queryMenuRoot());
+		r.put("systems", menuRootService.queryMyMenuRoot(shiroUser.id));
 		r.put("token", super.getSession().getId());
 		_log.info("login:" + r.toJSONString());
 		loginService.recLogin(shiroUser.id, super.getSession().getId(), request);

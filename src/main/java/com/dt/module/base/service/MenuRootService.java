@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.annotion.impl.ResData;
+import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.util.ConvertUtil;
+import com.dt.core.common.util.ToolUtil;
 
 /**
  * @author: algernonking
@@ -20,22 +22,44 @@ public class MenuRootService extends BaseService {
 	public ResData addMenuRoot() {
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 更新菜单
 	 */
 	public ResData updateMenuRoot() {
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 删除菜单
 	 */
 	public ResData deleteMenuRoot() {
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 查询菜单
 	 */
 	public JSONArray queryMenuRoot() {
-		return ConvertUtil.OtherJSONObjectToFastJSONArray(db.query("select * from sys_menus order by sort").toJsonArrayWithJsonObject());
+		return ConvertUtil.OtherJSONObjectToFastJSONArray(
+				db.query("select * from sys_menus order by sort").toJsonArrayWithJsonObject());
 	}
+
+	/**
+	 * @Description: 查询我的菜单
+	 */
+	public JSONArray queryMyMenuRoot(String user_id) {
+		if (ToolUtil.isEmpty(user_id)) {
+			return new JSONArray();
+		}
+
+		if (BaseCommon.isSuperAdmin(user_id)) {
+			return queryMenuRoot();
+		}
+
+		String sql = "select * from sys_menus where menu_id in ( select distinct menu_id from sys_user_role a,sys_role_module b,sys_menus_node c where a.role_id=b.role_id and c.node_id=b.module_id and user_id=?) order by sort";
+		return ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql,user_id).toJsonArrayWithJsonObject());
+
+	}
+
 }
