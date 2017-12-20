@@ -35,8 +35,8 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 						// 当前默认可能存在Id为1的系统,默认获取该资源
 						$log.warn(res.data.user_info);
 						var menuid = "";
-						if (angular.isDefined(res.data.user_info.SYSTEM)) {
-							menuid = res.data.user_info.SYSTEM;
+						if (angular.isDefined(res.data.user_info.system)) {
+							menuid = res.data.user_info.system;
 						}
 						$http.post($rootScope.project + "/api//user/getUserMenus.do", {
 							menu_id : menuid

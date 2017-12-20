@@ -3,7 +3,7 @@ var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad', 'ui.bootstrap
 var $injector = angular.injector();
 
 
-var version="20171122";
+var version="20171128";
 app.factory('sessionInjector', [
 		'$log',
 		'$injector',

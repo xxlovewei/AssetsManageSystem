@@ -20,7 +20,7 @@ public class ScheduleController extends BaseController {
 
 	@RequestMapping("/schedule/queryJobs.do")
 	@Res
-	@Acl
+	@Acl(value = Acl.TYPE_DENY, info = "查询任务")
 	public Object queryJobs(String type) {
 		return ResData.SUCCESS_OPER(jobService.queryJob(type, getUserId()));
 	}

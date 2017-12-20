@@ -164,7 +164,8 @@ public class UserService extends BaseService {
 	 * @Description: 根据角色查处用户的权限
 	 */
 	@SuppressWarnings("unchecked")
-	public List<String> findPermissionsByRoleId(String roleId) {
+	public List<String> findPermissionsByRoleId(String roleId) {		
+		_log.info("获取角色权限:"+roleId);
 		return db.query(
 				"select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
 				roleId).toList("ct");
