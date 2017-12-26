@@ -161,7 +161,6 @@ public class RemoteShellExecutor {
 		// System.out.println(executor.exec(d).result);
 
 		executor.exec(" nohup sh /opt/tomcat/apache-tomcat-8.0.45/bin/startup.sh ;sleep 1 &").print();
-
 		executor.exec("ifconfig").print();
 
 	}

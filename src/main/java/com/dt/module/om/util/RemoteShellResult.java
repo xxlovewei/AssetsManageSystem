@@ -7,7 +7,7 @@ package com.dt.module.om.util;
  */
 public class RemoteShellResult {
 
-	int code;
+	public int code;
 	public StringBuffer result = new StringBuffer();
 
 	public static RemoteShellResult setData(int code, StringBuffer result) {
