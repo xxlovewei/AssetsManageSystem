@@ -29,23 +29,12 @@ public class NodeService extends BaseService {
 	public static String NODE_SMALL_TYPE_HOST_LINUX = "linux";
 	public static String NODE_SMALL_TYPE_HOST_WINDOW = "window";
 	public static String NODE_SMALL_TYPE_HOST_AIX = "aix";
-
-	public static String NODE_TYPE_DB = "db";
-	public static String NODE_SMALL_TYPE_DB_ORACLE = "oracle";
-	public static String NODE_SMALL_TYPE_DB_MYSQL = "mysql";
-	public static String NODE_SMALL_TYPE_DB_MSSQL = "mssql";
-
-	public static String NODE_TYPE_APP = "app";
-	public static String NODE_SMALL_TYPE_APP_TOMCAT = "tomcat";
+ 
+ 
 
 	public ResData addNode(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("om_node");
 		me.set("id", db.getUUID());
-		if (ToolUtil.isEmpty(ps.getString("belongtoid"))) {
-			me.setIf("belongtoId", "0");
-		} else {
-			me.setIf("belongtoId", ps.getString("belongtoid"));
-		}
 		me.setIf("type", ps.getString("type", ""));
 		me.setIf("smalltype", ps.getString("smalltype", ""));
 		me.setIf("name", ps.getString("name", ""));
@@ -116,17 +105,7 @@ public class NodeService extends BaseService {
 		return queryNode(ps);
 	}
 
-	public ResData queryNodeDb(TypedHashMap<String, Object> ps) {
-		ps.remove("type");
-		ps.put("type", NODE_TYPE_DB);
-		return queryNode(ps);
-	}
-
-	public ResData queryNodeApp(TypedHashMap<String, Object> ps) {
-		ps.remove("type");
-		ps.put("type", NODE_TYPE_APP);
-		return queryNode(ps);
-	}
+	 
 
 	public ResData queryNode(TypedHashMap<String, Object> ps) {
 		String sql = "select * from om_node where deleted='N' ";

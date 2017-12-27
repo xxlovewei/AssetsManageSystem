@@ -27,13 +27,13 @@ public class NodeController extends BaseController {
 	@RequestMapping("/node/queryNodeById.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "根据Id查询节点")
-	public ResData deleteShop(String id) {
+	public ResData queryNodeById(String id) {
 		return nodeService.queryNodeById(id);
 	}
 
 	@RequestMapping("/node/saveNode.do")
 	@Res
-	@Acl(value = Acl.TYPE_DENY, info = "根据Id查询节点")
+	@Acl(value = Acl.TYPE_DENY, info = "保存节点")
 	public ResData saveNode() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
@@ -46,7 +46,7 @@ public class NodeController extends BaseController {
 
 	@RequestMapping("/node/queryNode.do")
 	@Res
-	@Acl(value = Acl.TYPE_DENY, info = "根据Id查询节点")
+	@Acl(value = Acl.TYPE_DENY, info = "查询节点")
 	public ResData queryNode() {
 		return nodeService.queryNode((TypedHashMap<String, Object>) HttpKit.getRequestParameters());
 	}
@@ -58,21 +58,7 @@ public class NodeController extends BaseController {
 		return nodeService.queryNodeHost((TypedHashMap<String, Object>) HttpKit.getRequestParameters());
 	}
 
-	@RequestMapping("/node/queryNodeDb.do")
-	@Res
-	@Acl(value = Acl.TYPE_DENY, info = "根据条件查询数据库")
-	public ResData queryNodeDb() {
-		return nodeService.queryNodeDb((TypedHashMap<String, Object>) HttpKit.getRequestParameters());
-	}
-
-	@RequestMapping("/node/queryNodeApp.do")
-	@Res
-	@Acl(value = Acl.TYPE_DENY, info = "根据条件查询应用")
-	public ResData queryNodeApp() {
-		return nodeService.queryNodeDb((TypedHashMap<String, Object>) HttpKit.getRequestParameters());
-	}
-	
-
+	 
 	@RequestMapping("/node/deleteNode.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "删除节点")
