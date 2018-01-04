@@ -35,13 +35,13 @@ public class NodeAppService extends BaseService {
 		me.setIf("pwd", ps.getString("pwd"));
 		me.setIf("pwdmd5", ps.getString("pwdmd5"));
 		me.setIf("mark", ps.getString("mark"));
-		me.setIf("isvalid", ps.getString("isvalid","N"));
+		me.setIf("isvalid", ps.getString("isvalid", "N"));
 		me.setIf("status", ps.getString("status"));
-		me.setIf("od", ps.getString("od","1"));
+		me.setIf("od", ps.getString("od", "1"));
 		me.setIf("cmd_start", ps.getString("cmd_start"));
 		me.setIf("cmd_stop", ps.getString("cmd_stop"));
 		me.setIf("cmd_status", ps.getString("cmd_status"));
-		me.setIf("use_host_login", ps.getString("use_host_login","N"));
+		me.setIf("use_host_login", ps.getString("use_host_login", "N"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -61,7 +61,7 @@ public class NodeAppService extends BaseService {
 		me.setIf("od", ps.getString("od"));
 		me.setIf("cmd_start", ps.getString("cmd_start"));
 		me.setIf("cmd_stop", ps.getString("cmd_stop"));
-		me.setIf("use_host_login", ps.getString("use_host_login","N"));
+		me.setIf("use_host_login", ps.getString("use_host_login", "N"));
 		me.setIf("cmd_status", ps.getString("cmd_status"));
 		me.where().and("id=?", ps.getString("id", ""));
 		db.execute(me);
@@ -86,7 +86,6 @@ public class NodeAppService extends BaseService {
 	}
 
 	public ResData queryNodeAppByNodeId(String id) {
-
 		return ResData.SUCCESS_OPER(
 				db.uniqueRecord("select * from om_node_app where deleted='N' and id=?", id).toJsonObject());
 	}
@@ -100,6 +99,12 @@ public class NodeAppService extends BaseService {
 	}
 
 	public ResData statusNodeApp(String id) {
+		return null;
+	}
+
+	public ResData queryNodeAppType() {
+
+		
 		return null;
 	}
 

@@ -1,5 +1,6 @@
 package com.dt.module.base.service;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
@@ -19,7 +20,9 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取所有节点数据
 	 */
+	@Cacheable(value="users", key="#id")  
 	public ResData queryRegion() {
+		
 		String sql = "select * from sys_region";
 		RcdSet rs = db.query(sql);
 		JSONArray res = new JSONArray();

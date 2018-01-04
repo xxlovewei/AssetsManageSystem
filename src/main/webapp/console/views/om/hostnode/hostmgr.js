@@ -138,6 +138,8 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				+ "')\" class=\"btn-white btn btn-xs\">终端</button> ";
 		acthtml = acthtml + " <button ng-click=\"modify('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">修改</button>  ";
+		acthtml = acthtml + " <button ng-click=\"addapp('" + full.id
+		+ "')\" class=\"btn-white btn btn-xs\">添加应用</button>  ";
 		acthtml = acthtml + " <button ng-click=\"remove('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button>  </div> ";
 		return acthtml;
