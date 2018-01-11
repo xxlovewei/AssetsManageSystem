@@ -38,7 +38,7 @@ public class UserService extends BaseService {
 	public static String USER_TYPE_EMPL = "empl";
 	// 会员粉丝人员
 	public static String USER_TYPE_CRM = "crm";
-	
+
 	private static HashMap<String, JSONArray> userMenus = new HashMap<String, JSONArray>();
 	private static Logger _log = LoggerFactory.getLogger(UserService.class);
 
@@ -103,7 +103,8 @@ public class UserService extends BaseService {
 		}
 		String basesql = "";
 		if (BaseCommon.isSuperAdmin(user_id)) {
-			basesql = "select * from sys_menus_node where deleted='N' and menu_id='" + menu_id + "' and parent_id = ? order by sort";
+			basesql = "select * from sys_menus_node where deleted='N' and menu_id='" + menu_id
+					+ "' and parent_id = ? order by sort";
 		} else {
 			basesql = "select distinct level1 node_id from ( "
 					+ "select * from (select b.module_id,c.route,c.node_name , "
@@ -122,7 +123,7 @@ public class UserService extends BaseService {
 					+ "substr(route,instr(route,'-',1,2)+1 ,instr(route,'-',1,3) - instr(route,'-',1,2) -1)) level3 "
 					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
 					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' )) where level1<>'-1' ";
-			
+
 			basesql = "select a.* from sys_menus_node a, (" + basesql + ") b "
 					+ "where a.deleted='N' and a.node_id = b.node_id and menu_id = '" + menu_id + "' and parent_id = ? "
 					+ "order by sort ";
@@ -134,18 +135,39 @@ public class UserService extends BaseService {
 		for (int i = 0; i < first_rs.size(); i++) {
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
 			String first_key = first_rs.getRcd(i).getString("key");
+			// 菜单显示控制
+			if (!BaseCommon.isSuperAdmin(user_id)) {
+				String first_is_show = first_rs.getRcd(i).getString("is_g_show");
+				if (ToolUtil.isNotEmpty(first_is_show) && first_is_show.equals("N")) {
+					continue;
+				}
+			}
 			first_obj.put("state", first_key);
 			RcdSet second_rs = db.query(basesql, first_rs.getRcd(i).getString("node_id"));
 			JSONArray second_arr = new JSONArray();
 			for (int j = 0; j < second_rs.size(); j++) {
 				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(j).toJsonObject());
 				String second_key = second_rs.getRcd(j).getString("key");
+				// 菜单显示控制
+				if (!BaseCommon.isSuperAdmin(user_id)) {
+					String second_is_show = second_rs.getRcd(j).getString("is_g_show");
+					if (ToolUtil.isNotEmpty(second_is_show) && second_is_show.equals("N")) {
+						continue;
+					}
+				}
 				second_obj.put("state", first_key + "." + second_key);
 				RcdSet third_rs = db.query(basesql, second_rs.getRcd(j).getString("node_id"));
 				second_obj.put("children_cnt", third_rs.size());
 				// 处理三层
 				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
 				for (int f = 0; f < third_arr.size(); f++) {
+					// 菜单显示控制
+					if (!BaseCommon.isSuperAdmin(user_id)) {
+						String third_is_show = third_arr.getJSONObject(f).getString("is_g_show");
+						if (ToolUtil.isNotEmpty(third_is_show) && third_is_show.equals("N")) {
+							third_arr.remove(f);
+						}
+					}
 					third_arr.getJSONObject(f).put("state",
 							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("key"));
 				}
@@ -164,8 +186,8 @@ public class UserService extends BaseService {
 	 * @Description: 根据角色查处用户的权限
 	 */
 	@SuppressWarnings("unchecked")
-	public List<String> findPermissionsByRoleId(String roleId) {		
-		_log.info("获取角色权限:"+roleId);
+	public List<String> findPermissionsByRoleId(String roleId) {
+		_log.info("获取角色权限:" + roleId);
 		return db.query(
 				"select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
 				roleId).toList("ct");
@@ -351,7 +373,7 @@ public class UserService extends BaseService {
 					+ "' order by t1.empl_id  ";
 		}
 		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
-		 
+
 	}
 
 	/**
@@ -383,7 +405,8 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(type)) {
 			return def;
 		}
-		if (type.equals(UserService.USER_TYPE_SYS) || type.equals(UserService.USER_TYPE_EMPL)||type.equals(UserService.USER_TYPE_CRM)) {
+		if (type.equals(UserService.USER_TYPE_SYS) || type.equals(UserService.USER_TYPE_EMPL)
+				|| type.equals(UserService.USER_TYPE_CRM)) {
 			return type;
 		}
 		return def;
@@ -394,13 +417,13 @@ public class UserService extends BaseService {
 	 */
 	@Transactional
 	public ResData addUser(TypedHashMap<String, Object> ps, String type) {
-	
+
 		String user_id = UuidUtil.getUUID();
 		ResData emplRes = getEmplNextId();
 		if (emplRes.isFailed()) {
 			return ResData.FAILURE("生成序列号失败");
 		}
-		//校验用户类型
+		// 校验用户类型
 		type = validUserType(type, USER_TYPE_SYS);
 		String username = "";
 		String empl_id = (String) emplRes.getData();
@@ -408,42 +431,42 @@ public class UserService extends BaseService {
 		if (type.equals(UserService.USER_TYPE_EMPL)) {
 			username = "empl" + empl_id;
 		} else if (type.equals(UserService.USER_TYPE_SYS)) {
-			username = ps.getString("user_name",MD5Util.encrypt(user_id));
-		}else if(type.equals(UserService.USER_TYPE_CRM)){
-			//粉丝，微信注册
-			username =MD5Util.encrypt(db.getUUID());
-			empl_id=username;
+			username = ps.getString("user_name", MD5Util.encrypt(user_id));
+		} else if (type.equals(UserService.USER_TYPE_CRM)) {
+			// 粉丝，微信注册
+			username = MD5Util.encrypt(db.getUUID());
+			empl_id = username;
 		}
 		if (!ifUserNameValid(username)) {
 			return ResData.FAILURE("登录名不可用");
 		}
 
 		Insert ins = new Insert("sys_user_info");
-		ins.set("user_id", user_id);   //账户系统唯一ID(唯一)
-		ins.set("empl_id", empl_id);  //empl_id
-		ins.set("user_name", username); //账户名称(唯一)
-		ins.set("user_type", type);   //账户类型
-		ins.setIf("nickname", ps.getString("nickname", "toy")); //昵称
-		ins.setIf("name", ps.getString("name", "toy")); //姓名
-		ins.setIf("pwd", ps.getString("pwd", "0"));   //密码
-		ins.setIf("status", ps.getString("status"));  //状态
-		ins.setIf("org_id", ps.getString("org_id"));  //组织Id
-		ins.setIf("locked", ps.getString("locked", "Y")); //是否锁定
-		ins.setIf("tel", ps.getString("tel"));  //手机号
-		ins.setIf("qq", ps.getString("qq"));  //qq
-		ins.setIf("mail", ps.getString("mail"));   //邮箱
-		ins.setIf("profile", ps.getString("profile"));   //介绍
-		ins.setIf("mark", ps.getString("mark"));  //注释
-		ins.setIf("photo", ps.getString("photo"));  //头像
-		ins.setIf("homeaddr_def", ps.getString("homeaddr_def")); //家庭地址
-		ins.setIf("receaddr_def", ps.getString("receaddr_def")); //默认收货地址
-		ins.setIf("weixin", ps.getString("weixin"));   //微信号
-		ins.setIf("sex", ps.getString("sex", "1"));  //性别
-		ins.setIf("system", ps.getString("system", "1")); //系统
-		ins.setIf("shop_id", ps.getString("shop_id")); //默认所属店铺
-		ins.setIf("score", ps.getString("score")); //积分
-		ins.setIf("open_id", ps.getString("open_id")); //微信open_id
-		ins.setIf("avatarurl", ps.getString("avatarurl"));//微信logo
+		ins.set("user_id", user_id); // 账户系统唯一ID(唯一)
+		ins.set("empl_id", empl_id); // empl_id
+		ins.set("user_name", username); // 账户名称(唯一)
+		ins.set("user_type", type); // 账户类型
+		ins.setIf("nickname", ps.getString("nickname", "toy")); // 昵称
+		ins.setIf("name", ps.getString("name", "toy")); // 姓名
+		ins.setIf("pwd", ps.getString("pwd", "0")); // 密码
+		ins.setIf("status", ps.getString("status")); // 状态
+		ins.setIf("org_id", ps.getString("org_id")); // 组织Id
+		ins.setIf("locked", ps.getString("locked", "Y")); // 是否锁定
+		ins.setIf("tel", ps.getString("tel")); // 手机号
+		ins.setIf("qq", ps.getString("qq")); // qq
+		ins.setIf("mail", ps.getString("mail")); // 邮箱
+		ins.setIf("profile", ps.getString("profile")); // 介绍
+		ins.setIf("mark", ps.getString("mark")); // 注释
+		ins.setIf("photo", ps.getString("photo")); // 头像
+		ins.setIf("homeaddr_def", ps.getString("homeaddr_def")); // 家庭地址
+		ins.setIf("receaddr_def", ps.getString("receaddr_def")); // 默认收货地址
+		ins.setIf("weixin", ps.getString("weixin")); // 微信号
+		ins.setIf("sex", ps.getString("sex", "1")); // 性别
+		ins.setIf("system", ps.getString("system", "1")); // 系统
+		ins.setIf("shop_id", ps.getString("shop_id")); // 默认所属店铺
+		ins.setIf("score", ps.getString("score")); // 积分
+		ins.setIf("open_id", ps.getString("open_id")); // 微信open_id
+		ins.setIf("avatarurl", ps.getString("avatarurl"));// 微信logo
 		ins.set("deleted", "N");
 		db.execute(ins);
 		return ResData.SUCCESS_OPER(user_id);

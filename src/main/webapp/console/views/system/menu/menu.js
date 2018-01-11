@@ -43,7 +43,8 @@ function getTree(data, primaryIdName, parentIdName) {
 	return tree;
 }
 
-function menuModuleCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, data, $http, $rootScope) {
+function menuModuleCtl($localStorage, notify, $log, $uibModal,
+		$uibModalInstance, $scope, data, $http, $rootScope) {
 	$scope.item = {}
 	$log.log("window in:", data);
 	$scope.modulesOpt = []
@@ -60,52 +61,81 @@ function menuModuleCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 
 }
 
-function menuAclCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder, notify, $log, $uibModal, $uibModalInstance, $scope, data, $http, $rootScope, $compile) {
+function menuAclCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder,
+		notify, $log, $uibModal, $uibModalInstance, $scope, data, $http,
+		$rootScope, $compile) {
 	$scope.item = {}
 	$log.log("window in:", data);
 	var mid = data.node_id;
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(10).withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", true).withOption("paging", true).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
-					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
+	$scope.dtOptions = DTOptionsBuilder
+			.fromFnPromise()
+			.withPaginationType('full_numbers')
+			.withDisplayLength(10)
+			.withOption("ordering", false)
+			.withOption("responsive", true)
+			.withOption("searching", true)
+			.withOption("paging", true)
+			.withOption('bStateSave', true)
+			.withOption('bProcessing', true)
+			.withOption('bFilter', false)
+			.withOption('bInfo', false)
+			.withOption('serverSide', false)
+			.withOption('bAutoWidth', false)
+			.withOption('aaData', $scope.tabdata)
+			.withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withOption('initComplete', function(settings, conf) {
-				if (angular.isDefined($scope.dtInstance.DataTable)) {
-					$timeout(function() {
-						for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
-							if ($scope.dtOptions.aaData[i].selected == "Y") {
-								$scope.dtInstance.DataTable.row(':eq(' + i + ')').select();
-							} else {
-								break;
-							}
+			})
+			.withOption(
+					'initComplete',
+					function(settings, conf) {
+						if (angular.isDefined($scope.dtInstance.DataTable)) {
+							$timeout(
+									function() {
+										for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
+											if ($scope.dtOptions.aaData[i].selected == "Y") {
+												$scope.dtInstance.DataTable
+														.row(':eq(' + i + ')')
+														.select();
+											} else {
+												break;
+											}
+										}
+									}, 80)
 						}
-					}, 80)
-				}
-			}).withLanguage(DTLang).withOption("select", {
+					}).withLanguage(DTLang).withOption("select", {
 				style : 'multi',
 				selector : 'td:first-child'
 			});
 
 	$scope.dtInstance = {}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn(null).withTitle('').withClass('select-checkbox').renderWith(function() {
-		return '';
-	}), DTColumnBuilder.newColumn('ctacltext').withTitle('ACL类型').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('url').withTitle('URL').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', '') ]
+	$scope.dtColumns = [
+			DTColumnBuilder.newColumn(null).withTitle('').withClass(
+					'select-checkbox').renderWith(function() {
+				return '';
+			}),
+			DTColumnBuilder.newColumn('ctacltext').withTitle('ACL类型')
+					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('url').withTitle('URL').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+					'sDefaultContent', '') ]
 	// $scope.dtInstance.DataTable.rows('.even').select();
 	function flush() {
 		var ps = {};
 		ps.module_id = mid
-		$http.post($rootScope.project + "/api/module/queryModuleItemMap.do", ps).success(function(res) {
-			if (res.success) {
-				$scope.dtOptions.aaData = res.data;
-			} else {
-				notify({
-					message : res.message
-				});
-			}
-		})
+		$http
+				.post($rootScope.project + "/api/module/queryModuleItemMap.do",
+						ps).success(function(res) {
+					if (res.success) {
+						$scope.dtOptions.aaData = res.data;
+					} else {
+						notify({
+							message : res.message
+						});
+					}
+				})
 
 	}
 	flush();
@@ -121,7 +151,8 @@ function menuAclCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder, notify,
 		var ps = {};
 		ps.items = angular.toJson(urls);
 		ps.module_id = mid;
-		$http.post($rootScope.project + "/api/module/updateModuleItemMap.do", ps).success(function(res) {
+		$http.post($rootScope.project + "/api/module/updateModuleItemMap.do",
+				ps).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.dismiss('cancel');
 			}
@@ -137,7 +168,8 @@ function menuAclCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder, notify,
 
 }
 
-function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, data, $http, $rootScope) {
+function menuModifyCtl($localStorage, notify, $log, $uibModal,
+		$uibModalInstance, $scope, data, $http, $rootScope) {
 	$log.log("window in:", data);
 	$scope.item = {};
 	$scope.item = angular.copy(data)
@@ -155,10 +187,10 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 
 	$scope.showOpt = [ {
 		id : "Y",
-		name : "有效"
+		name : "显示"
 	}, {
 		id : "N",
-		name : "无效"
+		name : "隐藏"
 	} ];
 	$scope.showSel = $scope.showOpt[0]
 
@@ -207,18 +239,19 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 		$scope.item.sort = ""
 		$scope.item.module_id = "";
 		$scope.item.menu_level = "";
-		$http.post($rootScope.project + "/api/menu/treeTop.do", {}).success(function(res) {
-			if (res.success) {
-				$scope.topMenuOpt = res.data;
-				if (res.data.length > 0) {
-					$scope.topMenuSel = res.data[0];
-				}
-			}else{
-				notify({
-					message : res.message
-				});
-			}
-		})
+		$http.post($rootScope.project + "/api/menu/treeTop.do", {}).success(
+				function(res) {
+					if (res.success) {
+						$scope.topMenuOpt = res.data;
+						if (res.data.length > 0) {
+							$scope.topMenuSel = res.data[0];
+						}
+					} else {
+						notify({
+							message : res.message
+						});
+					}
+				})
 	}
 
 	$scope.sure = function() {
@@ -233,34 +266,37 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 
 		if ($scope.item.actiontype == "edit") {
 			$log.log("修改")
-			$http.post($rootScope.project + "/api/menu/updateNode.do", ps).success(function(res) {
-				if (res.success) {
-					$localStorage.remove("dt_sys_menu");
-					notify({
-						message : res.message
-					});
-					$uibModalInstance.close("OK");
-				} else {
-					notify({
-						message : res.message
-					});
-				}
-			})
-		} else if ($scope.item.actiontype == "add" || $scope.item.actiontype == "addmaster") {
+			$http.post($rootScope.project + "/api/menu/updateNode.do", ps)
+					.success(function(res) {
+						if (res.success) {
+							$localStorage.remove("dt_sys_menu");
+							notify({
+								message : res.message
+							});
+							$uibModalInstance.close("OK");
+						} else {
+							notify({
+								message : res.message
+							});
+						}
+					})
+		} else if ($scope.item.actiontype == "add"
+				|| $scope.item.actiontype == "addmaster") {
 			$log.log("新增")
-			$http.post($rootScope.project + "/api/menu/addNode.do", ps).success(function(res) {
-				if (res.success) {
-					$localStorage.remove("dt_sys_menu");
-					notify({
-						message : res.message
-					});
-					$uibModalInstance.close("OK");
-				} else {
-					notify({
-						message : res.message
-					});
-				}
-			})
+			$http.post($rootScope.project + "/api/menu/addNode.do", ps)
+					.success(function(res) {
+						if (res.success) {
+							$localStorage.remove("dt_sys_menu");
+							notify({
+								message : res.message
+							});
+							$uibModalInstance.close("OK");
+						} else {
+							notify({
+								message : res.message
+							});
+						}
+					})
 
 		}
 
@@ -272,30 +308,36 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 
 }
 
-function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
+		$uibModal) {
 	$scope.topMenuOpt = []
 	$scope.topMenuSel = "";
 
 	$scope.tree_expand_level = 2;
-	$http.post($rootScope.project + "/api/menu/treeTop.do", {}).success(function(res) {
-		if (res.success) {
-			$scope.topMenuOpt = res.data;
-			if (res.data.length > 0) {
-				$scope.topMenuSel = res.data[0];
-				flush();
-			}
-		}else{
-			notify({
-				message : res.message
-			});
-		}
-	})
+	$http.post($rootScope.project + "/api/menu/treeTop.do", {}).success(
+			function(res) {
+				if (res.success) {
+					$scope.topMenuOpt = res.data;
+					if (res.data.length > 0) {
+						$scope.topMenuSel = res.data[0];
+						flush();
+					}
+				} else {
+					notify({
+						message : res.message
+					});
+				}
+			})
 
 	var acthtml = " <div class=\"btn-group\"> ";
-	acthtml = acthtml + " <button ng-click=\"cellTemplateScope.edit(row.branch)\" class=\"btn-white btn btn-xs\">编辑</button> ";
-	acthtml = acthtml + " <button ng-click=\"cellTemplateScope.add(row.branch)\" class=\"btn-white btn btn-xs\">新增</button> ";
-	acthtml = acthtml + " <button ng-click=\"cellTemplateScope.del(row.branch)\" class=\"btn-white btn btn-xs\">删除</button> ";
-	acthtml = acthtml + " <button ng-click=\"cellTemplateScope.acl(row.branch)\" class=\"btn-white  btn btn-xs\">权限</button> </div> ";
+	acthtml = acthtml
+			+ " <button ng-click=\"cellTemplateScope.edit(row.branch)\" class=\"btn-white btn btn-xs\">编辑</button> ";
+	acthtml = acthtml
+			+ " <button ng-click=\"cellTemplateScope.add(row.branch)\" class=\"btn-white btn btn-xs\">新增</button> ";
+	acthtml = acthtml
+			+ " <button ng-click=\"cellTemplateScope.del(row.branch)\" class=\"btn-white btn btn-xs\">删除</button> ";
+	acthtml = acthtml
+			+ " <button ng-click=\"cellTemplateScope.acl(row.branch)\" class=\"btn-white  btn btn-xs\">权限</button> </div> ";
 
 	var tree;
 	var myTreeData = [];
@@ -308,158 +350,184 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal
 		cellTemplate : "<i>{{row.branch[expandingProperty.field]}}</i>"
 	};
 
-	$scope.col_defs = [ {
-		field : "key",
-		sortable : false,
-		displayName : "程序键",
-		sortingType : "string"
-	}, {
-		field : "typetext",
-		sortable : false,
-		displayName : "类型",
-		sortingType : "string"
-	}, {
-		field : "acl_cnt",
-		sortable : false,
-		displayName : "ACL规则数",
-		sortingType : "string"
-	}, {
-		field : "node_id",
-		displayName : "动作",
-		cellTemplate : acthtml,
-		cellTemplateScope : {
-			setmodule : function(data) { // this works too:
-				// 展示不实现
-				var ps = data;
-				var modalInstance = $uibModal.open({
-					backdrop : true,
-					templateUrl : 'views/system/menu/modal_menu_module.html',
-					controller : menuModuleCtl,
-					size : 'md',
-					resolve : { // 调用控制器与modal控制器中传递值
-						data : function() {
-							return ps;
-						}
-					}
-				});
-
-				modalInstance.result.then(function(result) {
-					$log.log("result", result);
-					if (result == "OK") {
-						// flush();
-					}
-				}, function(reason) {
-					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-					$log.log("reason", reason)
-				});
+	$scope.col_defs = [
+			{
+				field : "key",
+				sortable : false,
+				displayName : "程序键",
+				sortingType : "string"
 			},
-			add : function(data) { // this works too: $scope.someMethod;
-				var ps = data;
-				ps.actiontype = "add";
-				var modalInstance = $uibModal.open({
-					backdrop : true,
-					templateUrl : 'views/system/menu/modal_menu_save.html',
-					controller : menuModifyCtl,
-					size : 'md',
-					resolve : { // 调用控制器与modal控制器中传递值
-						data : function() {
-							return ps;
-						}
-					}
-				});
-
-				modalInstance.result.then(function(result) {
-					$log.log("result", result);
-					if (result == "OK") {
-						flush();
-					}
-				}, function(reason) {
-					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-					$log.log("reason", reason)
-				});
+			{
+				field : "typetext",
+				sortable : false,
+				displayName : "类型",
+				sortingType : "string"
 			},
-			del : function(data) { // this works too: $scope.someMethod;
-				$log.log('del', data);
-				var ps = {};
-				ps.node_id = data.node_id;
-				ps.menu_id = data.menu_id;
-				$confirm({
-					text : '是否删除本节点?'
-				}).then(function() {
-					$http.post($rootScope.project + "/api/menu/deleteNode.do", ps).success(function(res) {
-						notify({
-							message : res.message
+			{
+				field : "is_g_show_text",
+				sortable : false,
+				displayName : "前端显示",
+				sortingType : "string"
+			},
+			{
+				field : "acl_cnt",
+				sortable : false,
+				displayName : "ACL规则数",
+				sortingType : "string"
+			},
+			{
+				field : "node_id",
+				displayName : "动作",
+				cellTemplate : acthtml,
+				cellTemplateScope : {
+					setmodule : function(data) { // this works too:
+						// 展示不实现
+						var ps = data;
+						var modalInstance = $uibModal
+								.open({
+									backdrop : true,
+									templateUrl : 'views/system/menu/modal_menu_module.html',
+									controller : menuModuleCtl,
+									size : 'md',
+									resolve : { // 调用控制器与modal控制器中传递值
+										data : function() {
+											return ps;
+										}
+									}
+								});
+
+						modalInstance.result.then(function(result) {
+							$log.log("result", result);
+							if (result == "OK") {
+								// flush();
+							}
+						}, function(reason) {
+							// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+							$log.log("reason", reason)
 						});
-						if (res.success) {
-							flush();
-							// /删除本节点,修改删除
-						}
-					})
-				});
-			},
-			acl : function(data) { // this works too: $scope.someMethod;
-				$log.log('acl', data);
-				var ps = {};
-				ps.node_id = data.node_id;
-				ps.menu_id = data.menu_id;
+					},
+					add : function(data) { // this works too:
+											// $scope.someMethod;
+						var ps = data;
+						ps.actiontype = "add";
+						var modalInstance = $uibModal
+								.open({
+									backdrop : true,
+									templateUrl : 'views/system/menu/modal_menu_save.html',
+									controller : menuModifyCtl,
+									size : 'md',
+									resolve : { // 调用控制器与modal控制器中传递值
+										data : function() {
+											return ps;
+										}
+									}
+								});
 
-				if (data.type != "menu") {
-					notify({
-						message : "请选择菜单"
-					});
-					return;
+						modalInstance.result.then(function(result) {
+							$log.log("result", result);
+							if (result == "OK") {
+								flush();
+							}
+						}, function(reason) {
+							// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+							$log.log("reason", reason)
+						});
+					},
+					del : function(data) { // this works too:
+											// $scope.someMethod;
+						$log.log('del', data);
+						var ps = {};
+						ps.node_id = data.node_id;
+						ps.menu_id = data.menu_id;
+						$confirm({
+							text : '是否删除本节点?'
+						})
+								.then(
+										function() {
+											$http
+													.post(
+															$rootScope.project
+																	+ "/api/menu/deleteNode.do",
+															ps)
+													.success(
+															function(res) {
+																notify({
+																	message : res.message
+																});
+																if (res.success) {
+																	flush();
+																	// /删除本节点,修改删除
+																}
+															})
+										});
+					},
+					acl : function(data) { // this works too:
+											// $scope.someMethod;
+						$log.log('acl', data);
+						var ps = {};
+						ps.node_id = data.node_id;
+						ps.menu_id = data.menu_id;
+
+						if (data.type != "menu") {
+							notify({
+								message : "请选择菜单"
+							});
+							return;
+						}
+						var modalInstance = $uibModal
+								.open({
+									backdrop : true,
+									templateUrl : 'views/system/menu/modal_menu_acl.html',
+									controller : menuAclCtl,
+									size : 'lg',
+									resolve : { // 调用控制器与modal控制器中传递值
+										data : function() {
+											return ps;
+										}
+									}
+								});
+
+						modalInstance.result.then(function(result) {
+							$log.log("result", result);
+							if (result == "OK") {
+
+							}
+						}, function(reason) {
+							// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+							$log.log("reason", reason)
+						});
+
+					},
+					edit : function(data) { // this works too:
+											// $scope.someMethod;
+						var ps = data;
+						ps.actiontype = "edit";
+						var modalInstance = $uibModal
+								.open({
+									backdrop : true,
+									templateUrl : 'views/system/menu/modal_menu_save.html',
+									controller : menuModifyCtl,
+									size : 'md',
+									resolve : { // 调用控制器与modal控制器中传递值
+										data : function() {
+											return ps;
+										}
+									}
+								});
+
+						modalInstance.result.then(function(result) {
+							$log.log("result", result);
+							if (result == "OK") {
+								flush();
+							}
+						}, function(reason) {
+							// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+							$log.log("reason", reason)
+						});
+
+					}
 				}
-				var modalInstance = $uibModal.open({
-					backdrop : true,
-					templateUrl : 'views/system/menu/modal_menu_acl.html',
-					controller : menuAclCtl,
-					size : 'lg',
-					resolve : { // 调用控制器与modal控制器中传递值
-						data : function() {
-							return ps;
-						}
-					}
-				});
-
-				modalInstance.result.then(function(result) {
-					$log.log("result", result);
-					if (result == "OK") {
-
-					}
-				}, function(reason) {
-					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-					$log.log("reason", reason)
-				});
-
-			},
-			edit : function(data) { // this works too: $scope.someMethod;
-				var ps = data;
-				ps.actiontype = "edit";
-				var modalInstance = $uibModal.open({
-					backdrop : true,
-					templateUrl : 'views/system/menu/modal_menu_save.html',
-					controller : menuModifyCtl,
-					size : 'md',
-					resolve : { // 调用控制器与modal控制器中传递值
-						data : function() {
-							return ps;
-						}
-					}
-				});
-
-				modalInstance.result.then(function(result) {
-					$log.log("result", result);
-					if (result == "OK") {
-						flush();
-					}
-				}, function(reason) {
-					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-					$log.log("reason", reason)
-				});
-
-			}
-		}
-	} ];
+			} ];
 	$scope.tree_data = [];
 	var rawTreeData = [];
 	var myTreeData = [];
