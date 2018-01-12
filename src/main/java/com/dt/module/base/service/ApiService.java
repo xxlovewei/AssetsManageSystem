@@ -70,7 +70,7 @@ public class ApiService extends BaseService {
 				}
 			}
 			if (sqls.size() > 0) {
-				db.execute("truncate table sys_api");
+				db.tabTruncateExecute("sys_api");
 				db.executeSQLList(sqls);
 			}
 		}

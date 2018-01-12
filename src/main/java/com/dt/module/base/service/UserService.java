@@ -106,30 +106,72 @@ public class UserService extends BaseService {
 			basesql = "select * from sys_menus_node where deleted='N' and menu_id='" + menu_id
 					+ "' and parent_id = ? order by sort";
 		} else {
-			basesql = "select distinct level1 node_id from ( "
-					+ "select * from (select b.module_id,c.route,c.node_name , "
-					+ "decode(instr(route,'-'), 0,route,substr(route,1,instr(route,'-') -1)) level1 "
-					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
-					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' ) " + "union all select * from ( "
-					+ "select b.module_id,c.route,c.node_name , "
-					+ "decode(length(route) - length(replace(route,'-','')), " + "0 , '-1', "
-					+ "1 , substr(route,instr(route,'-',1,1)+1, length(route)-instr(route,'-',1,1)), "
-					+ "substr(route,instr(route,'-',1, 1)+1 ,instr(route,'-',1,2) - instr(route,'-',1,1) -1)) level2 "
-					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
-					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' ) " + "union all " + "select * from ( "
-					+ "select b.module_id,c.route,c.node_name , "
-					+ "decode(length(route) - length(replace(route,'-','')), " + "0 , '-1', " + "1 , '-1', "
-					+ "2 , substr(route,instr(route,'-',1,2)+1, length(route)-instr(route,'-',1,2)), "
-					+ "substr(route,instr(route,'-',1,2)+1 ,instr(route,'-',1,3) - instr(route,'-',1,2) -1)) level3 "
-					+ "from  sys_user_role a, sys_role_module b ,sys_menus_node c " + "where c.node_id=b.module_id "
-					+ "and a.role_id=b.role_id " + "and user_id='<#USER_ID#>' )) where level1<>'-1' ";
 
+			basesql = " select distinct level1 node_id                                                 "
+					+ "   from (select *                                                               "
+					+ "           from (select b.module_id,                                            "
+					+ "                        c.route,                                                "
+					+ "                        c.node_name,                                            "
+					+ "                        decode(instr(route, '-'),                               "
+					+ "                               0,                                               "
+					+ "                               route,                                           "
+					+ "                               substr(route, 1, instr(route, '-') - 1)) level1  "
+					+ "                   from sys_user_role a, sys_role_module b, sys_menus_node c    "
+					+ "                  where c.node_id = b.module_id                                 "
+					+ "                    and a.role_id = b.role_id                                   "
+					+ "                    and user_id = '<#USER_ID#>')                                "
+					+ "         union all                                                              "
+					+ "         select *                                                               "
+					+ "           from (select b.module_id,                                            "
+					+ "                        c.route,                                                "
+					+ "                        c.node_name,                                            "
+					+ "                        decode(length(route) - length(replace(route, '-', '')), "
+					+ "                               0,                                               "
+					+ "                               '-1',                                            "
+					+ "                               1,                                               "
+					+ "                               substr(route,                                    "
+					+ "                                      instr(route, '-', 1, 1) + 1,              "
+					+ "                                      length(route) - instr(route, '-', 1, 1)), "
+					+ "                               substr(route,                                    "
+					+ "                                      instr(route, '-', 1, 1) + 1,              "
+					+ "                                      instr(route, '-', 1, 2) -                 "
+					+ "                                      instr(route, '-', 1, 1) - 1)) level2      "
+					+ "                   from sys_user_role a, sys_role_module b, sys_menus_node c    "
+					+ "                  where c.node_id = b.module_id                                 "
+					+ "                    and a.role_id = b.role_id                                   "
+					+ "                    and user_id = '<#USER_ID#>')                                "
+					+ "         union all                                                              "
+					+ "         select *                                                               "
+					+ "           from (select b.module_id,                                            "
+					+ "                        c.route,                                                "
+					+ "                        c.node_name,                                            "
+					+ "                        decode(length(route) - length(replace(route, '-', '')), "
+					+ "                               0,                                               "
+					+ "                               '-1',                                            "
+					+ "                               1,                                               "
+					+ "                               '-1',                                            "
+					+ "                               2,                                               "
+					+ "                               substr(route,                                    "
+					+ "                                      instr(route, '-', 1, 2) + 1,              "
+					+ "                                      length(route) - instr(route, '-', 1, 2)), "
+					+ "                               substr(route,                                    "
+					+ "                                      instr(route, '-', 1, 2) + 1,              "
+					+ "                                      instr(route, '-', 1, 3) -                 "
+					+ "                                      instr(route, '-', 1, 2) - 1)) level3      "
+					+ "                   from sys_user_role a, sys_role_module b, sys_menus_node c    "
+					+ "                  where c.node_id = b.module_id                                 "
+					+ "                    and a.role_id = b.role_id                                   "
+					+ "                    and user_id = '<#USER_ID#>'))                               "
+					+ "  where level1 <> '-1'";
+
+			System.out.println(basesql);
 			basesql = "select a.* from sys_menus_node a, (" + basesql + ") b "
 					+ "where a.deleted='N' and a.node_id = b.node_id and menu_id = '" + menu_id + "' and parent_id = ? "
 					+ "order by sort ";
 			basesql = basesql.replaceAll("<#USER_ID#>", user_id);
+
 		}
-		_log.info("getMenu sql:" + basesql);
+		_log.info("getMenu sql:" + basesql + ",menu_id:" + menu_id);
 		JSONArray r = new JSONArray();
 		RcdSet first_rs = db.query(basesql, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
@@ -143,7 +185,8 @@ public class UserService extends BaseService {
 				}
 			}
 			first_obj.put("state", first_key);
-			RcdSet second_rs = db.query(basesql, first_rs.getRcd(i).getString("node_id"));
+			int second_pid = first_rs.getRcd(i).getInteger("node_id");
+			RcdSet second_rs = db.query(basesql, second_pid);
 			JSONArray second_arr = new JSONArray();
 			for (int j = 0; j < second_rs.size(); j++) {
 				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(j).toJsonObject());
@@ -156,7 +199,8 @@ public class UserService extends BaseService {
 					}
 				}
 				second_obj.put("state", first_key + "." + second_key);
-				RcdSet third_rs = db.query(basesql, second_rs.getRcd(j).getString("node_id"));
+				int third_pid = second_rs.getRcd(j).getInteger("node_id");
+				RcdSet third_rs = db.query(basesql, third_pid);
 				second_obj.put("children_cnt", third_rs.size());
 				// 处理三层
 				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());

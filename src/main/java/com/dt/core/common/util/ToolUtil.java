@@ -20,10 +20,31 @@ import com.dt.core.common.util.support.StrKit;
 
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 高频方法集合类
  */
 public class ToolUtil {
+	public static void printRequestMap(HttpServletRequest request) {
+		System.out.println("###################requst map#########################");
+		Map<String, String[]> map = request.getParameterMap();
+		System.out.println("url:" + request.getLocalAddr() + ":" + request.getLocalPort() + request.getRequestURI()
+				+ (map.size() > 0 ? "?" + request.getQueryString() : ""));
+		System.out.println("uri:" + request.getRequestURI());
+		System.out.println("addr:" + request.getLocalAddr());
+		System.out.println("query:" + request.getQueryString());
+		System.out.println("#####query####");
+		for (String key : map.keySet()) {
+			String values = "";
+			for (int i = 0; i < map.get(key).length; i++) {
+				values = map.get(key)[i] + " ## ";
+			}
+			System.out.println(key + ":" + values);
+		}
+		System.out.println("###################requst end#########################");
+	}
+
 	@SuppressWarnings("rawtypes")
 	public static String get(Class cls) {
 		String strURL = "";
@@ -59,13 +80,16 @@ public class ToolUtil {
 		}
 		return strURL;
 	}
+
 	public static String getRealPathInWebApp(String relativePath) {
 		String path = get(ToolUtil.class);
 		path = path.substring(0, path.indexOf("/WEB-INF/"));
 		return path + "/" + relativePath;
 	}
+
 	/**
 	 * 判断一个对象是否是时间类型
+	 * 
 	 * @author stylefeng
 	 * @Date 2017/4/18 12:55
 	 */
@@ -88,6 +112,7 @@ public class ToolUtil {
 		}
 		return value;
 	}
+
 	public static String parseYNValueDefN(String value) {
 		if (value == null) {
 			return "N";
@@ -100,6 +125,7 @@ public class ToolUtil {
 		}
 		return "N";
 	}
+
 	public static String parseYNValueDefY(String value) {
 		if (value == null) {
 			return "Y";
@@ -112,8 +138,10 @@ public class ToolUtil {
 		}
 		return "Y";
 	}
+
 	/**
 	 * 获取异常的具体信息
+	 * 
 	 * @author fengshuonan
 	 * @Date 2017/3/30 9:21
 	 * @version 2.0
@@ -131,6 +159,7 @@ public class ToolUtil {
 		}
 		return sw.getBuffer().toString().replaceAll("\\$", "T");
 	}
+
 	/**
 	 * @Description 主键id
 	 * @author fengshuonan
@@ -138,6 +167,7 @@ public class ToolUtil {
 	public static String getUid() {
 		return getRandomNum();
 	}
+
 	/**
 	 * @Description 随机数字
 	 * @author fengshuonan
@@ -145,6 +175,7 @@ public class ToolUtil {
 	public static String getRandomNum() {
 		return Calendar.getInstance().getTimeInMillis() + generateCellPhoneValNum();
 	}
+
 	/**
 	 * @Description 获取电话号码
 	 * @author fengshuonan
@@ -161,20 +192,27 @@ public class ToolUtil {
 		String result = afterShuffle.substring(3, 9);
 		return result;
 	}
+
 	/**
 	 * 比较两个对象是否相等。<br>
 	 * 相同的条件有两个，满足其一即可：<br>
 	 * 1. obj1 == null && obj2 == null; 2. obj1.equals(obj2)
-	 * @param obj1 对象1
-	 * @param obj2 对象2
+	 * 
+	 * @param obj1
+	 *            对象1
+	 * @param obj2
+	 *            对象2
 	 * @return 是否相等
 	 */
 	public static boolean equals(Object obj1, Object obj2) {
 		return (obj1 != null) ? (obj1.equals(obj2)) : (obj2 == null);
 	}
+
 	/**
 	 * 计算对象长度，如果是字符串调用其length函数，集合类调用其size函数，数组调用其length属性，其他可遍历对象遍历计算长度
-	 * @param obj 被计算长度的对象
+	 * 
+	 * @param obj
+	 *            被计算长度的对象
 	 * @return 长度
 	 */
 	public static int length(Object obj) {
@@ -214,10 +252,14 @@ public class ToolUtil {
 		}
 		return -1;
 	}
+
 	/**
 	 * 对象中是否包含元素
-	 * @param obj 对象
-	 * @param element 元素
+	 * 
+	 * @param obj
+	 *            对象
+	 * @param element
+	 *            元素
 	 * @return 是否包含
 	 */
 	public static boolean contains(Object obj, Object element) {
@@ -267,17 +309,23 @@ public class ToolUtil {
 		}
 		return false;
 	}
+
 	/**
 	 * 对象是否不为空(新增)
-	 * @param obj String,List,Map,Object[],int[],long[]
+	 * 
+	 * @param obj
+	 *            String,List,Map,Object[],int[],long[]
 	 * @return
 	 */
 	public static boolean isNotEmpty(Object o) {
 		return !isEmpty(o);
 	}
+
 	/**
 	 * 对象是否为空
-	 * @param obj String,List,Map,Object[],int[],long[]
+	 * 
+	 * @param obj
+	 *            String,List,Map,Object[],int[],long[]
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
@@ -316,9 +364,12 @@ public class ToolUtil {
 		}
 		return false;
 	}
+
 	/**
 	 * 对象组中是否存在 Empty Object
-	 * @param os 对象组
+	 * 
+	 * @param os
+	 *            对象组
 	 * @return
 	 */
 	public static boolean isOneEmpty(Object... os) {
@@ -329,8 +380,10 @@ public class ToolUtil {
 		}
 		return false;
 	}
+
 	/**
 	 * 对象组中是否全是 Empty Object
+	 * 
 	 * @param os
 	 * @return
 	 */
@@ -342,8 +395,10 @@ public class ToolUtil {
 		}
 		return true;
 	}
+
 	/**
 	 * 是否为数字
+	 * 
 	 * @param obj
 	 * @return
 	 */
@@ -355,8 +410,10 @@ public class ToolUtil {
 		}
 		return true;
 	}
+
 	/**
 	 * 如果为空, 则调用默认值
+	 * 
 	 * @param str
 	 * @return
 	 */
@@ -366,34 +423,46 @@ public class ToolUtil {
 		}
 		return str;
 	}
+
 	/**
 	 * 格式化文本
-	 * @param template 文本模板，被替换的部分用 {} 表示
-	 * @param values 参数值
+	 * 
+	 * @param template
+	 *            文本模板，被替换的部分用 {} 表示
+	 * @param values
+	 *            参数值
 	 * @return 格式化后的文本
 	 */
 	public static String format(String template, Object... values) {
 		return StrKit.format(template, values);
 	}
+
 	/**
 	 * 格式化文本
-	 * @param template 文本模板，被替换的部分用 {key} 表示
-	 * @param map 参数值对
+	 * 
+	 * @param template
+	 *            文本模板，被替换的部分用 {key} 表示
+	 * @param map
+	 *            参数值对
 	 * @return 格式化后的文本
 	 */
 	public static String format(String template, Map<?, ?> map) {
 		return StrKit.format(template, map);
 	}
+
 	/**
 	 * 强转->string,并去掉多余空格
+	 * 
 	 * @param str
 	 * @return
 	 */
 	public static String toStr(Object str) {
 		return toStr(str, "");
 	}
+
 	/**
 	 * 强转->string,并去掉多余空格
+	 * 
 	 * @param str
 	 * @param defaultValue
 	 * @return
@@ -406,6 +475,7 @@ public class ToolUtil {
 	}
 	/**
 	 * 强转->int
+	 * 
 	 * @param obj
 	 * @return
 	 */
@@ -414,6 +484,7 @@ public class ToolUtil {
 	// }
 	/**
 	 * 强转->int
+	 * 
 	 * @param obj
 	 * @param defaultValue
 	 * @return
@@ -423,6 +494,7 @@ public class ToolUtil {
 	// }
 	/**
 	 * 强转->long
+	 * 
 	 * @param obj
 	 * @return
 	 */
@@ -431,6 +503,7 @@ public class ToolUtil {
 	// }
 	/**
 	 * 强转->long
+	 * 
 	 * @param obj
 	 * @param defaultValue
 	 * @return
@@ -448,10 +521,13 @@ public class ToolUtil {
 	// }
 	/**
 	 * map的key转为小写
+	 * 
 	 * @param map
 	 * @return Map<String,Object>
 	 */
-	// public static Map<String, Object> caseInsensitiveMap(Map<String, Object> map) {
+
+	// public static Map<String, Object> caseInsensitiveMap(Map<String, Object> map)
+	// {
 	// Map<String, Object> tempMap = new HashMap<>();
 	// for (String key : map.keySet()) {
 	// tempMap.put(key.toLowerCase(), map.get(key));
@@ -460,9 +536,13 @@ public class ToolUtil {
 	// }
 	/**
 	 * 获取map中第一个数据值
-	 * @param <K> Key的类型
-	 * @param <V> Value的类型
-	 * @param map 数据源
+	 * 
+	 * @param <K>
+	 *            Key的类型
+	 * @param <V>
+	 *            Value的类型
+	 * @param map
+	 *            数据源
 	 * @return 返回的值
 	 */
 	public static <K, V> V getFirstOrNull(Map<K, V> map) {
@@ -475,8 +555,10 @@ public class ToolUtil {
 		}
 		return obj;
 	}
+
 	/**
 	 * 创建StringBuilder对象
+	 * 
 	 * @return StringBuilder对象
 	 */
 	public static StringBuilder builder(String... strs) {
@@ -486,8 +568,10 @@ public class ToolUtil {
 		}
 		return sb;
 	}
+
 	/**
 	 * 创建StringBuilder对象
+	 * 
 	 * @return StringBuilder对象
 	 */
 	public static void builder(StringBuilder sb, String... strs) {
@@ -495,10 +579,14 @@ public class ToolUtil {
 			sb.append(str);
 		}
 	}
+
 	/**
 	 * 去掉指定后缀
-	 * @param str 字符串
-	 * @param suffix 后缀
+	 * 
+	 * @param str
+	 *            字符串
+	 * @param suffix
+	 *            后缀
 	 * @return 切掉后的字符串，若后缀不是 suffix， 返回原字符串
 	 */
 	public static String removeSuffix(String str, String suffix) {
@@ -510,8 +598,10 @@ public class ToolUtil {
 		}
 		return str;
 	}
+
 	/**
 	 * 当前时间
+	 * 
 	 * @author stylefeng
 	 * @Date 2017/5/7 21:56
 	 */
@@ -520,22 +610,27 @@ public class ToolUtil {
 	// }
 	/**
 	 * 首字母大写
+	 * 
 	 * @author stylefeng
 	 * @Date 2017/5/7 22:01
 	 */
 	public static String firstLetterToUpper(String val) {
 		return StrKit.firstCharToUpperCase(val);
 	}
+
 	/**
 	 * 首字母小写
+	 * 
 	 * @author stylefeng
 	 * @Date 2017/5/7 22:02
 	 */
 	public static String firstLetterToLower(String val) {
 		return StrKit.firstCharToLowerCase(val);
 	}
+
 	/**
 	 * 获取验证码开关
+	 * 
 	 * @author stylefeng
 	 * @Date 2017/5/23 22:34
 	 */
@@ -544,6 +639,7 @@ public class ToolUtil {
 	// }
 	/**
 	 * 判断是否是windows操作系统
+	 * 
 	 * @author stylefeng
 	 * @Date 2017/5/24 22:34
 	 */
@@ -555,8 +651,10 @@ public class ToolUtil {
 			return false;
 		}
 	}
+
 	/**
 	 * 获取临时目录
+	 * 
 	 * @author stylefeng
 	 * @Date 2017/5/24 22:35
 	 */

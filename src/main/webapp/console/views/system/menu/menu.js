@@ -257,7 +257,8 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 	$scope.sure = function() {
 
 		var ps = $scope.item;
-		ps.is_action = $scope.actionSel.id;
+//		ps.is_action = $scope.actionSel.id;
+		ps.is_action ="Y";
 		ps.is_g_show = $scope.showSel.id;
 		ps.TYPE = $scope.nodeSel.id;
 		if (angular.isDefined($scope.topMenuSel.menu_id)) {
