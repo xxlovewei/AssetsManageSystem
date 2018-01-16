@@ -182,6 +182,7 @@ public abstract class SpringDAO {
 		return "";
 	}
 
+
 	/**
 	 * 批量执行
 	 */
