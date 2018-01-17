@@ -18,6 +18,7 @@ public class ShellOutPutTask extends Thread{
 		super();
 		this.session = session;
 		this.out = out;
+		 
 	}
 
 	@Override
@@ -38,6 +39,7 @@ public class ShellOutPutTask extends Thread{
 					char c = (char) (buff[i] & 0xff);
 					sb.append(c);
 				}
+				System.out.println(sb);
 				if (WebSshUtil.getEncoding(sb.toString()).equals("ISO-8859-1"))
 					session.sendMessage(new TextMessage(new String(sb.toString().getBytes("ISO-8859-1"),"UTF-8")));
 				else

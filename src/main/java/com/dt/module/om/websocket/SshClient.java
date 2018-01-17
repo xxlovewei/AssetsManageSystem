@@ -32,6 +32,7 @@ public class SshClient {
 			in = sess.getStdout();
 			out = sess.getStdin();
 			inToShell = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
