@@ -118,7 +118,7 @@ function nodeHostSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 }
 
 function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
 			'full_numbers').withDisplayLength(25).withOption("ordering", false)
@@ -139,7 +139,7 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		acthtml = acthtml + " <button ng-click=\"modify('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">修改</button>  ";
 		acthtml = acthtml + " <button ng-click=\"addapp('" + full.id
-		+ "')\" class=\"btn-white btn btn-xs\">添加应用</button>  ";
+				+ "')\" class=\"btn-white btn btn-xs\">添加应用</button>  ";
 		acthtml = acthtml + " <button ng-click=\"remove('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button>  </div> ";
 		return acthtml;
@@ -206,6 +206,7 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	flush();
 
 	$scope.remove = function(id) {
+
 		if (angular.isDefined(id)) {
 			// 删除
 			$confirm({
@@ -252,6 +253,34 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	}
 	$scope.toTerm = function(id) {
+
+		$http
+				.post($rootScope.project + "/api/term/setCurrentMachine.do", {
+					id : id
+				})
+				.success(
+						function(res) {
+							if (res.success) {
+								if (res.data.logintype == "ssh") {
+									$window
+											.open(
+													$rootScope.project
+															+ "/console/views/om/machine/openShellTerminal.jsp",
+													"_blank");
+								} else {
+									notify({
+										message : "请选择ssh登录方式"
+									});
+								}
+
+							} else {
+								notify({
+									message : res.message
+								});
+							}
+						})
+
+		return;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/om/hostnode/modal_toTerm.html',

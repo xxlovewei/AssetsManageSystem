@@ -23,7 +23,6 @@ public class ShellOutPutTask extends Thread{
 	@Override
 	public void run() {
 		super.run();
-		
 		byte[] buff = new byte[8192];
 		StringBuilder sb = new StringBuilder();
 		try

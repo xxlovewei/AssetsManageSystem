@@ -1,7 +1,5 @@
 package com.dt.module.om.websocket;
 
- 
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,24 +9,22 @@ import java.io.OutputStreamWriter;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.dt.module.om.entity.Machine;
-import com.dt.module.om.util.EndecryptUtil;
 
 import ch.ethz.ssh2.Connection;
- 
+
 public class SshClient {
-	
+
 	private Connection conn;
 	private ch.ethz.ssh2.Session sess;
 	private InputStream in;
 	private OutputStream out;
 	private BufferedWriter inToShell;
-	
-	public boolean connect(Machine machine, Integer spkey) {
+
+	public boolean connect(Machine machine) {
 		try {
 			conn = new Connection(machine.getHostname(), machine.getPort());
 			conn.connect();
-			if (!conn.authenticateWithPassword(machine.getUsername(), 
-					EndecryptUtil.get3DESDecrypt(machine.getPassword(), spkey + "")))
+			if (!conn.authenticateWithPassword(machine.getUsername(), machine.getPassword()))
 				return false;
 			sess = conn.openSession();
 			sess.requestPTY("xterm", 90, 30, 0, 0, null);
@@ -42,18 +38,18 @@ public class SshClient {
 		}
 		return true;
 	}
-	
+
 	public void write(String text) throws IOException {
 		if (inToShell != null) {
 			inToShell.write(text);
 			inToShell.flush();
 		}
 	}
-	
+
 	public void startShellOutPutTask(WebSocketSession session) {
 		new ShellOutPutTask(session, in).start();
 	}
-	
+
 	public void disconnect() {
 		if (conn != null)
 			conn.close();

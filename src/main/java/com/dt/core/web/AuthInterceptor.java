@@ -50,8 +50,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			ins.setIf("postorget", req.getQueryString());
 			db.execute(ins);
 		}
-		
-		
+
+		if (url.equals("/dt/term")) {
+			return true;
+		}
+
 		// 此处基本再做权限验证
 		if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
 			// 前端shrio已经判断过,第二次判断
@@ -84,8 +87,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				// }
 			}
 		}
-		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",isAuth="
-				+ ShiroKit.isAuthenticated() + ",isPass=" + isPass + ",isRemember:" + ShiroKit.isRemember());
+		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",isAuth=" + ShiroKit.isAuthenticated()
+				+ ",isPass=" + isPass + ",isRemember:" + ShiroKit.isRemember());
 		return isPass;
 	}
 }

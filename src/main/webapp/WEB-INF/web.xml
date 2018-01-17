@@ -18,9 +18,8 @@
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
-<!-- 	<listener>
-		<listener-class>com.dt.core.common.listener.WebContextListener</listener-class>
-	</listener> -->
+	<!-- <listener> <listener-class>com.dt.core.common.listener.WebContextListener</listener-class> 
+		</listener> -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -35,11 +34,17 @@
 		 classpath:applicationContext.xml,
 	     classpath:ds_db.xml,
 		 classpath:shiro.xml,
-	   	 /WEB-INF/app_config_servlet.xml
+	   	 /WEB-INF/app_config_servlet.xml,
+	   	 classpath:applicationContext-websocket.xml
 		</param-value>
 	</context-param>
 
-
+<!-- <servlet-mapping>
+		<servlet-name>term</servlet-name>
+		<url-pattern>/term</url-pattern>
+	</servlet-mapping>
+	 -->
+	
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -56,6 +61,7 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
 		<url-pattern>*.json</url-pattern>
+		<url-pattern>/term</url-pattern>
 	</servlet-mapping>
 	<session-config>
 		<session-timeout>30</session-timeout>
@@ -88,6 +94,8 @@
 		<servlet-name>DruidStatView</servlet-name>
 		<url-pattern>/druid/*</url-pattern>
 	</servlet-mapping>
+
+	
 
 	<filter>
 		<filter-name>DruidWebStatFilter</filter-name>

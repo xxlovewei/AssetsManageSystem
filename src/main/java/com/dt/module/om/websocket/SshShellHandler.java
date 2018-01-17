@@ -1,7 +1,5 @@
 package com.dt.module.om.websocket;
 
- 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,48 +9,47 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.dt.core.common.util.ToolUtil;
 import com.dt.module.om.entity.Machine;
-import com.dt.module.om.entity.User;
 
- 
-
-@RequestMapping("sshShellHandler")
+@RequestMapping("/term")
 public class SshShellHandler extends TextWebSocketHandler {
 
-	public static final Map<Integer, List<WebSocketSession>> userSocketSessionMap;
-	private User user;
+	private static Logger _log = LoggerFactory.getLogger(SshShellHandler.class);
+	public static final Map<String, List<WebSocketSession>> userSocketSessionMap;
 	private Machine currentMachine = null;
 	private SshClient sshClient = null;
 	private List<WebSocketSession> sessionList = null;
 
 	static {
-		userSocketSessionMap = new HashMap<Integer, List<WebSocketSession>>();
+		userSocketSessionMap = new HashMap<String, List<WebSocketSession>>();
 	}
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		String user_id = session.getAttributes().get("user_id") + "";
 		super.handleTextMessage(session, message);
-
 		try {
 			if (sshClient != null) {
-
 				// receive a close cmd ?
 				if (Arrays.equals("exit".getBytes(), message.asBytes())) {
-
 					if (sshClient != null) {
 						sshClient.disconnect();
 					}
-
 					session.close();
 					return;
 				}
+				_log.info("user:" + user_id + " cmd: " + new String(message.asBytes(), "UTF-8"));
 				sshClient.write(new String(message.asBytes(), "UTF-8"));
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -63,6 +60,7 @@ public class SshShellHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		_log.info("WebSocketSession Closed");
 		super.afterConnectionClosed(session, status);
 		if (sshClient != null) {
 			sshClient.disconnect();
@@ -71,18 +69,25 @@ public class SshShellHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		super.afterConnectionEstablished(session);
-
+		String user_id = session.getAttributes().get("user_id") + "";
 		currentMachine = (Machine) session.getAttributes().get("currentMachine");
-		user = (User) session.getAttributes().get("user");
+		super.afterConnectionEstablished(session);
+		_log.info("user:" + user_id + " to connect " + currentMachine.getHostname());
+		if (ToolUtil.isEmpty(user_id)) {
+			session.sendMessage(new TextMessage("Can't find user_id in session.\r"));
+			return;
+		}
+		if (ToolUtil.isEmpty(currentMachine.getHostname())) {
+			session.sendMessage(new TextMessage("Can't find Hostname in session.\r"));
+			return;
+		}
 
 		// first close other shell
-		Iterator<Entry<Integer, List<WebSocketSession>>> it = userSocketSessionMap.entrySet().iterator();
-
+		Iterator<Entry<String, List<WebSocketSession>>> it = userSocketSessionMap.entrySet().iterator();
 		while (it.hasNext()) {
-			Entry<Integer, List<WebSocketSession>> entry = it.next();
+			Entry<String, List<WebSocketSession>> entry = it.next();
 			// close self other terminal connection.
-			if (entry.getKey().equals(user.getId())) {
+			if (entry.getKey().equals(user_id)) {
 				sessionList = entry.getValue();
 				for (int i = sessionList.size() - 1; i >= 0; i--) {
 					WebSocketSession wss = sessionList.get(i);
@@ -97,24 +102,21 @@ public class SshShellHandler extends TextWebSocketHandler {
 		}
 		// update current in using machine
 		if (currentMachine != null) {
-
-			if (sessionList == null)
+			if (sessionList == null) {
 				sessionList = new ArrayList<>();
-
+			}
 			sessionList.add(session);
-			userSocketSessionMap.put(user.getId(), sessionList);
-			System.out.println("connect");
-			sshConnect(session, currentMachine, user.getId());
+			userSocketSessionMap.put(user_id, sessionList);
+			sshConnect(session, currentMachine);
 		}
 	}
 
-	private void sshConnect(WebSocketSession session, Machine machine, Integer spkey) {
-
+	private void sshConnect(WebSocketSession session, Machine machine) {
 		sshClient = new SshClient();
-
+		_log.info("sshConnect");
 		try {
 			session.sendMessage(new TextMessage("Try to connect...\r"));
-			if (sshClient.connect(machine, spkey)) {
+			if (sshClient.connect(machine)) {
 				sshClient.startShellOutPutTask(session);
 			} else {
 				sshClient.disconnect();

@@ -3,6 +3,8 @@ package com.dt.module.om.entity;
  
 import java.io.Serializable;
 
+import com.dt.module.base.entity.User;
+
 public class Machine implements Serializable{
 
 	private static final long serialVersionUID = 1L;

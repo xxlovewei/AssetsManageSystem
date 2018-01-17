@@ -145,11 +145,12 @@
 				/api/user/login.do = anon
 				/api/user/logout.do = logout
 				/console/**=anon
+				/term/**= anon
 				/wx/** = anon
 				/wx3/** = anon
 				/public/** = anon
 				/api/**= authc,perms
-				/** = authc
+				/** = authc   
 			</value>
 		</property>
 	</bean>
