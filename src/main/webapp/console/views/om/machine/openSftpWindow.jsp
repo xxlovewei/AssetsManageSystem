@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="<%=path%>/console/plugin/term/style.css">
 <script src="<%=path%>/console/plugin/term/jquery-2.1.4.min.js"></script>
 <script src="<%=path%>/console/plugin/term/bootstrap.min.js"></script>
-<script src="<%=path%>/js/ajaxfileupload.js"></script>
+<script src="<%=path%>/console/plugin/term/ajaxfileupload.js"></script>
 
 <!--[if lt IE 9]>
 	  <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>

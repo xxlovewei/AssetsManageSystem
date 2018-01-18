@@ -146,8 +146,15 @@ public class SftpWindowController extends BaseController {
 			json = new String(json.getBytes("GBK"), "UTF-8");
 			if (sftpsession == null) {
 				sftpsession = new HashMap<String, Object>();
+			} else {
+				SftpClient tmpsftp = getSftpClient(getUserId());
+				if(tmpsftp!=null) {
+					tmpsftp.close();
+					sftpsession.remove(user_id);
+				}
+				sftpsession.put(user_id, sftp);
 			}
-			sftpsession.put(user_id, sftp);
+
 			return ResData.SUCCESS_OPER(JSONArray.parse(json));
 			// inputStream = new ByteArrayInputStream(json.getBytes("UTF-8"));
 			// put the sftp client into session

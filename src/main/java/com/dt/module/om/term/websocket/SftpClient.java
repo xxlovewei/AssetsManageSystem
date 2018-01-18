@@ -44,12 +44,20 @@ public class SftpClient {
 		connect(m, spkey);
 	}
 
+	public void close() {
+		if (client != null) {
+			if (client.isConnected()) {
+				client.close();
+			}
+		}
+	}
+
 	public boolean connect(Machine m, String spkey) {
 
 		try {
 			conn = new Connection(m.getHostname(), m.getPort());
 			conn.connect();
-			if (!conn.authenticateWithPassword(m.getUsername(),m.getPassword()))
+			if (!conn.authenticateWithPassword(m.getUsername(), m.getPassword()))
 				return false;
 			client = new SFTPv3Client(conn);
 
@@ -115,13 +123,12 @@ public class SftpClient {
 		}
 		if (catalogs.size() == 1)
 			path = "/";
-		System.out.println("updateCurrentCatalog"+path);
+		System.out.println("updateCurrentCatalog" + path);
 		cutrrentCatalog = path;
 	}
 
 	public SftpBean ls() throws IOException {
 
-		 
 		List<SFTPv3DirectoryEntry> list = client.ls(cutrrentCatalog);
 		List<SftpFileBean> sftpFiles = new ArrayList<>();
 
@@ -186,10 +193,10 @@ public class SftpClient {
 		client.closeFile(handle);
 		fis.close();
 	}
- 
+
 	// download file from current catalog
 	public InputStream downloadFile(String fileName) throws IOException {
-		_log.info("downloadfile:"+getCurrentCatalog() + "/" + fileName.trim());
+		_log.info("downloadfile:" + getCurrentCatalog() + "/" + fileName.trim());
 		SFTPv3FileHandle handle = client.openFileRO(getCurrentCatalog() + "/" + fileName);
 		long count = 0;
 		byte[] buff = new byte[1024 * 8];
