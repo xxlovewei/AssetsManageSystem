@@ -1,4 +1,4 @@
-package com.dt.module.om.websocket;
+package com.dt.module.om.term.websocket;
 
 import java.io.IOException;
 import java.util.ArrayList;

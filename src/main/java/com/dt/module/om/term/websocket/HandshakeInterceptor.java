@@ -1,4 +1,4 @@
-package com.dt.module.om.websocket.intercepter;
+package com.dt.module.om.term.websocket;
 
 import java.util.Map;
 

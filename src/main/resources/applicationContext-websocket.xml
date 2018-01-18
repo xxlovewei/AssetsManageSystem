@@ -14,11 +14,11 @@
        http://www.springframework.org/schema/websocket/spring-websocket.xsd"
 	default-autowire="byName">
 	<mvc:default-servlet-handler />
-	<bean id="term" class="com.dt.module.om.websocket.SshShellHandler" />
+	<bean id="term" class="com.dt.module.om.term.websocket.SshShellHandler" />
 	<websocket:handlers allowed-origins="*">
 		<websocket:mapping path="/term" handler="term" />
 		<websocket:handshake-interceptors>
-			<bean class="com.dt.module.om.websocket.intercepter.HandshakeInterceptor" />
+			<bean class="com.dt.module.om.term.websocket.HandshakeInterceptor" />
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 
