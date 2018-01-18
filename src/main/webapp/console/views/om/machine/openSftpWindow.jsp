@@ -23,10 +23,10 @@
 	  <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
 	  <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-<title><s:text name="opensftpwindow_title"></s:text></title>
+<title>SftpWindow</title>
 </head>
 <body>
-	<input type="hidden" id="mid" value="${model.id }" />
+	<input type="hidden" id="mid" value="1222" />
 	<div class="wrapper">
 
 		<div class="blank"></div>
@@ -79,7 +79,7 @@
 				</div>
 				<button class="btn btn-sm btn-success col-md-1 col-sm-3"
 					id="subFile">
-					<s:text name="opensftpwindow_btn_upload"></s:text>
+					上传
 				</button>
 			</div>
 

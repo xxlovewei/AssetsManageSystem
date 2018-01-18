@@ -1,4 +1,4 @@
-package com.dt.module.om.controller;
+package com.dt.module.om.term.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

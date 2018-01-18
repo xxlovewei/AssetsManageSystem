@@ -118,6 +118,7 @@ public class SftpClient {
 
 	public SftpBean ls() throws IOException {
 
+		@SuppressWarnings("unchecked")
 		List<SFTPv3DirectoryEntry> list = client.ls(cutrrentCatalog);
 		List<SftpFileBean> sftpFiles = new ArrayList<>();
 
