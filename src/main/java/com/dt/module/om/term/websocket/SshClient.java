@@ -8,7 +8,7 @@ import java.io.OutputStreamWriter;
 
 import org.springframework.web.socket.WebSocketSession;
 
-import com.dt.module.om.entity.Machine;
+import com.dt.module.om.term.entity.Machine;
 
 import ch.ethz.ssh2.Connection;
 

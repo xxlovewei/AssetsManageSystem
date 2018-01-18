@@ -261,12 +261,17 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				.success(
 						function(res) {
 							if (res.success) {
-								if (res.data.logintype == "ssh") {
+							if (res.data.logintype == "ssh") {
+//									$window
+//											.open(
+//													$rootScope.project
+//															+ "/console/views/om/machine/openShellTerminal.jsp",
+//													"_blank");
 									$window
-											.open(
-													$rootScope.project
-															+ "/console/views/om/machine/openShellTerminal.jsp",
-													"_blank");
+									.open(
+											$rootScope.project
+													+ "/console/views/om/machine/openSftpWindow.jsp",
+											"_blank");
 								} else {
 									notify({
 										message : "请选择ssh登录方式"

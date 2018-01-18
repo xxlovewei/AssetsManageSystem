@@ -9,8 +9,8 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.module.om.entity.Machine;
 import com.dt.module.om.service.NodeService;
+import com.dt.module.om.term.entity.Machine;
 
 /**
  * @author: algernonking
@@ -38,7 +38,7 @@ public class TerminalController extends BaseController {
 		} else {
 			return res;
 		}
-		e.put("pwd", "xxxxxx");
+		e.remove("pwd");
 		return ResData.SUCCESS_OPER(e);
 	}
 }
