@@ -32,13 +32,16 @@
 
 	<dependencies>
 
-
-		<dependency>
-			<groupId>org.jvnet.hudson</groupId>
-			<artifactId>ganymed-ssh2</artifactId>
-			<version>build210-hudson-1</version>
-		</dependency>
-
+ 
+ 
+ <!-- https://mvnrepository.com/artifact/org.jvnet.hudson/ganymed-ssh-2 -->
+<dependency>
+    <groupId>org.jvnet.hudson</groupId>
+    <artifactId>ganymed-ssh-2</artifactId>
+    <version>build260</version>
+</dependency>
+ 
+ 
 		<dependency>
 			<groupId>net.bull.javamelody</groupId>
 			<artifactId>javamelody-core</artifactId>

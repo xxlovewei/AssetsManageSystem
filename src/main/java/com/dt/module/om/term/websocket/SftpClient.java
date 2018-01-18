@@ -16,10 +16,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dt.module.om.term.bean.SftpBean;
 import com.dt.module.om.term.bean.SftpFileBean;
 import com.dt.module.om.term.entity.Machine;
-import com.dt.module.om.util.EndecryptUtil;
 
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.SFTPv3Client;
@@ -28,7 +30,7 @@ import ch.ethz.ssh2.SFTPv3FileAttributes;
 import ch.ethz.ssh2.SFTPv3FileHandle;
 
 public class SftpClient {
-
+	private static Logger _log = LoggerFactory.getLogger(SftpClient.class);
 	private Connection conn;
 	private SFTPv3Client client;
 	private Stack<String> catalogs = new Stack<>();
@@ -47,7 +49,7 @@ public class SftpClient {
 		try {
 			conn = new Connection(m.getHostname(), m.getPort());
 			conn.connect();
-			if (!conn.authenticateWithPassword(m.getUsername(), EndecryptUtil.get3DESDecrypt(m.getPassword(), spkey)))
+			if (!conn.authenticateWithPassword(m.getUsername(),m.getPassword()))
 				return false;
 			client = new SFTPv3Client(conn);
 
@@ -62,7 +64,7 @@ public class SftpClient {
 
 	public boolean isConnected() {
 		if (client != null)
-			return true;
+			return client.isConnected();
 		return false;
 	}
 
@@ -113,12 +115,13 @@ public class SftpClient {
 		}
 		if (catalogs.size() == 1)
 			path = "/";
+		System.out.println("updateCurrentCatalog"+path);
 		cutrrentCatalog = path;
 	}
 
 	public SftpBean ls() throws IOException {
 
-		@SuppressWarnings("unchecked")
+		 
 		List<SFTPv3DirectoryEntry> list = client.ls(cutrrentCatalog);
 		List<SftpFileBean> sftpFiles = new ArrayList<>();
 
@@ -183,18 +186,14 @@ public class SftpClient {
 		client.closeFile(handle);
 		fis.close();
 	}
-
+ 
 	// download file from current catalog
 	public InputStream downloadFile(String fileName) throws IOException {
-
-		System.out.println(getCurrentCatalog() + "/" + fileName);
+		_log.info("downloadfile:"+getCurrentCatalog() + "/" + fileName.trim());
 		SFTPv3FileHandle handle = client.openFileRO(getCurrentCatalog() + "/" + fileName);
-
 		long count = 0;
 		byte[] buff = new byte[1024 * 8];
-
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
 		while (true) {
 			int len = client.read(handle, count, buff, 0, 1024 * 8);
 			if (len == -1)
@@ -202,7 +201,6 @@ public class SftpClient {
 			baos.write(buff, 0, len);
 			count += len;
 		}
-
 		return new ByteArrayInputStream(baos.toByteArray());
 	}
 

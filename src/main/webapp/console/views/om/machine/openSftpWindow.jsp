@@ -27,9 +27,8 @@
 </head>
 <body>
 	<input type="hidden" id="mid" value="1222" />
+	<input type="hidden" id="path" value="<%=basePath%>" />
 	<div class="wrapper">
-
-		<div class="blank"></div>
 		<div class="container">
 			<div class="col-md-9">
 				<div class="panel panel-warning">
@@ -72,8 +71,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="file"><s:text
-							name="opensftpwindow_label_upload"></s:text></label>
+					<label for="file">上传文件</label>
 					<s:file name="file" id="file"></s:file>
 					<span id="state" style="color: red">current percent:00.00%</span>
 				</div>
@@ -89,5 +87,5 @@
 
 </body>
 <script type="text/javascript"
-	src="<%=path%>/console/plugin/term/sftp.js?t=<%=new Date().getTime() %>"></script>
+	src="<%=path%>/console/views/om/machine/sftp.js?t=<%=new Date().getTime() %>"></script>
 </html>

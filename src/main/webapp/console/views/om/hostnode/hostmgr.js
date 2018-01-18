@@ -8,7 +8,8 @@ function nodeHostTermCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 			var ps = {};
 			ps.id = id;
 			ps.cmd = $scope.cmd;
-			$http.post($rootScope.project + "/api/node/executeHostNodeCommand.do",
+			$http.post(
+					$rootScope.project + "/api/node/executeHostNodeCommand.do",
 					ps).success(function(res) {
 				if (res.success) {
 					$scope.result = res.data;
@@ -136,6 +137,8 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		var acthtml = " <div class=\"btn-group\"> ";
 		acthtml = acthtml + " <button ng-click=\"toTerm('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">终端</button> ";
+		acthtml = acthtml + " <button ng-click=\"toSftp('" + full.id
+				+ "')\" class=\"btn-white btn btn-xs\">Sftp</button> ";
 		acthtml = acthtml + " <button ng-click=\"modify('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">修改</button>  ";
 		acthtml = acthtml + " <button ng-click=\"addapp('" + full.id
@@ -252,6 +255,36 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 
 	}
+
+	$scope.toSftp = function(id) {
+
+		$http
+				.post($rootScope.project + "/api/term/setCurrentMachine.do", {
+					id : id
+				})
+				.success(
+						function(res) {
+							if (res.success) {
+								if (res.data.logintype == "ssh") {
+
+									$window
+											.open(
+													$rootScope.project
+															+ "/console/views/om/machine/openSftpWindow.jsp",
+													"_blank");
+								} else {
+									notify({
+										message : "请选择ssh登录方式"
+									});
+								}
+
+							} else {
+								notify({
+									message : res.message
+								});
+							}
+						})
+	}
 	$scope.toTerm = function(id) {
 
 		$http
@@ -261,17 +294,12 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				.success(
 						function(res) {
 							if (res.success) {
-							if (res.data.logintype == "ssh") {
-//									$window
-//											.open(
-//													$rootScope.project
-//															+ "/console/views/om/machine/openShellTerminal.jsp",
-//													"_blank");
+								if (res.data.logintype == "ssh") {
 									$window
-									.open(
-											$rootScope.project
-													+ "/console/views/om/machine/openSftpWindow.jsp",
-											"_blank");
+											.open(
+													$rootScope.project
+															+ "/console/views/om/machine/openShellTerminal.jsp",
+													"_blank");
 								} else {
 									notify({
 										message : "请选择ssh登录方式"
