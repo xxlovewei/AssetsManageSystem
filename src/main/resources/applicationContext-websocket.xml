@@ -21,6 +21,6 @@
 			<bean class="com.dt.module.om.term.websocket.HandshakeInterceptor" />
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
-
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />  
 
 </beans>

@@ -62,6 +62,8 @@
 						</table>
 					</div>
 				</div>
+
+
 				<div class="progress progress-striped active"
 					style="margin-bottom: 10px">
 					<div class="progress-bar progress-bar-info" role="progressbar"
@@ -71,20 +73,99 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="file">上传文件</label>
-					<s:file name="file" id="file"></s:file>
-					<span id="state" style="color: red">current percent:00.00%</span>
+
+
+					<div class="form-group">
+						<label for="file">上传文件</label> <input type="file"
+							name="uploadFile" id="fileToUpload" /> <span id="state"
+							style="color: red">current percent:00.00%</span>
+					</div>
+					<button class="btn btn-sm btn-success col-md-1 col-sm-3"
+						id="subFile">上传</button>
 				</div>
-				<button class="btn btn-sm btn-success col-md-1 col-sm-3"
-					id="subFile">
-					上传
-				</button>
+
 			</div>
 
 		</div>
 
-	</div>
 
+		<div class="modal fade" id="removeModal" tabindex="-1" role="dialog"
+			aria-labelledby="removeModalLabel" aria-hidden="true"
+			data-backdrop="static">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="removeModalLabel"></h4>
+					</div>
+					<div class="modal-body">是否删除?</div>
+					<div class="modal-footer">
+						<button id="subRemove" type="button" class="btn btn-primary"
+							data-dismiss="modal">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- attributes model begin -->
+		<div class="modal fade" id="attrModal" tabindex="-1" role="dialog"
+			aria-labelledby="attrModalLabel" aria-hidden="true"
+			data-backdrop="static">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="attrModalLabel"></h4>
+					</div>
+					<div class="modal-body text-center">
+						<table class="table" style="margin-bottom: 0">
+							<thead>
+								<tr>
+									<th class="text-center">Permissions</th>
+									<th class="text-center">Read</th>
+									<th class="text-center">Write</th>
+									<th class="text-center">Execute</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Owner</td>
+									<td><input type="checkbox" id="usrR" value="400" /></td>
+									<td><input type="checkbox" id="usrW" value="200" /></td>
+									<td><input type="checkbox" id="usrE" value="100" /></td>
+								</tr>
+								<tr>
+									<td>Group</td>
+									<td><input type="checkbox" id="grpR" value="40" /></td>
+									<td><input type="checkbox" id="grpW" value="20" /></td>
+									<td><input type="checkbox" id="grpE" value="10" /></td>
+								</tr>
+								<tr>
+									<td>Other</td>
+									<td><input type="checkbox" id="othR" value="4" /></td>
+									<td><input type="checkbox" id="othW" value="2" /></td>
+									<td><input type="checkbox" id="othE" value="1" /></td>
+								</tr>
+								<tr>
+									<td>Permission</td>
+									<td colspan="3"><input class="form-control input-sm"
+										type="text" id="permissions" name="permissions" /></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button id="subAttr" type="button" class="btn btn-primary"
+							data-dismiss="modal" onclick="">Submit</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 </body>
 <script type="text/javascript"
 	src="<%=path%>/console/views/om/machine/sftp.js?t=<%=new Date().getTime() %>"></script>

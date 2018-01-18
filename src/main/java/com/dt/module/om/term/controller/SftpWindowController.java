@@ -1,5 +1,6 @@
 package com.dt.module.om.term.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,11 +12,17 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
@@ -34,14 +41,16 @@ import ch.ethz.ssh2.SFTPException;
 @Controller
 @RequestMapping("/api")
 public class SftpWindowController extends BaseController {
-	protected Map<String, Object> sftpsession;
+	private Map<String, Object> sftpsession;
+	private Map<String, Object> sftpuploadSession = new HashMap<String, Object>();
 
-	@RequestMapping("/sftp/exeCommand.do")
+	@RequestMapping(value = "/sftp/exeCommand.do", method = RequestMethod.POST)
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "执行sftp的命令")
-	public ResData exeCommand(String cmd, String cmdParam, String fileFileName, String permissions) {
+	public ResData exeCommand(@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
+			String cmd, String cmdParam, String fileFileName, String permissions, HttpServletRequest request,
+			HttpServletResponse response) {
 
-		ToolUtil.printRequestMap(super.getHttpServletRequest());
 		SftpClient sftp = getSftpClient(getUserId());
 		if (sftp != null && sftp.isConnected()) {
 			try {
@@ -56,12 +65,28 @@ public class SftpWindowController extends BaseController {
 				case "mkdir":
 					sftp.mkDir(cmdParam);
 					break;
-				// case "upload": sftp.uploadFile(file, fileFileName , session); break;
+				case "upload":
+					File file = null;
+					if (uploadFile == null || uploadFile.isEmpty()) {
+						return ResData.FAILURE("请选择文件");
+					}
+
+					CommonsMultipartFile cf = (CommonsMultipartFile) uploadFile;
+					DiskFileItem fi = (DiskFileItem) cf.getFileItem();
+					file = fi.getStoreLocation();
+					// 手动创建临时文件
+					if (file.length() < 2048) {
+						File tmpFile = new File(System.getProperty("java.io.tmpdir")
+								+ System.getProperty("file.separator") + file.getName());
+						uploadFile.transferTo(tmpFile);
+						file = tmpFile;
+					}
+					sftp.uploadFile(file, cf.getOriginalFilename(), sftpuploadSession);
+					break;
 				case "attr":
 					sftp.setAttributes(fileFileName, Integer.valueOf("" + permissions, 8));
 					break;
 				}
-				System.out.println("start to ls");
 				String json = JSON.toJSONString(sftp.ls());
 				json = new String(json.getBytes("GBK"), "UTF-8");
 				return ResData.SUCCESS_OPER(JSONArray.parse(json));
@@ -125,6 +150,16 @@ public class SftpWindowController extends BaseController {
 		}
 	}
 
+	@RequestMapping("/sftp/uploadState.do")
+	@Res
+	@Acl(value = Acl.TYPE_DENY, info = "sftp连接")
+	public ResData uploadState(String id) {
+
+		String state = (String) sftpuploadSession.get("progress");
+		return ResData.SUCCESS_OPER(JSONObject.parse(state));
+
+	}
+
 	@RequestMapping("/sftp/connectSftp.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "sftp连接")
@@ -146,14 +181,14 @@ public class SftpWindowController extends BaseController {
 			json = new String(json.getBytes("GBK"), "UTF-8");
 			if (sftpsession == null) {
 				sftpsession = new HashMap<String, Object>();
-			} else {
-				SftpClient tmpsftp = getSftpClient(getUserId());
-				if(tmpsftp!=null) {
-					tmpsftp.close();
-					sftpsession.remove(user_id);
-				}
-				sftpsession.put(user_id, sftp);
 			}
+
+			SftpClient tmpsftp = getSftpClient(getUserId());
+			if (tmpsftp != null) {
+				tmpsftp.close();
+				sftpsession.remove(user_id);
+			}
+			sftpsession.put(user_id, sftp);
 
 			return ResData.SUCCESS_OPER(JSONArray.parse(json));
 			// inputStream = new ByteArrayInputStream(json.getBytes("UTF-8"));

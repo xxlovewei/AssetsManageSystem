@@ -166,6 +166,31 @@ public class SftpClient {
 	}
 
 	// upload file to current catalog
+	public void uploadFile(FileInputStream fis, String fileName, Map<String, Object> session) throws IOException {
+		if (fis == null)
+			return;
+		byte[] b = new byte[1024 * 8];
+		long count = 0;
+
+		SFTPv3FileHandle handle = client.createFile(getCurrentCatalog() + "/" + fileName);
+		DecimalFormat df = new DecimalFormat("#.00");
+
+		while (true) {
+
+			int len = fis.read(b);
+			if (len == -1)
+				break;
+			client.write(handle, count, b, 0, len);
+			count += len;
+			//
+			// session.put("progress", "{\"percent\":\"" + df.format((double) count /
+			// totalSize * 100) + "%\",\"num\":\""
+			// + (int) ((double) count / totalSize) + "\"}");
+		}
+		client.closeFile(handle);
+		fis.close();
+	}
+
 	public void uploadFile(File file, String fileName, Map<String, Object> session) throws IOException {
 
 		if (file == null)
@@ -180,13 +205,11 @@ public class SftpClient {
 		DecimalFormat df = new DecimalFormat("#.00");
 
 		while (true) {
-
 			int len = fis.read(b);
 			if (len == -1)
 				break;
 			client.write(handle, count, b, 0, len);
 			count += len;
-
 			session.put("progress", "{\"percent\":\"" + df.format((double) count / totalSize * 100) + "%\",\"num\":\""
 					+ (int) ((double) count / totalSize) + "\"}");
 		}
