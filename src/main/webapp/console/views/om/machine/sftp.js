@@ -92,12 +92,19 @@ function refreshProgress() {
 		type : 'POST',
 		url : $path + '/api/sftp/uploadState.do?t=' + new Date().getTime(),
 		success : function(res) {
-			var data = res.data;
-			$('.progress-bar').css('width', data.percent);
-			$('#percent').html(data.percent);
-			$('#state').html('current percent:' + data.percent);
-			if (data.percent != '100.00%')
-				setTimeout("refreshProgress()", 1000);
+			if (typeof (res.data) == "undefined") {
+			} else {
+				var data = res.data;
+				if (typeof (data.percent) == "undefined") {
+					data.percent = "50%"
+				}
+				$('.progress-bar').css('width', data.percent);
+				$('#percent').html(data.percent);
+				$('#state').html('current percent:' + data.percent);
+				if (data.percent != '100.00%') {
+					setTimeout("refreshProgress()", 1000);
+				}
+			}
 		},
 		dataType : "json",
 		accepts : {

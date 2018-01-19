@@ -75,12 +75,12 @@ public class SftpWindowController extends BaseController {
 					DiskFileItem fi = (DiskFileItem) cf.getFileItem();
 					file = fi.getStoreLocation();
 					// 手动创建临时文件
-					if (file.length() < 2048) {
+//					if (file.length() < 2048) {
 						File tmpFile = new File(System.getProperty("java.io.tmpdir")
 								+ System.getProperty("file.separator") + file.getName());
 						uploadFile.transferTo(tmpFile);
 						file = tmpFile;
-					}
+//					}
 					sftp.uploadFile(file, cf.getOriginalFilename(), sftpuploadSession);
 					break;
 				case "attr":

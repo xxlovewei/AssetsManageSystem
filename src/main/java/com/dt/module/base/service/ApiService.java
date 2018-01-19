@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
@@ -18,6 +20,7 @@ import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.SQL;
+import com.dt.core.common.listener.ApplicationContextListener;
 import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.common.util.ToolUtil;
@@ -30,6 +33,7 @@ import com.dt.core.common.util.ToolUtil;
 @Service
 public class ApiService extends BaseService {
 	
+	private static Logger _log = LoggerFactory.getLogger(ApiService.class);
 	
 	public static ApiService me() {
 		return SpringContextUtil.getBean(ApiService.class);
@@ -47,7 +51,6 @@ public class ApiService extends BaseService {
 		RequestMappingHandlerMapping bean = wc.getBean(RequestMappingHandlerMapping.class);
 		Map<RequestMappingInfo, HandlerMethod> handlerMethods = bean.getHandlerMethods();
 		for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
-			// log.info("key= " + entry.getKey() + " and value= " + entry.getValue());
 			RequestMappingInfo rmi = entry.getKey();
 			PatternsRequestCondition pc = rmi.getPatternsCondition();
 			Set<String> pSet = pc.getPatterns();
@@ -57,22 +60,23 @@ public class ApiService extends BaseService {
 				String aclvalue = am.value();
 				Iterator<String> it = pSet.iterator();
 				while (it.hasNext()) {
-					String str = it.next();
-					System.out.println(str + "," + aclvalue);
+					String str = it.next(); 
+					_log.info(str + "," + aclvalue);
 					Insert me = new Insert("sys_api");
 					me.set("id", db.getUUID());
 					me.setIf("ct", str);
 					me.setIf("ctacl", aclvalue);
 					me.setIf("apitype", "url");
 					me.setSE("rectime", DBUtil.getDBDateString(db.getDBType()));
-					// System.out.println(me.getSQL());
 					sqls.add(me);
 				}
 			}
-			if (sqls.size() > 0) {
-				db.tabTruncateExecute("sys_api");
-				db.executeSQLList(sqls);
-			}
+			
+		}
+		if (sqls.size() > 0) {
+			_log.info("Save collect Api.");
+			db.tabTruncateExecute("sys_api");
+			db.executeSQLList(sqls);
 		}
 		return ResData.SUCCESS_OPER();
 	}
