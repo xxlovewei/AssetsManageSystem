@@ -1,4 +1,4 @@
-package com.dt.core.db;
+package com.dt.module.db;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;

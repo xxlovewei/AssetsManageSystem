@@ -6,7 +6,7 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dt.core.db.DB;
+import com.dt.module.db.DB;
 import com.dt.module.schedule.service.JobService;
 
 /**

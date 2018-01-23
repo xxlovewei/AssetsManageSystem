@@ -12,7 +12,7 @@ import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.MD5Util;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.TypedHashMap;
-import com.dt.core.db.DB;
+import com.dt.module.db.DB;
 import com.dt.module.om.util.RemoteShellExecutor;
 import com.dt.module.om.util.RemoteShellResult;
 

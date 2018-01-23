@@ -2,7 +2,7 @@ package com.dt.core.common.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.dt.core.db.DB;
+import com.dt.module.db.DB;
 
 /**
  * @author: algernonking

@@ -16,7 +16,7 @@ import com.dt.core.common.shiro.ShiroKit;
 import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
-import com.dt.core.db.DB;
+import com.dt.module.db.DB;
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 	private static Logger _log = LoggerFactory.getLogger(AuthInterceptor.class);

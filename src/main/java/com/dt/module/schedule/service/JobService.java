@@ -13,7 +13,7 @@ import com.dt.core.common.dao.sql.Update;
 import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.common.util.ToolUtil;
-import com.dt.core.db.DB;
+import com.dt.module.db.DB;
 import com.dt.module.schedule.entity.ScheduleJob;
 
 /**

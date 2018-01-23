@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dt.core.common.util.SpringContextUtil;
-import com.dt.core.db.DB;
 import com.dt.module.base.entity.User;
 import com.dt.module.base.service.UserService;
+import com.dt.module.db.DB;
 
 @Service
 @Transactional(readOnly = true)

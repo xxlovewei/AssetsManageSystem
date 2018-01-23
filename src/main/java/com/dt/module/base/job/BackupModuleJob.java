@@ -7,7 +7,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.dt.core.common.util.MD5Util;
-import com.dt.core.db.DB;
+import com.dt.module.db.DB;
 import com.dt.module.schedule.service.JobService;
 
 /**

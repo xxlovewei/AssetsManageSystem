@@ -15,7 +15,7 @@ import com.dt.core.common.util.DBUtil;
 import com.dt.core.common.util.SpringContextUtil;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
-import com.dt.core.db.DB;
+import com.dt.module.db.DB;
 
 /**
  * @author: algernonking
