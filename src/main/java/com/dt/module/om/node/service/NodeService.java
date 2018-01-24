@@ -1,4 +1,4 @@
-package com.dt.module.om.service;
+package com.dt.module.om.node.service;
 
 import org.springframework.stereotype.Service;
 

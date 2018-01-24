@@ -9,7 +9,7 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.module.om.service.NodeService;
+import com.dt.module.om.node.service.NodeService;
 import com.dt.module.om.term.entity.Machine;
 
 /**

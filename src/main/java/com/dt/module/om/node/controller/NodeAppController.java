@@ -1,4 +1,4 @@
-package com.dt.module.om.controller;
+package com.dt.module.om.node.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,7 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.util.ToolUtil;
 import com.dt.core.common.util.support.HttpKit;
 import com.dt.core.common.util.support.TypedHashMap;
-import com.dt.module.om.service.NodeAppService;
+import com.dt.module.om.node.service.NodeAppService;
 
 /**
  * @author: algernonking
