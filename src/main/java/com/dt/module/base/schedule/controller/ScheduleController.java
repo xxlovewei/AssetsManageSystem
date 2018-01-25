@@ -1,4 +1,4 @@
-package com.dt.module.schedule.controller;
+package com.dt.module.base.schedule.controller;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.module.schedule.service.JobService;
+import com.dt.module.base.schedule.service.JobService;
 import com.dt.util.ToolUtil;
 
 @Controller

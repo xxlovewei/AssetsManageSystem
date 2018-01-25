@@ -1,4 +1,4 @@
-package com.dt.module.schedule.entity;
+package com.dt.module.base.schedule.entity;
 
 public class ScheduleJob {
 	private String JobSeq = "";

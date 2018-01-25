@@ -51,6 +51,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			db.execute(ins);
 		}
 
+		//term socket
 		if (url.equals("/dt/term")) {
 			return true;
 		}

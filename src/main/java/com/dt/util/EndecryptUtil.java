@@ -1,4 +1,4 @@
-package com.dt.module.om.util;
+package com.dt.util;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;

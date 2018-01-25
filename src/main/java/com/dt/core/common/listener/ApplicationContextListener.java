@@ -7,7 +7,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import com.dt.core.common.shiro.SimpleFilterChainDefinitionsService;
-import com.dt.module.schedule.service.ScheduleMangerService;
+import com.dt.module.base.schedule.service.ScheduleMangerService;
 import com.dt.util.SpringContextUtil;
 
 /**

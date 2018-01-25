@@ -1,4 +1,4 @@
-package com.dt.module.schedule.service;
+package com.dt.module.base.schedule.service;
 
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.RcdSet;
-import com.dt.module.schedule.entity.ScheduleJob;
+import com.dt.module.base.schedule.entity.ScheduleJob;
 import com.dt.util.SpringContextUtil;
 import com.dt.util.ToolUtil;
 import com.dt.util.support.ReflectKit;
