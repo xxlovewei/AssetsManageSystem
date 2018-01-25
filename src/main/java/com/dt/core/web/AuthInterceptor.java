@@ -13,10 +13,10 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.base.BaseResult;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.shiro.ShiroKit;
-import com.dt.core.common.util.DBUtil;
-import com.dt.core.common.util.ToolUtil;
-import com.dt.core.common.util.support.HttpKit;
 import com.dt.module.db.DB;
+import com.dt.util.DBUtil;
+import com.dt.util.ToolUtil;
+import com.dt.util.support.HttpKit;
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 	private static Logger _log = LoggerFactory.getLogger(AuthInterceptor.class);

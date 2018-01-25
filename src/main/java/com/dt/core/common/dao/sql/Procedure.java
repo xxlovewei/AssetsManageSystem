@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.dt.core.common.dao.SpringDAO;
-import com.dt.core.common.util.support.TypedHashMap;
+import com.dt.util.support.TypedHashMap;
 
 /**
  * 过程和函数都是用这个类进行处理

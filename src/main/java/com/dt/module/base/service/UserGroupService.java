@@ -8,10 +8,10 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
-import com.dt.core.common.util.ConvertUtil;
-import com.dt.core.common.util.ToolUtil;
-import com.dt.core.common.util.UuidUtil;
-import com.dt.core.common.util.support.TypedHashMap;
+import com.dt.util.ConvertUtil;
+import com.dt.util.ToolUtil;
+import com.dt.util.UuidUtil;
+import com.dt.util.support.TypedHashMap;
 
 /**
  * @author: algernonking

@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.dt.core.common.dao.SpringDAO;
-import com.dt.core.common.util.ArrayUtil;
+import com.dt.util.ArrayUtil;
 
 public class Block extends SubSQL  {
 

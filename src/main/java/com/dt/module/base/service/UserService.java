@@ -17,13 +17,13 @@ import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
-import com.dt.core.common.util.ConvertUtil;
-import com.dt.core.common.util.MD5Util;
-import com.dt.core.common.util.SpringContextUtil;
-import com.dt.core.common.util.ToolUtil;
-import com.dt.core.common.util.UuidUtil;
-import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.base.entity.User;
+import com.dt.util.ConvertUtil;
+import com.dt.util.MD5Util;
+import com.dt.util.SpringContextUtil;
+import com.dt.util.ToolUtil;
+import com.dt.util.UuidUtil;
+import com.dt.util.support.TypedHashMap;
 
 /**
  * @author: algernonking

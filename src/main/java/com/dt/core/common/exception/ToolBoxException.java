@@ -1,6 +1,6 @@
  package com.dt.core.common.exception;
 
-import com.dt.core.common.util.support.StrKit;
+import com.dt.util.support.StrKit;
 
 /**
  * 工具类初始化异常

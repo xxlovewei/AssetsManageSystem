@@ -35,8 +35,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dt.core.common.base.BaseResult;
-import com.dt.core.common.util.support.HttpKit;
-import com.dt.core.common.util.support.StrKit;
+import com.dt.util.support.HttpKit;
+import com.dt.util.support.StrKit;
 
 /**
  * Requires the requesting user to be authenticated for the request to continue, and if they are

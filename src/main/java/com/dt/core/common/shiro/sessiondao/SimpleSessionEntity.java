@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
-import com.dt.core.common.util.DBUtil;
-import com.dt.core.common.util.MD5Util;
 import com.dt.module.db.DB;
+import com.dt.util.DBUtil;
+import com.dt.util.MD5Util;
 
 /**
  * @author: algernonking

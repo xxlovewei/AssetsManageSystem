@@ -8,7 +8,7 @@ import java.util.Date;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.dt.core.common.util.ArrayUtil;
+import com.dt.util.ArrayUtil;
  
 
 public class Rcd

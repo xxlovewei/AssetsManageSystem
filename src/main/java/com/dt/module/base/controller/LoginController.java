@@ -25,9 +25,9 @@ import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.shiro.ShiroKit;
 import com.dt.core.common.shiro.ShiroUser;
-import com.dt.core.common.util.ToolUtil;
 import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.MenuRootService;
+import com.dt.util.ToolUtil;
 
 @Controller
 @RequestMapping("/api")

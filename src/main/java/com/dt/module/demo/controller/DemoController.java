@@ -14,10 +14,10 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.util.ToolUtil;
-import com.dt.core.common.util.support.HttpKit;
 import com.dt.module.db.DB;
 import com.dt.module.demo.service.DemoService;
+import com.dt.util.ToolUtil;
+import com.dt.util.support.HttpKit;
 
 /** 
 * @author 作者 Lank 

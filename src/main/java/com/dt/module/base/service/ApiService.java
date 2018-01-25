@@ -20,9 +20,9 @@ import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.SQL;
-import com.dt.core.common.util.DBUtil;
-import com.dt.core.common.util.SpringContextUtil;
-import com.dt.core.common.util.ToolUtil;
+import com.dt.util.DBUtil;
+import com.dt.util.SpringContextUtil;
+import com.dt.util.ToolUtil;
 
 /**
  * @author: algernonking

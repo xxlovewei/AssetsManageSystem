@@ -2,8 +2,8 @@ package com.dt.core.common.base;
 
 import java.util.Date;
 
-import com.dt.core.common.util.MD5Util;
-import com.dt.core.common.util.ToolUtil;
+import com.dt.util.MD5Util;
+import com.dt.util.ToolUtil;
 
 /**
  * @author: algernonking

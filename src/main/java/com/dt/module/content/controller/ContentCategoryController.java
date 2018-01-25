@@ -8,10 +8,10 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.util.support.HttpKit;
-import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.content.service.ContentCategoryService;
 import com.dt.module.content.service.ContentRootCategoryService;
+import com.dt.util.support.HttpKit;
+import com.dt.util.support.TypedHashMap;
 
 /**
  * @author: algernonking

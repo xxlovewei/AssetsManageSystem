@@ -13,7 +13,7 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.dt.core.common.util.ArrayUtil;
+import com.dt.util.ArrayUtil;
 
 import jodd.datetime.JDateTime;
 

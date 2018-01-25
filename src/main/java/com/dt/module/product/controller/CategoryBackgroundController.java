@@ -12,12 +12,12 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.util.ToolUtil;
-import com.dt.core.common.util.support.HttpKit;
-import com.dt.core.common.util.support.TypedHashMap;
 import com.dt.module.product.service.CategoryAttrService;
 import com.dt.module.product.service.CategoryAttrValueService;
 import com.dt.module.product.service.CategoryBService;
+import com.dt.util.ToolUtil;
+import com.dt.util.support.HttpKit;
+import com.dt.util.support.TypedHashMap;
 
 @Controller
 @RequestMapping("/api")

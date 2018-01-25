@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.util.DBUtil;
-import com.dt.core.common.util.support.TypedHashMap;
+import com.dt.util.DBUtil;
+import com.dt.util.support.TypedHashMap;
 
 /**
  * @author: algernonking

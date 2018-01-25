@@ -23,8 +23,8 @@ import com.dt.core.common.dao.sql.SE;
 import com.dt.core.common.dao.sql.SQL;
 import com.dt.core.common.dao.sql.Select;
 import com.dt.core.common.dao.sql.Update;
-import com.dt.core.common.util.ToolUtil;
-import com.dt.core.common.util.support.TypedHashMap;
+import com.dt.util.ToolUtil;
+import com.dt.util.support.TypedHashMap;
 
 public abstract class SpringDAO {
 
