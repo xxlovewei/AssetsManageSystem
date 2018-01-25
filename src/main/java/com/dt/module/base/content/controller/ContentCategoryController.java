@@ -1,4 +1,4 @@
-package com.dt.module.content.controller;
+package com.dt.module.base.content.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,8 +8,8 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.module.content.service.ContentCategoryService;
-import com.dt.module.content.service.ContentRootCategoryService;
+import com.dt.module.base.content.service.ContentCategoryService;
+import com.dt.module.base.content.service.ContentRootCategoryService;
 import com.dt.util.support.HttpKit;
 import com.dt.util.support.TypedHashMap;
 

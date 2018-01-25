@@ -1,4 +1,4 @@
-package com.dt.module.content.controller;
+package com.dt.module.base.content.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,13 +10,13 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.module.content.service.NewsService;
+import com.dt.module.base.content.service.ContentService;
+import com.dt.module.base.content.service.NewsService;
 import com.dt.util.ConvertUtil;
 import com.dt.util.DBUtil;
 import com.dt.util.ToolUtil;
 import com.dt.util.support.HttpKit;
-import com.dt.util.support.TypedHashMap;
-import com.dt.module.content.service.ContentService;;
+import com.dt.util.support.TypedHashMap;;
 
 /**
  * @author: algernonking

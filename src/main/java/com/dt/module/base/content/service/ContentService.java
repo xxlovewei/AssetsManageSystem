@@ -1,4 +1,4 @@
-package com.dt.module.content.service;
+package com.dt.module.base.content.service;
 
 import org.springframework.stereotype.Service;
 
