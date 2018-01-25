@@ -6,8 +6,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
-import com.dt.util.ConvertUtil;
-import com.dt.util.ToolUtil;
+import com.dt.tool.util.ConvertUtil;
+import com.dt.tool.util.ToolUtil;
 
 /**
  * @author: algernonking

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dt.module.base.entity.User;
 import com.dt.module.base.service.UserService;
 import com.dt.module.db.DB;
-import com.dt.util.SpringContextUtil;
+import com.dt.tool.lang.SpringContextUtil;
 
 @Service
 @Transactional(readOnly = true)

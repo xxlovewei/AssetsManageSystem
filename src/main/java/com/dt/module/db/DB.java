@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.dao.SpringOracleDao;
-import com.dt.util.SpringContextUtil;
+import com.dt.tool.lang.SpringContextUtil;
 
 @Service
 @Scope(BeanDefinition.SCOPE_SINGLETON)

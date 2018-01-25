@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseResult;
-import com.dt.util.ToolUtil;
-import com.dt.util.support.HttpKit;
-import com.dt.util.support.StrKit;
+import com.dt.tool.util.ToolUtil;
+import com.dt.tool.util.support.HttpKit;
+import com.dt.tool.util.support.StrKit;
 
 /**
  * @author: algernonking

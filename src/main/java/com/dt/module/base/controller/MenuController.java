@@ -12,9 +12,9 @@ import com.dt.core.common.base.BaseController;
 import com.dt.module.base.service.MenuRoleMapService;
 import com.dt.module.base.service.MenuRootService;
 import com.dt.module.base.service.MenuService;
-import com.dt.util.ToolUtil;
-import com.dt.util.support.HttpKit;
-import com.dt.util.support.TypedHashMap;
+import com.dt.tool.lang.TypedHashMap;
+import com.dt.tool.util.ToolUtil;
+import com.dt.tool.util.support.HttpKit;
 
 @Controller
 @RequestMapping(value = "/api")

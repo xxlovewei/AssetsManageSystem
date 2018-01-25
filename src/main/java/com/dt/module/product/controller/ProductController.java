@@ -12,7 +12,7 @@ import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.module.product.service.ProductService;
-import com.dt.util.support.HttpKit;
+import com.dt.tool.util.support.HttpKit;
 
 @Controller
 @RequestMapping("/api")

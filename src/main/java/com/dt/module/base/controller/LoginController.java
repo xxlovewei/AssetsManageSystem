@@ -27,7 +27,7 @@ import com.dt.core.common.shiro.ShiroKit;
 import com.dt.core.common.shiro.ShiroUser;
 import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.MenuRootService;
-import com.dt.util.ToolUtil;
+import com.dt.tool.util.ToolUtil;
 
 @Controller
 @RequestMapping("/api")

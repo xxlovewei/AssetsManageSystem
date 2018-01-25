@@ -15,10 +15,10 @@ import com.dt.core.common.dao.RcdSet;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.module.base.service.ParamsService;
 import com.dt.module.base.service.UserService;
-import com.dt.util.ConvertUtil;
-import com.dt.util.ToolUtil;
-import com.dt.util.UuidUtil;
-import com.dt.util.support.TypedHashMap;
+import com.dt.tool.lang.TypedHashMap;
+import com.dt.tool.util.ConvertUtil;
+import com.dt.tool.util.ToolUtil;
+import com.dt.tool.util.UuidUtil;
 
 /**
  * @author: algernonking

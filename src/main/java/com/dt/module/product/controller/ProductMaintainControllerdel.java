@@ -18,8 +18,8 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.RcdSet;
 import com.dt.module.db.DB;
-import com.dt.util.ConvertUtil;
-import com.dt.util.ToolUtil;
+import com.dt.tool.util.ConvertUtil;
+import com.dt.tool.util.ToolUtil;
 
 @Controller
 @RequestMapping("/api")

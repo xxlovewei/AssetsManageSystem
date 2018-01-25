@@ -29,7 +29,7 @@ import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.module.om.term.entity.Machine;
 import com.dt.module.om.term.websocket.SftpClient;
-import com.dt.util.ToolUtil;
+import com.dt.tool.util.ToolUtil;
 
 import ch.ethz.ssh2.SFTPException;
 

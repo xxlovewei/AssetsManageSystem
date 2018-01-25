@@ -15,9 +15,9 @@ import com.dt.core.common.base.BaseController;
 import com.dt.module.product.service.CategoryAttrService;
 import com.dt.module.product.service.CategoryAttrValueService;
 import com.dt.module.product.service.CategoryBService;
-import com.dt.util.ToolUtil;
-import com.dt.util.support.HttpKit;
-import com.dt.util.support.TypedHashMap;
+import com.dt.tool.lang.TypedHashMap;
+import com.dt.tool.util.ToolUtil;
+import com.dt.tool.util.support.HttpKit;
 
 @Controller
 @RequestMapping("/api")

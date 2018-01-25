@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dt.core.common.dao.SpringDAO;
-import com.dt.util.support.TypedHashMap;
+import com.dt.tool.lang.TypedHashMap;
 
 import jodd.util.ArraysUtil;
  

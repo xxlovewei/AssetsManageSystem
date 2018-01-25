@@ -26,9 +26,9 @@ import com.dt.core.common.shiro.ShiroUser;
 import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.UserService;
 import com.dt.module.base.service.WxUserService;
-import com.dt.util.ToolUtil;
-import com.dt.util.support.HttpKit;
-import com.dt.util.support.TypedHashMap;
+import com.dt.tool.lang.TypedHashMap;
+import com.dt.tool.util.ToolUtil;
+import com.dt.tool.util.support.HttpKit;
 
 /**
  * @author: algernonking

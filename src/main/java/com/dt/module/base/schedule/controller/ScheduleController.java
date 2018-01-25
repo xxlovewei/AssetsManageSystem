@@ -10,7 +10,7 @@ import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.module.base.schedule.service.JobService;
-import com.dt.util.ToolUtil;
+import com.dt.tool.util.ToolUtil;
 
 @Controller
 @RequestMapping("/api")

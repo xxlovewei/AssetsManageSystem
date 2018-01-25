@@ -11,7 +11,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.sql.Delete;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.SQL;
-import com.dt.util.ToolUtil;
+import com.dt.tool.util.ToolUtil;
 
 /**
  * @author: algernonking
