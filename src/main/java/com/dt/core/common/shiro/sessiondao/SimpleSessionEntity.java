@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.module.db.DB;
-import com.dt.tool.secure.MD5Util;
+import com.dt.tool.encrypt.MD5Util;
 import com.dt.tool.util.DBUtil;
 
 /**
