@@ -1,4 +1,4 @@
-package com.dt.tool.util;
+package com.dt.tool.secure;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;

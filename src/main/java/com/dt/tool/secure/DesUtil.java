@@ -1,4 +1,4 @@
-package com.dt.tool.util;
+package com.dt.tool.secure;
 
 import java.io.IOException;
 import java.security.SecureRandom;

@@ -9,7 +9,6 @@ import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.ToolUtil;
-import com.dt.tool.util.UuidUtil;
 
 /**
  * @author: algernonking
@@ -32,7 +31,7 @@ public class DictService extends BaseService {
 		 
 	 
 		Insert me = new Insert("sys_dict");
-		me.set("dict_id", UuidUtil.getUUID());
+		me.set("dict_id", ToolUtil.getUUID());
 		me.setIf("name", ps.getString("name", ""));
 		me.setIf("mark", ps.getString("mark", ""));
 		me.setIf("status", ps.getString("status", "N"));
@@ -91,7 +90,7 @@ public class DictService extends BaseService {
 	public ResData addDictItem(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_dict_item");
 		me.set("dict_id", ps.getString("dict_id"));
-		me.set("dict_item_id", UuidUtil.getUUID());
+		me.set("dict_item_id", ToolUtil.getUUID());
 		me.setIf("name", ps.getString("name"));
 		me.setIf("sort", ps.getString("sort"));
 		me.setIf("mark", ps.getString("mark"));

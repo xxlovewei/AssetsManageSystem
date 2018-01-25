@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.impl.ResData;
@@ -18,7 +19,6 @@ import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.ConvertUtil;
 import com.dt.tool.util.DBUtil;
 import com.dt.tool.util.ToolUtil;
-import com.dt.tool.util.UuidUtil;
 
 /**
  * @author: algernonking
@@ -355,7 +355,7 @@ public class ProductService extends BaseService {
 		for (int i = 0; i < sale_arr.size(); i++) {
 			JSONObject sale_obj = sale_arr.getJSONObject(i);
 			String skuuuid = "";
-			String sku = UuidUtil.getUUID();
+			String sku = ToolUtil.getUUID();
 			Insert sale_ins = new Insert("product_sku");
 			sale_ins.set("spu", spu);
 			sale_ins.set("sku", sku);
@@ -374,7 +374,7 @@ public class ProductService extends BaseService {
 				String attr_set_id = arrmap.getJSONObject(j).getString("attr_set_id");
 				skuuuid = skuuuid + "," + attr_set_id;
 				Insert saledelins = new Insert("product_sku_map");
-				saledelins.set("id", UuidUtil.getUUID());
+				saledelins.set("id", ToolUtil.getUUID());
 				saledelins.set("spu", spu);
 				saledelins.set("sku", sku);
 				saledelins.set("attr_set_id", attr_set_id);
@@ -391,7 +391,7 @@ public class ProductService extends BaseService {
 			JSONArray salekv_obj_arr = salekv_obj.getJSONArray("data");
 			for (int j = 0; j < salekv_obj_arr.size(); j++) {
 				Insert ins2 = new Insert("product_attr_set");
-				ins2.set("id", UuidUtil.getUUID());
+				ins2.set("id", ToolUtil.getUUID());
 				ins2.set("spu", spu);
 				ins2.set("attr_set_id", salekv_obj_arr.getString(j));
 				ins2.set("attr_id", salekv_obj.getString("attr_id"));
@@ -522,7 +522,7 @@ public class ProductService extends BaseService {
 		res.add("delete from product_pic where type='" + IAMGE_TYPE_PROD + "' and spu='" + spu + "'");
 		for (int i = 0; i < pics.size(); i++) {
 			Insert ins = new Insert("product_pic");
-			ins.set("id", UuidUtil.getUUID());
+			ins.set("id", ToolUtil.getUUID());
 			ins.set("spu", spu);
 			ins.setIf("pic_id", pics.getJSONObject(i).getString("pic_id"));
 			ins.set("type", IAMGE_TYPE_PROD);

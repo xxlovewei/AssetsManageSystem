@@ -9,7 +9,6 @@ import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.ToolUtil;
-import com.dt.tool.util.UuidUtil;
 
 /**
  * @author: algernonking
@@ -23,7 +22,7 @@ public class ShopService extends BaseService {
 
 	public ResData addShop(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("mall_shop");
-		me.set("shop_id", UuidUtil.getUUID());
+		me.set("shop_id", ToolUtil.getUUID());
 		me.setIf("shop_name", ps.getString("shop_name"));
 		me.setIf("deleted", "N");
 		me.setIf("status", ps.getString("status"));

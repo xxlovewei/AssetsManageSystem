@@ -1,4 +1,4 @@
-package com.dt.tool.util;
+package com.dt.tool.secure;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

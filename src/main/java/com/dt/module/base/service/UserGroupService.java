@@ -11,7 +11,6 @@ import com.dt.core.common.dao.sql.Update;
 import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.ConvertUtil;
 import com.dt.tool.util.ToolUtil;
-import com.dt.tool.util.UuidUtil;
 
 /**
  * @author: algernonking
@@ -26,7 +25,7 @@ public class UserGroupService extends BaseService {
 	public ResData addUserGroup(TypedHashMap<String, Object> ps) {
 		
 		Insert me=new Insert("sys_user_group");
-		me.set("group_id", UuidUtil.getUUID());
+		me.set("group_id", ToolUtil.getUUID());
 		me.set("deleted", "N");
 		me.setIf("name", ps.getString("name"));
 		me.setIf("sort", ConvertUtil.toInt(ps.getString("sort"), 999));

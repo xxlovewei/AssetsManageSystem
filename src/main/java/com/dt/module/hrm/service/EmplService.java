@@ -18,7 +18,6 @@ import com.dt.module.base.service.UserService;
 import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.ConvertUtil;
 import com.dt.tool.util.ToolUtil;
-import com.dt.tool.util.UuidUtil;
 
 /**
  * @author: algernonking
@@ -55,7 +54,7 @@ public class EmplService extends BaseService {
 		for (int i = 0; i < nodes_arr.size(); i++) {
 			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
 			Insert ins3 = new Insert("hrm_org_employee");
-			ins3.set("id", UuidUtil.getUUID());
+			ins3.set("id", ToolUtil.getUUID());
 			ins3.set("node_id", node_id);
 			ins3.set("deleted", "N");
 			ins3.set("empl_id", empl_id);
@@ -115,7 +114,7 @@ public class EmplService extends BaseService {
 		for (int i = 0; i < nodes_arr.size(); i++) {
 			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
 			Insert ins3 = new Insert("hrm_org_employee");
-			ins3.set("id", UuidUtil.getUUID());
+			ins3.set("id", ToolUtil.getUUID());
 			ins3.set("node_id", node_id);
 			ins3.set("deleted", "N");
 			ins3.set("empl_id", empl_id);

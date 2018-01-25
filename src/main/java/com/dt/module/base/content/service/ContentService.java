@@ -10,7 +10,6 @@ import com.dt.core.common.dao.sql.Update;
 import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.DBUtil;
 import com.dt.tool.util.ToolUtil;
-import com.dt.tool.util.UuidUtil;
 
 /**
  * @author: algernonking
@@ -32,7 +31,7 @@ public class ContentService extends BaseService {
 	public ResData addContent(TypedHashMap<String, Object> ps, String type) {
 		Insert me = new Insert("ct_content");
 		String idctl = ps.getString("selfid", "N");
-		String id = UuidUtil.getUUID();
+		String id = ToolUtil.getUUID();
 		if (idctl.equals("Y")) {
 			id = ps.getString("id", id);
 		}

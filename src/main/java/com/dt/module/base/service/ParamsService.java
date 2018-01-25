@@ -9,7 +9,6 @@ import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.ToolUtil;
-import com.dt.tool.util.UuidUtil;
 
 /**
  * @author: algernonking
@@ -28,7 +27,7 @@ public class ParamsService extends BaseService {
 	// 类型system|user|sysinter(系统内置，不可改动)
 	public ResData addParams(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_params");
-		me.set("id", UuidUtil.getUUID());
+		me.set("id", ToolUtil.getUUID());
 		me.set("deleted", "N");
 		me.setIf("name", ps.getString("name", ""));
 		me.setIf("value", ps.getString("value", ""));

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +27,13 @@ import com.dt.tool.util.support.StrKit;
  * 高频方法集合类
  */
 public class ToolUtil {
+	public static String getUUID() {
+		UUID uuid = UUID.randomUUID();
+		String str = uuid.toString();
+		str = str.replaceAll("-", "");
+		return str;
+	}
+
 	public static void printRequestMap(HttpServletRequest request) {
 		System.out.println("###################requst map#########################");
 		Map<String, String[]> map = request.getParameterMap();

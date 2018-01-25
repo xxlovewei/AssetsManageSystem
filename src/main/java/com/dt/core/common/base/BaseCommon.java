@@ -2,7 +2,7 @@ package com.dt.core.common.base;
 
 import java.util.Date;
 
-import com.dt.tool.util.MD5Util;
+import com.dt.tool.secure.MD5Util;
 import com.dt.tool.util.ToolUtil;
 
 /**

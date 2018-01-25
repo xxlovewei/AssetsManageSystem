@@ -20,10 +20,9 @@ import com.dt.core.common.dao.sql.Update;
 import com.dt.module.base.entity.User;
 import com.dt.tool.lang.SpringContextUtil;
 import com.dt.tool.lang.TypedHashMap;
+import com.dt.tool.secure.MD5Util;
 import com.dt.tool.util.ConvertUtil;
-import com.dt.tool.util.MD5Util;
 import com.dt.tool.util.ToolUtil;
-import com.dt.tool.util.UuidUtil;
 
 /**
  * @author: algernonking
@@ -462,7 +461,7 @@ public class UserService extends BaseService {
 	@Transactional
 	public ResData addUser(TypedHashMap<String, Object> ps, String type) {
 
-		String user_id = UuidUtil.getUUID();
+		String user_id = ToolUtil.getUUID();
 		ResData emplRes = getEmplNextId();
 		if (emplRes.isFailed()) {
 			return ResData.FAILURE("生成序列号失败");
