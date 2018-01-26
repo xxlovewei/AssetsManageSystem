@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -95,19 +96,6 @@ public class ToolUtil {
 		return path + "/" + relativePath;
 	}
 
-	/**
-	 * 判断一个对象是否是时间类型
-	 * 
-	 * @author stylefeng
-	 * @Date 2017/4/18 12:55
-	 */
-	// public static String dateType(Object o){
-	// if(o instanceof Date){
-	// return DateUtil.getDay((Date) o);
-	// }else{
-	// return o.toString();
-	// }
-	// }
 	public static String parseYNValue(String value) {
 		if (value == null) {
 			return value;
@@ -147,13 +135,6 @@ public class ToolUtil {
 		return "Y";
 	}
 
-	/**
-	 * 获取异常的具体信息
-	 * 
-	 * @author fengshuonan
-	 * @Date 2017/3/30 9:21
-	 * @version 2.0
-	 */
 	public static String getExceptionMsg(Exception e) {
 		StringWriter sw = new StringWriter();
 		try {
@@ -166,14 +147,6 @@ public class ToolUtil {
 			}
 		}
 		return sw.getBuffer().toString().replaceAll("\\$", "T");
-	}
-
-	/**
-	 * @Description 主键id
-	 * @author fengshuonan
-	 */
-	public static String getUid() {
-		return getRandomNum();
 	}
 
 	/**
@@ -481,15 +454,17 @@ public class ToolUtil {
 		}
 		return str.toString().trim();
 	}
+
 	/**
 	 * 强转->int
 	 * 
 	 * @param obj
 	 * @return
 	 */
-	// public static int toInt(Object value) {
-	// return toInt(value, -1);
-	// }
+	public static int toInt(Object value) {
+		return toInt(value, -1);
+	}
+
 	/**
 	 * 强转->int
 	 * 
@@ -497,18 +472,20 @@ public class ToolUtil {
 	 * @param defaultValue
 	 * @return
 	 */
-	// public static int toInt(Object value, int defaultValue) {
-	// return Convert.toInt(value, defaultValue);
-	// }
+	public static int toInt(Object value, int defaultValue) {
+		return ConvertUtil.toInt(value, defaultValue);
+	}
+
 	/**
 	 * 强转->long
 	 * 
 	 * @param obj
 	 * @return
 	 */
-	// public static long toLong(Object value) {
-	// return toLong(value, -1);
-	// }
+	public static long toLong(Object value) {
+		return toLong(value, -1);
+	}
+
 	/**
 	 * 强转->long
 	 * 
@@ -516,10 +493,10 @@ public class ToolUtil {
 	 * @param defaultValue
 	 * @return
 	 */
-	// public static long toLong(Object value, long defaultValue) {
-	// return Convert.toLong(value, defaultValue);
-	// }
-	//
+	public static long toLong(Object value, long defaultValue) {
+		return ConvertUtil.toLong(value, defaultValue);
+	}
+
 	// public static String encodeUrl(String url) {
 	// return URLKit.encode(url, CharsetKit.UTF_8);
 	// }
@@ -527,6 +504,7 @@ public class ToolUtil {
 	// public static String decodeUrl(String url) {
 	// return URLKit.decode(url, CharsetKit.UTF_8);
 	// }
+
 	/**
 	 * map的key转为小写
 	 * 
@@ -534,14 +512,14 @@ public class ToolUtil {
 	 * @return Map<String,Object>
 	 */
 
-	// public static Map<String, Object> caseInsensitiveMap(Map<String, Object> map)
-	// {
-	// Map<String, Object> tempMap = new HashMap<>();
-	// for (String key : map.keySet()) {
-	// tempMap.put(key.toLowerCase(), map.get(key));
-	// }
-	// return tempMap;
-	// }
+	public static Map<String, Object> caseInsensitiveMap(Map<String, Object> map) {
+		Map<String, Object> tempMap = new HashMap<>();
+		for (String key : map.keySet()) {
+			tempMap.put(key.toLowerCase(), map.get(key));
+		}
+		return tempMap;
+	}
+
 	/**
 	 * 获取map中第一个数据值
 	 * 
@@ -636,15 +614,6 @@ public class ToolUtil {
 		return StrKit.firstCharToLowerCase(val);
 	}
 
-	/**
-	 * 获取验证码开关
-	 * 
-	 * @author stylefeng
-	 * @Date 2017/5/23 22:34
-	 */
-	// public static Boolean getKaptchaOnOff(){
-	// return SpringContextUtil.getBean(GunsProperties.class).getKaptchaOpen();
-	// }
 	/**
 	 * 判断是否是windows操作系统
 	 * 

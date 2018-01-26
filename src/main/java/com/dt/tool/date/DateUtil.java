@@ -17,12 +17,10 @@ public class DateUtil
 		return System.currentTimeMillis();
 	}
 
-	/**
-	 * ��ȡ��ʽ��ϵͳʱ�� yyyy��MM��dd�� hh:mm:ss
-	 */
+	 
 	public static String getFormatTime()
 	{
-		String pattern = "yyyy��MM��dd�� hh:mm:ss";
+		String pattern = "yyyy-MM-dd HH:mm:ss";
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
 		return format.format(new Date());
 	}
@@ -37,9 +35,7 @@ public class DateUtil
 	public static long DAY = 86400000;
 	public static long WEEK = 604800000;
 
-	/**
-	 * ��ʽ��һ������
-	 */
+	 
 	public static String format(Date date, String format)
 	{
 		String mDateTime;
@@ -61,16 +57,9 @@ public class DateUtil
 		}
 		return format(date,"yyyy-MM-dd");
 	}
-//	
-//	public static Date parse(String date)
-//	{
-//		SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
-//		return formatter1.parse(date);
-//	}
-
-	/**
-	 * �õ���ǰʱ�䣬���������գ�ʱ���룬yyyy,MM,dd,HH,mm,ss
-	 */
+	
+ 
+ 
 	public static String getCurrTime(String format)
 	{
 		Calendar cal = Calendar.getInstance();
@@ -116,9 +105,7 @@ public class DateUtil
 		return Integer.parseInt(format(dt, "ss"));
 	}
 
-	/**
-	 * �õ�ָ��������n�ܺ�����ڣ����w�Ǹ�ֵ���ʾn��ǰ ���籾������12��1�ţ���ô��n�ܵ�������ʱ���ţ�
-	 */
+	 
 	public static Date getSameDayByWeek(Date date, int w)
 	{
 		long myTime = date.getTime() + WEEK * w;
@@ -126,22 +113,7 @@ public class DateUtil
 		return date;
 	}
 
-	/**
-	 * @deprecated �õ�ָ���������ڵ�����һ���еĵڼ���
-	 */
-	public static int getWeekSNInYear(Date date, int w)
-	{
-		return 0;
-	}
-
-	/**
-	 * @deprecated �õ�ָ���������ڵ����Ǳ����еĵڼ���
-	 */
-	public static int getWeekSNInMonth(Date date, int w)
-	{
-		return 0;
-	}
-
+	 
  
 	public static Date getSameDateByYear(Date date, int y)
 	{
@@ -153,13 +125,11 @@ public class DateUtil
 		return cal.getTime();
 	}
 
-	/**
-	 * �õ���ǰָ�����������ڼ�
-	 */
+ 
 	public static String getChineseWeek(Calendar date)
 	{
 		final String dayNames[] =
-		{ "������", "����һ", "���ڶ�", "������", "������", "������", "������" };
+		{ "周日", "周一", "周二", "周三", "周四️", "周五", "周六" };
 		int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
 		System.out.println(dayNames[dayOfWeek - 1]);
 		return dayNames[dayOfWeek - 1];
@@ -201,11 +171,73 @@ public class DateUtil
 		return dt;
 	}
 
+	/**
+	 * 获取指定日期当月的最后一天
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static Date lastDayOfMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.MONTH, 1);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		return cal.getTime();
+	}
+
+
+	/**
+	 * 获取指定日期当月的第一天
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static Date firstDayOfMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		return cal.getTime();
+	}
+	
+
+	/**
+	 * 是否是闰年
+	 * 
+	 * @param year
+	 *            年份
+	 * @return boolean
+	 */
+	public static boolean isLeapYear(int year) {
+		GregorianCalendar calendar = new GregorianCalendar();
+		return calendar.isLeapYear(year);
+	}
+	
+	/**
+	 * 获取指定日期之前或者之后多少天的日期
+	 * 
+	 * @param day
+	 *            指定的时间
+	 * @param offset
+	 *            日期偏移量，正数表示延后，负数表示天前
+	 * @return Date
+	 */
+	public static Date getDateByOffset(Date day, int offset) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(day);
+		c.add(Calendar.DAY_OF_MONTH, offset);
+		return c.getTime();
+	}
+
+	
+	
 	public static void main(String[] args)
 	{
 		//Date d = getSameDayByWeek(new Date(), -2);
 
-		//String t = getChineseWeek(Calendar.getInstance());// format(d,
+		String t = getChineseWeek(Calendar.getInstance());
+		System.out.println(t);
+		// format(d,
 		// "YYYY-MM-DD");
 
 		//System.out.println(getTwoYear());
@@ -297,7 +329,7 @@ public class DateUtil
             df.setLenient(false);  
             olddate = new Date(df.parse(datestr).getTime());  
         } catch (ParseException e) {  
-            throw new RuntimeException("����ת������");  
+            throw new RuntimeException("异常");  
         }  
         
         return addDay(olddate,day);  
@@ -353,7 +385,147 @@ public class DateUtil
 		
 	}
 	
-	 
+	
+	public static boolean isBefore(Date date1, Date date2) {
+		Calendar c1 = Calendar.getInstance();
+		c1.setTime(date1);
+
+		Calendar c2 = Calendar.getInstance();
+		c2.setTime(date2);
+
+		if (c1.before(c2))
+			return true;
+
+		return false;
+	}
+	public static enum Type {
+		Year, Month, Week, Day, Hour, Minutes, Seconds;
+	}
+	/**
+	 * 获取两个日期的时间差，可以指定年，月，周，日，时，分，秒
+	 * @param date1 第一个日期
+	 * @param date2 第二个日期<font color="red">此日期必须在date1之后</font>
+	 * @param type DateUtils.Type.X的枚举类型
+	 * @return long值
+	 * @throws Exception
+	 */
+	public static long getDiff(Date date1, Date date2, Type type) throws Exception {
+
+		if (!isBefore(date1, date2))
+			throw new Exception("第二个日期必须在第一个日期之后");
+
+		//long d = Math.abs(date1.getTime() - date2.getTime());
+		switch (type) {
+		case Year: {
+			Calendar cal1 = Calendar.getInstance();
+			Calendar cal2 = Calendar.getInstance();
+
+			cal1.setTime(date1);
+			int year1 = cal1.get(Calendar.YEAR);
+			int month1 = cal1.get(Calendar.MONTH);
+			int day1 = cal1.get(Calendar.DAY_OF_MONTH);
+			int hour1 = cal1.get(Calendar.HOUR_OF_DAY);
+			int minute1 = cal1.get(Calendar.MINUTE);
+			int second1 = cal1.get(Calendar.SECOND);
+
+			cal2.setTime(date2);
+			int year2 = cal2.get(Calendar.YEAR);
+			int month2 = cal2.get(Calendar.MONTH);
+			int day2 = cal2.get(Calendar.DAY_OF_MONTH);
+			int hour2 = cal2.get(Calendar.HOUR_OF_DAY);
+			int minute2 = cal2.get(Calendar.MINUTE);
+			int second2 = cal2.get(Calendar.SECOND);
+
+			int yd = year2 - year1;
+
+			if (month1 > month2) {
+				yd -= 1;
+			} else {
+				if (day1 > day2) {
+					yd -= 1;
+				} else {
+					if (hour1 > hour2) {
+						yd -= 1;
+					} else {
+						if (minute1 > minute2) {
+							yd -= 1;
+						} else {
+							if (second1 > second2) {
+								yd -= 1;
+							}
+						}
+					}
+				}
+			}
+			return (long)yd;
+		}
+		case Month: {
+			// 获取年份差
+			long year = getDiff(date1, date2, Type.Year);
+
+			Calendar cal1 = Calendar.getInstance();
+			Calendar cal2 = Calendar.getInstance();
+
+			cal1.setTime(date1);
+			int month1 = cal1.get(Calendar.MONTH);
+			int day1 = cal1.get(Calendar.DAY_OF_MONTH);
+			int hour1 = cal1.get(Calendar.HOUR_OF_DAY);
+			int minute1 = cal1.get(Calendar.MINUTE);
+			int second1 = cal1.get(Calendar.SECOND);
+
+			cal2.setTime(date2);
+			int month2 = cal2.get(Calendar.MONTH);
+			int day2 = cal2.get(Calendar.DAY_OF_MONTH);
+			int hour2 = cal2.get(Calendar.HOUR_OF_DAY);
+			int minute2 = cal2.get(Calendar.MINUTE);
+			int second2 = cal2.get(Calendar.SECOND);
+
+			int md = (month2 + 12) - month1;
+
+			if (day1 > day2) {
+				md -= 1;
+			} else {
+				if (hour1 > hour2) {
+					md -= 1;
+				} else {
+					if (minute1 > minute2) {
+						md -= 1;
+					} else {
+						if (second1 > second2) {
+							md -= 1;
+						}
+					}
+				}
+			}
+			return (long)md + year * 12;
+		}
+		case Week: {
+			return getDiff(date1, date2, Type.Day) / 7;
+		}
+		case Day: {
+			long d1 = date1.getTime();
+			long d2 = date2.getTime();
+			return (int) ((d2 - d1) / (24 * 60 * 60 * 1000));
+		}
+		case Hour: {
+			long d1 = date1.getTime();
+			long d2 = date2.getTime();
+			return (int) ((d2 - d1) / (60 * 60 * 1000));
+		}
+		case Minutes: {
+			long d1 = date1.getTime();
+			long d2 = date2.getTime();
+			return (int) ((d2 - d1) / (60 * 1000));
+		}
+		case Seconds: {
+			long d1 = date1.getTime();
+			long d2 = date2.getTime();
+			return (int) ((d2 - d1) / 1000);
+		}
+		default:
+			throw new Exception("请指定要获取的时间差的类型：年，月，天，周，时，分，秒");
+		}
+	}
 	
 
 }
