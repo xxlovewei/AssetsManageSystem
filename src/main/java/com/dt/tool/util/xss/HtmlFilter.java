@@ -129,6 +129,7 @@ public final class HtmlFilter {
 	 *
 	 * @param conf
 	 *            map containing configuration. keys match field names. */
+	@SuppressWarnings("unchecked")
 	public HtmlFilter(final Map<String, Object> conf) {
 		assert conf.containsKey("vAllowed") : "configuration requires vAllowed";
 		assert conf.containsKey("vSelfClosingTags") : "configuration requires vSelfClosingTags";
