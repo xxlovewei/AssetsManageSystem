@@ -8,7 +8,7 @@ import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.tool.lang.TypedHashMap;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 
 /**
@@ -52,8 +52,8 @@ public class ContentService extends BaseService {
 		me.setIf("tag", ps.getString("tag"));
 		me.setIf("content", ps.getString("content"));
 		me.setIf("mark", ps.getString("mark"));
-		me.setSE("createtime", DBUtil.getDBDateString(db.getDBType()));
-		me.setSE("modifytime", DBUtil.getDBDateString(db.getDBType()));
+		me.setSE("createtime", DbUtil.getDBDateString(db.getDBType()));
+		me.setSE("modifytime", DbUtil.getDBDateString(db.getDBType()));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -76,7 +76,7 @@ public class ContentService extends BaseService {
 		me.setIf("author", ps.getString("author"));
 		me.setIf("tag", ps.getString("tag"));
 		me.setIf("mark", ps.getString("mark"));
-		me.setSE("modifytime", DBUtil.getDBDateString(db.getDBType()));
+		me.setSE("modifytime", DbUtil.getDBDateString(db.getDBType()));
 		me.where().and("id=?", ps.getString("id"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
@@ -149,7 +149,7 @@ public class ContentService extends BaseService {
 	 */
 	public int queryContentPageCount(TypedHashMap<String, Object> ps, String type, int pageSize) {
 		int total = queryContentCount(ps, type);
-		return DBUtil.getTotalPage(total, pageSize);
+		return DbUtil.getTotalPage(total, pageSize);
 	}
 	/**
 	 * @Description:查找CT
@@ -157,6 +157,6 @@ public class ContentService extends BaseService {
 	public ResData queryContentPage(TypedHashMap<String, Object> ps, int pageSize, int pageIndex, String type) {
 		String sql = rebuildQueryContentSql(ps, type);
 		return ResData.SUCCESS_OPER(
-				db.query(DBUtil.getDBPageSql(db.getDBType(),sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
+				db.query(DbUtil.getDBPageSql(db.getDBType(),sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 }

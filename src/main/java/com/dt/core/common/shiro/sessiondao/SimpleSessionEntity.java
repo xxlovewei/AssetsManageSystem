@@ -6,7 +6,7 @@ import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.module.db.DB;
 import com.dt.tool.encrypt.MD5Util;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 
 /**
  * @author: algernonking
@@ -65,7 +65,7 @@ public class SimpleSessionEntity {
 	public void update(SimpleSessionEntity entity) {
 		Update me = new Update("sys_session");
 		me.set("dtsession", entity.session + "");
-		me.setSE("lastaccess", DBUtil.getDBDateString(DB.instance().getDBType()));
+		me.setSE("lastaccess", DbUtil.getDBDateString(DB.instance().getDBType()));
 		me.where().and("cookie=?", entity.cookie);
 		DB.instance().execute(me);
 	}

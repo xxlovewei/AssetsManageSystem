@@ -6,7 +6,7 @@ import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 
 /**
@@ -36,7 +36,7 @@ public class UserScoreService extends BaseService {
 		me.setIf("mark", mark);
 		me.setIf("flag", flag);
 		me.set("is_delete", "N");
-		me.setSE("rtime", DBUtil.getDBDateString(db.getDBType()));
+		me.setSE("rtime", DbUtil.getDBDateString(db.getDBType()));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -59,7 +59,7 @@ public class UserScoreService extends BaseService {
 			me.setIf("mark", mark);
 			me.setIf("flag", flag);
 			me.set("is_delete", "N");
-			me.setSE("rtime", DBUtil.getDBDateString(db.getDBType()));
+			me.setSE("rtime", DbUtil.getDBDateString(db.getDBType()));
 			db.execute(me);
 		} else {
 			return ResData.FAILURE("用户积分不够");

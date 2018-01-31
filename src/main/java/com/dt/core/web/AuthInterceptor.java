@@ -14,7 +14,7 @@ import com.dt.core.common.base.BaseResult;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.shiro.ShiroKit;
 import com.dt.module.db.DB;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 import com.dt.tool.util.support.HttpKit;
 
@@ -46,7 +46,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			ins.setIf("user_id", user_id);
 			ins.setIf("ip", ip);
 			ins.setIf("url", url);
-			ins.setSE("rtime", DBUtil.getDBDateString(db.getDBType()));
+			ins.setSE("rtime", DbUtil.getDBDateString(db.getDBType()));
 			ins.setIf("postorget", req.getQueryString());
 			db.execute(ins);
 		}

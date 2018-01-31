@@ -17,7 +17,7 @@ import com.dt.core.common.dao.sql.SQL;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.ConvertUtil;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 
 /**
@@ -440,7 +440,7 @@ public class ProductService extends BaseService {
 		ins.setIf("mobile_profile_html", ps.getString("mobile_profile_html", ""));
 		ins.setIf("weight", ps.getString("weight", "0"));
 		ins.setIf("isneedlogistics", ps.getString("isneedlogistics", "1"));
-		ins.setSE("cdate", DBUtil.getDBDateString(db.getDBType()));
+		ins.setSE("cdate", DbUtil.getDBDateString(db.getDBType()));
 		/************************************ 处理基本属性 ************************/
 		String base_data = ps.getString("base_res");
 		JSONObject base_obj = JSONObject.parseObject(base_data);

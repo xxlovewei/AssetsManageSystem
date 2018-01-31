@@ -21,7 +21,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.SQL;
 import com.dt.tool.lang.SpringContextUtil;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 
 /**
@@ -66,7 +66,7 @@ public class ApiService extends BaseService {
 					me.setIf("ct", str);
 					me.setIf("ctacl", aclvalue);
 					me.setIf("apitype", "url");
-					me.setSE("rectime", DBUtil.getDBDateString(db.getDBType()));
+					me.setSE("rectime", DbUtil.getDBDateString(db.getDBType()));
 					sqls.add(me);
 				}
 			}

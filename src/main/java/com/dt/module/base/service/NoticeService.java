@@ -8,7 +8,7 @@ import com.dt.core.common.dao.Rcd;
 import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.tool.lang.TypedHashMap;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 
 /**
@@ -31,8 +31,8 @@ public class NoticeService extends BaseService {
 		me.setIf("is_show", ps.getString("is_show", "N"));
 		me.set("is_delete", "N");
 		me.setIf("user_id", user_id);
-		me.setSE("rdate", DBUtil.getDBDateString(db.getDBType()));
-		me.setSE("cdate", DBUtil.getDBDateString(db.getDBType()));
+		me.setSE("rdate", DbUtil.getDBDateString(db.getDBType()));
+		me.setSE("cdate", DbUtil.getDBDateString(db.getDBType()));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -59,7 +59,7 @@ public class NoticeService extends BaseService {
 		me.setIf("title", ps.getString("title"));
 		me.setIf("ct", ps.getString("ct"));
 		me.setIf("is_show", ps.getString("is_show", "N"));
-		me.setSE("rdate", DBUtil.getDBDateString(db.getDBType()));
+		me.setSE("rdate", DbUtil.getDBDateString(db.getDBType()));
 		me.where().and("id=?", ps.getString("id", ""));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
@@ -104,7 +104,7 @@ public class NoticeService extends BaseService {
 			int pageSize, int pageIndex) {
 		String sql = processQuerySql(ps, type, is_show, user_id);
 		return ResData.SUCCESS_OPER(
-				db.query(DBUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
+				db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 
 	public ResData queryNoticeById(String id) {

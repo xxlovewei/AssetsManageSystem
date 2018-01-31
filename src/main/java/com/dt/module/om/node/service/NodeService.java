@@ -13,7 +13,7 @@ import com.dt.module.om.util.RemoteShellResult;
 import com.dt.tool.encrypt.MD5Util;
 import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.ConvertUtil;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 
 /**
@@ -51,8 +51,8 @@ public class NodeService extends BaseService {
 		me.setIf("deleted", "N");
 		me.setIf("od", ps.getString("od", "1"));
 		me.setIf("mark", ps.getString("mark", ""));
-		me.setSE("cdate", DBUtil.getDBDateString(DB.instance().getDBType()));
-		me.setSE("mdate", DBUtil.getDBDateString(DB.instance().getDBType()));
+		me.setSE("cdate", DbUtil.getDBDateString(DB.instance().getDBType()));
+		me.setSE("mdate", DbUtil.getDBDateString(DB.instance().getDBType()));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -71,8 +71,8 @@ public class NodeService extends BaseService {
 				me.setIf("pwdmd5", MD5Util.encrypt(md5pwd));
 			}
 		}
-		me.setSE("cdate", DBUtil.getDBDateString(DB.instance().getDBType()));
-		me.setSE("mdate", DBUtil.getDBDateString(DB.instance().getDBType()));
+		me.setSE("cdate", DbUtil.getDBDateString(DB.instance().getDBType()));
+		me.setSE("mdate", DbUtil.getDBDateString(DB.instance().getDBType()));
 		me.setIf("username", ps.getString("username", "").trim());
 		me.setIf("logintype", ps.getString("logintype", ""));
 		me.setIf("port", ps.getString("port", ""));

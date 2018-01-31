@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSONObject;
  * @date: 2017年8月12日 上午10:21:06
  * @Description: TODO
  */
-public class DBUtil {
+public class DbUtil {
 	/**
 	 * @Description: pageSize:每页显示数
 	 */

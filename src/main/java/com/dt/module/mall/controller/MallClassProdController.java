@@ -12,7 +12,7 @@ import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.module.mall.service.MallProdService;
 import com.dt.tool.lang.TypedHashMap;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 import com.dt.tool.util.support.HttpKit;
 
@@ -38,7 +38,7 @@ public class MallClassProdController extends BaseController {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 
-		JSONObject respar = DBUtil.formatPageParameter(start, length, pageSize, pageIndex);
+		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
@@ -67,7 +67,7 @@ public class MallClassProdController extends BaseController {
 
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		 
-		JSONObject respar = DBUtil.formatPageParameter(start, length, pageSize, pageIndex);
+		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}

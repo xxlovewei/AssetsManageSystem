@@ -14,7 +14,7 @@ import com.dt.module.base.content.service.ContentService;
 import com.dt.module.base.content.service.NewsService;
 import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.ConvertUtil;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 import com.dt.tool.util.support.HttpKit;;
 
@@ -99,7 +99,7 @@ public class NewsController extends BaseController {
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData queryNewsByDatatable(String start, String length, String pageSize, String pageIndex) {
-		JSONObject respar = DBUtil.formatPageParameter(start, length, pageSize, pageIndex);
+		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}

@@ -12,7 +12,7 @@ import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.module.base.service.NoticeService;
 import com.dt.tool.lang.TypedHashMap;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 import com.dt.tool.util.support.HttpKit;
 
@@ -33,7 +33,7 @@ public class MallNoticeController extends BaseController {
 	@Acl(value = Acl.TYPE_ALLOW, info = "商城获取公告")
 	public ResData queryNotice(String is_show, String start, String length, String pageSize, String pageIndex) {
 
-		JSONObject respar = DBUtil.formatPageParameter(start, length, pageSize, pageIndex);
+		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}

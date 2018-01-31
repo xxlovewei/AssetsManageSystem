@@ -12,7 +12,7 @@ import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.module.base.service.UserLogService;
 import com.dt.tool.lang.TypedHashMap;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 import com.dt.tool.util.support.HttpKit;
 
@@ -37,7 +37,7 @@ public class UserLogController extends BaseController {
 	@Res
 	@Acl(value=Acl.TYPE_USER_COMMON)
 	public ResData queryAccessLog(String start, String length, String pageSize, String pageIndex) {
-		JSONObject respar = DBUtil.formatPageParameter(start, length, pageSize, pageIndex);
+		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}

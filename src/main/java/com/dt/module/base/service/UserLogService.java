@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.tool.lang.TypedHashMap;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 
 /**
  * @author: algernonking
@@ -21,7 +21,7 @@ public class UserLogService extends BaseService {
 		String sql = "select * from sys_log_access where rtime>sysdate-365 and user_id='" + user_id
 				+ "' order by rtime desc";
 		return ResData.SUCCESS_OPER(
-				db.query(DBUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
+				db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description: 获取访问日志页数

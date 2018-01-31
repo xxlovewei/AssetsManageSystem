@@ -13,7 +13,7 @@ import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.dao.sql.Update;
 import com.dt.module.db.DB;
 import com.dt.tool.lang.SpringContextUtil;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 import com.dt.tool.util.support.HttpKit;
 
@@ -197,7 +197,7 @@ public class LoginService extends BaseService {
 		me.set("id", db.getUUID());
 		me.setIf("ip", HttpKit.getIpAddr(request));
 		me.setIf("user_id", user_id);
-		me.setSE("rdate", DBUtil.getDBDateString(db.getDBType()));
+		me.setSE("rdate", DbUtil.getDBDateString(db.getDBType()));
 		db.execute(me);
 		if (ToolUtil.isNotEmpty(cookie)) {
 			String agent = request.getHeader("User-Agent");
@@ -207,7 +207,7 @@ public class LoginService extends BaseService {
 			ups.setIf("ip", HttpKit.getIpAddr(request));
 			ups.setIf("agent", agent);
 			ups.setIf("client", client);
-			ups.setSE("login_time", DBUtil.getDBDateString(DB.instance().getDBType()));
+			ups.setSE("login_time", DbUtil.getDBDateString(DB.instance().getDBType()));
 			ups.where().and("cookie=?", cookie);
 			System.out.println(ups.getSQL());
 			db.execute(ups);

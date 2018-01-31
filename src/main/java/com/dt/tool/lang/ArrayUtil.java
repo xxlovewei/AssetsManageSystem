@@ -1,5 +1,6 @@
 package com.dt.tool.lang;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -209,14 +210,62 @@ public class ArrayUtil {
 	 * @return 是否为空
 	 * 
 	 */
-//	public static boolean isEmpty(final Object array) {
-//		if (null == array) {
-//			return true;
-//		} else if (isArray(array)) {
-//			return 0 == Array.getLength(array);
-//		}
-//		throw new UtilException("Object to provide is not a Array !");
-//	}
+	public static boolean isEmpty(final Object array) {
+		if (null == array) {
+			return true;
+		} else if (isArray(array)) {
+			return 0 == Array.getLength(array);
+		}
+		return true;
+
+	}
+
+	/**
+	 * 
+	 * 对象是否为数组对象
+	 * 
+	 * 
+	 * 
+	 * @param obj
+	 *            对象
+	 * 
+	 * @return 是否为数组对象，如果为{@code null} 返回false
+	 * 
+	 */
+	public static boolean isArray(Object obj) {
+		if (null == obj) {
+			// throw new NullPointerException("Object check for isArray is null");
+			return false;
+		}
+		return obj.getClass().isArray();
+	}
+
+	/**
+	 * 
+	 * 数组是否为空<br>
+	 * 
+	 * 此方法会匹配单一对象，如果此对象为{@code null}则返回true<br>
+	 * 
+	 * 如果此对象为非数组，理解为此对象为数组的第一个元素，则返回false<br>
+	 * 
+	 * 如果此对象为数组对象，数组长度大于0情况下返回false，否则返回true
+	 * 
+	 * 
+	 * 
+	 * @param array
+	 *            数组
+	 * 
+	 * @return 是否为空
+	 * 
+	 */
+	// public static boolean isEmpty(final Object array) {
+	// if (null == array) {
+	// return true;
+	// } else if (isArray(array)) {
+	// return 0 == Array.getLength(array);
+	// }
+	// throw new UtilException("Object to provide is not a Array !");
+	// }
 
 	/**
 	 * 
@@ -594,8 +643,902 @@ public class ArrayUtil {
 		return false;
 	}
 
-	 
- 
- 
+	/**
+	 * 
+	 * 移除数组中对应位置的元素<br>
+	 * 
+	 * copy from commons-lang
+	 * 
+	 * 
+	 * 
+	 * @param array
+	 *            数组对象，可以是对象数组，也可以原始类型数组
+	 * 
+	 * @param index
+	 *            位置，如果位置小于0或者大于长度，返回原数组
+	 * 
+	 * @return 去掉指定元素后的新数组或原数组
+	 * 
+	 * @throws IllegalArgumentException
+	 *             参数对象不为数组对象
+	 * 
+	 * @since 3.0.8
+	 * 
+	 */
+	public static Object remove(Object array, int index) throws IllegalArgumentException {
+		if (null == array) {
+			return array;
+		}
+		int length = length(array);
+		if (index < 0 || index >= length) {
+			return array;
+		}
+
+		final Object result = Array.newInstance(array.getClass().getComponentType(), length - 1);
+		System.arraycopy(array, 0, result, 0, index);
+		if (index < length - 1) {
+			// 后半部分
+
+			System.arraycopy(array, index + 1, result, index, length - index - 1);
+		}
+
+		return result;
+	}
+
+	/**
+	 * 
+	 * 新建一个空数组
+	 * 
+	 * 
+	 * 
+	 * @param <T>
+	 *            数组元素类型
+	 * 
+	 * @param componentType
+	 *            元素类型
+	 * 
+	 * @param newSize
+	 *            大小
+	 * 
+	 * @return 空数组
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T[] newArray(Class<?> componentType, int newSize) {
+		return (T[]) Array.newInstance(componentType, newSize);
+	}
+
+	@SafeVarargs
+	public static <T> T[] addAll(T[]... arrays) {
+		if (arrays.length == 1) {
+			return arrays[0];
+		}
+
+		int length = 0;
+		for (T[] array : arrays) {
+			if (array == null) {
+				continue;
+			}
+			length += array.length;
+		}
+		T[] result = newArray(arrays.getClass().getComponentType().getComponentType(), length);
+
+		length = 0;
+		for (T[] array : arrays) {
+			if (array == null) {
+				continue;
+			}
+			System.arraycopy(array, 0, result, length, array.length);
+			length += array.length;
+		}
+		return result;
+	}
+
+	/**
+	 * 
+	 * 将新元素添加到已有数组中<br>
+	 * 
+	 * 添加新元素会生成一个新的数组，不影响原数组
+	 * 
+	 * 
+	 * 
+	 * @param <T>
+	 *            数组元素类型
+	 * 
+	 * @param buffer
+	 *            已有数组
+	 * 
+	 * @param newElements
+	 *            新元素
+	 * 
+	 * @return 新数组
+	 * 
+	 */
+	@SafeVarargs
+	public static <T> T[] append(T[] buffer, T... newElements) {
+		if (isEmpty(newElements)) {
+			return buffer;
+		}
+
+		T[] t = resize(buffer, buffer.length + newElements.length);
+		System.arraycopy(newElements, 0, t, buffer.length, newElements.length);
+		return t;
+	}
+
+	/**
+	 * 
+	 * 生成一个新的重新设置大小的数组<br>
+	 * 
+	 * 调整大小后拷贝原数组到新数组下。扩大则占位前N个位置，缩小则截断
+	 * 
+	 * 
+	 * 
+	 * @param <T>
+	 *            数组元素类型
+	 * 
+	 * @param buffer
+	 *            原数组
+	 * 
+	 * @param newSize
+	 *            新的数组大小
+	 * 
+	 * @param componentType
+	 *            数组元素类型
+	 * 
+	 * @return 调整后的新数组
+	 * 
+	 */
+	public static <T> T[] resize(T[] buffer, int newSize, Class<?> componentType) {
+		T[] newArray = newArray(componentType, newSize);
+		if (isNotEmpty(buffer)) {
+			System.arraycopy(buffer, 0, newArray, 0, Math.min(buffer.length, newSize));
+		}
+		return newArray;
+	}
+
+	/**
+	 * 
+	 * 生成一个新的重新设置大小的数组<br>
+	 * 
+	 * 新数组的类型为原数组的类型，调整大小后拷贝原数组到新数组下。扩大则占位前N个位置，缩小则截断
+	 * 
+	 * 
+	 * 
+	 * @param <T>
+	 *            数组元素类型
+	 * 
+	 * @param buffer
+	 *            原数组
+	 * 
+	 * @param newSize
+	 *            新的数组大小
+	 * 
+	 * @return 调整后的新数组
+	 * 
+	 */
+	public static <T> T[] resize(T[] buffer, int newSize) {
+		return resize(buffer, newSize, buffer.getClass().getComponentType());
+	}
+
+	/**
+	 * 
+	 * 包装 {@link System#arraycopy(Object, int, Object, int, int)}<br>
+	 * 
+	 * 数组复制
+	 * 
+	 * 
+	 * 
+	 * @param src
+	 *            源数组
+	 * 
+	 * @param srcPos
+	 *            源数组开始位置
+	 * 
+	 * @param dest
+	 *            目标数组
+	 * 
+	 * @param destPos
+	 *            目标数组开始位置
+	 * 
+	 * @param length
+	 *            拷贝数组长度
+	 * 
+	 * @return 目标数组
+	 * 
+	 * @since 3.0.6
+	 * 
+	 */
+	public static Object copy(Object src, int srcPos, Object dest, int destPos, int length) {
+		System.arraycopy(src, srcPos, dest, destPos, length);
+		return dest;
+	}
+
+	/**
+	 * 
+	 * 包装 {@link System#arraycopy(Object, int, Object, int, int)}<br>
+	 * 
+	 * 数组复制，缘数组和目标数组都是从位置0开始复制
+	 * 
+	 * 
+	 * 
+	 * @param src
+	 *            源数组
+	 * 
+	 * @param dest
+	 *            目标数组
+	 * 
+	 * @param length
+	 *            拷贝数组长度
+	 * 
+	 * @return 目标数组
+	 * 
+	 * @since 3.0.6
+	 * 
+	 */
+	public static Object copy(Object src, Object dest, int length) {
+		System.arraycopy(src, 0, dest, 0, length);
+		return dest;
+	}
+
+	/**
+	 * 
+	 * 克隆数组
+	 * 
+	 * 
+	 * 
+	 * @param <T>
+	 *            数组元素类型
+	 * 
+	 * @param array
+	 *            被克隆的数组
+	 * 
+	 * @return 新数组
+	 * 
+	 */
+	public static <T> T[] clone(T[] array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
+	/**
+	 * 
+	 * 克隆数组，如果非数组返回<code>null</code>
+	 * 
+	 * 
+	 * 
+	 * @param <T>
+	 *            数组元素类型
+	 * 
+	 * @param obj
+	 *            数组对象
+	 * 
+	 * @return 克隆后的数组对象
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T clone(final T obj) {
+		if (null == obj) {
+			return null;
+		}
+		if (isArray(obj)) {
+			final Object result;
+			final Class<?> componentType = obj.getClass().getComponentType();
+			if (componentType.isPrimitive()) {// 原始类型
+
+				int length = Array.getLength(obj);
+				result = Array.newInstance(componentType, length);
+				while (length-- > 0) {
+					Array.set(result, length, Array.get(obj, length));
+				}
+			} else {
+				result = ((Object[]) obj).clone();
+			}
+			return (T) result;
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * 生成一个从0开始的数字列表<br>
+	 * 
+	 * 
+	 * 
+	 * @param excludedEnd
+	 *            结束的数字（不包含）
+	 * 
+	 * @return 数字列表
+	 * 
+	 */
+	public static int[] range(int excludedEnd) {
+		return range(0, excludedEnd, 1);
+	}
+
+	/**
+	 * 
+	 * 生成一个数字列表<br>
+	 * 
+	 * 自动判定正序反序
+	 * 
+	 * 
+	 * 
+	 * @param includedStart
+	 *            开始的数字（包含）
+	 * 
+	 * @param excludedEnd
+	 *            结束的数字（不包含）
+	 * 
+	 * @return 数字列表
+	 * 
+	 */
+	public static int[] range(int includedStart, int excludedEnd) {
+		return range(includedStart, excludedEnd, 1);
+	}
+
+	/**
+	 * 
+	 * 生成一个数字列表<br>
+	 * 
+	 * 自动判定正序反序
+	 * 
+	 * 
+	 * 
+	 * @param includedStart
+	 *            开始的数字（包含）
+	 * 
+	 * @param excludedEnd
+	 *            结束的数字（不包含）
+	 * 
+	 * @param step
+	 *            步进
+	 * 
+	 * @return 数字列表
+	 * 
+	 */
+	public static int[] range(int includedStart, int excludedEnd, int step) {
+		if (includedStart > excludedEnd) {
+			int tmp = includedStart;
+			includedStart = excludedEnd;
+			excludedEnd = tmp;
+		}
+
+		if (step <= 0) {
+			step = 1;
+		}
+
+		int deviation = excludedEnd - includedStart;
+		int length = deviation / step;
+		if (deviation % step != 0) {
+			length += 1;
+		}
+		int[] range = new int[length];
+		for (int i = 0; i < length; i++) {
+			range[i] = includedStart;
+			includedStart += step;
+		}
+		return range;
+	}
+
+	// ------------------------------------------------------------------------------------------------------------
+	// Reverse array
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * 
+	 * 
+	 * @param <T>
+	 *            数组元素类型
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @param startIndexInclusive
+	 *            其实位置（包含）
+	 * 
+	 * @param endIndexExclusive
+	 *            结束位置（不包含）
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static <T> T[] reverse(final T[] array, final int startIndexInclusive, final int endIndexExclusive) {
+		if (isEmpty(array)) {
+			return array;
+		}
+		int i = startIndexInclusive < 0 ? 0 : startIndexInclusive;
+		int j = Math.min(array.length, endIndexExclusive) - 1;
+		T tmp;
+		while (j > i) {
+			tmp = array[j];
+			array[j] = array[i];
+			array[i] = tmp;
+			j--;
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * 
+	 * 
+	 * @param <T>
+	 *            数组元素类型
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static <T> T[] reverse(final T[] array) {
+		return reverse(array, 0, array.length);
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * 
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @param startIndexInclusive
+	 *            其实位置（包含）
+	 * 
+	 * @param endIndexExclusive
+	 *            结束位置（不包含）
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static long[] reverse(final long[] array, final int startIndexInclusive, final int endIndexExclusive) {
+		if (isEmpty(array)) {
+			return array;
+		}
+		int i = startIndexInclusive < 0 ? 0 : startIndexInclusive;
+		int j = Math.min(array.length, endIndexExclusive) - 1;
+		long tmp;
+		while (j > i) {
+			tmp = array[j];
+			array[j] = array[i];
+			array[i] = tmp;
+			j--;
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static long[] reverse(final long[] array) {
+		return reverse(array, 0, array.length);
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @param startIndexInclusive
+	 *            其实位置（包含）
+	 * 
+	 * @param endIndexExclusive
+	 *            结束位置（不包含）
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static int[] reverse(final int[] array, final int startIndexInclusive, final int endIndexExclusive) {
+		if (isEmpty(array)) {
+			return array;
+		}
+		int i = startIndexInclusive < 0 ? 0 : startIndexInclusive;
+		int j = Math.min(array.length, endIndexExclusive) - 1;
+		int tmp;
+		while (j > i) {
+			tmp = array[j];
+			array[j] = array[i];
+			array[i] = tmp;
+			j--;
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static int[] reverse(final int[] array) {
+		return reverse(array, 0, array.length);
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @param startIndexInclusive
+	 *            其实位置（包含）
+	 * 
+	 * @param endIndexExclusive
+	 *            结束位置（不包含）
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static short[] reverse(final short[] array, final int startIndexInclusive, final int endIndexExclusive) {
+		if (isEmpty(array)) {
+			return array;
+		}
+		int i = startIndexInclusive < 0 ? 0 : startIndexInclusive;
+		int j = Math.min(array.length, endIndexExclusive) - 1;
+		short tmp;
+		while (j > i) {
+			tmp = array[j];
+			array[j] = array[i];
+			array[i] = tmp;
+			j--;
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static short[] reverse(final short[] array) {
+		return reverse(array, 0, array.length);
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @param startIndexInclusive
+	 *            其实位置（包含）
+	 * 
+	 * @param endIndexExclusive
+	 *            结束位置（不包含）
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static char[] reverse(final char[] array, final int startIndexInclusive, final int endIndexExclusive) {
+		if (isEmpty(array)) {
+			return array;
+		}
+		int i = startIndexInclusive < 0 ? 0 : startIndexInclusive;
+		int j = Math.min(array.length, endIndexExclusive) - 1;
+		char tmp;
+		while (j > i) {
+			tmp = array[j];
+			array[j] = array[i];
+			array[i] = tmp;
+			j--;
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static char[] reverse(final char[] array) {
+		return reverse(array, 0, array.length);
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @param startIndexInclusive
+	 *            其实位置（包含）
+	 * 
+	 * @param endIndexExclusive
+	 *            结束位置（不包含）
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static byte[] reverse(final byte[] array, final int startIndexInclusive, final int endIndexExclusive) {
+		if (isEmpty(array)) {
+			return array;
+		}
+		int i = startIndexInclusive < 0 ? 0 : startIndexInclusive;
+		int j = Math.min(array.length, endIndexExclusive) - 1;
+		byte tmp;
+		while (j > i) {
+			tmp = array[j];
+			array[j] = array[i];
+			array[i] = tmp;
+			j--;
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static byte[] reverse(final byte[] array) {
+		return reverse(array, 0, array.length);
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @param startIndexInclusive
+	 *            其实位置（包含）
+	 * 
+	 * @param endIndexExclusive
+	 *            结束位置（不包含）
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static double[] reverse(final double[] array, final int startIndexInclusive, final int endIndexExclusive) {
+		if (isEmpty(array)) {
+			return array;
+		}
+		int i = startIndexInclusive < 0 ? 0 : startIndexInclusive;
+		int j = Math.min(array.length, endIndexExclusive) - 1;
+		double tmp;
+		while (j > i) {
+			tmp = array[j];
+			array[j] = array[i];
+			array[i] = tmp;
+			j--;
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static double[] reverse(final double[] array) {
+		return reverse(array, 0, array.length);
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @param startIndexInclusive
+	 *            其实位置（包含）
+	 * 
+	 * @param endIndexExclusive
+	 *            结束位置（不包含）
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static float[] reverse(final float[] array, final int startIndexInclusive, final int endIndexExclusive) {
+		if (isEmpty(array)) {
+			return array;
+		}
+		int i = startIndexInclusive < 0 ? 0 : startIndexInclusive;
+		int j = Math.min(array.length, endIndexExclusive) - 1;
+		float tmp;
+		while (j > i) {
+			tmp = array[j];
+			array[j] = array[i];
+			array[i] = tmp;
+			j--;
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static float[] reverse(final float[] array) {
+		return reverse(array, 0, array.length);
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @param startIndexInclusive
+	 *            其实位置（包含）
+	 * 
+	 * @param endIndexExclusive
+	 *            结束位置（不包含）
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static boolean[] reverse(final boolean[] array, final int startIndexInclusive, final int endIndexExclusive) {
+		if (isEmpty(array)) {
+			return array;
+		}
+		int i = startIndexInclusive < 0 ? 0 : startIndexInclusive;
+		int j = Math.min(array.length, endIndexExclusive) - 1;
+		boolean tmp;
+		while (j > i) {
+			tmp = array[j];
+			array[j] = array[i];
+			array[i] = tmp;
+			j--;
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 
+	 * 反转数组，会变更原数组
+	 * 
+	 * @param array
+	 *            数组，会变更
+	 * 
+	 * @return 变更后的原数组
+	 * 
+	 * @since 3.0.9
+	 * 
+	 */
+	public static boolean[] reverse(final boolean[] array) {
+		return reverse(array, 0, array.length);
+	}
+
+	/**
+	 * 
+	 * 获取数组长度<br>
+	 * 
+	 * 如果参数为{@code null}，返回0
+	 * 
+	 * 
+	 * 
+	 * <pre>
 	
+	 * ArrayUtil.length(null)            = 0
+	
+	 * ArrayUtil.length([])              = 0
+	
+	 * ArrayUtil.length([null])          = 1
+	
+	 * ArrayUtil.length([true, false])   = 2
+	
+	 * ArrayUtil.length([1, 2, 3])       = 3
+	
+	 * ArrayUtil.length(["a", "b", "c"]) = 3
+	 * 
+	 * </pre>
+	 * 
+	 * 
+	 * 
+	 * @param array
+	 *            数组对象
+	 * 
+	 * @return 数组长度
+	 * 
+	 * @throws IllegalArgumentException
+	 *             如果参数不为数组，抛出此异常
+	 * 
+	 * @since 3.0.8
+	 * 
+	 * @see Array#getLength(Object)
+	 * 
+	 */
+	public static int length(Object array) throws IllegalArgumentException {
+		if (null == array) {
+			return 0;
+		}
+		return Array.getLength(array);
+	}
+
 }

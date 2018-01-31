@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.tool.lang.TypedHashMap;
-import com.dt.tool.util.DBUtil;
+import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 
 /**
@@ -37,7 +37,7 @@ public class MallProdService extends BaseService {
 				+ "' and is_deleted='N' and not exists (select * from sys_ct_class_item b where b.value=a.spu and class_id='"
 				+ class_id + "')";
 		return ResData.SUCCESS_OPER(
-				db.query(DBUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
+				db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 
 	private String queryClassProdSql(TypedHashMap<String, Object> ps, String class_id) {
@@ -64,7 +64,7 @@ public class MallProdService extends BaseService {
 	public ResData queryClassProd(TypedHashMap<String, Object> ps, String class_id, int pageSize, int pageIndex) {
 		String sql = queryClassProdSql(ps, class_id);
 		return ResData.SUCCESS_OPER(
-				db.query(DBUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
+				db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 
 }
