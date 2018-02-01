@@ -69,6 +69,17 @@ public class ScheduleMangerService extends BaseService {
 		}
 	}
 
+	public Boolean scheduleisShutdown() {
+		try {
+			Boolean isShutdown = sf.getScheduler().isShutdown();
+			return isShutdown;
+		} catch (SchedulerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+
 	/**
 	 * @Description: 获取schedule状态
 	 */
@@ -104,7 +115,7 @@ public class ScheduleMangerService extends BaseService {
 	 */
 	@SuppressWarnings("rawtypes")
 	public JSONArray getJobAll(String type, String user_id) {
-		
+
 		String sql = " select t.*,'本地执行' nodename from sys_job t where 1=1 ";
 		Map<String, ScheduleJob> jobs = Maps.newLinkedHashMap();
 		RcdSet res = db.query(sql);

@@ -27,7 +27,7 @@
 	<!-- 主数据库注入 -->
 	<context:component-scan base-package="com.dt.module.db" />
 	
-	<bean id="ApplicationContextListener" class="com.dt.core.listener.ApplicationContextListener" />
+	<bean id="ApplicationContextListener" class="com.dt.module.base.listener.ApplicationContextListener" />
 
 
 	<!-- 配置自定义返回注解 -->
