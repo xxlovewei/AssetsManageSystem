@@ -21,7 +21,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.dt.tool.enums.OSType;
+import com.dt.tool.enums.OsType;
 import com.dt.tool.util.support.StrKit;
 
 /**
@@ -78,9 +78,9 @@ public class ToolUtil {
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			OSType os = OSType.getOSType();
-			if (os == OSType.Windows) {
-			} else if (os == OSType.Linux) {
+			OsType os = OsType.getOSType();
+			if (os == OsType.Windows) {
+			} else if (os == OsType.Linux) {
 				strURL = "/" + strURL;
 			} else {
 				strURL = "/" + strURL;

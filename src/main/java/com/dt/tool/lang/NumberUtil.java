@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import com.dt.tool.util.exception.UtilException;
+import com.dt.tool.util.exception.ToolBoxException;
 import com.dt.tool.util.support.ObjectKit;
 import com.dt.tool.util.support.StrKit;
 
@@ -1278,8 +1278,8 @@ public class NumberUtil {
 			end = temp;
 		}
 		// 加入逻辑判断，确保begin<end并且size不能大于该表示范围
-		if ((end - begin) < size) {
-			throw new UtilException("Size is larger than range between begin and end!");
+		if ((end - begin) < size) {	
+			throw new ToolBoxException("Size is larger than range between begin and end");
 		}
 		// 种子你可以随意生成，但不能重复
 		int[] seed = new int[end - begin];
@@ -1320,7 +1320,7 @@ public class NumberUtil {
 		}
 		// 加入逻辑判断，确保begin<end并且size不能大于该表示范围
 		if ((end - begin) < size) {
-			throw new UtilException("Size is larger than range between begin and end!");
+			throw new ToolBoxException("Size is larger than range between begin and end!");
 		}
 
 		Random ran = new Random();
