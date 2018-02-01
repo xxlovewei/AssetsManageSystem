@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.dt.core.common.annotion.Acl;
+import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseResult;
-import com.dt.core.common.shiro.ShiroKit;
+import com.dt.core.shiro.ShiroKit;
 import com.dt.dao.sql.Insert;
 import com.dt.module.db.DB;
 import com.dt.tool.util.DbUtil;

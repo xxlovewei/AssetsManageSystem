@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dt.core.common.annotion.Acl;
-import com.dt.core.common.annotion.Res;
-import com.dt.core.common.annotion.impl.ResData;
+import com.dt.core.annotion.Acl;
+import com.dt.core.annotion.Res;
+import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.dao.Rcd;
 import com.dt.dao.RcdSet;

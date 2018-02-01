@@ -3,7 +3,7 @@ package com.dt.module.base.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dt.core.common.annotion.impl.ResData;
+import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.dao.RcdSet;
 import com.dt.dao.sql.Insert;

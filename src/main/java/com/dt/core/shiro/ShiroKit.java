@@ -1,4 +1,4 @@
-package com.dt.core.common.shiro;
+package com.dt.core.shiro;
 /**
  * Copyright (c) 2015-2017, Chill Zhuang 庄骞 (smallchill@163.com).
  * <p>

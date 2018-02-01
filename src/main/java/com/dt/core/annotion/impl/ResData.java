@@ -1,4 +1,4 @@
-package com.dt.core.common.annotion.impl;
+package com.dt.core.annotion.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -6,6 +6,12 @@ import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseResult;
 
 public class ResData extends BaseResult {
+	/**
+	 * @fieldName: serialVersionUID
+	 * @fieldType: long
+	 * @Description: TODO
+	 */
+	private static final long serialVersionUID = 1L;
 	public static String TYPE_JSON = "json";
 	public static String TYPE_TEXT = "text";
 	public static String TYPE_HTML = "html";

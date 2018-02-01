@@ -16,13 +16,10 @@
 	<context:component-scan base-package="**.controller" />
 
 	<!-- 扫描shiro -->
-	<context:component-scan base-package="com.dt.core.common.shiro" />
+	<context:component-scan base-package="com.dt.core.shiro" />
 
 	<!-- 异常处理 -->
-	<context:component-scan base-package="com.dt.core.common.exception" />
-	<!-- <context:component-scan base-package="com.dt.core.common.annotion.impl" 
-		use-default-filters="false"> <context:include-filter type="annotation" expression="com.dt.core.common.annotion.impl.GlobalExceptionHandler" 
-		/> </context:component-scan> -->
+	<context:component-scan base-package="com.dt.core.common.exception" /> 
 
 	<!-- 启动时初始化Spring上下文环境工具类 -->
 	<bean id="SpringContextUtil" class="com.dt.tool.lang.SpringContextUtil" />
@@ -35,8 +32,8 @@
 
 	<!-- 配置自定义返回注解 -->
 	<bean id="resreqMessagCover"
-		class="com.dt.core.common.annotion.impl.ResReqDataMessageConvert" />
-	<bean id="resReqSolve" class="com.dt.core.common.annotion.impl.ResReqResolver">
+		class="com.dt.core.annotion.impl.ResReqDataMessageConvert" />
+	<bean id="resReqSolve" class="com.dt.core.annotion.impl.ResReqResolver">
 		<constructor-arg>
 			<list>
 				<ref bean="resreqMessagCover" />

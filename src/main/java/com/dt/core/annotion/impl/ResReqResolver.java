@@ -1,4 +1,4 @@
-package com.dt.core.common.annotion.impl;
+package com.dt.core.annotion.impl;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor;
 
-import com.dt.core.common.annotion.Req;
-import com.dt.core.common.annotion.Res;
+import com.dt.core.annotion.Req;
+import com.dt.core.annotion.Res;
 
 public class ResReqResolver extends AbstractMessageConverterMethodProcessor {
 	public ResReqResolver(List<HttpMessageConverter<?>> converters) {

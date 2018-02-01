@@ -1,4 +1,4 @@
-package com.dt.core.common.shiro.sessiondao;
+package com.dt.core.shiro.sessiondao;
 
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.session.Session;

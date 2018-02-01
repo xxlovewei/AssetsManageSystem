@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dt.core.common.annotion.impl.ResData;
+import com.dt.core.annotion.impl.ResData;
 import com.dt.tool.util.support.HttpKit;
 
 public class BaseController extends BaseSC {

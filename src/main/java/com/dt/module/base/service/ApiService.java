@@ -15,8 +15,8 @@ import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import com.dt.core.common.annotion.Acl;
-import com.dt.core.common.annotion.impl.ResData;
+import com.dt.core.annotion.Acl;
+import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.dao.sql.Insert;
 import com.dt.dao.sql.SQL;

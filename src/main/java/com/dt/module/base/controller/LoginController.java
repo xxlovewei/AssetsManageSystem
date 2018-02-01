@@ -18,13 +18,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dt.core.common.annotion.Acl;
-import com.dt.core.common.annotion.Res;
-import com.dt.core.common.annotion.impl.ResData;
+import com.dt.core.annotion.Acl;
+import com.dt.core.annotion.Res;
+import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.shiro.ShiroKit;
-import com.dt.core.common.shiro.ShiroUser;
+import com.dt.core.shiro.ShiroKit;
+import com.dt.core.shiro.ShiroUser;
 import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.MenuRootService;
 import com.dt.tool.util.ToolUtil;

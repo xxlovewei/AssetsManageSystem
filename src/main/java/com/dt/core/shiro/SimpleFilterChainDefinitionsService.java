@@ -1,4 +1,4 @@
-package com.dt.core.common.shiro;
+package com.dt.core.shiro;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import com.dt.core.common.annotion.Acl;
+import com.dt.core.annotion.Acl;
 import com.dt.tool.lang.SpringContextUtil;
 import com.dt.tool.util.ToolUtil;
 
