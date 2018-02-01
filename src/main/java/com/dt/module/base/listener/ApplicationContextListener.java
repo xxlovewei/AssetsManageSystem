@@ -37,16 +37,16 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 						.getResourceAsStream("sys.properties");
 				Properties ps = new Properties();
 				ps.load(in);
-				String initjob = ps.getProperty("initjob");
+				String initjob = ps.getProperty("job.init");
 				if (ToolUtil.isNotEmpty(initjob) && initjob.toLowerCase().equals("true")) {
-					_log.info("启动Job");
+					_log.info("Job Start.");
 					ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
 					if (scheduleMangerService.scheduleisShutdown()) {
 						scheduleMangerService.scheduleStart();
 						scheduleMangerService.jobInitLoadFromDb();
 					}
 				} else {
-					_log.info("不启动Job");
+					_log.info("Job Not Start.");
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
