@@ -62,19 +62,26 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 	@Override
 	public Session readSession(Serializable sessionId) throws UnknownSessionException {
 		Session session = null;
+		String id = "";
 		try {
 			session = super.readSession(sessionId);
+			id = session.getId().toString();
 		} catch (Exception e) {
 		}
-		
-		
+
 		// 如果session已经被删除，则从数据库中查询session
 		if (session == null) {
 			_log.info("session:" + sessionId + "已删除,尝试从数据库中恢复");
 			SimpleSessionEntity entity = getEntity(sessionId);
 			if (entity != null) {
 				_log.info("session:" + sessionId + "已在数据库中找到");
-				session = SerializableUtils.deserialize(entity.getSession());
+				try {
+					session = SerializableUtils.deserialize(entity.getSession());
+				} catch (Exception e) {
+					_log.info("无法初始化,sessionId:" + id);
+					return null;
+				}
+
 				if (isExpire(session)) {
 					_log.info("session 已经过期");
 					// 后期可以判断只对app进行过期处理
