@@ -9,7 +9,6 @@ import com.dt.core.annotion.Res;
 import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.module.mall.service.OrderService;
-import com.dt.module.mall.service.PayService;
 
 /**
  * @author: algernonking
@@ -19,8 +18,8 @@ import com.dt.module.mall.service.PayService;
 @Controller
 @RequestMapping("/api")
 public class PayController extends BaseController {
-	@Autowired
-	private PayService payService;
+//	@Autowired
+//	private PayService payService;
 
 	@Autowired
 	private OrderService orderService;

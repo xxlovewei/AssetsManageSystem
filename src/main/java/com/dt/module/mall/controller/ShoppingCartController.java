@@ -1,10 +1,7 @@
 package com.dt.module.mall.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.dt.module.mall.service.ShoppingCartService;
 
 /** 
  * @author: algernonking
@@ -14,7 +11,7 @@ import com.dt.module.mall.service.ShoppingCartService;
 @Controller
 @RequestMapping("/api")
 public class ShoppingCartController {
-	@Autowired
-	private ShoppingCartService shoppingCartService;
+//	@Autowired
+//	private ShoppingCartService shoppingCartService;
 }
 
