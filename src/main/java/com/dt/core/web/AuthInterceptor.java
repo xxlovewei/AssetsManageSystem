@@ -11,8 +11,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.base.BaseResult;
-import com.dt.core.common.dao.sql.Insert;
 import com.dt.core.common.shiro.ShiroKit;
+import com.dt.dao.sql.Insert;
 import com.dt.module.db.DB;
 import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;

@@ -11,9 +11,9 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.dao.Rcd;
-import com.dt.core.common.dao.RcdSet;
-import com.dt.core.common.dao.sql.Update;
+import com.dt.dao.Rcd;
+import com.dt.dao.RcdSet;
+import com.dt.dao.sql.Update;
 import com.dt.module.db.DB;
 
 @Controller()

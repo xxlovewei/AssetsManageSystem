@@ -11,7 +11,7 @@ import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dt.core.common.dao.Rcd;
+import com.dt.dao.Rcd;
 import com.dt.module.db.DB;
 import com.dt.tool.util.ToolUtil;
 

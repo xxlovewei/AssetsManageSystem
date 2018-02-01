@@ -23,8 +23,8 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.dao.Rcd;
-import com.dt.core.common.dao.sql.Insert;
+import com.dt.dao.Rcd;
+import com.dt.dao.sql.Insert;
 import com.dt.module.db.DB;
 import com.dt.tool.util.ToolUtil;
 

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.dao.sql.Update;
-import com.dt.tool.lang.TypedHashMap;
+import com.dt.dao.sql.Update;
+import com.dt.dao.util.TypedHashMap;
 import com.dt.tool.util.ToolUtil;
 
 /**

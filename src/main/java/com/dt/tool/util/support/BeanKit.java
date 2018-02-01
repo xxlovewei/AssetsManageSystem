@@ -77,7 +77,7 @@ public class BeanKit {
 	public static PropertyDescriptor getPropertyDescriptor(Class<?> clazz, final String fieldName) throws IntrospectionException {
 		PropertyDescriptor[] propertyDescriptors = getPropertyDescriptors(clazz);
 		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-			if (ObjectKit.equals(fieldName, propertyDescriptor.getName())) {
+			if (ObjectKit.equal(fieldName, propertyDescriptor.getName())) {
 				return propertyDescriptor;
 			}
 		}

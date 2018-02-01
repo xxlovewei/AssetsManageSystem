@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
-import com.dt.tool.lang.TypedHashMap;
+import com.dt.dao.util.TypedHashMap;
 import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;
 

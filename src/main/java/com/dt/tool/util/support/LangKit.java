@@ -487,7 +487,7 @@ public class LangKit {
         return array[i];
     }
 
-    public static Number str2number(String s) {
+    public static Number strTonumber(String s) {
         // null 值
         if (null == s) {
             return 0;

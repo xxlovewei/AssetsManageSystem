@@ -23,10 +23,10 @@ import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.shiro.ShiroKit;
 import com.dt.core.common.shiro.ShiroUser;
+import com.dt.dao.util.TypedHashMap;
 import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.UserService;
 import com.dt.module.base.service.WxUserService;
-import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.ToolUtil;
 import com.dt.tool.util.support.HttpKit;
 

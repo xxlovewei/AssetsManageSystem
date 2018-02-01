@@ -18,8 +18,8 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.dao.sql.Insert;
-import com.dt.core.common.dao.sql.SQL;
+import com.dt.dao.sql.Insert;
+import com.dt.dao.sql.SQL;
 import com.dt.tool.lang.SpringContextUtil;
 import com.dt.tool.util.DbUtil;
 import com.dt.tool.util.ToolUtil;

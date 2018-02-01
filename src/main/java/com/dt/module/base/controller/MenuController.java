@@ -9,10 +9,10 @@ import com.dt.core.common.annotion.Acl;
 import com.dt.core.common.annotion.Res;
 import com.dt.core.common.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
+import com.dt.dao.util.TypedHashMap;
 import com.dt.module.base.service.MenuRoleMapService;
 import com.dt.module.base.service.MenuRootService;
 import com.dt.module.base.service.MenuService;
-import com.dt.tool.lang.TypedHashMap;
 import com.dt.tool.util.ToolUtil;
 import com.dt.tool.util.support.HttpKit;
 

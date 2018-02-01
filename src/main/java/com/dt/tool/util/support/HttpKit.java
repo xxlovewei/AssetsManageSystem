@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.dt.tool.lang.TypedHashMap;
+import com.dt.dao.util.TypedHashMap;
 
 public class HttpKit {
 
