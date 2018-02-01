@@ -1,4 +1,4 @@
-package com.dt.core.common.listener;
+package com.dt.core.listener;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

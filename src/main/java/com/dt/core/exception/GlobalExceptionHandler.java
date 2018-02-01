@@ -1,4 +1,4 @@
-package com.dt.core.common.exception;
+package com.dt.core.exception;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

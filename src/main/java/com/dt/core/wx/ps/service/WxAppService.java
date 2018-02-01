@@ -1,8 +1,8 @@
-package com.dt.core.common.wx.ps.service;
+package com.dt.core.wx.ps.service;
 
 import java.util.HashMap;
 
-import com.dt.core.common.wx.ps.entity.WxApp;
+import com.dt.core.wx.ps.entity.WxApp;
 
 /**
  * @author: algernonking

@@ -19,7 +19,7 @@
 	<context:component-scan base-package="com.dt.core.shiro" />
 
 	<!-- 异常处理 -->
-	<context:component-scan base-package="com.dt.core.common.exception" /> 
+	<context:component-scan base-package="com.dt.core.exception" /> 
 
 	<!-- 启动时初始化Spring上下文环境工具类 -->
 	<bean id="SpringContextUtil" class="com.dt.tool.lang.SpringContextUtil" />
@@ -27,7 +27,7 @@
 	<!-- 主数据库注入 -->
 	<context:component-scan base-package="com.dt.module.db" />
 	
-	<bean id="ApplicationContextListener" class="com.dt.core.common.listener.ApplicationContextListener" />
+	<bean id="ApplicationContextListener" class="com.dt.core.listener.ApplicationContextListener" />
 
 
 	<!-- 配置自定义返回注解 -->
