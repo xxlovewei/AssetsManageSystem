@@ -1,9 +1,12 @@
-var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad', 'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree', 'ngSanitize', 'localytics.directives',
-		'treeGrid', 'cgNotify', 'angular-confirm', 'datatables', 'datatables.select', 'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor' ])
+var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
+		'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree',
+		'ngSanitize', 'localytics.directives', 'treeGrid', 'cgNotify',
+		'angular-confirm', 'datatables', 'datatables.select',
+		'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar',
+		'ng.ueditor' ])
 var $injector = angular.injector();
 
-
-var version="20171128";
+var version = new Date().getTime();
 app.factory('sessionInjector', [
 		'$log',
 		'$injector',
@@ -23,14 +26,15 @@ app.factory('sessionInjector', [
 
 			sessionInjector.response = function(responseObject) {
 				// 输出调试信息
-				if (angular.isDefined(responseObject.config) && angular.isDefined(responseObject.config.data) && angular.isDefined(responseObject.config.url)
+				if (angular.isDefined(responseObject.config)
+						&& angular.isDefined(responseObject.config.data)
+						&& angular.isDefined(responseObject.config.url)
 						&& angular.isDefined(responseObject.data)) {
 					$log.warn("$http|res url:", responseObject.config.url);
 					$log.warn("$http|res post:", responseObject.config.data);
 					$log.warn("$http|res data:", responseObject.data);
 				}
-
-				// 授权验证
+				// 未登录
 				if (responseObject.status == "299") {
 					var state = $injector.get('$state');
 					state.go("login");
@@ -55,8 +59,10 @@ app.factory('sessionInjector', [
 			return sessionInjector;
 		} ]);
 
-function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvider, $compileProvider, $stateProvider, $filterProvider, $provide, $urlRouterProvider,
-		$ocLazyLoadProvider, IdleProvider, KeepaliveProvider, $httpProvider) {
+function config_main(cfpLoadingBarProvider, $locationProvider,
+		$controllerProvider, $compileProvider, $stateProvider, $filterProvider,
+		$provide, $urlRouterProvider, $ocLazyLoadProvider, IdleProvider,
+		KeepaliveProvider, $httpProvider) {
 	// 圈圈延迟出现控制
 	console.log("App main config");
 	cfpLoadingBarProvider.latencyThreshold = 2000;
@@ -100,14 +106,16 @@ function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvid
 					query += param(innerObj) + '&';
 				}
 			} else if (value !== undefined && value !== null)
-				query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+				query += encodeURIComponent(name) + '='
+						+ encodeURIComponent(value) + '&';
 		}
 
 		return query.length ? query.substr(0, query.length - 1) : query;
 	};
 
 	$httpProvider.defaults.transformRequest = [ function(data) {
-		return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+		return angular.isObject(data) && String(data) !== '[object File]' ? param(data)
+				: data;
 	} ];
 	// 登录
 	$stateProvider.state('login', {
@@ -144,91 +152,117 @@ function config_main(cfpLoadingBarProvider, $locationProvider, $controllerProvid
 	})
 }
 
-app.config(config_main).run(function(Idle, $rootScope, $state, $http, $log, $transitions, $templateCache) {
-	console.log("App main run");
-	// start watching when the app runs. also starts the Keepalive service by
-	//Idle.watch();
-	// 替换了之前的$stateNotFound
-	$state.onInvalid(function(to, from, injector) {
-		$log.warn(to);
-		$log.warn(from);
-		$log.warn(injector);
-		alert("未配置路由");
-	});
-	// 替换了之前的$stateChangeStart
-	$transitions.onSuccess({
-		to : '**'
-	}, function(trans) {
-		//删除html缓存
-		var $state = trans.router.stateService;
-		if(angular.isDefined($state.router.globals) &&angular.isDefined($state.router.globals.current)&&angular.isDefined($state.router.globals.current.templateUrl) ){
-			console.log("Remove|"+$state.router.globals.current.templateUrl);
-			$templateCache.remove($state.router.globals.current.templateUrl)
-		}
-		
-		var userService = trans.injector().get('userService');
-		var from_arr = trans._treeChanges.from;
-		var from = null;
-		if (from_arr.length > 0) {
-			from = from_arr[from_arr.length - 1].state.name;
-		}
-		$log.warn("from:", from);
-		// 不需要检查是否登录
-		userService.checkLogin().then(function(result) {
-			$log.warn("check login result,from:" + from + ",result:", result)
-			if (!result.success) {
-				if (from != "login") {
-					$state.go("login", {
-						to : from
+app
+		.config(config_main)
+		.run(
+				function(Idle, $rootScope, $state, $http, $log, $transitions,
+						$templateCache) {
+					console.log("App main run");
+					// start watching when the app runs. also starts the
+					// Keepalive service by
+					// Idle.watch();
+					// 替换了之前的$stateNotFound
+					$state.onInvalid(function(to, from, injector) {
+						$log.warn(to);
+						$log.warn(from);
+						$log.warn(injector);
+						alert("未配置路由");
 					});
-				} else {
-				}
-			}
-		}, function(error) {
-			alert('系统错误');
-			event.preventDefault();
-		}, function(progress) {
-		})
-	});
-	$rootScope.$state = $state;
-	$rootScope.project = '/dt/';
-	$rootScope.version = '20170901';
-	$rootScope.$on('IdleStart', function() {
-		$log.warn('IdleStart');
-		// the user appears to have gone idle
-	});
+					// 替换了之前的$stateChangeStart
+					$transitions
+							.onSuccess(
+									{
+										to : '**'
+									},
+									function(trans) {
+										// 删除html缓存
+										var $state = trans.router.stateService;
+										if (angular
+												.isDefined($state.router.globals)
+												&& angular
+														.isDefined($state.router.globals.current)
+												&& angular
+														.isDefined($state.router.globals.current.templateUrl)) {
+											console
+													.log("Remove|"
+															+ $state.router.globals.current.templateUrl);
+											$templateCache
+													.remove($state.router.globals.current.templateUrl)
+										}
 
-	$rootScope.$on('IdleWarn', function(e, countdown) {
-		$log.warn('IdleWarncountdown', countdown);
-		if (countdown == 1) {
-			// 重新激活
-			//Idle.watch();
-		}
-		// follows after the IdleStart event, but includes a countdown until the
-		// user is considered timed out
-		// the countdown arg is the number of seconds remaining until then.
-		// you can change the title or display a warning dialog from here.
-		// you can let them resume their session by calling Idle.watch()
-	});
+										var userService = trans.injector().get(
+												'userService');
+										var from_arr = trans._treeChanges.from;
+										var from = null;
+										if (from_arr.length > 0) {
+											from = from_arr[from_arr.length - 1].state.name;
+										}
+										console.log(trans);
+										$log.warn("from:", from);
+										// 不需要检查是否登录
+										// userService.checkLogin().then(function(result)
+										// {
+										// $log.warn("check login result,from:"
+										// + from + ",result:", result)
+										// if (!result.success) {
+										// if (from != "login") {
+										// $state.go("login", {
+										// to : from
+										// });
+										// } else {
+										// }
+										// }
+										// }, function(error) {
+										// alert('系统错误');
+										// event.preventDefault();
+										// }, function(progress) {
+										// })
+									});
+					$rootScope.$state = $state;
+					$rootScope.project = '/dt/';
+					$rootScope.version = version;
+					$rootScope.$on('IdleStart', function() {
+						$log.warn('IdleStart');
+						// the user appears to have gone idle
+					});
 
-	$rootScope.$on('IdleTimeout', function() {
-		$log.warn('IdleTimeout');
-		// the user has timed out (meaning idleDuration + timeout has passed
-		// without any activity)
-		// this is where you'd log them
-	});
+					$rootScope.$on('IdleWarn', function(e, countdown) {
+						$log.warn('IdleWarncountdown', countdown);
+						if (countdown == 1) {
+							// 重新激活
+							// Idle.watch();
+						}
+						// follows after the IdleStart event, but includes a
+						// countdown until the
+						// user is considered timed out
+						// the countdown arg is the number of seconds remaining
+						// until then.
+						// you can change the title or display a warning dialog
+						// from here.
+						// you can let them resume their session by calling
+						// Idle.watch()
+					});
 
-	$rootScope.$on('IdleEnd', function() {
-		$log.warn('IdleEnd');
-		// the user has come back from AFK and is doing stuff. if you are
-		// warning them, you can use this to hide the dialog
-	});
+					$rootScope.$on('IdleTimeout', function() {
+						$log.warn('IdleTimeout');
+						// the user has timed out (meaning idleDuration +
+						// timeout has passed
+						// without any activity)
+						// this is where you'd log them
+					});
 
-	$rootScope.$on('Keepalive', function() {
-		$log.warn('IdlKeepaliveeEnd');
-		// do something to keep the user's session alive
-	});
-});
+					$rootScope.$on('IdleEnd', function() {
+						$log.warn('IdleEnd');
+						// the user has come back from AFK and is doing stuff.
+						// if you are
+						// warning them, you can use this to hide the dialog
+					});
+
+					$rootScope.$on('Keepalive', function() {
+						$log.warn('IdlKeepaliveeEnd');
+						// do something to keep the user's session alive
+					});
+				});
 
 app.config(config_shop).run(function() {
 	console.log("App Shop run");

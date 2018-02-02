@@ -22,9 +22,9 @@
 <link id="myappcss" href="css/app.css" rel="stylesheet">
 </head>
 <!-- Main controller with serveral data used in Inspinia theme on diferent view -->
-<body ng-controller="MainCtrl as main"  
-	class="{{$state.current.data.specialClass?$state.current.data.specialClass:'fixed-nav'}}" landing-scrollspy
-	id="page-top">
+<body ng-controller="MainCtrl as main"
+	class="{{$state.current.data.specialClass?$state.current.data.specialClass:'fixed-nav'}}"
+	landing-scrollspy id="page-top">
 	<!-- Main view  -->
 	<div ui-view></div>
 	<!-- jQuery and Bootstrap -->
@@ -124,18 +124,26 @@
 	<script src="plugin/angular_localstorage/swx-local-storage.min.js"></script>
 
 	<!-- dropzone -->
-	<link href="css/plugins/dropzone/basic.css" rel="stylesheet"
-		type="text/css" />
+	<link href="css/plugins/dropzone/basic.css" rel="stylesheet" type="text/css" />
 	<script src="js/plugins/dropzone/dropzone.js"></script>
 
 	<!-- Anglar App Script,先加载config,后启动app -->
-	<script src="js/config_system.js?v=20171128"></script>
+	<script>document.write("<script type='text/javascript' src='js/config_system.js?v=" + Date.now() + "'><\/script>");</script>
+	<script>document.write("<script type='text/javascript' src='js/config_shop.js?v=" + Date.now() + "'><\/script>");</script>
+	<script>document.write("<script type='text/javascript' src='js/config_om.js?v=" + Date.now() + "'><\/script>");</script>
+	<script>document.write("<script type='text/javascript' src='js/app_main.js?v=" + Date.now() + "'><\/script>");</script>
+	<script>document.write("<script type='text/javascript' src='js/service_user.js?v=" + Date.now() + "'><\/script>");</script>
+	<script>document.write("<script type='text/javascript' src='js/translations.js?v=" + Date.now() + "'><\/script>");</script>
+	<script>document.write("<script type='text/javascript' src='js/directives.js?v=" + Date.now() + "'><\/script>");</script>
+	<script>document.write("<script type='text/javascript' src='js/controllers.js?v=" + Date.now() + "'><\/script>");</script>
+	<!-- <script src="js/config_system.js?v=20171128"></script>
 	<script src="js/config_shop.js?v=20171128"></script>
 	<script src="js/config_om.js?v=20171128"></script>
 	<script src="js/app_main.js?v=20171128"></script>
 	<script src="js/service_user.js?v=20171128"></script>
 	<script src="js/translations.js?v=20171128"></script>
 	<script src="js/directives.js?v=20171128"></script>
-	<script src="js/controllers.js?v=20171128"></script>
+	<script src="js/controllers.js?v=20171128"></script> -->
 </body>
 </html>
+

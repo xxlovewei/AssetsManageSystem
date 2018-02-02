@@ -12,7 +12,7 @@ public class BaseResult implements java.io.Serializable {
 	public static JSONObject JSON_RETURN_NOT_LOGIN() {
 		JSONObject r = new JSONObject();
 		r.put("success", false);
-		r.put("code", BaseCodeMsgEnum.SUCCESS_DEF_MSG.getCode());
+		r.put("code", BaseCodeMsgEnum.USER_NOT_LOGIN.getCode());
 		r.put("message", BaseCodeMsgEnum.USER_NOT_LOGIN.getMessage());
 		return r;
 	}

@@ -1,6 +1,6 @@
 function config_system($stateProvider, $ocLazyLoadProvider) {
 	$ocLazyLoadProvider.config({
-		debug : false
+		debug : true
 	});
 	console.log("App System config");
 	// 基础数据
@@ -22,7 +22,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('basedata.weather', {
 		url : "/weather",
-		data: { pageTitle: '天气数据'},
+		data: { pageTitle: '天气数据',logincheck:true},
 		templateUrl : "views/system/base/weather.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {

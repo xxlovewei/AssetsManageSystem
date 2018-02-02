@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.dt.dao.Rcd;
 import com.dt.module.db.DB;
+import com.dt.tool.util.SerializableUtils;
 import com.dt.tool.util.ToolUtil;
 
 /**
@@ -62,26 +63,23 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 	@Override
 	public Session readSession(Serializable sessionId) throws UnknownSessionException {
 		Session session = null;
-		String id = "";
 		try {
 			session = super.readSession(sessionId);
-			id = session.getId().toString();
 		} catch (Exception e) {
-		}
 
+		}
 		// 如果session已经被删除，则从数据库中查询session
 		if (session == null) {
-			_log.info("session:" + sessionId + "已删除,尝试从数据库中恢复");
+			_log.info("session:" + sessionId + "已删除,尝试恢复session");
 			SimpleSessionEntity entity = getEntity(sessionId);
 			if (entity != null) {
-				_log.info("session:" + sessionId + "已在数据库中找到");
+				_log.info("session:" + sessionId + "找到session");
 				try {
 					session = SerializableUtils.deserialize(entity.getSession());
 				} catch (Exception e) {
-					_log.info("无法初始化,sessionId:" + id);
-					return null;
+					session = null;
+					_log.info("无法初始化,sessionId:" + sessionId);
 				}
-
 				if (isExpire(session)) {
 					_log.info("session 已经过期");
 					// 后期可以判断只对app进行过期处理
@@ -91,9 +89,10 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 					_log.info("session 未过期");
 				}
 			} else {
-				_log.info("session:" + sessionId + "未在数据库中找到");
+				_log.info("session:" + sessionId + "未找到保存的sessioin");
 			}
 		}
+
 		return session;
 	}
 
@@ -109,8 +108,10 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 
 	@Override
 	public void delete(Session session) {
-		_log.info("delete session");
 		super.delete(session);
+		_log.info("delete session,sessionId:" + session.getId());
+		DB.instance().execute("delete from sys_session where cookie=?", session.getId().toString());
+
 	}
 
 	private SimpleSessionEntity getEntity(Serializable sessionId) {

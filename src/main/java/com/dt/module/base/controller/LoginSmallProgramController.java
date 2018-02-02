@@ -113,7 +113,8 @@ public class LoginSmallProgramController extends BaseController {
 		if (ToolUtil.isNotEmpty(error)) {
 			res.setCode(10002);
 			res.setSuccess(false);
-			res.setMessage("登录失败");
+			res.setMessage("登录失败了");
+			 
 			return res;
 		}
 

@@ -21,11 +21,9 @@ public enum BaseCodeMsgEnum {
 	FAILED_NO_DATA_MSG(1, "无数据"),
 	
 	
-	
-	SYSTEM_CONF_ERROR(2000,"系统配置错误"),
- 
-	USER_NOT_LOGIN(299, "登录失败"),
 	USER_ALREADY_LOGIN(0, "用户已登录"),
+ 
+	USER_NOT_LOGIN(299, "用户未登录"),
 	USER_ALREADY_REG(297,"该用户已经注册"),
 	USER_NOT_EXISTED(295, "没有此用户"),
 	USER_ACCOUNT_FREEZED(294, "账号被冻结"),
@@ -33,9 +31,8 @@ public enum BaseCodeMsgEnum {
 	USER_TWO_PWD_NOT_MATCH(292, "两次输入密码不一致"),
 	USER_QUERY_FAILED(291, "获取用户失败"),
 	
-	
+	SYSTEM_CONF_ERROR(2000,"系统配置错误"),
 	REQ_PARAM_ERROR(501,"请求参数不正确"),
-	
 	PERMITION_NOT(1000,"无权限");
 
 	BaseCodeMsgEnum(int code, String message) {

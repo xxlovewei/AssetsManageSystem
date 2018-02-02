@@ -159,7 +159,7 @@ public class ResData extends BaseResult {
 		ResData r = new ResData();
 		r.setSuccess(false);
 		r.setCode(BaseCodeMsgEnum.USER_NOT_LOGIN.getCode());
-		r.setMessage(BaseCodeMsgEnum.USER_ALREADY_LOGIN.getMessage());
+		r.setMessage(BaseCodeMsgEnum.USER_NOT_LOGIN.getMessage());
 		return r;
 	}
 	public static ResData SUCCESS_OPER(Object data) {
