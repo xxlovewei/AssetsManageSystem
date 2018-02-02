@@ -24,5 +24,5 @@ public class DB extends SpringOracleDao {
 	public void setDataSource(DataSource dataSource) {
 		_log.info("Oracle db setDataSource");
 		super.setDataSource(dataSource);
-	}
+	} 
 }
