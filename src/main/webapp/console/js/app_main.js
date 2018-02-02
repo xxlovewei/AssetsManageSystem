@@ -189,34 +189,54 @@ app
 											$templateCache
 													.remove($state.router.globals.current.templateUrl)
 										}
-
-										var userService = trans.injector().get(
-												'userService');
+										// 处理from
 										var from_arr = trans._treeChanges.from;
 										var from = null;
 										if (from_arr.length > 0) {
 											from = from_arr[from_arr.length - 1].state.name;
 										}
-										console.log(trans);
 										$log.warn("from:", from);
-										// 不需要检查是否登录
-										// userService.checkLogin().then(function(result)
-										// {
-										// $log.warn("check login result,from:"
-										// + from + ",result:", result)
-										// if (!result.success) {
-										// if (from != "login") {
-										// $state.go("login", {
-										// to : from
-										// });
-										// } else {
-										// }
-										// }
-										// }, function(error) {
-										// alert('系统错误');
-										// event.preventDefault();
-										// }, function(progress) {
-										// })
+										// 处理to
+										var target = trans._targetState._definition;
+										if (angular.isDefined(target.data)
+												&& angular
+														.isDefined(target.data.loginCheck)
+												&& target.data.loginCheck) {
+											$log.warn("Action LoginCheck");
+											var userService = trans.injector()
+													.get('userService');
+											userService
+													.checkLogin()
+													.then(
+															function(result) {
+																$log
+																		.warn(
+																				"check login result,from:"
+																						+ from
+																						+ ",result:",
+																				result)
+
+																if (!result.success) {
+																	if (from != "login") {
+																		$state
+																				.go(
+																						"login",
+																						{
+																							to : from
+																						});
+																	} else {
+																	}
+																}
+															},
+															function(error) {
+																alert('系统错误');
+																event
+																		.preventDefault();
+															},
+															function(progress) {
+															})
+										}
+
 									});
 					$rootScope.$state = $state;
 					$rootScope.project = '/dt/';
