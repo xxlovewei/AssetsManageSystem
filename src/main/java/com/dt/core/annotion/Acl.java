@@ -19,7 +19,8 @@ public @interface Acl {
 	public static String TYPE_USER_COMMON = "common";
 	public static String TYPE_DENY = "deny";
 
+	
+	
 	String value() default TYPE_DENY;
-
 	String info() default "";
 }

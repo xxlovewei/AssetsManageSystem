@@ -41,10 +41,8 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 				if (ToolUtil.isNotEmpty(initjob) && initjob.toLowerCase().equals("true")) {
 					_log.info("Job Start.");
 					ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
-					if (scheduleMangerService.scheduleisShutdown()) {
-						scheduleMangerService.scheduleStart();
-						scheduleMangerService.jobInitLoadFromDb();
-					}
+					scheduleMangerService.scheduleStart();
+					scheduleMangerService.jobInitLoadFromDb();
 				} else {
 					_log.info("Job Not Start.");
 				}

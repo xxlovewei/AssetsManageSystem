@@ -77,8 +77,8 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 				try {
 					session = SerializableUtils.deserialize(entity.getSession());
 				} catch (Exception e) {
-					session = null;
 					_log.info("无法初始化,sessionId:" + sessionId);
+					return null;
 				}
 				if (isExpire(session)) {
 					_log.info("session 已经过期");

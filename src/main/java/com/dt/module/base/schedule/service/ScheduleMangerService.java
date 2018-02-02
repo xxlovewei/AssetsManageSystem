@@ -103,7 +103,6 @@ public class ScheduleMangerService extends BaseService {
 	public void scheduleStart() {
 		try {
 			sf.getScheduler().start();
-			;
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

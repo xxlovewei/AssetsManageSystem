@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.JButton;
-
 public class ArrayUtil {
 
 	/**
@@ -161,11 +159,11 @@ public class ArrayUtil {
 	}
 
 	public static void main(String[] args) {
-		Object a[] = { new JButton("1"), new JButton("2"), new JButton("3") };
-		Object b[] = { 4, 5, 6, 7 };
-		Object[] x = (Object[]) merege(a, b);
-		for (Object p : x) {
-		}
+//		Object a[] = { new JButton("1"), new JButton("2"), new JButton("3") };
+//		Object b[] = { 4, 5, 6, 7 };
+//		Object[] x = (Object[]) merege(a, b);
+//		for (Object p : x) {
+//		}
 
 	}
 	// ----------------------------------------------------------------------

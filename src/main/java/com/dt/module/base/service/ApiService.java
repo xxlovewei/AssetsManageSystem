@@ -57,6 +57,7 @@ public class ApiService extends BaseService {
 			Acl am = ((HandlerMethod) hm).getMethodAnnotation(Acl.class);
 			if (ToolUtil.isNotEmpty(am)) {
 				String aclvalue = am.value();
+				String aclinfo = am.info();
 				Iterator<String> it = pSet.iterator();
 				while (it.hasNext()) {
 					String str = it.next(); 
@@ -66,6 +67,7 @@ public class ApiService extends BaseService {
 					me.setIf("ct", str);
 					me.setIf("ctacl", aclvalue);
 					me.setIf("apitype", "url");
+					me.setIf("info", aclinfo);
 					me.setSE("rectime", DbUtil.getDBDateString(db.getDBType()));
 					sqls.add(me);
 				}
