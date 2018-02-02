@@ -18,8 +18,7 @@ public class abc {
 	public static void tt( Class<?> clazz) {
 		
 		ArrayUtil.toList(clazz.getEnumConstants());
-		
-		System.out.println( clazz.getCanonicalName());
+		 	 
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

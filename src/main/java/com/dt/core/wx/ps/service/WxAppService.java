@@ -26,7 +26,6 @@ public class WxAppService {
 		b.setName("测试公众号B");
 		apps.put(b.getAppid(), b);
 		
-		System.out.println(a.getAccesstoken());
 	}
 	//
 	// WxApp appa=new WxApp();

@@ -171,7 +171,6 @@ public class StoreSqlService extends BaseService {
 		Update me = new Update("ct_uri");
 		me.set("is_deleted", "Y");
 		me.where().and("store_id=?", store_id);
-		System.out.println("sql" + me.getSQL());
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}

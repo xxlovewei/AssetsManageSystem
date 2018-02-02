@@ -162,8 +162,6 @@ public class UserService extends BaseService {
 					+ "                    and a.role_id = b.role_id                                   "
 					+ "                    and user_id = '<#USER_ID#>'))                               "
 					+ "  where level1 <> '-1'";
-
-			System.out.println(basesql);
 			basesql = "select a.* from sys_menus_node a, (" + basesql + ") b "
 					+ "where a.deleted='N' and a.node_id = b.node_id and menu_id = '" + menu_id + "' and parent_id = ? "
 					+ "order by sort ";

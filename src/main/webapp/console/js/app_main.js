@@ -148,6 +148,7 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 	// 默认页面需要做检查
 	$stateProvider.state('content', {
 		url : "/show_content",
+		data: { pageTitle: '',loginCheck:true},
 		templateUrl : "views/common/content.html"
 	})
 }

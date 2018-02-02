@@ -34,7 +34,6 @@ public class ConvertUtil {
 			}
 		}
 		res = res.replaceFirst(split, "");
-		System.out.println(res);
 		return res;
 	}
 	// 将2,1,3->jsonArray[{id:2},{id:1},{id:3}]
@@ -1007,6 +1006,6 @@ public class ConvertUtil {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// toJSONArrayFromString(arr, "id", ",");
-		System.out.println(formatIntToString("121", 6,12));
+	 
 	}
 }

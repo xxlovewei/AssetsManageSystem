@@ -104,7 +104,6 @@ public class OrderService extends BaseService {
 		for (int i = 0; i < goodsarr.size(); i++) {
 			Insert ins = new Insert("mall_order_detail");
 			JSONObject e = goodsarr.getJSONObject(i);
-			System.out.println(e.toJSONString());
 			ins.set("id", MD5Util.encrypt(db.getUUID()));
 			ins.set("order_id", orderId);
 			ins.setIf("shop_id", e.getString("shop_id"));
@@ -161,7 +160,7 @@ public class OrderService extends BaseService {
 		Update me = new Update("mall_order");
 		me.set("status", ORDER_STATUS_CANCEL);
 		me.where().and("order_id=?", order_id);
-		System.out.println(me.getSQL());
+	 
 		// 订单日志
 		if (recordOrderLog(ORDER_ACTION_CANCEL, order_id, "取消订单", user_id)) {
 			db.execute(me);
@@ -206,7 +205,6 @@ public class OrderService extends BaseService {
 
 		String sql = "select a.*,case status when 1 then '已取消' when 2 then '待付款' when 4 then '待发货'  when 6 then '待收货' when 8 then '待评价' when 10 then '已完成' when 12 then '退货中' when 14 then '退货成功' else '未知' end statusstr from mall_order a where is_delete='N' and user_id =?";
 		// status 1,2,3,
-		System.out.println(status);
 		if (ToolUtil.isNotEmpty(status)) {
 			sql += " and status in (" + status + ") ";
 		}

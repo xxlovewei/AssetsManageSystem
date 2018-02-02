@@ -298,7 +298,7 @@ public class SwingShell {
 					int c = e.getKeyChar();
 
 					try {
-						System.out.println(c);
+					 
 						out.write(c);
 					} catch (IOException e1) {
 					}

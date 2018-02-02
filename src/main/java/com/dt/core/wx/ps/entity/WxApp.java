@@ -118,7 +118,6 @@ public class WxApp {
 			inputStream.close();
 			inputStream = null;
 			httpUrlConn.disconnect();
-			// System.out.println(buffer.toString());
 			jsonObject = JSONObject.parseObject(buffer.toString());
 		} catch (ConnectException ce) {
 			// log.error("Weixin server connection timed out.");

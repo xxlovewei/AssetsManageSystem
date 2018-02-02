@@ -165,7 +165,6 @@ public class ArrayUtil {
 		Object b[] = { 4, 5, 6, 7 };
 		Object[] x = (Object[]) merege(a, b);
 		for (Object p : x) {
-			System.out.println(p);
 		}
 
 	}

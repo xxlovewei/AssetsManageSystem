@@ -33,21 +33,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("success", false);
 		jsonObject.put("message", msg);
-		
 		return jsonObject;
-		//if (HttpKit.isAjax(request)) {
-		// _log.info("source from ajax!");
-		// String msg = ExceptionUtils.getRootCauseMessage(ex);
-		// if (ToolUtil.isEmpty(msg)) {
-		// msg = "Server is error!";
-		// }
-		// JSONObject jsonObject = new JSONObject();
-		// jsonObject.put("success", false);
-		// jsonObject.put("message", msg);
-		// return jsonObject;
-		// } else {
-		// _log.info("source from others!");
-		// return new JSONObject();
-		// }
+		 
 	}
 }

@@ -123,7 +123,7 @@ public class ProductService extends BaseService {
 				+ "and is_used='Y' and is_deleted='N' and attr_type='base')a "
 				+ "left join (select * from product_attr_set where spu=? and is_sku='N') b "
 				+ "on a.attr_id=b.attr_id ";
-		System.out.println(basesql);
+ 
 		RcdSet attr_rs = db.query(basesql, cat_id, spu);
 		for (int i = 0; i < attr_rs.size(); i++) {
 			JSONObject obj = ConvertUtil.OtherJSONObjectToFastJSONObject(attr_rs.getRcd(i).toJsonObject());
@@ -527,7 +527,7 @@ public class ProductService extends BaseService {
 			ins.setIf("pic_id", pics.getJSONObject(i).getString("pic_id"));
 			ins.set("type", IAMGE_TYPE_PROD);
 			ins.setIf("od", ConvertUtil.toInt(pics.getJSONObject(i).getString("od"), 1));
-			System.out.println(ins.getSQL());
+ 
 			res.add(ins.getSQL());
 		}
 		return res;
@@ -542,7 +542,6 @@ public class ProductService extends BaseService {
 		RcdSet rs = db.query(sql, spu);
 		for (int i = 0; i < rs.size(); i++) {
 			JSONObject e = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.getRcd(i).toJsonObject());
-			System.out.println(e.toJSONString());
 			String esql = "select a.value,a.attr_set_id,a.od from product_category_attr_set a,product_attr_set b where cat_id=? and a.attr_set_id=b.attr_set_id and b.is_sku='Y' and b.attr_id=?  and b.spu=? order by a.od";
 			e.put("childscurgoods",
 					ConvertUtil.OtherJSONObjectToFastJSONArray(
@@ -566,12 +565,9 @@ public class ProductService extends BaseService {
 				ids = ids + tmpstr[1] + ",";
 			}
 		}
-		System.out.println(ids + cnt);
 		ids = ids.substring(0, ids.length() - 1);
-		System.out.println(ids);
 		String sql = "select * from product_sku a,(select sku from (select sku,count(1) cnt from product_sku_map where spu=? and attr_set_id in ("
 				+ ids + ") group by sku ) where cnt=?) b where a.sku=b.sku and a.spu=?";
-		System.out.println(sql);
 		return ResData.SUCCESS_OPER(db.uniqueRecord(sql, spu, cnt, spu).toJsonObject());
 	}
 
@@ -585,7 +581,6 @@ public class ProductService extends BaseService {
 				spu).toJsonObject()));
 		res.put("pics", getProdPics(spu));
 		res.put("properties", queryProdSaleBySpuForMall(spu));
-		System.out.println(res.toJSONString());
 		return ResData.SUCCESS_OPER(res);
 
 	}

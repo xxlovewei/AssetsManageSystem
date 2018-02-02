@@ -93,7 +93,6 @@ public class EndecryptUtil {
 		try {
 			BASE64Encoder base64en = new BASE64Encoder();
 			requestValue = base64en.encode(src);
-			// System.out.println(requestValue);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

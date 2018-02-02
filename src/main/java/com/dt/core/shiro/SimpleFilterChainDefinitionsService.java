@@ -85,7 +85,6 @@ public class SimpleFilterChainDefinitionsService {
 //					Iterator<String> it = pSet.iterator();
 //					while (it.hasNext()) {
 //						String str = it.next();
-//						System.out.println(str);
 //					}		
 				}
 			}

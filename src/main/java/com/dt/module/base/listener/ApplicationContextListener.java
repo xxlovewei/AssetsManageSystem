@@ -29,7 +29,7 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 		// root application context
 		if (null == event.getApplicationContext().getParent()) {
 			SpringContextUtil.getApplicationContext();
-			System.out.println(">>>>> spring初始化完毕 <<<<<");
+			_log.info(">>>>> spring初始化完毕 <<<<<");
 			_log.info("更新Chain");
 			SimpleFilterChainDefinitionsService.me().updatePermission();
 			try {

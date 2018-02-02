@@ -123,7 +123,6 @@ public class SftpClient {
 		}
 		if (catalogs.size() == 1)
 			path = "/";
-		System.out.println("updateCurrentCatalog" + path);
 		cutrrentCatalog = path;
 	}
 

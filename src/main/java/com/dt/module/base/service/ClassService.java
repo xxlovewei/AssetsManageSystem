@@ -110,7 +110,6 @@ public class ClassService extends BaseService {
 			me.setIf("is_used", "Y");
 			me.setIf("value", idsarr.getString(i));
 			me.setIf("od", ps.getString("od"));
-			System.out.println(me.getSQL());
 			sqls.add(me);
 		}
 		if (sqls.size() > 0) {

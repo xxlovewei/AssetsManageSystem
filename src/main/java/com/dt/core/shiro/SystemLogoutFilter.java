@@ -36,7 +36,6 @@ public class SystemLogoutFilter extends LogoutFilter {
 		} catch (SessionException ise) {
 			log.debug("Encountered session exception during logout.  This can generally safely be ignored.", ise);
 		}
-		System.out.println(redirectUrl);
 		issueRedirect(request, response, redirectUrl);
 		return false;
 	}

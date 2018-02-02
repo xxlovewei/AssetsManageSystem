@@ -5,7 +5,9 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.List;
+
 import org.apache.commons.io.IOUtils;
+
 import ch.ethz.ssh2.ChannelCondition;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
@@ -27,6 +29,7 @@ public class RemoteShellExecutor {
 
 	private Session session;
 
+	//private static Logger _log = LoggerFactory.getLogger(RemoteShellExecutor.class);
 	/**
 	 * 构造函数
 	 * 
@@ -100,8 +103,7 @@ public class RemoteShellExecutor {
 
 				session.waitForCondition(ChannelCondition.EXIT_STATUS, TIME_OUT);
 
-				// System.out.println("outStr=\n" + outStr);
-				// System.out.println("outErr=\n" + outErr);
+				 
 				result.append(outStr);
 				result.append(outErr);
 				ret = session.getExitStatus();
@@ -153,12 +155,7 @@ public class RemoteShellExecutor {
 		// RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125",
 		// "oracle", "oracle1234", 60613);
 		RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
-		// List<String> d = new ArrayList<String>();
-		// d.add("cd /tmp");
-		// d.add("pwd");
-		// d.add("ls -rtl");
-		// System.out.println(executor.exec(d).code);
-		// System.out.println(executor.exec(d).result);
+		 
 
 		executor.exec(" nohup sh /opt/tomcat/apache-tomcat-8.0.45/bin/startup.sh ;sleep 1 &").print();
 		executor.exec("ifconfig").print();

@@ -55,7 +55,6 @@ public class LoginSmallProgramController extends BaseController {
 		map.put("secret", "3f7660b289e8aa7ca1dce78cc19cc288");
 		String str = HttpKit.sendGet(url, map);
 		JSONObject strobj = JSONObject.parseObject(str);
-		System.out.println("strobj" + strobj.toJSONString());
 		// 判断是否获取open_id
 		String openId = strobj.getString("openid");
 		if (ToolUtil.isEmpty(openId)) {
@@ -169,10 +168,8 @@ public class LoginSmallProgramController extends BaseController {
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "检测登录")
 	public ResData checkLogin() {
-		Subject currentUser = ShiroKit.getSubject();
+		//Subject currentUser = ShiroKit.getSubject();
 		String userId = this.getUserId();
-		System.out.println(userId + "," + currentUser.isAuthenticated());
-
 		if (ToolUtil.isNotEmpty(userId) && userId.length() > 2) {
 			return ResData.SUCCESS_OPER();
 		} else {

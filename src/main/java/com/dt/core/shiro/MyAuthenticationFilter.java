@@ -189,7 +189,7 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 				httpResponse.getWriter().flush();
 				httpResponse.getWriter().close();
 			} else {
-				System.out.println("saveRequestAndRedirectToLogin");
+				log.info("saveRequestAndRedirectToLogin");
 				saveRequestAndRedirectToLogin(request, response);
 			}
 			return false;
