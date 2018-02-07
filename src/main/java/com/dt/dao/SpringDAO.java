@@ -699,6 +699,10 @@ public abstract class SpringDAO {
 		StoredProcedure p = new StoredProcedure(this.getDataSource(), name, true);
 		return p;
 	}
+	
+	public Integer tabDeleteAll(String tab) {
+		return execute("delete from "+tab);
+	}
 
 	public Integer tabDeleteByParamsExecute(String tab, Object... ps) {
 		String sql = "delete from " + tab + " where 1=1 ";
