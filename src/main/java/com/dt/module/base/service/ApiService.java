@@ -76,7 +76,7 @@ public class ApiService extends BaseService {
 		}
 		if (sqls.size() > 0) {
 			_log.info("Save collect Api.");
-			db.tabTruncateExecute("sys_api");
+			db.tabTruncate("sys_api");
 			db.executeSQLList(sqls);
 		}
 		return ResData.SUCCESS_OPER();

@@ -106,7 +106,7 @@ public abstract class SpringDAO {
 		return ret;
 	}
 
-	public Integer tabTruncateExecute(String tab) {
+	public Integer tabTruncate(String tab) {
 		return execute("truncate table " + tab);
 	}
 
@@ -680,7 +680,8 @@ public abstract class SpringDAO {
 	// if(select==null) return sql;
 	//
 	// PlainSelect ps = (PlainSelect) select.getSelectBody();
-	// //SelectExpressionItem s1=(SelectExpressionItem)ps.getSelectItems().get(0);
+	// //SelectExpressionItem
+	// s1=(SelectExpressionItem)ps.getSelectItems().get(0);
 	// //Expression exp=s1.getExpression();
 	// ps.getSelectItems().clear();
 	// SelectExpressionItem count=new SelectExpressionItem();
@@ -699,12 +700,33 @@ public abstract class SpringDAO {
 		StoredProcedure p = new StoredProcedure(this.getDataSource(), name, true);
 		return p;
 	}
-	
+
 	public Integer tabDeleteAll(String tab) {
-		return execute("delete from "+tab);
+		return execute("delete from " + tab);
 	}
 
-	public Integer tabDeleteByParamsExecute(String tab, Object... ps) {
+	public Integer tabDeleteLogicAll(String tab) {
+		return tabDeleteLogicAll(tab, "isdelete");
+	}
+
+	public Integer tabDeleteLogicAll(String tab, String col) {
+		Update ups = new Update(tab);
+		ups.set(col, "N");
+		return execute(ups);
+	}
+
+	public Integer tabDeleteByIdExecuteLogic(String tab, String key, Object value) {
+		return tabDeleteByIdLogic(tab, key, value, "isdelete");
+	}
+
+	public Integer tabDeleteByIdLogic(String tab, String key, Object value, String col) {
+		Update ups = new Update(tab);
+		ups.set(col, "N");
+		ups.where().andIf(col + "=?", value);
+		return execute(ups);
+	}
+
+	public Integer tabDeleteByParams(String tab, Object... ps) {
 		String sql = "delete from " + tab + " where 1=1 ";
 		// ps支持String,int
 		if (tab == null || tab.trim().length() == 0 || ps.length % 2 == 1) {
@@ -729,13 +751,14 @@ public abstract class SpringDAO {
 		return execute(sql);
 	}
 
-	public Integer tabDeleteByIdExecute(String tab, String key, Object value) {
+	public Integer tabDeleteById(String tab, String key, Object value) {
 		return execute("delete from " + tab + " where " + key + "=?", value);
 	}
 
 	public static void main(String[] args) {
 
-		// System.out.println(translateToCountSQL("select a,b,c from tab,ggg where a=b
+		// System.out.println(translateToCountSQL("select a,b,c from tab,ggg
+		// where a=b
 		// and c=d group by dd having c>0 order by d desc nulls last"));
 	}
 
