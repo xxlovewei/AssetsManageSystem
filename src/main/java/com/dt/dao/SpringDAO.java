@@ -715,7 +715,7 @@ public abstract class SpringDAO {
 		return execute(ups);
 	}
 
-	public Integer tabDeleteByIdExecuteLogic(String tab, String key, Object value) {
+	public Integer tabDeleteByIdLogic(String tab, String key, Object value) {
 		return tabDeleteByIdLogic(tab, key, value, "isdelete");
 	}
 
@@ -752,7 +752,18 @@ public abstract class SpringDAO {
 	}
 
 	public Integer tabDeleteById(String tab, String key, Object value) {
+		if (value == null) {
+			return -1;
+		}
 		return execute("delete from " + tab + " where " + key + "=?", value);
+	}
+
+	public RcdSet tabQueryTabAll(String tab) {
+		return query("select * from " + tab);
+	}
+
+	public RcdSet tabQueryTabById(String tab, String key, Object value) {
+		return query("select * from " + tab + " where " + key + "=?", value);
 	}
 
 	public static void main(String[] args) {

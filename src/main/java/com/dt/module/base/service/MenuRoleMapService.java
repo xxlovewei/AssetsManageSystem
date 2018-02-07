@@ -1,5 +1,8 @@
 package com.dt.module.base.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,6 +11,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.dao.RcdSet;
+import com.dt.dao.sql.Insert;
+import com.dt.dao.sql.SQL;
 import com.dt.tool.util.ToolUtil;
 
 /**
@@ -29,11 +34,17 @@ public class MenuRoleMapService extends BaseService {
 				"delete from sys_role_module where role_id=? and module_id in (select node_id from sys_menus_node where menu_id=?)",
 				role_id, menu_id);
 		JSONArray ms = JSONArray.parseArray(modulesarr);
+		List<SQL> sqls = new ArrayList<SQL>();
 		for (int i = 0; i < ms.size(); i++) {
-			db.execute("insert into sys_role_module values(?,?)", role_id, ms.getString(i));
+			Insert me = new Insert("sys_role_module");
+			me.setIf("role_id", role_id);
+			me.setIf("module_id", ms.getString(i));
+			sqls.add(me);
 		}
+		db.executeSQLList(sqls);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 一个角色拥有的节点对比树
 	 */

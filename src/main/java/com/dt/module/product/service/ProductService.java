@@ -12,6 +12,7 @@ import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.dao.Rcd;
 import com.dt.dao.RcdSet;
+import com.dt.dao.sql.Delete;
 import com.dt.dao.sql.Insert;
 import com.dt.dao.sql.SQL;
 import com.dt.dao.sql.Update;
@@ -108,8 +109,7 @@ public class ProductService extends BaseService {
 	 */
 	public ResData updateProdPics(String spu, String pics) {
 		JSONArray pics_arr = JSONArray.parseArray(pics);
-		ArrayList<String> sqls = updateProdPics(spu, pics_arr);
-		db.executeStringList(sqls);
+		db.executeSQLList(updateProdPics(spu, pics_arr));
 		return ResData.SUCCESS_OPER();
 	}
 
@@ -123,7 +123,7 @@ public class ProductService extends BaseService {
 				+ "and is_used='Y' and is_deleted='N' and attr_type='base')a "
 				+ "left join (select * from product_attr_set where spu=? and is_sku='N') b "
 				+ "on a.attr_id=b.attr_id ";
- 
+
 		RcdSet attr_rs = db.query(basesql, cat_id, spu);
 		for (int i = 0; i < attr_rs.size(); i++) {
 			JSONObject obj = ConvertUtil.OtherJSONObjectToFastJSONObject(attr_rs.getRcd(i).toJsonObject());
@@ -213,12 +213,14 @@ public class ProductService extends BaseService {
 		if (prod_arr.size() == 0) {
 			return ResData.FAILURE("请选择至少一个商品");
 		}
+		List<SQL> sqls = new ArrayList<SQL>();
 		for (int i = 0; i < prod_arr.size(); i++) {
 			Update ups = new Update("product");
 			ups.set("is_off", is_off);
 			ups.where().and("spu=?", prod_arr.getJSONObject(i).getString("spu"));
-			db.execute(ups);
+			sqls.add(ups);
 		}
+		db.executeSQLList(sqls);
 		return ResData.SUCCESS_OPER();
 	}
 
@@ -228,7 +230,7 @@ public class ProductService extends BaseService {
 	@Transactional
 	public ResData updateProdBaseAttr(TypedHashMap<String, Object> ps) {
 		/************************************ 处理主表 ************************/
-		ArrayList<String> basesql = new ArrayList<String>();
+		ArrayList<SQL> basesql = new ArrayList<SQL>();
 		String spu = ps.getString("spu");
 		String base_data = ps.getString("base_res");
 		Update ups = new Update("product");
@@ -243,7 +245,7 @@ public class ProductService extends BaseService {
 		ups.set("title", ps.getString("title"));
 		ups.setIf("place", ps.getString("place"));
 		ups.where().and("spu=?", spu);
-		basesql.add(ups.getSQL());
+		basesql.add(ups);
 		// 处理基本属性
 		JSONArray base_arr = JSONArray.parseArray(base_data);
 		for (int i = 0; i < base_arr.size(); i++) {
@@ -270,13 +272,11 @@ public class ProductService extends BaseService {
 				} else if (obj.getString("input_type").equals(CategoryAttrService.INPUTTYPE_SEL_SINGLE)) {
 					basins.set("attr_set_id", obj.getString("attr_set_value"));
 				}
-				basesql.add(basins.getSQL());
+				basesql.add(basins);
 			}
 		}
 		db.execute("delete from product_attr_set where is_sku='N' and spu=?", spu);
-		for (int i = 0; i < basesql.size(); i++) {
-			db.execute(basesql.get(i));
-		}
+		db.executeSQLList(basesql);
 		return ResData.SUCCESS_OPER();
 	}
 
@@ -336,9 +336,7 @@ public class ProductService extends BaseService {
 		// 更新主表库存
 		sqls.add("update product set stock=" + totalStock + " where spu='" + spu + "'");
 		// 执行语句
-		for (int j = 0; j < sqls.size(); j++) {
-			db.execute(sqls.get(j));
-		}
+		db.executeStringList(sqls);
 		return ResData.SUCCESS_OPER();
 	}
 
@@ -427,7 +425,7 @@ public class ProductService extends BaseService {
 		ins.setIf("list_price", ps.getString("list_price"));
 		ins.setIf("list_ori_price", ps.getString("list_ori_price"));
 		ins.setIf("code", ps.getString("code"));
-		ins.setIf("sales", ps.getString("sales","0"));
+		ins.setIf("sales", ps.getString("sales", "0"));
 		ins.set("is_off", "N");
 		ins.setIf("title", ps.getString("title"));
 		ins.setIf("prod_desc", ps.getString("prod_desc"));
@@ -502,24 +500,24 @@ public class ProductService extends BaseService {
 		if (ToolUtil.isEmpty(prod_sales_arr) || prod_sales_arr.size() == 0) {
 			return ResData.FAILURE("请选择产品图片");
 		}
-		ArrayList<String> picssqls = updateProdPics(spu, prod_sales_arr);
+		ArrayList<SQL> picssqls = updateProdPics(spu, prod_sales_arr);
 		/************************************ 更新数据 ************************/
 		basesql.add(ins.getSQL());
-		for (int i = 0; i < basesql.size(); i++) {
-			db.execute(basesql.get(i));
-		}
-		for (int j = 0; j < picssqls.size(); j++) {
-			db.execute(picssqls.get(j));
-		}
+		db.executeStringList(basesql);
+		db.executeSQLList(picssqls);
 		return ResData.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description:更新产品图片
 	 */
-	public ArrayList<String> updateProdPics(String spu, JSONArray pics) {
-		ArrayList<String> res = new ArrayList<String>();
-		res.add("delete from product_pic where type='" + IAMGE_TYPE_PROD + "' and spu='" + spu + "'");
+	public ArrayList<SQL> updateProdPics(String spu, JSONArray pics) {
+		ArrayList<SQL> res = new ArrayList<SQL>();
+		Delete dls=new Delete();
+		dls.from(" product_pic ");
+		dls.where().and("type=?",IAMGE_TYPE_PROD);
+		dls.where().and("spu=?",spu);
+		res.add(dls);
 		for (int i = 0; i < pics.size(); i++) {
 			Insert ins = new Insert("product_pic");
 			ins.set("id", ToolUtil.getUUID());
@@ -527,8 +525,7 @@ public class ProductService extends BaseService {
 			ins.setIf("pic_id", pics.getJSONObject(i).getString("pic_id"));
 			ins.set("type", IAMGE_TYPE_PROD);
 			ins.setIf("od", ConvertUtil.toInt(pics.getJSONObject(i).getString("od"), 1));
- 
-			res.add(ins.getSQL());
+			res.add(ins);
 		}
 		return res;
 	}
@@ -576,9 +573,10 @@ public class ProductService extends BaseService {
 	 */
 	public ResData queryProdBySpuForMall(String spu) {
 		JSONObject res = new JSONObject();
-		res.put("basicinfo", ConvertUtil.OtherJSONObjectToFastJSONObject(db.uniqueRecord(
-				"select a.*,(select name from product_brand where brand_id=a.brand_id) brand_name from product a where spu=?",
-				spu).toJsonObject()));
+		res.put("basicinfo",
+				ConvertUtil.OtherJSONObjectToFastJSONObject(db.uniqueRecord(
+						"select a.*,(select name from product_brand where brand_id=a.brand_id) brand_name from product a where spu=?",
+						spu).toJsonObject()));
 		res.put("pics", getProdPics(spu));
 		res.put("properties", queryProdSaleBySpuForMall(spu));
 		return ResData.SUCCESS_OPER(res);
