@@ -1,6 +1,6 @@
 package com.dt.module.om.node.service;
 
-import com.dt.tool.lang.ArrayUtil;
+import com.dt.core.tool.lang.ArrayUtil;
 
 /** 
  * @author: algernonking

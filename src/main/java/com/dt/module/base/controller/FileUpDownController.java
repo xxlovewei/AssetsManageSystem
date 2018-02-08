@@ -23,10 +23,10 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
-import com.dt.dao.Rcd;
-import com.dt.dao.sql.Insert;
+import com.dt.core.dao.Rcd;
+import com.dt.core.dao.sql.Insert;
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.db.DB;
-import com.dt.tool.util.ToolUtil;
 
 @Controller()
 @RequestMapping("/api/file")

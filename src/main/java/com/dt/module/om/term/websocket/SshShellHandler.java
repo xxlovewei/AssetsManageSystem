@@ -17,8 +17,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.om.term.entity.Machine;
-import com.dt.tool.util.ToolUtil;
 
 @RequestMapping("/term")
 public class SshShellHandler extends TextWebSocketHandler {

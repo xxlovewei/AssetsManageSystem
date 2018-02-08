@@ -6,9 +6,9 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.module.base.schedule.service.JobService;
 import com.dt.module.db.DB;
-import com.dt.tool.encrypt.MD5Util;
 
 /**
  * @author: algernonking

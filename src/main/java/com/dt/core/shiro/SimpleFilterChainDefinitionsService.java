@@ -23,8 +23,8 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import com.dt.core.annotion.Acl;
-import com.dt.tool.lang.SpringContextUtil;
-import com.dt.tool.util.ToolUtil;
+import com.dt.core.tool.lang.SpringContextUtil;
+import com.dt.core.tool.util.ToolUtil;
 
 /**
  * 安全框架角色资源配置服务类

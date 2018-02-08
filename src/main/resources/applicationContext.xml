@@ -22,7 +22,7 @@
 	<context:component-scan base-package="com.dt.core.exception" /> 
 
 	<!-- 启动时初始化Spring上下文环境工具类 -->
-	<bean id="SpringContextUtil" class="com.dt.tool.lang.SpringContextUtil" />
+	<bean id="SpringContextUtil" class="com.dt.core.tool.lang.SpringContextUtil" />
 
 	<!-- 主数据库注入 -->
 	<context:component-scan base-package="com.dt.module.db" />

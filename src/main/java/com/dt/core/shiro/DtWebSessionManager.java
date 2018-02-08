@@ -13,7 +13,7 @@ import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.util.WebUtils;
 
-import com.dt.tool.util.ToolUtil;
+import com.dt.core.tool.util.ToolUtil;
 
 /**
  * @author: algernonking

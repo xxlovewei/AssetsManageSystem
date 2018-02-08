@@ -2,8 +2,8 @@ package com.dt.core.common.base;
 
 import java.util.Date;
 
-import com.dt.tool.encrypt.MD5Util;
-import com.dt.tool.util.ToolUtil;
+import com.dt.core.tool.encrypt.MD5Util;
+import com.dt.core.tool.util.ToolUtil;
 
 /**
  * @author: algernonking

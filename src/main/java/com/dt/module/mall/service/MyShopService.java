@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
-import com.dt.tool.util.ToolUtil;
+import com.dt.core.tool.util.ToolUtil;
 
 /**
  * @author: algernonking

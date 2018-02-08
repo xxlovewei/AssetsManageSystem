@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dt.core.annotion.impl.ResData;
-import com.dt.tool.util.support.HttpKit;
+import com.dt.core.tool.util.support.HttpKit;
 
 public class BaseController extends BaseSC {
 	private static Logger _log = LoggerFactory.getLogger(BaseController.class);

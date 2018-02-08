@@ -18,9 +18,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.entity.User;
 import com.dt.module.base.service.UserService;
-import com.dt.tool.util.ToolUtil;
 
 public class ShiroDbRealm extends AuthorizingRealm {
 	private static Logger _log = LoggerFactory.getLogger(ShiroDbRealm.class);

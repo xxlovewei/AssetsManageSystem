@@ -3,7 +3,7 @@ package com.dt.core.tool.date;
 
 import java.util.Date;
 
-import com.dt.tool.util.support.DateTimeKit;
+import com.dt.core.tool.util.support.DateTimeKit;
 
 /**
  * 封装java.util.Date

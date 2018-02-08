@@ -17,8 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.wx.ps.service.WeiXX509TrustManager;
-import com.dt.tool.util.ToolUtil;
 
 /**
  * @author: algernonking
