@@ -515,8 +515,7 @@ public class ProductService extends BaseService {
 		ArrayList<SQL> res = new ArrayList<SQL>();
 		Delete dls=new Delete();
 		dls.from("product_pic");
-		dls.where().and("type=?",IAMGE_TYPE_PROD);
-		dls.where().and("spu=?",spu);
+		dls.where().and("type=?",IAMGE_TYPE_PROD).and("spu=?",spu);
 		res.add(dls);
 		for (int i = 0; i < pics.size(); i++) {
 			Insert ins = new Insert("product_pic");

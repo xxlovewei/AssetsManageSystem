@@ -21,10 +21,7 @@ public class DeleteWhere extends ConditionExpression<DeleteWhere>
 	public Delete top() {
 		return (Delete)super.top();
 	}
-	
-	/**
-	 * ִ����Ķ������
-	 * */
+ 
 	public int execute()
 	{
 		return this.top().execute();
