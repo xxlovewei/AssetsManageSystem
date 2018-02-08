@@ -767,7 +767,13 @@ public abstract class SpringDAO {
 	}
 
 	public static void main(String[] args) {
-
+  
+		Delete dls=new Delete();
+		dls.from("adf");
+		dls.where().and("id=?", 1);
+		System.out.println(dls.getSQL());
+		System.out.println(dls.getParamedSQL());
+		System.out.println(dls.getParamNamedSQL());
 		// System.out.println(translateToCountSQL("select a,b,c from tab,ggg
 		// where a=b
 		// and c=d group by dd having c>0 order by d desc nulls last"));

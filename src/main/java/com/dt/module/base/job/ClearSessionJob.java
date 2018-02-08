@@ -23,5 +23,5 @@ public class ClearSessionJob implements Job {
 		DB.instance().execute("delete from sys_session where user_id is null and sysdate-lastaccess>3");
 		JobService.me().finishedJobUpdate(jc);
 		_log.info("session clear end.");
-	}
+	}                                                                                                                                                                                                                                                                                                                                                                   
 }
