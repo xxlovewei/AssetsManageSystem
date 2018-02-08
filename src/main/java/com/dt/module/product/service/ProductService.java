@@ -514,7 +514,7 @@ public class ProductService extends BaseService {
 	public ArrayList<SQL> updateProdPics(String spu, JSONArray pics) {
 		ArrayList<SQL> res = new ArrayList<SQL>();
 		Delete dls=new Delete();
-		dls.from(" product_pic ");
+		dls.from("product_pic");
 		dls.where().and("type=?",IAMGE_TYPE_PROD);
 		dls.where().and("spu=?",spu);
 		res.add(dls);

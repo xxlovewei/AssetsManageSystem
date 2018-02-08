@@ -112,7 +112,7 @@ public class EmplService extends BaseService {
 		}
 
 		Delete dls=new Delete();
-		dls.from(" hrm_org_employee ");
+		dls.from("hrm_org_employee");
 		dls.where().and("empl_id=?", empl_id);
 		exeSqls.add(dls);
 		for (int i = 0; i < nodes_arr.size(); i++) {

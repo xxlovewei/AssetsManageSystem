@@ -186,7 +186,7 @@ public class LoginService extends BaseService {
 	public void logout(String cookie) {
 		if (ToolUtil.isNotEmpty(cookie)) {
 			Delete del = new Delete();
-			del.from(" sys_session ");
+			del.from("sys_session");
 			del.where().and("cookie=?", cookie);
 			db.execute(del);
 		}

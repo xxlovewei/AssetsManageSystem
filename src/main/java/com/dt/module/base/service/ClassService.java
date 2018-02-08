@@ -121,7 +121,7 @@ public class ClassService extends BaseService {
 
 	public ResData deleteClassItem(String id) {
 		Delete me = new Delete();
-		me.from(" sys_ct_class_item ");
+		me.from("sys_ct_class_item");
 		me.where().and("id=?", id);
 		db.execute(me);
 		return ResData.SUCCESS_OPER();

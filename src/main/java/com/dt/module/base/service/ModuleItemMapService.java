@@ -23,7 +23,7 @@ public class ModuleItemMapService extends BaseService {
 	public ResData updateModuleItem(String module_id, String items) {
 		List<SQL> sqls = new ArrayList<SQL>();
 		Delete d = new Delete();
-		d.from(" sys_modules_item");
+		d.from("sys_modules_item");
 		d.where().and("module_id=?", module_id);
 		sqls.add(d);
 		JSONArray items_arr = JSONArray.parseArray(items);

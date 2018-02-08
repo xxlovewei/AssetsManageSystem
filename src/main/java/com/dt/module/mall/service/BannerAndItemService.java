@@ -46,7 +46,7 @@ public class BannerAndItemService extends BaseService {
 
 	public ResData delBanner(String banner_id) {
 		Delete me = new Delete();
-		me.from(" sys_banner ");
+		me.from("sys_banner");
 		me.where().and("banner_id=?", banner_id);
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
@@ -99,7 +99,7 @@ public class BannerAndItemService extends BaseService {
 
 	public ResData delBannerItem(String id) {
 		Delete me = new Delete();
-		me.from(" sys_banner_item ");
+		me.from("sys_banner_item");
 		me.where().and("id=?", id);
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
