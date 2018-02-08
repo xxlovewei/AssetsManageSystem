@@ -113,7 +113,7 @@ public class ClassService extends BaseService {
 			sqls.add(me);
 		}
 		if (sqls.size() > 0) {
-			db.batchExecute(sqls);
+			db.executeSQLList(sqls);
 		}
 
 		return ResData.SUCCESS_OPER();

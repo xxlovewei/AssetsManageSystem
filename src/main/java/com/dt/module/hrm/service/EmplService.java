@@ -12,7 +12,9 @@ import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.dao.Rcd;
 import com.dt.dao.RcdSet;
+import com.dt.dao.sql.Delete;
 import com.dt.dao.sql.Insert;
+import com.dt.dao.sql.SQL;
 import com.dt.dao.util.TypedHashMap;
 import com.dt.module.base.service.ParamsService;
 import com.dt.module.base.service.UserService;
@@ -36,7 +38,7 @@ public class EmplService extends BaseService {
 	 */
 	@Transactional
 	public ResData addEmployee(TypedHashMap<String, Object> ps) {
-		ArrayList<String> exeSqls = new ArrayList<String>();
+		ArrayList<SQL> exeSqls = new ArrayList<SQL>();
 		// 先判断组织
 		String nodes = ps.getString("nodes");
 		if (ToolUtil.isEmpty(nodes)) {
@@ -58,12 +60,10 @@ public class EmplService extends BaseService {
 			ins3.set("node_id", node_id);
 			ins3.set("deleted", "N");
 			ins3.set("empl_id", empl_id);
-			exeSqls.add(ins3.getSQL());
+			exeSqls.add(ins3);
 		}
 		if (user_rs.isSuccess()) {
-			for (int i = 0; i < exeSqls.size(); i++) {
-				db.execute(exeSqls.get(i).toString());
-			}
+			db.executeSQLList(exeSqls);
 		} else {
 			return user_rs;
 		}
@@ -85,7 +85,7 @@ public class EmplService extends BaseService {
 	 * @Description: 根据empl_id更新员工
 	 */
 	public ResData updateEmployee(TypedHashMap<String, Object> ps) {
-		ArrayList<String> exeSqls = new ArrayList<String>();
+		ArrayList<SQL> exeSqls = new ArrayList<SQL>();
 		String user_id = ps.getString("user_id");
 		String empl_id = ps.getString("empl_id");
 		if (ToolUtil.isEmpty(empl_id)) {
@@ -110,7 +110,11 @@ public class EmplService extends BaseService {
 				return ResData.FAILURE("必须属于一个组织,不可多选");
 			}
 		}
-		exeSqls.add("delete from hrm_org_employee where empl_id='" + empl_id + "'");
+
+		Delete dls=new Delete();
+		dls.from(" hrm_org_employee ");
+		dls.where().and("empl_id=?", empl_id);
+		exeSqls.add(dls);
 		for (int i = 0; i < nodes_arr.size(); i++) {
 			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
 			Insert ins3 = new Insert("hrm_org_employee");
@@ -118,14 +122,12 @@ public class EmplService extends BaseService {
 			ins3.set("node_id", node_id);
 			ins3.set("deleted", "N");
 			ins3.set("empl_id", empl_id);
-			exeSqls.add(ins3.getSQL());
+			exeSqls.add(ins3);
 		}
 		/*********************************** 执行 **************************************/
 		ResData user_rs = userService.updateUser(ps, UserService.USER_TYPE_EMPL);
 		if (user_rs.isSuccess()) {
-			for (int i = 0; i < exeSqls.size(); i++) {
-				db.execute(exeSqls.get(i).toString());
-			}
+			db.executeSQLList(exeSqls);
 		} else {
 			return user_rs;
 		}

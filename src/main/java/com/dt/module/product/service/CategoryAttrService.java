@@ -109,8 +109,7 @@ public class CategoryAttrService extends BaseService {
 		Update ups2 = new Update("product_category_attr_set");
 		ups2.set("is_deleted", "Y");
 		ups2.where().and("attr_id in (select attr_id from product_category_attr where id=?)", id);
-		db.execute(ups2);
-		db.execute(ups);
+		db.executes(ups,ups2);
 		return ResData.SUCCESS_OPER();
 	}
 	/**
