@@ -1,4 +1,4 @@
-package com.dt.tool.date;
+package com.dt.core.tool.date;
  
 
 import java.util.Date;
