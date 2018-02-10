@@ -1,6 +1,5 @@
 package com.dt.core.tool.util;
 
-import java.util.Random;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -23,6 +22,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import com.dt.core.tool.enums.OsType;
+import com.dt.core.tool.lang.RandUtil;
 import com.dt.core.tool.util.support.StrKit;
 
 /**
@@ -33,8 +33,7 @@ public class ToolUtil {
 	 * 均衡的随机从[mix,max]中获取数据
 	 * */
 	public static int rand(int mix, int max) {
-		Random rand = new Random();
-		return rand.nextInt(max) + mix;
+		return RandUtil.rand(mix, max);
 	}
 
 	public static String getUUID() {
