@@ -24,12 +24,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public JSONObject handleException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(ExceptionUtils.getFullStackTrace(ex));
 		_log.info("source from ajax!");
-		String msg = ExceptionUtils.getRootCauseMessage(ex)==null?"": ExceptionUtils.getRootCauseMessage(ex);
+		String msg = ExceptionUtils.getRootCauseMessage(ex) == null ? "" : ExceptionUtils.getRootCauseMessage(ex);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("success", false);
 		jsonObject.put("message", msg);
-		
+
 		return jsonObject;
-		 
+
 	}
 }
