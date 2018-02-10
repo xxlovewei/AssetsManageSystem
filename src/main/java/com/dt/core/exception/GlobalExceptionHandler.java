@@ -28,6 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("success", false);
 		jsonObject.put("message", msg);
+		
 		return jsonObject;
 		 
 	}
