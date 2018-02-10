@@ -27,21 +27,26 @@ public class RandUtil {
 	}
 
 	/*
-	 * 从source中获取cnt个数的数据,第二次运行时source并原来的数据
+	 * 从source中获取cnt个数,keep是否保存source数据不变
 	 */
-	public static ArrayList<String> randFromArray(ArrayList<String> source, int cnt) {
+	public static ArrayList<String> randDataFromList(ArrayList<String> source, int cnt, boolean keep) {
+		ArrayList<String> s2 = new ArrayList<String>();
+		if (keep) {
+			s2.addAll(source);
+		} else {
+			s2 = source;
+		}
 		if (cnt >= source.size()) {
 			return source;
 		}
 		ArrayList<String> res = new ArrayList<String>();
 		for (int i = 0; i < cnt; i++) {
-			int v = rand(0, source.size() - 1);
-			res.add(source.get(v));
-			source.remove(v);
+			int v = rand(0, s2.size() - 1);
+			res.add(s2.get(v));
+			s2.remove(v);
 		}
-		System.out.println(res.toString());
-
 		return res;
+
 	}
 
 	public static void main(String args[]) {
@@ -57,15 +62,14 @@ public class RandUtil {
 		map.add("i");
 		map.add("j");
 		map.add("k");
-		randFromArray(map, 3);
-		randFromArray(map, 3);
-		randFromArray(map, 3);
-		randFromArray(map, 3);
-		randFromArray(map, 3);
-		randFromArray(map, 3);
-		randFromArray(map, 3);
-		randFromArray(map, 3);
-		randFromArray(map, 3);
+		randDataFromList(map, 3, false);
+		randDataFromList(map, 3, false);
+		randDataFromList(map, 3, false);
+		randDataFromList(map, 3, false);
+		randDataFromList(map, 3, false);
+		randDataFromList(map, 3, false);
+		randDataFromList(map, 3, false);
+		randDataFromList(map, 3, false);
 
 	}
 }

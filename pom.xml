@@ -32,29 +32,30 @@
 
 	<dependencies>
 
- 
- 
- <!-- https://mvnrepository.com/artifact/org.jvnet.hudson/ganymed-ssh-2 -->
-<dependency>
-    <groupId>org.jvnet.hudson</groupId>
-    <artifactId>ganymed-ssh-2</artifactId>
-    <version>build260</version>
-</dependency>
- 
- 
+
+
+		<!-- https://mvnrepository.com/artifact/org.jvnet.hudson/ganymed-ssh-2 -->
+		<dependency>
+			<groupId>org.jvnet.hudson</groupId>
+			<artifactId>ganymed-ssh-2</artifactId>
+			<version>build260</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>net.bull.javamelody</groupId>
 			<artifactId>javamelody-core</artifactId>
 			<version>1.70.0</version>
 		</dependency>
 
+		<!-- <dependency> <groupId>cn.guoyukun.jdbc</groupId> <artifactId>oracle-ojdbc6</artifactId> 
+			<version>11.2.0.3.0</version> </dependency> -->
 
 		<dependency>
-			<groupId>cn.guoyukun.jdbc</groupId>
-			<artifactId>oracle-ojdbc6</artifactId>
-			<version>11.2.0.3.0</version>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.2</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>com.baomidou</groupId>
@@ -71,7 +72,7 @@
 			<version>3.6.6</version>
 		</dependency>
 
- 
+
 
 		<dependency>
 			<groupId>dom4j</groupId>
@@ -174,12 +175,12 @@
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
-	<!-- 	 <version>${spring.version}</version>  -->
- 			<version>4.2.3.RELEASE</version>  
+			<!-- <version>${spring.version}</version> -->
+			<version>4.2.3.RELEASE</version>
 		</dependency>
 
 
