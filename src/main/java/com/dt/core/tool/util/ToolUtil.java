@@ -1,5 +1,6 @@
 package com.dt.core.tool.util;
 
+import java.util.Random;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -28,6 +29,14 @@ import com.dt.core.tool.util.support.StrKit;
  * 高频方法集合类
  */
 public class ToolUtil {
+	/*
+	 * 均衡的随机从[mix,max]中获取数据
+	 * */
+	public static int rand(int mix, int max) {
+		Random rand = new Random();
+		return rand.nextInt(max) + mix;
+	}
+
 	public static String getUUID() {
 		UUID uuid = UUID.randomUUID();
 		String str = uuid.toString();
