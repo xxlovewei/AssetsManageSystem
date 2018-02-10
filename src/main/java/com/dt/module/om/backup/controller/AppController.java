@@ -23,7 +23,7 @@ public class AppController extends BaseController {
 	@Acl(value = Acl.TYPE_ALLOW, info = "启动应用节点")
 	public String startNodeApp(Model model, String id) {
 
-		System.out.println("id:" + id);
+		System.out.println("id:" + id.length());
 		model.addAttribute("name", "Dear");
 
 		return "zoolist";
