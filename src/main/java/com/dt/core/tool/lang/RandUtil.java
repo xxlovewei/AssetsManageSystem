@@ -36,7 +36,7 @@ public class RandUtil {
 		} else {
 			s2 = source;
 		}
-		if (cnt >= source.size()) {
+		if (source == null || cnt >= source.size() || source.size() == 0) {
 			return source;
 		}
 		ArrayList<String> res = new ArrayList<String>();
