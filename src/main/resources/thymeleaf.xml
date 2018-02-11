@@ -6,7 +6,6 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd ">
-	
 	<!-- 这个标签表示使用注解来驱动 -->  
 	<mvc:annotation-driven/>  
 	<!-- 使用thymeleaf解析 -->  
@@ -16,18 +15,14 @@
 		<property name="templateMode" value="HTML" />  
 		<property name="cacheable" value="false" />  
 	</bean>
-
 	<bean id="templateEngine"  
 		class="org.thymeleaf.spring4.SpringTemplateEngine">  
 		<property name="templateResolver" ref="templateResolver" />  
 	</bean>  
-   
 	<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">  
 		<property name="templateEngine" ref="templateEngine" />  
 		<property name="characterEncoding" value="UTF-8"/>  
 	</bean>  
-   
- 
 </beans>
  
 
