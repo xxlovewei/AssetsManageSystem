@@ -91,7 +91,7 @@ public class LoginController extends BaseController {
 		r.put("token", super.getSession().getId());
 		_log.info("login:" + r.toJSONString());
 		loginService.recLogin(shiroUser.id, super.getSession().getId(), request);
-		return ResData.SUCCESS("登录成功", r);
+		return ResData.SUCCESS(BaseCodeMsgEnum.USER_LOGIN_SUCCESS.getMessage(), r);
 	}
 
 	@RequestMapping(value = "/user/checkLogin.do")

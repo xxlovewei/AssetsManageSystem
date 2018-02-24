@@ -20,7 +20,7 @@ public enum BaseCodeMsgEnum {
 	FAILED_SAVE_MSG(3, "保存失败"),
 	FAILED_NO_DATA_MSG(4, "无数据"),
 	
-	
+	USER_LOGIN_SUCCESS(0, "用户登录成功"),
 	USER_ALREADY_LOGIN(290, "用户已登录"),
 	USER_NOT_LOGIN(299, "用户未登录"),
 	USER_ALREADY_REG(297,"该用户已经注册"),
