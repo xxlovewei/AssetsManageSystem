@@ -68,6 +68,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				isPass = false;
 			} else {
 				isPass = true;
+				acl=am.value();
 				// 已经设置ACL
 				// if (am.value().toLowerCase().equals(Acl.TYPE_ALLOW)) {
 				// acl = Acl.TYPE_ALLOW;

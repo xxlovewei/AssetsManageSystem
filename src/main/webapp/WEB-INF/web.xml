@@ -33,18 +33,15 @@
 		 classpath:applicationContext.xml,
 	     classpath:ds_db.xml,
 		 classpath:shiro.xml,
-		 classpath:thymeleaf.xml,
+<!-- 		 classpath:freemarker.xml,   -->
 	   	 /WEB-INF/app_config_servlet.xml,
 	   	 classpath:applicationContext-websocket.xml
 		</param-value>
 	</context-param>
 
-	<!-- <servlet-mapping>
-			<servlet-name>term</servlet-name>
-			<url-pattern>/term</url-pattern>
-		</servlet-mapping>
-		 -->
-	
+	<!-- <servlet-mapping> <servlet-name>term</servlet-name> <url-pattern>/term</url-pattern> 
+		</servlet-mapping> -->
+
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -95,7 +92,7 @@
 		<url-pattern>/druid/*</url-pattern>
 	</servlet-mapping>
 
-	
+
 
 	<filter>
 		<filter-name>DruidWebStatFilter</filter-name>

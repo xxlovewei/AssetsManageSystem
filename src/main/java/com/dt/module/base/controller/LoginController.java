@@ -97,6 +97,7 @@ public class LoginController extends BaseController {
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData checkLogin() throws IOException {
+	 
 		if (ShiroKit.isAuthenticated()) {
 			return ResData.SUCCESS(BaseCodeMsgEnum.USER_ALREADY_LOGIN.getMessage());
 		} else {
