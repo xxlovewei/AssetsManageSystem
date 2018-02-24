@@ -9,7 +9,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.dao.Rcd;
-import com.dt.core.dao.sql.Delete;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
 import com.dt.core.dao.sql.Update;
@@ -76,7 +75,7 @@ public class ClassService extends BaseService {
 
 	public ResData queryClassById(String class_id) {
 
-		Rcd rs = db.uniqueRecord("select * from sys_ct_class where is_delete='N' and class_id=?", class_id);
+		Rcd rs = db.uniqueRecord("select * from sys_ct_class where is_delete='N' and class_id=? order by od", class_id);
 		if (ToolUtil.isEmpty(rs)) {
 			return ResData.FAILURE_NODATA();
 		} else {
@@ -91,6 +90,8 @@ public class ClassService extends BaseService {
 		me.setIf("is_used", ps.getString("is_used"));
 		me.setIf("value", ps.getString("value"));
 		me.setIf("od", ps.getString("od"));
+		me.setIf("mark", ps.getString("mark"));
+		me.setIf("pic_id", ps.getString("pic_id"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -110,6 +111,8 @@ public class ClassService extends BaseService {
 			me.setIf("is_used", "Y");
 			me.setIf("value", idsarr.getString(i));
 			me.setIf("od", ps.getString("od"));
+			me.setIf("mark", ps.getString("mark"));
+			me.setIf("pic_id", ps.getString("pic_id"));
 			sqls.add(me);
 		}
 		if (sqls.size() > 0) {
@@ -120,9 +123,9 @@ public class ClassService extends BaseService {
 	}
 
 	public ResData deleteClassItem(String id) {
-		Delete me = new Delete();
-		me.from("sys_ct_class_item");
-		me.where().and("id=?", id);
+		Update me = new Update("sys_ct_class_item");
+		me.set("is_delete", "Y");
+		me.where().and("id=?", id).execute();
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
@@ -132,28 +135,33 @@ public class ClassService extends BaseService {
 		me.setIf("is_used", ps.getString("is_used"));
 		me.setIf("value", ps.getString("value"));
 		me.setIf("od", ps.getString("od"));
+		me.setIf("pic_id", ps.getString("pic_id"));
+		me.setIf("mark", ps.getString("mark"));
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
 
 	public ResData queryClassItem(String class_id, String is_used) {
 
-		String sql = "select * from sys_ct_class where 1=1";
+		String sql = "select * from sys_ct_class_item where is_delete='N' ";
 		if (ToolUtil.isNotEmpty(class_id)) {
-			sql += " and type='" + class_id + "' ";
+			sql += " and class_id='" + class_id + "' ";
 		}
 		if (ToolUtil.isNotEmpty(is_used)) {
-			sql += " and type='" + is_used + "' ";
+			sql += " and is_used='" + is_used + "' ";
 		}
+		sql = sql + " order by od";
 		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
 	public ResData queryClassItemById(String id) {
-		Rcd rs = db.uniqueRecord("select * from sys_ct_class where class_id=?", id);
+		Rcd rs = db.uniqueRecord("select * from sys_ct_class_item where id=?", id);
 		if (ToolUtil.isEmpty(rs)) {
 			return ResData.FAILURE_NODATA();
 		} else {
 			return ResData.SUCCESS_OPER(rs.toJsonObject());
 		}
+		
+		
 	}
 }

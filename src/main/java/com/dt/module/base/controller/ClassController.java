@@ -71,6 +71,15 @@ public class ClassController extends BaseController {
 
 	}
 
+	@RequestMapping(value = "/class/addClassItem.do")
+	@Res
+	@Acl(value = Acl.TYPE_DENY, info = "增加条目")
+	public ResData addClassItem() {
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		return classService.addClassItem(ps);
+
+	}
+
 	@RequestMapping(value = "/class/addClassItems.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "批量增加分类条目")
