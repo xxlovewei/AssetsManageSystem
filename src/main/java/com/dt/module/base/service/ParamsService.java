@@ -77,7 +77,7 @@ public class ParamsService extends BaseService {
 	public ResData queryParamsById(String id) {
 		String sql = "select * from sys_params where deleted='N' and id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
-		if (rs == null) {
+		if (ToolUtil.isEmpty(rs)) {
 			return ResData.FAILURE_NODATA();
 		}
 		return ResData.SUCCESS_OPER(rs.toJsonObject());

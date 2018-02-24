@@ -13,16 +13,15 @@ public enum BaseCodeMsgEnum {
 	SUCCESS_DEF_MSG(0, "成功"), 
 	SUCCESS_OPER_MSG(0,"操作成功"),
 	SUCCESS_SAVE_MSG(0,"保存成功"),
-	SUCCESS_NO_DATA_MSG(0, "无数据"),
+
 	
 	FAILED_DEF_MSG(1, "失败"),
-	FAILED_OPER_MSG(1, "操作失败"),
-	FAILED_SAVE_MSG(1, "保存失败"),
-	FAILED_NO_DATA_MSG(1, "无数据"),
+	FAILED_OPER_MSG(2, "操作失败"),
+	FAILED_SAVE_MSG(3, "保存失败"),
+	FAILED_NO_DATA_MSG(4, "无数据"),
 	
 	
-	USER_ALREADY_LOGIN(0, "用户已登录"),
- 
+	USER_ALREADY_LOGIN(290, "用户已登录"),
 	USER_NOT_LOGIN(299, "用户未登录"),
 	USER_ALREADY_REG(297,"该用户已经注册"),
 	USER_NOT_EXISTED(295, "没有此用户"),
@@ -31,9 +30,10 @@ public enum BaseCodeMsgEnum {
 	USER_TWO_PWD_NOT_MATCH(292, "两次输入密码不一致"),
 	USER_QUERY_FAILED(291, "获取用户失败"),
 	
+	
 	SYSTEM_CONF_ERROR(2000,"系统配置错误"),
-	REQ_PARAM_ERROR(501,"请求参数不正确"),
-	PERMITION_NOT(1000,"无权限");
+	PERMITION_NOT(1000,"无权限"),
+	REQ_PARAM_ERROR(501,"请求参数不正确");
 
 	BaseCodeMsgEnum(int code, String message) {
 		this.friendlyCode = code;

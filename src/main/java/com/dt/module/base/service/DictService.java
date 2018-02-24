@@ -123,7 +123,7 @@ public class DictService extends BaseService {
 	 */
 	public ResData queryDictItemById(String dict_item_id) {
 		Rcd rs = db.uniqueRecord("select * from sys_dict_item where dict_item_id=?", dict_item_id);
-		if (rs == null) {
+		if (ToolUtil.isEmpty(rs)) {
 			return ResData.FAILURE_NODATA();
 		}
 		return ResData.SUCCESS_OPER(rs.toJsonObject());

@@ -17,10 +17,12 @@ public class ResData extends BaseResult {
 	public static String TYPE_HTML = "html";
 	public String TYPE_VALUE = ResData.TYPE_JSON;
 	private Boolean clearStatus = false;
-	private int code=0;
+	private int code = 0;
+
 	public Boolean getClearStatus() {
 		return clearStatus;
 	}
+
 	public void setClearStatus(Boolean clearStatus) {
 		this.clearStatus = clearStatus;
 	}
@@ -30,9 +32,11 @@ public class ResData extends BaseResult {
 	public boolean isSuccess() {
 		return success;
 	}
+
 	public boolean isFailed() {
 		return !success;
 	}
+
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
@@ -42,13 +46,16 @@ public class ResData extends BaseResult {
 	public String getMessage() {
 		return this.message;
 	}
+
 	public ResData setMessage(String message) {
 		this.message = message;
 		return this;
 	}
+
 	public ResData(boolean success) {
 		this.success = success;
 	}
+
 	public ResData() {
 		this.success = true;
 	}
@@ -59,10 +66,13 @@ public class ResData extends BaseResult {
 		this.data = data;
 		return this;
 	}
+
 	public Object getData() {
 		return data;
 	}
-	
+
+	/************************* 操作成功 ***************************/
+
 	public static ResData SUCCESS(String message, Object data) {
 		ResData r = new ResData();
 		r.setSuccess(true);
@@ -71,7 +81,7 @@ public class ResData extends BaseResult {
 		r.setData(data);
 		return r;
 	}
-	 
+
 	public static ResData SUCCESS(String message) {
 		ResData r = new ResData();
 		r.setSuccess(true);
@@ -80,88 +90,15 @@ public class ResData extends BaseResult {
 		r.setMessage(message);
 		return r;
 	}
+
 	public static ResData SUCCESS() {
 		ResData r = new ResData();
 		r.setSuccess(true);
+		r.setCode(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getCode());
+		r.setMessage(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getMessage());
 		return r;
 	}
-	public static ResData FAILURE(String message, Object data) {
-		ResData r = new ResData();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.FAILED_DEF_MSG.getCode());
-		r.setMessage(message);
-		r.setData(data);
-		return r;
-	}
-	public static ResData FAILURE(String message) {
-		ResData r = new ResData();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.FAILED_DEF_MSG.getCode());
-		r.setMessage(message);
-		return r;
-	}
-	public static ResData FAILURE() {
-		ResData r = new ResData();
-		r.setCode(BaseCodeMsgEnum.FAILED_DEF_MSG.getCode());
-		r.setSuccess(false);
-		return r;
-	}
-	public static ResData FAILURE_OPER() {
-		ResData r = new ResData();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.FAILED_OPER_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.FAILED_OPER_MSG.getMessage());
-		return r;
-	}
-	public static ResData FAILURE_GETUSER() {
-		ResData r = new ResData();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.USER_QUERY_FAILED.getCode());
-		r.setMessage(BaseCodeMsgEnum.USER_QUERY_FAILED.getMessage());
-		return r;
-	}
-	
-	public static ResData FAILURE_NODATA() {
-		ResData r = new ResData();
-		r.setSuccess(false);
-		r.setMessage("无数据");
-		return r;
-	}
-	public static ResData FAILURE_ERRREQ_PARAMS() {
-		ResData r = new ResData();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.REQ_PARAM_ERROR.getCode());
-		r.setMessage(BaseCodeMsgEnum.REQ_PARAM_ERROR.getMessage());
-		return r;
-	}
-	public static ResData FAILURE_SYS_PARAMS() {
-		ResData r = new ResData();
-		r.setSuccess(false);
-		r.setMessage("系统配置错误");
-		return r;
-	}
-	public static ResData FAILURE_OPER(Object data) {
-		ResData r = new ResData();
-		r.setSuccess(false);
-		r.setData(data);
-		r.setCode(BaseCodeMsgEnum.FAILED_OPER_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.FAILED_OPER_MSG.getMessage());
-		return r;
-	}
-	public static ResData FAILURE_SAVE() {
-		ResData r = new ResData();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.FAILED_SAVE_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.FAILED_SAVE_MSG.getMessage());
-		return r;
-	}
-	public static ResData FAILURE_NOT_LOGIN() {
-		ResData r = new ResData();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.USER_NOT_LOGIN.getCode());
-		r.setMessage(BaseCodeMsgEnum.USER_NOT_LOGIN.getMessage());
-		return r;
-	}
+
 	public static ResData SUCCESS_OPER(Object data) {
 		ResData r = new ResData();
 		r.setSuccess(true);
@@ -170,6 +107,7 @@ public class ResData extends BaseResult {
 		r.setMessage(BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage());
 		return r;
 	}
+
 	public static ResData SUCCESS_OPER() {
 		ResData r = new ResData();
 		r.setSuccess(true);
@@ -177,13 +115,108 @@ public class ResData extends BaseResult {
 		r.setMessage(BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage());
 		return r;
 	}
+
 	public static ResData SUCCESS_SAVE() {
 		ResData r = new ResData();
+		r.setSuccess(true);
 		r.setCode(BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getCode());
 		r.setMessage(BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getMessage());
-		r.setSuccess(true);
 		return r;
 	}
+
+	/************************* 操作失败 ***************************/
+	public static ResData FAILURE(String message, Object data) {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(BaseCodeMsgEnum.FAILED_DEF_MSG.getCode());
+		r.setMessage(BaseCodeMsgEnum.FAILED_DEF_MSG.getMessage());
+		r.setMessage(message);
+		r.setData(data);
+		return r;
+	}
+
+	public static ResData FAILURE(String message) {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(BaseCodeMsgEnum.FAILED_DEF_MSG.getCode());
+		r.setMessage(BaseCodeMsgEnum.FAILED_DEF_MSG.getMessage());
+		r.setMessage(message);
+		return r;
+	}
+
+	public static ResData FAILURE() {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(BaseCodeMsgEnum.FAILED_DEF_MSG.getCode());
+		r.setMessage(BaseCodeMsgEnum.FAILED_DEF_MSG.getMessage());
+		return r;
+	}
+
+	public static ResData FAILURE_OPER() {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(BaseCodeMsgEnum.FAILED_OPER_MSG.getCode());
+		r.setMessage(BaseCodeMsgEnum.FAILED_OPER_MSG.getMessage());
+		return r;
+	}
+
+	public static ResData FAILURE_GETUSER() {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(BaseCodeMsgEnum.USER_QUERY_FAILED.getCode());
+		r.setMessage(BaseCodeMsgEnum.USER_QUERY_FAILED.getMessage());
+		return r;
+	}
+
+	public static ResData FAILURE_NODATA() {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getCode());
+		r.setMessage(BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getMessage());
+		return r;
+	}
+
+	public static ResData FAILURE_ERRREQ_PARAMS() {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(BaseCodeMsgEnum.REQ_PARAM_ERROR.getCode());
+		r.setMessage(BaseCodeMsgEnum.REQ_PARAM_ERROR.getMessage());
+		return r;
+	}
+
+	public static ResData FAILURE_SYS_PARAMS() {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(BaseCodeMsgEnum.SYSTEM_CONF_ERROR.getCode());
+		r.setMessage(BaseCodeMsgEnum.SYSTEM_CONF_ERROR.getMessage());
+		return r;
+	}
+
+	public static ResData FAILURE_OPER(Object data) {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setData(data);
+		r.setCode(BaseCodeMsgEnum.FAILED_OPER_MSG.getCode());
+		r.setMessage(BaseCodeMsgEnum.FAILED_OPER_MSG.getMessage());
+		return r;
+	}
+
+	public static ResData FAILURE_SAVE() {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(BaseCodeMsgEnum.FAILED_SAVE_MSG.getCode());
+		r.setMessage(BaseCodeMsgEnum.FAILED_SAVE_MSG.getMessage());
+		return r;
+	}
+
+	public static ResData FAILURE_NOT_LOGIN() {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(BaseCodeMsgEnum.USER_NOT_LOGIN.getCode());
+		r.setMessage(BaseCodeMsgEnum.USER_NOT_LOGIN.getMessage());
+		return r;
+	}
+
 	public JSONArray getDataToJSONArray() {
 		if (data instanceof org.json.JSONArray) {
 			return JSONArray.parseArray(((org.json.JSONArray) (data)).toString());
@@ -193,6 +226,7 @@ public class ResData extends BaseResult {
 			return new JSONArray();
 		}
 	}
+
 	public JSONObject getDataToJSONObject() {
 		if (data instanceof org.json.JSONObject) {
 			return JSONObject.parseObject(((org.json.JSONObject) (data)).toString());
@@ -202,6 +236,7 @@ public class ResData extends BaseResult {
 			return new JSONObject();
 		}
 	}
+
 	public String asJson() {
 		if (clearStatus) {
 			if (data instanceof ResData) {
@@ -234,14 +269,17 @@ public class ResData extends BaseResult {
 			return json.toJSONString();
 		}
 	}
+
 	/**
 	 * @return the code
 	 */
 	public int getCode() {
 		return code;
 	}
+
 	/**
-	 * @param code the code to set
+	 * @param code
+	 *            the code to set
 	 */
 	public void setCode(int code) {
 		this.code = code;

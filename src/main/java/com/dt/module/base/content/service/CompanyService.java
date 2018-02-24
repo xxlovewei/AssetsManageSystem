@@ -29,7 +29,7 @@ public class CompanyService extends BaseService {
 	 */
 	public ResData updateCompany(TypedHashMap<String, Object> ps) {
 		if(!initCompany()){
-			ResData.FAILURE_NODATA();
+			return ResData.FAILURE_NODATA();
 		}
 		if (ps.containsKey("id")) {
 			ps.remove("id");

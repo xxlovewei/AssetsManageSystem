@@ -35,6 +35,7 @@ public class ContentCategoryService extends BaseService {
 		db.execute(me);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 根据ID显示第一层的数据
 	 */
@@ -46,7 +47,7 @@ public class ContentCategoryService extends BaseService {
 		sql = sql + " order by od";
 		return ResData.SUCCESS_OPER(db.query(sql, rootId).toJsonArrayWithJsonObject());
 	}
-	
+
 	/**
 	 * @Description: 显示子节点数据
 	 */
@@ -58,6 +59,7 @@ public class ContentCategoryService extends BaseService {
 		sql = sql + " order by od";
 		return ResData.SUCCESS_OPER(db.query(sql, parentId).toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description: 后端angular显示内容
 	 */
@@ -86,17 +88,19 @@ public class ContentCategoryService extends BaseService {
 		}
 		return ResData.SUCCESS_OPER(res);
 	}
+
 	/**
 	 * @Description:查询某个节点
 	 */
 	public ResData queryCategoryById(String id) {
 		String sql = "select a.*,b.name rootname from ct_category a,ct_category_root b where a.root=b.id and a.id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
-		if (rs == null) {
+		if (ToolUtil.isEmpty(rs)) {
 			return ResData.FAILURE_NODATA();
 		}
 		return ResData.SUCCESS_OPER(rs.toJsonObject());
 	}
+
 	/**
 	 * @Description:查询所有数据
 	 */
@@ -104,12 +108,15 @@ public class ContentCategoryService extends BaseService {
 		return ResData.SUCCESS_OPER(
 				db.query("select * from ct_category where deleted='N' and root=?", root).toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description:获取节点下一个序列号
 	 */
 	public String getNextNodeId() {
-		return db.uniqueRecord("select case when max(id) is null then 50 else max(id)+1 end value from ct_category").getString("value");
+		return db.uniqueRecord("select case when max(id) is null then 50 else max(id)+1 end value from ct_category")
+				.getString("value");
 	}
+
 	/**
 	 * @Description:更新节点数据
 	 */
@@ -126,6 +133,7 @@ public class ContentCategoryService extends BaseService {
 		db.execute(ups);
 		return ResData.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:插入节点
 	 */

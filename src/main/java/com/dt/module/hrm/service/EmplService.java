@@ -178,11 +178,10 @@ public class EmplService extends BaseService {
 	public ResData queryEmplById(String empl_id) {
 		JSONObject res = new JSONObject();
 		Rcd info = db.uniqueRecord("select * from sys_user_info where deleted='N' and empl_id=?", empl_id);
-		if (info == null) {
+		if (ToolUtil.isEmpty(info)) {
 			return ResData.FAILURE_NODATA();
 		}
 		// 获取组织信息
-
 		res = ConvertUtil.OtherJSONObjectToFastJSONObject(info.toJsonObject());
 		res.put("PARTS", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(
 				"select a.*,b.node_name from hrm_org_employee a,hrm_org_part b where a.node_id=b.node_id and empl_id=?",
