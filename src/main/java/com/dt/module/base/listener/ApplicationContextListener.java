@@ -36,7 +36,7 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 						.getResourceAsStream("sys.properties");
 				Properties ps = new Properties();
 				ps.load(in);
-				String initjob = ps.getProperty("job.init");
+				String initjob = ps.getProperty("job.enable");
 				if (ToolUtil.isNotEmpty(initjob) && initjob.toLowerCase().equals("true")) {
 					_log.info("Job Start.");
 					ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
