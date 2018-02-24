@@ -42,7 +42,7 @@ public class UserReceivingAddrController extends BaseController {
 	@Acl(value = Acl.TYPE_USER_COMMON,info="获取所有收货地址")
 	public ResData queryReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
-			return ResData.FAILURE_GETUSER();
+			return ResData.FAILURE_USER_QUERY();
 		} else {
 			return ResData.SUCCESS_OPER(userReceivingAddrService.queryReceivingAddr(getUserId()));
 		}
@@ -53,7 +53,7 @@ public class UserReceivingAddrController extends BaseController {
 	@Acl(value = Acl.TYPE_USER_COMMON,info="删除个人收货地址")
 	public ResData delReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
-			return ResData.FAILURE_GETUSER();
+			return ResData.FAILURE_USER_QUERY();
 		}
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
@@ -69,7 +69,7 @@ public class UserReceivingAddrController extends BaseController {
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "修改收货地址")
 	public ResData saveReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
-			return ResData.FAILURE_GETUSER();
+			return ResData.FAILURE_USER_QUERY();
 		}
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
@@ -85,7 +85,7 @@ public class UserReceivingAddrController extends BaseController {
 	@Acl(value=Acl.TYPE_USER_COMMON,info="设置默认地址")
 	public ResData setDefReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
-			return ResData.FAILURE_GETUSER();
+			return ResData.FAILURE_USER_QUERY();
 		}
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");

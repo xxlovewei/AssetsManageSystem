@@ -75,6 +75,7 @@ public class LoginController extends BaseController {
 			return ResData.FAILURE(error);
 		}
 
+		//用户登录成功
 		ShiroUser shiroUser = ShiroKit.getUser();
 		super.getSession().setAttribute("shiroUser", shiroUser);
 		super.getSession().setAttribute("user_id", shiroUser.id);

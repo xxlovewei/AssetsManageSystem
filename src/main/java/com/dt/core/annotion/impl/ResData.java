@@ -76,8 +76,8 @@ public class ResData extends BaseResult {
 	public static ResData SUCCESS(String message, Object data) {
 		ResData r = new ResData();
 		r.setSuccess(true);
-		r.setCode(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getMessage());
+		r.setCode(0);
+		r.setMessage(message);
 		r.setData(data);
 		return r;
 	}
@@ -85,8 +85,15 @@ public class ResData extends BaseResult {
 	public static ResData SUCCESS(String message) {
 		ResData r = new ResData();
 		r.setSuccess(true);
-		r.setCode(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getMessage());
+		r.setCode(0);
+		r.setMessage(message);
+		return r;
+	}
+	public static ResData SUCCESS(String message,int code,Object data) {
+		ResData r = new ResData();
+		r.setSuccess(true);
+		r.setCode(code);
+		r.setData(data);
 		r.setMessage(message);
 		return r;
 	}
@@ -129,7 +136,6 @@ public class ResData extends BaseResult {
 		ResData r = new ResData();
 		r.setSuccess(false);
 		r.setCode(BaseCodeMsgEnum.FAILED_DEF_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.FAILED_DEF_MSG.getMessage());
 		r.setMessage(message);
 		r.setData(data);
 		return r;
@@ -139,7 +145,15 @@ public class ResData extends BaseResult {
 		ResData r = new ResData();
 		r.setSuccess(false);
 		r.setCode(BaseCodeMsgEnum.FAILED_DEF_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.FAILED_DEF_MSG.getMessage());
+		r.setMessage(message);
+		return r;
+	}
+	
+	public static ResData FAILURE(String message,int code,Object data) {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(code);
+		r.setData(data);
 		r.setMessage(message);
 		return r;
 	}
@@ -160,7 +174,7 @@ public class ResData extends BaseResult {
 		return r;
 	}
 
-	public static ResData FAILURE_GETUSER() {
+	public static ResData FAILURE_USER_QUERY() {
 		ResData r = new ResData();
 		r.setSuccess(false);
 		r.setCode(BaseCodeMsgEnum.USER_QUERY_FAILED.getCode());
@@ -168,6 +182,15 @@ public class ResData extends BaseResult {
 		return r;
 	}
 
+	public static ResData FAILURE_USER_NOT_EXISTED() {
+		ResData r = new ResData();
+		r.setSuccess(false);
+		r.setCode(BaseCodeMsgEnum.USER_NOT_EXISTED.getCode());
+		r.setMessage(BaseCodeMsgEnum.USER_NOT_EXISTED.getMessage());
+		return r;
+	}
+
+	
 	public static ResData FAILURE_NODATA() {
 		ResData r = new ResData();
 		r.setSuccess(false);

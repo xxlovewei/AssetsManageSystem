@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.annotion.impl.ResData;
+import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.shiro.ShiroKit;
@@ -46,7 +47,6 @@ public class LoginSmallProgramController extends BaseController {
 	LoginService loginService;
 
 	private ResData getOpenIdStr(String code) {
-		ResData res = new ResData();
 		String url = "https://api.weixin.qq.com/sns/jscode2session";
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("appid", "wx5a945d59434c7f0d");
@@ -58,21 +58,16 @@ public class LoginSmallProgramController extends BaseController {
 		// 判断是否获取open_id
 		String openId = strobj.getString("openid");
 		if (ToolUtil.isEmpty(openId)) {
-			res.setCode(10000);
-			res.setSuccess(false);
-			res.setMessage("未获取Openid");
-			return res;
+			return ResData.FAILURE(BaseCodeMsgEnum.WX_FAILED_GET_OPENID.getMessage(),
+					BaseCodeMsgEnum.WX_FAILED_GET_OPENID.getCode(), null);
 		}
-		res.setData(strobj);
-		res.setSuccess(true);
-		return res;
+		return ResData.FAILURE(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getMessage(), strobj);
 	}
 
 	@RequestMapping(value = "/smallprogram/login.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "小程序用户登录")
 	public ResData login(String code, HttpServletRequest request) {
-		ResData res = new ResData();
 		if (ToolUtil.isEmpty(code)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
@@ -84,10 +79,7 @@ public class LoginSmallProgramController extends BaseController {
 		// 判断用户是否存在
 		ResData userrs = wxUserService.existUserByOpenId(openId);
 		if (userrs.isFailed()) {
-			res.setCode(10001);
-			res.setSuccess(false);
-			res.setMessage("用户不存在");
-			return res;
+			return ResData.FAILURE_USER_NOT_EXISTED();
 		}
 		Subject currentUser = ShiroKit.getSubject();
 		String user_id = userrs.getDataToJSONObject().getString("user_id");
@@ -110,11 +102,7 @@ public class LoginSmallProgramController extends BaseController {
 			error = "其他错误：" + e.getMessage();
 		}
 		if (ToolUtil.isNotEmpty(error)) {
-			res.setCode(10002);
-			res.setSuccess(false);
-			res.setMessage("登录失败了");
-			 
-			return res;
+			return ResData.FAILURE(error);
 		}
 
 		// 添加更新sys_session表
@@ -123,14 +111,11 @@ public class LoginSmallProgramController extends BaseController {
 		JSONObject ret = new JSONObject();
 		ret.put("cookie", tid);
 		ret.put("token", tid);
-
+		// 用户登录成功
 		super.getSession().setAttribute("shiroUser", shiroUser);
 		super.getSession().setAttribute("user_id", shiroUser.id);
 		loginService.recLogin(shiroUser.id, tid, request);
-		res.setCode(10003);
-		res.setSuccess(true);
-		res.setData(ret);
-		return res;
+		return ResData.SUCCESS("登录成功", ret);
 
 	}
 
@@ -168,7 +153,7 @@ public class LoginSmallProgramController extends BaseController {
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "检测登录")
 	public ResData checkLogin() {
-		//Subject currentUser = ShiroKit.getSubject();
+		// Subject currentUser = ShiroKit.getSubject();
 		String userId = this.getUserId();
 		if (ToolUtil.isNotEmpty(userId) && userId.length() > 2) {
 			return ResData.SUCCESS_OPER();
