@@ -28,6 +28,7 @@ import com.dt.core.shiro.ShiroUser;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.MenuRootService;
+import com.dt.module.base.service.UserBalanceService;
 
 @Controller
 @RequestMapping("/api")
@@ -37,6 +38,9 @@ public class LoginController extends BaseController {
 	LoginService loginService = null;
 	@Autowired
 	MenuRootService menuRootService;
+
+	@Autowired
+	UserBalanceService userBalanceService;
 
 	/**
 	 * @Description: user,pwd,type,client必须部不为空
@@ -98,7 +102,6 @@ public class LoginController extends BaseController {
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
 	public ResData checkLogin() throws IOException {
-	 
 		if (ShiroKit.isAuthenticated()) {
 			return ResData.SUCCESS(BaseCodeMsgEnum.USER_ALREADY_LOGIN.getMessage());
 		} else {

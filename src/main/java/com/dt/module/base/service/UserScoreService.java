@@ -27,6 +27,10 @@ public class UserScoreService extends BaseService {
 		if (ToolUtil.isOneEmpty(user_id, value)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
+		int v = db.uniqueRecord("select score from sys_user_info where user_id=?", user_id).getInteger("score");
+		if(ToolUtil.isEmpty(v)) {
+			return ResData.FAILURE_NODATA();
+		}
 		db.execute("update sys_user_info set score=score+" + value + " where user_id=?", user_id);
 		Insert me = new Insert("sys_user_score_dtl");
 		me.set("id", db.getUUID());
@@ -49,7 +53,10 @@ public class UserScoreService extends BaseService {
 			return ResData.FAILURE_ERRREQ_PARAMS();
 		}
 		int v = db.uniqueRecord("select score from sys_user_info where user_id=?", user_id).getInteger("score");
-		if (value >= v) {
+		if(ToolUtil.isEmpty(v)) {
+			return ResData.FAILURE_NODATA();
+		}
+		if (v >= value) {
 			db.execute("update sys_user_info set score=score-" + value + " where user_id=?", user_id);
 			Insert me = new Insert("sys_user_score_dtl");
 			me.set("id", db.getUUID());
@@ -89,9 +96,9 @@ public class UserScoreService extends BaseService {
 		if (ToolUtil.isEmpty(flag)) {
 			flag = "";
 		}
-		String sql="select * from sys_user_score_dtl where rtime>sysdate-1 and user_id=? and flag=?";
-		return db.query(sql,user_id,flag).size();
-		
+		String sql = "select * from sys_user_score_dtl where rtime>sysdate-1 and user_id=? and flag=?";
+		return db.query(sql, user_id, flag).size();
+
 	}
 
 	/**

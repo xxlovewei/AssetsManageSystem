@@ -505,8 +505,9 @@ public class UserService extends BaseService {
 		ins.setIf("sex", ps.getString("sex", "1")); // 性别
 		ins.setIf("system", ps.getString("system", "1")); // 系统
 		ins.setIf("shop_id", ps.getString("shop_id")); // 默认所属店铺
-		ins.setIf("score", ps.getString("score")); // 积分
+		ins.set("score", ps.getString("score","0")); // 积分
 		ins.setIf("open_id", ps.getString("open_id")); // 微信open_id
+		ins.set("balance", ps.getString("balance", "0"));//余额
 		ins.setIf("avatarurl", ps.getString("avatarurl"));// 微信logo
 		ins.set("deleted", "N");
 		db.execute(ins);

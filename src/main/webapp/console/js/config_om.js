@@ -1,7 +1,7 @@
 function config_om($stateProvider, $ocLazyLoadProvider) {
 	console.log("App Om config");
 	$ocLazyLoadProvider.config({
-		debug : false
+		debug : true
 	});
 	
 	// 主机节点
