@@ -1,4 +1,4 @@
-function config_shop($stateProvider, $ocLazyLoadProvider) {
+function config_om($stateProvider, $ocLazyLoadProvider) {
 	console.log("App Om config");
 	$ocLazyLoadProvider.config({
 		debug : false

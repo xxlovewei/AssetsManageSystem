@@ -1,8 +1,9 @@
 function config_shop($stateProvider, $ocLazyLoadProvider) {
 	console.log("App Shop config");
 	$ocLazyLoadProvider.config({
-		debug : false
+		debug : true
 	});
+	
 	// 产品
 	$stateProvider.state('product', {
 		abstract : true,

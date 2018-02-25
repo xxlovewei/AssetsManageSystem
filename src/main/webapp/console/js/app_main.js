@@ -164,10 +164,10 @@ app
 					// Idle.watch();
 					// 替换了之前的$stateNotFound
 					$state.onInvalid(function(to, from, injector) {
-						$log.warn(to);
-						$log.warn(from);
-						$log.warn(injector);
-						alert("未配置路由");
+						$log.warn("to",to);
+						$log.warn("from",from);
+						$log.warn("injector",injector);
+						alert("未配置路由.");
 					});
 					// 替换了之前的$stateChangeStart
 					$transitions
@@ -287,6 +287,10 @@ app
 
 app.config(config_shop).run(function() {
 	console.log("App Shop run");
+});
+
+app.config(config_om).run(function() {
+	console.log("App Om run");
 });
 
 app.config(config_system).run(function() {

@@ -25,7 +25,7 @@
 				ng-class="{active: $state.includes('{{first.state}}')}"><a
 				ui-sref="{{first.state}}"> <i
 					ng-class="{false: 'fa fa-th-large',true:'{{first.logo}}'}[menuLogoIsExist(first.logo)]"></i>
-					<span class="nav-lank nav-label nav-first-level">{{::first.node_name}}</span>
+					<span class="nav-lank nav-label nav-first-level">{{first.node_name}}</span>
 					<span ng-if="first.children_cnt>0" class="fa arrow"></span>
 			</a>
 				<ul ng-if="first.children_cnt>0"
@@ -33,7 +33,7 @@
 					ng-class="{in: $state.includes('{{first.state}}')}">
 					<li ng-class="{active: $state.includes('{{second.state}}')}"
 						ng-repeat="second in first.children"><a
-						ui-sref="{{second.state}}">{{::second.node_name}} <span
+						ui-sref="{{second.state}}">{{second.node_name}} <span
 							ng-if="second.children_cnt>0" class="fa arrow"></span>
 					</a>
 						<ul ng-if="second.children_cnt>0"
@@ -41,7 +41,7 @@
 							class="nav nav-third-level collapse ">
 							<li ui-sref-active="active22"
 								ng-repeat="third in second.children"><a
-								ui-sref="{{third.state}}">{{::third.node_name}} </a></li>
+								ui-sref="{{third.state}}">{{third.node_name}} </a></li>
 						</ul></li>
 				</ul></li>
 		</ul>
