@@ -75,7 +75,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<!-- 开启合并sql -->
 		<property name="mergeSql" value="true" />
 		<!-- 开启慢查询语句,1秒 -->
-		<property name="slowSqlMillis" value="1000" />
+		<property name="slowSqlMillis" value="2000" />
 		<property name="logSlowSql" value="true" />
 	</bean>
 

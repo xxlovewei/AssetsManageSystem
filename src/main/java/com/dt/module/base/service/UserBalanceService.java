@@ -1,6 +1,7 @@
 package com.dt.module.base.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
@@ -21,6 +22,7 @@ public class UserBalanceService extends BaseService {
 	/**
 	 * @Description: 增加用户余额
 	 */
+	@Transactional
 	public ResData addBalance(String user_id, Double value, String mark, String flag) {
 		if (ToolUtil.isOneEmpty(user_id, value)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
@@ -46,6 +48,7 @@ public class UserBalanceService extends BaseService {
 	/**
 	 * @Description: 减少用户余额
 	 */
+	@Transactional
 	public ResData reduceBalance(String user_id, Double value, String mark, String flag) {
 		if (ToolUtil.isOneEmpty(user_id, value)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.impl.ResData;
@@ -191,7 +192,10 @@ public class LoginService extends BaseService {
 			db.execute(del);
 		}
 	}
-
+	/**
+	 * @Description: 登录记录
+	 */
+	@Transactional
 	public void recLogin(String user_id, String cookie, HttpServletRequest request) {
 		Insert me = new Insert("sys_log_login");
 		me.set("id", db.getUUID());

@@ -1,6 +1,7 @@
 package com.dt.module.base.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
@@ -23,6 +24,7 @@ public class UserScoreService extends BaseService {
 	/**
 	 * @Description: 增加用户积分
 	 */
+	@Transactional
 	public ResData addScore(String user_id, int value, String mark, String flag) {
 		if (ToolUtil.isOneEmpty(user_id, value)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();
@@ -48,6 +50,7 @@ public class UserScoreService extends BaseService {
 	/**
 	 * @Description: 减少用户积分
 	 */
+	@Transactional
 	public ResData reduceScore(String user_id, int value, String mark, String flag) {
 		if (ToolUtil.isOneEmpty(user_id, value)) {
 			return ResData.FAILURE_ERRREQ_PARAMS();

@@ -51,7 +51,7 @@ public class RoleService extends BaseService {
 		ups.where().and("role_id=?", role_id);
 		db.execute(ups);
 		db.execute("delete from sys_user_role where role_id=?",role_id);
-
+		
 		return ResData.SUCCESS_OPER();
 	}
 	/**

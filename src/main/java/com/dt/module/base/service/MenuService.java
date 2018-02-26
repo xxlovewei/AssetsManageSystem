@@ -186,6 +186,7 @@ public class MenuService extends BaseService {
 	/**
 	 * @Description:更新节点路径名称
 	 */
+	@Transactional
 	private void updateRouteName(String node_id, String node_name) {
 		Rcd rs = db.uniqueRecord("select * from sys_menus_node where deleted='N' and node_id=?", node_id);
 		// 判断如果一致则不需要更新routename
