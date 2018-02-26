@@ -21,7 +21,7 @@ public class BrandService extends BaseService {
 	 */
 	public ResData queryBrand() {
 		return ResData.SUCCESS_OPER(
-				db.query("select * from product_brand where is_deleted='N' order by od ").toJsonArrayWithJsonObject());
+				db.query("select * from product_brand where is_deleted='N' order by od").toJsonArrayWithJsonObject());
 	}
 	
 	/**
