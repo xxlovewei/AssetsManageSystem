@@ -74,7 +74,7 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 		if (writeAcceptCharset) {
 			outputMessage.getHeaders().setAcceptCharset(getAcceptedCharsets());
 			if (res.TYPE_VALUE.equals(ResData.TYPE_JSON)) {
-				str = res.asJson();
+				str = res.asJsonStr();
 			} else {
 				str = "now not support.";
 			}

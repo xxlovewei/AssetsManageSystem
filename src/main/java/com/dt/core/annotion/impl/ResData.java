@@ -259,11 +259,11 @@ public class ResData extends BaseResult {
 			return new JSONObject();
 		}
 	}
-
-	public String asJson() {
+ 
+	public String asJsonStr() {
 		if (clearStatus) {
 			if (data instanceof ResData) {
-				return ((ResData) data).asJson();
+				return ((ResData) data).asJsonStr();
 			} else if (data instanceof org.json.JSONArray) {
 				return ((org.json.JSONArray) (data)).toString();
 			} else if (data instanceof org.json.JSONObject) {
@@ -281,7 +281,7 @@ public class ResData extends BaseResult {
 			json.put("success", success);
 			json.put("message", message);
 			if (data instanceof ResData) {
-				json.put("data", ((ResData) data).asJson());
+				json.put("data", ((ResData) data).asJsonStr());
 			} else if (data instanceof org.json.JSONObject) {
 				json.put("data", JSONObject.parseObject(((org.json.JSONObject) (data)).toString()));
 			} else if (data instanceof org.json.JSONArray) {
@@ -292,6 +292,7 @@ public class ResData extends BaseResult {
 			return json.toJSONString();
 		}
 	}
+	
 
 	/**
 	 * @return the code
