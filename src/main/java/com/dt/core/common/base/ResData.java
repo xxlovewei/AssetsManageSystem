@@ -87,7 +87,8 @@ public class ResData extends BaseResult {
 		r.setMessage(message);
 		return r;
 	}
-	public static ResData SUCCESS(String message,int code,Object data) {
+
+	public static ResData SUCCESS(String message, int code, Object data) {
 		ResData r = new ResData();
 		r.setSuccess(true);
 		r.setCode(code);
@@ -146,8 +147,8 @@ public class ResData extends BaseResult {
 		r.setMessage(message);
 		return r;
 	}
-	
-	public static ResData FAILURE(String message,int code,Object data) {
+
+	public static ResData FAILURE(String message, int code, Object data) {
 		ResData r = new ResData();
 		r.setSuccess(false);
 		r.setCode(code);
@@ -188,7 +189,6 @@ public class ResData extends BaseResult {
 		return r;
 	}
 
-	
 	public static ResData FAILURE_NODATA() {
 		ResData r = new ResData();
 		r.setSuccess(false);
@@ -257,7 +257,7 @@ public class ResData extends BaseResult {
 			return new JSONObject();
 		}
 	}
- 
+
 	public String asJsonStr() {
 		if (clearStatus) {
 			if (data instanceof ResData) {
@@ -290,7 +290,16 @@ public class ResData extends BaseResult {
 			return json.toJSONString();
 		}
 	}
-	
+
+	@Override
+	public String toString() {
+		asJsonStr();
+		if (TYPE_VALUE.equals(TYPE_JSON)) {
+			return asJsonStr();
+		} else {
+			return "";
+		}
+	}
 
 	/**
 	 * @return the code
