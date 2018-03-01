@@ -1,9 +1,7 @@
-package com.dt.core.annotion.impl;
+package com.dt.core.common.base;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.dt.core.common.base.BaseCodeMsgEnum;
-import com.dt.core.common.base.BaseResult;
 
 public class ResData extends BaseResult {
 	/**

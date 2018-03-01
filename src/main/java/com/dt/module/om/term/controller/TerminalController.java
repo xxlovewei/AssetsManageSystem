@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
-import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseController;
+import com.dt.core.common.base.ResData;
 import com.dt.module.om.node.service.NodeService;
 import com.dt.module.om.term.entity.Machine;
 

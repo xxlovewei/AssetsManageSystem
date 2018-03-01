@@ -2,7 +2,7 @@ package com.dt.module.mall.service;
 
 import org.springframework.stereotype.Service;
 
-import com.dt.core.annotion.impl.ResData;
+import com.dt.core.common.base.ResData;
 
 /**
  * @author: algernonking

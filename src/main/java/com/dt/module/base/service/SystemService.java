@@ -2,8 +2,8 @@ package com.dt.module.base.service;
 
 import org.springframework.stereotype.Service;
 
-import com.dt.core.annotion.impl.ResData;
 import com.dt.core.common.base.BaseService;
+import com.dt.core.common.base.ResData;
 
 /**
  * @author: algernonking
