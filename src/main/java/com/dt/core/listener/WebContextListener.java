@@ -14,7 +14,6 @@ public class WebContextListener implements ServletContextListener {
 	private static Logger _log = LoggerFactory.getLogger(WebContextListener.class);
 
 	public void contextInitialized(ServletContextEvent arg0) {
-
 		_log.info("WebContextListener contextInitialized");
 	}
 
