@@ -1,9 +1,11 @@
 package com.dt.core.common.base;
 
+import java.io.Serializable;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-public class R extends BaseResult {
+public class R implements Serializable {
 	/**
 	 * @fieldName: serialVersionUID
 	 * @fieldType: long
@@ -159,6 +161,11 @@ public class R extends BaseResult {
 		return new R(false, BaseCodeMsgEnum.REQ_PARAM_ERROR.getCode(), BaseCodeMsgEnum.REQ_PARAM_ERROR.getMessage(),
 				null);
 	}
+	
+	public static R FAILURE_NO_PERMITION() {
+		return new R(false, BaseCodeMsgEnum.NO_PERMITION.getCode(), BaseCodeMsgEnum.NO_PERMITION.getMessage(),
+				null);
+	}
 
 	public static R FAILURE_SYS_PARAMS() {
 		return new R(false, BaseCodeMsgEnum.SYSTEM_CONF_ERROR.getCode(), BaseCodeMsgEnum.SYSTEM_CONF_ERROR.getMessage(),
@@ -301,5 +308,10 @@ public class R extends BaseResult {
 	 */
 	public void setCode(int code) {
 		this.code = code;
+	}
+	
+	public static void main(String[] args) {
+		BaseCommon.print(R.FAILURE_NO_PERMITION().asJsonStr());
+		BaseCommon.print(R.FAILURE_NOT_LOGIN().asJsonStr());
 	}
 }

@@ -2,13 +2,15 @@ package com.dt.core.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
 import com.dt.core.annotion.Acl;
-import com.dt.core.common.base.BaseResult;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.tool.util.DbUtil;
@@ -61,7 +63,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			// 未设置ACL,全部拒绝
 			if (am == null) {
 				isPass = false;
-				res.getWriter().print(BaseResult.JSON_RETURN_NO_PERMITION());
+				res.getWriter().print(R.FAILURE_NO_PERMITION().asJsonStr());
 				res.getWriter().flush();
 				res.getWriter().close();
 			} else {

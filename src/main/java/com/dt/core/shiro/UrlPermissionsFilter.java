@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dt.core.common.base.BaseCommon;
-import com.dt.core.common.base.BaseResult;
+import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.core.tool.util.support.StrKit;
@@ -68,7 +68,7 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 			if (isReturnJSON(httpRequest)) {
 				httpResponse.setStatus(299);
 				httpResponse.setCharacterEncoding("UTF-8");
-				httpResponse.getWriter().print(BaseResult.JSON_RETURN_NOT_LOGIN());
+				httpResponse.getWriter().print(R.FAILURE_NOT_LOGIN().asJsonStr());
 				httpResponse.getWriter().flush();
 				httpResponse.getWriter().close();
 			} else {
@@ -78,7 +78,7 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 			if (isReturnJSON(httpRequest)) {
 				httpResponse.setStatus(298);
 				httpResponse.setCharacterEncoding("UTF-8");
-				httpResponse.getWriter().print(BaseResult.JSON_RETURN_NO_PERMITION());
+				httpResponse.getWriter().print(R.FAILURE_NO_PERMITION().asJsonStr());
 				httpResponse.getWriter().flush();
 				httpResponse.getWriter().close();
 			} else {
