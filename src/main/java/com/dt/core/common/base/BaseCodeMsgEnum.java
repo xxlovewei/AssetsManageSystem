@@ -1,5 +1,8 @@
 package com.dt.core.common.base;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * @author: algernonking
  * @date: 2017年11月15日 上午8:19:08
@@ -29,13 +32,25 @@ public enum BaseCodeMsgEnum {
 	USER_OLD_PWD_NOT_RIGHT(293, "原密码不正确"),
 	USER_TWO_PWD_NOT_MATCH(292, "两次输入密码不一致"),
 	USER_QUERY_FAILED(291, "获取用户失败"),
-	
-	
+	 
 	SYSTEM_CONF_ERROR(2000,"系统配置错误"),
 	PERMITION_NOT(1000,"无权限"),
 	REQ_PARAM_ERROR(501,"请求参数不正确"),
-
-	WX_FAILED_GET_OPENID(10001,"未获取Openid");
+	
+	WX_FAILED_GET_OPENID(10001,"微信未获取Openid");
+	
+	
+	
+	public static JSONArray printAll(){
+		JSONArray res=new JSONArray();
+		for (BaseCodeMsgEnum e : BaseCodeMsgEnum.values()) {  
+			JSONObject obj=new JSONObject();
+			obj.put(e.friendlyCode+"", e.friendlyMsg);
+			res.add(obj);
+		} 
+		return res;
+	
+	}
 	
 	BaseCodeMsgEnum(int code, String message) {
 		this.friendlyCode = code;

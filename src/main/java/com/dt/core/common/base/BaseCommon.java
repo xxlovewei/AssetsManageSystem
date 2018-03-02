@@ -21,4 +21,15 @@ public class BaseCommon {
 				: BaseConstants.superadmin;
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
