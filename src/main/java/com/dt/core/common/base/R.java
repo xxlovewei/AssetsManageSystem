@@ -66,7 +66,7 @@ public class R extends BaseResult {
 		this.success = true;
 	}
 
-	protected Object data;
+	private Object data;
 
 	public R setData(Object data) {
 		this.data = data;
