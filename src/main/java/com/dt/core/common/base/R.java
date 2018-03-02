@@ -313,5 +313,6 @@ public class R implements Serializable {
 	public static void main(String[] args) {
 		BaseCommon.print(R.FAILURE_NO_PERMITION().asJsonStr());
 		BaseCommon.print(R.FAILURE_NOT_LOGIN().asJsonStr());
+		
 	}
 }
