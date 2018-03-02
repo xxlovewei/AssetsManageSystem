@@ -112,12 +112,11 @@ public class R extends BaseResult {
 				null);
 	}
 
-
 	public static R SUCCESS_SAVE(Object data) {
 		return new R(true, BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getCode(), BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getMessage(),
 				data);
 	}
-	
+
 	/************************* 操作失败 ***************************/
 	public static R FAILURE(String message, Object data) {
 		return new R(false, BaseCodeMsgEnum.FAILED_DEF_MSG.getCode(), message, data);
@@ -155,7 +154,7 @@ public class R extends BaseResult {
 		return new R(false, BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getCode(),
 				BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getMessage(), null);
 	}
- 
+
 	public static R FAILURE_REQ_PARAM_ERROR() {
 		return new R(false, BaseCodeMsgEnum.REQ_PARAM_ERROR.getCode(), BaseCodeMsgEnum.REQ_PARAM_ERROR.getMessage(),
 				null);
@@ -175,7 +174,7 @@ public class R extends BaseResult {
 		return new R(false, BaseCodeMsgEnum.FAILED_SAVE_MSG.getCode(), BaseCodeMsgEnum.FAILED_SAVE_MSG.getMessage(),
 				null);
 	}
-	
+
 	public static R FAILURE_SAVE(Object data) {
 		return new R(false, BaseCodeMsgEnum.FAILED_SAVE_MSG.getCode(), BaseCodeMsgEnum.FAILED_SAVE_MSG.getMessage(),
 				data);
@@ -249,7 +248,6 @@ public class R extends BaseResult {
 			return json;
 		}
 	}
- 
 
 	/**
 	 * @Description:返回JSONObject,clearAttach无效
@@ -266,8 +264,8 @@ public class R extends BaseResult {
 			json.put("message", message);
 			if (obj instanceof JSONArray) {
 				json.put("data", ((JSONArray) (obj)));
-			}else{
-				//未识别,则将原来的数据放回去
+			} else {
+				// 未识别,则将原来的数据放回去
 				json.put("data", data);
 			}
 			return json;
