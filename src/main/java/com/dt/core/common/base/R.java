@@ -249,13 +249,16 @@ public class R extends BaseResult {
 		if (obj instanceof JSONObject) {
 			return (JSONObject) obj;
 		} else {
-			// obj是JSONArray
+			// ob肯定是JSONArray
 			JSONObject json = new JSONObject();
 			json.put("code", code);
 			json.put("success", success);
 			json.put("message", message);
 			if (obj instanceof JSONArray) {
 				json.put("data", ((JSONArray) (obj)));
+			}else{
+				//未识别,则将原来的数据放回去
+				json.put("data", data);
 			}
 			return json;
 		}
