@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
@@ -40,15 +40,15 @@ public class MenuService extends BaseService {
 	/**
 	 * @Description: 直接查询所有节点,用于模块设置
 	 */
-	public ResData queryMenuNodes(String menu_id) {
+	public R queryMenuNodes(String menu_id) {
 		String sql = "select case is_g_show when 'Y' then '显示' when 'N' then '隐藏' else '未知' end is_g_show_text,(select count(1) from sys_modules_item where module_id=node_id) acl_cnt,a.*,case type when 'dir' then '目录' when 'menu' then '菜单' else '未知' end typetext from sys_menus_node a where menu_id=? and deleted='N' order by node_id";
-		return ResData.SUCCESS_OPER(db.query(sql, menu_id).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql, menu_id).toJsonArrayWithJsonObject());
 	}
 
 	/**
 	 * @Description:按照前端js要求直接生成树的json格式
 	 */
-	public ResData queryMenuNodesTree(String menu_id) {
+	public R queryMenuNodesTree(String menu_id) {
 		JSONArray r = new JSONArray();
 		String basesql = "select * from sys_menus_node where menu_id=? and parent_id=? and deleted='N' order by sort";
 		RcdSet first_rs = db.query(basesql, menu_id, 0);
@@ -77,21 +77,21 @@ public class MenuService extends BaseService {
 			first_obj.put("children", second_arr);
 			r.add(first_obj);
 		}
-		return ResData.SUCCESS_OPER(r);
+		return R.SUCCESS_OPER(r);
 	}
 
 	/**
 	 * @Description:查询菜单一个节点的数据
 	 */
-	public ResData queryNodeById() {
-		return ResData.SUCCESS();
+	public R queryNodeById() {
+		return R.SUCCESS();
 	}
 
 	/**
 	 * @Description:添加一个节点
 	 */
 	@Transactional
-	public ResData addNode(TypedHashMap<String, Object> ps) {
+	public R addNode(TypedHashMap<String, Object> ps) {
 		String menu_id = ps.getString("menu_id");
 		String old_node_id = ps.getString("old_node_id");
 		String old_route = ps.getString("old_route");
@@ -106,7 +106,7 @@ public class MenuService extends BaseService {
 		if (type.equals("addmaster")) {
 			// 增加第一个节点
 			if (ToolUtil.isEmpty(menu_id)) {
-				return ResData.FAILURE_ERRREQ_PARAMS();
+				return R.FAILURE_ERRREQ_PARAMS();
 			}
 			ins.set("node_id", nodeid);
 			ins.set("parent_id", "0");
@@ -131,23 +131,23 @@ public class MenuService extends BaseService {
 		ins.setIf("type", validType(ps.getString("type")));
 		db.execute(ins);
 		updateRouteName(nodeid, node_name);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description:删除一个节点
 	 */
-	public ResData deleteNode(String node_id) {
+	public R deleteNode(String node_id) {
 		int v = db.uniqueRecord("select count(1) value from sys_menus_node where deleted='N' and parent_id=? ", node_id)
 				.getInteger("value");
 		if (v > 0) {
-			return ResData.FAILURE("请先删除子节点");
+			return R.FAILURE("请先删除子节点");
 		} else {
 			Update ups = new Update("sys_menus_node");
 			ups.set("deleted", "Y");
 			ups.where().and("node_id=?", node_id);
 			db.execute(ups);
-			return ResData.SUCCESS_OPER();
+			return R.SUCCESS_OPER();
 		}
 	}
 
@@ -155,7 +155,7 @@ public class MenuService extends BaseService {
 	 * @Description:更新节点数据
 	 */
 	@Transactional
-	public ResData updateNode(TypedHashMap<String, Object> ps) {
+	public R updateNode(TypedHashMap<String, Object> ps) {
 		String menu_id = ps.getString("menu_id");
 		String node_id = ps.getString("node_id");
 		String node_name = ps.getString("node_name");
@@ -165,7 +165,7 @@ public class MenuService extends BaseService {
 		String sort = ps.getString("sort");
 		String logo = ps.getString("logo");
 		if (ToolUtil.isEmpty(node_name)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Update ups = new Update("sys_menus_node");
 		ups.set("node_name", node_name);
@@ -180,7 +180,7 @@ public class MenuService extends BaseService {
 		ups.where().and("menu_id=?", menu_id).and("node_id=?", node_id);
 		db.execute(ups);
 		updateRouteName(node_id, node_name);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**

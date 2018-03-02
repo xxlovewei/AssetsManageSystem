@@ -22,7 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.tool.util.ToolUtil;
@@ -38,22 +38,22 @@ public class FileUpDownController extends BaseController {
 	@RequestMapping("/fileupload.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData fileUpload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public R fileUpload(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String type = request.getParameter("type");
 		String uuid = request.getParameter("uuid");
 		if (type == null || type.equals("")) {
-			return ResData.FAILURE("请输入文件类型");
+			return R.FAILURE("请输入文件类型");
 		}
 		if (uuid == null || uuid.equals("")) {
-			return ResData.FAILURE("请输入uuid");
+			return R.FAILURE("请输入uuid");
 		}
 		String bus = request.getParameter("bus");
 		if (bus == null || bus.equals("")) {
-			return ResData.FAILURE("请输入业务号");
+			return R.FAILURE("请输入业务号");
 		}
 		Rcd fileinfo = db.uniqueRecord("select * from sys_file_conf where id=? and is_used='Y'", bus);
 		if (fileinfo == null) {
-			return ResData.FAILURE("数据库并未配置");
+			return R.FAILURE("数据库并未配置");
 		}
 		// 从数据库中获取
 		String bus_path = fileinfo.getString("path");
@@ -65,7 +65,7 @@ public class FileUpDownController extends BaseController {
 			// 获得第1张图片（根据前台的name名称得到上传的文件）
 			MultipartFile image = multipartRequest.getFile("file[0]");
 			if (image == null) {
-				return ResData.FAILURE("上传的文件不存在");
+				return R.FAILURE("上传的文件不存在");
 			}
 			// dir:/tmp1/wtpwebapps/tt/..
 			String dir = getWebRootDir() + ".." + File.separatorChar;
@@ -76,7 +76,7 @@ public class FileUpDownController extends BaseController {
 					+ cale.get(Calendar.DAY_OF_MONTH) + "" + File.separatorChar;
 			_log.info("Upload Path:" + path);
 			File f = new File(dir + path + name + ".png");
-			ResData vaf = valid(f);
+			R vaf = valid(f);
 			if (!vaf.isSuccess()) {
 				return vaf;
 			}
@@ -90,7 +90,7 @@ public class FileUpDownController extends BaseController {
 			ins.set("bus", bus);
 			db.execute(ins);
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	@RequestMapping("/imagedown.do")
 	@Acl(value = Acl.TYPE_ALLOW)
@@ -208,15 +208,15 @@ public class FileUpDownController extends BaseController {
 		ImageIO.write(thumbImage, format, thumbFile);
 		return thumbFile;
 	}
-	private static ResData valid(File file) {
+	private static R valid(File file) {
 		File parentPath = file.getParentFile();
 		if ((!parentPath.exists()) && (!parentPath.mkdirs())) {
-			return ResData.FAILURE("创建文件失败");
+			return R.FAILURE("创建文件失败");
 		}
 		if (!parentPath.canWrite()) {
-			return ResData.FAILURE("不可写");
+			return R.FAILURE("不可写");
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	private static String getWebRootDir() {
 		return ToolUtil.getRealPathInWebApp("");

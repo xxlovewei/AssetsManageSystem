@@ -18,7 +18,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 
 /**
  * 循环和递归两种方式实现未知维度集合的笛卡尔积
@@ -146,16 +146,16 @@ public class ProductDescartesController extends BaseController {
 	@Acl
 	@RequestMapping("/product/prodDescartes.do")
 	// 获取产品属性
-	public ResData prodDescartes(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public R prodDescartes(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String data = request.getParameter("data");
 		String spu = request.getParameter("spu");
 		// 格式[[1,2,3],[1,3,4]]
 		JSONArray data_arr = JSONArray.parseArray(data);
 		if (data_arr.size() == 0) {
-			return ResData.FAILURE("数据不符合要求");
+			return R.FAILURE("数据不符合要求");
 		}
 		if (data_arr.size() >= 5) {
-			return ResData.FAILURE("数据组合数过多,请减少组合数");
+			return R.FAILURE("数据组合数过多,请减少组合数");
 		}
 		List<List<String>> dimValue = new ArrayList<List<String>>();
 		for (int i = 0; i < data_arr.size(); i++) {
@@ -185,6 +185,6 @@ public class ProductDescartesController extends BaseController {
 			item.put("spu", spu);
 			res.add(item);
 		}
-		return ResData.SUCCESS_OPER(res);
+		return R.SUCCESS_OPER(res);
 	}
 }

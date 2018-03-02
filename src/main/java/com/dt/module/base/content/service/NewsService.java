@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 
 /**
@@ -20,25 +20,25 @@ public class NewsService extends BaseService {
 	/**
 	 * @Description: 添加新闻
 	 */
-	public ResData addNews(TypedHashMap<String, Object> ps) {
+	public R addNews(TypedHashMap<String, Object> ps) {
 		return contentService.addContent(ps, ContentService.TYPE_NEWS);
 	}
 	/**
 	 * @Description: 修改新闻
 	 */
-	public ResData updateNews(TypedHashMap<String, Object> ps) {
+	public R updateNews(TypedHashMap<String, Object> ps) {
 		return contentService.updateContent(ps);
 	}
 	/**
 	 * @Description: 删除新闻
 	 */
-	public ResData deleteNews(String id) {
+	public R deleteNews(String id) {
 		return contentService.deleteContent(id, ContentService.TYPE_NEWS);
 	}
 	/**
 	 * @Description: 根据ID查找新闻
 	 */
-	public ResData queryNewsById(String id) {
+	public R queryNewsById(String id) {
 		return contentService.queryContentById(id);
 	}
 	/**
@@ -56,7 +56,7 @@ public class NewsService extends BaseService {
 	/**
 	 * @Description: 查找新闻
 	 */
-	public ResData queryNews(TypedHashMap<String, Object> ps, int pageSize, int pageIndex) {
+	public R queryNews(TypedHashMap<String, Object> ps, int pageSize, int pageIndex) {
 		return contentService.queryContentPage(ps, pageSize, pageIndex, ContentService.TYPE_NEWS);
 	}
 }

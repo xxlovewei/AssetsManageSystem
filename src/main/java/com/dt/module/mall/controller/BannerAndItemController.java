@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -29,7 +29,7 @@ public class BannerAndItemController extends BaseController {
 	@RequestMapping("/banner/queryBanner.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "查询横幅")
-	public ResData queryBanner(String type) {
+	public R queryBanner(String type) {
 		return bannerAndItemService.queryBanner(type);
 
 	}
@@ -37,7 +37,7 @@ public class BannerAndItemController extends BaseController {
 	@RequestMapping("/banner/queryBannerItems.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "查询横幅")
-	public ResData queryBannerItems(String banner_id,String is_used) {
+	public R queryBannerItems(String banner_id,String is_used) {
 		return bannerAndItemService.queryBannerItems(banner_id,is_used);
 
 	}
@@ -45,7 +45,7 @@ public class BannerAndItemController extends BaseController {
 	@RequestMapping("/banner/delBannerItem.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "删除横幅条目")
-	public ResData delBannerItem(String id) {
+	public R delBannerItem(String id) {
 		return bannerAndItemService.delBannerItem(id);
 
 	}
@@ -53,14 +53,14 @@ public class BannerAndItemController extends BaseController {
 	@RequestMapping("/banner/queryBannerItemById.do")
 	@Res
 	@Acl(info = "查询横幅条目")
-	public ResData queryBannerItemById(String id) {
+	public R queryBannerItemById(String id) {
 		return bannerAndItemService.queryBannerItemById(id);
 	}
 
 	@RequestMapping("/banner/saveBannerItem.do")
 	@Res
 	@Acl(info = "更新横幅条目")
-	public ResData saveBannerItem() {
+	public R saveBannerItem() {
 
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");

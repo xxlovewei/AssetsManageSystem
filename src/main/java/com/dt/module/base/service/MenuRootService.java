@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 
@@ -19,22 +19,22 @@ public class MenuRootService extends BaseService {
 	/**
 	 * @Description: 添加菜单
 	 */
-	public ResData addMenuRoot() {
-		return ResData.SUCCESS_OPER();
+	public R addMenuRoot() {
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 更新菜单
 	 */
-	public ResData updateMenuRoot() {
-		return ResData.SUCCESS_OPER();
+	public R updateMenuRoot() {
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 删除菜单
 	 */
-	public ResData deleteMenuRoot() {
-		return ResData.SUCCESS_OPER();
+	public R deleteMenuRoot() {
+		return R.SUCCESS_OPER();
 	}
 
 	/**

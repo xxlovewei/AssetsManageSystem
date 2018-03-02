@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.util.DbUtil;
@@ -25,13 +25,13 @@ public class UserScoreService extends BaseService {
 	 * @Description: 增加用户积分
 	 */
 	@Transactional
-	public ResData addScore(String user_id, int value, String mark, String flag) {
+	public R addScore(String user_id, int value, String mark, String flag) {
 		if (ToolUtil.isOneEmpty(user_id, value)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		int v = db.uniqueRecord("select score from sys_user_info where user_id=?", user_id).getInteger("score");
 		if(ToolUtil.isEmpty(v)) {
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		}
 		db.execute("update sys_user_info set score=score+" + value + " where user_id=?", user_id);
 		Insert me = new Insert("sys_user_score_dtl");
@@ -44,20 +44,20 @@ public class UserScoreService extends BaseService {
 		me.set("is_delete", "N");
 		me.setSE("rtime", DbUtil.getDBDateString(db.getDBType()));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 减少用户积分
 	 */
 	@Transactional
-	public ResData reduceScore(String user_id, int value, String mark, String flag) {
+	public R reduceScore(String user_id, int value, String mark, String flag) {
 		if (ToolUtil.isOneEmpty(user_id, value)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		int v = db.uniqueRecord("select score from sys_user_info where user_id=?", user_id).getInteger("score");
 		if(ToolUtil.isEmpty(v)) {
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		}
 		if (v >= value) {
 			db.execute("update sys_user_info set score=score-" + value + " where user_id=?", user_id);
@@ -72,19 +72,19 @@ public class UserScoreService extends BaseService {
 			me.setSE("rtime", DbUtil.getDBDateString(db.getDBType()));
 			db.execute(me);
 		} else {
-			return ResData.FAILURE("用户积分不够");
+			return R.FAILURE("用户积分不够");
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 查询用户积分记录
 	 */
-	public ResData queryScore(String user_id) {
+	public R queryScore(String user_id) {
 		if (ToolUtil.isEmpty(user_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
-		return ResData.SUCCESS_OPER(
+		return R.SUCCESS_OPER(
 				db.query("select * from sys_user_score_dtl where user_id=?", user_id).toJsonArrayWithJsonObject());
 
 	}
@@ -107,9 +107,9 @@ public class UserScoreService extends BaseService {
 	/**
 	 * @Description: 初始化用户积分
 	 */
-	public ResData initScore(String user_id, int value) {
+	public R initScore(String user_id, int value) {
 		if (ToolUtil.isEmpty(user_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Update up1 = new Update("sys_user_info");
 		up1.set("score", value);
@@ -118,7 +118,7 @@ public class UserScoreService extends BaseService {
 		up2.set("is_delete", "Y");
 		up2.where().and("user_id=?", user_id);
 		db.executes(up1, up2);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 }

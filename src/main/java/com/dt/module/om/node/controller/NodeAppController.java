@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -28,21 +28,21 @@ public class NodeAppController extends BaseController {
 	@RequestMapping("/node/queryNodeAppById.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "根据Id查询应用节点")
-	public ResData queryNodeAppById(String id) {
+	public R queryNodeAppById(String id) {
 		return nodeAppService.queryNodeAppById(id);
 	}
 
 	@RequestMapping("/node/queryNodeAppByNodeId.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "根据节点Id查询应用节点")
-	public ResData queryNodeAppByNodeId(String node_id) {
+	public R queryNodeAppByNodeId(String node_id) {
 		return nodeAppService.queryNodeAppById(node_id);
 	}
 
 	@RequestMapping("/node/saveNodeApp.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "保存应用节点")
-	public ResData saveNodeApp() {
+	public R saveNodeApp() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
@@ -55,28 +55,28 @@ public class NodeAppController extends BaseController {
 	@RequestMapping("/node/deleteNodeApp.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "删除应用节点")
-	public ResData deleteNodeApp(String id) {
+	public R deleteNodeApp(String id) {
 		return nodeAppService.deleteNodeApp(id);
 	}
 
 	@RequestMapping("/node/startNodeApp.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "启动应用节点")
-	public ResData startNodeApp(String id) {
+	public R startNodeApp(String id) {
 		return nodeAppService.startNodeApp(id);
 	}
 
 	@RequestMapping("/node/stopNodeApp.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "启动应用节点")
-	public ResData stopNodeApp(String id) {
+	public R stopNodeApp(String id) {
 		return nodeAppService.stopNodeApp(id);
 	}
 
 	@RequestMapping("/node/statusNodeApp.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "查询应用节点状态")
-	public ResData statusNodeApp(String id) {
+	public R statusNodeApp(String id) {
 		return nodeAppService.statusNodeApp(id);
 	}
 }

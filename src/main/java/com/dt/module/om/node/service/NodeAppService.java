@@ -3,7 +3,7 @@ package com.dt.module.om.node.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
@@ -21,7 +21,7 @@ import com.dt.module.om.util.RemoteShellResult;
 @Service
 public class NodeAppService extends BaseService {
 
-	public ResData addNodeApp(TypedHashMap<String, Object> ps) {
+	public R addNodeApp(TypedHashMap<String, Object> ps) {
 
 		Insert me = new Insert("om_node_app");
 		me.set("id", db.getUUID());
@@ -43,10 +43,10 @@ public class NodeAppService extends BaseService {
 		me.setIf("cmd_status", ps.getString("cmd_status"));
 		me.setIf("use_host_login", ps.getString("use_host_login", "N"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData updateNodeApp(TypedHashMap<String, Object> ps) {
+	public R updateNodeApp(TypedHashMap<String, Object> ps) {
 
 		Update me = new Update("om_node_app");
 		me.setIf("type", ps.getString("type"));
@@ -65,83 +65,83 @@ public class NodeAppService extends BaseService {
 		me.setIf("cmd_status", ps.getString("cmd_status"));
 		me.where().and("id=?", ps.getString("id", ""));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData deleteNodeApp(String id) {
+	public R deleteNodeApp(String id) {
 		Update me = new Update("om_node_app");
 		me.setIf("deleted", "Y");
 		me.where().and("id=?", id);
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData queryNodeApp(TypedHashMap<String, Object> ps) {
-		return ResData.SUCCESS();
+	public R queryNodeApp(TypedHashMap<String, Object> ps) {
+		return R.SUCCESS();
 	}
 
-	public ResData queryNodeAppById(String node_id) {
-		return ResData.SUCCESS_OPER(db.query("select * from om_node_app where deleted='N' and node_id=?", node_id)
+	public R queryNodeAppById(String node_id) {
+		return R.SUCCESS_OPER(db.query("select * from om_node_app where deleted='N' and node_id=?", node_id)
 				.toJsonArrayWithJsonObject());
 	}
 
-	public ResData queryNodeAppByNodeId(String id) {
-		return ResData.SUCCESS_OPER(
+	public R queryNodeAppByNodeId(String id) {
+		return R.SUCCESS_OPER(
 				db.uniqueRecord("select * from om_node_app where deleted='N' and id=?", id).toJsonObject());
 	}
 
-	public ResData startNodeApp(String id) {
+	public R startNodeApp(String id) {
 		return null;
 	}
 
-	public ResData stopNodeApp(String id) {
+	public R stopNodeApp(String id) {
 		return null;
 	}
 
-	public ResData statusNodeApp(String id) {
+	public R statusNodeApp(String id) {
 		return null;
 	}
 
-	public ResData queryNodeAppType() {
+	public R queryNodeAppType() {
 
 		return null;
 	}
 
-	public ResData executeNodeAppCommand(String id, String cmd) {
+	public R executeNodeAppCommand(String id, String cmd) {
 		Rcd rs = db.uniqueRecord("select * from om_node_app where deleted='N' and id=?", id);
 		if (rs == null) {
-			return ResData.FAILURE("无该节点");
+			return R.FAILURE("无该节点");
 		}
 
 		if (ToolUtil.isEmpty(cmd) || ToolUtil.isEmpty(cmd.trim())) {
-			return ResData.FAILURE("无执行命令");
+			return R.FAILURE("无执行命令");
 		}
 
 		String port = rs.getString("port");
 		if (ToolUtil.isEmpty(port)) {
-			return ResData.FAILURE("无端口");
+			return R.FAILURE("无端口");
 		}
 
 		String ip = rs.getString("ip");
 		if (ToolUtil.isEmpty(ip)) {
-			return ResData.FAILURE("无Ip地址");
+			return R.FAILURE("无Ip地址");
 		}
 
 		String username = rs.getString("username");
 		if (ToolUtil.isEmpty(username)) {
-			return ResData.FAILURE("无用户名");
+			return R.FAILURE("无用户名");
 		}
 		String pwd = rs.getString("pwd");
 		if (ToolUtil.isEmpty(pwd)) {
-			return ResData.FAILURE("无密码");
+			return R.FAILURE("无密码");
 		}
 
 		RemoteShellExecutor executor = new RemoteShellExecutor(ip, username, pwd, ConvertUtil.toInt(port));
 		RemoteShellResult shell_rs = executor.exec(cmd);
 		if (shell_rs.code == 0) {
-			return ResData.SUCCESS("成功", shell_rs.result);
+			return R.SUCCESS("成功", shell_rs.result);
 		} else {
-			return ResData.FAILURE(shell_rs.result.toString());
+			return R.FAILURE(shell_rs.result.toString());
 		}
 	}
 }

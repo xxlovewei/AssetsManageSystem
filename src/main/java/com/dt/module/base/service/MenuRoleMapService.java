@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
@@ -26,9 +26,9 @@ public class MenuRoleMapService extends BaseService {
 	 * @Description: 一个角色拥有的节点
 	 */
 	@Transactional
-	public ResData treeNodeRoleMap(String role_id, String modulesarr, String menu_id) {
+	public R treeNodeRoleMap(String role_id, String modulesarr, String menu_id) {
 		if (ToolUtil.isOneEmpty(role_id, modulesarr)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		db.execute(
 				"delete from sys_role_module where role_id=? and module_id in (select node_id from sys_menus_node where menu_id=?)",
@@ -42,15 +42,15 @@ public class MenuRoleMapService extends BaseService {
 			sqls.add(me);
 		}
 		db.executeSQLList(sqls);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 一个角色拥有的节点对比树
 	 */
-	public ResData treeRoleChecked(String menu_id, String role_id) {
+	public R treeRoleChecked(String menu_id, String role_id) {
 		if (ToolUtil.isOneEmpty(menu_id, role_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		JSONArray resarr = new JSONArray();
 		String sql = "select t.*,( select count(1) from  sys_menus_node where parent_id=t.node_id) children_cnt, (select count(1) from sys_role_module where role_id='"
@@ -82,6 +82,6 @@ public class MenuRoleMapService extends BaseService {
 			e.put("state", stat);
 			resarr.add(e);
 		}
-		return ResData.SUCCESS_OPER(resarr);
+		return R.SUCCESS_OPER(resarr);
 	}
 }

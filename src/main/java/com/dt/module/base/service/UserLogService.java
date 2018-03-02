@@ -3,7 +3,7 @@ package com.dt.module.base.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.DbUtil;
 
@@ -17,10 +17,10 @@ public class UserLogService extends BaseService {
 	/**
 	 * @Description: 获取访问日志
 	 */
-	public ResData queryAccessLog(String user_id, TypedHashMap<String, Object> ps, int pageSize, int pageIndex) {
+	public R queryAccessLog(String user_id, TypedHashMap<String, Object> ps, int pageSize, int pageIndex) {
 		String sql = "select * from sys_log_access where rtime>sysdate-365 and user_id='" + user_id
 				+ "' order by rtime desc";
-		return ResData.SUCCESS_OPER(
+		return R.SUCCESS_OPER(
 				db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 	/**
@@ -35,8 +35,8 @@ public class UserLogService extends BaseService {
 	/**
 	 * @Description: 获取登录日志
 	 */
-	public ResData queryLoginLog(String user_id) {
+	public R queryLoginLog(String user_id) {
 		String sql = "select a.*,b.user_name,b.nickname from sys_log_login a,sys_user_info b where a.user_id=b.user_id and a.user_id=? and rdate>sysdate-90 order by a.rdate desc";
-		return ResData.SUCCESS_OPER(db.query(sql, user_id).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql, user_id).toJsonArrayWithJsonObject());
 	}
 }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -27,21 +27,21 @@ public class UserGroupController extends BaseController{
 	@RequestMapping("/user/queryGroup.do")
 	@Res
 	@Acl
-	public ResData queryGroup() {
+	public R queryGroup() {
 		return userGroupService.queryUserGroup();
 	}
 	
 	@RequestMapping("/user/deleteGroup.do")
 	@Res
 	@Acl
-	public ResData deleteGroup(String group_id) {
+	public R deleteGroup(String group_id) {
 		return userGroupService.deleteUserGroup(group_id);
 	}
 	
 	@RequestMapping("/user/queryUserGroupById.do")
 	@Res
 	@Acl
-	public ResData queryUserGroupById(String group_id) {
+	public R queryUserGroupById(String group_id) {
 		return userGroupService.queryUserGroupById(group_id);
 	}
 	
@@ -49,7 +49,7 @@ public class UserGroupController extends BaseController{
 	@RequestMapping("/user/saveUserGroupById.do")
 	@Res
 	@Acl
-	public ResData saveUserGroupById(String group_id) {
+	public R saveUserGroupById(String group_id) {
 		
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		String id = ps.getString("group_id");

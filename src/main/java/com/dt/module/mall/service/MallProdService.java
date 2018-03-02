@@ -3,7 +3,7 @@ package com.dt.module.mall.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
@@ -29,14 +29,14 @@ public class MallProdService extends BaseService {
 		return db.uniqueRecord(sql).getInteger("cnt");
 	}
 
-	public ResData queryClassProdNotSel(String cat_id, String class_id, int pageSize, int pageIndex) {
+	public R queryClassProdNotSel(String cat_id, String class_id, int pageSize, int pageIndex) {
 		if (ToolUtil.isOneEmpty(cat_id, class_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		String sql = "select * from product a where cat_id='" + cat_id
 				+ "' and is_deleted='N' and not exists (select * from sys_ct_class_item b where b.value=a.spu and class_id='"
 				+ class_id + "')";
-		return ResData.SUCCESS_OPER(
+		return R.SUCCESS_OPER(
 				db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 
@@ -61,9 +61,9 @@ public class MallProdService extends BaseService {
 		return db.uniqueRecord(sql).getInteger("cnt");
 	}
 
-	public ResData queryClassProd(TypedHashMap<String, Object> ps, String class_id, int pageSize, int pageIndex) {
+	public R queryClassProd(TypedHashMap<String, Object> ps, String class_id, int pageSize, int pageIndex) {
 		String sql = queryClassProdSql(ps, class_id);
-		return ResData.SUCCESS_OPER(
+		return R.SUCCESS_OPER(
 				db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 

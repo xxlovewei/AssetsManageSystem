@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 
 /**
@@ -21,28 +21,28 @@ public class CompanyService extends BaseService {
 	/**
 	 * @Description: 查询公司内容
 	 */
-	public ResData queryCompany() {
+	public R queryCompany() {
 		return contentService.queryContentById(COMPANY_ID);
 	}
 	/**
 	 * @Description: 更新公司内容
 	 */
-	public ResData updateCompany(TypedHashMap<String, Object> ps) {
+	public R updateCompany(TypedHashMap<String, Object> ps) {
 		if(!initCompany()){
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		}
 		if (ps.containsKey("id")) {
 			ps.remove("id");
 		}
 		ps.put("id", COMPANY_ID);
 		contentService.updateContent(ps);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description: 初始化公司数据
 	 */
 	public Boolean initCompany() {
-		ResData rs = contentService.queryContentById(COMPANY_ID);
+		R rs = contentService.queryContentById(COMPANY_ID);
 		if (rs.isSuccess()) {
 			return true;
 		} else {
@@ -51,7 +51,7 @@ public class CompanyService extends BaseService {
 			ps.put("selfid", "Y");
 			ps.put("title", "");
 			contentService.addContent(ps, ContentService.TYPE_OHTER);
-			ResData rs2 = contentService.queryContentById(COMPANY_ID);
+			R rs2 = contentService.queryContentById(COMPANY_ID);
 			if (rs2.isSuccess()) {
 				return true;
 			} else {

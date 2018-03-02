@@ -3,7 +3,7 @@ package com.dt.module.mall.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
@@ -20,7 +20,7 @@ public class ShopService extends BaseService {
 	public static String TYPE_STOP = "stop";
 	public static String TYPE_NORMAL = "normal";
 
-	public ResData addShop(TypedHashMap<String, Object> ps) {
+	public R addShop(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("mall_shop");
 		me.set("shop_id", ToolUtil.getUUID());
 		me.setIf("shop_name", ps.getString("shop_name"));
@@ -29,21 +29,21 @@ public class ShopService extends BaseService {
 		me.setIf("logo", ps.getString("logo"));
 		me.setIf("mark", ps.getString("mark"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
-	public ResData deleteShop(String shop_id) {
+	public R deleteShop(String shop_id) {
 		if (ToolUtil.isEmpty(shop_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Update me = new Update("mall_shop");
 		me.setIf("deleted", "Y");
 		me.where().and("shop_id=?", shop_id);
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
-	public ResData updateShop(TypedHashMap<String, Object> ps) {
+	public R updateShop(TypedHashMap<String, Object> ps) {
 		if (ToolUtil.isEmpty(ps.getString("shop_id"))) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Update me = new Update("mall_shop");
 		me.setIf("shop_name", ps.getString("shop_name"));
@@ -52,17 +52,17 @@ public class ShopService extends BaseService {
 		me.setIf("mark", ps.getString("mark"));
 		me.where().and("shop_id=?", ps.getString("shop_id"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
-	public ResData queryShop() {
-		return ResData.SUCCESS_OPER(db.query("select * from mall_shop where deleted='N'").toJsonArrayWithJsonObject());
+	public R queryShop() {
+		return R.SUCCESS_OPER(db.query("select * from mall_shop where deleted='N'").toJsonArrayWithJsonObject());
 	}
-	public ResData queryShopById(String shop_id) {
+	public R queryShopById(String shop_id) {
 		Rcd rs = db.uniqueRecord("select * from mall_shop where deleted='N' and shop_id=?", shop_id);
 		if (ToolUtil.isEmpty(rs)) {
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		} else {
-			return ResData.SUCCESS_OPER(rs.toJsonObject());
+			return R.SUCCESS_OPER(rs.toJsonObject());
 		}
 	}
 }

@@ -20,7 +20,7 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.StreamUtils;
 
 import com.dt.core.common.base.ReqData;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 
 public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverter<Object> {
 	// 当返回是json是,自动转换成
@@ -35,13 +35,13 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public boolean canWrite(Type type, Class<?> clazz, MediaType mediaType) {
-		return ((Class) type).isAssignableFrom(ResData.class);
+		return ((Class) type).isAssignableFrom(R.class);
 	}
 	public List<MediaType> getSupportedMediaTypes() {
 		return Collections.singletonList(MediaType.ALL);
 	}
 	protected boolean supports(Class<?> clazz) {
-		return clazz.isAssignableFrom(ResData.class);
+		return clazz.isAssignableFrom(R.class);
 	}
 	public Object readInternal(Class<?> clazz, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException {
@@ -71,12 +71,12 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 	}
 	public void writeInternal(Object o, Type type, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException {
-		ResData res = (ResData) o;
+		R res = (R) o;
 		Charset charset = UTF8.getCharset();
 		String str = "";
 		if (writeAcceptCharset) {
 			outputMessage.getHeaders().setAcceptCharset(getAcceptedCharsets());
-			if (res.TYPE_VALUE.equals(ResData.TYPE_JSON)) {
+			if (res.TYPE_VALUE.equals(R.TYPE_JSON)) {
 				str = res.asJsonStr();
 			} else {
 				str = "now not support.";

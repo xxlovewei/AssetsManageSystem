@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.module.base.service.ApiService;
 
 /**
@@ -24,13 +24,13 @@ public class ApiController extends BaseController {
 	@RequestMapping(value = "/api/queryApi.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON)
-	public ResData queryApi() {
+	public R queryApi() {
 		return apiService.queryApi();
 	}
 	@RequestMapping(value = "/api/updateApi.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON)
-	public ResData updateApi() {
+	public R updateApi() {
 		return apiService.updateApi();
 	}
 }

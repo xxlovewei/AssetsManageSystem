@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Delete;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
@@ -20,7 +20,7 @@ import com.dt.core.tool.util.ToolUtil;
  */
 @Service
 public class ModuleItemMapService extends BaseService {
-	public ResData updateModuleItem(String module_id, String items) {
+	public R updateModuleItem(String module_id, String items) {
 		List<SQL> sqls = new ArrayList<SQL>();
 		Delete d = new Delete();
 		d.from("sys_modules_item");
@@ -37,15 +37,15 @@ public class ModuleItemMapService extends BaseService {
 			sqls.add(me);
 		}
 		db.executeSQLList(sqls);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @date: Nov 4, 2017 8:08:34 PM
 	 * @Description:查询所有api,其中已经在模块中则选中
 	 */
-	public ResData queryModuleItem(String module_id) {
+	public R queryModuleItem(String module_id) {
 		if (ToolUtil.isEmpty(module_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		String sql = "select * from ( " + "select " + "'Y' selected, " + "a.module_item_id, " + "a.status, "
 				+ "a.type, " + "a.ct url, " + "b.mark, " + "b.ctacl, "
@@ -62,6 +62,6 @@ public class ModuleItemMapService extends BaseService {
 				+ "else '未知' end ctacltext "
 				+ "from sys_api b where ctacl not in ('allow') and ct not in ( select ct from sys_modules_item where module_id='"
 				+ module_id + "') order by status,ctacl desc,url) ";
-		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 }

@@ -26,7 +26,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.om.term.entity.Machine;
 import com.dt.module.om.term.websocket.SftpClient;
@@ -47,7 +47,7 @@ public class SftpWindowController extends BaseController {
 	@RequestMapping(value = "/sftp/exeCommand.do", method = RequestMethod.POST)
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "执行sftp的命令")
-	public ResData exeCommand(@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
+	public R exeCommand(@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
 			String cmd, String cmdParam, String fileFileName, String permissions, HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -68,7 +68,7 @@ public class SftpWindowController extends BaseController {
 				case "upload":
 					File file = null;
 					if (uploadFile == null || uploadFile.isEmpty()) {
-						return ResData.FAILURE("请选择文件");
+						return R.FAILURE("请选择文件");
 					}
 
 					CommonsMultipartFile cf = (CommonsMultipartFile) uploadFile;
@@ -89,17 +89,17 @@ public class SftpWindowController extends BaseController {
 				}
 				String json = JSON.toJSONString(sftp.ls());
 				json = new String(json.getBytes("GBK"), "UTF-8");
-				return ResData.SUCCESS_OPER(JSONArray.parse(json));
+				return R.SUCCESS_OPER(JSONArray.parse(json));
 
 			} catch (SFTPException ex) {
-				return ResData.FAILURE("权限不够，操作失败！");
+				return R.FAILURE("权限不够，操作失败！");
 			} catch (IOException e) {
 				e.printStackTrace();
-				return ResData.FAILURE("执行命令错误");
+				return R.FAILURE("执行命令错误");
 			}
 
 		} else {
-			return ResData.FAILURE("连接错误");
+			return R.FAILURE("连接错误");
 		}
 
 	}
@@ -153,28 +153,28 @@ public class SftpWindowController extends BaseController {
 	@RequestMapping("/sftp/uploadState.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "sftp连接")
-	public ResData uploadState(String id) {
+	public R uploadState(String id) {
 
 		String state = (String) sftpuploadSession.get("progress");
-		return ResData.SUCCESS_OPER(JSONObject.parse(state));
+		return R.SUCCESS_OPER(JSONObject.parse(state));
 
 	}
 
 	@RequestMapping("/sftp/connectSftp.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "sftp连接")
-	public ResData connectSftp(String id) {
+	public R connectSftp(String id) {
 		String user_id = getUserId();
 		Machine m = (Machine) super.getSession().getAttribute("currentMachine");
 		if (ToolUtil.isEmpty(user_id)) {
-			return ResData.FAILURE_NOT_LOGIN();
+			return R.FAILURE_NOT_LOGIN();
 		}
 		if (ToolUtil.isEmpty(m)) {
-			return ResData.FAILURE("为选择Machine");
+			return R.FAILURE("为选择Machine");
 		}
 		SftpClient sftp = new SftpClient(m, "");
 		if (sftp != null && !sftp.isConnected()) {
-			return ResData.FAILURE("无法登录");
+			return R.FAILURE("无法登录");
 		}
 		try {
 			String json = JSON.toJSONString(sftp.ls());
@@ -190,11 +190,11 @@ public class SftpWindowController extends BaseController {
 			}
 			sftpsession.put(user_id, sftp);
 
-			return ResData.SUCCESS_OPER(JSONArray.parse(json));
+			return R.SUCCESS_OPER(JSONArray.parse(json));
 			// inputStream = new ByteArrayInputStream(json.getBytes("UTF-8"));
 			// put the sftp client into session
 		} catch (IOException e) {
-			return ResData.FAILURE("Machine连接失败");
+			return R.FAILURE("Machine连接失败");
 		}
 	}
 }

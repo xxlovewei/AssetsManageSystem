@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
 import com.dt.core.tool.lang.SpringContextUtil;
@@ -37,14 +37,14 @@ public class ApiService extends BaseService {
 	public static ApiService me() {
 		return SpringContextUtil.getBean(ApiService.class);
 	}
-	public ResData queryApi() {
+	public R queryApi() {
 		String sql = "select * from sys_api";
-		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
-	public ResData verifyApi() {
-		return ResData.SUCCESS_OPER();
+	public R verifyApi() {
+		return R.SUCCESS_OPER();
 	}
-	public ResData updateApi() {
+	public R updateApi() {
 		List<SQL> sqls = new ArrayList<SQL>();
 		WebApplicationContext wc = (WebApplicationContext) SpringContextUtil.getApplicationContext();
 		RequestMappingHandlerMapping bean = wc.getBean(RequestMappingHandlerMapping.class);
@@ -79,6 +79,6 @@ public class ApiService extends BaseService {
 			db.tabTruncate("sys_api");
 			db.executeSQLList(sqls);
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 }

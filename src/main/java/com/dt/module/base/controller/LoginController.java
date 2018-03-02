@@ -22,7 +22,7 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.shiro.ShiroUser;
 import com.dt.core.tool.util.ToolUtil;
@@ -48,10 +48,10 @@ public class LoginController extends BaseController {
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/user/login.do")
 	@Res
-	public ResData logindo(String user, String pwd, String type, String client, HttpServletRequest request) {
+	public R logindo(String user, String pwd, String type, String client, HttpServletRequest request) {
 
 		// 验证账户是否有效
-		ResData vlrs = loginService.validLogin(user, type, client);
+		R vlrs = loginService.validLogin(user, type, client);
 		if (vlrs.isFailed()) {
 			return vlrs;
 		}
@@ -76,7 +76,7 @@ public class LoginController extends BaseController {
 			error = "其他错误：" + e.getMessage();
 		}
 		if (ToolUtil.isNotEmpty(error)) {
-			return ResData.FAILURE(error);
+			return R.FAILURE(error);
 		}
 
 		//用户登录成功
@@ -95,17 +95,17 @@ public class LoginController extends BaseController {
 		r.put("token", super.getSession().getId());
 		_log.info("login:" + r.toJSONString());
 		loginService.recLogin(shiroUser.id, super.getSession().getId(), request);
-		return ResData.SUCCESS(BaseCodeMsgEnum.USER_LOGIN_SUCCESS.getMessage(), r);
+		return R.SUCCESS(BaseCodeMsgEnum.USER_LOGIN_SUCCESS.getMessage(), r);
 	}
 
 	@RequestMapping(value = "/user/checkLogin.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData checkLogin() throws IOException {
+	public R checkLogin() throws IOException {
 		if (ShiroKit.isAuthenticated()) {
-			return ResData.SUCCESS(BaseCodeMsgEnum.USER_ALREADY_LOGIN.getMessage());
+			return R.SUCCESS(BaseCodeMsgEnum.USER_ALREADY_LOGIN.getMessage());
 		} else {
-			return ResData.FAILURE_NOT_LOGIN();
+			return R.FAILURE_NOT_LOGIN();
 		}
 	}
 
@@ -115,8 +115,8 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/user/logout.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData loginout() throws IOException {
-		return ResData.SUCCESS("成功退出");
+	public R loginout() throws IOException {
+		return R.SUCCESS("成功退出");
 	}
  
 	 

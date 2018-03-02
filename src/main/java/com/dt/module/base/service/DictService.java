@@ -3,7 +3,7 @@ package com.dt.module.base.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
@@ -20,14 +20,14 @@ public class DictService extends BaseService {
 	/**
 	 * @Description: 删除字典
 	 */
-	public ResData deleteDict(String id) {
+	public R deleteDict(String id) {
 		Update ups = new Update("sys_dict");
 		ups.set("deleted", "Y");
 		ups.where().and("dict_id=?", id);
 		db.execute(ups);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
-	public ResData addDict(TypedHashMap<String, Object> ps) {
+	public R addDict(TypedHashMap<String, Object> ps) {
 		 
 	 
 		Insert me = new Insert("sys_dict");
@@ -38,15 +38,15 @@ public class DictService extends BaseService {
 		me.setIf("deleted","N");
 		me.set("dict_level", ps.getString("dict_level"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	  
 	}
 	/**
 	 * @Description: 更新字典
 	 */
-	public ResData updateDict(TypedHashMap<String, Object> ps) {
+	public R updateDict(TypedHashMap<String, Object> ps) {
 		if (!ps.containsKey("dict_id")) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Update ups = new Update("sys_dict");
 		ups.setIf("name", ps.getString("name", ""));
@@ -55,39 +55,39 @@ public class DictService extends BaseService {
 		ups.set("dict_level", ps.getString("dict_level"));
 		ups.where().and("dict_id=?", ps.getString("dict_id"));
 		db.execute(ups);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description: 查询所有字典
 	 */
-	public ResData queryDict() {
+	public R queryDict() {
 		String sql = "select * from sys_dict where deleted='N' ";
-		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description:查询某个字典
 	 */
-	public ResData queryDictById(String id) {
+	public R queryDictById(String id) {
 		String sql = "select * from sys_dict where dict_id=?  ";
 		Rcd rs=db.uniqueRecord(sql,id);
 		if(ToolUtil.isEmpty(rs)){
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		}else{
-			return ResData.SUCCESS_OPER(rs.toJsonObject());
+			return R.SUCCESS_OPER(rs.toJsonObject());
 		} 
 	}
 	/**
 	 * @Description:删除字典项
 	 */
-	public ResData deleteDictItem(String id) {
+	public R deleteDictItem(String id) {
 		String sql = "delete from sys_dict_item where dict_item_id=?";
 		db.execute(sql, id);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description:新增字典项
 	 */
-	public ResData addDictItem(TypedHashMap<String, Object> ps) {
+	public R addDictItem(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_dict_item");
 		me.set("dict_id", ps.getString("dict_id"));
 		me.set("dict_item_id", ToolUtil.getUUID());
@@ -96,12 +96,12 @@ public class DictService extends BaseService {
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("code", ps.getString("code"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description:修改字典项
 	 */
-	public ResData updateDictItem(TypedHashMap<String, Object> ps) {
+	public R updateDictItem(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_dict_item");
 		me.setIf("name", ps.getString("name"));
 		me.setIf("mark", ps.getString("mark"));
@@ -109,23 +109,23 @@ public class DictService extends BaseService {
 		me.setIf("code", ps.getString("code"));
 		me.where().and("dict_item_id=?", ps.getString("dict_item_id"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description:查询字典项
 	 */
-	public ResData queryDictItem(String id) {
-		return ResData
+	public R queryDictItem(String id) {
+		return R
 				.SUCCESS_OPER(db.query("select * from sys_dict_item where dict_id=? order by sort", id).toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description:修改某个字典项
 	 */
-	public ResData queryDictItemById(String dict_item_id) {
+	public R queryDictItemById(String dict_item_id) {
 		Rcd rs = db.uniqueRecord("select * from sys_dict_item where dict_item_id=?", dict_item_id);
 		if (ToolUtil.isEmpty(rs)) {
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		}
-		return ResData.SUCCESS_OPER(rs.toJsonObject());
+		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
 }

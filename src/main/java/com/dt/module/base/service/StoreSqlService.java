@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
@@ -36,7 +36,7 @@ public class StoreSqlService extends BaseService {
 	 * @Description: 根据条件返回数据，无分页功能
 	 */
 	@SuppressWarnings("rawtypes")
-	public ResData commandAction(TypedHashMap<String, Object> ps, String user_id, String acl) {
+	public R commandAction(TypedHashMap<String, Object> ps, String user_id, String acl) {
 		String sql = "";
 		String store_id = ps.getString("store_id");
 		String return_type = "";
@@ -55,7 +55,7 @@ public class StoreSqlService extends BaseService {
 		}
 		// 判断是否可以使用
 		if (!is_used.equals("Y")) {
-			return ResData.FAILURE("功能未激活");
+			return R.FAILURE("功能未激活");
 		}
 		// 处理自定义变量,格式:@var@
 		Iterator<Entry<String, Object>> i = ps.entrySet().iterator();
@@ -74,31 +74,31 @@ public class StoreSqlService extends BaseService {
 		if (ToolUtil.isNotEmpty(sql)) {
 			if (return_type.equals(RETURN_ARRARY)) {
 				RcdSet rs = db.query(sql);
-				return ResData.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+				return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 			} else if (return_type.equals(RETURN_OBJECT)) {
 				Rcd rs = db.uniqueRecord(sql);
-				return ResData.SUCCESS_OPER(rs.toJsonObject());
+				return R.SUCCESS_OPER(rs.toJsonObject());
 			} else {
 				db.execute(sql);
-				return ResData.SUCCESS_OPER();
+				return R.SUCCESS_OPER();
 			}
 		} else {
-			return ResData.FAILURE("Sql语句有误");
+			return R.FAILURE("Sql语句有误");
 		}
 	}
-	public ResData queryStoreSql(String cat_id) {
+	public R queryStoreSql(String cat_id) {
 		String sql = "select * from ct_uri where is_deleted='N' ";
 		if (ToolUtil.isNotEmpty(cat_id)) {
 			sql = sql + " and cat_id='" + cat_id + "'";
 		}
 		RcdSet rs = db.query(sql);
-		return ResData.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
-	public ResData queryStoreSqlById(String store_id) {
+	public R queryStoreSqlById(String store_id) {
 		Rcd rs = db.uniqueRecord("select * from ct_uri where store_id=?", store_id);
-		return ResData.SUCCESS_OPER(rs.toJsonObject());
+		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
-	private ResData checkStoreSqlFormat(TypedHashMap<String, Object> ps) {
+	private R checkStoreSqlFormat(TypedHashMap<String, Object> ps) {
 		
 		//检查alias_id;
 		
@@ -109,23 +109,23 @@ public class StoreSqlService extends BaseService {
 		String return_type = ps.getString("return_type", RETURN_ACTION);
 		if (sql.toLowerCase().startsWith("select")) {
 			if (return_type.equals(RETURN_ARRARY) || return_type.equals(RETURN_OBJECT)) {
-				return ResData.SUCCESS_OPER();
+				return R.SUCCESS_OPER();
 			} else {
-				return ResData.FAILURE(msg);
+				return R.FAILURE(msg);
 			}
 		} else {
 			if (return_type.equals(RETURN_ACTION)) {
-				return ResData.SUCCESS_OPER();
+				return R.SUCCESS_OPER();
 			} else {
-				return ResData.FAILURE(msg);
+				return R.FAILURE(msg);
 			}
 		}
 		
 		
 		
 	}
-	public ResData addStoreSql(TypedHashMap<String, Object> ps, String user_id) {
-		ResData rs = checkStoreSqlFormat(ps);
+	public R addStoreSql(TypedHashMap<String, Object> ps, String user_id) {
+		R rs = checkStoreSqlFormat(ps);
 		if (rs.isFailed()) {
 			return rs;
 		}
@@ -145,10 +145,10 @@ public class StoreSqlService extends BaseService {
 		me.set("return_type", ps.getString("return_type", RETURN_ACTION));
 		me.setIf("is_used", ps.getString("is_used"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
-	public ResData updateStoreSql(TypedHashMap<String, Object> ps, String user_id) {
-		ResData rs = checkStoreSqlFormat(ps);
+	public R updateStoreSql(TypedHashMap<String, Object> ps, String user_id) {
+		R rs = checkStoreSqlFormat(ps);
 		if (rs.isFailed()) {
 			return rs;
 		}
@@ -165,13 +165,13 @@ public class StoreSqlService extends BaseService {
 		me.setIf("is_used", ps.getString("is_used"));
 		me.where().and("store_id=?", ps.getString("store_id"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
-	public ResData deleteStoreSql(String store_id) {
+	public R deleteStoreSql(String store_id) {
 		Update me = new Update("ct_uri");
 		me.set("is_deleted", "Y");
 		me.where().and("store_id=?", store_id);
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 }

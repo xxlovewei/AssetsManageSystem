@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ConvertUtil;
@@ -134,20 +134,20 @@ public class ProductMaintainControllerdel extends BaseController{
 	@RequestMapping("/prod/queryBySpu.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData queryBySpu(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public R queryBySpu(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		JSONObject res = new JSONObject();
 
 		String spu = request.getParameter("spu");
 
 		if (spu == null) {
-			return ResData.FAILURE("参数错误");
+			return R.FAILURE("参数错误");
 		}
 
 		//获取产品主要内容
 		res = methodQueryProduct(spu);
 		if (!res.containsKey("SPU")) {
-			return ResData.FAILURE("不存在此产品");
+			return R.FAILURE("不存在此产品");
 		}
 		
 		//获取产品主要图片
@@ -160,58 +160,58 @@ public class ProductMaintainControllerdel extends BaseController{
 		//获取所有产品规格组合,SKU组数据
 		res.put("SKUS", methodQueryProductSku(spu));
 		 
-		return ResData.SUCCESS("成功获取", res);
+		return R.SUCCESS("成功获取", res);
 	}
 
 	@RequestMapping("/prod/queryBySku.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData queryBySku(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public R queryBySku(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
 		if (id == null) {
-			return ResData.FAILURE("未绑定ID");
+			return R.FAILURE("未绑定ID");
 		}
 		db.execute("delete from sys_dict_item where dict_item_id=?", id);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 
 	}
 
 	@RequestMapping("/prod/prodAdd.do")
 	@Res
 	@Acl
-	public ResData prodAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public R prodAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
 		if (id == null) {
-			return ResData.FAILURE("未绑定ID");
+			return R.FAILURE("未绑定ID");
 		}
 		db.execute("delete from sys_dict_item where dict_item_id=?", id);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 
 	}
 
 	@RequestMapping("/prod/prodDelete.do")
 	@Res
 	@Acl
-	public ResData prodDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public R prodDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
 		if (id == null) {
-			return ResData.FAILURE("未绑定ID");
+			return R.FAILURE("未绑定ID");
 		}
 		db.execute("delete from sys_dict_item where dict_item_id=?", id);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 
 	}
 
 	@RequestMapping("/prod/produUpdate.do")
 	@Res
 	@Acl
-	public ResData produUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public R produUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
 		if (id == null) {
-			return ResData.FAILURE("未绑定ID");
+			return R.FAILURE("未绑定ID");
 		}
 		db.execute("delete from sys_dict_item where dict_item_id=?", id);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 
 	}
 

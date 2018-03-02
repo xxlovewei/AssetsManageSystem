@@ -17,7 +17,7 @@ public class TT {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
  
-		System.out.println(ResData.SUCCESS("成功", 12345).toString());
+		System.out.println(R.SUCCESS("成功", 12345).toString());
 	}
 
 

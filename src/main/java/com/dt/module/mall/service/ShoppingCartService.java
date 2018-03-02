@@ -2,7 +2,7 @@ package com.dt.module.mall.service;
 
 import org.springframework.stereotype.Service;
 
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 
 /**
  * @author: algernonking
@@ -12,19 +12,19 @@ import com.dt.core.common.base.ResData;
 @Service
 public class ShoppingCartService {
 
-	public ResData addShopCart() {
+	public R addShopCart() {
 		return null;
 	}
 	
-	public ResData delShopCart() {
+	public R delShopCart() {
 		return null;
 	}
 	
-	public ResData queryShopCart() {
+	public R queryShopCart() {
 		return null;
 	}
 	
-	public ResData editShopCart() {
+	public R editShopCart() {
 		return null;
 	}
 

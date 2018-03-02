@@ -89,8 +89,8 @@ public class BaseController extends BaseSC {
 	 * (out != null) { out.close(); } } }
 	 */
 	public String warpObject(Object o) {
-		if (o instanceof ResData) {
-			return ((ResData) o).asJsonStr();
+		if (o instanceof R) {
+			return ((R) o).asJsonStr();
 		} else {
 			return o.toString();
 		}

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.content.service.ContentCategoryService;
@@ -29,45 +29,45 @@ public class ContentCategoryController extends BaseController {
 	@Res
 	@Acl
 	@RequestMapping(value = "/ctCategroy/queryRootCategory.do")
-	public ResData queryRootCategory() {
+	public R queryRootCategory() {
 		return contentRootCategoryService.queryRootCategory();
 	}
 	@Res
 	@Acl
 	@RequestMapping(value = "/ctCategroy/queryCategoryById.do")
-	public ResData queryCategoryById(String id) {
+	public R queryCategoryById(String id) {
 		return contentCategoryService.queryCategoryById(id);
 	}
 	@Res
 	@Acl
 	@RequestMapping(value = "/ctCategroy/deleteCategory.do")
-	public ResData deleteCategory(String id) {
+	public R deleteCategory(String id) {
 		return contentCategoryService.deleteCategory(id);
 	}
 	@Res
 	@Acl
 	@RequestMapping(value = "/ctCategroy/addCategory.do")
-	public ResData addCategory() {
+	public R addCategory() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return contentCategoryService.addCategory(ps);
 	}
 	@Res
 	@Acl
 	@RequestMapping(value = "/ctCategroy/updateCategory.do")
-	public ResData updateCategory() {
+	public R updateCategory() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return contentCategoryService.updateCategory(ps);
 	}
 	@Res
 	@Acl
 	@RequestMapping(value = "/ctCategroy/queryCategory.do")
-	public ResData queryCategory(String root) {
+	public R queryCategory(String root) {
 		return contentCategoryService.queryCategory(root);
 	}
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/ctCategroy/queryCategoryChildren.do")
-	public ResData queryCategoryChildren() {
+	public R queryCategoryChildren() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		String parentId = ps.getString("parent_id");
 		String isAction = ps.getString("is_action");
@@ -76,7 +76,7 @@ public class ContentCategoryController extends BaseController {
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/ctCategroy/queryCategoryFirstFloor.do")
-	public ResData queryCategoryFirstFloor() {
+	public R queryCategoryFirstFloor() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		String rootId = ps.getString("root");
 		String isAction = ps.getString("is_action");
@@ -85,7 +85,7 @@ public class ContentCategoryController extends BaseController {
 	@Res
 	@Acl
 	@RequestMapping(value = "/ctCategroy/queryCategoryTreeList.do")
-	public ResData queryCategoryTreeList(String root) {
+	public R queryCategoryTreeList(String root) {
 		return contentCategoryService.queryCategoryTreeList(root);
 	}
 }

@@ -3,7 +3,7 @@ package com.dt.module.base.content.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
@@ -28,7 +28,7 @@ public class ContentService extends BaseService {
 	/**
 	 * @Description:新增CT
 	 */
-	public ResData addContent(TypedHashMap<String, Object> ps, String type) {
+	public R addContent(TypedHashMap<String, Object> ps, String type) {
 		Insert me = new Insert("ct_content");
 		String idctl = ps.getString("selfid", "N");
 		String id = ToolUtil.getUUID();
@@ -55,12 +55,12 @@ public class ContentService extends BaseService {
 		me.setSE("createtime", DbUtil.getDBDateString(db.getDBType()));
 		me.setSE("modifytime", DbUtil.getDBDateString(db.getDBType()));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description:修改CT
 	 */
-	public ResData updateContent(TypedHashMap<String, Object> ps) {
+	public R updateContent(TypedHashMap<String, Object> ps) {
 		Update me = new Update("ct_content");
 		me.set("display", ToolUtil.parseYNValueDefN(ps.getString("display")));
 		me.set("digest", ToolUtil.parseYNValueDefN(ps.getString("digest")));
@@ -79,30 +79,30 @@ public class ContentService extends BaseService {
 		me.setSE("modifytime", DbUtil.getDBDateString(db.getDBType()));
 		me.where().and("id=?", ps.getString("id"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description:删除CT
 	 */
-	public ResData deleteContent(String id, String type) {
+	public R deleteContent(String id, String type) {
 		if (ToolUtil.isOneEmpty(id, type)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Update me = new Update("ct_content");
 		me.set("deleted", "Y");
 		me.where().and("id=?", id).and("type=?", type);
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description:根据ID查找CT
 	 */
-	public ResData queryContentById(String id) {
+	public R queryContentById(String id) {
 		Rcd rs = db.uniqueRecord("select * from ct_content where id=?", id);
 		if (ToolUtil.isEmpty(rs)) {
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		}
-		return ResData.SUCCESS_OPER(rs.toJsonObject());
+		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
 	private String rebuildQueryContentSql(TypedHashMap<String, Object> ps, String type) {
 		String sdate = ps.getString("sdate");
@@ -154,9 +154,9 @@ public class ContentService extends BaseService {
 	/**
 	 * @Description:查找CT
 	 */
-	public ResData queryContentPage(TypedHashMap<String, Object> ps, int pageSize, int pageIndex, String type) {
+	public R queryContentPage(TypedHashMap<String, Object> ps, int pageSize, int pageIndex, String type) {
 		String sql = rebuildQueryContentSql(ps, type);
-		return ResData.SUCCESS_OPER(
+		return R.SUCCESS_OPER(
 				db.query(DbUtil.getDBPageSql(db.getDBType(),sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 }

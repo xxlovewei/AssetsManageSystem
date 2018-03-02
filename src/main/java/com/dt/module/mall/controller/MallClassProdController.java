@@ -9,7 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
@@ -31,28 +31,28 @@ public class MallClassProdController extends BaseController {
 	@RequestMapping("/class/queryClassProdNotSel.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "选择加入分类单产品")
-	public ResData queryClassProdNotSel(String cat_id, String class_id, String start, String length, String pageSize,
+	public R queryClassProdNotSel(String cat_id, String class_id, String start, String length, String pageSize,
 			String pageIndex) {
 
 		if (ToolUtil.isOneEmpty(cat_id, class_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
 
-		ResData rsdata = classProdService.queryClassProdNotSel(cat_id, class_id, pagesize, pageindex);
+		R rsdata = classProdService.queryClassProdNotSel(cat_id, class_id, pagesize, pageindex);
 		int count = classProdService.queryClassProdNotSelCount(cat_id, class_id);
 		JSONArray data = rsdata.getDataToJSONArray();
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", count);
 		retrunObject.put("iTotalDisplayRecords", count);
 		retrunObject.put("data", data);
-		ResData res = new ResData();
+		R res = new R();
 		res.setClearStatus(true);
 		res.setData(retrunObject);
 		return res;
@@ -62,19 +62,19 @@ public class MallClassProdController extends BaseController {
 	@RequestMapping("/class/queryClassProd.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "查询分类单产品")
-	public ResData queryClassProd(String withoutcount, String class_id, String start, String length, String pageSize,
+	public R queryClassProd(String withoutcount, String class_id, String start, String length, String pageSize,
 			String pageIndex) {
 
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		 
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
 
-		ResData rsdata = classProdService.queryClassProd(ps, class_id, pagesize, pageindex);
+		R rsdata = classProdService.queryClassProd(ps, class_id, pagesize, pageindex);
 		int count = 0;
 		if (ToolUtil.isNotEmpty(withoutcount) && withoutcount.equals("Y")) {
 			count = 0;
@@ -86,7 +86,7 @@ public class MallClassProdController extends BaseController {
 		retrunObject.put("iTotalRecords", count);
 		retrunObject.put("iTotalDisplayRecords", count);
 		retrunObject.put("data", data);
-		ResData res = new ResData();
+		R res = new R();
 		res.setClearStatus(true);
 		res.setData(retrunObject);
 		return res;

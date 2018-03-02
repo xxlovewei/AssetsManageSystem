@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.module.base.service.ModuleItemMapService;
 
 @Controller
@@ -19,13 +19,13 @@ public class ModuleController extends BaseController {
 	@Res
 	@Acl
 	@RequestMapping(value = "/module/queryModuleItemMap.do")
-	public ResData queryModuleItem(String module_id) {
+	public R queryModuleItem(String module_id) {
 		return moduleItemMapService.queryModuleItem(module_id);
 	}
 	@Res
 	@Acl
 	@RequestMapping(value = "/module/updateModuleItemMap.do")
-	public ResData updateModuleItemMap(String module_id, String items) {
+	public R updateModuleItemMap(String module_id, String items) {
 		return moduleItemMapService.updateModuleItem(module_id, items);
 	}
 }

@@ -3,7 +3,7 @@ package com.dt.module.base.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
@@ -25,7 +25,7 @@ public class ParamsService extends BaseService {
 	 * @Description: 添加参数
 	 */
 	// 类型system|user|sysinter(系统内置，不可改动)
-	public ResData addParams(TypedHashMap<String, Object> ps) {
+	public R addParams(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_params");
 		me.set("id", ToolUtil.getUUID());
 		me.set("deleted", "N");
@@ -34,22 +34,22 @@ public class ParamsService extends BaseService {
 		me.set("type", ps.getString("type"));
 		me.setIf("mark", ps.getString("mark", ""));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 查询所有参数
 	 */
-	public ResData queryParams() {
+	public R queryParams() {
 		// 排除内置
 		String sql = "select * from sys_params where deleted='N' and type<>'sysinter' ";
-		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
 	/**
 	 * @Description: 修改参数
 	 */
-	public ResData updateParams(TypedHashMap<String, Object> ps) {
+	public R updateParams(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_params");
 		me.setIf("name", ps.getString("name", ""));
 		me.setIf("value", ps.getString("value", ""));
@@ -57,38 +57,38 @@ public class ParamsService extends BaseService {
 		me.setIf("mark", ps.getString("mark", ""));
 		me.where().and("id=?", ps.getString("id"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 删除参数
 	 */
-	public ResData deleteParams(String id) {
+	public R deleteParams(String id) {
 		Update me = new Update("sys_params");
 		me.set("deleted", "Y");
 		me.where().and("id=?", id);
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 按照Id查询参数
 	 */
-	public ResData queryParamsById(String id) {
+	public R queryParamsById(String id) {
 		String sql = "select * from sys_params where deleted='N' and id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (ToolUtil.isEmpty(rs)) {
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		}
-		return ResData.SUCCESS_OPER(rs.toJsonObject());
+		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
 
 	/**
 	 * @Description: 按照Id查询参数,如果不存在则填充数据
 	 */
-	public ResData queryParamsByIdWithExist(String id, String def_value, String type) {
+	public R queryParamsByIdWithExist(String id, String def_value, String type) {
 		if (ToolUtil.isEmpty(id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 
 		String sql = "select * from sys_params where deleted='N' and id=?";

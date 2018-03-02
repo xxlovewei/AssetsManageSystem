@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
@@ -26,7 +26,7 @@ public class ClassService extends BaseService {
 	public static String CLASS_TYPE_MICROSHOP_INDEX = "microshopindex";
 	public static String MODULE_TYPE_MALL = "mall";
 
-	public ResData addClass(TypedHashMap<String, Object> ps) {
+	public R addClass(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_ct_class");
 		me.set("class_id", db.getUUID());
 		me.set("is_delete", "N");
@@ -38,18 +38,18 @@ public class ClassService extends BaseService {
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("module", ps.getString("module"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData deleteClass(String class_id) {
+	public R deleteClass(String class_id) {
 		Update me = new Update("sys_ct_class");
 		me.set("is_delete", "Y");
 		me.where().and("class_id=?", class_id);
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData updateClass(TypedHashMap<String, Object> ps) {
+	public R updateClass(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_ct_class");
 		me.setIf("name", ps.getString("name"));
 		me.setIf("mainimg", ps.getString("mainimg"));
@@ -58,10 +58,10 @@ public class ClassService extends BaseService {
 		me.setIf("mark", ps.getString("mark"));
 		me.where().and("class_id=?", ps.getString("class_id"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData queryClass(String class_id, String type, String is_used) {
+	public R queryClass(String class_id, String type, String is_used) {
 		String sql = "select * from sys_ct_class where is_delete='N' ";
 		if (ToolUtil.isNotEmpty(type)) {
 			sql += " and type='" + type + "' ";
@@ -70,20 +70,20 @@ public class ClassService extends BaseService {
 			sql += " and is_used='" + is_used + "' ";
 		}
 		sql += " order by od";
-		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
-	public ResData queryClassById(String class_id) {
+	public R queryClassById(String class_id) {
 
 		Rcd rs = db.uniqueRecord("select * from sys_ct_class where is_delete='N' and class_id=? order by od", class_id);
 		if (ToolUtil.isEmpty(rs)) {
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		} else {
-			return ResData.SUCCESS_OPER(rs.toJsonObject());
+			return R.SUCCESS_OPER(rs.toJsonObject());
 		}
 	}
 
-	public ResData addClassItem(TypedHashMap<String, Object> ps) {
+	public R addClassItem(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_ct_class_item");
 		me.set("id", db.getUUID());
 		me.setIf("class_id", ps.getString("class_id"));
@@ -93,14 +93,14 @@ public class ClassService extends BaseService {
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("pic_id", ps.getString("pic_id"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData addClassItems(TypedHashMap<String, Object> ps) {
+	public R addClassItems(TypedHashMap<String, Object> ps) {
 		// IDS
 		String ids = ps.getString("ids");
 		if (ToolUtil.isEmpty(ids)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		JSONArray idsarr = (JSONArray) JSONArray.parse(ids);
 		List<SQL> sqls = new ArrayList<SQL>();
@@ -119,18 +119,18 @@ public class ClassService extends BaseService {
 			db.executeSQLList(sqls);
 		}
 
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData deleteClassItem(String id) {
+	public R deleteClassItem(String id) {
 		Update me = new Update("sys_ct_class_item");
 		me.set("is_delete", "Y");
 		me.where().and("id=?", id).execute();
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData updateClassItem(TypedHashMap<String, Object> ps) {
+	public R updateClassItem(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_ct_class_item");
 		me.setIf("is_used", ps.getString("is_used"));
 		me.setIf("value", ps.getString("value"));
@@ -138,10 +138,10 @@ public class ClassService extends BaseService {
 		me.setIf("pic_id", ps.getString("pic_id"));
 		me.setIf("mark", ps.getString("mark"));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData queryClassItem(String class_id, String is_used) {
+	public R queryClassItem(String class_id, String is_used) {
 
 		String sql = "select * from sys_ct_class_item where is_delete='N' ";
 		if (ToolUtil.isNotEmpty(class_id)) {
@@ -151,15 +151,15 @@ public class ClassService extends BaseService {
 			sql += " and is_used='" + is_used + "' ";
 		}
 		sql = sql + " order by od";
-		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
-	public ResData queryClassItemById(String id) {
+	public R queryClassItemById(String id) {
 		Rcd rs = db.uniqueRecord("select * from sys_ct_class_item where id=?", id);
 		if (ToolUtil.isEmpty(rs)) {
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		} else {
-			return ResData.SUCCESS_OPER(rs.toJsonObject());
+			return R.SUCCESS_OPER(rs.toJsonObject());
 		}
 		
 		

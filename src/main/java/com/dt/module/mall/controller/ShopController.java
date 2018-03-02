@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -31,28 +31,28 @@ public class ShopController extends BaseController {
 	@RequestMapping("/shop/deleteShop.do")
 	@Res
 	@Acl
-	public ResData deleteShop(String shop_id) {
+	public R deleteShop(String shop_id) {
 		return shopService.deleteShop(shop_id);
 	}
 
 	@RequestMapping("/shop/queryShop.do")
 	@Res
 	@Acl
-	public ResData queryShop() {
+	public R queryShop() {
 		return shopService.queryShop();
 	}
 
 	@RequestMapping("/shop/queryShopById.do")
 	@Res
 	@Acl
-	public ResData queryShopById(String shop_id) {
+	public R queryShopById(String shop_id) {
 		return shopService.queryShopById(shop_id);
 	}
 
 	@RequestMapping("/shop/saveShop.do")
 	@Res
 	@Acl
-	public ResData saveShop(String shop_id) {
+	public R saveShop(String shop_id) {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("shop_id");
 		if (ToolUtil.isEmpty(id)) {
@@ -65,7 +65,7 @@ public class ShopController extends BaseController {
 	@RequestMapping("/shop/queryMyShop.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON)
-	public ResData queryMyShop() {
+	public R queryMyShop() {
 		return myShopService.queryMyShopByUserId(super.getUserId());
 	}
 }

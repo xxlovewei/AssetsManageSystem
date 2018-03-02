@@ -9,7 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
@@ -30,28 +30,28 @@ public class UserLogController extends BaseController {
 	@RequestMapping("/user/queryLogin.do")
 	@Res
 	@Acl(value=Acl.TYPE_USER_COMMON)
-	public ResData queryLoginLog() {
+	public R queryLoginLog() {
 		return userLogService.queryLoginLog(getUserId());
 	}
 	@RequestMapping("/user/queryAccessLog.do")
 	@Res
 	@Acl(value=Acl.TYPE_USER_COMMON)
-	public ResData queryAccessLog(String start, String length, String pageSize, String pageIndex) {
+	public R queryAccessLog(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
-		ResData rsdata = userLogService.queryAccessLog(getUserId(), ps, pagesize, pageindex);
+		R rsdata = userLogService.queryAccessLog(getUserId(), ps, pagesize, pageindex);
 		int pageCnt = userLogService.queryAccessLogPageCount(getUserId(), ps, pagesize);
 		JSONArray data = rsdata.getDataToJSONArray();
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pageCnt);
 		retrunObject.put("iTotalDisplayRecords", pageCnt);
 		retrunObject.put("data", data);
-		ResData res = new ResData();
+		R res = new R();
 		res.setClearStatus(true);
 		res.setData(retrunObject);
 		return res;

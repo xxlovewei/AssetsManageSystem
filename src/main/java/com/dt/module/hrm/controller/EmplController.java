@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.hrm.service.EmplService;
@@ -25,34 +25,34 @@ public class EmplController extends BaseController {
 	@RequestMapping("/hrm/employeeAdd.do")
 	@Res
 	@Acl
-	public ResData employeeAdd() {
+	public R employeeAdd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return emplService.addEmployee(ps);
 	}
 	@RequestMapping("/hrm/employeeUpdate.do")
 	@Res
 	@Acl
-	public ResData employeeUpdate() {
+	public R employeeUpdate() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return emplService.updateEmployee(ps);
 	}
 	@RequestMapping("/hrm/employeeQueryList.do")
 	@Res
 	@Acl
-	public ResData employeeQueryList() {
+	public R employeeQueryList() {
 		return emplService.queryEmplList(HttpKit.getRequestParameters());
 	}
 	@RequestMapping("/hrm/employeeQueryById.do")
 	@Res
 	@Acl
-	public ResData employeeQueryById(String empl_id) {
+	public R employeeQueryById(String empl_id) {
 		return emplService.queryEmplById(empl_id);
 	}
 	@RequestMapping("/hrm/employeeDelete.do")
 	@Res
 	@Acl
 	@Transactional
-	public ResData employeeDelete(String empl_id) throws IOException {
+	public R employeeDelete(String empl_id) throws IOException {
 		return emplService.delEmployee(empl_id);
 	}
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.module.base.service.SystemService;
 
 /**
@@ -23,7 +23,7 @@ public class SystemController {
 	@RequestMapping(value = "/system/getOnlineSession.do")
 	@Res
 	@Acl
-	public ResData getOnlineSession() {
+	public R getOnlineSession() {
 		return systemService.queryOnLineSession();
 	}
 

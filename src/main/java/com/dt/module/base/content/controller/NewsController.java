@@ -9,7 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
@@ -37,7 +37,7 @@ public class NewsController extends BaseController {
 	@RequestMapping(value = "/news/queryNewsById.do")
 	@Res
 	@Acl
-	public ResData queryNewsById(String id) {
+	public R queryNewsById(String id) {
 		return null;
 	}
 	/**
@@ -46,7 +46,7 @@ public class NewsController extends BaseController {
 	@RequestMapping(value = "/news/deleteNews.do")
 	@Res
 	@Acl
-	public ResData deleteNews(String id) {
+	public R deleteNews(String id) {
 		return newsService.deleteNews(id);
 	}
 	/**
@@ -55,7 +55,7 @@ public class NewsController extends BaseController {
 	@RequestMapping(value = "/news/publishNews.do")
 	@Res
 	@Acl
-	public ResData publishNews() {
+	public R publishNews() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
@@ -70,12 +70,12 @@ public class NewsController extends BaseController {
 	@RequestMapping(value = "/news/queryCount.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData queryNews() {
+	public R queryNews() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		int value = newsService.queryTotalCount(ps);
 		JSONObject res = new JSONObject();
 		res.put("total", value);
-		return ResData.SUCCESS_OPER(res);
+		return R.SUCCESS_OPER(res);
 	}
 	/**
 	 * @Description: 查询新闻页数
@@ -83,12 +83,12 @@ public class NewsController extends BaseController {
 	@RequestMapping(value = "/news/queryPage.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData queryPage(String pageSize) {
+	public R queryPage(String pageSize) {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		int value = newsService.queryTotalCount(ps, ConvertUtil.toInt(pageSize, -1));
 		JSONObject res = new JSONObject();
 		res.put("total", value);
-		return ResData.SUCCESS_OPER(res);
+		return R.SUCCESS_OPER(res);
 	}
  
 	
@@ -98,23 +98,23 @@ public class NewsController extends BaseController {
 	@RequestMapping(value = "/news/queryNewsByPage.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData queryNewsByDatatable(String start, String length, String pageSize, String pageIndex) {
+	public R queryNewsByDatatable(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
 		
-		ResData rsdata = newsService.queryNews(ps, pagesize, pageindex);
+		R rsdata = newsService.queryNews(ps, pagesize, pageindex);
 		int count = contentService.queryContentCount(ps, ContentService.TYPE_NEWS);
 		JSONArray data = rsdata.getDataToJSONArray();
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", count);
 		retrunObject.put("iTotalDisplayRecords", count);
 		retrunObject.put("data", data);
-		ResData res = new ResData();
+		R res = new R();
 		res.setClearStatus(true);
 		res.setData(retrunObject);
 		return res;

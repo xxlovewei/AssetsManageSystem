@@ -3,7 +3,7 @@ package com.dt.module.mall.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
@@ -19,26 +19,26 @@ public class BrandService extends BaseService {
 	/**
 	 * @Description:查询所有品牌
 	 */
-	public ResData queryBrand() {
-		return ResData.SUCCESS_OPER(
+	public R queryBrand() {
+		return R.SUCCESS_OPER(
 				db.query("select * from product_brand where is_deleted='N' order by od").toJsonArrayWithJsonObject());
 	}
 	
 	/**
 	 * @Description:删除品牌
 	 */
-	public ResData deleteBrand(String brand_id) {
+	public R deleteBrand(String brand_id) {
 		Update ups = new Update("product_brand");
 		ups.set("is_deleted", "Y");
 		ups.where().and("brand_id=?", brand_id);
 		db.execute(ups);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	
 	/**
 	 * @Description:添加品牌
 	 */
-	public ResData addBrand(TypedHashMap<String, Object> ps) {
+	public R addBrand(TypedHashMap<String, Object> ps) {
 		Insert ins = new Insert("product_brand");
 		ins.set("brand_id", db.getUUID());
 		ins.setIf("brand_code", ps.getString("brand_code"));
@@ -47,13 +47,13 @@ public class BrandService extends BaseService {
 		ins.setIf("mark", ps.getString("mark"));
 		ins.setIf("od", ps.getString("od"));
 		db.execute(ins);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description:修改品牌
 	 */
-	public ResData updateBrand(TypedHashMap<String, Object> ps) {
+	public R updateBrand(TypedHashMap<String, Object> ps) {
 		String id = ps.getString("brand_id");
 		Update ups = new Update("product_brand");
 		ups.setIf("brand_code", ps.getString("brand_code"));
@@ -62,14 +62,14 @@ public class BrandService extends BaseService {
 		ups.setIf("od", ps.getString("od"));
 		ups.where().and("brand_id=?", id);
 		db.execute(ups);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description:获取某个品牌详情
 	 */
-	public ResData queryBrandById(String brand_id) {
-		return ResData
+	public R queryBrandById(String brand_id) {
+		return R
 				.SUCCESS_OPER(db.uniqueRecord("select * from product_brand where is_deleted='N' and brand_id=? ", brand_id)
 						.toJsonObject());
 	}

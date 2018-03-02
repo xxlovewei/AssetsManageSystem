@@ -3,7 +3,7 @@ package com.dt.module.base.content.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 
 /**
  * @author: algernonking
@@ -15,7 +15,7 @@ public class ContentRootCategoryService extends BaseService {
 	/**
 	 * @Description: 查询主节点
 	 */
-	public ResData queryRootCategory() {
-		return ResData.SUCCESS_OPER(db.query("select * from ct_category_root where deleted='N' order by od").toJsonArrayWithJsonObject());
+	public R queryRootCategory() {
+		return R.SUCCESS_OPER(db.query("select * from ct_category_root where deleted='N' order by od").toJsonArrayWithJsonObject());
 	}
 }

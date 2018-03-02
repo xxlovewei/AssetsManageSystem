@@ -21,7 +21,7 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.shiro.ShiroUser;
@@ -46,7 +46,7 @@ public class LoginSmallProgramController extends BaseController {
 	@Autowired
 	LoginService loginService;
 
-	private ResData getOpenIdStr(String code) {
+	private R getOpenIdStr(String code) {
 		String url = "https://api.weixin.qq.com/sns/jscode2session";
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("appid", "wx5a945d59434c7f0d");
@@ -58,28 +58,28 @@ public class LoginSmallProgramController extends BaseController {
 		// 判断是否获取open_id
 		String openId = strobj.getString("openid");
 		if (ToolUtil.isEmpty(openId)) {
-			return ResData.FAILURE(BaseCodeMsgEnum.WX_FAILED_GET_OPENID.getMessage(),
+			return R.FAILURE(BaseCodeMsgEnum.WX_FAILED_GET_OPENID.getMessage(),
 					BaseCodeMsgEnum.WX_FAILED_GET_OPENID.getCode(), null);
 		}
-		return ResData.FAILURE(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getMessage(), strobj);
+		return R.FAILURE(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getMessage(), strobj);
 	}
 
 	@RequestMapping(value = "/smallprogram/login.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "小程序用户登录")
-	public ResData login(String code, HttpServletRequest request) {
+	public R login(String code, HttpServletRequest request) {
 		if (ToolUtil.isEmpty(code)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
-		ResData strres = getOpenIdStr(code);
+		R strres = getOpenIdStr(code);
 		if (strres.isFailed()) {
 			return strres;
 		}
 		String openId = strres.getDataToJSONObject().getString("openid");
 		// 判断用户是否存在
-		ResData userrs = wxUserService.existUserByOpenId(openId);
+		R userrs = wxUserService.existUserByOpenId(openId);
 		if (userrs.isFailed()) {
-			return ResData.FAILURE_USER_NOT_EXISTED();
+			return R.FAILURE_USER_NOT_EXISTED();
 		}
 		Subject currentUser = ShiroKit.getSubject();
 		String user_id = userrs.getDataToJSONObject().getString("user_id");
@@ -102,7 +102,7 @@ public class LoginSmallProgramController extends BaseController {
 			error = "其他错误：" + e.getMessage();
 		}
 		if (ToolUtil.isNotEmpty(error)) {
-			return ResData.FAILURE(error);
+			return R.FAILURE(error);
 		}
 
 		// 添加更新sys_session表
@@ -115,22 +115,22 @@ public class LoginSmallProgramController extends BaseController {
 		super.getSession().setAttribute("shiroUser", shiroUser);
 		super.getSession().setAttribute("user_id", shiroUser.id);
 		loginService.recLogin(shiroUser.id, tid, request);
-		return ResData.SUCCESS(BaseCodeMsgEnum.USER_LOGIN_SUCCESS.getMessage(), ret);
+		return R.SUCCESS(BaseCodeMsgEnum.USER_LOGIN_SUCCESS.getMessage(), ret);
 
 	}
 
 	@RequestMapping(value = "/smallprogram/register.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "小程序用户注册")
-	public ResData register(String code, String avatarUrl, String city, String country, String nickName,
+	public R register(String code, String avatarUrl, String city, String country, String nickName,
 			String province) {
-		ResData strres = getOpenIdStr(code);
+		R strres = getOpenIdStr(code);
 		if (strres.isFailed()) {
 			return strres;
 		}
 		String openId = strres.getDataToJSONObject().getString("openid");
 		if (ToolUtil.isOneEmpty(avatarUrl, nickName, openId)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		TypedHashMap<String, Object> ps = new TypedHashMap<String, Object>();
 		ps.put("open_id", openId);
@@ -138,27 +138,27 @@ public class LoginSmallProgramController extends BaseController {
 		ps.put("nickname", nickName);
 		ps.put("avatarurl", avatarUrl);
 		ps.put("score", "0");
-		ResData rs = userService.addUser(ps, UserService.USER_TYPE_CRM);
+		R rs = userService.addUser(ps, UserService.USER_TYPE_CRM);
 		return rs;
 	}
 
 	@RequestMapping("/smallprogram/userQueryById.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "小程序用户信息")
-	public ResData userQueryById() {
-		return ResData.SUCCESS_OPER(userService.queryUserById(getUserId()));
+	public R userQueryById() {
+		return R.SUCCESS_OPER(userService.queryUserById(getUserId()));
 	}
 
 	@RequestMapping("/smallprogram/checkLogin.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "检测登录")
-	public ResData checkLogin() {
+	public R checkLogin() {
 		// Subject currentUser = ShiroKit.getSubject();
 		String userId = this.getUserId();
 		if (ToolUtil.isNotEmpty(userId) && userId.length() > 2) {
-			return ResData.SUCCESS_OPER();
+			return R.SUCCESS_OPER();
 		} else {
-			return ResData.FAILURE();
+			return R.FAILURE();
 		}
 	}
 

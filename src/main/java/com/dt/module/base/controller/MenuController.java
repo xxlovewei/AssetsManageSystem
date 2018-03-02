@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -30,54 +30,54 @@ public class MenuController extends BaseController {
 	@Res
 	@Acl
 	@RequestMapping(value = "/menu/treeTop.do")
-	public ResData treeTop() {
-		return ResData.SUCCESS_OPER(menuRootService.queryMenuRoot());
+	public R treeTop() {
+		return R.SUCCESS_OPER(menuRootService.queryMenuRoot());
 	}
 	@RequestMapping(value = "/menu/deleteNode.do")
 	@Res
 	@Acl
-	public ResData deleteNode(String node_id) {
+	public R deleteNode(String node_id) {
 		return menuService.deleteNode(node_id);
 	}
 	@RequestMapping(value = "/menu/addNode.do")
 	@Res
 	@Acl
-	public ResData addNode() {
+	public R addNode() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return menuService.addNode(ps);
 	}
 	@RequestMapping(value = "/menu/updateNode.do")
 	@Res
 	@Acl
-	public ResData updateNode() {
+	public R updateNode() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return menuService.updateNode(ps);
 	}
 	@RequestMapping(value = "/menu/treeDataDirect.do")
 	@Res
 	@Acl(value=Acl.TYPE_USER_COMMON)
-	public ResData treeDataDirect(String id) {
+	public R treeDataDirect(String id) {
 		return menuService.queryMenuNodes(id);
 	}
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	@RequestMapping(value = "/menu/treeMenus.do")
 	@Res
-	public ResData treeMenus() {
+	public R treeMenus() {
 		return menuService.queryMenuNodesTree("1");
 	}
 	@RequestMapping(value = "/menu/treeNodeRoleMap.do")
 	@Res
 	@Acl
-	public ResData treeNodeRoleMap(String role_id, String modules_arr, String menu_id) {
+	public R treeNodeRoleMap(String role_id, String modules_arr, String menu_id) {
 		if (ToolUtil.isOneEmpty(role_id, modules_arr, menu_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		return menuRoleMapService.treeNodeRoleMap(role_id, modules_arr, menu_id);
 	}
 	@RequestMapping(value = "/menu/treeRoleChecked.do")
 	@Res
 	@Acl
-	public ResData treeRoleChecked(String menu_id, String role_id) throws IOException {
+	public R treeRoleChecked(String menu_id, String role_id) throws IOException {
 		return menuRoleMapService.treeRoleChecked(menu_id, role_id);
 	}
 }

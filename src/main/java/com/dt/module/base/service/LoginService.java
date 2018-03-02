@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Delete;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
@@ -51,24 +51,24 @@ public class LoginService extends BaseService {
 	public static String CLIENT_TYPE_APP = "app";
 	public static String CLIENT_TYPE_VALID_MESSAGE = "不支持的客户端类型";
 
-	public ResData validClientType(String value) {
+	public R validClientType(String value) {
 		if (ToolUtil.isEmpty(value)) {
-			return ResData.FAILURE(CLIENT_TYPE_VALID_MESSAGE);
+			return R.FAILURE(CLIENT_TYPE_VALID_MESSAGE);
 		}
 		if (value.equals(CLIENT_TYPE_WEB) || value.equals(CLIENT_TYPE_WEB) || value.equals(CLIENT_TYPE_SMALLPROGRAM)
 				|| value.equals(CLIENT_TYPE_APP)) {
-			return ResData.SUCCESS_OPER();
+			return R.SUCCESS_OPER();
 		} else {
-			return ResData.FAILURE(CLIENT_TYPE_VALID_MESSAGE);
+			return R.FAILURE(CLIENT_TYPE_VALID_MESSAGE);
 		}
 	}
 
-	public ResData querySupportClientType() {
-		return ResData.SUCCESS_OPER();
+	public R querySupportClientType() {
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData querySupportLoginType() {
-		return ResData.SUCCESS_OPER();
+	public R querySupportLoginType() {
+		return R.SUCCESS_OPER();
 	}
 
 	public void login() {
@@ -81,11 +81,11 @@ public class LoginService extends BaseService {
 	/**
 	 * @Description:判断登录方式是否有效,user_type中如果存在两条以上数据,则不允许登录,正确则返回唯一的user_id
 	 */
-	public ResData validLoginType(String value, String login_type) {
+	public R validLoginType(String value, String login_type) {
 
 		// 匹配login_type字段
 		if (ToolUtil.isEmpty(login_type)) {
-			return ResData.FAILURE(LOGIN_TYPE_VALID_MESSAGE);
+			return R.FAILURE(LOGIN_TYPE_VALID_MESSAGE);
 		}
 
 		if (login_type.equals(LOGIN_TYPE_QQ) || login_type.equals(LOGIN_TYPE_EMPL) || login_type.equals(LOGIN_TYPE_USERNAME)
@@ -93,67 +93,67 @@ public class LoginService extends BaseService {
 				|| login_type.equals(LOGIN_TYPE_MOBILE_CODE) || login_type.equals(LOGIN_TYPE_WEIXIN)
 				|| login_type.equals(LOGIN_TYPE_ZFB)) {
 		} else {
-			return ResData.FAILURE(LOGIN_TYPE_VALID_MESSAGE);
+			return R.FAILURE(LOGIN_TYPE_VALID_MESSAGE);
 		}
 
 		// 校验login_type
 		// 只校验了LOGIN_TYPE_EMPL,LOGIN_TYPE_USERNAME,LOGIN_TYPE_MOBILE,LOGIN_TYPE_MAIL
-		ResData res = null;
+		R res = null;
 		String user_id = "";
 		if (ToolUtil.isOneEmpty(value, login_type)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 
 		if (login_type.equals(LOGIN_TYPE_EMPL)) {
 			// 系统本身唯一
 			user_id = UserService.me().getUserIdFromEmpl(value);
 			if (ToolUtil.isNotEmpty(user_id)) {
-				res = ResData.SUCCESS_OPER(user_id);
+				res = R.SUCCESS_OPER(user_id);
 			} else {
-				res = ResData.FAILURE("用户不存在");
+				res = R.FAILURE("用户不存在");
 			}
 		} else if (login_type.equals(LOGIN_TYPE_USERNAME)) {
 			// 系统本身唯一
 			user_id = UserService.me().getUserIdFromUserName(value);
 			if (ToolUtil.isNotEmpty(user_id)) {
-				res = ResData.SUCCESS_OPER(user_id);
+				res = R.SUCCESS_OPER(user_id);
 			} else {
-				res = ResData.FAILURE("用户不存在");
+				res = R.FAILURE("用户不存在");
 			}
 		} else if (login_type.equals(LOGIN_TYPE_MOBILE)) {
 			// 系统本身可能不唯一
 			String[] userids = UserService.me().getUserIdFromMobile(value, login_type);
 			if (ToolUtil.isNotEmpty(userids)) {
 				if (userids.length == 1) {
-					res = ResData.SUCCESS_OPER(userids[0]);
+					res = R.SUCCESS_OPER(userids[0]);
 				} else if (userids.length == 0) {
-					res = ResData.FAILURE("用户不存在");
+					res = R.FAILURE("用户不存在");
 				} else {
-					res = ResData.FAILURE("存在两条记录,无法匹配记录不允许登录");
+					res = R.FAILURE("存在两条记录,无法匹配记录不允许登录");
 				}
 			} else {
-				res = ResData.FAILURE("用户不存在");
+				res = R.FAILURE("用户不存在");
 			}
 		} else if (login_type.equals(LOGIN_TYPE_MAIL)) {
 			String[] userids = UserService.me().getUserIdFromMail(value, login_type);
 			if (ToolUtil.isNotEmpty(userids)) {
 				if (userids.length == 1) {
-					res = ResData.SUCCESS_OPER(userids[0]);
+					res = R.SUCCESS_OPER(userids[0]);
 				} else if (userids.length == 0) {
-					res = ResData.FAILURE("用户不存在");
+					res = R.FAILURE("用户不存在");
 				} else {
-					res = ResData.FAILURE("存在两条记录,无法匹配记录不允许登录");
+					res = R.FAILURE("存在两条记录,无法匹配记录不允许登录");
 				}
 			} else {
-				res = ResData.FAILURE("用户不存在");
+				res = R.FAILURE("用户不存在");
 			}
 		} else {
-			res = ResData.FAILURE("未实现校验,暂不支持");
+			res = R.FAILURE("未实现校验,暂不支持");
 		}
 
 		// 返回数据
 		if (ToolUtil.isEmpty(res)) {
-			res = ResData.FAILURE_NODATA();
+			res = R.FAILURE_NODATA();
 		}
 		return res;
 	}
@@ -163,18 +163,18 @@ public class LoginService extends BaseService {
 	 *                                                        如果是empl或username忽略user_type类型，
 	 *                                                        因为empl和username全局唯一
 	 */
-	public ResData validLogin(String value, String login_type, String client) {
+	public R validLogin(String value, String login_type, String client) {
 		if(ToolUtil.isOneEmpty(value,login_type,client)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		// 判断loginclient
-		ResData validLoginClient = validClientType(client);
+		R validLoginClient = validClientType(client);
 		if (validLoginClient.isFailed()) {
 			return validLoginClient;
 		}
 
 		// 判断及验证logintype
-		ResData validLoginType = validLoginType(value, login_type);
+		R validLoginType = validLoginType(value, login_type);
 		if (validLoginType.isFailed()) {
 			return validLoginType;
 		}

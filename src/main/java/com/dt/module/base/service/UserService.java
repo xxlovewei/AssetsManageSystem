@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
@@ -401,7 +401,7 @@ public class UserService extends BaseService {
 	/**
 	 * @Description: 根据用户组查询
 	 */
-	public ResData queryUserByGroup(String group_id) {
+	public R queryUserByGroup(String group_id) {
 		String basesql = "select * from sys_user_info a where deleted='N' and user_id not in ('"
 				+ BaseCommon.getSuperAdmin() + "') ";
 		String sql = "";
@@ -413,30 +413,30 @@ public class UserService extends BaseService {
 					+ " ) t1 ,sys_user_group_item t2 where t1.user_id=t2.user_id and group_id='" + group_id
 					+ "' order by t1.empl_id  ";
 		}
-		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 
 	}
 
 	/**
 	 * @Description: 分页查询用户
 	 */
-	public ResData queryUserPage(TypedHashMap<String, Object> ps, String type, int pageSize, int pageIndex) {
-		return ResData.SUCCESS();
+	public R queryUserPage(TypedHashMap<String, Object> ps, String type, int pageSize, int pageIndex) {
+		return R.SUCCESS();
 	}
 
 	/**
 	 * @Description: 按照系统用户ID删除用户
 	 */
 	@Transactional
-	public ResData deleteUser(String user_id) {
+	public R deleteUser(String user_id) {
 		if (ToolUtil.isEmpty(user_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Update ups = new Update("sys_user_info");
 		ups.set("deleted", "Y");
 		ups.where().and("user_id=?", user_id);
 		db.execute(ups);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
@@ -457,12 +457,12 @@ public class UserService extends BaseService {
 	 * @Description: 增加用户
 	 */
 	@Transactional
-	public ResData addUser(TypedHashMap<String, Object> ps, String type) {
+	public R addUser(TypedHashMap<String, Object> ps, String type) {
 
 		String user_id = ToolUtil.getUUID();
-		ResData emplRes = getEmplNextId();
+		R emplRes = getEmplNextId();
 		if (emplRes.isFailed()) {
-			return ResData.FAILURE("生成序列号失败");
+			return R.FAILURE("生成序列号失败");
 		}
 		// 校验用户类型
 		type = validUserType(type, USER_TYPE_SYS);
@@ -479,7 +479,7 @@ public class UserService extends BaseService {
 			empl_id = username;
 		}
 		if (!ifUserNameValid(username)) {
-			return ResData.FAILURE("登录名不可用");
+			return R.FAILURE("登录名不可用");
 		}
 
 		Insert ins = new Insert("sys_user_info");
@@ -511,37 +511,37 @@ public class UserService extends BaseService {
 		ins.setIf("avatarurl", ps.getString("avatarurl"));// 微信logo
 		ins.set("deleted", "N");
 		db.execute(ins);
-		return ResData.SUCCESS_OPER(user_id);
+		return R.SUCCESS_OPER(user_id);
 	}
 
 	/**
 	 * @Description: 获取Empl的下一个ID
 	 */
-	public ResData getEmplNextId() {
+	public R getEmplNextId() {
 		Rcd seqrs = db.uniqueRecord(
 				"select case when value is null then '50' else value end seq from sys_params where id='sys_empl_no'");
 		if (ToolUtil.isEmpty(seqrs)) {
-			return ResData.FAILURE("获取员工编号错误,无法生成员工.");
+			return R.FAILURE("获取员工编号错误,无法生成员工.");
 		}
 		String empl_id = (ConvertUtil.toInt(seqrs.getString("seq")) + 1) + "";
 		Update me = new Update("sys_params");
 		me.set("value", empl_id);
 		me.where().and("id=?", "sys_empl_no");
 		db.execute(me);
-		return ResData.SUCCESS_OPER(ConvertUtil.formatIntToString(empl_id, 6, 100));
+		return R.SUCCESS_OPER(ConvertUtil.formatIntToString(empl_id, 6, 100));
 	}
 
 	/**
 	 * @Description: 根据user_id修改人员表
 	 */
 	@Transactional
-	public ResData updateUser(TypedHashMap<String, Object> ps, String type) {
+	public R updateUser(TypedHashMap<String, Object> ps, String type) {
 		// 最终根据user_id去更新用户数据
 		// 获取用户的user_id,empl_id
 		type = validUserType(type, USER_TYPE_SYS);
 		String user_id = ps.getString("user_id");
 		if (ToolUtil.isEmpty(user_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Update ups = new Update("sys_user_info");
 		ups.setIf("nickname", ps.getString("nickname", "toy"));
@@ -561,7 +561,7 @@ public class UserService extends BaseService {
 		ups.setIf("sex", ps.getString("sex", "1"));
 		ups.where().and("user_id=?", user_id);
 		db.execute(ups);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
@@ -582,19 +582,19 @@ public class UserService extends BaseService {
 	/**
 	 * @Description: 修改用户角色
 	 */
-	public ResData changeUserRole(TypedHashMap<String, Object> ps) {
+	public R changeUserRole(TypedHashMap<String, Object> ps) {
 		String userids = ps.getString("user_ids");
 		String roles = ps.getString("roles");
 		if (ToolUtil.isOneEmpty(userids, roles)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		JSONArray userids_arr = JSONArray.parseArray(userids);
 		JSONArray roles_arr = JSONArray.parseArray(roles);
 		if (ToolUtil.isEmpty(roles_arr)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		if (userids_arr.isEmpty()) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		for (int i = 0; i < userids_arr.size(); i++) {
 			// 处理用户
@@ -604,13 +604,13 @@ public class UserService extends BaseService {
 						roles_arr.getString(j));
 			}
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 修改用户密码
 	 */
-	public ResData changeUserPwd(String opwd, String npwd, String user_id) {
+	public R changeUserPwd(String opwd, String npwd, String user_id) {
 		String csql = "select count(1) value from sys_user_info where pwd='" + opwd + "' and user_id=?";
 		if (db.uniqueRecord(csql, user_id).getString("value").equals("1")) {
 			Update me = new Update("sys_user_info");
@@ -618,9 +618,9 @@ public class UserService extends BaseService {
 			me.where().and("user_id=?", user_id);
 			db.execute(me);
 		} else {
-			return ResData.FAILURE("旧密码不正确,请重新输入.");
+			return R.FAILURE("旧密码不正确,请重新输入.");
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 }

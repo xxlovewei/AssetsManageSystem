@@ -3,7 +3,7 @@ package com.dt.module.om.node.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
@@ -32,7 +32,7 @@ public class NodeService extends BaseService {
  
  
 
-	public ResData addNode(TypedHashMap<String, Object> ps) {
+	public R addNode(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("om_node");
 		me.set("id", db.getUUID());
 		me.setIf("type", ps.getString("type", ""));
@@ -54,10 +54,10 @@ public class NodeService extends BaseService {
 		me.setSE("cdate", DbUtil.getDBDateString(DB.instance().getDBType()));
 		me.setSE("mdate", DbUtil.getDBDateString(DB.instance().getDBType()));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData updateNode(TypedHashMap<String, Object> ps) {
+	public R updateNode(TypedHashMap<String, Object> ps) {
 		Update me = new Update("om_node");
 		me.setIf("name", ps.getString("name", ""));
 		me.setIf("operator", ps.getString("operator", ""));
@@ -81,7 +81,7 @@ public class NodeService extends BaseService {
 		me.setIf("mark", ps.getString("mark", ""));
 		me.where().and("id=?", ps.getString("id", ""));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	private String queryNodePwdMd5(String id) {
@@ -94,12 +94,12 @@ public class NodeService extends BaseService {
 		}
 	}
 
-	public ResData queryNodeById(String id) {
-		return ResData
+	public R queryNodeById(String id) {
+		return R
 				.SUCCESS_OPER(db.uniqueRecord("select * from om_node where deleted='N' and id=?", id).toJsonObject());
 	}
 
-	public ResData queryNodeHost(TypedHashMap<String, Object> ps) {
+	public R queryNodeHost(TypedHashMap<String, Object> ps) {
 		ps.remove("type");
 		ps.put("type", NODE_TYPE_HOST);
 		return queryNode(ps);
@@ -107,7 +107,7 @@ public class NodeService extends BaseService {
 
 	 
 
-	public ResData queryNode(TypedHashMap<String, Object> ps) {
+	public R queryNode(TypedHashMap<String, Object> ps) {
 		String sql = "select * from om_node where deleted='N' ";
 		if (ToolUtil.isNotEmpty(ps.getString("type"))) {
 			sql += "and type='" + ps.getString("type") + "'";
@@ -132,64 +132,64 @@ public class NodeService extends BaseService {
 			sql += "and belongtoid='" + ps.getString("belongtoid") + "'";
 		}
 
-		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
-	public ResData deleteNode(String id) {
+	public R deleteNode(String id) {
 		Update me = new Update("om_node");
 		me.setIf("deleted", "Y");
 		me.where().and("id=?", id);
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData executeHostNodeCommand(String id, String cmd) {
+	public R executeHostNodeCommand(String id, String cmd) {
 		Rcd rs = db.uniqueRecord("select * from om_node where deleted='N' and id=?", id);
 		if (rs == null) {
-			return ResData.FAILURE("无该节点");
+			return R.FAILURE("无该节点");
 		}
 		
  
 		String logintype = rs.getString("logintype");
 		if (ToolUtil.isEmpty(logintype)) {
-			return ResData.FAILURE("无登录方式");
+			return R.FAILURE("无登录方式");
 		}
 
 
 		if (ToolUtil.isEmpty(cmd) || ToolUtil.isEmpty(cmd.trim())) {
-			return ResData.FAILURE("无执行命令");
+			return R.FAILURE("无执行命令");
 		}
 
 		String port = rs.getString("port");
 		if (ToolUtil.isEmpty(port)) {
-			return ResData.FAILURE("无端口");
+			return R.FAILURE("无端口");
 		}
 
 		String ip = rs.getString("ip");
 		if (ToolUtil.isEmpty(ip)) {
-			return ResData.FAILURE("无Ip地址");
+			return R.FAILURE("无Ip地址");
 		}
 
 		String username = rs.getString("username");
 		if (ToolUtil.isEmpty(username)) {
-			return ResData.FAILURE("无用户名");
+			return R.FAILURE("无用户名");
 		}
 		String pwd = rs.getString("pwd");
 		if (ToolUtil.isEmpty(pwd)) {
-			return ResData.FAILURE("无密码");
+			return R.FAILURE("无密码");
 		}
 		
 		if(logintype.equals(LOGIN_TYPE_SSH)) {
 			RemoteShellExecutor executor = new RemoteShellExecutor(ip, username, pwd, ConvertUtil.toInt(port));
 			RemoteShellResult shell_rs=executor.exec(cmd);
 			if(shell_rs.code==0) {
-				return ResData.SUCCESS("成功", shell_rs.result);
+				return R.SUCCESS("成功", shell_rs.result);
 			}else {
-				return ResData.FAILURE(shell_rs.result.toString());
+				return R.FAILURE(shell_rs.result.toString());
 			}
 			
 		}
-		return ResData.FAILURE("请选择ssh登录,当前仅支持ssh");
+		return R.FAILURE("请选择ssh登录,当前仅支持ssh");
 		
 	}
 

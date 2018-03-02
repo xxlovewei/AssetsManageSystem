@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.module.om.node.service.NodeService;
 import com.dt.module.om.term.entity.Machine;
 
@@ -27,8 +27,8 @@ public class TerminalController extends BaseController {
 	@RequestMapping("/term/setCurrentMachine.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "设置当前机器")
-	public ResData setCurrentMachine(String id) {
-		ResData res = nodeService.queryNodeById(id);
+	public R setCurrentMachine(String id) {
+		R res = nodeService.queryNodeById(id);
 		JSONObject e = res.getDataToJSONObject();
 		if (res.isSuccess()) {
 			Machine machine = new Machine(e.getString("name"), e.getString("ip"), e.getString("username"),
@@ -39,6 +39,6 @@ public class TerminalController extends BaseController {
 			return res;
 		}
 		e.remove("pwd");
-		return ResData.SUCCESS_OPER(e);
+		return R.SUCCESS_OPER(e);
 	}
 }

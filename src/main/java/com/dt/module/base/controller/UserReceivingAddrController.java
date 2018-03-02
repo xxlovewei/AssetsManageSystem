@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -27,38 +27,38 @@ public class UserReceivingAddrController extends BaseController {
 	@RequestMapping("/user/queryReceivingAddrById.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON,info="获取收货详情")
-	public ResData queryReceivingAddrById() {
+	public R queryReceivingAddrById() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		} else {
-			return ResData.SUCCESS_OPER(userReceivingAddrService.queryReceivingAddrById(id));
+			return R.SUCCESS_OPER(userReceivingAddrService.queryReceivingAddrById(id));
 		}
 	}
 
 	@RequestMapping("/user/queryReceivingAddr.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON,info="获取所有收货地址")
-	public ResData queryReceivingAddr() {
+	public R queryReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
-			return ResData.FAILURE_USER_QUERY();
+			return R.FAILURE_USER_QUERY();
 		} else {
-			return ResData.SUCCESS_OPER(userReceivingAddrService.queryReceivingAddr(getUserId()));
+			return R.SUCCESS_OPER(userReceivingAddrService.queryReceivingAddr(getUserId()));
 		}
 	}
 
 	@RequestMapping("/user/delReceivingAddr.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON,info="删除个人收货地址")
-	public ResData delReceivingAddr() {
+	public R delReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
-			return ResData.FAILURE_USER_QUERY();
+			return R.FAILURE_USER_QUERY();
 		}
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		} else {
 			return userReceivingAddrService.delReceivingAddr(getUserId(), id, false);
 		}
@@ -67,9 +67,9 @@ public class UserReceivingAddrController extends BaseController {
 	@RequestMapping("/user/saveReceivingAddr.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "修改收货地址")
-	public ResData saveReceivingAddr() {
+	public R saveReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
-			return ResData.FAILURE_USER_QUERY();
+			return R.FAILURE_USER_QUERY();
 		}
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
@@ -83,14 +83,14 @@ public class UserReceivingAddrController extends BaseController {
 	@RequestMapping("/user/setDefReceivingAddr.do")
 	@Res
 	@Acl(value=Acl.TYPE_USER_COMMON,info="设置默认地址")
-	public ResData setDefReceivingAddr() {
+	public R setDefReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
-			return ResData.FAILURE_USER_QUERY();
+			return R.FAILURE_USER_QUERY();
 		}
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		} else {
 			return userReceivingAddrService.updateDefReceivingAddr(getUserId(), id);
 		}
@@ -100,7 +100,7 @@ public class UserReceivingAddrController extends BaseController {
 	@RequestMapping("/user/queryDefReceivingAddr.do")
 	@Res
 	@Acl(value=Acl.TYPE_USER_COMMON,info="查询地址")
-	public ResData queryDefReceivingAddr() {
+	public R queryDefReceivingAddr() {
 		return userReceivingAddrService.queryDefReceivingAddr(getUserId());
 	}
 	

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Delete;
@@ -107,10 +107,10 @@ public class ProductService extends BaseService {
 	/**
 	 * @Description:更新商品的图片列表
 	 */
-	public ResData updateProdPics(String spu, String pics) {
+	public R updateProdPics(String spu, String pics) {
 		JSONArray pics_arr = JSONArray.parseArray(pics);
 		db.executeSQLList(updateProdPics(spu, pics_arr));
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
@@ -145,13 +145,13 @@ public class ProductService extends BaseService {
 	/**
 	 * @Description:批量删除商品
 	 */
-	public ResData deleteProds(String prods) {
+	public R deleteProds(String prods) {
 		if (ToolUtil.isEmpty(prods)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		JSONArray prod_arr = JSONArray.parseArray(prods);
 		if (prod_arr.size() == 0) {
-			return ResData.FAILURE("请选择至少一个商品");
+			return R.FAILURE("请选择至少一个商品");
 		}
 		List<SQL> sqls = new ArrayList<SQL>();
 		for (int i = 0; i < prod_arr.size(); i++) {
@@ -161,34 +161,34 @@ public class ProductService extends BaseService {
 			sqls.add(ups);
 		}
 		db.executeSQLList(sqls);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description:按照后台类目查询产品
 	 */
-	public ResData queryProdByCat(String cat_id) {
+	public R queryProdByCat(String cat_id) {
 		if (ToolUtil.isEmpty(cat_id)) {
-			return ResData.FAILURE("请输入品类ID");
+			return R.FAILURE("请输入品类ID");
 		}
 		String sql = "select * from product where cat_id=? and is_deleted='N' ";
 		RcdSet rs = db.query(sql, cat_id);
-		return ResData.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 
 	/**
 	 * @Description:按照SPU查询产品信息
 	 */
-	public ResData queryProdBySpu(String spu) {
+	public R queryProdBySpu(String spu) {
 		JSONObject res = new JSONObject();
 		if (ToolUtil.isEmpty(spu)) {
-			return ResData.FAILURE("请选择商品");
+			return R.FAILURE("请选择商品");
 		}
 		/************** 获得商品公共属性 **************/
 		String sql = "select * from product where is_deleted='N' and spu=?";
 		Rcd rs = db.uniqueRecord(sql, spu);
 		if (ToolUtil.isEmpty(rs)) {
-			return ResData.FAILURE("商品不存在");
+			return R.FAILURE("商品不存在");
 		}
 		res = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 		/************** 获得商品基本属性 **************/
@@ -196,22 +196,22 @@ public class ProductService extends BaseService {
 		res.put("base_attr", getProdBaseList(spu, rs.getString("cat_id")));
 		// 用于修改商品销售属性
 		res.put("sale_data_list", getProdSaleList(spu));
-		return ResData.SUCCESS_OPER(res);
+		return R.SUCCESS_OPER(res);
 	}
 
 	/**
 	 * @Description:批量上架或下架产品
 	 */
-	public ResData prodOffOn(String prods, String is_off) {
+	public R prodOffOn(String prods, String is_off) {
 		if (ToolUtil.isOneEmpty(prods, is_off)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		if (!(is_off.equals("Y") || is_off.equals("N"))) {
-			return ResData.FAILURE("参数有误");
+			return R.FAILURE("参数有误");
 		}
 		JSONArray prod_arr = JSONArray.parseArray(prods);
 		if (prod_arr.size() == 0) {
-			return ResData.FAILURE("请选择至少一个商品");
+			return R.FAILURE("请选择至少一个商品");
 		}
 		List<SQL> sqls = new ArrayList<SQL>();
 		for (int i = 0; i < prod_arr.size(); i++) {
@@ -221,14 +221,14 @@ public class ProductService extends BaseService {
 			sqls.add(ups);
 		}
 		db.executeSQLList(sqls);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description:更新产品基本属性
 	 */
 	@Transactional
-	public ResData updateProdBaseAttr(TypedHashMap<String, Object> ps) {
+	public R updateProdBaseAttr(TypedHashMap<String, Object> ps) {
 		/************************************ 处理主表 ************************/
 		ArrayList<SQL> basesql = new ArrayList<SQL>();
 		String spu = ps.getString("spu");
@@ -256,10 +256,10 @@ public class ProductService extends BaseService {
 				// 校验
 				if (obj.getString("is_need").equals("Y")) {
 					if (!obj.containsKey("attr_set_value")) {
-						return ResData.FAILURE("请输入属性:" + obj.getString("NAME"));
+						return R.FAILURE("请输入属性:" + obj.getString("NAME"));
 					}
 					if (obj.getString("attr_set_value").length() == 0) {
-						return ResData.FAILURE("请输入属性:" + obj.getString("NAME"));
+						return R.FAILURE("请输入属性:" + obj.getString("NAME"));
 					}
 				}
 				Insert basins = new Insert("product_attr_set");
@@ -277,14 +277,14 @@ public class ProductService extends BaseService {
 		}
 		db.execute("delete from product_attr_set where is_sku='N' and spu=?", spu);
 		db.executeSQLList(basesql);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description:获取商品的销售属性
 	 */
 	@Transactional
-	public ResData updateProdSaleAttr(TypedHashMap<String, Object> ps) {
+	public R updateProdSaleAttr(TypedHashMap<String, Object> ps) {
 		int totalStock = 0;
 		String spu = ps.getString("spu");
 		String rebuild = ps.getString("rebuild");
@@ -294,10 +294,10 @@ public class ProductService extends BaseService {
 		JSONArray salekv_arr = JSONArray.parseArray(sale_data_kv);
 		// 检查rebuild参数
 		if (ToolUtil.isEmpty(rebuild)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		if (!(rebuild.endsWith("Y") || rebuild.endsWith("N"))) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		ArrayList<String> sqls = new ArrayList<String>();
 		if (rebuild.equals("N")) {
@@ -307,7 +307,7 @@ public class ProductService extends BaseService {
 				Update ups = new Update("product_sku");
 				ups.setIf("code", sale_obj.getString("code"));
 				if (ToolUtil.isOneEmpty(sale_obj.getString("price"), sale_obj.getString("stock"))) {
-					return ResData.FAILURE("请输入正确的价格或库存数");
+					return R.FAILURE("请输入正确的价格或库存数");
 				}
 				int stock = sale_obj.getIntValue("stock");
 				int price = sale_obj.getIntValue("price");
@@ -319,7 +319,7 @@ public class ProductService extends BaseService {
 			}
 		} else if (rebuild.equals("Y")) {
 			// 删除sku数据,重新插入数据
-			ResData res = getAddProdSkuSqls(spu, sale_arr, salekv_arr);
+			R res = getAddProdSkuSqls(spu, sale_arr, salekv_arr);
 			if (res.isSuccess()) {
 				sqls.add("delete from product_sku where spu='" + spu + "'");
 				sqls.add("delete from product_sku_map where spu='" + spu + "'");
@@ -337,15 +337,15 @@ public class ProductService extends BaseService {
 		sqls.add("update product set stock=" + totalStock + " where spu='" + spu + "'");
 		// 执行语句
 		db.executeStringList(sqls);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description:获取更新商品规格的语句
 	 */
-	private ResData getAddProdSkuSqls(String spu, JSONArray sale_arr, JSONArray salekv_arr) {
+	private R getAddProdSkuSqls(String spu, JSONArray sale_arr, JSONArray salekv_arr) {
 		if (ToolUtil.isOneEmpty(spu, sale_arr, salekv_arr)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		JSONObject res = new JSONObject();
 		JSONArray sqls = new JSONArray();
@@ -360,7 +360,7 @@ public class ProductService extends BaseService {
 			sale_ins.setIf("is_off", "N");
 			sale_ins.setIf("code", sale_obj.getString("code"));
 			if (ToolUtil.isOneEmpty(sale_obj.getString("price"), sale_obj.getString("stock"))) {
-				return ResData.FAILURE("请输入正确的价格或库存数");
+				return R.FAILURE("请输入正确的价格或库存数");
 			}
 			int stock = sale_obj.getIntValue("stock");
 			sale_ins.set("stock", stock);
@@ -399,21 +399,21 @@ public class ProductService extends BaseService {
 		}
 		res.put("stock", totalStock);
 		res.put("sqls", sqls);
-		return ResData.SUCCESS_OPER(res);
+		return R.SUCCESS_OPER(res);
 	}
 
 	/**
 	 * @Description:发布商品
 	 */
-	public ResData publishProduct(TypedHashMap<String, Object> ps) {
+	public R publishProduct(TypedHashMap<String, Object> ps) {
 		ArrayList<String> basesql = new ArrayList<String>();
 		String spu = db.getUUID();
 		String cat_id = ps.getString("cat_id");
 		if (ToolUtil.isEmpty("cat_id")) {
-			return ResData.FAILURE("请选择品类");
+			return R.FAILURE("请选择品类");
 		}
 		if (ToolUtil.isEmpty(ps.getString("shop_id"))) {
-			return ResData.FAILURE("必须选择一个店铺");
+			return R.FAILURE("必须选择一个店铺");
 		}
 		/************************************ 处理主表 ************************/
 		Insert ins = new Insert("product");
@@ -456,10 +456,10 @@ public class ProductService extends BaseService {
 					// 校验是否必须
 					if (obj.getString("is_need").equals("Y")) {
 						if (!obj.containsKey("attr_set_value")) {
-							return ResData.FAILURE("请输入属性:" + obj.getString("name"));
+							return R.FAILURE("请输入属性:" + obj.getString("name"));
 						}
 						if (obj.getString("attr_set_value").trim().equals("")) {
-							return ResData.FAILURE("请输入属性:" + obj.getString("name"));
+							return R.FAILURE("请输入属性:" + obj.getString("name"));
 						}
 					}
 					Insert basins = new Insert("product_attr_set");
@@ -483,7 +483,7 @@ public class ProductService extends BaseService {
 		String sale_data_kv = ps.getString("sale_kv");
 		JSONArray sale_arr = JSONArray.parseArray(sale_data);
 		JSONArray salekv_arr = JSONArray.parseArray(sale_data_kv);
-		ResData res = getAddProdSkuSqls(spu, sale_arr, salekv_arr);
+		R res = getAddProdSkuSqls(spu, sale_arr, salekv_arr);
 		if (res.isSuccess()) {
 			JSONArray rs_sqls = ((JSONObject) res.getData()).getJSONArray("sqls");
 			for (int i = 0; i < rs_sqls.size(); i++) {
@@ -498,14 +498,14 @@ public class ProductService extends BaseService {
 		String prod_sales = ps.getString("pics");// 每组SKU数据
 		JSONArray prod_sales_arr = JSONArray.parseArray(prod_sales);
 		if (ToolUtil.isEmpty(prod_sales_arr) || prod_sales_arr.size() == 0) {
-			return ResData.FAILURE("请选择产品图片");
+			return R.FAILURE("请选择产品图片");
 		}
 		ArrayList<SQL> picssqls = updateProdPics(spu, prod_sales_arr);
 		/************************************ 更新数据 ************************/
 		basesql.add(ins.getSQL());
 		db.executeStringList(basesql);
 		db.executeSQLList(picssqls);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
@@ -551,7 +551,7 @@ public class ProductService extends BaseService {
 	/**
 	 * @Description:产品销售属性选择后获取sku详细数据,sku数据如果不存在则请重新下单或加入购物车
 	 */
-	public ResData queryProdSkuDetail(String spu, String propertyChildIds) {
+	public R queryProdSkuDetail(String spu, String propertyChildIds) {
 		String ids = "";
 		String[] items = propertyChildIds.split(",");
 		int cnt = items.length;
@@ -564,13 +564,13 @@ public class ProductService extends BaseService {
 		ids = ids.substring(0, ids.length() - 1);
 		String sql = "select * from product_sku a,(select sku from (select sku,count(1) cnt from product_sku_map where spu=? and attr_set_id in ("
 				+ ids + ") group by sku ) where cnt=?) b where a.sku=b.sku and a.spu=?";
-		return ResData.SUCCESS_OPER(db.uniqueRecord(sql, spu, cnt, spu).toJsonObject());
+		return R.SUCCESS_OPER(db.uniqueRecord(sql, spu, cnt, spu).toJsonObject());
 	}
 
 	/**
 	 * @Description:根据产品Id查询产品信息[微商城]
 	 */
-	public ResData queryProdBySpuForMall(String spu) {
+	public R queryProdBySpuForMall(String spu) {
 		JSONObject res = new JSONObject();
 		res.put("basicinfo",
 				ConvertUtil.OtherJSONObjectToFastJSONObject(db.uniqueRecord(
@@ -578,28 +578,28 @@ public class ProductService extends BaseService {
 						spu).toJsonObject()));
 		res.put("pics", getProdPics(spu));
 		res.put("properties", queryProdSaleBySpuForMall(spu));
-		return ResData.SUCCESS_OPER(res);
+		return R.SUCCESS_OPER(res);
 
 	}
 
 	/**
 	 * @Description:根据产品SPU和SKU获取数据[微商城]
 	 */
-	public ResData queryProdBySpuSkuForMall(String spu, String sku) {
+	public R queryProdBySpuSkuForMall(String spu, String sku) {
 		String sql = "select * from product_sku where spu=? and sku=?";
 		Rcd rs = db.uniqueRecord(sql, spu, sku);
 		if (ToolUtil.isEmpty(rs)) {
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		}
-		return ResData.SUCCESS_OPER(rs.toJsonObject());
+		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
 
 	/**
 	 * @Description:根据产品SPU获取数据[微商城]
 	 */
-	public ResData queryProdBySpuNotSkuForMall(String spu) {
+	public R queryProdBySpuNotSkuForMall(String spu) {
 		String sql = "select * from product_sku where spu=?";
-		return ResData.SUCCESS_OPER(db.uniqueRecord(sql).toJsonObject());
+		return R.SUCCESS_OPER(db.uniqueRecord(sql).toJsonObject());
 	}
 
 }

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
@@ -47,18 +47,18 @@ public class UserReceivingAddrService extends BaseService {
 	/**
 	 * @Description: 删除地址,force，false至少保留一个地址，true强制删除
 	 */
-	public ResData delReceivingAddr(String user_id, String addr_id, Boolean force) {
+	public R delReceivingAddr(String user_id, String addr_id, Boolean force) {
 		Update me = new Update("sys_user_receivingaddr");
 		me.set("is_deleted", "Y");
 		me.where().and("user_id=?", user_id).and("id=?", addr_id);
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 添加地址,id是系统生产的序列，code是国家编码
 	 */
-	public ResData addReceivingAddr(String user_id, TypedHashMap<String, Object> ps) {
+	public R addReceivingAddr(String user_id, TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("sys_user_receivingaddr");
 		me.set("id", db.getUUID());
 		me.set("user_id", user_id);
@@ -77,7 +77,7 @@ public class UserReceivingAddrService extends BaseService {
 		me.setIf("zcode", ps.getString("zcode"));
 		me.set("is_deleted", "N");
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	
@@ -85,7 +85,7 @@ public class UserReceivingAddrService extends BaseService {
 	/**
 	 * @Description: 更新地址
 	 */
-	public ResData updateReceivingAddr(TypedHashMap<String, Object> ps) {
+	public R updateReceivingAddr(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_user_receivingaddr");
 		me.setIf("provinceid", ps.getString("provinceid"));
 		me.setIf("provincecode", ps.getString("provincecode"));
@@ -102,35 +102,35 @@ public class UserReceivingAddrService extends BaseService {
 		me.setIf("zcode", ps.getString("zcode"));
 		me.where().and("id=?", ps.getString("id", ""));
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 修改默认地址
 	 */
-	public ResData updateDefReceivingAddr(String user_id, String addr_id) {
+	public R updateDefReceivingAddr(String user_id, String addr_id) {
 		Update me = new Update("sys_user_info");
 		me.setIf("receaddr_def", addr_id);
 		me.where().and("user_id=?", user_id);
 		db.execute(me);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 获取用户默认地址
 	 */
-	public ResData queryDefReceivingAddr(String user_id) {
+	public R queryDefReceivingAddr(String user_id) {
 
 		String sql = "select b.id from sys_user_info a,sys_user_receivingaddr b where a.receaddr_def=b.id and a.user_id=b.user_id and a.user_id=?";
 		RcdSet rs = db.query(sql, user_id);
 		if (rs.size() > 0) {
-			return ResData.SUCCESS_OPER(queryReceivingAddrById(rs.getRcd(0).getString("id")));
+			return R.SUCCESS_OPER(queryReceivingAddrById(rs.getRcd(0).getString("id")));
 		}
 		Rcd rs2 = db.uniqueRecord("select id from sys_user_receivingaddr where user_id=?", user_id);
 		if (ToolUtil.isEmpty(rs2)) {
-			return ResData.FAILURE("没有地址,请先完善");
+			return R.FAILURE("没有地址,请先完善");
 		} else {
-			return ResData.SUCCESS_OPER(queryReceivingAddrById(rs2.getString("id")));
+			return R.SUCCESS_OPER(queryReceivingAddrById(rs2.getString("id")));
 		}
 	}
 

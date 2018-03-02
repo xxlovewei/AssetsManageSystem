@@ -3,7 +3,7 @@ package com.dt.module.product.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
@@ -26,15 +26,15 @@ public class CategoryAttrService extends BaseService {
 	/**
 	 * @Description: 添加属性
 	 */
-	public ResData addAttr(TypedHashMap<String, Object> ps) {
+	public R addAttr(TypedHashMap<String, Object> ps) {
 		String cat_id = ps.getString("cat_id");
 		if (ToolUtil.isEmpty(cat_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Rcd cat_rs = db.uniqueRecord("select * from product_category where is_deleted='N' and id=? and is_cat='Y'",
 				cat_id);
 		if (ToolUtil.isEmpty(cat_rs)) {
-			return ResData.FAILURE("不存在该品类");
+			return R.FAILURE("不存在该品类");
 		}
 		// 添加一条销售属性，每个品类必须要有一个销售属性
 		String next_attr_id = getNextAttrId();
@@ -58,7 +58,7 @@ public class CategoryAttrService extends BaseService {
 			ins.set("is_input", "N");
 			ins.set("is_enum", "Y");
 			if (!input_type.equals(INPUTTYPE_SEL_MULTI)) {
-				return ResData.FAILURE("销售属性只支持多选框");
+				return R.FAILURE("销售属性只支持多选框");
 			} else {
 				ins.set("input_type", INPUTTYPE_SEL_MULTI);
 			}
@@ -72,15 +72,15 @@ public class CategoryAttrService extends BaseService {
 				ins.set("is_input", "N");
 				ins.set("is_enum", "Y");
 			} else if (input_type.equals(INPUTTYPE_SEL_MULTI)) {
-				return ResData.FAILURE("基本属性暂不支持多选组件");
+				return R.FAILURE("基本属性暂不支持多选组件");
 			} else {
-				return ResData.FAILURE_ERRREQ_PARAMS();
+				return R.FAILURE_ERRREQ_PARAMS();
 			}
 		} else {
-			return ResData.FAILURE("请选择正确的属性");
+			return R.FAILURE("请选择正确的属性");
 		}
 		db.execute(ins);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description: 获取下一个序列号
@@ -94,12 +94,12 @@ public class CategoryAttrService extends BaseService {
 	/**
 	 * @Description: 如果该属性没有使用,直接删除
 	 */
-	public ResData deleteAttr(String id) {
+	public R deleteAttr(String id) {
 		int uscnt = db.uniqueRecord(
 				"select count(1) value from product_attr_set a,product_category_attr b where a.attr_id=b.attr_id and b.id=? and b.is_deleted='N' ",
 				id).getInteger("value");
 		if (uscnt > 0) {
-			return ResData.FAILURE("已有产品在使用中,暂不可删除");
+			return R.FAILURE("已有产品在使用中,暂不可删除");
 		}
 		// 如果确实没有使用
 		Update ups = new Update("product_category_attr");
@@ -110,15 +110,15 @@ public class CategoryAttrService extends BaseService {
 		ups2.set("is_deleted", "Y");
 		ups2.where().and("attr_id in (select attr_id from product_category_attr where id=?)", id);
 		db.executes(ups,ups2);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description: 更新属性
 	 */
-	public ResData updateAttr(TypedHashMap<String, Object> ps) {
+	public R updateAttr(TypedHashMap<String, Object> ps) {
 		String id = ps.getString("ID");
 		if (ToolUtil.isEmpty(id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Update ups = new Update("product_category_attr");
 		ups.setIf("is_need", ps.getString("is_need"));
@@ -129,26 +129,26 @@ public class CategoryAttrService extends BaseService {
 		ups.setIf("is_search", ps.getString("is_search"));
 		ups.where().and("id=?", id);
 		db.execute(ups);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description: 查询品类的所以属性定义
 	 */
-	public ResData queryAttr(String cat_id) {
+	public R queryAttr(String cat_id) {
 		if (ToolUtil.isEmpty(cat_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		String sql = "select a.*,case a.attr_type when 'sale' then '销售属性' when 'base' then '基本属性' else '未知' end attr_type_name from product_category_attr a where is_deleted='N' and cat_id=? order by attr_type,od";
-		return ResData.SUCCESS_OPER(db.query(sql, cat_id).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql, cat_id).toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description: 根据Id查询单个属性
 	 */
-	public ResData queryAttrById(String id) {
+	public R queryAttrById(String id) {
 		if (ToolUtil.isEmpty(id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Rcd r = db.uniqueRecord("select * from product_category_attr where id=?", id);
-		return ResData.SUCCESS_OPER(r.toJsonObject());
+		return R.SUCCESS_OPER(r.toJsonObject());
 	}
 }

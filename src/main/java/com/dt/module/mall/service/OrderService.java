@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
@@ -82,11 +82,11 @@ public class OrderService extends BaseService {
 	/**
 	 * @Description: 创建商城产品订单
 	 */
-	public ResData createOrder(TypedHashMap<String, Object> ps, String user_id, String status) {
+	public R createOrder(TypedHashMap<String, Object> ps, String user_id, String status) {
 		// 创建订单
 		if (ToolUtil.isOneEmpty(status, user_id, ps.getString("amountreal"), ps.getString("amount"),
 				ps.getString("yunprice"))) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 
 		
@@ -96,10 +96,10 @@ public class OrderService extends BaseService {
 		// 订单详细
 		JSONArray goodsarr = JSONArray.parseArray(ps.getString("goodjsonstr", "[]"));
 		if (ToolUtil.isEmpty(goodsarr)) {
-			return ResData.FAILURE("创建订单失败,解析失败");
+			return R.FAILURE("创建订单失败,解析失败");
 		}
 		if (goodsarr.size() == 0) {
-			return ResData.FAILURE("创建订单失败,解析产品失败");
+			return R.FAILURE("创建订单失败,解析产品失败");
 		}
 		for (int i = 0; i < goodsarr.size(); i++) {
 			Insert ins = new Insert("mall_order_detail");
@@ -150,13 +150,13 @@ public class OrderService extends BaseService {
 		if (recordOrderLog(ORDER_ACTION_CREATE, orderId, "创建订单", user_id)) {
 			db.executeSQLList(sqls);
 		} else {
-			return ResData.FAILURE("创建订单失败,未写入日志");
+			return R.FAILURE("创建订单失败,未写入日志");
 		}
 
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
-	public ResData cancelOrder(String user_id, String order_id) {
+	public R cancelOrder(String user_id, String order_id) {
 		Update me = new Update("mall_order");
 		me.set("status", ORDER_STATUS_CANCEL);
 		me.where().and("order_id=?", order_id);
@@ -165,23 +165,23 @@ public class OrderService extends BaseService {
 		if (recordOrderLog(ORDER_ACTION_CANCEL, order_id, "取消订单", user_id)) {
 			db.execute(me);
 		} else {
-			return ResData.FAILURE("操作失败,未写入日志");
+			return R.FAILURE("操作失败,未写入日志");
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 修改订单价格
 	 */
-	public ResData changeOrderMoney(String user_id, String order_id, String newmoney) {
+	public R changeOrderMoney(String user_id, String order_id, String newmoney) {
 		if (ToolUtil.isOneEmpty(user_id, order_id, newmoney)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		// 获取原先金额
 		String oldmoney = db.uniqueRecord("select * from mall_order where order_id=?", order_id)
 				.getString("amountreal");
 		if (ToolUtil.isEmpty(oldmoney)) {
-			return ResData.FAILURE("原金额不正确");
+			return R.FAILURE("原金额不正确");
 		}
 		Update ups = new Update("mall_order");
 		ups.set("amountreal", newmoney);
@@ -192,15 +192,15 @@ public class OrderService extends BaseService {
 		if (recordOrderLog(ORDER_ACTION_CHANGE_MONEY, order_id, "修改价格:" + oldmoney + "-->" + newmoney, user_id)) {
 			db.execute(ups);
 		} else {
-			return ResData.FAILURE("操作失败,未写入日志");
+			return R.FAILURE("操作失败,未写入日志");
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 查询我的订单列表
 	 */
-	public ResData queryMyOrder(String status, String user_id, int pageSize, int pageIndex) {
+	public R queryMyOrder(String status, String user_id, int pageSize, int pageIndex) {
 		JSONObject res = new JSONObject();
 
 		String sql = "select a.*,case status when 1 then '已取消' when 2 then '待付款' when 4 then '待发货'  when 6 then '待收货' when 8 then '待评价' when 10 then '已完成' when 12 then '退货中' when 14 then '退货成功' else '未知' end statusstr from mall_order a where is_delete='N' and user_id =?";
@@ -220,33 +220,33 @@ public class OrderService extends BaseService {
 					db.query(goodsql, orderrs.getRcd(i).getString("order_id")).toJsonArrayWithJsonObject()));
 		}
 		res.put("goodsmap", goodsmapobj);
-		return ResData.SUCCESS_OPER(res);
+		return R.SUCCESS_OPER(res);
 	}
 
 	/**
 	 * @Description: 查询我的订单详情
 	 */
-	public ResData queryMyOrderDetail(String orderId) {
+	public R queryMyOrderDetail(String orderId) {
 
 		JSONObject res = new JSONObject();
 		Rcd rs = db.uniqueRecord(
 				"select a.*, case status when 1 then '已取消' when 2 then '待付款' when 4 then '待发货'  when 6 then '待收货' when 8 then '待评价' when 10 then '已完成' when 12 then '退货中' when 14 then '退货成功' else '未知' end statusstr  from mall_order a where order_id=?",
 				orderId);
 		if (ToolUtil.isEmpty(rs)) {
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		} else {
 			res.put("orderinfo", ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject()));
 			String goodsql = "select * from mall_order_detail where order_id=?";
 			res.put("goods",
 					ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(goodsql, orderId).toJsonArrayWithJsonObject()));
 		}
-		return ResData.SUCCESS_OPER(res);
+		return R.SUCCESS_OPER(res);
 	}
 
 	/**
 	 * @Description: 订单支付成功后改写订单状态
 	 */
-	public ResData payOrderFinish(String order_id, String user_id, String next_status) {
+	public R payOrderFinish(String order_id, String user_id, String next_status) {
 		List<String> sqls=new ArrayList<String>();
 		
 		//更新订单表
@@ -277,37 +277,37 @@ public class OrderService extends BaseService {
 		if (recordOrderLog(ORDER_ACTION_PAY, order_id, "订单支付", user_id)) {
 			db.executeStringList(sqls);
 		} else {
-			return ResData.FAILURE("操作失败,未写入日志");
+			return R.FAILURE("操作失败,未写入日志");
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 
 	}
 
 	/**
 	 * @Description: 订单支付成功后结束
 	 */
-	public ResData payOrderFinishToFinish(String order_id, String user_id, String next_status) {
+	public R payOrderFinishToFinish(String order_id, String user_id, String next_status) {
 		return payOrderFinish(order_id, user_id, ORDER_STATUS_FINISH);
 	}
 
 	/**
 	 * @Description: 订单支付成功后等待发货
 	 */
-	public ResData payOrderFinishToDelivery(String order_id, String user_id, String next_status) {
+	public R payOrderFinishToDelivery(String order_id, String user_id, String next_status) {
 		return payOrderFinish(order_id, user_id, ORDER_STATUS_WAITTING_DELIVERY);
 	}
 
 	/**
 	 * @Description: 订单支付成功后等待评价
 	 */
-	public ResData payOrderFinishToEvluate(String order_id, String user_id, String next_status) {
+	public R payOrderFinishToEvluate(String order_id, String user_id, String next_status) {
 		return payOrderFinish(order_id, user_id, ORDER_STATUS_WAITTING_EVALUATE);
 	}
 
 	/**
 	 * @Description: 订单支付成功
 	 */
-	public ResData payOrderFinishAuto(String order_id, String user_id) {
+	public R payOrderFinishAuto(String order_id, String user_id) {
 		if (queryOrderHasLogistics(order_id)) {
 			return payOrderFinish(order_id, user_id, ORDER_STATUS_WAITTING_DELIVERY);
 		} else {
@@ -334,7 +334,7 @@ public class OrderService extends BaseService {
 	/**
 	 * @Description: 订单确认发货
 	 */
-	public ResData deliveryOrder(String order_id, String user_id) {
+	public R deliveryOrder(String order_id, String user_id) {
 		Update me = new Update("mall_order");
 		me.set("status", ORDER_STATUS_WAITTING_TAKE);
 		me.where().and("order_id=?", order_id);
@@ -342,15 +342,15 @@ public class OrderService extends BaseService {
 		if (recordOrderLog(ORDER_ACTION_DELIVERY, order_id, "确认发货", user_id)) {
 			db.execute(me);
 		} else {
-			return ResData.FAILURE("操作失败,未写入日志");
+			return R.FAILURE("操作失败,未写入日志");
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 订单确认收货,if_evaluate是否进入评价阶段
 	 */
-	public ResData receiptOrder(String order_id, String user_id, Boolean if_evaluate) {
+	public R receiptOrder(String order_id, String user_id, Boolean if_evaluate) {
 		Update me = new Update("mall_order");
 		if (if_evaluate) {
 			me.set("status", ORDER_STATUS_WAITTING_EVALUATE);
@@ -362,27 +362,27 @@ public class OrderService extends BaseService {
 		if (recordOrderLog(ORDER_ACTION_RECEIPT, order_id, "确认收货", user_id)) {
 			db.execute(me);
 		} else {
-			return ResData.FAILURE("操作失败,未写入日志");
+			return R.FAILURE("操作失败,未写入日志");
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 对商品评价
 	 */
-	public ResData reputationGood(String order_id, String reputations, String user_id) {
+	public R reputationGood(String order_id, String reputations, String user_id) {
 
 		if (ToolUtil.isOneEmpty(order_id, user_id, reputations)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		List<SQL> sqls = new ArrayList<SQL>();
 		JSONArray pjarr = JSONArray.parseArray(reputations);
 		if (ToolUtil.isEmpty(pjarr) || pjarr.size() == 0) {
-			return ResData.FAILURE("获取评价失败");
+			return R.FAILURE("获取评价失败");
 		}
 		for (int i = 0; i < pjarr.size(); i++) {
 			if (ToolUtil.isEmpty(pjarr.getJSONObject(i).getString("reputation"))) {
-				return ResData.FAILURE("未获取评价数据");
+				return R.FAILURE("未获取评价数据");
 			}
 			Update me = new Update("mall_order_detail");
 			me.set("reputation", pjarr.getJSONObject(i).getString("reputation"));
@@ -398,15 +398,15 @@ public class OrderService extends BaseService {
 		if (recordOrderLog(ORDER_ACTION_REPUTATION, order_id, "评价订单", user_id)) {
 			db.executeSQLList(sqls);
 		} else {
-			return ResData.FAILURE("操作失败,未写入日志");
+			return R.FAILURE("操作失败,未写入日志");
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description: 获取订单统计
 	 */
-	public ResData queryOrderStatistics(String user_id) {
+	public R queryOrderStatistics(String user_id) {
 		JSONObject res = new JSONObject();
 		res.put("no_pay", 0);// 未付款 2
 		res.put("no_deliver", 0);// 未发货 4
@@ -429,7 +429,7 @@ public class OrderService extends BaseService {
 				res.put("no_returning", rs.getRcd(i).getInteger("cnt"));
 			}
 		}
-		return ResData.SUCCESS_OPER(res);
+		return R.SUCCESS_OPER(res);
 	}
 
 }

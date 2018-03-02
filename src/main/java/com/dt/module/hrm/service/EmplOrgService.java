@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
@@ -30,15 +30,15 @@ public class EmplOrgService extends BaseService {
 	/**
 	 * @Description:查询所有组织信息
 	 */
-	public ResData queryEmplOrg() {
-		return ResData.SUCCESS_OPER(db.query("select * from hrm_org_info").toJsonArrayWithJsonObject());
+	public R queryEmplOrg() {
+		return R.SUCCESS_OPER(db.query("select * from hrm_org_info").toJsonArrayWithJsonObject());
 	}
 
 	/**
 	 * @Description:添加组织
 	 */
 	@Transactional
-	public ResData addEmplOrg(TypedHashMap<String, Object> ps) {
+	public R addEmplOrg(TypedHashMap<String, Object> ps) {
 		String cur_node_id = "";
 		String org_id = ps.getString("org_id");
 		String node_name = ps.getString("node_name");
@@ -47,13 +47,13 @@ public class EmplOrgService extends BaseService {
 		_log.info("org_id:" + org_id);
 		_log.info("parent_id:" + parent_id);
 		if (ToolUtil.isOneEmpty(parent_id, org_id, node_name)) {
-			return ResData.FAILURE("无父节点或无组织节点");
+			return R.FAILURE("无父节点或无组织节点");
 		}
 		// 从hrm_org_part,和hrm_org_info找到最大node_id,全局唯一
 		Rcd idrs = db.uniqueRecord(
 				"select case when max(node_id) is null then 50 else max(node_id)+1 end value from (select node_id node_id from hrm_org_part union all select org_id node_id from hrm_org_info)");
 		if (ToolUtil.isEmpty(idrs)) {
-			return ResData.FAILURE("发生系统错误,请开发人员协助");
+			return R.FAILURE("发生系统错误,请开发人员协助");
 		} else {
 			cur_node_id = idrs.getString("value");
 		}
@@ -73,18 +73,18 @@ public class EmplOrgService extends BaseService {
 		updateRouteName(cur_node_id, node_name);
 		JSONObject ro = new JSONObject();
 		ro.put("ID", cur_node_id);
-		return ResData.SUCCESS_OPER(ro);
+		return R.SUCCESS_OPER(ro);
 	}
 
 	/**
 	 * @Description:修改组织
 	 */
 	@Transactional
-	public ResData updateEmplOrg(TypedHashMap<String, Object> ps) {
+	public R updateEmplOrg(TypedHashMap<String, Object> ps) {
 		String node_id = ps.getString("node_id");
 		String node_name = ps.getString("node_name");
 		if (ToolUtil.isEmpty(node_name)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Update ups = new Update("hrm_org_part");
 		ups.setIf("node_name", node_name);
@@ -93,7 +93,7 @@ public class EmplOrgService extends BaseService {
 		updateRouteName(node_id, node_name);
 		JSONObject ro = new JSONObject();
 		ro.put("ID", node_id);
-		return ResData.SUCCESS_OPER(ro);
+		return R.SUCCESS_OPER(ro);
 	}
 
 	/**
@@ -133,49 +133,49 @@ public class EmplOrgService extends BaseService {
 	 * @Description:删除组织
 	 */
 	@Transactional
-	public ResData deleteEmplOrg(String node_id) {
+	public R deleteEmplOrg(String node_id) {
 		if (ToolUtil.isEmpty(node_id)) {
-			return ResData.FAILURE("无节点,请选择节点");
+			return R.FAILURE("无节点,请选择节点");
 		}
 		// 检查是否有下一级节点
 		if (db.uniqueRecord("select count(1) v from hrm_org_part where parent_id=? ", node_id).getInteger("v") > 0) {
-			return ResData.FAILURE("请先删除子节点");
+			return R.FAILURE("请先删除子节点");
 		}
 		// 检查节点是否有人员信息,如果有人,在判断是否需要删除
 		if (db.uniqueRecord("select count(1) v from hrm_org_employee where node_id=? ", node_id).getInteger("v") > 0) {
 			if (db.uniqueRecord(
 					"select count(1) v from sys_user_info a,hrm_org_employee b where a.empl_id=b.empl_id and a.deleted='N' and b.node_id=?",
 					node_id).getInteger("v") > 0) {
-				return ResData.FAILURE("请先删除人员信息");
+				return R.FAILURE("请先删除人员信息");
 			}
 		}
 		// 删除节点
 		db.execute("delete from hrm_org_part where node_id=?", node_id);
 		db.execute("delete from hrm_org_employee where node_id=?", node_id);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	/**
 	 * @Description:查询某个组织信息
 	 */
-	public ResData queryEmplOrgById(String node_id) {
+	public R queryEmplOrgById(String node_id) {
 		if (ToolUtil.isEmpty(node_id)) {
-			return ResData.FAILURE("无父节点");
+			return R.FAILURE("无父节点");
 		}
 		String sql = "select * from hrm_org_part where node_id=?";
 		Rcd rs = db.uniqueRecord(sql, node_id);
 		if (rs == null) {
-			return ResData.FAILURE("该节点不存在");
+			return R.FAILURE("该节点不存在");
 		} else {
-			return ResData.SUCCESS_OPER(rs.toJsonObject());
+			return R.SUCCESS_OPER(rs.toJsonObject());
 		}
 	}
 
 	/**
 	 * @Description:横行显示组织信息,类似A->B->C-D
 	 */
-	public ResData queryEmplOrgLevelList() {
-		return ResData
+	public R queryEmplOrgLevelList() {
+		return R
 				.SUCCESS_OPER(db.query("select node_id,route_name routename ,route from hrm_org_part order by route")
 						.toJsonArrayWithJsonObject());
 	}
@@ -183,10 +183,10 @@ public class EmplOrgService extends BaseService {
 	/**
 	 * @Description:树行显示组织信息
 	 */
-	public ResData queryEmplOrgNodeTree(String org_id) {
+	public R queryEmplOrgNodeTree(String org_id) {
 		// 公司,部门,组
 		if (ToolUtil.isEmpty(org_id)) {
-			return ResData.FAILURE("根节点不存在");
+			return R.FAILURE("根节点不存在");
 		}
 		Rcd rootrs = db.uniqueRecord("select * from hrm_org_info where org_id=?", org_id);
 		String rootname = ToolUtil.isEmpty(rootrs.getString("org_name")) ? "组织树" : rootrs.getString("org_name");
@@ -207,6 +207,6 @@ public class EmplOrgService extends BaseService {
 			e.put("parent", rs.getRcd(i).getString("parent_id"));
 			res.add(e);
 		}
-		return ResData.SUCCESS_OPER(res);
+		return R.SUCCESS_OPER(res);
 	}
 }

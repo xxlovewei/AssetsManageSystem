@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -22,19 +22,19 @@ public class BrandController extends BaseController {
 	@RequestMapping("/brand/brandQuery.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData brandQuery() {
+	public R brandQuery() {
 		return brandService.queryBrand();
 	}
 	@RequestMapping("/brand/brandQueryById.do")
 	@Res
 	@Acl
-	public ResData brandQueryById(String brand_id) {
+	public R brandQueryById(String brand_id) {
 		return brandService.queryBrandById(brand_id);
 	}
 	@RequestMapping("/brand/brandSave.do")
 	@Res
 	@Acl
-	public ResData brandSave() {
+	public R brandSave() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("brand_id");
 		if (ToolUtil.isEmpty(id)) {
@@ -46,7 +46,7 @@ public class BrandController extends BaseController {
 	@RequestMapping("/brand/brandDelete.do")
 	@Res
 	@Acl
-	public ResData brandDelete(String brand_id) {
+	public R brandDelete(String brand_id) {
 		return brandService.deleteBrand(brand_id);
 	}
 }

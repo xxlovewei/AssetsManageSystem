@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -28,7 +28,7 @@ public class NoticesController extends BaseController {
 	@RequestMapping(value = "/notice/queryNoticeById.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW, info = "获取公告")
-	public ResData queryNoticeById(String id) {
+	public R queryNoticeById(String id) {
 		return noticeService.queryNoticeById(id);
 	}
 
@@ -36,7 +36,7 @@ public class NoticesController extends BaseController {
 	@RequestMapping(value = "/notice/saveNotice.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "保存公告")
-	public ResData saveNotice() {
+	public R saveNotice() {
 
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		String id = ps.getString("id");
@@ -50,7 +50,7 @@ public class NoticesController extends BaseController {
 	@RequestMapping(value = "/notice/delNotice.do")
 	@Res
 	@Acl(value = Acl.TYPE_DENY, info = "删除公告")
-	public ResData delNotice(String id) {
+	public R delNotice(String id) {
 		return noticeService.deleteNotice(id);
 	}
 

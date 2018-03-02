@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.module.base.service.RegionService;
 
 @Controller
@@ -19,13 +19,13 @@ public class RegionController extends BaseController {
 	@RequestMapping(value = "/region/queryTree.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData regionqueryTree() {
+	public R regionqueryTree() {
 		return regionService.queryRegion();
 	}
 	@RequestMapping(value = "/region/getChildren.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData getChildrens(String id) {
+	public R getChildrens(String id) {
 		return regionService.queryRegionById(id);
 	}
 	/**
@@ -34,7 +34,7 @@ public class RegionController extends BaseController {
 	@RequestMapping(value = "/qud/queryShengF.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData queryShengF(String ex) {
+	public R queryShengF(String ex) {
 		return regionService.queryShengF(null);
 	}
 	/**
@@ -43,7 +43,7 @@ public class RegionController extends BaseController {
 	@RequestMapping(value = "/qud/queryChengS.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData queryChengS(String exclude, String sfid) {
+	public R queryChengS(String exclude, String sfid) {
 		return regionService.queryChengS(sfid, null);
 	}
 	/**
@@ -52,7 +52,7 @@ public class RegionController extends BaseController {
 	@RequestMapping(value = "/qud/queryQuX.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData queryQuX(String exclude, String csid) {
+	public R queryQuX(String exclude, String csid) {
 		return regionService.queryQuX(csid, null);
 	}
 }

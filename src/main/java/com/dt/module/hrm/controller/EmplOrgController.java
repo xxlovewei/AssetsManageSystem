@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -28,20 +28,20 @@ public class EmplOrgController extends BaseController {
 	@Res
 	@Acl
 	@RequestMapping("/hrm/orgNodeDelete.do")
-	public ResData orgNodeDelete(String node_id) {
+	public R orgNodeDelete(String node_id) {
 		return emplOrgService.deleteEmplOrg(node_id);
 	}
 	@RequestMapping("/hrm/queryEmplByOrg.do")
 	@Res
 	@Acl
-	public ResData queryEmplByOrg(String node_id) throws IOException {
+	public R queryEmplByOrg(String node_id) throws IOException {
 		return emplService.queryEmplByOrg(node_id);
 	}
 	@RequestMapping("/hrm/orgNodeSave.do")
 	@Res
 	@Acl
 	@Transactional
-	public ResData orgNodeSave() {
+	public R orgNodeSave() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("node_id");
 		if (ToolUtil.isEmpty(id)) {
@@ -53,25 +53,25 @@ public class EmplOrgController extends BaseController {
 	@RequestMapping("/hrm/orgNodeQuery.do")
 	@Res
 	@Acl
-	public ResData orgNodeQuery(String node_id) {
+	public R orgNodeQuery(String node_id) {
 		return emplOrgService.queryEmplOrgById(node_id);
 	}
 	@RequestMapping("/hrm/orgNodeTreeQuery.do")
 	@Res
 	@Acl
-	public ResData orgNodeTreeQuery(String org_id) {
+	public R orgNodeTreeQuery(String org_id) {
 		return emplOrgService.queryEmplOrgNodeTree(org_id);
 	}
 	@RequestMapping("/hrm/orgQueryLevelList.do")
 	@Res
 	@Acl
-	public ResData orgQueryLevelList() {
+	public R orgQueryLevelList() {
 		return emplOrgService.queryEmplOrgLevelList();
 	}
 	@RequestMapping("/hrm/orgQuery.do")
 	@Res
 	@Acl
-	public ResData orgQuery() {
+	public R orgQuery() {
 		return emplOrgService.queryEmplOrg();
 	}
 }

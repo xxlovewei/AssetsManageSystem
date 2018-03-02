@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
@@ -23,36 +23,36 @@ public class SysUserService extends BaseService {
 	/**
 	 * @Description: 新增用户
 	 */
-	public ResData addSysUser(TypedHashMap<String, Object> ps) {
+	public R addSysUser(TypedHashMap<String, Object> ps) {
 		return userService.addUser(ps, UserService.USER_TYPE_SYS);
 	}
 	/**
 	 * @Description: 删除用户
 	 */
-	public ResData deleteSysUser(String user_id) {
+	public R deleteSysUser(String user_id) {
 		return userService.deleteUser(user_id);
 	}
 	/**
 	 * @Description: 修改用户
 	 */
-	public ResData updateSysUser(TypedHashMap<String, Object> ps) {
+	public R updateSysUser(TypedHashMap<String, Object> ps) {
 		return userService.updateUser(ps, UserService.USER_TYPE_SYS);
 	}
 	/**
 	 * @Description: 根据user_id查找
 	 */
-	public ResData queryUserById(String user_id) {
+	public R queryUserById(String user_id) {
 		JSONObject res = userService.queryUserById(user_id);
 		if (ToolUtil.isEmpty(res)) {
-			return ResData.FAILURE_NODATA();
+			return R.FAILURE_NODATA();
 		} else {
-			return ResData.SUCCESS_OPER(res);
+			return R.SUCCESS_OPER(res);
 		}
 	}
 	/**
 	 * @Description: 保存用户通用设置数据
 	 */
-	public ResData saveCommonSettings(String user_id, TypedHashMap<String, Object> ps) {
+	public R saveCommonSettings(String user_id, TypedHashMap<String, Object> ps) {
 		String system = ps.getString("system");
 		if (ToolUtil.isNotEmpty(system)) {
 			Update systemups = new Update("sys_user_info");
@@ -60,6 +60,6 @@ public class SysUserService extends BaseService {
 			systemups.where().and("user_id=?", user_id);
 			db.execute(systemups);
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 }

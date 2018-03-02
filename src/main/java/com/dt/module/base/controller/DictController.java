@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -22,13 +22,13 @@ public class DictController extends BaseController {
 	@RequestMapping(value = "/dict/queryDict.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON)
-	public ResData queryDict() {
+	public R queryDict() {
 		return dictService.queryDict();
 	}
 	@RequestMapping(value = "/dict/saveDict.do")
 	@Res
 	@Acl
-	public ResData saveDict() {
+	public R saveDict() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		String dict_id = ps.getString("dict_id");
 		if (ToolUtil.isEmpty(dict_id)) {
@@ -40,37 +40,37 @@ public class DictController extends BaseController {
 	@RequestMapping(value = "/dict/deleteDict.do")
 	@Res
 	@Acl
-	public ResData deleteDict(String id) {
+	public R deleteDict(String id) {
 		return dictService.deleteDict(id);
 	}
 	@RequestMapping(value = "/dict/queryByDictId.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON)
-	public ResData queryByDictId(String id) {
+	public R queryByDictId(String id) {
 		return dictService.queryDictById(id);
 	}
 	@RequestMapping(value = "/dict/deleteDictItem.do")
 	@Res
 	@Acl
-	public ResData deleteDictItem(String id) {
+	public R deleteDictItem(String id) {
 		return dictService.deleteDictItem(id);
 	}
 	@RequestMapping(value = "/dict/queryDictItem.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON)
-	public ResData queryDictItem(String id) {
+	public R queryDictItem(String id) {
 		return dictService.queryDictItem(id);
 	}
 	@RequestMapping(value = "/dict/queryDictItemById.do")
 	@Res
 	@Acl
-	public ResData queryDictItemById(String id) {
+	public R queryDictItemById(String id) {
 		return dictService.queryDictItemById(id);
 	}
 	@RequestMapping(value = "/dict/saveDictItem.do")
 	@Res
 	@Acl
-	public ResData saveDictItem() {
+	public R saveDictItem() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		String id = ps.getString("dict_item_id");
 		if (ToolUtil.isEmpty(id)) {

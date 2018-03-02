@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.module.base.service.UserScoreService;
 
 /**
@@ -26,21 +26,21 @@ public class UserScoreController extends BaseController {
 	@RequestMapping("/user/queryScoreDtl.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "获取积分详情况")
-	public ResData queryScoreDtl() {
+	public R queryScoreDtl() {
 		userScoreService.queryScore(getUserId());
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 
 	@RequestMapping("/user/qdScore.do")
 	@Res
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "签到")
-	public ResData qdScore() {
+	public R qdScore() {
 		int v = userScoreService.queryTodayFlagCount(getUserId(), "qd");
 		if (v > 0) {
-			return ResData.FAILURE("已经签到");	
+			return R.FAILURE("已经签到");	
 		} else {
 			userScoreService.addScore(getUserId(), 1, "签到", "qd");
-			return ResData.SUCCESS("签到成功");
+			return R.SUCCESS("签到成功");
 		}
 
 	}

@@ -3,7 +3,7 @@ package com.dt.module.om.backup.service;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 
 /**
@@ -14,35 +14,35 @@ import com.dt.core.dao.util.TypedHashMap;
 @Service
 public class AppService extends BaseService {
 
-	public ResData addApp(TypedHashMap<String, Object> ps) {
+	public R addApp(TypedHashMap<String, Object> ps) {
 		return null;
 	}
 
-	public ResData queryAppById(TypedHashMap<String, Object> ps) {
+	public R queryAppById(TypedHashMap<String, Object> ps) {
 		return null;
 	}
 
-	public ResData queryApp(TypedHashMap<String, Object> ps) {
+	public R queryApp(TypedHashMap<String, Object> ps) {
 		return null;
 	}
 
-	public ResData deleteApp(TypedHashMap<String, Object> ps) {
+	public R deleteApp(TypedHashMap<String, Object> ps) {
 		return null;
 	}
 
-	public ResData update(TypedHashMap<String, Object> ps) {
+	public R update(TypedHashMap<String, Object> ps) {
 		return null;
 	}
 
-	public ResData appTypeQuery(TypedHashMap<String, Object> ps) {
+	public R appTypeQuery(TypedHashMap<String, Object> ps) {
 		return null;
 	}
 
-	public ResData appRecQueryById(TypedHashMap<String, Object> ps) {
+	public R appRecQueryById(TypedHashMap<String, Object> ps) {
 		return null;
 	}
 
-	public ResData appRecQuery(TypedHashMap<String, Object> ps) {
+	public R appRecQuery(TypedHashMap<String, Object> ps) {
 		return null;
 	}
 

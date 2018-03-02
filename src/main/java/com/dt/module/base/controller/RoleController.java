@@ -9,7 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -24,14 +24,14 @@ public class RoleController extends BaseController {
 	@RequestMapping(value = "/role/roleQuery.do")
 	@Res
 	@Acl
-	public ResData roleQuery() {
+	public R roleQuery() {
 		return roleService.queryRole();
 	}
 	@RequestMapping(value = "/role/roleQueryFormatKV.do")
 	@Res
 	@Acl
-	public ResData roleQueryFormatKV() {
-		ResData res = roleService.queryRole();
+	public R roleQueryFormatKV() {
+		R res = roleService.queryRole();
 		if (res.isFailed()) {
 			return res;
 		}
@@ -40,18 +40,18 @@ public class RoleController extends BaseController {
 		for (int i = 0; i < kv.size(); i++) {
 			obj.put(kv.getJSONObject(i).getString("role_id"), kv.getJSONObject(i).getString("role_name"));
 		}
-		return ResData.SUCCESS_OPER(obj);
+		return R.SUCCESS_OPER(obj);
 	}
 	@RequestMapping(value = "/role/roleQueryById.do")
 	@Res
 	@Acl
-	public ResData roleQueryById(String role_id) {
+	public R roleQueryById(String role_id) {
 		return roleService.queryRoleById(role_id);
 	}
 	@RequestMapping(value = "/role/roleSave.do")
 	@Res
 	@Acl
-	public ResData roleSave() {
+	public R roleSave() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("role_id");
 		if (ToolUtil.isEmpty(id)) {
@@ -63,9 +63,9 @@ public class RoleController extends BaseController {
 	@RequestMapping(value = "/role/roleDelete.do")
 	@Res
 	@Acl
-	public ResData roleDelete(String role_id) {
+	public R roleDelete(String role_id) {
 		if (ToolUtil.isEmpty(role_id)) {
-			return ResData.FAILURE_OPER();
+			return R.FAILURE_OPER();
 		}
 		return roleService.deleteRole(role_id, false);
 	}

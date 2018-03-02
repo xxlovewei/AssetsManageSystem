@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -26,19 +26,19 @@ public class ParamsController {
 	@RequestMapping(value = "/params/queryParams.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData queryParams() {
+	public R queryParams() {
 		return paramsService.queryParams();
 	}
 	@RequestMapping(value = "/params/queryParamsById.do")
 	@Res
 	@Acl(value = Acl.TYPE_ALLOW)
-	public ResData queryParamsById(String id) {
+	public R queryParamsById(String id) {
 		return paramsService.queryParamsById(id);
 	}
 	@RequestMapping(value = "/params/saveParams.do")
 	@Res
 	@Acl
-	public ResData saveParams() {
+	public R saveParams() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
@@ -50,7 +50,7 @@ public class ParamsController {
 	@RequestMapping(value = "/params/deleteParams.do")
 	@Res
 	@Acl
-	public ResData deleteParams(String id) {
+	public R deleteParams(String id) {
 		return paramsService.deleteParams(id);
 	}
 }

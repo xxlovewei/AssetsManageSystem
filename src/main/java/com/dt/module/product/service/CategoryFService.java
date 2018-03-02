@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
@@ -27,7 +27,7 @@ public class CategoryFService extends BaseService {
 	@Autowired
 	private CategoryFRootService categoryFRootService;
 
-	public ResData addCategoryF(TypedHashMap<String, Object> ps) {
+	public R addCategoryF(TypedHashMap<String, Object> ps) {
 		// 类目下已经有品类后,则不能在添加层级，原则是:品类是类目的最后一级
 		// 节点类型,root,node,category
 		String node_type = "node";
@@ -42,7 +42,7 @@ public class CategoryFService extends BaseService {
 			is_cat = "N";
 			node_type = "node";
 		} else {
-			return ResData.FAILURE("选择正确的操作");
+			return R.FAILURE("选择正确的操作");
 		}
 		Insert ins = new Insert("product_cat_user");
 		int next_id = categoryFRootService.getNextUserCatId();
@@ -58,7 +58,7 @@ public class CategoryFService extends BaseService {
 				+ " select 'root' type ,'' route,'' is_cat,0 root_id from product_cat_user_root where id=? ";
 		Rcd cur_rs = db.uniqueRecord(curInfosql, id, id);
 		if (ToolUtil.isEmpty(cur_rs)) {
-			return ResData.FAILURE_OPER();
+			return R.FAILURE_OPER();
 		}
 		if (cur_rs.getString("type").equals("root")) {
 			// 本节点为根节点
@@ -71,21 +71,21 @@ public class CategoryFService extends BaseService {
 			// 如果当前是层级没有现在，如果是当前是品类，则无法在创建
 			String cur_is_cat = cur_rs.getString("is_cat");
 			if (cur_is_cat.equals("Y")) {
-				return ResData.FAILURE("当前层级下不允许在创建子节点");
+				return R.FAILURE("当前层级下不允许在创建子节点");
 			}
 		}
 		db.execute(ins);
 		JSONObject e = new JSONObject();
 		e.put("id", next_id);
 		e.put("type", node_type);
-		return ResData.SUCCESS("操作成功", e);
+		return R.SUCCESS("操作成功", e);
 	}
-	public ResData updateCategoryF() {
+	public R updateCategoryF() {
 		return null;
 	}
-	public ResData renameCategoryF(String id, String text) {
+	public R renameCategoryF(String id, String text) {
 		if (ToolUtil.isOneEmpty(id, text)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		String curInfosql = "";
 		curInfosql = curInfosql
@@ -94,19 +94,19 @@ public class CategoryFService extends BaseService {
 				+ " select 'root' type ,'' route,'' is_cat,0 root_id from product_cat_user_root where id=? ";
 		Rcd cur_rs = db.uniqueRecord(curInfosql, id, id);
 		if (ToolUtil.isEmpty(cur_rs)) {
-			return ResData.FAILURE_OPER();
+			return R.FAILURE_OPER();
 		}
 		if (cur_rs.getString("type").equals("root")) {
 			// 本节点为根节点
-			return ResData.FAILURE("根节点不允许修改");
+			return R.FAILURE("根节点不允许修改");
 		}
 		Update ups = new Update("product_cat_user");
 		ups.setIf("text", text);
 		ups.where().and("id=?", id);
 		db.execute(ups);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
-	public ResData delCategoryF() {
+	public R delCategoryF() {
 		return null;
 	}
 	public JSONArray queryCategoryFTreeList(String root_id) {
@@ -138,7 +138,7 @@ public class CategoryFService extends BaseService {
 		}
 		return res;
 	}
-	public ResData queryCategoryFById() {
+	public R queryCategoryFById() {
 		return null;
 	}
 }

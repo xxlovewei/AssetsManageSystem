@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.ResData;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
@@ -41,13 +41,13 @@ public class CategoryBService extends BaseService {
 	/**
 	 * @Description: 添加节点
 	 */
-	public ResData addCategoryB(TypedHashMap<String, Object> ps) {
+	public R addCategoryB(TypedHashMap<String, Object> ps) {
 		String nodetype = TYPE_NODE;
 		String id = ps.getString("id");
 		String action = ps.getString("action");
 		String text = ps.getString("text", "新节点");
 		if (ToolUtil.isOneEmpty(id, action)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		// 判断操作类型
 		String is_cat = "";
@@ -58,12 +58,12 @@ public class CategoryBService extends BaseService {
 			is_cat = "N";
 			nodetype = TYPE_NODE;
 		} else {
-			return ResData.FAILURE("无法判定当前动作");
+			return R.FAILURE("无法判定当前动作");
 		}
 		// 获取序列号
 		String next_id = getNextId();
 		if (ToolUtil.isEmpty(next_id)) {
-			return ResData.FAILURE("获取序列号失败");
+			return R.FAILURE("获取序列号失败");
 		}
 		/***************************** 前期检查结束 ***********************************/
 		Insert ins = new Insert("product_category");
@@ -75,18 +75,18 @@ public class CategoryBService extends BaseService {
 		// 设置route
 		if (id.equals("0")) {
 			if (is_cat.equals("Y")) {
-				return ResData.FAILURE("根节点不允许插入品类");
+				return R.FAILURE("根节点不允许插入品类");
 			}
 			ins.set("route", next_id);
 		} else {
 			// 获取父节点信息
 			Rcd brs = db.uniqueRecord("select * from product_category where is_deleted='N' and id=?", id);
 			if (ToolUtil.isEmpty(brs)) {
-				return ResData.FAILURE("节点不存在");
+				return R.FAILURE("节点不存在");
 			}
 			// 如果父节点是品类,则不允许派生
 			if (brs.getString("is_cat").equals("Y")) {
-				return ResData.FAILURE("本节点为品类,不允许创建子节点");
+				return R.FAILURE("本节点为品类,不允许创建子节点");
 			}
 			ins.set("route", brs.getString("route") + "-" + next_id);
 		}
@@ -94,26 +94,26 @@ public class CategoryBService extends BaseService {
 		JSONObject e = new JSONObject();
 		e.put("id", next_id);
 		e.put("type", nodetype);
-		return ResData.SUCCESS_OPER(e);
+		return R.SUCCESS_OPER(e);
 	}
 	/**
 	 * @Description: 删除节点
 	 */
-	public ResData deleteCategoryB(String id) {
+	public R deleteCategoryB(String id) {
 		if (ToolUtil.isEmpty(id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		Rcd rs = db.uniqueRecord("select count(1) value from product_category where is_deleted='N' and parent_id=?",
 				id);
 		if (rs.getInteger("value") > 0) {
-			return ResData.FAILURE("先删除子节点");
+			return R.FAILURE("先删除子节点");
 		} else {
 			Update ups = new Update("product_category");
 			ups.set("is_deleted", "Y");
 			ups.where().and("id=?", id);
 			db.execute(ups);
 		}
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description:更新节点
@@ -123,18 +123,18 @@ public class CategoryBService extends BaseService {
 	/**
 	 * @Description:重命名节点
 	 */
-	public ResData renameCategoryB(String id, String text) {
+	public R renameCategoryB(String id, String text) {
 		if (ToolUtil.isEmpty(id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		if (id.equals("0")) {
-			return ResData.FAILURE("根节点不允许修改");
+			return R.FAILURE("根节点不允许修改");
 		}
 		Update ups = new Update("product_category");
 		ups.setIf("text", text);
 		ups.where().and("id=?", id);
 		db.execute(ups);
-		return ResData.SUCCESS_OPER();
+		return R.SUCCESS_OPER();
 	}
 	/**
 	 * @Description:按照前端树查询节点单个数据
@@ -181,7 +181,7 @@ public class CategoryBService extends BaseService {
 	/**
 	 * @Description:发布产品时,获取所有可用的品类
 	 */
-	public ResData queryAllProdCatList() {
+	public R queryAllProdCatList() {
 		String sql = "select " + "levels, " + "level1_name, " + "decode(levels, " + "0,level1_name, "
 				+ "1,level1_name||'->'||level2_name, " + "2,level1_name||'->'||level2_name||'->'||level3_name, "
 				+ "3,level1_name||'->'||level2_name||'->'||level3_name||'->'||level4_name, "
@@ -226,16 +226,16 @@ public class CategoryBService extends BaseService {
 				+ "substr(route,instr(route,'-',1,7)+1 ,instr(route,'-',1,8) - instr(route,'-',1,7) -1)) level8, "
 				+ "route,id "
 				+ "from PRODUCT_CATEGORY t where is_deleted='N' and is_cat='Y') outer) outtable order by route ";
-		return ResData.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
-	public ResData publishCatAttrList(TypedHashMap<String, Object> ps) {
+	public R publishCatAttrList(TypedHashMap<String, Object> ps) {
 		JSONObject rs = new JSONObject();
 		String cat_id = ps.getString("cat_id"); // 必须存在
 		String base_attr = ToolUtil.parseYNValueDefY(ps.getString("base_attr", "Y"));
 		String sale_attr = ToolUtil.parseYNValueDefY(ps.getString("sale_attr", "Y"));
 		String is_used = ToolUtil.parseYNValueDefY(ps.getString("is_used", ""));
 		if (ToolUtil.isEmpty(cat_id)) {
-			return ResData.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_ERRREQ_PARAMS();
 		}
 		// 获得基本属性
 		if (base_attr.equals("Y")) {
@@ -247,7 +247,7 @@ public class CategoryBService extends BaseService {
 			// 获取说有该品牌下的销售属性选项值
 			rs.put("sale_attr_set_map", getBaseAttrValueMap(cat_id));
 		}
-		return ResData.SUCCESS_OPER(rs);
+		return R.SUCCESS_OPER(rs);
 	}
 	private JSONArray getSaleAttr(String cat_id, String is_used) {
 		JSONArray rs = new JSONArray();
