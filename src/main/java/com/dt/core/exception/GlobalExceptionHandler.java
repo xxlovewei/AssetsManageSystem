@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseCommon;
 
 @ControllerAdvice
@@ -28,8 +29,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		String msg = ExceptionUtils.getRootCauseMessage(ex) == null ? "" : ExceptionUtils.getRootCauseMessage(ex);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("success", false);
+		jsonObject.put("code", BaseCodeMsgEnum.SYSTEM_CONF_ERROR.getCode());
 		jsonObject.put("message", msg);
-
 		return jsonObject;
 
 	}

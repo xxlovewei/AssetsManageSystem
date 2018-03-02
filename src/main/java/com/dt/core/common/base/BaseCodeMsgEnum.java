@@ -34,6 +34,8 @@ public enum BaseCodeMsgEnum {
 	USER_QUERY_FAILED(291, "获取用户失败"),
 	 
 	SYSTEM_CONF_ERROR(2000,"系统配置错误"),
+	SYSTEM_RUNNING_ERROR(2001,"系统运行异常"),
+	
 	PERMITION_NOT(1000,"无权限"),
 	REQ_PARAM_ERROR(501,"请求参数不正确"),
 	
