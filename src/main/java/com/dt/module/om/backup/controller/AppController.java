@@ -23,7 +23,6 @@ public class AppController extends BaseController {
 	@Acl(value = Acl.TYPE_ALLOW, info = "启动应用节点")
 	public ModelAndView startNodeApp(Model model, String id) {
 
-		System.out.println("id:" + id.length());
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("index");
 		mv.addObject("users", "test");

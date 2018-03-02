@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.common.base.BaseCommon;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(value = { Exception.class })
 	@ResponseBody
 	public JSONObject handleException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println(ExceptionUtils.getFullStackTrace(ex));
+		BaseCommon.print(ExceptionUtils.getFullStackTrace(ex));
 		_log.info("source from ajax!");
 		String msg = ExceptionUtils.getRootCauseMessage(ex) == null ? "" : ExceptionUtils.getRootCauseMessage(ex);
 		JSONObject jsonObject = new JSONObject();
