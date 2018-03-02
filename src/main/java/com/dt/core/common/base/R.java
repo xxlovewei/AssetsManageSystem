@@ -29,7 +29,7 @@ public class R extends BaseResult {
 		return clearAttach;
 	}
 
-	public void setClearStatus(Boolean clearStatus) {
+	public void setClearAttach(Boolean clearStatus) {
 		this.clearAttach = clearStatus;
 	}
 

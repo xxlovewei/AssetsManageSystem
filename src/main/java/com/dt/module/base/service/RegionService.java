@@ -48,7 +48,7 @@ public class RegionService extends BaseService {
 	public R queryShengF(String[] exclude) {
 		String sql = "select * from sys_qud_shengf";
 		R res = new R();
-		res.setClearStatus(true);
+		res.setClearAttach(true);
 		res.setData(db.query(sql).toJsonArrayWithJsonObject());
 		return res;
 	}
@@ -63,7 +63,7 @@ public class RegionService extends BaseService {
 			sql = sql + " where shengf_id='" + sfid + "'";
 		}
 		R res = new R();
-		res.setClearStatus(true);
+		res.setClearAttach(true);
 		res.setData(db.query(sql).toJsonArrayWithJsonObject());
 		return res;
 	}
@@ -78,7 +78,7 @@ public class RegionService extends BaseService {
 			sql = sql + " where chengs_id='" + csid + "'";
 		}
 		R res = new R();
-		res.setClearStatus(true);
+		res.setClearAttach(true);
 		res.setData(db.query(sql).toJsonArrayWithJsonObject());
 		return res;
 	}

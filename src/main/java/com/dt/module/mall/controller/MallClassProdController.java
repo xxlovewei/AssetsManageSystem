@@ -53,7 +53,7 @@ public class MallClassProdController extends BaseController {
 		retrunObject.put("iTotalDisplayRecords", count);
 		retrunObject.put("data", data);
 		R res = new R();
-		res.setClearStatus(true);
+		res.setClearAttach(true);
 		res.setData(retrunObject);
 		return res;
 
@@ -87,7 +87,7 @@ public class MallClassProdController extends BaseController {
 		retrunObject.put("iTotalDisplayRecords", count);
 		retrunObject.put("data", data);
 		R res = new R();
-		res.setClearStatus(true);
+		res.setClearAttach(true);
 		res.setData(retrunObject);
 		return res;
 

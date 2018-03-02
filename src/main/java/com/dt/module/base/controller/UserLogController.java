@@ -52,7 +52,7 @@ public class UserLogController extends BaseController {
 		retrunObject.put("iTotalDisplayRecords", pageCnt);
 		retrunObject.put("data", data);
 		R res = new R();
-		res.setClearStatus(true);
+		res.setClearAttach(true);
 		res.setData(retrunObject);
 		return res;
 	}
