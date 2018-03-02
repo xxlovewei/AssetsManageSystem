@@ -11,8 +11,12 @@ public class R extends BaseResult {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static String TYPE_JSON = "json";
-	// public static String TYPE_XML = "xml";
-	public String type = R.TYPE_JSON;
+	private String type = R.TYPE_JSON;
+	private Boolean clearAttach = false;
+	private int code = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode();
+	private String message = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage();
+	private boolean success;
+	private Object data;
 
 	public String getType() {
 		return type;
@@ -22,9 +26,6 @@ public class R extends BaseResult {
 		this.type = type;
 	}
 
-	private Boolean clearAttach = false;
-	private int code = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode();
-
 	public Boolean getClearAttach() {
 		return clearAttach;
 	}
@@ -32,8 +33,6 @@ public class R extends BaseResult {
 	public void setClearAttach(Boolean clearAttach) {
 		this.clearAttach = clearAttach;
 	}
-
-	private boolean success;
 
 	public boolean isSuccess() {
 		return success;
@@ -46,8 +45,6 @@ public class R extends BaseResult {
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
-
-	private String message = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage();
 
 	public String getMessage() {
 		return this.message;
@@ -72,8 +69,6 @@ public class R extends BaseResult {
 		this.message = msg;
 		this.data = data;
 	}
-
-	private Object data;
 
 	public R setData(Object data) {
 		this.data = data;
@@ -275,7 +270,6 @@ public class R extends BaseResult {
 
 	@Override
 	public String toString() {
-		asJsonStr();
 		if (type.equals(TYPE_JSON)) {
 			return asJsonStr();
 		} else {

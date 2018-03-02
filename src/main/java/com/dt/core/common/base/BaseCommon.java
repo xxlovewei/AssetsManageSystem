@@ -19,7 +19,6 @@ public class BaseCommon {
 	public static String getSuperAdmin() {
 		return ToolUtil.isEmpty(BaseConstants.superadmin) ? MD5Util.encrypt(new Date().getTime() + "")
 				: BaseConstants.superadmin;
-
 	}
 
 	public static void print(String value) {
