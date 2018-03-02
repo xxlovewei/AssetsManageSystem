@@ -22,15 +22,15 @@ public class R extends BaseResult {
 		this.type = type;
 	}
 
-	private Boolean clearStatus = false;
+	private Boolean clearAttach = false;
 	private int code = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode();
 
 	public Boolean getClearStatus() {
-		return clearStatus;
+		return clearAttach;
 	}
 
 	public void setClearStatus(Boolean clearStatus) {
-		this.clearStatus = clearStatus;
+		this.clearAttach = clearStatus;
 	}
 
 	private boolean success;
@@ -284,7 +284,7 @@ public class R extends BaseResult {
 	 * @Description:返回JSONObject或JSONArray
 	 */
 	public Object asJson() {
-		if (clearStatus) {
+		if (clearAttach) {
 			if (data instanceof org.json.JSONArray) {
 				return JSONArray.parseArray(((org.json.JSONArray) (data)).toString());
 			} else if (data instanceof org.json.JSONObject) {
