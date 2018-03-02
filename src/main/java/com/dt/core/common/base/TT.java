@@ -1,5 +1,6 @@
 package com.dt.core.common.base;
 
+import oracle.net.aso.d;
 
 /** 
  * @author: jinjie
@@ -16,7 +17,11 @@ public class TT {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
- 
+		R r=new R();
+		r.setData(1.1);
+		System.out.println(r.asJsonStr());
+		System.out.println(r.toString());
+		System.out.println(r.getDataToString());
 		System.out.println(R.SUCCESS("成功", 12345).toString());
 	}
 

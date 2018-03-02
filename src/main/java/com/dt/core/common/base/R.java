@@ -11,11 +11,19 @@ public class R extends BaseResult {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static String TYPE_JSON = "json";
-	public static String TYPE_TEXT = "text";
-	public static String TYPE_HTML = "html";
+	public static String TYPE_XML = "xml";
 	public String type = R.TYPE_JSON;
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	private Boolean clearStatus = false;
-	private int code = 0;
+	private int code = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode();
 
 	public Boolean getClearStatus() {
 		return clearStatus;
@@ -39,7 +47,7 @@ public class R extends BaseResult {
 		this.success = success;
 	}
 
-	private String message;
+	private String message = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage();
 
 	public String getMessage() {
 		return this.message;
@@ -258,6 +266,10 @@ public class R extends BaseResult {
 		}
 	}
 
+	public String getDataToString() {
+		return data.toString();
+	}
+
 	public String asJsonStr() {
 		Object obj = asJson();
 		if (obj instanceof JSONObject) {
@@ -306,7 +318,12 @@ public class R extends BaseResult {
 		json.put("code", code);
 		json.put("success", success);
 		json.put("message", message);
-		json.put("data", data);
+		Object obj = asJson();
+		if (obj instanceof JSONObject) {
+			return (JSONObject) obj;
+		} else if (obj instanceof JSONArray) {
+			json.put("data", ((JSONArray) (obj)));
+		}
 		return json;
 	}
 
