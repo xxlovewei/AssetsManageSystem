@@ -13,7 +13,7 @@ public class R extends BaseResult {
 	public static String TYPE_JSON = "json";
 	public static String TYPE_TEXT = "text";
 	public static String TYPE_HTML = "html";
-	public String TYPE_VALUE = R.TYPE_JSON;
+	public String type = R.TYPE_JSON;
 	private Boolean clearStatus = false;
 	private int code = 0;
 
@@ -294,7 +294,7 @@ public class R extends BaseResult {
 	@Override
 	public String toString() {
 		asJsonStr();
-		if (TYPE_VALUE.equals(TYPE_JSON)) {
+		if (type.equals(TYPE_JSON)) {
 			return asJsonStr();
 		} else {
 			return "";
