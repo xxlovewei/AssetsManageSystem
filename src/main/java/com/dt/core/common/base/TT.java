@@ -18,7 +18,6 @@ public class TT {
 		// TODO Auto-generated method stub
 		R r = new R();
 		r.setData(1.1);
-		r.TYPE_XML
 		System.out.println(r.asJsonStr());
 		System.out.println(r.toString());
 		System.out.println(r.getDataToString());
