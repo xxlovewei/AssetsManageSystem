@@ -259,36 +259,57 @@ public class R extends BaseResult {
 	}
 
 	public String asJsonStr() {
+		Object obj = asJson();
+		if (obj instanceof JSONObject) {
+			return ((JSONObject) (obj)).toJSONString();
+		} else if (obj instanceof JSONArray) {
+			return ((JSONArray) (obj)).toJSONString();
+		}
+		return obj.toString();
+	}
+
+	/**
+	 * @Description:返回JSONObject或JSONArray
+	 */
+	public Object asJson() {
 		if (clearStatus) {
-			if (data instanceof R) {
-				return ((R) data).asJsonStr();
-			} else if (data instanceof org.json.JSONArray) {
-				return ((org.json.JSONArray) (data)).toString();
+			if (data instanceof org.json.JSONArray) {
+				return JSONArray.parseArray(((org.json.JSONArray) (data)).toString());
 			} else if (data instanceof org.json.JSONObject) {
-				return ((org.json.JSONObject) (data)).toString();
+				return JSONObject.parseObject(((org.json.JSONObject) (data)).toString());
 			} else if (data instanceof JSONObject) {
-				return ((JSONObject) data).toJSONString();
+				return data;
 			} else if (data instanceof JSONArray) {
-				return ((JSONArray) data).toJSONString();
+				return data;
 			} else {
-				return data.toString();
+				return data;
 			}
 		} else {
 			JSONObject json = new JSONObject();
 			json.put("code", code);
 			json.put("success", success);
 			json.put("message", message);
-			if (data instanceof R) {
-				json.put("data", ((R) data).asJsonStr());
-			} else if (data instanceof org.json.JSONObject) {
+			if (data instanceof org.json.JSONObject) {
 				json.put("data", JSONObject.parseObject(((org.json.JSONObject) (data)).toString()));
 			} else if (data instanceof org.json.JSONArray) {
 				json.put("data", JSONArray.parseArray(((org.json.JSONArray) (data)).toString()));
 			} else {
 				json.put("data", data);
 			}
-			return json.toJSONString();
+			return json;
 		}
+	}
+
+	/**
+	 * @Description:返回JSONObject,clearStatus无效
+	 */
+	public JSONObject asJsonObject() {
+		JSONObject json = new JSONObject();
+		json.put("code", code);
+		json.put("success", success);
+		json.put("message", message);
+		json.put("data", data);
+		return json;
 	}
 
 	@Override
@@ -297,7 +318,7 @@ public class R extends BaseResult {
 		if (type.equals(TYPE_JSON)) {
 			return asJsonStr();
 		} else {
-			return "";
+			return asJsonStr();
 		}
 	}
 
