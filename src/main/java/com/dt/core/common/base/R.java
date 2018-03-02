@@ -25,12 +25,12 @@ public class R extends BaseResult {
 	private Boolean clearAttach = false;
 	private int code = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode();
 
-	public Boolean getClearStatus() {
+	public Boolean getClearAttach() {
 		return clearAttach;
 	}
 
-	public void setClearAttach(Boolean clearStatus) {
-		this.clearAttach = clearStatus;
+	public void setClearAttach(Boolean clearAttach) {
+		this.clearAttach = clearAttach;
 	}
 
 	private boolean success;
@@ -311,20 +311,30 @@ public class R extends BaseResult {
 	}
 
 	/**
-	 * @Description:返回JSONObject,clearStatus无效
+	 * @Description:返回JSONObject,clearAttach无效
 	 */
 	public JSONObject asJsonObject() {
-		JSONObject json = new JSONObject();
-		json.put("code", code);
-		json.put("success", success);
-		json.put("message", message);
 		Object obj = asJson();
 		if (obj instanceof JSONObject) {
 			return (JSONObject) obj;
-		} else if (obj instanceof JSONArray) {
-			json.put("data", ((JSONArray) (obj)));
+		} else {
+			// obj是JSONArray
+			JSONObject json = new JSONObject();
+			json.put("code", code);
+			json.put("success", success);
+			json.put("message", message);
+			if (obj instanceof JSONArray) {
+				json.put("data", ((JSONArray) (obj)));
+			}
+			return json;
 		}
-		return json;
+	}
+
+	/**
+	 * @Description:返回JSONObject,clearAttach无视
+	 */
+	public JSONArray asJsonArray() {
+		return getDataToJSONArray();
 	}
 
 	@Override
