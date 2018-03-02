@@ -277,9 +277,7 @@ public class R extends BaseResult {
 				return JSONArray.parseArray(((org.json.JSONArray) (data)).toString());
 			} else if (data instanceof org.json.JSONObject) {
 				return JSONObject.parseObject(((org.json.JSONObject) (data)).toString());
-			} else if (data instanceof JSONObject) {
-				return data;
-			} else if (data instanceof JSONArray) {
+			} else if (data instanceof JSONObject || data instanceof JSONArray) {
 				return data;
 			} else {
 				return data;
