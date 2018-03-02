@@ -32,6 +32,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		jsonObject.put("code", BaseCodeMsgEnum.SYSTEM_CONF_ERROR.getCode());
 		jsonObject.put("message", msg);
 		return jsonObject;
-
 	}
 }
