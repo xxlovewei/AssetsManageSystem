@@ -31,7 +31,7 @@ public class UserScoreService extends BaseService {
 		}
 		int v = db.uniqueRecord("select score from sys_user_info where user_id=?", user_id).getInteger("score");
 		if(ToolUtil.isEmpty(v)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}
 		db.execute("update sys_user_info set score=score+" + value + " where user_id=?", user_id);
 		Insert me = new Insert("sys_user_score_dtl");
@@ -57,7 +57,7 @@ public class UserScoreService extends BaseService {
 		}
 		int v = db.uniqueRecord("select score from sys_user_info where user_id=?", user_id).getInteger("score");
 		if(ToolUtil.isEmpty(v)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}
 		if (v >= value) {
 			db.execute("update sys_user_info set score=score-" + value + " where user_id=?", user_id);

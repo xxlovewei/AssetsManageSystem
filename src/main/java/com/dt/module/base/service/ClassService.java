@@ -77,7 +77,7 @@ public class ClassService extends BaseService {
 
 		Rcd rs = db.uniqueRecord("select * from sys_ct_class where is_delete='N' and class_id=? order by od", class_id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		} else {
 			return R.SUCCESS_OPER(rs.toJsonObject());
 		}
@@ -157,7 +157,7 @@ public class ClassService extends BaseService {
 	public R queryClassItemById(String id) {
 		Rcd rs = db.uniqueRecord("select * from sys_ct_class_item where id=?", id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		} else {
 			return R.SUCCESS_OPER(rs.toJsonObject());
 		}

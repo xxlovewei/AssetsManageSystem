@@ -153,7 +153,7 @@ public class LoginService extends BaseService {
 
 		// 返回数据
 		if (ToolUtil.isEmpty(res)) {
-			res = R.FAILURE_NODATA();
+			res = R.FAILURE_NO_DATA();
 		}
 		return res;
 	}

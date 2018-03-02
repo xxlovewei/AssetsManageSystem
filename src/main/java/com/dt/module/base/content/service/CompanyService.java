@@ -29,7 +29,7 @@ public class CompanyService extends BaseService {
 	 */
 	public R updateCompany(TypedHashMap<String, Object> ps) {
 		if(!initCompany()){
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}
 		if (ps.containsKey("id")) {
 			ps.remove("id");

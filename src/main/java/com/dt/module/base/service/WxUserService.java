@@ -19,7 +19,7 @@ public class WxUserService extends BaseService {
 		String sql = "select open_id,user_id,pwd from sys_user_info where open_id=?";
 		Rcd rs = db.uniqueRecord(sql, open_id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}else {
 			return R.SUCCESS_OPER(rs.toJsonObject());
 		}

@@ -44,7 +44,7 @@ public class SysUserService extends BaseService {
 	public R queryUserById(String user_id) {
 		JSONObject res = userService.queryUserById(user_id);
 		if (ToolUtil.isEmpty(res)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		} else {
 			return R.SUCCESS_OPER(res);
 		}

@@ -71,7 +71,7 @@ public class DictService extends BaseService {
 		String sql = "select * from sys_dict where dict_id=?  ";
 		Rcd rs=db.uniqueRecord(sql,id);
 		if(ToolUtil.isEmpty(rs)){
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}else{
 			return R.SUCCESS_OPER(rs.toJsonObject());
 		} 
@@ -124,7 +124,7 @@ public class DictService extends BaseService {
 	public R queryDictItemById(String dict_item_id) {
 		Rcd rs = db.uniqueRecord("select * from sys_dict_item where dict_item_id=?", dict_item_id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}

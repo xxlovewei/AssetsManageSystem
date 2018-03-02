@@ -56,7 +56,7 @@ public class BannerAndItemService extends BaseService {
 		String sql = "select * from sys_banner where banner_id=? and is_delete='N'";
 		Rcd rs = db.uniqueRecord(sql);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		} else {
 			return R.SUCCESS_OPER(rs.toJsonObject());
 		}
@@ -109,7 +109,7 @@ public class BannerAndItemService extends BaseService {
 		String sql = "select * from sys_banner_item where id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		} else {
 			return R.SUCCESS_OPER(rs.toJsonObject());
 		}

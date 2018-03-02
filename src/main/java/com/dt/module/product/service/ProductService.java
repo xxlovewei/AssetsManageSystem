@@ -589,7 +589,7 @@ public class ProductService extends BaseService {
 		String sql = "select * from product_sku where spu=? and sku=?";
 		Rcd rs = db.uniqueRecord(sql, spu, sku);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}

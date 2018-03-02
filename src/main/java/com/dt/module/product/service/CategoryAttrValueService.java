@@ -26,7 +26,7 @@ public class CategoryAttrValueService extends BaseService {
 		String sql = "select ( select case when max(attr_set_id) is null then 10000 else max(attr_set_id)+1 end value from product_category_attr_set) next_attr_set_id, a.* from product_category_attr a where is_deleted='N' and attr_id=?";
 		Rcd rs = db.uniqueRecord(sql, attr_id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}
 		String next_attr_set_id = rs.getString("next_attr_set_id");
 		String cat_id = rs.getString("cat_id");

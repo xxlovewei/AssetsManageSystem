@@ -60,7 +60,7 @@ public class ShopService extends BaseService {
 	public R queryShopById(String shop_id) {
 		Rcd rs = db.uniqueRecord("select * from mall_shop where deleted='N' and shop_id=?", shop_id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		} else {
 			return R.SUCCESS_OPER(rs.toJsonObject());
 		}

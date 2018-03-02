@@ -233,7 +233,7 @@ public class OrderService extends BaseService {
 				"select a.*, case status when 1 then '已取消' when 2 then '待付款' when 4 then '待发货'  when 6 then '待收货' when 8 then '待评价' when 10 then '已完成' when 12 then '退货中' when 14 then '退货成功' else '未知' end statusstr  from mall_order a where order_id=?",
 				orderId);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		} else {
 			res.put("orderinfo", ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject()));
 			String goodsql = "select * from mall_order_detail where order_id=?";

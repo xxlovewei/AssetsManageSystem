@@ -180,7 +180,7 @@ public class EmplService extends BaseService {
 		JSONObject res = new JSONObject();
 		Rcd info = db.uniqueRecord("select * from sys_user_info where deleted='N' and empl_id=?", empl_id);
 		if (ToolUtil.isEmpty(info)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}
 		// 获取组织信息
 		res = ConvertUtil.OtherJSONObjectToFastJSONObject(info.toJsonObject());

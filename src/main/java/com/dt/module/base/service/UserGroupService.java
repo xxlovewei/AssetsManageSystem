@@ -80,7 +80,7 @@ public class UserGroupService extends BaseService {
 	public R queryUserGroupById(String group_id) {
 		Rcd rs = db.uniqueRecord("select * from sys_user_group where deleted='N' and group_id=?", group_id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}

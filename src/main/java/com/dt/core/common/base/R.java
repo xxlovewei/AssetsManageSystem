@@ -80,7 +80,6 @@ public class R extends BaseResult {
 	}
 
 	/************************* 操作成功 ***************************/
-
 	public static R SUCCESS(String message, Object data) {
 		return new R(true, 0, message, data);
 	}
@@ -113,6 +112,12 @@ public class R extends BaseResult {
 				null);
 	}
 
+
+	public static R SUCCESS_SAVE(Object data) {
+		return new R(true, BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getCode(), BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getMessage(),
+				data);
+	}
+	
 	/************************* 操作失败 ***************************/
 	public static R FAILURE(String message, Object data) {
 		return new R(false, BaseCodeMsgEnum.FAILED_DEF_MSG.getCode(), message, data);
@@ -146,7 +151,7 @@ public class R extends BaseResult {
 				null);
 	}
 
-	public static R FAILURE_NODATA() {
+	public static R FAILURE_NO_DATA() {
 		return new R(false, BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getCode(),
 				BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getMessage(), null);
 
@@ -170,6 +175,11 @@ public class R extends BaseResult {
 	public static R FAILURE_SAVE() {
 		return new R(false, BaseCodeMsgEnum.FAILED_SAVE_MSG.getCode(), BaseCodeMsgEnum.FAILED_SAVE_MSG.getMessage(),
 				null);
+	}
+	
+	public static R FAILURE_SAVE(Object data) {
+		return new R(false, BaseCodeMsgEnum.FAILED_SAVE_MSG.getCode(), BaseCodeMsgEnum.FAILED_SAVE_MSG.getMessage(),
+				data);
 	}
 
 	public static R FAILURE_NOT_LOGIN() {
@@ -240,6 +250,9 @@ public class R extends BaseResult {
 			return json;
 		}
 	}
+	
+	
+	
 
 	/**
 	 * @Description:返回JSONObject,clearAttach无效

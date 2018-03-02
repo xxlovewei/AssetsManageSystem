@@ -78,7 +78,7 @@ public class ParamsService extends BaseService {
 		String sql = "select * from sys_params where deleted='N' and id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}

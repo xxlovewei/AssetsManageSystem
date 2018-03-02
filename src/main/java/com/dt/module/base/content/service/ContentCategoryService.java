@@ -96,7 +96,7 @@ public class ContentCategoryService extends BaseService {
 		String sql = "select a.*,b.name rootname from ct_category a,ct_category_root b where a.root=b.id and a.id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}

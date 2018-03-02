@@ -100,7 +100,7 @@ public class ContentService extends BaseService {
 	public R queryContentById(String id) {
 		Rcd rs = db.uniqueRecord("select * from ct_content where id=?", id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		}
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}

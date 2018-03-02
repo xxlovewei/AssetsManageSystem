@@ -110,7 +110,7 @@ public class NoticeService extends BaseService {
 	public R queryNoticeById(String id) {
 		Rcd rs = db.uniqueRecord("select * from sys_notice where is_delete='N' and id=?", id);
 		if (ToolUtil.isEmpty(rs)) {
-			return R.FAILURE_NODATA();
+			return R.FAILURE_NO_DATA();
 		} else {
 			return R.SUCCESS_OPER(rs.toJsonObject());
 		}
