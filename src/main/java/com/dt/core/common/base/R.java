@@ -154,7 +154,6 @@ public class R extends BaseResult {
 	public static R FAILURE_NO_DATA() {
 		return new R(false, BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getCode(),
 				BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getMessage(), null);
-
 	}
  
 	public static R FAILURE_REQ_PARAM_ERROR() {
@@ -250,9 +249,7 @@ public class R extends BaseResult {
 			return json;
 		}
 	}
-	
-	
-	
+ 
 
 	/**
 	 * @Description:返回JSONObject,clearAttach无效
