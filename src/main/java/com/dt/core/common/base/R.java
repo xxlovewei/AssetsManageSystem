@@ -11,7 +11,7 @@ public class R extends BaseResult {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static String TYPE_JSON = "json";
-	//public static String TYPE_XML = "xml";
+	// public static String TYPE_XML = "xml";
 	public String type = R.TYPE_JSON;
 
 	public String getType() {
@@ -66,6 +66,13 @@ public class R extends BaseResult {
 		this.success = true;
 	}
 
+	public R(boolean success, int code, String msg, Object data) {
+		this.success = success;
+		this.code = code;
+		this.message = msg;
+		this.data = data;
+	}
+
 	private Object data;
 
 	public R setData(Object data) {
@@ -80,170 +87,99 @@ public class R extends BaseResult {
 	/************************* 操作成功 ***************************/
 
 	public static R SUCCESS(String message, Object data) {
-		R r = new R();
-		r.setSuccess(true);
-		r.setCode(0);
-		r.setMessage(message);
-		r.setData(data);
-		return r;
+		return new R(true, 0, message, data);
 	}
 
 	public static R SUCCESS(String message) {
-		R r = new R();
-		r.setSuccess(true);
-		r.setCode(0);
-		r.setMessage(message);
-		return r;
+		return new R(true, 0, message, null);
 	}
 
 	public static R SUCCESS(String message, int code, Object data) {
-		R r = new R();
-		r.setSuccess(true);
-		r.setCode(code);
-		r.setData(data);
-		r.setMessage(message);
-		return r;
+		return new R(true, code, message, data);
 	}
 
 	public static R SUCCESS() {
-		R r = new R();
-		r.setSuccess(true);
-		r.setCode(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getMessage());
-		return r;
+		return new R(true, BaseCodeMsgEnum.SUCCESS_DEF_MSG.getCode(), BaseCodeMsgEnum.SUCCESS_DEF_MSG.getMessage(),
+				null);
 	}
 
 	public static R SUCCESS_OPER(Object data) {
-		R r = new R();
-		r.setSuccess(true);
-		r.setData(data);
-		r.setCode(BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage());
-		return r;
+		return new R(true, BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode(), BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage(),
+				data);
 	}
 
 	public static R SUCCESS_OPER() {
-		R r = new R();
-		r.setSuccess(true);
-		r.setCode(BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage());
-		return r;
+		return new R(true, BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode(), BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage(),
+				null);
 	}
 
 	public static R SUCCESS_SAVE() {
-		R r = new R();
-		r.setSuccess(true);
-		r.setCode(BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getMessage());
-		return r;
+		return new R(true, BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getCode(), BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getMessage(),
+				null);
 	}
 
 	/************************* 操作失败 ***************************/
 	public static R FAILURE(String message, Object data) {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.FAILED_DEF_MSG.getCode());
-		r.setMessage(message);
-		r.setData(data);
-		return r;
+		return new R(false, BaseCodeMsgEnum.FAILED_DEF_MSG.getCode(), message, data);
 	}
 
 	public static R FAILURE(String message) {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.FAILED_DEF_MSG.getCode());
-		r.setMessage(message);
-		return r;
+		return new R(false, BaseCodeMsgEnum.FAILED_DEF_MSG.getCode(), message, null);
 	}
 
 	public static R FAILURE(String message, int code, Object data) {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(code);
-		r.setData(data);
-		r.setMessage(message);
-		return r;
+		return new R(false, code, message, data);
 	}
 
 	public static R FAILURE() {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.FAILED_DEF_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.FAILED_DEF_MSG.getMessage());
-		return r;
+		return new R(false, BaseCodeMsgEnum.FAILED_DEF_MSG.getCode(), BaseCodeMsgEnum.FAILED_DEF_MSG.getMessage(),
+				null);
 	}
 
 	public static R FAILURE_OPER() {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.FAILED_OPER_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.FAILED_OPER_MSG.getMessage());
-		return r;
+		return new R(false, BaseCodeMsgEnum.FAILED_OPER_MSG.getCode(), BaseCodeMsgEnum.FAILED_OPER_MSG.getMessage(),
+				null);
 	}
 
 	public static R FAILURE_USER_QUERY() {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.USER_QUERY_FAILED.getCode());
-		r.setMessage(BaseCodeMsgEnum.USER_QUERY_FAILED.getMessage());
-		return r;
+		return new R(false, BaseCodeMsgEnum.USER_QUERY_FAILED.getCode(), BaseCodeMsgEnum.USER_QUERY_FAILED.getMessage(),
+				null);
 	}
 
 	public static R FAILURE_USER_NOT_EXISTED() {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.USER_NOT_EXISTED.getCode());
-		r.setMessage(BaseCodeMsgEnum.USER_NOT_EXISTED.getMessage());
-		return r;
+		return new R(false, BaseCodeMsgEnum.USER_NOT_EXISTED.getCode(), BaseCodeMsgEnum.USER_NOT_EXISTED.getMessage(),
+				null);
 	}
 
 	public static R FAILURE_NODATA() {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getMessage());
-		return r;
+		return new R(false, BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getCode(),
+				BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getMessage(), null);
+
 	}
 
 	public static R FAILURE_ERRREQ_PARAMS() {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.REQ_PARAM_ERROR.getCode());
-		r.setMessage(BaseCodeMsgEnum.REQ_PARAM_ERROR.getMessage());
-		return r;
+		return new R(false, BaseCodeMsgEnum.REQ_PARAM_ERROR.getCode(), BaseCodeMsgEnum.REQ_PARAM_ERROR.getMessage(),
+				null);
 	}
 
 	public static R FAILURE_SYS_PARAMS() {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.SYSTEM_CONF_ERROR.getCode());
-		r.setMessage(BaseCodeMsgEnum.SYSTEM_CONF_ERROR.getMessage());
-		return r;
+		return new R(false, BaseCodeMsgEnum.SYSTEM_CONF_ERROR.getCode(), BaseCodeMsgEnum.SYSTEM_CONF_ERROR.getMessage(),
+				null);
 	}
 
 	public static R FAILURE_OPER(Object data) {
-		R r = new R();
-		r.setSuccess(false);
-		r.setData(data);
-		r.setCode(BaseCodeMsgEnum.FAILED_OPER_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.FAILED_OPER_MSG.getMessage());
-		return r;
+		return new R(false, BaseCodeMsgEnum.FAILED_OPER_MSG.getCode(), BaseCodeMsgEnum.FAILED_OPER_MSG.getMessage(),
+				null);
 	}
 
 	public static R FAILURE_SAVE() {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.FAILED_SAVE_MSG.getCode());
-		r.setMessage(BaseCodeMsgEnum.FAILED_SAVE_MSG.getMessage());
-		return r;
+		return new R(false, BaseCodeMsgEnum.FAILED_SAVE_MSG.getCode(), BaseCodeMsgEnum.FAILED_SAVE_MSG.getMessage(),
+				null);
 	}
 
 	public static R FAILURE_NOT_LOGIN() {
-		R r = new R();
-		r.setSuccess(false);
-		r.setCode(BaseCodeMsgEnum.USER_NOT_LOGIN.getCode());
-		r.setMessage(BaseCodeMsgEnum.USER_NOT_LOGIN.getMessage());
-		return r;
+		return new R(false, BaseCodeMsgEnum.USER_NOT_LOGIN.getCode(), BaseCodeMsgEnum.USER_NOT_LOGIN.getMessage(),
+				null);
 	}
 
 	public JSONArray getDataToJSONArray() {
