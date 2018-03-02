@@ -65,7 +65,7 @@ public class ContentCategoryService extends BaseService {
 	 */
 	public R queryCategoryTreeList(String root_id) {
 		if (ToolUtil.isEmpty(root_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		JSONArray res = new JSONArray();
 		String rootsql = "select * from ct_category_root where id=? and deleted='N'";
@@ -142,7 +142,7 @@ public class ContentCategoryService extends BaseService {
 		String old_node_type = ps.getString("old_node_type");
 		String name = ps.getString("name");
 		if (ToolUtil.isOneEmpty(old_id, old_node_type, name)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		String id = this.getNextNodeId();
 		Insert me = new Insert("ct_category");

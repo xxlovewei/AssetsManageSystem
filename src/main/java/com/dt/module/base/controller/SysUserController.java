@@ -48,11 +48,11 @@ public class SysUserController extends BaseController {
 	@Transactional
 	public R userDelete(String user_ids) {
 		if (ToolUtil.isEmpty(user_ids)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		JSONArray ids_arr = JSONArray.parseArray(user_ids);
 		if (ids_arr == null || ids_arr.size() == 0) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		boolean flag = true;
 		for (int i = 0; i < ids_arr.size(); i++) {
@@ -79,7 +79,7 @@ public class SysUserController extends BaseController {
 	@Acl
 	public R queryRole(String user_id) {
 		if (ToolUtil.isEmpty(user_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		JSONArray res = new JSONArray();
 		HashMap<String, String> map = userService.queryUserRole(user_id);
@@ -112,7 +112,7 @@ public class SysUserController extends BaseController {
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public R getUserMenus(String menu_id) {
 		if (ToolUtil.isEmpty(menu_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		return R.SUCCESS_OPER(userService.getMenuTree(getUserId(), menu_id));
 	}

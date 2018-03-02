@@ -38,7 +38,7 @@ public class ScheduleController extends BaseController {
 	@Acl
 	public R pausejob(String seq) {
 		if (ToolUtil.isEmpty(seq)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		jobService.pausejob(seq);
 		return R.SUCCESS_OPER();
@@ -49,7 +49,7 @@ public class ScheduleController extends BaseController {
 	@Acl
 	public R resumejob(String seq) {
 		if (ToolUtil.isEmpty(seq)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		jobService.resumejob(seq);
 		return R.SUCCESS_OPER();
@@ -60,7 +60,7 @@ public class ScheduleController extends BaseController {
 	@Acl
 	public R enablejob(String seq) {
 		if (ToolUtil.isEmpty(seq)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		jobService.enableJob(seq);
 		return R.SUCCESS_OPER();
@@ -71,7 +71,7 @@ public class ScheduleController extends BaseController {
 	@Acl
 	public R disablejob(String seq) throws IOException {
 		if (ToolUtil.isEmpty(seq)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		jobService.disabledJob(seq);
 		return R.SUCCESS_OPER();
@@ -82,7 +82,7 @@ public class ScheduleController extends BaseController {
 	@Acl
 	public R runonce(String seq) throws IOException {
 		if (ToolUtil.isEmpty(seq)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		jobService.runoncejob(seq);
 		return R.SUCCESS_OPER();

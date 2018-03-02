@@ -33,7 +33,7 @@ public class ShopService extends BaseService {
 	}
 	public R deleteShop(String shop_id) {
 		if (ToolUtil.isEmpty(shop_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update me = new Update("mall_shop");
 		me.setIf("deleted", "Y");
@@ -43,7 +43,7 @@ public class ShopService extends BaseService {
 	}
 	public R updateShop(TypedHashMap<String, Object> ps) {
 		if (ToolUtil.isEmpty(ps.getString("shop_id"))) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update me = new Update("mall_shop");
 		me.setIf("shop_name", ps.getString("shop_name"));

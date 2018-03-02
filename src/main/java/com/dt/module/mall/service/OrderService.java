@@ -86,7 +86,7 @@ public class OrderService extends BaseService {
 		// 创建订单
 		if (ToolUtil.isOneEmpty(status, user_id, ps.getString("amountreal"), ps.getString("amount"),
 				ps.getString("yunprice"))) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 
 		
@@ -175,7 +175,7 @@ public class OrderService extends BaseService {
 	 */
 	public R changeOrderMoney(String user_id, String order_id, String newmoney) {
 		if (ToolUtil.isOneEmpty(user_id, order_id, newmoney)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		// 获取原先金额
 		String oldmoney = db.uniqueRecord("select * from mall_order where order_id=?", order_id)
@@ -373,7 +373,7 @@ public class OrderService extends BaseService {
 	public R reputationGood(String order_id, String reputations, String user_id) {
 
 		if (ToolUtil.isOneEmpty(order_id, user_id, reputations)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		List<SQL> sqls = new ArrayList<SQL>();
 		JSONArray pjarr = JSONArray.parseArray(reputations);

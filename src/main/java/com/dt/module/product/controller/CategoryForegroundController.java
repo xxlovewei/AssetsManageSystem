@@ -61,7 +61,7 @@ public class CategoryForegroundController extends BaseController {
 	@RequestMapping("/categoryF/queryTreeList.do")
 	public R categoryFqueryTreeList(String root_id)  {
 		if (ToolUtil.isEmpty(root_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		} else {
 			return R.SUCCESS_OPER(categoryFService.queryCategoryFTreeList(root_id));
 		}

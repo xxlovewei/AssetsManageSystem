@@ -70,7 +70,7 @@ public class MenuController extends BaseController {
 	@Acl
 	public R treeNodeRoleMap(String role_id, String modules_arr, String menu_id) {
 		if (ToolUtil.isOneEmpty(role_id, modules_arr, menu_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		return menuRoleMapService.treeNodeRoleMap(role_id, modules_arr, menu_id);
 	}

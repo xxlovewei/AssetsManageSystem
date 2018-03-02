@@ -100,7 +100,7 @@ public class ClassService extends BaseService {
 		// IDS
 		String ids = ps.getString("ids");
 		if (ToolUtil.isEmpty(ids)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		JSONArray idsarr = (JSONArray) JSONArray.parse(ids);
 		List<SQL> sqls = new ArrayList<SQL>();

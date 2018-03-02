@@ -106,7 +106,7 @@ public class MenuService extends BaseService {
 		if (type.equals("addmaster")) {
 			// 增加第一个节点
 			if (ToolUtil.isEmpty(menu_id)) {
-				return R.FAILURE_ERRREQ_PARAMS();
+				return R.FAILURE_REQ_PARAM_ERROR();
 			}
 			ins.set("node_id", nodeid);
 			ins.set("parent_id", "0");
@@ -165,7 +165,7 @@ public class MenuService extends BaseService {
 		String sort = ps.getString("sort");
 		String logo = ps.getString("logo");
 		if (ToolUtil.isEmpty(node_name)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update ups = new Update("sys_menus_node");
 		ups.set("node_name", node_name);

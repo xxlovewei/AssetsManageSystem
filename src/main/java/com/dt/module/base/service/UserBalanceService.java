@@ -25,7 +25,7 @@ public class UserBalanceService extends BaseService {
 	@Transactional
 	public R addBalance(String user_id, Double value, String mark, String flag) {
 		if (ToolUtil.isOneEmpty(user_id, value)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Double v = db.uniqueRecord("select balance from sys_user_info where user_id=?", user_id).getDouble("balance");
 		if(ToolUtil.isEmpty(v)) {
@@ -51,7 +51,7 @@ public class UserBalanceService extends BaseService {
 	@Transactional
 	public R reduceBalance(String user_id, Double value, String mark, String flag) {
 		if (ToolUtil.isOneEmpty(user_id, value)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Double v = db.uniqueRecord("select balance from sys_user_info where user_id=?", user_id).getDouble("balance");
 		if(ToolUtil.isEmpty(v)) {

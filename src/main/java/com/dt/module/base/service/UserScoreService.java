@@ -27,7 +27,7 @@ public class UserScoreService extends BaseService {
 	@Transactional
 	public R addScore(String user_id, int value, String mark, String flag) {
 		if (ToolUtil.isOneEmpty(user_id, value)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		int v = db.uniqueRecord("select score from sys_user_info where user_id=?", user_id).getInteger("score");
 		if(ToolUtil.isEmpty(v)) {
@@ -53,7 +53,7 @@ public class UserScoreService extends BaseService {
 	@Transactional
 	public R reduceScore(String user_id, int value, String mark, String flag) {
 		if (ToolUtil.isOneEmpty(user_id, value)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		int v = db.uniqueRecord("select score from sys_user_info where user_id=?", user_id).getInteger("score");
 		if(ToolUtil.isEmpty(v)) {
@@ -82,7 +82,7 @@ public class UserScoreService extends BaseService {
 	 */
 	public R queryScore(String user_id) {
 		if (ToolUtil.isEmpty(user_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		return R.SUCCESS_OPER(
 				db.query("select * from sys_user_score_dtl where user_id=?", user_id).toJsonArrayWithJsonObject());
@@ -109,7 +109,7 @@ public class UserScoreService extends BaseService {
 	 */
 	public R initScore(String user_id, int value) {
 		if (ToolUtil.isEmpty(user_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update up1 = new Update("sys_user_info");
 		up1.set("score", value);

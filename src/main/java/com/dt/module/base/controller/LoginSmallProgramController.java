@@ -69,7 +69,7 @@ public class LoginSmallProgramController extends BaseController {
 	@Acl(value = Acl.TYPE_ALLOW, info = "小程序用户登录")
 	public R login(String code, HttpServletRequest request) {
 		if (ToolUtil.isEmpty(code)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		R strres = getOpenIdStr(code);
 		if (strres.isFailed()) {
@@ -130,7 +130,7 @@ public class LoginSmallProgramController extends BaseController {
 		}
 		String openId = strres.getDataToJSONObject().getString("openid");
 		if (ToolUtil.isOneEmpty(avatarUrl, nickName, openId)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		TypedHashMap<String, Object> ps = new TypedHashMap<String, Object>();
 		ps.put("open_id", openId);

@@ -28,7 +28,7 @@ public class MenuRoleMapService extends BaseService {
 	@Transactional
 	public R treeNodeRoleMap(String role_id, String modulesarr, String menu_id) {
 		if (ToolUtil.isOneEmpty(role_id, modulesarr)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		db.execute(
 				"delete from sys_role_module where role_id=? and module_id in (select node_id from sys_menus_node where menu_id=?)",
@@ -50,7 +50,7 @@ public class MenuRoleMapService extends BaseService {
 	 */
 	public R treeRoleChecked(String menu_id, String role_id) {
 		if (ToolUtil.isOneEmpty(menu_id, role_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		JSONArray resarr = new JSONArray();
 		String sql = "select t.*,( select count(1) from  sys_menus_node where parent_id=t.node_id) children_cnt, (select count(1) from sys_role_module where role_id='"

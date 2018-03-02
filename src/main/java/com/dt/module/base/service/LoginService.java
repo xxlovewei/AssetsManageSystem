@@ -101,7 +101,7 @@ public class LoginService extends BaseService {
 		R res = null;
 		String user_id = "";
 		if (ToolUtil.isOneEmpty(value, login_type)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 
 		if (login_type.equals(LOGIN_TYPE_EMPL)) {
@@ -165,7 +165,7 @@ public class LoginService extends BaseService {
 	 */
 	public R validLogin(String value, String login_type, String client) {
 		if(ToolUtil.isOneEmpty(value,login_type,client)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		// 判断loginclient
 		R validLoginClient = validClientType(client);

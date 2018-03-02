@@ -84,7 +84,7 @@ public class EmplOrgService extends BaseService {
 		String node_id = ps.getString("node_id");
 		String node_name = ps.getString("node_name");
 		if (ToolUtil.isEmpty(node_name)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update ups = new Update("hrm_org_part");
 		ups.setIf("node_name", node_name);

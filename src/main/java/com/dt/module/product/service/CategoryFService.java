@@ -85,7 +85,7 @@ public class CategoryFService extends BaseService {
 	}
 	public R renameCategoryF(String id, String text) {
 		if (ToolUtil.isOneEmpty(id, text)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		String curInfosql = "";
 		curInfosql = curInfosql

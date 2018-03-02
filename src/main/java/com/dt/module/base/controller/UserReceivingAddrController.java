@@ -31,7 +31,7 @@ public class UserReceivingAddrController extends BaseController {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		} else {
 			return R.SUCCESS_OPER(userReceivingAddrService.queryReceivingAddrById(id));
 		}
@@ -58,7 +58,7 @@ public class UserReceivingAddrController extends BaseController {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		} else {
 			return userReceivingAddrService.delReceivingAddr(getUserId(), id, false);
 		}
@@ -90,7 +90,7 @@ public class UserReceivingAddrController extends BaseController {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		} else {
 			return userReceivingAddrService.updateDefReceivingAddr(getUserId(), id);
 		}

@@ -46,7 +46,7 @@ public class DictService extends BaseService {
 	 */
 	public R updateDict(TypedHashMap<String, Object> ps) {
 		if (!ps.containsKey("dict_id")) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update ups = new Update("sys_dict");
 		ups.setIf("name", ps.getString("name", ""));

@@ -45,7 +45,7 @@ public class ModuleItemMapService extends BaseService {
 	 */
 	public R queryModuleItem(String module_id) {
 		if (ToolUtil.isEmpty(module_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		String sql = "select * from ( " + "select " + "'Y' selected, " + "a.module_item_id, " + "a.status, "
 				+ "a.type, " + "a.ct url, " + "b.mark, " + "b.ctacl, "

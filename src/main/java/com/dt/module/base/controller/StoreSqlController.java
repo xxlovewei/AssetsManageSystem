@@ -35,7 +35,7 @@ public class StoreSqlController extends BaseController {
 	@Acl
 	public R queryStoreSqlById(String store_id) {
 		if (ToolUtil.isEmpty(store_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		return storeSqlService.queryStoreSqlById(store_id);
 	}
@@ -56,7 +56,7 @@ public class StoreSqlController extends BaseController {
 	@Acl
 	public R deleteStoreSql(String store_id) {
 		if (ToolUtil.isEmpty(store_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		return storeSqlService.deleteStoreSql(store_id);
 	}

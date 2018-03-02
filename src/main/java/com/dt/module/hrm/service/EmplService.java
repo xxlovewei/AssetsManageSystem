@@ -42,7 +42,7 @@ public class EmplService extends BaseService {
 		// 先判断组织
 		String nodes = ps.getString("nodes");
 		if (ToolUtil.isEmpty(nodes)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
 		String emplpartCtl = ifEmplCanMultiPart();
@@ -89,7 +89,7 @@ public class EmplService extends BaseService {
 		String user_id = ps.getString("user_id");
 		String empl_id = ps.getString("empl_id");
 		if (ToolUtil.isEmpty(empl_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		// 判断是否需要重置user_id,因为updateUser是根据user_id修改数据
 		if (ToolUtil.isEmpty(user_id)) {
@@ -101,7 +101,7 @@ public class EmplService extends BaseService {
 		 **************************************/
 		String nodes = ps.getString("nodes");
 		if (ToolUtil.isEmpty(nodes)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
 		String emplpartCtl = ifEmplCanMultiPart();

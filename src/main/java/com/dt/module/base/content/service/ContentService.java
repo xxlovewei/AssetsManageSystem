@@ -86,7 +86,7 @@ public class ContentService extends BaseService {
 	 */
 	public R deleteContent(String id, String type) {
 		if (ToolUtil.isOneEmpty(id, type)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update me = new Update("ct_content");
 		me.set("deleted", "Y");

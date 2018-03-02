@@ -46,7 +46,7 @@ public class CategoryAttrValueService extends BaseService {
 	 */
 	public R deleteAttrValue(String id) {
 		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		// 直接删除,如果后期更新产品,则根据新的属性值来
 		Update ups = new Update("product_category_attr_set");
@@ -60,7 +60,7 @@ public class CategoryAttrValueService extends BaseService {
 	 */
 	public R queryAttrValue(String attr_id) {
 		if (ToolUtil.isEmpty(attr_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		String sql = "select * from product_category_attr_set where is_deleted='N' and attr_id=? order by od";
 		return R.SUCCESS_OPER(db.query(sql, attr_id).toJsonArrayWithJsonObject());
@@ -77,7 +77,7 @@ public class CategoryAttrValueService extends BaseService {
 	public R updateAttrValue(TypedHashMap<String, Object> ps) {
 		String attr_set_id = ps.getString("id");
 		if (ToolUtil.isEmpty(attr_set_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update me = new Update("product_category_attr_set");
 		me.setIf("value", ps.getString("value"));

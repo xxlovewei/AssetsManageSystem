@@ -24,7 +24,7 @@ public class CategoryFRootService extends BaseService {
 		Insert ins = new Insert("product_cat_user_root");
 		String code = ps.getString("code");
 		if (ToolUtil.isEmpty(code)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		if (db.uniqueRecord(" select count(1) value from product_cat_user_root where is_deleted='N' and code=? ", code)
 				.getInteger("value") > 0) {
@@ -41,7 +41,7 @@ public class CategoryFRootService extends BaseService {
 	}
 	public R deleteCategoryFRoot(String id) {
 		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update me = new Update("product_cat_user_root");
 		me.set("is_deleted", "Y");
@@ -56,7 +56,7 @@ public class CategoryFRootService extends BaseService {
 	public R updateCategoryFRoot(TypedHashMap<String, Object> ps) {
 		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		// 更新的不允许更新code
 		Update ups = new Update("product_cat_user_root");

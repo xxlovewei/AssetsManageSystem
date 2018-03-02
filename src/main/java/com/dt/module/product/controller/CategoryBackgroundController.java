@@ -118,7 +118,7 @@ public class CategoryBackgroundController extends BaseController {
 	@RequestMapping("/categoryB/rename.do")
 	public R categoryBrename(String id, String text) throws IOException {
 		if (ToolUtil.isOneEmpty(id, text)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		if (id.equals("0")) {
 			return R.FAILURE("根节点不允许修改");

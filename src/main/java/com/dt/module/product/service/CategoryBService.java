@@ -47,7 +47,7 @@ public class CategoryBService extends BaseService {
 		String action = ps.getString("action");
 		String text = ps.getString("text", "新节点");
 		if (ToolUtil.isOneEmpty(id, action)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		// 判断操作类型
 		String is_cat = "";
@@ -101,7 +101,7 @@ public class CategoryBService extends BaseService {
 	 */
 	public R deleteCategoryB(String id) {
 		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Rcd rs = db.uniqueRecord("select count(1) value from product_category where is_deleted='N' and parent_id=?",
 				id);
@@ -125,7 +125,7 @@ public class CategoryBService extends BaseService {
 	 */
 	public R renameCategoryB(String id, String text) {
 		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		if (id.equals("0")) {
 			return R.FAILURE("根节点不允许修改");
@@ -235,7 +235,7 @@ public class CategoryBService extends BaseService {
 		String sale_attr = ToolUtil.parseYNValueDefY(ps.getString("sale_attr", "Y"));
 		String is_used = ToolUtil.parseYNValueDefY(ps.getString("is_used", ""));
 		if (ToolUtil.isEmpty(cat_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		// 获得基本属性
 		if (base_attr.equals("Y")) {

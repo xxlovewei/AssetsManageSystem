@@ -101,7 +101,7 @@ public class NewsController extends BaseController {
 	public R queryNewsByDatatable(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		int pagesize = respar.getIntValue("pagesize");

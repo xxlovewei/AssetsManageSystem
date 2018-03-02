@@ -147,7 +147,7 @@ public class ProductService extends BaseService {
 	 */
 	public R deleteProds(String prods) {
 		if (ToolUtil.isEmpty(prods)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		JSONArray prod_arr = JSONArray.parseArray(prods);
 		if (prod_arr.size() == 0) {
@@ -204,7 +204,7 @@ public class ProductService extends BaseService {
 	 */
 	public R prodOffOn(String prods, String is_off) {
 		if (ToolUtil.isOneEmpty(prods, is_off)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		if (!(is_off.equals("Y") || is_off.equals("N"))) {
 			return R.FAILURE("参数有误");
@@ -294,10 +294,10 @@ public class ProductService extends BaseService {
 		JSONArray salekv_arr = JSONArray.parseArray(sale_data_kv);
 		// 检查rebuild参数
 		if (ToolUtil.isEmpty(rebuild)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		if (!(rebuild.endsWith("Y") || rebuild.endsWith("N"))) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		ArrayList<String> sqls = new ArrayList<String>();
 		if (rebuild.equals("N")) {
@@ -345,7 +345,7 @@ public class ProductService extends BaseService {
 	 */
 	private R getAddProdSkuSqls(String spu, JSONArray sale_arr, JSONArray salekv_arr) {
 		if (ToolUtil.isOneEmpty(spu, sale_arr, salekv_arr)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		JSONObject res = new JSONObject();
 		JSONArray sqls = new JSONArray();

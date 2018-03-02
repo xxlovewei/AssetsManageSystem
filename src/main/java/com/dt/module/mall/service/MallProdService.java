@@ -31,7 +31,7 @@ public class MallProdService extends BaseService {
 
 	public R queryClassProdNotSel(String cat_id, String class_id, int pageSize, int pageIndex) {
 		if (ToolUtil.isOneEmpty(cat_id, class_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		String sql = "select * from product a where cat_id='" + cat_id
 				+ "' and is_deleted='N' and not exists (select * from sys_ct_class_item b where b.value=a.spu and class_id='"

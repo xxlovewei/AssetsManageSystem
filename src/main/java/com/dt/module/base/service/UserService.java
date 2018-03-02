@@ -430,7 +430,7 @@ public class UserService extends BaseService {
 	@Transactional
 	public R deleteUser(String user_id) {
 		if (ToolUtil.isEmpty(user_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update ups = new Update("sys_user_info");
 		ups.set("deleted", "Y");
@@ -541,7 +541,7 @@ public class UserService extends BaseService {
 		type = validUserType(type, USER_TYPE_SYS);
 		String user_id = ps.getString("user_id");
 		if (ToolUtil.isEmpty(user_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update ups = new Update("sys_user_info");
 		ups.setIf("nickname", ps.getString("nickname", "toy"));
@@ -586,15 +586,15 @@ public class UserService extends BaseService {
 		String userids = ps.getString("user_ids");
 		String roles = ps.getString("roles");
 		if (ToolUtil.isOneEmpty(userids, roles)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		JSONArray userids_arr = JSONArray.parseArray(userids);
 		JSONArray roles_arr = JSONArray.parseArray(roles);
 		if (ToolUtil.isEmpty(roles_arr)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		if (userids_arr.isEmpty()) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		for (int i = 0; i < userids_arr.size(); i++) {
 			// 处理用户

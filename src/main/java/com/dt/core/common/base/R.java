@@ -156,8 +156,8 @@ public class R extends BaseResult {
 				BaseCodeMsgEnum.FAILED_NO_DATA_MSG.getMessage(), null);
 
 	}
-
-	public static R FAILURE_ERRREQ_PARAMS() {
+ 
+	public static R FAILURE_REQ_PARAM_ERROR() {
 		return new R(false, BaseCodeMsgEnum.REQ_PARAM_ERROR.getCode(), BaseCodeMsgEnum.REQ_PARAM_ERROR.getMessage(),
 				null);
 	}

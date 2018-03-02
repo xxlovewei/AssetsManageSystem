@@ -29,7 +29,7 @@ public class CategoryAttrService extends BaseService {
 	public R addAttr(TypedHashMap<String, Object> ps) {
 		String cat_id = ps.getString("cat_id");
 		if (ToolUtil.isEmpty(cat_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Rcd cat_rs = db.uniqueRecord("select * from product_category where is_deleted='N' and id=? and is_cat='Y'",
 				cat_id);
@@ -74,7 +74,7 @@ public class CategoryAttrService extends BaseService {
 			} else if (input_type.equals(INPUTTYPE_SEL_MULTI)) {
 				return R.FAILURE("基本属性暂不支持多选组件");
 			} else {
-				return R.FAILURE_ERRREQ_PARAMS();
+				return R.FAILURE_REQ_PARAM_ERROR();
 			}
 		} else {
 			return R.FAILURE("请选择正确的属性");
@@ -118,7 +118,7 @@ public class CategoryAttrService extends BaseService {
 	public R updateAttr(TypedHashMap<String, Object> ps) {
 		String id = ps.getString("ID");
 		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update ups = new Update("product_category_attr");
 		ups.setIf("is_need", ps.getString("is_need"));
@@ -136,7 +136,7 @@ public class CategoryAttrService extends BaseService {
 	 */
 	public R queryAttr(String cat_id) {
 		if (ToolUtil.isEmpty(cat_id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		String sql = "select a.*,case a.attr_type when 'sale' then '销售属性' when 'base' then '基本属性' else '未知' end attr_type_name from product_category_attr a where is_deleted='N' and cat_id=? order by attr_type,od";
 		return R.SUCCESS_OPER(db.query(sql, cat_id).toJsonArrayWithJsonObject());
@@ -146,7 +146,7 @@ public class CategoryAttrService extends BaseService {
 	 */
 	public R queryAttrById(String id) {
 		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Rcd r = db.uniqueRecord("select * from product_category_attr where id=?", id);
 		return R.SUCCESS_OPER(r.toJsonObject());

@@ -88,7 +88,7 @@ public class ParamsService extends BaseService {
 	 */
 	public R queryParamsByIdWithExist(String id, String def_value, String type) {
 		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_ERRREQ_PARAMS();
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 
 		String sql = "select * from sys_params where deleted='N' and id=?";
