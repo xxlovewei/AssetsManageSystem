@@ -11,7 +11,7 @@ public class R extends BaseResult {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static String TYPE_JSON = "json";
-	public static String TYPE_XML = "xml";
+	//public static String TYPE_XML = "xml";
 	public String type = R.TYPE_JSON;
 
 	public String getType() {
