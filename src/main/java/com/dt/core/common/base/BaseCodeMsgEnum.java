@@ -33,12 +33,13 @@ public enum BaseCodeMsgEnum {
 	USER_TWO_PWD_NOT_MATCH(292, "两次输入密码不一致"),
 	USER_QUERY_FAILED(291, "获取用户失败"),
 	 
+	
 	SYSTEM_CONF_ERROR(2000,"系统配置错误"),
 	SYSTEM_RUNNING_ERROR(2001,"系统运行异常"),
 	SYSTEM_UNKNOW_ERROR(2222,"系统未知错误"),
 	
-	NO_PERMITION(1000,"无权限"),
-	REQ_PARAM_ERROR(501,"请求参数不正确"),
+	NO_PERMITION(5000,"无权限"),
+	REQ_PARAM_ERROR(5001,"请求参数不正确"),
 	
 	WX_FAILED_GET_OPENID(10001,"微信未获取Openid");
 	
