@@ -19,7 +19,6 @@ public class R implements Serializable {
 	private String message = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage();
 	private boolean success;
 	private Object data;
-	
 
 	public String getType() {
 		return type;
@@ -162,10 +161,9 @@ public class R implements Serializable {
 		return new R(false, BaseCodeMsgEnum.REQ_PARAM_ERROR.getCode(), BaseCodeMsgEnum.REQ_PARAM_ERROR.getMessage(),
 				null);
 	}
-	
+
 	public static R FAILURE_NO_PERMITION() {
-		return new R(false, BaseCodeMsgEnum.NO_PERMITION.getCode(), BaseCodeMsgEnum.NO_PERMITION.getMessage(),
-				null);
+		return new R(false, BaseCodeMsgEnum.NO_PERMITION.getCode(), BaseCodeMsgEnum.NO_PERMITION.getMessage(), null);
 	}
 
 	public static R FAILURE_SYS_PARAMS() {
@@ -191,6 +189,11 @@ public class R implements Serializable {
 	public static R FAILURE_NOT_LOGIN() {
 		return new R(false, BaseCodeMsgEnum.USER_NOT_LOGIN.getCode(), BaseCodeMsgEnum.USER_NOT_LOGIN.getMessage(),
 				null);
+	}
+
+	public static R FAILURE_UNKNOW_ERROR() {
+		return new R(false, BaseCodeMsgEnum.SYSTEM_UNKNOW_ERROR.getCode(),
+				BaseCodeMsgEnum.SYSTEM_UNKNOW_ERROR.getMessage(), null);
 	}
 
 	public JSONArray getDataToJSONArray() {
@@ -310,10 +313,10 @@ public class R implements Serializable {
 	public void setCode(int code) {
 		this.code = code;
 	}
-	
+
 	public static void main(String[] args) {
 		BaseCommon.print(R.FAILURE_NO_PERMITION().asJsonStr());
 		BaseCommon.print(R.FAILURE_NOT_LOGIN().asJsonStr());
-		
+
 	}
 }
