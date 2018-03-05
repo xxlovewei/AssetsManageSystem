@@ -19,6 +19,7 @@ public class R implements Serializable {
 	private String message = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage();
 	private boolean success;
 	private Object data;
+	
 
 	public String getType() {
 		return type;
