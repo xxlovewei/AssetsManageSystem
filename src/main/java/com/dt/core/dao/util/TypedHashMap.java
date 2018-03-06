@@ -14,6 +14,7 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 
 	public TypedHashMap() {
 	}
+
 	public TypedHashMap(HashMap<K, V> map) {
 		if (map == null)
 			return;
@@ -22,10 +23,12 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 			this.put(key, value);
 		}
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public Integer getInt(V key) {
 		return dp.parseInteger(this.get(key));
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public Integer getInt(V key, Integer value) {
 		if (this.containsKey(key)) {
@@ -34,6 +37,7 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 			return value;
 		}
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public Integer[] getIntArray(V key) {
 		try {
@@ -42,10 +46,12 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 			return null;
 		}
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public String getString(V key) {
 		return dp.parseString(this.get(key));
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public String getString(V key, String defaultStr) {
 		if (this.containsKey(key)) {
@@ -54,6 +60,7 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 			return defaultStr;
 		}
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public String[] getStringArray(V key) {
 		try {
@@ -62,30 +69,37 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 			return null;
 		}
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public Float getFloat(V key) {
 		return dp.parseFloat(this.get(key));
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public Double getDouble(V key) {
 		return dp.parseDouble(this.get(key));
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public Date getDate(V key) {
 		return dp.parseDate(this.get(key));
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public Boolean getBoolean(V key) {
 		return dp.parseBoolean(this.get(key));
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public Long getLong(V key) {
 		return dp.parseLong(this.get(key));
 	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	public Short getShort(V key) {
 		return dp.parseShort(this.get(key));
 	}
+
 	/**
 	 * 名值对转换
 	 */
