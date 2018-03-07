@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -141,7 +142,7 @@ public class EmplService extends BaseService {
 		if (ToolUtil.isEmpty(node_id)) {
 			return R.FAILURE("无节点");
 		}
-		String sql = "select c.* from hrm_org_employee a,sys_user_info c where a.empl_id=c.empl_id and c.user_type= ? and a.node_id=?";
+		String sql = "select c.* from hrm_org_employee a,sys_user_info c where a.empl_id=c.empl_id and c.user_type= ? and a.node_id=? and c.deleted='N'";
 		RcdSet rs = db.query(sql, UserService.USER_TYPE_EMPL, node_id);
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
@@ -157,11 +158,13 @@ public class EmplService extends BaseService {
 			// 选择需要的节点
 			Rcd routev = db.uniqueRecord("select route from hrm_org_part where node_id=?", node_id);
 			if (routev == null) {
-				R.FAILURE("该节点不存在");
+				return R.FAILURE("该节点不存在");
 			}
 			String route = routev.getString("route").replaceAll("-", ",");
 			bsql = "select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
-			bsql = bsql + " and a.node_id in(" + route + ") ";
+			//bsql = bsql + " and a.node_id in(" + route + ") ";
+			//不级联获取人员数据
+			bsql = bsql + " and a.node_id= '"+node_id+"'";
 		} else {
 			bsql = "select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
 		}
@@ -169,7 +172,7 @@ public class EmplService extends BaseService {
 			bsql = bsql + " and b.name like '%" + name + "%'";
 		}
 		bsql = bsql + " order by name";
-		 
+		BaseCommon.print(bsql);
 		return R.SUCCESS_OPER(db.query(bsql).toJsonArrayWithJsonObject());
 	}
 
