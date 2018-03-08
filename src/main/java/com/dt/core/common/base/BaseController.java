@@ -5,36 +5,41 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.dt.core.tool.util.support.HttpKit;
 
 public class BaseController extends BaseSC {
-	private static Logger _log = LoggerFactory.getLogger(BaseController.class);
+	// private static Logger _log =
+	// LoggerFactory.getLogger(BaseController.class);
 
 	protected HttpServletRequest getHttpServletRequest() {
 		return HttpKit.getRequest();
 	}
+
 	protected HttpServletResponse getHttpServletResponse() {
 		return HttpKit.getResponse();
 	}
+
 	protected HttpSession getSession() {
 		return HttpKit.getRequest().getSession();
 	}
+
 	protected HttpSession getSession(Boolean flag) {
 		return HttpKit.getRequest().getSession(flag);
 	}
+
 	protected String getPara(String name) {
 		return HttpKit.getRequest().getParameter(name);
 	}
+
 	protected void setAttr(String name, Object value) {
 		HttpKit.getRequest().setAttribute(name, value);
 	}
+
 	public String getUserId() {
 		String user_id = (String) HttpKit.getRequest().getSession().getAttribute("user_id");
 		return user_id;
 	}
+
 	protected Integer getSystemInvokCount() {
 		return (Integer) this.getHttpServletRequest().getServletContext().getAttribute("systemCount");
 	}
@@ -47,6 +52,7 @@ public class BaseController extends BaseSC {
 	/**
 	 * 包装一个list，让list增加额外属性
 	 */
+
 	// protected Object warpObject(BaseControllerWarpper warpper) {
 	// return warpper.warp();
 	// }
@@ -63,29 +69,34 @@ public class BaseController extends BaseSC {
 			}
 		}
 	}
- 
+
 	// protected ResponseEntity<byte[]> renderFile(String fileName, String
 	// filePath) {
 	// byte[] bytes = FileUtil.toByteArray(filePath);
 	// return renderFile(fileName, bytes);
 	// }
-	 
+
 	/*
-	 * protected ResponseEntity<byte[]> renderFile(String fileName, byte[] fileBytes) { String
-	 * dfileName = null; try { dfileName = new String(fileName.getBytes("gb2312"), "iso8859-1"); }
-	 * catch (UnsupportedEncodingException e) { e.printStackTrace(); } HttpHeaders headers = new
-	 * HttpHeaders(); headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-	 * headers.setContentDispositionFormData("attachment", dfileName); return new
-	 * ResponseEntity<byte[]>(fileBytes, headers, HttpStatus.CREATED); }
-	 * @ExceptionHandler({ UnauthenticatedException.class, AuthenticationException.class }) public
-	 * String authenticationException(HttpServletRequest request, HttpServletResponse response) {
-	 * JSONObject obj = new JSONObject(); obj.put("code", "-999"); obj.put("message", "未登录");
-	 * writeJson(obj, response); return null; } private void writeJson(JSONObject obj,
-	 * HttpServletResponse response) { PrintWriter out = null; try {
-	 * response.setCharacterEncoding("UTF-8"); response.setContentType(
-	 * "application/json; charset=utf-8"); out = response.getWriter();
-	 * out.write(obj.toJSONString()); } catch (IOException e) { e.printStackTrace(); } finally { if
-	 * (out != null) { out.close(); } } }
+	 * protected ResponseEntity<byte[]> renderFile(String fileName, byte[]
+	 * fileBytes) { String dfileName = null; try { dfileName = new
+	 * String(fileName.getBytes("gb2312"), "iso8859-1"); } catch
+	 * (UnsupportedEncodingException e) { e.printStackTrace(); } HttpHeaders
+	 * headers = new HttpHeaders();
+	 * headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+	 * headers.setContentDispositionFormData("attachment", dfileName); return
+	 * new ResponseEntity<byte[]>(fileBytes, headers, HttpStatus.CREATED); }
+	 * 
+	 * @ExceptionHandler({ UnauthenticatedException.class,
+	 * AuthenticationException.class }) public String
+	 * authenticationException(HttpServletRequest request, HttpServletResponse
+	 * response) { JSONObject obj = new JSONObject(); obj.put("code", "-999");
+	 * obj.put("message", "未登录"); writeJson(obj, response); return null; }
+	 * private void writeJson(JSONObject obj, HttpServletResponse response) {
+	 * PrintWriter out = null; try { response.setCharacterEncoding("UTF-8");
+	 * response.setContentType( "application/json; charset=utf-8"); out =
+	 * response.getWriter(); out.write(obj.toJSONString()); } catch (IOException
+	 * e) { e.printStackTrace(); } finally { if (out != null) { out.close(); } }
+	 * }
 	 */
 	public String warpObject(Object o) {
 		if (o instanceof R) {
