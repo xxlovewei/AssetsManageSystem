@@ -89,7 +89,6 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 		HttpServletRequest httpReq = (HttpServletRequest) request;
 		String uri = httpReq.getRequestURI();
 		Subject subject = getSubject(request, response);
-		log.info("url:" + uri + ",isRemember:" + subject.isRemembered() + ",isAuth:" + subject.isAuthenticated());
 		return subject.isAuthenticated();
 	}
 	@Override

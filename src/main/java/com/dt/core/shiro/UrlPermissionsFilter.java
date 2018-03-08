@@ -30,7 +30,8 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 
 	/**
 	 * @param mappedValue
-	 *            指的是在声明url时指定的权限字符串，如/User/create.do=perms[User:create].我们要动态产生这个权限字符串，所以这个配置对我们没用
+	 *            指的是在声明url时指定的权限字符串，如/User/create.do=perms[User:create].
+	 *            我们要动态产生这个权限字符串，所以这个配置对我们没用
 	 */
 	@Override
 	public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
@@ -39,15 +40,17 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 		String user_id = (String) req.getSession().getAttribute("user_id");
 		// 如果是sys用户则具有最高权限
 		if (ToolUtil.isNotEmpty(user_id) && BaseCommon.isSuperAdmin(user_id)) {
-			log.info("sys用户直接访问,无权限判断.");
+			log.info(BaseCommon.getSuperAdmin() + "用户直接访问");
 			return true;
 		} else {
 			return super.isAccessAllowed(request, response, buildPermissions(request));
 		}
 		// return true;
 	}
+
 	/**
 	 * 根据请求URL产生权限字符串，这里只产生，而比对的事交给Realm
+	 * 
 	 * @param request
 	 * @return
 	 */
@@ -58,6 +61,7 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 		perms[0] = path;// path直接作为权限字符串
 		return perms;
 	}
+
 	@Override
 	public boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -91,6 +95,7 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 		}
 		return false;
 	}
+
 	private Boolean isReturnJSON(HttpServletRequest httpRequest) {
 		Boolean res = false;
 		if (HttpKit.isAjax(httpRequest) || StrKit.endWith(httpRequest.getRequestURL() + "", ".do", true)) {

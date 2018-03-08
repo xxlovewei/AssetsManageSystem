@@ -33,7 +33,6 @@ public class BaseController extends BaseSC {
 	}
 	public String getUserId() {
 		String user_id = (String) HttpKit.getRequest().getSession().getAttribute("user_id");
-		_log.info("getUserId:" + user_id);
 		return user_id;
 	}
 	protected Integer getSystemInvokCount() {
