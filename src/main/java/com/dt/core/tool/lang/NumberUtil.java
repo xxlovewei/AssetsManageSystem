@@ -39,6 +39,7 @@ import com.dt.core.tool.util.support.StrKit;
  */
 public class NumberUtil {
 
+
 	/** 默认除法运算精度 */
 	private static final int DEFAUT_DIV_SCALE = 10;
 
@@ -1952,8 +1953,13 @@ public class NumberUtil {
 			return 1;
 		} else {
 			return selectNum * mathNode(selectNum - 1);
+	
 		}
 	}
 	// -------------------------------------------------------------------------------------------
 	// Private method end
+	public static void main(String [] args){
+		System.out.println(isNumber("11.1"));
+		System.out.println(isDouble("1"));
+	}
 }

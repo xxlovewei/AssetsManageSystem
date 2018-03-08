@@ -138,6 +138,22 @@ public class ValidationUtil {
 		return b;
 	}
 
+	public static boolean isNumber(String str) {
+		return NumberUtil.isNumber(str);
+	}
+
+	public static boolean isDouble(String str) {
+		return NumberUtil.isDouble(str);
+	}
+
+	public static boolean isInteger(String str) {
+		return NumberUtil.isInteger(str);
+	}
+
+	public static boolean isLong(String str) {
+		return NumberUtil.isLong(str);
+	}
+
 	// public static boolean isInetAddressValid(String data) {
 	// if (data == null) {
 	// return false;
@@ -156,15 +172,18 @@ public class ValidationUtil {
 
 	public static void main(String[] args) {
 		// String token = "186281499523";
-		// logger.info("checkToken:【{}】for 【{}】,result is:【{}】", token, "isMobileValid",
+		// logger.info("checkToken:【{}】for 【{}】,result is:【{}】", token,
+		// "isMobileValid",
 		// isMobileValid(token));
 		//
 		// token = "028-545435";
-		// logger.info("checkToken:【{}】 for 【{}】,result is:【{}】", token, "isPhoneValid",
+		// logger.info("checkToken:【{}】 for 【{}】,result is:【{}】", token,
+		// "isPhoneValid",
 		// isPhoneValid(token));
 		//
 		// token = "nevermissing@vip.qq.com";
-		// logger.info("checkToken:【{}】 for 【{}】,result is:【{}】", token, "isEmailValid",
+		// logger.info("checkToken:【{}】 for 【{}】,result is:【{}】", token,
+		// "isEmailValid",
 		// isEmailValid(token));
 		//
 		// token = "dasd";
@@ -176,11 +195,13 @@ public class ValidationUtil {
 		// "isInetAddressValid", isInetAddressValid(token));
 		//
 		// token = "http://www.baidu.com/";
-		// logger.info("checkToken:【{}】 for 【{}】,result is:【{}】", token, "isUrl",
+		// logger.info("checkToken:【{}】 for 【{}】,result is:【{}】", token,
+		// "isUrl",
 		// isUrl(token));
 		//
 		// token = "2016-01-01 12:12:12";
-		// logger.info("checkToken:【{}】 for 【{}】,result is:【{}】", token, "isDateValid",
+		// logger.info("checkToken:【{}】 for 【{}】,result is:【{}】", token,
+		// "isDateValid",
 		// isDateValid(token, DatePattern.year_to_second));
 		//
 		// token = "www.apache.org";
