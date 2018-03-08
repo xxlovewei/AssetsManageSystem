@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.dt.core.tool.lang.PropertiesFileUtil;
 import com.dt.core.tool.util.support.HttpKit;
 
 public class BaseController extends BaseSC {
@@ -104,5 +105,24 @@ public class BaseController extends BaseSC {
 		} else {
 			return o.toString();
 		}
+	}
+	
+	/**
+	 * 返回jsp视图
+	 * @param path
+	 * @return
+	 */
+	public static String jsp(String path) {
+		return path.concat(".jsp");
+	}
+
+	/**
+	 * 返回thymeleaf视图
+	 * @param path
+	 * @return
+	 */
+	public static String thymeleaf(String path) {
+		String folder = PropertiesFileUtil.getInstance().get("app.name");
+		return "/".concat(folder).concat(path).concat(".html");
 	}
 }

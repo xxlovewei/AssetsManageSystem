@@ -41,14 +41,14 @@ public class FileUpDownController extends BaseController {
 	public R fileUpload(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String type = request.getParameter("type");
 		String uuid = request.getParameter("uuid");
-		if (type == null || type.equals("")) {
+		if (ToolUtil.isEmpty(type)) {
 			return R.FAILURE("请输入文件类型");
 		}
-		if (uuid == null || uuid.equals("")) {
+		if (ToolUtil.isEmpty(uuid)) {
 			return R.FAILURE("请输入uuid");
 		}
 		String bus = request.getParameter("bus");
-		if (bus == null || bus.equals("")) {
+		if (ToolUtil.isEmpty(bus)) {
 			return R.FAILURE("请输入业务号");
 		}
 		Rcd fileinfo = db.uniqueRecord("select * from sys_file_conf where id=? and is_used='Y'", bus);
@@ -97,14 +97,14 @@ public class FileUpDownController extends BaseController {
 	@Acl(value = Acl.TYPE_ALLOW)
 	public void imagedown(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = request.getParameter("id");
-		if(ToolUtil.isEmpty(id)){
+		if (ToolUtil.isEmpty(id)) {
 			id = "none";
 		}
 		// id = "F607ABCD1F4583F41EE166A501572FF6";
 		String sql = "select * from sys_files where id=?";
 		Rcd set = db.uniqueRecord(sql, id);
 		File file = null;
-		String filePath="";
+		String filePath = "";
 		String ct = "";
 		try {
 			String type = set.getString("type");
@@ -115,11 +115,13 @@ public class FileUpDownController extends BaseController {
 			filePath = getWebRootDir() + ".." + File.separatorChar + fileurl;
 			_log.info("filePath" + filePath);
 			String heightStr = request.getParameter("height");
-			if (heightStr == null || heightStr.isEmpty())
+			if (ToolUtil.isEmpty(heightStr)) {
 				heightStr = request.getParameter("h");
+			}
 			String widthStr = request.getParameter("width");
-			if (widthStr == null || widthStr.isEmpty())
+			if (ToolUtil.isEmpty(widthStr)) {
 				widthStr = request.getParameter("w");
+			}
 			String crop = request.getParameter("crop");
 			String fit = request.getParameter("fit");
 			fit = "width";
@@ -160,7 +162,6 @@ public class FileUpDownController extends BaseController {
 			response.reset();
 			response.setContentType(ct);
 			ImageIO.write(input, "png", response.getOutputStream());
-			
 		} catch (Exception e) {
 			_log.info("获取图片失败:" + filePath);
 		}

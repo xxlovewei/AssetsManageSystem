@@ -33,7 +33,7 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			SimpleFilterChainDefinitionsService.me().updatePermission();
 			try {
 				InputStream in = ApplicationContextListener.class.getClassLoader()
-						.getResourceAsStream("sys.properties");
+						.getResourceAsStream("config.properties");
 				Properties ps = new Properties();
 				ps.load(in);
 				String initjob = ps.getProperty("job.enable");
@@ -47,7 +47,7 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				_log.info("读取sys.properties发生错误.");
+				_log.info("读取config.properties发生错误.");
 				e.printStackTrace();
 			}
 
