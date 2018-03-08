@@ -30,6 +30,7 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 	}
 
  
+	@SuppressWarnings("unlikely-arg-type")
 	public Integer getInt(V key, Integer value) {
 		if (this.containsKey(key)) {
 			return dp.parseInteger(this.get(key));
