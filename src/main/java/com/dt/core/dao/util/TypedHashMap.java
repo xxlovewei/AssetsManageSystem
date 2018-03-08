@@ -62,6 +62,7 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 	}
 
  
+	@SuppressWarnings("unlikely-arg-type")
 	public String[] getStringArray(V key) {
 		try {
 			return (String[]) this.get(key);
