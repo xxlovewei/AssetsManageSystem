@@ -12,6 +12,9 @@ import com.dt.core.tool.util.ToolUtil;
  */
 public class BaseCommon {
 
+
+ 
+	
 	public static boolean isSuperAdmin(String id) {
 		return ToolUtil.isNotEmpty(id) && id.equals(getSuperAdmin()) ? true : false;
 	}

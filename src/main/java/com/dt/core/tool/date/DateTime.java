@@ -62,9 +62,6 @@ public class DateTime extends Date {
 
 	/**
 	 * @return 输出精确到毫秒的标准日期形式
-	 * 
-	 * 
-	 * 
 	 */
 	public String toMsStr() {
 		return DateTimeKit.format(this, DateTimeKit.NORM_DATETIME_MS_PATTERN);

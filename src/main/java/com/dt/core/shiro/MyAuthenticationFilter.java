@@ -39,31 +39,38 @@ import com.dt.core.tool.util.support.HttpKit;
 import com.dt.core.tool.util.support.StrKit;
 
 /**
- * Requires the requesting user to be authenticated for the request to continue, and if they are
- * not, forces the user to login via by redirecting them to the {@link #setLoginUrl(String)
- * loginUrl} you configure.
+ * Requires the requesting user to be authenticated for the request to continue,
+ * and if they are not, forces the user to login via by redirecting them to the
+ * {@link #setLoginUrl(String) loginUrl} you configure.
  * <p/>
  * <p>
- * This filter constructs a {@link UsernamePasswordToken UsernamePasswordToken} with the values
- * found in {@link #setUsernameParam(String) username}, {@link #setPasswordParam(String) password},
- * and {@link #setRememberMeParam(String) rememberMe} request parameters. It then calls
+ * This filter constructs a {@link UsernamePasswordToken UsernamePasswordToken}
+ * with the values found in {@link #setUsernameParam(String) username},
+ * {@link #setPasswordParam(String) password}, and
+ * {@link #setRememberMeParam(String) rememberMe} request parameters. It then
+ * calls
  * {@link org.apache.shiro.subject.Subject#login(org.apache.shiro.authc.AuthenticationToken)
- * Subject.login(usernamePasswordToken)}, effectively automatically performing a login attempt. Note
- * that the login attempt will only occur when the
+ * Subject.login(usernamePasswordToken)}, effectively automatically performing a
+ * login attempt. Note that the login attempt will only occur when the
  * {@link #isLoginSubmission(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
- * isLoginSubmission(request,response)} is <code>true</code>, which by default occurs when the
- * request is for the {@link #setLoginUrl(String) loginUrl} and is a POST request.
+ * isLoginSubmission(request,response)} is <code>true</code>, which by default
+ * occurs when the request is for the {@link #setLoginUrl(String) loginUrl} and
+ * is a POST request.
  * <p/>
  * <p>
- * If the login attempt fails, the resulting <code>AuthenticationException</code> fully qualified
- * class name will be set as a request attribute under the {@link #setFailureKeyAttribute(String)
- * failureKeyAttribute} key. This FQCN can be used as an i18n key or lookup mechanism to explain to
- * the user why their login attempt failed (e.g. no account, incorrect password, etc).
+ * If the login attempt fails, the resulting
+ * <code>AuthenticationException</code> fully qualified class name will be set
+ * as a request attribute under the {@link #setFailureKeyAttribute(String)
+ * failureKeyAttribute} key. This FQCN can be used as an i18n key or lookup
+ * mechanism to explain to the user why their login attempt failed (e.g. no
+ * account, incorrect password, etc).
  * <p/>
  * <p>
- * If you would prefer to handle the authentication validation and login in your own code, consider
- * using the {@link PassThruAuthenticationFilter} instead, which allows requests to the
- * {@link #loginUrl} to pass through to your application's code directly.
+ * If you would prefer to handle the authentication validation and login in your
+ * own code, consider using the {@link PassThruAuthenticationFilter} instead,
+ * which allows requests to the {@link #loginUrl} to pass through to your
+ * application's code directly.
+ * 
  * @see PassThruAuthenticationFilter
  * @since 0.9
  */
@@ -82,16 +89,17 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 	public MyAuthenticationFilter() {
 		setLoginUrl(DEFAULT_LOGIN_URL);
 	}
+
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 		// subject.isAuthenticated()表示用户进行了身份验证登录的，即使有Subject.login进行了登
 		// subject.isRemembered()：表示用户是通过记住我登录的，此时可能并不是真正的你,且两者二选一,即subject.isAuthenticated()==true，则subject.isRemembered()==false；反之一样
-		HttpServletRequest httpReq = (HttpServletRequest) request;
-		String uri = httpReq.getRequestURI();
+		// HttpServletRequest httpReq = (HttpServletRequest) request;
+		// String uri = httpReq.getRequestURI();
 		Subject subject = getSubject(request, response);
-		log.info("url:" + uri + ",isRemember:" + subject.isRemembered() + ",isAuth:" + subject.isAuthenticated());
 		return subject.isAuthenticated();
 	}
+
 	@Override
 	public void setLoginUrl(String loginUrl) {
 		log.info("setLoginUrl");
@@ -105,56 +113,77 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 		}
 		this.appliedPaths.put(getLoginUrl(), null);
 	}
+
 	public String getUsernameParam() {
 		log.info("getUsernameParam");
 		return usernameParam;
 	}
+
 	/**
-	 * Sets the request parameter name to look for when acquiring the username. Unless overridden by
-	 * calling this method, the default is <code>username</code>.
-	 * @param usernameParam the name of the request param to check for acquiring the username.
+	 * Sets the request parameter name to look for when acquiring the username.
+	 * Unless overridden by calling this method, the default is
+	 * <code>username</code>.
+	 * 
+	 * @param usernameParam
+	 *            the name of the request param to check for acquiring the
+	 *            username.
 	 */
 	public void setUsernameParam(String usernameParam) {
 		log.info("setUsernameParam");
 		this.usernameParam = usernameParam;
 	}
+
 	public String getPasswordParam() {
 		log.info("getPasswordParam");
 		return passwordParam;
 	}
+
 	/**
-	 * Sets the request parameter name to look for when acquiring the password. Unless overridden by
-	 * calling this method, the default is <code>password</code>.
-	 * @param passwordParam the name of the request param to check for acquiring the password.
+	 * Sets the request parameter name to look for when acquiring the password.
+	 * Unless overridden by calling this method, the default is
+	 * <code>password</code>.
+	 * 
+	 * @param passwordParam
+	 *            the name of the request param to check for acquiring the
+	 *            password.
 	 */
 	public void setPasswordParam(String passwordParam) {
 		log.info("setPasswordParam");
 		this.passwordParam = passwordParam;
 	}
+
 	public String getRememberMeParam() {
 		log.info("getRememberMeParam");
 		return rememberMeParam;
 	}
+
 	/**
-	 * Sets the request parameter name to look for when acquiring the rememberMe boolean value.
-	 * Unless overridden by calling this method, the default is <code>rememberMe</code>.
+	 * Sets the request parameter name to look for when acquiring the rememberMe
+	 * boolean value. Unless overridden by calling this method, the default is
+	 * <code>rememberMe</code>.
 	 * <p/>
-	 * RememberMe will be <code>true</code> if the parameter value equals any of those supported by
+	 * RememberMe will be <code>true</code> if the parameter value equals any of
+	 * those supported by
 	 * {@link org.apache.shiro.web.util.WebUtils#isTrue(javax.servlet.ServletRequest, String)
 	 * WebUtils.isTrue(request,value)}, <code>false</code> otherwise.
-	 * @param rememberMeParam the name of the request param to check for acquiring the rememberMe
-	 *            boolean value.
+	 * 
+	 * @param rememberMeParam
+	 *            the name of the request param to check for acquiring the
+	 *            rememberMe boolean value.
 	 */
 	public void setRememberMeParam(String rememberMeParam) {
 		log.info("setRememberMeParam");
 		this.rememberMeParam = rememberMeParam;
 	}
+
 	public String getFailureKeyAttribute() {
 		return failureKeyAttribute;
 	}
+
 	public void setFailureKeyAttribute(String failureKeyAttribute) {
 		this.failureKeyAttribute = failureKeyAttribute;
 	}
+
 	// 如果返回true表示需要继续处理；如果返回false表示该拦截器实例已经处理了，将直接返回即可
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		log.info("onAccessDenied");
@@ -195,6 +224,7 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 			return false;
 		}
 	}
+
 	private Boolean isReturnJSON(HttpServletRequest httpRequest) {
 		Boolean res = false;
 		if (HttpKit.isAjax(httpRequest) || StrKit.endWith(httpRequest.getRequestURL() + "", ".do", true)) {
@@ -202,30 +232,38 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 		}
 		return res;
 	}
+
 	/**
-	 * This default implementation merely returns <code>true</code> if the request is an HTTP
-	 * <code>POST</code>, <code>false</code> otherwise. Can be overridden by subclasses for custom
-	 * login submission detection behavior.
-	 * @param request the incoming ServletRequest
-	 * @param response the outgoing ServletResponse.
-	 * @return <code>true</code> if the request is an HTTP <code>POST</code>, <code>false</code>
-	 *         otherwise.
+	 * This default implementation merely returns <code>true</code> if the
+	 * request is an HTTP <code>POST</code>, <code>false</code> otherwise. Can
+	 * be overridden by subclasses for custom login submission detection
+	 * behavior.
+	 * 
+	 * @param request
+	 *            the incoming ServletRequest
+	 * @param response
+	 *            the outgoing ServletResponse.
+	 * @return <code>true</code> if the request is an HTTP <code>POST</code>,
+	 *         <code>false</code> otherwise.
 	 */
 	protected boolean isLoginSubmission(ServletRequest request, ServletResponse response) {
 		log.info("isLoginSubmission");
 		return (request instanceof HttpServletRequest)
 				&& WebUtils.toHttp(request).getMethod().equalsIgnoreCase(POST_METHOD);
 	}
+
 	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
 		log.info("createToken");
 		String username = getUsername(request);
 		String password = getPassword(request);
 		return createToken(username, password, request, response);
 	}
+
 	protected boolean isRememberMe(ServletRequest request) {
 		log.info("isRememberMe:" + getRememberMeParam());
 		return WebUtils.isTrue(request, getRememberMeParam());
 	}
+
 	protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
 			ServletResponse response) throws Exception {
 		log.info("onLoginSuccess");
@@ -234,6 +272,7 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 		// continuing:
 		return false;
 	}
+
 	protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request,
 			ServletResponse response) {
 		if (log.isDebugEnabled()) {
@@ -243,13 +282,16 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 		// login failed, let request continue back to the login page:
 		return true;
 	}
+
 	protected void setFailureAttribute(ServletRequest request, AuthenticationException ae) {
 		String className = ae.getClass().getName();
 		request.setAttribute(getFailureKeyAttribute(), className);
 	}
+
 	protected String getUsername(ServletRequest request) {
 		return WebUtils.getCleanParam(request, getUsernameParam());
 	}
+
 	protected String getPassword(ServletRequest request) {
 		return WebUtils.getCleanParam(request, getPasswordParam());
 	}

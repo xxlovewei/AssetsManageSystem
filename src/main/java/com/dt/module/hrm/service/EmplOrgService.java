@@ -159,8 +159,12 @@ public class EmplOrgService extends BaseService {
 	 * @Description:查询某个组织信息
 	 */
 	public R queryEmplOrgById(String node_id) {
+		
 		if (ToolUtil.isEmpty(node_id)) {
 			return R.FAILURE("无父节点");
+		}
+		if(node_id.equals("1")){
+			return R.SUCCESS();
 		}
 		String sql = "select * from hrm_org_part where node_id=?";
 		Rcd rs = db.uniqueRecord(sql, node_id);
