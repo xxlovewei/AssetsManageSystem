@@ -92,17 +92,19 @@ public class FileUpDownController extends BaseController {
 		}
 		return R.SUCCESS_OPER();
 	}
+
 	@RequestMapping("/imagedown.do")
 	@Acl(value = Acl.TYPE_ALLOW)
 	public void imagedown(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = request.getParameter("id");
-		if (id == null || id.equals("")) {
+		if(ToolUtil.isEmpty(id)){
 			id = "none";
 		}
 		// id = "F607ABCD1F4583F41EE166A501572FF6";
 		String sql = "select * from sys_files where id=?";
 		Rcd set = db.uniqueRecord(sql, id);
 		File file = null;
+		String filePath="";
 		String ct = "";
 		try {
 			String type = set.getString("type");
@@ -110,7 +112,7 @@ public class FileUpDownController extends BaseController {
 				ct = "image/jpeg";
 			}
 			String fileurl = set.getString("path");
-			String filePath = getWebRootDir() + ".." + File.separatorChar + fileurl;
+			filePath = getWebRootDir() + ".." + File.separatorChar + fileurl;
 			_log.info("filePath" + filePath);
 			String heightStr = request.getParameter("height");
 			if (heightStr == null || heightStr.isEmpty())
@@ -153,11 +155,18 @@ public class FileUpDownController extends BaseController {
 		} catch (Exception e) {
 			file = getDefaultImageFile();
 		}
-		BufferedImage input = ImageIO.read(file);
-		response.reset();
-		response.setContentType(ct);
-		ImageIO.write(input, "png", response.getOutputStream());
+		try {
+			BufferedImage input = ImageIO.read(file);
+			response.reset();
+			response.setContentType(ct);
+			ImageIO.write(input, "png", response.getOutputStream());
+			
+		} catch (Exception e) {
+			_log.info("获取图片失败:" + filePath);
+		}
+
 	}
+
 	public File getDefaultImageFile() {
 		_log.info("获取默认图片:" + getWebRootDir() + File.separatorChar + "image" + File.separatorChar + "blank.jpg");
 		return new File(getWebRootDir() + File.separatorChar + "image" + File.separatorChar + "blank.jpg");
@@ -208,6 +217,7 @@ public class FileUpDownController extends BaseController {
 		ImageIO.write(thumbImage, format, thumbFile);
 		return thumbFile;
 	}
+
 	private static R valid(File file) {
 		File parentPath = file.getParentFile();
 		if ((!parentPath.exists()) && (!parentPath.mkdirs())) {
@@ -218,6 +228,7 @@ public class FileUpDownController extends BaseController {
 		}
 		return R.SUCCESS_OPER();
 	}
+
 	private static String getWebRootDir() {
 		return ToolUtil.getRealPathInWebApp("");
 	}
