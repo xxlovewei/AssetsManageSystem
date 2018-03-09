@@ -144,12 +144,12 @@
 			<value>
 				/api/user/login.do = anon
 				/api/user/logout.do = logout
-				/console/**=anon
-				/term/**= anon
+				/console/** = anon
+				/term/** = anon
 				/wx/** = anon
 				/wx3/** = anon
 				/public/** = anon
-				/api/**= authc,perms
+				/api/** = authc,perms
 				/** = authc   
 			</value>
 		</property>

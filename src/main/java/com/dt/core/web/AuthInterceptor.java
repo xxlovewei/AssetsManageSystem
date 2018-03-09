@@ -10,6 +10,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.dt.core.annotion.Acl;
+import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.shiro.ShiroKit;
@@ -88,6 +89,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				// }
 				// }
 			}
+		}else{
+			_log.info("isAssignableFrom HandlerMethod.class failed");
 		}
 		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",isAuth=" + ShiroKit.isAuthenticated()
 				+ ",isPass=" + isPass + ",isRemember:" + ShiroKit.isRemember());

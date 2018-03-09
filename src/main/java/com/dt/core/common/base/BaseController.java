@@ -113,7 +113,7 @@ public class BaseController extends BaseSC {
 	 * @return
 	 */
 	public static String jsp(String path) {
-		return path.concat(".jsp");
+		return path.concat("");
 	}
 
 	/**
