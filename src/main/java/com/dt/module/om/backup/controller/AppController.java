@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dt.core.annotion.Acl;
-import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
 
 /**

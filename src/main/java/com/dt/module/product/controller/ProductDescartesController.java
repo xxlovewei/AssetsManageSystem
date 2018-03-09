@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
-import com.dt.core.annotion.Res;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 
