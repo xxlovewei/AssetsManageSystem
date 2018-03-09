@@ -39,7 +39,7 @@ public class Acontroller extends BaseController {
 
 	@RequestMapping("/demo/api.do")
 	@Acl(value=Acl.TYPE_ALLOW)
-	@Res
+	@ResponseBody
 	public R api() {
 		BaseCommon.print("api");
 		return R.SUCCESS();
