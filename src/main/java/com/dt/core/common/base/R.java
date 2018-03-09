@@ -40,10 +40,6 @@ public class R implements Serializable {
 		this.success = success;
 	}
 
-	public Boolean getSuccess() {
-		return success;
-	}
-
 	public String getMessage() {
 		return this.message;
 	}
@@ -207,7 +203,17 @@ public class R implements Serializable {
 	}
 
 	public String queryDataToString() {
-		return asJsonStr();
+		if (data instanceof org.json.JSONArray) {
+			return ((org.json.JSONArray) (data)).toString();
+		} else if (data instanceof org.json.JSONObject) {
+			return ((org.json.JSONObject) (data)).toString();
+		} else if (data instanceof JSONObject) {
+			return ((JSONObject) (data)).toJSONString();
+		} else if (data instanceof JSONArray) {
+			return ((JSONArray) (data)).toJSONString();
+		} else {
+			return data.toString();
+		}
 	}
 
 	public String asJsonStr() {
