@@ -31,7 +31,6 @@ public class Acontroller extends BaseController {
 	public String jsp() {
 		BaseCommon.print("jsp.jsp");
 		return jsp("jsp");
-
 	}
 
 	@RequestMapping("/demo/api.do")

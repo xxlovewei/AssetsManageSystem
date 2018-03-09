@@ -21,7 +21,7 @@ import com.dt.core.common.base.R;
  */
 public class MyRHttpMessageConverter {
 	private static final Logger _logger = LoggerFactory.getLogger(MyRHttpMessageConverter.class);
-
+	private static final MediaType UTF8 = new MediaType("application", "json", Charset.forName("UTF-8"));
 	public MappingJackson2HttpMessageConverter init() {
 		return new MappingJackson2HttpMessageConverter() {
 			/**
@@ -53,7 +53,7 @@ public class MyRHttpMessageConverter {
 
 			private Charset getContentTypeCharset(MediaType contentType) {
 				return contentType != null && contentType.getCharset() != null ? contentType.getCharset()
-						: this.getDefaultCharset();
+						: UTF8.getCharset();
 			}
 		};
 	}
