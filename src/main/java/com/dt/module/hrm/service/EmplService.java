@@ -205,6 +205,6 @@ public class EmplService extends BaseService {
 	public String ifEmplCanMultiPart() {
 		R emplpartRes = paramsService.queryParamsByIdWithExist("sys_empl_org_num_ctl", ParamsService.TYPE_SYSINTER,
 				"N");
-		return ToolUtil.parseYNValueDefN(emplpartRes.getDataToJSONObject().getString("value"));
+		return ToolUtil.parseYNValueDefN(emplpartRes.queryDataToJSONObject().getString("value"));
 	}
 }

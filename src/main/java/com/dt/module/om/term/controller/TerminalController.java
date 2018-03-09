@@ -29,7 +29,7 @@ public class TerminalController extends BaseController {
 	@Acl(value = Acl.TYPE_DENY, info = "设置当前机器")
 	public R setCurrentMachine(String id) {
 		R res = nodeService.queryNodeById(id);
-		JSONObject e = res.getDataToJSONObject();
+		JSONObject e = res.queryDataToJSONObject();
 		if (res.isSuccess()) {
 			Machine machine = new Machine(e.getString("name"), e.getString("ip"), e.getString("username"),
 					e.getString("pwd"), e.getInteger("port"));

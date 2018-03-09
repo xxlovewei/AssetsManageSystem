@@ -13,23 +13,15 @@ public class R implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static String TYPE_JSON = "json";
-	private String type = R.TYPE_JSON;
+	public String type = R.TYPE_JSON;
 	private Boolean clearAttach = false;
 	private int code = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode();
 	private String message = BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage();
-	private boolean success;
+	private boolean success = true;
 	private Object data;
-
-	public String getType() {
-		return type;
-	}
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public Boolean getClearAttach() {
-		return clearAttach;
 	}
 
 	public void setClearAttach(Boolean clearAttach) {
@@ -48,6 +40,10 @@ public class R implements Serializable {
 		this.success = success;
 	}
 
+	public Boolean getSuccess() {
+		return success;
+	}
+
 	public String getMessage() {
 		return this.message;
 	}
@@ -57,12 +53,7 @@ public class R implements Serializable {
 		return this;
 	}
 
-	public R(boolean success) {
-		this.success = success;
-	}
-
 	public R() {
-		this.success = true;
 	}
 
 	public R(boolean success, int code, String msg, Object data) {
@@ -72,9 +63,8 @@ public class R implements Serializable {
 		this.data = data;
 	}
 
-	public R setData(Object data) {
+	public void setData(Object data) {
 		this.data = data;
-		return this;
 	}
 
 	public Object getData() {
@@ -196,7 +186,7 @@ public class R implements Serializable {
 				BaseCodeMsgEnum.SYSTEM_UNKNOW_ERROR.getMessage(), null);
 	}
 
-	public JSONArray getDataToJSONArray() {
+	public JSONArray queryDataToJSONArray() {
 		if (data instanceof org.json.JSONArray) {
 			return JSONArray.parseArray(((org.json.JSONArray) (data)).toString());
 		} else if (data instanceof JSONArray) {
@@ -206,7 +196,7 @@ public class R implements Serializable {
 		}
 	}
 
-	public JSONObject getDataToJSONObject() {
+	public JSONObject queryDataToJSONObject() {
 		if (data instanceof org.json.JSONObject) {
 			return JSONObject.parseObject(((org.json.JSONObject) (data)).toString());
 		} else if (data instanceof JSONObject) {
@@ -216,8 +206,8 @@ public class R implements Serializable {
 		}
 	}
 
-	public String getDataToString() {
-		return data.toString();
+	public String queryDataToString() {
+		return asJsonStr();
 	}
 
 	public String asJsonStr() {
@@ -287,7 +277,7 @@ public class R implements Serializable {
 	 * @Description:返回JSONObject,clearAttach无视
 	 */
 	public JSONArray asJsonArray() {
-		return getDataToJSONArray();
+		return queryDataToJSONArray();
 	}
 
 	@Override

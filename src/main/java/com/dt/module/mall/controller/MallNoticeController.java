@@ -44,7 +44,7 @@ public class MallNoticeController extends BaseController {
 		R rsdata = noticeService.queryNotice(ps, NoticeService.TYPE_MALL, is_show, null, pagesize, pageindex);
 		int pageCnt = noticeService.queryNoticeCount(ps, NoticeService.TYPE_MALL, is_show, null);
 
-		JSONArray data = rsdata.getDataToJSONArray();
+		JSONArray data = rsdata.queryDataToJSONArray();
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pageCnt);
 		retrunObject.put("iTotalDisplayRecords", pageCnt);

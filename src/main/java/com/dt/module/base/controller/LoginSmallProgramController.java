@@ -75,15 +75,15 @@ public class LoginSmallProgramController extends BaseController {
 		if (strres.isFailed()) {
 			return strres;
 		}
-		String openId = strres.getDataToJSONObject().getString("openid");
+		String openId = strres.queryDataToJSONObject().getString("openid");
 		// 判断用户是否存在
 		R userrs = wxUserService.existUserByOpenId(openId);
 		if (userrs.isFailed()) {
 			return R.FAILURE_USER_NOT_EXISTED();
 		}
 		Subject currentUser = ShiroKit.getSubject();
-		String user_id = userrs.getDataToJSONObject().getString("user_id");
-		String pwd = userrs.getDataToJSONObject().getString("pwd");
+		String user_id = userrs.queryDataToJSONObject().getString("user_id");
+		String pwd = userrs.queryDataToJSONObject().getString("pwd");
 		UsernamePasswordToken token = new UsernamePasswordToken(user_id, pwd == null ? null : pwd.toCharArray());
 		token.setRememberMe(true);
 		String error = "";
@@ -128,7 +128,7 @@ public class LoginSmallProgramController extends BaseController {
 		if (strres.isFailed()) {
 			return strres;
 		}
-		String openId = strres.getDataToJSONObject().getString("openid");
+		String openId = strres.queryDataToJSONObject().getString("openid");
 		if (ToolUtil.isOneEmpty(avatarUrl, nickName, openId)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}

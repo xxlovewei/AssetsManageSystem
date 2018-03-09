@@ -46,7 +46,7 @@ public class UserLogController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		R rsdata = userLogService.queryAccessLog(getUserId(), ps, pagesize, pageindex);
 		int pageCnt = userLogService.queryAccessLogPageCount(getUserId(), ps, pagesize);
-		JSONArray data = rsdata.getDataToJSONArray();
+		JSONArray data = rsdata.queryDataToJSONArray();
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pageCnt);
 		retrunObject.put("iTotalDisplayRecords", pageCnt);

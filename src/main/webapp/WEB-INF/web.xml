@@ -33,13 +33,12 @@
 		 classpath:applicationContext.xml,
 	     classpath:ds_db.xml,
 		 classpath:shiro.xml,
-<!-- 		 classpath:freemarker.xml,   -->
 	   	 /WEB-INF/app_config_servlet.xml,
 	   	 classpath:applicationContext-websocket.xml
 		</param-value>
 	</context-param>
 
-	<!-- <servlet-mapping> <servlet-name>term</servlet-name> <url-pattern>/term</url-pattern> 
+	<!--  classpath:thymeleaf.xml, s<servlet-mapping> <servlet-name>term</servlet-name> <url-pattern>/term</url-pattern> 
 		</servlet-mapping> -->
 
 	<servlet>
@@ -57,7 +56,8 @@
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
-		<url-pattern>*.json</url-pattern>
+		<url-pattern>*.jsp</url-pattern>
+		<url-pattern>*.html</url-pattern>
 		<url-pattern>/term</url-pattern>
 	</servlet-mapping>
 	<session-config>

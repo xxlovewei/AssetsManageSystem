@@ -47,7 +47,7 @@ public class MallClassProdController extends BaseController {
 
 		R rsdata = classProdService.queryClassProdNotSel(cat_id, class_id, pagesize, pageindex);
 		int count = classProdService.queryClassProdNotSelCount(cat_id, class_id);
-		JSONArray data = rsdata.getDataToJSONArray();
+		JSONArray data = rsdata.queryDataToJSONArray();
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", count);
 		retrunObject.put("iTotalDisplayRecords", count);
@@ -81,7 +81,7 @@ public class MallClassProdController extends BaseController {
 		} else {
 			count = classProdService.queryClassProdCount(ps, class_id);
 		}
-		JSONArray data = rsdata.getDataToJSONArray();
+		JSONArray data = rsdata.queryDataToJSONArray();
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", count);
 		retrunObject.put("iTotalDisplayRecords", count);

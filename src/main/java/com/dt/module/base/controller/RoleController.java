@@ -35,7 +35,7 @@ public class RoleController extends BaseController {
 		if (res.isFailed()) {
 			return res;
 		}
-		JSONArray kv = res.getDataToJSONArray();
+		JSONArray kv = res.queryDataToJSONArray();
 		JSONObject obj = new JSONObject();
 		for (int i = 0; i < kv.size(); i++) {
 			obj.put(kv.getJSONObject(i).getString("role_id"), kv.getJSONObject(i).getString("role_name"));

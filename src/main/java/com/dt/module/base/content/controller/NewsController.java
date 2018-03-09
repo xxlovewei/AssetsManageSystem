@@ -109,7 +109,7 @@ public class NewsController extends BaseController {
 		
 		R rsdata = newsService.queryNews(ps, pagesize, pageindex);
 		int count = contentService.queryContentCount(ps, ContentService.TYPE_NEWS);
-		JSONArray data = rsdata.getDataToJSONArray();
+		JSONArray data = rsdata.queryDataToJSONArray();
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", count);
 		retrunObject.put("iTotalDisplayRecords", count);

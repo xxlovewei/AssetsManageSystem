@@ -37,16 +37,20 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 	public boolean canWrite(Type type, Class<?> clazz, MediaType mediaType) {
 		return ((Class) type).isAssignableFrom(R.class);
 	}
+	@Override
 	public List<MediaType> getSupportedMediaTypes() {
 		return Collections.singletonList(MediaType.ALL);
 	}
+	@Override
 	protected boolean supports(Class<?> clazz) {
 		return clazz.isAssignableFrom(R.class);
 	}
+	@Override
 	public Object readInternal(Class<?> clazz, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException {
 		return readMap(inputMessage);
 	}
+	
 	private Object readMap(HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
 		Charset cs = Charset.forName("UTF-8");
 		StringBuilder stringBuilder = new StringBuilder();
@@ -69,22 +73,28 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 		requestData.setData(map);
 		return requestData;
 	}
+	@Override
 	public void writeInternal(Object o, Type type, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException {
-		R res = (R) o;
-		Charset charset = UTF8.getCharset();
-		String str = "";
-		if (writeAcceptCharset) {
-			outputMessage.getHeaders().setAcceptCharset(getAcceptedCharsets());
-			if (res.getType().equals(R.TYPE_JSON)) {
-				str = res.asJsonStr();
+		if (o instanceof R) {
+			R res = (R) o;
+			Charset charset = UTF8.getCharset();
+			String str = "";
+			if (writeAcceptCharset) {
+				outputMessage.getHeaders().setAcceptCharset(getAcceptedCharsets());
+				if (res.type.equals(R.TYPE_JSON)) {
+					str = res.asJsonStr();
+				} else {
+					str = "now not support.";
+				}
+				StreamUtils.copy(str, charset, outputMessage.getBody());
 			} else {
-				str = "now not support.";
+				StreamUtils.copy("now not supprt", charset, outputMessage.getBody());
 			}
-			StreamUtils.copy(str, charset, outputMessage.getBody());
-		} else {
-			StreamUtils.copy("now not supprt", charset, outputMessage.getBody());
+		}else{
+			super.writeInternal(o, outputMessage);
 		}
+	
 	}
 	protected List<Charset> getAcceptedCharsets() {
 		return Arrays.asList(UTF8.getCharset());

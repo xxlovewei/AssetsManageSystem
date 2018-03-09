@@ -58,6 +58,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 
 		// 此处基本Acl再做权限验证
+		BaseCommon.print(handler.getClass().getName());
+		
 		if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
 			// 前端shrio已经判断过,第二次判断
 			Acl am = ((HandlerMethod) handler).getMethodAnnotation(Acl.class);
@@ -91,7 +93,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			}
 		}else{
 			_log.info("isAssignableFrom HandlerMethod.class failed");
+			isPass=true;
 		}
+		 
 		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",isAuth=" + ShiroKit.isAuthenticated()
 				+ ",isPass=" + isPass + ",isRemember:" + ShiroKit.isRemember());
 		return isPass;
