@@ -49,7 +49,7 @@ public class Acontroller extends BaseController {
 	@RequestMapping("/demo/api2.do")
 	@Acl(value=Acl.TYPE_ALLOW)
 	@ResponseBody
-	public Object api2() {
+	public R api2() {
 		BaseCommon.print("api");
 		return R.SUCCESS_OPER();
 	}
