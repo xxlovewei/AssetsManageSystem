@@ -3,6 +3,7 @@ package com.dt.module.mall.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -20,19 +21,19 @@ public class BrandController extends BaseController {
 	private BrandService brandService;
 
 	@RequestMapping("/brand/brandQuery.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R brandQuery() {
 		return brandService.queryBrand();
 	}
 	@RequestMapping("/brand/brandQueryById.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R brandQueryById(String brand_id) {
 		return brandService.queryBrandById(brand_id);
 	}
 	@RequestMapping("/brand/brandSave.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R brandSave() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
@@ -44,7 +45,7 @@ public class BrandController extends BaseController {
 		}
 	}
 	@RequestMapping("/brand/brandDelete.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R brandDelete(String brand_id) {
 		return brandService.deleteBrand(brand_id);

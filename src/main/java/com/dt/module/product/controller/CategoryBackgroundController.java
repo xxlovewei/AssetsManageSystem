@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -30,90 +31,90 @@ public class CategoryBackgroundController extends BaseController {
 	@Autowired
 	CategoryAttrValueService categoryAttrValueService;
 
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/prodPublishCatList.do")
 	public R prodPublishCatList() {
 		return categoryBService.queryAllProdCatList();
 	}
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryB/queryTreeList.do")
 	public R categoryBqueryTreeList() {
 		return R.SUCCESS_OPER(categoryBService.queryCategoryBTreeList());
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/delete.do")
 	public R categoryBdelete(String id) {
 		return categoryBService.deleteCategoryB(id);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/catAttrValueQuery.do")
 	public R catAttrValueQuery(String attr_id) {
 		return categoryAttrValueService.queryAttrValue(attr_id);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/catAttrQueryById.do")
 	public R catAttrQueryById(String id) {
 		return categoryAttrService.queryAttrById(id);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/catAttrValueAdd.do")
 	public R catAttrValueAdd() throws IOException {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return categoryAttrValueService.addAttrValue(ps);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/catAttrValueUpdate.do")
 	public R catAttrValueUpdate() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return categoryAttrValueService.updateAttrValue(ps);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/catAttrValueDel.do")
 	public R catAttrValueDel(String ID) {
 		return categoryAttrValueService.deleteAttrValue(ID);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/catAttrAdd.do")
 	public R catAttrAdd() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return categoryAttrService.addAttr(ps);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@Transactional
 	@RequestMapping("/categoryB/catAttrDel.do")
 	public R catAttrDel(String id) {
 		return categoryAttrService.deleteAttr(id);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/catAttrUpdate.do")
 	public R catAttrUpdate() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return categoryAttrService.updateAttr(ps);
 	}
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryB/catAttrQuery.do")
 	public R catAttrQuery(String cat_id) throws IOException {
 		return categoryAttrService.queryAttr(cat_id);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/update.do")
 	public R categoryBupdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		return R.SUCCESS();
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/rename.do")
 	public R categoryBrename(String id, String text) throws IOException {
@@ -125,14 +126,14 @@ public class CategoryBackgroundController extends BaseController {
 		}
 		return categoryBService.renameCategoryB(id, text);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/add.do")
 	public R categoryBadd() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return categoryBService.addCategoryB(ps);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryB/prodPublishCatAttrList.do")
 	// 获取产品属性

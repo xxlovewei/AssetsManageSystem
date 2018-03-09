@@ -3,6 +3,7 @@ package com.dt.module.base.content.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -26,45 +27,45 @@ public class ContentCategoryController extends BaseController {
 	@Autowired
 	ContentCategoryService contentCategoryService;
 
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping(value = "/ctCategroy/queryRootCategory.do")
 	public R queryRootCategory() {
 		return contentRootCategoryService.queryRootCategory();
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping(value = "/ctCategroy/queryCategoryById.do")
 	public R queryCategoryById(String id) {
 		return contentCategoryService.queryCategoryById(id);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping(value = "/ctCategroy/deleteCategory.do")
 	public R deleteCategory(String id) {
 		return contentCategoryService.deleteCategory(id);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping(value = "/ctCategroy/addCategory.do")
 	public R addCategory() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return contentCategoryService.addCategory(ps);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping(value = "/ctCategroy/updateCategory.do")
 	public R updateCategory() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return contentCategoryService.updateCategory(ps);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping(value = "/ctCategroy/queryCategory.do")
 	public R queryCategory(String root) {
 		return contentCategoryService.queryCategory(root);
 	}
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/ctCategroy/queryCategoryChildren.do")
 	public R queryCategoryChildren() {
@@ -73,7 +74,7 @@ public class ContentCategoryController extends BaseController {
 		String isAction = ps.getString("is_action");
 		return contentCategoryService.queryCategoryChildren(parentId, isAction);
 	}
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/ctCategroy/queryCategoryFirstFloor.do")
 	public R queryCategoryFirstFloor() {
@@ -82,7 +83,7 @@ public class ContentCategoryController extends BaseController {
 		String isAction = ps.getString("is_action");
 		return contentCategoryService.queryCategoryFirstFloor(rootId, isAction);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping(value = "/ctCategroy/queryCategoryTreeList.do")
 	public R queryCategoryTreeList(String root) {

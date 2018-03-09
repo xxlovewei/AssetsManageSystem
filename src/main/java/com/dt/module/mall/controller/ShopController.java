@@ -3,6 +3,7 @@ package com.dt.module.mall.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -29,28 +30,28 @@ public class ShopController extends BaseController {
 	private MyShopService myShopService;
 
 	@RequestMapping("/shop/deleteShop.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R deleteShop(String shop_id) {
 		return shopService.deleteShop(shop_id);
 	}
 
 	@RequestMapping("/shop/queryShop.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R queryShop() {
 		return shopService.queryShop();
 	}
 
 	@RequestMapping("/shop/queryShopById.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R queryShopById(String shop_id) {
 		return shopService.queryShopById(shop_id);
 	}
 
 	@RequestMapping("/shop/saveShop.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R saveShop(String shop_id) {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
@@ -63,7 +64,7 @@ public class ShopController extends BaseController {
 	}
 
 	@RequestMapping("/shop/queryMyShop.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public R queryMyShop() {
 		return myShopService.queryMyShopByUserId(super.getUserId());

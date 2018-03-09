@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartResolver;
@@ -36,7 +37,7 @@ public class FileUpDownController extends BaseController {
 	private static Logger _log = LoggerFactory.getLogger(FileUpDownController.class);
 
 	@RequestMapping("/fileupload.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R fileUpload(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String type = request.getParameter("type");

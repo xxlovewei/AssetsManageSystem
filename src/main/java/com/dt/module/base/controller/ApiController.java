@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -22,13 +23,13 @@ public class ApiController extends BaseController {
 	ApiService apiService;
 
 	@RequestMapping(value = "/api/queryApi.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public R queryApi() {
 		return apiService.queryApi();
 	}
 	@RequestMapping(value = "/api/updateApi.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public R updateApi() {
 		return apiService.updateApi();

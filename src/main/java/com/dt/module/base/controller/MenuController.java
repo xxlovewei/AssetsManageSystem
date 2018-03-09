@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -27,46 +28,46 @@ public class MenuController extends BaseController {
 	@Autowired
 	MenuRoleMapService menuRoleMapService;
 
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping(value = "/menu/treeTop.do")
 	public R treeTop() {
 		return R.SUCCESS_OPER(menuRootService.queryMenuRoot());
 	}
 	@RequestMapping(value = "/menu/deleteNode.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R deleteNode(String node_id) {
 		return menuService.deleteNode(node_id);
 	}
 	@RequestMapping(value = "/menu/addNode.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R addNode() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return menuService.addNode(ps);
 	}
 	@RequestMapping(value = "/menu/updateNode.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R updateNode() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return menuService.updateNode(ps);
 	}
 	@RequestMapping(value = "/menu/treeDataDirect.do")
-	@Res
+	@ResponseBody
 	@Acl(value=Acl.TYPE_USER_COMMON)
 	public R treeDataDirect(String id) {
 		return menuService.queryMenuNodes(id);
 	}
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	@RequestMapping(value = "/menu/treeMenus.do")
-	@Res
+	@ResponseBody
 	public R treeMenus() {
 		return menuService.queryMenuNodesTree("1");
 	}
 	@RequestMapping(value = "/menu/treeNodeRoleMap.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R treeNodeRoleMap(String role_id, String modules_arr, String menu_id) {
 		if (ToolUtil.isOneEmpty(role_id, modules_arr, menu_id)) {
@@ -75,7 +76,7 @@ public class MenuController extends BaseController {
 		return menuRoleMapService.treeNodeRoleMap(role_id, modules_arr, menu_id);
 	}
 	@RequestMapping(value = "/menu/treeRoleChecked.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R treeRoleChecked(String menu_id, String role_id) throws IOException {
 		return menuRoleMapService.treeRoleChecked(menu_id, role_id);

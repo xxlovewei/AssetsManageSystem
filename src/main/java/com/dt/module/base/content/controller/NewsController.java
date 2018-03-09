@@ -3,6 +3,7 @@ package com.dt.module.base.content.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -35,7 +36,7 @@ public class NewsController extends BaseController {
 	 * @Description: 根据ID查找新闻
 	 */
 	@RequestMapping(value = "/news/queryNewsById.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R queryNewsById(String id) {
 		return null;
@@ -44,7 +45,7 @@ public class NewsController extends BaseController {
 	 * @Description: 删除新闻
 	 */
 	@RequestMapping(value = "/news/deleteNews.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R deleteNews(String id) {
 		return newsService.deleteNews(id);
@@ -53,7 +54,7 @@ public class NewsController extends BaseController {
 	 * @Description: 发布新闻
 	 */
 	@RequestMapping(value = "/news/publishNews.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R publishNews() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -68,7 +69,7 @@ public class NewsController extends BaseController {
 	 * @Description: 新闻数量
 	 */
 	@RequestMapping(value = "/news/queryCount.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R queryNews() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -81,7 +82,7 @@ public class NewsController extends BaseController {
 	 * @Description: 查询新闻页数
 	 */
 	@RequestMapping(value = "/news/queryPage.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R queryPage(String pageSize) {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -96,7 +97,7 @@ public class NewsController extends BaseController {
 	 * @Description: 查询新闻分页,用于datatable
 	 */
 	@RequestMapping(value = "/news/queryNewsByPage.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R queryNewsByDatatable(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);

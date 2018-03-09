@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -22,13 +23,13 @@ public class RoleController extends BaseController {
 	RoleService roleService;
 
 	@RequestMapping(value = "/role/roleQuery.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R roleQuery() {
 		return roleService.queryRole();
 	}
 	@RequestMapping(value = "/role/roleQueryFormatKV.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R roleQueryFormatKV() {
 		R res = roleService.queryRole();
@@ -43,13 +44,13 @@ public class RoleController extends BaseController {
 		return R.SUCCESS_OPER(obj);
 	}
 	@RequestMapping(value = "/role/roleQueryById.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R roleQueryById(String role_id) {
 		return roleService.queryRoleById(role_id);
 	}
 	@RequestMapping(value = "/role/roleSave.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R roleSave() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
@@ -61,7 +62,7 @@ public class RoleController extends BaseController {
 		}
 	}
 	@RequestMapping(value = "/role/roleDelete.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R roleDelete(String role_id) {
 		if (ToolUtil.isEmpty(role_id)) {

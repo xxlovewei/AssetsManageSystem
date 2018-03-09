@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -23,33 +24,33 @@ public class EmplController extends BaseController {
 	private EmplService emplService;
 
 	@RequestMapping("/hrm/employeeAdd.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R employeeAdd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return emplService.addEmployee(ps);
 	}
 	@RequestMapping("/hrm/employeeUpdate.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R employeeUpdate() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return emplService.updateEmployee(ps);
 	}
 	@RequestMapping("/hrm/employeeQueryList.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R employeeQueryList() {
 		return emplService.queryEmplList(HttpKit.getRequestParameters());
 	}
 	@RequestMapping("/hrm/employeeQueryById.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R employeeQueryById(String empl_id) {
 		return emplService.queryEmplById(empl_id);
 	}
 	@RequestMapping("/hrm/employeeDelete.do")
-	@Res
+	@ResponseBody
 	@Acl
 	@Transactional
 	public R employeeDelete(String empl_id) throws IOException {

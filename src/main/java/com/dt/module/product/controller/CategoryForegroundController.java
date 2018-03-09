@@ -3,6 +3,7 @@ package com.dt.module.product.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -24,39 +25,39 @@ public class CategoryForegroundController extends BaseController {
 	@Autowired
 	private CategoryFService categoryFService;
 
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryF/rootCatAdd.do")
 	public R rootCatAdd() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return categoryFRootService.addCategoryFRoot(ps);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryF/rootCatDel.do")
 	public R rootCatDel(String id) {
 		return categoryFRootService.deleteCategoryFRoot(id);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryF/rootCatUpdate.do")
 	public R rootCatUpdate() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return categoryFRootService.updateCategoryFRoot(ps);
 	}
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryF/rootCatQuery.do")
 	public R rootCatQuery() {
 		return categoryFRootService.queryCategoryFRoot();
 	}
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping("/categoryF/rootCatQueryById.do")
 	public R rootCatQueryById(String id) {
 		return categoryFRootService.queryCategoryFRootByid(id);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryF/queryTreeList.do")
 	public R categoryFqueryTreeList(String root_id)  {
@@ -66,14 +67,14 @@ public class CategoryForegroundController extends BaseController {
 			return R.SUCCESS_OPER(categoryFService.queryCategoryFTreeList(root_id));
 		}
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryF/add.do")
 	public R categoryFadd() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return categoryFService.addCategoryF(ps);
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/categoryF/rename.do")
 	public R categoryBrename(String id, String text)  {

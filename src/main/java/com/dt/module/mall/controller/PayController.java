@@ -3,6 +3,7 @@ package com.dt.module.mall.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -25,7 +26,7 @@ public class PayController extends BaseController {
 	private OrderService orderService;
 
 	@RequestMapping("/pay/toPay.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "支付")
 	public R toPay(String order_id) {
 		// 仅仅测试

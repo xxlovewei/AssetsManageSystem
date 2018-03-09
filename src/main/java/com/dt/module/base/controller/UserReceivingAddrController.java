@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -25,7 +26,7 @@ public class UserReceivingAddrController extends BaseController {
 	private UserReceivingAddrService userReceivingAddrService;
 
 	@RequestMapping("/user/queryReceivingAddrById.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON,info="获取收货详情")
 	public R queryReceivingAddrById() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
@@ -38,7 +39,7 @@ public class UserReceivingAddrController extends BaseController {
 	}
 
 	@RequestMapping("/user/queryReceivingAddr.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON,info="获取所有收货地址")
 	public R queryReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
@@ -49,7 +50,7 @@ public class UserReceivingAddrController extends BaseController {
 	}
 
 	@RequestMapping("/user/delReceivingAddr.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON,info="删除个人收货地址")
 	public R delReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
@@ -65,7 +66,7 @@ public class UserReceivingAddrController extends BaseController {
 	}
 
 	@RequestMapping("/user/saveReceivingAddr.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "修改收货地址")
 	public R saveReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
@@ -81,7 +82,7 @@ public class UserReceivingAddrController extends BaseController {
 	}
 
 	@RequestMapping("/user/setDefReceivingAddr.do")
-	@Res
+	@ResponseBody
 	@Acl(value=Acl.TYPE_USER_COMMON,info="设置默认地址")
 	public R setDefReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
@@ -98,7 +99,7 @@ public class UserReceivingAddrController extends BaseController {
 	
 
 	@RequestMapping("/user/queryDefReceivingAddr.do")
-	@Res
+	@ResponseBody
 	@Acl(value=Acl.TYPE_USER_COMMON,info="查询地址")
 	public R queryDefReceivingAddr() {
 		return userReceivingAddrService.queryDefReceivingAddr(getUserId());

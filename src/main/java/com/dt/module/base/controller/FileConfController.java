@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -23,7 +24,7 @@ public class FileConfController extends BaseController {
 	private DB db = null;
 
 	@RequestMapping("/fileConfQuery.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R fileConfQuery(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		RcdSet rs = db.query("select * from sys_file_conf where is_delete='N'");
@@ -31,7 +32,7 @@ public class FileConfController extends BaseController {
 	}
 
 	@RequestMapping("/fileConfQueryById.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R fileConfQueryById(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Rcd rs = db.uniqueRecord("select * from sys_file_conf where is_delete='N' and id=?",
@@ -40,14 +41,14 @@ public class FileConfController extends BaseController {
 	}
 
 	@RequestMapping("/fileConfSave.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R fileConfSave(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return null;
 	}
 
 	@RequestMapping("/fileConfDelete.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R fileConfDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if (db.uniqueRecord("select count(1) value from sys_files where bus=?", request.getParameter("bus"))

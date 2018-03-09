@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -142,7 +143,7 @@ public class ProductDescartesController extends BaseController {
 			}
 		}
 	}
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/product/prodDescartes.do")
 	// 获取产品属性

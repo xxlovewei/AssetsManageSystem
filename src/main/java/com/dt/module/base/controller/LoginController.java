@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
@@ -47,7 +48,7 @@ public class LoginController extends BaseController {
 	 */
 	@Acl(value = Acl.TYPE_ALLOW)
 	@RequestMapping(value = "/user/login.do")
-	@Res
+	@ResponseBody
 	public R logindo(String user, String pwd, String type, String client, HttpServletRequest request) {
 
 		// 验证账户是否有效
@@ -99,7 +100,7 @@ public class LoginController extends BaseController {
 	}
 
 	@RequestMapping(value = "/user/checkLogin.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R checkLogin() throws IOException {
 		if (ShiroKit.isAuthenticated()) {
@@ -113,7 +114,7 @@ public class LoginController extends BaseController {
 	 * @Description: 实体已在shiro中实现
 	 */
 	@RequestMapping(value = "/user/logout.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R loginout() throws IOException {
 		return R.SUCCESS("成功退出");

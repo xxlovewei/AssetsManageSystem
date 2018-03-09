@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -17,13 +18,13 @@ public class RegionController extends BaseController {
 	private RegionService regionService = null;
 
 	@RequestMapping(value = "/region/queryTree.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R regionqueryTree() {
 		return regionService.queryRegion();
 	}
 	@RequestMapping(value = "/region/getChildren.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R getChildrens(String id) {
 		return regionService.queryRegionById(id);
@@ -32,7 +33,7 @@ public class RegionController extends BaseController {
 	 * @Description:获取省份数据
 	 */
 	@RequestMapping(value = "/qud/queryShengF.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R queryShengF(String ex) {
 		return regionService.queryShengF(null);
@@ -41,7 +42,7 @@ public class RegionController extends BaseController {
 	 * @Description:获取城市数据
 	 */
 	@RequestMapping(value = "/qud/queryChengS.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R queryChengS(String exclude, String sfid) {
 		return regionService.queryChengS(sfid, null);
@@ -50,7 +51,7 @@ public class RegionController extends BaseController {
 	 * @Description:获取区县数据
 	 */
 	@RequestMapping(value = "/qud/queryQuX.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R queryQuX(String exclude, String csid) {
 		return regionService.queryQuX(csid, null);

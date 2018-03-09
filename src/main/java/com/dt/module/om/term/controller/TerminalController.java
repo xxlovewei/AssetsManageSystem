@@ -3,6 +3,7 @@ package com.dt.module.om.term.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
@@ -25,7 +26,7 @@ public class TerminalController extends BaseController {
 	private NodeService nodeService;
 
 	@RequestMapping("/term/setCurrentMachine.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "设置当前机器")
 	public R setCurrentMachine(String id) {
 		R res = nodeService.queryNodeById(id);

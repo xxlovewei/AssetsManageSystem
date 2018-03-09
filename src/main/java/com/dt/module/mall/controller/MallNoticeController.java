@@ -3,6 +3,7 @@ package com.dt.module.mall.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -29,7 +30,7 @@ public class MallNoticeController extends BaseController {
 	NoticeService noticeService;
 
 	@RequestMapping(value = "/mallnotice/queryNotice.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "商城获取公告")
 	public R queryNotice(String is_show, String start, String length, String pageSize, String pageIndex) {
 

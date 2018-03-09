@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -25,20 +26,20 @@ public class EmplOrgController extends BaseController {
 	@Autowired
 	private EmplService emplService;
 
-	@Res
+	@ResponseBody
 	@Acl
 	@RequestMapping("/hrm/orgNodeDelete.do")
 	public R orgNodeDelete(String node_id) {
 		return emplOrgService.deleteEmplOrg(node_id);
 	}
 	@RequestMapping("/hrm/queryEmplByOrg.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R queryEmplByOrg(String node_id) throws IOException {
 		return emplService.queryEmplByOrg(node_id);
 	}
 	@RequestMapping("/hrm/orgNodeSave.do")
-	@Res
+	@ResponseBody
 	@Acl
 	@Transactional
 	public R orgNodeSave() {
@@ -51,25 +52,25 @@ public class EmplOrgController extends BaseController {
 		}
 	}
 	@RequestMapping("/hrm/orgNodeQuery.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R orgNodeQuery(String node_id) {
 		return emplOrgService.queryEmplOrgById(node_id);
 	}
 	@RequestMapping("/hrm/orgNodeTreeQuery.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R orgNodeTreeQuery(String org_id) {
 		return emplOrgService.queryEmplOrgNodeTree(org_id);
 	}
 	@RequestMapping("/hrm/orgQueryLevelList.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R orgQueryLevelList() {
 		return emplOrgService.queryEmplOrgLevelList();
 	}
 	@RequestMapping("/hrm/orgQuery.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R orgQuery() {
 		return emplOrgService.queryEmplOrg();

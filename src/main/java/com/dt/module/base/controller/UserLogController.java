@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -28,13 +29,13 @@ public class UserLogController extends BaseController {
 	private UserLogService userLogService;
 
 	@RequestMapping("/user/queryLogin.do")
-	@Res
+	@ResponseBody
 	@Acl(value=Acl.TYPE_USER_COMMON)
 	public R queryLoginLog() {
 		return userLogService.queryLoginLog(getUserId());
 	}
 	@RequestMapping("/user/queryAccessLog.do")
-	@Res
+	@ResponseBody
 	@Acl(value=Acl.TYPE_USER_COMMON)
 	public R queryAccessLog(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);

@@ -15,6 +15,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
@@ -65,7 +66,7 @@ public class LoginSmallProgramController extends BaseController {
 	}
 
 	@RequestMapping(value = "/smallprogram/login.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "小程序用户登录")
 	public R login(String code, HttpServletRequest request) {
 		if (ToolUtil.isEmpty(code)) {
@@ -120,7 +121,7 @@ public class LoginSmallProgramController extends BaseController {
 	}
 
 	@RequestMapping(value = "/smallprogram/register.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "小程序用户注册")
 	public R register(String code, String avatarUrl, String city, String country, String nickName,
 			String province) {
@@ -143,14 +144,14 @@ public class LoginSmallProgramController extends BaseController {
 	}
 
 	@RequestMapping("/smallprogram/userQueryById.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "小程序用户信息")
 	public R userQueryById() {
 		return R.SUCCESS_OPER(userService.queryUserById(getUserId()));
 	}
 
 	@RequestMapping("/smallprogram/checkLogin.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "检测登录")
 	public R checkLogin() {
 		// Subject currentUser = ShiroKit.getSubject();

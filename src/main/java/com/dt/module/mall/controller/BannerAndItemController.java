@@ -3,6 +3,7 @@ package com.dt.module.mall.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -27,7 +28,7 @@ public class BannerAndItemController extends BaseController {
 
 	
 	@RequestMapping("/banner/queryBanner.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "查询横幅")
 	public R queryBanner(String type) {
 		return bannerAndItemService.queryBanner(type);
@@ -35,7 +36,7 @@ public class BannerAndItemController extends BaseController {
 	}
 	
 	@RequestMapping("/banner/queryBannerItems.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "查询横幅")
 	public R queryBannerItems(String banner_id,String is_used) {
 		return bannerAndItemService.queryBannerItems(banner_id,is_used);
@@ -43,7 +44,7 @@ public class BannerAndItemController extends BaseController {
 	}
 
 	@RequestMapping("/banner/delBannerItem.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "删除横幅条目")
 	public R delBannerItem(String id) {
 		return bannerAndItemService.delBannerItem(id);
@@ -51,14 +52,14 @@ public class BannerAndItemController extends BaseController {
 	}
 	
 	@RequestMapping("/banner/queryBannerItemById.do")
-	@Res
+	@ResponseBody
 	@Acl(info = "查询横幅条目")
 	public R queryBannerItemById(String id) {
 		return bannerAndItemService.queryBannerItemById(id);
 	}
 
 	@RequestMapping("/banner/saveBannerItem.do")
-	@Res
+	@ResponseBody
 	@Acl(info = "更新横幅条目")
 	public R saveBannerItem() {
 

@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -25,21 +26,21 @@ public class UserGroupController extends BaseController{
 	private UserGroupService userGroupService;
 	
 	@RequestMapping("/user/queryGroup.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R queryGroup() {
 		return userGroupService.queryUserGroup();
 	}
 	
 	@RequestMapping("/user/deleteGroup.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R deleteGroup(String group_id) {
 		return userGroupService.deleteUserGroup(group_id);
 	}
 	
 	@RequestMapping("/user/queryUserGroupById.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R queryUserGroupById(String group_id) {
 		return userGroupService.queryUserGroupById(group_id);
@@ -47,7 +48,7 @@ public class UserGroupController extends BaseController{
 	
 	
 	@RequestMapping("/user/saveUserGroupById.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R saveUserGroupById(String group_id) {
 		

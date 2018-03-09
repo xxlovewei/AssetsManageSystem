@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -20,13 +21,13 @@ public class DictController extends BaseController {
 	private DictService dictService = null;
 
 	@RequestMapping(value = "/dict/queryDict.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public R queryDict() {
 		return dictService.queryDict();
 	}
 	@RequestMapping(value = "/dict/saveDict.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R saveDict() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -38,37 +39,37 @@ public class DictController extends BaseController {
 		}
 	}
 	@RequestMapping(value = "/dict/deleteDict.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R deleteDict(String id) {
 		return dictService.deleteDict(id);
 	}
 	@RequestMapping(value = "/dict/queryByDictId.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public R queryByDictId(String id) {
 		return dictService.queryDictById(id);
 	}
 	@RequestMapping(value = "/dict/deleteDictItem.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R deleteDictItem(String id) {
 		return dictService.deleteDictItem(id);
 	}
 	@RequestMapping(value = "/dict/queryDictItem.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public R queryDictItem(String id) {
 		return dictService.queryDictItem(id);
 	}
 	@RequestMapping(value = "/dict/queryDictItemById.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R queryDictItemById(String id) {
 		return dictService.queryDictItemById(id);
 	}
 	@RequestMapping(value = "/dict/saveDictItem.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R saveDictItem() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();

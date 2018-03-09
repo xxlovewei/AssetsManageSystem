@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -132,7 +133,7 @@ public class ProductMaintainControllerdel extends BaseController{
 	
 	
 	@RequestMapping("/prod/queryBySpu.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R queryBySpu(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -164,7 +165,7 @@ public class ProductMaintainControllerdel extends BaseController{
 	}
 
 	@RequestMapping("/prod/queryBySku.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R queryBySku(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
@@ -177,7 +178,7 @@ public class ProductMaintainControllerdel extends BaseController{
 	}
 
 	@RequestMapping("/prod/prodAdd.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R prodAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
@@ -190,7 +191,7 @@ public class ProductMaintainControllerdel extends BaseController{
 	}
 
 	@RequestMapping("/prod/prodDelete.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R prodDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
@@ -203,7 +204,7 @@ public class ProductMaintainControllerdel extends BaseController{
 	}
 
 	@RequestMapping("/prod/produUpdate.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R produUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");

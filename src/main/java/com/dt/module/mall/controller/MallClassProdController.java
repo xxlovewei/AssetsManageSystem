@@ -3,6 +3,7 @@ package com.dt.module.mall.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -29,7 +30,7 @@ public class MallClassProdController extends BaseController {
 	private MallProdService classProdService;
 
 	@RequestMapping("/class/queryClassProdNotSel.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "选择加入分类单产品")
 	public R queryClassProdNotSel(String cat_id, String class_id, String start, String length, String pageSize,
 			String pageIndex) {
@@ -60,7 +61,7 @@ public class MallClassProdController extends BaseController {
 	}
 
 	@RequestMapping("/class/queryClassProd.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "查询分类单产品")
 	public R queryClassProd(String withoutcount, String class_id, String start, String length, String pageSize,
 			String pageIndex) {

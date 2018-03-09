@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -26,7 +27,7 @@ public class NoticesController extends BaseController {
 	NoticeService noticeService;
 
 	@RequestMapping(value = "/notice/queryNoticeById.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "获取公告")
 	public R queryNoticeById(String id) {
 		return noticeService.queryNoticeById(id);
@@ -34,7 +35,7 @@ public class NoticesController extends BaseController {
 
 	
 	@RequestMapping(value = "/notice/saveNotice.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "保存公告")
 	public R saveNotice() {
 
@@ -48,7 +49,7 @@ public class NoticesController extends BaseController {
 	}
 
 	@RequestMapping(value = "/notice/delNotice.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "删除公告")
 	public R delNotice(String id) {
 		return noticeService.deleteNotice(id);

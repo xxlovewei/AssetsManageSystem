@@ -3,6 +3,7 @@ package com.dt.module.mall.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -25,7 +26,7 @@ public class OrderController extends BaseController {
 	private OrderService orderService;
 
 	@RequestMapping(value = "/order/createOrder.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "创建订单")
 	public R createOrder() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -33,7 +34,7 @@ public class OrderController extends BaseController {
 	}
 
 	@RequestMapping(value = "/order/cancelOrder.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "取消订单")
 	public R cancelOrder(String order_id) {
 		return orderService.cancelOrder(getUserId(), order_id);
@@ -41,21 +42,21 @@ public class OrderController extends BaseController {
 	}
 
 	@RequestMapping(value = "/order/changeOrderMoney.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "修改订单金额")
 	public R changeOrderMoney() {
 		return null;
 	}
 
 	@RequestMapping(value = "/order/changeOrderStatus.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "修改订单状态")
 	public R changeOrderStatus() {
 		return null;
 	}
 
 	@RequestMapping(value = "/order/queryMyOrder.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "查询个人订单")
 	public R queryMyOrder(String status, String pageSize, String pageIndex) {
 		return orderService.queryMyOrder(status, getUserId(), ConvertUtil.toInt(pageSize, 100),
@@ -63,35 +64,35 @@ public class OrderController extends BaseController {
 	}
 
 	@RequestMapping(value = "/order/queryMyOrderDetail.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "查询个人某个订单")
 	public R queryMyOrderDetail(String order_id) {
 		return orderService.queryMyOrderDetail(order_id);
 	}
 
 	@RequestMapping(value = "/order/deliveryOrder.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "确认发货")
 	public R deliveryOrder(String order_id) {
 		return orderService.deliveryOrder(order_id, getUserId());
 	}
 
 	@RequestMapping(value = "/order/receiptOrder.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "确认收货")
 	public R receiptOrder(String order_id) {
 		return orderService.receiptOrder(order_id, getUserId(),true);
 	}
 
 	@RequestMapping(value = "/order/reputationGoods.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "商品评价")
 	public R reputationGood(String order_id, String reputations) {
 		return orderService.reputationGood(order_id, reputations, this.getUserId());
 	}
 
 	@RequestMapping(value = "/order/queryOrderStatistics.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "获取订单状态统计")
 	public R queryOrderStatistics() {
 		return orderService.queryOrderStatistics(getUserId());

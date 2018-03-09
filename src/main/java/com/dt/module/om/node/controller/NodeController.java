@@ -3,6 +3,7 @@ package com.dt.module.om.node.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -25,14 +26,14 @@ public class NodeController extends BaseController {
 	private NodeService nodeService;
 
 	@RequestMapping("/node/queryNodeById.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "根据Id查询节点")
 	public R queryNodeById(String id) {
 		return nodeService.queryNodeById(id);
 	}
 
 	@RequestMapping("/node/saveNode.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "保存节点")
 	public R saveNode() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
@@ -45,14 +46,14 @@ public class NodeController extends BaseController {
 	}
 
 	@RequestMapping("/node/queryNode.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "查询节点")
 	public R queryNode() {
 		return nodeService.queryNode((TypedHashMap<String, Object>) HttpKit.getRequestParameters());
 	}
 
 	@RequestMapping("/node/queryNodeHost.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "根据条件查询主机")
 	public R queryNodeHost() {
 		return nodeService.queryNodeHost((TypedHashMap<String, Object>) HttpKit.getRequestParameters());
@@ -60,7 +61,7 @@ public class NodeController extends BaseController {
 
 	 
 	@RequestMapping("/node/deleteNode.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "删除节点")
 	public R deleteNode(String id) {
 		return nodeService.deleteNode(id);
@@ -68,7 +69,7 @@ public class NodeController extends BaseController {
 	
 
 	@RequestMapping("/node/executeHostNodeCommand.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "节点执行命令")
 	public R executeHostNodeCommand(String id,String cmd) {
 		return nodeService.executeHostNodeCommand(id, cmd);

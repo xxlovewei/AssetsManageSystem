@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -24,7 +25,7 @@ public class UserScoreController extends BaseController {
 
 	//暂未分页
 	@RequestMapping("/user/queryScoreDtl.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "获取积分详情况")
 	public R queryScoreDtl() {
 		userScoreService.queryScore(getUserId());
@@ -32,7 +33,7 @@ public class UserScoreController extends BaseController {
 	}
 
 	@RequestMapping("/user/qdScore.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON, info = "签到")
 	public R qdScore() {
 		int v = userScoreService.queryTodayFlagCount(getUserId(), "qd");

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.annotion.Acl;
@@ -29,7 +30,7 @@ public class SysUserController extends BaseController {
 	private SysUserService sysUserService;
 
 	@RequestMapping(value = "/user/userSave.do")
-	@Res
+	@ResponseBody
 	@Acl
 	@Transactional
 	public R userSave() {
@@ -43,7 +44,7 @@ public class SysUserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/user/userDelete.do")
-	@Res
+	@ResponseBody
 	@Acl
 	@Transactional
 	public R userDelete(String user_ids) {
@@ -68,14 +69,14 @@ public class SysUserController extends BaseController {
 	}
 
 	@RequestMapping("/user/userQueryById.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R userQueryById(String user_id) {
 		return sysUserService.queryUserById(user_id);
 	}
 
 	@RequestMapping("/user/queryRole.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R queryRole(String user_id) {
 		if (ToolUtil.isEmpty(user_id)) {
@@ -92,7 +93,7 @@ public class SysUserController extends BaseController {
 	}
 
 	@RequestMapping("/user/userRoleChange.do")
-	@Res
+	@ResponseBody
 	@Acl
 	@Transactional
 	public R userRoleChange() {
@@ -101,14 +102,14 @@ public class SysUserController extends BaseController {
 	}
 
 	@RequestMapping("/user/userQueryByGroup.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R userQueryByGroup(String group_id) {
 		return userService.queryUserByGroup(group_id);
 	}
 
 	@RequestMapping("/user/getUserMenus.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public R getUserMenus(String menu_id) {
 		if (ToolUtil.isEmpty(menu_id)) {
@@ -118,7 +119,7 @@ public class SysUserController extends BaseController {
 	}
 
 	@RequestMapping("/user/saveCommonSetting.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public R saveCommonSetting() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -126,7 +127,7 @@ public class SysUserController extends BaseController {
 	}
 
 	@RequestMapping("/user/changePwd.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public R changePwd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();

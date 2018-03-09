@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -26,7 +27,7 @@ public class ClassController extends BaseController {
 	ClassService classService;
 
 	@RequestMapping(value = "/class/saveClass.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "编辑分类")
 	public R saveClass() {
 
@@ -38,28 +39,28 @@ public class ClassController extends BaseController {
 	}
 
 	@RequestMapping(value = "/class/deleteClass.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "删除分类")
 	public R deleteClass(String class_id) {
 		return classService.deleteClass(class_id);
 	}
 
 	@RequestMapping(value = "/class/queryClass.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "查询分类")
 	public R queryClass(String class_id, String type, String is_used) {
 		return classService.queryClass(class_id, type, is_used);
 	}
 
 	@RequestMapping(value = "/class/queryClassById.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "查询单条分类")
 	public R queryClassById(String class_id) {
 		return classService.queryClassById(class_id);
 	}
 
 	@RequestMapping(value = "/class/saveClassItem.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "编辑分类条目")
 	public R saveClassItem() {
 
@@ -72,7 +73,7 @@ public class ClassController extends BaseController {
 	}
 
 	@RequestMapping(value = "/class/addClassItem.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "增加条目")
 	public R addClassItem() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -81,7 +82,7 @@ public class ClassController extends BaseController {
 	}
 
 	@RequestMapping(value = "/class/addClassItems.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "批量增加分类条目")
 	public R addClassItems() {
 
@@ -91,21 +92,21 @@ public class ClassController extends BaseController {
 	}
 
 	@RequestMapping(value = "/class/deleteClassItem.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "删除分类条目")
 	public R deleteClassItem(String id) {
 		return classService.deleteClassItem(id);
 	}
 
 	@RequestMapping(value = "/class/queryClassItem.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "查询分类条目")
 	public R queryClassItem(String class_id, String is_used) {
 		return classService.queryClassItem(class_id, is_used);
 	}
 
 	@RequestMapping(value = "/class/queryClassItemById.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW, info = "查询单条分类条目")
 	public R queryClassItemById(String id) {
 		return classService.queryClassItemById(id);

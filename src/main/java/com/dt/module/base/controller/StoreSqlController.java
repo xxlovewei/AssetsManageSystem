@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -25,13 +26,13 @@ public class StoreSqlController extends BaseController {
 	StoreSqlService storeSqlService;
 
 	@RequestMapping(value = "/store/queryStoreSql.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R queryStoreSql() {
 		return storeSqlService.queryStoreSql(null);
 	}
 	@RequestMapping(value = "/store/queryStoreSqlById.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R queryStoreSqlById(String store_id) {
 		if (ToolUtil.isEmpty(store_id)) {
@@ -40,7 +41,7 @@ public class StoreSqlController extends BaseController {
 		return storeSqlService.queryStoreSqlById(store_id);
 	}
 	@RequestMapping(value = "/store/saveStoreSql.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R saveStoreSql() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
@@ -52,7 +53,7 @@ public class StoreSqlController extends BaseController {
 		}
 	}
 	@RequestMapping(value = "/store/deleteStoreSql.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R deleteStoreSql(String store_id) {
 		if (ToolUtil.isEmpty(store_id)) {
@@ -61,14 +62,14 @@ public class StoreSqlController extends BaseController {
 		return storeSqlService.deleteStoreSql(store_id);
 	}
 	@RequestMapping(value = "/store/commandAction.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_USER_COMMON)
 	public R commandAction() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return storeSqlService.commandAction(ps, getUserId(), StoreSqlService.ACL_USER);
 	}
 	@RequestMapping(value = "/store/commandActionForPublic.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R commandActionForPublic() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();

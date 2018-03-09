@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -45,7 +46,7 @@ public class SftpWindowController extends BaseController {
 	private Map<String, Object> sftpuploadSession = new HashMap<String, Object>();
 
 	@RequestMapping(value = "/sftp/exeCommand.do", method = RequestMethod.POST)
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "执行sftp的命令")
 	public R exeCommand(@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
 			String cmd, String cmdParam, String fileFileName, String permissions, HttpServletRequest request,
@@ -151,7 +152,7 @@ public class SftpWindowController extends BaseController {
 	}
 
 	@RequestMapping("/sftp/uploadState.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "sftp连接")
 	public R uploadState(String id) {
 
@@ -161,7 +162,7 @@ public class SftpWindowController extends BaseController {
 	}
 
 	@RequestMapping("/sftp/connectSftp.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_DENY, info = "sftp连接")
 	public R connectSftp(String id) {
 		String user_id = getUserId();

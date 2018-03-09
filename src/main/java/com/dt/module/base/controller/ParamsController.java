@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.annotion.Res;
@@ -24,19 +25,19 @@ public class ParamsController {
 	ParamsService paramsService;
 
 	@RequestMapping(value = "/params/queryParams.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R queryParams() {
 		return paramsService.queryParams();
 	}
 	@RequestMapping(value = "/params/queryParamsById.do")
-	@Res
+	@ResponseBody
 	@Acl(value = Acl.TYPE_ALLOW)
 	public R queryParamsById(String id) {
 		return paramsService.queryParamsById(id);
 	}
 	@RequestMapping(value = "/params/saveParams.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R saveParams() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -48,7 +49,7 @@ public class ParamsController {
 		}
 	}
 	@RequestMapping(value = "/params/deleteParams.do")
-	@Res
+	@ResponseBody
 	@Acl
 	public R deleteParams(String id) {
 		return paramsService.deleteParams(id);
