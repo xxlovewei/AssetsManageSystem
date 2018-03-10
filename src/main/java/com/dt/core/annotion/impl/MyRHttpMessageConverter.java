@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
@@ -20,8 +18,9 @@ import com.dt.core.common.base.R;
  * @Description: TODO
  */
 public class MyRHttpMessageConverter {
-	private static final Logger _logger = LoggerFactory.getLogger(MyRHttpMessageConverter.class);
+//	private static final Logger _logger = LoggerFactory.getLogger(MyRHttpMessageConverter.class);
 	private static final MediaType UTF8 = new MediaType("application", "json", Charset.forName("UTF-8"));
+
 	public MappingJackson2HttpMessageConverter init() {
 		return new MappingJackson2HttpMessageConverter() {
 			/**
@@ -32,13 +31,7 @@ public class MyRHttpMessageConverter {
 			protected void writeInternal(Object object, Type type, HttpOutputMessage outputMessage)
 					throws IOException, HttpMessageNotWritableException {
 				Charset charset = this.getContentTypeCharset(outputMessage.getHeaders().getContentType());
-				// 只有R进入
-				if (object instanceof String) {
-					_logger.info(
-							"在MyResponseBodyAdvice进行转换时返回值变成String了,不能用原来选定消息转换器进行转换,直接使用StringHttpMessageConverter转换");
-					// StringHttpMessageConverter中就是用以下代码写的
-					StreamUtils.copy((String) object, charset, outputMessage.getBody());
-				} else if (object instanceof R) {
+				if (object instanceof R) {
 					StreamUtils.copy(((R) object).asJsonStr(), charset, outputMessage.getBody());
 				} else {
 					super.writeInternal(object, type, outputMessage);

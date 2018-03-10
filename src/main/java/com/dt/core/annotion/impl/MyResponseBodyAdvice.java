@@ -8,19 +8,18 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+
 @ControllerAdvice
 public class MyResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
 	@Override
-	public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
+	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
 		return true;
 	}
 
-	@Override
-	public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType,
-			Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest,
-			ServerHttpResponse serverHttpResponse) {
-		return o;
-
+	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
+			Class<? extends HttpMessageConverter<?>> selectedConverterType,
+			ServerHttpRequest request, ServerHttpResponse response) {	
+		return body;
 	}
 }

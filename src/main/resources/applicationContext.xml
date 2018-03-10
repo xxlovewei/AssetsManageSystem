@@ -20,21 +20,19 @@
 	<context:component-scan base-package="com.dt.core.shiro" />
 
 	<!-- 异常处理 -->
-	<context:component-scan base-package="com.dt.core.exception" /> 
+	<context:component-scan base-package="com.dt.core.exception" />
 
 	<!-- 启动时初始化Spring上下文环境工具类 -->
 	<bean id="SpringContextUtil" class="com.dt.core.tool.lang.SpringContextUtil" />
 
 	<!-- 主数据库注入 -->
 	<context:component-scan base-package="com.dt.module.db" />
-	
+
 	<bean id="ApplicationContextListener" class="com.dt.module.base.listener.ApplicationContextListener" />
 
 
 	<!-- 配置自定义返回注解 -->
-	<bean id="resreqMessagCover"
-		class="com.dt.core.annotion.impl.ResReqDataMessageConvert" />
-		
+	<bean id="resreqMessagCover" class="com.dt.core.annotion.impl.ResReqDataMessageConvert" />
 	<bean id="resReqSolve" class="com.dt.core.annotion.impl.ResReqResolver">
 		<constructor-arg>
 			<list>
@@ -42,19 +40,22 @@
 			</list>
 		</constructor-arg>
 	</bean>
-	
-	<bean id="RHttpMessageConverterFactory" class = "com.dt.core.annotion.impl.MyRHttpMessageConverter" />
-	<!-- 设置配置方案 -->  
+	<bean id="RHttpMessageConverterFactory" class="com.dt.core.annotion.impl.MyRHttpMessageConverter" />
+	<!-- 设置配置方案 -->
 	<mvc:annotation-driven>
-		<!-- 设置不使用默认的消息转换器 -->  
+		<!-- 设置不使用默认的消息转换器 -->
 		<mvc:message-converters register-defaults="false">
-			<!-- 配置Spring的转换器 -->  
-			<bean factory-bean="RHttpMessageConverterFactory" factory-method="init"
-				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" >
+			<!-- 配置Spring的转换器 -->
+			<bean factory-bean="RHttpMessageConverterFactory"
+				factory-method="init"
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 			</bean>
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter"/>  
-			<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>  
-			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>  
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg index="0" value="utf-8"></constructor-arg>
+			</bean>
+			<bean
+				class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+			<!-- <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/> -->
 			<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
 			<!-- 顺便解决了string 返回乱码问题 -->
 			<bean id="fastJsonHttpMessageConverter"

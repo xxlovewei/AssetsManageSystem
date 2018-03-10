@@ -35,6 +35,7 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public boolean canWrite(Type type, Class<?> clazz, MediaType mediaType) {
+		 
 		return ((Class) type).isAssignableFrom(R.class);
 	}
 	@Override
