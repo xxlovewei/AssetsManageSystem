@@ -45,7 +45,7 @@ public class LoginController extends BaseController {
 	/**
 	 * @Description: user,pwd,type,client必须部不为空
 	 */
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/user/login.do")
 	@ResponseBody
 	public R logindo(String user, String pwd, String type, String client, HttpServletRequest request) {
@@ -100,7 +100,7 @@ public class LoginController extends BaseController {
 
 	@RequestMapping(value = "/user/checkLogin.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R checkLogin() throws IOException {
 		if (ShiroKit.isAuthenticated()) {
 			return R.SUCCESS(BaseCodeMsgEnum.USER_ALREADY_LOGIN.getMessage());
@@ -114,7 +114,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(value = "/user/logout.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R loginout() throws IOException {
 		return R.SUCCESS("成功退出");
 	}

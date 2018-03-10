@@ -46,7 +46,7 @@ public class SftpWindowController extends BaseController {
 
 	@RequestMapping(value = "/sftp/exeCommand.do", method = RequestMethod.POST)
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "执行sftp的命令")
+	@Acl(value = Acl.ACL_DENY, info = "执行sftp的命令")
 	public R exeCommand(@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
 			String cmd, String cmdParam, String fileFileName, String permissions, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -109,7 +109,7 @@ public class SftpWindowController extends BaseController {
 	}
 
 	@RequestMapping("/sftp/downloadFile.do")
-	@Acl(value = Acl.TYPE_DENY, info = "使用sftp下载文件")
+	@Acl(value = Acl.ACL_DENY, info = "使用sftp下载文件")
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException {
 		String fileFileName = "";
@@ -152,7 +152,7 @@ public class SftpWindowController extends BaseController {
 
 	@RequestMapping("/sftp/uploadState.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "sftp连接")
+	@Acl(value = Acl.ACL_DENY, info = "sftp连接")
 	public R uploadState(String id) {
 
 		String state = (String) sftpuploadSession.get("progress");
@@ -162,7 +162,7 @@ public class SftpWindowController extends BaseController {
 
 	@RequestMapping("/sftp/connectSftp.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "sftp连接")
+	@Acl(value = Acl.ACL_DENY, info = "sftp连接")
 	public R connectSftp(String id) {
 		String user_id = getUserId();
 		Machine m = (Machine) super.getSession().getAttribute("currentMachine");

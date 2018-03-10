@@ -21,7 +21,7 @@ public class ScheduleController extends BaseController {
 
 	@RequestMapping("/schedule/queryJobs.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "查询任务")
+	@Acl(value = Acl.ACL_DENY, info = "查询任务")
 	public Object queryJobs(String type) {
 		return R.SUCCESS_OPER(jobService.queryJob(type, getUserId()));
 	}

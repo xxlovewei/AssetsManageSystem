@@ -18,13 +18,13 @@ public class RegionController extends BaseController {
 
 	@RequestMapping(value = "/region/queryTree.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R regionqueryTree() {
 		return regionService.queryRegion();
 	}
 	@RequestMapping(value = "/region/getChildren.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R getChildrens(String id) {
 		return regionService.queryRegionById(id);
 	}
@@ -33,7 +33,7 @@ public class RegionController extends BaseController {
 	 */
 	@RequestMapping(value = "/qud/queryShengF.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R queryShengF(String ex) {
 		return regionService.queryShengF(null);
 	}
@@ -42,7 +42,7 @@ public class RegionController extends BaseController {
 	 */
 	@RequestMapping(value = "/qud/queryChengS.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R queryChengS(String exclude, String sfid) {
 		return regionService.queryChengS(sfid, null);
 	}
@@ -51,7 +51,7 @@ public class RegionController extends BaseController {
 	 */
 	@RequestMapping(value = "/qud/queryQuX.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R queryQuX(String exclude, String csid) {
 		return regionService.queryQuX(csid, null);
 	}

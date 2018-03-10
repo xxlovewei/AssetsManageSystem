@@ -26,7 +26,7 @@ public class TerminalController extends BaseController {
 
 	@RequestMapping("/term/setCurrentMachine.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "设置当前机器")
+	@Acl(value = Acl.ACL_DENY, info = "设置当前机器")
 	public R setCurrentMachine(String id) {
 		R res = nodeService.queryNodeById(id);
 		JSONObject e = res.queryDataToJSONObject();

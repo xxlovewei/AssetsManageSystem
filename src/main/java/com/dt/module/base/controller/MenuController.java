@@ -55,11 +55,11 @@ public class MenuController extends BaseController {
 	}
 	@RequestMapping(value = "/menu/treeDataDirect.do")
 	@ResponseBody
-	@Acl(value=Acl.TYPE_USER_COMMON)
+	@Acl(value=Acl.ACL_USER)
 	public R treeDataDirect(String id) {
 		return menuService.queryMenuNodes(id);
 	}
-	@Acl(value = Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.ACL_USER)
 	@RequestMapping(value = "/menu/treeMenus.do")
 	@ResponseBody
 	public R treeMenus() {

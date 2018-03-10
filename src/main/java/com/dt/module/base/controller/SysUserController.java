@@ -109,7 +109,7 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping("/user/getUserMenus.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.ACL_USER)
 	public R getUserMenus(String menu_id) {
 		if (ToolUtil.isEmpty(menu_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -119,7 +119,7 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping("/user/saveCommonSetting.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.ACL_USER)
 	public R saveCommonSetting() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return sysUserService.saveCommonSettings(getUserId(), ps);
@@ -127,7 +127,7 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping("/user/changePwd.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.ACL_USER)
 	public R changePwd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return userService.changeUserPwd(ps.getString("opwd", ""), ps.getString("npwd", ""), getUserId());

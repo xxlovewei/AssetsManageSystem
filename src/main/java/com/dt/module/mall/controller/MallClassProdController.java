@@ -30,7 +30,7 @@ public class MallClassProdController extends BaseController {
 
 	@RequestMapping("/class/queryClassProdNotSel.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "选择加入分类单产品")
+	@Acl(value = Acl.ACL_DENY, info = "选择加入分类单产品")
 	public R queryClassProdNotSel(String cat_id, String class_id, String start, String length, String pageSize,
 			String pageIndex) {
 
@@ -61,7 +61,7 @@ public class MallClassProdController extends BaseController {
 
 	@RequestMapping("/class/queryClassProd.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "查询分类单产品")
+	@Acl(value = Acl.ACL_ALLOW, info = "查询分类单产品")
 	public R queryClassProd(String withoutcount, String class_id, String start, String length, String pageSize,
 			String pageIndex) {
 

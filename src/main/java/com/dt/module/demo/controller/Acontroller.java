@@ -19,7 +19,7 @@ import com.dt.core.common.base.R;
 public class Acontroller extends BaseController {
 
 	@RequestMapping("/demo/thy.html")
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value=Acl.ACL_DENY,type=Acl.TYPE_VIEW)
 	public String thy() {
 		BaseCommon.print("thy.html");
 		return "thy.html";
@@ -27,14 +27,25 @@ public class Acontroller extends BaseController {
 	}
 
 	@RequestMapping("/demo/jsp.jsp")
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value=Acl.ACL_DENY,type=Acl.TYPE_VIEW)
 	public String jsp() {
 		BaseCommon.print("jsp.jsp");
 		return jsp("jsp");
 	}
 
+	@RequestMapping("/demo/api4.do")
+	@Acl(value=Acl.ACL_DENY,type=Acl.TYPE_VIEW)
+	@ResponseBody
+	public R api4() {
+		BaseCommon.print("api");
+		return R.SUCCESS();
+	 
+	}
+	
+	
+
 	@RequestMapping("/demo/api.do")
-	@Acl(value=Acl.TYPE_ALLOW)
+	@Acl(value=Acl.ACL_ALLOW,type=Acl.TYPE_VIEW)
 	@ResponseBody
 	public R api() {
 		BaseCommon.print("api");
@@ -43,7 +54,7 @@ public class Acontroller extends BaseController {
 	}
 	
 	@RequestMapping("/demo/api2.do")
-	@Acl(value=Acl.TYPE_ALLOW)
+	@Acl(value=Acl.ACL_ALLOW)
 	@ResponseBody
 	public R api2() {
 		BaseCommon.print("api");
@@ -51,7 +62,7 @@ public class Acontroller extends BaseController {
 	}
 	
 	@RequestMapping("/demo/api3.do")
-	@Acl(value=Acl.TYPE_ALLOW)
+	@Acl(value=Acl.ACL_ALLOW)
 	@ResponseBody
 	public String api23() {
 		BaseCommon.print("api3");

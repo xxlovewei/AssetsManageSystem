@@ -66,7 +66,7 @@ public class LoginSmallProgramController extends BaseController {
 
 	@RequestMapping(value = "/smallprogram/login.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "小程序用户登录")
+	@Acl(value = Acl.ACL_ALLOW, info = "小程序用户登录")
 	public R login(String code, HttpServletRequest request) {
 		if (ToolUtil.isEmpty(code)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -121,7 +121,7 @@ public class LoginSmallProgramController extends BaseController {
 
 	@RequestMapping(value = "/smallprogram/register.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "小程序用户注册")
+	@Acl(value = Acl.ACL_ALLOW, info = "小程序用户注册")
 	public R register(String code, String avatarUrl, String city, String country, String nickName,
 			String province) {
 		R strres = getOpenIdStr(code);
@@ -144,14 +144,14 @@ public class LoginSmallProgramController extends BaseController {
 
 	@RequestMapping("/smallprogram/userQueryById.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON, info = "小程序用户信息")
+	@Acl(value = Acl.ACL_USER, info = "小程序用户信息")
 	public R userQueryById() {
 		return R.SUCCESS_OPER(userService.queryUserById(getUserId()));
 	}
 
 	@RequestMapping("/smallprogram/checkLogin.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "检测登录")
+	@Acl(value = Acl.ACL_ALLOW, info = "检测登录")
 	public R checkLogin() {
 		// Subject currentUser = ShiroKit.getSubject();
 		String userId = this.getUserId();

@@ -27,7 +27,7 @@ public class NoticesController extends BaseController {
 
 	@RequestMapping(value = "/notice/queryNoticeById.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "获取公告")
+	@Acl(value = Acl.ACL_ALLOW, info = "获取公告")
 	public R queryNoticeById(String id) {
 		return noticeService.queryNoticeById(id);
 	}
@@ -35,7 +35,7 @@ public class NoticesController extends BaseController {
 	
 	@RequestMapping(value = "/notice/saveNotice.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "保存公告")
+	@Acl(value = Acl.ACL_DENY, info = "保存公告")
 	public R saveNotice() {
 
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -49,7 +49,7 @@ public class NoticesController extends BaseController {
 
 	@RequestMapping(value = "/notice/delNotice.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "删除公告")
+	@Acl(value = Acl.ACL_DENY, info = "删除公告")
 	public R delNotice(String id) {
 		return noticeService.deleteNotice(id);
 	}

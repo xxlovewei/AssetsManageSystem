@@ -38,7 +38,7 @@ public class CategoryBackgroundController extends BaseController {
 		return categoryBService.queryAllProdCatList();
 	}
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	@RequestMapping("/categoryB/queryTreeList.do")
 	public R categoryBqueryTreeList() {
 		return R.SUCCESS_OPER(categoryBService.queryCategoryBTreeList());
@@ -103,7 +103,7 @@ public class CategoryBackgroundController extends BaseController {
 		return categoryAttrService.updateAttr(ps);
 	}
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	@RequestMapping("/categoryB/catAttrQuery.do")
 	public R catAttrQuery(String cat_id) throws IOException {
 		return categoryAttrService.queryAttr(cat_id);

@@ -133,7 +133,7 @@ public class ProductMaintainControllerdel extends BaseController{
 	
 	@RequestMapping("/prod/queryBySpu.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R queryBySpu(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		JSONObject res = new JSONObject();
@@ -165,7 +165,7 @@ public class ProductMaintainControllerdel extends BaseController{
 
 	@RequestMapping("/prod/queryBySku.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R queryBySku(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
 		if (id == null) {

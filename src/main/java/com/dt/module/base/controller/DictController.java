@@ -21,7 +21,7 @@ public class DictController extends BaseController {
 
 	@RequestMapping(value = "/dict/queryDict.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.ACL_USER)
 	public R queryDict() {
 		return dictService.queryDict();
 	}
@@ -45,7 +45,7 @@ public class DictController extends BaseController {
 	}
 	@RequestMapping(value = "/dict/queryByDictId.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.ACL_USER)
 	public R queryByDictId(String id) {
 		return dictService.queryDictById(id);
 	}
@@ -57,7 +57,7 @@ public class DictController extends BaseController {
 	}
 	@RequestMapping(value = "/dict/queryDictItem.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.ACL_USER)
 	public R queryDictItem(String id) {
 		return dictService.queryDictItem(id);
 	}

@@ -23,13 +23,13 @@ public class ApiController extends BaseController {
 
 	@RequestMapping(value = "/api/queryApi.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.ACL_USER)
 	public R queryApi() {
 		return apiService.queryApi();
 	}
 	@RequestMapping(value = "/api/updateApi.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.ACL_USER)
 	public R updateApi() {
 		return apiService.updateApi();
 	}

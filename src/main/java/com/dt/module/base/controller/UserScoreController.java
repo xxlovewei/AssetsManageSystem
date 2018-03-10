@@ -25,7 +25,7 @@ public class UserScoreController extends BaseController {
 	//暂未分页
 	@RequestMapping("/user/queryScoreDtl.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON, info = "获取积分详情况")
+	@Acl(value = Acl.ACL_USER, info = "获取积分详情况")
 	public R queryScoreDtl() {
 		userScoreService.queryScore(getUserId());
 		return R.SUCCESS_OPER();
@@ -33,7 +33,7 @@ public class UserScoreController extends BaseController {
 
 	@RequestMapping("/user/qdScore.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON, info = "签到")
+	@Acl(value = Acl.ACL_USER, info = "签到")
 	public R qdScore() {
 		int v = userScoreService.queryTodayFlagCount(getUserId(), "qd");
 		if (v > 0) {

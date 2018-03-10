@@ -28,7 +28,7 @@ public class BannerAndItemController extends BaseController {
 	
 	@RequestMapping("/banner/queryBanner.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "查询横幅")
+	@Acl(value = Acl.ACL_ALLOW, info = "查询横幅")
 	public R queryBanner(String type) {
 		return bannerAndItemService.queryBanner(type);
 
@@ -36,7 +36,7 @@ public class BannerAndItemController extends BaseController {
 	
 	@RequestMapping("/banner/queryBannerItems.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "查询横幅")
+	@Acl(value = Acl.ACL_ALLOW, info = "查询横幅")
 	public R queryBannerItems(String banner_id,String is_used) {
 		return bannerAndItemService.queryBannerItems(banner_id,is_used);
 
@@ -44,7 +44,7 @@ public class BannerAndItemController extends BaseController {
 
 	@RequestMapping("/banner/delBannerItem.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "删除横幅条目")
+	@Acl(value = Acl.ACL_ALLOW, info = "删除横幅条目")
 	public R delBannerItem(String id) {
 		return bannerAndItemService.delBannerItem(id);
 

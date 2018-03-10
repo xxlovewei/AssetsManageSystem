@@ -26,7 +26,7 @@ public class PayController extends BaseController {
 
 	@RequestMapping("/pay/toPay.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON, info = "支付")
+	@Acl(value = Acl.ACL_USER, info = "支付")
 	public R toPay(String order_id) {
 		// 仅仅测试
 		return orderService.payOrderFinishAuto(order_id, getUserId());

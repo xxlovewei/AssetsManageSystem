@@ -69,13 +69,13 @@ public class SimpleFilterChainDefinitionsService {
 			Acl am = ((HandlerMethod) hm).getMethodAnnotation(Acl.class);
 			if (ToolUtil.isNotEmpty(am)) {
 				String aclvalue = am.value();
-				if (aclvalue.equals(Acl.TYPE_ALLOW)) {
+				if (aclvalue.equals(Acl.ACL_ALLOW)) {
 					Iterator<String> it = pSet.iterator();
 					while (it.hasNext()) {
 						String str = it.next();
 						res.put(str, "anon");
 					}
-				} else if (aclvalue.equals(Acl.TYPE_USER_COMMON)) {
+				} else if (aclvalue.equals(Acl.ACL_USER)) {
 					Iterator<String> it = pSet.iterator();
 					while (it.hasNext()) {
 						String str = it.next();

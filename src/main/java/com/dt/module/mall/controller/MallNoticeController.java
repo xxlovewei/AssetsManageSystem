@@ -30,7 +30,7 @@ public class MallNoticeController extends BaseController {
 
 	@RequestMapping(value = "/mallnotice/queryNotice.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "商城获取公告")
+	@Acl(value = Acl.ACL_ALLOW, info = "商城获取公告")
 	public R queryNotice(String is_show, String start, String length, String pageSize, String pageIndex) {
 
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);

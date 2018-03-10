@@ -27,7 +27,7 @@ public class CompanyController {
 	 */
 	@RequestMapping(value = "/company/queryCompany.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R queryCompany() {
 		return companyService.queryCompany();
 	}

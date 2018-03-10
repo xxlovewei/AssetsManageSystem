@@ -64,7 +64,7 @@ public class ShopController extends BaseController {
 
 	@RequestMapping("/shop/queryMyShop.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.ACL_USER)
 	public R queryMyShop() {
 		return myShopService.queryMyShopByUserId(super.getUserId());
 	}

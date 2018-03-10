@@ -16,16 +16,16 @@ import java.lang.annotation.Target;
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Acl {
-	public static String TYPE_ALLOW = "allow";
-	public static String TYPE_USER_COMMON = "user";
-	public static String TYPE_DENY = "deny";
+	public static String ACL_ALLOW = "allow";
+	public static String ACL_USER= "user";
+	public static String ACL_DENY = "deny";
 
-	public static String ACL_TYPE = "api";
-	public static String ACL_VIEW = "view";
+	public static String TYPE_API = "api";
+	public static String TYPE_VIEW = "view";
 
-	String type() default ACL_TYPE;
+	String type() default TYPE_API;
 
-	String value() default TYPE_DENY;
+	String value() default ACL_DENY;
 
 	String info() default "";
 }

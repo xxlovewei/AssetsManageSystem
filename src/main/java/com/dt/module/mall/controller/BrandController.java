@@ -21,7 +21,7 @@ public class BrandController extends BaseController {
 
 	@RequestMapping("/brand/brandQuery.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R brandQuery() {
 		return brandService.queryBrand();
 	}

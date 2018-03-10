@@ -62,14 +62,14 @@ public class StoreSqlController extends BaseController {
 	}
 	@RequestMapping(value = "/store/commandAction.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON)
+	@Acl(value = Acl.ACL_USER)
 	public R commandAction() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return storeSqlService.commandAction(ps, getUserId(), StoreSqlService.ACL_USER);
 	}
 	@RequestMapping(value = "/store/commandActionForPublic.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R commandActionForPublic() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return storeSqlService.commandAction(ps, getUserId(), StoreSqlService.ACL_PUBLIC);

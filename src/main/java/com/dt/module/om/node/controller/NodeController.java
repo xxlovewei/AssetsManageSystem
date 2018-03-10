@@ -26,14 +26,14 @@ public class NodeController extends BaseController {
 
 	@RequestMapping("/node/queryNodeById.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "根据Id查询节点")
+	@Acl(value = Acl.ACL_DENY, info = "根据Id查询节点")
 	public R queryNodeById(String id) {
 		return nodeService.queryNodeById(id);
 	}
 
 	@RequestMapping("/node/saveNode.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "保存节点")
+	@Acl(value = Acl.ACL_DENY, info = "保存节点")
 	public R saveNode() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
@@ -46,14 +46,14 @@ public class NodeController extends BaseController {
 
 	@RequestMapping("/node/queryNode.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "查询节点")
+	@Acl(value = Acl.ACL_DENY, info = "查询节点")
 	public R queryNode() {
 		return nodeService.queryNode((TypedHashMap<String, Object>) HttpKit.getRequestParameters());
 	}
 
 	@RequestMapping("/node/queryNodeHost.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "根据条件查询主机")
+	@Acl(value = Acl.ACL_DENY, info = "根据条件查询主机")
 	public R queryNodeHost() {
 		return nodeService.queryNodeHost((TypedHashMap<String, Object>) HttpKit.getRequestParameters());
 	}
@@ -61,7 +61,7 @@ public class NodeController extends BaseController {
 	 
 	@RequestMapping("/node/deleteNode.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "删除节点")
+	@Acl(value = Acl.ACL_DENY, info = "删除节点")
 	public R deleteNode(String id) {
 		return nodeService.deleteNode(id);
 	}
@@ -69,7 +69,7 @@ public class NodeController extends BaseController {
 
 	@RequestMapping("/node/executeHostNodeCommand.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "节点执行命令")
+	@Acl(value = Acl.ACL_DENY, info = "节点执行命令")
 	public R executeHostNodeCommand(String id,String cmd) {
 		return nodeService.executeHostNodeCommand(id, cmd);
 	}

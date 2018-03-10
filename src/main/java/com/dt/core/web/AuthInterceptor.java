@@ -28,7 +28,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		Boolean isPass = false;
-		String acl = Acl.TYPE_DENY;
+		String acl = Acl.ACL_DENY;
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		response.setCharacterEncoding("UTF-8");
@@ -58,8 +58,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 
 		// 此处基本Acl再做权限验证
-		BaseCommon.print(handler.getClass().getName());
-		
 		if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
 			// 前端shrio已经判断过,第二次判断
 			Acl am = ((HandlerMethod) handler).getMethodAnnotation(Acl.class);
@@ -93,7 +91,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			}
 		}else{
 			_log.info("isAssignableFrom HandlerMethod.class failed");
-			isPass=true;
+			//isPass=true;
 		}
 		 
 		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",isAuth=" + ShiroKit.isAuthenticated()

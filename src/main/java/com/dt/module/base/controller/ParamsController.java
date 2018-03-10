@@ -25,13 +25,13 @@ public class ParamsController {
 
 	@RequestMapping(value = "/params/queryParams.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R queryParams() {
 		return paramsService.queryParams();
 	}
 	@RequestMapping(value = "/params/queryParamsById.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	public R queryParamsById(String id) {
 		return paramsService.queryParamsById(id);
 	}

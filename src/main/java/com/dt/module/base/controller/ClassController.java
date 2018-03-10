@@ -27,7 +27,7 @@ public class ClassController extends BaseController {
 
 	@RequestMapping(value = "/class/saveClass.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "编辑分类")
+	@Acl(value = Acl.ACL_DENY, info = "编辑分类")
 	public R saveClass() {
 
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -39,28 +39,28 @@ public class ClassController extends BaseController {
 
 	@RequestMapping(value = "/class/deleteClass.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "删除分类")
+	@Acl(value = Acl.ACL_DENY, info = "删除分类")
 	public R deleteClass(String class_id) {
 		return classService.deleteClass(class_id);
 	}
 
 	@RequestMapping(value = "/class/queryClass.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "查询分类")
+	@Acl(value = Acl.ACL_ALLOW, info = "查询分类")
 	public R queryClass(String class_id, String type, String is_used) {
 		return classService.queryClass(class_id, type, is_used);
 	}
 
 	@RequestMapping(value = "/class/queryClassById.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "查询单条分类")
+	@Acl(value = Acl.ACL_ALLOW, info = "查询单条分类")
 	public R queryClassById(String class_id) {
 		return classService.queryClassById(class_id);
 	}
 
 	@RequestMapping(value = "/class/saveClassItem.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "编辑分类条目")
+	@Acl(value = Acl.ACL_DENY, info = "编辑分类条目")
 	public R saveClassItem() {
 
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -73,7 +73,7 @@ public class ClassController extends BaseController {
 
 	@RequestMapping(value = "/class/addClassItem.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "增加条目")
+	@Acl(value = Acl.ACL_DENY, info = "增加条目")
 	public R addClassItem() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return classService.addClassItem(ps);
@@ -82,7 +82,7 @@ public class ClassController extends BaseController {
 
 	@RequestMapping(value = "/class/addClassItems.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "批量增加分类条目")
+	@Acl(value = Acl.ACL_DENY, info = "批量增加分类条目")
 	public R addClassItems() {
 
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -92,21 +92,21 @@ public class ClassController extends BaseController {
 
 	@RequestMapping(value = "/class/deleteClassItem.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "删除分类条目")
+	@Acl(value = Acl.ACL_DENY, info = "删除分类条目")
 	public R deleteClassItem(String id) {
 		return classService.deleteClassItem(id);
 	}
 
 	@RequestMapping(value = "/class/queryClassItem.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "查询分类条目")
+	@Acl(value = Acl.ACL_ALLOW, info = "查询分类条目")
 	public R queryClassItem(String class_id, String is_used) {
 		return classService.queryClassItem(class_id, is_used);
 	}
 
 	@RequestMapping(value = "/class/queryClassItemById.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "查询单条分类条目")
+	@Acl(value = Acl.ACL_ALLOW, info = "查询单条分类条目")
 	public R queryClassItemById(String id) {
 		return classService.queryClassItemById(id);
 	}

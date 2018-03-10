@@ -22,28 +22,28 @@ public class ProductController extends BaseController {
 
 	@RequestMapping("/product/getProdPics.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "获取产品轮训图片")
+	@Acl(value = Acl.ACL_ALLOW, info = "获取产品轮训图片")
 	public R getProdPics(String spu) {
 		return R.SUCCESS_OPER(productService.getProdPics(spu));
 	}
 
 	@RequestMapping("/product/updateProdPics.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "更新产品轮训图片")
+	@Acl(value = Acl.ACL_DENY, info = "更新产品轮训图片")
 	public R updateProdPics(String spu, String pics) {
 		return productService.updateProdPics(spu, pics);
 	}
 
 	@RequestMapping("/product/prodOffOn.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "产品上下架")
+	@Acl(value = Acl.ACL_DENY, info = "产品上下架")
 	public R prodOffOn(String prods, String is_off) {
 		return productService.prodOffOn(prods, is_off);
 	}
 
 	@RequestMapping("/product/prodModifySaleAttr.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "修改产品销售属性")
+	@Acl(value = Acl.ACL_DENY, info = "修改产品销售属性")
 	@Transactional
 	public R prodModifySaleAttr() {
 		return productService.updateProdSaleAttr(HttpKit.getRequestParameters());
@@ -51,35 +51,35 @@ public class ProductController extends BaseController {
 
 	@RequestMapping("/product/prodModifyBaseAttr.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "修改产品基本属性")
+	@Acl(value = Acl.ACL_DENY, info = "修改产品基本属性")
 	public R prodModifyBaseAttr() {
 		return productService.updateProdBaseAttr(HttpKit.getRequestParameters());
 	}
 
 	@RequestMapping("/product/prodDelete.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "删除产品")
+	@Acl(value = Acl.ACL_DENY, info = "删除产品")
 	public R prodDelete(String prods) {
 		return productService.deleteProds(prods);
 	}
 
 	@RequestMapping("/product/prodQueryByCat.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON, info = "按照后台类目查找产品")
+	@Acl(value = Acl.ACL_USER, info = "按照后台类目查找产品")
 	public R prodQueryByCat(String cat_id) {
 		return productService.queryProdByCat(cat_id);
 	}
 
 	@RequestMapping("/product/prodQueryBySpu.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_USER_COMMON, info = "根据产品Id产品信息[后台]")
+	@Acl(value = Acl.ACL_USER, info = "根据产品Id产品信息[后台]")
 	public R prodQueryBySpu(String spu) throws IOException {
 		return productService.queryProdBySpu(spu);
 	}
 
 	@RequestMapping("/product/prodPublish.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_DENY, info = "后台发布产品")
+	@Acl(value = Acl.ACL_DENY, info = "后台发布产品")
 	@Transactional
 	public R prodPublish() {
 		return productService.publishProduct(HttpKit.getRequestParameters());
@@ -87,7 +87,7 @@ public class ProductController extends BaseController {
 
 	@RequestMapping("/product/queryProdBySpuForMall.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "根据产品Id查询产品信息[微商城]")
+	@Acl(value = Acl.ACL_ALLOW, info = "根据产品Id查询产品信息[微商城]")
 
 	public R queryProdBySpuForMall(String spu) {
 		return productService.queryProdBySpuForMall(spu);
@@ -95,21 +95,21 @@ public class ProductController extends BaseController {
 
 	@RequestMapping("/product/queryProdSkuDetail.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "产品销售属性选择后获取sku详细数据")
+	@Acl(value = Acl.ACL_ALLOW, info = "产品销售属性选择后获取sku详细数据")
 	public R queryProdSkuDetail(String spu, String propertychildids) {
 		return productService.queryProdSkuDetail(spu, propertychildids);
 	}
 
 	@RequestMapping("/product/queryProdBySpuNotSkuForMall.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "根据产品SPU获取数据[微商城]")
+	@Acl(value = Acl.ACL_ALLOW, info = "根据产品SPU获取数据[微商城]")
 	public R queryProdBySpuNotSkuForMall(String spu) {
 		return productService.queryProdBySpuNotSkuForMall(spu);
 	}
 
 	@RequestMapping("/product/queryProdBySpuSkuForMall.do")
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW, info = "根据产品SPU和SKU获取数据[微商城]")
+	@Acl(value = Acl.ACL_ALLOW, info = "根据产品SPU和SKU获取数据[微商城]")
 	public R queryProdBySpuNotSkuForMall(String spu, String sku) {
 		return productService.queryProdBySpuSkuForMall(spu, sku);
 	}

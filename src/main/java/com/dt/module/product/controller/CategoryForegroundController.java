@@ -45,13 +45,13 @@ public class CategoryForegroundController extends BaseController {
 		return categoryFRootService.updateCategoryFRoot(ps);
 	}
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	@RequestMapping("/categoryF/rootCatQuery.do")
 	public R rootCatQuery() {
 		return categoryFRootService.queryCategoryFRoot();
 	}
 	@ResponseBody
-	@Acl(value = Acl.TYPE_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW)
 	@RequestMapping("/categoryF/rootCatQueryById.do")
 	public R rootCatQueryById(String id) {
 		return categoryFRootService.queryCategoryFRootByid(id);
