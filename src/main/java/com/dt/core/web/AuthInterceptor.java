@@ -27,7 +27,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		Boolean isPass = false;
+		Boolean isPass = true;
 		String acl = Acl.ACL_DENY;
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
@@ -56,45 +56,26 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			ins.setIf("postorget", req.getQueryString());
 			db.execute(ins);
 		}
+		//
+		// // 此处基本Acl再做权限验证
+		// if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
+		// // 前端shrio已经判断过,第二次判断
+		// Acl am = ((HandlerMethod) handler).getMethodAnnotation(Acl.class);
+		// // 未设置ACL,全部拒绝
+		// if (am == null) {
+		// isPass = false;
+		// res.getWriter().print(R.FAILURE_NO_PERMITION().asJsonStr());
+		// res.getWriter().flush();
+		// res.getWriter().close();
+		// } else {
+		// isPass = true;
+		// acl = am.value();
+		// }
+		// }else{
+		// _log.info("isAssignableFrom HandlerMethod.class failed");
+		// }
 
-		// 此处基本Acl再做权限验证
-		if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
-			// 前端shrio已经判断过,第二次判断
-			Acl am = ((HandlerMethod) handler).getMethodAnnotation(Acl.class);
-			// 未设置ACL,全部拒绝
-			if (am == null) {
-				isPass = false;
-				res.getWriter().print(R.FAILURE_NO_PERMITION().asJsonStr());
-				res.getWriter().flush();
-				res.getWriter().close();
-			} else {
-				isPass = true;
-				acl = am.value();
-				// 已经设置ACL
-				// if (am.value().toLowerCase().equals(Acl.TYPE_ALLOW)) {
-				// acl = Acl.TYPE_ALLOW;
-				// isPass = true;
-				// } else {
-				// // 判断是否验证
-				// if (ShiroKit.isAuthenticated()) {
-				// // 其他选择验证,后期在这里实现
-				// acl = "all";
-				// isPass = true;
-				// } else {
-				// res.setStatus(299);
-				// res.getWriter().print(BaseResult.JSON_RETURN_NOT_LOGIN());
-				// res.getWriter().flush();
-				// res.getWriter().close();
-				// isPass = false;
-				// }
-				// }
-			}
-		}else{
-			_log.info("isAssignableFrom HandlerMethod.class failed");
-			//isPass=true;
-		}
-		 
-		_log.info("userId=" + user_id + ",acl=" + acl + ",url=" + url + ",isAuth=" + ShiroKit.isAuthenticated()
+		_log.info("userId=" + user_id + ",url=" + url + ",isAuth=" + ShiroKit.isAuthenticated()
 				+ ",isPass=" + isPass + ",isRemember:" + ShiroKit.isRemember());
 		return isPass;
 	}
