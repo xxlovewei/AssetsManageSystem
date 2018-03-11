@@ -58,6 +58,7 @@ public class ApiService extends BaseService {
 			if (ToolUtil.isNotEmpty(am)) {
 				String aclvalue = am.value();
 				String aclinfo = am.info();
+				String type=am.type();
 				Iterator<String> it = pSet.iterator();
 				while (it.hasNext()) {
 					String str = it.next(); 
@@ -68,6 +69,7 @@ public class ApiService extends BaseService {
 					me.setIf("ctacl", aclvalue);
 					me.setIf("apitype", "url");
 					me.setIf("info", aclinfo);
+					me.setIf("type", type);
 					me.setSE("rectime", DbUtil.getDBDateString(db.getDBType()));
 					sqls.add(me);
 				}
@@ -78,6 +80,8 @@ public class ApiService extends BaseService {
 			_log.info("Save collect Api.");
 			db.tabTruncate("sys_api");
 			db.executeSQLList(sqls);
+		}else {
+			_log.info("Save collect Api failed.");
 		}
 		return R.SUCCESS_OPER();
 	}

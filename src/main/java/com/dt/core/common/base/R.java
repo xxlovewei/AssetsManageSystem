@@ -104,6 +104,11 @@ public class R implements Serializable {
 		return new R(true, BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getCode(), BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getMessage(),
 				data);
 	}
+	
+	public static R SUCCESS_NO_DATA() {
+		return new R(true,  BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode(), BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage(),
+				null);
+	}
 
 	/************************* 操作失败 ***************************/
 	public static R FAILURE(String message, Object data) {

@@ -6,36 +6,43 @@ function prepend(arr, item) {
 	return a;
 }
 
- 
+function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+	$scope.actionOpt = [ {
+		id : "Y",
+		name : "有效"
+	}, {
+		id : "N",
+		name : "无效"
+	} ]
+	$scope.actionSel = $scope.actionOpt[0];
 
-	$scope.actionOpt=[{id:"Y",name:"有效"},{id:"N",name:"无效"}]
-	$scope.actionSel=$scope.actionOpt[0];
-	
 	$scope.catRootOpt = [];
 	$scope.catRootSel = "";
 	$scope.item = {};
-	$http.post($rootScope.project + "/api/ctCategroy/queryRootCategory.do", {}).success(function(res) {
-		if (res.success) {
-			$scope.catRootOpt = res.data;
-			if ($scope.catRootOpt.length > 0) {
-				$scope.catRootSel = $scope.catRootOpt[0];
-				flushTree($scope.catRootSel.id)
-			}
-		} else {
-			notify({
-				message : res.message
+	$http.post($rootScope.project + "/api/ctCategroy/queryRootCategory.do", {})
+			.success(function(res) {
+				if (res.success) {
+					$scope.catRootOpt = res.data;
+					if ($scope.catRootOpt.length > 0) {
+						$scope.catRootSel = $scope.catRootOpt[0];
+						flushTree($scope.catRootSel.id)
+					}
+				} else {
+					notify({
+						message : res.message
+					});
+				}
 			});
-		}
-	});
 	// 树配置
 	$scope.treeConfig = {
 		core : {
 			multiple : false,
 			animation : true,
 			error : function(error) {
-				$log.error('treeCtrl: error from js tree - ' + angular.toJson(error));
+				$log.error('treeCtrl: error from js tree - '
+						+ angular.toJson(error));
 			},
 			check_callback : true,
 			worker : true
@@ -92,13 +99,14 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 						// first before after last
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
-						 
 
-						$http.post($rootScope.project + "/api/ctCategroy/addCategory.do", {
-							old_node_type : obj.type,
-							name : "新节点",
-							old_id : obj.id
-						}).success(function(res) {
+						$http.post(
+								$rootScope.project
+										+ "/api/ctCategroy/addCategory.do", {
+									old_node_type : obj.type,
+									name : "新节点",
+									old_id : obj.id
+								}).success(function(res) {
 
 							if (res.success) {
 								inst.create_node(obj, {
@@ -137,9 +145,12 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 						$log.info("删除节点");
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
-						$http.post($rootScope.project + "/api/ctCategroy/deleteCategory.do", {
-							id : obj.id
-						}).success(function(res) {
+						$http.post(
+								$rootScope.project
+										+ "/api/ctCategroy/deleteCategory.do",
+								{
+									id : obj.id
+								}).success(function(res) {
 							if (res.success) {
 								inst.delete_node(obj);
 							}
@@ -175,7 +186,7 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 
 	}
 	$scope.readyCB = function() {
-		 
+
 		$scope.tree = $scope.treeInstance.jstree(true)
 		// 展开所有节点
 		$scope.tree.open_all();
@@ -188,15 +199,19 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 				if (snodes.length == 1) {
 					var node = snodes[0];
 					console.log("select node:", node);
-					$http.post($rootScope.project + "/api/ctCategroy/queryCategoryById.do", {
-						id : node
-					}).success(function(res) {
+					$http.post(
+							$rootScope.project
+									+ "/api/ctCategroy/queryCategoryById.do", {
+								id : node
+							}).success(function(res) {
 						if (res.success) {
-							$scope.item = res.data;
-							if($scope.item.isaction=="Y"){
-								$scope.actionSel=$scope.actionOpt[0];
-							}else{
-								$scope.actionSel=$scope.actionOpt[1];
+							if (angular.isDefined(res.data)) {
+								$scope.item = res.data;
+								if ($scope.item.isaction == "Y") {
+									$scope.actionSel = $scope.actionOpt[0];
+								} else {
+									$scope.actionSel = $scope.actionOpt[1];
+								}
 							}
 						} else {
 							notify({
@@ -222,25 +237,29 @@ function ctCateSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $
 
 	function flushTree(id) {
 
-		$http.post($rootScope.project + "/api/ctCategroy/queryCategoryTreeList.do", {
-			root : id
-		}).success(function(res) {
-			if (res.success) {
-				$scope.ignoreChanges = true;
-				$scope.treeData = angular.copy(res.data);
-				$scope.treeConfig.version++;
-			} else {
-				notify({
-					message : res.message
+		$http
+				.post(
+						$rootScope.project
+								+ "/api/ctCategroy/queryCategoryTreeList.do", {
+							root : id
+						}).success(function(res) {
+					if (res.success) {
+						$scope.ignoreChanges = true;
+						$scope.treeData = angular.copy(res.data);
+						$scope.treeConfig.version++;
+					} else {
+						notify({
+							message : res.message
+						});
+					}
 				});
-			}
-		});
 
 	}
 
 	$scope.saveItem = function() {
-		$scope.item.isaction=$scope.actionSel.id;
-		$http.post($rootScope.project + "/api/ctCategroy/updateCategory.do", $scope.item).success(function(res) {
+		$scope.item.isaction = $scope.actionSel.id;
+		$http.post($rootScope.project + "/api/ctCategroy/updateCategory.do",
+				$scope.item).success(function(res) {
 			if (res.success) {
 				var inst = $scope.tree;
 				inst.rename_node($scope.item.id, $scope.item.name)

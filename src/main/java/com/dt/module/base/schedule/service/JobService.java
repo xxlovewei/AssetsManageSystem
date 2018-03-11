@@ -103,7 +103,7 @@ public class JobService extends BaseService {
 		job.setJobGroup(jobgroupname);
 		job.setJobName(jobname);
 		if (scheduleMangerService.jobDel(job)) {
-			db.execute("delete from sys_job where jobtype<>'"+BaseCommon.getSuperAdmin()+"' and seq=?", seq);
+			db.execute("delete from sys_job where jobtype<>'" + BaseCommon.getSuperAdmin() + "' and seq=?", seq);
 			return true;
 		}
 		return false;
