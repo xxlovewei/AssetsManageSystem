@@ -104,9 +104,9 @@ public class R implements Serializable {
 		return new R(true, BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getCode(), BaseCodeMsgEnum.SUCCESS_SAVE_MSG.getMessage(),
 				data);
 	}
-	
+
 	public static R SUCCESS_NO_DATA() {
-		return new R(true,  BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode(), BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage(),
+		return new R(true, BaseCodeMsgEnum.SUCCESS_OPER_MSG.getCode(), BaseCodeMsgEnum.SUCCESS_OPER_MSG.getMessage(),
 				null);
 	}
 
@@ -293,7 +293,7 @@ public class R implements Serializable {
 
 	@Override
 	public String toString() {
-		if (type.equals(TYPE_JSON)) {
+		if (TYPE_JSON.equals(type)) {
 			return asJsonStr();
 		} else {
 			return asJsonStr();
