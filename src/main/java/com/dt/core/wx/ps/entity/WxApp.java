@@ -35,9 +35,7 @@ public class WxApp {
 	private String type = "";
 	private final static String access_token_ps_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=#<APPID>#&secret=#<SECRET>#";
 	private static Logger _log = LoggerFactory.getLogger(WxApp.class);
-
-	public void SetAppiSecret() {
-	}
+ 
 	public String getAppid() {
 		return appid;
 	}
