@@ -96,7 +96,6 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<property name="dbType" value="oracle" />
 	</bean>
 
-
 	<!-- 声明式事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager"
 		proxy-target-class="true" />
