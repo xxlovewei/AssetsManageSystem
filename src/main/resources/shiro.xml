@@ -139,7 +139,7 @@
 
 	<!-- 权限资源配置 -->
 	<bean id="chainDefinitionSectionMetaSource"
-		class="com.dt.core.shiro.SimpleFilterChainDefinitionsService">
+		class="com.dt.core.shiro.service.SimpleFilterChainDefinitionsService">
 		<property name="filterChainDefinitions">
 			<value>
 				/api/user/login.do = anon

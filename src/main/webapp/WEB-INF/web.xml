@@ -33,13 +33,13 @@
 		 classpath:applicationContext.xml,
 	     classpath:ds_db.xml,
 		 classpath:shiro.xml,
-		 classpath:templateview.xml,
 	   	 /WEB-INF/app_config_servlet.xml,
 	   	 classpath:applicationContext-websocket.xml
 		</param-value>
 	</context-param>
 
-	<!--  classpath:thymeleaf.xml, s<servlet-mapping> <servlet-name>term</servlet-name> <url-pattern>/term</url-pattern> 
+	<!--   classpath:templateview.xml,
+	 s<servlet-mapping> <servlet-name>term</servlet-name> <url-pattern>/term</url-pattern> 
 		</servlet-mapping> -->
 
 	<servlet>
