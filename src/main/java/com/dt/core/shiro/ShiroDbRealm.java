@@ -17,23 +17,22 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.dt.core.shiro.inter.IShiro;
-import com.dt.core.shiro.inter.impl.ShiroServiceImpl;
+import com.dt.core.shiro.service.ShiroServiceImpl;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.entity.User;
 import com.dt.module.base.service.UserService;
 
 public class ShiroDbRealm extends AuthorizingRealm {
 	private static Logger _log = LoggerFactory.getLogger(ShiroDbRealm.class);
- 
+
 	/**
 	 * 提供账户信息返回认证信息
 	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
 			throws AuthenticationException {
- 
+
 		UserService userService = UserService.me();
 		IShiro shiroService = ShiroServiceImpl.me();
 		// authcToken 中储存着输入的用户名和密码
@@ -57,7 +56,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	}
 
 	/**
-	 * 提供用户信息返回权限信息,SecurityUtils.getSubject().isPermitted（）时调用,一般@RequiresPermissions会调用
+	 * 提供用户信息返回权限信息,SecurityUtils.getSubject().isPermitted（）时调用,
+	 * 一般@RequiresPermissions会调用
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -74,7 +74,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			if (permissions != null) {
 				for (String permission : permissions) {
 					if (ToolUtil.isNotEmpty(permission)) {
-						//_log.info(permission);
+						// _log.info(permission);
 						permissionSet.add(permission);
 					}
 				}

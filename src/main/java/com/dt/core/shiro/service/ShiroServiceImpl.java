@@ -1,4 +1,4 @@
-package com.dt.core.shiro.inter.impl;
+package com.dt.core.shiro.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import com.dt.module.base.entity.User;
 import com.dt.module.base.service.UserService;
 import com.dt.module.db.DB;
 
-
+@Service
 @Transactional(readOnly = true)
 public class ShiroServiceImpl implements IShiro {
 	@Autowired

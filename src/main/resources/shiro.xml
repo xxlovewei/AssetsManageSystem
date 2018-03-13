@@ -26,7 +26,7 @@
 
 	<!-- 配置shiro session 的一个管理器 -->
 	<!-- <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"></bean> -->
-	<bean id="sessionDAO" class="com.dt.core.shiro.sessiondao.SessionEntityDao"></bean>
+	<bean id="sessionDAO" class="com.dt.core.shiro.session.SessionEntityDao"></bean>
 
 
 	<!-- 定义一个会话Cookie模板 -->
@@ -65,7 +65,7 @@
 	<!-- <bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager"> -->
 	<bean id="sessionManager"
-		class="com.dt.core.shiro.DtWebSessionManager">
+		class="com.dt.core.shiro.session.DtWebSessionManager">
 		<!-- 相隔多久检查一次session的有效性 -->
 		<property name="sessionValidationInterval" value="1800000" />
 
