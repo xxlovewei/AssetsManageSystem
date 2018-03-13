@@ -1,4 +1,4 @@
-package com.dt.core.shiro;
+package com.dt.core.shiro.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dt.core.shiro.IShiro;
+import com.dt.core.shiro.ShiroUser;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.module.base.entity.User;
 import com.dt.module.base.service.UserService;

@@ -29,13 +29,20 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 		if (null == event.getApplicationContext().getParent()) {
 			SpringContextUtil.getApplicationContext();
 			_log.info(">>>>> spring初始化完毕 <<<<<");
-			_log.info("更新Chain");
-			SimpleFilterChainDefinitionsService.me().updatePermission();
 			try {
 				InputStream in = ApplicationContextListener.class.getClassLoader()
 						.getResourceAsStream("config.properties");
 				Properties ps = new Properties();
 				ps.load(in);
+				// 判断shiroupdateperm
+				String updateperm = ps.getProperty("shiro.updateperm");
+				if (ToolUtil.isNotEmpty(updateperm) && "true".equals(updateperm.toLowerCase())) {
+					_log.info("更新Shiro Chain");
+					SimpleFilterChainDefinitionsService.me().updatePermission();
+				} else {
+					_log.info("不更新,无Shiro模块");
+				}
+				// 判断Job
 				String initjob = ps.getProperty("job.enable");
 				if (ToolUtil.isNotEmpty(initjob) && "true".equals(initjob.toLowerCase())) {
 					_log.info("Job Start.");
