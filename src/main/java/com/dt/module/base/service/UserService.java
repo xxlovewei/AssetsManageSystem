@@ -37,6 +37,9 @@ public class UserService extends BaseService {
 	public static String USER_TYPE_EMPL = "empl";
 	// 会员粉丝人员
 	public static String USER_TYPE_CRM = "crm";
+	// APP
+	public static String USER_TYPE_APP = "app";
+ 
 
 	private static HashMap<String, JSONArray> userMenus = new HashMap<String, JSONArray>();
 	private static Logger _log = LoggerFactory.getLogger(UserService.class);
@@ -402,7 +405,7 @@ public class UserService extends BaseService {
 	 * @Description: 根据用户组查询
 	 */
 	public R queryUserByGroup(String group_id) {
-		String basesql = "select * from sys_user_info a where deleted='N' and user_id not in ('"
+		String basesql = "select * from sys_user_info a where user_type<>'app' and deleted='N' and user_id not in ('"
 				+ BaseCommon.getSuperAdmin() + "') ";
 		String sql = "";
 		if (ToolUtil.isEmpty(group_id)) {
