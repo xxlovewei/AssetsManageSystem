@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dt.core.shiro.inter.IShiro;
-import com.dt.core.shiro.service.ShiroService;
+import com.dt.core.shiro.inter.impl.ShiroServiceImpl;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.entity.User;
 import com.dt.module.base.service.UserService;
@@ -35,7 +35,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			throws AuthenticationException {
  
 		UserService userService = UserService.me();
-		IShiro shiroService = ShiroService.me();
+		IShiro shiroService = ShiroServiceImpl.me();
 		// authcToken 中储存着输入的用户名和密码
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		_log.info("###################Action 登录认证#################");
@@ -62,7 +62,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		_log.info("###################Action 权限认证#################");
-		IShiro shiroService = ShiroService.me();
+		IShiro shiroService = ShiroServiceImpl.me();
 		ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
 		List<String> roleList = shiroUser.getRoleList();
 		Set<String> permissionSet = new HashSet<String>();

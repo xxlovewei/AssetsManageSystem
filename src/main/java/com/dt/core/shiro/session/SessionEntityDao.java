@@ -1,4 +1,4 @@
-package com.dt.core.shiro.sessiondao;
+package com.dt.core.shiro.session;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;

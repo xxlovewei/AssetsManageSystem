@@ -1,4 +1,4 @@
-package com.dt.core.shiro.service;
+package com.dt.core.shiro.inter.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ import com.dt.module.db.DB;
 
 
 @Transactional(readOnly = true)
-public class ShiroService implements IShiro {
+public class ShiroServiceImpl implements IShiro {
 	@Autowired
 	DB db;
 
