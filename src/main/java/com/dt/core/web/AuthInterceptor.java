@@ -11,6 +11,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseCommon;
+import com.dt.core.common.base.BaseConstants;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.shiro.ShiroKit;
@@ -32,18 +33,15 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		response.setCharacterEncoding("UTF-8");
-		// 输出内容
-		String user_id = "";
-		if (ToolUtil.isNotEmpty(ShiroKit.getUser())) {
+		Boolean is_auth = false;
+		String user_id = "unknow";
+		Boolean is_remember = false;
+		if ("true".equals(BaseConstants.shiroenable) && ToolUtil.isNotEmpty(ShiroKit.getUser())) {
 			user_id = ShiroKit.getUser().getId();
+			is_auth = ShiroKit.isAuthenticated();
+			is_remember = ShiroKit.isRemember();
 		}
 		String url = req.getRequestURI();
-
-		// term socket
-		if (url.equals("/dt/term")) {
-			return true;
-		}
-
 		// 临时日志记录
 		if (!url.endsWith("checkLogin.do")) {
 			Insert ins = new Insert("sys_log_access");
@@ -56,6 +54,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			ins.setIf("postorget", req.getQueryString());
 			db.execute(ins);
 		}
+
+		// term socket
+		if (url.equals("/dt/term")) {
+			return true;
+		}
+
 		//
 		// // 此处基本Acl再做权限验证
 		// if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
@@ -75,8 +79,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		// _log.info("isAssignableFrom HandlerMethod.class failed");
 		// }
 
-		_log.info("userId=" + user_id + ",url=" + url + ",isAuth=" + ShiroKit.isAuthenticated()
-				+ ",isPass=" + isPass + ",isRemember:" + ShiroKit.isRemember());
+		_log.info("userId=" + user_id + ",url=" + url + ",isAuth=" + is_auth + ",isPass=" + isPass + ",isRemember:"
+				+ is_remember);
 		return isPass;
 	}
 }

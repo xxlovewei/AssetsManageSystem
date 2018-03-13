@@ -8,6 +8,7 @@ package com.dt.core.common.base;
 */
 public class BaseConstants {
 
+	public static String shiroenable="true";
 	public static String superadmin="sys";
 	
 }

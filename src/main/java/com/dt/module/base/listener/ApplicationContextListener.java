@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import com.dt.core.common.base.BaseConstants;
 import com.dt.core.shiro.service.SimpleFilterChainDefinitionsService;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.ToolUtil;
@@ -34,6 +35,13 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 						.getResourceAsStream("config.properties");
 				Properties ps = new Properties();
 				ps.load(in);
+				// 判断shiro
+				String shiroenable= ps.getProperty("shiro.enable");
+				if (ToolUtil.isNotEmpty(shiroenable) && "true".equals(shiroenable.toLowerCase())) {
+					BaseConstants.shiroenable="true";
+				}else{
+					BaseConstants.shiroenable="false";
+				}
 				// 判断shiroupdateperm
 				String updateperm = ps.getProperty("shiro.updateperm");
 				if (ToolUtil.isNotEmpty(updateperm) && "true".equals(updateperm.toLowerCase())) {

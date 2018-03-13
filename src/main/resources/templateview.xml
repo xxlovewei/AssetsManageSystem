@@ -6,10 +6,8 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd ">
+	
 	<!-- 这个标签表示使用注解来驱动 -->
-
-
-
 	<bean id="templateResolver"
 		class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
 		<property name="prefix" value="WEB-INF/views/" />
@@ -25,10 +23,8 @@
 	<!-- 配置多个视图解析 -->
 	<bean
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-
 		<property name="viewResolvers">
 			<list>
-
 				<!-- used jsp -->
 				<bean
 					class="org.springframework.web.servlet.view.InternalResourceViewResolver">

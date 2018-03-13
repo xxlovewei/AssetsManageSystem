@@ -32,15 +32,14 @@
 		<param-value>
 		 classpath:applicationContext.xml,
 	     classpath:ds_db.xml,
-	     classpath:shiro.xml,
 	   	 /WEB-INF/app_config_servlet.xml,
 	   	 classpath:applicationContext-websocket.xml
 		</param-value>
 	</context-param>
 
 	<!--   classpath:templateview.xml,
-	 s<servlet-mapping> <servlet-name>term</servlet-name> <url-pattern>/term</url-pattern> 
-		</servlet-mapping> -->
+		 s<servlet-mapping> <servlet-name>term</servlet-name> <url-pattern>/term</url-pattern> 
+			</servlet-mapping> -->
 
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
