@@ -1,8 +1,9 @@
-package com.dt.core.shiro;
+package com.dt.core.shiro.inter;
 import java.util.List;
 
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 
+import com.dt.core.shiro.ShiroUser;
 import com.dt.module.base.entity.User;
 
 /**
