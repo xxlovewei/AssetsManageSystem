@@ -3,22 +3,24 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.springframework.org/schema/context
-http://www.springframework.org/schema/context/spring-context.xsd
-http://www.springframework.org/schema/tx
-http://www.springframework.org/schema/tx/spring-tx.xsd
-http://www.springframework.org/schema/aop
-http://www.springframework.org/schema/aop/spring-aop.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="2" />  
+		<property name="ignoreUnresolvablePlaceholders" value="true" />  
 		<property name="location" value="classpath:config.properties" />
 		<property name="fileEncoding" value="utf-8" />
 	</bean>
 
 	<bean id="scm" class="com.alibaba.druid.pool.DruidDataSource"
-		 destroy-method="close">
+		destroy-method="close">
 
 		<property name="url" value="${scm.url}" />
 		<property name="username" value="${scm.username}" />
@@ -87,17 +89,19 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<property name="statementExecutableSqlLogEnable" value="true" />
 	</bean>
 
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="scm" />
-	</bean>
 
 	<bean id="wallFilter" class="com.alibaba.druid.wall.WallFilter">
 		<property name="dbType" value="oracle" />
 	</bean>
 
+
+	<bean id="transactionManagerScm"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="scm" />
+	</bean>
+	
 	<!-- 声明式事务 -->
-	<tx:annotation-driven transaction-manager="transactionManager"
+	<tx:annotation-driven transaction-manager="transactionManagerScm"
 		proxy-target-class="true" />
 
 

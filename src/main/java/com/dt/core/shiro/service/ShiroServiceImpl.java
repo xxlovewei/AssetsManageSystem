@@ -11,8 +11,6 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.dt.core.shiro.ShiroUser;
 import com.dt.core.shiro.inter.IShiro;
 import com.dt.core.tool.lang.SpringContextUtil;
@@ -21,7 +19,6 @@ import com.dt.module.base.service.UserService;
 import com.dt.module.db.DB;
 
 @Service
-@Transactional(readOnly = true)
 public class ShiroServiceImpl implements IShiro {
 	@Autowired
 	DB db;
@@ -75,8 +72,8 @@ public class ShiroServiceImpl implements IShiro {
 		// 密码加盐处理
 		String source = user.getSalt();
 		ByteSource credentialsSalt = new Md5Hash(source);
-		
-		//参数:用户名,数据库中密码,username+sale,realmName
+
+		// 参数:用户名,数据库中密码,username+sale,realmName
 		return new SimpleAuthenticationInfo(shiroUser, credentials, credentialsSalt, realmName);
 	}
 }
