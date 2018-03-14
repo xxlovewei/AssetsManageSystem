@@ -9,9 +9,12 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.filter.logging.Slf4jLogFilter;
@@ -22,13 +25,19 @@ import com.dt.core.dao.SpringOracleDao;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.module.base.listener.ApplicationContextListener;
 
-@Service
+
+
+@Component
 @Scope(BeanDefinition.SCOPE_SINGLETON)
+@Configuration
+@PropertySource(value="classpath:config.properties",encoding="UTF-8")
 public class SCM extends SpringOracleDao {
 	private static Logger _log = LoggerFactory.getLogger(SCM.class);
 
-	private String dbname = "scm";
-	private String dbtype = "oracle";
+	@Value("${scm.dbname}")
+	private String dbname;
+	@Value("${scm.dbtype}")
+	private String dbtype;
 
 	public static SCM instance() {
 		return SpringContextUtil.getBean(SCM.class);
@@ -106,8 +115,9 @@ public class SCM extends SpringOracleDao {
 				filters.add(wallFilter);
 				ds.setProxyFilters(filters);
 				/* 配置事务 */
-				DataSourceTransactionManager tx = new DataSourceTransactionManager();
-				tx.setDataSource(ds);
+				// DataSourceTransactionManager tx = new
+				// DataSourceTransactionManager();
+				// tx.setDataSource(ds);
 				setDataSource(ds);
 			} else {
 				_log.info(dbname + " datasource is not enabled.");

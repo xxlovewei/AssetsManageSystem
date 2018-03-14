@@ -31,7 +31,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		 classpath:applicationContext.xml,
-	     classpath:ds_db.xml,
+	     classpath:ds_*.xml,
 	     classpath:shiro.xml,
 	   	 /WEB-INF/app_config_servlet.xml,
 	   	 classpath:applicationContext-websocket.xml

@@ -6,11 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import com.dt.core.dao.SpringOracleDao;
 import com.dt.core.tool.lang.SpringContextUtil;
 
-@Service
+@Component
 @Scope(BeanDefinition.SCOPE_SINGLETON)
 public class DB extends SpringOracleDao {
 	private static Logger _log = LoggerFactory.getLogger(DB.class);
@@ -18,9 +18,13 @@ public class DB extends SpringOracleDao {
 	public static DB instance() {
 		return SpringContextUtil.getBean(DB.class);
 	}
+
+	private String dbname = "db";
+	private String dbtype = "oracle";
+
 	@Resource(name = "db")
 	public void setDataSource(DataSource dataSource) {
-		_log.info("Oracle db setDataSource");
+		_log.info(dbtype + " " + dbname + " setDataSource");
 		super.setDataSource(dataSource);
-	} 
+	}
 }

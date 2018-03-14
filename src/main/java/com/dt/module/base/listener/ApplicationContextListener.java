@@ -1,15 +1,13 @@
 package com.dt.module.base.listener;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-
 import com.dt.core.common.base.BaseConstants;
 import com.dt.core.shiro.service.SimpleFilterChainDefinitionsService;
 import com.dt.core.tool.lang.SpringContextUtil;
@@ -21,49 +19,48 @@ import com.dt.module.base.schedule.service.ScheduleMangerService;
  * 创建ContextRefreshedEvent事件监听类
  */
 @Component("myServletContextListener")
+@Configuration
+@PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
 public class ApplicationContextListener implements ApplicationListener<ContextRefreshedEvent> {
 	private static Logger _log = LoggerFactory.getLogger(ApplicationContextListener.class);
+
+	@Value("${shiro.enable}")
+	private String shiroenable;
+
+	@Value("${shiro.updateperm}")
+	private String updateperm;
+
+	@Value("${job.enable}")
+	private String jobenable;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		// root application context
+
 		if (null == event.getApplicationContext().getParent()) {
 			SpringContextUtil.getApplicationContext();
 			_log.info(">>>>> spring初始化完毕 <<<<<");
-			try {
-				InputStream in = ApplicationContextListener.class.getClassLoader()
-						.getResourceAsStream("config.properties");
-				Properties ps = new Properties();
-				ps.load(in);
-				// 判断shiro
-				String shiroenable= ps.getProperty("shiro.enable");
-				if (ToolUtil.isNotEmpty(shiroenable) && "true".equals(shiroenable.toLowerCase())) {
-					BaseConstants.shiroenable="true";
-				}else{
-					BaseConstants.shiroenable="false";
-				}
-				// 判断shiroupdateperm
-				String updateperm = ps.getProperty("shiro.updateperm");
-				if (ToolUtil.isNotEmpty(updateperm) && "true".equals(updateperm.toLowerCase())) {
-					_log.info("更新Shiro Chain");
-					SimpleFilterChainDefinitionsService.me().updatePermission();
-				} else {
-					_log.info("不更新,无Shiro模块");
-				}
-				// 判断Job
-				String initjob = ps.getProperty("job.enable");
-				if (ToolUtil.isNotEmpty(initjob) && "true".equals(initjob.toLowerCase())) {
-					_log.info("Job Start.");
-					ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
-					scheduleMangerService.scheduleStart();
-					scheduleMangerService.jobInitLoadFromDb();
-				} else {
-					_log.info("Job Not Start.");
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				_log.info("读取config.properties发生错误.");
-				e.printStackTrace();
+			// 判断shiro
+			if (ToolUtil.isNotEmpty(shiroenable) && "true".equals(shiroenable.toLowerCase())) {
+				BaseConstants.shiroenable = "true";
+			} else {
+				BaseConstants.shiroenable = "false";
+			}
+			// 判断shiroupdateperm
+			if (ToolUtil.isNotEmpty(updateperm) && "true".equals(updateperm.toLowerCase())) {
+				_log.info("更新Shiro Chain");
+				SimpleFilterChainDefinitionsService.me().updatePermission();
+			} else {
+				_log.info("不更新,无Shiro模块");
+			}
+			// 判断Job
+			if (ToolUtil.isNotEmpty(jobenable) && "true".equals(jobenable.toLowerCase())) {
+				_log.info("Job Start.");
+				ScheduleMangerService scheduleMangerService = ScheduleMangerService.me();
+				scheduleMangerService.scheduleStart();
+				scheduleMangerService.jobInitLoadFromDb();
+			} else {
+				_log.info("Job Not Start.");
 			}
 
 		}
