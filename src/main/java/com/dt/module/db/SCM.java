@@ -5,17 +5,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
-
 import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.filter.logging.Slf4jLogFilter;
 import com.alibaba.druid.filter.stat.StatFilter;
@@ -39,7 +36,7 @@ public class SCM extends SpringOracleDao {
 
 	@Resource(name = "scm")
 	public void setDataSource(DataSource dataSource) {
-		_log.info("Oracle db setDataSource");
+		_log.info(dbtype + " " + dbname + " setDataSource");
 		super.setDataSource(dataSource);
 	}
 
@@ -108,12 +105,10 @@ public class SCM extends SpringOracleDao {
 				wallFilter.setDbType("oracle");
 				filters.add(wallFilter);
 				ds.setProxyFilters(filters);
-				// SpringContextUtil.getBean(DataSourceTransactionManager.class).setDataSource(ds);
 				/* 配置事务 */
 				DataSourceTransactionManager tx = new DataSourceTransactionManager();
-
 				tx.setDataSource(ds);
-				super.setDataSource(ds);
+				setDataSource(ds);
 			} else {
 				_log.info(dbname + " datasource is not enabled.");
 			}
