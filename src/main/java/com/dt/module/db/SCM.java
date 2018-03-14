@@ -25,19 +25,13 @@ import com.dt.core.dao.SpringOracleDao;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.module.base.listener.ApplicationContextListener;
 
-
-
 @Component
 @Scope(BeanDefinition.SCOPE_SINGLETON)
-@Configuration
-@PropertySource(value="classpath:config.properties",encoding="UTF-8")
 public class SCM extends SpringOracleDao {
 	private static Logger _log = LoggerFactory.getLogger(SCM.class);
 
-	@Value("${scm.dbname}")
-	private String dbname;
-	@Value("${scm.dbtype}")
-	private String dbtype;
+	private String dbname = "scm";
+	private String dbtype = "oracle";
 
 	public static SCM instance() {
 		return SpringContextUtil.getBean(SCM.class);
