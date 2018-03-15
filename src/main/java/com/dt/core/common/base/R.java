@@ -1,17 +1,17 @@
 package com.dt.core.common.base;
 
-import java.io.Serializable;
+ 
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-public class R implements Serializable {
+public class R {
 	/**
 	 * @fieldName: serialVersionUID
 	 * @fieldType: long
 	 * @Description: TODO
 	 */
-	private static final long serialVersionUID = 1L;
+	 
 	public static String TYPE_JSON = "json";
 	public String type = R.TYPE_JSON;
 	private Boolean clearAttach = false;
