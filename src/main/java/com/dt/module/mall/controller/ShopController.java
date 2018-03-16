@@ -30,28 +30,28 @@ public class ShopController extends BaseController {
 
 	@RequestMapping("/shop/deleteShop.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="删除店铺")
 	public R deleteShop(String shop_id) {
 		return shopService.deleteShop(shop_id);
 	}
 
 	@RequestMapping("/shop/queryShop.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询店铺")
 	public R queryShop() {
 		return shopService.queryShop();
 	}
 
 	@RequestMapping("/shop/queryShopById.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="根据Id查询店铺")
 	public R queryShopById(String shop_id) {
 		return shopService.queryShopById(shop_id);
 	}
 
 	@RequestMapping("/shop/saveShop.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="保存店铺")
 	public R saveShop(String shop_id) {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("shop_id");
@@ -64,7 +64,7 @@ public class ShopController extends BaseController {
 
 	@RequestMapping("/shop/queryMyShop.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_USER)
+	@Acl(value = Acl.ACL_USER,info="查询我的店铺")
 	public R queryMyShop() {
 		return myShopService.queryMyShopByUserId(super.getUserId());
 	}

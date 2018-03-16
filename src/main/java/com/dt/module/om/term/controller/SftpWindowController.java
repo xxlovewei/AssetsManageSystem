@@ -152,7 +152,7 @@ public class SftpWindowController extends BaseController {
 
 	@RequestMapping("/sftp/uploadState.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_DENY, info = "sftp连接")
+	@Acl(value = Acl.ACL_DENY, info = "更新状态")
 	public R uploadState(String id) {
 
 		String state = (String) sftpuploadSession.get("progress");

@@ -132,7 +132,7 @@ public class CategoryAttrService extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 	/**
-	 * @Description: 查询品类的所以属性定义
+	 * @Description: 查询品类的根据属性定义
 	 */
 	public R queryAttr(String cat_id) {
 		if (ToolUtil.isEmpty(cat_id)) {

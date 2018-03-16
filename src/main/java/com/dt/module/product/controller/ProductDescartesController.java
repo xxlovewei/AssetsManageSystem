@@ -30,10 +30,15 @@ public class ProductDescartesController extends BaseController {
 
 	/**
 	 * 递归实现dimValue中的笛卡尔积，结果放在result中
-	 * @param dimValue 原始数据
-	 * @param result 结果数据
-	 * @param layer dimValue的层数
-	 * @param curList 每次笛卡尔积的结果
+	 * 
+	 * @param dimValue
+	 *            原始数据
+	 * @param result
+	 *            结果数据
+	 * @param layer
+	 *            dimValue的层数
+	 * @param curList
+	 *            每次笛卡尔积的结果
 	 */
 	private static void recursive(List<List<String>> dimValue, List<List<String>> result, int layer,
 			List<String> curList) {
@@ -59,10 +64,14 @@ public class ProductDescartesController extends BaseController {
 			}
 		}
 	}
+
 	/**
 	 * 循环实现dimValue中的笛卡尔积，结果放在result中
-	 * @param dimValue 原始数据
-	 * @param result 结果数据
+	 * 
+	 * @param dimValue
+	 *            原始数据
+	 * @param result
+	 *            结果数据
 	 */
 	private static void circulate(List<List<String>> dimValue, List<List<String>> result) {
 		int total = 1;
@@ -100,8 +109,10 @@ public class ProductDescartesController extends BaseController {
 			result.add(Arrays.asList(stringArray));
 		}
 	}
+
 	/**
 	 * 程序入口
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -142,8 +153,9 @@ public class ProductDescartesController extends BaseController {
 			}
 		}
 	}
+
 	@ResponseBody
-	@Acl
+	@Acl(info = "生产产品属性卡迪尔积")
 	@RequestMapping("/product/prodDescartes.do")
 	// 获取产品属性
 	public R prodDescartes(HttpServletRequest request, HttpServletResponse response) throws IOException {

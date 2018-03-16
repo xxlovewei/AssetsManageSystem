@@ -72,7 +72,7 @@ public class CategoryAttrValueService extends BaseService {
 		return null;
 	}
 	/**
-	 * @Description: 根据属性值
+	 * @Description: 根据属性值修改
 	 */
 	public R updateAttrValue(TypedHashMap<String, Object> ps) {
 		String attr_set_id = ps.getString("id");

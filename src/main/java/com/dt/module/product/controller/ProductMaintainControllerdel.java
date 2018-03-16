@@ -41,9 +41,8 @@ public class ProductMaintainControllerdel extends BaseController{
 	// type:main,noraml,detail(手机端用),
 	private JSONObject methodQueryProductImage(String spu) {
 		JSONObject r = new JSONObject();
-		String sql = "select * from  dt_product_pic where spu=? order by type,od";
+		String sql = "select * from dt_product_pic where spu=? order by type,od";
 		RcdSet rs = db.query(sql, spu);
-
 		JSONArray main = new JSONArray();
 		JSONArray normal = new JSONArray();
 		JSONArray detail = new JSONArray();
@@ -133,7 +132,7 @@ public class ProductMaintainControllerdel extends BaseController{
 	
 	@RequestMapping("/prod/queryBySpu.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="根据spu获取产品")
 	public R queryBySpu(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		JSONObject res = new JSONObject();
@@ -165,7 +164,7 @@ public class ProductMaintainControllerdel extends BaseController{
 
 	@RequestMapping("/prod/queryBySku.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="根据Sku获取产品")
 	public R queryBySku(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
 		if (id == null) {
@@ -178,7 +177,7 @@ public class ProductMaintainControllerdel extends BaseController{
 
 	@RequestMapping("/prod/prodAdd.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="添加产品")
 	public R prodAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
 		if (id == null) {
@@ -191,7 +190,7 @@ public class ProductMaintainControllerdel extends BaseController{
 
 	@RequestMapping("/prod/prodDelete.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="删除产品")
 	public R prodDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
 		if (id == null) {
@@ -204,7 +203,7 @@ public class ProductMaintainControllerdel extends BaseController{
 
 	@RequestMapping("/prod/produUpdate.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="更新产品")
 	public R produUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
 		if (id == null) {

@@ -21,19 +21,19 @@ public class BrandController extends BaseController {
 
 	@RequestMapping("/brand/brandQuery.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="查询品牌")
 	public R brandQuery() {
 		return brandService.queryBrand();
 	}
 	@RequestMapping("/brand/brandQueryById.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="根据Id查询品牌")
 	public R brandQueryById(String brand_id) {
 		return brandService.queryBrandById(brand_id);
 	}
 	@RequestMapping("/brand/brandSave.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="保存品牌")
 	public R brandSave() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("brand_id");
@@ -45,7 +45,7 @@ public class BrandController extends BaseController {
 	}
 	@RequestMapping("/brand/brandDelete.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="删除品牌")
 	public R brandDelete(String brand_id) {
 		return brandService.deleteBrand(brand_id);
 	}

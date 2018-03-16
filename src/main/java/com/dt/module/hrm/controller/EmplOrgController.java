@@ -26,20 +26,20 @@ public class EmplOrgController extends BaseController {
 	private EmplService emplService;
 
 	@ResponseBody
-	@Acl
+	@Acl(info="添加组织节点")
 	@RequestMapping("/hrm/orgNodeDelete.do")
 	public R orgNodeDelete(String node_id) {
 		return emplOrgService.deleteEmplOrg(node_id);
 	}
 	@RequestMapping("/hrm/queryEmplByOrg.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询组织人员")
 	public R queryEmplByOrg(String node_id) throws IOException {
 		return emplService.queryEmplByOrg(node_id);
 	}
 	@RequestMapping("/hrm/orgNodeSave.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="保存节点")
 	@Transactional
 	public R orgNodeSave() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
@@ -52,25 +52,25 @@ public class EmplOrgController extends BaseController {
 	}
 	@RequestMapping("/hrm/orgNodeQuery.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询组织节点")
 	public R orgNodeQuery(String node_id) {
 		return emplOrgService.queryEmplOrgById(node_id);
 	}
 	@RequestMapping("/hrm/orgNodeTreeQuery.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询组织")
 	public R orgNodeTreeQuery(String org_id) {
 		return emplOrgService.queryEmplOrgNodeTree(org_id);
 	}
 	@RequestMapping("/hrm/orgQueryLevelList.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询组织")
 	public R orgQueryLevelList() {
 		return emplOrgService.queryEmplOrgLevelList();
 	}
 	@RequestMapping("/hrm/orgQuery.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询组织")
 	public R orgQuery() {
 		return emplOrgService.queryEmplOrg();
 	}

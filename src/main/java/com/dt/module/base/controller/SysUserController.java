@@ -127,7 +127,7 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping("/user/changePwd.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_USER)
+	@Acl(value = Acl.ACL_USER,info="修改用户密码")
 	public R changePwd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return userService.changeUserPwd(ps.getString("opwd", ""), ps.getString("npwd", ""), getUserId());

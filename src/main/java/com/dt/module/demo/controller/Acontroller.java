@@ -30,7 +30,7 @@ public class Acontroller extends BaseController {
 	public SCM scm = null;
 
 	@RequestMapping("/demo/db.do")
-	@Acl(value = Acl.ACL_ALLOW, type = Acl.TYPE_API)
+	@Acl(value = Acl.ACL_ALLOW, type = Acl.TYPE_API,info="demo")
 	@ResponseBody
 	@Transactional
 	public R scm() {
@@ -39,7 +39,7 @@ public class Acontroller extends BaseController {
 	}
 
 	@RequestMapping("/demo/scmdb2.do")
-	@Acl(value = Acl.ACL_ALLOW, type = Acl.TYPE_API)
+	@Acl(value = Acl.ACL_ALLOW, type = Acl.TYPE_API,info="demo")
 	@ResponseBody
 	@Transactional("transactionManagerScm")
 	public R scm2() {
@@ -56,7 +56,7 @@ public class Acontroller extends BaseController {
 	}
 
 	@RequestMapping("/demo/thy.html")
-	@Acl(value = Acl.ACL_DENY, type = Acl.TYPE_VIEW)
+	@Acl(value = Acl.ACL_DENY, type = Acl.TYPE_VIEW,info="demo")
 	public String thy() {
 		BaseCommon.print("thy.html");
 		return "thy.html";
@@ -64,14 +64,14 @@ public class Acontroller extends BaseController {
 	}
 
 	@RequestMapping("/demo/jsp.jsp")
-	@Acl(value = Acl.ACL_DENY, type = Acl.TYPE_VIEW)
+	@Acl(value = Acl.ACL_DENY, type = Acl.TYPE_VIEW,info="demo")
 	public String jsp() {
 		BaseCommon.print("jsp.jsp");
 		return jsp("jsp");
 	}
 
 	@RequestMapping("/demo/api4.do")
-	@Acl(value = Acl.ACL_DENY, type = Acl.TYPE_VIEW)
+	@Acl(value = Acl.ACL_DENY, type = Acl.TYPE_VIEW,info="demo")
 	@ResponseBody
 	public R api4() {
 		BaseCommon.print("api");
@@ -80,7 +80,7 @@ public class Acontroller extends BaseController {
 	}
 
 	@RequestMapping("/demo/api.do")
-	@Acl(value = Acl.ACL_ALLOW, type = Acl.TYPE_VIEW)
+	@Acl(value = Acl.ACL_ALLOW, type = Acl.TYPE_VIEW,info="demo")
 	@ResponseBody
 	public R api() {
 		BaseCommon.print("api");
@@ -89,7 +89,7 @@ public class Acontroller extends BaseController {
 	}
 
 	@RequestMapping("/demo/api2.do")
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="demo")
 	@ResponseBody
 	public R api2() {
 		BaseCommon.print("api");
@@ -97,7 +97,7 @@ public class Acontroller extends BaseController {
 	}
 
 	@RequestMapping("/demo/api3.do")
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="demo")
 	@ResponseBody
 	public String api23() {
 		BaseCommon.print("api3");
