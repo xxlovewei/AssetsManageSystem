@@ -146,7 +146,7 @@ public class ContentCategoryService extends BaseService {
 		}
 		String id = this.getNextNodeId();
 		Insert me = new Insert("ct_category");
-		if (old_node_type.equals("root")) {
+		if ("root".equals(old_node_type)) {
 			// 树的根节点添加第一个节点
 			me.set("root", old_id);
 			me.set("route", id);

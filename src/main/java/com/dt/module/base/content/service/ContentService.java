@@ -32,7 +32,7 @@ public class ContentService extends BaseService {
 		Insert me = new Insert("ct_content");
 		String idctl = ps.getString("selfid", "N");
 		String id = ToolUtil.getUUID();
-		if (idctl.equals("Y")) {
+		if ("Y".equals(idctl)) {
 			id = ps.getString("id", id);
 		}
 		me.set("id", id);
@@ -115,7 +115,7 @@ public class ContentService extends BaseService {
 		String noContent = ps.getString("noContent", "N");
 		String sql = "select <#CONTENT#> id,cat_id,digest,title,profile,urltype,url,type,mpic,mpic_loc,hits,author,createtime,modifytime ,display,mark,tag from ct_content where deleted='N' and type='"
 				+ type + "' ";
-		if (noContent.equals("Y")) {
+		if ("Y".equals(noContent)) {
 			sql = sql.replaceAll("<#CONTENT#>", "");
 		} else {
 			sql = sql.replaceAll("<#CONTENT#>", "CONTENT,");

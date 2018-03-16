@@ -56,7 +56,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 
 		// term socket
-		if (url.equals("/dt/term")) {
+		if ("/dt/term".equals(url)) {
 			return true;
 		}
 

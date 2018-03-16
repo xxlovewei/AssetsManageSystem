@@ -60,7 +60,7 @@ public class FileUpDownController extends BaseController {
 		MultipartResolver resolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 		MultipartHttpServletRequest multipartRequest = resolver.resolveMultipart(request);
 		_log.info("Type:" + type);
-		if (type.equals("image")) {
+		if ("image".equals(type)) {
 			String name = "Image_" + uuid;
 			// 获得第1张图片（根据前台的name名称得到上传的文件）
 			MultipartFile image = multipartRequest.getFile("file[0]");
@@ -108,7 +108,7 @@ public class FileUpDownController extends BaseController {
 		String ct = "";
 		try {
 			String type = set.getString("type");
-			if (type.equals("image")) {
+			if ("image".equals(type)) {
 				ct = "image/jpeg";
 			}
 			String fileurl = set.getString("path");
