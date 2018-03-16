@@ -35,7 +35,6 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		// root application context
 
 		if (null == event.getApplicationContext().getParent()) {
 			SpringContextUtil.getApplicationContext();
