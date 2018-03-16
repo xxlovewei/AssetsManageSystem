@@ -20,7 +20,7 @@ public class WxUserService extends BaseService {
 		Rcd rs = db.uniqueRecord(sql, open_id);
 		if (ToolUtil.isEmpty(rs)) {
 			return R.FAILURE_NO_DATA();
-		}else {
+		} else {
 			return R.SUCCESS_OPER(rs.toJsonObject());
 		}
 	}

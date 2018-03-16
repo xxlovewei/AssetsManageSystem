@@ -29,8 +29,6 @@ public abstract class SpringDAO {
 
 	private DataParser dataParser = new DataParser();
 
-	;
-
 	/**
 	 * 取得一个ID生成器
 	 */
@@ -767,8 +765,8 @@ public abstract class SpringDAO {
 	}
 
 	public static void main(String[] args) {
-  
-		Delete dls=new Delete();
+
+		Delete dls = new Delete();
 		dls.from("adf");
 		dls.where().and("id=?", 1);
 		System.out.println(dls.getSQL());

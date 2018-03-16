@@ -27,20 +27,21 @@ public class DictService extends BaseService {
 		db.execute(ups);
 		return R.SUCCESS_OPER();
 	}
+
 	public R addDict(TypedHashMap<String, Object> ps) {
-		 
-	 
+
 		Insert me = new Insert("sys_dict");
 		me.set("dict_id", ToolUtil.getUUID());
 		me.setIf("name", ps.getString("name", ""));
 		me.setIf("mark", ps.getString("mark", ""));
 		me.setIf("status", ps.getString("status", "N"));
-		me.setIf("deleted","N");
+		me.setIf("deleted", "N");
 		me.set("dict_level", ps.getString("dict_level"));
 		db.execute(me);
 		return R.SUCCESS_OPER();
-	  
+
 	}
+
 	/**
 	 * @Description: 更新字典
 	 */
@@ -57,6 +58,7 @@ public class DictService extends BaseService {
 		db.execute(ups);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 查询所有字典
 	 */
@@ -64,18 +66,20 @@ public class DictService extends BaseService {
 		String sql = "select * from sys_dict where deleted='N' ";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description:查询某个字典
 	 */
 	public R queryDictById(String id) {
 		String sql = "select * from sys_dict where dict_id=?  ";
-		Rcd rs=db.uniqueRecord(sql,id);
-		if(ToolUtil.isEmpty(rs)){
+		Rcd rs = db.uniqueRecord(sql, id);
+		if (ToolUtil.isEmpty(rs)) {
 			return R.FAILURE_NO_DATA();
-		}else{
+		} else {
 			return R.SUCCESS_OPER(rs.toJsonObject());
-		} 
+		}
 	}
+
 	/**
 	 * @Description:删除字典项
 	 */
@@ -84,6 +88,7 @@ public class DictService extends BaseService {
 		db.execute(sql, id);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:新增字典项
 	 */
@@ -98,6 +103,7 @@ public class DictService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:修改字典项
 	 */
@@ -111,13 +117,15 @@ public class DictService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:查询字典项
 	 */
 	public R queryDictItem(String id) {
-		return R
-				.SUCCESS_OPER(db.query("select * from sys_dict_item where dict_id=? order by sort", id).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(
+				db.query("select * from sys_dict_item where dict_id=? order by sort", id).toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description:修改某个字典项
 	 */

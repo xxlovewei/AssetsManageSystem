@@ -28,7 +28,7 @@ public class UserBalanceService extends BaseService {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Double v = db.uniqueRecord("select balance from sys_user_info where user_id=?", user_id).getDouble("balance");
-		if(ToolUtil.isEmpty(v)) {
+		if (ToolUtil.isEmpty(v)) {
 			return R.FAILURE_NO_DATA();
 		}
 		db.execute("update sys_user_info set balance=balance+" + value + " where user_id=?", user_id);
@@ -54,10 +54,10 @@ public class UserBalanceService extends BaseService {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Double v = db.uniqueRecord("select balance from sys_user_info where user_id=?", user_id).getDouble("balance");
-		if(ToolUtil.isEmpty(v)) {
+		if (ToolUtil.isEmpty(v)) {
 			return R.FAILURE_NO_DATA();
 		}
-		if (v>=value) {
+		if (v >= value) {
 			db.execute("update sys_user_info set balance=balance-" + value + " where user_id=?", user_id);
 			Insert me = new Insert("sys_user_bal_dtl");
 			me.set("id", db.getUUID());

@@ -123,7 +123,8 @@ public class SimpleSessionEntity {
 	}
 
 	/**
-	 * @param ip the ip to set
+	 * @param ip
+	 *            the ip to set
 	 */
 	public void setIp(String ip) {
 		this.ip = ip;
@@ -137,7 +138,8 @@ public class SimpleSessionEntity {
 	}
 
 	/**
-	 * @param token the token to set
+	 * @param token
+	 *            the token to set
 	 */
 	public void setToken(String token) {
 		this.token = token;

@@ -25,7 +25,6 @@ public final class CharsetUtil {
 	public static final String UTF16BE = "UTF-16BE";
 	public static final String UTF16LE = "UTF-16LE";
 	public static final String UTF16 = "UTF-16";
-
 	public static final Charset CHARSET_UTF8 = Charset.forName(UTF8);
 	public static final Charset CHARSET_GBK = Charset.forName(GBK);
 	public static final Charset CHARSET_GB2312 = Charset.forName(GB2312);

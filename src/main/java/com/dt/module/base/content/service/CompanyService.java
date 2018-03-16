@@ -24,11 +24,12 @@ public class CompanyService extends BaseService {
 	public R queryCompany() {
 		return contentService.queryContentById(COMPANY_ID);
 	}
+
 	/**
 	 * @Description: 更新公司内容
 	 */
 	public R updateCompany(TypedHashMap<String, Object> ps) {
-		if(!initCompany()){
+		if (!initCompany()) {
 			return R.FAILURE_NO_DATA();
 		}
 		if (ps.containsKey("id")) {
@@ -38,6 +39,7 @@ public class CompanyService extends BaseService {
 		contentService.updateContent(ps);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 初始化公司数据
 	 */

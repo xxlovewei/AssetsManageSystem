@@ -1,12 +1,10 @@
 package com.dt.core.tool.lang;
- 
 
 import java.util.Collection;
 import java.util.Map;
 
 import com.dt.core.tool.util.support.CollectionKit;
 import com.dt.core.tool.util.support.StrKit;
- 
 
 /**
  * 断言<br>
@@ -96,7 +94,8 @@ public class Assert {
 	}
 
 	/**
-	 * 断言对象是否为{@code null} ，如果不为{@code null} 抛出{@link IllegalArgumentException} 异常
+	 * 断言对象是否为{@code null} ，如果不为{@code null} 抛出{@link IllegalArgumentException}
+	 * 异常
 	 * 
 	 * <pre class="code">
 	 * Assert.isNull(value, "The value must be null");
@@ -119,7 +118,8 @@ public class Assert {
 	}
 
 	/**
-	 * 断言对象是否为{@code null} ，如果不为{@code null} 抛出{@link IllegalArgumentException} 异常
+	 * 断言对象是否为{@code null} ，如果不为{@code null} 抛出{@link IllegalArgumentException}
+	 * 异常
 	 * 
 	 * <pre class="code">
 	 * Assert.isNull(value);
@@ -137,8 +137,8 @@ public class Assert {
 	// -----------------------------------------------------------------------------------------------------------
 	// Check not null
 	/**
-	 * 断言对象是否不为{@code null} ，如果为{@code null} 抛出{@link IllegalArgumentException} 异常
-	 * Assert that an object is not {@code null} .
+	 * 断言对象是否不为{@code null} ，如果为{@code null} 抛出{@link IllegalArgumentException}
+	 * 异常 Assert that an object is not {@code null} .
 	 * 
 	 * <pre class="code">
 	 * Assert.notNull(clazz, "The class must not be null");
@@ -164,7 +164,8 @@ public class Assert {
 	}
 
 	/**
-	 * 断言对象是否不为{@code null} ，如果为{@code null} 抛出{@link IllegalArgumentException} 异常
+	 * 断言对象是否不为{@code null} ，如果为{@code null} 抛出{@link IllegalArgumentException}
+	 * 异常
 	 * 
 	 * <pre class="code">
 	 * Assert.notNull(clazz);
@@ -606,8 +607,8 @@ public class Assert {
 	}
 
 	/**
-	 * Assert a boolean expression, throwing {@code IllegalStateException} if the
-	 * test result is {@code false}. Call isTrue if you wish to throw
+	 * Assert a boolean expression, throwing {@code IllegalStateException} if
+	 * the test result is {@code false}. Call isTrue if you wish to throw
 	 * IllegalArgumentException on an assertion failure.
 	 * 
 	 * <pre class="code">
@@ -631,8 +632,8 @@ public class Assert {
 	}
 
 	/**
-	 * Assert a boolean expression, throwing {@link IllegalStateException} if the
-	 * test result is {@code false}.
+	 * Assert a boolean expression, throwing {@link IllegalStateException} if
+	 * the test result is {@code false}.
 	 * <p>
 	 * Call {@link #isTrue(boolean)} if you wish to throw
 	 * {@link IllegalArgumentException} on an assertion failure.
@@ -649,5 +650,5 @@ public class Assert {
 	public static void state(boolean expression) throws IllegalStateException {
 		state(expression, "[Assertion failed] - this state invariant must be true");
 	}
-	
+
 }

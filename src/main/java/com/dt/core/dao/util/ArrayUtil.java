@@ -234,7 +234,8 @@ public class ArrayUtil {
 	 */
 	public static boolean isArray(Object obj) {
 		if (null == obj) {
-			// throw new NullPointerException("Object check for isArray is null");
+			// throw new NullPointerException("Object check for isArray is
+			// null");
 			return false;
 		}
 		return obj.getClass().isArray();

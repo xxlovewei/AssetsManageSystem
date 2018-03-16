@@ -23,8 +23,8 @@ public class UserGroupService extends BaseService {
 	 * @Description: 添加一个用户组
 	 */
 	public R addUserGroup(TypedHashMap<String, Object> ps) {
-		
-		Insert me=new Insert("sys_user_group");
+
+		Insert me = new Insert("sys_user_group");
 		me.set("group_id", ToolUtil.getUUID());
 		me.set("deleted", "N");
 		me.setIf("name", ps.getString("name"));
@@ -33,19 +33,21 @@ public class UserGroupService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 修改一个用户组
 	 */
 	public R updateUserGroup(TypedHashMap<String, Object> ps) {
-		Update me=new Update("sys_user_group");
+		Update me = new Update("sys_user_group");
 		me.set("deleted", "N");
 		me.setIf("name", ps.getString("name"));
 		me.setIf("sort", ConvertUtil.toInt(ps.getString("sort"), 999));
 		me.set("mark", ps.getString("mark"));
-		me.where().and("group_id=?",ps.getString("group_id"));
+		me.where().and("group_id=?", ps.getString("group_id"));
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 删除一个用户组
 	 */
@@ -58,6 +60,7 @@ public class UserGroupService extends BaseService {
 		db.execute("delete from sys_user_group where group_id=?", group_id);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 强制一个用户组
 	 */
@@ -67,13 +70,14 @@ public class UserGroupService extends BaseService {
 		db.execute("delete from sys_user_group_item where group_id=?", group_id);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 查询所有用户组
 	 */
 	public R queryUserGroup() {
-		return R
-				.SUCCESS_OPER(db.query("select * from sys_user_group where deleted='N' ").toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query("select * from sys_user_group where deleted='N' ").toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description: 查询用户组的一条记录
 	 */

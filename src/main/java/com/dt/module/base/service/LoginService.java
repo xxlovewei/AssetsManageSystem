@@ -44,7 +44,6 @@ public class LoginService extends BaseService {
 	public static String LOGIN_TYPE_WEIXIN = "weixin";
 	public static String LOGIN_TYPE_ZFB = "zfb";
 	public static String LOGIN_TYPE_VALID_MESSAGE = "不支持的登录类型";
-
 	public static String CLIENT_TYPE_WEB = "web";
 	public static String CLIENT_TYPE_WEIXIN = "weixin";
 	public static String CLIENT_TYPE_SMALLPROGRAM = "smallprogram";// 小程序
@@ -88,10 +87,10 @@ public class LoginService extends BaseService {
 			return R.FAILURE(LOGIN_TYPE_VALID_MESSAGE);
 		}
 
-		if (login_type.equals(LOGIN_TYPE_QQ) || login_type.equals(LOGIN_TYPE_EMPL) || login_type.equals(LOGIN_TYPE_USERNAME)
-				|| login_type.equals(LOGIN_TYPE_MAIL) || login_type.equals(LOGIN_TYPE_MOBILE)
-				|| login_type.equals(LOGIN_TYPE_MOBILE_CODE) || login_type.equals(LOGIN_TYPE_WEIXIN)
-				|| login_type.equals(LOGIN_TYPE_ZFB)) {
+		if (login_type.equals(LOGIN_TYPE_QQ) || login_type.equals(LOGIN_TYPE_EMPL)
+				|| login_type.equals(LOGIN_TYPE_USERNAME) || login_type.equals(LOGIN_TYPE_MAIL)
+				|| login_type.equals(LOGIN_TYPE_MOBILE) || login_type.equals(LOGIN_TYPE_MOBILE_CODE)
+				|| login_type.equals(LOGIN_TYPE_WEIXIN) || login_type.equals(LOGIN_TYPE_ZFB)) {
 		} else {
 			return R.FAILURE(LOGIN_TYPE_VALID_MESSAGE);
 		}
@@ -159,12 +158,11 @@ public class LoginService extends BaseService {
 	}
 
 	/**
-	 * @Description:将所有登录方式转换成系统user_id的登录形式,如果可以登录,则返回一组用户数据 login_type
-	 *                                                        如果是empl或username忽略user_type类型，
-	 *                                                        因为empl和username全局唯一
+	 * @Description:将所有登录方式转换成系统user_id的登录形式,如果可以登录,
+	 * 则返回一组用户数据 login_type 如果是empl或username忽略user_type类型， 因为empl和username全局唯一
 	 */
 	public R validLogin(String value, String login_type, String client) {
-		if(ToolUtil.isOneEmpty(value,login_type,client)) {
+		if (ToolUtil.isOneEmpty(value, login_type, client)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		// 判断loginclient
@@ -192,6 +190,7 @@ public class LoginService extends BaseService {
 			db.execute(del);
 		}
 	}
+
 	/**
 	 * @Description: 登录记录
 	 */

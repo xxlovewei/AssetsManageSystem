@@ -18,7 +18,7 @@ public class MyShopService extends BaseService {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		return R.SUCCESS_OPER(
-				db.query("select * from mall_shop a,mall_myshop b where a.shop_id=b.shop_id and b.user_id=?",user_id)
+				db.query("select * from mall_shop a,mall_myshop b where a.shop_id=b.shop_id and b.user_id=?", user_id)
 						.toJsonArrayWithJsonObject());
 	}
 }

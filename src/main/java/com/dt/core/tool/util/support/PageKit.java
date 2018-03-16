@@ -29,7 +29,8 @@ public class PageKit {
 
 		if (countPerPage < 1) {
 			countPerPage = 0;
-//			LogKit.warn("Count per page  [" + countPerPage + "] is not valid!");
+			// LogKit.warn("Count per page [" + countPerPage + "] is not
+			// valid!");
 		}
 
 		int start = (pageNo - 1) * countPerPage;
@@ -51,7 +52,6 @@ public class PageKit {
 		if (numPerPage == 0) {
 			return 0;
 		}
-		return totalCount % numPerPage == 0 ? (totalCount / numPerPage)
-				: (totalCount / numPerPage + 1);
+		return totalCount % numPerPage == 0 ? (totalCount / numPerPage) : (totalCount / numPerPage + 1);
 	}
 }

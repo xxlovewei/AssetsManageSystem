@@ -58,22 +58,18 @@ public class NodeController extends BaseController {
 		return nodeService.queryNodeHost((TypedHashMap<String, Object>) HttpKit.getRequestParameters());
 	}
 
-	 
 	@RequestMapping("/node/deleteNode.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_DENY, info = "删除节点")
 	public R deleteNode(String id) {
 		return nodeService.deleteNode(id);
 	}
-	
 
 	@RequestMapping("/node/executeHostNodeCommand.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_DENY, info = "节点执行命令")
-	public R executeHostNodeCommand(String id,String cmd) {
+	public R executeHostNodeCommand(String id, String cmd) {
 		return nodeService.executeHostNodeCommand(id, cmd);
 	}
 
-	
-	
 }

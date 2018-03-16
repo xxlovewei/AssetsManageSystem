@@ -80,7 +80,7 @@ public class OrderController extends BaseController {
 	@ResponseBody
 	@Acl(value = Acl.ACL_USER, info = "确认收货")
 	public R receiptOrder(String order_id) {
-		return orderService.receiptOrder(order_id, getUserId(),true);
+		return orderService.receiptOrder(order_id, getUserId(), true);
 	}
 
 	@RequestMapping(value = "/order/reputationGoods.do")

@@ -1,9 +1,7 @@
 package com.dt.module.om.term.bean;
 
- 
+public class SftpFileBean implements Comparable<SftpFileBean> {
 
-public class SftpFileBean implements Comparable<SftpFileBean>{
-	
 	private String filename = null;
 	private Long size = null;
 	private Integer intPermissions = null;
@@ -11,11 +9,10 @@ public class SftpFileBean implements Comparable<SftpFileBean>{
 	private String octalPermissions = null;
 	private String mtime = null;
 	private boolean directory;
-	
+
 	public SftpFileBean() {
 		super();
 	}
-	
 
 	public SftpFileBean(String filename, Long size, Integer intPermissions, String strPermissions,
 			String octalPermissions, String mtime, boolean directory) {
@@ -29,76 +26,61 @@ public class SftpFileBean implements Comparable<SftpFileBean>{
 		this.directory = directory;
 	}
 
-
 	public String getFilename() {
 		return filename;
 	}
-
 
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
 
-
 	public Long getSize() {
 		return size;
 	}
-
 
 	public void setSize(Long size) {
 		this.size = size;
 	}
 
-
 	public Integer getIntPermissions() {
 		return intPermissions;
 	}
-
 
 	public void setIntPermissions(Integer intPermissions) {
 		this.intPermissions = intPermissions;
 	}
 
-
 	public String getStrPermissions() {
 		return strPermissions;
 	}
-
 
 	public void setStrPermissions(String strPermissions) {
 		this.strPermissions = strPermissions;
 	}
 
-
 	public String getOctalPermissions() {
 		return octalPermissions;
 	}
-
 
 	public void setOctalPermissions(String octalPermissions) {
 		this.octalPermissions = octalPermissions;
 	}
 
-
 	public String getMtime() {
 		return mtime;
 	}
-
 
 	public void setMtime(String mtime) {
 		this.mtime = mtime;
 	}
 
-
 	public boolean isDirectory() {
 		return directory;
 	}
 
-
 	public void setDirectory(boolean directory) {
 		this.directory = directory;
 	}
-
 
 	@Override
 	public int compareTo(SftpFileBean o) {

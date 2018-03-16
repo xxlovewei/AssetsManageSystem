@@ -27,16 +27,17 @@ public class CompanyController {
 	 */
 	@RequestMapping(value = "/company/queryCompany.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW,info="查询公司")
+	@Acl(value = Acl.ACL_ALLOW, info = "查询公司")
 	public R queryCompany() {
 		return companyService.queryCompany();
 	}
+
 	/**
 	 * @Description: 更新公司内容
 	 */
 	@RequestMapping(value = "/company/updateCompany.do")
 	@ResponseBody
-	@Acl(info="更新公司")
+	@Acl(info = "更新公司")
 	public R updateCompany() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return companyService.updateCompany(ps);

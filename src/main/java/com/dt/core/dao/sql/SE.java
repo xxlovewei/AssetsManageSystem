@@ -11,22 +11,20 @@ import com.dt.core.dao.SpringDAO;
 
 /**
  * SimpleExpression 的缩写 简单表达式，SQL表达式
- * */
+ */
 public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 
 	private static final long serialVersionUID = 4922774964031198960L;
-	private static HashMap<String,AnalyseRsult> CACHE=new HashMap<String,AnalyseRsult>();
-	
-	private synchronized static void putAR(String sql,AnalyseRsult r)
-	{
-		CACHE.put(sql,r);
+	private static HashMap<String, AnalyseRsult> CACHE = new HashMap<String, AnalyseRsult>();
+
+	private synchronized static void putAR(String sql, AnalyseRsult r) {
+		CACHE.put(sql, r);
 	}
-	
-	private static AnalyseRsult getAR(String sql)
-	{
+
+	private static AnalyseRsult getAR(String sql) {
 		return CACHE.get(sql);
 	}
-	
+
 	private static final String PARAM_NAME_SUFFIX_CHARS = "(+-*/ ><=,)";
 
 	private int paramIndex = -1;
@@ -37,64 +35,53 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 	private ArrayList<String> splitParts = new ArrayList<String>();
 	private String lastSqlPart = "";
 
-	boolean inited=false;
+	boolean inited = false;
+
 	private void initIf() {
-		if(inited) return;
-		inited=true;
-		
-		boolean userSet=false;
-		
-		AnalyseRsult ar=getAR(originalSQL);
-		
-		if(ar==null)
-		{
-			//分析语句
+		if (inited)
+			return;
+		inited = true;
+
+		boolean userSet = false;
+
+		AnalyseRsult ar = getAR(originalSQL);
+
+		if (ar == null) {
+			// 分析语句
 			analyse(this.originalSQL, originalMap, originalPs);
 			splitParts.add(this.lastSqlPart);
-			ar=new AnalyseRsult(splitParts,paramValueIndexes);
+			ar = new AnalyseRsult(splitParts, paramValueIndexes);
 			putAR(originalSQL, ar);
-			userSet=true;
-			//System.err.println("NC");
+			userSet = true;
+			// System.err.println("NC");
+		} else {
+			splitParts = ar.getSplitParts();
+			paramValueIndexes = ar.getPsIndexes();
+			userSet = false;
+			// System.err.println("UC");
 		}
-		else
-		{
-			splitParts=ar.getSplitParts();
-			paramValueIndexes=ar.getPsIndexes();
-			userSet=false;
-			//System.err.println("UC");
-		}
-		
-		
-		//重新参数值
+
+		// 重新参数值
 		for (int i = 0; i < this.paramValueIndexes.size(); i++) {
-			Object index=this.paramValueIndexes.get(i);
-			if(index instanceof String)
-			{
-				String indexStr=(String)index;
-				if(userSet)
-				{
-					this.paramValues.set(i,originalMap.get(indexStr));
-				}
-				else
-				{
+			Object index = this.paramValueIndexes.get(i);
+			if (index instanceof String) {
+				String indexStr = (String) index;
+				if (userSet) {
+					this.paramValues.set(i, originalMap.get(indexStr));
+				} else {
 					this.paramValues.add(originalMap.get(indexStr));
 				}
-			}
-			else
-			{
-				Integer indexInt=(Integer)index;
-				if(userSet)
-				{
-					this.paramValues.set(i,originalPs[indexInt]);
-				}
-				else
-				{
+			} else {
+				Integer indexInt = (Integer) index;
+				if (userSet) {
+					this.paramValues.set(i, originalPs[indexInt]);
+				} else {
 					this.paramValues.add(originalPs[indexInt]);
 				}
 			}
 		}
 		//
-		
+
 		for (Object val : paramValues) {
 			if (val instanceof SQL) {
 				SQL se = (SQL) val;
@@ -103,43 +90,32 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 		}
 	}
 
-	
-	private Map<String, Object> originalMap=null;
-	private Object[] originalPs=null;
-	
-	public static SE get(String sql, Object... ps)
-	{
-		return new SE(sql,ps);
+	private Map<String, Object> originalMap = null;
+	private Object[] originalPs = null;
+
+	public static SE get(String sql, Object... ps) {
+		return new SE(sql, ps);
 	}
-	
-	public static SE get(String sql, Map<String, Object> map, Object... ps)
-	{
-		return new SE(sql,map,ps);
+
+	public static SE get(String sql, Map<String, Object> map, Object... ps) {
+		return new SE(sql, map, ps);
 	}
-	
-	 
-	
+
 	public SE(String sql, Object... ps) {
-		this.originalSQL=sql;
-		this.originalMap=new HashMap<String, Object>();
-		this.originalPs=ps;
+		this.originalSQL = sql;
+		this.originalMap = new HashMap<String, Object>();
+		this.originalPs = ps;
 	}
 
 	public SE(String sql, Map<String, Object> map, Object... ps) {
-		this.originalSQL=sql;
-		this.originalMap=map;
-		this.originalPs=ps;
+		this.originalSQL = sql;
+		this.originalMap = map;
+		this.originalPs = ps;
 	}
-	
-	 
-	
-	
 
 	private void err(String msg) {
 		(new Exception(msg)).printStackTrace();
 	}
-	
-	
 
 	private void analyse(String sql, Map<String, Object> map, Object... ps) {
 		sql = " " + sql + " ";
@@ -157,7 +133,7 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 			char c = chars[i];
 			int z = jumpIf(sql, i);
 			if (z == -1) {
-				//err("语句" + sql + "，在第" + i + "个字符处,没有找到与之对应的结尾字符,可能存在语法错误!");
+				// err("语句" + sql + "，在第" + i + "个字符处,没有找到与之对应的结尾字符,可能存在语法错误!");
 				return;
 			} else {
 				if (z != i) {
@@ -177,10 +153,10 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 					err(part1 + "? 处参数个数不足");
 					return;
 				}
-				
+
 				this.paramValues.add(ps[paramIndex]);
 				this.paramValueIndexes.add(paramIndex);
-				
+
 				if (part2.length() > 0) {
 					analyse(part2, map, ps);
 					return;
@@ -205,7 +181,7 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 				}
 				this.paramValues.add(map.get(pname));
 				this.paramValueIndexes.add(pname);
-				//part2 = part2.substring(end + 1, part2.length()).trim();
+				// part2 = part2.substring(end + 1, part2.length()).trim();
 				part2 = part2.substring(end, part2.length()).trim();
 				lastSqlPart = part2;
 				if (part2.length() > 0) {
@@ -219,12 +195,12 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 			}
 		}
 	}
-	
+
 	public static int jumpIf(String sql, int i) {
 		return jumpIf(sql, i, false);
 	}
 
-	public static int jumpIf(String sql, int i,boolean includeBracket) {
+	public static int jumpIf(String sql, int i, boolean includeBracket) {
 		String s1 = null;
 		if (i < sql.length() - 1) {
 			s1 = sql.substring(i, i + 1);
@@ -235,22 +211,21 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 		}
 
 		if (s1 != null) {
-			
+
 			if (s1.equals(SQLKeyword.SINGLE_QUATE.toString())) {
 				return jumpSingleQuateIf(sql, i);
 			} else if (s1.equals(SQLKeyword.LEFT_DOUBLE_QUATE.toString())) {
 				return jumpDoubleQuateIf(sql, i);
 			}
-			
-			if(includeBracket)
-			{
+
+			if (includeBracket) {
 				if (s1.equals(SQLKeyword.LEFT_BRACKET.toString())) {
 					return jumpBracketIf(sql, i);
 				}
 			}
-			
+
 		}
-		
+
 		if (s2 != null) {
 			if (s2.equals(SQLKeyword.SINGLE_REMARK.toString())) {
 				return jumpSingleLineRemarkIf(sql, i);
@@ -263,20 +238,18 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 
 	private static int jumpBracketIf(String sql, int i) {
 		boolean matched = false;
-		int brackets=1;
+		int brackets = 1;
 		while (true) {
 			i++;
 			if (i >= sql.length() - 1)
 				break;
 			String c1 = sql.substring(i, i + 1);
-			if(c1.equals(SQLKeyword.LEFT_BRACKET.toString()))
-			{
+			if (c1.equals(SQLKeyword.LEFT_BRACKET.toString())) {
 				brackets++;
 			}
 			if (c1.equals(SQLKeyword.RIGHT_BRACKET.toString())) {
 				brackets--;
-				if(brackets==0)
-				{
+				if (brackets == 0) {
 					matched = true;
 					break;
 				}
@@ -284,7 +257,7 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 		}
 		return matched ? i : -1;
 	}
-	
+
 	private static int jumpSingleQuateIf(String sql, int i) {
 		boolean matched = false;
 		while (true) {
@@ -399,8 +372,6 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 		sql.append(this.splitParts.get(splitParts.size() - 1));
 		return sql.toString().trim();
 	}
-	
-	
 
 	public Object[] getParams() {
 		initIf();
@@ -441,12 +412,9 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 					sql.append(part + " ? ");
 				}
 			} else {
-				if(replaceNull)
-				{
+				if (replaceNull) {
 					sql.append(part + " null ");
-				}
-				else
-				{
+				} else {
 					sql.append(part + " ? ");
 				}
 			}
@@ -473,12 +441,9 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 					sql.append(part + " " + this.getNextParamName(true) + " ");
 				}
 			} else {
-				if(replaceNull)
-				{
+				if (replaceNull) {
 					sql.append(part + " null ");
-				}
-				else
-				{
+				} else {
 					sql.append(part + " " + this.getNextParamName(true) + " ");
 				}
 			}
@@ -559,12 +524,12 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 
 		for (SQL se : ses) {
 			String s = se.getParamedSQL();
-			sql.append((s.startsWith(SQLKeyword.SPACER.toString())?"":SQLKeyword.SPACER.toString()) + s);
+			sql.append((s.startsWith(SQLKeyword.SPACER.toString()) ? "" : SQLKeyword.SPACER.toString()) + s);
 			ps.addAll(Utils.toArrayList(se.getParams()));
 		}
 		return SE.get(sql.toString(), ps.toArray(new Object[ps.size()]));
 	}
-	
+
 	public SE appendIf(String se, Object... ps) {
 		return appendIf(SE.get(se, ps));
 	}
@@ -580,7 +545,8 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 			if (se.isAllParamsEmpty())
 				continue;
 			String s = se.getParamedSQL();
-			sql.append(s.startsWith(SQLKeyword.SPACER.toString())?"":SQLKeyword.SPACER.toString() + se.getParamedSQL());
+			sql.append(s.startsWith(SQLKeyword.SPACER.toString()) ? ""
+					: SQLKeyword.SPACER.toString() + se.getParamedSQL());
 			ps.addAll(Utils.toArrayList(se.getParams()));
 		}
 		return SE.get(sql.toString(), ps.toArray(new Object[ps.size()]));
@@ -596,7 +562,7 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 		this.dao = dao;
 		return this;
 	}
- 
+
 	public Rcd record() {
 		return dao.uniqueRecord(this);
 	}
@@ -624,30 +590,28 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 	public Integer execute() {
 		return dao.execute(this);
 	}
-	
-	
+
 	public static void main(String[] args) {
-		HashMap<String,Object> ps=new HashMap<String, Object>();
+		HashMap<String, Object> ps = new HashMap<String, Object>();
 		ps.put("e", 5);
-		SE a=new SE("a=:e",ps);
+		SE a = new SE("a=:e", ps);
 		System.out.println(a);
-		
-		//SE b=new SE("b=:x",new Object[]{":x",3});
-		//System.out.println(b);
-		
+
+		// SE b=new SE("b=:x",new Object[]{":x",3});
+		// System.out.println(b);
+
 		System.out.println(SE.indexOf("asdd(,),aa", ",", true));
-		
+
 	}
-	
-	public static int indexOf(String sql,String kw,boolean includeBracket)
-	{
-		return indexOf(sql,kw,includeBracket,0);
+
+	public static int indexOf(String sql, String kw, boolean includeBracket) {
+		return indexOf(sql, kw, includeBracket, 0);
 	}
-	public static int indexOf(String sql,String kw,boolean includeBracket,int formIndex)
-	{
-		sql=" "+sql+" ";
-		char[] chars=sql.toCharArray();
-		int i=formIndex-1;
+
+	public static int indexOf(String sql, String kw, boolean includeBracket, int formIndex) {
+		sql = " " + sql + " ";
+		char[] chars = sql.toCharArray();
+		int i = formIndex - 1;
 		while (true) {
 
 			i++;
@@ -656,9 +620,9 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 
 			@SuppressWarnings("unused")
 			char c = chars[i];
-			int z = jumpIf(sql, i,includeBracket);
+			int z = jumpIf(sql, i, includeBracket);
 			if (z == -1) {
-				//err("语句" + sql + "，在第" + i + "个字符处,没有找到与之对应的结尾字符,可能存在语法错误!");
+				// err("语句" + sql + "，在第" + i + "个字符处,没有找到与之对应的结尾字符,可能存在语法错误!");
 				return -1;
 			} else {
 				if (z != i) {
@@ -666,27 +630,22 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 					continue;
 				}
 			}
-			
-			if(i+kw.length()<sql.length())
-			{
-				String str=sql.substring(i,i+kw.length());
-				if(str.equals(kw.toString()))
-				{
-					return i-1;
+
+			if (i + kw.length() < sql.length()) {
+				String str = sql.substring(i, i + kw.length());
+				if (str.equals(kw.toString())) {
+					return i - 1;
 				}
 			}
 		}
 		return -1;
 	}
-	
-	
-	
- 
+
 }
 
-class AnalyseRsult
-{
-	private ArrayList<String> splitParts=null;
+class AnalyseRsult {
+	private ArrayList<String> splitParts = null;
+
 	public ArrayList<String> getSplitParts() {
 		return splitParts;
 	}
@@ -695,11 +654,10 @@ class AnalyseRsult
 		return psIndexes;
 	}
 
-	private ArrayList<Object> psIndexes=null;
-	
-	public AnalyseRsult(ArrayList<String> parts,ArrayList<Object> indexes)
-	{
-		this.splitParts=parts;
-		this.psIndexes=indexes;
+	private ArrayList<Object> psIndexes = null;
+
+	public AnalyseRsult(ArrayList<String> parts, ArrayList<Object> indexes) {
+		this.splitParts = parts;
+		this.psIndexes = indexes;
 	}
 }

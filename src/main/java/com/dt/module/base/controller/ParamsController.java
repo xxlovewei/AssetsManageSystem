@@ -25,19 +25,21 @@ public class ParamsController {
 
 	@RequestMapping(value = "/params/queryParams.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW,info="查询参数")
+	@Acl(value = Acl.ACL_ALLOW, info = "查询参数")
 	public R queryParams() {
 		return paramsService.queryParams();
 	}
+
 	@RequestMapping(value = "/params/queryParamsById.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW,info="根据Id查询参数")
+	@Acl(value = Acl.ACL_ALLOW, info = "根据Id查询参数")
 	public R queryParamsById(String id) {
 		return paramsService.queryParamsById(id);
 	}
+
 	@RequestMapping(value = "/params/saveParams.do")
 	@ResponseBody
-	@Acl(info="保存参数")
+	@Acl(info = "保存参数")
 	public R saveParams() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		String id = ps.getString("id");
@@ -47,9 +49,10 @@ public class ParamsController {
 			return paramsService.updateParams(ps);
 		}
 	}
+
 	@RequestMapping(value = "/params/deleteParams.do")
 	@ResponseBody
-	@Acl(info="删除参数")
+	@Acl(info = "删除参数")
 	public R deleteParams(String id) {
 		return paramsService.deleteParams(id);
 	}

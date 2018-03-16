@@ -41,6 +41,7 @@ public class CategoryAttrValueService extends BaseService {
 		db.execute(ins);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 删除属性值,直接删除
 	 */
@@ -55,6 +56,7 @@ public class CategoryAttrValueService extends BaseService {
 		db.execute(ups);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 查询属性的所有属性值
 	 */
@@ -65,12 +67,14 @@ public class CategoryAttrValueService extends BaseService {
 		String sql = "select * from product_category_attr_set where is_deleted='N' and attr_id=? order by od";
 		return R.SUCCESS_OPER(db.query(sql, attr_id).toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description: 根据Id查询属性值
 	 */
 	public R queryAttrValueById() {
 		return null;
 	}
+
 	/**
 	 * @Description: 根据属性值修改
 	 */

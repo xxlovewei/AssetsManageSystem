@@ -80,9 +80,11 @@ public class CategoryFService extends BaseService {
 		e.put("type", node_type);
 		return R.SUCCESS("操作成功", e);
 	}
+
 	public R updateCategoryF() {
 		return null;
 	}
+
 	public R renameCategoryF(String id, String text) {
 		if (ToolUtil.isOneEmpty(id, text)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -106,11 +108,13 @@ public class CategoryFService extends BaseService {
 		db.execute(ups);
 		return R.SUCCESS_OPER();
 	}
+
 	public R delCategoryF() {
 		return null;
 	}
+
 	public JSONArray queryCategoryFTreeList(String root_id) {
-	 
+
 		JSONArray res = new JSONArray();
 		String rootsql = "select * from product_cat_user_root where id=?  and is_deleted='N'";
 		Rcd root_rs = db.uniqueRecord(rootsql, root_id);
@@ -138,6 +142,7 @@ public class CategoryFService extends BaseService {
 		}
 		return res;
 	}
+
 	public R queryCategoryFById() {
 		return null;
 	}

@@ -23,6 +23,7 @@ public class UserLogService extends BaseService {
 		return R.SUCCESS_OPER(
 				db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description: 获取访问日志页数
 	 */
@@ -32,6 +33,7 @@ public class UserLogService extends BaseService {
 		int total = db.uniqueRecord(sql).getInteger("value");
 		return total;
 	}
+
 	/**
 	 * @Description: 获取登录日志
 	 */

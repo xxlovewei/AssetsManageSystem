@@ -47,8 +47,8 @@ public class SftpWindowController extends BaseController {
 	@RequestMapping(value = "/sftp/exeCommand.do", method = RequestMethod.POST)
 	@ResponseBody
 	@Acl(value = Acl.ACL_DENY, info = "执行sftp的命令")
-	public R exeCommand(@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
-			String cmd, String cmdParam, String fileFileName, String permissions, HttpServletRequest request,
+	public R exeCommand(@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile, String cmd,
+			String cmdParam, String fileFileName, String permissions, HttpServletRequest request,
 			HttpServletResponse response) {
 
 		SftpClient sftp = getSftpClient(getUserId());
@@ -75,12 +75,12 @@ public class SftpWindowController extends BaseController {
 					DiskFileItem fi = (DiskFileItem) cf.getFileItem();
 					file = fi.getStoreLocation();
 					// 手动创建临时文件
-//					if (file.length() < 2048) {
-						File tmpFile = new File(System.getProperty("java.io.tmpdir")
-								+ System.getProperty("file.separator") + file.getName());
-						uploadFile.transferTo(tmpFile);
-						file = tmpFile;
-//					}
+					// if (file.length() < 2048) {
+					File tmpFile = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator")
+							+ file.getName());
+					uploadFile.transferTo(tmpFile);
+					file = tmpFile;
+					// }
 					sftp.uploadFile(file, cf.getOriginalFilename(), sftpuploadSession);
 					break;
 				case "attr":

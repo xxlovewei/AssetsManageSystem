@@ -25,7 +25,6 @@ public class BannerAndItemController extends BaseController {
 	@Autowired
 	BannerAndItemService bannerAndItemService = null;
 
-	
 	@RequestMapping("/banner/queryBanner.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW, info = "查询横幅")
@@ -33,12 +32,12 @@ public class BannerAndItemController extends BaseController {
 		return bannerAndItemService.queryBanner(type);
 
 	}
-	
+
 	@RequestMapping("/banner/queryBannerItems.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW, info = "查询横幅")
-	public R queryBannerItems(String banner_id,String is_used) {
-		return bannerAndItemService.queryBannerItems(banner_id,is_used);
+	public R queryBannerItems(String banner_id, String is_used) {
+		return bannerAndItemService.queryBannerItems(banner_id, is_used);
 
 	}
 
@@ -49,7 +48,7 @@ public class BannerAndItemController extends BaseController {
 		return bannerAndItemService.delBannerItem(id);
 
 	}
-	
+
 	@RequestMapping("/banner/queryBannerItemById.do")
 	@ResponseBody
 	@Acl(info = "查询横幅条目")
@@ -70,6 +69,5 @@ public class BannerAndItemController extends BaseController {
 			return bannerAndItemService.updateBannerItem(ps);
 		}
 	}
-	
 
 }

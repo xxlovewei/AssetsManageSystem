@@ -5,34 +5,27 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public class RcdRowMapper implements RowMapper<Rcd>
-{
+public class RcdRowMapper implements RowMapper<Rcd> {
 
 	private RcdSet ownerSet;
 
-	public RcdRowMapper(RcdSet set)
-	{
+	public RcdRowMapper(RcdSet set) {
 		ownerSet = set;
 	}
 
-	public Rcd mapRow(ResultSet rs, int row) throws SQLException
-	{
-		//Statement stmt=null;
-		 
-		if(!ownerSet.isMetaDataInited())
-		{
+	public Rcd mapRow(ResultSet rs, int row) throws SQLException {
+		// Statement stmt=null;
+
+		if (!ownerSet.isMetaDataInited()) {
 			ownerSet.initeMetaData(rs.getMetaData());
 		}
-		
+
 		Rcd r = new Rcd(ownerSet);
-		for(int i=1;i<=ownerSet.getMetaData().getColumnCount();i++)
-		{
-			r._setValue(i-1, rs.getObject(i));
+		for (int i = 1; i <= ownerSet.getMetaData().getColumnCount(); i++) {
+			r._setValue(i - 1, rs.getObject(i));
 		}
 		ownerSet.add(r);
 		return r;
 	}
-
-	 
 
 }

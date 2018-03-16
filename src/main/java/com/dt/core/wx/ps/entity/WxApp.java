@@ -35,19 +35,23 @@ public class WxApp {
 	private String type = "";
 	private final static String access_token_ps_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=#<APPID>#&secret=#<SECRET>#";
 	private static Logger _log = LoggerFactory.getLogger(WxApp.class);
- 
+
 	public String getAppid() {
 		return appid;
 	}
+
 	public void setAppid(String appid) {
 		this.appid = appid;
 	}
+
 	public String getSecret() {
 		return secret;
 	}
+
 	public void setSecret(String secret) {
 		this.secret = secret;
 	}
+
 	public String getAccesstoken() {
 		_log.info("name:" + name + ",appid:" + appid);
 		Long curTime = Calendar.getInstance().getTimeInMillis();
@@ -62,17 +66,24 @@ public class WxApp {
 		}
 		return accesstoken;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	/**
 	 * 发起https请求并获取结果
-	 * @param requestUrl 请求地址
-	 * @param requestMethod 请求方式（GET、POST）
-	 * @param outputStr 提交的数据
+	 * 
+	 * @param requestUrl
+	 *            请求地址
+	 * @param requestMethod
+	 *            请求方式（GET、POST）
+	 * @param outputStr
+	 *            提交的数据
 	 * @return JSONObject(通过JSONObject.get(key)的方式获取json对象的属性值)
 	 */
 	public static JSONObject httpRequest(String requestUrl, String requestMethod, String outputStr) {

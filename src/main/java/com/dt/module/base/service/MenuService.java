@@ -54,7 +54,7 @@ public class MenuService extends BaseService {
 		RcdSet first_rs = db.query(basesql, menu_id, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
-			String first_key = first_rs.getRcd(i).getString("key");	
+			String first_key = first_rs.getRcd(i).getString("key");
 			first_obj.put("state", first_key);
 			RcdSet second_rs = db.query(basesql, menu_id, first_rs.getRcd(i).getString("node_id"));
 			JSONArray second_arr = new JSONArray();
@@ -221,8 +221,9 @@ public class MenuService extends BaseService {
 	 * @Description:获取节点下一个序列号，sys_menus_node表全局唯一
 	 */
 	public String getNextNodeId() {
-		return db.uniqueRecord(
-				"select case when max(node_id) is null then 50 else max(node_id)+1 end value from sys_menus_node ")
+		return db
+				.uniqueRecord(
+						"select case when max(node_id) is null then 50 else max(node_id)+1 end value from sys_menus_node ")
 				.getString("value");
 	}
 

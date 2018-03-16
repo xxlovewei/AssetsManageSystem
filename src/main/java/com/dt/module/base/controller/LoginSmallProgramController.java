@@ -122,8 +122,7 @@ public class LoginSmallProgramController extends BaseController {
 	@RequestMapping(value = "/smallprogram/register.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW, info = "小程序用户注册")
-	public R register(String code, String avatarUrl, String city, String country, String nickName,
-			String province) {
+	public R register(String code, String avatarUrl, String city, String country, String nickName, String province) {
 		R strres = getOpenIdStr(code);
 		if (strres.isFailed()) {
 			return strres;

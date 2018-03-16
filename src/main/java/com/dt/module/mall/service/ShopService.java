@@ -31,6 +31,7 @@ public class ShopService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	public R deleteShop(String shop_id) {
 		if (ToolUtil.isEmpty(shop_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -41,6 +42,7 @@ public class ShopService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	public R updateShop(TypedHashMap<String, Object> ps) {
 		if (ToolUtil.isEmpty(ps.getString("shop_id"))) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -54,9 +56,11 @@ public class ShopService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	public R queryShop() {
 		return R.SUCCESS_OPER(db.query("select * from mall_shop where deleted='N'").toJsonArrayWithJsonObject());
 	}
+
 	public R queryShopById(String shop_id) {
 		Rcd rs = db.uniqueRecord("select * from mall_shop where deleted='N' and shop_id=?", shop_id);
 		if (ToolUtil.isEmpty(rs)) {

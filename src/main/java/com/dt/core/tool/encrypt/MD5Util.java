@@ -1,8 +1,8 @@
 package com.dt.core.tool.encrypt;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-  
 public class MD5Util {
 
 	public static String encrypt(String source) {
@@ -27,5 +27,4 @@ public class MD5Util {
 		return buffer.toString();
 	}
 
- 
 }

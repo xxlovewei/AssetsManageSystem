@@ -45,7 +45,7 @@ public class LoginController extends BaseController {
 	/**
 	 * @Description: user,pwd,type,client必须部不为空
 	 */
-	@Acl(value = Acl.ACL_ALLOW,info="登录")
+	@Acl(value = Acl.ACL_ALLOW, info = "登录")
 	@RequestMapping(value = "/user/login.do")
 	@ResponseBody
 	public R logindo(String user, String pwd, String type, String client, HttpServletRequest request) {
@@ -79,7 +79,7 @@ public class LoginController extends BaseController {
 			return R.FAILURE(error);
 		}
 
-		//用户登录成功
+		// 用户登录成功
 		ShiroUser shiroUser = ShiroKit.getUser();
 		super.getSession().setAttribute("shiroUser", shiroUser);
 		super.getSession().setAttribute("user_id", shiroUser.id);
@@ -100,7 +100,7 @@ public class LoginController extends BaseController {
 
 	@RequestMapping(value = "/user/checkLogin.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW,info="检测登录")
+	@Acl(value = Acl.ACL_ALLOW, info = "检测登录")
 	public R checkLogin() throws IOException {
 		if (ShiroKit.isAuthenticated()) {
 			return R.SUCCESS(BaseCodeMsgEnum.USER_ALREADY_LOGIN.getMessage());
@@ -114,10 +114,9 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(value = "/user/logout.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW,info="退出")
+	@Acl(value = Acl.ACL_ALLOW, info = "退出")
 	public R loginout() throws IOException {
 		return R.SUCCESS("成功退出");
 	}
- 
-	 
+
 }

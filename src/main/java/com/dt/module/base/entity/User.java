@@ -8,7 +8,6 @@ public class User {
 
 	public String account; // 账号
 
-
 	public String name; // 姓名
 
 	public String password;
@@ -17,13 +16,11 @@ public class User {
 
 	public Boolean isAdmin = false;
 
-	
-    /**
-     * md5密码盐
-     */
+	/**
+	 * md5密码盐
+	 */
 	private String salt;
-	
-	
+
 	public HashMap<String, String> rolsSet;
 
 	// public List<String> roleNames; // 角色名称集
@@ -59,7 +56,6 @@ public class User {
 	public void setIsLocked(Boolean isLocked) {
 		this.isLocked = isLocked;
 	}
- 
 
 	public String getName() {
 		return name;
@@ -76,7 +72,7 @@ public class User {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	
+
 	public String getAccount() {
 		return account;
 	}

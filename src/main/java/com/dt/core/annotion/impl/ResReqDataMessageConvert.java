@@ -32,26 +32,30 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 	public boolean canRead(Type type, Class<?> contextClass, MediaType mediaType) {
 		return ((Class) type).isAssignableFrom(ReqData.class);
 	}
+
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public boolean canWrite(Type type, Class<?> clazz, MediaType mediaType) {
-		 
+
 		return ((Class) type).isAssignableFrom(R.class);
 	}
+
 	@Override
 	public List<MediaType> getSupportedMediaTypes() {
 		return Collections.singletonList(MediaType.ALL);
 	}
+
 	@Override
 	protected boolean supports(Class<?> clazz) {
 		return clazz.isAssignableFrom(R.class);
 	}
+
 	@Override
 	public Object readInternal(Class<?> clazz, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException {
 		return readMap(inputMessage);
 	}
-	
+
 	private Object readMap(HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
 		Charset cs = Charset.forName("UTF-8");
 		StringBuilder stringBuilder = new StringBuilder();
@@ -74,6 +78,7 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 		requestData.setData(map);
 		return requestData;
 	}
+
 	@Override
 	public void writeInternal(Object o, Type type, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException {
@@ -92,14 +97,16 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
 			} else {
 				StreamUtils.copy("now not supprt", charset, outputMessage.getBody());
 			}
-		}else{
+		} else {
 			super.writeInternal(o, outputMessage);
 		}
-	
+
 	}
+
 	protected List<Charset> getAcceptedCharsets() {
 		return Arrays.asList(UTF8.getCharset());
 	}
+
 	public Object read(Type type, Class<?> contextClass, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException {
 		return readMap(inputMessage);

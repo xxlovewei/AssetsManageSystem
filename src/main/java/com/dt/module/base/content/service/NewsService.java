@@ -23,36 +23,42 @@ public class NewsService extends BaseService {
 	public R addNews(TypedHashMap<String, Object> ps) {
 		return contentService.addContent(ps, ContentService.TYPE_NEWS);
 	}
+
 	/**
 	 * @Description: 修改新闻
 	 */
 	public R updateNews(TypedHashMap<String, Object> ps) {
 		return contentService.updateContent(ps);
 	}
+
 	/**
 	 * @Description: 删除新闻
 	 */
 	public R deleteNews(String id) {
 		return contentService.deleteContent(id, ContentService.TYPE_NEWS);
 	}
+
 	/**
 	 * @Description: 根据ID查找新闻
 	 */
 	public R queryNewsById(String id) {
 		return contentService.queryContentById(id);
 	}
+
 	/**
 	 * @Description: 新闻数量
 	 */
 	public int queryTotalCount(TypedHashMap<String, Object> ps) {
 		return contentService.queryContentCount(ps, ContentService.TYPE_NEWS);
 	}
+
 	/**
 	 * @Description: 新闻页数
 	 */
-	public int queryTotalCount(TypedHashMap<String, Object> ps,int pageSize) {
+	public int queryTotalCount(TypedHashMap<String, Object> ps, int pageSize) {
 		return contentService.queryContentPageCount(ps, ContentService.TYPE_NEWS, pageSize);
 	}
+
 	/**
 	 * @Description: 查找新闻
 	 */

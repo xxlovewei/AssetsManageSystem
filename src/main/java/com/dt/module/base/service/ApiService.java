@@ -31,19 +31,22 @@ import com.dt.core.tool.util.ToolUtil;
  */
 @Service
 public class ApiService extends BaseService {
-	
+
 	private static Logger _log = LoggerFactory.getLogger(ApiService.class);
-	
+
 	public static ApiService me() {
 		return SpringContextUtil.getBean(ApiService.class);
 	}
+
 	public R queryApi() {
 		String sql = "select * from sys_api";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
+
 	public R verifyApi() {
 		return R.SUCCESS_OPER();
 	}
+
 	public R updateApi() {
 		List<SQL> sqls = new ArrayList<SQL>();
 		WebApplicationContext wc = (WebApplicationContext) SpringContextUtil.getApplicationContext();
@@ -58,10 +61,10 @@ public class ApiService extends BaseService {
 			if (ToolUtil.isNotEmpty(am)) {
 				String aclvalue = am.value();
 				String aclinfo = am.info();
-				String type=am.type();
+				String type = am.type();
 				Iterator<String> it = pSet.iterator();
 				while (it.hasNext()) {
-					String str = it.next(); 
+					String str = it.next();
 					_log.info(str + "," + aclvalue);
 					Insert me = new Insert("sys_api");
 					me.set("id", db.getUUID());
@@ -74,13 +77,13 @@ public class ApiService extends BaseService {
 					sqls.add(me);
 				}
 			}
-			
+
 		}
 		if (sqls.size() > 0) {
 			_log.info("Save collect Api.");
 			db.tabTruncate("sys_api");
 			db.executeSQLList(sqls);
-		}else {
+		} else {
 			_log.info("Save collect Api failed.");
 		}
 		return R.SUCCESS_OPER();

@@ -27,28 +27,28 @@ public class ContentCategoryController extends BaseController {
 	ContentCategoryService contentCategoryService;
 
 	@ResponseBody
-	@Acl(info="查询根类目节点")
+	@Acl(info = "查询根类目节点")
 	@RequestMapping(value = "/ctCategroy/queryRootCategory.do")
 	public R queryRootCategory() {
 		return contentRootCategoryService.queryRootCategory();
 	}
 
 	@ResponseBody
-	@Acl(info="根据Id查询根类目节点")
+	@Acl(info = "根据Id查询根类目节点")
 	@RequestMapping(value = "/ctCategroy/queryCategoryById.do")
 	public R queryCategoryById(String id) {
 		return contentCategoryService.queryCategoryById(id);
 	}
 
 	@ResponseBody
-	@Acl(info="删除类目")
+	@Acl(info = "删除类目")
 	@RequestMapping(value = "/ctCategroy/deleteCategory.do")
 	public R deleteCategory(String id) {
 		return contentCategoryService.deleteCategory(id);
 	}
 
 	@ResponseBody
-	@Acl(info="添加类目")
+	@Acl(info = "添加类目")
 	@RequestMapping(value = "/ctCategroy/addCategory.do")
 	public R addCategory() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -56,7 +56,7 @@ public class ContentCategoryController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info="更新类目")
+	@Acl(info = "更新类目")
 	@RequestMapping(value = "/ctCategroy/updateCategory.do")
 	public R updateCategory() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -64,14 +64,14 @@ public class ContentCategoryController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info="查询类目")
+	@Acl(info = "查询类目")
 	@RequestMapping(value = "/ctCategroy/queryCategory.do")
 	public R queryCategory(String root) {
 		return contentCategoryService.queryCategory(root);
 	}
 
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW,info="显示类目所有子节点数据")
+	@Acl(value = Acl.ACL_ALLOW, info = "显示类目所有子节点数据")
 	@RequestMapping(value = "/ctCategroy/queryCategoryChildren.do")
 	public R queryCategoryChildren() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -81,7 +81,7 @@ public class ContentCategoryController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW,info="显示类目子节点数据")
+	@Acl(value = Acl.ACL_ALLOW, info = "显示类目子节点数据")
 	@RequestMapping(value = "/ctCategroy/queryCategoryFirstFloor.do")
 	public R queryCategoryFirstFloor() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -91,7 +91,7 @@ public class ContentCategoryController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info="显示类目节点,后端angular显示内容")
+	@Acl(info = "显示类目节点,后端angular显示内容")
 	@RequestMapping(value = "/ctCategroy/queryCategoryTreeList.do")
 	public R queryCategoryTreeList(String root) {
 		return contentCategoryService.queryCategoryTreeList(root);

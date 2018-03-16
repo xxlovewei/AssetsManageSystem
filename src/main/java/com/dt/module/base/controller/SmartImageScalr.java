@@ -20,9 +20,11 @@ public class SmartImageScalr {
 		this.source = source;
 		init(width, height, fitType, crop, this.source.getWidth(), this.source.getHeight());
 	}
+
 	public SmartImageScalr(int width, int height, String fitType, String crop, double origWidth, double origHeight) {
 		init(width, height, fitType, crop, origWidth, origHeight);
 	}
+
 	public void init(int width, int height, String fitType, String crop, double origWidth, double origHeight) {
 		this.width = width;
 		this.height = height;
@@ -64,6 +66,7 @@ public class SmartImageScalr {
 			}
 		}
 	}
+
 	public String getFileName(File srcFile, String format) {
 		String thumbFileName = srcFile.getName();
 		if (fitType == Scalr.Mode.FIT_TO_WIDTH) {
@@ -79,9 +82,11 @@ public class SmartImageScalr {
 		thumbFileName += "." + format;
 		return thumbFileName;
 	}
+
 	public BufferedImage scaleAndCrop() throws IOException {
 		return scaleAndCrop(this.source);
 	}
+
 	public BufferedImage scaleAndCrop(BufferedImage source) throws IOException {
 		this.source = source;
 		BufferedImage thumb = null;
@@ -119,6 +124,7 @@ public class SmartImageScalr {
 		}
 		return thumb;
 	}
+
 	private static Rectangle getCropRectangle(String crop, int width, int height, int imageWidth, int imageHeight) {
 		Rectangle r = new Rectangle(0, 0, width, height);
 		int dw = imageWidth - width;
@@ -169,6 +175,7 @@ public class SmartImageScalr {
 		}
 		return null;
 	}
+
 	public static void main(String[] args) throws Exception {
 		File file = new File("/Users/leefangjie/Downloads/thumbs/a.jpg");
 		BufferedImage bi = ImageIO.read(file);
@@ -202,7 +209,8 @@ public class SmartImageScalr {
 		// Scalr.OP_ANTIALIAS);
 		//
 		//
-		// BufferedImage cropimage = Scalr.crop(bi, 100, 100,500,500,Scalr.OP_ANTIALIAS);
+		// BufferedImage cropimage = Scalr.crop(bi, 100,
+		// 100,500,500,Scalr.OP_ANTIALIAS);
 		// ImageIO.write(cropimage, "png",new
 		// File("/Users/leefangjie/Downloads/thumbs/attachment_y.png"));
 		// BufferedImage th_1=scaleByWidth(bi,ImageType.JPG,100);

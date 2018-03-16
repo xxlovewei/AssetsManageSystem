@@ -8,7 +8,6 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-
 @ControllerAdvice
 public class MyResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
@@ -18,8 +17,8 @@ public class MyResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 	}
 
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
-			Class<? extends HttpMessageConverter<?>> selectedConverterType,
-			ServerHttpRequest request, ServerHttpResponse response) {	
+			Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
+			ServerHttpResponse response) {
 		return body;
 	}
 }

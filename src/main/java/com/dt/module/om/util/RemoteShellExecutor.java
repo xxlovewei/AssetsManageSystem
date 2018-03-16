@@ -29,7 +29,8 @@ public class RemoteShellExecutor {
 
 	private Session session;
 
-	//private static Logger _log = LoggerFactory.getLogger(RemoteShellExecutor.class);
+	// private static Logger _log =
+	// LoggerFactory.getLogger(RemoteShellExecutor.class);
 	/**
 	 * 构造函数
 	 * 
@@ -103,7 +104,6 @@ public class RemoteShellExecutor {
 
 				session.waitForCondition(ChannelCondition.EXIT_STATUS, TIME_OUT);
 
-				 
 				result.append(outStr);
 				result.append(outErr);
 				ret = session.getExitStatus();
@@ -150,12 +150,13 @@ public class RemoteShellExecutor {
 	}
 
 	public static void main(String args[]) throws Exception {
-		// RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125",
+		// RemoteShellExecutor executor = new
+		// RemoteShellExecutor("121.43.168.125",
 		// "root", "IBG1uFcrs", 60613);
-		// RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125",
+		// RemoteShellExecutor executor = new
+		// RemoteShellExecutor("121.43.168.125",
 		// "oracle", "oracle1234", 60613);
 		RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
-		 
 
 		executor.exec(" nohup sh /opt/tomcat/apache-tomcat-8.0.45/bin/startup.sh ;sleep 1 &").print();
 		executor.exec("ifconfig").print();

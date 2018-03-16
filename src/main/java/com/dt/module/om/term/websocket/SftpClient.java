@@ -164,8 +164,6 @@ public class SftpClient {
 		return (p / 8 / 8 / 8 / 8 % 8 == 04 ? "d" : "-") + temp[p / 8 / 8 % 8] + temp[p / 8 % 8] + temp[p % 8];
 	}
 
- 
-
 	public void uploadFile(File file, String fileName, Map<String, Object> session) throws IOException {
 
 		if (file == null)

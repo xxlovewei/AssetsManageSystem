@@ -29,7 +29,6 @@ import java.util.TreeSet;
 public class CollectionKit {
 
 	private CollectionKit() {
-		// 静态类不可实例化
 	}
 
 	/**

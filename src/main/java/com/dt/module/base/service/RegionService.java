@@ -20,9 +20,9 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取所有节点数据
 	 */
-	@Cacheable(value="users", key="#id")  
+	@Cacheable(value = "users", key = "#id")
 	public R queryRegion() {
-		
+
 		String sql = "select * from sys_region";
 		RcdSet rs = db.query(sql);
 		JSONArray res = new JSONArray();
@@ -35,6 +35,7 @@ public class RegionService extends BaseService {
 		}
 		return R.SUCCESS_OPER(res);
 	}
+
 	/**
 	 * @Description: 获取节点数据
 	 */
@@ -42,6 +43,7 @@ public class RegionService extends BaseService {
 		String sql = "select * from sys_region where parentid=?";
 		return R.SUCCESS_OPER(db.query(sql, id).toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description:获取省份数据
 	 */
@@ -52,6 +54,7 @@ public class RegionService extends BaseService {
 		res.setData(db.query(sql).toJsonArrayWithJsonObject());
 		return res;
 	}
+
 	/**
 	 * @Description:获取城市数据
 	 */
@@ -67,6 +70,7 @@ public class RegionService extends BaseService {
 		res.setData(db.query(sql).toJsonArrayWithJsonObject());
 		return res;
 	}
+
 	/**
 	 * @Description:获取区县数据
 	 */

@@ -47,7 +47,8 @@ public class SwingShell {
 
 	/*
 	 * NOTE: to get this feature to work, replace the "tilde" with your home
-	 * directory, at least my JVM does not understand it. Need to check the specs.
+	 * directory, at least my JVM does not understand it. Need to check the
+	 * specs.
 	 */
 
 	static final String knownHostPath = "~/.ssh/known_hosts";
@@ -74,8 +75,8 @@ public class SwingShell {
 	}
 
 	/**
-	 * This dialog displays a number of text lines and a text field. The text field
-	 * can either be plain text or a password field.
+	 * This dialog displays a number of text lines and a text field. The text
+	 * field can either be plain text or a password field.
 	 */
 	class EnterSomethingDialog extends JDialog {
 		private static final long serialVersionUID = 1L;
@@ -144,8 +145,8 @@ public class SwingShell {
 
 	/**
 	 * TerminalDialog is probably the worst terminal emulator ever written -
-	 * implementing a real vt100 is left as an exercise to the reader, i.e., to you
-	 * =)
+	 * implementing a real vt100 is left as an exercise to the reader, i.e., to
+	 * you =)
 	 *
 	 */
 	class TerminalDialog extends JDialog {
@@ -162,8 +163,8 @@ public class SwingShell {
 		int x, y;
 
 		/**
-		 * This thread consumes output from the remote server and displays it in the
-		 * terminal window.
+		 * This thread consumes output from the remote server and displays it in
+		 * the terminal window.
 		 *
 		 */
 		class RemoteConsumer extends Thread {
@@ -275,7 +276,9 @@ public class SwingShell {
 
 			logoffButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					/* Dispose the dialog, "setVisible(true)" method will return */
+					/*
+					 * Dispose the dialog, "setVisible(true)" method will return
+					 */
 					dispose();
 				}
 			});
@@ -287,9 +290,9 @@ public class SwingShell {
 			terminalArea.setBackground(Color.BLACK);
 			terminalArea.setForeground(Color.ORANGE);
 			/*
-			 * This is a hack. We cannot disable the caret, since setting editable to false
-			 * also changes the meaning of the TAB key - and I want to use it in bash. Again
-			 * - this is a simple DEMO terminal =)
+			 * This is a hack. We cannot disable the caret, since setting
+			 * editable to false also changes the meaning of the TAB key - and I
+			 * want to use it in bash. Again - this is a simple DEMO terminal =)
 			 */
 			terminalArea.setCaretColor(Color.BLACK);
 
@@ -298,7 +301,7 @@ public class SwingShell {
 					int c = e.getKeyChar();
 
 					try {
-					 
+
 						out.write(c);
 					} catch (IOException e1) {
 					}
@@ -326,8 +329,8 @@ public class SwingShell {
 	}
 
 	/**
-	 * This ServerHostKeyVerifier asks the user on how to proceed if a key cannot be
-	 * found in the in-memory database.
+	 * This ServerHostKeyVerifier asks the user on how to proceed if a key
+	 * cannot be found in the in-memory database.
 	 *
 	 */
 	class AdvancedVerifier implements ServerHostKeyVerifier {
@@ -399,8 +402,8 @@ public class SwingShell {
 	}
 
 	/**
-	 * The logic that one has to implement if "keyboard-interactive" autentication
-	 * shall be supported.
+	 * The logic that one has to implement if "keyboard-interactive"
+	 * autentication shall be supported.
 	 *
 	 */
 	class InteractiveLogic implements InteractiveCallback {
@@ -421,7 +424,10 @@ public class SwingShell {
 			String[] result = new String[numPrompts];
 
 			for (int i = 0; i < numPrompts; i++) {
-				/* Often, servers just send empty strings for "name" and "instruction" */
+				/*
+				 * Often, servers just send empty strings for "name" and
+				 * "instruction"
+				 */
 
 				String[] content = new String[] { lastError, name, instruction, prompt[i] };
 
@@ -446,9 +452,9 @@ public class SwingShell {
 		}
 
 		/*
-		 * We maintain a prompt counter - this enables the detection of situations where
-		 * the ssh server is signaling "authentication failed" even though it did not
-		 * send a single prompt.
+		 * We maintain a prompt counter - this enables the detection of
+		 * situations where the ssh server is signaling "authentication failed"
+		 * even though it did not send a single prompt.
 		 */
 
 		public int getPromptCount() {
@@ -459,8 +465,8 @@ public class SwingShell {
 	/**
 	 * The SSH-2 connection is established in this thread. If we would not use a
 	 * separate thread (e.g., put this code in the event handler of the "Login"
-	 * button) then the GUI would not be responsive (missing window repaints if you
-	 * move the window etc.)
+	 * button) then the GUI would not be responsive (missing window repaints if
+	 * you move the window etc.)
 	 */
 	class ConnectionThread extends Thread {
 		String hostname;
@@ -550,16 +556,24 @@ public class SwingShell {
 							break;
 
 						if (il.getPromptCount() == 0) {
-							// aha. the server announced that it supports "keyboard-interactive", but when
-							// we asked for it, it just denied the request without sending us any prompt.
-							// That happens with some server versions/configurations.
-							// We just disable the "keyboard-interactive" method and notify the user.
+							// aha. the server announced that it supports
+							// "keyboard-interactive", but when
+							// we asked for it, it just denied the request
+							// without sending us any prompt.
+							// That happens with some server
+							// versions/configurations.
+							// We just disable the "keyboard-interactive" method
+							// and notify the user.
 
 							lastError = "Keyboard-interactive does not work.";
 
-							enableKeyboardInteractive = false; // do not try this again
+							enableKeyboardInteractive = false; // do not try
+																// this again
 						} else {
-							lastError = "Keyboard-interactive auth failed."; // try again, if possible
+							lastError = "Keyboard-interactive auth failed."; // try
+																				// again,
+																				// if
+																				// possible
 						}
 
 						continue;
@@ -579,7 +593,10 @@ public class SwingShell {
 						if (res == true)
 							break;
 
-						lastError = "Password authentication failed."; // try again, if possible
+						lastError = "Password authentication failed."; // try
+																		// again,
+																		// if
+																		// possible
 
 						continue;
 					}
@@ -622,7 +639,8 @@ public class SwingShell {
 
 			/*
 			 * 
-			 * CLOSE THE LOGIN FRAME - APPLICATION WILL BE EXITED (no more frames)
+			 * CLOSE THE LOGIN FRAME - APPLICATION WILL BE EXITED (no more
+			 * frames)
 			 * 
 			 */
 

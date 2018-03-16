@@ -9,24 +9,19 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-public class DateUtil
-{
- 
-	public static long getSystemMilles()
-	{
+public class DateUtil {
+
+	public static long getSystemMilles() {
 		return System.currentTimeMillis();
 	}
 
-	 
-	public static String getFormatTime()
-	{
+	public static String getFormatTime() {
 		String pattern = "yyyy-MM-dd HH:mm:ss";
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
 		return format.format(new Date());
 	}
 
-	private static SimpleDateFormat formatter = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss");
+	private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public static long MICRO_SECOND = 1;
 	public static long SECOND = 1000;
@@ -35,139 +30,115 @@ public class DateUtil
 	public static long DAY = 86400000;
 	public static long WEEK = 604800000;
 
-	 
-	public static String format(Date date, String format)
-	{
+	public static String format(Date date, String format) {
 		String mDateTime;
-		try
-		{
+		try {
 			formatter.applyPattern(format);
 			mDateTime = formatter.format(date);
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			formatter.applyPattern("yyyy-MM-dd HH:mm:ss");
 			mDateTime = formatter.format(date);
 		}
 		return mDateTime;
 	}
-	public static String format(Date date)
-	{
-		if(date==null){
+
+	public static String format(Date date) {
+		if (date == null) {
 			return "";
 		}
-		return format(date,"yyyy-MM-dd");
+		return format(date, "yyyy-MM-dd");
 	}
-	
- 
- 
-	public static String getCurrTime(String format)
-	{
+
+	public static String getCurrTime(String format) {
 		Calendar cal = Calendar.getInstance();
 		return format(cal.getTime(), format);
 	}
 
-	public static int getCurrentYear()
-	{
+	public static int getCurrentYear() {
 
 		return Integer.parseInt(getCurrTime("yyyy"));
 
 	}
 
-	public static int getCurrentMonth()
-	{
+	public static int getCurrentMonth() {
 
 		return Integer.parseInt(getCurrTime("MM"));
 
 	}
-	
-	public static int getYearPart(Date dt)
-	{
+
+	public static int getYearPart(Date dt) {
 		return Integer.parseInt(format(dt, "yyyy"));
 	}
-	public static int getMonthPart(Date dt)
-	{
+
+	public static int getMonthPart(Date dt) {
 		return Integer.parseInt(format(dt, "MM"));
 	}
-	public static int getDayPart(Date dt)
-	{
+
+	public static int getDayPart(Date dt) {
 		return Integer.parseInt(format(dt, "dd"));
 	}
-	public static int getHourPart(Date dt)
-	{
+
+	public static int getHourPart(Date dt) {
 		return Integer.parseInt(format(dt, "HH"));
 	}
-	public static int getMinutePart(Date dt)
-	{
+
+	public static int getMinutePart(Date dt) {
 		return Integer.parseInt(format(dt, "mm"));
 	}
-	public static int getSecondPart(Date dt)
-	{
+
+	public static int getSecondPart(Date dt) {
 		return Integer.parseInt(format(dt, "ss"));
 	}
 
-	 
-	public static Date getSameDayByWeek(Date date, int w)
-	{
+	public static Date getSameDayByWeek(Date date, int w) {
 		long myTime = date.getTime() + WEEK * w;
 		date.setTime(myTime);
 		return date;
 	}
 
-	 
- 
-	public static Date getSameDateByYear(Date date, int y)
-	{
-		Calendar cal=Calendar.getInstance();
+	public static Date getSameDateByYear(Date date, int y) {
+		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		int year=cal.get(Calendar.YEAR);
-		year=year+y;
+		int year = cal.get(Calendar.YEAR);
+		year = year + y;
 		cal.set(Calendar.YEAR, year);
 		return cal.getTime();
 	}
 
- 
-	public static String getChineseWeek(Calendar date)
-	{
-		final String dayNames[] =
-		{ "周日", "周一", "周二", "周三", "周四️", "周五", "周六" };
+	public static String getChineseWeek(Calendar date) {
+		final String dayNames[] = { "周日", "周一", "周二", "周三", "周四️", "周五", "周六" };
 		int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
 		System.out.println(dayNames[dayOfWeek - 1]);
 		return dayNames[dayOfWeek - 1];
 
 	}
-	public static Date parse(String dateStr,String fmt)
-	{
+
+	public static Date parse(String dateStr, String fmt) {
 		SimpleDateFormat sdf = new SimpleDateFormat(fmt);
 		Date dt = null;
-		try
-		{
+		try {
 			dt = sdf.parse(dateStr);
-		} catch (Exception e)
-		{
-			
+		} catch (Exception e) {
+
 		}
 		return dt;
 	}
-	public static Date parse(String dateStr)
-	{
-		
-		Date dt = parse(dateStr,"yyyy-MM-dd HH:mm:ss");
-		if(dt==null)
-		{
-			dt = parse(dateStr,"yyyy/MM/dd HH:mm:ss");
+
+	public static Date parse(String dateStr) {
+
+		Date dt = parse(dateStr, "yyyy-MM-dd HH:mm:ss");
+		if (dt == null) {
+			dt = parse(dateStr, "yyyy/MM/dd HH:mm:ss");
 		}
-		
-		if(dt==null)
-		{
-			dt = parse(dateStr,"yyyy-MM-dd");
+
+		if (dt == null) {
+			dt = parse(dateStr, "yyyy-MM-dd");
 		}
-		
-		if(dt==null)
-		{
-			dt = parse(dateStr,"yyyy/MM/dd");
+
+		if (dt == null) {
+			dt = parse(dateStr, "yyyy/MM/dd");
 		}
-		
-		 
+
 		return dt;
 	}
 
@@ -186,7 +157,6 @@ public class DateUtil
 		return cal.getTime();
 	}
 
-
 	/**
 	 * 获取指定日期当月的第一天
 	 * 
@@ -199,7 +169,6 @@ public class DateUtil
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		return cal.getTime();
 	}
-	
 
 	/**
 	 * 是否是闰年
@@ -212,7 +181,7 @@ public class DateUtil
 		GregorianCalendar calendar = new GregorianCalendar();
 		return calendar.isLeapYear(year);
 	}
-	
+
 	/**
 	 * 获取指定日期之前或者之后多少天的日期
 	 * 
@@ -229,163 +198,150 @@ public class DateUtil
 		return c.getTime();
 	}
 
-	
-	
-	public static void main(String[] args)
-	{
-		//Date d = getSameDayByWeek(new Date(), -2);
+	public static void main(String[] args) {
+		// Date d = getSameDayByWeek(new Date(), -2);
 
 		String t = getChineseWeek(Calendar.getInstance());
 		System.out.println(t);
 		// format(d,
 		// "YYYY-MM-DD");
 
-		//System.out.println(getTwoYear());
-		
-		
+		// System.out.println(getTwoYear());
+
 		System.out.println(getSameDateByYear(new Date(), -1));
-		
-		
-		/*Date d=new Date();
-		Date d2=DateUtil.addDay(d, -30);
-		System.out.println(DateUtil.format(d,"yyyy-M-d"));
-		System.out.println(DateUtil.format(d2,"yyyy-M-d"));*/
+
+		/*
+		 * Date d=new Date(); Date d2=DateUtil.addDay(d, -30);
+		 * System.out.println(DateUtil.format(d,"yyyy-M-d"));
+		 * System.out.println(DateUtil.format(d2,"yyyy-M-d"));
+		 */
 	}
-	
+
 	public static String formatTime(Timestamp time) {
 		if (time == null) {
 			return "";
 		}
-		return time.toString().substring(0,11);
+		return time.toString().substring(0, 11);
 	}
+
 	/**
-	 * ��ʽ��2008-10-08 �����ʽ��ʱ��?OCT, 08. 2008 
+	 * ��ʽ��2008-10-08 �����ʽ��ʱ��?OCT, 08. 2008
+	 * 
 	 * @return
 	 */
 	public static String formateDate(String date) {
-		if (date.length()!=10) {
+		if (date.length() != 10) {
 			return "";
 		}
 
-		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM , Locale.US);
-		String year = date.substring(0,4);
-		String month=date.substring(5,7);
-		String dayOFmonth=date.substring(8);
+		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US);
+		String year = date.substring(0, 4);
+		String month = date.substring(5, 7);
+		String dayOFmonth = date.substring(8);
 		Calendar cal = Calendar.getInstance();
-		cal.set(Integer.parseInt(year),Integer.parseInt(month)-1,Integer.parseInt(dayOFmonth) );
+		cal.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(dayOFmonth));
 		return df.format(cal.getTime());
 
 	}
+
 	/**
-	 * ��ʽ��2008-10-08 �����ʽ��ʱ��?OCT, 08. 2008 
+	 * ��ʽ��2008-10-08 �����ʽ��ʱ��?OCT, 08. 2008
+	 * 
 	 * @return
 	 */
 	public static String formateDate(Date date) {
 		return formateDate(format(date));
 
 	}
+
 	/**
 	 * ��ȡ��ݵ���λ��?
+	 * 
 	 * @return
 	 */
 	public static String getTwoYear() {
 		Calendar rightNow = Calendar.getInstance();
-		return (rightNow.get(Calendar.YEAR)+"").substring(2, 4);
+		return (rightNow.get(Calendar.YEAR) + "").substring(2, 4);
 
 	}
+
 	/**
 	 * ��õ�ǰʱ��?
-	 * */
-	public static Date getUtilDateNow()
-	{
+	 */
+	public static Date getUtilDateNow() {
 		return new Date();
 	}
-	
+
 	/**
 	 * ��õ�ǰʱ��?
-	 * */
-	public static java.sql.Date getSqlDateNow()
-	{
+	 */
+	public static java.sql.Date getSqlDateNow() {
 		return new java.sql.Date(getUtilDateNow().getTime());
 	}
-	
+
 	/**
 	 * ��õ�ǰʱ��?
-	 * */
-	public static Timestamp getTimestampNow()
-	{
+	 */
+	public static Timestamp getTimestampNow() {
 		return new Timestamp(getUtilDateNow().getTime());
 	}
-	
-	
-	/**
-	 * �������ǰ����������?
-	 * */
-	
-	public static Date addDay(String datestr,String datefmt, int day) {  
-        SimpleDateFormat df = new SimpleDateFormat(datefmt);  
-        Date olddate = null;  
-        try {  
-            df.setLenient(false);  
-            olddate = new Date(df.parse(datestr).getTime());  
-        } catch (ParseException e) {  
-            throw new RuntimeException("异常");  
-        }  
-        
-        return addDay(olddate,day);  
-    }
-	
-	
 
 	/**
 	 * �������ǰ����������?
-	 * */
-	public static Date addDay(Date olddate,int day)
-	{
-		Calendar cal = new GregorianCalendar();  
-        cal.setTime(olddate);  
-        int Year = cal.get(Calendar.YEAR);  
-        int Month = cal.get(Calendar.MONTH);  
-        int Day = cal.get(Calendar.DAY_OF_MONTH);  
-  
-        int NewDay = Day + day;  
-        cal.set(Calendar.YEAR, Year);  
-        cal.set(Calendar.MONTH, Month);  
-        cal.set(Calendar.DAY_OF_MONTH, NewDay);  
-  
-        return new Date(cal.getTimeInMillis());
+	 */
+
+	public static Date addDay(String datestr, String datefmt, int day) {
+		SimpleDateFormat df = new SimpleDateFormat(datefmt);
+		Date olddate = null;
+		try {
+			df.setLenient(false);
+			olddate = new Date(df.parse(datestr).getTime());
+		} catch (ParseException e) {
+			throw new RuntimeException("异常");
+		}
+
+		return addDay(olddate, day);
 	}
-	
-	 
-	
-	
-	
-	
-	public static Date addSecond(Date olddate,int sec)
-	{
-		long m=olddate.getTime();
-		m+=sec*1000;
+
+	/**
+	 * �������ǰ����������?
+	 */
+	public static Date addDay(Date olddate, int day) {
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(olddate);
+		int Year = cal.get(Calendar.YEAR);
+		int Month = cal.get(Calendar.MONTH);
+		int Day = cal.get(Calendar.DAY_OF_MONTH);
+
+		int NewDay = Day + day;
+		cal.set(Calendar.YEAR, Year);
+		cal.set(Calendar.MONTH, Month);
+		cal.set(Calendar.DAY_OF_MONTH, NewDay);
+
+		return new Date(cal.getTimeInMillis());
+	}
+
+	public static Date addSecond(Date olddate, int sec) {
+		long m = olddate.getTime();
+		m += sec * 1000;
 		return new Date(m);
 	}
-	
+
 	/**
 	 * �ж��Ƿ���ͬһ��
-	 * */
-	public static boolean isSameDay(Date d1,Date d2)
-	{
-		Calendar c1=Calendar.getInstance();
+	 */
+	public static boolean isSameDay(Date d1, Date d2) {
+		Calendar c1 = Calendar.getInstance();
 		c1.setTime(d1);
-		
 
-		Calendar c2=Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
 		c2.setTime(d2);
-		
-		return c1.get(Calendar.YEAR)==c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH)==c2.get(Calendar.MONTH) && c1.get(Calendar.DATE)==c2.get(Calendar.DATE);
-		
-		
+
+		return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH)
+				&& c1.get(Calendar.DATE) == c2.get(Calendar.DATE);
+
 	}
-	
-	
+
 	public static boolean isBefore(Date date1, Date date2) {
 		Calendar c1 = Calendar.getInstance();
 		c1.setTime(date1);
@@ -398,14 +354,20 @@ public class DateUtil
 
 		return false;
 	}
+
 	public static enum Type {
 		Year, Month, Week, Day, Hour, Minutes, Seconds;
 	}
+
 	/**
 	 * 获取两个日期的时间差，可以指定年，月，周，日，时，分，秒
-	 * @param date1 第一个日期
-	 * @param date2 第二个日期<font color="red">此日期必须在date1之后</font>
-	 * @param type DateUtils.Type.X的枚举类型
+	 * 
+	 * @param date1
+	 *            第一个日期
+	 * @param date2
+	 *            第二个日期<font color="red">此日期必须在date1之后</font>
+	 * @param type
+	 *            DateUtils.Type.X的枚举类型
 	 * @return long值
 	 * @throws Exception
 	 */
@@ -414,7 +376,7 @@ public class DateUtil
 		if (!isBefore(date1, date2))
 			throw new Exception("第二个日期必须在第一个日期之后");
 
-		//long d = Math.abs(date1.getTime() - date2.getTime());
+		// long d = Math.abs(date1.getTime() - date2.getTime());
 		switch (type) {
 		case Year: {
 			Calendar cal1 = Calendar.getInstance();
@@ -457,7 +419,7 @@ public class DateUtil
 					}
 				}
 			}
-			return (long)yd;
+			return (long) yd;
 		}
 		case Month: {
 			// 获取年份差
@@ -497,7 +459,7 @@ public class DateUtil
 					}
 				}
 			}
-			return (long)md + year * 12;
+			return (long) md + year * 12;
 		}
 		case Week: {
 			return getDiff(date1, date2, Type.Day) / 7;
@@ -526,6 +488,5 @@ public class DateUtil
 			throw new Exception("请指定要获取的时间差的类型：年，月，天，周，时，分，秒");
 		}
 	}
-	
 
 }

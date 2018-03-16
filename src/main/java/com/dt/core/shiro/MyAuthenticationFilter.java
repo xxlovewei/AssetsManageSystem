@@ -4,76 +4,17 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
-import org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.core.tool.util.support.StrKit;
 
-/**
- * Requires the requesting user to be authenticated for the request to continue,
- * and if they are not, forces the user to login via by redirecting them to the
- * {@link #setLoginUrl(String) loginUrl} you configure.
- * <p/>
- * <p>
- * This filter constructs a {@link UsernamePasswordToken UsernamePasswordToken}
- * with the values found in {@link #setUsernameParam(String) username},
- * {@link #setPasswordParam(String) password}, and
- * {@link #setRememberMeParam(String) rememberMe} request parameters. It then
- * calls
- * {@link org.apache.shiro.subject.Subject#login(org.apache.shiro.authc.AuthenticationToken)
- * Subject.login(usernamePasswordToken)}, effectively automatically performing a
- * login attempt. Note that the login attempt will only occur when the
- * {@link #isLoginSubmission(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
- * isLoginSubmission(request,response)} is <code>true</code>, which by default
- * occurs when the request is for the {@link #setLoginUrl(String) loginUrl} and
- * is a POST request.
- * <p/>
- * <p>
- * If the login attempt fails, the resulting
- * <code>AuthenticationException</code> fully qualified class name will be set
- * as a request attribute under the {@link #setFailureKeyAttribute(String)
- * failureKeyAttribute} key. This FQCN can be used as an i18n key or lookup
- * mechanism to explain to the user why their login attempt failed (e.g. no
- * account, incorrect password, etc).
- * <p/>
- * <p>
- * If you would prefer to handle the authentication validation and login in your
- * own code, consider using the {@link PassThruAuthenticationFilter} instead,
- * which allows requests to the {@link #loginUrl} to pass through to your
- * application's code directly.
- * 
- * @see PassThruAuthenticationFilter
- * @since 0.9
- */
 public class MyAuthenticationFilter extends AuthenticatingFilter {
 	// TODO - complete JavaDoc
 	public static final String DEFAULT_ERROR_KEY_ATTRIBUTE_NAME = "shiroLoginFailure";

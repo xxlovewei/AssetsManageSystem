@@ -23,8 +23,6 @@ public class DBHolder {
 	public String getUUID() {
 		return chief.getUUID();
 	}
-	
-	
 
 	public DataSource getDataSource() {
 		return chief.getDataSource();
@@ -162,57 +160,55 @@ public class DBHolder {
 		}
 		return ret;
 	}
-	
-	public RcdSet queryPage(String sql,int pageSize,int pageIndex){
-		RcdSet ret = chief.queryPage(sql, pageSize,pageIndex);
+
+	public RcdSet queryPage(String sql, int pageSize, int pageIndex) {
+		RcdSet ret = chief.queryPage(sql, pageSize, pageIndex);
 		for (SpringDAO dao : minors) {
-			dao.queryPage(sql, pageSize,pageIndex);
+			dao.queryPage(sql, pageSize, pageIndex);
 		}
 		return ret;
 	}
-	
-	public RcdSet query(String sql){
+
+	public RcdSet query(String sql) {
 		RcdSet ret = chief.query(sql);
 		for (SpringDAO dao : minors) {
 			dao.query(sql);
 		}
 		return ret;
 	}
-	
-	public RcdSet query(SQL sql){
+
+	public RcdSet query(SQL sql) {
 		RcdSet ret = chief.query(sql);
 		for (SpringDAO dao : minors) {
 			dao.query(sql);
 		}
 		return ret;
 	}
-	
-	public RcdSet queryPage(SQL sql,int pageSize,int pageIndex){
-		RcdSet ret = chief.queryPage(sql,pageSize,pageIndex);
+
+	public RcdSet queryPage(SQL sql, int pageSize, int pageIndex) {
+		RcdSet ret = chief.queryPage(sql, pageSize, pageIndex);
 		for (SpringDAO dao : minors) {
-			dao.queryPage(sql,pageSize,pageIndex);
+			dao.queryPage(sql, pageSize, pageIndex);
 		}
 		return ret;
 	}
-	
-	public RcdSet queryPage(String sql, int pageSize, int pageIndex,
-			Object... params)
-	{
-		RcdSet ret = chief.queryPage(sql,pageSize,pageIndex,params);
+
+	public RcdSet queryPage(String sql, int pageSize, int pageIndex, Object... params) {
+		RcdSet ret = chief.queryPage(sql, pageSize, pageIndex, params);
 		for (SpringDAO dao : minors) {
-			dao.queryPage(sql,pageSize,pageIndex,params);
+			dao.queryPage(sql, pageSize, pageIndex, params);
 		}
 		return ret;
 	}
-	
-	public RcdSet query(String sql,Object... params){
-		RcdSet ret = chief.query(sql,params);
+
+	public RcdSet query(String sql, Object... params) {
+		RcdSet ret = chief.query(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.query(sql,params);
+			dao.query(sql, params);
 		}
 		return ret;
 	}
-	
+
 	public Rcd uniqueRecord(SQL sql) {
 		Rcd ret = chief.uniqueRecord(sql);
 		for (SpringDAO dao : minors) {
@@ -220,287 +216,255 @@ public class DBHolder {
 		}
 		return ret;
 	}
-	
-	public Rcd uniqueRecord(String sql, Object... params)
-	{
-		Rcd ret = chief.uniqueRecord(sql,params);
+
+	public Rcd uniqueRecord(String sql, Object... params) {
+		Rcd ret = chief.uniqueRecord(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueRecord(sql,params);
+			dao.uniqueRecord(sql, params);
 		}
 		return ret;
 	}
-	
-	public Rcd uniqueRecord(String sql, Map<String,Object> params)
-	{
-		Rcd ret = chief.uniqueRecord(sql,params);
+
+	public Rcd uniqueRecord(String sql, Map<String, Object> params) {
+		Rcd ret = chief.uniqueRecord(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueRecord(sql,params);
+			dao.uniqueRecord(sql, params);
 		}
 		return ret;
 	}
-	
-	public Object uniqueObject(String sql, HashMap<String, Object> params)
-	{
-		Object ret = chief.uniqueObject(sql,params);
+
+	public Object uniqueObject(String sql, HashMap<String, Object> params) {
+		Object ret = chief.uniqueObject(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueObject(sql,params);
+			dao.uniqueObject(sql, params);
 		}
 		return ret;
 	}
-	
-	public Object uniqueObject(String sql, Object... params)
-	{
-		Object ret = chief.uniqueObject(sql,params);
+
+	public Object uniqueObject(String sql, Object... params) {
+		Object ret = chief.uniqueObject(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueObject(sql,params);
+			dao.uniqueObject(sql, params);
 		}
 		return ret;
 	}
-	
-	public Object uniqueObject(String sql)
-	{
+
+	public Object uniqueObject(String sql) {
 		Object ret = chief.uniqueObject(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueObject(sql);
 		}
 		return ret;
 	}
-	
-	public Object uniqueObject(SQL sql)
-	{
+
+	public Object uniqueObject(SQL sql) {
 		Object ret = chief.uniqueObject(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueObject(sql);
 		}
 		return ret;
 	}
-	
-	public Integer uniqueInteger(String sql)
-	{
+
+	public Integer uniqueInteger(String sql) {
 		Integer ret = chief.uniqueInteger(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueInteger(sql);
 		}
 		return ret;
 	}
-	
-	public Integer uniqueInteger(SQL sql)
-	{
+
+	public Integer uniqueInteger(SQL sql) {
 		Integer ret = chief.uniqueInteger(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueInteger(sql);
 		}
 		return ret;
 	}
-	
-	public Integer uniqueInteger(String sql, HashMap<String, Object> params)
-	{
-		Integer ret = chief.uniqueInteger(sql,params);
+
+	public Integer uniqueInteger(String sql, HashMap<String, Object> params) {
+		Integer ret = chief.uniqueInteger(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueInteger(sql,params);
+			dao.uniqueInteger(sql, params);
 		}
 		return ret;
 	}
-	
-	public Integer uniqueInteger(String sql, Object... params)
-	{
-		Integer ret = chief.uniqueInteger(sql,params);
+
+	public Integer uniqueInteger(String sql, Object... params) {
+		Integer ret = chief.uniqueInteger(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueInteger(sql,params);
+			dao.uniqueInteger(sql, params);
 		}
 		return ret;
 	}
-	
-	public Long uniqueLong(String sql)
-	{
+
+	public Long uniqueLong(String sql) {
 		Long ret = chief.uniqueLong(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueLong(sql);
 		}
 		return ret;
 	}
-	
-	public Long uniqueLong(SQL sql)
-	{
+
+	public Long uniqueLong(SQL sql) {
 		Long ret = chief.uniqueLong(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueLong(sql);
 		}
 		return ret;
 	}
-	
-	public Long uniqueLong(String sql, HashMap<String, Object> params)
-	{
-		Long ret = chief.uniqueLong(sql,params);
+
+	public Long uniqueLong(String sql, HashMap<String, Object> params) {
+		Long ret = chief.uniqueLong(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueLong(sql,params);
+			dao.uniqueLong(sql, params);
 		}
 		return ret;
 	}
-	
-	public Long uniqueLong(String sql, Object... params)
-	{
-		Long ret = chief.uniqueLong(sql,params);
+
+	public Long uniqueLong(String sql, Object... params) {
+		Long ret = chief.uniqueLong(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueLong(sql,params);
+			dao.uniqueLong(sql, params);
 		}
 		return ret;
 	}
-	
-	public BigDecimal uniqueDecimal(String sql)
-	{
+
+	public BigDecimal uniqueDecimal(String sql) {
 		BigDecimal ret = chief.uniqueDecimal(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueDecimal(sql);
 		}
 		return ret;
 	}
-	
-	public BigDecimal uniqueDecimal(SQL sql)
-	{
+
+	public BigDecimal uniqueDecimal(SQL sql) {
 		BigDecimal ret = chief.uniqueDecimal(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueDecimal(sql);
 		}
 		return ret;
 	}
-	
-	public BigDecimal uniqueDecimal(String sql, HashMap<String, Object> params)
-	{
-		BigDecimal ret = chief.uniqueDecimal(sql,params);
+
+	public BigDecimal uniqueDecimal(String sql, HashMap<String, Object> params) {
+		BigDecimal ret = chief.uniqueDecimal(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueDecimal(sql,params);
+			dao.uniqueDecimal(sql, params);
 		}
 		return ret;
 	}
-	
-	public BigDecimal uniqueDecimal(String sql, Object... params)
-	{
-		BigDecimal ret = chief.uniqueDecimal(sql,params);
+
+	public BigDecimal uniqueDecimal(String sql, Object... params) {
+		BigDecimal ret = chief.uniqueDecimal(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueDecimal(sql,params);
+			dao.uniqueDecimal(sql, params);
 		}
 		return ret;
 	}
-	
-	public Date uniqueDate(String sql)
-	{
+
+	public Date uniqueDate(String sql) {
 		Date ret = chief.uniqueDate(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueDate(sql);
 		}
 		return ret;
 	}
-	
-	public Date uniqueDate(SQL sql)
-	{
+
+	public Date uniqueDate(SQL sql) {
 		Date ret = chief.uniqueDate(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueDate(sql);
 		}
 		return ret;
 	}
-	
-	public Date uniqueDate(String sql, HashMap<String, Object> params)
-	{
-		Date ret = chief.uniqueDate(sql,params);
+
+	public Date uniqueDate(String sql, HashMap<String, Object> params) {
+		Date ret = chief.uniqueDate(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueDate(sql,params);
+			dao.uniqueDate(sql, params);
 		}
 		return ret;
 	}
-	
-	public Date uniqueDate(String sql, Object... params)
-	{
-		Date ret = chief.uniqueDate(sql,params);
+
+	public Date uniqueDate(String sql, Object... params) {
+		Date ret = chief.uniqueDate(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueDate(sql,params);
+			dao.uniqueDate(sql, params);
 		}
 		return ret;
 	}
-	
-	public String uniqueString(SQL sql)
-	{
+
+	public String uniqueString(SQL sql) {
 		String ret = chief.uniqueString(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueString(sql);
 		}
 		return ret;
 	}
-	
-	public String uniqueString(String sql, HashMap<String, Object> params)
-	{
-		String ret = chief.uniqueString(sql,params);
+
+	public String uniqueString(String sql, HashMap<String, Object> params) {
+		String ret = chief.uniqueString(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueString(sql,params);
+			dao.uniqueString(sql, params);
 		}
 		return ret;
 	}
-	
-	public String uniqueString(String sql, Object... params)
-	{
-		String ret = chief.uniqueString(sql,params);
+
+	public String uniqueString(String sql, Object... params) {
+		String ret = chief.uniqueString(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueString(sql,params);
+			dao.uniqueString(sql, params);
 		}
 		return ret;
 	}
-	
-	public Boolean uniqueBoolean(String sql, Object... params)
-	{
-		Boolean ret = chief.uniqueBoolean(sql,params);
+
+	public Boolean uniqueBoolean(String sql, Object... params) {
+		Boolean ret = chief.uniqueBoolean(sql, params);
 		for (SpringDAO dao : minors) {
-			dao.uniqueBoolean(sql,params);
+			dao.uniqueBoolean(sql, params);
 		}
 		return ret;
 	}
-	
-	public Boolean uniqueBoolean(SQL sql)
-	{
+
+	public Boolean uniqueBoolean(SQL sql) {
 		Boolean ret = chief.uniqueBoolean(sql);
 		for (SpringDAO dao : minors) {
 			dao.uniqueBoolean(sql);
 		}
 		return ret;
 	}
-	
-	public Date getBDDate(){
+
+	public Date getBDDate() {
 		Date ret = chief.getBDDate();
 		for (SpringDAO dao : minors) {
 			dao.getBDDate();
 		}
 		return ret;
 	}
-	
-	public Date calcBDDate()
-	{
+
+	public Date calcBDDate() {
 		Date ret = chief.calcBDDate();
 		for (SpringDAO dao : minors) {
 			dao.calcBDDate();
 		}
 		return ret;
 	}
-	
-	public SE se(String sql,HashMap<String,Object> ps,Object... pss)
-	{
-		SE ret = chief.se(sql,ps,pss);
+
+	public SE se(String sql, HashMap<String, Object> ps, Object... pss) {
+		SE ret = chief.se(sql, ps, pss);
 		for (SpringDAO dao : minors) {
-			dao.se(sql,ps,pss);
+			dao.se(sql, ps, pss);
 		}
 		return ret;
 	}
-	
-	public SE se(String sql,Object... pss)
-	{
-		SE ret = chief.se(sql,pss);
+
+	public SE se(String sql, Object... pss) {
+		SE ret = chief.se(sql, pss);
 		for (SpringDAO dao : minors) {
-			dao.se(sql,pss);
+			dao.se(sql, pss);
 		}
 		return ret;
 	}
-	
-	
-	
+
 	public String joinSQLs(String[] sqls) {
 		String ret = chief.joinSQLs(sqls);
 		for (SpringDAO dao : minors) {
@@ -508,28 +472,25 @@ public class DBHolder {
 		}
 		return ret;
 	}
-	
-	public boolean executeBlock(Block block)
-	{
+
+	public boolean executeBlock(Block block) {
 		boolean ret = chief.executeBlock(block);
 		for (SpringDAO dao : minors) {
 			dao.executeBlock(block);
 		}
 		return ret;
 	}
-	
-	public boolean createSequence(String id,SequenceType type,int len)
-	{
-		boolean ret=chief.createSequence(id,type,len);
+
+	public boolean createSequence(String id, SequenceType type, int len) {
+		boolean ret = chief.createSequence(id, type, len);
 		for (SpringDAO dao : minors) {
-			dao.createSequence(id,type,len);
+			dao.createSequence(id, type, len);
 		}
 		return ret;
 	}
-	
-	public String getNextSequenceValue(String id)
-	{
-		String ret=chief.getNextSequenceValue(id);
+
+	public String getNextSequenceValue(String id) {
+		String ret = chief.getNextSequenceValue(id);
 		for (SpringDAO dao : minors) {
 			dao.getNextSequenceValue(id);
 		}

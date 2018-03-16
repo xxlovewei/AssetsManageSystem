@@ -29,8 +29,6 @@ public class NodeService extends BaseService {
 	public static String NODE_SMALL_TYPE_HOST_LINUX = "linux";
 	public static String NODE_SMALL_TYPE_HOST_WINDOW = "window";
 	public static String NODE_SMALL_TYPE_HOST_AIX = "aix";
- 
- 
 
 	public R addNode(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("om_node");
@@ -95,8 +93,7 @@ public class NodeService extends BaseService {
 	}
 
 	public R queryNodeById(String id) {
-		return R
-				.SUCCESS_OPER(db.uniqueRecord("select * from om_node where deleted='N' and id=?", id).toJsonObject());
+		return R.SUCCESS_OPER(db.uniqueRecord("select * from om_node where deleted='N' and id=?", id).toJsonObject());
 	}
 
 	public R queryNodeHost(TypedHashMap<String, Object> ps) {
@@ -104,8 +101,6 @@ public class NodeService extends BaseService {
 		ps.put("type", NODE_TYPE_HOST);
 		return queryNode(ps);
 	}
-
-	 
 
 	public R queryNode(TypedHashMap<String, Object> ps) {
 		String sql = "select * from om_node where deleted='N' ";
@@ -148,13 +143,11 @@ public class NodeService extends BaseService {
 		if (rs == null) {
 			return R.FAILURE("无该节点");
 		}
-		
- 
+
 		String logintype = rs.getString("logintype");
 		if (ToolUtil.isEmpty(logintype)) {
 			return R.FAILURE("无登录方式");
 		}
-
 
 		if (ToolUtil.isEmpty(cmd) || ToolUtil.isEmpty(cmd.trim())) {
 			return R.FAILURE("无执行命令");
@@ -178,19 +171,19 @@ public class NodeService extends BaseService {
 		if (ToolUtil.isEmpty(pwd)) {
 			return R.FAILURE("无密码");
 		}
-		
-		if(logintype.equals(LOGIN_TYPE_SSH)) {
+
+		if (logintype.equals(LOGIN_TYPE_SSH)) {
 			RemoteShellExecutor executor = new RemoteShellExecutor(ip, username, pwd, ConvertUtil.toInt(port));
-			RemoteShellResult shell_rs=executor.exec(cmd);
-			if(shell_rs.code==0) {
+			RemoteShellResult shell_rs = executor.exec(cmd);
+			if (shell_rs.code == 0) {
 				return R.SUCCESS("成功", shell_rs.result);
-			}else {
+			} else {
 				return R.FAILURE(shell_rs.result.toString());
 			}
-			
+
 		}
 		return R.FAILURE("请选择ssh登录,当前仅支持ssh");
-		
+
 	}
 
 }

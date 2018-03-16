@@ -3,15 +3,14 @@ package com.dt.core.tool.enums;
 import java.util.HashMap;
 import java.util.Map;
 
- 
 public enum BasicType {
 	BYTE, SHORT, INT, INTEGER, LONG, DOUBLE, FLOAT, BOOLEAN, CHAR, CHARACTER, STRING;
-	
+
 	/** 原始类型为Key，包装类型为Value，例如： int.class -> Integer.class. */
 	public static final Map<Class<?>, Class<?>> wrapperPrimitiveMap = new HashMap<Class<?>, Class<?>>(8);
 	/** 包装类型为Key，原始类型为Value，例如： Integer.class -> int.class. */
 	public static final Map<Class<?>, Class<?>> primitiveWrapperMap = new HashMap<Class<?>, Class<?>>(8);
-	
+
 	static {
 		wrapperPrimitiveMap.put(Boolean.class, boolean.class);
 		wrapperPrimitiveMap.put(Byte.class, byte.class);

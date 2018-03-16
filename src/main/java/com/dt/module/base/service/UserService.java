@@ -39,7 +39,6 @@ public class UserService extends BaseService {
 	public static String USER_TYPE_CRM = "crm";
 	// APP
 	public static String USER_TYPE_APP = "app";
- 
 
 	private static HashMap<String, JSONArray> userMenus = new HashMap<String, JSONArray>();
 	private static Logger _log = LoggerFactory.getLogger(UserService.class);
@@ -232,9 +231,10 @@ public class UserService extends BaseService {
 	@SuppressWarnings("unchecked")
 	public List<String> findPermissionsByRoleId(String roleId) {
 		_log.info("获取角色权限:" + roleId);
-		return db.query(
-				"select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
-				roleId).toList("ct");
+		return db
+				.query("select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
+						roleId)
+				.toList("ct");
 	}
 
 	/**
@@ -508,9 +508,9 @@ public class UserService extends BaseService {
 		ins.setIf("sex", ps.getString("sex", "1")); // 性别
 		ins.setIf("system", ps.getString("system", "1")); // 系统
 		ins.setIf("shop_id", ps.getString("shop_id")); // 默认所属店铺
-		ins.set("score", ps.getString("score","0")); // 积分
+		ins.set("score", ps.getString("score", "0")); // 积分
 		ins.setIf("open_id", ps.getString("open_id")); // 微信open_id
-		ins.set("balance", ps.getString("balance", "0"));//余额
+		ins.set("balance", ps.getString("balance", "0"));// 余额
 		ins.setIf("avatarurl", ps.getString("avatarurl"));// 微信logo
 		ins.set("deleted", "N");
 		db.execute(ins);

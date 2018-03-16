@@ -257,7 +257,8 @@ public class StrKit {
 		return true;
 	}
 
-	// ------------------------------------------------------------------------ Trim
+	// ------------------------------------------------------------------------
+	// Trim
 	/**
 	 * 除去字符串头尾部的空白，如果字符串是<code>null</code>，依然返回<code>null</code>。
 	 * 
@@ -1195,8 +1196,8 @@ public class StrKit {
 
 	/**
 	 * 格式化文本，使用 {varName} 占位<br>
-	 * map = {a: "aValue", b: "bValue"} format("{a} and {b}", map) ----> aValue and
-	 * bValue
+	 * map = {a: "aValue", b: "bValue"} format("{a} and {b}", map) ----> aValue
+	 * and bValue
 	 * 
 	 * @param template
 	 *            文本模板，被替换的部分用 {key} 表示

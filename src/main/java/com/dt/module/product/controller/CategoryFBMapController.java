@@ -17,5 +17,5 @@ import com.dt.module.product.service.CategoryFBMapService;
 public class CategoryFBMapController extends BaseController {
 	@Autowired
 	CategoryFBMapService categoryFBMapService;
-	
+
 }

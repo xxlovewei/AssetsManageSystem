@@ -61,7 +61,7 @@ public class RetryLimitSimpleCredentialsMatcher extends SimpleCredentialsMatcher
 	 *            the limitretryCount to set
 	 */
 	public void setLimitretryCount(int limitretryCount) {
-		
+
 		this.limitretryCount = limitretryCount;
 	}
 }

@@ -28,6 +28,7 @@ import com.dt.core.tool.util.ToolUtil;
 
 /**
  * 安全框架角色资源配置服务类
+ * 
  * @author algernonking
  */
 public class SimpleFilterChainDefinitionsService {
@@ -43,10 +44,12 @@ public class SimpleFilterChainDefinitionsService {
 	public static SimpleFilterChainDefinitionsService me() {
 		return SpringContextUtil.getBean(SimpleFilterChainDefinitionsService.class);
 	}
+
 	@PostConstruct
 	public void init() {
 		log.info("init.");
 	}
+
 	/** 读取配置资源 */
 	public Section obtainPermission() {
 		Ini ini = new Ini();
@@ -55,13 +58,15 @@ public class SimpleFilterChainDefinitionsService {
 		log.info("size:" + section.size());
 		return section;
 	}
+
 	public Map<String, String> initCustomPermission() {
 		HashMap<String, String> res = new HashMap<String, String>();
 		WebApplicationContext wc = (WebApplicationContext) SpringContextUtil.getApplicationContext();
 		RequestMappingHandlerMapping bean = wc.getBean(RequestMappingHandlerMapping.class);
 		Map<RequestMappingInfo, HandlerMethod> handlerMethods = bean.getHandlerMethods();
 		for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
-			// log.info("key= " + entry.getKey() + " and value= " + entry.getValue());
+			// log.info("key= " + entry.getKey() + " and value= " +
+			// entry.getValue());
 			RequestMappingInfo rmi = entry.getKey();
 			PatternsRequestCondition pc = rmi.getPatternsCondition();
 			Set<String> pSet = pc.getPatterns();
@@ -81,17 +86,18 @@ public class SimpleFilterChainDefinitionsService {
 						String str = it.next();
 						res.put(str, "authc,user");
 					}
-				}else{
-//					Iterator<String> it = pSet.iterator();
-//					while (it.hasNext()) {
-//						String str = it.next();
-//					}		
+				} else {
+					// Iterator<String> it = pSet.iterator();
+					// while (it.hasNext()) {
+					// String str = it.next();
+					// }
 				}
 			}
 			// log.info("url:" + url + ",aclvalue=" + aclvalue);
 		}
 		return res;
 	}
+
 	public void updatePermission() {
 		synchronized (shiroFilterFactoryBean) {
 			AbstractShiroFilter shiroFilter = null;
@@ -128,12 +134,15 @@ public class SimpleFilterChainDefinitionsService {
 			log.info("update shiro permission success...");
 		}
 	}
+
 	public void setFilterChainDefinitions(String filterChainDefinitions) {
 		this.filterChainDefinitions = filterChainDefinitions;
 	}
+
 	public Class<? extends SimpleFilterChainDefinitionsService> getObjectType() {
 		return this.getClass();
 	}
+
 	public boolean isSingleton() {
 		return false;
 	}

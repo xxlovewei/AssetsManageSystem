@@ -20,6 +20,7 @@ public class CategoryFRootService extends BaseService {
 		String sql = "select case when max(id) is null then 10 else max(id)+1 end value from (select id from product_cat_user_root union all select id from product_cat_user)";
 		return db.uniqueRecord(sql).getInteger("value");
 	}
+
 	public R addCategoryFRoot(TypedHashMap<String, Object> ps) {
 		Insert ins = new Insert("product_cat_user_root");
 		String code = ps.getString("code");
@@ -39,6 +40,7 @@ public class CategoryFRootService extends BaseService {
 		db.execute(ins);
 		return R.SUCCESS_OPER();
 	}
+
 	public R deleteCategoryFRoot(String id) {
 		if (ToolUtil.isEmpty(id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -49,10 +51,12 @@ public class CategoryFRootService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	public R queryCategoryFRoot() {
 		String sql = "select * from product_cat_user_root where is_deleted='N' order by od";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
+
 	public R updateCategoryFRoot(TypedHashMap<String, Object> ps) {
 		String id = ps.getString("id");
 		if (ToolUtil.isEmpty(id)) {
@@ -67,6 +71,7 @@ public class CategoryFRootService extends BaseService {
 		db.execute(ups);
 		return R.SUCCESS_OPER();
 	}
+
 	public R queryCategoryFRootByid(String id) {
 		String sql = "select * from product_cat_user_root where is_deleted='N' and id=? ";
 		return R.SUCCESS_OPER(db.uniqueRecord(sql, id).toJsonObject());

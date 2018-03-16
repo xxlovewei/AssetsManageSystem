@@ -32,7 +32,6 @@ public class NoticesController extends BaseController {
 		return noticeService.queryNoticeById(id);
 	}
 
-	
 	@RequestMapping(value = "/notice/saveNotice.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_DENY, info = "保存公告")

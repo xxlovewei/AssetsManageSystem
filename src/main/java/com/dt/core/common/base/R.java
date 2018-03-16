@@ -1,7 +1,5 @@
 package com.dt.core.common.base;
 
- 
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
@@ -11,7 +9,7 @@ public class R {
 	 * @fieldType: long
 	 * @Description: TODO
 	 */
-	 
+
 	public static String TYPE_JSON = "json";
 	public String type = R.TYPE_JSON;
 	private Boolean clearAttach = false;

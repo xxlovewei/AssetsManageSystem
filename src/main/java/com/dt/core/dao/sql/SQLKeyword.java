@@ -25,11 +25,9 @@ public enum SQLKeyword
 	SINGLE_QUATE("'"), 
 	LEFT_SINGLE_QUATE("'"), 
 	RIGHT_SINGLE_QUATE("'"), 
-	
 	DOUBLE_QUATE("\""), 
 	LEFT_DOUBLE_QUATE("\""), 
 	RIGHT_DOUBLE_QUATE("\""),
-	 
 	RIGHT_BRACKET(")"),
 	LEFT_BRACKET("("),
 	SPACER(" "),

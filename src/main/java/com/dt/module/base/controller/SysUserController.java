@@ -30,7 +30,7 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping(value = "/user/userSave.do")
 	@ResponseBody
-	@Acl(info="保存用户")
+	@Acl(info = "保存用户")
 	@Transactional
 	public R userSave() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -44,7 +44,7 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping(value = "/user/userDelete.do")
 	@ResponseBody
-	@Acl(info="删除用户")
+	@Acl(info = "删除用户")
 	@Transactional
 	public R userDelete(String user_ids) {
 		if (ToolUtil.isEmpty(user_ids)) {
@@ -69,14 +69,14 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping("/user/userQueryById.do")
 	@ResponseBody
-	@Acl(info="根据Id查询用户",value=Acl.ACL_USER)
+	@Acl(info = "根据Id查询用户", value = Acl.ACL_USER)
 	public R userQueryById(String user_id) {
 		return sysUserService.queryUserById(user_id);
 	}
 
 	@RequestMapping("/user/queryRole.do")
 	@ResponseBody
-	@Acl(info="查询用户权限",value=Acl.ACL_USER)
+	@Acl(info = "查询用户权限", value = Acl.ACL_USER)
 	public R queryRole(String user_id) {
 		if (ToolUtil.isEmpty(user_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -93,7 +93,7 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping("/user/userRoleChange.do")
 	@ResponseBody
-	@Acl(info="修改用户权限")
+	@Acl(info = "修改用户权限")
 	@Transactional
 	public R userRoleChange() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
@@ -102,14 +102,14 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping("/user/userQueryByGroup.do")
 	@ResponseBody
-	@Acl(info="查询用户组")
+	@Acl(info = "查询用户组")
 	public R userQueryByGroup(String group_id) {
 		return userService.queryUserByGroup(group_id);
 	}
 
 	@RequestMapping("/user/getUserMenus.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_USER,info="查询用户菜单")
+	@Acl(value = Acl.ACL_USER, info = "查询用户菜单")
 	public R getUserMenus(String menu_id) {
 		if (ToolUtil.isEmpty(menu_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -119,7 +119,7 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping("/user/saveCommonSetting.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_DENY,info="修改用户设置")
+	@Acl(value = Acl.ACL_DENY, info = "修改用户设置")
 	public R saveCommonSetting() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return sysUserService.saveCommonSettings(getUserId(), ps);
@@ -127,7 +127,7 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping("/user/changePwd.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_USER,info="修改用户密码")
+	@Acl(value = Acl.ACL_USER, info = "修改用户密码")
 	public R changePwd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return userService.changeUserPwd(ps.getString("opwd", ""), ps.getString("npwd", ""), getUserId());

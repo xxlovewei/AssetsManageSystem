@@ -161,7 +161,6 @@ public class ClassService extends BaseService {
 		} else {
 			return R.SUCCESS_OPER(rs.toJsonObject());
 		}
-		
-		
+
 	}
 }

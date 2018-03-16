@@ -1,42 +1,33 @@
 package com.dt.core.dao.util;
 
-public enum YNBoolean
-{
-	TRUE(true),FALSE(false),NULL(null);
-	
+public enum YNBoolean {
+	TRUE(true), FALSE(false), NULL(null);
+
 	Boolean value;
-	
-	YNBoolean(Boolean b)
-	{
-		this.value=b;
+
+	YNBoolean(Boolean b) {
+		this.value = b;
 	}
-	
-	public static YNBoolean parse(String s)
-	{
-		if(s==null) return YNBoolean.NULL;
-		
-		if(s.equalsIgnoreCase("Y") || s.equalsIgnoreCase("YES"))
-		{
+
+	public static YNBoolean parse(String s) {
+		if (s == null)
+			return YNBoolean.NULL;
+
+		if (s.equalsIgnoreCase("Y") || s.equalsIgnoreCase("YES")) {
 			return YNBoolean.TRUE;
-		}
-		else if(s.equalsIgnoreCase("N") || s.equalsIgnoreCase("NO"))
-		{
+		} else if (s.equalsIgnoreCase("N") || s.equalsIgnoreCase("NO")) {
 			return YNBoolean.FALSE;
-		}
-		else
-		{
+		} else {
 			return YNBoolean.NULL;
 		}
-		
+
 	}
-	
-	public Boolean getValue()
-	{
+
+	public Boolean getValue() {
 		return value;
 	}
-	
-	public static String toText(boolean b)
-	{
-		return b?"Y":"N";
+
+	public static String toText(boolean b) {
+		return b ? "Y" : "N";
 	}
 }

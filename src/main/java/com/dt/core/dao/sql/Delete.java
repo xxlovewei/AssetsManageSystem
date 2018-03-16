@@ -6,10 +6,7 @@ import java.util.HashMap;
 import com.dt.core.dao.SpringDAO;
 
 public class Delete extends DML implements ExecutableSQL {
-
-	/**
-	 * 
-	 */
+ 
 	private static final long serialVersionUID = 3055198883033819683L;
 	private String table = null;
 	private String tableAlias = null;

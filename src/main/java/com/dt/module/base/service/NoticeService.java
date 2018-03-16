@@ -100,8 +100,8 @@ public class NoticeService extends BaseService {
 
 	}
 
-	public R queryNotice(TypedHashMap<String, Object> ps, String type, String is_show, String user_id,
-			int pageSize, int pageIndex) {
+	public R queryNotice(TypedHashMap<String, Object> ps, String type, String is_show, String user_id, int pageSize,
+			int pageIndex) {
 		String sql = processQuerySql(ps, type, is_show, user_id);
 		return R.SUCCESS_OPER(
 				db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());

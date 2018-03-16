@@ -16,6 +16,7 @@ public class ContentRootCategoryService extends BaseService {
 	 * @Description: 查询主节点
 	 */
 	public R queryRootCategory() {
-		return R.SUCCESS_OPER(db.query("select * from ct_category_root where deleted='N' order by od").toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(
+				db.query("select * from ct_category_root where deleted='N' order by od").toJsonArrayWithJsonObject());
 	}
 }

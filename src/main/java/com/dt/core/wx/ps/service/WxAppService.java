@@ -27,7 +27,5 @@ public class WxAppService {
 		apps.put(b.getAppid(), b);
 		
 	}
-	//
-	// WxApp appa=new WxApp();
-	// appa.setAppid("1");
+
 }

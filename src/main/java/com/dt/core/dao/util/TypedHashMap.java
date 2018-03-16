@@ -6,9 +6,7 @@ import java.util.HashMap;
 import com.dt.core.dao.DataParser;
 
 public class TypedHashMap<K, V> extends HashMap<K, V> {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private DataParser dp = new DataParser();
 
@@ -24,12 +22,10 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 		}
 	}
 
-	 
 	public Integer getInt(V key) {
 		return dp.parseInteger(this.get(key));
 	}
 
- 
 	@SuppressWarnings("unlikely-arg-type")
 	public Integer getInt(V key, Integer value) {
 		if (this.containsKey(key)) {
@@ -47,12 +43,10 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 		}
 	}
 
-	 
 	public String getString(V key) {
 		return dp.parseString(this.get(key));
 	}
 
-	 
 	public String getString(V key, String defaultStr) {
 		if (this.containsKey(key)) {
 			return dp.parseString(this.get(key));
@@ -61,7 +55,6 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 		}
 	}
 
- 
 	@SuppressWarnings("unlikely-arg-type")
 	public String[] getStringArray(V key) {
 		try {
@@ -71,32 +64,26 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
 		}
 	}
 
-	 
 	public Float getFloat(V key) {
 		return dp.parseFloat(this.get(key));
 	}
 
- 
 	public Double getDouble(V key) {
 		return dp.parseDouble(this.get(key));
 	}
 
-	 
 	public Date getDate(V key) {
 		return dp.parseDate(this.get(key));
 	}
 
-	 
 	public Boolean getBoolean(V key) {
 		return dp.parseBoolean(this.get(key));
 	}
 
- 
 	public Long getLong(V key) {
 		return dp.parseLong(this.get(key));
 	}
 
- 
 	public Short getShort(V key) {
 		return dp.parseShort(this.get(key));
 	}

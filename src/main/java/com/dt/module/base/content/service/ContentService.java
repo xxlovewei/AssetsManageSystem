@@ -57,6 +57,7 @@ public class ContentService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:修改CT
 	 */
@@ -81,6 +82,7 @@ public class ContentService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:删除CT
 	 */
@@ -94,6 +96,7 @@ public class ContentService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:根据ID查找CT
 	 */
@@ -104,6 +107,7 @@ public class ContentService extends BaseService {
 		}
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
+
 	private String rebuildQueryContentSql(TypedHashMap<String, Object> ps, String type) {
 		String sdate = ps.getString("sdate");
 		String edate = ps.getString("edate");
@@ -135,6 +139,7 @@ public class ContentService extends BaseService {
 		}
 		return sql;
 	}
+
 	/**
 	 * @Description:查找CT数量
 	 */
@@ -144,6 +149,7 @@ public class ContentService extends BaseService {
 		int total = db.uniqueRecord(sql).getInteger("value");
 		return total;
 	}
+
 	/**
 	 * @Description:查找页数
 	 */
@@ -151,12 +157,13 @@ public class ContentService extends BaseService {
 		int total = queryContentCount(ps, type);
 		return DbUtil.getTotalPage(total, pageSize);
 	}
+
 	/**
 	 * @Description:查找CT
 	 */
 	public R queryContentPage(TypedHashMap<String, Object> ps, int pageSize, int pageIndex, String type) {
 		String sql = rebuildQueryContentSql(ps, type);
 		return R.SUCCESS_OPER(
-				db.query(DbUtil.getDBPageSql(db.getDBType(),sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
+				db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pageSize, pageIndex)).toJsonArrayWithJsonObject());
 	}
 }

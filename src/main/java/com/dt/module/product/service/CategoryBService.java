@@ -96,6 +96,7 @@ public class CategoryBService extends BaseService {
 		e.put("type", nodetype);
 		return R.SUCCESS_OPER(e);
 	}
+
 	/**
 	 * @Description: 删除节点
 	 */
@@ -115,11 +116,13 @@ public class CategoryBService extends BaseService {
 		}
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:更新节点
 	 */
 	public void updateCategoryB() {
 	}
+
 	/**
 	 * @Description:重命名节点
 	 */
@@ -136,11 +139,13 @@ public class CategoryBService extends BaseService {
 		db.execute(ups);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description:按照前端树查询节点单个数据
 	 */
 	public void queryCategoryBById() {
 	}
+
 	/**
 	 * @Description:按照前端树查询节点数据
 	 */
@@ -170,6 +175,7 @@ public class CategoryBService extends BaseService {
 		}
 		return res;
 	}
+
 	/**
 	 * @Description:获取下一个节点Id
 	 */
@@ -178,6 +184,7 @@ public class CategoryBService extends BaseService {
 				.uniqueRecord("select case when max(id) is null then 10 else max(id)+1 end value from product_category")
 				.getString("value");
 	}
+
 	/**
 	 * @Description:发布产品时,获取所有可用的品类
 	 */
@@ -228,6 +235,7 @@ public class CategoryBService extends BaseService {
 				+ "from PRODUCT_CATEGORY t where is_deleted='N' and is_cat='Y') outer) outtable order by route ";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
+
 	public R publishCatAttrList(TypedHashMap<String, Object> ps) {
 		JSONObject rs = new JSONObject();
 		String cat_id = ps.getString("cat_id"); // 必须存在
@@ -249,6 +257,7 @@ public class CategoryBService extends BaseService {
 		}
 		return R.SUCCESS_OPER(rs);
 	}
+
 	private JSONArray getSaleAttr(String cat_id, String is_used) {
 		JSONArray rs = new JSONArray();
 		String attrsql = "select * from product_category_attr where is_deleted='N' and cat_id=? and attr_type='sale' order by od";
@@ -271,8 +280,7 @@ public class CategoryBService extends BaseService {
 		}
 		return rs;
 	}
-	
-	
+
 	private JSONArray getBaseAttr(String cat_id, String is_used) {
 		JSONArray rs = new JSONArray();
 		String attrsql = "select * from product_category_attr where cat_id=? and is_deleted='N' and attr_type='base' <#IS_USED#> order by od";
@@ -285,14 +293,15 @@ public class CategoryBService extends BaseService {
 		for (int i = 0; i < attr_rs.size(); i++) {
 			JSONObject e = new JSONObject();
 			e = ConvertUtil.OtherJSONObjectToFastJSONObject(attr_rs.getRcd(i).toJsonObject());
-			//不做判断,全部将属性值数据填充
+			// 不做判断,全部将属性值数据填充
 			String isql = "select * from product_category_attr_set where attr_id=? and is_deleted='N' and cat_id=? order by od";
-			e.put("list",ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject()));
+			e.put("list", ConvertUtil.OtherJSONObjectToFastJSONArray(
+					db.query(isql, attr_rs.getRcd(i).getString("attr_id"), cat_id).toJsonArrayWithJsonObject()));
 			rs.add(e);
 		}
 		return rs;
 	}
-	
+
 	// 获取品类下面的所有的值,匹配数据用
 	private JSONArray getBaseAttrValueMap(String cat_id) {
 		String sql = "select a.attr_set_id, value from product_category_attr_set a,product_category_attr b where a.attr_id=b.attr_id and b.is_deleted='N' and a.is_deleted='N' and b.cat_id=?  and b.attr_type='sale'";

@@ -89,7 +89,6 @@ public class OrderService extends BaseService {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 
-		
 		List<SQL> sqls = new ArrayList<SQL>();
 		String orderId = createOrderId();
 
@@ -160,7 +159,7 @@ public class OrderService extends BaseService {
 		Update me = new Update("mall_order");
 		me.set("status", ORDER_STATUS_CANCEL);
 		me.where().and("order_id=?", order_id);
-	 
+
 		// 订单日志
 		if (recordOrderLog(ORDER_ACTION_CANCEL, order_id, "取消订单", user_id)) {
 			db.execute(me);
@@ -247,32 +246,32 @@ public class OrderService extends BaseService {
 	 * @Description: 订单支付成功后改写订单状态
 	 */
 	public R payOrderFinish(String order_id, String user_id, String next_status) {
-		List<String> sqls=new ArrayList<String>();
-		
-		//更新订单表
+		List<String> sqls = new ArrayList<String>();
+
+		// 更新订单表
 		Update ups = new Update("mall_order");
 		ups.set("is_pay", "Y");
 		ups.setSE("pdate", DbUtil.getDBDateString(db.getDBType()));
 		ups.setIf("status", next_status);
 		ups.where().and("order_id=?", order_id);
 		sqls.add(ups.getSQL());
-		
-		//更新产品表及减少库存数
-		String sql="select * from mall_order_detail where order_id=?";
-		RcdSet rs=db.query(sql,order_id);
-		for(int i=0;i<rs.size();i++) {
-			String spu=rs.getRcd(i).getString("spu");
-			String sku=rs.getRcd(i).getString("sku");
-			int buy_number=rs.getRcd(i).getInteger("buy_number");
-			//如果sku为空则只减小产品的库存
-			String prodsql="update product set sales=sales+1,stock=stock-"+buy_number+" where spu='"+spu+"'";
+
+		// 更新产品表及减少库存数
+		String sql = "select * from mall_order_detail where order_id=?";
+		RcdSet rs = db.query(sql, order_id);
+		for (int i = 0; i < rs.size(); i++) {
+			String spu = rs.getRcd(i).getString("spu");
+			String sku = rs.getRcd(i).getString("sku");
+			int buy_number = rs.getRcd(i).getInteger("buy_number");
+			// 如果sku为空则只减小产品的库存
+			String prodsql = "update product set sales=sales+1,stock=stock-" + buy_number + " where spu='" + spu + "'";
 			sqls.add(prodsql);
-			if(ToolUtil.isNotEmpty(sku)) {
-				String prodskusql="update product_sku set stock=stock-"+buy_number+" where sku='"+sku+"'";
+			if (ToolUtil.isNotEmpty(sku)) {
+				String prodskusql = "update product_sku set stock=stock-" + buy_number + " where sku='" + sku + "'";
 				sqls.add(prodskusql);
 			}
 		}
-		
+
 		// 订单日志
 		if (recordOrderLog(ORDER_ACTION_PAY, order_id, "订单支付", user_id)) {
 			db.executeStringList(sqls);

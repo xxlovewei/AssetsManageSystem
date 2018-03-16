@@ -39,6 +39,7 @@ public class ModuleItemMapService extends BaseService {
 		db.executeSQLList(sqls);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @date: Nov 4, 2017 8:08:34 PM
 	 * @Description:查询所有api,其中已经在模块中则选中

@@ -1,4 +1,4 @@
- 
+
 package com.dt.core.tool.util.support;
 
 import java.io.BufferedReader;
@@ -25,7 +25,6 @@ public class HttpKit {
 
 		String header = request.getHeader("X-Requested-With");
 		boolean isAjax = "XMLHttpRequest".equals(header) ? true : false;
-
 		return isAjax;
 
 	}
@@ -46,7 +45,7 @@ public class HttpKit {
 			String paramValue = request.getParameter(paramName);
 			values.put(paramName, paramValue);
 		}
-		
+
 		return values;
 	}
 
@@ -193,9 +192,9 @@ public class HttpKit {
 		return result;
 	}
 
-	
 	/**
 	 * 获取请求basePath
+	 * 
 	 * @param request
 	 * @return
 	 */
@@ -207,25 +206,27 @@ public class HttpKit {
 		basePath.append(scheme);
 		basePath.append("://");
 		basePath.append(domain);
-		if("http".equalsIgnoreCase(scheme) && 80 != port) {
+		if ("http".equalsIgnoreCase(scheme) && 80 != port) {
 			basePath.append(":").append(String.valueOf(port));
-		} else if("https".equalsIgnoreCase(scheme) && port != 443) {
+		} else if ("https".equalsIgnoreCase(scheme) && port != 443) {
 			basePath.append(":").append(String.valueOf(port));
 		}
 		return basePath.toString();
 	}
+
 	/**
 	 * 获取ip工具类，除了getRemoteAddr，其他ip均可伪造
+	 * 
 	 * @param request
 	 * @return
 	 */
 	public static String getIpAddr(HttpServletRequest request) {
-		String ip = request.getHeader("Cdn-Src-Ip");    // 网宿cdn的真实ip
+		String ip = request.getHeader("Cdn-Src-Ip"); // 网宿cdn的真实ip
 		if (ip == null || ip.length() == 0 || " unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_CLIENT_IP");   // 蓝讯cdn的真实ip
+			ip = request.getHeader("HTTP_CLIENT_IP"); // 蓝讯cdn的真实ip
 		}
 		if (ip == null || ip.length() == 0 || " unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("X-Forwarded-For");  // 获取代理ip
+			ip = request.getHeader("X-Forwarded-For"); // 获取代理ip
 		}
 		if (ip == null || ip.length() == 0 || " unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP"); // 获取代理ip
@@ -238,7 +239,7 @@ public class HttpKit {
 		}
 		return ip;
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public static String removeParam(HttpServletRequest request, String paramName) {
 		String queryString = "";

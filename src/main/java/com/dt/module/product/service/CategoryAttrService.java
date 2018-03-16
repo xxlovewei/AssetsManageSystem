@@ -22,7 +22,7 @@ public class CategoryAttrService extends BaseService {
 	public static String INPUTTYPE_SEL_SINGLE = "select-single";
 	public static String ATTR_TYPE_SALE = "sale";
 	public static String ATTR_TYPE_BASE = "base";
-//注意：规格模版属性不能直接删除
+ 
 	/**
 	 * @Description: 添加属性
 	 */
@@ -82,6 +82,7 @@ public class CategoryAttrService extends BaseService {
 		db.execute(ins);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 获取下一个序列号
 	 */
@@ -91,6 +92,7 @@ public class CategoryAttrService extends BaseService {
 						"select case when max(attr_id) is null then 10 else max(attr_id)+1 end value from product_category_attr")
 				.getString("value");
 	}
+
 	/**
 	 * @Description: 如果该属性没有使用,直接删除
 	 */
@@ -109,9 +111,10 @@ public class CategoryAttrService extends BaseService {
 		Update ups2 = new Update("product_category_attr_set");
 		ups2.set("is_deleted", "Y");
 		ups2.where().and("attr_id in (select attr_id from product_category_attr where id=?)", id);
-		db.executes(ups,ups2);
+		db.executes(ups, ups2);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 更新属性
 	 */
@@ -131,6 +134,7 @@ public class CategoryAttrService extends BaseService {
 		db.execute(ups);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 查询品类的根据属性定义
 	 */
@@ -141,6 +145,7 @@ public class CategoryAttrService extends BaseService {
 		String sql = "select a.*,case a.attr_type when 'sale' then '销售属性' when 'base' then '基本属性' else '未知' end attr_type_name from product_category_attr a where is_deleted='N' and cat_id=? order by attr_type,od";
 		return R.SUCCESS_OPER(db.query(sql, cat_id).toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description: 根据Id查询单个属性
 	 */

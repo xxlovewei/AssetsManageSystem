@@ -2,113 +2,87 @@ package com.dt.core.dao.sql;
 
 public abstract class SubSQL implements SQL {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6083127890659811198L;
-	/**
-	 * 
-	 */
-	 
-	private SQL parent=null;
-	private int nameIndex=0;
-	
-	protected boolean ignorColon=false;
-	
+
+	private SQL parent = null;
+	private int nameIndex = 0;
+
+	protected boolean ignorColon = false;
+
 	/**
 	 * IgnorColon
-	 * */
-	public SubSQL setIgnorColon(boolean b)
-	{
-		ignorColon=b;
+	 */
+	public SubSQL setIgnorColon(boolean b) {
+		ignorColon = b;
 		return this;
 	}
-	
-	
-	protected boolean replaceNull=true;
+
+	protected boolean replaceNull = true;
 
 	public void setReplaceNull(boolean replaceNull) {
 		this.replaceNull = replaceNull;
 	}
-	 
-	 
-	public boolean isAllParamsEmpty()
-	{
+
+	public boolean isAllParamsEmpty() {
 		return isAllParamsEmpty(false);
 	}
-	
 
-	public SQL parent()
-	{
+	public SQL parent() {
 		return parent;
 	}
-	
-	
-	public String toString()
-	{
+
+	public String toString() {
 		return this.getSQL();
 	}
 
-	public void setParent(SQL sql)
-	{
-		 this.parent=sql;
+	public void setParent(SQL sql) {
+		this.parent = sql;
 	}
 
 	private SQL currentTop;
-	public void beginParamNameSQL()
-	{
-		currentTop=this.top();
-		if(!this.equals(currentTop)) return;
-		nameIndex=0;
+
+	public void beginParamNameSQL() {
+		currentTop = this.top();
+		if (!this.equals(currentTop))
+			return;
+		nameIndex = 0;
 	}
 
-	
-	 
-	public String getNextParamName(boolean withColon)
-	{
-		if(!this.equals(currentTop)) return currentTop.getNextParamName(withColon);
-		else
-		{
+	public String getNextParamName(boolean withColon) {
+		if (!this.equals(currentTop))
+			return currentTop.getNextParamName(withColon);
+		else {
 			nameIndex++;
-			return (withColon?SQLKeyword.COLON:"")+PNAME_PREFIX+"_"+nameIndex;
+			return (withColon ? SQLKeyword.COLON : "") + PNAME_PREFIX + "_" + nameIndex;
 		}
 	}
 
-	 
-	public void endParamNameSQL()
-	{
-		if(!this.equals(currentTop)) return;
-		currentTop=null;
+	public void endParamNameSQL() {
+		if (!this.equals(currentTop))
+			return;
+		currentTop = null;
 	}
-	
-	 
-	public SQL top()
-	{
-		SQL se=this;
-		while(se.parent()!=null) se=se.parent();
+
+	public SQL top() {
+		SQL se = this;
+		while (se.parent() != null)
+			se = se.parent();
 		return se;
 	}
-	
-	public StringBuffer join(String...strings)
-	{
-		StringBuffer buffer=new StringBuffer();
-		for(String s:strings)
-		{
-			if(s.startsWith(SQLKeyword.SPACER.toString()))
-			{
+
+	public StringBuffer join(String... strings) {
+		StringBuffer buffer = new StringBuffer();
+		for (String s : strings) {
+			if (s.startsWith(SQLKeyword.SPACER.toString())) {
 				buffer.append(s);
-			}
-			else
-			{
-				buffer.append(SQLKeyword.SPACER.toString()+s);
+			} else {
+				buffer.append(SQLKeyword.SPACER.toString() + s);
 			}
 		}
-		if(!strings[strings.length-1].endsWith(SQLKeyword.SPACER.toString()))
-		{
+		if (!strings[strings.length - 1].endsWith(SQLKeyword.SPACER.toString())) {
 			buffer.append(SQLKeyword.SPACER.toString());
 		}
 		return buffer;
 	}
- 
-	
+
 }

@@ -19,6 +19,5 @@ public class WebContextListener implements ServletContextListener {
 
 	public void contextDestroyed(ServletContextEvent arg0) {
 		_log.info("WebContextListener contextDestroyed");
-		// ScheduleMangerService.me().scheduleStop();
 	}
 }

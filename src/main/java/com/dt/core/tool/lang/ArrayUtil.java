@@ -159,11 +159,12 @@ public class ArrayUtil {
 	}
 
 	public static void main(String[] args) {
-//		Object a[] = { new JButton("1"), new JButton("2"), new JButton("3") };
-//		Object b[] = { 4, 5, 6, 7 };
-//		Object[] x = (Object[]) merege(a, b);
-//		for (Object p : x) {
-//		}
+		// Object a[] = { new JButton("1"), new JButton("2"), new JButton("3")
+		// };
+		// Object b[] = { 4, 5, 6, 7 };
+		// Object[] x = (Object[]) merege(a, b);
+		// for (Object p : x) {
+		// }
 
 	}
 	// ----------------------------------------------------------------------
@@ -231,7 +232,8 @@ public class ArrayUtil {
 	 */
 	public static boolean isArray(Object obj) {
 		if (null == obj) {
-			// throw new NullPointerException("Object check for isArray is null");
+			// throw new NullPointerException("Object check for isArray is
+			// null");
 			return false;
 		}
 		return obj.getClass().isArray();

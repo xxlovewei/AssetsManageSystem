@@ -26,18 +26,21 @@ public class SysUserService extends BaseService {
 	public R addSysUser(TypedHashMap<String, Object> ps) {
 		return userService.addUser(ps, UserService.USER_TYPE_SYS);
 	}
+
 	/**
 	 * @Description: 删除用户
 	 */
 	public R deleteSysUser(String user_id) {
 		return userService.deleteUser(user_id);
 	}
+
 	/**
 	 * @Description: 修改用户
 	 */
 	public R updateSysUser(TypedHashMap<String, Object> ps) {
 		return userService.updateUser(ps, UserService.USER_TYPE_SYS);
 	}
+
 	/**
 	 * @Description: 根据user_id查找
 	 */
@@ -49,6 +52,7 @@ public class SysUserService extends BaseService {
 			return R.SUCCESS_OPER(res);
 		}
 	}
+
 	/**
 	 * @Description: 保存用户通用设置数据
 	 */

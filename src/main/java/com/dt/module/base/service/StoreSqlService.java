@@ -86,6 +86,7 @@ public class StoreSqlService extends BaseService {
 			return R.FAILURE("Sql语句有误");
 		}
 	}
+
 	public R queryStoreSql(String cat_id) {
 		String sql = "select * from ct_uri where is_deleted='N' ";
 		if (ToolUtil.isNotEmpty(cat_id)) {
@@ -94,14 +95,15 @@ public class StoreSqlService extends BaseService {
 		RcdSet rs = db.query(sql);
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
+
 	public R queryStoreSqlById(String store_id) {
 		Rcd rs = db.uniqueRecord("select * from ct_uri where store_id=?", store_id);
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
+
 	private R checkStoreSqlFormat(TypedHashMap<String, Object> ps) {
-		
-		//检查alias_id;
-		
+
+		// 检查alias_id;
 
 		// 弱弱的检查下
 		String msg = "Sql文本于返回类型不匹配";
@@ -120,10 +122,9 @@ public class StoreSqlService extends BaseService {
 				return R.FAILURE(msg);
 			}
 		}
-		
-		
-		
+
 	}
+
 	public R addStoreSql(TypedHashMap<String, Object> ps, String user_id) {
 		R rs = checkStoreSqlFormat(ps);
 		if (rs.isFailed()) {
@@ -147,6 +148,7 @@ public class StoreSqlService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	public R updateStoreSql(TypedHashMap<String, Object> ps, String user_id) {
 		R rs = checkStoreSqlFormat(ps);
 		if (rs.isFailed()) {
@@ -167,6 +169,7 @@ public class StoreSqlService extends BaseService {
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
+
 	public R deleteStoreSql(String store_id) {
 		Update me = new Update("ct_uri");
 		me.set("is_deleted", "Y");

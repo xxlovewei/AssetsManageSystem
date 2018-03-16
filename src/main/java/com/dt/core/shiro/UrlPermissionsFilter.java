@@ -76,19 +76,19 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 				httpResponse.getWriter().flush();
 				httpResponse.getWriter().close();
 			} else {
-				log.info("Unauthorized go to:"+getLoginUrl());
+				log.info("Unauthorized go to:" + getLoginUrl());
 				WebUtils.issueRedirect(request, response, getLoginUrl());
 			}
 		} else {
 			if (isReturnJSON(httpRequest)) {
-//				httpResponse.setStatus(298);
+				// httpResponse.setStatus(298);
 				httpResponse.setHeader("content-type", "text/html;charset=UTF-8");
 				httpResponse.getWriter().print(R.FAILURE_NO_PERMITION().asJsonStr());
 				httpResponse.getWriter().flush();
 				httpResponse.getWriter().close();
 			} else {
 				if (StringUtils.hasText(getUnauthorizedUrl())) {// 如果有未授权页面跳转过去
-					log.info("Unauthorized go to:"+getUnauthorizedUrl());
+					log.info("Unauthorized go to:" + getUnauthorizedUrl());
 					WebUtils.issueRedirect(request, response, getUnauthorizedUrl());
 				} else {// 否则返回401未授权状态码
 					WebUtils.toHttp(response).sendError(HttpServletResponse.SC_UNAUTHORIZED);

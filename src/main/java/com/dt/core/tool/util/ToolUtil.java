@@ -31,7 +31,7 @@ import com.dt.core.tool.util.support.StrKit;
 public class ToolUtil {
 	/*
 	 * 均衡的随机从[mix,max]中获取数据
-	 * */
+	 */
 	public static int rand(int mix, int max) {
 		return RandUtil.rand(mix, max);
 	}

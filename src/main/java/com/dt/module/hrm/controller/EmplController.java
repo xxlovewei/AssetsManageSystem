@@ -18,39 +18,43 @@ import com.dt.module.hrm.service.EmplService;
 @Controller
 @RequestMapping("/api")
 public class EmplController extends BaseController {
-	 
+
 	@Autowired
 	private EmplService emplService;
 
 	@RequestMapping("/hrm/employeeAdd.do")
 	@ResponseBody
-	@Acl(info="添加人员")
+	@Acl(info = "添加人员")
 	public R employeeAdd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return emplService.addEmployee(ps);
 	}
+
 	@RequestMapping("/hrm/employeeUpdate.do")
 	@ResponseBody
-	@Acl(info="更新人员")
+	@Acl(info = "更新人员")
 	public R employeeUpdate() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return emplService.updateEmployee(ps);
 	}
+
 	@RequestMapping("/hrm/employeeQueryList.do")
 	@ResponseBody
-	@Acl(info="查询人员")
+	@Acl(info = "查询人员")
 	public R employeeQueryList() {
 		return emplService.queryEmplList(HttpKit.getRequestParameters());
 	}
+
 	@RequestMapping("/hrm/employeeQueryById.do")
 	@ResponseBody
-	@Acl(info="查询人员信息")
+	@Acl(info = "查询人员信息")
 	public R employeeQueryById(String empl_id) {
 		return emplService.queryEmplById(empl_id);
 	}
+
 	@RequestMapping("/hrm/employeeDelete.do")
 	@ResponseBody
-	@Acl(info="删除人员")
+	@Acl(info = "删除人员")
 	@Transactional
 	public R employeeDelete(String empl_id) throws IOException {
 		return emplService.delEmployee(empl_id);

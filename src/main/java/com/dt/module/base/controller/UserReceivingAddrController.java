@@ -26,7 +26,7 @@ public class UserReceivingAddrController extends BaseController {
 
 	@RequestMapping("/user/queryReceivingAddrById.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_USER,info="获取收货详情")
+	@Acl(value = Acl.ACL_USER, info = "获取收货详情")
 	public R queryReceivingAddrById() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
@@ -39,7 +39,7 @@ public class UserReceivingAddrController extends BaseController {
 
 	@RequestMapping("/user/queryReceivingAddr.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_USER,info="获取所有收货地址")
+	@Acl(value = Acl.ACL_USER, info = "获取所有收货地址")
 	public R queryReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
 			return R.FAILURE_USER_QUERY();
@@ -50,7 +50,7 @@ public class UserReceivingAddrController extends BaseController {
 
 	@RequestMapping("/user/delReceivingAddr.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_USER,info="删除个人收货地址")
+	@Acl(value = Acl.ACL_USER, info = "删除个人收货地址")
 	public R delReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
 			return R.FAILURE_USER_QUERY();
@@ -82,7 +82,7 @@ public class UserReceivingAddrController extends BaseController {
 
 	@RequestMapping("/user/setDefReceivingAddr.do")
 	@ResponseBody
-	@Acl(value=Acl.ACL_USER,info="设置默认地址")
+	@Acl(value = Acl.ACL_USER, info = "设置默认地址")
 	public R setDefReceivingAddr() {
 		if (ToolUtil.isEmpty(getUserId())) {
 			return R.FAILURE_USER_QUERY();
@@ -95,14 +95,12 @@ public class UserReceivingAddrController extends BaseController {
 			return userReceivingAddrService.updateDefReceivingAddr(getUserId(), id);
 		}
 	}
-	
 
 	@RequestMapping("/user/queryDefReceivingAddr.do")
 	@ResponseBody
-	@Acl(value=Acl.ACL_USER,info="查询地址")
+	@Acl(value = Acl.ACL_USER, info = "查询地址")
 	public R queryDefReceivingAddr() {
 		return userReceivingAddrService.queryDefReceivingAddr(getUserId());
 	}
-	
-	
+
 }

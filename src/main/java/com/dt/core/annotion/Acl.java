@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Acl {
 	public static String ACL_ALLOW = "allow";
-	public static String ACL_USER= "user";
+	public static String ACL_USER = "user";
 	public static String ACL_DENY = "deny";
 
 	public static String TYPE_API = "api";
