@@ -25,6 +25,7 @@ public class HttpKit {
 
 		String header = request.getHeader("X-Requested-With");
 		boolean isAjax = "XMLHttpRequest".equals(header) ? true : false;
+
 		return isAjax;
 
 	}

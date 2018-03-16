@@ -1,16 +1,61 @@
 package com.dt.core.common.base;
 
+import java.io.IOException;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.session.InvalidSessionException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.dt.core.tool.lang.PropertiesFileUtil;
 import com.dt.core.tool.util.support.HttpKit;
+import com.dt.core.tool.util.support.StrKit;
 
 public class BaseController extends BaseSC {
-	// private static Logger _log =
-	// LoggerFactory.getLogger(BaseController.class);
+ 
+	@ExceptionHandler
+	public String exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception exception) {
+		String msg = ExceptionUtils.getRootCauseMessage(exception) == null ? ""
+				: ExceptionUtils.getRootCauseMessage(exception);
+		request.setAttribute("ex", exception);
+		if (null != request.getHeader("X-Requested-With")
+				&& "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
+			request.setAttribute("requestHeader", "ajax");
+		}
+		if (isReturnJSON(request)) {
+			try {
+				response.setCharacterEncoding("UTF-8");
+				response.setHeader("content-type", "text/html;charset=UTF-8");
+				response.getWriter().print(R.FAILURE(msg));
+				response.getWriter().flush();
+				response.getWriter().close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		// shiro没有权限异常
+		if (exception instanceof UnauthorizedException) {
+			return "/40311.jsp";
+		}
+		// shiro会话已过期异常
+		if (exception instanceof InvalidSessionException) {
+			return "/erroraa.jsp";
+		}
+		return "/errorbb.jsp";
+	}
+
+	private Boolean isReturnJSON(HttpServletRequest httpRequest) {
+		Boolean res = false;
+		if (HttpKit.isAjax(httpRequest) || StrKit.endWith(httpRequest.getRequestURL() + "", ".do", true)) {
+			res = true;
+		}
+		return res;
+	}
 
 	protected HttpServletRequest getHttpServletRequest() {
 		return HttpKit.getRequest();
@@ -106,9 +151,10 @@ public class BaseController extends BaseSC {
 			return o.toString();
 		}
 	}
-	
+
 	/**
 	 * 返回jsp视图
+	 * 
 	 * @param path
 	 * @return
 	 */
@@ -118,6 +164,7 @@ public class BaseController extends BaseSC {
 
 	/**
 	 * 返回thymeleaf视图
+	 * 
 	 * @param path
 	 * @return
 	 */

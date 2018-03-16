@@ -17,8 +17,8 @@
 	<!-- 扫描所有自定义controller -->
 	<context:component-scan base-package="**.controller" />
 
-	<!-- 异常处理 -->
-	<context:component-scan base-package="com.dt.core.exception" />
+	<!-- 异常处理
+	<context:component-scan base-package="com.dt.core.exception" /> -->
 
 	<!-- 启动时初始化Spring上下文环境工具类 -->
 	<bean id="SpringContextUtil" class="com.dt.core.tool.lang.SpringContextUtil" />

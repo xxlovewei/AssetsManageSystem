@@ -30,7 +30,7 @@ public class Acontroller extends BaseController {
 	@ResponseBody
 	@Transactional
 	public R scm() {
-		return R.SUCCESS_OPER(R.SUCCESS_OPER(db.query("select 1 from dual").toJsonArrayWithJsonObject()));
+		return R.SUCCESS_OPER(R.SUCCESS_OPER(db.query("select 1 from d1ual").toJsonArrayWithJsonObject()));
 
 	}
 
