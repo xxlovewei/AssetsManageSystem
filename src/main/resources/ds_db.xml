@@ -56,7 +56,7 @@
 		<property name="defaultAutoCommit" value="true" />
 
 		<!-- 验证连接有效与否的SQL，不同的数据配置不同 -->
-		<property name="validationQuery" value="select 1 from dual" />
+		<property name="validationQuery" value="${jdbc.validationQuery}" />
 
 		<!-- 打开 removeAbandoned 功能,处理连接泄露 -->
 		<property name="removeAbandoned" value="true" />
@@ -97,7 +97,7 @@
  
 
 	<bean id="wallFilter" class="com.alibaba.druid.wall.WallFilter">
-		<property name="dbType" value="oracle" />
+		<property name="dbType" value="${jdbc.dbtype}" />
 	</bean>
 
 
