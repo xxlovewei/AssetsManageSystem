@@ -33,7 +33,6 @@
 		 classpath:applicationContext.xml,
 	     classpath:ds_*.xml,
 	     classpath:shiro.xml,
-	   	 /WEB-INF/app_config_servlet.xml,
 	   	 classpath:applicationContext-websocket.xml
 		</param-value>
 	</context-param>
@@ -132,7 +131,6 @@
 		<filter-name>DruidWebStatFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
 
 	<!-- javamelody监控 -->
 	<filter>

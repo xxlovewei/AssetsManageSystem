@@ -6,7 +6,6 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd ">
-
 	<context:annotation-config />
 	<!-- 扫描impl,R实现需要 -->
 	<context:component-scan base-package="com.dt.core.annotion.impl" />
@@ -17,18 +16,12 @@
 	<!-- 扫描所有自定义controller -->
 	<context:component-scan base-package="**.controller" />
 
-	<!-- 异常处理
-	<context:component-scan base-package="com.dt.core.exception" /> -->
-
 	<!-- 启动时初始化Spring上下文环境工具类 -->
 	<bean id="SpringContextUtil" class="com.dt.core.tool.lang.SpringContextUtil" />
 
 	<!-- 主数据库注入 -->
-	<!--<context:component-scan base-package="com.dt.module.db.DB" />
-	<bean id="db" class="com.dt.module.db.DB" />-->
 	<context:component-scan base-package="com.dt.module.db" />
 	<bean id="ApplicationContextListener" class="com.dt.module.base.listener.ApplicationContextListener" />
-
 
 	<!-- 配置自定义返回注解 -->
 	<bean id="resreqMessagCover" class="com.dt.core.annotion.impl.ResReqDataMessageConvert" />

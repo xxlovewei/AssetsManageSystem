@@ -12,6 +12,7 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
 import com.dt.module.db.SCM;
+import com.dt.module.demo.service.AService;
 
 /**
  * @author: jinjie
@@ -23,6 +24,9 @@ import com.dt.module.db.SCM;
 public class Acontroller extends BaseController {
 
 	@Autowired
+	private AService aService;
+	
+	@Autowired
 	public SCM scm = null;
 
 	@RequestMapping("/demo/db.do")
@@ -30,7 +34,7 @@ public class Acontroller extends BaseController {
 	@ResponseBody
 	@Transactional
 	public R scm() {
-		return R.SUCCESS_OPER(R.SUCCESS_OPER(db.query("select 1 from d1ual").toJsonArrayWithJsonObject()));
+		return aService.test();
 
 	}
 
