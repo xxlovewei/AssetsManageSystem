@@ -68,7 +68,7 @@ public class NodeAppController extends BaseController {
 
 	@RequestMapping("/node/stopNodeApp.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_DENY, info = "启动应用节点")
+	@Acl(value = Acl.ACL_DENY, info = "停在应用节点")
 	public R stopNodeApp(String id) {
 		return nodeAppService.stopNodeApp(id);
 	}

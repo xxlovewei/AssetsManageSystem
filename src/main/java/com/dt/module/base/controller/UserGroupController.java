@@ -26,21 +26,21 @@ public class UserGroupController extends BaseController{
 	
 	@RequestMapping("/user/queryGroup.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询组")
 	public R queryGroup() {
 		return userGroupService.queryUserGroup();
 	}
 	
 	@RequestMapping("/user/deleteGroup.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="删除组")
 	public R deleteGroup(String group_id) {
 		return userGroupService.deleteUserGroup(group_id);
 	}
 	
 	@RequestMapping("/user/queryUserGroupById.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="根据Id查询组")
 	public R queryUserGroupById(String group_id) {
 		return userGroupService.queryUserGroupById(group_id);
 	}
@@ -48,7 +48,7 @@ public class UserGroupController extends BaseController{
 	
 	@RequestMapping("/user/saveUserGroupById.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="保存组")
 	public R saveUserGroupById(String group_id) {
 		
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();

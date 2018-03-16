@@ -36,7 +36,7 @@ public class NewsController extends BaseController {
 	 */
 	@RequestMapping(value = "/news/queryNewsById.do")
 	@ResponseBody
-	@Acl
+	@Acl(value=Acl.ACL_ALLOW,info="根据id查找新闻")
 	public R queryNewsById(String id) {
 		return null;
 	}
@@ -45,7 +45,7 @@ public class NewsController extends BaseController {
 	 */
 	@RequestMapping(value = "/news/deleteNews.do")
 	@ResponseBody
-	@Acl
+	@Acl(value=Acl.ACL_DENY,info="删除新闻")
 	public R deleteNews(String id) {
 		return newsService.deleteNews(id);
 	}
@@ -54,7 +54,7 @@ public class NewsController extends BaseController {
 	 */
 	@RequestMapping(value = "/news/publishNews.do")
 	@ResponseBody
-	@Acl
+	@Acl(value=Acl.ACL_DENY,info="发布新闻")
 	public R publishNews() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		String id = ps.getString("id");
@@ -69,7 +69,7 @@ public class NewsController extends BaseController {
 	 */
 	@RequestMapping(value = "/news/queryCount.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="查询新闻数量")
 	public R queryNews() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		int value = newsService.queryTotalCount(ps);
@@ -82,7 +82,7 @@ public class NewsController extends BaseController {
 	 */
 	@RequestMapping(value = "/news/queryPage.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="查询新闻页数")
 	public R queryPage(String pageSize) {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		int value = newsService.queryTotalCount(ps, ConvertUtil.toInt(pageSize, -1));
@@ -97,7 +97,7 @@ public class NewsController extends BaseController {
 	 */
 	@RequestMapping(value = "/news/queryNewsByPage.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="分页查询新闻")
 	public R queryNewsByDatatable(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {

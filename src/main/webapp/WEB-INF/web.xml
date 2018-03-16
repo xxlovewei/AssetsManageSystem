@@ -33,6 +33,7 @@
 		 classpath:applicationContext.xml,
 	     classpath:ds_*.xml,
 	     classpath:shiro.xml,
+	     /WEB-INF/app_config_servlet.xml,
 	   	 classpath:applicationContext-websocket.xml
 		</param-value>
 	</context-param>

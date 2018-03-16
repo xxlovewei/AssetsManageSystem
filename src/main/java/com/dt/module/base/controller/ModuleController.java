@@ -17,13 +17,13 @@ public class ModuleController extends BaseController {
 	ModuleItemMapService moduleItemMapService;
 
 	@ResponseBody
-	@Acl
+	@Acl(info="查询模块")
 	@RequestMapping(value = "/module/queryModuleItemMap.do")
 	public R queryModuleItem(String module_id) {
 		return moduleItemMapService.queryModuleItem(module_id);
 	}
 	@ResponseBody
-	@Acl
+	@Acl(info="更新模块")
 	@RequestMapping(value = "/module/updateModuleItemMap.do")
 	public R updateModuleItemMap(String module_id, String items) {
 		return moduleItemMapService.updateModuleItem(module_id, items);

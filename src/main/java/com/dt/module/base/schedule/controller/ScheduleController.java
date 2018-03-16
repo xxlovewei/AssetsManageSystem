@@ -28,14 +28,14 @@ public class ScheduleController extends BaseController {
 
 	@RequestMapping("/schedule/removejob.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="删除任务")
 	public R removejob() throws IOException {
 		return R.SUCCESS_OPER();
 	}
 
 	@RequestMapping("/schedule/pausejob.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="暂停任务")
 	public R pausejob(String seq) {
 		if (ToolUtil.isEmpty(seq)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -46,7 +46,7 @@ public class ScheduleController extends BaseController {
 
 	@RequestMapping("/schedule/resumejob.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="挂起任务")
 	public R resumejob(String seq) {
 		if (ToolUtil.isEmpty(seq)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -57,7 +57,7 @@ public class ScheduleController extends BaseController {
 
 	@RequestMapping("/schedule/enablejob.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="激活任务")
 	public R enablejob(String seq) {
 		if (ToolUtil.isEmpty(seq)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -68,7 +68,7 @@ public class ScheduleController extends BaseController {
 
 	@RequestMapping("/schedule/disablejob.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="不激活任务")
 	public R disablejob(String seq) throws IOException {
 		if (ToolUtil.isEmpty(seq)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -79,7 +79,7 @@ public class ScheduleController extends BaseController {
 
 	@RequestMapping("/schedule/runonce.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="运行一次任务")
 	public R runonce(String seq) throws IOException {
 		if (ToolUtil.isEmpty(seq)) {
 			return R.FAILURE_REQ_PARAM_ERROR();

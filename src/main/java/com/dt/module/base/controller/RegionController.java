@@ -18,13 +18,13 @@ public class RegionController extends BaseController {
 
 	@RequestMapping(value = "/region/queryTree.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="查询所有省份")
 	public R regionqueryTree() {
 		return regionService.queryRegion();
 	}
 	@RequestMapping(value = "/region/getChildren.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="查询省份节点")
 	public R getChildrens(String id) {
 		return regionService.queryRegionById(id);
 	}
@@ -33,7 +33,7 @@ public class RegionController extends BaseController {
 	 */
 	@RequestMapping(value = "/qud/queryShengF.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="查询省份")
 	public R queryShengF(String ex) {
 		return regionService.queryShengF(null);
 	}
@@ -42,7 +42,7 @@ public class RegionController extends BaseController {
 	 */
 	@RequestMapping(value = "/qud/queryChengS.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="查询市区")
 	public R queryChengS(String exclude, String sfid) {
 		return regionService.queryChengS(sfid, null);
 	}
@@ -51,7 +51,7 @@ public class RegionController extends BaseController {
 	 */
 	@RequestMapping(value = "/qud/queryQuX.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="查询区域")
 	public R queryQuX(String exclude, String csid) {
 		return regionService.queryQuX(csid, null);
 	}

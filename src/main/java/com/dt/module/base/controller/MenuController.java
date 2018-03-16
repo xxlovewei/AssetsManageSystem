@@ -28,38 +28,38 @@ public class MenuController extends BaseController {
 	MenuRoleMapService menuRoleMapService;
 
 	@ResponseBody
-	@Acl
+	@Acl(info="查询菜单",value=Acl.ACL_USER)
 	@RequestMapping(value = "/menu/treeTop.do")
 	public R treeTop() {
 		return R.SUCCESS_OPER(menuRootService.queryMenuRoot());
 	}
 	@RequestMapping(value = "/menu/deleteNode.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="删除菜单",value=Acl.ACL_DENY)
 	public R deleteNode(String node_id) {
 		return menuService.deleteNode(node_id);
 	}
 	@RequestMapping(value = "/menu/addNode.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="增加节点",value=Acl.ACL_DENY)
 	public R addNode() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return menuService.addNode(ps);
 	}
 	@RequestMapping(value = "/menu/updateNode.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="更新节点",value=Acl.ACL_DENY)
 	public R updateNode() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return menuService.updateNode(ps);
 	}
 	@RequestMapping(value = "/menu/treeDataDirect.do")
 	@ResponseBody
-	@Acl(value=Acl.ACL_USER)
+	@Acl(value=Acl.ACL_USER,info="查询菜单")
 	public R treeDataDirect(String id) {
 		return menuService.queryMenuNodes(id);
 	}
-	@Acl(value = Acl.ACL_USER)
+	@Acl(value = Acl.ACL_USER,info="查询菜单")
 	@RequestMapping(value = "/menu/treeMenus.do")
 	@ResponseBody
 	public R treeMenus() {
@@ -67,7 +67,7 @@ public class MenuController extends BaseController {
 	}
 	@RequestMapping(value = "/menu/treeNodeRoleMap.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询菜单权限")
 	public R treeNodeRoleMap(String role_id, String modules_arr, String menu_id) {
 		if (ToolUtil.isOneEmpty(role_id, modules_arr, menu_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -76,7 +76,7 @@ public class MenuController extends BaseController {
 	}
 	@RequestMapping(value = "/menu/treeRoleChecked.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询菜单权限检测")
 	public R treeRoleChecked(String menu_id, String role_id) throws IOException {
 		return menuRoleMapService.treeRoleChecked(menu_id, role_id);
 	}

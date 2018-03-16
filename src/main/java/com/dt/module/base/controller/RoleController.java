@@ -23,13 +23,13 @@ public class RoleController extends BaseController {
 
 	@RequestMapping(value = "/role/roleQuery.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询权限")
 	public R roleQuery() {
 		return roleService.queryRole();
 	}
 	@RequestMapping(value = "/role/roleQueryFormatKV.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询权限")
 	public R roleQueryFormatKV() {
 		R res = roleService.queryRole();
 		if (res.isFailed()) {
@@ -44,13 +44,13 @@ public class RoleController extends BaseController {
 	}
 	@RequestMapping(value = "/role/roleQueryById.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="根据Id查询权限")
 	public R roleQueryById(String role_id) {
 		return roleService.queryRoleById(role_id);
 	}
 	@RequestMapping(value = "/role/roleSave.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="保存权限")
 	public R roleSave() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("role_id");
@@ -62,7 +62,7 @@ public class RoleController extends BaseController {
 	}
 	@RequestMapping(value = "/role/roleDelete.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="删除权限")
 	public R roleDelete(String role_id) {
 		if (ToolUtil.isEmpty(role_id)) {
 			return R.FAILURE_OPER();

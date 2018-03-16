@@ -24,7 +24,7 @@ public class FileConfController extends BaseController {
 
 	@RequestMapping("/fileConfQuery.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询文件配置")
 	public R fileConfQuery(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		RcdSet rs = db.query("select * from sys_file_conf where is_delete='N'");
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
@@ -32,7 +32,7 @@ public class FileConfController extends BaseController {
 
 	@RequestMapping("/fileConfQueryById.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询文件配置")
 	public R fileConfQueryById(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Rcd rs = db.uniqueRecord("select * from sys_file_conf where is_delete='N' and id=?",
 				request.getParameter("id"));
@@ -41,14 +41,14 @@ public class FileConfController extends BaseController {
 
 	@RequestMapping("/fileConfSave.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="保存文件配置")
 	public R fileConfSave(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return null;
 	}
 
 	@RequestMapping("/fileConfDelete.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="删除文件配置")
 	public R fileConfDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if (db.uniqueRecord("select count(1) value from sys_files where bus=?", request.getParameter("bus"))
 				.getInteger("value") > 0) {

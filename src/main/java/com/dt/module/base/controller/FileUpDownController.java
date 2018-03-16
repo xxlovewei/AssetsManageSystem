@@ -37,7 +37,7 @@ public class FileUpDownController extends BaseController {
 
 	@RequestMapping("/fileupload.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="上传")
 	public R fileUpload(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String type = request.getParameter("type");
 		String uuid = request.getParameter("uuid");
@@ -94,7 +94,7 @@ public class FileUpDownController extends BaseController {
 	}
 
 	@RequestMapping("/imagedown.do")
-	@Acl(value = Acl.ACL_ALLOW)
+	@Acl(value = Acl.ACL_ALLOW,info="下载")
 	public void imagedown(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = request.getParameter("id");
 		if (ToolUtil.isEmpty(id)) {

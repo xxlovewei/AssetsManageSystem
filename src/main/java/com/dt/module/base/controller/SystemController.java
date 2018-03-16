@@ -22,7 +22,7 @@ public class SystemController {
 
 	@RequestMapping(value = "/system/getOnlineSession.do")
 	@ResponseBody
-	@Acl
+	@Acl(info="查询在线session")
 	public R getOnlineSession() {
 		return systemService.queryOnLineSession();
 	}

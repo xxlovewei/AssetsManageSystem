@@ -20,7 +20,7 @@ public class AppController extends BaseController {
 
 	@RequestMapping("/test/test.do")
 	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW, info = "启动应用节点")
+	@Acl(value = Acl.ACL_ALLOW, info = "test")
 	public ModelAndView startNodeApp(Model model, String id) {
 
 		ModelAndView mv = new ModelAndView();
