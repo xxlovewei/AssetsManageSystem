@@ -65,7 +65,6 @@ public class ApiService extends BaseService {
 				Iterator<String> it = pSet.iterator();
 				while (it.hasNext()) {
 					String str = it.next();
-					_log.info(str + "," + aclvalue);
 					Insert me = new Insert("sys_api");
 					me.set("id", db.getUUID());
 					me.setIf("ct", str);
@@ -74,6 +73,7 @@ public class ApiService extends BaseService {
 					me.setIf("info", aclinfo);
 					me.setIf("type", type);
 					me.setSE("rectime", DbUtil.getDbDateString(db.getDBType()));
+					_log.info(str + "," + aclvalue+","+me.getSQL());
 					sqls.add(me);
 				}
 			}

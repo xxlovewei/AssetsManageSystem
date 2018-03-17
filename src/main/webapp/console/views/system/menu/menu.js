@@ -94,11 +94,12 @@ function menuAclCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder,
 									function() {
 										for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
 											if ($scope.dtOptions.aaData[i].selected == "Y") {
+												console.log('tt');
 												$scope.dtInstance.DataTable
 														.row(':eq(' + i + ')')
 														.select();
 											} else {
-												break;
+												continue;
 											}
 										}
 									}, 80)
