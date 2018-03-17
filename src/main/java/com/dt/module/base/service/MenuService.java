@@ -54,13 +54,13 @@ public class MenuService extends BaseService {
 		RcdSet first_rs = db.query(basesql, menu_id, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
-			String first_key = first_rs.getRcd(i).getString("key");
+			String first_key = first_rs.getRcd(i).getString("keyvalue");
 			first_obj.put("state", first_key);
 			RcdSet second_rs = db.query(basesql, menu_id, first_rs.getRcd(i).getString("node_id"));
 			JSONArray second_arr = new JSONArray();
 			for (int j = 0; j < second_rs.size(); j++) {
 				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(i).toJsonObject());
-				String second_key = second_rs.getRcd(j).getString("key");
+				String second_key = second_rs.getRcd(j).getString("keyvalue");
 				second_obj.put("state", first_key + "." + second_key);
 				RcdSet third_rs = db.query(basesql, menu_id, second_rs.getRcd(j).getString("node_id"));
 				second_obj.put("children_cnt", third_rs.size());
@@ -68,7 +68,7 @@ public class MenuService extends BaseService {
 				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
 				for (int f = 0; f < third_arr.size(); f++) {
 					third_arr.getJSONObject(f).put("state",
-							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("key"));
+							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("keyvalue"));
 				}
 				second_obj.put("children", third_arr);
 				second_arr.add(second_obj);
@@ -98,7 +98,7 @@ public class MenuService extends BaseService {
 		String node_name = ps.getString("node_name");
 		String mark = ps.getString("mark");
 		String logo = ps.getString("logo");
-		String key = ps.getString("key");
+		String keyvalue = ps.getString("keyvalue");
 		String node_id = getNextNodeId();
 		Insert ins = new Insert("sys_menus_node");
 		String type = ps.getString("actiontype", "add");
@@ -122,13 +122,14 @@ public class MenuService extends BaseService {
 		ins.set("node_name", node_name);
 		// ins.set("PARENT_ID", old_node_id);
 		// ins.set("ROUTE", old_route + "-" + node_id);
-		ins.setIf("key", key);
+		ins.setIf("keyvalue", keyvalue);
 		ins.set("is_action", ps.getString("is_action"));
 		ins.set("deleted", "N");
 		ins.set("is_g_show", ps.getString("is_g_show"));
 		ins.setIf("logo", logo);
 		ins.setIf("mark", mark);
 		ins.setIf("type", validType(ps.getString("type")));
+		System.out.println(ins.getSQL());
 		db.execute(ins);
 		updateRouteName(nodeid, node_name);
 		return R.SUCCESS_OPER();
@@ -160,7 +161,7 @@ public class MenuService extends BaseService {
 		String node_id = ps.getString("node_id");
 		String node_name = ps.getString("node_name");
 		String mark = ps.getString("mark");
-		String key = ps.getString("key");
+		String keyvalue = ps.getString("keyvalue");
 		String module_id = ps.getString("module_id");
 		String sort = ps.getString("sort");
 		String logo = ps.getString("logo");
@@ -169,7 +170,7 @@ public class MenuService extends BaseService {
 		}
 		Update ups = new Update("sys_menus_node");
 		ups.set("node_name", node_name);
-		ups.setIf("key", key);
+		ups.setIf("keyvalue", keyvalue);
 		ups.setIf("sort", sort);
 		ups.setIf("logo", logo);
 		ups.setIf("mark", mark);

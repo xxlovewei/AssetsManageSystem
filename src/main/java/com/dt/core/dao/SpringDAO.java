@@ -585,6 +585,8 @@ public abstract class SpringDAO {
 	 * 获取数据库的当前时间，不适合循环调用
 	 */
 	public abstract Date getBDDate();
+	
+	public abstract String getDBType();
 
 	/**
 	 * 计算数据库的当前时间，不适合循环调用

@@ -40,7 +40,7 @@ public class UserBalanceService extends BaseService {
 		me.setIf("mark", mark);
 		me.setIf("flag", flag);
 		me.set("is_delete", "N");
-		me.setSE("rtime", DbUtil.getDBDateString(db.getDBType()));
+		me.setSE("rtime", DbUtil.getDbDateString(db.getDBType()));
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
@@ -67,7 +67,7 @@ public class UserBalanceService extends BaseService {
 			me.setIf("mark", mark);
 			me.setIf("flag", flag);
 			me.set("is_delete", "N");
-			me.setSE("rtime", DbUtil.getDBDateString(db.getDBType()));
+			me.setSE("rtime", DbUtil.getDbDateString(db.getDBType()));
 			db.execute(me);
 		} else {
 			return R.FAILURE("用户余额不够");

@@ -48,7 +48,7 @@ public class StoreSqlService extends BaseService {
 			}
 			Rcd brs = db.uniqueRecord(storesql, store_id);
 			if (ToolUtil.isNotEmpty(brs)) {
-				sql = brs.getString("sql");
+				sql = brs.getString("sqltext");
 				return_type = brs.getString("return_type");
 				is_used = brs.getString("is_used");
 			}
@@ -107,7 +107,7 @@ public class StoreSqlService extends BaseService {
 
 		// 弱弱的检查下
 		String msg = "Sql文本于返回类型不匹配";
-		String sql = ps.getString("sql", "").trim();
+		String sql = ps.getString("sqltext", "").trim();
 		String return_type = ps.getString("return_type", RETURN_ACTION);
 		if (sql.toLowerCase().startsWith("select")) {
 			if (return_type.equals(RETURN_ARRARY) || return_type.equals(RETURN_OBJECT)) {
@@ -137,7 +137,7 @@ public class StoreSqlService extends BaseService {
 		me.setIf("uri", ps.getString("uri"));
 		me.setIf("uri_parameter", ps.getString("uri_parameter"));
 		me.setIf("user_id", user_id);
-		me.setIf("sql", ps.getString("sql"));
+		me.setIf("sqltext", ps.getString("sqltext"));
 		me.setIf("db_id", ps.getString("db_id"));
 		// me.setIf("ctime", ps.getString("ctime"));
 		me.set("is_deleted", "N");
@@ -159,7 +159,7 @@ public class StoreSqlService extends BaseService {
 		me.setIf("uri", ps.getString("uri"));
 		me.setIf("uri_parameter", ps.getString("uri_parameter"));
 		me.setIf("user_id", user_id);
-		me.setIf("sql", ps.getString("sql"));
+		me.setIf("sqltext", ps.getString("sqltext"));
 		me.setIf("db_id", ps.getString("db_id"));
 		me.set("acl", ps.getString("acl", ACL_USER));
 		me.setIf("mark", ps.getString("mark"));

@@ -50,7 +50,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			ins.setIf("user_id", user_id);
 			ins.setIf("ip", ip);
 			ins.setIf("url", url);
-			ins.setSE("rtime", DbUtil.getDBDateString(db.getDBType()));
+			ins.setSE("rtime", DbUtil.getDbDateString(db.getDBType()));
 			ins.setIf("postorget", req.getQueryString());
 			db.execute(ins);
 		}

@@ -175,7 +175,7 @@ public class UserService extends BaseService {
 		RcdSet first_rs = db.query(basesql, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
-			String first_key = first_rs.getRcd(i).getString("key");
+			String first_key = first_rs.getRcd(i).getString("keyvalue");
 			// 菜单显示控制
 			if (!BaseCommon.isSuperAdmin(user_id)) {
 				String first_is_show = first_rs.getRcd(i).getString("is_g_show");
@@ -189,7 +189,7 @@ public class UserService extends BaseService {
 			JSONArray second_arr = new JSONArray();
 			for (int j = 0; j < second_rs.size(); j++) {
 				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(j).toJsonObject());
-				String second_key = second_rs.getRcd(j).getString("key");
+				String second_key = second_rs.getRcd(j).getString("keyvalue");
 				// 菜单显示控制
 				if (!BaseCommon.isSuperAdmin(user_id)) {
 					String second_is_show = second_rs.getRcd(j).getString("is_g_show");
@@ -212,7 +212,7 @@ public class UserService extends BaseService {
 						}
 					}
 					third_arr.getJSONObject(f).put("state",
-							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("key"));
+							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("keyvalue"));
 				}
 				second_obj.put("children", third_arr);
 				second_arr.add(second_obj);

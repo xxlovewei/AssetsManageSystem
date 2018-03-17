@@ -7,6 +7,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.dt.core.tool.encrypt.MD5Util;
+import com.dt.core.tool.util.DbUtil;
 import com.dt.module.base.schedule.service.JobService;
 import com.dt.module.db.DB;
 
@@ -19,8 +20,9 @@ public class BackupModuleJob implements Job {
 	@Override
 	public void execute(JobExecutionContext jc) throws JobExecutionException {
 
-		String sql = "insert into sys_modules_item_history select t.*,sysdate,'"
-				+ MD5Util.encrypt(new Date().getTime() + "") + "' from sys_modules_item t";
+		String sql = "insert into sys_modules_item_history select t.*,"
+				+ DbUtil.getDbDateString(DB.instance().getDBType()) + ",'" + MD5Util.encrypt(new Date().getTime() + "")
+				+ "' from sys_modules_item t";
 		DB.instance().execute(sql);
 		JobService.me().finishedJobUpdate(jc);
 	}

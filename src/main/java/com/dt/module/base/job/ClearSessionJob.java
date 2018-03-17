@@ -9,6 +9,7 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dt.core.tool.util.DbUtil;
 import com.dt.module.base.schedule.service.JobService;
 import com.dt.module.db.DB;
 
@@ -27,7 +28,7 @@ public class ClearSessionJob implements Job {
 		// 删除所有user_id为空的
 		sqls.add("delete from sys_session where user_id is null");
 		// 删除90天为访问的类型为web
-		sqls.add("delete sys_session where lastaccess<sysdate-90 and client='web'");
+		sqls.add("delete from sys_session where client='web' and lastaccess<"+ DbUtil.getDbDayBeforeString(DB.instance().getDBType(), "90"));
 		DB.instance().executeStringList(sqls);
 		JobService.me().finishedJobUpdate(jc);
 		_log.info("session clear end.");

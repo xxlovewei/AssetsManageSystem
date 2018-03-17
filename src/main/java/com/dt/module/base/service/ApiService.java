@@ -73,7 +73,7 @@ public class ApiService extends BaseService {
 					me.setIf("apitype", "url");
 					me.setIf("info", aclinfo);
 					me.setIf("type", type);
-					me.setSE("rectime", DbUtil.getDBDateString(db.getDBType()));
+					me.setSE("rectime", DbUtil.getDbDateString(db.getDBType()));
 					sqls.add(me);
 				}
 			}

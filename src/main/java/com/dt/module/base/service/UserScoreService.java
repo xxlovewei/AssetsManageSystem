@@ -9,6 +9,7 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.db.DB;
 
 /**
  * @author: algernonking
@@ -42,7 +43,7 @@ public class UserScoreService extends BaseService {
 		me.setIf("mark", mark);
 		me.setIf("flag", flag);
 		me.set("is_delete", "N");
-		me.setSE("rtime", DbUtil.getDBDateString(db.getDBType()));
+		me.setSE("rtime", DbUtil.getDbDateString(db.getDBType()));
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
@@ -69,7 +70,7 @@ public class UserScoreService extends BaseService {
 			me.setIf("mark", mark);
 			me.setIf("flag", flag);
 			me.set("is_delete", "N");
-			me.setSE("rtime", DbUtil.getDBDateString(db.getDBType()));
+			me.setSE("rtime", DbUtil.getDbDateString(db.getDBType()));
 			db.execute(me);
 		} else {
 			return R.FAILURE("用户积分不够");
@@ -99,7 +100,7 @@ public class UserScoreService extends BaseService {
 		if (ToolUtil.isEmpty(flag)) {
 			flag = "";
 		}
-		String sql = "select * from sys_user_score_dtl where rtime>sysdate-1 and user_id=? and flag=?";
+		String sql = "select * from sys_user_score_dtl where rtime>"+DbUtil.getDbDayBeforeString(DB.instance().getDBType(), "1")+" and user_id=? and flag=?";
 		return db.query(sql, user_id, flag).size();
 
 	}

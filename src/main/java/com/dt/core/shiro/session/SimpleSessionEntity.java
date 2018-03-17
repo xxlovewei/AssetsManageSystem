@@ -65,7 +65,7 @@ public class SimpleSessionEntity {
 	public void update(SimpleSessionEntity entity) {
 		Update me = new Update("sys_session");
 		me.set("dtsession", entity.session + "");
-		me.setSE("lastaccess", DbUtil.getDBDateString(DB.instance().getDBType()));
+		me.setSE("lastaccess", DbUtil.getDbDateString(DB.instance().getDBType()));
 		me.where().and("cookie=?", entity.cookie);
 		DB.instance().execute(me);
 	}

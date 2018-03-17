@@ -3,6 +3,8 @@ package com.dt.core.dao;
 import java.util.Date;
 import java.util.Map;
 
+import com.dt.core.tool.util.DbUtil;
+
 public abstract class SpringMySQLDao extends SpringDAO {
 	protected RcdSet getPageSet(RcdSet set, String sql, int pageIndex, int pageSize, Map<String, Object> params) {
 		if (pageIndex <= 0)
@@ -37,7 +39,8 @@ public abstract class SpringMySQLDao extends SpringDAO {
 		return this.uniqueDate("select now()");
 	}
 
+	@Override
 	public String getDBType() {
-		return "mysql";
+		return  DbUtil.TYPE_MYSQL;
 	}
 }

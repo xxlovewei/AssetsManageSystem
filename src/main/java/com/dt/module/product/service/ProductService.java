@@ -438,7 +438,7 @@ public class ProductService extends BaseService {
 		ins.setIf("mobile_profile_html", ps.getString("mobile_profile_html", ""));
 		ins.setIf("weight", ps.getString("weight", "0"));
 		ins.setIf("isneedlogistics", ps.getString("isneedlogistics", "1"));
-		ins.setSE("cdate", DbUtil.getDBDateString(db.getDBType()));
+		ins.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
 		/************************************ 处理基本属性 ************************/
 		String base_data = ps.getString("base_res");
 		JSONObject base_obj = JSONObject.parseObject(base_data);

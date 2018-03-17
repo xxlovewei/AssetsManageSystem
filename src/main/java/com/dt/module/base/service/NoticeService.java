@@ -31,8 +31,8 @@ public class NoticeService extends BaseService {
 		me.setIf("is_show", ps.getString("is_show", "N"));
 		me.set("is_delete", "N");
 		me.setIf("user_id", user_id);
-		me.setSE("rdate", DbUtil.getDBDateString(db.getDBType()));
-		me.setSE("cdate", DbUtil.getDBDateString(db.getDBType()));
+		me.setSE("rdate", DbUtil.getDbDateString(db.getDBType()));
+		me.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
@@ -59,7 +59,7 @@ public class NoticeService extends BaseService {
 		me.setIf("title", ps.getString("title"));
 		me.setIf("ct", ps.getString("ct"));
 		me.setIf("is_show", ps.getString("is_show", "N"));
-		me.setSE("rdate", DbUtil.getDBDateString(db.getDBType()));
+		me.setSE("rdate", DbUtil.getDbDateString(db.getDBType()));
 		me.where().and("id=?", ps.getString("id", ""));
 		db.execute(me);
 		return R.SUCCESS_OPER();
@@ -67,7 +67,7 @@ public class NoticeService extends BaseService {
 
 	public int queryNoticeCount(TypedHashMap<String, Object> ps, String type, String is_show, String user_id) {
 		String sql = processQuerySql(ps, type, is_show, user_id);
-		sql = "select count(1) cnt from (" + sql + ")";
+		sql = "select count(1) cnt from (" + sql + ") tab";
 		return db.uniqueRecord(sql).getInteger("cnt");
 	}
 

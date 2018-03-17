@@ -153,7 +153,7 @@ function sysStoreSqlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 			DTColumnBuilder.newColumn('acl').withTitle('访问类型').withOption('sDefaultContent', '').renderWith(renderACL),
 			DTColumnBuilder.newColumn('return_type').withTitle('返回类型').withOption('sDefaultContent', '').renderWith(renderRT),
 			DTColumnBuilder.newColumn('is_used').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('sql').withTitle('SQL文本').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('sqltext').withTitle('SQL文本').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('user_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {

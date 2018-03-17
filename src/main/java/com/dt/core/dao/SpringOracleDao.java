@@ -3,6 +3,8 @@ package com.dt.core.dao;
 import java.util.Date;
 import java.util.Map;
 
+import com.dt.core.tool.util.DbUtil;
+
 public abstract class SpringOracleDao extends SpringDAO {
 
 	protected RcdSet getPageSet(RcdSet set, String sql, int pageIndex, int pageSize, Map<String, Object> params) {
@@ -41,8 +43,9 @@ public abstract class SpringOracleDao extends SpringDAO {
 		return this.uniqueDate("SELECT SYSDATE FROM DUAL");
 	}
 
+	@Override
 	public String getDBType() {
-		return "oracle";
+		return DbUtil.TYPE_ORACLE;
 	}
 
 	public static void main(String[] args) {

@@ -35,7 +35,7 @@ public class JobService extends BaseService {
 	public Boolean finishedJobUpdate(JobExecutionContext jc) {
 		ScheduleJob job = (ScheduleJob) jc.getJobDetail().getJobDataMap().get("scheduleJob");
 		Update ups = new Update("sys_job");
-		ups.setSE("last_run", DbUtil.getDBDateString(DB.instance().getDBType()));
+		ups.setSE("last_run", DbUtil.getDbDateString(DB.instance().getDBType()));
 		ups.where().and("seq=?", job.getJobSeq() == null ? "" : job.getJobSeq());
 		DB.instance().execute(ups);
 		return true;

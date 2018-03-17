@@ -52,8 +52,8 @@ public class ContentService extends BaseService {
 		me.setIf("tag", ps.getString("tag"));
 		me.setIf("content", ps.getString("content"));
 		me.setIf("mark", ps.getString("mark"));
-		me.setSE("createtime", DbUtil.getDBDateString(db.getDBType()));
-		me.setSE("modifytime", DbUtil.getDBDateString(db.getDBType()));
+		me.setSE("createtime", DbUtil.getDbDateString(db.getDBType()));
+		me.setSE("modifytime", DbUtil.getDbDateString(db.getDBType()));
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
@@ -77,7 +77,7 @@ public class ContentService extends BaseService {
 		me.setIf("author", ps.getString("author"));
 		me.setIf("tag", ps.getString("tag"));
 		me.setIf("mark", ps.getString("mark"));
-		me.setSE("modifytime", DbUtil.getDBDateString(db.getDBType()));
+		me.setSE("modifytime", DbUtil.getDbDateString(db.getDBType()));
 		me.where().and("id=?", ps.getString("id"));
 		db.execute(me);
 		return R.SUCCESS_OPER();
@@ -145,7 +145,7 @@ public class ContentService extends BaseService {
 	 */
 	public int queryContentCount(TypedHashMap<String, Object> ps, String type) {
 		String sql = rebuildQueryContentSql(ps, type);
-		sql = "select count(1) value from (" + sql + ") ";
+		sql = "select count(1) value from (" + sql + ") tab";
 		int total = db.uniqueRecord(sql).getInteger("value");
 		return total;
 	}

@@ -3,6 +3,8 @@ package com.dt.core.dao;
 import java.util.Date;
 import java.util.Map;
 
+import com.dt.core.tool.util.DbUtil;
+
 public abstract class SpringSQLLiteDao extends SpringDAO {
 	protected RcdSet getPageSet(RcdSet set, String sql, int pageIndex, int pageSize, Map<String, Object> params) {
 		if (pageIndex <= 0)
@@ -36,4 +38,10 @@ public abstract class SpringSQLLiteDao extends SpringDAO {
 	public Date getBDDate() {
 		return this.uniqueDate("select datetime('now')");
 	}
+
+	@Override
+	public String getDBType() {
+		return DbUtil.TYPE_SQLLITE;
+	}
+
 }

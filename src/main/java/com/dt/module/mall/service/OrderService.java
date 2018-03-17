@@ -60,7 +60,7 @@ public class OrderService extends BaseService {
 		me.set("user_id", user_id);
 		me.setIf("action", action);
 		me.setIf("ct", ct);
-		me.setSE("cdate", DbUtil.getDBDateString(db.getDBType()));
+		me.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
 		db.execute(me);
 		return true;
 	}
@@ -115,7 +115,7 @@ public class OrderService extends BaseService {
 			ins.setIf("label", e.getString("label"));
 			ins.setIf("pic_id", e.getString("pic_id"));
 			ins.setIf("propertychildids", e.getString("propertychildids"));
-			ins.setSE("cdate", DbUtil.getDBDateString(db.getDBType()));
+			ins.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
 			sqls.add(ins);
 		}
 
@@ -141,8 +141,8 @@ public class OrderService extends BaseService {
 		order.setIf("is_pay", "N");
 		order.setIf("dtl_number", goodsarr.size());
 		order.setIf("remark", ps.getString("remark", ""));
-		order.setSE("cdate", DbUtil.getDBDateString(db.getDBType()));
-		order.setSE("mdate", DbUtil.getDBDateString(db.getDBType()));
+		order.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
+		order.setSE("mdate", DbUtil.getDbDateString(db.getDBType()));
 		sqls.add(order);
 
 		// 订单日志
@@ -184,7 +184,7 @@ public class OrderService extends BaseService {
 		}
 		Update ups = new Update("mall_order");
 		ups.set("amountreal", newmoney);
-		ups.setSE("mdate", DbUtil.getDBDateString(db.getDBType()));
+		ups.setSE("mdate", DbUtil.getDbDateString(db.getDBType()));
 		ups.where().and("order_id=?", order_id);
 
 		// 订单日志
@@ -251,7 +251,7 @@ public class OrderService extends BaseService {
 		// 更新订单表
 		Update ups = new Update("mall_order");
 		ups.set("is_pay", "Y");
-		ups.setSE("pdate", DbUtil.getDBDateString(db.getDBType()));
+		ups.setSE("pdate", DbUtil.getDbDateString(db.getDBType()));
 		ups.setIf("status", next_status);
 		ups.where().and("order_id=?", order_id);
 		sqls.add(ups.getSQL());

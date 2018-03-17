@@ -13,6 +13,7 @@ public class DbUtil {
 	 */
 	public static String TYPE_ORACLE = "oracle";
 	public static String TYPE_MYSQL = "mysql";
+	public static String TYPE_SQLLITE = "sqllite";
 
 	private static String getOraclePageSql(String sql, int pageSize, int pageIndex) {
 		if (ToolUtil.isOneEmpty(pageSize, pageIndex) || pageSize == -1 || pageIndex == -1) {
@@ -93,15 +94,24 @@ public class DbUtil {
 		return sql;
 	}
 
-	public static String getDBDateString(String type) {
+	public static String getDbDateString(String type) {
 		if (type.equals(TYPE_ORACLE)) {
 			return "sysdate";
 		} else if (type.equals(TYPE_MYSQL)) {
 			return "now()";
 		} else {
-
+			return "sysdate";
 		}
-		return "";
+	}
+
+	public static String getDbDayBeforeString(String type, String day) {
+		if (type.equals(TYPE_ORACLE)) {
+			return " sysdate-" + day;
+		} else if (type.equals(TYPE_MYSQL)) {
+			return " date_sub(now(),interval " + day + " day)";
+		} else {
+			return "sysdate-" + day;
+		}
 	}
 
 	public static void main(String[] args) {

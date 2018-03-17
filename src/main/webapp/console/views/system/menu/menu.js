@@ -206,7 +206,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 	if ($scope.item.actiontype == "add") {
 		$scope.item.node_name = "";
 		$scope.item.mark = ""
-		$scope.item.key = ""
+		$scope.item.keyvalue = ""
 		$scope.item.logo = ""
 		$scope.item.sort = ""
 		$scope.item.module_id = "";
@@ -234,7 +234,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 	} else if ($scope.item.actiontype == "addmaster") {
 		$scope.item.node_name = "";
 		$scope.item.mark = ""
-		$scope.item.key = ""
+		$scope.item.keyvalue = ""
 		$scope.item.logo = ""
 		$scope.item.sort = ""
 		$scope.item.module_id = "";
@@ -353,7 +353,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 	$scope.col_defs = [
 			{
-				field : "key",
+				field : "keyvalue",
 				sortable : false,
 				displayName : "程序键",
 				sortingType : "string"

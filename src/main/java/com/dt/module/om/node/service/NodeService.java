@@ -49,8 +49,8 @@ public class NodeService extends BaseService {
 		me.setIf("deleted", "N");
 		me.setIf("od", ps.getString("od", "1"));
 		me.setIf("mark", ps.getString("mark", ""));
-		me.setSE("cdate", DbUtil.getDBDateString(DB.instance().getDBType()));
-		me.setSE("mdate", DbUtil.getDBDateString(DB.instance().getDBType()));
+		me.setSE("cdate", DbUtil.getDbDateString(DB.instance().getDBType()));
+		me.setSE("mdate", DbUtil.getDbDateString(DB.instance().getDBType()));
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
@@ -69,8 +69,8 @@ public class NodeService extends BaseService {
 				me.setIf("pwdmd5", MD5Util.encrypt(md5pwd));
 			}
 		}
-		me.setSE("cdate", DbUtil.getDBDateString(DB.instance().getDBType()));
-		me.setSE("mdate", DbUtil.getDBDateString(DB.instance().getDBType()));
+		me.setSE("cdate", DbUtil.getDbDateString(DB.instance().getDBType()));
+		me.setSE("mdate", DbUtil.getDbDateString(DB.instance().getDBType()));
 		me.setIf("username", ps.getString("username", "").trim());
 		me.setIf("logintype", ps.getString("logintype", ""));
 		me.setIf("port", ps.getString("port", ""));
