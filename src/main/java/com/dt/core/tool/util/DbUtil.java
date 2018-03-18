@@ -1,6 +1,9 @@
 package com.dt.core.tool.util;
 
+import java.util.Date;
+
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.tool.util.support.DateTimeKit;
 
 /**
  * @author: algernonking
@@ -105,10 +108,12 @@ public class DbUtil {
 	}
 
 	public static String getDbDayBeforeString(String type, String day) {
+
 		if (type.equals(TYPE_ORACLE)) {
 			return " sysdate-" + day;
 		} else if (type.equals(TYPE_MYSQL)) {
-			return " date_sub(now(),interval " + day + " day)";
+			return " str_to_date('" + DateTimeKit.format(DateTimeKit.offsiteDay(new Date(), ToolUtil.toInt(day) * (-1)),
+					DateTimeKit.NORM_DATE_PATTERN) + "', '%Y-%m-%d %H')";
 		} else {
 			return "sysdate-" + day;
 		}
@@ -116,6 +121,7 @@ public class DbUtil {
 
 	public static void main(String[] args) {
 
+		System.out.println();
 		System.out.println(queryBuild("adf", " abc"));
 		System.out.println(queryByIdBuild("adf", "id", "value", "abc"));
 		System.out.println(getOraclePageSql("select * from ct_content", -1, 0));

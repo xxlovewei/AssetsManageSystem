@@ -13,5 +13,6 @@ shiro.enable=false并且shiro.updateperm=false并且将相关xml去除
 
 
 //mysql 发布新闻无图片
+//个人日志无数据
  
  

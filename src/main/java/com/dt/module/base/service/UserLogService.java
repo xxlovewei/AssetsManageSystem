@@ -32,7 +32,7 @@ public class UserLogService extends BaseService {
 	public int queryAccessLogPageCount(String user_id, TypedHashMap<String, Object> ps, int pageSize) {
 		String basesql = "select * from sys_log_access where rtime>"
 				+ DbUtil.getDbDayBeforeString(DB.instance().getDBType(), "300") + " and user_id='" + user_id + "'";
-		String sql = "select count(1) value from (" + basesql + ") ";
+		String sql = "select count(1) value from (" + basesql + ") tab ";
 		int total = db.uniqueRecord(sql).getInteger("value");
 		return total;
 	}
