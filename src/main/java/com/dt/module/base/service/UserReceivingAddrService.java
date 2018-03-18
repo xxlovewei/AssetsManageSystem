@@ -12,6 +12,7 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
+import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 
 /**
@@ -25,9 +26,15 @@ public class UserReceivingAddrService extends BaseService {
 	 * @Description: 根据id获取地址
 	 */
 	public JSONObject queryReceivingAddrById(String addr_id) {
-		Rcd rs = db.uniqueRecord(
-				"select t.*,t.provincenm||t.citynm||t.areaname||t.ct ctdtl from (select (select mingc from sys_qud_shengf where id=a.provinceid)provincenm, (select mingc from sys_qud_chengs where id=a.cityid)citynm, (select mingc from sys_qud_qux where id=a.areaid)areanm,a.* from sys_user_receivingaddr a where is_deleted='N' and id=?) t",
-				addr_id);
+		String sql = "select t.*, #CTDTL# from (select (select mingc from sys_qud_shengf where id=a.provinceid)provincenm, (select mingc from sys_qud_chengs where id=a.cityid)citynm, (select mingc from sys_qud_qux where id=a.areaid)areanm,a.* from sys_user_receivingaddr a where is_deleted='N' and id=?) t";
+		if (db.getDBType().equals(DbUtil.TYPE_ORACLE)) {
+			sql = sql.replace("#CTDTL#", "t.provincenm||t.citynm||t.areaname||t.ct ctdtl");
+		} else if (db.getDBType().equals(DbUtil.TYPE_MYSQL)) {
+			sql = sql.replace("#CTDTL#", "concat(t.provincenm,t.citynm,t.areaname,t.ct) ctdtl");
+		} else {
+			sql = sql.replace("#CTDTL#", "");
+		}
+		Rcd rs = db.uniqueRecord(sql, addr_id);
 		return ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 	}
 
@@ -35,13 +42,21 @@ public class UserReceivingAddrService extends BaseService {
 	 * @Description: 获取所有地址
 	 */
 	public JSONArray queryReceivingAddr(String user_id) {
-		String sql = "select t.*, " + "t.provincenm||t.citynm||t.areanm ctdtl " + "from ( " + "select "
+
+		String sql = "select t.*, #CTDTL# " + "from ( " + "select "
 				+ "(select mingc from sys_qud_shengf where id=a.provinceid)provincenm, "
 				+ "(select mingc from sys_qud_chengs where id=a.cityid)citynm, "
 				+ "(select mingc from sys_qud_qux where id=a.areaid)areanm, " + "a.*, "
 				+ "case when a.id=b.receaddr_def then 1 else 0 end is_def "
 				+ "from sys_user_receivingaddr a,sys_user_info b "
 				+ "where a.user_id=b.user_id and a.is_deleted='N' and a.user_id=?) t " + "order by od ";
+		if (db.getDBType().equals(DbUtil.TYPE_ORACLE)) {
+			sql = sql.replace("#CTDTL#", "t.provincenm||t.citynm||t.areaname||t.ct ctdtl");
+		} else if (db.getDBType().equals(DbUtil.TYPE_MYSQL)) {
+			sql = sql.replace("#CTDTL#", "concat(t.provincenm,t.citynm,t.areaname,t.ct) ctdtl");
+		} else {
+			sql = sql.replace("#CTDTL#", "");
+		}
 		RcdSet rs = db.query(sql, user_id);
 		return ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
 	}
