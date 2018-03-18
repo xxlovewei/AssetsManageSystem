@@ -419,6 +419,7 @@ public class ProductService extends BaseService {
 		Insert ins = new Insert("product");
 		int totalStock = 0;
 		ins.set("spu", spu);
+		ins.set("is_deleted", "N");
 		ins.setIf("shop_id", ps.getString("shop_id"));
 		ins.setIf("prod_name", ps.getString("prod_name"));
 		ins.set("cat_id", cat_id);

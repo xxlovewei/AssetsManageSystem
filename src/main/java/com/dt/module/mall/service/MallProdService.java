@@ -57,7 +57,7 @@ public class MallProdService extends BaseService {
 	}
 
 	public int queryClassProdCount(TypedHashMap<String, Object> ps, String class_id) {
-		String sql = "select count(1) cnt from (" + queryClassProdSql(ps, class_id) + ")";
+		String sql = "select count(1) cnt from (" + queryClassProdSql(ps, class_id) + ")tab";
 		return db.uniqueRecord(sql).getInteger("cnt");
 	}
 
