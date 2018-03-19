@@ -107,16 +107,39 @@ public class DbUtil {
 		}
 	}
 
-	public static String getDbDayBeforeString(String type, String day) {
-
-		if (type.equals(TYPE_ORACLE)) {
-			return " sysdate-" + day;
-		} else if (type.equals(TYPE_MYSQL)) {
-			return " str_to_date('" + DateTimeKit.format(DateTimeKit.offsiteDay(new Date(), ToolUtil.toInt(day) * (-1)),
-					DateTimeKit.NORM_DATE_PATTERN) + "', '%Y-%m-%d %H')";
+	private static String getDbDayString(String type, String day, String daytype) {
+		if ("before".equals(daytype)) {
+			if (type.equals(TYPE_ORACLE)) {
+				return " sysdate-" + day;
+			} else if (type.equals(TYPE_MYSQL)) {
+				return " str_to_date('"
+						+ DateTimeKit.format(DateTimeKit.offsiteDay(new Date(), ToolUtil.toInt(day) * (-1)),
+								DateTimeKit.NORM_DATE_PATTERN)
+						+ "', '%Y-%m-%d %H')";
+			} else {
+				return "sysdate-" + day;
+			}
 		} else {
-			return "sysdate-" + day;
+			if (type.equals(TYPE_ORACLE)) {
+				return " sysdate+" + day;
+			} else if (type.equals(TYPE_MYSQL)) {
+				return " str_to_date('"
+						+ DateTimeKit.format(DateTimeKit.offsiteDay(new Date(), ToolUtil.toInt(day) * (1)),
+								DateTimeKit.NORM_DATE_PATTERN)
+						+ "', '%Y-%m-%d %H')";
+			} else {
+				return "sysdate+" + day;
+			}
 		}
+
+	}
+
+	public static String getDbDayAfterString(String type, String day) {
+		return getDbDayString(type, day, "after");
+	}
+
+	public static String getDbDayBeforeString(String type, String day) {
+		return getDbDayString(type, day, "before");
 	}
 
 	public static void main(String[] args) {
