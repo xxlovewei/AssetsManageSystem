@@ -20,11 +20,10 @@ public class DB extends SpringMySQLDao {
 	}
 
 	private String dbname = "db";
-	private String dbtype = this.getDBType();
 
 	@Resource(name = "db")
 	public void setDataSource(DataSource dataSource) {
-		_log.info(dbtype + " " + dbname + " setDataSource");
+		_log.info(getDBType() + " " + dbname + " setDataSource");
 		super.setDataSource(dataSource);
 	}
 }

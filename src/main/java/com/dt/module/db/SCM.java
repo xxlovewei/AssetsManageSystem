@@ -26,16 +26,16 @@ import com.dt.module.base.listener.ApplicationContextListener;
 public class SCM extends SpringOracleDao {
 	private static Logger _log = LoggerFactory.getLogger(SCM.class);
 
-	private String dbname = "scm";
-	private String dbtype = this.getDBType();
-
 	public static SCM instance() {
 		return SpringContextUtil.getBean(SCM.class);
 	}
 
+	private String dbname = "scm";
+
 	@Resource(name = "scm")
 	public void setDataSource(DataSource dataSource) {
-		_log.info(dbtype + " " + dbname + " setDataSource");
+
+		_log.info(getDBType() + " " + dbname + " setDataSource");
 		super.setDataSource(dataSource);
 	}
 
@@ -50,7 +50,6 @@ public class SCM extends SpringOracleDao {
 			String scm_username = ps.getProperty("scm.username", "");
 			String scm_password = ps.getProperty("scm.password", "");
 			if ("true".equals(scm_enable)) {
-				_log.info(dbtype + " " + dbname + " setDataSource");
 				DruidDataSource ds = new DruidDataSource();
 				ds.setUrl(url);
 				ds.setUsername(scm_username);
