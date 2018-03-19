@@ -7,12 +7,12 @@ shiro.enable=false并且shiro.updateperm=false并且将相关xml去除
  mysql -uroot -pmysql123mysql
  
  sublime中正则表达式 用 `(.*)` --ctl kl转小写
- 
- mysql>source d:/dbname.sql
+ use dt;
+ mysql>source /tmp/mysql.sql
  
 
 
 //mysql 发布新闻无图片
-//个人日志无数据
+
  
  
