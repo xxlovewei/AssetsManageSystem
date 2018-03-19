@@ -57,8 +57,7 @@ public class FileUpDownController extends BaseController {
 		}
 		// 从数据库中获取
 		String bus_path = fileinfo.getString("path");
-		MultipartResolver resolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-		MultipartHttpServletRequest multipartRequest = resolver.resolveMultipart(request);
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		_log.info("Type:" + type);
 		if ("image".equals(type)) {
 			String name = "Image_" + uuid;

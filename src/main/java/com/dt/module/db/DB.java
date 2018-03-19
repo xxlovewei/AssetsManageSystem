@@ -8,11 +8,12 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import com.dt.core.dao.SpringMySQLDao;
+import com.dt.core.dao.SpringOracleDao;
 import com.dt.core.tool.lang.SpringContextUtil;
 
 @Component
 @Scope(BeanDefinition.SCOPE_SINGLETON)
-public class DB extends SpringMySQLDao {
+public class DB extends SpringOracleDao {
 	private static Logger _log = LoggerFactory.getLogger(DB.class);
 
 	public static DB instance() {
