@@ -27,7 +27,7 @@ public class SCM extends SpringOracleDao {
 	private static Logger _log = LoggerFactory.getLogger(SCM.class);
 
 	private String dbname = "scm";
-	private String dbtype = "oracle";
+	private String dbtype = this.getDBType();
 
 	public static SCM instance() {
 		return SpringContextUtil.getBean(SCM.class);
