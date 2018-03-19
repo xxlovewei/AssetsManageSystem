@@ -121,10 +121,20 @@ public class ContentService extends BaseService {
 			sql = sql.replaceAll("<#CONTENT#>", "CONTENT,");
 		}
 		if (ToolUtil.isNotEmpty(sdate)) {
-			sql = sql + " and createtime>=to_date('" + sdate + " 00:00:00','yyyy-mm-dd hh24:mi:ss') ";
+			if (db.getDBType().equals(DbUtil.TYPE_ORACLE)) {
+				sql = sql + " and createtime>=to_date('" + sdate + " 00:00:00','yyyy-mm-dd hh24:mi:ss') ";
+			} else if (db.getDBType().equals(DbUtil.TYPE_MYSQL)) {
+				sql = sql + " and createtime>=str_to_date('" + sdate + "','%Y-%m-%d %H') ";
+			}
+
 		}
 		if (ToolUtil.isNotEmpty(edate)) {
-			sql = sql + " and createtime<=to_date('" + edate + " 23:59:59','yyyy-mm-dd hh24:mi:ss') ";
+			if (db.getDBType().equals(DbUtil.TYPE_ORACLE)) {
+				sql = sql + " and createtime<=to_date('" + edate + " 23:59:59','yyyy-mm-dd hh24:mi:ss') ";
+			} else if (db.getDBType().equals(DbUtil.TYPE_MYSQL)) {
+				sql = sql + " and createtime<=str_to_date('" + sdate + "','%Y-%m-%d %H') ";
+			}
+
 		}
 		if (ToolUtil.isEmpty(sort)) {
 			// 如果是新闻

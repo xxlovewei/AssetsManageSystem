@@ -89,11 +89,19 @@ public class NoticeService extends BaseService {
 		}
 
 		if (ToolUtil.isNotEmpty(bdate)) {
-			sql = sql + " rdate>to_date('" + bdate + "','yyyy-mm-dd')";
+			if (db.getDBType().equals(DbUtil.TYPE_ORACLE)) {
+				sql = sql + " and rdate>=to_date('" + bdate + " 00:00:00','yyyy-mm-dd hh24:mi:ss') ";
+			} else if (db.getDBType().equals(DbUtil.TYPE_MYSQL)) {
+				sql = sql + " and rdate>=str_to_date('" + bdate + "','%Y-%m-%d %H') ";
+			}
 		}
 
 		if (ToolUtil.isNotEmpty(bdate)) {
-			sql = sql + " rdate<to_date('" + edate + "','yyyy-mm-dd')";
+			if (db.getDBType().equals(DbUtil.TYPE_ORACLE)) {
+				sql = sql + " and rdate<=to_date('" + edate + " 00:00:00','yyyy-mm-dd hh24:mi:ss') ";
+			} else if (db.getDBType().equals(DbUtil.TYPE_MYSQL)) {
+				sql = sql + " and rdate<=str_to_date('" + edate + "','%Y-%m-%d %H') ";
+			}
 		}
 
 		return sql;
