@@ -115,7 +115,7 @@ public class ScheduleMangerService extends BaseService {
 	@SuppressWarnings("rawtypes")
 	public JSONArray getJobAll(String type, String user_id) {
 
-		String sql = " select t.*,'本地执行' nodename from sys_job t where 1=1 ";
+		String sql = "select t.*,'本地执行' nodename from sys_job t where 1=1 ";
 		Map<String, ScheduleJob> jobs = Maps.newLinkedHashMap();
 		RcdSet res = db.query(sql);
 		for (int i = 0; i < res.size(); i++) {

@@ -539,7 +539,7 @@ public class ProductService extends BaseService {
 		RcdSet rs = db.query(sql, spu);
 		for (int i = 0; i < rs.size(); i++) {
 			JSONObject e = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.getRcd(i).toJsonObject());
-			String esql = "select a.value,a.attr_set_id,a.od from product_category_attr_set a,product_attr_set b where cat_id=? and a.attr_set_id=b.attr_set_id and b.is_sku='Y' and b.attr_id=?  and b.spu=? order by a.od";
+			String esql = "select a.value,a.attr_set_id,a.od from product_category_attr_set a,product_attr_set b where cat_id=? and a.attr_set_id=b.attr_set_id and b.is_sku='Y' and b.attr_id=? and b.spu=? order by a.od";
 			e.put("childscurgoods",
 					ConvertUtil.OtherJSONObjectToFastJSONArray(
 							db.query(esql, rs.getRcd(i).getString("cat_id"), rs.getRcd(i).getString("attr_id"), spu)
@@ -564,7 +564,7 @@ public class ProductService extends BaseService {
 		}
 		ids = ids.substring(0, ids.length() - 1);
 		String sql = "select * from product_sku a,(select sku from (select sku,count(1) cnt from product_sku_map where spu=? and attr_set_id in ("
-				+ ids + ") group by sku ) where cnt=?) b where a.sku=b.sku and a.spu=?";
+				+ ids + ") group by sku )tab where cnt=?) b where a.sku=b.sku and a.spu=?";
 		return R.SUCCESS_OPER(db.uniqueRecord(sql, spu, cnt, spu).toJsonObject());
 	}
 

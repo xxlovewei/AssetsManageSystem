@@ -30,7 +30,7 @@ public class ProductMaintainControllerdel extends BaseController {
 	// 获得产品主要内容
 	private JSONObject methodQueryProduct(String spu) {
 		JSONObject r = new JSONObject();
-		Rcd rs = db.uniqueRecord("select * from dt_product where is_deleted='N' and  spu=?", spu);
+		Rcd rs = db.uniqueRecord("select * from dt_product where is_deleted='N' and spu=?", spu);
 		if (ToolUtil.isNotEmpty(r)) {
 			r = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 		}
@@ -64,7 +64,7 @@ public class ProductMaintainControllerdel extends BaseController {
 	private JSONArray methodQueryProductSpec(String spu) {
 
 		JSONArray res = new JSONArray();
-		String sepcsql = "select a.*,decode(a.status,'enable','启用','disabled','停用','未知') status_name from  dt_product_specgroup a ,dt_product b where a.spu=b.spu and a.spu=?  and a.is_deleted='N' order by od";
+		String sepcsql = "select a.*,decode(a.status,'enable','启用','disabled','停用','未知') status_name from  dt_product_specgroup a ,dt_product b where a.spu=b.spu and a.spu=? and a.is_deleted='N' order by od";
 
 		RcdSet rs = db.query(sepcsql, spu);
 		for (int i = 0; i < rs.size(); i++) {

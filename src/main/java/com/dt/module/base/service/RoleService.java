@@ -21,7 +21,7 @@ public class RoleService extends BaseService {
 	 * @Description: 查询所有角色
 	 */
 	public R queryRole() {
-		return R.SUCCESS_OPER(db.query("select * from sys_role where deleted='N' ").toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query("select * from sys_role where deleted='N'").toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description: 查询某个角色

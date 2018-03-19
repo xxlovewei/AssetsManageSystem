@@ -423,7 +423,7 @@ public class CategoryBService extends BaseService {
 
 	// 获取品类下面的所有的值,匹配数据用
 	private JSONArray getBaseAttrValueMap(String cat_id) {
-		String sql = "select a.attr_set_id, value from product_category_attr_set a,product_category_attr b where a.attr_id=b.attr_id and b.is_deleted='N' and a.is_deleted='N' and b.cat_id=?  and b.attr_type='sale'";
+		String sql = "select a.attr_set_id, value from product_category_attr_set a,product_category_attr b where a.attr_id=b.attr_id and b.is_deleted='N' and a.is_deleted='N' and b.cat_id=? and b.attr_type='sale'";
 		return ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, cat_id).toJsonArrayWithJsonObject());
 	}
 }

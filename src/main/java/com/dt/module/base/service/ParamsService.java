@@ -99,7 +99,6 @@ public class ParamsService extends BaseService {
 			ups.set("deleted", "Y");
 			ups.where().and("id=?", id);
 			Insert me = new Insert("sys_params");
-
 			me.set("id", id);
 			me.set("deleted", "N");
 			me.set("type", type);

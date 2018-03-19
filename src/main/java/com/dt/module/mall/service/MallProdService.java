@@ -25,7 +25,7 @@ public class MallProdService extends BaseService {
 				+ "' and not exists (select * from sys_ct_class_item b where b.value=a.spu and class_id='" + class_id
 				+ "')";
 
-		sql = "select count(1) cnt from (" + sql + ")";
+		sql = "select count(1) cnt from (" + sql + ") tab";
 		return db.uniqueRecord(sql).getInteger("cnt");
 	}
 
