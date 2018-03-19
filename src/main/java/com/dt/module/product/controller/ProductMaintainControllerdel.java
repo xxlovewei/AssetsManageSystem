@@ -82,30 +82,30 @@ public class ProductMaintainControllerdel extends BaseController {
 	private JSONArray methodQueryProductSku(String spu) {
 
 		String skusql = "with prod_sepc as " + "(select "
-				+ "LENGTH(sku_uuid) - LENGTH(REPLACE(sku_uuid,',',''))+1 num, "
-				+ "decode( LENGTH(sku_uuid) - LENGTH(REPLACE(sku_uuid,',',''))+1 , "
+				+ "length(sku_uuid) - length(replace(sku_uuid,',',''))+1 num, "
+				+ "decode( length(sku_uuid) - length(replace(sku_uuid,',',''))+1 , "
 				+ "1,sku_uuid,substr(sku_uuid,1,instr(sku_uuid,',') -1)  ) level1, "
-				+ "decode( LENGTH(sku_uuid) - LENGTH(REPLACE(sku_uuid,',',''))+1 , " + "1,'-1', "
-				+ "2 , substr(sku_uuid,instr(sku_uuid,',',1,1)+1  ,  LENGTH(sku_uuid)-instr(sku_uuid,',',1,1)  )  , "
+				+ "decode( length(sku_uuid) - length(replace(sku_uuid,',',''))+1 , " + "1,'-1', "
+				+ "2 , substr(sku_uuid,instr(sku_uuid,',',1,1)+1  ,  length(sku_uuid)-instr(sku_uuid,',',1,1)  )  , "
 				+ "substr(sku_uuid,instr(sku_uuid,',',1,1)+1 , instr(sku_uuid,',',1,2)-instr(sku_uuid,',',1,1)-1  ) "
-				+ ") level2, " + "decode( LENGTH(sku_uuid) - LENGTH(REPLACE(sku_uuid,',',''))+1 , " + "1,'-1', "
+				+ ") level2, " + "decode( length(sku_uuid) - length(replace(sku_uuid,',',''))+1 , " + "1,'-1', "
 				+ "2,'-1', "
-				+ "3 , substr(sku_uuid,instr(sku_uuid,',',1,2)+1  ,  LENGTH(sku_uuid)-instr(sku_uuid,',',1,2)  )  , "
+				+ "3 , substr(sku_uuid,instr(sku_uuid,',',1,2)+1  ,  length(sku_uuid)-instr(sku_uuid,',',1,2)  )  , "
 				+ "substr(sku_uuid,instr(sku_uuid,',',1,2)+1 , instr(sku_uuid,',',1,3)-instr(sku_uuid,',',1,2)-1  ) "
-				+ ") level3, " + "decode( LENGTH(sku_uuid) - LENGTH(REPLACE(sku_uuid,',',''))+1 , " + "1,'-1', "
+				+ ") level3, " + "decode( length(sku_uuid) - length(replace(sku_uuid,',',''))+1 , " + "1,'-1', "
 				+ "2,'-1', " + "3,'-1', "
-				+ "4 , substr(sku_uuid,instr(sku_uuid,',',1,3)+1  ,  LENGTH(sku_uuid)-instr(sku_uuid,',',1,3)  )  , "
+				+ "4 , substr(sku_uuid,instr(sku_uuid,',',1,3)+1  ,  length(sku_uuid)-instr(sku_uuid,',',1,3)  )  , "
 				+ "substr(sku_uuid,instr(sku_uuid,',',1,3)+1 , instr(sku_uuid,',',1,4)-instr(sku_uuid,',',1,3)-1  ) "
-				+ ") level4, " + "decode( LENGTH(sku_uuid) - LENGTH(REPLACE(sku_uuid,',',''))+1 , " + "1,'-1', "
+				+ ") level4, " + "decode( length(sku_uuid) - length(replace(sku_uuid,',',''))+1 , " + "1,'-1', "
 				+ "2,'-1', " + "3,'-1', " + "4,'-1', "
-				+ "5 , substr(sku_uuid,instr(sku_uuid,',',1,4)+1  ,  LENGTH(sku_uuid)-instr(sku_uuid,',',1,4)  )  , "
+				+ "5 , substr(sku_uuid,instr(sku_uuid,',',1,4)+1  ,  length(sku_uuid)-instr(sku_uuid,',',1,4)  )  , "
 				+ "substr(sku_uuid,instr(sku_uuid,',',1,4)+1 , instr(sku_uuid,',',1,5)-instr(sku_uuid,',',1,4)-1  ) "
-				+ ") level5, " + "sku.* " + "from DT_PRODUCT_SKU sku where IS_DELETED='N' and spu=? " + ") " + "select "
-				+ "(select spec_name from DT_PRODUCT_SPECGROUP_ITEM i where i.SPEC_ID=a.level1) level1_name, "
-				+ "(select spec_name from DT_PRODUCT_SPECGROUP_ITEM i where i.SPEC_ID=a.level2) level2_name, "
-				+ "(select spec_name from DT_PRODUCT_SPECGROUP_ITEM i where i.SPEC_ID=a.level3) level3_name, "
-				+ "(select spec_name from DT_PRODUCT_SPECGROUP_ITEM i where i.SPEC_ID=a.level4) level4_name, "
-				+ "(select spec_name from DT_PRODUCT_SPECGROUP_ITEM i where i.SPEC_ID=a.level5) level5_name, " + "a.* "
+				+ ") level5, " + "sku.* " + "from dt_product_sku sku where is_deleted='n' and spu=? " + ") " + "select "
+				+ "(select spec_name from dt_product_specgroup_item i where i.spec_id=a.level1) level1_name, "
+				+ "(select spec_name from dt_product_specgroup_item i where i.spec_id=a.level2) level2_name, "
+				+ "(select spec_name from dt_product_specgroup_item i where i.spec_id=a.level3) level3_name, "
+				+ "(select spec_name from dt_product_specgroup_item i where i.spec_id=a.level4) level4_name, "
+				+ "(select spec_name from dt_product_specgroup_item i where i.spec_id=a.level5) level5_name, " + "a.* "
 				+ "from prod_sepc a";
 		RcdSet rs = db.query(skusql, spu);
 
@@ -116,30 +116,28 @@ public class ProductMaintainControllerdel extends BaseController {
 	@RequestMapping("/prod/queryBySpu.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW, info = "根据spu获取产品")
-	public R queryBySpu(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public R queryBySpu(String spu) throws IOException {
 
 		JSONObject res = new JSONObject();
 
-		String spu = request.getParameter("spu");
-
-		if (spu == null) {
+		if (ToolUtil.isEmpty(spu)) {
 			return R.FAILURE("参数错误");
 		}
 
 		// 获取产品主要内容
 		res = methodQueryProduct(spu);
-		if (!res.containsKey("SPU")) {
+		if (!res.containsKey("spu")) {
 			return R.FAILURE("不存在此产品");
 		}
 
 		// 获取产品主要图片
-		res.put("IMAGES", methodQueryProductImage(spu));
+		res.put("images", methodQueryProductImage(spu));
 
 		// 获取产品规格
-		res.put("SPECS", methodQueryProductSpec(spu));
+		res.put("specs", methodQueryProductSpec(spu));
 
 		// 获取所有产品规格组合,SKU组数据
-		res.put("SKUS", methodQueryProductSku(spu));
+		res.put("skus", methodQueryProductSku(spu));
 
 		return R.SUCCESS("成功获取", res);
 	}
