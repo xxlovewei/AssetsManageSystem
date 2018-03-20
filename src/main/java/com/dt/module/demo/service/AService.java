@@ -2,8 +2,12 @@ package com.dt.module.demo.service;
 
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.sql.Update;
+
+import net.sf.json.JSONObject;
 
 /**
  * @author: jinjie
@@ -12,6 +16,16 @@ import com.dt.core.common.base.R;
  */
 @Service
 public class AService extends BaseService {
+
+	public R tt() {
+
+
+		
+		
+		
+		
+		return R.FAILURE_OPER();
+	}
 
 	public R test() {
 		return R.SUCCESS_OPER(R.SUCCESS_OPER(db.query("select 1 from dual").toJsonArrayWithJsonObject()));
