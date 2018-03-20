@@ -2,7 +2,6 @@ package com.dt.core.dao.sql;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
 import com.dt.core.dao.Rcd;
 
 public interface QueryableSQL {
