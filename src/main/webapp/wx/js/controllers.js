@@ -1,4 +1,4 @@
-function MainCtrl($log, $http, $scope, $rootScope, $state) {
+function MainCtrl($log, $http, $scope, $rootScope, $state,$window) {
 
 	/* 底部固定条 */
 	$rootScope.footData = [ {
@@ -28,7 +28,8 @@ function MainCtrl($log, $http, $scope, $rootScope, $state) {
 
 		$rootScope.footcurrent = item.id;
 		if (item == "index") {
-			$state.go("index.ct");
+			//$state.go("index.ct");
+			$window.open("/dt/wx/loc.html", '_blank');
 		} else if (item == "cat") {
 			$state.go("cat.ct");
 		} else if (item == "shop") {
@@ -40,10 +41,12 @@ function MainCtrl($log, $http, $scope, $rootScope, $state) {
 	}
 
 	$scope.goIndex = function() {
-		$state.go("index.ct");
+		 
+		//$window.open("/dt/wx/loc.html", '_blank');
+		 $state.go("index.ct");
 	}
 
-	$scope.goBack=function(){
+	$scope.goBack = function() {
 		history.back();
 	}
 };

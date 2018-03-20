@@ -20,11 +20,14 @@ public class WxAppService {
 		a.setSecret("f6cea94ef73b19db97320a36b3fb36b4");
 		a.setName("测试公众号A");
 		apps.put(a.getAppid(), a);
+		
+		
 		WxApp b = new WxApp();
 		b.setAppid("wx8fc3340c90ec5d53");
 		b.setSecret("f6cea94ef73b19db97320a36b3fb36b4");
 		b.setName("测试公众号B");
 		apps.put(b.getAppid(), b);
+		
 		
 	}
 
