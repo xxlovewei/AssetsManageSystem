@@ -29,7 +29,7 @@ function MainCtrl($log, $http, $scope, $rootScope, $state,$window) {
 		$rootScope.footcurrent = item.id;
 		if (item == "index") {
 			//$state.go("index.ct");
-			$window.open("/dt/wx/loc.html", '_blank');
+			$window.open("/dt/wx/dtl.html", '_blank');
 		} else if (item == "cat") {
 			$state.go("cat.ct");
 		} else if (item == "shop") {

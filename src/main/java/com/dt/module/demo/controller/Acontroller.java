@@ -65,8 +65,10 @@ public class Acontroller extends BaseController {
 		}
 		String signature = "";
 		// 注意这里参数名必须全部小写，且必须有序
-		String sign = "jsapi_ticket=" + jsapi_ticket + "&noncestr=" + nonceStr + "×tamp=" + timestamp + "&url="
+		System.out.println(jsapi_ticket);
+		String sign = "jsapi_ticket=" + jsapi_ticket + "&noncestr=" + nonceStr + "&timestamp=" + timestamp + "&url="
 				+ requestUrl;
+		System.out.println(sign);
 		try {
 			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
 			crypt.reset();
