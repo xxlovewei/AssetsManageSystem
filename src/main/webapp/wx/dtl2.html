@@ -1,0 +1,208 @@
+
+
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+<script type="text/javascript">
+        var StatTimer = window.StatTimer = {
+            _s: new Date().getTime(),
+            data: {},
+            stub: function(name) {
+                this['data'][name] = (new Date().getTime() - this._s) / 1000;
+            }
+        };
+    </script>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="address=no">
+<title>地图选点</title>
+
+
+
+<link rel="stylesheet" type="text/css"
+	href="https://3gimg.qq.com/lightmap/components/locationPicker2/css/main-b92af55349.css">
+</head>
+<body>
+	<!-- loading -->
+	<div id="loading">
+		<img src="./image/loading.png" width="36" height="36" alt="loading">
+	</div>
+	<div id="updating">
+		<img src="./image/loading.png" width="36" height="36" alt="updating">
+	</div>
+
+	<script type="text/javascript">
+        StatTimer.stub('geolocation_start');
+    </script>
+	<!-- 通过 iframe 嵌入前端定位组件 -->
+	<iframe id="geoPage" style="display: none" width=0 height=0
+		frameborder=0 scrolling="no"
+		src="https://apis.map.qq.com/tools/geolocation?key=VFUBZ-JIR3D-Z2M4H-PPAGG-G5KVQ-S3F2S&referer=locationPicker">
+	</iframe>
+	<!-- 定位失败页 -->
+	<div id="geoFail" class="hide">
+		<div class="error-msg">
+			<img src="./image/warn.png" width="30" height="30" alt="warn">
+			<span>定位失败，请稍后重试</span>
+		</div>
+		<a class="refresh-btn" href="javascript:;">重试</a>
+	</div>
+
+	<!-- 传递的经纬度不合法提示页 -->
+	<div id="locationIllegal" class="hide">
+		<div class="error-msg">
+			<img src="./image/warn.png" width="30" height="30" alt="warn">
+			<span>传递的经纬度不合法</span>
+		</div>
+	</div>
+
+	<!-- 搜索区域 -->
+	<a href="#" id="iosFix"></a>
+	<div class="search-wrap init-status">
+		<div class="search-bar">
+			<form name="poi-search" id="poiSearch" onsubmit="return false;">
+				<input type="search" class="keyword" id="searchword" placeholder=" ">
+				<button type="reset" class="clear-input"></button>
+				<button type="submit" class="submit">搜索</button>
+			</form>
+			<a class="cancle">取消</a>
+		</div>
+	</div>
+
+	<!-- 搜索提示区域 -->
+	<div class="suggestion-wrap">
+		<div id="suggestionScroller" class="suggestion-scroller">
+			<div class="poi-list">
+				<ul>
+					<!-- 该区域不仅放搜索提示列表，还放点击搜索后的检索结果列表 -->
+				</ul>
+			</div>
+			<div class="load-wrap hide">
+				<div class="load-data">
+					<img width="24" height="24" src="./image/loadData.png" /> <span>加载中...</span>
+				</div>
+			</div>
+			<div class="no-more-results hide">
+				<p>亲，没有更多了~</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- 地图区域 -->
+	<div class="map-wrap">
+		<!-- map地图 -->
+		<div id="container">
+			<div class="marker">
+				<i></i> <img width="26px" height="36px" src="./image/marker.png" />
+			</div>
+			<!-- 返回当前位置 -->
+			<div class="go-back-pos">
+				<i></i>
+			</div>
+
+			<div id="map-info">
+				<!-- 比例尺 -->
+				<div class="scale">200米</div>
+				<div class="qqmap-text-logo"></div>
+			</div>
+
+			<div class="to-right">
+				<!-- 缩放按钮 -->
+				<a class="cbutton" id="btn-zoom"> <i id="btn-zoom-in"
+					class="icon-zoom-in" data-adtag="zoomin">+</i> <i id="btn-zoom-out"
+					class="icon-zoom-out" data-adtag="zoomout">-</i>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- poi列表 -->
+	<div class="list-wrap">
+		<div id="scroller" class="poi-scroller">
+			<div id="activePosition" class="active-pos">
+				<h2 class="poi-title"></h2>
+				<p class="poi-address initPos"></p>
+				<span class="poi-latlng"></span> <span class="poi-city"></span> <i
+					class="active"></i>
+			</div>
+			<div class="poi-list">
+				<ul>
+
+				</ul>
+			</div>
+			<div class="load-wrap">
+				<div class="load-data">
+					<img width="24" height="24" src="./image/loadData.png" /> <span>加载中...</span>
+				</div>
+			</div>
+			<div class="no-more-results">
+				<p>亲，没有更多了~</p>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript"
+		src="https://3gimg.qq.com/lightmap/components/locationPicker2/js/main-7a1d052cdf.js"></script>
+	<script
+		src="https://apis.map.qq.com/api/js?v=2.exp&key=VFUBZ-JIR3D-Z2M4H-PPAGG-G5KVQ-S3F2S&callback="></script>
+	<script>
+        seajs.config({
+            base: './js/'
+        });
+        seajs.use(['index-22ca56e011.js'], function(View){
+            new View();
+        });
+    </script>
+
+	<!-- List template -->
+	<script id="listTpl" type="text/x-template">        
+            {{#if list}}
+                {{#each list}}
+                    <li>
+                        <h2 class="poi-title">{{title}}</h2>
+                        <p class="poi-address">{{address}}</p>
+                        <span class="poi-latlng">{{location.lat}},{{location.lng}}</span>
+                        <span class="poi-city">{{ad_info.city}}</span>
+                        <i class="active"></i>
+                    </li>
+                {{/each}}
+            {{else}}
+                <p class="no-results">o_O出错了~</p>
+            {{/if}}     
+    </script>
+
+	<!-- suggestion template -->
+	<script id="sugTpl" type="text/x-template">        
+        {{#if list}}
+            {{#each list}}
+                <li>
+                    <p class="item">
+                        <span class="poi-title">{{title}}</span>
+                        <span class="poi-address">{{address}}</span>
+                        <span class="poi-latlng">{{location.lat}},{{location.lng}}</span>
+                        <span class="poi-city">{{ad_info.city}}</span>
+                    </p>
+                </li>
+            {{/each}}
+        {{else}}
+            {{#if suggestion}}
+                {{#each suggestion}}
+                    <li data-lat="{{pointy}}" data-lng="{{pointx}}">
+                        <p class="item">
+                            <span class="poi-title">{{title}}</span>
+                            <span class="poi-address">{{address}}</span>
+                            <span class="poi-latlng">{{location.lat}},{{location.lng}}</span>
+                            <span class="poi-city">{{city}}</span>
+                        </p
+                    </li>
+                {{/each}}
+            {{/if}} 
+        {{/if}}        
+    </script>
+	<script type="text/javascript" src="//pingjs.qq.com/h5/stats.js"
+		name="MTAH5" sid="500153441"></script>
+</body>
