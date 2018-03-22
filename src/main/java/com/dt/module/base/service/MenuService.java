@@ -129,7 +129,6 @@ public class MenuService extends BaseService {
 		ins.setIf("logo", logo);
 		ins.setIf("mark", mark);
 		ins.setIf("type", validType(ps.getString("type")));
-		System.out.println(ins.getSQL());
 		db.execute(ins);
 		updateRouteName(nodeid, node_name);
 		return R.SUCCESS_OPER();

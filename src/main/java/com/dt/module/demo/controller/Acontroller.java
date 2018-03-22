@@ -65,10 +65,10 @@ public class Acontroller extends BaseController {
 		}
 		String signature = "";
 		// 注意这里参数名必须全部小写，且必须有序
-		System.out.println(jsapi_ticket);
+		BaseCommon.print(jsapi_ticket);
 		String sign = "jsapi_ticket=" + jsapi_ticket + "&noncestr=" + nonceStr + "&timestamp=" + timestamp + "&url="
 				+ requestUrl;
-		System.out.println(sign);
+		BaseCommon.print(sign);
 		try {
 			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
 			crypt.reset();
@@ -102,7 +102,7 @@ public class Acontroller extends BaseController {
 	@Acl(value = Acl.ACL_ALLOW, type = Acl.TYPE_API, info = "demo")
 	@ResponseBody
 	public R weixin(String url) {
-		System.out.println(url);
+		BaseCommon.print(url);
 		Map<String, Object> ret = getWxConfig(url);
 		JSONObject r=new JSONObject();
 		r.put("signature", ret.get("signature"));
