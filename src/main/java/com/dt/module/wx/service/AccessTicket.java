@@ -1,5 +1,7 @@
 package com.dt.module.wx.service;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * @author: jinjie
  * @date: 2018年3月22日 上午9:57:11
@@ -38,5 +40,22 @@ public class AccessTicket {
 	private int expiresIn;
 
 	private long ctime;
+
+	@Override
+	public String toString() {
+		JSONObject e = new JSONObject();
+		e.put("ticket", ticket);
+		e.put("expiresIn", expiresIn);
+		e.put("ctime", ctime);
+		return e.toJSONString();
+	}
+
+	public JSONObject toJsonObject() {
+		JSONObject e = new JSONObject();
+		e.put("ticket", ticket);
+		e.put("expiresIn", expiresIn);
+		e.put("ctime", ctime);
+		return e;
+	}
 
 }

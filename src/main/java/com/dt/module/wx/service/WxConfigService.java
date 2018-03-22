@@ -5,7 +5,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
@@ -42,6 +45,21 @@ public class WxConfigService extends BaseService {
 	 */
 	private static Map<String, AccessToken> tokens = new HashMap<String, AccessToken>();
 	private static Map<String, AccessTicket> tickets = new HashMap<String, AccessTicket>();
+
+	public R queryMapTickets() {
+		JSONArray res = new JSONArray();
+		Set<String> set = tickets.keySet();
+		Iterator<String> it = set.iterator();
+		while (it.hasNext()) {
+			String key = (String) it.next();
+			AccessTicket value = (AccessTicket) tickets.get(key);
+			JSONObject e = new JSONObject();
+			e.put("access_token", key);
+			e.put("data", value.toJsonObject());
+			res.add(e);
+		}
+		return R.SUCCESS_OPER(res);
+	}
 
 	public R queryWxConfig(String url) {
 		return queryWxConfig(appIdconf, secretconf, url);

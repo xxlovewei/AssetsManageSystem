@@ -23,6 +23,13 @@ public class WxConfigController extends BaseController {
 	private WxConfigService wxConfigService;
 
 	@ResponseBody
+	@Acl(info = "查询所有的tickets数据", value = Acl.ACL_ALLOW)
+	@RequestMapping("/wx/queryMapTickets.do")
+	public R queryMapTickets() {
+		return wxConfigService.queryMapTickets();
+	}
+
+	@ResponseBody
 	@Acl(info = "从本地配置中获取app的token数据", value = Acl.ACL_ALLOW)
 	@RequestMapping("/wx/getAccessToken.do")
 	public R getAccessToken() {
