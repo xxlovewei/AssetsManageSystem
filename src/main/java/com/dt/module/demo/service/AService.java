@@ -2,12 +2,10 @@ package com.dt.module.demo.service;
 
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
-import com.dt.core.dao.sql.Update;
 
-import net.sf.json.JSONObject;
+;
 
 /**
  * @author: jinjie
@@ -19,11 +17,6 @@ public class AService extends BaseService {
 
 	public R tt() {
 
-
-		
-		
-		
-		
 		return R.FAILURE_OPER();
 	}
 
