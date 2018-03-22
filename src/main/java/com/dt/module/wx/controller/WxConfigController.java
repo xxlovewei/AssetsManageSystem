@@ -23,12 +23,12 @@ public class WxConfigController extends BaseController {
 	private WxConfigService wxConfigService;
 
 	@ResponseBody
-	@Acl(info = "从本地配置中获取app配置信息", value = Acl.ACL_ALLOW)
+	@Acl(info = "从本地配置中获取app的token数据", value = Acl.ACL_ALLOW)
 	@RequestMapping("/wx/getAccessToken.do")
-	public R getconfig() {
+	public R getAccessToken() {
 		return wxConfigService.queryAccessToken();
 	}
-	
+
 	@ResponseBody
 	@Acl(info = "从本地配置中获取app配置信息", value = Acl.ACL_ALLOW)
 	@RequestMapping("/wx/getConfig.do")
