@@ -31,10 +31,10 @@ import com.dt.core.wx.ps.entity.WxApp;
 public class WxConfigService extends BaseService {
 
 	@Value("${wx.appId}")
-	private String appId;
+	private String appIdconf;
 
 	@Value("${wx.secret}")
-	private String secret;
+	private String secretconf;
 	private static Logger _log = LoggerFactory.getLogger(WxConfigService.class);
 
 	/**
@@ -44,7 +44,7 @@ public class WxConfigService extends BaseService {
 	private static Map<String, AccessTicket> tickets = new HashMap<String, AccessTicket>();
 
 	public R queryWxConfig(String url) {
-		return queryWxConfig(appId, secret, url);
+		return queryWxConfig(appIdconf, secretconf, url);
 	}
 
 	/**
@@ -54,7 +54,11 @@ public class WxConfigService extends BaseService {
 		return R.FAILURE("未实现");
 	}
 
-	public R queryWxToken(String appId, String secret, boolean ifnew) {
+	public R queryAccessToken() {
+		return queryWxToken(appIdconf, secretconf, false);
+	}
+
+	private R queryWxToken(String appId, String secret, boolean ifnew) {
 		JSONObject r = new JSONObject();
 		String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appId + "&secret="
 				+ secret;
@@ -110,7 +114,6 @@ public class WxConfigService extends BaseService {
 
 		if (ifnew) {
 			JSONObject json = WxApp.httpRequest(url, "GET", null);
-			_log.info(json.toJSONString());
 			ticket = json.getString("ticket");
 			AccessTicket t = new AccessTicket();
 			t.setCtime(System.currentTimeMillis());
@@ -135,8 +138,6 @@ public class WxConfigService extends BaseService {
 		String jsapi_ticket = "";
 		String timestamp = Long.toString(System.currentTimeMillis() / 1000); // 必填，生成签名的时间戳
 		String nonceStr = UUID.randomUUID().toString(); // 必填，生成签名的随机串
-		// String url = "";
-
 		// 获取token
 		R tokenr = queryWxToken(appId, secret, false);
 		if (tokenr.isSuccess()) {
