@@ -40,6 +40,9 @@ public class WxConfigService extends BaseService {
 	/**
 	 * @Description:微信公众号获取配置
 	 */
+	private static Map<String, AccessToken> tokens = new HashMap<String, AccessToken>();
+	private static Map<String, AccessTicket> tickets = new HashMap<String, AccessTicket>();
+
 	public R queryWxConfig(String url) {
 		return queryWxConfig(appId, secret, url);
 	}
@@ -56,13 +59,68 @@ public class WxConfigService extends BaseService {
 		String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appId + "&secret="
 				+ secret;
 		String token = "";
+		// 无效
+		if (!ifnew) {
+			// 从缓存中获取
+			AccessToken at = tokens.get(appId);
+			if (at == null || (System.currentTimeMillis() - at.getCtime()) / 1000 > at.getExpiresIn() * 0.9) {
+				// 无效,后续重新请求
+				ifnew = true;
+			} else {
+				token = at.getToken();
+				_log.info("access_token(mem):" + at.getToken());
+				r.put("access_token", token);
+				return R.SUCCESS_OPER(r);
+			}
+		}
+
 		if (ifnew) {
 			JSONObject json = WxApp.httpRequest(url, "GET", null);
 			token = json.getString("access_token");
+			AccessToken t = new AccessToken();
+			t.setCtime(System.currentTimeMillis());
+			t.setExpiresIn(json.getIntValue("expires_in"));
+			t.setToken(token);
+			tokens.put(appId, t);
 			_log.info("access_token(new):" + token);
 		}
+
 		r.put("access_token", token);
-		_log.info("access_token:" + token);
+		return R.SUCCESS_OPER(r);
+	}
+
+	public R queryWxTicket(String access_token, boolean ifnew) {
+		JSONObject r = new JSONObject();
+		String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi";
+		String ticket = "";
+		// 无效
+		if (!ifnew) {
+			// 从缓存中获取
+			AccessTicket at = tickets.get(access_token);
+			if (at == null || (System.currentTimeMillis() - at.getCtime()) / 1000 > at.getExpiresIn() * 0.9) {
+				// 无效,后续重新请求
+				ifnew = true;
+			} else {
+				ticket = at.getTicket();
+				_log.info("access_ticket(mem):" + at.getTicket());
+				r.put("access_ticket", ticket);
+				return R.SUCCESS_OPER(r);
+			}
+		}
+
+		if (ifnew) {
+			JSONObject json = WxApp.httpRequest(url, "GET", null);
+			_log.info(json.toJSONString());
+			ticket = json.getString("ticket");
+			AccessTicket t = new AccessTicket();
+			t.setCtime(System.currentTimeMillis());
+			t.setExpiresIn(json.getIntValue("expires_in"));
+			t.setTicket(ticket);
+			tickets.put(access_token, t);
+			_log.info("access_ticket(new):" + ticket);
+		}
+
+		r.put("access_ticket", ticket);
 		return R.SUCCESS_OPER(r);
 	}
 
@@ -77,21 +135,25 @@ public class WxConfigService extends BaseService {
 		String jsapi_ticket = "";
 		String timestamp = Long.toString(System.currentTimeMillis() / 1000); // 必填，生成签名的时间戳
 		String nonceStr = UUID.randomUUID().toString(); // 必填，生成签名的随机串
-		String url = "";
-		R tokenr = queryWxToken(appId, secret, true);
+		// String url = "";
+
+		// 获取token
+		R tokenr = queryWxToken(appId, secret, false);
 		if (tokenr.isSuccess()) {
+			// 获取ticket
 			access_token = tokenr.queryDataToJSONObject().getString("access_token");
-			url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi";
-			JSONObject json = WxApp.httpRequest(url, "GET", null);
-			if (json != null) {
-				jsapi_ticket = json.getString("ticket");
+			R ticketr = queryWxTicket(access_token, false);
+			if (ticketr.isSuccess()) {
+				jsapi_ticket = ticketr.queryDataToJSONObject().getString("access_ticket");
+			} else {
+				return ticketr;
 			}
 		} else {
 			return tokenr;
 		}
 
+		// 注意这里参数名必须全部小写，且必须有序,做签名
 		String signature = "";
-		// 注意这里参数名必须全部小写，且必须有序
 		_log.info("jsapi_ticket:" + jsapi_ticket);
 		String sign = "jsapi_ticket=" + jsapi_ticket + "&noncestr=" + nonceStr + "&timestamp=" + timestamp + "&url="
 				+ requestUrl;

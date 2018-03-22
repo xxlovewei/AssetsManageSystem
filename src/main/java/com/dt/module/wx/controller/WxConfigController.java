@@ -23,14 +23,14 @@ public class WxConfigController extends BaseController {
 	private WxConfigService wxConfigService;
 
 	@ResponseBody
-	@Acl(info = "从本地配置中获取app配置信息",value=Acl.ACL_ALLOW)
+	@Acl(info = "从本地配置中获取app配置信息", value = Acl.ACL_ALLOW)
 	@RequestMapping("/wx/geCconfig.do")
 	public R getconfig(String url) {
 		return wxConfigService.queryWxConfig(url);
 	}
 
 	@ResponseBody
-	@Acl(info = "从数据库获取app配置信息",value=Acl.ACL_ALLOW)
+	@Acl(info = "从数据库获取app配置信息", value = Acl.ACL_ALLOW)
 	@RequestMapping("/wx/getConfigByid.do")
 	public R getConfigByid(String id, String url) {
 		return wxConfigService.queryWxConfigByIdFromDb(id, url);
