@@ -30,6 +30,13 @@ public class RegionController extends BaseController {
 		return regionService.queryRegionById(id);
 	}
 
+	@RequestMapping(value = "/region/queryRegionALL.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_ALLOW, info = "获取所有省份市区节点")
+	public R queryRegionALL() {
+		return regionService.queryRegionALL();
+	}
+
 	/**
 	 * @Description:获取省份数据
 	 */
