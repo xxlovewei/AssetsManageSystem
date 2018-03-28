@@ -22,7 +22,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取所有节点数据,不再使用这个API
 	 */
-	@Cacheable(value = "users", key = "#id")
+	@Cacheable(value = "public", key = "'region_'+#root.method.name")
 	public R queryRegion() {
 
 		String sql = "select * from sys_region";
@@ -35,14 +35,16 @@ public class RegionService extends BaseService {
 			e.put("text", rs.getRcd(i).getString("name"));
 			res.add(e);
 		}
-		BaseCommon.print("TT");
+
 		return R.SUCCESS_OPER(res);
 	}
 
 	/**
 	 * @Description: 获取节点数据
 	 */
+	@Cacheable(value = "public", key = "'region_'+#root.method.name")
 	public R queryRegionALL() {
+
 		JSONObject data = new JSONObject();
 		// 省份
 		String sfsql = "select id,mingc from sys_qud_shengf";
@@ -79,6 +81,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取节点数据
 	 */
+	@Cacheable(value = "public", key = "'region_'+#id")
 	public R queryRegionById(String id) {
 		String sql = "select * from sys_region where parentid=?";
 		return R.SUCCESS_OPER(db.query(sql, id).toJsonArrayWithJsonObject());

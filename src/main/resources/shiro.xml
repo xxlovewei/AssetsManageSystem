@@ -8,7 +8,7 @@
 	<!-- 凭证匹配器 -->
 	<bean id="credentialsMatcher"
 		class="com.dt.core.shiro.RetryLimitSimpleCredentialsMatcher">
-		<constructor-arg ref="cacheManager" />
+		<constructor-arg ref="shiroCacheManager" />
 		<property name="LimitretryCount" value="6" />
 	</bean>
 
@@ -20,7 +20,7 @@
 		<property name="authorizationCachingEnabled" value="true" />
 		<property name="authenticationCacheName" value="authenticationCache" />
 		<property name="authenticationCachingEnabled" value="true" />
-		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheManager" ref="shiroCacheManager" />
 	</bean>
 
 
@@ -92,7 +92,7 @@
 
 
 	<!-- 用户授权信息Cache,shiro自定的本机内存实现的cacheManager类,后期不满足要求可以自己实现 -->
-	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+	<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
 		<property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml" />
 	</bean>
 
@@ -101,7 +101,7 @@
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="myShiroRealm" />
 		<!--将缓存管理器，交给安全管理器 -->
-		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheManager" ref="shiroCacheManager" />
 		<!-- 注入session管理器 -->
 		<property name="sessionManager" ref="sessionManager"></property>
 		<property name="rememberMeManager" ref="rememberMeManager" />
