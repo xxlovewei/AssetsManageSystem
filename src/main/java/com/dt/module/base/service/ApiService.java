@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -15,8 +14,8 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
 import com.dt.core.annotion.Acl;
+import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
@@ -39,7 +38,7 @@ public class ApiService extends BaseService {
 		return SpringContextUtil.getBean(ApiService.class);
 	}
 
-	@Cacheable(value = "public", key = "'api_'+#root.method.name")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC, key = "'api_'+#root.method.name")
 	public R queryApi() {
 		String sql = "select * from sys_api";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
@@ -75,7 +74,7 @@ public class ApiService extends BaseService {
 					me.setIf("info", aclinfo);
 					me.setIf("type", type);
 					me.setSE("rectime", DbUtil.getDbDateString(db.getDBType()));
-					_log.info(str + "," + aclvalue+","+me.getSQL());
+					_log.info(str + "," + aclvalue + "," + me.getSQL());
 					sqls.add(me);
 				}
 			}

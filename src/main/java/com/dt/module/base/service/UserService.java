@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
@@ -98,7 +99,7 @@ public class UserService extends BaseService {
 	/**
 	 * @Description: 获得用户菜单,限制3层
 	 */
-	@Cacheable(value = "user", key = "'user_menu_'+#user_id+#menu_id")
+	@Cacheable(value = CacheConfig.CACHE_USER, key = "'user_menu_'+#user_id+#menu_id")
 	public JSONArray getMenuTree(String user_id, String menu_id) {
 		// 获得所有tree的node,限制3层
 		String mflag = MD5Util.encrypt(user_id + menu_id);
@@ -272,10 +273,9 @@ public class UserService extends BaseService {
 	@SuppressWarnings("unchecked")
 	public List<String> findPermissionsByRoleId(String roleId) {
 		_log.info("获取角色权限:" + roleId);
-		return db
-				.query("select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
-						roleId)
-				.toList("ct");
+		return db.query(
+				"select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
+				roleId).toList("ct");
 	}
 
 	/**
