@@ -12,12 +12,6 @@ public class R implements Serializable {
 	 * @Description: TODO
 	 */
 	private static final long serialVersionUID = 3168255189576251355L;
-	/**
-	 * @fieldName: serialVersionUID
-	 * @fieldType: long
-	 * @Description: TODO
-	 */
-
 	public static String TYPE_JSON = "json";
 	public String type = R.TYPE_JSON;
 	private Boolean clearAttach = false;
