@@ -70,10 +70,7 @@ public class RegionService extends BaseService {
 			quyobj.put(cityid, ConvertUtil.OtherJSONObjectToFastJSONArray(quydata.toJsonArrayWithJsonObject()));
 		}
 		data.put("quy", quyobj);
-		R r = new R();
-		r.setClearAttach(true);
-		r.setData(data);
-		return r;
+		return R.clearAttachDirect(data);
 	}
 
 	/**

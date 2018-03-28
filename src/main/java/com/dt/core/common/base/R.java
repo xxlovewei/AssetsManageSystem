@@ -24,6 +24,13 @@ public class R implements Serializable {
 		this.type = type;
 	}
 
+	public static R clearAttachDirect(Object data) {
+		R r = new R();
+		r.setClearAttach(true);
+		r.setData(data);
+		return r;
+	}
+
 	public void setClearAttach(Boolean clearAttach) {
 		this.clearAttach = clearAttach;
 	}
