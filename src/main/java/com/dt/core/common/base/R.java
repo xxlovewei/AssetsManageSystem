@@ -1,9 +1,17 @@
 package com.dt.core.common.base;
 
+import java.io.Serializable;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-public class R {
+public class R implements Serializable {
+	/**
+	 * @fieldName: serialVersionUID
+	 * @fieldType: long
+	 * @Description: TODO
+	 */
+	private static final long serialVersionUID = 3168255189576251355L;
 	/**
 	 * @fieldName: serialVersionUID
 	 * @fieldType: long
