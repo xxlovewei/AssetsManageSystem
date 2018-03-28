@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
@@ -38,6 +39,7 @@ public class ApiService extends BaseService {
 		return SpringContextUtil.getBean(ApiService.class);
 	}
 
+	@Cacheable(value = "public", key = "'api_'+#root.method.name")
 	public R queryApi() {
 		String sql = "select * from sys_api";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
