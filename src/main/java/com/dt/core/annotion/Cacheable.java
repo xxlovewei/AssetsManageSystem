@@ -15,4 +15,3 @@ public @interface Cacheable {
 	public ExpireTime expire() default ExpireTime.NONE; // 缓存时效,默认无限期
 
 }
-
