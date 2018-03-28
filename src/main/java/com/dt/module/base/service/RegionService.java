@@ -1,11 +1,9 @@
 package com.dt.module.base.service;
 
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.RcdSet;
@@ -83,7 +81,6 @@ public class RegionService extends BaseService {
 	 */
 	@Cacheable(value = "public", key = "'region_'+#id")
 	public R queryRegionById(String id) {
-		BaseCommon.print("11");
 		String sql = "select * from sys_region where parentid=?";
 		return R.SUCCESS_OPER(db.query(sql, id).toJsonArrayWithJsonObject());
 	}

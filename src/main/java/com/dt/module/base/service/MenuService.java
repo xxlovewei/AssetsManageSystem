@@ -1,5 +1,6 @@
 package com.dt.module.base.service;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +47,7 @@ public class MenuService extends BaseService {
 	}
 
 	/**
-	 * @Description:按照前端js要求直接生成树的json格式
+	 * @Description:按照前端js要求直接生成树的json格式,不再使用
 	 */
 	public R queryMenuNodesTree(String menu_id) {
 		JSONArray r = new JSONArray();
