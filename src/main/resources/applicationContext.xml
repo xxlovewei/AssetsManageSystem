@@ -10,22 +10,15 @@
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 	http://www.springframework.org/schema/cache 
 	http://www.springframework.org/schema/cache/spring-cache.xsd ">
-	<cache:annotation-driven/>
-	<!-- generic cache manager -->
+	<cache:annotation-driven />
+	<bean id="ehCacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+		p:configLocation="classpath:ehcache.xml"
+		p:shared="true" />
 	<bean id="cacheManager"
-		class="org.springframework.cache.support.SimpleCacheManager">
-		<property name="caches"> 
-			<set> 
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
-					p:name="public" /> 
-        
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
-					p:name="default" /> 
-			</set> 
-		</property> 
-	</bean> 
+		class="org.springframework.cache.ehcache.EhCacheCacheManager"
+		p:cacheManager-ref="ehCacheManager" > 
+	</bean>
 	
 	<context:annotation-config />
 	<!-- 扫描impl,R实现需要 -->
