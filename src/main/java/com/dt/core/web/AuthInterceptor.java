@@ -2,17 +2,11 @@ package com.dt.core.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import com.dt.core.annotion.Acl;
-import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseConstants;
-import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.tool.util.DbUtil;
@@ -29,9 +23,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		Boolean isPass = true;
-		String acl = Acl.ACL_DENY;
+		// String acl = Acl.ACL_DENY;
 		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse res = (HttpServletResponse) response;
+		// HttpServletResponse res = (HttpServletResponse) response;
 		response.setCharacterEncoding("UTF-8");
 		Boolean is_auth = false;
 		String user_id = "unknow";
