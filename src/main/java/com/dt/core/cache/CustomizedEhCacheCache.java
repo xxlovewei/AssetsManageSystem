@@ -43,7 +43,7 @@ public class CustomizedEhCacheCache implements Cache {
 	private final Ehcache cache;
 
 	// 格式cacahename#5#2
-	// #expiredtime 0注解层面上永未不过期(最近还要看其他配置),当有值是,优先级最高
+	// #expiredtime 0注解层面上永未不过期(具体还要看其他配置),当有值是,优先级最高
 	// #refreshtime 0离快过期时刷新数据
 	private long expiredtime = 0;
 	private long refreshtime = 0;
@@ -188,6 +188,7 @@ public class CustomizedEhCacheCache implements Cache {
 				}
 			});
 		}
+		
 		return new SimpleValueWrapper(element.getObjectValue());
 	}
 
