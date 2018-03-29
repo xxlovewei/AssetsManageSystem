@@ -3,25 +3,20 @@ package com.dt.module.wx.service;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Formatter;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
-import com.dt.core.wx.ps.entity.WxApp;
 
 /**
  * @author: jinjie
@@ -32,124 +27,23 @@ import com.dt.core.wx.ps.entity.WxApp;
 @Configuration
 @PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
 public class WxConfigService extends BaseService {
+	@Autowired
+	private WxService wxService;
 
-	@Value("${wx.appId}")
-	private String appIdconf;
-
-	@Value("${wx.secret}")
-	private String secretconf;
 	private static Logger _log = LoggerFactory.getLogger(WxConfigService.class);
 
-	/**
-	 * @Description:微信公众号获取配置
-	 */
-	private static Map<String, AccessToken> tokens = new HashMap<String, AccessToken>();
-	private static Map<String, AccessTicket> tickets = new HashMap<String, AccessTicket>();
-
-	public R queryMapTickets() {
-		JSONArray res = new JSONArray();
-		Set<String> set = tickets.keySet();
-		Iterator<String> it = set.iterator();
-		while (it.hasNext()) {
-			String key = (String) it.next();
-			AccessTicket value = (AccessTicket) tickets.get(key);
-			JSONObject e = new JSONObject();
-			e.put("access_token", key);
-			e.put("data", value.toJsonObject());
-			res.add(e);
-		}
-		return R.SUCCESS_OPER(res);
-	}
-
+	@Cacheable(value = CacheConfig.CACHE_WX_CONF, key = "'wx_config_'+#url")
 	public R queryWxConfig(String url) {
-		return queryWxConfig(appIdconf, secretconf, url);
-	}
-
-	/**
-	 * @Description:微信公众号获取配置,从数据库中
-	 */
-	public R queryWxConfigByIdFromDb(String appId, String url) {
-		return R.FAILURE("未实现");
-	}
-
-	public R queryAccessToken() {
-		return queryWxToken(appIdconf, secretconf, false);
-	}
-
-	private R queryWxToken(String appId, String secret, boolean ifnew) {
-		JSONObject r = new JSONObject();
-		String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appId + "&secret="
-				+ secret;
-		String token = "";
-		// 无效
-		if (!ifnew) {
-			// 从缓存中获取
-			AccessToken at = tokens.get(appId);
-			if (at == null || (System.currentTimeMillis() - at.getCtime()) / 1000 > at.getExpiresIn() * 0.9) {
-				// 无效,后续重新请求
-				ifnew = true;
-			} else {
-				token = at.getToken();
-				_log.info("access_token(mem):" + at.getToken());
-				r.put("access_token", token);
-				return R.SUCCESS_OPER(r);
-			}
-		}
-
-		if (ifnew) {
-			JSONObject json = WxApp.httpRequest(url, "GET", null);
-			token = json.getString("access_token");
-			AccessToken t = new AccessToken();
-			t.setCtime(System.currentTimeMillis());
-			t.setExpiresIn(json.getIntValue("expires_in"));
-			t.setToken(token);
-			tokens.put(appId, t);
-			_log.info("access_token(new):" + token);
-		}
-
-		r.put("access_token", token);
-		return R.SUCCESS_OPER(r);
-	}
-
-	public R queryWxTicket(String access_token, boolean ifnew) {
-		JSONObject r = new JSONObject();
-		String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi";
-		String ticket = "";
-		// 无效
-		if (!ifnew) {
-			// 从缓存中获取
-			AccessTicket at = tickets.get(access_token);
-			if (at == null || (System.currentTimeMillis() - at.getCtime()) / 1000 > at.getExpiresIn() * 0.9) {
-				// 无效,后续重新请求
-				ifnew = true;
-			} else {
-				ticket = at.getTicket();
-				_log.info("access_ticket(mem):" + at.getTicket());
-				r.put("access_ticket", ticket);
-				return R.SUCCESS_OPER(r);
-			}
-		}
-
-		if (ifnew) {
-			JSONObject json = WxApp.httpRequest(url, "GET", null);
-			ticket = json.getString("ticket");
-			AccessTicket t = new AccessTicket();
-			t.setCtime(System.currentTimeMillis());
-			t.setExpiresIn(json.getIntValue("expires_in"));
-			t.setTicket(ticket);
-			tickets.put(access_token, t);
-			_log.info("access_ticket(new):" + ticket);
-		}
-
-		r.put("access_ticket", ticket);
-		return R.SUCCESS_OPER(r);
+		return queryWxConfig(wxService.appIdconf, wxService.secretconf, url);
 	}
 
 	/**
 	 * @Description:微信公众号获取配置
 	 */
-	private R queryWxConfig(String appId, String secret, String locurl) {
-		_log.info("queryWxConfig:" + appId);
+	public R queryWxConfig(String appId, String secret, String locurl) {
+		System.out.println("tt");
+		_log.info("url:" + locurl);
+		_log.info("appId:" + appId);
 		Map<String, Object> ret = new HashMap<String, Object>();
 		String requestUrl = locurl;
 		String access_token = "";
@@ -157,11 +51,11 @@ public class WxConfigService extends BaseService {
 		String timestamp = Long.toString(System.currentTimeMillis() / 1000); // 必填，生成签名的时间戳
 		String nonceStr = UUID.randomUUID().toString(); // 必填，生成签名的随机串
 		// 获取token
-		R tokenr = queryWxToken(appId, secret, false);
+		R tokenr = wxService.queryWxToken(appId, secret, false);
 		if (tokenr.isSuccess()) {
 			// 获取ticket
 			access_token = tokenr.queryDataToJSONObject().getString("access_token");
-			R ticketr = queryWxTicket(access_token, false);
+			R ticketr = wxService.queryWxTicket(access_token, false);
 			if (ticketr.isSuccess()) {
 				jsapi_ticket = ticketr.queryDataToJSONObject().getString("access_ticket");
 			} else {
@@ -180,7 +74,7 @@ public class WxConfigService extends BaseService {
 			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
 			crypt.reset();
 			crypt.update(sign.getBytes("UTF-8"));
-			signature = byteToHex(crypt.digest());
+			signature = WxService.byteToHex(crypt.digest());
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
@@ -200,14 +94,4 @@ public class WxConfigService extends BaseService {
 
 	}
 
-	private static String byteToHex(final byte[] hash) {
-		Formatter formatter = new Formatter();
-		for (byte b : hash) {
-			formatter.format("%02x", b);
-		}
-		String result = formatter.toString();
-		formatter.close();
-		return result;
-
-	}
 }

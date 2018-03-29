@@ -23,6 +23,7 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.wx.ps.entity.WxApp;
 import com.dt.module.db.SCM;
 import com.dt.module.demo.service.AService;
+import com.dt.module.wx.service.WxConfigService;
 
 /**
  * @author: jinjie
@@ -104,6 +105,7 @@ public class Acontroller extends BaseController {
 	public R weixin(String url) {
 		BaseCommon.print(url);
 		Map<String, Object> ret = getWxConfig(url);
+		 
 		JSONObject r=new JSONObject();
 		r.put("signature", ret.get("signature"));
 		r.put("appId", ret.get("appId"));

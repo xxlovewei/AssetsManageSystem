@@ -99,7 +99,7 @@ public class UserService extends BaseService {
 	/**
 	 * @Description: 获得用户菜单,限制3层
 	 */
-	@Cacheable(value = CacheConfig.CACHE_USER, key = "'user_menu_'+#user_id+#menu_id")
+	//@Cacheable(value = CacheConfig.CACHE_USER, key = "'user_menu_'+#user_id+#menu_id")
 	public JSONArray getMenuTree(String user_id, String menu_id) {
 		// 获得所有tree的node,限制3层
 		String mflag = MD5Util.encrypt(user_id + menu_id);

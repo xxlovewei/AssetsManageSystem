@@ -21,7 +21,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取所有节点数据,不再使用这个API
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC, key = "'region_'+#root.method.name")
+	@Cacheable(value = CacheConfig.CACHE_BASE_DATA, key = "'region_'+#root.method.name")
 	// @Cached(name= CacheConfig.CACHE_PUBLIC,expire = 3600, cacheType =
 	// CacheType.LOCAL)
 	public R queryRegion() {
@@ -43,7 +43,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取节点数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC, key = "'region_'+#root.method.name")
+	@Cacheable(value = CacheConfig.CACHE_BASE_DATA, key = "'region_'+#root.method.name")
 	public R queryRegionALL() {
 
 		JSONObject data = new JSONObject();
@@ -79,7 +79,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取节点数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC, key = "'region_'+#id")
+	@Cacheable(value = CacheConfig.CACHE_BASE_DATA, key = "'region_'+#id")
 	public R queryRegionById(String id) {
 		String sql = "select * from sys_region where parentid=?";
 		return R.SUCCESS_OPER(db.query(sql, id).toJsonArrayWithJsonObject());
