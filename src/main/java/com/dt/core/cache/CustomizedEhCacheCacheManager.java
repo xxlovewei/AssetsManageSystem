@@ -43,9 +43,7 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 	private static final Logger logger = LoggerFactory.getLogger(CustomizedEhCacheCacheManager.class);
 
 	private String separator = "#";
-	// 格式cacahename#5#2
-	// #expiredtime 0注解层面上永未不过期(最近还要看其他配置)
-	// #refreshtime 0离快过期时刷新数据
+
 
 	private net.sf.ehcache.CacheManager cacheManager;
 
@@ -102,7 +100,7 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 		String[] names = getCacheManager().getCacheNames();
 		Collection<Cache> caches = new LinkedHashSet<Cache>(names.length);
 		for (String name : names) {
-			logger.info("name" + name);
+			logger.info("name:" + name);
 			caches.add(new CustomizedEhCacheCache(getCacheManager().getEhcache(name)));
 		}
 		return caches;
@@ -112,7 +110,7 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 	protected Cache getMissingCache(String name) {
 		// Check the EhCache cache again (in case the cache was added at
 		// runtime)
-		System.out.println("###################"+name);
+	
 		long expiredtime = 0;
 		long refreshtime = 0;
 		String[] cacheParams = name.split(separator);
@@ -130,7 +128,6 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 		}
 		Ehcache ehcache = getCacheManager().getEhcache(cacheName);
 		if (ehcache != null) {
-			logger.info("cache key:" + expiredtime + "," + refreshtime);
 			return new CustomizedEhCacheCache(ehcache, expiredtime, refreshtime);
 		}
 		return null;

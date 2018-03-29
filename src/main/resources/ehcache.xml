@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache>
-	<diskStore path="java.io.tmpdir" />
+	<!-- <diskStore path="java.io.tmpdir" /> -->
+	<diskStore path="/tmp" />
 	<!-- 配置默认的缓存区 -->
 	<defaultCache
 		maxElementsInMemory="10000"
@@ -11,18 +12,16 @@
 		diskExpiryThreadIntervalSeconds="120"
 		memoryStoreEvictionPolicy="LRU"/>
 	<!-- 配置名为public的缓存区 -->
-	<cache name="basedata"
-		maxElementsInMemory="10000"
-		eternal="false"
-		overflowToDisk="true"
-		timeToIdleSeconds="0"
-		timeToLiveSeconds="7200" />
+	<!-- diskPersistent:缓存到磁盘 -->
+	<!--ternal:缓存中对象是否永久有效,timeToIdleSeconds和timeToLiveSeconds无效 -->
 	<cache name="public"
-		maxElementsInMemory="10000"
+		diskPersistent="true"
+		maxElementsInMemory="1000"
 		eternal="false"
 		overflowToDisk="true"
 		timeToIdleSeconds="0"
-		timeToLiveSeconds="7200" />
+		timeToLiveSeconds="7200"
+		memoryStoreEvictionPolicy="LRU" />
 	<cache name="user"
 		maxElementsInMemory="10000"
 		eternal="false"

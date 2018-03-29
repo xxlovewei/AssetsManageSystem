@@ -2,17 +2,21 @@ package com.dt.module.base.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+
+import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.BaseConstants;
 import com.dt.core.shiro.service.SimpleFilterChainDefinitionsService;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.schedule.service.ScheduleMangerService;
+import com.dt.module.base.service.RegionService;
 
 /**
  * spring容器初始化完成事件 Spring框架加载完成后会publishContextRefreshedEvent事件
@@ -32,10 +36,12 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 
 	@Value("${job.enable}")
 	private String jobenable;
+	@Autowired
+	private RegionService regionService = null;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-
+		System.setProperty("net.sf.ehcache.enableShutdownHook", "true");
 		if (null == event.getApplicationContext().getParent()) {
 			SpringContextUtil.getApplicationContext();
 			_log.info(">>>>> spring初始化完毕 <<<<<");
@@ -61,6 +67,17 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			} else {
 				_log.info("Job Not Start.");
 			}
+
+			// 预热
+			ThreadTaskHelper.run(new Runnable() {
+				@Override
+				public void run() {
+					_log.info("预热:regionService.queryRegion");
+					regionService.queryRegion();
+					_log.info("预热:regionService.queryRegionALL");
+					regionService.queryRegionALL();
+				}
+			});
 
 		}
 	}

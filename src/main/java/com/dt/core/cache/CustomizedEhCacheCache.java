@@ -144,6 +144,12 @@ public class CustomizedEhCacheCache implements Cache {
 	@Override
 	public void put(Object key, Object value) {
 		this.cache.put(new Element(key, value));
+		ThreadTaskHelper.run(new Runnable() {
+			@Override
+			public void run() {
+				cache.flush();
+			}
+		});
 	}
 
 	@Override
@@ -163,32 +169,29 @@ public class CustomizedEhCacheCache implements Cache {
 	}
 
 	private Element lookup(Object key) {
-		System.out.println(this.cache.get(key));
 		return this.cache.get(key);
 	}
 
 	private ValueWrapper toValueWrapper(Element element) {
-
 		if (element == null) {
 			return null;
 		}
-
+		logger.info("@From mem " + cache.getName() + ":" + element.getKey());
 		element.setTimeToLive((int) expiredtime);
 		Long expired = (element.getExpirationTime() - element.getLastAccessTime()) / 1000;
-		System.out.println(expired + "," + refreshtime);
 		// 判断是否要刷新
 		if (refreshtime > 0 && expired != null && expired > 0 && expired <= refreshtime) {
 			ThreadTaskHelper.run(new Runnable() {
 				@Override
 				public void run() {
 					// 重新加载数据
-					logger.info("refresh " + cache.getName() + " key:" + element.getKey());
+					logger.info("refresh " + cache.getName() + ",key:" + element.getKey());
 					CustomizedEhCacheCache.this.getCacheSupport().refreshCacheByKey(cache.getName(),
 							element.getKey().toString());
 				}
 			});
 		}
-		
+
 		return new SimpleValueWrapper(element.getObjectValue());
 	}
 

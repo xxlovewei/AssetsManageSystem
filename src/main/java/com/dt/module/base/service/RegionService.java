@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.cache.CacheConfig;
-import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.RcdSet;
@@ -22,11 +21,8 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取所有节点数据,不再使用这个API
 	 */
-	@Cacheable(value = CacheConfig.CACHE_BASE_DATA+"#5#2", key = "'region_'+#root.method.name")
-	// @Cached(name= CacheConfig.CACHE_PUBLIC,expire = 3600, cacheType =
-	// CacheType.LOCAL)
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300, key = "'region_'+#root.method.name")
 	public R queryRegion() {
-		BaseCommon.print("from method ");
 		String sql = "select * from sys_region";
 		RcdSet rs = db.query(sql);
 		JSONArray res = new JSONArray();
@@ -44,7 +40,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取节点数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_BASE_DATA, key = "'region_'+#root.method.name")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300, key = "'region_'+#root.method.name")
 	public R queryRegionALL() {
 
 		JSONObject data = new JSONObject();
@@ -80,9 +76,9 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取节点数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_BASE_DATA + "#5#2", key = "'region_'+#id")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300, key = "'region_'+#id")
 	public R queryRegionById(String id) {
-		BaseCommon.print("from method");
+
 		String sql = "select * from sys_region where parentid=?";
 		return R.SUCCESS_OPER(
 				ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, id).toJsonArrayWithJsonObject()));

@@ -43,7 +43,6 @@
 		timeToLiveSeconds="0"
 		maxElementsOnDisk="0"
 		overflowToDisk="true"
-		memoryStoreEvictionPolicy="FIFO"
 		statistics="true">
 	</cache>
 	<cache name="shiro-activeSessionCache"

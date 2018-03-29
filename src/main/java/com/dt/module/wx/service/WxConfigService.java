@@ -32,7 +32,7 @@ public class WxConfigService extends BaseService {
 
 	private static Logger _log = LoggerFactory.getLogger(WxConfigService.class);
 
-	@Cacheable(value = CacheConfig.CACHE_WX_CONF, key = "'wx_config_'+#url")
+	@Cacheable(value = CacheConfig.CACHE_WX_CONF_300_180, key = "'wx_config_'+#url")
 	public R queryWxConfig(String url) {
 		return queryWxConfig(wxService.appIdconf, wxService.secretconf, url);
 	}
