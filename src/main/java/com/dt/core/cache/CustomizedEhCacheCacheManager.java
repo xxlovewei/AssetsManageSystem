@@ -87,6 +87,7 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 			setCacheManager(EhCacheManagerUtils.buildCacheManager());
 		}
 		super.afterPropertiesSet();
+	
 	}
 
 	@Override
@@ -111,11 +112,13 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 	protected Cache getMissingCache(String name) {
 		// Check the EhCache cache again (in case the cache was added at
 		// runtime)
+		System.out.println("###################"+name);
 		long expiredtime = 0;
 		long refreshtime = 0;
 		String[] cacheParams = name.split(separator);
 		String cacheName = cacheParams[0];
 
+		
 		if (ToolUtil.isEmpty(cacheName)) {
 			return null;
 		}
