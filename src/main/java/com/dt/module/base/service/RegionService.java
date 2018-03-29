@@ -76,7 +76,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取节点数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300, key = "'region_'+#id")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300, key = "'region_'+#root.method.name+#id")
 	public R queryRegionById(String id) {
 
 		String sql = "select * from sys_region where parentid=?";
@@ -87,6 +87,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description:获取省份数据
 	 */
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300)
 	public R queryShengF(String[] exclude) {
 		String sql = "select * from sys_qud_shengf";
 		R res = new R();
@@ -98,6 +99,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description:获取城市数据
 	 */
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300)
 	public R queryChengS(String sfid, String[] exclude) {
 		String sql = "select * from sys_qud_chengs ";
 		if (ToolUtil.isEmpty(sfid)) {
@@ -114,6 +116,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description:获取区县数据
 	 */
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300)
 	public R queryQuX(String csid, String[] exclude) {
 		String sql = "select * from sys_qud_qux";
 		if (ToolUtil.isEmpty(csid)) {
