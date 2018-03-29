@@ -26,6 +26,8 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.util.Assert;
 
+import com.dt.core.tool.lang.SpringContextUtil;
+
 /**
  * {@link Cache} implementation on top of an {@link Ehcache} instance.
  *
@@ -45,6 +47,12 @@ public class CustomizedEhCacheCache implements Cache {
 	// #refreshtime 0离快过期时刷新数据
 	private long expiredtime = 0;
 	private long refreshtime = 0;
+
+	private CacheSupport getCacheSupport() {
+
+		return SpringContextUtil.getBean(CacheSupport.class);
+
+	}
 
 	/**
 	 * Create an {@link CustomizedEhCacheCache} instance.
@@ -92,7 +100,6 @@ public class CustomizedEhCacheCache implements Cache {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T get(Object key, Callable<T> valueLoader) {
-		logger.info("get" + getName() + "," + key);
 		Element element = lookup(key);
 		if (element != null) {
 			return (T) element.getObjectValue();
@@ -113,7 +120,6 @@ public class CustomizedEhCacheCache implements Cache {
 	}
 
 	private <T> T loadValue(Object key, Callable<T> valueLoader) {
-		logger.info("loadValue" + key);
 		T value;
 		try {
 			value = valueLoader.call();
@@ -127,7 +133,6 @@ public class CustomizedEhCacheCache implements Cache {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T get(Object key, Class<T> type) {
-		logger.info("get with type" + key);
 		Element element = this.cache.get(key);
 		Object value = (element != null ? element.getObjectValue() : null);
 		if (value != null && type != null && !type.isInstance(value)) {
@@ -138,7 +143,6 @@ public class CustomizedEhCacheCache implements Cache {
 
 	@Override
 	public void put(Object key, Object value) {
-		logger.info(getName() + " put" + key + "\n" + value);
 		this.cache.put(new Element(key, value));
 	}
 
@@ -150,7 +154,6 @@ public class CustomizedEhCacheCache implements Cache {
 
 	@Override
 	public void evict(Object key) {
-		logger.info("remove" + key);
 		this.cache.remove(key);
 	}
 
@@ -160,7 +163,7 @@ public class CustomizedEhCacheCache implements Cache {
 	}
 
 	private Element lookup(Object key) {
-		logger.info("lookup" + this.cache.get(key));
+		System.out.println(this.cache.get(key));
 		return this.cache.get(key);
 	}
 
@@ -169,20 +172,19 @@ public class CustomizedEhCacheCache implements Cache {
 		if (element == null) {
 			return null;
 		}
-		System.out.println((int) expiredtime);
+
 		element.setTimeToLive((int) expiredtime);
-		Long expired = element.getExpirationTime();
+		Long expired = (element.getExpirationTime() - element.getLastAccessTime()) / 1000;
 		System.out.println(expired + "," + refreshtime);
 		// 判断是否要刷新
-		if (refreshtime > 0 && refreshtime >= expired) {
+		if (refreshtime > 0 && expired != null && expired > 0 && expired <= refreshtime) {
 			ThreadTaskHelper.run(new Runnable() {
 				@Override
 				public void run() {
 					// 重新加载数据
-					logger.info("refresh key:" + element.getKey());
-					// CustomizedRedisCache.this.getCacheSupport()
-					// .refreshCacheByKey(CustomizedRedisCache.super.getName(),
-					// key.toString());
+					logger.info("refresh " + cache.getName() + " key:" + element.getKey());
+					CustomizedEhCacheCache.this.getCacheSupport().refreshCacheByKey(cache.getName(),
+							element.getKey().toString());
 				}
 			});
 		}

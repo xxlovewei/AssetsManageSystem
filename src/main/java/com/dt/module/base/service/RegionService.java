@@ -22,7 +22,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取所有节点数据,不再使用这个API
 	 */
-	@Cacheable(value = CacheConfig.CACHE_BASE_DATA+"#5", key = "'region_'+#root.method.name")
+	@Cacheable(value = CacheConfig.CACHE_BASE_DATA+"#5#2", key = "'region_'+#root.method.name")
 	// @Cached(name= CacheConfig.CACHE_PUBLIC,expire = 3600, cacheType =
 	// CacheType.LOCAL)
 	public R queryRegion() {

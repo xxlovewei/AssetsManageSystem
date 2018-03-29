@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.core.RedisOperations;
 
+import com.dt.core.tool.lang.SpringContextUtil;
+
 /**
  * 自定义的redis缓存 Created by jiang on 2017/3/5.
  */
@@ -13,7 +15,7 @@ public class CustomizedRedisCache extends RedisCache {
 	private static final Logger logger = LoggerFactory.getLogger(CustomizedRedisCache.class);
 
 	private CacheSupport getCacheSupport() {
-		return null;
+		return SpringContextUtil.getBean(CacheSupport.class);
 	}
 
 	@SuppressWarnings("rawtypes")
