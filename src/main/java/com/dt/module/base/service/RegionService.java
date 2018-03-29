@@ -22,6 +22,8 @@ public class RegionService extends BaseService {
 	 * @Description: 获取所有节点数据,不再使用这个API
 	 */
 	@Cacheable(value = CacheConfig.CACHE_PUBLIC, key = "'region_'+#root.method.name")
+	// @Cached(name= CacheConfig.CACHE_PUBLIC,expire = 3600, cacheType =
+	// CacheType.LOCAL)
 	public R queryRegion() {
 
 		String sql = "select * from sys_region";
