@@ -7,23 +7,20 @@ import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
-import com.dt.core.wx.ps.entity.WxApp;
 import com.dt.module.db.SCM;
 import com.dt.module.demo.service.AService;
-import com.dt.module.wx.service.WxConfigService;
+import com.dt.module.wx.service.WxService;
 
 /**
  * @author: jinjie
@@ -53,13 +50,13 @@ public class Acontroller extends BaseController {
 		String nonceStr = UUID.randomUUID().toString(); // 必填，生成签名的随机串
 		String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appId + "&secret="
 				+ secret;
-		JSONObject json = WxApp.httpRequest(url, "GET", null);
+		JSONObject json = WxService.httpRequest(url, "GET", null);
 		BaseCommon.print(json.toJSONString());
 		if (json != null) {
 			// 要注意，access_token需要缓存
 			access_token = json.getString("access_token");
 			url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi";
-			json = WxApp.httpRequest(url, "GET", null);
+			json = WxService.httpRequest(url, "GET", null);
 			if (json != null) {
 				jsapi_ticket = json.getString("ticket");
 			}
@@ -105,8 +102,8 @@ public class Acontroller extends BaseController {
 	public R weixin(String url) {
 		BaseCommon.print(url);
 		Map<String, Object> ret = getWxConfig(url);
-		 
-		JSONObject r=new JSONObject();
+
+		JSONObject r = new JSONObject();
 		r.put("signature", ret.get("signature"));
 		r.put("appId", ret.get("appId"));
 		r.put("nonceStr", ret.get("nonceStr"));
