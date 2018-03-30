@@ -36,6 +36,7 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 
 	@Value("${job.enable}")
 	private String jobenable;
+	
 	@Autowired
 	private RegionService regionService = null;
 
