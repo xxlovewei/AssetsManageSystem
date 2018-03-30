@@ -1,7 +1,10 @@
 package com.dt.module.base.service;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.dt.core.cache.CacheConfig;
+import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 
@@ -16,6 +19,11 @@ public class SystemService extends BaseService {
 	public R queryOnLineSession() {
 		String sql = "select a.*,b.user_name,b.user_type,b.name,b.nickname from sys_session a left join sys_user_info b on a.user_id=b.user_id order by lastaccess desc";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+	}
+
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_86400_3600, key = "'system_'+#root.method.name")
+	public R queryMsg() {
+		return R.clearAttachDirect(BaseCodeMsgEnum.queryAll());
 	}
 
 }

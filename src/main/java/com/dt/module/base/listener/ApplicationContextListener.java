@@ -17,6 +17,7 @@ import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.schedule.service.ScheduleMangerService;
 import com.dt.module.base.service.RegionService;
+import com.dt.module.base.service.SystemService;
 
 /**
  * spring容器初始化完成事件 Spring框架加载完成后会publishContextRefreshedEvent事件
@@ -36,9 +37,12 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 
 	@Value("${job.enable}")
 	private String jobenable;
-	
+
 	@Autowired
-	private RegionService regionService = null;
+	private RegionService regionService;
+
+	@Autowired
+	SystemService systemService;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -77,6 +81,8 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 					regionService.queryRegion();
 					_log.info("预热:regionService.queryRegionALL");
 					regionService.queryRegionALL();
+					_log.info("预热:systemService.queryMsg");
+					systemService.queryMsg();
 				}
 			});
 
