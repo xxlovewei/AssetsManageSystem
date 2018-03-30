@@ -78,7 +78,7 @@ public class RegionService extends BaseService {
 	 */
 	@Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'region_'+#root.method.name+#id")
 	public R queryRegionById(String id) {
-
+		System.out.println("test");
 		String sql = "select * from sys_region where parentid=?";
 		return R.SUCCESS_OPER(
 				ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, id).toJsonArrayWithJsonObject()));
