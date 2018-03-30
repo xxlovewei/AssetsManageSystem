@@ -1,8 +1,8 @@
 package com.dt.module.base.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseService;
@@ -15,6 +15,8 @@ import com.dt.core.common.base.R;
  */
 @Service
 public class SystemService extends BaseService {
+	@Autowired
+	EhCacheService ehCacheService;
 
 	public R queryOnLineSession() {
 		String sql = "select a.*,b.user_name,b.user_type,b.name,b.nickname from sys_session a left join sys_user_info b on a.user_id=b.user_id order by lastaccess desc";

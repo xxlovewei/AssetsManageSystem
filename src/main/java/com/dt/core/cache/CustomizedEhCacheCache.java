@@ -15,6 +15,7 @@ package com.dt.core.cache;
  * limitations under the License.
  */
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import net.sf.ehcache.Ehcache;
@@ -80,14 +81,23 @@ public class CustomizedEhCacheCache implements Cache {
 
 	}
 
+	public Element getKey(String key) {
+		return this.cache.get(key);
+	}
+
 	@Override
 	public final String getName() {
 		return this.cache.getName();
 	}
 
+	public List<?> getAllKeys() {
+		return this.cache.getKeys();
+	}
+
 	@Override
 	public final Ehcache getNativeCache() {
 		return this.cache;
+
 	}
 
 	@Override

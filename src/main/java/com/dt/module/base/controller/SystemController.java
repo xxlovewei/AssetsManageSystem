@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
+import com.dt.module.base.service.EhCacheService;
 import com.dt.module.base.service.SystemService;
 
 /**
@@ -19,6 +20,9 @@ public class SystemController {
 	@Autowired
 	SystemService systemService;
 
+	@Autowired
+	EhCacheService ehCacheService;
+
 	@RequestMapping(value = "/system/getOnlineSession.do")
 	@ResponseBody
 	@Acl(info = "查询在线session", value = Acl.ACL_DENY)
@@ -31,6 +35,20 @@ public class SystemController {
 	@Acl(info = "查询消息", value = Acl.ACL_ALLOW)
 	public R queryMsg() {
 		return systemService.queryMsg();
+	}
+
+	@RequestMapping(value = "/system/queryCacheName")
+	@ResponseBody
+	@Acl(info = "查询CacheName", value = Acl.ACL_DENY)
+	public R queryCustomizedEhCacheCacheManagerCaches() {
+		return ehCacheService.queryCustomizedEhCacheCacheManagerCaches();
+	}
+
+	@RequestMapping(value = "/system/queryCacheKeys")
+	@ResponseBody
+	@Acl(info = "查询CacheName", value = Acl.ACL_DENY)
+	public R queryCacheKeys(String cache) {
+		return ehCacheService.queryCustomizedEhCacheCacheManagerCacheKeys(cache);
 	}
 
 }
