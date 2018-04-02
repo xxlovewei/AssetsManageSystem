@@ -341,6 +341,18 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('system.cachemgr', {
+		url : "/cachemgr",
+		data: { pageTitle: '缓存管理'},
+		templateUrl : "views/system/cache/cache.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/cache/cache.js?v=' + version ]
+				} ]);
+			}
+		}
 	});
 
 	// 组织架构

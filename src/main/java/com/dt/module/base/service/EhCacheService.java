@@ -1,6 +1,7 @@
 package com.dt.module.base.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
@@ -8,6 +9,7 @@ import com.dt.core.cache.CustomizedEhCacheCache;
 import com.dt.core.cache.CustomizedEhCacheCacheManager;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.core.tool.util.support.DateTimeKit;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -26,28 +28,47 @@ public class EhCacheService {
 		try {
 			if (cacheManager == null)
 				cacheManager = CacheManager.getInstance();
-			System.out.println("cacheManager" + cacheManager);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return cacheManager;
 	}
 
+	public R removeCacheKey(String cache, String key) {
+		if (ToolUtil.isOneEmpty(cache, key)) {
+			return R.FAILURE_NO_DATA();
+		}
+		CustomizedEhCacheCache c = new CustomizedEhCacheCache(initCacheManager().getEhcache(cache));
+		c.evict(key);
+		return R.SUCCESS_OPER();
+	}
+
 	public R queryCustomizedEhCacheCacheManagerCacheKeys(String cache) {
 		if (ToolUtil.isEmpty(cache)) {
 			return R.FAILURE_NO_DATA();
 		}
+
 		JSONArray res = new JSONArray();
 		CustomizedEhCacheCache c = new CustomizedEhCacheCache(initCacheManager().getEhcache(cache));
 		for (int i = 0; i < c.getAllKeys().size(); i++) {
-			Element el = c.getKey(c.getAllKeys().get(i).toString());
-			JSONObject e = new JSONObject();
-			e.put("key", c.getAllKeys().get(i));
-			e.put("hit", el.getHitCount());
-			e.put("ctime", el.getCreationTime());
-			e.put("accesstime", el.getLastAccessTime());
-			e.put("ttl", el.getTimeToLive());
-			res.add(e);
+			// 捕捉瞬间key失效报错问题
+			try {
+				Element el = c.getKey(c.getAllKeys().get(i).toString());
+				if (!ToolUtil.isEmpty(el)) {
+					JSONObject e = new JSONObject();
+					e.put("key", c.getAllKeys().get(i));
+					e.put("hit", el.getHitCount());
+					e.put("ctime",
+							DateTimeKit.format(new Date(el.getCreationTime()), DateTimeKit.NORM_DATETIME_PATTERN));
+					e.put("accesstime",
+							DateTimeKit.format(new Date(el.getLastAccessTime()), DateTimeKit.NORM_DATETIME_PATTERN));
+					e.put("ttl", el.getTimeToLive());
+					e.put("tti", el.getTimeToIdle());
+					res.add(e);
+				}
+			} catch (Exception e) {
+				System.out.println("not a number");
+			}
 		}
 		return R.SUCCESS_OPER(res);
 	}
@@ -57,10 +78,10 @@ public class EhCacheService {
 		ArrayList<String> cachenames = CustomizedEhCacheCacheManager.cachenames;
 		for (int i = 0; i < cachenames.size(); i++) {
 			JSONObject e = new JSONObject();
-			e.put("value", cachenames.get(i));
+			e.put("id", cachenames.get(i));
+			e.put("name", cachenames.get(i));
 			res.add(e);
 		}
-		//System.currentTimeMillis()
 		return R.SUCCESS_OPER(res);
 	}
 

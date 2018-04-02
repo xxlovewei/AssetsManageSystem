@@ -37,18 +37,25 @@ public class SystemController {
 		return systemService.queryMsg();
 	}
 
-	@RequestMapping(value = "/system/queryCacheName")
+	@RequestMapping(value = "/system/queryCacheName.do")
 	@ResponseBody
 	@Acl(info = "查询CacheName", value = Acl.ACL_DENY)
 	public R queryCustomizedEhCacheCacheManagerCaches() {
 		return ehCacheService.queryCustomizedEhCacheCacheManagerCaches();
 	}
 
-	@RequestMapping(value = "/system/queryCacheKeys")
+	@RequestMapping(value = "/system/queryCacheKeys.do")
 	@ResponseBody
 	@Acl(info = "查询CacheName", value = Acl.ACL_DENY)
 	public R queryCacheKeys(String cache) {
 		return ehCacheService.queryCustomizedEhCacheCacheManagerCacheKeys(cache);
+	}
+
+	@RequestMapping(value = "/system/removeCacheKey.do")
+	@ResponseBody
+	@Acl(info = "删除CacheKey", value = Acl.ACL_DENY)
+	public R removeCacheKey(String cache, String key) {
+		return ehCacheService.removeCacheKey(cache, key);
 	}
 
 }
