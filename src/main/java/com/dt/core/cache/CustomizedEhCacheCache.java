@@ -181,7 +181,6 @@ public class CustomizedEhCacheCache implements Cache {
 
 	@Override
 	public void clear() {
-	
 		this.cache.removeAll();
 	}
 
