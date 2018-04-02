@@ -19,7 +19,6 @@ public @interface Acl {
 	public static String ACL_ALLOW = "allow";
 	public static String ACL_USER = "user";
 	public static String ACL_DENY = "deny";
-
 	public static String TYPE_API = "api";
 	public static String TYPE_VIEW = "view";
 
@@ -28,4 +27,6 @@ public @interface Acl {
 	String value() default ACL_DENY;
 
 	String info() default "";
+	
+	
 }

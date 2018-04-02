@@ -70,26 +70,27 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 		}
 		// 如果session已经被删除，则从数据库中查询session
 		if (session == null) {
-			_log.info("session:" + sessionId + "已删除,尝试恢复session");
+			_log.info("session:" + sessionId + "尝试恢复session");
 			SimpleSessionEntity entity = getEntity(sessionId);
 			if (entity != null) {
-				_log.info("session:" + sessionId + "找到session");
 				try {
+					String msg = "session:" + sessionId + "找到";
 					session = SerializableUtils.deserialize(entity.getSession());
+					if (isExpire(session)) {
+						msg = msg + ",已过期";
+						// 后期可以判断只对app进行过期处理
+						session.touch();
+					} else {
+						msg = msg + ",未过期";
+					}
+					_log.info(msg);
+					return session;
 				} catch (Exception e) {
 					_log.info("无法初始化,sessionId:" + sessionId);
-					return null;
 				}
-				if (isExpire(session)) {
-					_log.info("session 已经过期");
-					// 后期可以判断只对app进行过期处理
-					session.touch();
-					// ((SimpleSession) session).setLastAccessTime(new Date());
-				} else {
-					_log.info("session 未过期");
-				}
+
 			} else {
-				_log.info("session:" + sessionId + "未找到保存的sessioin");
+				_log.info("session:" + sessionId + "未找到保存的session");
 			}
 		}
 

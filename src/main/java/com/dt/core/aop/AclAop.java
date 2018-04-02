@@ -85,7 +85,7 @@ public class AclAop {
 	}
 
 	@Around("pointcut()")
-	public Object registerInvocation(ProceedingJoinPoint joinPoint) throws Throwable {
+	public Object recAccessLog(ProceedingJoinPoint joinPoint) throws Throwable {
 
 		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
 		ServletRequestAttributes sra = (ServletRequestAttributes) ra;
@@ -98,7 +98,6 @@ public class AclAop {
 			is_auth = ShiroKit.isAuthenticated();
 			is_remember = ShiroKit.isRemember();
 		}
-
 		String info = "";
 		String url = request.getRequestURI().toString();
 		String method_type = request.getMethod();
@@ -126,7 +125,6 @@ public class AclAop {
 			} catch (Exception e) {
 				_log.info("Can't insert access log." + url);
 			}
-
 		}
 		_log.info("userId:" + user_id + ",url:" + url + ",isAuth=" + is_auth + ",isRemember:" + is_remember + ",aclpri:"
 				+ aclpri);
