@@ -1,13 +1,19 @@
-function meAccessLogCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function meAccessLogCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 	$scope.URL = $rootScope.project + "/api/user/queryAccessLog.do";
-	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp('data').withPaginationType('full_numbers').withDisplayLength(10).withOption("ordering", false)
-	.withOption("responsive", true).withOption("searching", false).withOption("paging", true).withOption('bStateSave', true).withOption('bProcessing', false).withOption(
-			'bFilter', false).withOption('bInfo', false).withOption('serverSide', true).withOption('bAutoWidth', false).withOption('createdRow', function(row) {
-		// Recompiling so we can bind Angular,directive to the
-		$compile(angular.element(row).contents())($scope);
-	}).withLanguage(DTLang);
-	
-	
+	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL)
+			.withDataProp('data').withPaginationType('full_numbers')
+			.withDisplayLength(10).withOption("ordering", false).withOption(
+					"responsive", true).withOption("searching", false)
+			.withOption("paging", true).withOption('bStateSave', true)
+			.withOption('bProcessing', false).withOption('bFilter', false)
+			.withOption('bInfo', false).withOption('serverSide', true)
+			.withOption('bAutoWidth', false).withOption('createdRow',
+					function(row) {
+						// Recompiling so we can bind Angular,directive to the
+						$compile(angular.element(row).contents())($scope);
+					}).withLanguage(DTLang);
+
 	$scope.dtInstance = {}
 	$scope.reloadData = reloadData;
 	function reloadData() {
@@ -15,24 +21,28 @@ function meAccessLogCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 		$scope.dtInstance.reloadData(callback, resetPaging);
 	}
 	function callback(json) {
-	 
-	}
-	
-	function renderAction(data, type, full) {
-	 
+
 	}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('rtime').withTitle('日期').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('ip').withTitle('IP').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('url').withTitle('访问地址').withOption('sDefaultContent', '')
-			 ]
- 
+	function renderAction(data, type, full) {
+
+	}
+
+	$scope.dtColumns = [
+			DTColumnBuilder.newColumn('rtime').withTitle('日期').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('url').withTitle('访问地址').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('info').withTitle('说明').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('postorget').withTitle('参数').withOption(
+					'sDefaultContent', '').withClass('none')]
 
 	$scope.flush = function() {
 		reloadData();
 	}
-
- 
 
 };
 

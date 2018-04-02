@@ -77,12 +77,18 @@ public class CachingAnnotationsAspect {
 		Set<String> cacheSet = new HashSet<String>();
 
 		for (Cacheable cacheables : annotations) {
-
 			cacheSet.addAll(Arrays.asList(cacheables.value()));
 		}
 
 		cacheRefreshSupport.registerInvocation(joinPoint.getTarget(), method, joinPoint.getArgs(), cacheSet);
-		return joinPoint.proceed();
+		joinPoint.proceed();
+		// return
+
+		for (Cacheable cacheables : annotations) {
+			cacheSet.addAll(Arrays.asList(cacheables.value()));
+		}
+
+		return null;
 
 	}
 

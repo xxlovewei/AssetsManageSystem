@@ -1,6 +1,5 @@
 package com.dt.core.cache;
 
- 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -13,7 +12,6 @@ import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerUtils;
 import com.dt.core.tool.util.ToolUtil;
 
- 
 public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 
 	private static final Logger logger = LoggerFactory.getLogger(CustomizedEhCacheCacheManager.class);
@@ -32,7 +30,8 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 	}
 
 	/**
-	 * Create a new EhCacheCacheManager for the given backing EhCache CacheManager.
+	 * Create a new EhCacheCacheManager for the given backing EhCache
+	 * CacheManager.
 	 * 
 	 * @param cacheManager
 	 *            the backing EhCache {@link net.sf.ehcache.CacheManager}

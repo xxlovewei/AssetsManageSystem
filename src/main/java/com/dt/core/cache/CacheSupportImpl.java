@@ -96,7 +96,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 			ArrayList<CachedInvocation> d = new ArrayList<CachedInvocation>();
 
 			for (final CachedInvocation invocation : sets) {
-				if (invocation.getKey().toString().equals(cachekey)) {
+				if ((invocation.getTargetMethod().getName() + "_" + invocation.getKey()).equals(cachekey)) {
 					d.add(invocation);
 				}
 			}
@@ -114,7 +114,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 			Set<CachedInvocation> sets = cacheToInvocationsMap.get(cacheName);
 			ArrayList<CachedInvocation> d = new ArrayList<CachedInvocation>();
 			for (final CachedInvocation invocation : sets) {
-				if (invocation.getKey().toString().equals(cachekey)) {
+				if ((invocation.getTargetMethod().getName() + "_" + invocation.getKey()).equals(cachekey)) {
 					d.add(invocation);
 				}
 			}
@@ -139,8 +139,8 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 		logger.info("refreshCacheName:" + cacheName + ",cacheKey:" + cacheKey);
 		if (cacheToInvocationsMap.get(cacheName) != null && ToolUtil.isNotEmpty(cacheKey)) {
 			removeCacheByKeyLeft(cacheName, cacheKey);
-			for (final CachedInvocation invocation : cacheToInvocationsMap.get(cacheName)) {
-				if (invocation.getKey().toString().equals(cacheKey)) {
+			for (CachedInvocation invocation : cacheToInvocationsMap.get(cacheName)) {
+				if ((invocation.getTargetMethod().getName() + "_" + invocation.getKey()).equals(cacheKey)) {
 					logger.info("Action refreshCache.");
 					refreshCache(invocation, cacheName);
 				}
