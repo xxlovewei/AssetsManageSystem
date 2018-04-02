@@ -71,24 +71,13 @@ public class CachingAnnotationsAspect {
 	public Object registerInvocation(ProceedingJoinPoint joinPoint) throws Throwable {
 
 		Method method = this.getSpecificmethod(joinPoint);
-
 		List<Cacheable> annotations = this.getMethodAnnotations(method, Cacheable.class);
-
 		Set<String> cacheSet = new HashSet<String>();
-
 		for (Cacheable cacheables : annotations) {
 			cacheSet.addAll(Arrays.asList(cacheables.value()));
 		}
-
 		cacheRefreshSupport.registerInvocation(joinPoint.getTarget(), method, joinPoint.getArgs(), cacheSet);
-		joinPoint.proceed();
-		// return
-
-		for (Cacheable cacheables : annotations) {
-			cacheSet.addAll(Arrays.asList(cacheables.value()));
-		}
-
-		return null;
+		return joinPoint.proceed();
 
 	}
 
