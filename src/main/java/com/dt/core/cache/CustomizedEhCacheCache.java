@@ -29,7 +29,6 @@ import org.springframework.util.Assert;
 
 import com.dt.core.tool.lang.SpringContextUtil;
 
- 
 public class CustomizedEhCacheCache implements Cache {
 
 	private static final Logger logger = LoggerFactory.getLogger(CustomizedEhCacheCache.class);
@@ -155,6 +154,7 @@ public class CustomizedEhCacheCache implements Cache {
 				cache.flush();
 			}
 		});
+
 	}
 
 	@Override
@@ -166,11 +166,27 @@ public class CustomizedEhCacheCache implements Cache {
 	@Override
 	public void evict(Object key) {
 		this.cache.remove(key);
+		ThreadTaskHelper.run(new Runnable() {
+			@Override
+			public void run() {
+				removeCacheByKey(key.toString());
+			}
+		});
+
+	}
+
+	public void remove(Object key) {
+
 	}
 
 	@Override
 	public void clear() {
+	
 		this.cache.removeAll();
+	}
+
+	private void removeCacheByKey(String key) {
+		CustomizedEhCacheCache.this.getCacheSupport().removeCacheByKey(this.cache.getName(), key);
 	}
 
 	private Element lookup(Object key) {

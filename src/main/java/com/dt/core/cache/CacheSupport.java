@@ -1,5 +1,4 @@
 package com.dt.core.cache;
- 
 
 /**
  * 主动刷新缓存接口
@@ -20,5 +19,7 @@ public interface CacheSupport {
 	 * @param cacheKey
 	 */
 	void refreshCacheByKey(String cacheName, String cacheKey);
+
+	void removeCacheByKey(String cacheName, String cacheKey);
 
 }
