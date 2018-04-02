@@ -11,8 +11,7 @@ import com.dt.core.tool.util.ToolUtil;
 import java.util.Collection;
 
 /**
- * 自定义的redis缓存管理器 支持方法上配置过期时间 支持热加载缓存：缓存即将过期时主动刷新缓存 Created by jiang on
- * 2017/3/5.
+ * 自定义的redis缓存管理器 支持方法上配置过期时间 支持热加载缓存：缓存即将过期时主动刷新缓存
  */
 public class CustomizedRedisCacheManager extends RedisCacheManager {
 

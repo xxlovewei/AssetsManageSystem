@@ -29,14 +29,7 @@ import org.springframework.util.Assert;
 
 import com.dt.core.tool.lang.SpringContextUtil;
 
-/**
- * {@link Cache} implementation on top of an {@link Ehcache} instance.
- *
- * @author Costin Leau
- * @author Juergen Hoeller
- * @author Stephane Nicoll
- * @since 3.1
- */
+ 
 public class CustomizedEhCacheCache implements Cache {
 
 	private static final Logger logger = LoggerFactory.getLogger(CustomizedEhCacheCache.class);

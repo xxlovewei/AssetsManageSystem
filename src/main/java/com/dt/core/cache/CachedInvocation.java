@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
- * 标记了缓存注解的方法类信息 用于主动刷新缓存时调用原始方法加载数据 Created by jiang on 2017/3/6.
+ * 标记了缓存注解的方法类信息 用于主动刷新缓存时调用原始方法加载数据
  */
 public final class CachedInvocation {
 

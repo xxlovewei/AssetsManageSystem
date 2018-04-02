@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.RedisOperations;
 import com.dt.core.tool.lang.SpringContextUtil;
 
 /**
- * 自定义的redis缓存 Created by jiang on 2017/3/5.
+ * 自定义的redis缓存
  */
 public class CustomizedRedisCache extends RedisCache {
 
