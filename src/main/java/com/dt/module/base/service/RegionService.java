@@ -76,7 +76,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取节点数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'region_'+#root.method.name+#id")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC + "#10#5")
 	public R queryRegionById(String id) {
 		System.out.println("test");
 		String sql = "select * from sys_region where parentid=?";
