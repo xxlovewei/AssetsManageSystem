@@ -52,9 +52,6 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 	private Object invoke(CachedInvocation invocation)
 			throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		final MethodInvoker invoker = new MethodInvoker();
-		System.out.println("invoke" + invocation.getKey());
-		System.out.println(invocation.getTargetMethod().getName());
-		System.out.println(invocation.getArguments());
 		invoker.setTargetObject(invocation.getTargetBean());
 		invoker.setArguments(invocation.getArguments());
 		invoker.setTargetMethod(invocation.getTargetMethod().getName());
@@ -102,11 +99,10 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 	@Override
 	public void refreshCacheByKey(String cacheName, String cacheKey) {
 		logger.info("refreshCacheName:" + cacheName + ",cacheKey:" + cacheKey);
-		if (cacheToInvocationsMap.get(cacheName) != null) {
+		if (cacheToInvocationsMap.get(cacheName) != null && ToolUtil.isNotEmpty(cacheKey)) {
 			for (final CachedInvocation invocation : cacheToInvocationsMap.get(cacheName)) {
-				System.out.println("cacheKey" + cacheKey + "," + invocation.getKey().toString());
-				if (!ToolUtil.isEmpty(cacheKey) && invocation.getKey().toString().equals(cacheKey)) {
-					logger.info("action refreshCache.");
+				if (invocation.getKey().toString().equals(cacheKey)) {
+					logger.info("Action refreshCache.");
 					refreshCache(invocation, cacheName);
 				}
 			}
