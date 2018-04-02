@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MethodInvoker;
 
 import com.dt.core.tool.util.ToolUtil;
-
 import javax.annotation.PostConstruct;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -35,7 +34,6 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 
 	private void refreshCache(CachedInvocation invocation, String cacheName) {
 
-		logger.info("refreshCache" + cacheName);
 		boolean invocationSuccess;
 		Object computed = null;
 		try {
@@ -54,6 +52,9 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 	private Object invoke(CachedInvocation invocation)
 			throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		final MethodInvoker invoker = new MethodInvoker();
+		System.out.println("invoke" + invocation.getKey());
+		System.out.println(invocation.getTargetMethod().getName());
+		System.out.println(invocation.getArguments());
 		invoker.setTargetObject(invocation.getTargetBean());
 		invoker.setArguments(invocation.getArguments());
 		invoker.setTargetMethod(invocation.getTargetMethod().getName());
@@ -100,13 +101,17 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 
 	@Override
 	public void refreshCacheByKey(String cacheName, String cacheKey) {
-		logger.info("refreshCacheByKey" + cacheName + "," + cacheKey);
+		logger.info("refreshCacheName:" + cacheName + ",cacheKey:" + cacheKey);
 		if (cacheToInvocationsMap.get(cacheName) != null) {
 			for (final CachedInvocation invocation : cacheToInvocationsMap.get(cacheName)) {
+				System.out.println("cacheKey" + cacheKey + "," + invocation.getKey().toString());
 				if (!ToolUtil.isEmpty(cacheKey) && invocation.getKey().toString().equals(cacheKey)) {
+					logger.info("action refreshCache.");
 					refreshCache(invocation, cacheName);
 				}
 			}
+		} else {
+			logger.info("Cache name:" + cacheName + " not exists");
 		}
 	}
 

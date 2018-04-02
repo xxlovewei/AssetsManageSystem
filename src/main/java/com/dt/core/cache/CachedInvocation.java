@@ -14,6 +14,7 @@ public final class CachedInvocation {
 	private Object[] arguments;
 
 	public CachedInvocation(Object key, Object targetBean, Method targetMethod, Object[] arguments) {
+
 		this.key = key;
 		this.targetBean = targetBean;
 		this.targetMethod = targetMethod;

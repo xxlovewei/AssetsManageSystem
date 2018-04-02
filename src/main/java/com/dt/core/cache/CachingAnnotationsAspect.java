@@ -5,12 +5,15 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.BridgeMethodResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
@@ -23,8 +26,7 @@ import java.util.*;
 @Component
 public class CachingAnnotationsAspect {
 
-	// private static final Logger logger =
-	// LoggerFactory.getLogger(CachingAnnotationsAspect.class);
+	private static final Logger logger = LoggerFactory.getLogger(CachingAnnotationsAspect.class);
 
 	@Autowired
 	private InvocationRegistry cacheRefreshSupport;
@@ -47,7 +49,6 @@ public class CachingAnnotationsAspect {
 	}
 
 	private Method getSpecificmethod(ProceedingJoinPoint pjp) {
-
 		MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
 		Method method = methodSignature.getMethod();
 		// The method may be on an interface, but we need attributes from the
@@ -76,7 +77,9 @@ public class CachingAnnotationsAspect {
 		List<Cacheable> annotations = this.getMethodAnnotations(method, Cacheable.class);
 
 		Set<String> cacheSet = new HashSet<String>();
+
 		for (Cacheable cacheables : annotations) {
+
 			cacheSet.addAll(Arrays.asList(cacheables.value()));
 		}
 
