@@ -21,7 +21,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取所有节点数据,不再使用这个API
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300, key = "'region_'+#root.method.name")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h, key = "'region_'+#root.method.name")
 	public R queryRegion() {
 		String sql = "select * from sys_region";
 		RcdSet rs = db.query(sql);
@@ -40,7 +40,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取节点数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300, key = "'region_'+#root.method.name")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h, key = "'region_'+#root.method.name")
 	public R queryRegionALL() {
 
 		JSONObject data = new JSONObject();
@@ -87,7 +87,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description:获取省份数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300)
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h)
 	public R queryShengF(String[] exclude) {
 		String sql = "select * from sys_qud_shengf";
 		R res = new R();
@@ -99,7 +99,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description:获取城市数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300)
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h)
 	public R queryChengS(String sfid, String[] exclude) {
 		String sql = "select * from sys_qud_chengs ";
 		if (ToolUtil.isEmpty(sfid)) {
@@ -116,7 +116,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description:获取区县数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_7200_300)
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h)
 	public R queryQuX(String csid, String[] exclude) {
 		String sql = "select * from sys_qud_qux";
 		if (ToolUtil.isEmpty(csid)) {
