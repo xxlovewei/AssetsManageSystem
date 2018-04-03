@@ -11,6 +11,7 @@ import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.dao.Rcd;
 import com.dt.core.tool.util.SerializableUtils;
 import com.dt.core.tool.util.ToolUtil;
@@ -111,7 +112,12 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 	public void delete(Session session) {
 		super.delete(session);
 		_log.info("delete session,sessionId:" + session.getId());
-		DB.instance().execute("delete from sys_session where cookie=?", session.getId().toString());
+		ThreadTaskHelper.run(new Runnable() {
+			@Override
+			public void run() {
+				DB.instance().execute("delete from sys_session where cookie=?", session.getId().toString());
+			}
+		});
 
 	}
 
