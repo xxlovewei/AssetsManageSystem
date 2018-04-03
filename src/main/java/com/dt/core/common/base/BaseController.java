@@ -27,11 +27,14 @@ public class BaseController extends BaseSC {
 	public String exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception exception) {
 		String msg = ExceptionUtils.getRootCauseMessage(exception) == null ? ""
 				: ExceptionUtils.getRootCauseMessage(exception);
+		
+		System.out.println(exception.getMessage());
 		request.setAttribute("ex", exception);
 		if (null != request.getHeader("X-Requested-With")
 				&& "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
 			request.setAttribute("requestHeader", "ajax");
 		}
+		
 		if (isReturnJSON(request)) {
 			try {
 				response.setCharacterEncoding("UTF-8");

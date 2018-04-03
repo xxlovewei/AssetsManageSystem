@@ -1,6 +1,7 @@
 package com.dt.module.base.service;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -76,7 +77,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取节点数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC + "#10#5", key = "#root.method.name+'_'+#id")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC + "#30#25")
 	public R queryRegionById(String id) {
 		System.out.println("test");
 		String sql = "select * from sys_region where parentid=?";
@@ -87,7 +88,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description:获取省份数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h)
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC + "#10#2")
 	public R queryShengF(String[] exclude) {
 		String sql = "select * from sys_qud_shengf";
 		R res = new R();
