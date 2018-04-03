@@ -22,7 +22,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取所有节点数据,不再使用这个API
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h, key = "'region_'+#root.method.name")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h, key = "'region_queryRegion'")
 	public R queryRegion() {
 		String sql = "select * from sys_region";
 		RcdSet rs = db.query(sql);
@@ -41,7 +41,7 @@ public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取节点数据
 	 */
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h, key = "'region_'+#root.method.name")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h, key = "'region_queryRegionALL'")
 	public R queryRegionALL() {
 
 		JSONObject data = new JSONObject();
