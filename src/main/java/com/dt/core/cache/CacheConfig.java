@@ -25,4 +25,5 @@ public class CacheConfig {
 
 	public static final String CACHE_WX_CONF = "wxconf";
 	public static final String CACHE_WX_CONF_300_180 = "wxconf#300#180";
+
 }

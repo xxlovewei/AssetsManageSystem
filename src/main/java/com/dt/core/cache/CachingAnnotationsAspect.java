@@ -9,12 +9,19 @@ import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.BridgeMethodResolver;
+import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
+import com.dt.core.tool.util.ToolUtil;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 缓存拦截，用于注册方法信息
@@ -67,16 +74,64 @@ public class CachingAnnotationsAspect {
 	public void pointcut() {
 	}
 
+	// 只支持字符串+参数
+	private String parseKey(String key, Method method, Object[] args) {
+
+		// 获取被拦截方法参数名列表(使用Spring支持类库)
+		// root.method.name
+
+		LocalVariableTableParameterNameDiscoverer u = new LocalVariableTableParameterNameDiscoverer();
+		String[] paraNameArr = u.getParameterNames(method);
+
+		// 使用SPEL进行key的解析
+		ExpressionParser parser = new SpelExpressionParser();
+		// SPEL上下文
+		StandardEvaluationContext context = new StandardEvaluationContext();
+		// 把方法参数放入SPEL上下文中
+		for (int i = 0; i < paraNameArr.length; i++) {
+			context.setVariable(paraNameArr[i], args[i]);
+
+		}
+
+		return parser.parseExpression(key).getValue(context, String.class);
+	}
+
 	@Around("pointcut()")
 	public Object registerInvocation(ProceedingJoinPoint joinPoint) throws Throwable {
 
+		// 添加主动刷新的条件，有设置主动刷新功能
 		Method method = this.getSpecificmethod(joinPoint);
 		List<Cacheable> annotations = this.getMethodAnnotations(method, Cacheable.class);
-		Set<String> cacheSet = new HashSet<String>();
-		for (Cacheable cacheables : annotations) {
-			cacheSet.addAll(Arrays.asList(cacheables.value()));
+		StringBuilder sb = new StringBuilder();
+		for (Object obj : joinPoint.getArgs()) {
+			if (obj != null) {
+				sb.append(obj.toString());
+			}
 		}
-		cacheRefreshSupport.registerInvocation(joinPoint.getTarget(), method, joinPoint.getArgs(), cacheSet);
+		// 这里只有一个cacheable
+		String pkey = sb.toString();
+		for (Cacheable cacheables : annotations) {
+			String key = (cacheables.key() == null ? "" : cacheables.key());
+			List<String> values = Arrays.asList(cacheables.value());
+			if (values.size() > 0) {
+				String value = values.get(0);
+				// 如果key中存在#root则不缓存，value
+				String rkey = "";
+				if (value.split("#").length == 3 && key.indexOf("#root.") == -1) {
+					if (ToolUtil.isEmpty(key)) {
+						// key从arg中获取
+						rkey = pkey;
+					} else {
+						rkey = parseKey(key, method, joinPoint.getArgs());
+					}
+					if (rkey.length() > 0) {
+						CacheableEntity ce = new CacheableEntity(value, rkey);
+						CacheObject cobj = new CacheObject(joinPoint.getTarget(), method, joinPoint.getArgs(), ce);
+						cacheRefreshSupport.registerInvocation(cobj);
+					}
+				}
+			}
+		}
 		return joinPoint.proceed();
 
 	}
