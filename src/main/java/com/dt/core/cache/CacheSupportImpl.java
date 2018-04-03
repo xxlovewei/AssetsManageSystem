@@ -26,7 +26,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 	/**
 	 * 记录容器与所有执行方法信息
 	 */
-	private Map<String, Set<CachedInvocation>> cacheToInvocationsMap;
+	public static Map<String, Set<CachedInvocation>> cacheToInvocationsMap;
 
 	@Autowired
 	private CacheManager cacheManager;
@@ -55,8 +55,6 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 		invoker.setArguments(invocation.getArguments());
 		invoker.setTargetMethod(invocation.getTargetMethod().getName());
 		invoker.prepare();
-		System.out.println("TO Flush");
-
 		return invoker.invoke();
 	}
 
