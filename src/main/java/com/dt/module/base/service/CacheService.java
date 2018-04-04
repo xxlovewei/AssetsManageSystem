@@ -48,7 +48,17 @@ public class CacheService {
 		return cacheManager;
 	}
 
-	public R refresh(String cache) {
+	public R refreshCaches() {
+		Collection<String> col = initCacheManager().getCacheNames();
+		for (String cache : col) {
+			if (cache.indexOf("#") == -1) {
+				refreshCache(cache);
+			}
+		}
+		return R.SUCCESS_OPER();
+	}
+
+	public R refreshCache(String cache) {
 		if (ToolUtil.isEmpty(cache)) {
 			return R.FAILURE_NO_DATA();
 		}
@@ -95,7 +105,6 @@ public class CacheService {
 		if (ToolUtil.isEmpty(cache)) {
 			return R.FAILURE_NO_DATA();
 		}
-		refresh(cache);
 		JSONArray res = new JSONArray();
 		CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(cache)));
 		for (int i = 0; i < c.getAllKeys().size(); i++) {
