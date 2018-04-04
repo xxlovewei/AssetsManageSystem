@@ -87,7 +87,7 @@ public class CacheService {
 					});
 				}
 			} catch (Exception e) {
-				_log.info("not a number");
+				_log.info(e.getMessage());
 			}
 		}
 		return R.SUCCESS_OPER();
@@ -127,7 +127,7 @@ public class CacheService {
 					res.add(e);
 				} 
 			} catch (Exception e) {
-				System.out.println("not a number");
+				_log.info(e.getMessage());
 			}
 		}
 		return R.SUCCESS_OPER(res);
