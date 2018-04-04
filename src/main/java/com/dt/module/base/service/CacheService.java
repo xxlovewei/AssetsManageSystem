@@ -1,26 +1,21 @@
 package com.dt.module.base.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.Cache;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.cache.CacheSupportImpl;
 import com.dt.core.cache.CacheableEntity;
 import com.dt.core.cache.CachedInvocation;
 import com.dt.core.cache.CustomizedEhCacheCache;
-import com.dt.core.cache.CustomizedEhCacheCacheManager;
 import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.DateTimeKit;
-
 import net.sf.ehcache.Element;
 import net.sf.json.JSONObject;
 
