@@ -81,6 +81,7 @@ function sysCacheCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			DTColumnBuilder.newColumn('key').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
+	
 	function flush() {
 
 		$http.post($rootScope.project + "/api/system/queryCacheKeys.do", {
