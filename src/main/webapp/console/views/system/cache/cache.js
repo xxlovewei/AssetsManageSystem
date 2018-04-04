@@ -33,7 +33,9 @@ function sysCacheCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-
+		acthtml = acthtml + " <button ng-click=\"refresh('" + full.key + "','"
+				+ full.cache
+				+ "')\" class=\"btn-white btn btn-xs\">刷新</button> </div> ";
 		acthtml = acthtml + " <button ng-click=\"removeCacheKey('" + full.key
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
@@ -119,9 +121,10 @@ function sysCacheCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				})
 	}
 
-	$scope.enable = function(seq) {
-		$http.post($rootScope.project + "/api/schedule/enablejob.do", {
-					seq : seq
+	$scope.refresh = function(key, cache) {
+		$http.post($rootScope.project + "/api/system/refreshCache.do", {
+					key : key,
+					cache : cache
 				}).success(function(res) {
 					notify({
 								message : res.message
