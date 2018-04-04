@@ -72,7 +72,6 @@ public class CacheService {
 				}
 				CacheableEntity ce = inv.getcacheableEntity();
 				int refreshtime = ce.getRefreshtime();
-				System.out.println(ce.toString());
 				if (refreshtime > 0 && expired != null && expired > 0 && expired <= refreshtime) {
 					ThreadTaskHelper.run(new Runnable() {
 						@Override
