@@ -16,7 +16,7 @@ import com.dt.core.common.base.R;
 @Service
 public class SystemService extends BaseService {
 	@Autowired
-	EhCacheService ehCacheService;
+	CacheService ehCacheService;
 
 	public R queryOnLineSession() {
 		String sql = "select a.*,b.user_name,b.user_type,b.name,b.nickname from sys_session a left join sys_user_info b on a.user_id=b.user_id order by lastaccess desc";

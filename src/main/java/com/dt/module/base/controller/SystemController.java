@@ -8,7 +8,7 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.cache.CacheSupportImpl;
 import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.R;
-import com.dt.module.base.service.EhCacheService;
+import com.dt.module.base.service.CacheService;
 import com.dt.module.base.service.SystemService;
 
 /**
@@ -23,7 +23,7 @@ public class SystemController {
 	SystemService systemService;
 
 	@Autowired
-	EhCacheService ehCacheService;
+	CacheService ehCacheService;
 
 	@RequestMapping(value = "/system/getOnlineSession.do")
 	@ResponseBody
@@ -43,7 +43,7 @@ public class SystemController {
 	@ResponseBody
 	@Acl(info = "查询CacheName", value = Acl.ACL_DENY)
 	public R queryCustomizedEhCacheCacheManagerCaches() {
-		return ehCacheService.queryCustomizedEhCacheCacheManagerCaches();
+		return ehCacheService.queryCacheCacheManagerCaches();
 	}
 
 	@RequestMapping(value = "/system/queryCacheKeys.do")

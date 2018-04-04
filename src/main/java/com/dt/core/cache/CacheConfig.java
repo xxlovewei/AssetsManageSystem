@@ -7,6 +7,7 @@ package com.dt.core.cache;
  */
 public class CacheConfig {
 
+	// 刷新数据建议设置长些,短的话主动刷新轮不上
 	// 2小时
 	public static final String CACHE_PUBLIC = "public";
 	// 非常频繁

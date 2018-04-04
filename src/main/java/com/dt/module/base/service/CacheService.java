@@ -1,10 +1,12 @@
 package com.dt.module.base.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.Cache;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.cache.CustomizedEhCacheCache;
@@ -13,7 +15,6 @@ import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.DateTimeKit;
 
-import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.json.JSONObject;
 
@@ -23,28 +24,33 @@ import net.sf.json.JSONObject;
  * @Description: TODO
  */
 @Service
-public class EhCacheService {
+public class CacheService {
 	// private static CacheManager cacheManager = null;
 	@Autowired
 	private CacheManager cacheManager;
 
 	public CacheManager initCacheManager() {
 		try {
-			if (cacheManager == null)
-				cacheManager = CacheManager.getInstance();
+			if (cacheManager == null) {
+
+			}
+			// cacheManager.
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	 
+
 		return cacheManager;
+	}
+
+	public R refresh(String cache) {
+		return R.SUCCESS_OPER();
 	}
 
 	public R removeCacheKey(String cache, String key) {
 		if (ToolUtil.isOneEmpty(cache, key)) {
 			return R.FAILURE_NO_DATA();
 		}
-		CustomizedEhCacheCache c = new CustomizedEhCacheCache(initCacheManager().getEhcache(cache));
-		c.evict(key);
+		initCacheManager().getCache(cache).evict(key);
 		return R.SUCCESS_OPER();
 	}
 
@@ -54,7 +60,8 @@ public class EhCacheService {
 		}
 
 		JSONArray res = new JSONArray();
-		CustomizedEhCacheCache c = new CustomizedEhCacheCache(initCacheManager().getEhcache(cache));
+
+		CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(cache)));
 		for (int i = 0; i < c.getAllKeys().size(); i++) {
 			// 捕捉瞬间key失效报错问题
 			try {
@@ -79,28 +86,19 @@ public class EhCacheService {
 		return R.SUCCESS_OPER(res);
 	}
 
-	public R queryCustomizedEhCacheCacheManagerCaches() {
+	public R queryCacheCacheManagerCaches() {
+
 		JSONArray res = new JSONArray();
-		ArrayList<String> cachenames = CustomizedEhCacheCacheManager.cachenames;
-		for (int i = 0; i < cachenames.size(); i++) {
-			JSONObject e = new JSONObject();
-			e.put("id", cachenames.get(i));
-			e.put("name", cachenames.get(i));
-			res.add(e);
+		Collection<String> col = initCacheManager().getCacheNames();
+		for (String cache : col) {
+			if (cache.indexOf("#") == -1) {
+				JSONObject e = new JSONObject();
+				e.put("id", cache);
+				e.put("name", cache);
+				res.add(e);
+			}
 		}
 		return R.SUCCESS_OPER(res);
-	}
-
-	@SuppressWarnings("static-access")
-	public CacheManager initCacheManager(String path) {
-		try {
-			if (cacheManager == null) {
-				cacheManager = CacheManager.getInstance().create(path);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return cacheManager;
 	}
 
 }
