@@ -41,6 +41,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 		}
 		if (invocationSuccess) {
 			if (cacheInvocationsMap.get(cacheName) != null) {
+				System.out.println("compute"+computed.toString());
 				cacheManager.getCache(cacheName).put(invocation.getKey(), computed);
 			}
 		}

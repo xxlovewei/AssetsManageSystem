@@ -3,6 +3,7 @@ package com.dt.module.base.service;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.cache.CustomizedEhCacheCache;
@@ -22,9 +23,11 @@ import net.sf.json.JSONObject;
  */
 @Service
 public class EhCacheService {
-	private static CacheManager cacheManager = null;
+	// private static CacheManager cacheManager = null;
+	@Autowired
+	private CacheManager cacheManager;
 
-	public static CacheManager initCacheManager() {
+	public CacheManager initCacheManager() {
 		try {
 			if (cacheManager == null)
 				cacheManager = CacheManager.getInstance();
@@ -87,7 +90,7 @@ public class EhCacheService {
 	}
 
 	@SuppressWarnings("static-access")
-	public static CacheManager initCacheManager(String path) {
+	public CacheManager initCacheManager(String path) {
 		try {
 			if (cacheManager == null) {
 				cacheManager = CacheManager.getInstance().create(path);

@@ -147,13 +147,18 @@ public class CustomizedEhCacheCache implements Cache {
 	public void put(Object key, Object value) {
 		Element e = new Element(key, value);
 		e.setTimeToLive((int) expiredtime);
+		System.out.println(this.cache.getName() + "," + key + ",this to put" + value.toString());
+		if (this.cache.get(key) != null) {
+			System.out.println("before put" + this.cache.get(key).getValue());
+		}
 		this.cache.put(e);
-		ThreadTaskHelper.run(new Runnable() {
-			@Override
-			public void run() {
-				cache.flush();
-			}
-		});
+		System.out.println("after put" + this.cache.get(key).getValue());
+		// ThreadTaskHelper.run(new Runnable() {
+		// @Override
+		// public void run() {
+		// // cache.flush();
+		// }
+		// });
 
 	}
 
@@ -165,28 +170,31 @@ public class CustomizedEhCacheCache implements Cache {
 
 	@Override
 	public void evict(Object key) {
+		System.out.println("remove");
 		this.cache.remove(key);
-		ThreadTaskHelper.run(new Runnable() {
-			@Override
-			public void run() {
-				removeCacheByKey(key.toString());
-			}
-		});
+		// removeCacheByKey(key.toString());
+		// ThreadTaskHelper.run(new Runnable() {
+		// @Override
+		// public void run() {
+		//
+		// }
+		// });
 
 	}
-
-	public void remove(Object key) {
-
-	}
+	//
+	// public void remove(Object key) {
+	//
+	// }
 
 	@Override
 	public void clear() {
 		this.cache.removeAll();
 	}
 
-	private void removeCacheByKey(String key) {
-		CustomizedEhCacheCache.this.getCacheSupport().removeCacheByKey(this.cache.getName(), key);
-	}
+	// private void removeCacheByKey(String key) {
+	// CustomizedEhCacheCache.this.getCacheSupport().removeCacheByKey(this.cache.getName(),
+	// key);
+	// }
 
 	private Element lookup(Object key) {
 		return this.cache.get(key);

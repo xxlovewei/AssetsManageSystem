@@ -38,7 +38,7 @@ public class ApiService extends BaseService {
 		return SpringContextUtil.getBean(ApiService.class);
 	}
 
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_2h_5min, key = "'api_'+#root.method.name")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_2h_5min, key = "'api_queryApi'")
 	public R queryApi() {
 		String sql = "select * from sys_api";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());

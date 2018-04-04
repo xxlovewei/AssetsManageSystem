@@ -23,7 +23,7 @@ public class SystemService extends BaseService {
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_1d_1h, key = "'system_'+#root.method.name")
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_1d_1h, key = "'system_queryMsg'")
 	public R queryMsg() {
 		return R.clearAttachDirect(BaseCodeMsgEnum.queryAll());
 	}
