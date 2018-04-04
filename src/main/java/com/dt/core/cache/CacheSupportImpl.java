@@ -9,11 +9,8 @@ import org.springframework.util.MethodInvoker;
 import com.dt.core.tool.util.ToolUtil;
 import javax.annotation.PostConstruct;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * 手动刷新缓存实现类
@@ -26,7 +23,8 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 	/**
 	 * 记录容器与所有执行方法信息
 	 */
-	public static Map<String, Set<CachedInvocation>> cacheToInvocationsMap;
+	// public static Map<String, Set<CachedInvocation>> cacheToInvocationsMap;
+	public static Map<String, ConcurrentHashMap<String, CachedInvocation>> cacheInvocationsMap;
 
 	@Autowired
 	private CacheManager cacheManager;
@@ -42,7 +40,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 			invocationSuccess = false;
 		}
 		if (invocationSuccess) {
-			if (cacheToInvocationsMap.get(cacheName) != null) {
+			if (cacheInvocationsMap.get(cacheName) != null) {
 				cacheManager.getCache(cacheName).put(invocation.getKey(), computed);
 			}
 		}
@@ -55,15 +53,24 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 		invoker.setArguments(invocation.getArguments());
 		invoker.setTargetMethod(invocation.getTargetMethod().getName());
 		invoker.prepare();
+		logger.info("Action invoke key:" + invocation.getKey());
 		return invoker.invoke();
 	}
 
 	@PostConstruct
 	public void initialize() {
-		cacheToInvocationsMap = new ConcurrentHashMap<String, Set<CachedInvocation>>(
+		// cacheToInvocationsMap = new ConcurrentHashMap<String,
+		// Set<CachedInvocation>>(
+		// cacheManager.getCacheNames().size());
+
+		cacheInvocationsMap = new ConcurrentHashMap<String, ConcurrentHashMap<String, CachedInvocation>>(
 				cacheManager.getCacheNames().size());
+
 		for (final String cacheName : cacheManager.getCacheNames()) {
-			cacheToInvocationsMap.put(cacheName, new CopyOnWriteArraySet<CachedInvocation>());
+			// cacheToInvocationsMap.put(cacheName, new
+			// CopyOnWriteArraySet<CachedInvocation>());
+			cacheInvocationsMap.put(cacheName, new ConcurrentHashMap<String, CachedInvocation>());
+
 		}
 	}
 
@@ -72,51 +79,21 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 
 		String[] cacheParams = obj.getCacheableEntity().getValue().split("#");
 		String realCacheName = cacheParams[0];
-		if (!cacheToInvocationsMap.containsKey(realCacheName)) {
+		if (!cacheInvocationsMap.containsKey(realCacheName)) {
 			this.initialize();
 		}
 		CachedInvocation invocation = new CachedInvocation(obj.getCacheableEntity().getKey(), obj.getInvokedBean(),
 				obj.getInvokedMethod(), obj.getInvocationArguments());
 		logger.info("保存执行信息,value:" + realCacheName + ",key:" + obj.getCacheableEntity().getKey());
-		cacheToInvocationsMap.get(realCacheName).add(invocation);
+		cacheInvocationsMap.get(realCacheName).put(obj.getCacheableEntity().getKey(), invocation);
 
 	}
 
 	@Override
 	public void removeCacheByKey(String cacheName, String cachekey) {
 		logger.info("removeCacheByKey:" + cacheName + ",cacheKey:" + cachekey);
-		if (cacheToInvocationsMap.get(cacheName) != null && ToolUtil.isNotEmpty(cachekey)) {
-			Set<CachedInvocation> sets = cacheToInvocationsMap.get(cacheName);
-			ArrayList<CachedInvocation> d = new ArrayList<CachedInvocation>();
-
-			for (final CachedInvocation invocation : sets) {
-				if ((invocation.getKey()).equals(cachekey)) {
-					d.add(invocation);
-				}
-			}
-			for (CachedInvocation invocation : d) {
-				sets.remove(invocation);
-			}
-		} else {
-			logger.info("Cache name:" + cacheName + " not exists");
-		}
-	}
-
-	private void removeCacheByKeyLeft(String cacheName, String cachekey) {
-		logger.info("removeCacheByKey:" + cacheName + ",cacheKey:" + cachekey);
-		if (cacheToInvocationsMap.get(cacheName) != null && ToolUtil.isNotEmpty(cachekey)) {
-			Set<CachedInvocation> sets = cacheToInvocationsMap.get(cacheName);
-			ArrayList<CachedInvocation> d = new ArrayList<CachedInvocation>();
-			for (final CachedInvocation invocation : sets) {
-				if ((invocation.getKey()).equals(cachekey)) {
-					d.add(invocation);
-				}
-			}
-			if (d.size() >= 2) {
-				for (int i = 0; i < d.size() - 1; i++) {
-					sets.remove(d.get(i));
-				}
-			}
+		if (cacheInvocationsMap.get(cacheName) != null && ToolUtil.isNotEmpty(cachekey)) {
+			cacheInvocationsMap.get(cacheName).remove(cachekey);
 		} else {
 			logger.info("Cache name:" + cacheName + " not exists");
 		}
@@ -131,14 +108,8 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 	@Override
 	public void refreshCacheByKey(String cacheName, String cacheKey) {
 		logger.info("refreshCacheName:" + cacheName + ",cacheKey:" + cacheKey);
-		if (cacheToInvocationsMap.get(cacheName) != null && ToolUtil.isNotEmpty(cacheKey)) {
-			removeCacheByKeyLeft(cacheName, cacheKey);
-			for (CachedInvocation invocation : cacheToInvocationsMap.get(cacheName)) {
-				if ((invocation.getKey()).equals(cacheKey)) {
-					logger.info("Action refreshCache.");
-					refreshCache(invocation, cacheName);
-				}
-			}
+		if (cacheInvocationsMap.get(cacheName) != null && ToolUtil.isNotEmpty(cacheKey)) {
+			refreshCache(cacheInvocationsMap.get(cacheName).get(cacheKey), cacheName);
 		} else {
 			logger.info("Cache name:" + cacheName + " not exists");
 		}

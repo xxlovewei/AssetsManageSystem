@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.dt.core.annotion.Acl;
+import com.dt.core.cache.CacheSupportImpl;
 import com.dt.core.common.base.R;
 import com.dt.module.base.service.EhCacheService;
 import com.dt.module.base.service.SystemService;
@@ -56,6 +57,17 @@ public class SystemController {
 	@Acl(info = "删除CacheKey", value = Acl.ACL_DENY)
 	public R removeCacheKey(String cache, String key) {
 		return ehCacheService.removeCacheKey(cache, key);
+	}
+
+	@Autowired
+	private CacheSupportImpl cacheSupportImpl;
+
+	@RequestMapping(value = "/system/refreshCache.do")
+	@ResponseBody
+	@Acl(info = "删除CacheKey", value = Acl.ACL_DENY)
+	public R refreshCache(String key, String cache) {
+		cacheSupportImpl.refreshCacheByKey(cache, key);
+		return R.SUCCESS_OPER();
 	}
 
 }

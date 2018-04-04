@@ -56,6 +56,7 @@ public class EhCacheService {
 				Element el = c.getKey(c.getAllKeys().get(i).toString());
 				if (!ToolUtil.isEmpty(el)) {
 					JSONObject e = new JSONObject();
+					e.put("cache", cache);
 					e.put("key", c.getAllKeys().get(i));
 					e.put("hit", el.getHitCount());
 					e.put("ctime",
