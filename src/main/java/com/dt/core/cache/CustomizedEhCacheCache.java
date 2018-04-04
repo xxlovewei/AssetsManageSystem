@@ -149,7 +149,6 @@ public class CustomizedEhCacheCache implements Cache {
 	@Override
 	public void put(Object key, Object value) {
 		Element e = new Element(key, value);
-		System.out.println("expiredtime:" + expiredtime);
 		if (expiredtime > 0) {
 			// 注解中有设置
 			e.setTimeToLive(expiredtime);
@@ -162,8 +161,8 @@ public class CustomizedEhCacheCache implements Cache {
 				// 如果没有找到cache
 				e.setTimeToLive(ce.getTimeToLive());
 			} else {
-				logger.info(
-						"Can't cache it,cache:" + this.cache.getName() + ",key:" + key + ",expiredtime:" + expiredtime);
+				logger.info("Can't cache it,no key. cache:" + this.cache.getName() + ",key:" + key + ",expiredtime:"
+						+ expiredtime);
 				return;
 			}
 		}
@@ -179,31 +178,24 @@ public class CustomizedEhCacheCache implements Cache {
 
 	@Override
 	public void evict(Object key) {
-		System.out.println("remove");
 		this.cache.remove(key);
-		// removeCacheByKey(key.toString());
-		// ThreadTaskHelper.run(new Runnable() {
-		// @Override
-		// public void run() {
-		//
-		// }
-		// });
+		ThreadTaskHelper.run(new Runnable() {
+			@Override
+			public void run() {
+				removeCacheByKey(key.toString());
+			}
+		});
 
 	}
-	//
-	// public void remove(Object key) {
-	//
-	// }
 
 	@Override
 	public void clear() {
 		this.cache.removeAll();
 	}
 
-	// private void removeCacheByKey(String key) {
-	// CustomizedEhCacheCache.this.getCacheSupport().removeCacheByKey(this.cache.getName(),
-	// key);
-	// }
+	private void removeCacheByKey(String key) {
+		CustomizedEhCacheCache.this.getCacheSupport().removeCacheByKey(this.cache.getName(), key);
+	}
 
 	private Element lookup(Object key) {
 		return this.cache.get(key);

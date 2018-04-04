@@ -21,8 +21,6 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 
 	public static ArrayList<String> cachenames = new ArrayList<String>();
 
-	// public net.sf.ehcache.CacheManager cacheManager;
-
 	/**
 	 * Create a new EhCacheCacheManager, setting the target EhCache CacheManager
 	 * through the {@link #setCacheManager} bean property.
@@ -36,24 +34,14 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 	 * @param cacheManager
 	 *            the backing EhCache {@link net.sf.ehcache.CacheManager}
 	 */
-	// public CustomizedEhCacheCacheManager(net.sf.ehcache.CacheManager
-	// cacheManager_in) {
-	// cacheManager = cacheManager_in;
-	// }
 
 	/**
 	 * Set the backing EhCache {@link net.sf.ehcache.CacheManager}.
 	 */
-	// public void setCacheManager(net.sf.ehcache.CacheManager cacheManager_in) {
-	// cacheManager = cacheManager_in;
-	// }
 
 	/**
 	 * Return the backing EhCache {@link net.sf.ehcache.CacheManager}.
 	 */
-	// public net.sf.ehcache.CacheManager getCacheManager() {
-	// return cacheManager;
-	// }
 
 	@Override
 	public void afterPropertiesSet() {
