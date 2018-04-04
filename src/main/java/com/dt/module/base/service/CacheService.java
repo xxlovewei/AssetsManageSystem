@@ -43,7 +43,26 @@ public class CacheService {
 	}
 
 	public R refresh(String cache) {
-		return R.SUCCESS_OPER();
+		if (ToolUtil.isEmpty(cache)) {
+			return R.FAILURE_NO_DATA();
+		}
+		JSONArray res = new JSONArray();
+		CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(cache)));
+		for (int i = 0; i < c.getAllKeys().size(); i++) {
+			// 捕捉瞬间key失效报错问题
+			try {
+				// 判断是否需要刷新
+				Element el = c.getKey(c.getAllKeys().get(i).toString());
+				System.out.println(el.getCreationTime());
+				System.out.println(el.getExpirationTime());
+				System.out.println(el.getLastAccessTime());
+				System.out.println(el.getTimeToLive());
+
+			} catch (Exception e) {
+				System.out.println("not a number");
+			}
+		}
+		return R.SUCCESS_OPER(res);
 	}
 
 	public R removeCacheKey(String cache, String key) {
@@ -75,6 +94,8 @@ public class CacheService {
 							DateTimeKit.format(new Date(el.getCreationTime()), DateTimeKit.NORM_DATETIME_PATTERN));
 					e.put("accesstime",
 							DateTimeKit.format(new Date(el.getLastAccessTime()), DateTimeKit.NORM_DATETIME_PATTERN));
+					e.put("expiretime",
+							DateTimeKit.format(new Date(el.getExpirationTime()), DateTimeKit.NORM_DATETIME_PATTERN));
 					e.put("ttl", el.getTimeToLive());
 					e.put("tti", el.getTimeToIdle());
 					res.add(e);
