@@ -27,10 +27,13 @@ import net.sf.json.JSONObject;
 @Service
 public class CacheService {
 
-	private static Logger _log = LoggerFactory.getLogger(CacheService.class);
+	@Autowired
+	private CacheSupportImpl cacheSupportImpl;
 
 	@Autowired
 	private CacheManager cacheManager;
+
+	private static Logger _log = LoggerFactory.getLogger(CacheService.class);
 
 	public CacheManager initCacheManager() {
 		try {
@@ -44,9 +47,6 @@ public class CacheService {
 
 		return cacheManager;
 	}
-
-	@Autowired
-	private CacheSupportImpl cacheSupportImpl;
 
 	public R refresh(String cache) {
 		if (ToolUtil.isEmpty(cache)) {
