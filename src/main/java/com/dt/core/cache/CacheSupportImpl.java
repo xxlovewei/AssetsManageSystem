@@ -70,8 +70,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 	@Override
 	public void registerInvocation(CachedInvocation invocation) {
 		String key = invocation.getcacheableEntity().getKey();
-		String[] cacheParams = invocation.getcacheableEntity().getValue().split("#");
-		String realCacheName = cacheParams[0];
+		String realCacheName = invocation.getcacheableEntity().getValue();
 
 		if (!cacheInvocationsMap.containsKey(realCacheName)) {
 			this.initialize();

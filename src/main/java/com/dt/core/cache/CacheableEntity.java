@@ -26,9 +26,46 @@ public class CacheableEntity {
 	private String value = "";
 	private String key = "";
 
+	private int expiredtime = -1;
+
+	/**
+	 * @return the expiredtime
+	 */
+	public int getExpiredtime() {
+		return expiredtime;
+	}
+
+	/**
+	 * @param expiredtime
+	 *            the expiredtime to set
+	 */
+	public void setExpiredtime(int expiredtime) {
+		this.expiredtime = expiredtime;
+	}
+
+	/**
+	 * @return the refreshtime
+	 */
+	public int getRefreshtime() {
+		return refreshtime;
+	}
+
+	/**
+	 * @param refreshtime
+	 *            the refreshtime to set
+	 */
+	public void setRefreshtime(int refreshtime) {
+		this.refreshtime = refreshtime;
+	}
+
+	private int refreshtime = -1;
+
 	public CacheableEntity(String value_in, String key_in) {
 		value = value_in;
 		key = key_in;
 	}
 
+	public String toString() {
+		return "value:" + value + ",key:" + key + ",refreshtime:" + refreshtime + ",expiredtime:" + expiredtime;
+	}
 }

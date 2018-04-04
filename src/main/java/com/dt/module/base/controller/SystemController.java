@@ -23,7 +23,7 @@ public class SystemController {
 	SystemService systemService;
 
 	@Autowired
-	CacheService ehCacheService;
+	CacheService cacheService;
 
 	@RequestMapping(value = "/system/getOnlineSession.do")
 	@ResponseBody
@@ -43,21 +43,21 @@ public class SystemController {
 	@ResponseBody
 	@Acl(info = "查询CacheName", value = Acl.ACL_DENY)
 	public R queryCustomizedEhCacheCacheManagerCaches() {
-		return ehCacheService.queryCacheCacheManagerCaches();
+		return cacheService.queryCacheCacheManagerCaches();
 	}
 
 	@RequestMapping(value = "/system/queryCacheKeys.do")
 	@ResponseBody
 	@Acl(info = "查询CacheName", value = Acl.ACL_DENY)
 	public R queryCacheKeys(String cache) {
-		return ehCacheService.queryCustomizedEhCacheCacheManagerCacheKeys(cache);
+		return cacheService.queryCustomizedEhCacheCacheManagerCacheKeys(cache);
 	}
 
 	@RequestMapping(value = "/system/removeCacheKey.do")
 	@ResponseBody
 	@Acl(info = "删除CacheKey", value = Acl.ACL_DENY)
 	public R removeCacheKey(String cache, String key) {
-		return ehCacheService.removeCacheKey(cache, key);
+		return cacheService.removeCacheKey(cache, key);
 	}
 
 	@Autowired

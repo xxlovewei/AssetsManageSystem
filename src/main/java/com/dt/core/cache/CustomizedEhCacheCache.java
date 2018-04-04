@@ -206,7 +206,7 @@ public class CustomizedEhCacheCache implements Cache {
 			return null;
 		}
 		logger.info("@From mem " + cache.getName() + ":" + element.getKey());
-		Long expired = (element.getExpirationTime() - element.getLastAccessTime()) / 1000;
+		Long expired = (element.getExpirationTime() - System.currentTimeMillis()) / 1000;
 		// 判断是否要刷新
 		if (refreshtime > 0 && expired != null && expired > 0 && expired <= refreshtime) {
 			ThreadTaskHelper.run(new Runnable() {

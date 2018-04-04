@@ -117,20 +117,22 @@ public class CachingAnnotationsAspect {
 				String value = values.get(0);
 				// 如果key中存在#root则不缓存，value
 				String rkey = "";
-				if (value.split("#").length == 3 && key.indexOf("#root.") == -1) {
+				String[] vsp = value.split("#");
+				if (vsp.length == 3 && key.indexOf("#root.") == -1) {
 					if (ToolUtil.isEmpty(key)) {
 						// key从arg中获取
 						rkey = pkey;
 					} else {
 						rkey = parseKey(key, method, joinPoint.getArgs());
 					}
+
 					if (rkey.length() > 0) {
-						CacheableEntity ce = new CacheableEntity(value, rkey);
-						// CacheInvocation cobj = new CacheInvocation(joinPoint.getTarget(), method,
-						// joinPoint.getArgs(), ce);
+						CacheableEntity ce = new CacheableEntity(vsp[0], rkey);
+						ce.setExpiredtime(ToolUtil.toInt(vsp[1], -1));
+						ce.setRefreshtime(ToolUtil.toInt(vsp[2], -1));
 						CachedInvocation invocation = new CachedInvocation(rkey, joinPoint.getTarget(), method,
 								joinPoint.getArgs(), ce);
-						 cacheRefreshSupport.registerInvocation(invocation);
+						cacheRefreshSupport.registerInvocation(invocation);
 					}
 				}
 			}

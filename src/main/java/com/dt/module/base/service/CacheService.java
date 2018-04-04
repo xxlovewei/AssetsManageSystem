@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.Cache;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
+import com.dt.core.cache.CacheSupportImpl;
+import com.dt.core.cache.CacheableEntity;
+import com.dt.core.cache.CachedInvocation;
 import com.dt.core.cache.CustomizedEhCacheCache;
 import com.dt.core.cache.CustomizedEhCacheCacheManager;
+import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.DateTimeKit;
@@ -25,7 +31,9 @@ import net.sf.json.JSONObject;
  */
 @Service
 public class CacheService {
-	// private static CacheManager cacheManager = null;
+
+	private static Logger _log = LoggerFactory.getLogger(CacheService.class);
+
 	@Autowired
 	private CacheManager cacheManager;
 
@@ -42,27 +50,43 @@ public class CacheService {
 		return cacheManager;
 	}
 
+	@Autowired
+	private CacheSupportImpl cacheSupportImpl;
+
 	public R refresh(String cache) {
 		if (ToolUtil.isEmpty(cache)) {
 			return R.FAILURE_NO_DATA();
 		}
-		JSONArray res = new JSONArray();
+
 		CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(cache)));
 		for (int i = 0; i < c.getAllKeys().size(); i++) {
 			// 捕捉瞬间key失效报错问题
 			try {
 				// 判断是否需要刷新
-				Element el = c.getKey(c.getAllKeys().get(i).toString());
-				System.out.println(el.getCreationTime());
-				System.out.println(el.getExpirationTime());
-				System.out.println(el.getLastAccessTime());
-				System.out.println(el.getTimeToLive());
-
+				String key = c.getAllKeys().get(i).toString();
+				Element el = c.getKey(key);
+				Long expired = (el.getExpirationTime() - System.currentTimeMillis()) / 1000;
+				CachedInvocation inv = CacheSupportImpl.cacheInvocationsMap.get(cache).get(key);
+				if (inv == null) {
+					continue;
+				}
+				CacheableEntity ce = inv.getcacheableEntity();
+				int refreshtime = ce.getRefreshtime();
+				System.out.println(ce.toString());
+				if (refreshtime > 0 && expired != null && expired > 0 && expired <= refreshtime) {
+					ThreadTaskHelper.run(new Runnable() {
+						@Override
+						public void run() {
+							_log.info("refresh by CacheService");
+							cacheSupportImpl.refreshCacheByKey(cache, key);
+						}
+					});
+				}
 			} catch (Exception e) {
-				System.out.println("not a number");
+				_log.info("not a number");
 			}
 		}
-		return R.SUCCESS_OPER(res);
+		return R.SUCCESS_OPER();
 	}
 
 	public R removeCacheKey(String cache, String key) {
@@ -77,9 +101,8 @@ public class CacheService {
 		if (ToolUtil.isEmpty(cache)) {
 			return R.FAILURE_NO_DATA();
 		}
-
+		refresh(cache);
 		JSONArray res = new JSONArray();
-
 		CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(cache)));
 		for (int i = 0; i < c.getAllKeys().size(); i++) {
 			// 捕捉瞬间key失效报错问题
