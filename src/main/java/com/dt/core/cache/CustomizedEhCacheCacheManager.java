@@ -3,6 +3,7 @@ package com.dt.core.cache;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Status;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 
 	public static ArrayList<String> cachenames = new ArrayList<String>();
 
-	public net.sf.ehcache.CacheManager cacheManager;
+	// public net.sf.ehcache.CacheManager cacheManager;
 
 	/**
 	 * Create a new EhCacheCacheManager, setting the target EhCache CacheManager
@@ -30,29 +31,29 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 	}
 
 	/**
-	 * Create a new EhCacheCacheManager for the given backing EhCache
-	 * CacheManager.
+	 * Create a new EhCacheCacheManager for the given backing EhCache CacheManager.
 	 * 
 	 * @param cacheManager
 	 *            the backing EhCache {@link net.sf.ehcache.CacheManager}
 	 */
-	public CustomizedEhCacheCacheManager(net.sf.ehcache.CacheManager cacheManager_in) {
-		cacheManager = cacheManager_in;
-	}
+	// public CustomizedEhCacheCacheManager(net.sf.ehcache.CacheManager
+	// cacheManager_in) {
+	// cacheManager = cacheManager_in;
+	// }
 
 	/**
 	 * Set the backing EhCache {@link net.sf.ehcache.CacheManager}.
 	 */
-	public void setCacheManager(net.sf.ehcache.CacheManager cacheManager_in) {
-		cacheManager = cacheManager_in;
-	}
+	// public void setCacheManager(net.sf.ehcache.CacheManager cacheManager_in) {
+	// cacheManager = cacheManager_in;
+	// }
 
 	/**
 	 * Return the backing EhCache {@link net.sf.ehcache.CacheManager}.
 	 */
-	public net.sf.ehcache.CacheManager getCacheManager() {
-		return cacheManager;
-	}
+	// public net.sf.ehcache.CacheManager getCacheManager() {
+	// return cacheManager;
+	// }
 
 	@Override
 	public void afterPropertiesSet() {
@@ -86,21 +87,25 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 	protected Cache getMissingCache(String name) {
 		// Check the EhCache cache again (in case the cache was added at
 		// runtime)
-
-		long expiredtime = 0;
-		long refreshtime = 0;
+		int expiredtime = 0;
+		int refreshtime = 0;
 		String[] cacheParams = name.split(separator);
 		String cacheName = cacheParams[0];
 
 		if (ToolUtil.isEmpty(cacheName)) {
 			return null;
 		}
+
 		if (cacheParams.length > 1) {
-			expiredtime = Long.parseLong(cacheParams[1]);
+			expiredtime = ToolUtil.toInt(cacheParams[1], 2);
 		}
 		if (cacheParams.length > 2) {
-			refreshtime = Long.parseLong(cacheParams[2]);
+			refreshtime = ToolUtil.toInt(cacheParams[2], 0);
 		}
+		if (cacheParams.length == 1) {
+			expiredtime = -2;
+		}
+
 		Ehcache ehcache = getCacheManager().getEhcache(cacheName);
 		if (ehcache != null) {
 			return new CustomizedEhCacheCache(ehcache, expiredtime, refreshtime);

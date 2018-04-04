@@ -23,7 +23,6 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 	/**
 	 * 记录容器与所有执行方法信息
 	 */
-	// public static Map<String, Set<CachedInvocation>> cacheToInvocationsMap;
 	public static Map<String, ConcurrentHashMap<String, CachedInvocation>> cacheInvocationsMap;
 
 	@Autowired
@@ -41,8 +40,8 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 		}
 		if (invocationSuccess) {
 			if (cacheInvocationsMap.get(cacheName) != null) {
-				System.out.println("compute"+computed.toString());
 				cacheManager.getCache(cacheName).put(invocation.getKey(), computed);
+
 			}
 		}
 	}
@@ -60,33 +59,25 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 
 	@PostConstruct
 	public void initialize() {
-		// cacheToInvocationsMap = new ConcurrentHashMap<String,
-		// Set<CachedInvocation>>(
-		// cacheManager.getCacheNames().size());
 
-		cacheInvocationsMap = new ConcurrentHashMap<String, ConcurrentHashMap<String, CachedInvocation>>(
-				cacheManager.getCacheNames().size());
-
+		cacheInvocationsMap = new ConcurrentHashMap<String, ConcurrentHashMap<String, CachedInvocation>>(10);
 		for (final String cacheName : cacheManager.getCacheNames()) {
-			// cacheToInvocationsMap.put(cacheName, new
-			// CopyOnWriteArraySet<CachedInvocation>());
 			cacheInvocationsMap.put(cacheName, new ConcurrentHashMap<String, CachedInvocation>());
 
 		}
 	}
 
 	@Override
-	public void registerInvocation(CacheObject obj) {
-
-		String[] cacheParams = obj.getCacheableEntity().getValue().split("#");
+	public void registerInvocation(CachedInvocation invocation) {
+		String key = invocation.getcacheableEntity().getKey();
+		String[] cacheParams = invocation.getcacheableEntity().getValue().split("#");
 		String realCacheName = cacheParams[0];
+
 		if (!cacheInvocationsMap.containsKey(realCacheName)) {
 			this.initialize();
 		}
-		CachedInvocation invocation = new CachedInvocation(obj.getCacheableEntity().getKey(), obj.getInvokedBean(),
-				obj.getInvokedMethod(), obj.getInvocationArguments());
-		logger.info("保存执行信息,value:" + realCacheName + ",key:" + obj.getCacheableEntity().getKey());
-		cacheInvocationsMap.get(realCacheName).put(obj.getCacheableEntity().getKey(), invocation);
+		logger.info("保存执行信息,realCacheName:" + realCacheName + ",key:" + key);
+		cacheInvocationsMap.get(realCacheName).put(key, invocation);
 
 	}
 

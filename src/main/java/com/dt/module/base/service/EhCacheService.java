@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.cache.CustomizedEhCacheCache;
@@ -34,6 +35,7 @@ public class EhCacheService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	 
 		return cacheManager;
 	}
 

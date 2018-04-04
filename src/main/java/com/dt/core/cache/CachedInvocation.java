@@ -13,8 +13,27 @@ public final class CachedInvocation {
 	private final Method targetMethod;
 	private Object[] arguments;
 
-	public CachedInvocation(Object key, Object targetBean, Method targetMethod, Object[] arguments) {
+	private CacheableEntity cacheableEntity;
 
+	/**
+	 * @return the cacheableEntity
+	 */
+	public CacheableEntity getcacheableEntity() {
+		return cacheableEntity;
+	}
+
+	/**
+	 * @param cacheableEntity
+	 *            the cacheableEntity to set
+	 */
+	public void setCacheableEntity(CacheableEntity cacheableEntity) {
+		this.cacheableEntity = cacheableEntity;
+	}
+
+	public CachedInvocation(Object key, Object targetBean, Method targetMethod, Object[] arguments,
+			CacheableEntity cacheableEntity) {
+
+		this.cacheableEntity = cacheableEntity;
 		this.key = key;
 		this.targetBean = targetBean;
 		this.targetMethod = targetMethod;

@@ -38,8 +38,11 @@ public class CustomizedEhCacheCache implements Cache {
 	// 格式cacahename#5#2
 	// #expiredtime 0注解层面上永未不过期(具体还要看其他配置),当有值是,优先级最高
 	// #refreshtime 0离快过期时刷新数据
-	private long expiredtime = 0;
-	private long refreshtime = 0;
+
+	// expiredtime = -1 可能来自注定刷新需要设置
+	// expiredtime=-2 则设置cache不需要设置
+	private int expiredtime = -1;
+	private int refreshtime = -1;
 
 	private CacheSupport getCacheSupport() {
 
@@ -62,7 +65,7 @@ public class CustomizedEhCacheCache implements Cache {
 		this.cache = ehcache;
 	}
 
-	public CustomizedEhCacheCache(Ehcache ehcache, long et, long rt) {
+	public CustomizedEhCacheCache(Ehcache ehcache, int et, int rt) {
 		expiredtime = et;
 		refreshtime = rt;
 		Assert.notNull(ehcache, "Ehcache must not be null");
@@ -146,19 +149,25 @@ public class CustomizedEhCacheCache implements Cache {
 	@Override
 	public void put(Object key, Object value) {
 		Element e = new Element(key, value);
-		e.setTimeToLive((int) expiredtime);
-		System.out.println(this.cache.getName() + "," + key + ",this to put" + value.toString());
-		if (this.cache.get(key) != null) {
-			System.out.println("before put" + this.cache.get(key).getValue());
+		System.out.println("expiredtime:" + expiredtime);
+		if (expiredtime > 0) {
+			// 注解中有设置
+			e.setTimeToLive(expiredtime);
+		} else if (expiredtime == -2) {
+			// 注解中没有设置,引用原来cache的
+		} else {
+			// expiredtime=-1,正常情况下可能来自主动刷新需要获取ttl
+			Element ce = this.cache.get(key);
+			if (ce != null) {
+				// 如果没有找到cache
+				e.setTimeToLive(ce.getTimeToLive());
+			} else {
+				logger.info(
+						"Can't cache it,cache:" + this.cache.getName() + ",key:" + key + ",expiredtime:" + expiredtime);
+				return;
+			}
 		}
 		this.cache.put(e);
-		System.out.println("after put" + this.cache.get(key).getValue());
-		// ThreadTaskHelper.run(new Runnable() {
-		// @Override
-		// public void run() {
-		// // cache.flush();
-		// }
-		// });
 
 	}
 

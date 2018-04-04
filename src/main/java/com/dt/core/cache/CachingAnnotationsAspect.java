@@ -126,8 +126,11 @@ public class CachingAnnotationsAspect {
 					}
 					if (rkey.length() > 0) {
 						CacheableEntity ce = new CacheableEntity(value, rkey);
-						CacheObject cobj = new CacheObject(joinPoint.getTarget(), method, joinPoint.getArgs(), ce);
-						cacheRefreshSupport.registerInvocation(cobj);
+						// CacheInvocation cobj = new CacheInvocation(joinPoint.getTarget(), method,
+						// joinPoint.getArgs(), ce);
+						CachedInvocation invocation = new CachedInvocation(rkey, joinPoint.getTarget(), method,
+								joinPoint.getArgs(), ce);
+						 cacheRefreshSupport.registerInvocation(invocation);
 					}
 				}
 			}
