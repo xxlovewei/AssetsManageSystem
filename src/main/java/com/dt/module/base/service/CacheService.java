@@ -125,7 +125,7 @@ public class CacheService {
 					e.put("ttl", el.getTimeToLive());
 					e.put("tti", el.getTimeToIdle());
 					res.add(e);
-				}
+				} 
 			} catch (Exception e) {
 				System.out.println("not a number");
 			}
