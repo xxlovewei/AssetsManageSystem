@@ -78,6 +78,7 @@ public class CacheService {
 				// 判断是否需要刷新
 				String key = c.getAllKeys().get(i).toString();
 				Element el = c.getKey(key);
+				long hit = el.getHitCount();
 				Long expired = (el.getExpirationTime() - System.currentTimeMillis()) / 1000;
 				CachedInvocation inv = CacheSupportImpl.cacheInvocationsMap.get(cache).get(key);
 				if (inv == null) {
@@ -85,6 +86,12 @@ public class CacheService {
 				}
 				CacheableEntity ce = inv.getcacheableEntity();
 				int refreshtime = ce.getRefreshtime();
+				// 主动刷新时间太低,并且命中率不高,则不去主动刷新
+				if (refreshtime < 600 && hit < 5) {
+					_log.info("too low to refresh,too low to hit.cache:" + cache + ",key:" + key + ",refreshtime:"
+							+ refreshtime + ",hit:" + hit);
+					continue;
+				}
 				if (refreshtime > 0 && expired != null && expired > 0 && expired <= refreshtime) {
 					ThreadTaskHelper.run(new Runnable() {
 						@Override
