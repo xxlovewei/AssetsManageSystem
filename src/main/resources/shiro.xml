@@ -147,6 +147,7 @@
 				/common/** = anon
 				/term/** = anon
 				/wx/** = anon
+				/mn/** = anon
 				/wx3/** = anon
 				/public/** = anon
 				/api/** = authc,perms
