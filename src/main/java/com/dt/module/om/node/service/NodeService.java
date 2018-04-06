@@ -185,5 +185,7 @@ public class NodeService extends BaseService {
 		return R.FAILURE("请选择ssh登录,当前仅支持ssh");
 
 	}
+	
+	
 
 }
