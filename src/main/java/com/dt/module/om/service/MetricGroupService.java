@@ -1,4 +1,4 @@
-package com.dt.module.om.metric.service;
+package com.dt.module.om.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,6 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Delete;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.util.TypedHashMap;
-import com.dt.module.om.service.MappingTextService;
 
 /**
  * @author: algernonking

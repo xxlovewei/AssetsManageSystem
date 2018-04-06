@@ -1,4 +1,4 @@
-package com.dt.module.om.metric.service;
+package com.dt.module.om.service;
 
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.dt.module.om.metric.service;
+package com.dt.module.om.service;
 
 /**
  * @author: algernonking
