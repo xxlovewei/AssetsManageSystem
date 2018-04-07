@@ -96,6 +96,18 @@ function config_om($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('metricmgr.metricmapping', {
+		url : "/metricmgr_metricmapping",
+		data: { pageTitle: '度量模版'},
+		templateUrl : "views/om/metric/mapping.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/om/metric/mapping.js?v=' + version ]
+				} ]);
+			}
+		}
 	}); 
  
 	

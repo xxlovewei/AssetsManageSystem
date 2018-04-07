@@ -1,4 +1,4 @@
-<div ng-controller="metricCtl">
+<div ng-controller="metricmappingCtl">
 
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="row">
@@ -6,7 +6,19 @@
 				<div class="ibox">
 					<div class="ibox-content">
 						<form role="form" class="form-inline">
-							<button ng-click="save()" class="btn btn-sm btn-primary"
+
+							<div class="form-group">
+								<label for="class">类型</label> <select id="class"
+									style="width: 120px;" chosen disable-search="true"
+									class="chosen-select" no-results-text="'没有找到相应条目'"
+									ng-model="templSel" data-placeholder-text-single="'请选择...'"
+									ng-options="item.name for item in templOpt">
+									<option value=""></option>
+								</select>
+							</div>
+							<button ng-click="query()" class="btn btn-sm btn-primary"
+								type="submit">查询</button>
+							<button ng-click="add()" class="btn btn-sm btn-primary"
 								type="submit">新增</button>
 						</form>
 					</div>

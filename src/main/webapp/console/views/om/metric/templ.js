@@ -49,23 +49,7 @@ function metricTemplAddFormCtl($localStorage, notify, $log, $uibModal,
 
 function metricTemplCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
-
-	$scope.userGroupOpt = [];
-	$scope.userGroupSel = "";
-	$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(
-			function(res) {
-				if (res.success) {
-					$scope.userGroupOpt = prepend(res.data, {
-						group_id : "ALL",
-						name : "全部"
-					});
-					$scope.userGroupSel = $scope.userGroupOpt[0];
-				} else {
-					notify({
-						message : res.message
-					});
-				}
-			});
+ 
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
 			'full_numbers').withDisplayLength(25).withOption("ordering", false)

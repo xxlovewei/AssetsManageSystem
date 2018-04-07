@@ -28,14 +28,6 @@ public class MetricController extends BaseController {
 	@Autowired
 	MetricGroupService metricGroupService;
 
-	// @RequestMapping("/mn/addMetricGroup.do")
-	// @ResponseBody
-	// @Acl(info = "添加Metric组", value = Acl.ACL_DENY)
-	// public R addMetricGroup() {
-	// TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-	// return metricGroupService.addMetricGroup(ps);
-	// }
-
 	@RequestMapping("/mn/saveMetricGroup.do")
 	@ResponseBody
 	@Acl(info = "添加更新Metric组", value = Acl.ACL_DENY)
@@ -56,14 +48,6 @@ public class MetricController extends BaseController {
 		return metricGroupService.delMetricGroup(id);
 	}
 
-	// @RequestMapping("/mn/updateMetricGroup.do")
-	// @ResponseBody
-	// @Acl(info = "更新Metric组", value = Acl.ACL_DENY)
-	// public R updateMetricGroup() {
-	// TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-	// return metricGroupService.updateMetricGroup(ps);
-	// }
-
 	@RequestMapping("/mn/queryMetricGroup.do")
 	@ResponseBody
 	@Acl(info = "查询Metric组", value = Acl.ACL_DENY)
@@ -78,14 +62,6 @@ public class MetricController extends BaseController {
 		return metricGroupService.queryMetricGroupById(id);
 	}
 
-	@RequestMapping("/mn/addMetric.do")
-	@ResponseBody
-	@Acl(info = "添加Metric", value = Acl.ACL_DENY)
-	public R addMetric() {
-		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		return metricService.addMetric(ps);
-	}
-
 	@RequestMapping("/mn/delMetric.do")
 	@ResponseBody
 	@Acl(info = "删除Metric", value = Acl.ACL_DENY)
@@ -93,12 +69,17 @@ public class MetricController extends BaseController {
 		return metricService.delMetric(id);
 	}
 
-	@RequestMapping("/mn/updateMetric.do")
+	@RequestMapping("/mn/saveMetric.do")
 	@ResponseBody
-	@Acl(info = "更新Metric", value = Acl.ACL_DENY)
-	public R updateMetric() {
+	@Acl(info = "添加更新Metric", value = Acl.ACL_DENY)
+	public R saveMetric() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		return metricService.updateMetric(ps);
+		if (ToolUtil.isEmpty(ps.getString("id"))) {
+			return metricService.addMetric(ps);
+		} else {
+			return metricService.updateMetric(ps);
+		}
+
 	}
 
 	@RequestMapping("/mn/queryMetricById.do")

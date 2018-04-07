@@ -5,49 +5,9 @@ function prepend(arr, item) {
 	a.unshift(item);
 	return a;
 }
+ 
 
-function mnServiceAddFormCtl($localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, id, $http, $rootScope) {
-
-	// $log.warn("window in:", userIds);
-
-	$scope.item = {};
-
-	if (angular.isDefined(id)) {
-		$http.post($rootScope.project + "/api/mn/queryServicById.do", {
-			id : id
-		}).success(function(res) {
-			if (res.success) {
-				$scope.item = res.data;
-			} else {
-				notify({
-					message : res.message
-				});
-			}
-
-		})
-
-	}
-	$scope.sure = function() {
-		$scope.item.status = 'Y';
-		$http.post($rootScope.project + "/api/mn/saveService.do", $scope.item)
-				.success(function(res) {
-					if (res.success) {
-						$uibModalInstance.close("OK");
-					}
-					notify({
-						message : res.message
-					});
-				})
-
-	}
-	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
-	};
-
-}
-
-function serviceNodeadd($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder,
+function metricTemplAddmetricCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder,
 		notify, $log, $uibModal, $uibModalInstance, $scope, id, $http,
 		$rootScope, $compile) {
 	$scope.item = {}
@@ -153,18 +113,18 @@ function serviceNodeadd($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder,
 
 }
 
-function mnservicenodeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.serviceOpt = [];
-	$scope.serviceSel = "";
+	$scope.templOpt = [];
+	$scope.templSel = "";
 
-	$http.post($rootScope.project + "/api/mn/queryServics.do", {}).success(
+	$http.post($rootScope.project + "/api/mn/queryMetricGroup.do", {}).success(
 			function(res) {
 				if (res.success) {
-					$scope.serviceOpt = res.data;
+					$scope.templOpt = res.data;
 					if (res.data.length > 0) {
-						$scope.serviceSel = res.data[0];
+						$scope.templSel = res.data[0];
 						flush();
 					}
 				} else {
@@ -223,7 +183,7 @@ function mnservicenodeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	function flush() {
 
 		$http.post($rootScope.project + "/api/mn/queryMnServiceNodes.do", {
-			id : $scope.serviceSel.id
+			id : $scope.templSel.id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
@@ -265,15 +225,15 @@ function mnservicenodeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	$scope.add = function() {
 
-		var id = $scope.serviceSel.id;
+		var id = $scope.templSel.id;
 		if (!angular.isDefined(id)) {
 			alert("没有Serviec_Id");
 			return;
 		}
 		var modalInstance = $uibModal.open({
 			backdrop : true,
-			templateUrl : 'views/om/ser/modal_node_mapping.html',
-			controller : serviceNodeadd,
+			templateUrl : 'views/om/metric/modal_metricmapping.html',
+			controller : metricTemplAddmetricCtl,
 			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
@@ -295,30 +255,9 @@ function mnservicenodeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	$scope.save = function(id) {
 
-		var modalInstance = $uibModal.open({
-			backdrop : true,
-			templateUrl : 'views/om/ser/modal_ser_save.html',
-			controller : mnServiceAddFormCtl,
-			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
-				id : function() {
-					return id;
-				}
-			}
-		});
-
-		modalInstance.result.then(function(result) {
-			$log.log("result", result);
-			if (result == "OK") {
-
-				flush();
-			}
-		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-			$log.log("reason", reason)
-		});
+		 
 	}
 
 };
 
-app.register.controller('mnservicenodeCtl', mnservicenodeCtl);
+app.register.controller('metricmappingCtl', metricmappingCtl);

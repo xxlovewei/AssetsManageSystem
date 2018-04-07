@@ -26,6 +26,7 @@ public class MetricService extends BaseService {
 	public R addMetric(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("mn_metric_define");
 		me.set("id", db.getUUID());
+		me.setIf("name", ps.getString("name"));
 		me.setIf("ds", ps.getString("ds"));
 		me.setIf("showtype", ps.getString("showtype"));
 		me.setIf("chartopt", ps.getString("chartopt"));
@@ -39,6 +40,7 @@ public class MetricService extends BaseService {
 	public R updateMetric(TypedHashMap<String, Object> ps) {
 		Update me = new Update("mn_metric_define");
 		me.setIf("ds", ps.getString("ds"));
+		me.setIf("name", ps.getString("name"));
 		me.setIf("showtype", ps.getString("showtype"));
 		me.setIf("chartopt", ps.getString("chartopt"));
 		me.setIf("cols", ps.getString("cols"));

@@ -23,15 +23,6 @@ import com.dt.module.om.service.MnService;
 public class MnController extends BaseController {
 	@Autowired
 	MnService mnService;
-	//
-	// @RequestMapping("/mn/addService.do")
-	// @ResponseBody
-	// @Acl(info = "添加service", value = Acl.ACL_DENY)
-	// public R addService() {
-	// TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-	// return mnService.addMnService(ps);
-	// }
-	//
 
 	@RequestMapping("/mn/saveService.do")
 	@ResponseBody
@@ -46,20 +37,26 @@ public class MnController extends BaseController {
 
 	}
 
+	@RequestMapping("/mn/mnServiceAddNodes.do")
+	@ResponseBody
+	@Acl(info = "service添加adds", value = Acl.ACL_DENY)
+	public R mnServiceAddNodes(String id, String node_ids) {
+		return mnService.mnServiceAddNodes(id, node_ids);
+	}
+
+	@RequestMapping("/mn/mnServiceNeedAddNodes.do")
+	@ResponseBody
+	@Acl(info = "查询可以添加的nodes", value = Acl.ACL_DENY)
+	public R mnServiceNeedAddNodes(String id) {
+		return mnService.mnServiceNeedAddNodes(id);
+	}
+
 	@RequestMapping("/mn/delService.do")
 	@ResponseBody
 	@Acl(info = "删除service", value = Acl.ACL_DENY)
 	public R delService(String id) {
 		return mnService.delMnService(id);
 	}
-	//
-	// @RequestMapping("/mn/updateService.do")
-	// @ResponseBody
-	// @Acl(info = "更新service", value = Acl.ACL_DENY)
-	// public R updateService(String id) {
-	// TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-	// return mnService.updateMnService(ps);
-	// }
 
 	@RequestMapping("/mn/queryServicById.do")
 	@ResponseBody
@@ -103,4 +100,12 @@ public class MnController extends BaseController {
 	public R mnServiceQueryNodeById(String id, String node_id) {
 		return mnService.mnServiceQueryNodeById(id, node_id);
 	}
+
+	@RequestMapping("/mn/queryMnServiceNodes.do")
+	@ResponseBody
+	@Acl(info = "从service中查询nodes", value = Acl.ACL_DENY)
+	public R queryMnServiceNodes(String id) {
+		return mnService.queryMnServiceNodes(id);
+	}
+
 }
