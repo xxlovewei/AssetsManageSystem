@@ -65,6 +65,38 @@ function config_om($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}); 
+	
+	
+	// metricmgr
+	$stateProvider.state('metricmgr', {
+		abstract : true,
+		url : "/metricmgr",
+		templateUrl : "views/common/content.html"
+	}).state('metricmgr.metricsetting', {
+		url : "/metricmgr_metricsetting",
+		data: { pageTitle: '度量设置'},
+		templateUrl : "views/om/metric/metric.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/om/metric/metric.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('metricmgr.metrictempl', {
+		url : "/metricmgr_metrictempl",
+		data: { pageTitle: '度量模版'},
+		templateUrl : "views/om/metric/templ.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/om/metric/templ.js?v=' + version ]
+				} ]);
+			}
+		}
+	}); 
  
 	
 	

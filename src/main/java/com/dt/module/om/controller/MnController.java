@@ -9,6 +9,7 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.om.service.MnService;
 
@@ -22,13 +23,27 @@ import com.dt.module.om.service.MnService;
 public class MnController extends BaseController {
 	@Autowired
 	MnService mnService;
+	//
+	// @RequestMapping("/mn/addService.do")
+	// @ResponseBody
+	// @Acl(info = "添加service", value = Acl.ACL_DENY)
+	// public R addService() {
+	// TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+	// return mnService.addMnService(ps);
+	// }
+	//
 
-	@RequestMapping("/mn/addService.do")
+	@RequestMapping("/mn/saveService.do")
 	@ResponseBody
-	@Acl(info = "添加service", value = Acl.ACL_DENY)
-	public R addService() {
+	@Acl(info = "添加更新service", value = Acl.ACL_DENY)
+	public R saveService() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		return mnService.addMnService(ps);
+		if (ToolUtil.isEmpty(ps.getString("id"))) {
+			return mnService.addMnService(ps);
+		} else {
+			return mnService.updateMnService(ps);
+		}
+
 	}
 
 	@RequestMapping("/mn/delService.do")
@@ -37,14 +52,14 @@ public class MnController extends BaseController {
 	public R delService(String id) {
 		return mnService.delMnService(id);
 	}
-
-	@RequestMapping("/mn/updateService.do")
-	@ResponseBody
-	@Acl(info = "更新service", value = Acl.ACL_DENY)
-	public R updateService(String id) {
-		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		return mnService.updateMnService(ps);
-	}
+	//
+	// @RequestMapping("/mn/updateService.do")
+	// @ResponseBody
+	// @Acl(info = "更新service", value = Acl.ACL_DENY)
+	// public R updateService(String id) {
+	// TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+	// return mnService.updateMnService(ps);
+	// }
 
 	@RequestMapping("/mn/queryServicById.do")
 	@ResponseBody

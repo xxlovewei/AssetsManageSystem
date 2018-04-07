@@ -32,7 +32,7 @@ public class MetricService extends BaseService {
 		me.setIf("cols", ps.getString("cols"));
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("is_delete", "N");
-		me.execute();
+		db.execute(me);	
 		return R.SUCCESS_OPER();
 	}
 
@@ -44,7 +44,7 @@ public class MetricService extends BaseService {
 		me.setIf("cols", ps.getString("cols"));
 		me.setIf("mark", ps.getString("mark"));
 		me.where().and("id=?", ps.getString("id", ""));
-		me.execute();
+		db.execute(me);	
 		return R.SUCCESS_OPER();
 	}
 
@@ -52,7 +52,7 @@ public class MetricService extends BaseService {
 		Update me = new Update("mn_metric_define");
 		me.setIf("is_delete", "Y");
 		me.where().and("id=?", id);
-		me.execute();
+		db.execute(me);	
 		return R.SUCCESS_OPER();
 	}
 

@@ -9,6 +9,7 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.om.service.MetricGroupService;
 import com.dt.module.om.service.MetricService;
@@ -27,12 +28,25 @@ public class MetricController extends BaseController {
 	@Autowired
 	MetricGroupService metricGroupService;
 
-	@RequestMapping("/mn/addMetricGroup.do")
+	// @RequestMapping("/mn/addMetricGroup.do")
+	// @ResponseBody
+	// @Acl(info = "添加Metric组", value = Acl.ACL_DENY)
+	// public R addMetricGroup() {
+	// TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+	// return metricGroupService.addMetricGroup(ps);
+	// }
+
+	@RequestMapping("/mn/saveMetricGroup.do")
 	@ResponseBody
-	@Acl(info = "添加Metric组", value = Acl.ACL_DENY)
-	public R addMetricGroup() {
+	@Acl(info = "添加更新Metric组", value = Acl.ACL_DENY)
+	public R saveMetricGroup() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		return metricGroupService.addMetricGroup(ps);
+		if (ToolUtil.isEmpty(ps.getString("id"))) {
+			return metricGroupService.addMetricGroup(ps);
+		} else {
+			return metricGroupService.updateMetricGroup(ps);
+		}
+
 	}
 
 	@RequestMapping("/mn/delMetricGroup.do")
@@ -42,13 +56,13 @@ public class MetricController extends BaseController {
 		return metricGroupService.delMetricGroup(id);
 	}
 
-	@RequestMapping("/mn/updateMetricGroup.do")
-	@ResponseBody
-	@Acl(info = "更新Metric组", value = Acl.ACL_DENY)
-	public R updateMetricGroup() {
-		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		return metricGroupService.updateMetricGroup(ps);
-	}
+	// @RequestMapping("/mn/updateMetricGroup.do")
+	// @ResponseBody
+	// @Acl(info = "更新Metric组", value = Acl.ACL_DENY)
+	// public R updateMetricGroup() {
+	// TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+	// return metricGroupService.updateMetricGroup(ps);
+	// }
 
 	@RequestMapping("/mn/queryMetricGroup.do")
 	@ResponseBody

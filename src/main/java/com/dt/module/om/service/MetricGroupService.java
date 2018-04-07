@@ -49,18 +49,21 @@ public class MetricGroupService extends BaseService {
 		Insert me = new Insert("mn_metric_group");
 		me.set("id", id);
 		me.set("metric_id", metric_id);
+		db.execute(me);	
 		return R.SUCCESS_OPER();
 	}
 
 	public R metricGroupDelMetric(String id, String metric_id) {
 		Delete me = new Delete("mn_metric_group");
 		me.where().and("id=?", id).and("metric_id=?", metric_id);
+		db.execute(me);	
 		return R.SUCCESS_OPER();
 	}
 
 	public R metricGroupClearMetric(String id) {
 		Delete me = new Delete("mn_metric_group");
 		me.where().and("id=?", id);
+		db.execute(me);	
 		return R.SUCCESS_OPER();
 	}
 

@@ -54,7 +54,7 @@ public class MnService extends BaseService {
 			me.setIf("status", ps.getString("status", ""));
 			me.setIf("mark", ps.getString("mark"));
 			me.set("is_delete", "N");
-			me.execute();
+			db.execute(me);
 			return R.SUCCESS_OPER();
 		} else {
 			return R.FAILURE_OPER();
@@ -67,7 +67,7 @@ public class MnService extends BaseService {
 		Update me = new Update("mn_service");
 		me.set("is_delete", "Y");
 		me.where().and("id=?", id).and("node_id=?", node_id);
-		me.execute();
+		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
 
@@ -77,17 +77,17 @@ public class MnService extends BaseService {
 		me.setIf("status", ps.getString("status", ""));
 		me.setIf("mark", ps.getString("mark"));
 		me.where().and("id=?", ps.getString("id")).and("node_id=?", ps.getString("node_id"));
-		me.execute();
+		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
 
 	public R mnServiceQueryNodesById(String id) {
-		RcdSet rs = db.query("select * from mn_service where id=?", id);
+		RcdSet rs = db.query("select * from mn_service where is_delete='N' and id=?", id);
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 
 	public R mnServiceQueryNodeById(String id, String node_id) {
-		Rcd rs = db.uniqueRecord("select * from mn_service where id=? and node_id=?", id, node_id);
+		Rcd rs = db.uniqueRecord("select * from mn_service where  is_delete='N' and id=? and node_id=?", id, node_id);
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
 

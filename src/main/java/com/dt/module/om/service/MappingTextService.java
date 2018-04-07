@@ -18,6 +18,7 @@ public class MappingTextService extends BaseService {
 
 	public static String TYPE_METRIC_GROUP = "metric_group";
 	public static String TYPE_MN_SERVICE = "mn_service";
+
 	public R addMappingText(TypedHashMap<String, Object> ps, String type) {
 		Insert me = new Insert("mn_mapping_text");
 		me.set("id", db.getUUID());
@@ -27,7 +28,7 @@ public class MappingTextService extends BaseService {
 		me.setIf("status", ps.getString("status"));
 		me.setIf("od", ps.getString("od"));
 		me.setIf("mark", ps.getString("mark"));
-		me.execute();
+		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
 
@@ -38,7 +39,7 @@ public class MappingTextService extends BaseService {
 		me.setIf("od", ps.getString("od"));
 		me.setIf("mark", ps.getString("mark"));
 		me.where().and("id=?", ps.getString("id", "")).and("type=?", type);
-		me.execute();
+		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
 
@@ -46,7 +47,7 @@ public class MappingTextService extends BaseService {
 		Update me = new Update("mn_mapping_text");
 		me.setIf("is_delete", "Y");
 		me.where().and("id=?", id).and("type=?", type);
-		me.execute();
+		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
 
@@ -57,13 +58,13 @@ public class MappingTextService extends BaseService {
 
 	public R queryMappingTextById(String id, String type) {
 		return R.SUCCESS_OPER(
-				db.uniqueRecord("select * from mn_mapping_text where id=? and type=? order by od", id, type)
-						.toJsonObject());
+				db.uniqueRecord("select * from mn_mapping_text where is_delete='N' and id=? and type=? order by od", id,
+						type).toJsonObject());
 	}
 
 	public R queryMappingTextByType(String type) {
-		return R.SUCCESS_OPER(
-				db.uniqueRecord("select * from mn_mapping_text where type=? order by od", type).toJsonObject());
+		return R.SUCCESS_OPER(db.query("select * from mn_mapping_text where is_delete='N' and type=? order by od", type)
+				.toJsonArrayWithJsonObject());
 	}
 
 }
