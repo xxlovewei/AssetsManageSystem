@@ -48,10 +48,10 @@ public class MetricService extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 
-	public R delMetric(TypedHashMap<String, Object> ps) {
+	public R delMetric(String id) {
 		Update me = new Update("mn_metric_define");
 		me.setIf("is_delete", "Y");
-		me.where().and("id=?", ps.getString("id", ""));
+		me.where().and("id=?", id);
 		me.execute();
 		return R.SUCCESS_OPER();
 	}

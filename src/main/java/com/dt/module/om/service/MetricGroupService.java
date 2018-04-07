@@ -33,7 +33,7 @@ public class MetricGroupService extends BaseService {
 		return mappingTextService.updateMappingText(ps, MappingTextService.TYPE_METRIC_GROUP);
 	}
 
-	public R delMetric(String id) {
+	public R delMetricGroup(String id) {
 		return mappingTextService.delMappingText(id, MappingTextService.TYPE_METRIC_GROUP);
 	}
 
