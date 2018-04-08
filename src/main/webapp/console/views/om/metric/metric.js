@@ -9,6 +9,14 @@ function prepend(arr, item) {
 function metricAddFormCtl($localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, id, $http, $rootScope) {
 
+	$scope.chartdataOpt = [ {
+		id : "direct",
+		name : "直接"
+	}, {
+		id : "indata",
+		name : "数据中"
+	} ];
+	$scope.chartdataSel = $scope.chartdataOpt[0];
 	$scope.item = {};
 
 	if (angular.isDefined(id)) {
@@ -17,6 +25,12 @@ function metricAddFormCtl($localStorage, notify, $log, $uibModal,
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data;
+				if (res.data.chartdatatype == "direct") {
+					$scope.chartdataSel = $scope.chartdataOpt[0];
+				} else {
+					$scope.chartdataSel = $scope.chartdataOpt[1];
+				}
+
 			} else {
 				notify({
 					message : res.message
@@ -28,8 +42,10 @@ function metricAddFormCtl($localStorage, notify, $log, $uibModal,
 	}
 	$scope.sure = function() {
 		$scope.item.status = 'Y';
-		$scope.item.ds="tab";
-		
+		$scope.item.ds = "tab";
+		$scope.item.showtype = "chart";
+		$scope.item.chartdatatype = $scope.chartdataSel.id;
+
 		$http.post($rootScope.project + "/api/mn/saveMetric.do", $scope.item)
 				.success(function(res) {
 					if (res.success) {
@@ -49,8 +65,6 @@ function metricAddFormCtl($localStorage, notify, $log, $uibModal,
 
 function metricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
-
-	 
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
 			'full_numbers').withDisplayLength(25).withOption("ordering", false)
@@ -140,7 +154,7 @@ function metricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			backdrop : true,
 			templateUrl : 'views/om/metric/modal_metric_save.html',
 			controller : metricAddFormCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return id;
@@ -151,7 +165,6 @@ function metricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		modalInstance.result.then(function(result) {
 			$log.log("result", result);
 			if (result == "OK") {
-
 				flush();
 			}
 		}, function(reason) {

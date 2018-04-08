@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>1</title>
+<title>节点资源</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
@@ -129,84 +129,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 					},
 					dataType : 'json',
 					success : function(res) {
-						console.log(res);
 						var mdata=res.data;
-						mdata.option={
-							    chart: {
-							        type: "line"
-							    },
-							    title: {
-							        text: "月平均气温"
-							    },
-							    subtitle: {
-							        text: "数据来源: WorldClimate.com"
-							    },
-							    xAxis: {
-							        categories: [
-							            "一月",
-							            "二月",
-							            "三月",
-							            "四月",
-							            "五月",
-							            "六月",
-							            "七月",
-							            "八月",
-							            "九月",
-							            "十月",
-							            "十一月",
-							            "十二月"
-							        ]
-							    },
-							    yAxis: {
-							        title: {
-							            text: "气温 (°C)"
-							        }
-							    },
-							    plotOptions: {
-							        line: {
-							            dataLabels: {
-							                enabled: true//开启数据标签
-							            },
-							            enableMouseTracking: false//关闭鼠标跟踪，对应的提示框、点击事件会失效
-							        }
-							    },
-							    series: [
-							        {
-							            name: "东京",
-							            data: [
-							                7.0,
-							                6.9,
-							                9.5,
-							                14.5,
-							                18.4,
-							                21.5,
-							                25.2,
-							                26.5,
-							                23.3,
-							                18.3,
-							                13.9,
-							                9.6
-							            ]
-							        },
-							        {
-							            name: "伦敦",
-							            data: [
-							                3.9,
-							                4.2,
-							                5.7,
-							                8.5,
-							                11.9,
-							                15.2,
-							                17.0,
-							                16.6,
-							                14.2,
-							                10.3,
-							                6.6,
-							                4.8
-							            ]
-							        }
-							    ]
-							}
 						var vid=hex_md5(mdata.node_id+mdata.metric_id);
 						console.log(vid);
 						 showinit(mdata.option,mdata.showtype,vid);  

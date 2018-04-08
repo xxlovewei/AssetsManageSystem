@@ -31,8 +31,10 @@ public class MetricService extends BaseService {
 		me.setIf("showtype", ps.getString("showtype"));
 		me.setIf("chartopt", ps.getString("chartopt"));
 		me.setIf("cols", ps.getString("cols"));
+		me.setIf("ds_value", ps.getString("ds_value"));
 		me.setIf("status", ps.getString("status"));
 		me.setIf("mark", ps.getString("mark"));
+		me.setIf("chartdatatype", ps.getString("chartdatatype"));//direct 直接按照字段取书,indata 从该字段的distinct取数
 		me.setIf("is_delete", "N");
 		db.execute(me);
 		return R.SUCCESS_OPER();
@@ -42,11 +44,13 @@ public class MetricService extends BaseService {
 		Update me = new Update("mn_metric_define");
 		me.setIf("ds", ps.getString("ds"));
 		me.setIf("name", ps.getString("name"));
+		me.setIf("ds_value", ps.getString("ds_value"));
 		me.setIf("showtype", ps.getString("showtype"));
 		me.setIf("chartopt", ps.getString("chartopt"));
 		me.setIf("cols", ps.getString("cols"));
 		me.setIf("status", ps.getString("status"));
 		me.setIf("mark", ps.getString("mark"));
+		me.setIf("chartdatatype", ps.getString("chartdatatype"));
 		me.where().and("id=?", ps.getString("id", ""));
 		db.execute(me);
 		return R.SUCCESS_OPER();

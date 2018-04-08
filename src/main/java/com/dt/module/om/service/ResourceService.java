@@ -1,18 +1,16 @@
 package com.dt.module.om.service;
 
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
-import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 
 /**
@@ -26,17 +24,99 @@ public class ResourceService extends BaseService {
 	@Autowired
 	MetricGroupService metricGroupService;
 
-	public R queryResourceByMetric(String node_id,String metric_id,String data_interval) {
-		JSONObject res=new JSONObject();
+	public R queryResourceByMetric(String node_id, String metric_id, String data_interval) {
+		JSONObject res = new JSONObject();
 		res.put("node_id", node_id);
 		res.put("metric_id", metric_id);
 		res.put("data_interval", data_interval);
-		res.put("showtype", "chart");
-		
+
+		String[] colsarr = null;
+		// String[] columnsdataarr = null;
+		JSONArray[] columnsdata = null;
+
+		Rcd rs = db.uniqueRecord("select * from mn_metric_define where id=?", metric_id);
+		if (!ToolUtil.isEmpty(rs)) {
+			String showtype = rs.getString("showtype");
+			String chartdatatype = rs.getString("chartdatatype");
+			res.put("showtype", showtype);
+			String ds_value = rs.getString("ds_value");
+			// String ds = rs.getString("ds");
+			String cols = rs.getString("cols");
+			String charttype = rs.getString("chartopt");
+			JSONObject chartOpt = JSONObject.parseObject(charttype);
+			String dsql = "";
+			if (showtype.equals("chart")) {
+				// 初始化cols空间
+				if (chartdatatype.equals("direct")) {
+					colsarr = cols.split(",");
+					// 取所有数据
+					dsql = "select " + cols + " , inserttime from " + ds_value + " where node='" + node_id + "'";
+
+				} else if (chartdatatype.equals("indata")) {
+					if (cols.split(",").length != 2) {
+						return R.SUCCESS_OPER(res);
+					}
+					String col = cols.split(",")[0];
+					String col_v = cols.split(",")[1];
+					String tempsql = "select distinct " + col + " from " + ds_value + " where node='" + node_id
+							+ "' and inserttime>sysdate-100";
+					RcdSet tmprs = db.query(tempsql);
+					if (tmprs.size() == 0) {
+						return R.SUCCESS_OPER(res);
+					}
+					colsarr = new String[tmprs.size()];
+					dsql = "select  ";
+					for (int i = 0; i < tmprs.size(); i++) {
+						String cols_v = tmprs.getRcd(i).getString(col);
+						colsarr[i] = cols_v;
+						dsql = dsql + " nvl((select  decode(" + col_v + ",null,0," + col_v + ") " + col + " from "
+								+ ds_value + " b where a.node=b.node and a.inserttime=b.inserttime and " + col + "='"
+								+ cols_v + "'),0)  \"" + cols_v + "\" ,";
+					}
+					dsql = dsql + "inserttime from  " + ds_value + " a where node='" + node_id + "'";
+
+				}
+
+				columnsdata = new JSONArray[colsarr.length];
+				for (int i = 0; i < colsarr.length; i++) {
+					columnsdata[i] = new JSONArray();
+				}
+
+				// 取数
+				String sql = "select tab.*,trunc((inserttime-to_date('1970-01-01','yyyy-mm-dd'))*24*60*60*1000,1) intertime from ("
+						+ dsql + ") tab where 1=1 ";
+				if (ToolUtil.isNotEmpty(data_interval)) {
+					sql = sql + " and inserttime>sysdate-" + data_interval;
+				}
+				sql = sql + " order by inserttime";
+				RcdSet drs = db.query(sql);
+				for (int i = 0; i < drs.size(); i++) {
+					BigDecimal a = ((BigDecimal) drs.getRcd(i).getBigDecimal("intertime"));
+					for (int j = 0; j < colsarr.length; j++) {
+						BigDecimal b = ((BigDecimal) drs.getRcd(i).getBigDecimal(colsarr[j]));
+						columnsdata[j].add(new BigDecimal[] { a.setScale(2, BigDecimal.ROUND_HALF_UP),
+								b.setScale(2, BigDecimal.ROUND_HALF_UP) });
+					}
+				}
+
+				/* 生成series数据 */
+				JSONArray sd = new JSONArray();
+				for (int j = 0; j < colsarr.length; j++) {
+					JSONObject seriesobj = new JSONObject();
+					seriesobj.put("name", colsarr[j]);
+					seriesobj.put("data", columnsdata[j]);
+					sd.add(seriesobj);
+				}
+				chartOpt.put("series", sd);
+				/* 封装option */
+				res.put("option", chartOpt);
+			}
+
+		}
 		return R.SUCCESS_OPER(res);
+
 	}
 
-	@JSONField(serialize = false)
 	public R queryMenus() {
 
 		// 查询肯定存在node的service

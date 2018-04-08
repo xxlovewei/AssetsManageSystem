@@ -16,6 +16,15 @@
 				<div class="ibox-content" style="border: none;">
 					<form class="form-horizontal m-t-md " name="myForm" novalidate
 						action="">
+						<!-- 	<div class="form-group">
+							<label class="col-sm-2 control-label">显示设置:</label>
+							<div class="col-sm-10">
+								<input type="text"
+									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+									placeholder="请输入内容" name="showtype" ng-model="item.showtype"
+									class="form-control">
+							</div>
+						</div> -->
 						<div class="form-group">
 							<label class="col-sm-2 control-label">名称:</label>
 							<div class="col-sm-10">
@@ -32,23 +41,29 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">显示设置:</label>
+							<label class="col-sm-2 control-label">源内容:</label>
 							<div class="col-sm-10">
 								<input type="text"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="showtype" ng-model="item.showtype"
+									placeholder="请输入内容" name="ds_value" ng-model="item.ds_value"
 									class="form-control">
 							</div>
 						</div>
+
+
 						<div class="form-group">
-							<label class="col-sm-2 control-label">图表设置:</label>
+							<label class="col-sm-2 control-label"><span
+								class="text-danger">*</span>图标取数方式:</label>
 							<div class="col-sm-10">
-								<input type="text"
-									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="chartopt" ng-model="item.chartopt"
-									class="form-control">
+								<select width=100 chosen disable-search="true"
+									class="chosen-select" no-results-text="'没有找到相应条目'"
+									ng-model="chartdataSel" data-placeholder-text-single="'请选择...'"
+									ng-options="item.name for item in chartdataOpt">
+									<option value=""></option>
+								</select>
 							</div>
 						</div>
+
 						<div class="form-group">
 							<label class="col-sm-2 control-label">字段:</label>
 							<div class="col-sm-10">
@@ -60,8 +75,17 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">备注:</label>
-							<div class="col-sm-10" style="height: 150px;">
+							<div class="col-sm-10">
 								<input ng-model="item.mark" type="text" class="form-control"></input>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">图表设置:</label>
+							<div class="col-sm-10">
+								<textarea type="text" style="height: 400px;"
+									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+									placeholder="请输入内容" name="chartopt" ng-model="item.chartopt"
+									class="form-control"></textarea>
 							</div>
 						</div>
 					</form>
