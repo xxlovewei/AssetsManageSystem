@@ -22,7 +22,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 <script src="./js/highcharts/highcharts.src.js"></script>
 
 <!-- md5  -->
-<script type="text/ecmascript" src="./js/md5/md5.js"></script>  
+<script type="text/ecmascript" src="./js/md5/md5.js"></script>
 
 <!-- alert  -->
 <!-- <link href="./js/queryconfirm/jquery-confirm.min.css" rel="stylesheet">
@@ -30,7 +30,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container-fluid" style="margin-top: 10px;">
 		<div class="row">
 			<div class="col-sm-3 col-md-3 " style="padding-right: 0px;">
 				<div class="panel panel-default">
@@ -67,6 +67,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 	</div>
 	<script language="JavaScript">
 	//tree init
+	var project="/dt";
 	var setting = {
 		showLine : true,
 		data : {
@@ -121,7 +122,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 			
 			$.ajax({
 					type : "POST",
-					url : "/dt/api/mn/queryResourceByMetric.do",
+					url : project+"/api/mn/queryResourceByMetric.do",
 					data : {
 						metric_id :metrics[i].id,
 						node_id :node_id,
@@ -151,7 +152,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 	$(document).ready(function() {
 		$.ajax({
 			type : "POST",
-			url : "/dt/api/mn/queryMenus.do",
+			url : project+"/api/mn/queryMenus.do",
 			dataType : 'json',
 			success : function(res) {
 				console.log(setting,res)

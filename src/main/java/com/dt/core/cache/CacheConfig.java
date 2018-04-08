@@ -10,6 +10,10 @@ public class CacheConfig {
 	// 刷新数据建议设置长些,短的话主动刷新轮不上
 	// 2小时
 	public static final String CACHE_PUBLIC = "public";
+
+	public static final String CACHE_PUBLIC_45_10 = "public#45#10";
+	
+	public static final String CACHE_PUBLIC_80_10 = "public#80#10";
 	// 非常频繁
 	public static final String CACHE_PUBLIC_5_2 = "public#5#2";
 	public static final String CACHE_PUBLIC_1d_1h = "public#86400#3600";

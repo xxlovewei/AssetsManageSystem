@@ -2,11 +2,13 @@ package com.dt.module.om.service;
 
 import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -23,7 +25,10 @@ public class ResourceService extends BaseService {
 
 	@Autowired
 	MetricGroupService metricGroupService;
+	@Autowired
+	MetricService metricService;
 
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_45_10, key = "'qRM'+#node_id+#metric_id+#data_interval")
 	public R queryResourceByMetric(String node_id, String metric_id, String data_interval) {
 		JSONObject res = new JSONObject();
 		res.put("node_id", node_id);
@@ -31,10 +36,9 @@ public class ResourceService extends BaseService {
 		res.put("data_interval", data_interval);
 
 		String[] colsarr = null;
-		// String[] columnsdataarr = null;
 		JSONArray[] columnsdata = null;
 
-		Rcd rs = db.uniqueRecord("select * from mn_metric_define where id=?", metric_id);
+		JSONObject rs = metricService.queryMetricDataWithCache(metric_id);
 		if (!ToolUtil.isEmpty(rs)) {
 			String showtype = rs.getString("showtype");
 			String chartdatatype = rs.getString("chartdatatype");
@@ -59,7 +63,7 @@ public class ResourceService extends BaseService {
 					String col = cols.split(",")[0];
 					String col_v = cols.split(",")[1];
 					String tempsql = "select distinct " + col + " from " + ds_value + " where node='" + node_id
-							+ "' and inserttime>sysdate-100";
+							+ "' and inserttime>sysdate-45";
 					RcdSet tmprs = db.query(tempsql);
 					if (tmprs.size() == 0) {
 						return R.SUCCESS_OPER(res);
@@ -117,6 +121,7 @@ public class ResourceService extends BaseService {
 
 	}
 
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_45_10, key = "'mn_queryMenus'")
 	public R queryMenus() {
 
 		// 查询肯定存在node的service

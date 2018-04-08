@@ -1,13 +1,17 @@
 package com.dt.module.om.service;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 
 /**
@@ -34,7 +38,7 @@ public class MetricService extends BaseService {
 		me.setIf("ds_value", ps.getString("ds_value"));
 		me.setIf("status", ps.getString("status"));
 		me.setIf("mark", ps.getString("mark"));
-		me.setIf("chartdatatype", ps.getString("chartdatatype"));//direct 直接按照字段取书,indata 从该字段的distinct取数
+		me.setIf("chartdatatype", ps.getString("chartdatatype"));// direct 直接按照字段取书,indata 从该字段的distinct取数
 		me.setIf("is_delete", "N");
 		db.execute(me);
 		return R.SUCCESS_OPER();
@@ -73,6 +77,14 @@ public class MetricService extends BaseService {
 		return R.SUCCESS_OPER(db.uniqueRecord("select * from mn_metric_define where id=?", id).toJsonObject());
 	}
 
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_80_10, key = "'mnqmd_'+#id")
+	public JSONObject queryMetricDataWithCache(String id) {
+		Rcd rs = db.uniqueRecord("select * from mn_metric_define where id=?", id);
+		if (ToolUtil.isNotEmpty(rs)) {
+			return ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
+		}
+		return null;
+	}
 
 	public MetricEntity queryMetricEntityById(String id) {
 		Rcd r = db.uniqueRecord("select * from mn_metric_define where id=?", id);
