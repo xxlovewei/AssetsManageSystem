@@ -95,4 +95,33 @@ public class MetricController extends BaseController {
 	public R queryMetric() {
 		return metricService.queryMetric();
 	}
+
+	@RequestMapping("/mn/queryMetricGroupMetrics.do")
+	@ResponseBody
+	@Acl(info = "查询所有MetricGroup中的metric", value = Acl.ACL_DENY)
+	public R queryMetricGroupMetrics(String id) {
+		return metricGroupService.queryMetricGroupMetrics(id);
+	}
+
+	@RequestMapping("/mn/metricGroupAddMetrics.do")
+	@ResponseBody
+	@Acl(info = "添加Metric到MetricGroup中", value = Acl.ACL_DENY)
+	public R metricGroupAddMetrics(String id, String ids) {
+		return metricGroupService.metricGroupAddMetrics(id, ids);
+	}
+
+	@RequestMapping("/mn/metricGroupNeedMetrics.do")
+	@ResponseBody
+	@Acl(info = "查询所有MetricGroup中的未加入到metric", value = Acl.ACL_DENY)
+	public R metricGroupNeedMetrics(String id) {
+		return metricGroupService.metricGroupNeedMetrics(id);
+	}
+
+	@RequestMapping("/mn/delMetricGroupMetric.do")
+	@ResponseBody
+	@Acl(info = "删除MetricGroup中的metric", value = Acl.ACL_DENY)
+	public R delMetricGroupMetric(String id, String mid) {
+		return metricGroupService.delMetricGroupMetric(id, mid);
+	}
+
 }

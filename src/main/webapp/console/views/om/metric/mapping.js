@@ -5,11 +5,10 @@ function prepend(arr, item) {
 	a.unshift(item);
 	return a;
 }
- 
 
-function metricTemplAddmetricCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder,
-		notify, $log, $uibModal, $uibModalInstance, $scope, id, $http,
-		$rootScope, $compile) {
+function metricTemplAddmetricCtl($timeout, DTLang, DTOptionsBuilder,
+		DTColumnBuilder, notify, $log, $uibModal, $uibModalInstance, $scope,
+		id, $http, $rootScope, $compile) {
 	$scope.item = {}
 	$log.log("window in:", id);
 
@@ -64,14 +63,16 @@ function metricTemplAddmetricCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBui
 			}),
 			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
+			DTColumnBuilder.newColumn('ds').withTitle('来源').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('type').withTitle('类型').withOption(
+			DTColumnBuilder.newColumn('showtype').withTitle('显示类型').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('cols').withTitle('字段').withOption(
 					'sDefaultContent', '') ]
 	// $scope.dtInstance.DataTable.rows('.even').select();
 	function flush() {
 
-		$http.post($rootScope.project + "/api/mn/mnServiceNeedAddNodes.do", {
+		$http.post($rootScope.project + "/api/mn/metricGroupNeedMetrics.do", {
 			id : id
 		}).success(function(res) {
 			if (res.success) {
@@ -94,9 +95,9 @@ function metricTemplAddmetricCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBui
 			urls.push($scope.dtOptions.aaData[data[j]].id)
 		}
 		var ps = {};
-		ps.node_ids = angular.toJson(urls);
+		ps.ids = angular.toJson(urls);
 		ps.id = id;
-		$http.post($rootScope.project + "/api/mn/mnServiceAddNodes.do", ps)
+		$http.post($rootScope.project + "/api/mn/metricGroupAddMetrics.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$uibModalInstance.close("OK");
@@ -169,11 +170,11 @@ function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
+			DTColumnBuilder.newColumn('ds').withTitle('来源').withOption(
 					'sDefaultContent', ''),
-			// DTColumnBuilder.newColumn('showstatus').withTitle('状态').withOption(
-			// 'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('type').withTitle('类型').withOption(
+			DTColumnBuilder.newColumn('showtype').withTitle('显示类型').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('cols').withTitle('字段').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', ''),
@@ -182,7 +183,7 @@ function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flush() {
 
-		$http.post($rootScope.project + "/api/mn/queryMnServiceNodes.do", {
+		$http.post($rootScope.project + "/api/mn/queryMetricGroupMetrics.do", {
 			id : $scope.templSel.id
 		}).success(function(res) {
 			if (res.success) {
@@ -200,23 +201,26 @@ function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	}
 
-	$scope.row_del = function(service_id, node_id) {
+	$scope.row_del = function(id, mid) {
 		$confirm({
 			text : '是否删除？'
-		}).then(function() {
-			$http.post($rootScope.project + "/api/mn/mnServiceDelNode.do", {
-				id : service_id,
-				node_id : node_id
-			}).success(function(res) {
-				if (res.success) {
-					flush();
-				} else {
-					notify({
-						message : res.message
-					});
-				}
-			})
-		});
+		}).then(
+				function() {
+					$http.post(
+							$rootScope.project
+									+ "/api/mn/delMetricGroupMetric.do", {
+								id : id,
+								mid : mid
+							}).success(function(res) {
+						if (res.success) {
+							flush();
+						} else {
+							notify({
+								message : res.message
+							});
+						}
+					})
+				});
 
 	}
 
@@ -255,7 +259,6 @@ function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	$scope.save = function(id) {
 
-		 
 	}
 
 };

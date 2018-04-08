@@ -78,9 +78,7 @@ public class MnService extends BaseService {
 				sqls.add(me);
 			}
 		}
-		if (sqls.size() > 0)
-
-		{
+		if (sqls.size() > 0) {
 			db.executeSQLList(sqls);
 		}
 		return R.SUCCESS_OPER();
@@ -106,7 +104,7 @@ public class MnService extends BaseService {
 	}
 
 	public R mnServiceDelNode(String id, String node_id) {
-		if(ToolUtil.isOneEmpty(id,node_id)) {
+		if (ToolUtil.isOneEmpty(id, node_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Delete me = new Delete("mn_service");

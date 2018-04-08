@@ -31,10 +31,17 @@ function nodeHostTermCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 }
 
 function nodeHostSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
-		id, $http, $rootScope) {
+		id, $http, $rootScope, templOpt) {
 
-	$log.warn("window in:" + id);
+	$log.warn("window in:" + id, templOpt);
 	$scope.item = {};
+	$scope.templOpt = templOpt;
+	$scope.templSel = "";
+	if (angular.isDefined(templOpt)) {
+		if (templOpt.length > 0) {
+			$scope.templSel = templOpt[0];
+		}
+	}
 
 	$scope.hosttypeOpt = [ {
 		id : "window",
@@ -72,6 +79,7 @@ function nodeHostSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data
+
 				if (res.data.isvalid == "Y") {
 					$scope.validSel = $scope.validOpt[0];
 				} else {
@@ -84,6 +92,15 @@ function nodeHostSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 					$scope.hosttypeSel = $scope.hosttypeOpt[2];
 				} else if (res.data.smalltype == "window") {
 					$scope.hosttypeSel = $scope.hosttypeOpt[0];
+				}
+
+				if (angular.isDefined(templOpt)) {
+					for (var i = 0; i < templOpt.length; i++) {
+						if (templOpt[i].id == res.data.templid) {
+							$scope.templSel = templOpt[i];
+							break;
+						}
+					}
 				}
 
 			} else {
@@ -100,6 +117,7 @@ function nodeHostSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 		$scope.item.type = "host";
 		$scope.item.smalltype = $scope.hosttypeSel.id;
 		$scope.item.logintype = $scope.logintypeSel.id;
+		$scope.item.templid = $scope.templSel.id;
 		$http.post($rootScope.project + "/api/node/saveNode.do", $scope.item)
 				.success(function(res) {
 					if (res.success) {
@@ -110,6 +128,7 @@ function nodeHostSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 						});
 					}
 				})
+
 	};
 
 	$scope.cancel = function() {
@@ -135,14 +154,14 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"toTerm('" + full.id
-				+ "')\" class=\"btn-white btn btn-xs\">终端</button> ";
-		acthtml = acthtml + " <button ng-click=\"toSftp('" + full.id
-				+ "')\" class=\"btn-white btn btn-xs\">Sftp</button> ";
+		// acthtml = acthtml + " <button ng-click=\"toTerm('" + full.id
+		// + "')\" class=\"btn-white btn btn-xs\">终端</button> ";
+		// acthtml = acthtml + " <button ng-click=\"toSftp('" + full.id
+		// + "')\" class=\"btn-white btn btn-xs\">Sftp</button> ";
+		// acthtml = acthtml + " <button ng-click=\"addapp('" + full.id
+		// + "')\" class=\"btn-white btn btn-xs\">添加应用</button> ";
 		acthtml = acthtml + " <button ng-click=\"modify('" + full.id
-				+ "')\" class=\"btn-white btn btn-xs\">修改</button>  ";
-		acthtml = acthtml + " <button ng-click=\"addapp('" + full.id
-				+ "')\" class=\"btn-white btn btn-xs\">添加应用</button>  ";
+				+ "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
 		acthtml = acthtml + " <button ng-click=\"remove('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button>  </div> ";
 		return acthtml;
@@ -178,7 +197,7 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('isvalid').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('isrunning').withTitle('运行状态')
+			DTColumnBuilder.newColumn('templname').withTitle('模版名称')
 					.withOption('sDefaultContent', '').renderWith(
 							renderRunStatus),
 			DTColumnBuilder.newColumn('cdate').withTitle('创建时间').withOption(
@@ -230,6 +249,16 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 	}
 
+	var templOpt = [];
+	$http.post($rootScope.project + "/api/mn/queryMetricGroup.do", {
+
+	}).success(function(res) {
+		if (res.success) {
+			templOpt = res.data;
+		}
+
+	})
+
 	$scope.modify = function(id) {
 
 		var modalInstance = $uibModal.open({
@@ -240,6 +269,9 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return id;
+				},
+				templOpt : function() {
+					return templOpt;
 				}
 			}
 		});

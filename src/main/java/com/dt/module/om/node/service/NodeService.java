@@ -13,6 +13,7 @@ import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.db.DB;
+import com.dt.module.om.service.MappingTextService;
 import com.dt.module.om.util.RemoteShellExecutor;
 import com.dt.module.om.util.RemoteShellResult;
 
@@ -49,6 +50,7 @@ public class NodeService extends BaseService {
 		me.setIf("deleted", "N");
 		me.setIf("od", ps.getString("od", "1"));
 		me.setIf("mark", ps.getString("mark", ""));
+		me.setIf("templid", ps.getString("templid", ""));
 		me.setSE("cdate", DbUtil.getDbDateString(DB.instance().getDBType()));
 		me.setSE("mdate", DbUtil.getDbDateString(DB.instance().getDBType()));
 		db.execute(me);
@@ -76,6 +78,7 @@ public class NodeService extends BaseService {
 		me.setIf("port", ps.getString("port", ""));
 		me.setIf("isvalid", ps.getString("isvalid", "N"));
 		me.setIf("od", ps.getString("od", "1"));
+		me.setIf("templid", ps.getString("templid", ""));
 		me.setIf("mark", ps.getString("mark", ""));
 		me.where().and("id=?", ps.getString("id", ""));
 		db.execute(me);
@@ -103,7 +106,8 @@ public class NodeService extends BaseService {
 	}
 
 	public R queryNode(TypedHashMap<String, Object> ps) {
-		String sql = "select * from om_node where deleted='N' ";
+		String sql = "select a.* ,(select name from mn_mapping_text where type='" + MappingTextService.TYPE_METRIC_GROUP
+				+ "' and a.templid=id) templname from om_node a where deleted='N'";
 		if (ToolUtil.isNotEmpty(ps.getString("type"))) {
 			sql += "and type='" + ps.getString("type") + "'";
 		}
@@ -185,7 +189,5 @@ public class NodeService extends BaseService {
 		return R.FAILURE("请选择ssh登录,当前仅支持ssh");
 
 	}
-	
-	
 
 }

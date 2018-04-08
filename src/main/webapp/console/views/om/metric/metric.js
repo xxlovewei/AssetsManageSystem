@@ -9,8 +9,6 @@ function prepend(arr, item) {
 function metricAddFormCtl($localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, id, $http, $rootScope) {
 
-	// $log.warn("window in:", userIds);
-
 	$scope.item = {};
 
 	if (angular.isDefined(id)) {

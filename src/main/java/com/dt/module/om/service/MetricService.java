@@ -31,9 +31,10 @@ public class MetricService extends BaseService {
 		me.setIf("showtype", ps.getString("showtype"));
 		me.setIf("chartopt", ps.getString("chartopt"));
 		me.setIf("cols", ps.getString("cols"));
+		me.setIf("status", ps.getString("status"));
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("is_delete", "N");
-		db.execute(me);	
+		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
 
@@ -44,9 +45,10 @@ public class MetricService extends BaseService {
 		me.setIf("showtype", ps.getString("showtype"));
 		me.setIf("chartopt", ps.getString("chartopt"));
 		me.setIf("cols", ps.getString("cols"));
+		me.setIf("status", ps.getString("status"));
 		me.setIf("mark", ps.getString("mark"));
 		me.where().and("id=?", ps.getString("id", ""));
-		db.execute(me);	
+		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
 
@@ -54,7 +56,7 @@ public class MetricService extends BaseService {
 		Update me = new Update("mn_metric_define");
 		me.setIf("is_delete", "Y");
 		me.where().and("id=?", id);
-		db.execute(me);	
+		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
 
@@ -66,6 +68,7 @@ public class MetricService extends BaseService {
 	public R queryMetricById(String id) {
 		return R.SUCCESS_OPER(db.uniqueRecord("select * from mn_metric_define where id=?", id).toJsonObject());
 	}
+
 
 	public MetricEntity queryMetricEntityById(String id) {
 		Rcd r = db.uniqueRecord("select * from mn_metric_define where id=?", id);

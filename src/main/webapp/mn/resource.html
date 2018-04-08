@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<!-- 新 Bootstrap 核心 CSS 文件 
+jQuery文件。务必在bootstrap.min.js 之前引入
+ 最新的 Bootstrap 核心 JavaScript 文件 -->
+<link rel="stylesheet" href="./js/bootstrap_3.3.5/css/bootstrap.css">
+<script src="./js/jquery_1.11/jquery-1.11.3.min.js"></script>
+<script src="./js/bootstrap_3.3.5/js/bootstrap.js"></script>
+<!-- ztree  -->
+<link href="./js/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
+<script src="./js/ztree/js/jquery.ztree.all-3.5.js"></script>
+
+<!-- highcharts  -->
+<script src="./js/highcharts/highcharts.src.js"></script>
+
+<!-- md5  -->
+<script type="text/ecmascript" src="./js/md5/md5.js"></script>  
+
+<!-- alert  -->
+<!-- <link href="./js/queryconfirm/jquery-confirm.min.css" rel="stylesheet">
+<script src="./js/jqueryconfirm/jquery-confirm.min.js"></script> -->
+
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-3 " style="padding-right: 0px;">
+				<div class="panel panel-default">
+					<div
+						style="text-decoration: none; text-shadow: 0 1px 0 #fff; color: #555; font-size: 13px; padding-right: 0px; padding-left: 10px; padding-top: 2px; padding-bottom: 2px"
+						class="panel-heading">节点树</div>
+					<div class="panel-body" style="padding-left: 5px;">
+						<ul id="treeDemo" class="ztree"></ul>
+					</div>
+				</div>
+			</div>
+			<!-- end 3 -->
+			<div class="col-sm-9 col-md-9" style="padding-left: 0px;">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-12 col-md-12 ">
+							<div class="panel panel-default">
+								<!-- Default panel contents -->
+								<div
+									style="text-decoration: none; text-shadow: 0 1px 0 #fff; color: #555; font-size: 13px; padding-right: 0px; padding-left: 10px; padding-top: 2px; padding-bottom: 2px"
+									class="panel-heading">节点</div>
+								<div class="panel-body">
+									<div id="resourceright"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end container-fluid -->
+			</div>
+			<!-- end 10 -->
+		</div>
+	</div>
+	<script language="JavaScript">
+	//tree init
+	var setting = {
+		showLine : true,
+		data : {
+			key : {
+				title : "mark"
+			},
+			simpleData : {
+				enable : true
+			}
+		},
+		callback : {
+			onClick : NodeClick
+		}
+	};
+
+	function NodeClick(event, treeId, treeNode, clickFlag) {
+		console.log(event);
+		console.log(treeId)
+		console.log("treeNode",treeNode)
+		console.log(clickFlag)
+		window.res_node = treeNode.node;
+		/*非常疯狂的取数*/
+		var metrics=[];
+		var node_id="";
+		var htmlfill="";
+		 if(treeNode.dtype=="node"){
+			  metrics=treeNode.children;
+			  node_id=treeNode.id;
+		 }else if(treeNode.dtype=="metric"){
+			  metrics.push({id:treeNode.id,name:treeNode.name})
+			  node_id=treeNode.pId;
+		 }else{
+			 return;
+		 }
+		 	 
+		 for (var i=0;i<metrics.length;i++)
+			{
+				var vid=hex_md5(node_id+metrics[i].id);
+				htmlfill=htmlfill+ ' <div class="row">                                                                 ';
+				htmlfill=htmlfill+ '     <div class="col-sm-12 col-md-12">                                             ';
+				htmlfill=htmlfill+ '         <div class="panel panel-default">                                         ';
+				htmlfill=htmlfill+ '             <div style="text-decoration:none;text-shadow:0 1px 0 #fff;color:#555 ; font-size:13px ;padding-right: 0px;  padding-left: 10px; padding-top: 2px; padding-bottom: 2px" class="panel-heading"> '+metrics[i].name+' </div>';
+				htmlfill=htmlfill+ '             <div class="panel-body"  id="'+vid+'" ></div>  ';
+				htmlfill=htmlfill+ '         </div>                                                                    ';
+				htmlfill=htmlfill+ '     </div>                                                                        ';
+				htmlfill=htmlfill+ ' </div>                                                                            ';		 
+			}
+		 $("#resourceright").html(htmlfill);
+		 //填充数据
+		 for (var i=0;i<metrics.length;i++)
+		{
+			
+			$.ajax({
+					type : "POST",
+					url : "/dt/api/mn/queryResourceByMetric.do",
+					data : {
+						metric_id :metrics[i].id,
+						node_id :node_id,
+						data_interval : 3
+					},
+					dataType : 'json',
+					success : function(res) {
+						console.log(res);
+						var mdata=res.data;
+						mdata.option={
+							    chart: {
+							        type: "line"
+							    },
+							    title: {
+							        text: "月平均气温"
+							    },
+							    subtitle: {
+							        text: "数据来源: WorldClimate.com"
+							    },
+							    xAxis: {
+							        categories: [
+							            "一月",
+							            "二月",
+							            "三月",
+							            "四月",
+							            "五月",
+							            "六月",
+							            "七月",
+							            "八月",
+							            "九月",
+							            "十月",
+							            "十一月",
+							            "十二月"
+							        ]
+							    },
+							    yAxis: {
+							        title: {
+							            text: "气温 (°C)"
+							        }
+							    },
+							    plotOptions: {
+							        line: {
+							            dataLabels: {
+							                enabled: true//开启数据标签
+							            },
+							            enableMouseTracking: false//关闭鼠标跟踪，对应的提示框、点击事件会失效
+							        }
+							    },
+							    series: [
+							        {
+							            name: "东京",
+							            data: [
+							                7.0,
+							                6.9,
+							                9.5,
+							                14.5,
+							                18.4,
+							                21.5,
+							                25.2,
+							                26.5,
+							                23.3,
+							                18.3,
+							                13.9,
+							                9.6
+							            ]
+							        },
+							        {
+							            name: "伦敦",
+							            data: [
+							                3.9,
+							                4.2,
+							                5.7,
+							                8.5,
+							                11.9,
+							                15.2,
+							                17.0,
+							                16.6,
+							                14.2,
+							                10.3,
+							                6.6,
+							                4.8
+							            ]
+							        }
+							    ]
+							}
+						var vid=hex_md5(mdata.node_id+mdata.metric_id);
+						console.log(vid);
+						 showinit(mdata.option,mdata.showtype,vid);  
+					}
+				});
+		}
+	 
+	}
+	
+	function showinit(option,type,id)
+	{
+	    	if ( type == "chart" ){
+	    		$('#'+id).highcharts(option);
+	    	}else if(type=="table"){
+	    		
+	    	}	
+	}
+
+	$(document).ready(function() {
+		$.ajax({
+			type : "POST",
+			url : "/dt/api/mn/queryMenus.do",
+			dataType : 'json',
+			success : function(res) {
+				console.log(setting,res)
+				var treeObj=$.fn.zTree.init($("#treeDemo"), setting, res.data);
+				/*展开第一个节点*/
+				treeObj.expandNode(treeObj.getNodes()[0],true,false);
+				/*获取第一个节点数据*/
+				treeObj.selectNode(treeObj.getNodes()[0].children[0]); 
+				treeObj.setting.callback.onClick(null, treeObj.setting.treeId, treeObj.getNodes()[0].children[0],'1');
+			}
+		});
+	});
+ 
+</script>
+
+
+
+
+</body>
+</html>
