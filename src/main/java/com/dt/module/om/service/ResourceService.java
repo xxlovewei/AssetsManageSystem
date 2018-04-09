@@ -13,6 +13,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 
 /**
@@ -33,8 +34,8 @@ public class ResourceService extends BaseService {
 		JSONObject res = new JSONObject();
 		res.put("node_id", node_id);
 		res.put("metric_id", metric_id);
-		res.put("data_interval", data_interval);
-
+		// res.put("data_interval", data_interval);
+		String dinterval = data_interval;
 		String[] colsarr = null;
 		JSONArray[] columnsdata = null;
 
@@ -47,6 +48,10 @@ public class ResourceService extends BaseService {
 			// String ds = rs.getString("ds");
 			String cols = rs.getString("cols");
 			String charttype = rs.getString("chartopt");
+			if (ToolUtil.isEmpty(dinterval)) {
+				dinterval = ConvertUtil.toInt(rs.getString("data_interval"), 3) + "";
+			}
+			// System.out.println("dinterval" + dinterval);
 			JSONObject chartOpt = JSONObject.parseObject(charttype);
 			String dsql = "";
 			if (showtype.equals("chart")) {
@@ -80,17 +85,15 @@ public class ResourceService extends BaseService {
 					dsql = dsql + "inserttime from  " + ds_value + " a where node='" + node_id + "'";
 
 				}
-
 				columnsdata = new JSONArray[colsarr.length];
 				for (int i = 0; i < colsarr.length; i++) {
 					columnsdata[i] = new JSONArray();
 				}
-
 				// 取数
 				String sql = "select tab.*,trunc((inserttime-to_date('1970-01-01','yyyy-mm-dd'))*24*60*60*1000,1) intertime from ("
 						+ dsql + ") tab where 1=1 ";
-				if (ToolUtil.isNotEmpty(data_interval)) {
-					sql = sql + " and inserttime>sysdate-" + data_interval;
+				if (ToolUtil.isNotEmpty(dinterval)) {
+					sql = sql + " and inserttime>sysdate-" + dinterval;
 				}
 				sql = sql + " order by inserttime";
 				RcdSet drs = db.query(sql);
@@ -114,6 +117,9 @@ public class ResourceService extends BaseService {
 				chartOpt.put("series", sd);
 				/* 封装option */
 				res.put("option", chartOpt);
+
+			} else if (showtype.equals("table")) {
+				// 生成table数据
 			}
 
 		}
