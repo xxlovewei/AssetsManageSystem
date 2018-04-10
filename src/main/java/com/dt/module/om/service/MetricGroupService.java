@@ -28,6 +28,9 @@ public class MetricGroupService extends BaseService {
 	@Autowired
 	MappingTextService mappingTextService;
 
+	@Autowired
+	MnService mnService;
+
 	public static String SHOW_TYPE_CHART = "chart";
 
 	public static String SHOW_TYPE_TABLE = "table";
@@ -121,7 +124,7 @@ public class MetricGroupService extends BaseService {
 	}
 
 	public R delMetricGroupMetric(String id, String mid) {
-
+		mnService.delServiceNodeMetric(id, mid);
 		Delete me = new Delete("mn_metric_group");
 		me.where().and("id=?", id).and("metric_id=?", mid);
 		db.execute(me);

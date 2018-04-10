@@ -157,15 +157,13 @@ public class MnService extends BaseService {
 		return R.SUCCESS_OPER(db.query(sql, node_id, ser_id, node_id).toJsonArrayWithJsonObject());
 	}
 
-	public R delServiceNodeMetric(String ser_id, String node_id, String metric_id, String mtype) {
+	/* 当模版中当的度量删除时,同时去删除服务节点中的度量 */
+	public R delServiceNodeMetric(String templid, String metric_id) {
 
-		if (ToolUtil.isOneEmpty(ser_id, node_id, metric_id)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		Delete me = new Delete("mn_service_node_metric");
-		me.where().and("service_id=?", ser_id).and("node_id=?", node_id).and("metric_id=?", metric_id).and("mtype=?",
-				mtype);
-		me.execute();
+		String sql = "delete from mn_service_node_metric " + " where (service_id,node_id,metric_id) in "
+				+ " (select b.id,b.node_id,'" + metric_id
+				+ "' metric_id from om_node a,mn_service b where templid=? and a.id=b.node_id) " + " and mtype='templ'";
+		db.execute(sql, templid);
 		return R.SUCCESS_OPER();
 
 	}
