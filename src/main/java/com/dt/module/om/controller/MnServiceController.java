@@ -20,7 +20,7 @@ import com.dt.module.om.service.MnService;
  */
 @Controller
 @RequestMapping("/api")
-public class MnController extends BaseController {
+public class MnServiceController extends BaseController {
 	@Autowired
 	MnService mnService;
 
@@ -107,5 +107,23 @@ public class MnController extends BaseController {
 	public R queryMnServiceNodes(String id) {
 		return mnService.queryMnServiceNodes(id);
 	}
-
+ 
+	
+	@RequestMapping("/mn/queryServiceNodeMetric.do")
+	@ResponseBody
+	@Acl(info = "从service中的node的metric数据", value = Acl.ACL_DENY)
+	public R queryServiceNodeMetric(String service_id,String node_id) {
+		return mnService.queryServiceNodeMetric(service_id, node_id);
+	}
+	
+	@RequestMapping("/mn/saveServiceNodeMetric.do")
+	@ResponseBody
+	@Acl(info = "将service中的node的metric数据更新", value = Acl.ACL_DENY)
+	public R saveServiceNodeMetric() {
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		return mnService.saveServiceNodeMetric(ps);
+	}
+	
+	
+	
 }

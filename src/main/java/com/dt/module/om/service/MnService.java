@@ -133,4 +133,89 @@ public class MnService extends BaseService {
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
 
+	public R queryServiceNodeMetric(String ser_id, String node_id) {
+		String sql = " select '" + ser_id + "' service_id, '" + node_id
+				+ "' node_id,ta.*,decode(tb.data_interval,null,ta.data_interval,tb.data_interval) di, "
+				+ " decode(tb.is_show,null,'Y',tb.is_show) is_show  "
+				+ " from ( select b.*,'templ' mtype from mn_metric_group a,mn_metric_define b,om_node c where a.metric_id=b.id "
+				+ " and c.templid=a.id and c.id=? and b.is_delete='N' " + "  ) ta  " + " left join(  "
+				+ " select b.* from mn_service a,mn_service_node_metric b where a.id=b.service_id  "
+				+ " and a.node_id=b.node_id and a.is_delete='N'  " + " and a.id=? and a.node_id=? " + " )tb  "
+				+ " on ta.id=tb.metric_id  ";
+		return R.SUCCESS_OPER(db.query(sql, node_id, ser_id, node_id).toJsonArrayWithJsonObject());
+	}
+
+	public R queryServiceNodeMetricWithCache(String ser_id, String node_id) {
+		String sql = " select  'metric' dtype ,'" + ser_id + "' service_id, '" + node_id
+				+ "' node_id, ta.mtype,ta.id,ta.name,decode(tb.data_interval,null,ta.data_interval,tb.data_interval) di, "
+				+ " decode(tb.is_show,null,'Y',tb.is_show) is_show  "
+				+ " from ( select b.*,'templ' mtype from mn_metric_group a,mn_metric_define b,om_node c where a.metric_id=b.id "
+				+ " and c.templid=a.id and c.id=? and b.is_delete='N' " + "  ) ta  " + " left join(  "
+				+ " select b.* from mn_service a,mn_service_node_metric b where a.id=b.service_id  "
+				+ " and a.node_id=b.node_id and a.is_delete='N'  " + " and a.id=? and a.node_id=? " + " )tb  "
+				+ " on ta.id=tb.metric_id where decode(tb.is_show,null,'Y',tb.is_show) ='Y' ";
+		return R.SUCCESS_OPER(db.query(sql, node_id, ser_id, node_id).toJsonArrayWithJsonObject());
+	}
+
+	public R delServiceNodeMetric(String ser_id, String node_id, String metric_id, String mtype) {
+
+		if (ToolUtil.isOneEmpty(ser_id, node_id, metric_id)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		Delete me = new Delete("mn_service_node_metric");
+		me.where().and("service_id=?", ser_id).and("node_id=?", node_id).and("metric_id=?", metric_id).and("mtype=?",
+				mtype);
+		me.execute();
+		return R.SUCCESS_OPER();
+
+	}
+
+	public R saveServiceNodeMetric(TypedHashMap<String, Object> ps) {
+
+		String service_id = ps.getString("service_id");
+		String node_id = ps.getString("node_id");
+		String metric_id = ps.getString("metric_id");
+		String is_show = ps.getString("is_show");
+		String mtype = ps.getString("mtype");
+		String di = ps.getString("di");
+		int dv = ToolUtil.toInt(di, 3);
+		if (ToolUtil.isOneEmpty(service_id, node_id, metric_id)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		RcdSet rs = db.query("select * from mn_service_node_metric where service_id=? and node_id=? and metric_id=?",
+				service_id, node_id, metric_id);
+		if (rs.size() == 0) {
+			// 新插入
+			Insert me = new Insert("mn_service_node_metric");
+			me.set("id", db.getUUID());
+			me.set("service_id", service_id);
+			me.set("node_id", node_id);
+			me.set("metric_id", metric_id);
+			me.setIf("is_show", is_show);
+			me.setIf("mtype", mtype);
+			me.set("data_interval", dv);
+			db.execute(me);
+		} else if (rs.size() >= 2) {
+			Delete dl = new Delete("mn_service_node_metric");
+			dl.where().and("service_id=?", service_id).and("node_id=?", node_id).and("metric_id=?", metric_id);
+			Insert me = new Insert("mn_service_node_metric");
+			me.set("id", db.getUUID());
+			me.set("service_id", service_id);
+			me.set("node_id", node_id);
+			me.set("metric_id", metric_id);
+			me.setIf("is_show", is_show);
+			me.setIf("mtype", mtype);
+			me.set("data_interval", dv);
+			db.executes(dl, me);
+		} else {
+			Update me = new Update("mn_service_node_metric");
+			me.setIf("is_show", is_show);
+			me.setIf("mtype", mtype);
+			me.set("data_interval", dv);
+			me.where().and("id=?", rs.getRcd(0).getString("id"));
+			db.execute(me);
+		}
+		return R.SUCCESS_OPER();
+	}
+
 }

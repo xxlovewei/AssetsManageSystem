@@ -151,7 +151,7 @@ function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		var acthtml = " <div class=\"btn-group\"> ";
 		// acthtml = acthtml + " <button ng-click=\"save('" + full.id
 		// + "')\" class=\"btn-white btn btn-xs\">更新</button> ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.service_id
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.group_id
 				+ "','" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
@@ -201,7 +201,7 @@ function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	}
 
-	$scope.row_del = function(id, mid) {
+	$scope.row_del = function(group_id, mid) {
 		$confirm({
 			text : '是否删除？'
 		}).then(
@@ -209,7 +209,7 @@ function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					$http.post(
 							$rootScope.project
 									+ "/api/mn/delMetricGroupMetric.do", {
-								id : id,
+								id : group_id,
 								mid : mid
 							}).success(function(res) {
 						if (res.success) {

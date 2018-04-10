@@ -64,7 +64,21 @@ function config_om($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('servicemgr.nodemetric', {
+		url : "/servicemgr_nodemetric",
+		data: { pageTitle: '节点度量'},
+		templateUrl : "views/om/ser/nodemetric.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/om/ser/nodemetric.js?v=' + version ]
+				} ]);
+			}
+		}
 	}); 
+	
+	
 	
 	
 	// metricmgr

@@ -28,7 +28,8 @@ public class ResourceService extends BaseService {
 	MetricGroupService metricGroupService;
 	@Autowired
 	MetricService metricService;
-
+	@Autowired
+	MnService mnService;
 	@Cacheable(value = CacheConfig.CACHE_PUBLIC_45_10, key = "'qRM'+#node_id+#metric_id+#data_interval")
 	public R queryResourceByMetric(String node_id, String metric_id, String data_interval) {
 		JSONObject res = new JSONObject();
@@ -54,14 +55,16 @@ public class ResourceService extends BaseService {
 			// System.out.println("dinterval" + dinterval);
 			JSONObject chartOpt = JSONObject.parseObject(charttype);
 			String dsql = "";
+
+			// 生成highchart的数据
 			if (showtype.equals("chart")) {
 				// 初始化cols空间
 				if (chartdatatype.equals("direct")) {
 					colsarr = cols.split(",");
 					// 取所有数据
 					dsql = "select " + cols + " , inserttime from " + ds_value + " where node='" + node_id + "'";
-
 				} else if (chartdatatype.equals("indata")) {
+					// lvname,value
 					if (cols.split(",").length != 2) {
 						return R.SUCCESS_OPER(res);
 					}
@@ -82,7 +85,7 @@ public class ResourceService extends BaseService {
 								+ ds_value + " b where a.node=b.node and a.inserttime=b.inserttime and " + col + "='"
 								+ cols_v + "'),0)  \"" + cols_v + "\" ,";
 					}
-					dsql = dsql + "inserttime from  " + ds_value + " a where node='" + node_id + "'";
+					dsql = dsql + " inserttime from  " + ds_value + " a where node='" + node_id + "'";
 
 				}
 				columnsdata = new JSONArray[colsarr.length];
@@ -100,12 +103,12 @@ public class ResourceService extends BaseService {
 				for (int i = 0; i < drs.size(); i++) {
 					BigDecimal a = ((BigDecimal) drs.getRcd(i).getBigDecimal("intertime"));
 					for (int j = 0; j < colsarr.length; j++) {
+
 						BigDecimal b = ((BigDecimal) drs.getRcd(i).getBigDecimal(colsarr[j]));
 						columnsdata[j].add(new BigDecimal[] { a.setScale(2, BigDecimal.ROUND_HALF_UP),
 								b.setScale(2, BigDecimal.ROUND_HALF_UP) });
 					}
 				}
-
 				/* 生成series数据 */
 				JSONArray sd = new JSONArray();
 				for (int j = 0; j < colsarr.length; j++) {
@@ -151,6 +154,7 @@ public class ResourceService extends BaseService {
 			JSONObject e = new JSONObject();
 			e.put("id", serrs.getRcd(i).getString("node_id"));
 			e.put("name", serrs.getRcd(i).getString("node_name"));
+			e.put("ser_id", serrs.getRcd(i).getString("id"));
 			e.put("dtype", "node");
 			nodes.add(e);
 			// 服务
@@ -167,20 +171,25 @@ public class ResourceService extends BaseService {
 		// 添加度量数据
 		for (int i = 0; i < res.size(); i++) {
 			JSONArray nodearr = res.getJSONObject(i).getJSONArray("children");
+			
+			//mnService
 			for (int j = 0; j < nodearr.size(); j++) {
-				Rcd nrs = db.uniqueRecord("select templid from om_node where id=?",
-						nodearr.getJSONObject(j).getString("id"));
-				if (ToolUtil.isEmpty(nrs)) {
-					continue;
-				}
-				String templid = nrs.getString("templid");
-				if (ToolUtil.isNotEmpty(templid)) {
-					R nmetricrs = metricGroupService.queryMetricGroupMetricsWithFastCache(templid);
-					if (nmetricrs.isSuccess()) {
-						JSONArray metricarr = nmetricrs.queryDataToJSONArray();
+				String node_id=nodearr.getJSONObject(j).getString("id");
+				String ser_id=nodearr.getJSONObject(j).getString("ser_id");
+				System.out.println(node_id+","+ser_id);
+				R metrics=mnService.queryServiceNodeMetricWithCache(ser_id, node_id);
+//				Rcd nrs = db.uniqueRecord("select templid from om_node where id=?",
+//						nodearr.getJSONObject(j).getString("id"));
+//				if (ToolUtil.isEmpty(nrs)) {
+//					continue;
+//				}
+//				String templid = nrs.getString("templid");
+//				if (ToolUtil.isNotEmpty(templid)) {
+					if (metrics.isSuccess()) {
+						JSONArray metricarr = metrics.queryDataToJSONArray();
 						res.getJSONObject(i).getJSONArray("children").getJSONObject(j).put("children", metricarr);
 					}
-				}
+//				}
 			}
 		}
 		String jsonStr = JSON.toJSONString(res, SerializerFeature.DisableCircularReferenceDetect);

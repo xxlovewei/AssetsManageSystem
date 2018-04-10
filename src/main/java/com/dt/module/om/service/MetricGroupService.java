@@ -109,14 +109,14 @@ public class MetricGroupService extends BaseService {
 	public R queryMetricGroupMetrics(String id) {
 
 		return R.SUCCESS_OPER(db.query(
-				"select a.* ,b.id grou_id from mn_metric_define a, mn_metric_group b where a.id=b.metric_id and a.is_delete='N' and b.id=?",
+				"select a.* ,b.id group_id from mn_metric_define a, mn_metric_group b where a.id=b.metric_id and a.is_delete='N' and b.id=?",
 				id).toJsonArrayWithJsonObject());
 	}
 
 	@Cacheable(value = CacheConfig.CACHE_PUBLIC + "#30#8", key = "'qMGM=WithFastCache_'+#id")
 	public R queryMetricGroupMetricsWithFastCache(String id) {
 		return R.SUCCESS_OPER(ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(
-				"select 'metric' dtype,a.* ,b.id grou_id from mn_metric_define a, mn_metric_group b where a.status='Y' and a.id=b.metric_id and a.is_delete='N' and b.id=?",
+				"select 'metric' dtype,a.* ,b.id group_id from mn_metric_define a, mn_metric_group b where a.status='Y' and a.id=b.metric_id and a.is_delete='N' and b.id=?",
 				id).toJsonArrayWithJsonObject()));
 	}
 
