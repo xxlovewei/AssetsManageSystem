@@ -112,4 +112,14 @@ public class MetricService extends BaseService {
 		return e;
 
 	}
+
+	public static String checkOper(String oper) {
+		if (oper.equals(">") || oper.equals(">=") || oper.equals("<") || oper.equals("<=") || oper.equals("=")
+				|| oper.equals(">") || oper.equals("<>")) {
+			return oper;
+		} else {
+			return ">";
+		}
+	}
+
 }
