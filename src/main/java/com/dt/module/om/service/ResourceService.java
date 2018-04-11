@@ -11,7 +11,6 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
-import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
@@ -30,6 +29,7 @@ public class ResourceService extends BaseService {
 	MetricService metricService;
 	@Autowired
 	MnService mnService;
+
 	@Cacheable(value = CacheConfig.CACHE_PUBLIC_45_10, key = "'qRM'+#node_id+#metric_id+#data_interval")
 	public R queryResourceByMetric(String node_id, String metric_id, String data_interval) {
 		JSONObject res = new JSONObject();
@@ -171,25 +171,16 @@ public class ResourceService extends BaseService {
 		// 添加度量数据
 		for (int i = 0; i < res.size(); i++) {
 			JSONArray nodearr = res.getJSONObject(i).getJSONArray("children");
-			
-			//mnService
+			// mnService
 			for (int j = 0; j < nodearr.size(); j++) {
-				String node_id=nodearr.getJSONObject(j).getString("id");
-				String ser_id=nodearr.getJSONObject(j).getString("ser_id");
-				System.out.println(node_id+","+ser_id);
-				R metrics=mnService.queryServiceNodeMetricWithCache(ser_id, node_id);
-//				Rcd nrs = db.uniqueRecord("select templid from om_node where id=?",
-//						nodearr.getJSONObject(j).getString("id"));
-//				if (ToolUtil.isEmpty(nrs)) {
-//					continue;
-//				}
-//				String templid = nrs.getString("templid");
-//				if (ToolUtil.isNotEmpty(templid)) {
-					if (metrics.isSuccess()) {
-						JSONArray metricarr = metrics.queryDataToJSONArray();
-						res.getJSONObject(i).getJSONArray("children").getJSONObject(j).put("children", metricarr);
-					}
-//				}
+				String node_id = nodearr.getJSONObject(j).getString("id");
+				String ser_id = nodearr.getJSONObject(j).getString("ser_id");
+				System.out.println(node_id + "," + ser_id);
+				R metrics = mnService.queryServiceNodeMetricWithCache(ser_id, node_id);
+				if (metrics.isSuccess()) {
+					JSONArray metricarr = metrics.queryDataToJSONArray();
+					res.getJSONObject(i).getJSONArray("children").getJSONObject(j).put("children", metricarr);
+				}
 			}
 		}
 		String jsonStr = JSON.toJSONString(res, SerializerFeature.DisableCircularReferenceDetect);

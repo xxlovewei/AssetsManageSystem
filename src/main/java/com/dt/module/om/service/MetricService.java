@@ -40,6 +40,11 @@ public class MetricService extends BaseService {
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("chartdatatype", ps.getString("chartdatatype"));// direct 直接按照字段取书,indata 从该字段的distinct取数
 		me.setIf("is_delete", "N");
+		me.setIf("data_interval", ps.getString("data_interval"));
+		me.setIf("v_a", ps.getString("v_a"));
+		me.setIf("v_a_m", ps.getString("v_a_m"));
+		me.setIf("v_a_v", ps.getString("v_a_v"));
+		me.setIf("is_warn", ps.getString("is_warn"));
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
@@ -55,6 +60,11 @@ public class MetricService extends BaseService {
 		me.setIf("status", ps.getString("status"));
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("chartdatatype", ps.getString("chartdatatype"));
+		me.setIf("data_interval", ps.getString("data_interval"));
+		me.setIf("v_a", ps.getString("v_a"));
+		me.setIf("v_a_m", ps.getString("v_a_m"));
+		me.setIf("v_a_v", ps.getString("v_a_v"));
+		me.setIf("is_warn", ps.getString("is_warn"));
 		me.where().and("id=?", ps.getString("id", ""));
 		db.execute(me);
 		return R.SUCCESS_OPER();
