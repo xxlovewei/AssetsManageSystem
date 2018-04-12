@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.stereotype.Service;
+
+import com.dt.core.dao.sql.Delete;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
 import com.alibaba.fastjson.JSONObject;
@@ -31,8 +33,8 @@ public class WarnService extends BaseService {
 	}
 
 	String wdatasql = " select t.*, (select ip from om_node where id=t.node_id) ip,(select name from mn_mapping_text where id=t.service_id) service_name, "
-			+ " (select name from om_node where id=t.node_id) node_name   "
-			+ "  from mn_metric_warn_rec t  where is_delete='N'  ";
+			+ " (select name from om_node where id=t.node_id) node_name "
+			+ "  from mn_metric_warn_rec t where is_delete='N' ";
 
 	/* 坚持有需要service,node,metric和度量检测信息 */
 	public String basesql = " select ta.* from (                                                                        "
@@ -70,6 +72,17 @@ public class WarnService extends BaseService {
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 
+	public R deleteWarnData(String id) {
+		if (ToolUtil.isEmpty(id)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		} else {
+			Delete me = new Delete("mn_metric_warn_rec");
+			me.where().and("id=?", id);
+			db.execute(me);
+			return R.SUCCESS_OPER();
+		}
+	}
+
 	public boolean queryWarnMetric() {
 		HashMap<String, JSONObject> map = new HashMap<String, JSONObject>();
 		RcdSet metricsrs = queryNeedWarnMetrics();
@@ -103,7 +116,6 @@ public class WarnService extends BaseService {
 				ex.printStackTrace();
 				// transaction.Rollback();//回滚
 			}
-
 		}
 
 		List<SQL> sqls = new ArrayList<SQL>();
@@ -134,6 +146,5 @@ public class WarnService extends BaseService {
 			return true;
 		}
 		return false;
-
 	}
 }

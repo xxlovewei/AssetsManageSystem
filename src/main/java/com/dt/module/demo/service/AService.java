@@ -16,7 +16,6 @@ import com.dt.core.common.base.R;
 public class AService extends BaseService {
 
 	public R tt() {
-
 		return R.FAILURE_OPER();
 	}
 

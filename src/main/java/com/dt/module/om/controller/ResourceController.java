@@ -46,4 +46,11 @@ public class ResourceController extends BaseController {
 		return warnService.queryWarnDataForDashboard(day);
 	}
 
+	@RequestMapping("/mn/deleteWarnData.do")
+	@ResponseBody
+	@Acl(info = "删除告警处理的数据", value = Acl.ACL_ALLOW)
+	public R deleteWarnData(String id) {
+		return warnService.deleteWarnData(id);
+	}
+
 }
