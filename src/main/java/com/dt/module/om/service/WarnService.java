@@ -137,6 +137,7 @@ public class WarnService extends BaseService {
 					me.setSE("createtime", DbUtil.getDbDateString(db.getDBType()));
 					me.set("is_delete", "N");
 					me.set("is_process", "N");
+					me.set("wtype", "mn_node");
 					sqls.add(me);
 				}
 			}
