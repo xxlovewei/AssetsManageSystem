@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.dt.core.dao.sql.Delete;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
+import com.dt.core.dao.sql.Update;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
@@ -76,7 +77,8 @@ public class WarnService extends BaseService {
 		if (ToolUtil.isEmpty(id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		} else {
-			Delete me = new Delete("mn_metric_warn_rec");
+			Update me = new Update("mn_metric_warn_rec");
+			me.set("is_delete", "Y");
 			me.where().and("id=?", id);
 			db.execute(me);
 			return R.SUCCESS_OPER();
