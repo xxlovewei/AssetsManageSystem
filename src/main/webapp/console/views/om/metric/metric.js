@@ -9,20 +9,29 @@ function prepend(arr, item) {
 function metricAddFormCtl($localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, id, $http, $rootScope) {
 
-	$scope.chartdataOpt = [ {
-		id : "direct",
-		name : "直接"
-	}, {
-		id : "indata",
-		name : "数据中"
-	} ];
+	$scope.chartdataOpt = [{
+				id : "direct",
+				name : "直接"
+			}, {
+				id : "indata",
+				name : "数据中"
+			}];
+
+	$scope.warnOpt = [{
+				id : "Y",
+				name : "是"
+			}, {
+				id : "N",
+				name : "否"
+			}];
+	$scope.warnSel = $scope.warnOpt[0];
 	$scope.chartdataSel = $scope.chartdataOpt[0];
 	$scope.item = {};
 
 	if (angular.isDefined(id)) {
 		$http.post($rootScope.project + "/api/mn/queryMetricById.do", {
-			id : id
-		}).success(function(res) {
+					id : id
+				}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data;
 				if (res.data.chartdatatype == "direct") {
@@ -31,16 +40,23 @@ function metricAddFormCtl($localStorage, notify, $log, $uibModal,
 					$scope.chartdataSel = $scope.chartdataOpt[1];
 				}
 
+				if (angular.isDefined(res.data.is_warn)
+						&& res.data.is_warn == "Y") {
+					$scope.warnSel = $scope.warnOpt[0];
+				} else {
+					$scope.warnSel = $scope.warnOpt[1];
+				}
 			} else {
 				notify({
-					message : res.message
-				});
+							message : res.message
+						});
 			}
 
 		})
 
 	}
 	$scope.sure = function() {
+		$scope.item.is_warn = $scope.warnSel.id;
 		$scope.item.status = 'Y';
 		$scope.item.ds = "tab";
 		$scope.item.showtype = "chart";
@@ -48,13 +64,13 @@ function metricAddFormCtl($localStorage, notify, $log, $uibModal,
 
 		$http.post($rootScope.project + "/api/mn/saveMetric.do", $scope.item)
 				.success(function(res) {
-					if (res.success) {
-						$uibModalInstance.close("OK");
-					}
-					notify({
-						message : res.message
-					});
-				})
+							if (res.success) {
+								$uibModalInstance.close("OK");
+							}
+							notify({
+										message : res.message
+									});
+						})
 
 	}
 	$scope.cancel = function() {
@@ -66,17 +82,18 @@ function metricAddFormCtl($localStorage, notify, $log, $uibModal,
 function metricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
-			'full_numbers').withDisplayLength(25).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", false)
-			.withOption("paging", false).withOption('bStateSave', true)
-			.withOption('bProcessing', true).withOption('bFilter', false)
-			.withOption('bInfo', false).withOption('serverSide', false)
-			.withOption('bAutoWidth', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise()
+			.withPaginationType('full_numbers').withDisplayLength(25)
+			.withOption("ordering", false).withOption("responsive", true)
+			.withOption("searching", false).withOption("paging", false)
+			.withOption('bStateSave', true).withOption('bProcessing', true)
+			.withOption('bFilter', false).withOption('bInfo', false)
+			.withOption('serverSide', false).withOption('bAutoWidth', false)
+			.withOption('aaData', $scope.tabdata).withOption('createdRow',
+					function(row) {
+						// Recompiling so we can bind Angular,directive to the
+						$compile(angular.element(row).contents())($scope);
+					}).withLanguage(DTLang);
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -95,6 +112,24 @@ function metricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 		return res;
 	}
+	function warnAction(data, type, full) {
+		var res = "未知";
+		if (full.status == "Y") {
+			res = "是";
+		} else {
+			res = "否";
+		}
+		return res;
+	}
+	function warnctAction(data, type, full) {
+		var v_a = full.v_a;
+		var v_a_m = full.v_a_m;
+		var v_a_v = full.v_a_v;
+
+		var html = v_a + v_a_m + v_a_v;
+
+		return html;
+	}
 
 	$scope.dtColumns = [
 
@@ -102,10 +137,14 @@ function metricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('cols').withTitle('字段').withOption(
 					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('is_warn').withTitle('是否告警').withOption(
+					'sDefaultContent', '').renderWith(warnAction),
+			DTColumnBuilder.newColumn('id').withTitle('告警内容').withOption(
+					'sDefaultContent', '').renderWith(warnctAction),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
-					'sDefaultContent', '').renderWith(renderAction) ]
+					'sDefaultContent', '').renderWith(renderAction)]
 
 	function flush() {
 
@@ -115,8 +154,8 @@ function metricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 						$scope.dtOptions.aaData = res.data;
 					} else {
 						notify({
-							message : res.message
-						});
+									message : res.message
+								});
 					}
 				})
 	}
@@ -128,20 +167,20 @@ function metricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.row_del = function(id) {
 		$confirm({
-			text : '是否删除？'
-		}).then(function() {
-			$http.post($rootScope.project + "/api/mn/delMetric.do", {
-				id : id
-			}).success(function(res) {
-				if (res.success) {
-					flush();
-				} else {
-					notify({
-						message : res.message
-					});
-				}
-			})
-		});
+					text : '是否删除？'
+				}).then(function() {
+					$http.post($rootScope.project + "/api/mn/delMetric.do", {
+								id : id
+							}).success(function(res) {
+								if (res.success) {
+									flush();
+								} else {
+									notify({
+												message : res.message
+											});
+								}
+							})
+				});
 
 	}
 
@@ -151,26 +190,26 @@ function metricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.save = function(id) {
 
 		var modalInstance = $uibModal.open({
-			backdrop : true,
-			templateUrl : 'views/om/metric/modal_metric_save.html',
-			controller : metricAddFormCtl,
-			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
-				id : function() {
-					return id;
-				}
-			}
-		});
+					backdrop : true,
+					templateUrl : 'views/om/metric/modal_metric_save.html',
+					controller : metricAddFormCtl,
+					size : 'lg',
+					resolve : { // 调用控制器与modal控制器中传递值
+						id : function() {
+							return id;
+						}
+					}
+				});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
-			if (result == "OK") {
-				flush();
-			}
-		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-			$log.log("reason", reason)
-		});
+					$log.log("result", result);
+					if (result == "OK") {
+						flush();
+					}
+				}, function(reason) {
+					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+					$log.log("reason", reason)
+				});
 	}
 
 };

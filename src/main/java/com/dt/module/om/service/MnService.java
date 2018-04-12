@@ -41,9 +41,10 @@ public class MnService extends BaseService {
 	}
 
 	public R queryMnServiceNodes(String id) {
-		return R.SUCCESS_OPER(db.query(
-				"select b.id service_id,b.status showstatus,a.* from om_node a,mn_service b where a.id=b.node_id and a.deleted='N' and b.id=?",
-				id).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db
+				.query("select b.id service_id,b.status showstatus,a.* from om_node a,mn_service b where a.id=b.node_id and a.deleted='N' and b.id=?",
+						id)
+				.toJsonArrayWithJsonObject());
 
 	}
 
@@ -135,13 +136,15 @@ public class MnService extends BaseService {
 
 	public R queryServiceNodeMetric(String ser_id, String node_id) {
 		String sql = " select '" + ser_id + "' service_id, '" + node_id
-				+ "' node_id,ta.*,decode(tb.data_interval,null,ta.data_interval,tb.data_interval) di, "
+				+ "' node_id,ta.*,decode(tb.data_interval,null,ta.data_interval,tb.data_interval) di,"
+				+ " decode(tb.v_a_v,null,ta.v_a_v,tb.v_a_v) node_v_a_v ,"
 				+ " decode(tb.is_show,null,'Y',tb.is_show) is_show  "
 				+ " from ( select b.*,'templ' mtype from mn_metric_group a,mn_metric_define b,om_node c where a.metric_id=b.id "
 				+ " and c.templid=a.id and c.id=? and b.is_delete='N' " + "  ) ta  " + " left join(  "
 				+ " select b.* from mn_service a,mn_service_node_metric b where a.id=b.service_id  "
 				+ " and a.node_id=b.node_id and a.is_delete='N'  " + " and a.id=? and a.node_id=? " + " )tb  "
 				+ " on ta.id=tb.metric_id  ";
+		System.out.println(sql);
 		return R.SUCCESS_OPER(db.query(sql, node_id, ser_id, node_id).toJsonArrayWithJsonObject());
 	}
 
@@ -176,6 +179,7 @@ public class MnService extends BaseService {
 		String is_show = ps.getString("is_show");
 		String mtype = ps.getString("mtype");
 		String di = ps.getString("di");
+		String v_a_v = ps.getString("v_a_v");
 		int dv = ToolUtil.toInt(di, 3);
 		if (ToolUtil.isOneEmpty(service_id, node_id, metric_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -191,6 +195,7 @@ public class MnService extends BaseService {
 			me.set("metric_id", metric_id);
 			me.setIf("is_show", is_show);
 			me.setIf("mtype", mtype);
+			me.setIf("v_a_v", v_a_v);
 			me.set("data_interval", dv);
 			db.execute(me);
 		} else if (rs.size() >= 2) {
@@ -204,12 +209,14 @@ public class MnService extends BaseService {
 			me.setIf("is_show", is_show);
 			me.setIf("mtype", mtype);
 			me.set("data_interval", dv);
+			me.setIf("v_a_v", v_a_v);
 			db.executes(dl, me);
 		} else {
 			Update me = new Update("mn_service_node_metric");
 			me.setIf("is_show", is_show);
 			me.setIf("mtype", mtype);
 			me.set("data_interval", dv);
+			me.setIf("v_a_v", v_a_v);
 			me.where().and("id=?", rs.getRcd(0).getString("id"));
 			db.execute(me);
 		}

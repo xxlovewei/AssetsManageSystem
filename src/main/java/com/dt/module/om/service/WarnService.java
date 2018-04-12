@@ -54,7 +54,7 @@ public class WarnService extends BaseService {
 			+ " and v_a_v is not null and v_a is not null                                                 ";
 
 	public RcdSet queryNeedWarnMetrics() {
-		String sql = "select  distinct metric_id from (" + basesql + ") ";
+		String sql = "select  distinct metric_id from (" + basesql + ") where is_warn='Y' ";
 		return db.query(sql);
 	}
 
@@ -76,7 +76,7 @@ public class WarnService extends BaseService {
 					+ " select tb.node||to_char(tb.inserttime,'yyyy-mm-dd hh:mi:ss')||ta.v_a_v||metric_id uuid,ta.*,"
 					+ " tb." + col + " value,to_char(tb.inserttime,'yyyy-mm-dd hh:mi:ss') itime from tab ta," + tab
 					+ " tb  where metric_id=? and ta.node_id=tb.node  " + " and tb." + col + oper
-					+ "ta.v_a_v and inserttime>sysdate-0.1 ";
+					+ "ta.v_a_v and inserttime>sysdate-1/6";
 			System.out.println("wsql\n+" + wsql);
 			try {
 				RcdSet wdata = db.query(wsql, mid);

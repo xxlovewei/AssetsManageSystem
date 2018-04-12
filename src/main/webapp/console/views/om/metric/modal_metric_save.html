@@ -88,6 +88,38 @@
 									class="form-control"></textarea>
 							</div>
 						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span
+								class="text-danger">*</span>是否告警:</label>
+							<div class="col-sm-10">
+								<select width=100 chosen disable-search="true"
+									class="chosen-select" no-results-text="'没有找到相应条目'"
+									ng-model="warnSel" data-placeholder-text-single="'请选择...'"
+									ng-options="item.name for item in warnOpt">
+									<option value=""></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">告警字段:</label>
+							<div class="col-sm-10">
+								<input ng-model="item.v_a" type="text" class="form-control"></input>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">操作:</label>
+							<div class="col-sm-10">
+								<input ng-model="item.v_a_m" type="text" class="form-control"></input>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">阀值:</label>
+							<div class="col-sm-10">
+								<input ng-model="item.v_a_v" type="text" class="form-control"></input>
+							</div>
+						</div>
+
 					</form>
 				</div>
 			</div>
