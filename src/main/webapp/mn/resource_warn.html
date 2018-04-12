@@ -41,6 +41,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 				<th>度量</th>
 				<th>阀值</th>
 				<th>当前</th>
+				<th>日期</th>
 				<th>动作</th>
 			</tr>
 		</thead>
@@ -69,6 +70,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 						htmlfill = htmlfill + "<td>"+mdata[i].v_a_v+"</td>";
 						htmlfill = htmlfill + "<td>"+mdata[i].value+"</td>";
 						htmlfill = htmlfill + "<td> <button onclick=\"delMetric('"+mdata[i].id+"')\" style =\"margin-left:5px;\" type=\"button\" class=\"btn btn-default btn-xs\">删除</button></td>";
+						htmlfill = htmlfill + "<td>"+mdata[i].inserttime+"</td>";
 						htmlfill = htmlfill + "</tr>";
 					}
 					$("#mdata").html(htmlfill);	

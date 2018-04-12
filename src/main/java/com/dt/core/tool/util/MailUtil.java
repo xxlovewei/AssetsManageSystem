@@ -45,7 +45,6 @@ public class MailUtil {
 		email.subject("我的主题我做主");
 		email.addHtml("<html><META http-equiv=Content-Type content=\"text/html; charset=utf-8\">"
 				+ "<body><h1>你好v</h1></body></html>");
-
 		@SuppressWarnings("rawtypes")
 		SmtpServer smtpServer = SmtpServer.create("smtp.yeah.net", 25)
 				.authenticateWith("ygrdba007@yeah.net", "007ygrdba").timeout(100000);

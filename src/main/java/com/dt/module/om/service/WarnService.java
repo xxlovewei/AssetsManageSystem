@@ -3,6 +3,11 @@ package com.dt.module.om.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
@@ -18,6 +23,10 @@ import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 
+import jodd.mail.Email;
+import jodd.mail.SendMailSession;
+import jodd.mail.SmtpServer;
+
 /**
  * @author: jinjie
  * @date: 2018年4月11日 上午11:40:52
@@ -25,7 +34,26 @@ import com.dt.core.tool.util.ToolUtil;
  */
 
 @Service
+@Configuration
+@PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
 public class WarnService extends BaseService {
+
+	@Value("${mail.from}")
+	private String mailfrom;
+
+	@Value("${mail.user}")
+	private String mailuser;
+
+	@Value("${mail.pwd}")
+	private String mailpwd;
+
+	@Value("${mail.smtp}")
+	private String mailsmtp;
+
+	@Value("${mail.port}")
+	private String mailport;
+
+	private static Logger _log = LoggerFactory.getLogger(WarnService.class);
 
 	public static WarnService me() {
 		return SpringContextUtil.getBean(WarnService.class);
@@ -145,8 +173,51 @@ public class WarnService extends BaseService {
 		}
 		if (sqls.size() > 0) {
 			db.executeSQLList(sqls);
+
+			// 检查要发邮件的内容
+			if (ToolUtil.isOneEmpty(mailuser, mailpwd, mailsmtp, mailport)) {
+				_log.info("邮件无法发送，请检测配置");
+				return true;
+			}
+			List<SQL> psqls = new ArrayList<SQL>();
+			String mailsql = "select * from (" + wdatasql + ") where is_process='N' and is_delete='N' ";
+			RcdSet rs = db.query(mailsql);
+			String htmlfill = "<table  border=\"1\"><thead><tr><th>服务</th><th>节点</th><th>度量</th><th>阀值</th><th>当前</th><th>日期</th></tr></thead><tbody>";
+			for (int i = 0; i < rs.size(); i++) {
+				Update ups = new Update("mn_metric_warn_rec");
+				ups.set("is_process", "Y");
+				ups.where().and("id=?", rs.getRcd(i).getString("id"));
+				psqls.add(ups);
+				htmlfill = htmlfill + "<tr>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("service_name") + "</td>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("node_name") + "</td>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("metric_name") + "</td>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("v_a_v") + "</td>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("value") + "</td>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("inserttime") + "</td>";
+				htmlfill = htmlfill + "</tr>";
+			}
+			htmlfill = htmlfill + "</tbody></table>";
+			System.out.println(htmlfill);
+			Email email = Email.create();
+			email.from(mailfrom).to("792014416@qq.com");
+			email.subject("来自Mn");
+			email.addHtml("<html><META http-equiv=Content-Type content=\"text/html; charset=utf-8\">" + "<body>"
+					+ htmlfill + "</body></html>");
+			@SuppressWarnings("rawtypes")
+			SmtpServer smtpServer = SmtpServer.create(mailsmtp, ToolUtil.toInt(mailport, 25))
+					.authenticateWith(mailuser, mailpwd).timeout(100000);
+			SendMailSession session = smtpServer.createSession();
+			session.open();
+			session.sendMail(email);
+			session.close();
+			// 发邮件
+			_log.info("Mn度量检查完毕,邮件无法成功");
+			db.executeSQLList(psqls);
 			return true;
+
 		}
+
 		return false;
 	}
 }
