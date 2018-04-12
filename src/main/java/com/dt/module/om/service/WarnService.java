@@ -97,6 +97,8 @@ public class WarnService extends BaseService {
 			String oper = MetricService.checkOper(minfo.getString("vam"));
 			String tab = minfo.getString("ds_value");
 			String col = minfo.getString("v_a");
+
+			// 相同节点,相同时间,相同度量相同阀值只告警一次
 			String wsql = "with tab as( " + basesql + " )  "
 					+ " select tb.node||to_char(tb.inserttime,'yyyy-mm-dd hh:mi:ss')||ta.v_a_v||metric_id uuid,ta.*,"
 					+ " tb." + col + " value,to_char(tb.inserttime,'yyyy-mm-dd hh:mi:ss') itime from tab ta," + tab
@@ -114,7 +116,6 @@ public class WarnService extends BaseService {
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				// transaction.Rollback();//回滚
 			}
 		}
 

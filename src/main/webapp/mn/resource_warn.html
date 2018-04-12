@@ -14,20 +14,85 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 <link rel="stylesheet" href="./js/bootstrap_3.3.5/css/bootstrap.css">
 <script src="./js/jquery_1.11/jquery-1.11.3.min.js"></script>
 <script src="./js/bootstrap_3.3.5/js/bootstrap.js"></script>
-<!-- select  -->
-<link
-	href="./js/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css"
-	rel="stylesheet">
-<script
-	src="./js/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
 <!-- md5  -->
 <script type="text/ecmascript" src="./js/md5/md5.js"></script>
 <!-- alert  -->
-<!-- <link href="./js/queryconfirm/jquery-confirm.min.css" rel="stylesheet">
-<script src="./js/jqueryconfirm/jquery-confirm.min.js"></script> -->
 <link href="./js/select/select.css" rel="stylesheet">
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="../console/js/bootstrap_table/bootstrap-table.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="../console/js/bootstrap_table/bootstrap-table.min.js"></script>
+
+<!-- Latest compiled and minified Locales -->
+<script
+	src="../console/js/bootstrap_table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+
 </head>
 <body>
-
+	<table data-toggle="table">
+		<thead>
+			<tr>
+				<th>服务</th>
+				<th>节点</th>
+				<th>度量</th>
+				<th>阀值</th>
+				<th>当前</th>
+				<th>动作</th>
+			</tr>
+		</thead>
+		<tbody id="mdata">
+		</tbody>
+	</table>
+	<script>
+		var project = "/dt";
+		function fdata(){
+			$.ajax({
+				type : "POST",
+				url : project + "/api/mn/queryWarnDataForDashboard.do",
+				data : {
+					day : 15
+				},
+				dataType : 'json',
+				success : function(res) {
+					var mdata = res.data;
+					console.log(mdata);
+					var htmlfill = "";
+					for (var i = 0; i < mdata.length; i++) {
+						htmlfill = htmlfill + "<tr>";
+						htmlfill = htmlfill + "<td>"+mdata[i].service_name+"</td>";
+						htmlfill = htmlfill + "<td>"+mdata[i].node_name+"</td>";
+						htmlfill = htmlfill + "<td>"+mdata[i].metric_name+"</td>";
+						htmlfill = htmlfill + "<td>"+mdata[i].v_a_v+"</td>";
+						htmlfill = htmlfill + "<td>"+mdata[i].value+"</td>";
+						htmlfill = htmlfill + "<td> <button onclick=\"delMetric('"+mdata[i].id+"')\" style =\"margin-left:5px;\" type=\"button\" class=\"btn btn-default btn-xs\">删除</button></td>";
+						htmlfill = htmlfill + "</tr>";
+					}
+					$("#mdata").html(htmlfill);	
+				}
+			});
+		}
+		fdata();
+		
+		function delMetric(id){
+			console.log("del:"+id);
+			$.ajax({
+				type : "POST",
+				url : project + "/api/mn/deleteWarnData.do",
+				data : {
+					id : id
+				},
+				dataType : 'json',
+				success : function(res) {
+				 	if(res.success){
+				 		fdata();
+				 	}
+				}
+			});
+		}
+	</script>
 </body>
 </html>
