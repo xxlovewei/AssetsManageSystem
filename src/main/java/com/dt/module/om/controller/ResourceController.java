@@ -9,6 +9,7 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.module.om.service.ResourceService;
+import com.dt.module.om.service.WarnService;
 
 /**
  * @author: algernonking
@@ -18,6 +19,9 @@ import com.dt.module.om.service.ResourceService;
 @Controller
 @RequestMapping("/api")
 public class ResourceController extends BaseController {
+	@Autowired
+	WarnService warnService;
+
 	@Autowired
 	ResourceService resourceService;
 
@@ -33,6 +37,13 @@ public class ResourceController extends BaseController {
 	@Acl(info = "查询资源Metric数据", value = Acl.ACL_ALLOW)
 	public R queryResourceByMetric(String node_id, String metric_id, String data_interval) {
 		return resourceService.queryResourceByMetric(node_id, metric_id, data_interval);
+	}
+
+	@RequestMapping("/mn/queryWarnDataForDashboard.do")
+	@ResponseBody
+	@Acl(info = "查询告警处理的数据", value = Acl.ACL_ALLOW)
+	public R queryWarnDataForDashboard(String day) {
+		return warnService.queryWarnDataForDashboard(day);
 	}
 
 }

@@ -114,7 +114,7 @@ function metricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	function warnAction(data, type, full) {
 		var res = "未知";
-		if (full.status == "Y") {
+		if (full.is_warn == "Y") {
 			res = "是";
 		} else {
 			res = "否";

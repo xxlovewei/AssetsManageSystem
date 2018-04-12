@@ -128,18 +128,10 @@ function mnservicenodemetricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 		return res;
 	}
 
-	function renderStatus(data, type, full) {
-		var res = "未知";
-		if (full.status == "Y") {
-			res = "显示";
-		} else {
-			res = "隐藏";
-		}
-		return res;
-	}
+ 
 	function warnAction(data, type, full) {
 		var res = "未知";
-		if (full.status == "Y") {
+		if (full.is_warn == "Y") {
 			res = "是";
 		} else {
 			res = "否";

@@ -8,12 +8,14 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
+import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
+import com.dt.core.tool.util.ToolUtil;
 
 /**
  * @author: jinjie
@@ -27,6 +29,10 @@ public class WarnService extends BaseService {
 	public static WarnService me() {
 		return SpringContextUtil.getBean(WarnService.class);
 	}
+
+	String wdatasql = " select t.*, (select ip from om_node where id=t.node_id) ip,(select name from mn_mapping_text where id=t.service_id) service_name, "
+			+ " (select name from om_node where id=t.node_id) node_name   "
+			+ "  from mn_metric_warn_rec t  where is_delete='N'  ";
 
 	/* 坚持有需要service,node,metric和度量检测信息 */
 	public String basesql = " select ta.* from (                                                                        "
@@ -54,8 +60,14 @@ public class WarnService extends BaseService {
 			+ " and v_a_v is not null and v_a is not null                                                 ";
 
 	public RcdSet queryNeedWarnMetrics() {
-		String sql = "select  distinct metric_id from (" + basesql + ") where is_warn='Y' ";
+		String sql = "select distinct metric_id from (" + basesql + ") where is_warn='Y' ";
 		return db.query(sql);
+	}
+
+	public R queryWarnDataForDashboard(String day) {
+		// int d=ToolUtil.toInt(day,7);
+		RcdSet rs = db.query(wdatasql);
+		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 
 	public boolean queryWarnMetric() {
