@@ -30,7 +30,8 @@ public class DtWebSessionManager extends DefaultWebSessionManager {
 		// 其实这里还可以使用如下参数：cookie中的session名称：如：JSESSIONID=xxx,路径中的
 		// ;JESSIONID=xxx，但建议还是使用
 		// __sid参数。
-		String sid = request.getParameter("_token");
+		String sid = ToolUtil.isEmpty(request.getParameter("_token")) == true ? request.getParameter("token")
+				: request.getParameter("_token");
 		if (ToolUtil.isNotEmpty(sid)) {
 			// __cookie 将__cookie
 			// DT_SESSIONID=faf0264d-0661-40be-9978-ff69314a2985 写入到浏览器中

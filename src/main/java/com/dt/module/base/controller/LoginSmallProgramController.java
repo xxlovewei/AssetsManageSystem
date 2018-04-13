@@ -55,13 +55,15 @@ public class LoginSmallProgramController extends BaseController {
 		map.put("secret", "3f7660b289e8aa7ca1dce78cc19cc288");
 		String str = HttpKit.sendGet(url, map);
 		JSONObject strobj = JSONObject.parseObject(str);
+		System.out.println(strobj.toJSONString());
 		// 判断是否获取open_id
 		String openId = strobj.getString("openid");
 		if (ToolUtil.isEmpty(openId)) {
 			return R.FAILURE(BaseCodeMsgEnum.WX_FAILED_GET_OPENID.getMessage(),
 					BaseCodeMsgEnum.WX_FAILED_GET_OPENID.getCode(), null);
 		}
-		return R.FAILURE(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getMessage(), strobj);
+		return R.SUCCESS(BaseCodeMsgEnum.SUCCESS_DEF_MSG.getMessage(), strobj);
+
 	}
 
 	@RequestMapping(value = "/smallprogram/login.do")
