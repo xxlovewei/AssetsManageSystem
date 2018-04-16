@@ -22,7 +22,6 @@ import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
-
 import jodd.mail.Email;
 import jodd.mail.SendMailSession;
 import jodd.mail.SmtpServer;
@@ -173,15 +172,17 @@ public class WarnService extends BaseService {
 		}
 		if (sqls.size() > 0) {
 			db.executeSQLList(sqls);
+		}
 
-			// 检查要发邮件的内容
-			if (ToolUtil.isOneEmpty(mailuser, mailpwd, mailsmtp, mailport)) {
-				_log.info("邮件无法发送，请检测配置");
-				return true;
-			}
-			List<SQL> psqls = new ArrayList<SQL>();
-			String mailsql = "select * from (" + wdatasql + ") where is_process='N' and is_delete='N' ";
-			RcdSet rs = db.query(mailsql);
+		// 检查要发邮件的内容
+		if (ToolUtil.isOneEmpty(mailfrom, mailuser, mailpwd, mailsmtp, mailport)) {
+			_log.info("邮件无法发送，请检测配置");
+			return true;
+		}
+		List<SQL> psqls = new ArrayList<SQL>();
+		String mailsql = "select * from (" + wdatasql + ") where is_process='N' and is_delete='N' ";
+		RcdSet rs = db.query(mailsql);
+		if (rs.size() > 0) {
 			String htmlfill = "<table  border=\"1\"><thead><tr><th>节点</th><th>度量</th><th>阀值</th><th>当前</th><th>日期</th></tr></thead><tbody>";
 			for (int i = 0; i < rs.size(); i++) {
 				Update ups = new Update("mn_metric_warn_rec");
@@ -206,7 +207,7 @@ public class WarnService extends BaseService {
 			htmlfill = htmlfill + "</tbody></table>";
 			Email email = Email.create();
 			email.from(mailfrom).to("792014416@qq.com");
-			email.subject("来自Mn");
+			email.subject("来自度量数据");
 			email.addHtml("<html><meta http-equiv=Content-Type content=\"text/html; charset=utf-8\">" + "<body>"
 					+ htmlfill + "</body></html>");
 			@SuppressWarnings("rawtypes")
@@ -220,9 +221,7 @@ public class WarnService extends BaseService {
 			_log.info("Mn度量检查完毕,邮件无法成功");
 			db.executeSQLList(psqls);
 			return true;
-
 		}
-
 		return false;
 	}
 }
