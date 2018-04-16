@@ -1,6 +1,7 @@
 package com.dt.module.base.service;
 
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
  * @date: 2018年4月16日 下午4:56:00
  * @Description: TODO
  */
-@Service
+@Component
 public class AgentService {
 	@Scheduled(fixedRate = 1000 * 2)
 	public void test() {
