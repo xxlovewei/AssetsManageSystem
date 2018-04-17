@@ -1,5 +1,6 @@
 package com.dt.module.base.service;
 
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -10,8 +11,9 @@ import org.springframework.stereotype.Service;
  * @Description: TODO
  */
 @Component
+@EnableScheduling 
 public class AgentService {
-	@Scheduled(fixedRate = 1000 * 2)
+	@Scheduled(cron="0/5 * *  * * ? ")
 	public void test() {
 		System.out.println("111");
 	}
