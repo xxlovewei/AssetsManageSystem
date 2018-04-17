@@ -1,30 +1,15 @@
 package com.dt.module.wx.msg.resp;
 
-/**
- * 音频消息 (请求消息)
- * 
- * @author NCX
- * 
- */
-public class VoiceMessage extends BaseMessage {
-	// 媒体ID
-	private String MediaId;
-	// 语音格式
-	private String Format;
+public class VoiceMessage extends BaseMessage{
 
-	public String getMediaId() {
-		return MediaId;
+	private Voice voice;
+
+	public Voice getVoice() {
+		return voice;
 	}
 
-	public void setMediaId(String mediaId) {
-		MediaId = mediaId;
+	public void setVoice(Voice voice) {
+		this.voice = voice;
 	}
-
-	public String getFormat() {
-		return Format;
-	}
-
-	public void setFormat(String format) {
-		Format = format;
-	}
+	
 }

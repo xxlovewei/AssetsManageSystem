@@ -2,19 +2,14 @@ package com.dt.module.wx.msg.resp;
 
 public class VideoMessage extends BaseMessage{
 
-	private String MediaId;
-	private String ThumbMediaId;
-	public String getMediaId() {
-		return MediaId;
+	private Video video;
+
+	public Video getVideo() {
+		return video;
 	}
-	public void setMediaId(String mediaId) {
-		MediaId = mediaId;
-	}
-	public String getThumbMediaId() {
-		return ThumbMediaId;
-	}
-	public void setThumbMediaId(String thumbMediaId) {
-		ThumbMediaId = thumbMediaId;
+
+	public void setVideo(Video video) {
+		this.video = video;
 	}
 	
 }

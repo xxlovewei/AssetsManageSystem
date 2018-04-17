@@ -1,20 +1,16 @@
 package com.dt.module.wx.msg.resp;
 
-/**
- * 图片消息 (请求消息)
- * 
- * @author NCX
- *
- */
-public class ImageMessage extends BaseMessage {
-	// 图片链接
-	private String PicUrl;
+public class ImageMessage extends BaseMessage{
 
-	public String getPicUrl() {
-		return PicUrl;
+	private Image Image;
+
+	public Image getImage() {
+		return Image;
 	}
 
-	public void setPicUrl(String picUrl) {
-		PicUrl = picUrl;
+	public void setImage(Image image) {
+		Image = image;
 	}
+	
+	
 }

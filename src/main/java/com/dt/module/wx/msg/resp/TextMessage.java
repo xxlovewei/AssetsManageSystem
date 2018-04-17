@@ -1,14 +1,14 @@
 package com.dt.module.wx.msg.resp;
 
 /**
- * 文本消息 (请求消息)
+ * 文本消息 (响应消息)
  * 
  * @author NCX
  * 
  */
 public class TextMessage extends BaseMessage {
 
-	// 消息内容
+	// 回复的消息内容
 	private String Content;
 
 	public String getContent() {
