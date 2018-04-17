@@ -182,8 +182,13 @@ public class WxService {
 		return strDigest;
 	}
 
-	public static boolean checkSignature(String signature, String timestamp, String nonce) {
-		String token = null;
+	public boolean checkSignature(String signature, String timestamp, String nonce) {
+		R tr = queryAccessToken();
+		if (tr.isFailed()) {
+			return false;
+		}
+		String token = tr.queryDataToJSONObject().getString("access_token");
+		System.out.println(token);
 		String[] arr = new String[] { token, timestamp, nonce };
 		// 将token、timestamp、nonce三个参数进行字典序排序
 		Arrays.sort(arr);
