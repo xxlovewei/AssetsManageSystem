@@ -1,4 +1,4 @@
-package com.dt.module.wx.service;
+package com.dt.module.wx.util;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
