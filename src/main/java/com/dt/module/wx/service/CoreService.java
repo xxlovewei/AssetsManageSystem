@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import com.dt.module.wx.msg.resp.Article;
 import com.dt.module.wx.msg.resp.NewsMessage;
 import com.dt.module.wx.msg.resp.TextMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -24,7 +23,6 @@ import com.dt.core.dao.RcdSet;
 import com.dt.module.wx.util.MessageUtil;
 
 /**
- * @author mahongjie
  * 
  */
 @Service
