@@ -10,16 +10,30 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import com.dt.module.wx.msg.resp.Article;
+import com.dt.module.wx.msg.resp.NewsMessage;
+import com.dt.module.wx.msg.resp.TextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import com.dt.core.common.base.BaseService;
+import com.dt.core.dao.Rcd;
+import com.dt.core.dao.RcdSet;
+import com.dt.module.wx.util.MessageUtil;
 
 /**
  * @author mahongjie
  * 
  */
 @Service
+@Configuration
+@PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
 public class CoreService extends BaseService {
+
+	@Value("${wx.weburl}")
+	public String weburl;
 
 	/**
 	 * 处理微信发来的请求
@@ -142,17 +156,17 @@ public class CoreService extends BaseService {
 
 	public String eventbykey(String key, String fromUserName, String toUserName) {
 
-		Record keyrcd = ydb.uniqueRecord("SELECT * FROM MAYOR_MP_KEY WHERE (KEYCODE = ? OR KEYNAME=?)", key, key);
+		Rcd keyrcd = db.uniqueRecord("SELECT * FROM MAYOR_MP_KEY WHERE (KEYCODE = ? OR KEYNAME=?)", key, key);
 
 		if ("6".equals(keyrcd.getString("KEYTYPE"))) {
 			// 为图文消息
-			Record grouprcd = ydb.uniqueRecord(
+			Rcd grouprcd = db.uniqueRecord(
 					"SELECT * FROM MAYOR_MP_IMAGE_GROUP WHERE ID IN (SELECT KEYVAULE FROM MAYOR_MP_KEY WHERE KEYCODE = ? OR KEYNAME=?)",
 					key, key);
 
 			System.out.println("VVVVVVVV" + grouprcd.getString("ID") + "VVVVVVVVV");
 
-			RecordSet set = ydb.query(
+			RcdSet set = db.query(
 					"SELECT t.*,mi.ORDERNUM FROM MAYOR_MP_IMAGE_TEXT t JOIN MAYOR_MP_IMAGE_GROUP_ITEMS mi ON t.ID = mi.IMAGEID WHERE GROUPID=? ORDER BY mi.ORDERNUM ASC",
 					grouprcd.getString("ID"));
 
@@ -166,12 +180,12 @@ public class CoreService extends BaseService {
 			List list = new ArrayList();
 			for (int i = 0; i < set.size(); i++) {
 				Article art = new Article();
-				art.setTitle(set.getRecord(i).getString("TITLE"));
-				art.setPicUrl(set.getRecord(i).getString("FILENAME").startsWith("http")
-						? set.getRecord(i).getString("FILENAME")
-						: WechatBean.weburl + "/viewImage.do?fn=" + set.getRecord(i).getString("FILENAME"));
-				art.setUrl(set.getRecord(i).getString("URL"));
-				art.setDescription(set.getRecord(i).getString("DESCRIPTION"));
+				art.setTitle(set.getRcd(i).getString("TITLE"));
+				art.setPicUrl(
+						set.getRcd(i).getString("FILENAME").startsWith("http") ? set.getRcd(i).getString("FILENAME")
+								: weburl + "/viewImage.do?fn=" + set.getRcd(i).getString("FILENAME"));
+				art.setUrl(set.getRcd(i).getString("URL"));
+				art.setDescription(set.getRcd(i).getString("DESCRIPTION"));
 				list.add(art);
 			}
 

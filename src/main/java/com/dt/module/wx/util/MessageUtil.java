@@ -21,6 +21,14 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 
+import com.dt.module.wx.msg.resp.Article;
+import com.dt.module.wx.msg.resp.ImageMessage;
+import com.dt.module.wx.msg.resp.MusicMessage;
+import com.dt.module.wx.msg.resp.NewsMessage;
+import com.dt.module.wx.msg.resp.TextMessage;
+import com.dt.module.wx.msg.resp.VideoMessage;
+import com.dt.module.wx.msg.resp.VoiceMessage;
+
 /**
  * 消息工具类
  * 
