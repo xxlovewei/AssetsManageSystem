@@ -224,7 +224,18 @@ public class WxService extends BaseService {
 		String token = trs.queryDataToJSONObject().getString("access_token");
 		String url = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=" + token;
 		JSONObject json = httpRequest(url, "GET", null);
-		System.out.println(json.toJSONString());
+		return R.SUCCESS_OPER(json);
+
+	}
+
+	public R queryUserInfo(String open_id) {
+		R trs = queryAccessToken();
+		if (trs.isFailed()) {
+			return R.FAILURE();
+		}
+		String token = trs.queryDataToJSONObject().getString("access_token");
+		String url = " https://api.weixin.qq.com/cgi-bin/user/info?access_token=" + token + "&openid=" + open_id;
+		JSONObject json = httpRequest(url, "GET", null);
 		return R.SUCCESS_OPER(json);
 
 	}

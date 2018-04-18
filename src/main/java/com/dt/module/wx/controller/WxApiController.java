@@ -87,4 +87,11 @@ public class WxApiController extends BaseController {
 	public R queryMenu() {
 		return wxService.queryMenu();
 	}
+
+	@ResponseBody
+	@Acl(info = "查询用户信息", value = Acl.ACL_ALLOW)
+	@RequestMapping(value = "/api/wx/queryUserInfo.do")
+	public R queryUserInfo(String open_id) {
+		return wxService.queryUserInfo(open_id);
+	}
 }
