@@ -10,10 +10,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+
 import com.dt.module.wx.pojo.UserInfo;
 import com.dt.module.wx.pojo.WeixinGroup;
 import com.dt.module.wx.pojo.WeixinMedia;
