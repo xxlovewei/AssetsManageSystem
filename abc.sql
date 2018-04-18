@@ -1,3 +1,4 @@
+Add directory entries jar导出引入其他项目到时候可以被扫描到
 <div style="width: 680px; height: 620px; margin-bottom: 10px">
 	<svg height="620px" version="1.1" width="680px"
 		xmlns="http://www.w3.org/2000/svg"
