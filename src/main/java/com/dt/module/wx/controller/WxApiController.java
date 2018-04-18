@@ -24,6 +24,7 @@ import com.dt.module.wx.service.WxService;
  * @Description: TODO
  */
 @Controller
+@RequestMapping("/api")
 public class WxApiController extends BaseController {
 
 	@Autowired
@@ -76,21 +77,21 @@ public class WxApiController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "创建菜单", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/api/wx/createMenu.do")
+	@RequestMapping(value = "/wx/createMenu.do")
 	public R createMenu() {
 		return wxService.createMenu();
 	}
 
 	@ResponseBody
 	@Acl(info = "查询菜单", value = Acl.ACL_ALLOW)
-	@RequestMapping(value = "/api/wx/queryMenu.do")
+	@RequestMapping(value = "/wx/queryMenu.do")
 	public R queryMenu() {
 		return wxService.queryMenu();
 	}
 
 	@ResponseBody
 	@Acl(info = "查询用户信息", value = Acl.ACL_ALLOW)
-	@RequestMapping(value = "/api/wx/queryUserInfo.do")
+	@RequestMapping(value = "/wx/queryUserInfo.do")
 	public R queryUserInfo(String open_id) {
 		return wxService.queryUserInfo(open_id);
 	}
