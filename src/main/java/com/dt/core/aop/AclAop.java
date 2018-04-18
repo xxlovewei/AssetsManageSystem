@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.BridgeMethodResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
@@ -38,7 +40,11 @@ import com.dt.module.db.DB;
  */
 @Aspect
 @Component
+@PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
 public class AclAop {
+
+	@Value("${app.recdb}")
+	private String apprecdb;
 
 	private static Logger _log = LoggerFactory.getLogger(AclAop.class);
 
@@ -110,22 +116,25 @@ public class AclAop {
 			info = acls.info();
 			aclpri = acls.value();
 		}
-		if (!url.endsWith("checkLogin.do")) {
-			Insert ins = new Insert("sys_log_access");
-			ins.set("id", db.getUUID());
-			ins.setIf("user_id", user_id);
-			ins.setIf("ip", ip);
-			ins.setIf("info", info);
-			ins.setIf("url", url);
-			ins.setIf("method_type", method_type);
-			ins.setSE("rtime", DbUtil.getDbDateString(db.getDBType()));
-			ins.setIf("postorget", queryString);
-			try {
-				db.execute(ins);
-			} catch (Exception e) {
-				_log.info("Can't insert access log." + url);
+		if (ToolUtil.isNotEmpty(apprecdb) && "true".equals(apprecdb.toLowerCase())) {
+			if (!url.endsWith("checkLogin.do")) {
+				Insert ins = new Insert("sys_log_access");
+				ins.set("id", db.getUUID());
+				ins.setIf("user_id", user_id);
+				ins.setIf("ip", ip);
+				ins.setIf("info", info);
+				ins.setIf("url", url);
+				ins.setIf("method_type", method_type);
+				ins.setSE("rtime", DbUtil.getDbDateString(db.getDBType()));
+				ins.setIf("postorget", queryString);
+				try {
+					db.execute(ins);
+				} catch (Exception e) {
+					_log.info("Can't insert access log." + url);
+				}
 			}
 		}
+
 		_log.info("userId:" + user_id + ",url:" + url + ",isAuth=" + is_auth + ",isRemember:" + is_remember + ",aclpri:"
 				+ aclpri);
 		return joinPoint.proceed();
