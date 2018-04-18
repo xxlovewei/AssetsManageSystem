@@ -125,13 +125,12 @@ public class WarnService extends BaseService {
 			String tab = minfo.getString("ds_value");
 			String col = minfo.getString("v_a");
 
-			// 相同节点,相同时间,相同度量相同阀值只告警一次
+			// 相同节点,相同时间,相同度量相同阀值只告警一次,4小时内的数据
 			String wsql = "with tab as( " + basesql + " )  "
 					+ " select tb.node||to_char(tb.inserttime,'yyyy-mm-dd hh:mi:ss')||ta.v_a_v||metric_id uuid,ta.*,"
 					+ " tb." + col + " value,to_char(tb.inserttime,'yyyy-mm-dd hh:mi:ss') itime from tab ta," + tab
 					+ " tb  where metric_id=? and ta.node_id=tb.node  " + " and tb." + col + oper
 					+ "ta.v_a_v and inserttime>sysdate-1/6";
-			System.out.println("wsql\n+" + wsql);
 			try {
 				RcdSet wdata = db.query(wsql, mid);
 				if (wdata.size() > 0) {

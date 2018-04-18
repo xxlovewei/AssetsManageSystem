@@ -26,7 +26,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.Rcd;
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.wx.util.WeiXX509TrustManager;
 
 /**
@@ -37,7 +40,7 @@ import com.dt.module.wx.util.WeiXX509TrustManager;
 @Service
 @Configuration
 @PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
-public class WxService {
+public class WxService extends BaseService {
 
 	@Value("${wx.appId}")
 	public String appIdconf;
@@ -211,6 +214,41 @@ public class WxService {
 		content = null;
 		// 将sha1加密后的字符串可与signature对比，标识该请求来源于微信
 		return tmpStr != null ? tmpStr.equals(signature.toUpperCase()) : false;
+	}
+
+	public R queryMenu() {
+		R trs = queryAccessToken();
+		if (trs.isFailed()) {
+			return R.FAILURE();
+		}
+		String token = trs.queryDataToJSONObject().getString("access_token");
+		String url = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=" + token;
+		JSONObject json = httpRequest(url, "GET", null);
+		System.out.println(json.toJSONString());
+		return R.SUCCESS_OPER(json);
+
+	}
+
+	public R createMenu() {
+		Rcd rs = db.uniqueRecord("select * from wx_menu where id=?", appIdconf);
+		String menu = rs.getString("name");
+		if (ToolUtil.isEmpty(menu)) {
+			return R.FAILURE_NO_DATA();
+		}
+
+		JSONObject mobj = JSONObject.parseObject(menu);
+		if (ToolUtil.isEmpty(mobj)) {
+			return R.FAILURE_NO_DATA();
+		}
+		R trs = queryAccessToken();
+		if (trs.isFailed()) {
+			return R.FAILURE();
+		}
+		String token = trs.queryDataToJSONObject().getString("access_token");
+		String url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + token;
+		_log.info("to create menu,url:" + url + ",body:" + menu);
+		JSONObject json = httpRequest(url, "POST", menu);
+		return R.SUCCESS_OPER(json);
 	}
 
 	public static JSONObject httpRequest(String requestUrl, String requestMethod, String outputStr) {
