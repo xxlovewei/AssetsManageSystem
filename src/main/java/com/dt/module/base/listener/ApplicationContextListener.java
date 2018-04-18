@@ -77,12 +77,12 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			ThreadTaskHelper.run(new Runnable() {
 				@Override
 				public void run() {
-					_log.info("预热:regionService.queryRegion");
-					regionService.queryRegion();
-					_log.info("预热:regionService.queryRegionALL");
-					regionService.queryRegionALL();
-					_log.info("预热:systemService.queryMsg");
-					systemService.queryMsg();
+					//_log.info("预热:regionService.queryRegion");
+					//regionService.queryRegion();
+					//_log.info("预热:regionService.queryRegionALL");
+					//regionService.queryRegionALL();
+					//_log.info("预热:systemService.queryMsg");
+					//systemService.queryMsg();
 				}
 			});
 

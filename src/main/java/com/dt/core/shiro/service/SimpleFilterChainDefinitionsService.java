@@ -120,7 +120,7 @@ public class SimpleFilterChainDefinitionsService {
 			for (Map.Entry<String, String> entry : publicchains.entrySet()) {
 				String url = entry.getKey();
 				String chainDefinition = entry.getValue().trim().replace(" ", "");
-				log.info("initCustomPermission:" + url + " " + chainDefinition);
+				//log.info("initCustomPermission:" + url + " " + chainDefinition);
 				manager.createChain(url, chainDefinition);
 			}
 			// 加载chainDefinition中的

@@ -50,17 +50,10 @@
 
 	<!-- 主数据库注入 -->
 	<context:component-scan base-package="com.dt.module.db" />
+	
 	<bean id="ApplicationContextListener" class="com.dt.module.base.listener.ApplicationContextListener" />
 
 	<!-- 配置自定义返回注解 -->
-	<bean id="resreqMessagCover" class="com.dt.core.annotion.impl.ResReqDataMessageConvert" />
-	<bean id="resReqSolve" class="com.dt.core.annotion.impl.ResReqResolver">
-		<constructor-arg>
-			<list>
-				<ref bean="resreqMessagCover" />
-			</list>
-		</constructor-arg>
-	</bean>
 	<bean id="RHttpMessageConverterFactory" class="com.dt.core.annotion.impl.MyRHttpMessageConverter" />
 	<!-- 设置配置方案 -->
 	<mvc:annotation-driven>
@@ -90,9 +83,6 @@
 				</property>
 			</bean>
 		</mvc:message-converters>
-		<mvc:return-value-handlers>
-			<ref bean="resReqSolve" />
-		</mvc:return-value-handlers>
 	</mvc:annotation-driven>
 
 </beans>
