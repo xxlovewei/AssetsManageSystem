@@ -11,10 +11,7 @@
 	<!-- 启用spring mvc 注解 -->
 	<context:annotation-config />
 
-	<!-- 拦截器配置,记录访问日志 -->
-	<mvc:interceptors>
-		<bean class="com.dt.core.web.AuthInterceptor" />
-	</mvc:interceptors>
+ 
 
 	<!-- druid spring monitor setting -->
 	<bean id="druid-stat-interceptor"
