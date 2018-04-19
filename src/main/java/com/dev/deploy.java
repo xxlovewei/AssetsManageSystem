@@ -19,15 +19,15 @@ public class deploy {
 	 * @return: void
 	 */
 	public static void main(String[] args) {
-		String dir = "/opt/apache-tomcat-8.0.36/webapps";
-		String fstr = "d:\\tyh.war";
+		String dir = "/opt/tomcat/apache-tomcat-8.0.45/webapps";
+		String fstr = "d:\\dt.war";
 		SftpClient sftp = new SftpClient();
-		Machine m = new Machine("localhost", "192.168.188.18", "root", "Youngor8222", 22);
+		Machine m = new Machine("localhost", "121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
 		sftp.connect(m, "upload");
 		sftp.changeDirectory(dir);
 		File f = new File(fstr);
 		try {
-			sftp.uploadFile(f, "tyh.war", null);
+			sftp.uploadFile(f, "dt.war", null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
