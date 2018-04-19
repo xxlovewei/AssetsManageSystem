@@ -85,7 +85,7 @@ public class UserService extends BaseService {
 		}
 
 		// 获取角色信息
-		String sql2 = "select a.role_id,b.role_name from sys_user_role a,sys_role b where a.role_id=b.role_id and user_id=?";
+		String sql2 = "select a.role_id,b.role_name from sys_user_role a,sys_role_info b where a.role_id=b.role_id and user_id=?";
 		RcdSet r_rs = db.query(sql2, id);
 		_log.info("已经获取角色数:" + r_rs.size());
 		HashMap<String, String> rmap = new HashMap<String, String>();
@@ -282,7 +282,7 @@ public class UserService extends BaseService {
 	 * @Description: 根据角色id查找角色名称
 	 */
 	public String findRoleNameByRoleId(String roleId) {
-		return db.uniqueRecord("select role_name from sys_role where role_id=?", roleId).getString("role_name");
+		return db.uniqueRecord("select role_name from sys_role_info where role_id=?", roleId).getString("role_name");
 	}
 
 	/**
@@ -434,7 +434,7 @@ public class UserService extends BaseService {
 	 */
 	public HashMap<String, String> queryUserRole(String user_id) {
 		HashMap<String, String> res = new HashMap<String, String>();
-		String sql = "select a.*,b.role_name from sys_user_role a,sys_role b where a.role_id=b.role_id and user_id=?";
+		String sql = "select a.*,b.role_name from sys_user_role a,sys_role_info b where a.role_id=b.role_id and user_id=?";
 		RcdSet rs = db.query(sql, user_id);
 		for (int i = 0; i < rs.size(); i++) {
 			res.put(rs.getRcd(i).getString("role_id"), rs.getRcd(i).getString("role_name"));

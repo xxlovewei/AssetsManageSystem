@@ -21,13 +21,13 @@ public class RoleService extends BaseService {
 	 * @Description: 查询所有角色
 	 */
 	public R queryRole() {
-		return R.SUCCESS_OPER(db.query("select * from sys_role where deleted='N'").toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query("select * from sys_role_info where deleted='N'").toJsonArrayWithJsonObject());
 	}
 	/**
 	 * @Description: 查询某个角色
 	 */
 	public R queryRoleById(String id) {
-		String sql = "select * from sys_role where deleted='N' and role_id=?";
+		String sql = "select * from sys_role_info where deleted='N' and role_id=?";
 		RcdSet r = db.query(sql, id);
 		if (r.size() > 0) {
 			return R.SUCCESS_OPER(r.getRcd(0).toJsonObject());
@@ -46,7 +46,7 @@ public class RoleService extends BaseService {
 				return R.FAILURE("该角色使用中不能删除");
 			}
 		}
-		Update ups = new Update("sys_role");
+		Update ups = new Update("sys_role_info");
 		ups.set("deleted", "Y");
 		ups.where().and("role_id=?", role_id);
 		db.execute(ups);
@@ -58,7 +58,7 @@ public class RoleService extends BaseService {
 	 * @Description: 增加角色
 	 */
 	public R addRole(TypedHashMap<String, Object> ps) {
-		Insert ins = new Insert("sys_role");
+		Insert ins = new Insert("sys_role_info");
 		ins.set("role_id", db.getUUID());
 		ins.set("deleted", "N");
 		ins.set("is_action", ps.getString("is_action"));
@@ -71,7 +71,7 @@ public class RoleService extends BaseService {
 	 * @Description: 修改角色
 	 */
 	public R updateRole(TypedHashMap<String, Object> ps) {
-		Update ups = new Update("sys_role");
+		Update ups = new Update("sys_role_info");
 		ups.set("is_action", ps.getString("is_action"));
 		ups.setIf("role_name", ps.getString("role_name"));
 		ups.setIf("mark", ps.getString("mark"));
