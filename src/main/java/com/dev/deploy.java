@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import com.dt.module.om.term.entity.Machine;
 import com.dt.module.om.term.websocket.SftpClient;
+import com.dt.module.om.util.RemoteShellExecutor;
 
 /**
  * @author: jinjie
@@ -24,7 +25,7 @@ public class deploy {
 		SftpClient sftp = new SftpClient();
 		Machine m = new Machine("localhost", "121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
 		sftp.connect(m, "upload");
-		sftp.changeDirectory(dir);
+		sftp.changeDirectory("/tmp");
 		File f = new File(fstr);
 		try {
 			sftp.uploadFile(f, "dt.war", null);
@@ -32,6 +33,9 @@ public class deploy {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
+		System.out.println("mv /tmp/dt.war " + dir + "/");
+		executor.exec("mv /tmp/dt.war " + dir + "/").print();
 		System.out.println(fstr + " deploy success on" + dir);
 	}
 
