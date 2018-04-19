@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
  * @Description: TODO
  */
 @Component
-@EnableScheduling 
+@EnableScheduling
 public class AgentService {
-	@Scheduled(cron="0/5 * *  * * ? ")
+	@Scheduled(cron = "0/5 * *  * * ? ")
 	public void test() {
-		System.out.println("111");
+
 	}
 }
