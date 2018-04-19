@@ -157,7 +157,6 @@ public class RemoteShellExecutor {
 		// RemoteShellExecutor("121.43.168.125",
 		// "oracle", "oracle1234", 60613);
 		RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
-
 		executor.exec(" nohup sh /opt/tomcat/apache-tomcat-8.0.45/bin/startup.sh ;sleep 1 &").print();
 		executor.exec("ifconfig").print();
 

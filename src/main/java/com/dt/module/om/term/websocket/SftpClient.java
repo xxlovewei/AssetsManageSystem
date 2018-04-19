@@ -183,8 +183,10 @@ public class SftpClient {
 				break;
 			client.write(handle, count, b, 0, len);
 			count += len;
-			session.put("progress", "{\"percent\":\"" + df.format((double) count / totalSize * 100) + "%\",\"num\":\""
-					+ (int) ((double) count / totalSize) + "\"}");
+			if (session != null) {
+				session.put("progress", "{\"percent\":\"" + df.format((double) count / totalSize * 100)
+						+ "%\",\"num\":\"" + (int) ((double) count / totalSize) + "\"}");
+			}
 		}
 		client.closeFile(handle);
 		fis.close();
