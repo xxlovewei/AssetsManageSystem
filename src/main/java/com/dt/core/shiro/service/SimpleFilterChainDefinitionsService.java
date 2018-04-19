@@ -92,7 +92,6 @@ public class SimpleFilterChainDefinitionsService {
 				}
 			} else {
 				//没有设置acl
-				System.out.println("#############"+BaseConstants.acldef);
 				if (BaseConstants.acldef.equals("allow")) {
 					Iterator<String> it = pSet.iterator();
 					while (it.hasNext()) {
@@ -128,7 +127,7 @@ public class SimpleFilterChainDefinitionsService {
 			for (Map.Entry<String, String> entry : publicchains.entrySet()) {
 				String url = entry.getKey();
 				String chainDefinition = entry.getValue().trim().replace(" ", "");
-				log.info("initCustomPermission:" + url + "," + chainDefinition);
+				//log.info("initCustomPermission:" + url + "," + chainDefinition);
 				manager.createChain(url, chainDefinition);
 			}
 			// 加载chainDefinition中的

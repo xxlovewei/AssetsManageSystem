@@ -54,7 +54,6 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			SpringContextUtil.getApplicationContext();
 			_log.info(">>>>> spring初始化完毕 <<<<<");
 			// 判断acldef
-			System.out.println(acldef + "aaaaaaaa");
 			if (ToolUtil.isNotEmpty(acldef) && "allow".equals(acldef.trim().toLowerCase())) {
 				BaseConstants.acldef = "allow";
 			} else {
