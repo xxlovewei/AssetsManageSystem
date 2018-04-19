@@ -38,6 +38,9 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 	@Value("${job.enable}")
 	private String jobenable;
 
+	@Value("${acl.def}")
+	private String acldef;
+
 	@Autowired
 	private RegionService regionService;
 
@@ -50,6 +53,14 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 		if (null == event.getApplicationContext().getParent()) {
 			SpringContextUtil.getApplicationContext();
 			_log.info(">>>>> spring初始化完毕 <<<<<");
+			// 判断acldef
+			System.out.println(acldef + "aaaaaaaa");
+			if (ToolUtil.isNotEmpty(acldef) && "allow".equals(acldef.trim().toLowerCase())) {
+				BaseConstants.acldef = "allow";
+			} else {
+				BaseConstants.acldef = "deny";
+			}
+
 			// 判断shiro
 			if (ToolUtil.isNotEmpty(shiroenable) && "true".equals(shiroenable.toLowerCase())) {
 				BaseConstants.shiroenable = "true";
@@ -63,6 +74,7 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			} else {
 				_log.info("不更新,无Shiro模块");
 			}
+
 			// 判断Job
 			if (ToolUtil.isNotEmpty(jobenable) && "true".equals(jobenable.toLowerCase())) {
 				_log.info("Job Start.");
@@ -77,12 +89,12 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 			ThreadTaskHelper.run(new Runnable() {
 				@Override
 				public void run() {
-					//_log.info("预热:regionService.queryRegion");
-					//regionService.queryRegion();
-					//_log.info("预热:regionService.queryRegionALL");
-					//regionService.queryRegionALL();
-					//_log.info("预热:systemService.queryMsg");
-					//systemService.queryMsg();
+					// _log.info("预热:regionService.queryRegion");
+					// regionService.queryRegion();
+					// _log.info("预热:regionService.queryRegionALL");
+					// regionService.queryRegionALL();
+					// _log.info("预热:systemService.queryMsg");
+					// systemService.queryMsg();
 				}
 			});
 

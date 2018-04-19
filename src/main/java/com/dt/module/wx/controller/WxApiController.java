@@ -33,6 +33,12 @@ public class WxApiController extends BaseController {
 	@Autowired
 	private CoreService coreService;
 
+	@ResponseBody
+	@RequestMapping(value = "/test.do")
+	public R test() {
+		return R.SUCCESS_OPER();
+	}
+
 	@Acl(info = "验证签名", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/core.do", method = RequestMethod.GET)
 	public void coreGet(HttpServletRequest request, HttpServletResponse response) throws Exception {

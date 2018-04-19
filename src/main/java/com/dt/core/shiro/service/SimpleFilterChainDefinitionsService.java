@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import com.dt.core.annotion.Acl;
+import com.dt.core.common.base.BaseConstants;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.ToolUtil;
 
@@ -87,10 +88,17 @@ public class SimpleFilterChainDefinitionsService {
 						res.put(str, "authc,user");
 					}
 				} else {
-					// Iterator<String> it = pSet.iterator();
-					// while (it.hasNext()) {
-					// String str = it.next();
-					// }
+
+				}
+			} else {
+				//没有设置acl
+				System.out.println("#############"+BaseConstants.acldef);
+				if (BaseConstants.acldef.equals("allow")) {
+					Iterator<String> it = pSet.iterator();
+					while (it.hasNext()) {
+						String str = it.next();
+						res.put(str, "anon");
+					}
 				}
 			}
 			// log.info("url:" + url + ",aclvalue=" + aclvalue);
@@ -120,7 +128,7 @@ public class SimpleFilterChainDefinitionsService {
 			for (Map.Entry<String, String> entry : publicchains.entrySet()) {
 				String url = entry.getKey();
 				String chainDefinition = entry.getValue().trim().replace(" ", "");
-				//log.info("initCustomPermission:" + url + " " + chainDefinition);
+				log.info("initCustomPermission:" + url + "," + chainDefinition);
 				manager.createChain(url, chainDefinition);
 			}
 			// 加载chainDefinition中的
