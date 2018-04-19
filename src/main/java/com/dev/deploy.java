@@ -19,22 +19,20 @@ public class deploy {
 	 * @return: void
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		String dir = "/opt/apache-tomcat-8.0.36/webapps";
+		String fstr = "d:\\tyh.war";
 		SftpClient sftp = new SftpClient();
-		// String name, String hostname, String username, String password,
-		// Integer port
 		Machine m = new Machine("localhost", "192.168.188.18", "root", "Youngor8222", 22);
 		sftp.connect(m, "upload");
-		System.out.println(sftp.getCurrentCatalog());
-		sftp.changeDirectory("/opt/apache-tomcat-8.0.36/webapps");
-		System.out.println(sftp.getCurrentCatalog());
-		File f = new File("d:\\a.txt");
+		sftp.changeDirectory(dir);
+		File f = new File(fstr);
 		try {
-			sftp.uploadFile(f, "a.txt", null);
+			sftp.uploadFile(f, "tyh.war", null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(fstr + " deploy success on" + dir);
 	}
 
 }
