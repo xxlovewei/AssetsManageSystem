@@ -60,8 +60,7 @@
 			<version>1.72.0</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>cn.guoyukun.jdbc</groupId> <artifactId>oracle-ojdbc6</artifactId> 
-			<version>11.2.0.3.0</version> </dependency> -->
+
 
 		<dependency>
 			<groupId>com.oracle</groupId>
