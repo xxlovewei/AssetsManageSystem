@@ -14,9 +14,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dt.core.dao.util.TypedHashMap;
 
 public class HttpKit {
@@ -69,6 +76,44 @@ public class HttpKit {
 		return new WafRequestWrapper(request);
 	}
 
+	public static JSONObject sendGetWithResp(String url) {
+		// String result = "";
+		JSONObject res = new JSONObject();
+		BufferedReader in = null;
+		try {
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+			HttpGet httpget = new HttpGet(url);
+			// 设置请求和传输超时时间
+			RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(10000).setConnectTimeout(30000)
+					.build();
+			httpget.setConfig(requestConfig);
+			httpget.addHeader("User-Agent",
+					"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6");
+			httpget.addHeader("accept", "*/*");
+			httpget.addHeader("connection", "Keep-Alive");
+			Long s = System.currentTimeMillis();
+			HttpResponse resultRep = httpClient.execute(httpget);
+			Long e = System.currentTimeMillis();
+			res.put("response_time", e - s);
+			res.put("result", EntityUtils.toString(resultRep.getEntity()));
+			res.put("code", resultRep.getStatusLine().getStatusCode());
+		} catch (Exception e) {
+			System.out.println("发送GET请求出现异常！" + e);
+			e.printStackTrace();
+		}
+		// 使用finally块来关闭输入流
+		finally {
+			try {
+				if (in != null) {
+					in.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return res;
+	}
+
 	/**
 	 * 向指定URL发送GET方法的请求
 	 *
@@ -101,6 +146,7 @@ public class HttpKit {
 			connection.connect();
 			// 获取所有响应头字段
 			Map<String, List<String>> map = connection.getHeaderFields();
+
 			// 遍历所有的响应头字段
 			for (String key : map.keySet()) {
 				System.out.println(key + "--->" + map.get(key));
