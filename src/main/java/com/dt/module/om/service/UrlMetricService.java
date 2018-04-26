@@ -29,7 +29,7 @@ public class UrlMetricService extends BaseService {
 	}
 
 	public R queryUrlMetricsWithData() {
-		String bsql = " select *                                          "
+		String bsql = " select a.*,b.status resp_status,b.inserttime,b.resp_time"
 				+ "   from mn_url_metric a                            "
 				+ "   left join (select *                             "
 				+ "                from mn_url_touch                  "

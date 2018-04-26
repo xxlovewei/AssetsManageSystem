@@ -24,14 +24,14 @@ public class UrlMetricController extends BaseController {
 	@Autowired
 	UrlMetricService urlMetricService;
 
-	@RequestMapping("/mn/urlTouchExample.do")
+	@RequestMapping("/mn/om/urlTouchExample.do")
 	@ResponseBody
 	@Acl(info = "测试例子", value = Acl.ACL_ALLOW)
 	public R urlTouchExample() {
 		return urlTouchService.touchUrlExample();
 	}
 
-	@RequestMapping("/mn/queryUrlMetricData.do")
+	@RequestMapping("/mn/om/queryUrlMetricData.do")
 	@ResponseBody
 	@Acl(info = "查询UrlMetric数据", value = Acl.ACL_ALLOW)
 	public R queryUrlMetricData() {
