@@ -14,6 +14,7 @@ import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
+import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -27,6 +28,10 @@ import com.dt.core.tool.util.support.HttpKit;
 public class UrlTouchService extends BaseService {
 	@Autowired
 	UrlMetricService urlMetricService;
+
+	public static UrlTouchService me() {
+		return SpringContextUtil.getBean(UrlTouchService.class);
+	}
 
 	private static Logger _log = LoggerFactory.getLogger(UrlTouchService.class);
 

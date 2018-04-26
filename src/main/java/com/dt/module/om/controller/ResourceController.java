@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.module.om.service.ResourceService;
-import com.dt.module.om.service.UrlTouchService;
 import com.dt.module.om.service.WarnService;
 
 /**
@@ -22,9 +20,6 @@ import com.dt.module.om.service.WarnService;
 public class ResourceController extends BaseController {
 	@Autowired
 	WarnService warnService;
-
-	@Autowired
-	UrlTouchService urlTouchService;
 
 	@Autowired
 	ResourceService resourceService;
@@ -55,13 +50,6 @@ public class ResourceController extends BaseController {
 	@Acl(info = "删除告警处理的数据", value = Acl.ACL_ALLOW)
 	public R deleteWarnData(String id) {
 		return warnService.deleteWarnData(id);
-	}
-
-	@RequestMapping("/mn/urlTouchExample.do")
-	@ResponseBody
-	@Acl(info = "测试例子", value = Acl.ACL_ALLOW)
-	public R urlTouchExample() {
-		return urlTouchService.touchUrlExample();
 	}
 
 }

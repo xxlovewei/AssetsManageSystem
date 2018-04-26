@@ -28,6 +28,20 @@ public class UrlMetricService extends BaseService {
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
+	public R queryUrlMetricsWithData() {
+		String bsql = " select *                                          "
+				+ "   from mn_url_metric a                            "
+				+ "   left join (select *                             "
+				+ "                from mn_url_touch                  "
+				+ "               where (node, inserttime) in         "
+				+ "                     (select node, max(inserttime) "
+				+ "                        from mn_url_touch          "
+				+ "                       group by node)) b           "
+				+ "     on a.node = b.node and a.dr=0                 ";
+
+		return R.SUCCESS_OPER(db.query(bsql).toJsonArrayWithJsonObject());
+	}
+
 	public R addUrlMetric(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("mn_url_metric");
 		me.setIf("node", db.getUUID());
