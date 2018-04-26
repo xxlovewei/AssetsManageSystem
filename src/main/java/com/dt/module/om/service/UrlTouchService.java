@@ -1,5 +1,6 @@
 package com.dt.module.om.service;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +14,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.Rcd;
+import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.tool.lang.SpringContextUtil;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -37,6 +41,42 @@ public class UrlTouchService extends BaseService {
 
 	public R touchUrlExample() {
 		return executeAllUrls();
+	}
+
+	public R queryTouchMetricData(String node, String type, String time) {
+		int t = ToolUtil.toInt(time, 3);
+		String bsql = "select * from mn_url_metric where node=?";
+		JSONObject res = new JSONObject();
+		Rcd rs = db.uniqueRecord(bsql, node);
+		if (ToolUtil.isNotEmpty(rs)) {
+			res.put("name", rs.getString("name"));
+		}
+		if (type.equals("status")) {
+			res.put("col", "状态码");
+		} else {
+			res.put("col", "响应时间");
+		}
+		String sql = "select trunc((inserttime-to_date('1970-01-01','yyyy-mm-dd'))*24*60*60*1000,1) itime,t.* from mn_url_touch t where node=? and inserttime>sysdate-"
+				+ t + " order by inserttime";
+		RcdSet drs = db.query(sql, node);
+		JSONArray data = new JSONArray();
+		if (type.equals("status")) {
+			for (int i = 0; i < drs.size(); i++) {
+				JSONArray e = new JSONArray();
+				e.add(((BigDecimal) drs.getRcd(i).getBigDecimal("itime")));
+				e.add(drs.getRcd(i).getInteger("status"));
+				data.add(e);
+			}
+		} else {
+			for (int i = 0; i < drs.size(); i++) {
+				JSONArray e = new JSONArray();
+				e.add(((BigDecimal) drs.getRcd(i).getBigDecimal("itime")));
+				e.add(drs.getRcd(i).getInteger("resp_time"));
+				data.add(e);
+			}
+		}
+		res.put("data", data);
+		return R.SUCCESS_OPER(res);
 	}
 
 	public R executeAllUrls() {

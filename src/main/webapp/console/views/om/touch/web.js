@@ -1,7 +1,57 @@
 
 
-function touchWebCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
+function touchChartCtl(notify, $log, $uibModal, $uibModalInstance, $scope, url,
+		$http, $rootScope) {
+	$log.info(url);
+	$scope.url = url;
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+}
+
+function touchWebSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
+		node, $http, $rootScope) {
+
+	$log.info("window in:", node);
+	$scope.item = {};
+	if (angular.isDefined(node)) {
+		$http.post($rootScope.project + "/api/mn/om/queryUrlMetricById.do", {
+					node : node
+				}).success(function(res) {
+					if (res.success) {
+						$scope.item = res.data;
+					} else {
+						notify({
+									message : res.message
+								});
+					}
+				})
+	}
+
+	$scope.sure = function() {
+		$http.post($rootScope.project + "/api/mn/om/saveUrlMetric.do",
+				$scope.item).success(function(res) {
+					if (res.success) {
+						$uibModalInstance.close("OK");
+					} else {
+						notify({
+									message : res.message
+								});
+					}
+				})
+
+	};
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+}
+
+function touchWebCtl($window, DTLang, DTOptionsBuilder, DTColumnBuilder,
+		$compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
+		$window) {
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise()
 			.withPaginationType('full_numbers').withDisplayLength(25)
@@ -24,13 +74,13 @@ function touchWebCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		// + "')\" class=\"btn-white btn btn-xs\">Sftp</button> ";
 		// acthtml = acthtml + " <button ng-click=\"addapp('" + full.id
 		// + "')\" class=\"btn-white btn btn-xs\">添加应用</button> ";
-		acthtml = acthtml + " <button ng-click=\"chart('" + full.id
-				+ "')\" class=\"btn-white btn btn-xs\">响应时间</button>  ";
-		acthtml = acthtml + " <button ng-click=\"chart('" + full.id
-				+ "')\" class=\"btn-white btn btn-xs\">响应码</button>  ";
-		acthtml = acthtml + " <button ng-click=\"modify('" + full.id
+		acthtml = acthtml + " <button ng-click=\"chart('" + full.node
+				+ "','resp')\" class=\"btn-white btn btn-xs\">响应时间</button>  ";
+		acthtml = acthtml + " <button ng-click=\"chart('" + full.node
+				+ "','status')\" class=\"btn-white btn btn-xs\">响应码</button>  ";
+		acthtml = acthtml + " <button ng-click=\"modify('" + full.node
 				+ "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
-		acthtml = acthtml + " <button ng-click=\"remove('" + full.id
+		acthtml = acthtml + " <button ng-click=\"remove('" + full.node
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button>  </div> ";
 		return acthtml;
 	}
@@ -71,7 +121,6 @@ function touchWebCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 							if (res.success) {
 								$scope.dtOptions.aaData = res.data;
 							} else {
-								2
 								notify({
 											message : res.message
 										});
@@ -80,23 +129,66 @@ function touchWebCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	flush();
 
-	$scope.chart = function(id, type) {
-		alert('为开发');
+	$scope.chart = function(node, type) {
+		var url = $rootScope.project + "/mn/weburl.html?node=" + node
+				+ "&type=" + type + "&time=3";
+		var modalInstance = $uibModal.open({
+					backdrop : true,
+					templateUrl : 'views/om/touch/modal_chart.html',
+					controller : touchChartCtl,
+					size : 'lg',
+					resolve : { // 调用控制器与modal控制器中传递值
+						url : function() {
+							return url;
+						}
+					}
+				});
+
+		modalInstance.result.then(function(result) {
+					$log.log("result", result);
+					if (result == "OK") {
+						flush();
+					}
+				}, function(reason) {
+					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+					$log.log("reason", reason)
+				});
+
 	}
 
-	$scope.modify = function(id) {
+	$scope.remove = function(id) {
+
+		if (angular.isDefined(id)) {
+			// 删除
+			$confirm({
+						text : '是否删除?'
+					}).then(function() {
+				$http.post(
+						$rootScope.project + "/api/mn/om/deleteUrlMetric.do", {
+							node : id
+						}).success(function(res) {
+							if (res.success) {
+								flush();
+							}
+							notify({
+										message : res.message
+									});
+						})
+			});
+
+		}
+	}
+
+	$scope.modify = function(node) {
 
 		var modalInstance = $uibModal.open({
 					backdrop : true,
-					templateUrl : 'views/om/hostnode/modal_hostSave.html',
-					controller : nodeHostSaveCtl,
-					size : 'md',
+					templateUrl : 'views/om/touch/modal_save.html',
+					controller : touchWebSaveCtl,
+					size : 'lg',
 					resolve : { // 调用控制器与modal控制器中传递值
-						id : function() {
-							return id;
-						},
-						templOpt : function() {
-							return templOpt;
+						node : function() {
+							return node;
 						}
 					}
 				});
