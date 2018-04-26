@@ -7,10 +7,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.cache.CacheConfig;
 import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
@@ -42,7 +44,7 @@ public class UrlTouchService extends BaseService {
 	public R touchUrlExample() {
 		return executeAllUrls();
 	}
-
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_45_10, key = "'qUrlMetricData'+#node+#type+#time")
 	public R queryTouchMetricData(String node, String type, String time) {
 		int t = ToolUtil.toInt(time, 3);
 		String bsql = "select * from mn_url_metric where node=?";
@@ -107,6 +109,19 @@ public class UrlTouchService extends BaseService {
 		String upsadd = "update mn_url_metric set curcnt=curcnt+1 where node in " + nodes;
 		db.executes(upsclear, upsadd);
 		return R.SUCCESS_OPER();
+	}
+
+	public R checkUrlMetricDataForwarnning() {
+		String sql = "insert into mn_url_touch_warn "
+				+ " select a.id,b.node,b.name,b.url,a.id,a.status,a.resp_time,b.threshold,a.inserttime,0,0,0 from ( "
+				+ " select * from mn_url_touch where (node,inserttime) "
+				+ " in(select node, max(inserttime) from mn_url_touch where inserttime>sysdate-1/2 group by node"
+				+ " ))a,mn_url_metric b  " + " where a.node=b.node and b.is_running=1 and threshold>0 "
+				+ " and(a.status<>200 or resp_time>threshold) and a.id not in(  "
+				+ " select id from mn_url_touch_warn where inserttime>sysdate-1/2)";
+		db.execute(sql);
+		return R.SUCCESS_OPER();
+
 	}
 
 	public R touchUrl(String node, String url, String metric_id) {

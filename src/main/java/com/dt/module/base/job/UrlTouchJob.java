@@ -18,6 +18,7 @@ public class UrlTouchJob implements Job {
 	public void execute(JobExecutionContext jc) throws JobExecutionException {
 
 		UrlTouchService.me().executeAllUrls();
+		UrlTouchService.me().checkUrlMetricDataForwarnning();
 		JobService.me().finishedJobUpdate(jc);
 	}
 }

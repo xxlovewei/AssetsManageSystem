@@ -51,6 +51,7 @@ public class UrlMetricService extends BaseService {
 		me.setIf("status", ps.getString("status", "1"));
 		me.setIf("dr", 0);
 		me.setIf("interval_time", ToolUtil.toInt(ps.getString("interval_time"), 5));
+		me.setIf("threshold", ToolUtil.toInt(ps.getString("threshold"), 0));
 		me.setIf("curcnt", 1);
 		me.setIf("mark", ps.getString("mark"));
 		db.execute(me);
@@ -72,6 +73,7 @@ public class UrlMetricService extends BaseService {
 		me.setIf("url", ps.getString("url"));
 		me.setIf("status", ps.getString("status", "1"));
 		me.setIf("interval_time", ToolUtil.toInt(ps.getString("interval_time"), 5));
+		me.setIf("threshold", ToolUtil.toInt(ps.getString("threshold"), 0));
 		me.setIf("mark", ps.getString("mark"));
 		me.where().and("node=?", ps.getString("node"));
 		db.execute(me);

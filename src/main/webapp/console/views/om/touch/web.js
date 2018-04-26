@@ -1,5 +1,4 @@
 
-
 function touchChartCtl(notify, $log, $uibModal, $uibModalInstance, $scope, url,
 		$http, $rootScope) {
 	$log.info(url);
@@ -17,29 +16,29 @@ function touchWebSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 	$scope.item = {};
 	if (angular.isDefined(node)) {
 		$http.post($rootScope.project + "/api/mn/om/queryUrlMetricById.do", {
-					node : node
-				}).success(function(res) {
-					if (res.success) {
-						$scope.item = res.data;
-					} else {
-						notify({
-									message : res.message
-								});
-					}
-				})
+			node : node
+		}).success(function(res) {
+			if (res.success) {
+				$scope.item = res.data;
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
 	}
 
 	$scope.sure = function() {
 		$http.post($rootScope.project + "/api/mn/om/saveUrlMetric.do",
 				$scope.item).success(function(res) {
-					if (res.success) {
-						$uibModalInstance.close("OK");
-					} else {
-						notify({
-									message : res.message
-								});
-					}
-				})
+			if (res.success) {
+				$uibModalInstance.close("OK");
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
 
 	};
 
@@ -53,18 +52,17 @@ function touchWebCtl($window, DTLang, DTOptionsBuilder, DTColumnBuilder,
 		$compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
 		$window) {
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise()
-			.withPaginationType('full_numbers').withDisplayLength(25)
-			.withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", true).withOption("paging", false)
-			.withOption('bStateSave', true).withOption('bProcessing', true)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('bAutoWidth', false)
-			.withOption('aaData', $scope.tabdata).withOption('createdRow',
-					function(row) {
-						// Recompiling so we can bind Angular,directive to the
-						$compile(angular.element(row).contents())($scope);
-					}).withLanguage(DTLang);
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
+			'full_numbers').withDisplayLength(25).withOption("ordering", false)
+			.withOption("responsive", true).withOption("searching", true)
+			.withOption("paging", false).withOption('bStateSave', true)
+			.withOption('bProcessing', true).withOption('bFilter', false)
+			.withOption('bInfo', false).withOption('serverSide', false)
+			.withOption('bAutoWidth', false).withOption('aaData',
+					$scope.tabdata).withOption('createdRow', function(row) {
+				// Recompiling so we can bind Angular,directive to the
+				$compile(angular.element(row).contents())($scope);
+			}).withLanguage(DTLang);
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -88,9 +86,9 @@ function touchWebCtl($window, DTLang, DTOptionsBuilder, DTColumnBuilder,
 	function renderStatus(data, type, full) {
 		var value = data
 		if (data == '1') {
-			value = '正常'
+			value = '启用'
 		} else if (data == '0') {
-			value = '暂停'
+			value = '停用'
 		}
 		return value;
 	}
@@ -102,6 +100,8 @@ function touchWebCtl($window, DTLang, DTOptionsBuilder, DTColumnBuilder,
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('is_running').withTitle('运行状态')
 					.withOption('sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('threshold').withTitle('阀值')
+					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('interval_time').withTitle('间隔')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('resp_time').withTitle('响应时间')
@@ -113,19 +113,19 @@ function touchWebCtl($window, DTLang, DTOptionsBuilder, DTColumnBuilder,
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
-					'sDefaultContent', '').renderWith(renderAction)]
+					'sDefaultContent', '').renderWith(renderAction) ]
 	function flush() {
 		var ps = {}
 		$http.post($rootScope.project + "/api/mn/om/queryUrlMetricData.do", ps)
 				.success(function(res) {
-							if (res.success) {
-								$scope.dtOptions.aaData = res.data;
-							} else {
-								notify({
-											message : res.message
-										});
-							}
-						})
+					if (res.success) {
+						$scope.dtOptions.aaData = res.data;
+					} else {
+						notify({
+							message : res.message
+						});
+					}
+				})
 	}
 	flush();
 
@@ -133,26 +133,26 @@ function touchWebCtl($window, DTLang, DTOptionsBuilder, DTColumnBuilder,
 		var url = $rootScope.project + "/mn/weburl.html?node=" + node
 				+ "&type=" + type + "&time=3";
 		var modalInstance = $uibModal.open({
-					backdrop : true,
-					templateUrl : 'views/om/touch/modal_chart.html',
-					controller : touchChartCtl,
-					size : 'lg',
-					resolve : { // 调用控制器与modal控制器中传递值
-						url : function() {
-							return url;
-						}
-					}
-				});
+			backdrop : true,
+			templateUrl : 'views/om/touch/modal_chart.html',
+			controller : touchChartCtl,
+			size : 'lg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				url : function() {
+					return url;
+				}
+			}
+		});
 
 		modalInstance.result.then(function(result) {
-					$log.log("result", result);
-					if (result == "OK") {
-						flush();
-					}
-				}, function(reason) {
-					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-					$log.log("reason", reason)
-				});
+			$log.log("result", result);
+			if (result == "OK") {
+				flush();
+			}
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
 
 	}
 
@@ -161,20 +161,22 @@ function touchWebCtl($window, DTLang, DTOptionsBuilder, DTColumnBuilder,
 		if (angular.isDefined(id)) {
 			// 删除
 			$confirm({
-						text : '是否删除?'
-					}).then(function() {
-				$http.post(
-						$rootScope.project + "/api/mn/om/deleteUrlMetric.do", {
-							node : id
-						}).success(function(res) {
+				text : '是否删除?'
+			}).then(
+					function() {
+						$http.post(
+								$rootScope.project
+										+ "/api/mn/om/deleteUrlMetric.do", {
+									node : id
+								}).success(function(res) {
 							if (res.success) {
 								flush();
 							}
 							notify({
-										message : res.message
-									});
+								message : res.message
+							});
 						})
-			});
+					});
 
 		}
 	}
@@ -182,26 +184,26 @@ function touchWebCtl($window, DTLang, DTOptionsBuilder, DTColumnBuilder,
 	$scope.modify = function(node) {
 
 		var modalInstance = $uibModal.open({
-					backdrop : true,
-					templateUrl : 'views/om/touch/modal_save.html',
-					controller : touchWebSaveCtl,
-					size : 'lg',
-					resolve : { // 调用控制器与modal控制器中传递值
-						node : function() {
-							return node;
-						}
-					}
-				});
+			backdrop : true,
+			templateUrl : 'views/om/touch/modal_save.html',
+			controller : touchWebSaveCtl,
+			size : 'lg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				node : function() {
+					return node;
+				}
+			}
+		});
 
 		modalInstance.result.then(function(result) {
-					$log.log("result", result);
-					if (result == "OK") {
-						flush();
-					}
-				}, function(reason) {
-					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-					$log.log("reason", reason)
-				});
+			$log.log("result", result);
+			if (result == "OK") {
+				flush();
+			}
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
 
 	}
 
