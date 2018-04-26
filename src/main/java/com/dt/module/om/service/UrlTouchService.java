@@ -122,12 +122,11 @@ public class UrlTouchService extends BaseService {
 		me.setIf("resp_time", r.getString("response_time"));
 		me.setIf("status", r.getString("code"));
 		String rstr = r.getString("result");
-		if (ToolUtil.isEmpty(rstr) && rstr.length() > 2000) {
+		if (ToolUtil.isNotEmpty(rstr) && rstr.length() > 2000) {
 			me.setIf("body", rstr.substring(0, 2000));
 		} else {
 			me.setIf("body", rstr);
 		}
-		me.setIf("body", r.getString("result"));
 		me.setIf("producetime", "");
 		me.setSE("inserttime", DbUtil.getDbDateString(db.getDBType()));
 		db.execute(me);
