@@ -1,16 +1,13 @@
 package com.dt.module.om.service;
 
 import java.math.BigDecimal;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.cache.CacheConfig;
@@ -122,7 +119,11 @@ public class UrlTouchService extends BaseService {
 				+ " select id from mn_url_touch_warn where inserttime>sysdate-1/2)";
 		db.execute(sql);
 		return R.SUCCESS_OPER();
+	}
 
+	public R buildWarnningBody() {
+		// 半天内
+		return R.SUCCESS_OPER();
 	}
 
 	public R touchUrl(String node, String url, String metric_id) {

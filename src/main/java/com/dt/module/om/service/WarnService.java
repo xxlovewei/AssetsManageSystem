@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
@@ -22,9 +20,6 @@ import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
-import jodd.mail.Email;
-import jodd.mail.SendMailSession;
-import jodd.mail.SmtpServer;
 
 /**
  * @author: jinjie
@@ -33,26 +28,12 @@ import jodd.mail.SmtpServer;
  */
 
 @Service
-@Configuration
-@PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
+
 public class WarnService extends BaseService {
+	@Autowired
+	MailService mailService;
 
-	@Value("${mail.from}")
-	private String mailfrom;
-
-	@Value("${mail.user}")
-	private String mailuser;
-
-	@Value("${mail.pwd}")
-	private String mailpwd;
-
-	@Value("${mail.smtp}")
-	private String mailsmtp;
-
-	@Value("${mail.port}")
-	private String mailport;
-
-	private static Logger _log = LoggerFactory.getLogger(WarnService.class);
+	//private static Logger _log = LoggerFactory.getLogger(WarnService.class);
 
 	public static WarnService me() {
 		return SpringContextUtil.getBean(WarnService.class);
@@ -173,11 +154,6 @@ public class WarnService extends BaseService {
 			db.executeSQLList(sqls);
 		}
 
-		// 检查要发邮件的内容
-		if (ToolUtil.isOneEmpty(mailfrom, mailuser, mailpwd, mailsmtp, mailport)) {
-			_log.info("邮件无法发送，请检测配置");
-			return true;
-		}
 		List<SQL> psqls = new ArrayList<SQL>();
 		String mailsql = "select * from (" + wdatasql + ") where is_process='N' and is_delete='N' ";
 		RcdSet rs = db.query(mailsql);
@@ -204,21 +180,10 @@ public class WarnService extends BaseService {
 				htmlfill = htmlfill + "</tr>";
 			}
 			htmlfill = htmlfill + "</tbody></table>";
-			Email email = Email.create();
-			email.from(mailfrom).to("792014416@qq.com");
-			email.subject("来自度量数据");
-			email.addHtml("<html><meta http-equiv=Content-Type content=\"text/html; charset=utf-8\">" + "<body>"
-					+ htmlfill + "</body></html>");
-			@SuppressWarnings("rawtypes")
-			SmtpServer smtpServer = SmtpServer.create(mailsmtp, ToolUtil.toInt(mailport, 25))
-					.authenticateWith(mailuser, mailpwd).timeout(100000);
-			SendMailSession session = smtpServer.createSession();
-			session.open();
-			session.sendMail(email);
-			session.close();
-			// 发邮件
-			_log.info("Mn度量检查完毕,邮件无法成功");
-			db.executeSQLList(psqls);
+			R r = mailService.sendMail(htmlfill, "来自度量数据");
+			if (r.isSuccess()) {
+				db.executeSQLList(psqls);
+			}
 			return true;
 		}
 		return false;
