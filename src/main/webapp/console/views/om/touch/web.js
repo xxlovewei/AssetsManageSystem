@@ -1,4 +1,3 @@
-
 function touchChartCtl(notify, $log, $uibModal, $uibModalInstance, $scope, url,
 		$http, $rootScope) {
 	$log.info(url);
@@ -100,8 +99,8 @@ function touchWebCtl($window, DTLang, DTOptionsBuilder, DTColumnBuilder,
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('is_running').withTitle('运行状态')
 					.withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('threshold').withTitle('阀值')
-					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('threshold').withTitle('阀值').withOption(
+					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('interval_time').withTitle('间隔')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('resp_time').withTitle('响应时间')
@@ -130,13 +129,14 @@ function touchWebCtl($window, DTLang, DTOptionsBuilder, DTColumnBuilder,
 	flush();
 
 	$scope.chart = function(node, type) {
+
 		var url = $rootScope.project + "/mn/weburl.html?node=" + node
-				+ "&type=" + type + "&time=3";
+				+ "&type=" + type + "&time=1/2";
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/om/touch/modal_chart.html',
 			controller : touchChartCtl,
-			size : 'lg',
+			size : 'blg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				url : function() {
 					return url;

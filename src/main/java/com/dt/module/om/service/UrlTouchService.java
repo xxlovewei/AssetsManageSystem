@@ -42,7 +42,8 @@ public class UrlTouchService extends BaseService {
 		return executeAllUrls();
 	}
 
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_45_10, key = "'qUrlMetricData'+#node+#type+#time")
+	// @Cacheable(value = CacheConfig.CACHE_PUBLIC_45_10, key =
+	// "'qUrlMetricData'+#node+#type+#time")
 	public R queryTouchMetricData(String node, String type, String time) {
 		int t = ToolUtil.toInt(time, 3);
 		String bsql = "select * from mn_url_metric where node=?";
@@ -56,26 +57,30 @@ public class UrlTouchService extends BaseService {
 		} else {
 			res.put("col", "响应时间");
 		}
-		String sql = "select trunc((inserttime-to_date('1970-01-01','yyyy-mm-dd'))*24*60*60*1000,1) itime,t.* from mn_url_touch t where node=? and inserttime>sysdate-"
+		// System.out.println("T");
+		// Long a = System.currentTimeMillis();
+		String sql = "select trunc((inserttime-to_date('1970-01-01','yyyy-mm-dd'))*24*60*60*1000,1) itime,t.status,t.resp_time from mn_url_touch t where node=? and inserttime>sysdate-"
 				+ t + " order by inserttime";
 		RcdSet drs = db.query(sql, node);
-		JSONArray data = new JSONArray();
+		// Long s = System.currentTimeMillis();
+		// System.out.println("sql exe" + (s - a));
+		StringBuffer strs = new StringBuffer("[");
 		if (type.equals("status")) {
 			for (int i = 0; i < drs.size(); i++) {
-				JSONArray e = new JSONArray();
-				e.add(((BigDecimal) drs.getRcd(i).getBigDecimal("itime")));
-				e.add(drs.getRcd(i).getInteger("status"));
-				data.add(e);
+				strs.append(
+						"[" + drs.getRcd(i).getBigDecimal("itime") + "," + drs.getRcd(i).getInteger("status") + "]");
 			}
 		} else {
 			for (int i = 0; i < drs.size(); i++) {
-				JSONArray e = new JSONArray();
-				e.add(((BigDecimal) drs.getRcd(i).getBigDecimal("itime")));
-				e.add(drs.getRcd(i).getInteger("resp_time"));
-				data.add(e);
+				strs.append(
+						"[" + drs.getRcd(i).getBigDecimal("itime") + "," + drs.getRcd(i).getInteger("resp_time") + "]");
 			}
 		}
-		res.put("data", data);
+		strs.append("]");
+		// System.out.println("111");
+		res.put("data", JSONArray.parse(strs.toString()));
+		// Long e = System.currentTimeMillis();
+		// System.out.println(e - s);
 		return R.SUCCESS_OPER(res);
 	}
 

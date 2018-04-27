@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ToolUtil;
 
 import jodd.mail.Email;
@@ -46,18 +47,32 @@ public class MailService extends BaseService {
 			_log.info("邮件无法发送，请检测配置");
 			return R.FAILURE("邮件无法发送，请检测配置");
 		}
-		Email email = Email.create();
-		email.from(mailfrom).to("792014416@qq.com");
-		email.subject(title);
-		email.addHtml("<html><meta http-equiv=Content-Type content=\"text/html; charset=utf-8\">" + "<body>" + body
-				+ "</body></html>");
-		@SuppressWarnings("rawtypes")
-		SmtpServer smtpServer = SmtpServer.create(mailsmtp, ToolUtil.toInt(mailport, 25))
-				.authenticateWith(mailuser, mailpwd).timeout(100000);
-		SendMailSession session = smtpServer.createSession();
-		session.open();
-		session.sendMail(email);
-		session.close();
+		String sql = "select b.* from mn_mail_user a,sys_user_info b where a.user_id=b.user_id and b.deleted='N' "
+				+ "and b.mail is not null";
+		RcdSet rs = db.query(sql);
+		for (int i = 0; i < rs.size(); i++) {
+			String mail = rs.getRcd(i).getString("mail");
+			if (mail.indexOf("@") == -1) {
+				continue;
+			}
+			_log.info("send mail to:" + mail);
+			Email email = Email.create();
+			try {
+				email.from(mailfrom).to(mail);
+				email.subject(title);
+				email.addHtml("<html><meta http-equiv=Content-Type content=\"text/html; charset=utf-8\">" + "<body>"
+						+ body + "</body></html>");
+				@SuppressWarnings("rawtypes")
+				SmtpServer smtpServer = SmtpServer.create(mailsmtp, ToolUtil.toInt(mailport, 25))
+						.authenticateWith(mailuser, mailpwd).timeout(100000);
+				SendMailSession session = smtpServer.createSession();
+				session.open();
+				session.sendMail(email);
+				session.close();
+			} catch (Exception e) {
+			}
+		}
+
 		// 发邮件
 		_log.info(title + ".邮件无法成功");
 		return R.SUCCESS_OPER();

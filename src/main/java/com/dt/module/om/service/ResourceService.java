@@ -103,7 +103,6 @@ public class ResourceService extends BaseService {
 				for (int i = 0; i < drs.size(); i++) {
 					BigDecimal a = ((BigDecimal) drs.getRcd(i).getBigDecimal("intertime"));
 					for (int j = 0; j < colsarr.length; j++) {
-
 						BigDecimal b = ((BigDecimal) drs.getRcd(i).getBigDecimal(colsarr[j]));
 						columnsdata[j].add(new BigDecimal[] { a.setScale(2, BigDecimal.ROUND_HALF_UP),
 								b.setScale(2, BigDecimal.ROUND_HALF_UP) });

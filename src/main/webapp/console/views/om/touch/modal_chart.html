@@ -1,4 +1,11 @@
 
+<style>
+@media ( min-width : 992px) {
+	.modal-blg {
+		width: 95%;
+	}
+}
+</style>
 <div class="modal-content">
 	<div class="modal-header">
 		<button ng-click="cancel()" type="button" class="close">
@@ -7,7 +14,7 @@
 		<h4 class="modal-title">图表</h4>
 	</div>
 	<div class="modal-body">
-		<iframe ng-src="{{url}}"  frameborder="no" allowTransparency="true"  scrolling="no" height="385px" width="100%"></iframe>
+		<iframe ng-src="{{url}}" frameborder="no" allowTransparency="true"
+			scrolling="no" height="300px" width="100%"></iframe>
 	</div>
-
 </div>
