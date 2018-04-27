@@ -25,7 +25,8 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="../console/js/bootstrap_table/bootstrap-table.min.js"></script>
-
+<!-- highcharts  -->
+<script src="./js/highcharts/highcharts.src.js"></script>
 <!-- Latest compiled and minified Locales -->
 <script
 	src="../console/js/bootstrap_table/locale/bootstrap-table-zh-CN.min.js"></script>
@@ -84,16 +85,18 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 
 								htmlfill = htmlfill
 										+ "<td><button onclick=\"chart('"
-										+ mdata[i].id
+										+ mdata[i].node
 										+ "','resp')\" style =\"margin-left:5px;\" type=\"button\" class=\"btn btn-default btn-xs\">响应时间</button>";
 
 								htmlfill = htmlfill
 										+ "<button onclick=\"chart('"
-										+ mdata[i].id
+										+ mdata[i].node
 										+ "','status')\" style =\"margin-left:5px;\" type=\"button\" class=\"btn btn-default btn-xs\">响应码</button>";
 
 								htmlfill = htmlfill
 										+ "<button onclick=\"delMetric('"
+										+ mdata[i].node
+										+ "','"
 										+ mdata[i].id
 										+ "')\" style =\"margin-left:5px;\" type=\"button\" class=\"btn btn-default btn-xs\">删除</button>";
 
@@ -106,16 +109,13 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 		}
 		fdata();
 
-		function chart(node, type) {
-			console.log(node, type);
-		}
-
-		function delMetric(id) {
+		function delMetric(node, id) {
 			console.log("del:" + id);
 			$.ajax({
 				type : "POST",
-				url : project + "/api/mn/deleteWarnData.do",
+				url : project + "/api/mn/om/deleteUrlMetricWarnData.do",
 				data : {
+					node : node,
 					id : id
 				},
 				dataType : 'json',
@@ -126,6 +126,110 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 				}
 			});
 		}
+
+		function flushdata(node, type) {
+			var option = {
+				"plotOptions" : {
+					"spline" : {
+						"marker" : {
+							"enabled" : false
+						},
+						"lineWidth" : 1,
+						"states" : {
+							"hover" : {
+								"lineWidth" : 1
+							}
+						}
+					}
+				},
+				"yAxis" : {
+					"min" : 0,
+					"title" : {
+						"text" : ""
+					}
+				},
+				"xAxis" : {
+					"type" : "datetime",
+					"title" : {}
+				},
+				"credits" : {
+					"enabled" : false
+				},
+				"series" : [ {
+					name : "",
+				} ],
+				"subtitle" : {
+					"text" : ""
+				},
+				"title" : {
+					"text" : ""
+				},
+				"chart" : {
+					"zoomType" : "x",
+					"type" : "spline",
+					"height" : 300
+				}
+			}
+			console.log("node", node);
+			console.log("type", type);
+			$.ajax({
+				type : "POST",
+				url : project + "/api/mn/om/queryUrlMetricWarnDataForChart.do",
+				data : {
+					node : node,
+					type : type
+				},
+				dataType : 'json',
+				success : function(res) {
+					var sdata = res.data;
+					var hdata = {};
+					hdata.name = sdata.col;
+					hdata.data = sdata.data;
+					option.series[0] = hdata;
+					option.title = {
+						text : sdata.name
+					};
+					showinit(option);
+				}
+			})
+		}
+		function showinit(option) {
+			$('#chart').highcharts(option);
+		}
+
+		function chart(node, type) {
+			console.log(node, type);
+			//queryUrlMetricWarnDataForChart
+			flushdata(node, type);
+			$('#myModal').modal({
+				keyboard : true,
+				size : 'lg'
+			})
+		}
 	</script>
+
+	<div id="myModal" class="modal fade  " tabindex="-1" role="dialog">
+		<div class="modal-dialog  modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">图表</h4>
+				</div>
+				<div class="modal-body">
+					<div id="chart"></div>
+				</div>
+				<!-- 	<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div> -->
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
 </body>
 </html>

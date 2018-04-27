@@ -224,7 +224,7 @@ public class WarnService extends BaseService {
 		} else {
 			res.put("col", "响应时间");
 		}
-		String sql = "select trunc((inserttime-to_date('1970-01-01','yyyy-mm-dd'))*24*60*60*1000,1) itime,t.* from mn_url_touch t where node=? and inserttime>sysdate-"
+		String sql = "select trunc((inserttime-to_date('1970-01-01','yyyy-mm-dd'))*24*60*60*1000,1) itime,t.* from mn_url_touch_warn t where node=? and inserttime>sysdate-"
 				+ t + " order by inserttime";
 		RcdSet drs = db.query(sql, node);
 		JSONArray data = new JSONArray();

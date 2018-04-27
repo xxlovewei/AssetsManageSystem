@@ -77,7 +77,7 @@ public class UrlMetricController extends BaseController {
 	public R queryTouchMetricData(String node, String type, String time) {
 		return urlTouchService.queryTouchMetricData(node, type, time);
 	}
-
+ 
 	@RequestMapping("/mn/om/queryUrlMetricWarnDataForChart.do")
 	@ResponseBody
 	@Acl(info = "查询UrlMetric数据", value = Acl.ACL_ALLOW)
