@@ -7,12 +7,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
 import com.dt.core.dao.sql.Update;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -211,6 +213,7 @@ public class WarnService extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 
+	@Cacheable(value = CacheConfig.CACHE_USER_180_60, key = "'qUrlMetricDataF'+#node+#type")
 	public R queryUrlMetricWarnDataForChart(String type, String node) {
 		int t = 180;
 		String bsql = "select * from mn_url_metric where node=?";
