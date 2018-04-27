@@ -212,7 +212,7 @@ public class WarnService extends BaseService {
 	}
 
 	public R queryUrlMetricWarnDataForChart(String type, String node) {
-		int t = 300;
+		int t = 180;
 		String bsql = "select * from mn_url_metric where node=?";
 		JSONObject res = new JSONObject();
 		Rcd rs = db.uniqueRecord(bsql, node);
