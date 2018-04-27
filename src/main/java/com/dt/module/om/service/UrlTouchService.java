@@ -1,6 +1,7 @@
 package com.dt.module.om.service;
 
 import java.math.BigDecimal;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,6 @@ import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.tool.lang.SpringContextUtil;
-import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -44,6 +44,7 @@ public class UrlTouchService extends BaseService {
 	public R touchUrlExample() {
 		return executeAllUrls();
 	}
+
 	@Cacheable(value = CacheConfig.CACHE_PUBLIC_45_10, key = "'qUrlMetricData'+#node+#type+#time")
 	public R queryTouchMetricData(String node, String type, String time) {
 		int t = ToolUtil.toInt(time, 3);
@@ -125,11 +126,27 @@ public class UrlTouchService extends BaseService {
 	}
 
 	public R touchUrl(String node, String url, String metric_id) {
-		JSONObject r = HttpKit.sendGetWithResp(url);
-		_log.info("touchUrl,node:" + node + ",url:" + url);
+		JSONObject r = null;
 		if (ToolUtil.isOneEmpty(node, url, metric_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
+		try {
+			_log.info("touchUrl,node:" + node + ",url:" + url);
+			r = HttpKit.sendGetWithResp(url);
+		} catch (Exception e) {
+			r = new JSONObject();
+			r.put("result", e.getMessage());
+			r.put("code", 404);
+			r.put("response_time", 100);
+		} finally {
+			if (ToolUtil.isEmpty(r)) {
+				r.put("result", "unknow");
+				r.put("code", 404);
+				r.put("response_time", 100);
+			}
+		}
+
+		System.out.println(r.toJSONString());
 		Insert me = new Insert("mn_url_touch");
 		me.setIf("id", db.getUUID());
 		me.setIf("metric_id", metric_id);
