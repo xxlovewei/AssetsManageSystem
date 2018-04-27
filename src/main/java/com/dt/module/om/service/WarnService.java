@@ -1,5 +1,6 @@
 package com.dt.module.om.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
 import com.dt.core.dao.sql.Update;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
@@ -33,7 +35,7 @@ public class WarnService extends BaseService {
 	@Autowired
 	MailService mailService;
 
-	//private static Logger _log = LoggerFactory.getLogger(WarnService.class);
+	// private static Logger _log = LoggerFactory.getLogger(WarnService.class);
 
 	public static WarnService me() {
 		return SpringContextUtil.getBean(WarnService.class);
@@ -188,4 +190,62 @@ public class WarnService extends BaseService {
 		}
 		return false;
 	}
+
+	public R queryUrlMetricWarnLastData() {
+		String sql = "select * from mn_url_touch_warn where(node,inserttime) in ("
+				+ "select node,max(inserttime) from mn_url_touch_warn where dr=0 group by node)";
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+	}
+
+	public R deleteUrlMetricWarnData(String node, String id) {
+		if (id == null) {
+			id = "";
+		}
+		if (ToolUtil.isEmpty(node)) {
+			return R.FAILURE();
+		}
+		String sql = " update mn_url_touch_warn set dr=1 where node='" + node + "' and  " + " inserttime<= "
+				+ " decode((select inserttime from mn_url_touch_warn where id='" + id + "'), " + " null,sysdate+1, "
+				+ " (select inserttime from mn_url_touch_warn where id='" + id + "')) ";
+		db.execute(sql);
+		return R.SUCCESS_OPER();
+	}
+
+	public R queryUrlMetricWarnDataForChart(String type, String node) {
+		int t = 300;
+		String bsql = "select * from mn_url_metric where node=?";
+		JSONObject res = new JSONObject();
+		Rcd rs = db.uniqueRecord(bsql, node);
+		if (ToolUtil.isNotEmpty(rs)) {
+			res.put("name", rs.getString("name"));
+		}
+		if (type.equals("status")) {
+			res.put("col", "状态码");
+		} else {
+			res.put("col", "响应时间");
+		}
+		String sql = "select trunc((inserttime-to_date('1970-01-01','yyyy-mm-dd'))*24*60*60*1000,1) itime,t.* from mn_url_touch t where node=? and inserttime>sysdate-"
+				+ t + " order by inserttime";
+		RcdSet drs = db.query(sql, node);
+		JSONArray data = new JSONArray();
+		if (type.equals("status")) {
+			for (int i = 0; i < drs.size(); i++) {
+				JSONArray e = new JSONArray();
+				e.add(((BigDecimal) drs.getRcd(i).getBigDecimal("itime")));
+				e.add(drs.getRcd(i).getInteger("status"));
+				data.add(e);
+			}
+		} else {
+			for (int i = 0; i < drs.size(); i++) {
+				JSONArray e = new JSONArray();
+				e.add(((BigDecimal) drs.getRcd(i).getBigDecimal("itime")));
+				e.add(drs.getRcd(i).getInteger("resp_time"));
+				data.add(e);
+			}
+		}
+		res.put("data", data);
+
+		return R.SUCCESS_OPER(res);
+	}
+
 }

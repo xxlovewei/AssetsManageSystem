@@ -18,12 +18,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 <link href="./js/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
 <script src="./js/ztree/js/jquery.ztree.all-3.5.js"></script>
 
-<!-- select  -->
-<link
-	href="./js/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css"
-	rel="stylesheet">
-<script
-	src="./js/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+
 
 <!-- highcharts  -->
 <script src="./js/highcharts/highcharts.src.js"></script>
@@ -37,6 +32,10 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 
 </head>
 <body>
+
+	<div id="header"></div>
+
+
 
 	<div class="container-fluid" style="margin-top: 10px;">
 		<div class="row">
@@ -74,7 +73,13 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 		</div>
 	</div>
 
+
+
 	<script language="JavaScript">
+		$.get("header.html", function(data) {
+			$("#header").html(data);
+		});
+
 		//tree init
 		var project = "/dt";
 		var setting = {

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>告警数据</title>
+<title>web检测</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
@@ -37,11 +37,11 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 	<table data-toggle="table">
 		<thead>
 			<tr>
-				<th>服务</th>
 				<th>节点</th>
-				<th>度量</th>
+				<th>地址</th>
+				<th>状态码</th>
+				<th>延迟</th>
 				<th>阀值</th>
-				<th>当前</th>
 				<th>日期</th>
 				<th>动作</th>
 			</tr>
@@ -58,10 +58,9 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 			$
 					.ajax({
 						type : "POST",
-						url : project + "/api/mn/queryWarnDataForDashboard.do",
-						data : {
-							day : 15
-						},
+						url : project
+								+ "/api/mn/om/queryUrlMetricWarnLastData.do",
+						data : {},
 						dataType : 'json',
 						success : function(res) {
 							var mdata = res.data;
@@ -70,21 +69,35 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 							for (var i = 0; i < mdata.length; i++) {
 								htmlfill = htmlfill + "<tr>";
 								htmlfill = htmlfill + "<td>"
-										+ mdata[i].service_name + "</td>";
-								htmlfill = htmlfill + "<td>"
-										+ mdata[i].node_name + "</td>";
-								htmlfill = htmlfill + "<td>"
-										+ mdata[i].metric_name + "</td>";
-								htmlfill = htmlfill + "<td>" + mdata[i].v_a_v
-										+ "</td>";
-								htmlfill = htmlfill + "<td>" + mdata[i].value
-										+ "</td>";
+										+ mdata[i].nodename + "</td>";
 								htmlfill = htmlfill
-										+ "<td> <button onclick=\"delMetric('"
-										+ mdata[i].id
-										+ "')\" style =\"margin-left:5px;\" type=\"button\" class=\"btn btn-default btn-xs\">删除</button></td>";
+										+ "<td style=\"width:100px\">"
+										+ mdata[i].url + "</td>";
+								htmlfill = htmlfill + "<td>" + mdata[i].status
+										+ "</td>";
+								htmlfill = htmlfill + "<td>"
+										+ mdata[i].resp_time + "</td>";
+								htmlfill = htmlfill + "<td>"
+										+ mdata[i].threshold + "</td>";
 								htmlfill = htmlfill + "<td>"
 										+ mdata[i].inserttime + "</td>";
+
+								htmlfill = htmlfill
+										+ "<td><button onclick=\"chart('"
+										+ mdata[i].id
+										+ "','resp')\" style =\"margin-left:5px;\" type=\"button\" class=\"btn btn-default btn-xs\">响应时间</button>";
+
+								htmlfill = htmlfill
+										+ "<button onclick=\"chart('"
+										+ mdata[i].id
+										+ "','status')\" style =\"margin-left:5px;\" type=\"button\" class=\"btn btn-default btn-xs\">响应码</button>";
+
+								htmlfill = htmlfill
+										+ "<button onclick=\"delMetric('"
+										+ mdata[i].id
+										+ "')\" style =\"margin-left:5px;\" type=\"button\" class=\"btn btn-default btn-xs\">删除</button>";
+
+								htmlfill = htmlfill + "</td>"
 								htmlfill = htmlfill + "</tr>";
 							}
 							$("#mdata").html(htmlfill);
@@ -92,6 +105,10 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 					});
 		}
 		fdata();
+
+		function chart(node, type) {
+			console.log(node, type);
+		}
 
 		function delMetric(id) {
 			console.log("del:" + id);

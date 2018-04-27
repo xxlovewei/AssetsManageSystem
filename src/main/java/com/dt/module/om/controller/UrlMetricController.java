@@ -13,6 +13,7 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.om.service.UrlMetricService;
 import com.dt.module.om.service.UrlTouchService;
+import com.dt.module.om.service.WarnService;
 
 /**
  * @author: jinjie
@@ -26,6 +27,9 @@ public class UrlMetricController extends BaseController {
 	UrlTouchService urlTouchService;
 	@Autowired
 	UrlMetricService urlMetricService;
+
+	@Autowired
+	WarnService warnService;
 
 	@RequestMapping("/mn/om/urlTouchExample.do")
 	@ResponseBody
@@ -72,6 +76,27 @@ public class UrlMetricController extends BaseController {
 	@Acl(info = "查询UrlMetric数据", value = Acl.ACL_ALLOW)
 	public R queryTouchMetricData(String node, String type, String time) {
 		return urlTouchService.queryTouchMetricData(node, type, time);
+	}
+
+	@RequestMapping("/mn/om/queryUrlMetricWarnDataForChart.do")
+	@ResponseBody
+	@Acl(info = "查询UrlMetric数据", value = Acl.ACL_ALLOW)
+	public R queryUrlMetricWarnDataForChart(String type, String node) {
+		return warnService.queryUrlMetricWarnDataForChart(type, node);
+	}
+
+	@RequestMapping("/mn/om/queryUrlMetricWarnLastData.do")
+	@ResponseBody
+	@Acl(info = "查询UrlTouch警告的最新数据", value = Acl.ACL_ALLOW)
+	public R queryUrlMetricWarnLastData() {
+		return warnService.queryUrlMetricWarnLastData();
+	}
+
+	@RequestMapping("/mn/om/deleteUrlMetricWarnData.do")
+	@ResponseBody
+	@Acl(info = "删除UrlTouch警告的数据", value = Acl.ACL_ALLOW)
+	public R deleteUrlMetricWarnData(String node, String id) {
+		return warnService.deleteUrlMetricWarnData(node, id);
 	}
 
 }
