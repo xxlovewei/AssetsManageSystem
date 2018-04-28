@@ -151,8 +151,7 @@ public class UrlTouchService extends BaseService {
 				r.put("response_time", 100);
 			}
 		}
-
-		System.out.println(r.toJSONString());
+		//System.out.println(r.toJSONString());
 		Insert me = new Insert("mn_url_touch");
 		me.setIf("id", db.getUUID());
 		me.setIf("metric_id", metric_id);
