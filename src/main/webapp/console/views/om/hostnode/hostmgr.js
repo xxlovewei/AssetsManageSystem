@@ -11,17 +11,17 @@ function nodeHostTermCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 			$http.post(
 					$rootScope.project + "/api/node/executeHostNodeCommand.do",
 					ps).success(function(res) {
-				if (res.success) {
-					$scope.result = res.data;
-				} else {
-					$scope.result = res.message;
-				}
-			})
+						if (res.success) {
+							$scope.result = res.data;
+						} else {
+							$scope.result = res.message;
+						}
+					})
 
 		} else {
 			notify({
-				message : "主机未选择"
-			});
+						message : "主机未选择"
+					});
 		}
 	}
 
@@ -43,72 +43,72 @@ function nodeHostSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 		}
 	}
 
-	$scope.hosttypeOpt = [ {
-		id : "window",
-		name : "Window"
-	}, {
-		id : "aix",
-		name : "AIX"
-	}, {
-		id : "linux",
-		name : "Linux"
-	} ]
+	$scope.hosttypeOpt = [{
+				id : "window",
+				name : "Window"
+			}, {
+				id : "aix",
+				name : "AIX"
+			}, {
+				id : "linux",
+				name : "Linux"
+			}]
 	$scope.hosttypeSel = $scope.hosttypeOpt[0];
 
-	$scope.validOpt = [ {
-		id : "Y",
-		name : "正常"
-	}, {
-		id : "N",
-		name : "暂停"
-	} ]
+	$scope.validOpt = [{
+				id : "Y",
+				name : "正常"
+			}, {
+				id : "N",
+				name : "暂停"
+			}]
 	$scope.validSel = $scope.validOpt[0];
 
 	// 当前只支持ssh登录
-	$scope.logintypeOpt = [ {
-		id : "ssh",
-		name : "SSH登录"
-	} ]
+	$scope.logintypeOpt = [{
+				id : "ssh",
+				name : "SSH登录"
+			}]
 
 	$scope.logintypeSel = $scope.logintypeOpt[0];
 
 	if (angular.isDefined(id)) {
 		// 加载数据
 		$http.post($rootScope.project + "/api/node/queryNodeById.do", {
-			id : id
-		}).success(function(res) {
-			if (res.success) {
-				$scope.item = res.data
+					id : id
+				}).success(function(res) {
+					if (res.success) {
+						$scope.item = res.data
 
-				if (res.data.isvalid == "Y") {
-					$scope.validSel = $scope.validOpt[0];
-				} else {
-					$scope.validSel = $scope.validOpt[1];
-				}
-
-				if (res.data.smalltype == "aix") {
-					$scope.hosttypeSel = $scope.hosttypeOpt[1];
-				} else if (res.data.smalltype == "linux") {
-					$scope.hosttypeSel = $scope.hosttypeOpt[2];
-				} else if (res.data.smalltype == "window") {
-					$scope.hosttypeSel = $scope.hosttypeOpt[0];
-				}
-
-				if (angular.isDefined(templOpt)) {
-					for (var i = 0; i < templOpt.length; i++) {
-						if (templOpt[i].id == res.data.templid) {
-							$scope.templSel = templOpt[i];
-							break;
+						if (res.data.isvalid == "Y") {
+							$scope.validSel = $scope.validOpt[0];
+						} else {
+							$scope.validSel = $scope.validOpt[1];
 						}
-					}
-				}
 
-			} else {
-				notify({
-					message : res.message
-				});
-			}
-		})
+						if (res.data.smalltype == "aix") {
+							$scope.hosttypeSel = $scope.hosttypeOpt[1];
+						} else if (res.data.smalltype == "linux") {
+							$scope.hosttypeSel = $scope.hosttypeOpt[2];
+						} else if (res.data.smalltype == "window") {
+							$scope.hosttypeSel = $scope.hosttypeOpt[0];
+						}
+
+						if (angular.isDefined(templOpt)) {
+							for (var i = 0; i < templOpt.length; i++) {
+								if (templOpt[i].id == res.data.templid) {
+									$scope.templSel = templOpt[i];
+									break;
+								}
+							}
+						}
+
+					} else {
+						notify({
+									message : res.message
+								});
+					}
+				})
 	}
 
 	$scope.sure = function() {
@@ -120,14 +120,14 @@ function nodeHostSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 		$scope.item.templid = $scope.templSel.id;
 		$http.post($rootScope.project + "/api/node/saveNode.do", $scope.item)
 				.success(function(res) {
-					if (res.success) {
-						$uibModalInstance.close("OK");
-					} else {
-						notify({
-							message : res.message
-						});
-					}
-				})
+							if (res.success) {
+								$uibModalInstance.close("OK");
+							} else {
+								notify({
+											message : res.message
+										});
+							}
+						})
 
 	};
 
@@ -140,24 +140,28 @@ function nodeHostSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
-			'full_numbers').withDisplayLength(25).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", true)
-			.withOption("paging", false).withOption('bStateSave', true)
-			.withOption('bProcessing', true).withOption('bFilter', false)
-			.withOption('bInfo', false).withOption('serverSide', false)
-			.withOption('bAutoWidth', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise()
+			.withPaginationType('full_numbers').withDisplayLength(25)
+			.withOption("ordering", false).withOption("responsive", true)
+			.withOption("searching", true).withOption("paging", false)
+			.withOption('bStateSave', true).withOption('bProcessing', true)
+			.withOption('bFilter', false).withOption('bInfo', false)
+			.withOption('serverSide', false).withOption('bAutoWidth', false)
+			.withOption('aaData', $scope.tabdata).withOption('createdRow',
+					function(row) {
+						// Recompiling so we can bind Angular,directive to the
+						$compile(angular.element(row).contents())($scope);
+					}).withLanguage(DTLang);
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		// acthtml = acthtml + " <button ng-click=\"toTerm('" + full.id
-		// + "')\" class=\"btn-white btn btn-xs\">终端</button> ";
-		// acthtml = acthtml + " <button ng-click=\"toSftp('" + full.id
-		// + "')\" class=\"btn-white btn btn-xs\">Sftp</button> ";
+
+		if (full.smalltype == "linux" || full.smalltype == "aix") {
+			acthtml = acthtml + " <button ng-click=\"toTerm('" + full.id
+					+ "')\" class=\"btn-white btn btn-xs\">终端</button> ";
+			acthtml = acthtml + " <button ng-click=\"toSftp('" + full.id
+					+ "')\" class=\"btn-white btn btn-xs\">Sftp</button> ";
+		}
 		// acthtml = acthtml + " <button ng-click=\"addapp('" + full.id
 		// + "')\" class=\"btn-white btn btn-xs\">添加应用</button> ";
 		acthtml = acthtml + " <button ng-click=\"modify('" + full.id
@@ -198,8 +202,8 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			DTColumnBuilder.newColumn('isvalid').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
 			DTColumnBuilder.newColumn('templname').withTitle('模版名称')
-					.withOption('sDefaultContent', '').renderWith(
-							renderRunStatus),
+					.withOption('sDefaultContent', '')
+					.renderWith(renderRunStatus),
 			DTColumnBuilder.newColumn('cdate').withTitle('创建时间').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('username').withTitle('用户名').withOption(
@@ -211,19 +215,19 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('seq').withTitle('动作').withOption(
-					'sDefaultContent', '').renderWith(renderAction) ]
+					'sDefaultContent', '').renderWith(renderAction)]
 	function flush() {
 		var ps = {}
 		$http.post($rootScope.project + "/api/node/queryNodeHost.do", ps)
 				.success(function(res) {
-					if (res.success) {
-						$scope.dtOptions.aaData = res.data;
-					} else {
-						notify({
-							message : res.message
-						});
-					}
-				})
+							if (res.success) {
+								$scope.dtOptions.aaData = res.data;
+							} else {
+								notify({
+											message : res.message
+										});
+							}
+						})
 	}
 	flush();
 
@@ -232,19 +236,21 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		if (angular.isDefined(id)) {
 			// 删除
 			$confirm({
-				text : '是否删除?'
-			}).then(function() {
-				$http.post($rootScope.project + "/api/node/deleteNode.do", {
-					id : id
-				}).success(function(res) {
-					if (res.success) {
-						flush();
-					}
-					notify({
-						message : res.message
+						text : '是否删除?'
+					}).then(function() {
+						$http.post(
+								$rootScope.project + "/api/node/deleteNode.do",
+								{
+									id : id
+								}).success(function(res) {
+									if (res.success) {
+										flush();
+									}
+									notify({
+												message : res.message
+											});
+								})
 					});
-				})
-			});
 
 		}
 	}
@@ -253,120 +259,114 @@ function nodeHostMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	$http.post($rootScope.project + "/api/mn/queryMetricGroup.do", {
 
 	}).success(function(res) {
-		if (res.success) {
-			templOpt = res.data;
-		}
+				if (res.success) {
+					templOpt = res.data;
+				}
 
-	})
+			})
 
 	$scope.modify = function(id) {
 
 		var modalInstance = $uibModal.open({
-			backdrop : true,
-			templateUrl : 'views/om/hostnode/modal_hostSave.html',
-			controller : nodeHostSaveCtl,
-			size : 'md',
-			resolve : { // 调用控制器与modal控制器中传递值
-				id : function() {
-					return id;
-				},
-				templOpt : function() {
-					return templOpt;
-				}
-			}
-		});
+					backdrop : true,
+					templateUrl : 'views/om/hostnode/modal_hostSave.html',
+					controller : nodeHostSaveCtl,
+					size : 'md',
+					resolve : { // 调用控制器与modal控制器中传递值
+						id : function() {
+							return id;
+						},
+						templOpt : function() {
+							return templOpt;
+						}
+					}
+				});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
-			if (result == "OK") {
-				flush();
-			}
-		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-			$log.log("reason", reason)
-		});
+					$log.log("result", result);
+					if (result == "OK") {
+						flush();
+					}
+				}, function(reason) {
+					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+					$log.log("reason", reason)
+				});
 
 	}
 
 	$scope.toSftp = function(id) {
 
-		$http
-				.post($rootScope.project + "/api/term/setCurrentMachine.do", {
+		$http.post($rootScope.project + "/api/term/setCurrentMachine.do", {
 					id : id
-				})
-				.success(
-						function(res) {
-							if (res.success) {
-								if (res.data.logintype == "ssh") {
+				}).success(function(res) {
+			if (res.success) {
+				if (res.data.logintype == "ssh") {
 
-									$window
-											.open(
-													$rootScope.project
-															+ "/console/views/om/machine/openSftpWindow.jsp",
-													"_blank");
-								} else {
-									notify({
-										message : "请选择ssh登录方式"
-									});
-								}
+					$window
+							.open(
+									$rootScope.project
+											+ "/console/views/om/machine/openSftpWindow.jsp",
+									"_blank");
+				} else {
+					notify({
+								message : "请选择ssh登录方式"
+							});
+				}
 
-							} else {
-								notify({
-									message : res.message
-								});
-							}
-						})
+			} else {
+				notify({
+							message : res.message
+						});
+			}
+		})
 	}
 	$scope.toTerm = function(id) {
 
-		$http
-				.post($rootScope.project + "/api/term/setCurrentMachine.do", {
+		$http.post($rootScope.project + "/api/term/setCurrentMachine.do", {
 					id : id
-				})
-				.success(
-						function(res) {
-							if (res.success) {
-								if (res.data.logintype == "ssh") {
-									$window
-											.open(
-													$rootScope.project
-															+ "/console/views/om/machine/openShellTerminal.jsp",
-													"_blank");
-								} else {
-									notify({
-										message : "请选择ssh登录方式"
-									});
-								}
+				}).success(function(res) {
+			if (res.success) {
+				if (res.data.logintype == "ssh") {
+					$window
+							.open(
+									$rootScope.project
+											+ "/console/views/om/machine/openShellTerminal.jsp",
+									"_blank");
+				} else {
+					notify({
+								message : "请选择ssh登录方式"
+							});
+				}
 
-							} else {
-								notify({
-									message : res.message
-								});
-							}
-						})
+			} else {
+				notify({
+							message : res.message
+						});
+			}
+		})
 
 		return;
 		var modalInstance = $uibModal.open({
-			backdrop : true,
-			templateUrl : 'views/om/hostnode/modal_toTerm.html',
-			controller : nodeHostTermCtl,
-			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
-				id : function() {
-					return id;
-				}
-			}
-		});
+					backdrop : true,
+					templateUrl : 'views/om/hostnode/modal_toTerm.html',
+					controller : nodeHostTermCtl,
+					size : 'lg',
+					resolve : { // 调用控制器与modal控制器中传递值
+						id : function() {
+							return id;
+						}
+					}
+				});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
-			if (result == "OK") {
-				// flush();
-			}
-		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-			$log.log("reason", reason)
-		});
+					$log.log("result", result);
+					if (result == "OK") {
+						// flush();
+					}
+				}, function(reason) {
+					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+					$log.log("reason", reason)
+				});
 
 	}
 };

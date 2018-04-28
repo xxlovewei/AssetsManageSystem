@@ -33,13 +33,6 @@
 					<property name="suffix" value=".jsp" />
 					<property name="order" value="2" />
 				</bean>
-				<!--used thymeleaf -->
-				<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
-					<property name="characterEncoding" value="UTF-8" />
-					<property name="templateEngine" ref="templateEngine" />
-					<property name="viewNames" value="*.html" />
-					<property name="order" value="3" />
-				</bean>
 			</list>
 		</property>
 	</bean>

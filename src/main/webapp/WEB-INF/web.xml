@@ -46,10 +46,7 @@
 	   	 classpath:applicationContext-websocket.xml
 		</param-value>
 	</context-param>
-
-	<!-- classpath:shiro.xml, classpath:templateview.xml, s<servlet-mapping> 
-		<servlet-name>term</servlet-name> <url-pattern>/term</url-pattern> </servlet-mapping> -->
-
+ 
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -65,7 +62,6 @@
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
-		<url-pattern>*.jsp</url-pattern>
 		<url-pattern>*.html</url-pattern>
 		<url-pattern>/term</url-pattern>
 	</servlet-mapping>
