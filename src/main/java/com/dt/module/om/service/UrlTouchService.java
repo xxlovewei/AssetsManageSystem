@@ -113,6 +113,7 @@ public class UrlTouchService extends BaseService {
 				});
 			}
 		}
+
 		nodes = nodes + "'')";
 		nodesClear = nodesClear + "'')";
 		String upsclear = "update mn_url_metric set curcnt=1 where node in " + nodesClear;
