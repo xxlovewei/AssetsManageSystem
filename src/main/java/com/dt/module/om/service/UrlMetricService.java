@@ -53,6 +53,7 @@ public class UrlMetricService extends BaseService {
 		me.setIf("interval_time", ToolUtil.toInt(ps.getString("interval_time"), 5));
 		me.setIf("threshold", ToolUtil.toInt(ps.getString("threshold"), 0));
 		me.setIf("curcnt", 1);
+		me.setIf("maxwarn", ps.getString("maxwarn"));
 		me.setIf("mark", ps.getString("mark"));
 		db.execute(me);
 		return R.SUCCESS_OPER();
@@ -75,6 +76,7 @@ public class UrlMetricService extends BaseService {
 		me.setIf("interval_time", ToolUtil.toInt(ps.getString("interval_time"), 5));
 		me.setIf("threshold", ToolUtil.toInt(ps.getString("threshold"), 0));
 		me.setIf("mark", ps.getString("mark"));
+		me.setIf("maxwarn", ps.getString("maxwarn"));
 		me.where().and("node=?", ps.getString("node"));
 		db.execute(me);
 		return R.SUCCESS_OPER();

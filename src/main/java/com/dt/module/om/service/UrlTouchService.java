@@ -1,22 +1,25 @@
 package com.dt.module.om.service;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.dt.core.cache.CacheConfig;
 import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
+import com.dt.core.dao.sql.SQL;
+import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
@@ -31,6 +34,9 @@ import com.dt.core.tool.util.support.HttpKit;
 public class UrlTouchService extends BaseService {
 	@Autowired
 	UrlMetricService urlMetricService;
+
+	@Autowired
+	MailService mailService;
 
 	public static UrlTouchService me() {
 		return SpringContextUtil.getBean(UrlTouchService.class);
@@ -64,6 +70,7 @@ public class UrlTouchService extends BaseService {
 		RcdSet drs = db.query(sql, node);
 		// Long s = System.currentTimeMillis();
 		// System.out.println("sql exe" + (s - a));
+
 		StringBuffer strs = new StringBuffer("[");
 		if (type.equals("status")) {
 			for (int i = 0; i < drs.size(); i++) {
@@ -123,11 +130,49 @@ public class UrlTouchService extends BaseService {
 				+ " and(a.status<>200 or resp_time>threshold) and a.id not in(  "
 				+ " select id from mn_url_touch_warn where inserttime>sysdate-1/2)";
 		db.execute(sql);
+		sendMail();
 		return R.SUCCESS_OPER();
 	}
 
-	public R buildWarnningBody() {
-		// 半天内
+	public R sendMail() {
+		//
+		//
+		String sql = " select " + " decode(t2.node,null,'Y','N') ifsend,  t.* "
+				+ " from mn_url_touch_warn t left join( " + " select warnedcnt ,b.*  from ( " + " select node, "
+				+ " count(1) warnedcnt " + " from mn_url_touch_warn "
+				+ " where warn=1 and inserttime>sysdate-3/24 group by node) a, "
+				+ " mn_url_metric b where a.node=b.node and warnedcnt>maxwarn)t2 "
+				+ " on t.node=t2.node where warn=0 and inserttime>sysdate-1/2 order by 1,3 ";
+
+		RcdSet rs = db.query(sql);
+		String htmlfill = "<table border=\"1\"><thead><tr><th>节点</th><th>返回码</th><th>阀值</th><th>响应时间</th><th>地址</th><th>日期</th></tr></thead><tbody>";
+		List<SQL> sqls = new ArrayList<SQL>();
+		boolean ifsend = false;
+		for (int i = 0; i < rs.size(); i++) {
+			Update me = new Update("mn_url_touch_warn");
+			me.set("warn", "1");
+			me.where().and("id=?", rs.getRcd(i).getString("id"));
+			sqls.add(me);
+			if (rs.getRcd(i).getString("ifsend").equals("Y")) {
+				ifsend = true;
+				htmlfill = htmlfill + "<tr>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("nodename") + "</td>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("status") + "</td>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("threshold") + "</td>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("resp_time") + "</td>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("url") + "</td>";
+				htmlfill = htmlfill + "<td>" + rs.getRcd(i).getString("inserttime") + "</td>";
+				htmlfill = htmlfill + "</tr>";
+			}
+		}
+		htmlfill = htmlfill + "</tbody></table>";
+		if (sqls.size() > 0) {
+			db.executeSQLList(sqls);
+		}
+		if (ifsend) {
+			mailService.sendMail(htmlfill, "来自Url检测");
+		}
+
 		return R.SUCCESS_OPER();
 	}
 
@@ -151,7 +196,7 @@ public class UrlTouchService extends BaseService {
 				r.put("response_time", 100);
 			}
 		}
-		//System.out.println(r.toJSONString());
+
 		Insert me = new Insert("mn_url_touch");
 		me.setIf("id", db.getUUID());
 		me.setIf("metric_id", metric_id);
