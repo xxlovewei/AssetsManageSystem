@@ -103,6 +103,8 @@ function touchWebCtl($window, DTLang, DTOptionsBuilder, DTColumnBuilder,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('interval_time').withTitle('间隔')
 					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('interval_time').withTitle('时间内最大次数')
+					.withOption('maxwarn', ''),
 			DTColumnBuilder.newColumn('resp_time').withTitle('响应时间')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('resp_status').withTitle('响应码')
