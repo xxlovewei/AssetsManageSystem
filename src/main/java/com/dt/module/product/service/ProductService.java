@@ -239,6 +239,7 @@ public class ProductService extends BaseService {
 		ups.set("list_ori_price", ps.getString("list_ori_price"));
 		ups.setIf("code", ps.getString("code"));
 		ups.setIf("sales", ps.getString("sales"));
+		ups.setIf("pic_id", ps.getString("pic_id"));
 		ups.setIf("prod_desc", ps.getString("prod_desc"));
 		ups.setIf("brand_id", ps.getString("brand_id"));
 		ups.set("unit", ps.getString("unit"));
