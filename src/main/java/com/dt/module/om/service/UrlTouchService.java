@@ -137,7 +137,6 @@ public class UrlTouchService extends BaseService {
 
 	public R sendMail() {
 		//
-		//
 		String sql = " select " + " decode(t2.node,null,'Y','N') ifsend,  t.* "
 				+ " from mn_url_touch_warn t left join( " + " select warnedcnt ,b.*  from ( " + " select node, "
 				+ " count(1) warnedcnt " + " from mn_url_touch_warn "
