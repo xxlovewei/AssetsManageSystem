@@ -385,7 +385,7 @@ function prodBaseAttrSaveCtl($log, $http, $rootScope, $scope,
 		var picid = getUuid();
 
 		$scope.myDropzone.options.url = $rootScope.project
-				+ '/api/file/fileupload.do?bus=news&uuid=' + picid
+				+ '/api/file/fileupload.do?bus=prodimgs&uuid=' + picid
 				+ '&type=image&interval=10000';
 		console.log($scope.myDropzone.files[0].uuid);
 		if (angular.isDefined($scope.myDropzone.files[0].uuid)) {
@@ -436,6 +436,7 @@ function prodQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 						if (res.success) {
 							$scope.prodcatOpt = res.data;
 							$scope.prodcatSel = $scope.prodcatOpt[0];
+							flush();
 						} else {
 							notify({
 										message : res.message
@@ -528,6 +529,7 @@ function prodQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				.success(function(res) {
 							if (res.success) {
 								$scope.dtOptions.aaData = res.data;
+							
 							} else {
 								notify({
 											message : res.message
