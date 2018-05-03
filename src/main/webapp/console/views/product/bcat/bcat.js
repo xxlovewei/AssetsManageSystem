@@ -108,7 +108,7 @@ function prodCatBUpdateAttrCtl($log, $http, $rootScope, $scope,
 	console.log("in", id);
 	$scope.item = {};
 
-	$scope.typeopt = [ {
+	$scope.typeOpt = [ {
 		id : "base",
 		name : "基本属性"
 	}, {
@@ -442,7 +442,7 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 
 		if (full.INPUT_TYPE != "input") {
 			acthtml = acthtml + " <button ng-click=\"attrvalueEdit('"
-					+ full.ATTR_ID
+					+ full.attr_id
 					+ "')\" class=\"btn-white btn btn-xs\">选项值</button> ";
 		}
 

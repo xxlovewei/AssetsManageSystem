@@ -85,8 +85,8 @@ public class CategoryBackgroundController extends BaseController {
 	@ResponseBody
 	@Acl(info = "删除属性值,直接删除")
 	@RequestMapping("/categoryB/catAttrValueDel.do")
-	public R catAttrValueDel(String ID) {
-		return categoryAttrValueService.deleteAttrValue(ID);
+	public R catAttrValueDel(String id) {
+		return categoryAttrValueService.deleteAttrValue(id);
 	}
 
 	@ResponseBody
