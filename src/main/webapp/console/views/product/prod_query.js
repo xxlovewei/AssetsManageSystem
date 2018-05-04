@@ -351,7 +351,7 @@ function prodBaseAttrSaveCtl($log, $http, $rootScope, $scope,
 			// 获取商品模版数据
 			var picid = res.data.pic_id;
 
-			//处理图片数据
+			// 处理图片数据
 			setTimeout(function() {
 						var mockFile = {
 							name : "图",
@@ -373,6 +373,15 @@ function prodBaseAttrSaveCtl($log, $http, $rootScope, $scope,
 
 					}, 700);
 
+			// 处理品牌
+			for (var i = 0; i < $scope.brandOpt.length; i++) {
+				console.log($scope.brandOpt[i].brand_id+","+ res.data.brand_id)
+				if ($scope.brandOpt[i].brand_id == res.data.brand_id) {
+					$scope.brandSel = $scope.brandOpt[i];
+					break;
+				}
+			}
+
 		} else {
 			notify({
 						message : res.message
@@ -381,7 +390,9 @@ function prodBaseAttrSaveCtl($log, $http, $rootScope, $scope,
 	})
 
 	$scope.sure = function() {
-
+		
+		
+		
 		var picid = getUuid();
 
 		$scope.myDropzone.options.url = $rootScope.project
@@ -390,10 +401,8 @@ function prodBaseAttrSaveCtl($log, $http, $rootScope, $scope,
 		console.log($scope.myDropzone.files[0].uuid);
 		if (angular.isDefined($scope.myDropzone.files[0].uuid)) {
 			// 已经上传
-			console.log('ok')
 			picid = $scope.myDropzone.files[0].uuid;
 		} else {
-			console.log('ok2')
 			$scope.myDropzone.uploadFile($scope.myDropzone.files[0])
 		}
 
@@ -401,8 +410,12 @@ function prodBaseAttrSaveCtl($log, $http, $rootScope, $scope,
 		$log.warn($scope.base_attr);
 		ps = angular.copy($scope.proddata);
 		ps.pic_id = picid;
+		
+		//处理品牌
+		ps.brand_id=$scope.brandSel.brand_id;
 		ps.base_res = angular.toJson($scope.base_attr);
 
+		
 		$log.warn("ps", ps);
 		$http.post($rootScope.project + "/api/product/prodModifyBaseAttr.do",
 				ps).success(function(res) {
@@ -529,7 +542,7 @@ function prodQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				.success(function(res) {
 							if (res.success) {
 								$scope.dtOptions.aaData = res.data;
-							
+
 							} else {
 								notify({
 											message : res.message
