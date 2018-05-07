@@ -12,8 +12,11 @@ function config_wx($stateProvider, $ocLazyLoadProvider) {
 					pageTitle : '微信'
 				},
 				templateUrl : "views/common/content.html"
-			}).state('wxmgr.menu', {
-				url : "/menu",
+			}).state('wxmgr.app', {
+				url : "/app",
+				data : {
+					pageTitle : '应用设置'
+				},
 				templateUrl : "views/wx/app.html",
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
