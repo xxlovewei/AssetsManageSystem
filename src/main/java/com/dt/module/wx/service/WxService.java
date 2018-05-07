@@ -198,8 +198,8 @@ public class WxService extends BaseService {
 		if (tr.isFailed()) {
 			return false;
 		}
-		String token = tr.queryDataToJSONObject().getString("access_token");
-		System.out.println(token);
+		String token = "weixin";
+		_log.info("token:" + token);
 		String[] arr = new String[] { token, timestamp, nonce };
 		// 将token、timestamp、nonce三个参数进行字典序排序
 		Arrays.sort(arr);
@@ -218,7 +218,7 @@ public class WxService extends BaseService {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-
+		_log.info("right value:" + tmpStr);
 		content = null;
 		// 将sha1加密后的字符串可与signature对比，标识该请求来源于微信
 		return tmpStr != null ? tmpStr.equals(signature.toUpperCase()) : false;

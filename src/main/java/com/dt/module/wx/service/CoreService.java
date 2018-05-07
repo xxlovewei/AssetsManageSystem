@@ -13,6 +13,9 @@ import javax.servlet.http.HttpSession;
 import com.dt.module.wx.msg.resp.Article;
 import com.dt.module.wx.msg.resp.NewsMessage;
 import com.dt.module.wx.msg.resp.TextMessage;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -30,8 +33,28 @@ import com.dt.module.wx.util.MessageUtil;
 @PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
 public class CoreService extends BaseService {
 
+	private static Logger _log = LoggerFactory.getLogger(CoreService.class);
+
 	@Value("${wx.weburl}")
 	public String weburl;
+
+	public String processMsg(String fromUserName, String toUserName, String msgType, String ct, String ctdef) {
+		String res = "";
+		if (MessageUtil.RESP_MESSAGE_TYPE_TEXT.equals(msgType)) {
+			TextMessage textMessage = new TextMessage();
+			textMessage.setToUserName(fromUserName);
+			textMessage.setFromUserName(toUserName);
+			textMessage.setCreateTime(new Date().getTime());
+			textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+			if (ct == null) {
+				ct = ctdef;
+			}
+			textMessage.setContent(ct);
+			res = MessageUtil.textMessageToXml(textMessage);
+		}
+
+		return res;
+	}
 
 	/**
 	 * 处理微信发来的请求
@@ -54,6 +77,8 @@ public class CoreService extends BaseService {
 			// 消息类型
 			String msgType = requestMap.get("MsgType");
 
+			String content = requestMap.get("Content");
+
 			// 回复文本消息
 			TextMessage textMessage = new TextMessage();
 			textMessage.setToUserName(fromUserName);
@@ -75,11 +100,8 @@ public class CoreService extends BaseService {
 			// 文本消息
 			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {
 				respContent = "您发送的是文本消息！";
-
-				respContent = eventbykey(requestMap.get("Content"), fromUserName, toUserName);
-
+				respContent = processMsg(fromUserName, toUserName, msgType, content, "您发送的是文本消息!");
 				return respContent;
-
 			}
 			// 图片消息
 			else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {
@@ -119,9 +141,7 @@ public class CoreService extends BaseService {
 				// 扫描带参数二维码
 				else if (eventType.equals(MessageUtil.EVENT_TYPE_SCAN)) {
 					// TODO 处理扫描带参数二维码事件
-
 					respContent = "";
-
 					return respContent;
 
 				}
@@ -133,18 +153,13 @@ public class CoreService extends BaseService {
 				else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
 					// TODO 处理菜单点击事件
 					respContent = eventbykey(requestMap.get("EventKey"), fromUserName, toUserName);
-
 					return respContent;
 				}
 			}
-
-			System.out.println("RETURN" + respContent);
 			// 设置文本消息的内容
 			textMessage.setContent(respContent);
 			// 将文本消息对象转换成xml
 			respXml = MessageUtil.textMessageToXml(textMessage);
-
-			System.out.println(respXml);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -154,51 +169,40 @@ public class CoreService extends BaseService {
 
 	public String eventbykey(String key, String fromUserName, String toUserName) {
 
-		Rcd keyrcd = db.uniqueRecord("SELECT * FROM MAYOR_MP_KEY WHERE (KEYCODE = ? OR KEYNAME=?)", key, key);
-
-		if ("6".equals(keyrcd.getString("KEYTYPE"))) {
+		Rcd keyrcd = db.uniqueRecord("select * from wx_msg_def where dr=0 and code=?", key);
+		// 单图文的时候会有描述信息
+		// 多图文的时候第一张将放大，描述信息隐藏
+		if ("6".equals(keyrcd.getString("msgtype"))) {
 			// 为图文消息
-			Rcd grouprcd = db.uniqueRecord(
-					"SELECT * FROM MAYOR_MP_IMAGE_GROUP WHERE ID IN (SELECT KEYVAULE FROM MAYOR_MP_KEY WHERE KEYCODE = ? OR KEYNAME=?)",
-					key, key);
-
-			System.out.println("VVVVVVVV" + grouprcd.getString("ID") + "VVVVVVVVV");
-
-			RcdSet set = db.query(
-					"SELECT t.*,mi.ORDERNUM FROM MAYOR_MP_IMAGE_TEXT t JOIN MAYOR_MP_IMAGE_GROUP_ITEMS mi ON t.ID = mi.IMAGEID WHERE GROUPID=? ORDER BY mi.ORDERNUM ASC",
-					grouprcd.getString("ID"));
-
+			RcdSet set = db.query("select * from wx_msg_imgitem t where group_id=? and dr=0 order by rn",
+					keyrcd.getString("group_id"));
 			NewsMessage newsMessage = new NewsMessage();
 			newsMessage.setArticleCount(set.size());
 			newsMessage.setToUserName(fromUserName);
 			newsMessage.setFromUserName(toUserName);
 			newsMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
 			newsMessage.setCreateTime(new Date().getTime());
-
-			List list = new ArrayList();
+			List<Article> list = new ArrayList<Article>();
 			for (int i = 0; i < set.size(); i++) {
 				Article art = new Article();
-				art.setTitle(set.getRcd(i).getString("TITLE"));
-				art.setPicUrl(
-						set.getRcd(i).getString("FILENAME").startsWith("http") ? set.getRcd(i).getString("FILENAME")
-								: weburl + "/viewImage.do?fn=" + set.getRcd(i).getString("FILENAME"));
-				art.setUrl(set.getRcd(i).getString("URL"));
-				art.setDescription(set.getRcd(i).getString("DESCRIPTION"));
+				art.setTitle(set.getRcd(i).getString("title"));
+				art.setDescription(set.getRcd(i).getString("msgdesc"));
+				art.setPicUrl(set.getRcd(i).getString("imgurl").startsWith("http") ? set.getRcd(i).getString("imgurl")
+						: weburl + "/viewImage.do?fn=" + set.getRcd(i).getString("imgurl"));
+				art.setUrl(set.getRcd(i).getString("docurl"));
 				list.add(art);
 			}
-
 			newsMessage.setArticles(list);
-
 			return MessageUtil.newsMessageToXml(newsMessage);
-		} else if ("1".equals(keyrcd.getString("KEYTYPE"))) {
 
+		} else if ("text".equals(keyrcd.getString("msgtype"))) {
+			// 文本
 			TextMessage textMessage = new TextMessage();
 			textMessage.setToUserName(fromUserName);
 			textMessage.setFromUserName(toUserName);
 			textMessage.setCreateTime(new Date().getTime());
 			textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-			textMessage.setContent(keyrcd.getString("KEYVAULE"));
-
+			textMessage.setContent(keyrcd.getString("value"));
 			return MessageUtil.textMessageToXml(textMessage);
 		}
 

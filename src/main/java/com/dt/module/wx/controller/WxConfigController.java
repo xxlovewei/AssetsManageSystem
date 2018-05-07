@@ -19,6 +19,7 @@ import com.dt.module.wx.service.WxService;
 @RequestMapping("/api")
 public class WxConfigController extends BaseController {
 
+	
 	@Autowired
 	private WxConfigService wxConfigService;
 
