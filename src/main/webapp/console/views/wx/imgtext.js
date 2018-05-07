@@ -1,11 +1,18 @@
-function wxappsavectl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
-		$http, $rootScope) {
+function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
+		id, $http, $rootScope) {
 
 	console.log("window in:" + id);
-
+	$scope.msgtypeOpt = [{
+				id : "6",
+				name : "图文消息"
+			}, {
+				id : "text",
+				name : "普通消息"
+			}]
+	$scope.msgtypeSel = $scope.msgtypeOpt[1];
 	$scope.item = {};
 	if (angular.isDefined(id)) {
-		$http.post($rootScope.project + "/api/wx/queryWxAppById.do", {
+		$http.post($rootScope.project + "/api/wx/queryImageTextMessageById.do", {
 					id : id
 				}).success(function(res) {
 					if (res.success) {
@@ -18,7 +25,9 @@ function wxappsavectl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
 	}
 
 	$scope.sure = function() {
-		$http.post($rootScope.project + "/api/wx/saveWxApp.do", $scope.item)
+
+		$scope.item.msgtype = $scope.msgtypeSel.id;
+		$http.post($rootScope.project + "/api/wx/saveMessage.do", $scope.item)
 				.success(function(res) {
 							if (res.success) {
 								$uibModalInstance.close("OK");
@@ -37,7 +46,7 @@ function wxappsavectl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
 
 }
 
-function wxappCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function wximgtextCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise()
@@ -57,22 +66,19 @@ function wxappCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		var acthtml = " <div class=\"btn-group\"> ";
 		acthtml = acthtml + " <button ng-click=\"modify('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
-		acthtml = acthtml + " <button ng-click=\"syncToWx('" + full.id
-				+ "')\" class=\"btn-white btn btn-xs\">同步到微信</button>  ";
-		acthtml = acthtml
-				+ " <button ng-click=\"syncFromWx('"
-				+ full.id
-				+ "')\" class=\"btn-white btn btn-xs\">从微信同步</button>  </div>  ";
+		acthtml = acthtml + " <button ng-click=\"deleterow('" + full.id
+				+ "')\" class=\"btn-white btn btn-xs\">删除</button>  </div>  ";
 		return acthtml;
 	}
 
 	$scope.dtColumns = [
-
-			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
+			DTColumnBuilder.newColumn('title').withTitle('标题').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('app_id').withTitle('AppId').withOption(
+			DTColumnBuilder.newColumn('msgdesc').withTitle('描述').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('menu').withTitle('菜单').withOption(
+			DTColumnBuilder.newColumn('docurl').withTitle('跳转Url').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('imgurl').withTitle('图片Url').withOption(
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', ''),
@@ -81,17 +87,17 @@ function wxappCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flush() {
 		var ps = {}
-
-		$http.post($rootScope.project + "/api/wx/queryWxApps.do", ps).success(
-				function(res) {
-					if (res.success) {
-						$scope.dtOptions.aaData = res.data;
-					} else {
-						notify({
-									message : res.message
-								});
-					}
-				})
+		ps.id=22;
+		$http.post($rootScope.project + "/api/wx/queryImageTextMessages.do", ps)
+				.success(function(res) {
+							if (res.success) {
+								$scope.dtOptions.aaData = res.data;
+							} else {
+								notify({
+											message : res.message
+										});
+							}
+						})
 	}
 	flush();
 
@@ -103,8 +109,8 @@ function wxappCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 		var modalInstance = $uibModal.open({
 					backdrop : true,
-					templateUrl : 'views/wx/modal_saveapp.html',
-					controller : wxappsavectl,
+					templateUrl : 'views/wx/modal_msgsetting.html',
+					controller : msgsettingsaveCtl,
 					size : 'lg',
 					resolve : { // 调用控制器与modal控制器中传递值
 						id : function() {
@@ -125,28 +131,26 @@ function wxappCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	}
 
-	$scope.syncToWx = function(id) {
+	$scope.deleterow = function(id) {
 
-		$http.post($rootScope.project + "/api/wx/createMenuToWx.do", {
-					id : id
-				}).success(function(res) {
-					notify({
-								message : res.message
-							});
-				})
-	}
+		$confirm({
+					text : '是否删除?'
+				}).then(function() {
+					$http.post($rootScope.project + "/api/wx/deleteImageTextMessage.do",
+							{
+								id : id
+							}).success(function(res) {
+								if (res.success) {
+									flush();
+								}
+								notify({
+											message : res.message
+										});
+							})
+				});
 
-	$scope.syncFromWx = function(id) {
-
-		$http.post($rootScope.project + "/api/wx/sysncMenu.do", {
-					id : id
-				}).success(function(res) {
-					notify({
-								message : res.message
-							});
-				})
 	}
 
 };
 
-app.register.controller('wxappCtl', wxappCtl);
+app.register.controller('wximgtextCtl', wximgtextCtl);
