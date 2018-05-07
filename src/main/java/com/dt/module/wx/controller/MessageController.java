@@ -43,7 +43,7 @@ public class MessageController extends BaseController {
 		}
 	}
 
-	@RequestMapping("/wx/saveMessage.do")
+	@RequestMapping("/wx/queryMessageById.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_DENY, info = "查询消息")
 	public R queryMessageById(String id) {

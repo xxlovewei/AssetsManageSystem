@@ -29,6 +29,7 @@ public class MessageService extends BaseService {
 		me.setIf("mark", ps.getString("mark", ""));
 		me.setIf("code", ps.getString("code", ""));
 		me.setIf("name", ps.getString("name", ""));
+		me.setIf("msgtype", ps.getString("msgtype", ""));
 		me.setIf("value", ps.getString("value", ""));
 		me.where().and("id=?", ps.getString("id"));
 		db.execute(me);
