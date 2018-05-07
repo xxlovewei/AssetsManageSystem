@@ -1,18 +1,12 @@
-function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
+function msgtextsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 		id, $http, $rootScope) {
 
 	console.log("window in:" + id);
-	$scope.msgtypeOpt = [{
-				id : "6",
-				name : "图文消息"
-			}, {
-				id : "text",
-				name : "普通消息"
-			}]
-	$scope.msgtypeSel = $scope.msgtypeOpt[1];
+
 	$scope.item = {};
 	if (angular.isDefined(id)) {
-		$http.post($rootScope.project + "/api/wx/queryImageTextMessageById.do", {
+		$http.post($rootScope.project + "/api/wx/queryImageTextMessageById.do",
+				{
 					id : id
 				}).success(function(res) {
 					if (res.success) {
@@ -26,8 +20,7 @@ function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 
 	$scope.sure = function() {
 
-		$scope.item.msgtype = $scope.msgtypeSel.id;
-		$http.post($rootScope.project + "/api/wx/saveMessage.do", $scope.item)
+		$http.post($rootScope.project + "/api/wx/saveImageTextMessage.do", $scope.item)
 				.success(function(res) {
 							if (res.success) {
 								$uibModalInstance.close("OK");
@@ -87,9 +80,10 @@ function wximgtextCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flush() {
 		var ps = {}
-		ps.id=22;
-		$http.post($rootScope.project + "/api/wx/queryImageTextMessages.do", ps)
-				.success(function(res) {
+		ps.id = 22;
+		$http
+				.post($rootScope.project + "/api/wx/queryImageTextMessages.do",
+						ps).success(function(res) {
 							if (res.success) {
 								$scope.dtOptions.aaData = res.data;
 							} else {
@@ -109,8 +103,8 @@ function wximgtextCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 		var modalInstance = $uibModal.open({
 					backdrop : true,
-					templateUrl : 'views/wx/modal_msgsetting.html',
-					controller : msgsettingsaveCtl,
+					templateUrl : 'views/wx/modal_msgtext.html',
+					controller : msgtextsaveCtl,
 					size : 'lg',
 					resolve : { // 调用控制器与modal控制器中传递值
 						id : function() {
@@ -136,18 +130,18 @@ function wximgtextCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm({
 					text : '是否删除?'
 				}).then(function() {
-					$http.post($rootScope.project + "/api/wx/deleteImageTextMessage.do",
-							{
-								id : id
-							}).success(function(res) {
-								if (res.success) {
-									flush();
-								}
-								notify({
-											message : res.message
-										});
-							})
-				});
+			$http.post(
+					$rootScope.project + "/api/wx/deleteImageTextMessage.do", {
+						id : id
+					}).success(function(res) {
+						if (res.success) {
+							flush();
+						}
+						notify({
+									message : res.message
+								});
+					})
+		});
 
 	}
 

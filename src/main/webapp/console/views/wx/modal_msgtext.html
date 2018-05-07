@@ -1,4 +1,5 @@
-deleteImageTextMessage<style>
+
+<style>
 .chosen-container {
 	width: 100%;
 }
@@ -18,34 +19,34 @@ deleteImageTextMessage<style>
 						action="">
 						<div class="form-group">
 							<label class="col-sm-2 control-label"><span
-								class="text-danger">*</span>名称:</label>
+								class="text-danger">*</span>标题:</label>
 							<div class="col-sm-10">
 								<input type="text" required ng-maxlength="50"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="name" ng-model="item.name">
+									placeholder="请输入内容" name="title" ng-model="item.title">
 								<div class="text-danger"
-									ng-if="myForm.name.$dirty && myForm.name.$invalid">
-									<span ng-if="myForm.name.$error.required"> 输入不能为空 </span> <span
-										ng-show="myForm.name.$error.maxlength">不能超过50个字符 </span>
+									ng-if="myForm.title.$dirty && myForm.title.$invalid">
+									<span ng-if="myForm.title.$error.required"> 输入不能为空 </span> <span
+										ng-show="myForm.title.$error.maxlength">不能超过50个字符 </span>
 								</div>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-sm-2 control-label"><span
-								class="text-danger">*</span>编码:</label>
+								class="text-danger">*</span>描述:</label>
 							<div class="col-sm-10">
 								<input type="text" required ng-maxlength="500"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="code" ng-model="item.code">
+									placeholder="请输入内容" name="msgdesc" ng-model="item.msgdesc">
 								<div class="text-danger"
-									ng-if="myForm.code.$dirty && myForm.code.$invalid">
-									<span ng-if="myForm.code.$error.required"> 输入不能为空 </span> <span
-										ng-show="myForm.code.$error.maxlength">不能超过500个字符 </span>
+									ng-if="myForm.msgdesc.$dirty && myForm.msgdesc.$invalid">
+									<span ng-if="myForm.msgdesc.$error.required"> 输入不能为空 </span> <span
+										ng-show="myForm.msgdesc.$error.maxlength">不能超过500个字符 </span>
 								</div>
 							</div>
 						</div>
-				 
+
 						<div class="form-group">
 							<label class="col-sm-2 control-label">备注:</label>
 							<div class="col-sm-10">
@@ -58,15 +59,36 @@ deleteImageTextMessage<style>
 								</div>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">内容:</label>
-							<div class="col-sm-10">
-								<textarea type="text" style="height: 400px"
-									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="threshold" ng-model="item.value"></textarea>
 
+						<div class="form-group">
+							<label class="col-sm-2 control-label">调整Url:</label>
+							<div class="col-sm-10">
+								<input ng-maxlength="200" type="text"
+									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+									placeholder="请输入内容" name="docurl" ng-model="item.docurl">
+								<div class="text-danger"
+									ng-show="myForm.docurl.$dirty && myForm.docurl.$invalid">
+									<span ng-show="myForm.docurl.$error.maxlength">不能超过20个字符
+									</span>
+								</div>
 							</div>
 						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">图片Url:</label>
+							<div class="col-sm-10">
+								<input ng-maxlength="200" type="text"
+									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+									placeholder="请输入内容" name="imgurl" ng-model="item.imgurl">
+								<div class="text-danger"
+									ng-show="myForm.docurl.$dirty && myForm..$invalid">
+									<span ng-show="myForm.docurl.$error.maxlength">不能超过20个字符
+									</span>
+								</div>
+							</div>
+						</div>
+
+
 
 
 					</form>

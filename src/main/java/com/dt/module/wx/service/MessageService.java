@@ -60,9 +60,14 @@ public class MessageService extends BaseService {
 	}
 
 	// 图文
-	public R queryImageTextMessages(String id) {
+	public R queryImageTextMessagesGroup() {
 		return R.SUCCESS_OPER(
-				db.query("select * from wx_msg_imgitem where dr=0 order by rn").toJsonArrayWithJsonObject());
+				db.query("select * from wx_msg_def where dr=0 and msgtype='6'").toJsonArrayWithJsonObject());
+	}
+
+	public R queryImageTextMessages(String group_id) {
+		return R.SUCCESS_OPER(db.query("select * from wx_msg_imgitem where group_id=? and  dr=0 order by rn", group_id)
+				.toJsonArrayWithJsonObject());
 	}
 
 	public R deleteImageTextMessage(String id) {

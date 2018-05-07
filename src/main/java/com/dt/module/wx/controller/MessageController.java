@@ -58,11 +58,18 @@ public class MessageController extends BaseController {
 	}
 
 	// 图文
+	@RequestMapping("/wx/queryImageTextMessagesGroup.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_DENY, info = "查询图文消息")
+	public R queryImageTextMessagesGroup() {
+		return messageService.queryImageTextMessagesGroup();
+	}
+
 	@RequestMapping("/wx/queryImageTextMessages.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_DENY, info = "查询图文消息")
 	public R queryImageTextMessages(String id) {
-		return messageService.queryImageTextMessageById(id);
+		return messageService.queryImageTextMessages(id);
 	}
 
 	@RequestMapping("/wx/deleteImageTextMessage.do")
