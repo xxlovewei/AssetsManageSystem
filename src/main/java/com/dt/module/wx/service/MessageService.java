@@ -29,6 +29,7 @@ public class MessageService extends BaseService {
 		me.setIf("mark", ps.getString("mark", ""));
 		me.setIf("code", ps.getString("code", ""));
 		me.setIf("name", ps.getString("name", ""));
+		me.setIf("is_auto", ps.getString("is_auto", ""));
 		me.setIf("msgtype", ps.getString("msgtype", ""));
 		me.setIf("value", ps.getString("value", ""));
 		me.where().and("id=?", ps.getString("id"));
@@ -43,6 +44,7 @@ public class MessageService extends BaseService {
 		me.set("group_id", db.getUUID());
 		me.setIf("mark", ps.getString("mark", ""));
 		me.setIf("code", ps.getString("code", ""));
+		me.setIf("is_auto", ps.getString("is_auto", ""));
 		me.setIf("name", ps.getString("name", ""));
 		me.setIf("msgtype", ps.getString("msgtype", ""));
 		me.setIf("value", ps.getString("value", ""));
