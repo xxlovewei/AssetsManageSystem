@@ -1,16 +1,13 @@
-var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
-		'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree',
-		'ngSanitize', 'localytics.directives', 'treeGrid', 'cgNotify',
-		'angular-confirm', 'datatables', 'datatables.select',
-		'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar',
-		'ng.ueditor' ])
+var app = angular.module('inspinia', ['ui.router', 'oc.lazyLoad',
+				'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree',
+				'ngSanitize', 'localytics.directives', 'treeGrid', 'cgNotify',
+				'angular-confirm', 'datatables', 'datatables.select',
+				'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar',
+				'ng.ueditor'])
 var $injector = angular.injector();
 
 var version = new Date().getTime();
-app.factory('sessionInjector', [
-		'$log',
-		'$injector',
-		function($log, $injector) {
+app.factory('sessionInjector', ['$log', '$injector', function($log, $injector) {
 			var sessionInjector = {};
 			sessionInjector.request = function(config) {
 				// 每个请求添加token
@@ -52,12 +49,12 @@ app.factory('sessionInjector', [
 				$log.warn("sessionInjector,responseError", responseError);
 				var notify = $injector.get('notify');
 				notify({
-					message : "服务器故障,ErrorCode:" + responseError.status
-				});
+							message : "服务器故障,ErrorCode:" + responseError.status
+						});
 				return responseError;
 			};
 			return sessionInjector;
-		} ]);
+		}]);
 
 function config_main(cfpLoadingBarProvider, $locationProvider,
 		$controllerProvider, $compileProvider, $stateProvider, $filterProvider,
@@ -81,8 +78,8 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 	KeepaliveProvider.interval(2);
 	$urlRouterProvider.otherwise("/login");
 	$ocLazyLoadProvider.config({
-		debug : false
-	});
+				debug : false
+			});
 	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 	// $httpProvider.defaults.withCredentials = false;
 	var param = function(obj) {
@@ -113,213 +110,201 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 		return query.length ? query.substr(0, query.length - 1) : query;
 	};
 
-	$httpProvider.defaults.transformRequest = [ function(data) {
-		return angular.isObject(data) && String(data) !== '[object File]' ? param(data)
+	$httpProvider.defaults.transformRequest = [function(data) {
+		return angular.isObject(data) && String(data) !== '[object File]'
+				? param(data)
 				: data;
-	} ];
+	}];
 	// 登录
 	$stateProvider.state('login', {
-		url : "/login",
-		transclude : true,
-		templateUrl : "views/system/login/login.html",
-		params : {
-			to : null
-		},
-		resolve : {
-			check : function(userService, $log, $state) {
-				userService.checkLogin().then(function(result) {
-					if (result.success) {
-						// 已经登录
-						$log.warn("账户已经登录,马上跳转至content");
-						$state.go("content");
-					} else {
+				url : "/login",
+				transclude : true,
+				templateUrl : "views/system/login/login.html",
+				params : {
+					to : null
+				},
+				resolve : {
+					check : function(userService, $log, $state) {
+						userService.checkLogin().then(function(result) {
+									if (result.success) {
+										// 已经登录
+										$log.warn("账户已经登录,马上跳转至content");
+										$state.go("content");
+									} else {
+									}
+								})
+					},
+					loadPlugin : function($ocLazyLoad) {
+						return $ocLazyLoad.load([{
+									serie : true,
+									files : ['views/system/login/login.js']
+								}]);
 					}
-				})
-			},
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/login/login.js' ]
-				} ]);
-			}
-		}
-	});
+				}
+			});
 
 	// 默认页面需要做检查
 	$stateProvider.state('content', {
-		url : "/show_content",
-		data: { pageTitle: '',loginCheck:true},
-		templateUrl : "views/common/content.html"
-	})
+				url : "/show_content",
+				data : {
+					pageTitle : '',
+					loginCheck : true
+				},
+				templateUrl : "views/common/content.html"
+			})
 }
 
-app
-		.config(config_main)
-		.run(
-				function(Idle, $rootScope, $state, $http, $log, $transitions,
-						$templateCache) {
-					console.log("App main run");
-					// start watching when the app runs. also starts the
-					// Keepalive service by
-					// Idle.watch();
-					// 替换了之前的$stateNotFound
-					$state.onInvalid(function(to, from, injector) {
-						$log.warn("to",to);
-						$log.warn("from",from);
-						$log.warn("injector",injector);
+app.config(config_main).run(
+		function(Idle, $rootScope, $state, $http, $log, $transitions,
+				$templateCache) {
+			console.log("App main run");
+			// start watching when the app runs. also starts the
+			// Keepalive service by
+			// Idle.watch();
+			// 替换了之前的$stateNotFound
+			$state.onInvalid(function(to, from, injector) {
+						$log.warn("to", to);
+						$log.warn("from", from);
+						$log.warn("injector", injector);
 						alert("未配置路由.");
 					});
-					// 替换了之前的$stateChangeStart
-					$transitions
-							.onSuccess(
-									{
-										to : '**'
-									},
-									function(trans) {
-										// 删除html缓存
-										var $state = trans.router.stateService;
-										if (angular
-												.isDefined($state.router.globals)
-												&& angular
-														.isDefined($state.router.globals.current)
-												&& angular
-														.isDefined($state.router.globals.current.templateUrl)) {
-											console
-													.log("Remove|"
-															+ $state.router.globals.current.templateUrl);
-											$templateCache
-													.remove($state.router.globals.current.templateUrl)
-										}
-										// 处理from
-										var from_arr = trans._treeChanges.from;
-										var from = null;
-										if (from_arr.length > 0) {
-											from = from_arr[from_arr.length - 1].state.name;
-										}
-										$log.warn("from:", from);
-										// 处理to
-										var target = trans._targetState._definition;
-										if (angular.isDefined(target.data)
-												&& angular
-														.isDefined(target.data.loginCheck)
-												&& target.data.loginCheck) {
-											$log.warn("Action LoginCheck");
-											var userService = trans.injector()
-													.get('userService');
-											userService
-													.checkLogin()
-													.then(
-															function(result) {
-																$log
-																		.warn(
-																				"check login result,from:"
-																						+ from
-																						+ ",result:",
-																				result)
-
-																if (!result.success) {
-																	if (from != "login") {
-																		$state
-																				.go(
-																						"login",
-																						{
-																							to : from
-																						});
-																	} else {
-																	}
-																}
-															},
-															function(error) {
-																alert('系统错误');
-																event
-																		.preventDefault();
-															},
-															function(progress) {
-															})
-										}
-
-									});
-					$rootScope.$state = $state;
-					$rootScope.project = '/dt/';
-					$rootScope.version = version;
-					$rootScope.$on('IdleStart', function() {
-						$log.warn('IdleStart');
-						// the user appears to have gone idle
-					});
-
-					$rootScope.$on('IdleWarn', function(e, countdown) {
-						$log.warn('IdleWarncountdown', countdown);
-						if (countdown == 1) {
-							// 重新激活
-							// Idle.watch();
+			// 替换了之前的$stateChangeStart
+			$transitions.onSuccess({
+						to : '**'
+					}, function(trans) {
+						// 删除html缓存
+						var $state = trans.router.stateService;
+						if (angular.isDefined($state.router.globals)
+								&& angular
+										.isDefined($state.router.globals.current)
+								&& angular
+										.isDefined($state.router.globals.current.templateUrl)) {
+							console
+									.log("Remove|"
+											+ $state.router.globals.current.templateUrl);
+							$templateCache
+									.remove($state.router.globals.current.templateUrl)
 						}
-						// follows after the IdleStart event, but includes a
-						// countdown until the
-						// user is considered timed out
-						// the countdown arg is the number of seconds remaining
-						// until then.
-						// you can change the title or display a warning dialog
-						// from here.
-						// you can let them resume their session by calling
-						// Idle.watch()
-					});
+						// 处理from
+						var from_arr = trans._treeChanges.from;
+						var from = null;
+						if (from_arr.length > 0) {
+							from = from_arr[from_arr.length - 1].state.name;
+						}
+						$log.warn("from:", from);
+						// 处理to
+						var target = trans._targetState._definition;
+						if (angular.isDefined(target.data)
+								&& angular.isDefined(target.data.loginCheck)
+								&& target.data.loginCheck) {
+							$log.warn("Action LoginCheck");
+							var userService = trans.injector()
+									.get('userService');
+							userService.checkLogin().then(function(result) {
+								$log.warn("check login result,from:" + from
+												+ ",result:", result)
 
-					$rootScope.$on('IdleTimeout', function() {
-						$log.warn('IdleTimeout');
-						// the user has timed out (meaning idleDuration +
-						// timeout has passed
-						// without any activity)
-						// this is where you'd log them
-					});
+								if (!result.success) {
+									if (from != "login") {
+										$state.go("login", {
+													to : from
+												});
+									} else {
+									}
+								}
+							}, function(error) {
+								alert('系统错误');
+								event.preventDefault();
+							}, function(progress) {
+							})
+						}
 
-					$rootScope.$on('IdleEnd', function() {
-						$log.warn('IdleEnd');
-						// the user has come back from AFK and is doing stuff.
-						// if you are
-						// warning them, you can use this to hide the dialog
 					});
-
-					$rootScope.$on('Keepalive', function() {
-						$log.warn('IdlKeepaliveeEnd');
-						// do something to keep the user's session alive
-					});
+			$rootScope.$state = $state;
+			$rootScope.project = '/dt/';
+			$rootScope.version = version;
+			$rootScope.$on('IdleStart', function() {
+				$log.warn('IdleStart');
+					// the user appears to have gone idle
 				});
 
+			$rootScope.$on('IdleWarn', function(e, countdown) {
+				$log.warn('IdleWarncountdown', countdown);
+				if (countdown == 1) {
+					// 重新激活
+					// Idle.watch();
+				}
+					// follows after the IdleStart event, but includes a
+					// countdown until the
+					// user is considered timed out
+					// the countdown arg is the number of seconds remaining
+					// until then.
+					// you can change the title or display a warning dialog
+					// from here.
+					// you can let them resume their session by calling
+					// Idle.watch()
+				});
+
+			$rootScope.$on('IdleTimeout', function() {
+				$log.warn('IdleTimeout');
+					// the user has timed out (meaning idleDuration +
+					// timeout has passed
+					// without any activity)
+					// this is where you'd log them
+				});
+
+			$rootScope.$on('IdleEnd', function() {
+				$log.warn('IdleEnd');
+					// the user has come back from AFK and is doing stuff.
+					// if you are
+					// warning them, you can use this to hide the dialog
+				});
+
+			$rootScope.$on('Keepalive', function() {
+				$log.warn('IdlKeepaliveeEnd');
+					// do something to keep the user's session alive
+				});
+		});
+
+app.config(config_wx).run(function() {
+			console.log("App Wx run");
+		});
+
 app.config(config_shop).run(function() {
-	console.log("App Shop run");
-});
+			console.log("App Shop run");
+		});
 
 app.config(config_om).run(function() {
-	console.log("App Om run");
-});
+			console.log("App Om run");
+		});
 
 app.config(config_system).run(function() {
-	console.log("App System run");
-});
+			console.log("App System run");
+		});
 
 app.factory('DTLang', function() {
-	return {
-		processing : "处理中...",
-		lengthMenu : "每页显示 _MENU_ 项结果",
-		zeroRecords : "没有匹配结果",
-		info : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项；当前第 _PAGE_页，共 _PAGES_ 页",
-		infoEmpty : "显示第 0 至 0 项结果，共 0 项",
-		infoFiltered : "(由 _MAX_ 项结果过滤)",
-		infoPostFix : "",
-		search : "搜索:",
-		url : "",
-		emptyTable : "表中数据为空",
-		sLoadingRecords : "载入中...",
-		infoThousands : ",",
-		paginate : {
-			first : "首页",
-			previous : "上页",
-			next : "下页",
-			last : "末页"
-		},
-		oAria : {
-			sortAscending : ": 以升序排列此列",
-			sortDescending : ": 以降序排列此列"
-		}
-	}
-});
+			return {
+				processing : "处理中...",
+				lengthMenu : "每页显示 _MENU_ 项结果",
+				zeroRecords : "没有匹配结果",
+				info : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项；当前第 _PAGE_页，共 _PAGES_ 页",
+				infoEmpty : "显示第 0 至 0 项结果，共 0 项",
+				infoFiltered : "(由 _MAX_ 项结果过滤)",
+				infoPostFix : "",
+				search : "搜索:",
+				url : "",
+				emptyTable : "表中数据为空",
+				sLoadingRecords : "载入中...",
+				infoThousands : ",",
+				paginate : {
+					first : "首页",
+					previous : "上页",
+					next : "下页",
+					last : "末页"
+				},
+				oAria : {
+					sortAscending : ": 以升序排列此列",
+					sortDescending : ": 以降序排列此列"
+				}
+			}
+		});

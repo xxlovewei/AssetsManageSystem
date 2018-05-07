@@ -29,6 +29,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
+import com.dt.core.dao.sql.Delete;
+import com.dt.core.dao.sql.Update;
+import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.wx.util.WeiXX509TrustManager;
 
@@ -75,6 +78,9 @@ public class WxService extends BaseService {
 			} else {
 				token = at.getToken();
 				_log.info("access_token(mem):" + at.getToken());
+				if (ToolUtil.isEmpty(token)) {
+					return R.FAILURE_NO_DATA();
+				}
 				r.put("access_token", token);
 				return R.SUCCESS_OPER(r);
 			}
@@ -90,7 +96,9 @@ public class WxService extends BaseService {
 			tokens.put(appId, t);
 			_log.info("access_token(new):" + token);
 		}
-
+		if (ToolUtil.isEmpty(token)) {
+			return R.FAILURE_NO_DATA();
+		}
 		r.put("access_token", token);
 		return R.SUCCESS_OPER(r);
 	}
@@ -228,6 +236,10 @@ public class WxService extends BaseService {
 
 	}
 
+	public R queryWxApps() {
+		return R.SUCCESS_OPER(db.query("select * from wx_apps where dr=0").toJsonArrayWithJsonObject());
+	}
+
 	public R queryUserInfo(String open_id) {
 		R trs = queryAccessToken();
 		if (trs.isFailed()) {
@@ -240,9 +252,101 @@ public class WxService extends BaseService {
 
 	}
 
-	public R createMenu() {
-		Rcd rs = db.uniqueRecord("select * from wx_menu where id=?", appIdconf);
-		String menu = rs.getString("name");
+	public R saveWxApp(TypedHashMap<String, Object> ps) {
+		Update me = new Update("wx_apps");
+		me.set("dr", 0);
+		me.setIf("name", ps.getString("name"));
+		me.setIf("mark", ps.getString("mark"));
+		me.setIf("app_id", ps.getString("app_id"));
+		me.setIf("menu", ps.getString("menu"));
+		me.where().and("id=?", ps.getString("id"));
+		db.execute(me);
+		return R.SUCCESS_OPER();
+	}
+
+	public R deleteWxAppById(String id) {
+		Delete me = new Delete("wx_apps");
+		me.where().and("id=?", id);
+		db.execute(me);
+		return R.SUCCESS_OPER();
+
+	}
+
+	public R queryWxAppById(String id) {
+
+		Rcd rs = db.uniqueRecord("select * from wx_apps where id=? and dr=0", id);
+		if (rs != null) {
+			return R.SUCCESS_OPER(rs.toJsonObject());
+		}
+		return R.SUCCESS_OPER();
+
+	}
+
+	public R queryWxAppByAppId(String appid) {
+
+		Rcd rs = db.uniqueRecord("select * from wx_apps where app_id=? and dr=0", appid);
+		if (rs != null) {
+			return R.SUCCESS_OPER(rs.toJsonObject());
+		}
+		return R.SUCCESS_OPER();
+
+	}
+
+	/*
+	 * 当前模式只支持配置一个Appid
+	 */
+	public R syncMenuFromWxWithConf() {
+		return syncMenuFromWx(appIdconf, secretconf);
+	}
+
+	public R syncMenuFromWxWithId(String id) {
+		Rcd rs = db.uniqueRecord("select * from wx_apps where id=?", id);
+		if (rs == null || rs.getString("app_id") == null) {
+			return R.FAILURE_NO_DATA();
+		}
+		String appid = rs.getString("app_id");
+		if (appid.equals(appIdconf)) {
+			return syncMenuFromWx(appIdconf, secretconf);
+		} else {
+			return R.FAILURE("appid配置不匹配");
+		}
+
+	}
+
+	public R syncMenuFromWx(String appid, String sec) {
+		R tr = queryWxToken(appid, sec, false);
+		if (tr.isFailed()) {
+			return tr;
+		}
+		String token = tr.queryDataToJSONObject().getString("access_token");
+		_log.info("token:" + token);
+		String url = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=" + token;
+		JSONObject json = httpRequest(url, "GET", null);
+		JSONObject menu = json.getJSONObject("menu");
+		if (ToolUtil.isEmpty(menu)) {
+			return R.FAILURE_NO_DATA();
+		}
+		_log.info("menu:" + menu.toJSONString());
+		Update me = new Update("wx_apps");
+		me.set("menu", menu.toJSONString());
+		me.where().and("app_id=?", appid);
+		db.execute(me);
+		return R.SUCCESS_OPER();
+	}
+
+	public R createMenuToWx(String id) {
+
+		Rcd rs = db.uniqueRecord("select * from wx_apps where id=?", id);
+
+		if (rs == null || rs.getString("app_id") == null) {
+			return R.FAILURE_NO_DATA();
+		}
+		String appid = rs.getString("app_id");
+		if (!appid.equals(appIdconf)) {
+			return R.FAILURE("appid配置不匹配");
+		}
+
+		String menu = rs.getString("menu");
 		if (ToolUtil.isEmpty(menu)) {
 			return R.FAILURE_NO_DATA();
 		}
@@ -259,7 +363,8 @@ public class WxService extends BaseService {
 		String url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + token;
 		_log.info("to create menu,url:" + url + ",body:" + menu);
 		JSONObject json = httpRequest(url, "POST", menu);
-		return R.SUCCESS_OPER(json);
+		_log.info("result:" + json.toJSONString());
+		return R.SUCCESS_OPER();
 	}
 
 	public static JSONObject httpRequest(String requestUrl, String requestMethod, String outputStr) {
@@ -312,4 +417,10 @@ public class WxService extends BaseService {
 		return jsonObject;
 	}
 
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		WxService s = new WxService();
+		s.syncMenuFromWx("wx8fc3340c90ec5d53", "f6cea94ef73b19db97320a36b3fb36b4");
+
+	}
 }

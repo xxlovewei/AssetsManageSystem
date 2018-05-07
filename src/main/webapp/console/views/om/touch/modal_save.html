@@ -39,7 +39,7 @@
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
 									placeholder="请输入内容" name="url" ng-model="item.url">
 								<div class="text-danger"
-									ng-if="myForm.ip.$dirty && myForm.url.$invalid">
+									ng-if="myForm.url.$dirty && myForm.url.$invalid">
 									<span ng-if="myForm.url.$error.required"> 输入不能为空 </span> <span
 										ng-show="myForm.url.$error.maxlength">不能超过500个字符 </span>
 								</div>

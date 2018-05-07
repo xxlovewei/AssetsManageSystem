@@ -15,6 +15,8 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.wx.service.CoreService;
 import com.dt.module.wx.service.WxService;
 
@@ -83,16 +85,30 @@ public class WxApiController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "创建菜单", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/wx/createMenu.do")
-	public R createMenu() {
-		return wxService.createMenu();
+	@RequestMapping(value = "/wx/createMenuToWx.do")
+	public R createMenuToWx(String id) {
+		return wxService.createMenuToWx(id);
 	}
 
 	@ResponseBody
-	@Acl(info = "查询菜单", value = Acl.ACL_ALLOW)
-	@RequestMapping(value = "/wx/queryMenu.do")
-	public R queryMenu() {
-		return wxService.queryMenu();
+	@Acl(info = "查询WxApp", value = Acl.ACL_DENY)
+	@RequestMapping(value = "/wx/queryWxAppById.do")
+	public R queryWxAppById(String id) {
+		return wxService.queryWxAppById(id);
+	}
+
+	@ResponseBody
+	@Acl(info = "同步菜单", value = Acl.ACL_ALLOW)
+	@RequestMapping(value = "/wx/sysncMenu.do")
+	public R sysncMenu(String id) {
+		return wxService.syncMenuFromWxWithId(id);
+	}
+
+	@ResponseBody
+	@Acl(info = "查询微信Apps", value = Acl.ACL_DENY)
+	@RequestMapping(value = "/wx/queryWxApps.do")
+	public R queryWxApps() {
+		return wxService.queryWxApps();
 	}
 
 	@ResponseBody
@@ -101,4 +117,13 @@ public class WxApiController extends BaseController {
 	public R queryUserInfo(String open_id) {
 		return wxService.queryUserInfo(open_id);
 	}
+
+	@ResponseBody
+	@Acl(info = "修改WxApp", value = Acl.ACL_DENY)
+	@RequestMapping(value = "/wx/saveWxApp.do")
+	public R saveWxApp() {
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		return wxService.saveWxApp(ps);
+	}
+
 }
