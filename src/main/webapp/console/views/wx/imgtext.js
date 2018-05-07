@@ -1,5 +1,5 @@
-function msgtextsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
-		id, $http, $rootScope) {
+function msgtextsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
+		$http, $rootScope) {
 
 	console.log("window in:" + id);
 
@@ -20,17 +20,16 @@ function msgtextsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 
 	$scope.sure = function() {
 
-		$http.post($rootScope.project + "/api/wx/saveImageTextMessage.do", $scope.item)
-				.success(function(res) {
-							if (res.success) {
-								$uibModalInstance.close("OK");
-							} else {
-								notify({
-											message : res.message
-										});
-							}
-						})
-
+		$http.post($rootScope.project + "/api/wx/saveImageTextMessage.do",
+				$scope.item).success(function(res) {
+					if (res.success) {
+						$uibModalInstance.close("OK");
+					} else {
+						notify({
+									message : res.message
+								});
+					}
+				})
 	};
 
 	$scope.cancel = function() {

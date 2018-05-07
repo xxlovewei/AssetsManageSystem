@@ -80,10 +80,10 @@ public class MessageService extends BaseService {
 
 	public R updateImageTextMessage(TypedHashMap<String, Object> ps) {
 		Update me = new Update("wx_msg_imgitem");
-		me.setIf("title", ps.getString("mark", ""));
-		me.setIf("msgdesc", ps.getString("code", ""));
-		me.setIf("docurl", ps.getString("name", ""));
-		me.setIf("imgurl", ps.getString("msgtype", ""));
+		me.setIf("title", ps.getString("title", ""));
+		me.setIf("msgdesc", ps.getString("msgdesc", ""));
+		me.setIf("docurl", ps.getString("docurl", ""));
+		me.setIf("imgurl", ps.getString("imgurl", ""));
 		me.setIf("rn", ps.getString("rn", ""));
 		me.setIf("mark", ps.getString("mark", ""));
 		me.where().and("id=?", ps.getString("id"));
