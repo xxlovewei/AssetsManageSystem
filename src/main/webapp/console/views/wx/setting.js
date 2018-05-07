@@ -7,7 +7,7 @@ function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 				name : "图文消息"
 			}, {
 				id : "text",
-				name : "普通消息"
+				name : "文本消息"
 			}]
 	$scope.msgtypeSel = $scope.msgtypeOpt[1];
 	$scope.item = {};
@@ -70,10 +70,20 @@ function wxmsgsettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button>  </div>  ";
 		return acthtml;
 	}
+	function renderType(data, type, full) {
+
+		if (data == "6") {
+			return "图文消息";
+		} else if (data == "text") {
+			return "文本消息";
+		} else {
+			return data;
+		}
+	}
 
 	$scope.dtColumns = [
 			DTColumnBuilder.newColumn('msgtype').withTitle('类型').withOption(
-					'sDefaultContent', ''),
+					'sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('code').withTitle('编码').withOption(

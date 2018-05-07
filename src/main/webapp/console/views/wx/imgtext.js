@@ -1,9 +1,10 @@
 function msgtextsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
-		$http, $rootScope) {
+		$http, $rootScope, group_id) {
 
 	console.log("window in:" + id);
 
 	$scope.item = {};
+	$scope.item.group_id = group_id;
 	if (angular.isDefined(id)) {
 		$http.post($rootScope.project + "/api/wx/queryImageTextMessageById.do",
 				{
@@ -19,7 +20,6 @@ function msgtextsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
 	}
 
 	$scope.sure = function() {
-
 		$http.post($rootScope.project + "/api/wx/saveImageTextMessage.do",
 				$scope.item).success(function(res) {
 					if (res.success) {
@@ -40,6 +40,23 @@ function msgtextsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
 
 function wximgtextCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+
+	$scope.msgOpt = [];
+	$scope.msgSel = "";
+	$http.post($rootScope.project + "/api/wx/queryImageTextMessagesGroup.do",
+			{}).success(function(res) {
+				if (res.success) {
+					$scope.msgOpt = res.data;
+					if (res.data.length > 0) {
+						$scope.msgSel = $scope.msgOpt[0];
+					}
+					flush();
+				} else {
+					notify({
+								message : res.message
+							});
+				}
+			});
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise()
 			.withPaginationType('full_numbers').withDisplayLength(25)
@@ -79,7 +96,7 @@ function wximgtextCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flush() {
 		var ps = {}
-		ps.id = 22;
+		ps.id = $scope.msgSel.group_id;
 		$http
 				.post($rootScope.project + "/api/wx/queryImageTextMessages.do",
 						ps).success(function(res) {
@@ -108,6 +125,9 @@ function wximgtextCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					resolve : { // 调用控制器与modal控制器中传递值
 						id : function() {
 							return id;
+						},
+						group_id : function() {
+							return $scope.msgSel.group_id;
 						}
 					}
 				});
