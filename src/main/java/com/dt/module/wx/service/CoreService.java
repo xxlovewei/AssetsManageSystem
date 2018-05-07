@@ -13,9 +13,6 @@ import javax.servlet.http.HttpSession;
 import com.dt.module.wx.msg.resp.Article;
 import com.dt.module.wx.msg.resp.NewsMessage;
 import com.dt.module.wx.msg.resp.TextMessage;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -33,7 +30,7 @@ import com.dt.module.wx.util.MessageUtil;
 @PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
 public class CoreService extends BaseService {
 
-	private static Logger _log = LoggerFactory.getLogger(CoreService.class);
+	// private static Logger _log = LoggerFactory.getLogger(CoreService.class);
 
 	@Value("${wx.weburl}")
 	public String weburl;
