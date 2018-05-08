@@ -79,22 +79,7 @@ function wxmsgimgCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.deleterow = function(id) {
 
-		$confirm({
-					text : '是否删除?'
-				}).then(function() {
-					$http.post($rootScope.project + "/api/wx/deleteMessage.do",
-							{
-								id : id
-							}).success(function(res) {
-								if (res.success) {
-									flush();
-								}
-								notify({
-											message : res.message
-										});
-							})
-				});
-
+ 
 	}
 
 };

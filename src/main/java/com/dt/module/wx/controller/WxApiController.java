@@ -100,7 +100,7 @@ public class WxApiController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "同步菜单", value = Acl.ACL_ALLOW)
+	@Acl(info = "同步菜单", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/wx/sysncMenu.do")
 	public R sysncMenu(String id) {
 		return wxService.syncMenuFromWxWithId(id);
