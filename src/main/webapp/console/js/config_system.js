@@ -353,6 +353,30 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('system.druid', {
+		url : "/druid",
+		data: { pageTitle: 'Druid监控'},
+		templateUrl : "views/system/mon/druid.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/mon/druid.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('system.melody', {
+		url : "/melody",
+		data: { pageTitle: 'Melody监控'},
+		templateUrl : "views/system/mon/melody.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/mon/melody.js?v=' + version ]
+				} ]);
+			}
+		}
 	});
 
 	// 组织架构
@@ -397,36 +421,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
-	// 运维监控
-	$stateProvider.state('devos', {
-		abstract : true,
-		url : "/devos",
-		templateUrl : "views/common/content.html"
-	}).state('devos.druid', {
-		url : "/druid",
-		data: { pageTitle: 'Druid监控'},
-		templateUrl : "views/system/mon/druid.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/mon/druid.js?v=' + version ]
-				} ]);
-			}
-		}
-	}).state('devos.melody', {
-		url : "/melody",
-		data: { pageTitle: 'Melody监控'},
-		templateUrl : "views/system/mon/melody.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/mon/melody.js?v=' + version ]
-				} ]);
-			}
-		}
-	});
+
 	// 任务设置
 	$stateProvider.state('task', {
 		abstract : true,
