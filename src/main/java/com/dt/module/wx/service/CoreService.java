@@ -185,7 +185,7 @@ public class CoreService extends BaseService {
 				art.setTitle(set.getRcd(i).getString("title"));
 				art.setDescription(set.getRcd(i).getString("msgdesc"));
 				art.setPicUrl(set.getRcd(i).getString("imgurl").startsWith("http") ? set.getRcd(i).getString("imgurl")
-						: weburl + "/viewImage.do?fn=" + set.getRcd(i).getString("imgurl"));
+						: weburl + "/api/file/imagedown.do?id=" + set.getRcd(i).getString("imgurl"));
 				art.setUrl(set.getRcd(i).getString("docurl"));
 				list.add(art);
 			}

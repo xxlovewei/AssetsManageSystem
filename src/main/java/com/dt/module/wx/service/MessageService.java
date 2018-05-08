@@ -7,6 +7,7 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.tool.util.DbUtil;
 
 /**
  * @author: jinjie
@@ -97,10 +98,10 @@ public class MessageService extends BaseService {
 		Insert me = new Insert("wx_msg_imgitem");
 		me.set("dr", 0);
 		me.set("id", db.getUUID());
-		me.setIf("title", ps.getString("mark", ""));
-		me.setIf("msgdesc", ps.getString("code", ""));
-		me.setIf("docurl", ps.getString("name", ""));
-		me.setIf("imgurl", ps.getString("msgtype", ""));
+		me.setIf("title", ps.getString("title", ""));
+		me.setIf("msgdesc", ps.getString("msgdesc", ""));
+		me.setIf("docurl", ps.getString("docurl", ""));
+		me.setIf("imgurl", ps.getString("imgurl", ""));
 		me.setIf("group_id", ps.getString("group_id", ""));
 		me.setIf("rn", ps.getString("rn", ""));
 		me.setIf("mark", ps.getString("mark", ""));
@@ -112,4 +113,20 @@ public class MessageService extends BaseService {
 		return R.SUCCESS_OPER(db.uniqueRecord("select * from wx_msg_imgitem where id=?", id).toJsonObject());
 	}
 
+	//
+	public R addSc(TypedHashMap<String, Object> ps) {
+		Insert me = new Insert("wx_msg_sc");
+		me.set("dr", 0);
+		me.set("id", db.getUUID());
+		me.set("pic_id", ps.getString("pic_id", ""));
+		me.set("sctype", ps.getString("sctype", "image"));
+		me.setSE("ctime", DbUtil.getDbDateString(db.getDBType()));
+		db.execute(me);
+		return R.SUCCESS_OPER();
+	}
+
+	public R queryScs() {
+
+		return R.SUCCESS_OPER(db.query("select * from wx_msg_sc where dr=0 order by ctime desc").toJsonArrayWithJsonObject());
+	}
 }

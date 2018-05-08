@@ -98,4 +98,12 @@ public class MessageController extends BaseController {
 		return messageService.queryImageTextMessageById(id);
 	}
 
+	@RequestMapping("/wx/addSc.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_DENY, info = "添加素材")
+	public R addSc(String id) {
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		return messageService.addSc(ps);
+	}
+
 }

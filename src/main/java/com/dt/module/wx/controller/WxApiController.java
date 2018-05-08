@@ -48,7 +48,6 @@ public class WxApiController extends BaseController {
 	@Acl(info = "验证签名", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/core.do", method = RequestMethod.GET)
 	public void coreGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		BaseCommon.print("coreGet");
 		// 微信加密签名
 		String signature = request.getParameter("signature");
 		// 时间戳
@@ -70,8 +69,6 @@ public class WxApiController extends BaseController {
 	@Acl(info = "消息响应", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/core.do", method = RequestMethod.POST)
 	public void corePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		BaseCommon.print("corePost");
 		// 消息的接收、处理、响应
 		// 将请求、响应的编码均设置为UTF-8（防止中文乱码）
 		request.setCharacterEncoding("UTF-8");

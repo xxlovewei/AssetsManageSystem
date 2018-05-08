@@ -1,6 +1,7 @@
 function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 		id, $http, $rootScope) {
 
+
 	console.log("window in:" + id);
 	$scope.msgtypeOpt = [{
 				id : "6",
@@ -92,6 +93,8 @@ function wxmsgsettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', ''),
+			/*			DTColumnBuilder.newColumn('is_auto').withTitle('自动回复').withOption(
+			 'sDefaultContent', ''),*/
 			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction)]
 
