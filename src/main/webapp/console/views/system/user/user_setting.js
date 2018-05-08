@@ -273,7 +273,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			backdrop : true,
 			templateUrl : 'views/system/user/modal_user_save.html',
 			controller : userSaveFormCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return $scope.dtOptions.aaData[data[0]].user_id;

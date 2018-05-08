@@ -3,10 +3,12 @@ function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService, $st
 	var to = $stateParams.to;
 	$log.warn("login to:", to);
 	$scope.user = {
-		user : "admin",
-		pwd : "admin",
+		user : "sys",
+		pwd : "",
 		type : "username"
 	};
+	
+	
 	$scope.login = function(e) {
 		if (e == "A") {
 			$scope.user = {
