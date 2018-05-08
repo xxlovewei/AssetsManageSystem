@@ -106,4 +106,10 @@ public class MessageController extends BaseController {
 		return messageService.addSc(ps);
 	}
 
+	@RequestMapping("/wx/queryScs.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_DENY, info = "查询素材")
+	public R queryScs() {
+		return messageService.queryScs();
+	}
 }

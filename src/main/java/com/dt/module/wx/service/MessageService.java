@@ -126,7 +126,6 @@ public class MessageService extends BaseService {
 	}
 
 	public R queryScs() {
-
 		return R.SUCCESS_OPER(db.query("select * from wx_msg_sc where dr=0 order by ctime desc").toJsonArrayWithJsonObject());
 	}
 }
