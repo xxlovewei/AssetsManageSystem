@@ -1,12 +1,17 @@
 package com.dt.module.base.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.RcdSet;
+import com.dt.core.dao.sql.Delete;
 import com.dt.core.dao.sql.Insert;
+import com.dt.core.dao.sql.SQL;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 
@@ -23,6 +28,7 @@ public class RoleService extends BaseService {
 	public R queryRole() {
 		return R.SUCCESS_OPER(db.query("select * from sys_role_info where deleted='N'").toJsonArrayWithJsonObject());
 	}
+
 	/**
 	 * @Description: 查询某个角色
 	 */
@@ -35,25 +41,31 @@ public class RoleService extends BaseService {
 			return R.FAILURE_OPER();
 		}
 	}
+
 	/**
 	 * @Description: 删除角色
 	 */
 	@Transactional
 	public R deleteRole(String role_id, Boolean force) {
 		if (!force) {
-			if (db.uniqueRecord("select count(1) value from sys_user_role where role_id=?", role_id)
-					.getInteger("value") > 0) {
+			if (db.uniqueRecord(
+					"select count(1) value from sys_user_role a,sys_user_info b where a.user_id=b.user_id and role_id=? and b.deleted='N'",
+					role_id).getInteger("value") > 0) {
 				return R.FAILURE("该角色使用中不能删除");
 			}
 		}
 		Update ups = new Update("sys_role_info");
 		ups.set("deleted", "Y");
 		ups.where().and("role_id=?", role_id);
-		db.execute(ups);
-		db.execute("delete from sys_user_role where role_id=?",role_id);
-		
+		List<SQL> sqls = new ArrayList<SQL>();
+		sqls.add(ups);
+		Delete me = new Delete("sys_user_role");
+		me.where().and("role_id=?", role_id);
+		sqls.add(me);
+		db.executeSQLList(sqls);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 增加角色
 	 */
@@ -67,6 +79,7 @@ public class RoleService extends BaseService {
 		db.execute(ins);
 		return R.SUCCESS_OPER();
 	}
+
 	/**
 	 * @Description: 修改角色
 	 */
