@@ -1,66 +1,50 @@
-<!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>HTML5页面直接调用百度地图API,获取当前位置，直接导航目的地</title>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=wDYEcxgRRheZwyC9jpN1Tt7fzr2zjosZ"></script>  
-    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script><!--调用jQuery-->
-
-    <style type="text/css">
-        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
-    </style> 
-
+<!doctype html>
+<html ng-app="app">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" CONTENT="-1">
+<meta http-equiv="Cache-Control" CONTENT="no-cache">
+<meta http-equiv="Pragma" CONTENT="no-cache">
+<title>M</title>
 </head>
+<body ng-controller="MainCtrl as main"
+	class="{{$state.current.data.specialClass}}" landing-scrollspy
+	id="page-top">
+	<div ui-view></div>
 
-<body>  
-   <div id="allmap"></div>
-</body>  
-</html>  
-<script type="text/javascript">  
+	<!-- jquery -->
+	<script type="text/javascript" src="./js/jquery.js"></script>
 
-    var map = new BMap.Map("allmap");  
-    var point = new BMap.Point(116.709684,39.89778);
-    map.centerAndZoom(point, 16);  
-    map.enableScrollWheelZoom(); 
+	<!-- Main Angular scripts-->
+	<script src="../public/angular/angular.min.js"></script>
+	<script src="../public/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<script src="../public/angular-route/angular-ui-router.min.js"></script>
+	<!-- loading -->
+	<link href="../public/angular_loading_bar/loading-bar.css"
+		rel="stylesheet" type="text/css" />
+	<script src="../public/angular_loading_bar/loading-bar.js"></script>
 
-    var myIcon = new BMap.Icon("myicon.png",new BMap.Size(30,30),{
-        anchor: new BMap.Size(10,10)    
-    });
+	<link rel="stylesheet" href="../public/swiper/css/swiper.css">
+	<script src="../public/swiper/js/swiper.js"></script>
+	<script src="../public/swiper/js/angular-swiper.js"></script>
 
-    var marker=new BMap.Marker(point,{icon: myIcon});  
-    map.addOverlay(marker);  
+	<link rel="stylesheet"
+		href="../public/amaze/2.7.2/assets/css/amazeui.min.css">
+	<script src="../public/amaze/2.7.2/assets/js/amazeui.js"></script>
+	<link href="./css/style.css" rel="stylesheet" type="text/css" />
+	<link href="./css/app.css" rel="stylesheet" type="text/css" />
 
-    var geolocation = new BMap.Geolocation();
-    geolocation.getCurrentPosition(function(r){
-        if(this.getStatus() == BMAP_STATUS_SUCCESS){
-            var mk = new BMap.Marker(r.point);
-            map.addOverlay(mk);
-            //map.panTo(r.point);//地图中心点移到当前位置
-            var latCurrent = r.point.lat;
-            var lngCurrent = r.point.lng;
-            //alert('我的位置：'+ latCurrent + ',' + lngCurrent);
+	<script src="js/config_shop.js?v=20180707"></script>
+	<script src="js/app_main.js?v=20180707"></script>
+	<script src="js/controllers.js"></script>
 
-            location.href="http://api.map.baidu.com/direction?origin="+latCurrent+","+lngCurrent+"&destination=39.89778,116.709684&mode=driving&region=北京&output=html";
-
-        }
-        else {
-            alert('failed'+this.getStatus());
-        }        
-    },{enableHighAccuracy: true})
-
-
-    map.addOverlay(marker);  
-    var licontent="<b>健龙森羽毛球馆</b><br>";  
-        licontent+="<span><strong>地址：</strong>北京市通州区滨河中路108号</span><br>";  
-        licontent+="<span><strong>电话：</strong>(010)81556565 / 6969</span><br>";          
-    var opts = { 
-        width : 200,
-        height: 80,
-    };         
-    var  infoWindow = new BMap.InfoWindow(licontent, opts);  
-    marker.openInfoWindow(infoWindow);  
-    marker.addEventListener('click',function(){
-        marker.openInfoWindow(infoWindow);
-    });  
-
-</script>
+</body>
+</html>
