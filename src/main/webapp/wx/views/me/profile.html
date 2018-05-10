@@ -11,7 +11,11 @@
 
 
 
-
+	<style>
+.yytab {
+	width: 100%;
+}
+</style>
 
 	<div data-am-widget="tabs" class="am-tabs am-tabs-d2">
 		<ul class="am-tabs-nav am-cf">
@@ -31,17 +35,118 @@
 				ng-click="tabclick(3)" onclick="return false;">已完成</a></li> -->
 		</ul>
 		<div class="am-tabs-bd">
-			<div id="aa" data-tab-panel-0 class="am-tab-panel">
-			asdfaf
-				<table>
-					<tr>
-						<td></td>
-					</tr>
+			<div id="{{item.textid}}" data-tab-panel-0 class="am-tab-panel"
+				ng-repeat="item in tabs.data">
+				<table class="yytab">
+					<thead>
+						<tr>
+							<th>预约号</th>
+							<th>预约时间</th>
+							<th>量体人员</th>
+							<th>状态</th>
+							<th>核销码</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in ltdata">
+							<td>{{item.id}}</td>
+							<td>{{item.lt_time}}</td>
+							<td>{{item.ltuser_name}}</td>
+							<td>{{item.statusname}}</td>
+							<td>{{item.code}}</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
-			<div id="bb" data-tab-panel-1 class="am-tab-panel ">bb</div>
-			<div id="cc" data-tab-panel-2 class="am-tab-panel ">cc</div>
-			<div id="dd" data-tab-panel-2 class="am-tab-panel ">dd</div>
+
+			<!-- 	<div id="aa" data-tab-panel-0 class="am-tab-panel">
+				<table class="yytab">
+					<thead>
+						<tr>
+							<th>预约号</th>
+							<th>预约时间</th>
+							<th>量体人员</th>
+							<th>状态</th>
+							<th>核销码</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in ltdata">
+							<td>{{item.id}}</td>
+							<td>{{item.lt_time}}</td>
+							<td>{{item.ltuser_name}}</td>
+							<td>{{item.statusname}}</td>
+							<td>{{item.code}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div> -->
+			<!-- 	<div id="bb" data-tab-panel-1 class="am-tab-panel ">
+				<table class="yytab">
+					<thead>
+						<tr>
+							<th>预约号</th>
+							<th>预约时间</th>
+							<th>量体人员</th>
+							<th>状态</th>
+							<th>核销码</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in ltdata">
+							<td>{{item.id}}</td>
+							<td>{{item.lt_time}}</td>
+							<td>{{item.ltuser_name}}</td>
+							<td>{{item.statusname}}</td>
+							<td>{{item.code}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="cc" data-tab-panel-2 class="am-tab-panel ">
+				<table class="yytab">
+					<thead>
+						<tr>
+							<th>预约号</th>
+							<th>预约时间</th>
+							<th>量体人员</th>
+							<th>状态</th>
+							<th>核销码</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in ltdata">
+							<td>{{item.id}}</td>
+							<td>{{item.lt_time}}</td>
+							<td>{{item.ltuser_name}}</td>
+							<td>{{item.statusname}}</td>
+							<td>{{item.code}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="dd" data-tab-panel-2 class="am-tab-panel ">
+				<table class="yytab">
+					<thead>
+						<tr>
+							<th>预约号</th>
+							<th>预约时间</th>
+							<th>量体人员</th>
+							<th>状态</th>
+							<th>核销码</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in ltdata">
+							<td>{{item.id}}</td>
+							<td>{{item.lt_time}}</td>
+							<td>{{item.ltuser_name}}</td>
+							<td>{{item.statusname}}</td>
+							<td>{{item.code}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div> -->
 		</div>
 	</div>
 
