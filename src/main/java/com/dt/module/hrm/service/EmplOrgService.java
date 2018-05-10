@@ -72,6 +72,7 @@ public class EmplOrgService extends BaseService {
 		updateRouteName(cur_node_id, node_name);
 		JSONObject ro = new JSONObject();
 		ro.put("ID", cur_node_id);
+	 
 		return R.SUCCESS_OPER(ro);
 	}
 
