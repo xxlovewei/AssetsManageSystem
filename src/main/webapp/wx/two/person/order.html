@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+<title>订单管理</title>
+
+<link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet"
+	type="text/css">
+
+<!-- <link href="../css/personal.css" rel="stylesheet" type="text/css"> -->
+
+
+<script src="../AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
+<script src="../AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+
+</head>
+
+<body>
+
+	<style>
+/*固定框架*/
+.center {
+	max-width: 1000px;
+	margin: 0px auto;
+	min-height: 1px;
+	margin-top: 15px;
+}
+/*分类*/
+.nav-table {
+	max-width: 1000px;
+	margin: 0px auto;
+	height: 45px;
+	position: relative;
+	overflow: hidden;
+	display: block;
+	margin-top: 10px;
+}
+
+.nav-table .all-goods {
+	font-size: 16px;
+}
+
+.long-title {
+	background: #d2364c;
+	color: #fff;
+	height: 45px;
+	line-height: 45px;
+	display: block;
+	position: absolute;
+	width: 150px;
+	text-align: center;
+	font-size: 16px;
+	top: 0px;
+	z-index: 6;
+}
+
+.nav-cont {
+	position: absolute;
+	padding-left: 150px;
+	display: block;
+	width: 100%;
+	top: 0px
+}
+
+.nav-cont li {
+	float: left;
+	height: 45px;
+	line-height: 45px;
+}
+
+.nav-cont li::before {
+	content: '\20';
+	display: inline-block;
+	height: 16px;
+	border-right: 1px solid #d9d9d9;
+	width: 0;
+	vertical-align: middle;
+	margin-left: -1px;
+}
+
+.nav-cont li a {
+	font-size: 16px;
+	color: #333;
+	line-height: 36px;
+	margin-left: -1px;
+	padding: 0 25px;
+	text-decoration: none;
+	font-weight: 700;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.nav-cont .nav-extra {
+	position: absolute;
+	right: 0px;
+	top: 6px;
+	font-size: 16px;
+	color: #fcff00;
+	line-height: 33px;
+	height: 33px;
+	width: 160px;
+	text-align: center;
+	background: url(../images/extra.png);
+	cursor: pointer;
+}
+
+.nav-cont .nav-extra i.nav-user {
+	background: #000;
+	color: #fff;
+	width: 33px;
+	height: 33px;
+	border-radius: 33px;
+	position: absolute;
+	left: -28px;
+	z-index: 99;
+	padding: 5px;
+	overflow: hidden;
+}
+
+.nav-cont .nav-extra b {
+	display: block;
+	position: absolute;
+	width: 45px;
+	height: 45px;
+	border-radius: 45px;
+	z-index: 1;
+	left: -33px;
+	top: -8px;
+	background: #fff;
+}
+
+b.line {
+	display: block;
+	width: 100%;
+	height: 2px;
+	border-bottom: 2px solid #d2364c;
+}
+
+.bloglist {
+	padding-top: 20px;
+}
+
+.blog-content p {
+	font-size: 16px;
+	line-height: 24px;
+}
+/*选项卡样式定义*/
+.am-nav-tabs, .am-tabs-bd {
+	border-color: transparent;
+}
+
+.am-nav-tabs>li.am-active>a, .am-nav-tabs>li.am-active>a:hover,
+	.am-nav-tabs>li.am-active>a:focus, .am-nav-tabs>li>a:hover {
+	color: #555555;
+	background: none;
+	border-color: transparent;
+	cursor: default;
+}
+
+.am-nav-tabs>li>a {
+	margin-right: 0px;
+}
+
+.am-nav-tabs>li.am-active {
+	border-bottom: 2px solid #F03726;
+}
+
+.am-tabs-d2 .am-tabs-nav li {
+	max-width: 216px;
+}
+/*选项卡样式*/
+.am-nav-tabs>li {
+	cursor: pointer;
+}
+
+.am-nav-tabs>li>a {
+	padding: 0px 2px;
+	margin: 0px 0px;
+	text-align: center;
+}
+
+/*表单布局*/
+.am-form-label {
+	width: 100px;
+	float: left;
+}
+
+.am-form-content {
+	margin-left: 85px;
+}
+</style>
+	<div class="center">
+
+		<div class="user-order">
+			<div class="am-tabs am-tabs-d2 am-margin" data-am-tabs>
+
+				<ul class="am-avg-sm-4 am-tabs-nav am-nav am-nav-tabs">
+					<li class="am-active"><a href="#tab2">全部</a></li>
+					<li><a href="#tab3">状态A</a></li>
+					<li><a href="#tab4">状态B</a></li>
+					<li><a href="#tab5">状态C</a></li>
+				</ul>
+
+				<div class="am-tabs-bd">
+					<div class="am-tab-panel am-fade" id="tab2">abc2</div>
+					<div class="am-tab-panel am-fade" id="tab3">abc3</div>
+					<div class="am-tab-panel am-fade" id="tab4">abc4</div>
+					<div class="am-tab-panel am-fade" id="tab5">abC5</div>
+				</div>
+
+			</div>
+		</div>
+
+
+
+
+	</div>
+
+</body>
+
+</html>

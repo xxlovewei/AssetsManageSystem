@@ -1,22 +1,22 @@
-var app = angular.module('app', ['ui.router', 'oc.lazyLoad',
-				'angular-loading-bar', 'ksSwiper'])
+var app = angular.module('app', [ 'ui.router', 'oc.lazyLoad',
+		'angular-loading-bar', 'ksSwiper' ])
 var $injector = angular.injector();
 
 function pageTitle($rootScope, $timeout, $transitions) {
 	return {
 		link : function(scope, element) {
 			$transitions.onSuccess({
-						to : '**'
-					}, function(trans) {
-						console.log("set title.");
-						var current = trans.router.globals.current;
-						var title = "无";
-						if (angular.isDefined(current.data)
-								&& angular.isDefined(current.data.pageTitle)) {
-							title = current.data.pageTitle;
-						}
-						element.text(title);
-					});
+				to : '**'
+			}, function(trans) {
+				console.log("set title.");
+				var current = trans.router.globals.current;
+				var title = "无";
+				if (angular.isDefined(current.data)
+						&& angular.isDefined(current.data.pageTitle)) {
+					title = current.data.pageTitle;
+				}
+				element.text(title);
+			});
 		}
 	}
 };
@@ -40,8 +40,8 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 
 	$urlRouterProvider.otherwise("/me/profile");
 	$ocLazyLoadProvider.config({
-				debug : true
-			});
+		debug : true
+	});
 	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 	// $httpProvider.defaults.withCredentials = false;
 	var param = function(obj) {
@@ -72,11 +72,10 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 		return query.length ? query.substr(0, query.length - 1) : query;
 	};
 
-	$httpProvider.defaults.transformRequest = [function(data) {
-		return angular.isObject(data) && String(data) !== '[object File]'
-				? param(data)
+	$httpProvider.defaults.transformRequest = [ function(data) {
+		return angular.isObject(data) && String(data) !== '[object File]' ? param(data)
 				: data;
-	}];
+	} ];
 	// // 登录
 	// $stateProvider.state('login', {
 	// url : "/login",
@@ -109,26 +108,26 @@ app.config(config_main)
 					console.log("App main run");
 					// 替换了之前的$stateNotFound
 					$state.onInvalid(function(to, from, injector) {
-								$log.warn(to);
-								$log.warn(from);
-								$log.warn(injector);
-								alert("未配置路由");
-							});
+						$log.warn(to);
+						$log.warn(from);
+						$log.warn(injector);
+						alert("未配置路由");
+					});
 					// 替换了之前的$stateChangeStart
 					$transitions.onStart({
-								to : '**'
-							}, function(trans) {
-								// 调试阶段去除缓存
-								var $state = trans.router.stateService;
-								var from_arr = trans._treeChanges.from;
-								var from = null;
-								if (from_arr.length > 0) {
-									from = from_arr[from_arr.length - 1].state.name;
-								}
+						to : '**'
+					}, function(trans) {
+						// 调试阶段去除缓存
+						var $state = trans.router.stateService;
+						var from_arr = trans._treeChanges.from;
+						var from = null;
+						if (from_arr.length > 0) {
+							from = from_arr[from_arr.length - 1].state.name;
+						}
 
-								$log.warn("from:", from);
+						$log.warn("from:", from);
 
-							});
+					});
 					$rootScope.$state = $state;
 					$rootScope.project = '/dt/';
 					$rootScope.version = '20170901';
@@ -136,5 +135,5 @@ app.config(config_main)
 				});
 
 app.config(config_shop).run(function() {
-			console.log("App Shop run");
-		});
+	console.log("App Shop run");
+});

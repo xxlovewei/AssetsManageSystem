@@ -1,121 +1,171 @@
 
+<link rel="stylesheet"
+	href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<script
+	src="http://cdn.bootcss.com/angular-ui-bootstrap/0.11.2/ui-bootstrap-tpls.js"></script>
 <div class="container" ng-controller="meCtl"
 	style="background-color: white">
 
-	<header data-am-widget="header"
-		class="am-header am-header-default my-header">
-		<div class="am-header-left am-header-nav">
-			<a ng-click="goBack()" class=""> <i
-				class="am-header-icon am-icon-chevron-left"></i>
-			</a>
-		</div>
-		<h1 class="am-header-title">
-			<a>个人资料</a>
-		</h1>
-		<div class="am-header-right am-header-nav">
-			<a ng-click="goIndex()" class=""> <i
-				class="am-header-icon  am-icon-home"></i>
-			</a>
-		</div>
-	</header>
-	<div class="uchome-info">
-		<div class="uchome-info-uimg">
-			<img src="default/img1.jpg" />
-		</div>
-		<div class="uchome-info-uinfo">
-			<p>
-				王小丫，欢迎光临！[<a href="#" class="white">退出登录</a>]
-			</p>
-			<p>
-				帐号：XiaoyaWang，余额：<span class="red">￥20000.00</span>
-			</p>
-			<p>
-				积分：<span class="red">2531</span>，消息：<a href="#" class="red">12</a>
-			</p>
+
+
+
+
+
+
+	<div data-am-widget="tabs" class="am-tabs am-tabs-d2">
+		<ul class="am-tabs-nav am-cf">
+
+			<li id={{item.id}} ng-repeat="item in tabs.data"><a
+				href="[data-tab-panel-0]" ng-click="tabclick($index)"
+				onclick="return false;">{{item.text}}</a></li>
+
+
+			<!-- 			<li id="a" class=" "><a href="[data-tab-panel-0]"
+				ng-click="tabclick(0)" onclick="return false;">所有</a></li>
+			<li id="b"><a href="[data-tab-panel-1]" ng-click="tabclick(1)"
+				onclick="return false;">彩虹</a></li>
+			<li id="c" class=""><a href="[data-tab-panel-2]"
+				ng-click="tabclick(2)" onclick="return false;">歌唱</a></li>
+			<li id="d" class=""><a href="[data-tab-panel-2]"
+				ng-click="tabclick(3)" onclick="return false;">已完成</a></li> -->
+		</ul>
+		<div class="am-tabs-bd">
+			<div id="aa" data-tab-panel-0 class="am-tab-panel">
+			asdfaf
+				<table>
+					<tr>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			<div id="bb" data-tab-panel-1 class="am-tab-panel ">bb</div>
+			<div id="cc" data-tab-panel-2 class="am-tab-panel ">cc</div>
+			<div id="dd" data-tab-panel-2 class="am-tab-panel ">dd</div>
 		</div>
 	</div>
 
 
 
-	<!--个人资产-->
-	<div class="m-userproperty">
-		<div class="s-bar">
-			<i class="s-icon"></i>个人资产
-		</div>
-		<p class="m-coupon">
-			<a href="coupon.html"> <em class="m-num">2</em> <span
-				class="m-title">优惠券</span>
-			</a>
+</div>
+
+
+
+
+<header data-am-widget="header"
+	class="am-header am-header-default my-header">
+	<div class="am-header-left am-header-nav">
+		<a ng-click="goBack()" class=""> <i
+			class="am-header-icon am-icon-chevron-left"></i>
+		</a>
+	</div>
+	<h1 class="am-header-title">
+		<a>个人资料</a>
+	</h1>
+	<div class="am-header-right am-header-nav">
+		<a ng-click="goIndex()" class=""> <i
+			class="am-header-icon  am-icon-home"></i>
+		</a>
+	</div>
+</header>
+<div class="uchome-info">
+	<div class="uchome-info-uimg">
+		<img src="default/img1.jpg" />
+	</div>
+	<div class="uchome-info-uinfo">
+		<p>
+			王小丫，欢迎光临！[<a href="#" class="white">退出登录</a>]
 		</p>
-		<!-- 	<p class="m-wallet">
+		<p>
+			帐号：XiaoyaWang，余额：<span class="red">￥20000.00</span>
+		</p>
+		<p>
+			积分：<span class="red">2531</span>，消息：<a href="#" class="red">12</a>
+		</p>
+	</div>
+</div>
+
+
+
+<!--个人资产-->
+<div class="m-userproperty">
+	<div class="s-bar">
+		<i class="s-icon"></i>个人资产
+	</div>
+	<p class="m-coupon">
+		<a href="coupon.html"> <em class="m-num">2</em> <span
+			class="m-title">优惠券</span>
+		</a>
+	</p>
+	<!-- 	<p class="m-wallet">
 			<a href="wallet.html"> <em class="m-num">0.00</em> <span
 				class="m-title">账户余额</span>
 			</a>
 		</p> -->
-		<p class="m-bill">
-			<a href="pointnew.html"> <em class="m-num">10</em> <span
-				class="m-title">总积分</span>
-			</a>
-		</p>
+	<p class="m-bill">
+		<a href="pointnew.html"> <em class="m-num">10</em> <span
+			class="m-title">总积分</span>
+		</a>
+	</p>
+</div>
+
+
+
+
+
+
+<div class="m-order">
+	<div class="s-bar">
+		<i class="s-icon"></i>我的订单 <a class="i-load-more-item-shadow"
+			href="order.html">全部订单</a>
 	</div>
-
-
-
-
-
-
-	<div class="m-order">
-		<div class="s-bar">
-			<i class="s-icon"></i>我的订单 <a class="i-load-more-item-shadow"
-				href="order.html">全部订单</a>
-		</div>
-		<ul>
-			<li><a href="order.html"><i><img src="./image/pay.png"></i><span>待付款</span></a></li>
-			<li><a href="order.html"><i><img src="./image/send.png"></i><span>待发货<em
-						class="m-num">1</em></span></a></li>
-			<li><a href="order.html"><i><img
-						src="./image/receive.png"></i><span>待收货</span></a></li>
-			<!-- 		<li><a href="order.html"><i><img
+	<ul>
+		<li><a href="order.html"><i><img src="./image/pay.png"></i><span>待付款</span></a></li>
+		<li><a href="order.html"><i><img src="./image/send.png"></i><span>待发货<em
+					class="m-num">1</em></span></a></li>
+		<li><a href="order.html"><i><img
+					src="./image/receive.png"></i><span>待收货</span></a></li>
+		<!-- 		<li><a href="order.html"><i><img
 						src="./image/comment.png"></i><span>待评价<em class="m-num">3</em></span></a></li> -->
-			<li><a href="change.html"><i><img
-						src="./image/refund.png"></i><span>退换货</span></a></li>
-		</ul>
-	</div>
+		<li><a href="change.html"><i><img
+					src="./image/refund.png"></i><span>退换货</span></a></li>
+	</ul>
+</div>
 
-	<div class="user-squaredIcon" style="background-color: white;">
-		<div class="s-bar">
-			<i class="s-icon"></i>我的常用
-		</div>
-		<ul>
-			<a href="order.html">
-				<li class="am-u-sm-4"><i class="am-icon-truck am-icon-md"></i>
-					<p>物流查询</p></li>
-			</a>
-			<a href="collection.html">
-				<li class="am-u-sm-4"><i class="am-icon-heart am-icon-md"></i>
-					<p>我的收藏</p></li>
-			</a>
-			<a href="foot.html">
-				<li class="am-u-sm-4"><i class="am-icon-paw am-icon-md"></i>
-					<p>我的足迹</p></li>
-			</a>
-			<a href="#">
-				<li class="am-u-sm-4"><i class="am-icon-gift am-icon-md"></i>
-					<p>为你推荐</p></li>
-			</a>
-			<a href="blog.html">
-				<li class="am-u-sm-4"><i class="am-icon-share-alt am-icon-md"></i>
-					<p>我的分享</p></li>
-			</a>
-			<a href="../home/home2.html">
-				<li class="am-u-sm-4"><i class="am-icon-clock-o am-icon-md"></i>
-					<p>限时活动</p></li>
-			</a>
-
-		</ul>
+<div class="user-squaredIcon" style="background-color: white;">
+	<div class="s-bar">
+		<i class="s-icon"></i>我的常用
 	</div>
-	<div class="clear"></div>
-	<div style="padding-bottom: 120px"></div>
+	<ul>
+		<a href="order.html">
+			<li class="am-u-sm-4"><i class="am-icon-truck am-icon-md"></i>
+				<p>物流查询</p></li>
+		</a>
+		<a href="collection.html">
+			<li class="am-u-sm-4"><i class="am-icon-heart am-icon-md"></i>
+				<p>我的收藏</p></li>
+		</a>
+		<a href="foot.html">
+			<li class="am-u-sm-4"><i class="am-icon-paw am-icon-md"></i>
+				<p>我的足迹</p></li>
+		</a>
+		<a href="#">
+			<li class="am-u-sm-4"><i class="am-icon-gift am-icon-md"></i>
+				<p>为你推荐</p></li>
+		</a>
+		<a href="blog.html">
+			<li class="am-u-sm-4"><i class="am-icon-share-alt am-icon-md"></i>
+				<p>我的分享</p></li>
+		</a>
+		<a href="../home/home2.html">
+			<li class="am-u-sm-4"><i class="am-icon-clock-o am-icon-md"></i>
+				<p>限时活动</p></li>
+		</a>
+
+	</ul>
+</div>
+<div class="clear"></div>
+<div style="padding-bottom: 120px"></div>
 
 
 
