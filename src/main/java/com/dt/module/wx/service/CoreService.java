@@ -1,15 +1,11 @@
-/**
- * 
- */
+
 package com.dt.module.wx.service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import com.dt.module.wx.msg.resp.Article;
 import com.dt.module.wx.msg.resp.NewsMessage;
 import com.dt.module.wx.msg.resp.TextMessage;
@@ -82,17 +78,14 @@ public class CoreService extends BaseService {
 			textMessage.setFromUserName(toUserName);
 			textMessage.setCreateTime(new Date().getTime());
 			textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-/*
-			HttpSession session = request.getSession(true);
-
-			if (null == session.getAttribute("user")) {
-				Map userMap = new HashMap();
-				userMap.put("OPENID", fromUserName);
-				session.setAttribute("user", userMap);
-			} else {
-				Map userMap = (Map) session.getAttribute("user");
-				userMap.put("OPENID", fromUserName);
-			}*/
+			/*
+			 * HttpSession session = request.getSession(true);
+			 * 
+			 * if (null == session.getAttribute("user")) { Map userMap = new HashMap();
+			 * userMap.put("OPENID", fromUserName); session.setAttribute("user", userMap); }
+			 * else { Map userMap = (Map) session.getAttribute("user");
+			 * userMap.put("OPENID", fromUserName); }
+			 */
 
 			// 文本消息
 			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {

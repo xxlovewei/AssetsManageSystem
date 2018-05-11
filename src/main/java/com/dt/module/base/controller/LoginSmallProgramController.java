@@ -13,6 +13,9 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,6 +41,8 @@ import com.dt.module.base.service.WxUserService;
  */
 @Controller
 @RequestMapping("/api")
+@Configuration
+@PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
 public class LoginSmallProgramController extends BaseController {
 	@Autowired
 	WxUserService wxUserService;
@@ -46,13 +51,22 @@ public class LoginSmallProgramController extends BaseController {
 	@Autowired
 	LoginService loginService;
 
+	@Value("${wx.xcx_appId}")
+	public String xcx_appId;
+
+	@Value("${wx.xcx_secret}")
+	public String xcx_secret;
+
 	private R getOpenIdStr(String code) {
 		String url = "https://api.weixin.qq.com/sns/jscode2session";
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("appid", "wx5a945d59434c7f0d");
+		if (ToolUtil.isOneEmpty(xcx_appId, xcx_secret)) {
+			return R.FAILURE("配置信息有误");
+		}
+		map.put("appid", xcx_appId);
+		map.put("secret", xcx_secret);
 		map.put("js_code", code);
 		map.put("grant_type", "authorization_code");
-		map.put("secret", "3f7660b289e8aa7ca1dce78cc19cc288");
 		String str = HttpKit.sendGet(url, map);
 		JSONObject strobj = JSONObject.parseObject(str);
 		System.out.println(strobj.toJSONString());
@@ -139,7 +153,7 @@ public class LoginSmallProgramController extends BaseController {
 		ps.put("nickname", nickName);
 		ps.put("avatarurl", avatarUrl);
 		ps.put("score", "0");
-		R rs = userService.addUser(ps, UserService.USER_TYPE_CRM);
+		R rs = userService.addUser(ps, UserService.USER_TYPE_XCX);
 		return rs;
 	}
 

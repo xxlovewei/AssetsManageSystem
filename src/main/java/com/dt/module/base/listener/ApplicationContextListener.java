@@ -9,15 +9,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-
 import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.BaseConstants;
+import com.dt.core.dao.Rcd;
+import com.dt.core.dao.sql.Insert;
+import com.dt.core.dao.sql.Update;
 import com.dt.core.shiro.service.SimpleFilterChainDefinitionsService;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.schedule.service.ScheduleMangerService;
 import com.dt.module.base.service.RegionService;
 import com.dt.module.base.service.SystemService;
+import com.dt.module.db.DB;
 
 /**
  * spring容器初始化完成事件 Spring框架加载完成后会publishContextRefreshedEvent事件
@@ -40,6 +43,15 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 
 	@Value("${acl.def}")
 	private String acldef;
+
+	@Value("${wx.enable}")
+	private String wx_enable;
+
+	@Value("${wx.appId}")
+	private String wx_appId;
+
+	@Value("${wx.secret}")
+	private String wx_secret;
 
 	@Autowired
 	private RegionService regionService;
@@ -82,6 +94,30 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 				scheduleMangerService.jobInitLoadFromDb();
 			} else {
 				_log.info("Job Not Start.");
+			}
+
+			// 处理微信公众
+			if (ToolUtil.isNotEmpty(wx_enable) && "true".equals(wx_enable.toLowerCase())) {
+				if (!ToolUtil.isOneEmpty(wx_appId, wx_appId)) {
+					Rcd rs = DB.instance().uniqueRecord("select * from wx_apps where dr=0 and app_id=?", wx_appId);
+					if (ToolUtil.isEmpty(rs)) {
+						Insert me = new Insert("wx_apps");
+						me.set("id", ToolUtil.getUUID());
+						me.set("name", "wx_app");
+						me.set("app_id", wx_appId);
+						me.set("secret", "secret");
+						me.set("dr", 0);
+						DB.instance().execute(me);
+						_log.info("Insert Wx apps.");
+					} else {
+						Update me = new Update("wx_apps");
+						me.set("secret", "secret");
+						me.where().and("app_id=?", wx_appId);
+						DB.instance().execute(me);
+						_log.info("Update Wx apps.");
+					}
+
+				}
 			}
 
 			// 预热

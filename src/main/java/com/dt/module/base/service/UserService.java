@@ -40,6 +40,9 @@ public class UserService extends BaseService {
 	public static String USER_TYPE_EMPL = "empl";
 	// 会员粉丝人员
 	public static String USER_TYPE_CRM = "crm";
+	
+	public static String USER_TYPE_XCX = "xcx";
+	
 	// APP
 	public static String USER_TYPE_APP = "app";
 
