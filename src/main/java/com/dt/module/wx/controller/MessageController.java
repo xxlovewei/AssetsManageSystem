@@ -53,8 +53,8 @@ public class MessageController extends BaseController {
 	@RequestMapping("/wx/queryMessages.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_DENY, info = "查询消息")
-	public R queryMessages(String id) {
-		return messageService.queryMessages();
+	public R queryMessages(String funtype) {
+		return messageService.queryMessages(funtype);
 	}
 
 	// 图文

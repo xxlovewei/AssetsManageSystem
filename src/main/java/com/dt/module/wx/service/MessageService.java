@@ -8,6 +8,7 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.DbUtil;
+import com.dt.core.tool.util.ToolUtil;
 
 /**
  * @author: jinjie
@@ -30,7 +31,7 @@ public class MessageService extends BaseService {
 		me.setIf("mark", ps.getString("mark", ""));
 		me.setIf("code", ps.getString("code", ""));
 		me.setIf("name", ps.getString("name", ""));
-		me.setIf("is_auto", ps.getString("is_auto", ""));
+		me.setIf("funtype", ps.getString("funtype", ""));
 		me.setIf("msgtype", ps.getString("msgtype", ""));
 		me.setIf("value", ps.getString("value", ""));
 		me.where().and("id=?", ps.getString("id"));
@@ -38,6 +39,7 @@ public class MessageService extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 
+	// funtype:reply(自动回复),action(动作),push(推送类)
 	public R addMessage(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("wx_msg_def");
 		me.set("dr", 0);
@@ -45,7 +47,7 @@ public class MessageService extends BaseService {
 		me.set("group_id", db.getUUID());
 		me.setIf("mark", ps.getString("mark", ""));
 		me.setIf("code", ps.getString("code", ""));
-		me.setIf("is_auto", ps.getString("is_auto", ""));
+		me.setIf("funtype", ps.getString("funtype", ""));
 		me.setIf("name", ps.getString("name", ""));
 		me.setIf("msgtype", ps.getString("msgtype", ""));
 		me.setIf("value", ps.getString("value", ""));
@@ -57,9 +59,13 @@ public class MessageService extends BaseService {
 		return R.SUCCESS_OPER(db.uniqueRecord("select * from wx_msg_def where id=?", id).toJsonObject());
 	}
 
-	public R queryMessages() {
-		return R.SUCCESS_OPER(
-				db.query("select * from wx_msg_def where dr=0 order by msgtype").toJsonArrayWithJsonObject());
+	public R queryMessages(String funtype) {
+		String sql = "select * from wx_msg_def where dr=0 ";
+		if (ToolUtil.isNotEmpty(funtype)) {
+			sql = sql + " and funtype='" + funtype + "'";
+		}
+		sql = sql + " order by msgtype";
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
 	// 图文
@@ -126,6 +132,7 @@ public class MessageService extends BaseService {
 	}
 
 	public R queryScs() {
-		return R.SUCCESS_OPER(db.query("select * from wx_msg_sc where dr=0 order by ctime desc").toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(
+				db.query("select * from wx_msg_sc where dr=0 order by ctime desc").toJsonArrayWithJsonObject());
 	}
 }

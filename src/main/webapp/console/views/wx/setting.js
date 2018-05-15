@@ -1,7 +1,18 @@
 function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 		id, $http, $rootScope) {
 
+	$scope.classOpt = [{
+				id : "action",
+				name : "动作"
+			}, {
+				id : "push",
+				name : "推送"
+			}, {
+				id : "reply",
+				name : "回复"
+			}];
 
+	$scope.classSel = $scope.classOpt[0];
 	console.log("window in:" + id);
 	$scope.msgtypeOpt = [{
 				id : "6",
@@ -18,6 +29,20 @@ function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 				}).success(function(res) {
 					if (res.success) {
 						$scope.item = res.data;
+
+						for (var i = 0; i < $scope.msgtypeOpt.length; i++) {
+							if ($scope.msgtypeOpt[i].id == $scope.item.msgtype) {
+								$scope.msgtypeSel = $scope.msgtypeOpt[i];
+								break;
+							}
+						}
+
+						for (var i = 0; i < $scope.classOpt.length; i++) {
+							if ($scope.classOpt[i].id == $scope.item.funtype) {
+								$scope.classSel = $scope.classOpt[i];
+								break;
+							}
+						}
 					} else {
 
 					}
@@ -28,6 +53,7 @@ function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 	$scope.sure = function() {
 
 		$scope.item.msgtype = $scope.msgtypeSel.id;
+		$scope.item.funtype = $scope.classSel.id;
 		$http.post($rootScope.project + "/api/wx/saveMessage.do", $scope.item)
 				.success(function(res) {
 							if (res.success) {
@@ -50,6 +76,21 @@ function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 function wxmsgsettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
+	$scope.classOpt = [{
+				id : "all",
+				name : "全部"
+			}, {
+				id : "action",
+				name : "动作"
+			}, {
+				id : "push",
+				name : "推送"
+			}, {
+				id : "reply",
+				name : "回复"
+			}];
+
+	$scope.classSel = $scope.classOpt[0];
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise()
 			.withPaginationType('full_numbers').withDisplayLength(25)
 			.withOption("ordering", false).withOption("responsive", true)
@@ -82,7 +123,21 @@ function wxmsgsettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 	}
 
+	function renderClass(data, type, full) {
+
+		if (data == "reply") {
+			return "回复";
+		} else if (data == "push") {
+			return "推送";
+		} else if (data == "action") {
+			return "动作";
+		} else {
+			return data;
+		}
+	}
 	$scope.dtColumns = [
+			DTColumnBuilder.newColumn('funtype').withTitle('分类').withOption(
+					'sDefaultContent', '').renderWith(renderClass),
 			DTColumnBuilder.newColumn('msgtype').withTitle('类型').withOption(
 					'sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
@@ -93,14 +148,18 @@ function wxmsgsettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', ''),
-			/*			DTColumnBuilder.newColumn('is_auto').withTitle('自动回复').withOption(
-			 'sDefaultContent', ''),*/
+			/*
+			 * DTColumnBuilder.newColumn('is_auto').withTitle('自动回复').withOption(
+			 * 'sDefaultContent', ''),
+			 */
 			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction)]
 
 	function flush() {
 		var ps = {}
-
+		if ($scope.classSel.id != "all") {
+			ps.funtype = $scope.classSel.id;
+		}
 		$http.post($rootScope.project + "/api/wx/queryMessages.do", ps)
 				.success(function(res) {
 							if (res.success) {
