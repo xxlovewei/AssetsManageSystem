@@ -40,6 +40,7 @@ public class MessageService extends BaseService {
 	}
 
 	// funtype:reply(自动回复),action(动作),push(推送类)
+	// msgtype:text(普通消息),6(图文消息)
 	public R addMessage(TypedHashMap<String, Object> ps) {
 		Insert me = new Insert("wx_msg_def");
 		me.set("dr", 0);
