@@ -140,7 +140,7 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 									files : ['views/system/login/login.js']
 								},{
 									serie : true,
-									files : ['views/system/login/login.css']
+									files : ['views/system/login/l.css']
 								}]);
 					}
 				}
