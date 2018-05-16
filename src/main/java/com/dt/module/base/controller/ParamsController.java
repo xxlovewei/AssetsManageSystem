@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
+import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
@@ -19,7 +20,7 @@ import com.dt.module.base.service.ParamsService;
  */
 @Controller
 @RequestMapping(value = "/api")
-public class ParamsController {
+public class ParamsController extends BaseController{
 	@Autowired
 	ParamsService paramsService;
 

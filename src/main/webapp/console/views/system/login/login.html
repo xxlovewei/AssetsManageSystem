@@ -14,40 +14,85 @@
 	-o-background-size: cover;
 	background-size: cover;
 }
+
+.login-con {
+	position: absolute;
+	right: 160px;
+	top: 50%;
+	-webkit-transform: translateY(-60%);
+	transform: translateY(-60%);
+	width: 300px;
+}
 </style>
 <div ng-controller="sysLoginCtl" class="bg"
-	style="height: 100%; background-image: url(./img/bg_img/4.jpg)">
-	<div class="middle-box text-center loginscreen  animated fadeInDown">
-		<div>
-			<div>
-				<h1 class="logo-name"></h1>
+	style="height: 100%; background-image: url(./img/login_bg.jpg)">
+	<div class="login-con">
+		<div class="ivu-card">
+			<div class="ivu-card-head">
+				<p>
+					<i class="ivu-icon ivu-icon-log-in"></i> 欢迎登录
+				</p>
 			</div>
-			<h3 style="color: white !important">欢迎登录</h3>
-			<form class="m-t" role="form" action="#">
-				<div class="form-group">
-					<input type="text" ng-model="user.user" class="form-control"
-						placeholder="输入帐号" required="">
-				</div>
-				<div class="form-group">
-					<input type="password" ng-model="user.pwd" class="form-control"
-						placeholder="输入密码" required="">
-				</div>
+			<!---->
+			<div class="ivu-card-body">
+				<div class="form-con">
+					<form autocomplete="off" class="ivu-form ivu-form-label-right">
+						<div class="ivu-form-item ivu-form-item-required">
+							<!---->
+							<div class="ivu-form-item-content">
+								<div
+									class="ivu-input-wrapper ivu-input-type ivu-input-group ivu-input-group-with-prepend">
+									<div class="ivu-input-group-prepend" style="">
+										<span><i class="ivu-icon ivu-icon-person"
+											style="font-size: 16px;"></i></span>
+									</div>
+									<!---->
+									<i
+										class="ivu-icon ivu-icon-load-c ivu-load-loop ivu-input-icon ivu-input-icon-validate"></i>
+									<input autocomplete="off" spellcheck="false" type="text"
+										placeholder="请输入用户名" class="ivu-input" ng-model="user.user">
+									<!---->
+								</div>
+								<!---->
+							</div>
+						</div>
+						<div class="ivu-form-item ivu-form-item-required">
+							<!---->
+							<div class="ivu-form-item-content">
+								<div
+									class="ivu-input-wrapper ivu-input-type ivu-input-group ivu-input-group-with-prepend">
+									<div class="ivu-input-group-prepend" style="">
+										<span><i class="ivu-icon ivu-icon-locked"
+											style="font-size: 14px;"></i></span>
+									</div>
+									<!---->
+									<i
+										class="ivu-icon ivu-icon-load-c ivu-load-loop ivu-input-icon ivu-input-icon-validate"></i>
+									<input autocomplete="off" spellcheck="false" type="password"
+										placeholder="请输入密码" class="ivu-input" ng-model="user.pwd">
+									<!---->
+								</div>
+								<!---->
+							</div>
+						</div>
+						<div class="ivu-form-item">
+							<!---->
+							<div class="ivu-form-item-content">
+								<button type="button" ng-click="login()"
+									class="ivu-btn ivu-btn-primary ivu-btn-long">
+									<!---->
+									<!---->
+									<span>登录</span>
+								</button>
+								<!---->
+							</div>
+						</div>
+					</form>
 
-
-				<!--     <a ui-sref="forgot_password"><small>忘记密码?</small></a> -->
-				<!--       <p class="text-muted text-center"><small>Do not have an account?</small></p>
-            <a class="btn btn-sm btn-white btn-block" ui-sref="register">Create an account</a> -->
-			</form>
-			<button ng-click="login()" type="submit"
-				class="btn btn-primary block full-width m-b">登录</button>
-			<!-- 
-			<button ng-click="login('S')">超级管理员登录--测试</button>
-			<button ng-click="login('A')">管理员登录--测试</button>
-			<button ng-click="login('D')">开发人员登录--测试</button>
-			<button ng-click="login('N')">普通人员登录--测试</button> -->
-			<p class="m-t">
-				<small> </small>
-			</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
+
+
