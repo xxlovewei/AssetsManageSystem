@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseCodeMsgEnum;
@@ -90,8 +91,26 @@ public class LoginController extends BaseController {
 		// 覆盖重要信息
 		u.put("pwd", "********");
 		r.put("user_info", u);
-		// 系统信息
-		r.put("systems", menuRootService.queryMyMenuRoot(shiroUser.id));
+		// 菜单列表
+		JSONArray systems = menuRootService.queryMyMenuRoot(shiroUser.id);
+		r.put("systems", systems);
+		// 获取当前需要显示的菜单
+		String tab_system = u.getString("system");
+		String cur_system = "";
+		if (systems.size() == 0 || ToolUtil.isEmpty(tab_system)) {
+			cur_system = "";
+		} else {
+			for (int i = 0; i < systems.size(); i++) {
+				if (tab_system.equals(systems.getJSONObject(i).getString("menu_id"))) {
+					cur_system = systems.getJSONObject(i).getString("menu_id");
+					break;
+				}
+				if (ToolUtil.isEmpty(cur_system)) {
+					cur_system = systems.getJSONObject(0).getString("menu_id");
+				}
+			}
+		}
+		r.put("cur_system", cur_system);
 		r.put("token", super.getSession().getId());
 		_log.info("login:" + r.toJSONString());
 		loginService.recLogin(shiroUser.id, super.getSession().getId(), request);
