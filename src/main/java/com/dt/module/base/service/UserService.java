@@ -90,7 +90,6 @@ public class UserService extends BaseService {
 		// 获取角色信息
 		String sql2 = "select a.role_id,b.role_name from sys_user_role a,sys_role_info b where a.role_id=b.role_id and user_id=?";
 		RcdSet r_rs = db.query(sql2, id);
-		_log.info("已经获取角色数:" + r_rs.size());
 		HashMap<String, String> rmap = new HashMap<String, String>();
 		for (int i = 0; i < r_rs.size(); i++) {
 			rmap.put(r_rs.getRcd(i).getString("role_id"), r_rs.getRcd(i).getString("role_name"));

@@ -9,6 +9,7 @@ import org.apache.shiro.web.filter.authc.LogoutFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dt.core.shiro.service.ShiroAuthorizationHelper;
 import com.dt.module.base.service.LoginService;
 
 /**
@@ -30,6 +31,14 @@ public class SystemLogoutFilter extends LogoutFilter {
 		Subject subject = getSubject(request, response);
 		String redirectUrl = getRedirectUrl(request, response, subject);
 		log.info("sessionId:" + subject.getSession().getId() + " to logout");
+		ShiroAuthorizationHelper.showCache();
+		ShiroUser shiroUser = ShiroKit.getUser();
+	 
+		if (shiroUser != null) {
+			ShiroAuthorizationHelper.clearAuthorizationInfo(shiroUser);
+			ShiroAuthorizationHelper.clearAuthenticationInfo(shiroUser);
+		}
+		ShiroAuthorizationHelper.showCache();
 		try {
 			LoginService.me().logout(subject.getSession().getId().toString());
 			subject.logout();

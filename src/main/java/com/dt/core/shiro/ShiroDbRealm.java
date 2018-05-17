@@ -68,19 +68,23 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		Set<String> permissionSet = new HashSet<String>();
 		Set<String> roleNameSet = new HashSet<String>();
 		// 处理每个角色的权限
-		for (String roleId : roleList) {
-			// _log.info("角色ID:" + roleId);
-			List<String> permissions = shiroService.findPermissionsByRoleId(roleId);
-			if (permissions != null) {
-				for (String permission : permissions) {
-					if (ToolUtil.isNotEmpty(permission)) {
-						// _log.info(permission);
-						permissionSet.add(permission);
+		if (roleList.size() > 0) {
+			for (String roleId : roleList) {
+				_log.info("角色ID:" + roleId);
+				List<String> permissions = shiroService.findPermissionsByRoleId(roleId);
+				if (permissions != null) {
+					for (String permission : permissions) {
+						if (ToolUtil.isNotEmpty(permission)) {
+							// _log.info(permission);
+							permissionSet.add(permission);
+						}
 					}
 				}
+				String roleName = shiroService.findRoleNameByRoleId(roleId);
+				roleNameSet.add(roleName);
 			}
-			String roleName = shiroService.findRoleNameByRoleId(roleId);
-			roleNameSet.add(roleName);
+		} else {
+			_log.info("无角色获取");
 		}
 		// 将权限名称提供给info
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
