@@ -61,6 +61,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+		this.clearCachedAuthenticationInfo(principals);
 		_log.info("###################Action 权限认证#################");
 		IShiro shiroService = ShiroServiceImpl.me();
 		ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();

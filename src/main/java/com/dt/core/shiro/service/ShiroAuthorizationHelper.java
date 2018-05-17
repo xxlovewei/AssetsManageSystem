@@ -1,18 +1,13 @@
 package com.dt.core.shiro.service;
 
-import java.io.Serializable;
-
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.dt.core.common.base.BaseCommon;
-import com.dt.core.shiro.ShiroUser;
-
-import net.sf.ehcache.Element;
-
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.LoginService;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.subject.PrincipalCollection;
 
 /**
  * @author Dylan
@@ -37,56 +32,59 @@ public class ShiroAuthorizationHelper {
 	public static String authenticationCache = "authenticationCache";
 
 	/* 权限信息 */
-	public static void clearAuthorizationInfo(ShiroUser user) {
+	public static void clearAuthorizationInfo(PrincipalCollection principals) {
 		Cache<Object, Object> cache = cacheManager.getCache(authorizationCache);
-		Object v = cache.get(user);
-		cache.remove(user.toString());
+		if (principals != null) {
+			if (principals.getPrimaryPrincipal() != null) {
+				log.info("Clear clearAuthorizationInfo,Id:" + principals.getPrimaryPrincipal());
+				cache.remove(principals.getPrimaryPrincipal());
+			}
+		}
 	}
 
 	/* 认证信息 */
-	public static void clearAuthenticationInfo(ShiroUser user) {
-		Cache<Object, Object> cache = cacheManager.getCache(authenticationCache);
-		cache.remove(user.id);
+	public static void clearAuthenticationInfo(String id) {
+		if (ToolUtil.isNotEmpty(id)) {
+			log.info("Clear clearAuthenticationInfo,Id:" + id);
+			Cache<Object, Object> cache = cacheManager.getCache(authenticationCache);
+			cache.remove(id);
+		}
 	}
 
 	public static void showCache() {
 
 		Cache<Object, Object> cache = cacheManager.getCache(authorizationCache);
-		BaseCommon.print(authorizationCache);
-		BaseCommon.print("size:" + cache.size());
-		for (Object key : cache.keys()) {
-			BaseCommon.print("key:" + key + ",val:" + cache.get(key));
+		BaseCommon.print("##########" + authorizationCache);
+		if (cache != null) {
+			BaseCommon.print("size:" + cache.size());
+			for (Object key : cache.keys()) {
+				BaseCommon.print("key:" + key + ",val:" + cache.get(key));
+			}
 		}
 
 		Cache<Object, Object> cache2 = cacheManager.getCache(passwordRetryCache);
-		BaseCommon.print(passwordRetryCache);
-		BaseCommon.print("size:" + cache2.size());
-		for (Object key : cache2.keys()) {
-			BaseCommon.print("key:" + key + ",val:" + cache2.get(key));
+		BaseCommon.print("##########" + passwordRetryCache);
+		if (cache2 != null) {
+			BaseCommon.print("size:" + cache2.size());
+			for (Object key : cache2.keys()) {
+				BaseCommon.print("key:" + key + ",val:" + cache2.get(key));
+			}
 		}
-
 		Cache<Object, Object> cache3 = cacheManager.getCache(authenticationCache);
-		BaseCommon.print(authenticationCache);
-		BaseCommon.print("size:" + cache3.size());
-		for (Object key : cache3.keys()) {
-			BaseCommon.print("key:" + key + ",val:" + cache3.get(key));
+		BaseCommon.print("##########" + authenticationCache);
+		if (cache3 != null) {
+			BaseCommon.print("size:" + cache3.size());
+			for (Object key : cache3.keys()) {
+				BaseCommon.print("key:" + key + ",val:" + cache3.get(key));
+			}
 		}
 	}
 
-	/**
-	 * 清除session(认证信息)
-	 * 
-	 * @param JSESSIONID
-	 */
-	public static void clearAuthenticationInfo(Serializable JSESSIONID) {
-		if (log.isDebugEnabled()) {
-			log.debug("clear the session " + JSESSIONID);
+	public static void clearSession(String id) {
+		if (ToolUtil.isNotEmpty(id)) {
+			log.info("Clear clearSession,Id:" + id);
+			LoginService.me().logout(id);
 		}
-		// shiro-activeSessionCache
-		// 为shiro自义cache名，该名在org.apache.shiro.session.mgt.eis.CachingSessionDAO抽象类中定义
-		// 如果要改变此名，可以将名称注入到sessionDao中，例如注入到CachingSessionDAO的子类EnterpriseCacheSessionDAO类中
-		Cache<Object, Object> cache = cacheManager.getCache("shiro-activeSessionCache");
-		cache.remove(JSESSIONID);
 	}
 
 	public static EhCacheManager getCacheManager() {

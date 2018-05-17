@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dt.core.shiro.service.ShiroAuthorizationHelper;
-import com.dt.module.base.service.LoginService;
 
 /**
  * @author: algernonking
@@ -31,17 +30,17 @@ public class SystemLogoutFilter extends LogoutFilter {
 		Subject subject = getSubject(request, response);
 		String redirectUrl = getRedirectUrl(request, response, subject);
 		log.info("sessionId:" + subject.getSession().getId() + " to logout");
-		ShiroAuthorizationHelper.showCache();
 		ShiroUser shiroUser = ShiroKit.getUser();
-	 
-		if (shiroUser != null) {
-			ShiroAuthorizationHelper.clearAuthorizationInfo(shiroUser);
-			ShiroAuthorizationHelper.clearAuthenticationInfo(shiroUser);
-		}
-		ShiroAuthorizationHelper.showCache();
 		try {
-			LoginService.me().logout(subject.getSession().getId().toString());
+			if (shiroUser != null) {
+				// ShiroAuthorizationHelper.showCache();
+				ShiroAuthorizationHelper.clearAuthorizationInfo(ShiroKit.getSubject().getPrincipals());
+				ShiroAuthorizationHelper.clearAuthenticationInfo(shiroUser.id);
+				ShiroAuthorizationHelper.clearSession(shiroUser.id);
+			}
 			subject.logout();
+			// ShiroAuthorizationHelper.showCache();
+
 		} catch (SessionException ise) {
 			log.debug("Encountered session exception during logout.  This can generally safely be ignored.", ise);
 		}
