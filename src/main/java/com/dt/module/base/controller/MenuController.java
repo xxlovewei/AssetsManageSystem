@@ -31,7 +31,7 @@ public class MenuController extends BaseController {
 	@Acl(info = "查询菜单", value = Acl.ACL_USER)
 	@RequestMapping(value = "/menu/treeTop.do")
 	public R treeTop() {
-		return R.SUCCESS_OPER(menuRootService.queryMenuRoot());
+		return R.SUCCESS_OPER(menuRootService.queryMenuRoot(null));
 	}
 
 	@RequestMapping(value = "/menu/deleteNode.do")

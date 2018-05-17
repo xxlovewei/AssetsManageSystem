@@ -158,12 +158,25 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html"
 	}).state('module.module_setting', {
 		url : "/module_setting",
+		data: { pageTitle: '模块管理'},
 		templateUrl : "views/system/menu/menu.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
 					files : [ 'views/system/menu/menu.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('module.rootmenu', {
+		url : "/rootmenu",
+		data: { pageTitle: '主菜单管理'},
+		templateUrl : "views/system/menu/rootmenu.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/menu/rootmenu.js?v=' + version ]
 				} ]);
 			}
 		}
