@@ -59,10 +59,10 @@ function wxappCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				+ "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
 		acthtml = acthtml + " <button ng-click=\"syncToWx('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">同步到微信</button>  ";
-		acthtml = acthtml
-				+ " <button ng-click=\"syncFromWx('"
-				+ full.id
-				+ "')\" class=\"btn-white btn btn-xs\">从微信同步</button>  </div>  ";
+		acthtml = acthtml + " <button ng-click=\"syncFromWx('" + full.id
+				+ "')\" class=\"btn-white btn btn-xs\">从微信同步</button>   ";
+		acthtml = acthtml + " <button ng-click=\"del('" + full.id
+				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div>  ";
 		return acthtml;
 	}
 
@@ -145,6 +145,24 @@ function wxappCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 								message : res.message
 							});
 				})
+	}
+
+	$scope.del = function(id) {
+
+		$confirm({
+					text : '是否删除?'
+				}).then(function() {
+					$http.post($rootScope.project + "/api/wx/delWxapp.do", {
+								id : id
+							}).success(function(res) {
+								if (res.success) {
+									flush();
+								}
+								notify({
+											message : res.message
+										});
+							})
+				});
 	}
 
 };

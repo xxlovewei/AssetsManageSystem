@@ -240,6 +240,10 @@ public class WxService extends BaseService {
 		return R.SUCCESS_OPER(db.query("select * from wx_apps where dr=0").toJsonArrayWithJsonObject());
 	}
 
+	public R delWxapp(String id) {
+		return R.SUCCESS_OPER(db.execute("delete from wx_apps where id=?", id));
+	}
+
 	public R queryUserInfo(String open_id) {
 		R trs = queryAccessToken();
 		if (trs.isFailed()) {

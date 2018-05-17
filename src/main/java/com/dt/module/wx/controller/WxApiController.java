@@ -128,4 +128,11 @@ public class WxApiController extends BaseController {
 		return wxService.saveWxApp(ps);
 	}
 
+	@ResponseBody
+	@Acl(info = "删除WxApp", value = Acl.ACL_DENY)
+	@RequestMapping(value = "/wx/delWxapp.do")
+	public R delWxapp(String id) {
+		return wxService.delWxapp(id);
+	}
+
 }
