@@ -9,13 +9,18 @@
 <meta http-equiv="Cache-control" content="no-cache">
 <meta http-equiv="Cache" content="no-cache">
 
+
+<!-- Page title set in pageTitle directive -->
 <title page-title></title>
-<!-- main css  -->
+<!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- Font awesome -->
 <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-<link href="css/app.all.css" rel="stylesheet">
+<!-- Main css  -->
+<link id="myappcss" href="css/app.all.css" rel="stylesheet">
 </head>
 
+<!-- Main controller with serveral data used in Inspinia theme on diferent view -->
 <body ng-controller="MainCtrl as main"
 	class="{{$state.current.data.specialClass?$state.current.data.specialClass:'fixed-nav'}}"
 	landing-scrollspy id="page-top">
@@ -39,30 +44,43 @@
 	<script src="js/plugins/oclazyload/dist/ocLazyLoad.min.js"></script>
 	<script src="js/angular-translate/angular-translate.min.js"></script>
 	<script src="js/ui-router/angular-ui-router.min.js"></script>
+
+
 	<script src="js/bootstrap/ui-bootstrap-tpls-1.1.2.min.js"></script>
 	<script src="js/plugins/angular-idle/angular-idle.js"></script>
 
 	<!-- mask -->
 	<script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+
 	<!-- chosen -->
+	<link href="css/plugins/chosen/bootstrap-chosen.min.css"
+		rel="stylesheet" type="text/css" />
 	<script src="js/plugins/chosen/chosenall.min.js"></script>
+	<!-- <script src="js/plugins/chosen/chosen.js"></script> -->
+
 	<!-- noticy -->
 	<link href="css/plugins/angular-notify/angular-notify.min.css"
 		rel="stylesheet" type="text/css" />
 	<script src="js/plugins/angular-notify/angular-notify.min.js"></script>
+
 	<!-- tree-grid -->
 	<link href="plugin/treegrid/treeGrid.css" rel="stylesheet"
 		type="text/css" />
 	<script src="plugin/treegrid/tree-grid-directive.js"></script>
+
 	<!-- jstree -->
 	<link href="plugin/jstree/themes/default/style.min.css"
 		rel="stylesheet" type="text/css" />
 	<script src="plugin/jstree/jstree.min.js"></script>
 	<script src="plugin/jstree/ngJsTree.js"></script>
+
 	<!-- loading -->
 	<link href="plugin/angular_loading_bar/loading-bar.css"
 		rel="stylesheet" type="text/css" />
 	<script src="plugin/angular_loading_bar/loading-bar.js"></script>
+
+
 	<!--  datatable -->
 	<script src="js/plugins/dataTables/datatables.min.js"></script>
 	<script src="plugin/datatable/angular-datatables0.6.2.min.js"></script>
@@ -77,29 +95,39 @@
 	<script src="plugin/datatable/dataTables.responsive.min.js"></script>
 	<link rel="stylesheet"
 		href="plugin/datatable/responsive.dataTables.min.css">
+
 	<!-- 选择 -->
 	<link href="plugin/datatable/datatableselect.css" rel="stylesheet"
 		type="text/css" />
 	<script src="plugin/datatable/datatableselect.js"></script>
 	<script src="plugin/datatable/angular-select0.6.2.min.js"></script>
+
 	<!-- bootstrap主题 -->
 	<script src="plugin/datatable/angular-datatable.boostrap.min.0.6.2.js"></script>
+
+
 	<!--  icheck -->
 	<link href="css/plugins/iCheck/custom.css" rel="stylesheet"
 		type="text/css" />
 	<script src="js/plugins/iCheck/icheck.min.js"></script>
+
+
 	<!-- ueditor -->
 	<script src="plugin/ueditor/ueditor.config.js"></script>
 	<script src="plugin/ueditor/ueditor.all.min.js"></script>
 	<script src="plugin/ueditor/angular-ueditor.js"></script>
+
 	<!-- angular-confirm -->
 	<script src="plugin/angular_confirm/angular-confirm.min.js"></script>
+
 	<!-- angular-localstorage -->
 	<script src="plugin/angular_localstorage/swx-local-storage.min.js"></script>
+
 	<!-- dropzone -->
 	<link href="css/plugins/dropzone/basic.css" rel="stylesheet"
 		type="text/css" />
 	<script src="js/plugins/dropzone/dropzone.js"></script>
+
 
 
 	<!-- Anglar App Script,先加载config,后启动app -->
