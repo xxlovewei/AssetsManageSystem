@@ -55,12 +55,18 @@ public class WebAuthController extends BaseController {
 			}
 		}
 		_log.info("url:" + url);
-		String open_id = (String) HttpKit.getRequest().getAttribute("open_id");
+		String open_id = "";
+		try {
+			open_id = (String) HttpKit.getRequest().getSession().getAttribute("open_id");
+		} catch (ClassCastException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (ToolUtil.isEmpty(open_id)) {
 			WeixinOauth2Token r = getOauth2AccessToken(code);
 			if (ToolUtil.isNotEmpty(r)) {
 				open_id = r.getOpenId();
-				HttpKit.getRequest().setAttribute("open_id", r);
+				HttpKit.getRequest().getSession().setAttribute("open_id", open_id);
 			}
 		}
 		try {
