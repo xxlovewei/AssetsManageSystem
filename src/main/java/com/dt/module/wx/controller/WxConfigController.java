@@ -19,32 +19,32 @@ import com.dt.module.wx.service.WxService;
 @RequestMapping("/api")
 public class WxConfigController extends BaseController {
 
-	
-	@Autowired
-	private WxConfigService wxConfigService;
+    
+    @Autowired
+    private WxConfigService wxConfigService;
 
-	@Autowired
-	private WxService wxService;
+    @Autowired
+    private WxService wxService;
 
-	@ResponseBody
-	@Acl(info = "查询所有的tickets数据", value = Acl.ACL_ALLOW)
-	@RequestMapping("/wx/queryMapTickets.do")
-	public R queryMapTickets() {
-		return wxService.queryMapTickets();
-	}
+    @ResponseBody
+    @Acl(info = "查询所有的tickets数据", value = Acl.ACL_ALLOW)
+    @RequestMapping("/wx/queryMapTickets.do")
+    public R queryMapTickets() {
+        return wxService.queryMapTickets();
+    }
 
-	@ResponseBody
-	@Acl(info = "从本地配置中获取app的token数据", value = Acl.ACL_ALLOW)
-	@RequestMapping("/wx/getAccessToken.do")
-	public R getAccessToken() {
-		return wxService.queryAccessToken();
-	}
+    @ResponseBody
+    @Acl(info = "从本地配置中获取app的token数据", value = Acl.ACL_ALLOW)
+    @RequestMapping("/wx/getAccessToken.do")
+    public R getAccessToken() {
+        return wxService.queryAccessToken();
+    }
 
-	@ResponseBody
-	@Acl(info = "从本地配置中获取app配置信息", value = Acl.ACL_ALLOW)
-	@RequestMapping("/wx/getConfig.do")
-	public R getConfig(String url) {
-		return wxConfigService.queryWxConfig(url);
-	}
+    @ResponseBody
+    @Acl(info = "从本地配置中获取app配置信息", value = Acl.ACL_ALLOW)
+    @RequestMapping("/wx/getConfig.do")
+    public R getConfig(String url) {
+        return wxConfigService.queryWxConfig(url);
+    }
 
 }
