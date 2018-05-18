@@ -46,7 +46,7 @@ public class WebAuthController extends BaseController {
 	@RequestMapping(value = "/wx/webOauth2.do")
 	public void webOauth2(String code, String state, HttpServletResponse response) {
 		_log.info("code:" + code + ",state:" + state);
-		Rcd rs = db.uniqueRecord("select * from wx_web_auth where  id=?", state);
+		Rcd rs = db.uniqueRecord("select * from wx_web_auth where id=?", state);
 		String url = "blank";
 		if (ToolUtil.isNotEmpty(rs)) {
 			url = rs.getString("value");
