@@ -1,7 +1,10 @@
 package com.dt.module.wx.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.dt.core.annotion.Acl;
@@ -17,6 +20,8 @@ import com.dt.module.wx.service.WxService;
  */
 @Controller
 @RequestMapping("/api")
+@Configuration
+@PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
 public class WxConfigController extends BaseController {
 
     

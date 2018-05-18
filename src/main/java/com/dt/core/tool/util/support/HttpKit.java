@@ -24,6 +24,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.common.base.BaseCommon;
 import com.dt.core.dao.util.TypedHashMap;
 
 public class HttpKit {
@@ -54,6 +55,17 @@ public class HttpKit {
 		}
 
 		return values;
+	}
+
+	/**
+	 * 获取所有请求的值
+	 */
+	public static void printParameters() {
+		HttpServletRequest request = HttpKit.getRequest();
+		Enumeration<String> enums = request.getParameterNames();
+		while (enums.hasMoreElements()) {
+			BaseCommon.print(enums.nextElement() + ":" + request.getParameter((String) enums.nextElement()));
+		}
 	}
 
 	/**

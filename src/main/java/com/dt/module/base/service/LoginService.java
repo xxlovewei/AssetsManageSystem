@@ -158,8 +158,9 @@ public class LoginService extends BaseService {
 	}
 
 	/**
-	 * @Description:将所有登录方式转换成系统user_id的登录形式,如果可以登录,
-	 * 则返回一组用户数据 login_type 如果是empl或username忽略user_type类型， 因为empl和username全局唯一
+	 * @Description:将所有登录方式转换成系统user_id的登录形式, 如果可以登录, 则返回一组用户数据 login_type
+	 *                                        如果是empl或username忽略user_type类型，
+	 *                                        因为empl和username全局唯一
 	 */
 	public R validLogin(String value, String login_type, String client) {
 		if (ToolUtil.isOneEmpty(value, login_type, client)) {
