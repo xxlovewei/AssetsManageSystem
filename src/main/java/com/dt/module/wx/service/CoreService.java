@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.wx.util.MessageUtil;
 
 /**
@@ -78,14 +80,9 @@ public class CoreService extends BaseService {
 			textMessage.setFromUserName(toUserName);
 			textMessage.setCreateTime(new Date().getTime());
 			textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-			/*
-			 * HttpSession session = request.getSession(true);
-			 * 
-			 * if (null == session.getAttribute("user")) { Map userMap = new HashMap();
-			 * userMap.put("OPENID", fromUserName); session.setAttribute("user", userMap); }
-			 * else { Map userMap = (Map) session.getAttribute("user");
-			 * userMap.put("OPENID", fromUserName); }
-			 */
+			if (ToolUtil.isNotEmpty(toUserName)) {
+				HttpKit.getRequest().getSession().setAttribute("open_id", toUserName);
+			}
 
 			// 文本消息
 			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {
