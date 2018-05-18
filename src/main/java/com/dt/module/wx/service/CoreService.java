@@ -81,7 +81,9 @@ public class CoreService extends BaseService {
 			textMessage.setCreateTime(new Date().getTime());
 			textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
 			if (ToolUtil.isNotEmpty(toUserName)) {
+				System.out.println(HttpKit.getRequest().getSession().getId());
 				HttpKit.getRequest().getSession().setAttribute("open_id", toUserName);
+				HttpKit.getRequest().getSession().setAttribute("open_id2", toUserName);
 			}
 
 			// 文本消息

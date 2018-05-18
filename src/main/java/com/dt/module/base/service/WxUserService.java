@@ -16,7 +16,7 @@ import com.dt.core.tool.util.ToolUtil;
 public class WxUserService extends BaseService {
 
 	public R existUserByOpenId(String open_id) {
-		String sql = "select open_id,user_id,pwd from sys_user_info where open_id=?";
+		String sql = "select * from sys_user_info where deleted='N' and open_id=?";
 		Rcd rs = db.uniqueRecord(sql, open_id);
 		if (ToolUtil.isEmpty(rs)) {
 			return R.FAILURE_NO_DATA();
@@ -24,4 +24,6 @@ public class WxUserService extends BaseService {
 			return R.SUCCESS_OPER(rs.toJsonObject());
 		}
 	}
+	
+	
 }

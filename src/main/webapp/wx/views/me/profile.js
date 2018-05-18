@@ -26,6 +26,12 @@ function meCtl($log, $http, $scope, $rootScope, $state) {
 	}
  
 	$scope.sure = function() {
+			$http.post($rootScope.project + "/api/wx/test222.do", {
+					 
+				}).success(function(res) {
+					 
+				})
+				
 		// 如果有数据,可以触发提交
 		if(angular.isDefined($scope.item.dizhi)&&$scope.item.dizhi.length>0){
 			toYY();
@@ -173,6 +179,13 @@ function meCtl($log, $http, $scope, $rootScope, $state) {
 	$scope.itemClick = function(item) {
 		alert(item);
 	}
+	$http.post($rootScope.project + "/api/wx/test222.do", {
+					 
+				}).success(function(res) {
+					 
+				})
+	 
+	
 
 }
 

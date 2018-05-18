@@ -18,8 +18,17 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -32,7 +41,10 @@ import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Delete;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.shiro.ShiroKit;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.UserService;
+import com.dt.module.base.service.WxUserService;
 import com.dt.module.wx.util.WeiXX509TrustManager;
 
 /**
@@ -50,6 +62,12 @@ public class WxService extends BaseService {
 
 	@Value("${wx.secret}")
 	public String secretconf;
+
+	@Autowired
+	WxUserService wxUserService;
+
+	@Autowired
+	UserService userService;
 
 	private static Logger _log = LoggerFactory.getLogger(WxService.class);
 
@@ -427,4 +445,74 @@ public class WxService extends BaseService {
 		s.syncMenuFromWx("wx8fc3340c90ec5d53", "f6cea94ef73b19db97320a36b3fb36b4");
 
 	}
+
+	/* 网页授权 */
+	public JSONObject baseWebOauth2Process(String state, String open_id) {
+
+		// 获取跳转地址
+		JSONObject r = new JSONObject();
+		Rcd rs = db.uniqueRecord("select * from wx_web_auth where id=?", state);
+		String url = "blank";
+		String login = "0";
+		if (ToolUtil.isNotEmpty(rs)) {
+			url = rs.getString("value") == null ? "blank" : rs.getString("value");
+			login = rs.getString("login") == null ? "0" : rs.getString("login");
+		}
+		r.put("url", url);
+		r.put("login", login);
+		return r;
+
+	}
+
+	/* 网页授权 */
+	public R baseWebOauth2Login(String open_id, String login) {
+
+		// 处理登录信息
+		if ("1".equals(login)) {
+			R ur = wxUserService.existUserByOpenId(open_id);
+			if (ur.isFailed()) {
+				// 新建用户
+				_log.info("create user,open_id:" + open_id);
+				TypedHashMap<String, Object> ps = new TypedHashMap<String, Object>();
+				ps.put("open_id", open_id);
+				R addr = userService.addUser(ps, UserService.USER_TYPE_WX);
+				// 再次查询
+				if (addr.isSuccess()) {
+					ur = wxUserService.existUserByOpenId(open_id);
+				}
+
+				if (ur.isFailed()) {
+					return R.FAILURE("create user failed.");
+				}
+			}
+			_log.info("start login,open_id:" + open_id);
+			Subject currentUser = ShiroKit.getSubject();
+			String user_id = ur.queryDataToJSONObject().getString("user_id");
+			String pwd = ur.queryDataToJSONObject().getString("pwd");
+			UsernamePasswordToken token = new UsernamePasswordToken(user_id, pwd == null ? null : pwd.toCharArray());
+			token.setRememberMe(true);
+			String error = "";
+			try {
+				currentUser.login(token);
+			} catch (UnknownAccountException e) {
+				error = "账户不存在";
+			} catch (IncorrectCredentialsException e) {
+				error = "账号密码错误";
+			} catch (ExcessiveAttemptsException e) {
+				// TODO: handle exception
+				error = "登录失败多次，账户锁定10分钟";
+			} catch (LockedAccountException e) {
+				error = "账户已被锁定";
+			} catch (AuthenticationException e) {
+				error = "其他错误：" + e.getMessage();
+			}
+			if (error.length() > 0) {
+				return R.FAILURE(error);
+			}
+
+		}
+
+		return R.SUCCESS();
+	}
+
 }

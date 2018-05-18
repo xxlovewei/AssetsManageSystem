@@ -38,13 +38,16 @@ public class UserService extends BaseService {
 	public static String USER_TYPE_SYS = "sys";
 	// 组织内人员
 	public static String USER_TYPE_EMPL = "empl";
+
 	// 会员粉丝人员
 	public static String USER_TYPE_CRM = "crm";
-	
+
 	public static String USER_TYPE_XCX = "xcx";
-	
+
 	// APP
 	public static String USER_TYPE_APP = "app";
+
+	public static String USER_TYPE_WX = "wx";
 
 	private static HashMap<String, JSONArray> userMenus = new HashMap<String, JSONArray>();
 	private static Logger _log = LoggerFactory.getLogger(UserService.class);
@@ -275,9 +278,10 @@ public class UserService extends BaseService {
 	@SuppressWarnings("unchecked")
 	public List<String> findPermissionsByRoleId(String roleId) {
 		_log.info("获取角色权限:" + roleId);
-		return db.query(
-				"select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
-				roleId).toList("ct");
+		return db
+				.query("select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
+						roleId)
+				.toList("ct");
 	}
 
 	/**
@@ -493,7 +497,7 @@ public class UserService extends BaseService {
 			return def;
 		}
 		if (type.equals(UserService.USER_TYPE_SYS) || type.equals(UserService.USER_TYPE_EMPL)
-				|| type.equals(UserService.USER_TYPE_CRM)) {
+				|| type.equals(UserService.USER_TYPE_CRM) || type.equals(UserService.USER_TYPE_WX)) {
 			return type;
 		}
 		return def;
@@ -520,6 +524,10 @@ public class UserService extends BaseService {
 		} else if (type.equals(UserService.USER_TYPE_SYS)) {
 			username = ps.getString("user_name", MD5Util.encrypt(user_id));
 		} else if (type.equals(UserService.USER_TYPE_CRM)) {
+			// 粉丝，微信注册
+			username = MD5Util.encrypt(db.getUUID());
+			empl_id = username;
+		} else if (type.equals(UserService.USER_TYPE_WX)) {
 			// 粉丝，微信注册
 			username = MD5Util.encrypt(db.getUUID());
 			empl_id = username;
@@ -551,9 +559,9 @@ public class UserService extends BaseService {
 		ins.setIf("sex", ps.getString("sex", "1")); // 性别
 		ins.setIf("system", ps.getString("system", "1")); // 系统
 		ins.setIf("shop_id", ps.getString("shop_id")); // 默认所属店铺
-		ins.set("score", ps.getString("score", "0")); // 积分
+		ins.setIf("score", ps.getString("score", "0")); // 积分
 		ins.setIf("open_id", ps.getString("open_id")); // 微信open_id
-		ins.set("balance", ps.getString("balance", "0"));// 余额
+		ins.setIf("balance", ps.getString("balance", "0"));// 余额
 		ins.setIf("avatarurl", ps.getString("avatarurl"));// 微信logo
 		ins.set("deleted", "N");
 		db.execute(ins);
