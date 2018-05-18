@@ -96,7 +96,7 @@ public class WebAuthController extends BaseController {
 		// 处理登录
 		R r = wxService.baseWebOauth2Login(open_id, br.getString("login"));
 		if (r.isFailed()) {
-			_log.info("Login failed");
+			_log.info("Login failed,msg:"+r.getMessage());
 			url = "blank";
 		}
 

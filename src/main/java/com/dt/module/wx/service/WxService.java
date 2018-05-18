@@ -475,6 +475,7 @@ public class WxService extends BaseService {
 				_log.info("create user,open_id:" + open_id);
 				TypedHashMap<String, Object> ps = new TypedHashMap<String, Object>();
 				ps.put("open_id", open_id);
+				ps.put("locked", "N");
 				R addr = userService.addUser(ps, UserService.USER_TYPE_WX);
 				// 再次查询
 				if (addr.isSuccess()) {
