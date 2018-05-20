@@ -83,23 +83,34 @@ function saveprodqueryCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 
 	$scope.sure = function() {
 
-		if (angular.isDefined($scope.dlSel) && angular.isDefined($scope.xlSel)
-				&& angular.isDefined($scope.dlSel.class_id)
-				&& angular.isDefined($scope.xlSel.class_id)) {
-			$scope.item.dl = $scope.dlSel.class_id;
-			$scope.item.xl = $scope.xlSel.class_id;
-			$http.post($rootScope.project + "/api/mshop/saveProd.do",
-					$scope.item).success(function(res) {
-				if (res.success) {
-					$uibModalInstance.close("OK");
-				}
-				notify({
-					message : res.message
-				});
-			})
-		} else {
-			alert("选择类型");
+		var ps = {};
+		if ($scope.dlSel == null || $scope.xlSel == null) {
+			notify({
+				message : "类型有误"
+			});
+			return;
+
 		}
+		if (angular.isDefined($scope.dlSel.class_id)
+				&& angular.isDefined($scope.xlSel.class_id)) {
+			ps.dl = $scope.dlSel.class_id;
+			ps.xl = $scope.xlSel.class_id;
+		} else {
+			notify({
+				message : "类型有误"
+			});
+			return;
+		}
+
+		$http.post($rootScope.project + "/api/mshop/saveProd.do", $scope.item)
+				.success(function(res) {
+					if (res.success) {
+						$uibModalInstance.close("OK");
+					}
+					notify({
+						message : res.message
+					});
+				})
 
 	}
 
@@ -193,6 +204,10 @@ function prodqueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flush() {
 		var ps = {};
+		if ($scope.dlSel == null || $scope.xlSel == null) {
+			$scope.dtOptions.aaData = [];
+			return;
+		}
 		if (angular.isDefined($scope.dlSel.class_id)
 				&& angular.isDefined($scope.xlSel.class_id)) {
 			ps.dl = $scope.dlSel.class_id;
