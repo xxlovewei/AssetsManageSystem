@@ -6,18 +6,73 @@ function prepend(arr, item) {
 	return a;
 }
 
-function saveproddlCtl($log, $http, $rootScope, $scope, $uibModalInstance,
-		data, notify) {
+function saveprodqueryCtl($log, $http, $rootScope, $scope, $uibModalInstance,
+		$timeout, data, notify) {
 	$scope.item = {};
 	$scope.item.is_used = "Y";
 	$scope.item.name = "";
 
-	if (angular.isDefined(data.class_id)) {
-		$http.post($rootScope.project + "/api/prod/queryDlById.do", {
-			id : data.class_id
+	$scope.dlOpt = data.dlOpt;
+	$scope.dlSel = "";
+	if (data.dlOpt.length > 0) {
+		$scope.dlSel = data.dlOpt[0];
+	}
+
+	$scope.xlOpt = [];
+	$scope.xlSel = "";
+
+	var watch2 = $scope
+			.$watch(
+					'dlSel',
+					function(oldValue, newValue, scope) {
+						if (angular.isDefined($scope.dlSel.class_id)) {
+							console.log($scope.dlSel.class_id);
+							console.log($scope.dlSel.name);
+							var ps = {};
+							ps.module = $scope.dlSel.class_id;
+							$http
+									.post(
+											$rootScope.project
+													+ "/api/prod/queryXl.do",
+											ps)
+									.success(
+											function(xlres) {
+												if (xlres.success) {
+													$scope.xlOpt = xlres.data;
+													if (xlres.data.length > 0) {
+														// 如果存在小类
+														$scope.xlSel = xlres.data[0];
+														if (angular
+																.isDefined($scope.item.xl)) {
+															for (var i = 0; i < $scope.xlOpt.length; i++) {
+																if ($scope.xlOpt[i].class_id == $scope.item.xl) {
+																	$scope.xlSel = $scope.xlOpt[i];
+																	break;
+																}
+															}
+														}
+
+													}
+												}
+											})
+						}
+					});
+
+	if (angular.isDefined(data.id)) {
+		$http.post($rootScope.project + "/api/mshop/queryProdById.do", {
+			id : data.id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data;
+				var a = $timeout(function() {
+					for (var i = 0; i < $scope.dlOpt.length; i++) {
+						if ($scope.dlOpt[i].class_id == res.data.dl) {
+							$scope.dlSel = $scope.dlOpt[i];
+							break;
+						}
+					}
+				}, 800);
+
 			} else {
 				notify({
 					message : res.message
@@ -28,15 +83,23 @@ function saveproddlCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 
 	$scope.sure = function() {
 
-		$http.post($rootScope.project + "/api/prod/saveDl.do", $scope.item)
-				.success(function(res) {
-					if (res.success) {
-						$uibModalInstance.close("OK");
-					}
-					notify({
-						message : res.message
-					});
-				})
+		if (angular.isDefined($scope.dlSel) && angular.isDefined($scope.xlSel)
+				&& angular.isDefined($scope.dlSel.class_id)
+				&& angular.isDefined($scope.xlSel.class_id)) {
+			$scope.item.dl = $scope.dlSel.class_id;
+			$scope.item.xl = $scope.xlSel.class_id;
+			$http.post($rootScope.project + "/api/mshop/saveProd.do",
+					$scope.item).success(function(res) {
+				if (res.success) {
+					$uibModalInstance.close("OK");
+				}
+				notify({
+					message : res.message
+				});
+			})
+		} else {
+			alert("选择类型");
+		}
 
 	}
 
@@ -96,10 +159,10 @@ function prodqueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
-		acthtml = acthtml + " <button ng-click=\"save('" + full.class_id
+		acthtml = acthtml + " <button ng-click=\"save('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
 
-		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.class_id
+		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 
@@ -118,22 +181,22 @@ function prodqueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('od').withTitle('顺序').withOption(
+			DTColumnBuilder.newColumn('price').withTitle('价格').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('class_id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {};
-		if (angular.isDefined($scope.dlSel.id)
-				&& angular.isDefined($scope.xlSel.id)) {
-			ps.dl = $scope.dlSel.id;
-			ps.xl = $scope.xlSel.id;
+		if (angular.isDefined($scope.dlSel.class_id)
+				&& angular.isDefined($scope.xlSel.class_id)) {
+			ps.dl = $scope.dlSel.class_id;
+			ps.xl = $scope.xlSel.class_id;
 		} else {
 			$scope.dtOptions.aaData = [];
 		}
-		$http.post($rootScope.project + "/api/prod/queryDl.do", ps).success(
-				function(res) {
+		$http.post($rootScope.project + "/api/mshop/queryProdByXl.do", ps)
+				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
 					}
@@ -144,7 +207,7 @@ function prodqueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm({
 			text : '是否删除?'
 		}).then(function() {
-			$http.post($rootScope.project + "/api/prod/delDl.do", {
+			$http.post($rootScope.project + "/api/mshop/delProd.do", {
 				id : id
 			}).success(function(res) {
 				if (res.success) {
@@ -167,13 +230,13 @@ function prodqueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		flush();
 	}
 	$scope.save = function(id) {
-
 		var ps = {}
-		ps.class_id = id;
+		ps.id = id;
+		ps.dlOpt = $scope.dlOpt;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
-			templateUrl : 'views/mshop/prod/modal_savedl.html',
-			controller : saveproddlCtl,
+			templateUrl : 'views/mshop/prod/modal_prodsave.html',
+			controller : saveprodqueryCtl,
 			size : 'md',
 			resolve : { // 调用控制器与modal控制器中传递值
 				data : function() {
