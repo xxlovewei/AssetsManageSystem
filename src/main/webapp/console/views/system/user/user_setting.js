@@ -92,7 +92,7 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 
 	}
 	$scope.sure = function() {
-		$scope.item.LOCKED = $scope.lockedSel.ID;
+		$scope.item.locked = $scope.lockedSel.id;
 		$http.post($rootScope.project + "/api/user/userSave.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");

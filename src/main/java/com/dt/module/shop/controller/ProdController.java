@@ -23,6 +23,13 @@ import com.dt.core.tool.util.support.HttpKit;
 @RequestMapping("/api")
 public class ProdController extends BaseShopController {
 
+	@RequestMapping("/mshop/demo.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_USER)
+	public R demo() {
+		return R.SUCCESS_OPER();
+	}
+
 	@RequestMapping("/mshop/queryProdByXl.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW)

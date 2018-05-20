@@ -59,7 +59,7 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal,
 	};
 
 }
-function userSaveFormCtl($localStorage, notify, $log, $uibModal,
+function muserSaveFormCtl($localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, id, $http, $rootScope) {
 
 	$scope.item = {}
@@ -104,7 +104,18 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal,
 
 	}
 	$scope.sure = function() {
-		$scope.item.LOCKED = $scope.lockedSel.ID;
+		$scope.item.locked = "N";
+		var tel = $scope.item.tel;
+
+		var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+		if (!myreg.test(tel)) {
+			notify({
+				message : "手机号码有误"
+			});
+			return;
+		} else {
+
+		}
 		$http.post($rootScope.project + "/api/user/userSave.do", $scope.item)
 				.success(function(res) {
 					if (res.success) {
@@ -223,7 +234,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.user_id
+		acthtml = acthtml + " <button ng-click=\"update('" + full.user_id
 				+ "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
 		acthtml = acthtml + " <button ng-click=\"del('" + full.user_id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button></div>   ";
@@ -237,6 +248,8 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				return '';
 			}),
 			DTColumnBuilder.newColumn('name').withTitle('姓名').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('nickname').withTitle('昵称').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('tel').withTitle('手机号').withOption(
 					'sDefaultContent', ''),
@@ -287,37 +300,16 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	}
 
-	$scope.update = function() {
-
-		var data = $scope.dtInstance.DataTable.rows({
-			selected : true
-		})[0];
-		console.log(data);
-
-		if (data.length == 0) {
-			notify({
-				message : "请至少选择一个用户"
-			});
-			return;
-		}
-		if (data.length > 1) {
-			notify({
-				message : "只能选择一个用户"
-			});
-			return;
-		}
-
-		var d = $scope.dtInstance.DataTable.context[0].json.data;
-		$log.warn(d[data[0]].user_id);
+	$scope.update = function(id) {
 
 		var modalInstance = $uibModal.open({
 			backdrop : true,
-			templateUrl : 'views/system/user/modal_user_save.html',
-			controller : userSaveFormCtl,
+			templateUrl : 'views/mshop/user/modal_user_save.html',
+			controller : muserSaveFormCtl,
 			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
-					return d[data[0]].user_id;
+					return id
 				}
 			}
 		});
@@ -332,8 +324,6 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
 			$log.log("reason", reason)
 		});
-
-		console.log("select data", data.length);
 
 	}
 
