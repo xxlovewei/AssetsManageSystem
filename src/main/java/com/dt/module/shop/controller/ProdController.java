@@ -3,8 +3,8 @@ package com.dt.module.shop.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.dt.core.annotion.Acl;
-import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
@@ -14,7 +14,6 @@ import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 
-
 /**
  * @author: algernonking
  * @date: 2018年5月20日 上午7:57:51
@@ -22,17 +21,15 @@ import com.dt.core.tool.util.support.HttpKit;
  */
 @Controller
 @RequestMapping("/api")
-public class ProdController extends BaseController {
-	public static String ITME_TYPE_OFFLINE = "offine";// 下架
-	public static String ITME_TYPE_ONLINE = "online";// 出售中
-	public static String ITME_TYPE_FINISH = "finish";// 已出售
+public class ProdController extends BaseShopController {
 
 	@RequestMapping("/mshop/queryProdByXl.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW)
 	public R queryProdByXl(String xl, String status) {
+
 		String sql = "select * from bus_prod where dr=0 and xl=?";
-		//status暂时不用
+		// status暂时不用
 		if (ToolUtil.isNotEmpty(status)) {
 			sql = sql + " and status='" + status + "'";
 		}
@@ -40,10 +37,28 @@ public class ProdController extends BaseController {
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 
+	/* 供前端买 */
+	@RequestMapping("/mshop/queryProdByDlForSale.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_ALLOW)
+	public R queryProdByXlForSale(String xl) {
+
+		return null;
+		// return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+	}
+
 	@RequestMapping("/mshop/queryProdById.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW)
 	public R queryProdById(String id) {
+		Rcd rs = db.uniqueRecord("select * from bus_prod where id=?", id);
+		return R.SUCCESS_OPER(rs.toJsonObject());
+	}
+
+	@RequestMapping("/mshop/queryProdByIdForSale.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_ALLOW)
+	public R queryProdByIdForSale(String id) {
 		Rcd rs = db.uniqueRecord("select * from bus_prod where id=?", id);
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
@@ -59,6 +74,9 @@ public class ProdController extends BaseController {
 		return R.SUCCESS_OPER();
 	}
 
+	/*
+	 * uploadpic 1:需要上传二维码,0:不需要
+	 */
 	@RequestMapping("/mshop/saveProd.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_DENY)
@@ -78,6 +96,7 @@ public class ProdController extends BaseController {
 			me.setIf("sprice", ps.getString("sprice"));
 			me.setIf("mark", ps.getString("mark"));
 			me.setIf("status", ps.getString("status"));
+			me.setIf("uploadpic", ps.getString("uploadpic", "0"));
 			me.setIf("top", ps.getString("top"));
 			me.set("dr", "0");
 			db.execute(me);
@@ -85,6 +104,7 @@ public class ProdController extends BaseController {
 			Update me = new Update("bus_prod");
 			me.setIf("name", ps.getString("name"));
 			me.setIf("pic_id", ps.getString("pic_id"));
+			me.setIf("uploadpic", ps.getString("uploadpic"));
 			me.setIf("title", ps.getString("title"));
 			me.setIf("xl", ps.getString("xl"));
 			me.setIf("dl", ps.getString("dl"));
