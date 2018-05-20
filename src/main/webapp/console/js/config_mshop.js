@@ -48,6 +48,25 @@ function config_mshop($stateProvider, $ocLazyLoadProvider) {
 	});
 
  
+	$stateProvider.state('muser', {
+		abstract : true,
+		url : "/muser",
+		templateUrl : "views/common/content.html"
+	}).state('muser.query', {
+		url : "/muser_query",
+		data: { pageTitle: '用户'},
+		templateUrl : "views/mshop/user/user_setting.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/mshop/user/user_setting.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
+
+ 
 	
 	
 }

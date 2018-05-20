@@ -447,12 +447,33 @@ public class UserService extends BaseService {
 		return res;
 	}
 
-	public String buildqueryUserByGroupSql(String group_id, String user_type) {
-		String basesql = "select * from sys_user_info a where 1=1";
+	public String buildqueryUserByGroupSql(TypedHashMap<String, Object> ps, String group_id, String user_type) {
+		String basesql = "select * from sys_user_info a where deleted='N' ";
 		if (ToolUtil.isNotEmpty(user_type)) {
 			basesql = basesql + " and user_type='" + user_type + "' ";
 		}
-		basesql = basesql + " and deleted='N' and user_id not in ('" + BaseCommon.getSuperAdmin() + "') ";
+		if (ToolUtil.isNotEmpty(ps.getString("name"))) {
+			basesql = basesql + " and name='" + ps.getString("name") + "' ";
+		}
+
+		if (ToolUtil.isNotEmpty(ps.getString("user_name"))) {
+			basesql = basesql + " and user_name='" + ps.getString("user_name") + "' ";
+		}
+
+		if (ToolUtil.isNotEmpty(ps.getString("nickname"))) {
+			basesql = basesql + " and nickname='" + ps.getString("nickname") + "' ";
+		}
+		if (ToolUtil.isNotEmpty(ps.getString("tel"))) {
+			basesql = basesql + " and tel='" + ps.getString("tel") + "' ";
+		}
+		if (ToolUtil.isNotEmpty(ps.getString("status"))) {
+			basesql = basesql + " and status='" + ps.getString("status") + "' ";
+		}
+		if (ToolUtil.isNotEmpty(ps.getString("locked"))) {
+			basesql = basesql + " and locked='" + ps.getString("locked") + "' ";
+		}
+
+		basesql = basesql + " and user_id not in ('" + BaseCommon.getSuperAdmin() + "') ";
 		String sql = "";
 		if (ToolUtil.isEmpty(group_id)) {
 			sql = basesql + " order by a.empl_id";
@@ -465,8 +486,8 @@ public class UserService extends BaseService {
 		return sql;
 	}
 
-	public int queryUserByGroupCount(String group_id, String user_type) {
-		String sql = buildqueryUserByGroupSql(group_id, user_type);
+	public int queryUserByGroupCount(TypedHashMap<String, Object> ps, String group_id, String user_type) {
+		String sql = buildqueryUserByGroupSql(ps, group_id, user_type);
 		sql = "select count(1) value from (" + sql + ") tab";
 		int total = db.uniqueRecord(sql).getInteger("value");
 		return total;
@@ -475,11 +496,16 @@ public class UserService extends BaseService {
 	/**
 	 * @Description: 根据用户组查询
 	 */
-	public R queryUserByGroup(String group_id, String user_type, int pageSize, int pageIndex) {
-
-		return R.SUCCESS_OPER(db.query(
-				DbUtil.getDBPageSql(db.getDBType(), buildqueryUserByGroupSql(group_id, user_type), pageSize, pageIndex))
-				.toJsonArrayWithJsonObject());
+	public R queryUserByGroup(TypedHashMap<String, Object> ps, String group_id, String user_type, int pageSize,
+			int pageIndex) {
+		RcdSet rs = db.query(DbUtil.getDBPageSql(db.getDBType(), buildqueryUserByGroupSql(ps, group_id, user_type),
+				pageSize, pageIndex));
+		org.json.JSONArray r = rs.toJsonArrayWithJsonObject();
+		// 清除密码
+		for (int i = 0; i < r.length(); i++) {
+			r.getJSONObject(i).put("pwd", "");
+		}
+		return R.SUCCESS_OPER(r);
 
 	}
 

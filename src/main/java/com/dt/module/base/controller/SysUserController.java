@@ -112,9 +112,10 @@ public class SysUserController extends BaseController {
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 
-		R rsdata = userService.queryUserByGroup(group_id, null, pagesize, pageindex);
-		int count = userService.queryUserByGroupCount(group_id, null);
+		R rsdata = userService.queryUserByGroup(ps, group_id, null, pagesize, pageindex);
+		int count = userService.queryUserByGroupCount(ps, group_id, null);
 		JSONArray data = rsdata.queryDataToJSONArray();
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", count);
