@@ -26,17 +26,18 @@ public class ClassService extends BaseService {
 	public static String CLASS_TYPE_MICROSHOP_INDEX = "microshopindex";
 	public static String MODULE_TYPE_MALL = "mall";
 
-	public R addClass(TypedHashMap<String, Object> ps) {
+	public R addClass(TypedHashMap<String, Object> ps, String type) {
 		Insert me = new Insert("sys_ct_class");
 		me.set("class_id", db.getUUID());
 		me.set("is_delete", "N");
-		me.setIf("type", ps.getString("type"));
+		me.setIf("type", type);
 		me.setIf("name", ps.getString("name"));
 		me.setIf("is_used", ps.getString("is_used"));
-		me.setIf("mainimg", ps.getString("mainimg"));
+		me.setIf("pic_id", ps.getString("pic_id"));
 		me.setIf("od", ps.getString("od"));
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("module", ps.getString("module"));
+		me.setIf("status", ps.getString("status"));
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
@@ -49,19 +50,20 @@ public class ClassService extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 
-	public R updateClass(TypedHashMap<String, Object> ps) {
+	public R updateClass(TypedHashMap<String, Object> ps, String type) {
 		Update me = new Update("sys_ct_class");
 		me.setIf("name", ps.getString("name"));
-		me.setIf("mainimg", ps.getString("mainimg"));
+		me.setIf("pic_id", ps.getString("pic_id"));
 		me.setIf("is_used", ps.getString("is_used"));
 		me.setIf("od", ps.getString("od"));
 		me.setIf("mark", ps.getString("mark"));
-		me.where().and("class_id=?", ps.getString("class_id"));
+		me.setIf("status", ps.getString("status"));
+		me.where().and("class_id=?", ps.getString("class_id")).and("type=?", type);
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
 
-	public R queryClass(String class_id, String type, String is_used) {
+	public R queryClass(String type, String is_used) {
 		String sql = "select * from sys_ct_class where is_delete='N' ";
 		if (ToolUtil.isNotEmpty(type)) {
 			sql += " and type='" + type + "' ";
@@ -91,6 +93,8 @@ public class ClassService extends BaseService {
 		me.setIf("value", ps.getString("value"));
 		me.setIf("od", ps.getString("od"));
 		me.setIf("mark", ps.getString("mark"));
+		me.setIf("status", ps.getString("status"));
+		me.setIf("is_delete", "N");
 		me.setIf("pic_id", ps.getString("pic_id"));
 		db.execute(me);
 		return R.SUCCESS_OPER();
@@ -108,10 +112,12 @@ public class ClassService extends BaseService {
 			Insert me = new Insert("sys_ct_class_item");
 			me.set("id", db.getUUID());
 			me.setIf("class_id", ps.getString("class_id"));
+			me.setIf("is_delete", "N");
 			me.setIf("is_used", "Y");
 			me.setIf("value", idsarr.getString(i));
 			me.setIf("od", ps.getString("od"));
 			me.setIf("mark", ps.getString("mark"));
+			me.setIf("status", ps.getString("status"));
 			me.setIf("pic_id", ps.getString("pic_id"));
 			sqls.add(me);
 		}
@@ -133,6 +139,7 @@ public class ClassService extends BaseService {
 	public R updateClassItem(TypedHashMap<String, Object> ps) {
 		Update me = new Update("sys_ct_class_item");
 		me.setIf("is_used", ps.getString("is_used"));
+		me.setIf("status", ps.getString("status"));
 		me.setIf("value", ps.getString("value"));
 		me.setIf("od", ps.getString("od"));
 		me.setIf("pic_id", ps.getString("pic_id"));

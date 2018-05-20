@@ -27,9 +27,9 @@
 
 
 	<!-- 配置shiro session 的一个管理器 -->
-	<!-- <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"></bean> -->
-	<bean id="sessionDAO"
-		class="com.dt.core.shiro.session.SessionEntityDao"></bean>
+	 <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"></bean> 
+	<!-- <bean id="sessionDAO"
+		class="com.dt.core.shiro.session.SessionEntityDao"></bean> -->
 
 
 	<!-- 定义一个会话Cookie模板 -->

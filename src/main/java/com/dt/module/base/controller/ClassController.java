@@ -32,9 +32,9 @@ public class ClassController extends BaseController {
 
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		if (ToolUtil.isEmpty(ps.getString("class_id"))) {
-			return classService.addClass(ps);
+			return classService.addClass(ps, ps.getString("type"));
 		}
-		return classService.updateClass(ps);
+		return classService.updateClass(ps, ps.getString("type"));
 	}
 
 	@RequestMapping(value = "/class/deleteClass.do")
@@ -47,8 +47,8 @@ public class ClassController extends BaseController {
 	@RequestMapping(value = "/class/queryClass.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW, info = "查询分类")
-	public R queryClass(String class_id, String type, String is_used) {
-		return classService.queryClass(class_id, type, is_used);
+	public R queryClass(String type, String is_used) {
+		return classService.queryClass(type, is_used);
 	}
 
 	@RequestMapping(value = "/class/queryClassById.do")
