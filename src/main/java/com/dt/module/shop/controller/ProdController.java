@@ -120,7 +120,7 @@ public class ProdController extends BaseShopController {
 			me.setIf("price", ps.getString("price"));
 			me.setIf("sprice", ps.getString("sprice"));
 			me.setIf("mark", ps.getString("mark"));
-			me.setIf("status", ps.getString("status"));
+			me.setIf("status", ps.getString("status","online"));
 			me.setIf("uploadpic", ps.getString("uploadpic", "0"));
 			me.setIf("top", ps.getString("top"));
 			me.set("dr", "0");
@@ -129,14 +129,14 @@ public class ProdController extends BaseShopController {
 			Update me = new Update("bus_prod");
 			me.setIf("name", ps.getString("name"));
 			me.setIf("pic_id", ps.getString("pic_id"));
-			me.setIf("uploadpic", ps.getString("uploadpic"));
+			me.setIf("uploadpic", ps.getString("uploadpic","0"));
 			me.setIf("title", ps.getString("title"));
 			me.setIf("xl", ps.getString("xl"));
 			me.setIf("dl", ps.getString("dl"));
 			me.setIf("price", ps.getString("price"));
 			me.setIf("sprice", ps.getString("sprice"));
 			me.setIf("mark", ps.getString("mark"));
-			me.setIf("status", ps.getString("status"));
+			me.setIf("status", ps.getString("status","online"));
 			me.setIf("top", ps.getString("top"));
 			me.where().and("id=?", id);
 			db.execute(me);
