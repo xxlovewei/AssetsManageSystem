@@ -245,6 +245,7 @@ function shopIndexClassCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flush() {
 		var ps = {};
+		ps.type="microshopindex";
 		$http.post($rootScope.project + "/api/class/queryClass.do", ps)
 				.success(function(res) {
 					if (res.success) {

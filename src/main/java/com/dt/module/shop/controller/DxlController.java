@@ -30,7 +30,7 @@ public class DxlController extends BaseController {
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW)
 	public R queryDl(String is_used) {
-		return classService.queryClass(DxlService.TYPE_DL, is_used);
+		return classService.queryClass(DxlService.TYPE_DL, is_used, null);
 	}
 
 	@RequestMapping("/prod/saveDl.do")
@@ -64,8 +64,8 @@ public class DxlController extends BaseController {
 	@RequestMapping("/prod/queryXl.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW)
-	public R queryXl(String is_used) {
-		return classService.queryClass(DxlService.TYPE_XL, is_used);
+	public R queryXl(String is_used, String module) {
+		return classService.queryClassWithModule(DxlService.TYPE_XL, is_used, module, null);
 	}
 
 	@RequestMapping("/prod/saveXl.do")

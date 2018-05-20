@@ -6,15 +6,15 @@ function prepend(arr, item) {
 	return a;
 }
 
-function prodPinpSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
+function saveproddlCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 		data, notify) {
 	$scope.item = {};
+	$scope.item.is_used = "Y";
 	$scope.item.name = "";
-	$scope.item.brand_code = "";
 
-	if (angular.isDefined(data.brand_id)) {
-		$http.post($rootScope.project + "/api/brand/brandQueryById.do", {
-			brand_id : data.brand_id
+	if (angular.isDefined(data.class_id)) {
+		$http.post($rootScope.project + "/api/prod/queryDlById.do", {
+			id : data.class_id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data;
@@ -28,12 +28,11 @@ function prodPinpSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 
 	$scope.sure = function() {
 
-		$http.post($rootScope.project + "/api/brand/brandSave.do", $scope.item)
+		$http.post($rootScope.project + "/api/prod/saveDl.do", $scope.item)
 				.success(function(res) {
 					if (res.success) {
 						$uibModalInstance.close("OK");
 					}
-
 					notify({
 						message : res.message
 					});
@@ -42,13 +41,12 @@ function prodPinpSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 	}
 
 	$scope.cancel = function() {
-
 		$uibModalInstance.dismiss('cancel');
 	};
 
 }
 
-function prodPinpCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function proddlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
@@ -66,10 +64,10 @@ function prodPinpCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
-		acthtml = acthtml + " <button ng-click=\"save('" + full.brand_id
+		acthtml = acthtml + " <button ng-click=\"save('" + full.class_id
 				+ "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
 
-		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.brand_id
+		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.class_id
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 
@@ -88,17 +86,15 @@ function prodPinpCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('brand_code').withTitle('编号').withOption(
+			DTColumnBuilder.newColumn('od').withTitle('顺序').withOption(
 					'sDefaultContent', ''),
-//			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
-//					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('brand_id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('class_id').withTitle('动作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 
-		$http.post($rootScope.project + "/api/prod/queryDl.do", {})
-				.success(function(res) {
+		$http.post($rootScope.project + "/api/prod/queryDl.do", {}).success(
+				function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
 					}
@@ -110,8 +106,8 @@ function prodPinpCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm({
 			text : '是否删除?'
 		}).then(function() {
-			$http.post($rootScope.project + "/api/brand/brandDelete.do", {
-				brand_id : id
+			$http.post($rootScope.project + "/api/prod/delDl.do", {
+				id : id
 			}).success(function(res) {
 				if (res.success) {
 					flush();
@@ -135,11 +131,11 @@ function prodPinpCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.save = function(id) {
 
 		var ps = {}
-		ps.brand_id = id;
+		ps.class_id = id;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
-			templateUrl : 'views/product/pinp/modal_pinp_save.html',
-			controller : prodPinpSaveCtl,
+			templateUrl : 'views/mshop/prod/modal_savedl.html',
+			controller : saveproddlCtl,
 			size : 'md',
 			resolve : { // 调用控制器与modal控制器中传递值
 				data : function() {
@@ -159,4 +155,4 @@ function prodPinpCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 };
 
-app.register.controller('prodPinpCtl', prodPinpCtl);
+app.register.controller('proddlCtl', proddlCtl);

@@ -20,6 +20,19 @@
 						action="">
 
 
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">大类:</label>
+							<div class="col-sm-10">
+								<select width=100 chosen disable-search="true"
+									class="chosen-select" no-results-text="'没有找到相应条目'"
+									ng-model="dlSel" data-placeholder-text-single="'请选择...'"
+									ng-options="item.name for item in dlOpt">
+									<option value=""></option>
+								</select>
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="col-sm-2 control-label"><span
 								class="text-danger">*</span>名称:</label>

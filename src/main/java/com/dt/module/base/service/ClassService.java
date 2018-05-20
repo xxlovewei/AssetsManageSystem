@@ -57,19 +57,50 @@ public class ClassService extends BaseService {
 		me.setIf("is_used", ps.getString("is_used"));
 		me.setIf("od", ps.getString("od"));
 		me.setIf("mark", ps.getString("mark"));
+		me.setIf("module", ps.getString("module"));
 		me.setIf("status", ps.getString("status"));
 		me.where().and("class_id=?", ps.getString("class_id")).and("type=?", type);
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
 
-	public R queryClass(String type, String is_used) {
+	/* type必须有 */
+	public R queryClass(String type, String is_used, String status) {
 		String sql = "select * from sys_ct_class where is_delete='N' ";
-		if (ToolUtil.isNotEmpty(type)) {
-			sql += " and type='" + type + "' ";
+		if (ToolUtil.isEmpty(type)) {
+			type = "";
 		}
+		sql += " and type='" + type + "' ";
+
 		if (ToolUtil.isNotEmpty(is_used)) {
 			sql += " and is_used='" + is_used + "' ";
+		}
+		if (ToolUtil.isNotEmpty(status)) {
+			sql += " and status='" + status + "' ";
+		}
+
+		sql += " order by od";
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+	}
+
+	/* type,module必须有 */
+	public R queryClassWithModule(String type, String is_used, String module, String status) {
+		String sql = "select * from sys_ct_class where is_delete='N' ";
+		if (ToolUtil.isEmpty(type)) {
+			type = "";
+		}
+		sql += " and type='" + type + "' ";
+
+		if (ToolUtil.isEmpty(module)) {
+			module = "";
+		}
+		sql += " and module='" + module + "' ";
+
+		if (ToolUtil.isNotEmpty(is_used)) {
+			sql += " and is_used='" + is_used + "' ";
+		}
+		if (ToolUtil.isNotEmpty(status)) {
+			sql += " and status='" + status + "' ";
 		}
 		sql += " order by od";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());

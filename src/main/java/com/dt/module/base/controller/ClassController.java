@@ -48,7 +48,7 @@ public class ClassController extends BaseController {
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW, info = "查询分类")
 	public R queryClass(String type, String is_used) {
-		return classService.queryClass(type, is_used);
+		return classService.queryClass(type, is_used, null);
 	}
 
 	@RequestMapping(value = "/class/queryClassById.do")
