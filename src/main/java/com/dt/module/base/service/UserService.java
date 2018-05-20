@@ -278,10 +278,9 @@ public class UserService extends BaseService {
 	@SuppressWarnings("unchecked")
 	public List<String> findPermissionsByRoleId(String roleId) {
 		_log.info("获取角色权限:" + roleId);
-		return db
-				.query("select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
-						roleId)
-				.toList("ct");
+		return db.query(
+				"select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
+				roleId).toList("ct");
 	}
 
 	/**
@@ -448,12 +447,12 @@ public class UserService extends BaseService {
 		return res;
 	}
 
-	/**
-	 * @Description: 根据用户组查询
-	 */
-	public R queryUserByGroup(String group_id) {
-		String basesql = "select * from sys_user_info a where user_type<>'app' and deleted='N' and user_id not in ('"
-				+ BaseCommon.getSuperAdmin() + "') ";
+	public String buildqueryUserByGroupSql(String group_id, String user_type) {
+		String basesql = "select * from sys_user_info a where 1=1";
+		if (ToolUtil.isNotEmpty(user_type)) {
+			basesql = basesql + " and user_type='" + user_type + "' ";
+		}
+		basesql = basesql + " and deleted='N' and user_id not in ('" + BaseCommon.getSuperAdmin() + "') ";
 		String sql = "";
 		if (ToolUtil.isEmpty(group_id)) {
 			sql = basesql + " order by a.empl_id";
@@ -463,7 +462,24 @@ public class UserService extends BaseService {
 					+ " ) t1 ,sys_user_group_item t2 where t1.user_id=t2.user_id and group_id='" + group_id
 					+ "' order by t1.empl_id  ";
 		}
-		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		return sql;
+	}
+
+	public int queryUserByGroupCount(String group_id, String user_type) {
+		String sql = buildqueryUserByGroupSql(group_id, user_type);
+		sql = "select count(1) value from (" + sql + ") tab";
+		int total = db.uniqueRecord(sql).getInteger("value");
+		return total;
+	}
+
+	/**
+	 * @Description: 根据用户组查询
+	 */
+	public R queryUserByGroup(String group_id, String user_type, int pageSize, int pageIndex) {
+
+		return R.SUCCESS_OPER(db.query(
+				DbUtil.getDBPageSql(db.getDBType(), buildqueryUserByGroupSql(group_id, user_type), pageSize, pageIndex))
+				.toJsonArrayWithJsonObject());
 
 	}
 

@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.SysUserService;
@@ -103,8 +105,22 @@ public class SysUserController extends BaseController {
 	@RequestMapping("/user/userQueryByGroup.do")
 	@ResponseBody
 	@Acl(info = "查询用户组")
-	public R userQueryByGroup(String group_id) {
-		return userService.queryUserByGroup(group_id);
+	public R userQueryByGroup(String group_id, String start, String length, String pageSize, String pageIndex) {
+		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
+		if (ToolUtil.isEmpty(respar)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		int pagesize = respar.getIntValue("pagesize");
+		int pageindex = respar.getIntValue("pageindex");
+
+		R rsdata = userService.queryUserByGroup(group_id, null, pagesize, pageindex);
+		int count = userService.queryUserByGroupCount(group_id, null);
+		JSONArray data = rsdata.queryDataToJSONArray();
+		JSONObject retrunObject = new JSONObject();
+		retrunObject.put("iTotalRecords", count);
+		retrunObject.put("iTotalDisplayRecords", count);
+		retrunObject.put("data", data);
+		return R.clearAttachDirect(retrunObject);
 	}
 
 	@RequestMapping("/user/getUserMenus.do")

@@ -137,9 +137,11 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 		}
 	});
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
-					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
+	$scope.URL = $rootScope.project + "/api/user/userQueryByGroup.do";	
+	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp(
+	'data').withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
+			.withOption("searching", false).withOption("paging", true).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
+					'bInfo', false).withOption('serverSide', true).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			}).withLanguage(DTLang).withOption("select", {
@@ -160,6 +162,20 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 				}
 			} ]);
 	$scope.dtInstance = {}
+	$scope.reloadData = reloadData;
+ 
+	
+	function reloadData() {
+		var resetPaging = true;
+		$scope.dtInstance.reloadData(callback, resetPaging);
+	}
+	var tabdata=[];
+	function callback(json) {
+		tabdata=json.data;
+		console.log("#####",json);
+
+	}
+	
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
@@ -194,19 +210,18 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 
 	console.log($scope.dtColumns);
 	function flush() {
-		var ps = {}
+		
 		if ($scope.userGroupSel.group_id != "ALL") {
-			ps.group_id = $scope.userGroupSel.group_id;
+			$scope.URL = $rootScope.project
+					+ "/api/user/userQueryByGroup.do?group_id=" + $scope.userGroupSel.group_id;
+		} else {
+			$scope.URL = $rootScope.project + "/api/user/userQueryByGroup.do";
 		}
-
-		$http.post($rootScope.project + "/api/user/userQueryByGroup.do", ps).success(function(res) {
-			if (res.success) {
-				$scope.dtOptions.aaData = res.data;
-
-			}
-		})
+		$scope.dtOptions.ajax = $scope.URL;
+		reloadData();
+ 
 	}
-	flush();
+ 
 
 	$scope.row_dtl = function(id) {
 		notify({
@@ -226,13 +241,14 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			return;
 		}
 
+		var d=$scope.dtInstance.DataTable.context[0].json.data;
 		// 批量删除
 		var userids = [];
 		for (var i = 0; i < data.length; i++) {
 			// alert($scope.dtOptions.aaData[data[i]].USER_NO)
-			userids.push($scope.dtOptions.aaData[data[i]].user_id);
+			userids.push(d[data[i]].user_id);
 		}
-		angular.toJson(userids)
+		console.log(angular.toJson(userids))
 		$confirm({
 			text : '是否删除选中的用户?'
 		}).then(function() {
@@ -249,10 +265,11 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 	}
 
 	$scope.update = function() {
-
+		 
 		var data = $scope.dtInstance.DataTable.rows({
 			selected : true
 		})[0];
+		console.log(data);
 
 		if (data.length == 0) {
 			notify({
@@ -266,8 +283,10 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			});
 			return;
 		}
-
-		$log.warn($scope.dtOptions.aaData[data[0]].user_id);
+		
+ 
+		var d=$scope.dtInstance.DataTable.context[0].json.data;
+		$log.warn(d[data[0]].user_id);
 
 		var modalInstance = $uibModal.open({
 			backdrop : true,
@@ -276,7 +295,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
-					return $scope.dtOptions.aaData[data[0]].user_id;
+					return d[data[0]].user_id;
 				}
 			}
 		});
@@ -308,11 +327,11 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			});
 			return;
 		}
-
+		var d=$scope.dtInstance.DataTable.context[0].json.data;
 		var userids = [];
 		for (var i = 0; i < data.length; i++) {
 			// alert($scope.dtOptions.aaData[data[i]].user_no)
-			userids.push($scope.dtOptions.aaData[data[i]].user_id);
+			userids.push(d[data[i]].user_id);
 		}
 
 		var modalInstance = $uibModal.open({
