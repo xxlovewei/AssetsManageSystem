@@ -33,7 +33,19 @@ function config_mshop($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	})
+	}).state('prod.prodquery', {
+		url : "/prod_prodquery",
+		data: { pageTitle: '商品查询'},
+		templateUrl : "views/mshop/prod/prodquery.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/mshop/prod/prodquery.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
 
  
 	
