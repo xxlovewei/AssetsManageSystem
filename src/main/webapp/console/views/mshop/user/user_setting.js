@@ -223,8 +223,10 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.class_id
-				+ "')\" class=\"btn-white btn btn-xs\">更新</button></div>   ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.user_id
+				+ "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
+		acthtml = acthtml + " <button ng-click=\"del('" + full.user_id
+				+ "')\" class=\"btn-white btn btn-xs\">删除</button></div>   ";
 		return acthtml;
 
 	}
@@ -264,25 +266,11 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 	}
 
-	$scope.del = function() {
-		var data = $scope.dtInstance.DataTable.rows({
-			selected : true
-		})[0];
+	$scope.del = function(id) {
 
-		if (data.length == 0) {
-			notify({
-				message : "请至少选择一个用户"
-			});
-			return;
-		}
-
-		var d = $scope.dtInstance.DataTable.context[0].json.data;
 		// 批量删除
 		var userids = [];
-		for (var i = 0; i < data.length; i++) {
-			// alert($scope.dtOptions.aaData[data[i]].USER_NO)
-			userids.push(d[data[i]].user_id);
-		}
+		userids.push(id)
 		console.log(angular.toJson(userids))
 		$confirm({
 			text : '是否删除选中的用户?'

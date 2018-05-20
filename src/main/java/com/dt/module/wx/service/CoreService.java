@@ -73,7 +73,7 @@ public class CoreService extends BaseService {
 			String msgType = requestMap.get("MsgType");
 
 			String content = requestMap.get("Content");
-
+			 
 			// 回复文本消息
 			TextMessage textMessage = new TextMessage();
 			textMessage.setToUserName(fromUserName);

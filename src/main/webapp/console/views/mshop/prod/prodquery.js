@@ -112,6 +112,7 @@ function saveprodqueryCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 function prodqueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
+	$scope.first = true;
 	$scope.dlOpt = [];
 	$scope.dlSel = "";
 	$scope.xlOpt = [];
@@ -138,6 +139,10 @@ function prodqueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 							$scope.xlOpt = xlres.data;
 							if (xlres.data.length > 0) {
 								$scope.xlSel = xlres.data[0];
+								if ($scope.first) {
+									flush();
+									$scope.first = false;
+								}
 							}
 						}
 					})

@@ -225,7 +225,7 @@ public class UrlTouchService extends BaseService {
 		System.out.println(HttpKit.sendGet(
 				"http://dt.yuxianshengolp.com/dt/api/mn/queryResourceByMetric.do?metric_id=c5d1f43a-2131-44b0-a0e6-4283c36c4463&node_id=.crmrk",
 				param));
-		JSONObject r2s = HttpKit.sendGetWithResp("http://www.baidu.com");
+		// JSONObject r2s = HttpKit.sendGetWithResp("http://www.baidu.com");
 
 	}
 

@@ -465,7 +465,7 @@ public class WxService extends BaseService {
 	}
 
 	/* 网页授权 */
-	public R baseWebOauth2Login(String open_id, String login) {
+	public R baseToLogin(String open_id, String login) {
 
 		// 处理登录信息
 		if ("1".equals(login)) {
