@@ -17,7 +17,7 @@ public class BaseShopController extends BaseController {
 			return getUserId();
 		} else {
 			// 获取open_id无用户则注册用户
-			return "";
+			return null;
 		}
 
 	}

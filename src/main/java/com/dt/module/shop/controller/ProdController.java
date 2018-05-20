@@ -53,9 +53,8 @@ public class ProdController extends BaseShopController {
 		if (ToolUtil.isEmpty(dl)) {
 			return R.FAILURE_NO_DATA();
 		}
-		String sql = " select case uploadpic when 0 then '0' when 1 then '1' else  '0' end ifupload, "
-				+ " (select name from sys_ct_class where class_id=xl) xlname, t.* from bus_prod t "
-				+ " where dl=? and dr=0 ";
+		String sql = " select (select name from sys_ct_class where class_id=xl) xlname, t.* from bus_prod t "
+				+ " where dl=? and dr=0 and status='online' ";
 
 		return R.SUCCESS_OPER(db.query(sql, dl).toJsonArrayWithJsonObject());
 	}
@@ -120,24 +119,30 @@ public class ProdController extends BaseShopController {
 			me.setIf("price", ps.getString("price"));
 			me.setIf("sprice", ps.getString("sprice"));
 			me.setIf("mark", ps.getString("mark"));
-			me.setIf("status", ps.getString("status","online"));
-			me.setIf("uploadpic", ps.getString("uploadpic", "0"));
+			me.setIf("status", ps.getString("status", "online"));
+			me.setIf("ifpic", ps.getString("ifpic", "0"));
+			me.setIf("ifpwd", ps.getString("ifpwd", "0"));
 			me.setIf("top", ps.getString("top"));
+			me.setIf("sales", ToolUtil.toInt(ps.getString("sales"), 0)); // 已销售数
+			me.setIf("needstock", ToolUtil.toInt(ps.getString("needstock"), 0));// 需要库存
 			me.set("dr", "0");
 			db.execute(me);
 		} else {
 			Update me = new Update("bus_prod");
 			me.setIf("name", ps.getString("name"));
 			me.setIf("pic_id", ps.getString("pic_id"));
-			me.setIf("uploadpic", ps.getString("uploadpic","0"));
+			me.setIf("uploadpic", ps.getString("uploadpic", "0"));
 			me.setIf("title", ps.getString("title"));
 			me.setIf("xl", ps.getString("xl"));
 			me.setIf("dl", ps.getString("dl"));
 			me.setIf("price", ps.getString("price"));
 			me.setIf("sprice", ps.getString("sprice"));
 			me.setIf("mark", ps.getString("mark"));
-			me.setIf("status", ps.getString("status","online"));
+			me.setIf("status", ps.getString("status", "online"));
+			me.setIf("sales", ps.getString("sales"));
 			me.setIf("top", ps.getString("top"));
+			me.setIf("sales", ToolUtil.toInt(ps.getString("sales"), 0));
+			me.setIf("needstock", ToolUtil.toInt(ps.getString("needstock"), 0));// 需要库存
 			me.where().and("id=?", id);
 			db.execute(me);
 		}

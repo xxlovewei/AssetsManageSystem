@@ -45,6 +45,18 @@ function config_mshop($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('prod.proddtl', {
+		url : "/prod_dtl",
+		data: { pageTitle: '商品详情'},
+		templateUrl : "views/mshop/prod/proddtl.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/mshop/prod/proddtl.js?v=' + version ]
+				} ]);
+			}
+		}
 	});
 
  
@@ -64,9 +76,5 @@ function config_mshop($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	});
-
- 
-	
-	
+	});	
 }

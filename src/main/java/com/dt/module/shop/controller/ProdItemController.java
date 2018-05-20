@@ -45,6 +45,7 @@ public class ProdItemController extends BaseShopController {
 		if (ToolUtil.isEmpty(user_id)) {
 			return R.FAILURE("用户识别失败.");
 		}
+		// 判断用户是否有手机号,没有则需要补充
 
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String prod_id = ps.getString("prod_id");
@@ -70,6 +71,7 @@ public class ProdItemController extends BaseShopController {
 			me.setIf("status", ITME_TYPE_ONLINE);
 			me.setIf("prod_id", e.getString("name"));
 			me.setIf("mark", e.getString("mark"));
+			me.setIf("pwd", e.getString("pwd"));
 			sqls.add(me);
 		}
 		db.executeSQLList(sqls);
