@@ -43,7 +43,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 	} ]
 
 	$scope.URL = $rootScope.project + "/api/news/queryNewsByPage.do?noContent=Y";
-	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp('aadata').withPaginationType('full_numbers').withDisplayLength(10).withOption("ordering", false)
+	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp('data').withPaginationType('full_numbers').withDisplayLength(10).withOption("ordering", false)
 			.withOption("responsive", true).withOption("searching", false).withOption("paging", true).withOption('bStateSave', true).withOption('bProcessing', false).withOption(
 					'bFilter', false).withOption('bInfo', false).withOption('serverSide', true).withOption('bAutoWidth', false).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
@@ -55,7 +55,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 	$scope.reloadData = reloadData;
 	var tabdata=[]
 	function reloadData() {
-		var resetPaging = false;
+		var resetPaging = true;
 		$scope.dtInstance.reloadData(callback, resetPaging);
 	}
 	function callback(json) {
@@ -121,7 +121,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 	}
 
 	$scope.query = function() {
-		alert("未实现");
+		reloadData();
 	}
 	$scope.save = function(id) {
 

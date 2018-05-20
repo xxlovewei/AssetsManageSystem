@@ -44,14 +44,32 @@ public class ProdController extends BaseShopController {
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 
-	/* 供前端买 */
+	/* 供前端卖提供数据 */
+	@RequestMapping("/mshop/queryProdByDlForSell.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_ALLOW)
+	public R queryProdByDlForSell(String dl) {
+
+		if (ToolUtil.isEmpty(dl)) {
+			return R.FAILURE_NO_DATA();
+		}
+		String sql = " select case uploadpic when 0 then '0' when 1 then '1' else  '0' end ifupload, "
+				+ " (select name from sys_ct_class where class_id=xl) xlname, t.* from bus_prod t "
+				+ " where dl=? and dr=0 ";
+
+		return R.SUCCESS_OPER(db.query(sql, dl).toJsonArrayWithJsonObject());
+	}
+
+	/* 供前端买提供数据 */
 	@RequestMapping("/mshop/queryProdByDlForSale.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW)
-	public R queryProdByXlForSale(String xl) {
+	public R queryProdByDlForSale(String dl) {
 
+		if (ToolUtil.isEmpty(dl)) {
+			return R.FAILURE_NO_DATA();
+		}
 		return null;
-		// return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 
 	@RequestMapping("/mshop/queryProdById.do")
