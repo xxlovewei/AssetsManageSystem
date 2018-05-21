@@ -42,9 +42,12 @@ import com.dt.core.dao.sql.Delete;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.shiro.ShiroKit;
+import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.UserService;
 import com.dt.module.base.service.WxUserService;
+import com.dt.module.wx.pojo.WeixinUserInfo;
+import com.dt.module.wx.util.AdvancedUtil;
 import com.dt.module.wx.util.WeiXX509TrustManager;
 
 /**
@@ -335,6 +338,11 @@ public class WxService extends BaseService {
 
 	}
 
+	public R queryWxTokenDirect(boolean flag) {
+
+		return queryWxToken(appIdconf, secretconf, flag);
+	}
+
 	public R syncMenuFromWx(String appid, String sec) {
 		R tr = queryWxToken(appid, sec, false);
 		if (tr.isFailed()) {
@@ -469,19 +477,28 @@ public class WxService extends BaseService {
 
 		// 处理登录信息
 		if ("1".equals(login)) {
-			R ur = wxUserService.existUserByOpenId(open_id);
+			R ur = wxUserService.queryUserByOpenId(open_id);
+			// 用户不存在
 			if (ur.isFailed()) {
 				// 新建用户
 				_log.info("create user,open_id:" + open_id);
 				TypedHashMap<String, Object> ps = new TypedHashMap<String, Object>();
 				ps.put("open_id", open_id);
 				ps.put("locked", "N");
-				R addr = userService.addUser(ps, UserService.USER_TYPE_WX);
-				// 再次查询
-				if (addr.isSuccess()) {
-					ur = wxUserService.existUserByOpenId(open_id);
+				ps.put("pwd", MD5Util.encrypt(ToolUtil.getUUID()));
+				R gtoken = queryWxTokenDirect(false);
+				String access_token = gtoken.queryDataToJSONObject().getString("access_token");
+				WeixinUserInfo weixinUserInfo = AdvancedUtil.getUerInfo(access_token, open_id);
+				_log.info("nickname:" + weixinUserInfo.getNickName());
+				ps.put("nickname", weixinUserInfo.getNickName());
+				ps.put("avatarurl", weixinUserInfo.getHeadImgUrl());
+				ps.put("name", weixinUserInfo.getNickName());
+				ps.put("sex", weixinUserInfo.getSex());
+				R cuserrs = userService.addUser(ps, UserService.USER_TYPE_WX);
+				// 判断用户是否新建成功
+				if (cuserrs.isSuccess()) {
+					ur = wxUserService.queryUserByOpenId(open_id);
 				}
-
 				if (ur.isFailed()) {
 					return R.FAILURE("create user failed.");
 				}
@@ -508,11 +525,11 @@ public class WxService extends BaseService {
 				error = "其他错误：" + e.getMessage();
 			}
 			if (error.length() > 0) {
+				_log.info("login failed,result:" + error);
 				return R.FAILURE(error);
 			}
-
 		}
-
+		_log.info("login success.");
 		return R.SUCCESS();
 	}
 

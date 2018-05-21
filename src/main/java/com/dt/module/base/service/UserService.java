@@ -598,7 +598,7 @@ public class UserService extends BaseService {
 		ins.setIf("homeaddr_def", ps.getString("homeaddr_def")); // 家庭地址
 		ins.setIf("receaddr_def", ps.getString("receaddr_def")); // 默认收货地址
 		ins.setIf("weixin", ps.getString("weixin")); // 微信号
-		ins.setIf("sex", ps.getString("sex", "1")); // 性别
+		ins.setIf("sex", ps.getString("sex", "1")); // 性别 1男，2女
 		ins.setIf("system", ps.getString("system", "1")); // 系统
 		ins.setIf("shop_id", ps.getString("shop_id")); // 默认所属店铺
 		ins.setIf("score", ps.getString("score", "0")); // 积分

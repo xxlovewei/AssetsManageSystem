@@ -314,7 +314,9 @@ public class AdvancedUtil {
 		WeixinUserInfo weixinUserInfo = null;
 		String requestUrl = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID";
 		requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken).replace("OPENID", openId);
+
 		JSONObject jsonObject = WeixinUtil.httpRequest(requestUrl, "GET", null);
+		_log.info("open_id:" + openId + ",res:" + jsonObject.toString());
 		if (null != jsonObject) {
 			try {
 				weixinUserInfo = new WeixinUserInfo();

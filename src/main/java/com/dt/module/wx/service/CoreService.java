@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.dt.module.wx.msg.resp.Article;
 import com.dt.module.wx.msg.resp.NewsMessage;
 import com.dt.module.wx.msg.resp.TextMessage;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -19,6 +21,8 @@ import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.wx.util.MessageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -28,10 +32,13 @@ import com.dt.module.wx.util.MessageUtil;
 @PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
 public class CoreService extends BaseService {
 
-	// private static Logger _log = LoggerFactory.getLogger(CoreService.class);
+	private static Logger _log = LoggerFactory.getLogger(CoreService.class);
 
 	@Value("${wx.weburl}")
 	public String weburl;
+
+	@Autowired
+	WxService wxService;
 
 	public String processMsg(String fromUserName, String toUserName, String msgType, String ct, String ctdef) {
 		String res = "";
@@ -58,6 +65,7 @@ public class CoreService extends BaseService {
 	 * @return xml
 	 */
 	public String processRequest(HttpServletRequest request) {
+		_log.info("sessionId:" + request.getSession().getId());
 		// xml格式的消息数据
 		String respXml = null;
 		// 默认返回的文本消息内容
@@ -73,7 +81,7 @@ public class CoreService extends BaseService {
 			String msgType = requestMap.get("MsgType");
 
 			String content = requestMap.get("Content");
-			 
+			wxService.baseToLogin(fromUserName, "1");
 			// 回复文本消息
 			TextMessage textMessage = new TextMessage();
 			textMessage.setToUserName(fromUserName);
@@ -81,9 +89,7 @@ public class CoreService extends BaseService {
 			textMessage.setCreateTime(new Date().getTime());
 			textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
 			if (ToolUtil.isNotEmpty(toUserName)) {
-				System.out.println(HttpKit.getRequest().getSession().getId());
-				HttpKit.getRequest().getSession().setAttribute("open_id", toUserName);
-				HttpKit.getRequest().getSession().setAttribute("open_id2", toUserName);
+				HttpKit.getRequest().getSession().setAttribute("open_id", fromUserName);
 			}
 
 			// 文本消息

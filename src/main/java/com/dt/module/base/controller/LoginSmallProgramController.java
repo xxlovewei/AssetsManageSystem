@@ -93,7 +93,7 @@ public class LoginSmallProgramController extends BaseController {
 		}
 		String openId = strres.queryDataToJSONObject().getString("openid");
 		// 判断用户是否存在
-		R userrs = wxUserService.existUserByOpenId(openId);
+		R userrs = wxUserService.queryUserByOpenId(openId);
 		if (userrs.isFailed()) {
 			return R.FAILURE_USER_NOT_EXISTED();
 		}
