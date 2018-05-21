@@ -605,6 +605,9 @@ public class UserService extends BaseService {
 		ins.setIf("open_id", ps.getString("open_id")); // 微信open_id
 		ins.setIf("balance", ps.getString("balance", "0"));// 余额
 		ins.setIf("avatarurl", ps.getString("avatarurl"));// 微信logo
+		ins.setIf("card", ps.getString("avatarurl"));// 银行卡
+		ins.setIf("card_bank", ps.getString("card_bank"));// 银行
+		ins.setIf("card_part", ps.getString("card_part"));// 支行名称
 		ins.set("deleted", "N");
 		db.execute(ins);
 		return R.SUCCESS_OPER(user_id);
@@ -655,6 +658,10 @@ public class UserService extends BaseService {
 		ups.setIf("receadd_def", ps.getString("receadd_def"));
 		ups.setIf("weixin", ps.getString("weixin"));
 		ups.setIf("sex", ps.getString("sex", "1"));
+		ups.setIf("avatarurl", ps.getString("avatarurl"));// 微信logo
+		ups.setIf("card", ps.getString("avatarurl"));// 银行卡
+		ups.setIf("card_bank", ps.getString("card_bank"));// 银行
+		ups.setIf("card_part", ps.getString("card_part"));// 支行名称
 		ups.where().and("user_id=?", user_id);
 		db.execute(ups);
 		return R.SUCCESS_OPER();

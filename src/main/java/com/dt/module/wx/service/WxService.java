@@ -459,7 +459,7 @@ public class WxService extends BaseService {
 
 		// 获取跳转地址
 		JSONObject r = new JSONObject();
-		Rcd rs = db.uniqueRecord("select * from wx_web_auth where id=?", state);
+		Rcd rs = db.uniqueRecord("select * from wx_web_auth where state=?", state);
 		String url = "blank";
 		String login = "0";
 		if (ToolUtil.isNotEmpty(rs)) {

@@ -13,7 +13,7 @@ function config_wx($stateProvider, $ocLazyLoadProvider) {
 				},
 				templateUrl : "views/common/content.html"
 			}).state('wxmgr.app', {
-				url : "/app",
+				url : "/wxmgr_app",
 				data : {
 					pageTitle : '应用设置'
 				},
@@ -23,6 +23,20 @@ function config_wx($stateProvider, $ocLazyLoadProvider) {
 						return $ocLazyLoad.load([{
 									serie : true,
 									files : ['views/wx/app.js?v=' + version]
+								}]);
+					}
+				}
+			}).state('wxmgr.weboauth', {
+				url : "/wxmgr_weboauth",
+				data : {
+					pageTitle : '网页授权'
+				},
+				templateUrl : "views/wx/weboauth.html",
+				resolve : {
+					loadPlugin : function($ocLazyLoad) {
+						return $ocLazyLoad.load([{
+									serie : true,
+									files : ['views/wx/weboauth.js?v=' + version]
 								}]);
 					}
 				}
