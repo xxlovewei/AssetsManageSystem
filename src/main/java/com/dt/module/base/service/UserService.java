@@ -606,7 +606,7 @@ public class UserService extends BaseService {
 		ins.setIf("open_id", ps.getString("open_id")); // 微信open_id
 		ins.setIf("balance", ps.getString("balance", "0"));// 余额
 		ins.setIf("avatarurl", ps.getString("avatarurl"));// 微信logo
-		ins.setIf("card", ps.getString("avatarurl"));// 银行卡
+		ins.setIf("card", ps.getString("card"));// 银行卡
 		ins.setIf("card_bank", ps.getString("card_bank"));// 银行
 		ins.setIf("card_part", ps.getString("card_part"));// 支行名称
 		ins.setIf("card_addr", ps.getString("card_addr"));// 银行地址
@@ -663,7 +663,7 @@ public class UserService extends BaseService {
 		ups.setIf("weixin", ps.getString("weixin"));
 		ups.setIf("sex", ps.getString("sex", "1"));
 		ups.setIf("avatarurl", ps.getString("avatarurl"));// 微信logo
-		ups.setIf("card", ps.getString("avatarurl"));// 银行卡
+		ups.setIf("card", ps.getString("card"));// 银行卡
 		ups.setIf("card_bank", ps.getString("card_bank"));// 银行
 		ups.setIf("card_part", ps.getString("card_part"));// 支行名称
 		ups.setIf("card_addr", ps.getString("card_addr"));// 银行地址
