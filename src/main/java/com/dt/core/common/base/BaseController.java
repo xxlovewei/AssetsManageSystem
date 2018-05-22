@@ -10,7 +10,11 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.session.InvalidSessionException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.dt.core.shiro.ShiroKit;
+import com.dt.core.shiro.ShiroUser;
 import com.dt.core.tool.lang.PropertiesFileUtil;
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.core.tool.util.support.StrKit;
 
@@ -28,13 +32,13 @@ public class BaseController extends BaseSC {
 		String msg = ExceptionUtils.getRootCauseMessage(exception) == null ? ""
 				: ExceptionUtils.getRootCauseMessage(exception);
 		exception.printStackTrace();
-	//	System.out.println();
+		// System.out.println();
 		request.setAttribute("ex", exception);
 		if (null != request.getHeader("X-Requested-With")
 				&& "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
 			request.setAttribute("requestHeader", "ajax");
 		}
-		
+
 		if (isReturnJSON(request)) {
 			try {
 				response.setCharacterEncoding("UTF-8");
@@ -93,6 +97,13 @@ public class BaseController extends BaseSC {
 
 	public String getUserId() {
 		String user_id = (String) HttpKit.getRequest().getSession().getAttribute("user_id");
+		if (ToolUtil.isEmpty(user_id)) {
+			ShiroUser shiroUser = ShiroKit.getUser();
+			if (shiroUser != null) {
+				HttpKit.getRequest().getSession().setAttribute("user_id", shiroUser.getId());
+				return shiroUser.getId();
+			}
+		}
 		return user_id;
 	}
 

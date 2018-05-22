@@ -93,7 +93,7 @@ public class WebOAuthController extends BaseController {
 			_log.info("Login failed,msg:" + r.getMessage());
 			url = "blank";
 		}
-		_log.info("put user_id into session.user_id:" + r.queryDataToJSONObject().getString("user_id"));
+		_log.info("put user_id into session,user_id:" + r.queryDataToJSONObject().getString("user_id"));
 		super.getSession().setAttribute("user_id", r.queryDataToJSONObject().getString("user_id"));
 		ShiroKit.getSession().setAttribute("sessionFlag", true);
 		try {

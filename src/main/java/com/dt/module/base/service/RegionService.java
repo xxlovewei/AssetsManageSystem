@@ -23,7 +23,7 @@ public class RegionService extends BaseService {
 	 */
 	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h, key = "'region_queryRegion'")
 	public R queryRegion() {
- 
+
 		String sql = "select * from sys_region";
 		RcdSet rs = db.query(sql);
 		JSONArray res = new JSONArray();

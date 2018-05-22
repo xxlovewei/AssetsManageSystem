@@ -278,9 +278,10 @@ public class UserService extends BaseService {
 	@SuppressWarnings("unchecked")
 	public List<String> findPermissionsByRoleId(String roleId) {
 		_log.info("获取角色权限:" + roleId);
-		return db.query(
-				"select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
-				roleId).toList("ct");
+		return db
+				.query("select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
+						roleId)
+				.toList("ct");
 	}
 
 	/**
@@ -608,6 +609,9 @@ public class UserService extends BaseService {
 		ins.setIf("card", ps.getString("avatarurl"));// 银行卡
 		ins.setIf("card_bank", ps.getString("card_bank"));// 银行
 		ins.setIf("card_part", ps.getString("card_part"));// 支行名称
+		ins.setIf("card_addr", ps.getString("card_addr"));// 银行地址
+		ins.setIf("famount", ToolUtil.toInt(ps.getString("amount"), 0));// 金额
+		ins.setIf("famount", ToolUtil.toInt(ps.getString("famount"), 0));// 冻结金额
 		ins.set("deleted", "N");
 		db.execute(ins);
 		return R.SUCCESS_OPER(user_id);
@@ -662,6 +666,7 @@ public class UserService extends BaseService {
 		ups.setIf("card", ps.getString("avatarurl"));// 银行卡
 		ups.setIf("card_bank", ps.getString("card_bank"));// 银行
 		ups.setIf("card_part", ps.getString("card_part"));// 支行名称
+		ups.setIf("card_addr", ps.getString("card_addr"));// 银行地址
 		ups.where().and("user_id=?", user_id);
 		db.execute(ups);
 		return R.SUCCESS_OPER();
