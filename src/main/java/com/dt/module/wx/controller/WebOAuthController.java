@@ -18,6 +18,7 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.shiro.ShiroKit;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.wx.pojo.WeixinOauth2Token;
@@ -92,7 +93,9 @@ public class WebOAuthController extends BaseController {
 			_log.info("Login failed,msg:" + r.getMessage());
 			url = "blank";
 		}
-
+		_log.info("put user_id into session.user_id:" + r.queryDataToJSONObject().getString("user_id"));
+		super.getSession().setAttribute("user_id", r.queryDataToJSONObject().getString("user_id"));
+		ShiroKit.getSession().setAttribute("sessionFlag", true);
 		try {
 			_log.info("open_id:" + open_id + ",sendRedirect:" + url);
 			response.sendRedirect(url);

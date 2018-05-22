@@ -474,10 +474,10 @@ public class WxService extends BaseService {
 
 	/* 网页授权 */
 	public R baseToLogin(String open_id, String login) {
-
+		R ur = null;
 		// 处理登录信息
 		if ("1".equals(login)) {
-			R ur = wxUserService.queryUserByOpenId(open_id);
+			ur = wxUserService.queryUserByOpenId(open_id);
 			// 用户不存在
 			if (ur.isFailed()) {
 				// 新建用户
@@ -530,7 +530,7 @@ public class WxService extends BaseService {
 			}
 		}
 		_log.info("login success.");
-		return R.SUCCESS();
+		return R.SUCCESS_OPER(ur.queryDataToJSONObject());
 	}
 
 }
