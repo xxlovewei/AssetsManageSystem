@@ -278,10 +278,9 @@ public class UserService extends BaseService {
 	@SuppressWarnings("unchecked")
 	public List<String> findPermissionsByRoleId(String roleId) {
 		_log.info("获取角色权限:" + roleId);
-		return db
-				.query("select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
-						roleId)
-				.toList("ct");
+		return db.query(
+				"select ct from sys_role_module a,sys_modules_item b where a.module_id=b.module_id and role_id=?",
+				roleId).toList("ct");
 	}
 
 	/**
@@ -580,6 +579,8 @@ public class UserService extends BaseService {
 		}
 
 		Insert ins = new Insert("sys_user_info");
+		ins.setSE("create_time", DbUtil.getDbDateString(db.getDBType()));
+		ins.setSE("update_time", DbUtil.getDbDateString(db.getDBType()));
 		ins.set("user_id", user_id); // 账户系统唯一ID(唯一)
 		ins.set("empl_id", empl_id); // empl_id
 		ins.set("user_name", username); // 账户名称(唯一)
@@ -607,10 +608,15 @@ public class UserService extends BaseService {
 		ins.setIf("balance", ps.getString("balance", "0"));// 余额
 		ins.setIf("avatarurl", ps.getString("avatarurl"));// 微信logo
 		ins.setIf("card", ps.getString("card"));// 银行卡
-		ins.setIf("famount", ToolUtil.toInt(ps.getString("amount"), 0));// 金额
+		ins.setIf("amount", ToolUtil.toInt(ps.getString("amount"), 0));// 金额
 		ins.setIf("famount", ToolUtil.toInt(ps.getString("famount"), 0));// 冻结金额
 		ins.setIf("tixamount", ToolUtil.toInt(ps.getString("tixamount"), 0));// 冻结金额
-		ins.setIf("credit_score", ToolUtil.toInt(ps.getString("credit_score"), 0));//信用分
+		ins.setIf("credit_score", ToolUtil.toInt(ps.getString("credit_score"), 0));// 信用分
+		ins.setIf("identity_card", ps.getString("identity_card"));// 身份证
+		ins.setIf("driver_card", ps.getString("driver_card"));// 驾照
+		ins.setIf("nation", ps.getString("nation"));// 民族
+		ins.setIf("native_place", ps.getString("native_place"));// 籍贯
+		ins.setIf("self_evaluate", ps.getString("self_evaluate"));//自我评价
 		ins.set("deleted", "N");
 		db.execute(ins);
 		return R.SUCCESS_OPER(user_id);
@@ -646,6 +652,7 @@ public class UserService extends BaseService {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update ups = new Update("sys_user_info");
+		ups.setSE("update_time", DbUtil.getDbDateString(db.getDBType()));
 		ups.setIf("nickname", ps.getString("nickname", "toy"));
 		ups.setIf("name", ps.getString("name", "toy"));
 		ups.setIf("pwd", ps.getString("pwd", "0"));
@@ -663,6 +670,13 @@ public class UserService extends BaseService {
 		ups.setIf("sex", ps.getString("sex", "1"));
 		ups.setIf("avatarurl", ps.getString("avatarurl"));// 微信logo
 		ups.setIf("card", ps.getString("card"));// 银行卡
+
+		ups.setIf("identity_card", ps.getString("identity_card"));// 身份证
+		ups.setIf("driver_card", ps.getString("driver_card"));// 驾照
+		ups.setIf("nation", ps.getString("nation"));// 民族
+		ups.setIf("native_place", ps.getString("native_place"));// 籍贯
+		ups.setIf("self_evaluate", ps.getString("self_evaluate"));
+
 		ups.where().and("user_id=?", user_id);
 		db.execute(ups);
 		return R.SUCCESS_OPER();
