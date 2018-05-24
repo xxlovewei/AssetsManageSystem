@@ -42,9 +42,4 @@ public class BaseService extends BaseSC {
 		HttpKit.getRequest().setAttribute(name, value);
 	}
 
-	public String getUserId() {
-		String user_id = (String) HttpKit.getRequest().getSession().getAttribute("user_id");
-		_log.info("getUserId:" + user_id);
-		return user_id;
-	}
 }

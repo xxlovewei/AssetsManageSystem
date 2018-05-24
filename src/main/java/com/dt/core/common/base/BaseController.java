@@ -95,17 +95,7 @@ public class BaseController extends BaseSC {
 		HttpKit.getRequest().setAttribute(name, value);
 	}
 
-	public String getUserId() {
-		String user_id = (String) HttpKit.getRequest().getSession().getAttribute("user_id");
-		if (ToolUtil.isEmpty(user_id)) {
-			ShiroUser shiroUser = ShiroKit.getUser();
-			if (shiroUser != null) {
-				HttpKit.getRequest().getSession().setAttribute("user_id", shiroUser.getId());
-				return shiroUser.getId();
-			}
-		}
-		return user_id;
-	}
+	
 
 	protected Integer getSystemInvokCount() {
 		return (Integer) this.getHttpServletRequest().getServletContext().getAttribute("systemCount");
