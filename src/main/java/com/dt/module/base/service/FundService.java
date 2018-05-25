@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -31,13 +32,22 @@ public class FundService extends BaseService {
 	public static String TYPE_GW = "gw";// 购物
 
 	/* 查询我到提现记录 */
-	public R queryMyFundTix(String status) {
+	public R queryMyFundTix(String status, String numstr) {
+		return queryFundTix(this.getUserId(), status, numstr);
+	}
+
+	/* 查询提现记录 */
+	public R queryFundTix(String user_id, String status, String numstr) {
+		int num = ToolUtil.toInt(numstr, -1);
 		String sql = "select * from sys_user_fund_rec where dr=0 and user_id=? and type='" + TYPE_TX + "'";
 		if (ToolUtil.isNotEmpty(status)) {
 			sql = sql + " and status='" + status + "'";
 		}
-		sql = sql + " order by create_time desc";
-		return R.SUCCESS_OPER(db.query(sql, getUserId()).toJsonArrayWithJsonObject());
+		String esql = sql + " order by create_time desc";
+		if (num != -1) {
+			esql = "select * from (" + sql + ") where rownum<" + num;
+		}
+		return R.SUCCESS_OPER(db.query(esql, user_id).toJsonArrayWithJsonObject());
 	}
 
 	/* 查询我的资金变动 */
@@ -46,26 +56,34 @@ public class FundService extends BaseService {
 		return R.SUCCESS_OPER(db.query(sql, getUserId()).toJsonArrayWithJsonObject());
 	}
 
-	/* 我触发现提现操作 */
+	/*********************************
+	 * 提现类
+	 *******************************************************/
+	// 我的提现操作，指定金额
 	public R actionMyTix(String jestr) {
-		// 检测用户是否有效
-		String user_id = this.getUserId();
-		if (ToolUtil.isEmpty(user_id)) {
-			return R.FAILURE("用户信息有误");
+		return actionTix(jestr, getUserId());
+	}
+
+	// 我的提现操作，全部金额
+	public R actionMyAllTix() {
+		Rcd rs = db.uniqueRecord("select amount from sys_user_info where user_id=?", getUserId());
+		if (rs == null) {
+			return R.FAILURE("用户不存在");
 		}
 
+		return actionTix(rs.getString("amount"), getUserId());
+	}
+
+	/* 我触发提现操作 */
+	public R actionTix(String jestr, String user_id) {
+		R ck = buyToReduceFundCheck(jestr, user_id);
+		if (ck.isFailed()) {
+			return ck;
+		}
 		// 金额保留两位小数
 		Double double_je = ConvertUtil.toDouble(jestr, 0.00);
-		if (double_je <= 0) {
-			return R.FAILURE("金额有误,提现失败");
-		}
 		BigDecimal b = new BigDecimal(double_je);
 		double r_je = b.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
-
-		String sql = "select * from sys_user_info where user_id='" + user_id + "' and amount-" + r_je + " >0";
-		if (ToolUtil.isEmpty(db.uniqueRecord(sql))) {
-			return R.FAILURE("资金不足,无法提现");
-		}
 		/******************************************* 检查 *******************************/
 		// 扣除总金额
 		String sql1 = "update sys_user_info set amount=amount-" + r_je + " ,tixamount=tixamount+" + r_je
@@ -76,17 +94,22 @@ public class FundService extends BaseService {
 		Insert me = new Insert("sys_user_fund_rec");
 		me.set("id", db.getUUID());
 		me.set("is_plus", 0);
+		me.set("dr", 0);
+		me.set("user_id", user_id);
 		me.set("amount", r_je);
 		me.set("type", TYPE_TX);
+		me.setIf("oper_id", getUserId());
 		me.set("status", TIX_STATUS_ING);
 		me.setSE("create_time", DbUtil.getDbDateString(db.getDBType()));
 		sqls.add(me.getSQL());
 
 		db.executeStringList(sqls);
-		return R.SUCCESS_OPER("提现成功");
+		return R.SUCCESS("提现成功");
 	}
 
-	/* 平台结算提现 */
+	/*********************************
+	 * 平台结算提现
+	 *******************************************************/
 	public R finishFundTix(String id) {
 		List<String> sqls = new ArrayList<String>();
 		if (ToolUtil.isEmpty(id)) {
@@ -112,9 +135,12 @@ public class FundService extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 
-	// 检测金额是否够用
-	public R buyToReduceFundCheck(String jestr) {
-		String user_id = this.getUserId();
+	/*********************************
+	 * 购物类
+	 *******************************************************/
+	// 检测金额是否够用，jestr截取保留两位小数
+	public R buyToReduceFundCheck(String jestr, String user_id) {
+
 		if (ToolUtil.isEmpty(user_id)) {
 			return R.FAILURE("用户信息有误");
 		}
@@ -127,9 +153,9 @@ public class FundService extends BaseService {
 		BigDecimal b = new BigDecimal(double_je);
 		double r_je = b.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
 
-		String sql = "select * from sys_user_info where user_id='" + user_id + "' and amount-" + r_je + " >0";
+		String sql = "select * from sys_user_info where user_id='" + user_id + "' and amount-" + r_je + " >=0";
 		if (ToolUtil.isEmpty(db.uniqueRecord(sql))) {
-			return R.FAILURE("资金不足,无法提现");
+			return R.FAILURE("资金不足,无法操作");
 		}
 
 		return R.SUCCESS_OPER();
@@ -137,50 +163,63 @@ public class FundService extends BaseService {
 	}
 
 	// 减少金额用于支付购物等
-	public R buyToReduceFund(String jestr, String type) {
+	public R buyBusiFund(String user_id, String jestr, String type, String order_id) {
+		R rs = buyBusiFundSqls(user_id, jestr, type, order_id);
+		if (rs.isFailed()) {
+			return rs;
+		}
+
+		ArrayList<String> sqls = new ArrayList<String>();
+		JSONArray r = rs.queryDataToJSONArray();
+		for (int i = 0; i < r.size(); i++) {
+			sqls.add(r.getString(i));
+		}
+		db.executeStringList(sqls);
+		return R.SUCCESS_OPER();
+	}
+
+	public ArrayList<String> buyBusiFundSqlsDirect(String user_id, String jestr, String type, String order_id) {
+		ArrayList<String> sqls = new ArrayList<String>();
+		R rs = buyBusiFundSqls(user_id, jestr, type, order_id);
+		if (rs.isSuccess()) {
+			JSONArray r = rs.queryDataToJSONArray();
+			for (int i = 0; i < r.size(); i++) {
+				sqls.add(r.getString(i));
+			}
+		}
+		return sqls;
+	}
+
+	// 减少金额用于支付购物等的sql语句
+	public R buyBusiFundSqls(String user_id, String jestr, String type, String order_id) {
 		// 检测用户是否有效
-		R cr = buyToReduceFundCheck(jestr);
+		if (ToolUtil.isOneEmpty(jestr, order_id, type, user_id)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		R cr = buyToReduceFundCheck(jestr, user_id);
 		if (cr.isFailed()) {
 			return cr;
 		}
 		/******************************************* 检查 *******************************/
-		String sql1 = "update sys_user_info set amount=amount-" + jestr + " where user_id='" + getUserId() + "'";
-		List<String> sqls = new ArrayList<String>();
+		String sql1 = "update sys_user_info set amount=amount-" + jestr + " where user_id='" + user_id + "'";
+		JSONArray sqls = new JSONArray();
 		sqls.add(sql1);
-		// 插入资金流水表
-		Insert me = new Insert("sys_user_fund_rec");
-		me.set("id", db.getUUID());
-		me.set("is_plus", 0);
-		me.set("amount", jestr);
-		me.set("type", TYPE_GW);
-		me.set("status", STATUS_FINISH);
-		me.setSE("create_time", DbUtil.getDbDateString(db.getDBType()));
-		sqls.add(me.getSQL());
-		db.execute(sql1);
-		return R.SUCCESS_OPER();
-	}
 
-	// 减少金额用于支付购物等的sql语句
-	public ArrayList<String> buyToReduceFundSqls(String jestr, String type) {
-		// 检测用户是否有效
-		R cr = buyToReduceFundCheck(jestr);
-		if (cr.isFailed()) {
-			return null;
-		}
-		/******************************************* 检查 *******************************/
-		String sql1 = "update sys_user_info set amount=amount-" + jestr + " where user_id='" + getUserId() + "'";
-		ArrayList<String> sqls = new ArrayList<String>();
-		sqls.add(sql1);
 		// 插入资金流水表
 		Insert me = new Insert("sys_user_fund_rec");
 		me.set("id", db.getUUID());
 		me.set("is_plus", 0);
+		me.set("dr", 0);
+		me.set("user_id", user_id);
 		me.set("amount", jestr);
 		me.set("type", TYPE_GW);
 		me.set("status", STATUS_FINISH);
+		me.set("order_id", order_id);
+		me.setIf("oper_id", getUserId());
 		me.setSE("create_time", DbUtil.getDbDateString(db.getDBType()));
+		me.setSE("process_time", DbUtil.getDbDateString(db.getDBType()));
 		sqls.add(me.getSQL());
-		return sqls;
+		return R.SUCCESS_OPER(sqls);
 	}
 
 	public static void main(String[] args) {
