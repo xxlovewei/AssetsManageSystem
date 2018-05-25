@@ -34,12 +34,6 @@ public class MyAccountController extends BaseController {
 		return fundService.queryMyFundTix(null, cnt);
 	}
 
-	@ResponseBody
-	@Acl(info = "查询提现记录", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/user/queryFundTix.do")
-	public R queryFundTix(String user_id, String cnt) {
-		return fundService.queryFundTix(user_id, null, cnt);
-	}
 
 	@ResponseBody
 	@Acl(info = "查询我的资金变动情况", value = Acl.ACL_USER)
