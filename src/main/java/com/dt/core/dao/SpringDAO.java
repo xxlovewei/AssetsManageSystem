@@ -168,9 +168,9 @@ public abstract class SpringDAO {
 	}
 
 	protected String getCountSQL(String sql) {
-		// return translateToCountSQL(sql);
-		// return "select count(*) from(" + sql + ") a";
-		return "";
+
+		return "select count(1) from(" + sql + ") a";
+
 	}
 
 	/**
@@ -281,15 +281,15 @@ public abstract class SpringDAO {
 		String querySql = sql;
 		int totalRecord = 0;
 		if (pageSize > 0) {
+
 			String countSql = getCountSQL(sql);
 			countSql = translate(countSql);
 			// totalRecord= this.njdbcTemplate.queryForInt(countSql, params);
-			totalRecord = jdbcTemplate.queryForObject(sql, Integer.class, params);
-
+			totalRecord = jdbcTemplate.queryForObject(countSql, Integer.class, params);
 			totalPage = (totalRecord % pageSize) == 0 ? (totalRecord / pageSize) : (totalRecord / pageSize + 1);
-
 			sql = translate(sql);
 			set = this.getPageSet(set, sql, pageIndex, pageSize, params);
+
 		} else {
 			querySql = translate(querySql);
 			this.njdbcTemplate.query(querySql, params, new RcdRowMapper(set));
@@ -304,10 +304,10 @@ public abstract class SpringDAO {
 	public RcdSet query(String sql, Map<String, Object> params) {
 		return queryPage(sql, 0, 0, params);
 	}
-
-	public RcdSet queryPage(String sql, int pageSize, int pageIndex) {
-		return queryPage(sql, pageSize, pageIndex);
-	}
+	//
+	// public RcdSet queryPage(String sql, int pageSize, int pageIndex) {
+	// return queryPage(sql, pageSize, pageIndex);
+	// }
 
 	public RcdSet query(String sql) {
 		return queryPage(sql, 0, 0, emptyMap);
@@ -337,12 +337,15 @@ public abstract class SpringDAO {
 		String querySql = sql;
 		int totalRecord = 0;
 		if (pageSize > 0) {
-			String countSql = this.getCountSQL(sql);
-			// totalRecord = this.jdbcTemplate.queryForInt(countSql, params);
+
+			String countSql = getCountSQL(sql);
 			countSql = translate(countSql);
-			totalRecord = this.jdbcTemplate.queryForObject(countSql, Integer.class, params);
+			// totalRecord= this.njdbcTemplate.queryForInt(countSql, params);
+			totalRecord = jdbcTemplate.queryForObject(countSql, Integer.class, params);
 			totalPage = (totalRecord % pageSize) == 0 ? (totalRecord / pageSize) : (totalRecord / pageSize + 1);
-			set = this.getPageSet(set, countSql, pageIndex, pageSize, params);
+			sql = translate(sql);
+			set = this.getPageSet(set, sql, pageIndex, pageSize, params);
+
 		} else {
 			querySql = translate(querySql);
 			this.jdbcTemplate.query(querySql, new RcdRowMapper(set), params);
@@ -655,35 +658,10 @@ public abstract class SpringDAO {
 		if (this instanceof SpringOracleDao) {
 			return sql;
 		} else if (this instanceof SpringMySQLDao) {
-			// sql=Translator.translate(DBType.MYSQL, sql);
+			return sql;
 		}
 		return sql;
 	}
-
-	// public static String translateToCountSQL(String sql) {
-	//
-	// Statement stmt=null;
-	// try {
-	// stmt = CCJSqlParserUtil.parse(sql);
-	// } catch (JSQLParserException e) {
-	// e.printStackTrace();
-	// }
-	//
-	// net.sf.jsqlparser.statement.select.Select select =
-	// (net.sf.jsqlparser.statement.select.Select) stmt;
-	// if(select==null) return sql;
-	//
-	// PlainSelect ps = (PlainSelect) select.getSelectBody();
-	// //SelectExpressionItem
-	// s1=(SelectExpressionItem)ps.getSelectItems().get(0);
-	// //Expression exp=s1.getExpression();
-	// ps.getSelectItems().clear();
-	// SelectExpressionItem count=new SelectExpressionItem();
-	// count.setExpression(new Column("count(1)"));
-	// ps.getSelectItems().add(count);
-	// sql=ps.toString();
-	// return sql;
-	// }
 
 	public StoredProcedure getStoredProcedure(String name) {
 		StoredProcedure p = new StoredProcedure(this.getDataSource(), name, false);

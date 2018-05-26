@@ -85,7 +85,7 @@ public class WebOAuthController extends BaseController {
 		}
 
 		// 获取跳转等基本信息
-		JSONObject br = wxService.baseWebOauth2Process(state, open_id);
+		JSONObject br = wxService.baseWebOauth2Process(state);
 		String url = br.getString("url");
 		// 处理登录
 		R r = wxService.baseToLogin(open_id, br.getString("login"));

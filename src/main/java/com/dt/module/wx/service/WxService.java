@@ -30,11 +30,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -455,11 +457,11 @@ public class WxService extends BaseService {
 	}
 
 	/* 网页授权 */
-	public JSONObject baseWebOauth2Process(String state, String open_id) {
-
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_3h_1h, key = "'baseWebOauth2Process'+#state")
+	public JSONObject baseWebOauth2Process(String state) {
 		// 获取跳转地址
 		JSONObject r = new JSONObject();
-		Rcd rs = db.uniqueRecord("select * from wx_web_auth where state=?", state);
+		Rcd rs = db.uniqueRecord("select * from wx_web_auth where dr=0 and state=?", state);
 		String url = "blank";
 		String login = "0";
 		if (ToolUtil.isNotEmpty(rs)) {

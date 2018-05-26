@@ -610,7 +610,7 @@ public class UserService extends BaseService {
 		ins.setIf("card", ps.getString("card"));// 银行卡
 		ins.setIf("amount", ToolUtil.toInt(ps.getString("amount"), 0));// 金额
 		ins.setIf("famount", ToolUtil.toInt(ps.getString("famount"), 0));// 冻结金额
-		ins.setIf("tixamount", ToolUtil.toInt(ps.getString("tixamount"), 0));// 冻结金额
+		ins.setIf("tixamount", ToolUtil.toInt(ps.getString("tixamount"), 0));// 提现中金额
 		ins.setIf("credit_score", ToolUtil.toInt(ps.getString("credit_score"), 0));// 信用分
 		ins.setIf("identity_card", ps.getString("identity_card"));// 身份证
 		ins.setIf("driver_card", ps.getString("driver_card"));// 驾照

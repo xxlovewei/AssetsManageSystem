@@ -12,6 +12,7 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
+import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
@@ -31,7 +32,9 @@ public class FundService extends BaseService {
 	public static String TYPE_CZ = "cz";// 充值
 	public static String TYPE_GW = "gw";// 购物
 
+	public static String ORDER_TYPE = "def_buy";// 购物
 	/* 查询我到提现记录 */
+
 	public R queryMyFundTix(String status, String numstr) {
 		return queryFundTix(this.getUserId(), status, numstr);
 	}
@@ -96,6 +99,7 @@ public class FundService extends BaseService {
 		me.set("is_plus", 0);
 		me.set("dr", 0);
 		me.set("user_id", user_id);
+		me.set("title", "提现操作");
 		me.set("amount", r_je);
 		me.set("type", TYPE_TX);
 		me.setIf("oper_id", getUserId());
@@ -163,8 +167,8 @@ public class FundService extends BaseService {
 	}
 
 	// 减少金额用于支付购物等
-	public R buyBusiFund(String user_id, String jestr, String type, String order_id) {
-		R rs = buyBusiFundSqls(user_id, jestr, type, order_id);
+	public R buyBusiFund(String user_id, String jestr, String type, String order_id, TypedHashMap<String, Object> ps) {
+		R rs = buyBusiFundSqls(user_id, jestr, type, order_id, ps);
 		if (rs.isFailed()) {
 			return rs;
 		}
@@ -178,9 +182,10 @@ public class FundService extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 
-	public ArrayList<String> buyBusiFundSqlsDirect(String user_id, String jestr, String type, String order_id) {
+	public ArrayList<String> buyBusiFundSqlsDirect(String user_id, String jestr, String type, String order_id,
+			TypedHashMap<String, Object> ps) {
 		ArrayList<String> sqls = new ArrayList<String>();
-		R rs = buyBusiFundSqls(user_id, jestr, type, order_id);
+		R rs = buyBusiFundSqls(user_id, jestr, type, order_id, ps);
 		if (rs.isSuccess()) {
 			JSONArray r = rs.queryDataToJSONArray();
 			for (int i = 0; i < r.size(); i++) {
@@ -191,7 +196,8 @@ public class FundService extends BaseService {
 	}
 
 	// 减少金额用于支付购物等的sql语句
-	public R buyBusiFundSqls(String user_id, String jestr, String type, String order_id) {
+	public R buyBusiFundSqls(String user_id, String jestr, String type, String order_id,
+			TypedHashMap<String, Object> ps) {
 		// 检测用户是否有效
 		if (ToolUtil.isOneEmpty(jestr, order_id, type, user_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -211,6 +217,8 @@ public class FundService extends BaseService {
 		me.set("is_plus", 0);
 		me.set("dr", 0);
 		me.set("user_id", user_id);
+		me.setIf("title", ps.getString("title", ""));
+		me.setIf("order_type", ps.getString("order_type", ORDER_TYPE));
 		me.set("amount", jestr);
 		me.set("type", TYPE_GW);
 		me.set("status", STATUS_FINISH);
