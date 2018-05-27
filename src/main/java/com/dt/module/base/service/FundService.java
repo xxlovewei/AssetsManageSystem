@@ -167,8 +167,8 @@ public class FundService extends BaseService {
 	}
 
 	// 减少金额用于支付购物等
-	public R buyBusiFund(String user_id, String jestr, String type, String order_id, TypedHashMap<String, Object> ps) {
-		R rs = buyBusiFundSqls(user_id, jestr, type, order_id, ps);
+	public R buyBusiFund(String user_id, String jestr, String order_id, TypedHashMap<String, Object> ps) {
+		R rs = buyBusiFundSqls(user_id, jestr, order_id, ps);
 		if (rs.isFailed()) {
 			return rs;
 		}
@@ -185,7 +185,7 @@ public class FundService extends BaseService {
 	public ArrayList<String> buyBusiFundSqlsDirect(String user_id, String jestr, String type, String order_id,
 			TypedHashMap<String, Object> ps) {
 		ArrayList<String> sqls = new ArrayList<String>();
-		R rs = buyBusiFundSqls(user_id, jestr, type, order_id, ps);
+		R rs = buyBusiFundSqls(user_id, jestr, order_id, ps);
 		if (rs.isSuccess()) {
 			JSONArray r = rs.queryDataToJSONArray();
 			for (int i = 0; i < r.size(); i++) {
@@ -196,10 +196,9 @@ public class FundService extends BaseService {
 	}
 
 	// 减少金额用于支付购物等的sql语句
-	public R buyBusiFundSqls(String user_id, String jestr, String type, String order_id,
-			TypedHashMap<String, Object> ps) {
+	public R buyBusiFundSqls(String user_id, String jestr, String order_id, TypedHashMap<String, Object> ps) {
 		// 检测用户是否有效
-		if (ToolUtil.isOneEmpty(jestr, order_id, type, user_id)) {
+		if (ToolUtil.isOneEmpty(jestr, order_id, user_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		R cr = buyToReduceFundCheck(jestr, user_id);
