@@ -31,7 +31,7 @@ body {
 </style>
 <div ng-controller="sysLoginCtl" class="bg"
 	style="height: 100%; background-image: url(./img/login_bg.jpg)">
-	<div class="login-con">
+	<div class="login-con" id="login_card">
 		<div class="ivu-card">
 			<div class="ivu-card-head">
 				<p>
@@ -99,4 +99,14 @@ body {
 	</div>
 </div>
 
-
+<script>
+	var w = document.documentElement.clientWidth;
+	var ew = $("#login_card").width();
+	var eyd = (w - ew) / 2;
+	//console.log(w);
+	if (w < 778) {
+		$("#login_card").animate({
+			left : eyd + 'px'
+		});
+	}
+</script>
