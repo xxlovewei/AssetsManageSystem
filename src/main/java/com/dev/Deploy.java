@@ -21,21 +21,22 @@ public class Deploy {
 	 */
 	public static void main(String[] args) {
 		String dir = "/opt/tomcat/apache-tomcat-8.0.45/webapps";
-		String fstr = "d:\\dt.war";
+		String filename = "dt";
+		String fstr = "d:\\" + filename + ".war";
 		SftpClient sftp = new SftpClient();
 		Machine m = new Machine("localhost", "121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
 		sftp.connect(m, "upload");
 		sftp.changeDirectory("/tmp");
 		File f = new File(fstr);
 		try {
-			sftp.uploadFile(f, "dt.war", null);
+			sftp.uploadFile(f, filename + ".war", null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
-		System.out.println("mv /tmp/dt.war " + dir + "/");
-		executor.exec("mv /tmp/dt.war " + dir + "/").print();
+		System.out.println("mv /tmp/" + filename + ".war " + dir + "/");
+		executor.exec("mv /tmp/" + filename + ".war " + dir + "/").print();
 		System.out.println(fstr + " deploy success on" + dir);
 	}
 

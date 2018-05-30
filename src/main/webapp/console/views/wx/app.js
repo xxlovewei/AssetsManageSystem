@@ -6,28 +6,28 @@ function wxappsavectl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
 	$scope.item = {};
 	if (angular.isDefined(id)) {
 		$http.post($rootScope.project + "/api/wx/queryWxAppById.do", {
-					id : id
-				}).success(function(res) {
-					if (res.success) {
-						$scope.item = res.data;
-					} else {
+			id : id
+		}).success(function(res) {
+			if (res.success) {
+				$scope.item = res.data;
+			} else {
 
-					}
-				})
+			}
+		})
 
 	}
 
 	$scope.sure = function() {
 		$http.post($rootScope.project + "/api/wx/saveWxApp.do", $scope.item)
 				.success(function(res) {
-							if (res.success) {
-								$uibModalInstance.close("OK");
-							} else {
-								notify({
-											message : res.message
-										});
-							}
-						})
+					if (res.success) {
+						$uibModalInstance.close("OK");
+					} else {
+						notify({
+							message : res.message
+						});
+					}
+				})
 
 	};
 
@@ -40,18 +40,17 @@ function wxappsavectl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
 function wxappCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise()
-			.withPaginationType('full_numbers').withDisplayLength(25)
-			.withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", false).withOption("paging", false)
-			.withOption('bStateSave', true).withOption('bProcessing', true)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('bAutoWidth', false)
-			.withOption('aaData', $scope.tabdata).withOption('createdRow',
-					function(row) {
-						// Recompiling so we can bind Angular,directive to the
-						$compile(angular.element(row).contents())($scope);
-					}).withLanguage(DTLang);
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
+			'full_numbers').withDisplayLength(25).withOption("ordering", false)
+			.withOption("responsive", true).withOption("searching", false)
+			.withOption("paging", false).withOption('bStateSave', true)
+			.withOption('bProcessing', true).withOption('bFilter', false)
+			.withOption('bInfo', false).withOption('serverSide', false)
+			.withOption('bAutoWidth', false).withOption('aaData',
+					$scope.tabdata).withOption('createdRow', function(row) {
+				// Recompiling so we can bind Angular,directive to the
+				$compile(angular.element(row).contents())($scope);
+			}).withLanguage(DTLang);
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -72,12 +71,14 @@ function wxappCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('app_id').withTitle('AppId').withOption(
 					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('cdate').withTitle('创建时间').withOption(
+					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('menu').withTitle('菜单').withOption(
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
-					'sDefaultContent', ''),
+					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
-					'sDefaultContent', '').renderWith(renderAction)]
+					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}
@@ -88,8 +89,8 @@ function wxappCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 						$scope.dtOptions.aaData = res.data;
 					} else {
 						notify({
-									message : res.message
-								});
+							message : res.message
+						});
 					}
 				})
 	}
@@ -102,67 +103,67 @@ function wxappCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.modify = function(id) {
 
 		var modalInstance = $uibModal.open({
-					backdrop : true,
-					templateUrl : 'views/wx/modal_saveapp.html',
-					controller : wxappsavectl,
-					size : 'lg',
-					resolve : { // 调用控制器与modal控制器中传递值
-						id : function() {
-							return id;
-						}
-					}
-				});
+			backdrop : true,
+			templateUrl : 'views/wx/modal_saveapp.html',
+			controller : wxappsavectl,
+			size : 'lg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				id : function() {
+					return id;
+				}
+			}
+		});
 
 		modalInstance.result.then(function(result) {
-					$log.log("result", result);
-					if (result == "OK") {
-						flush();
-					}
-				}, function(reason) {
-					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-					$log.log("reason", reason)
-				});
+			$log.log("result", result);
+			if (result == "OK") {
+				flush();
+			}
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
 
 	}
 
 	$scope.syncToWx = function(id) {
 
 		$http.post($rootScope.project + "/api/wx/createMenuToWx.do", {
-					id : id
-				}).success(function(res) {
-					notify({
-								message : res.message
-							});
-				})
+			id : id
+		}).success(function(res) {
+			notify({
+				message : res.message
+			});
+		})
 	}
 
 	$scope.syncFromWx = function(id) {
 
 		$http.post($rootScope.project + "/api/wx/sysncMenu.do", {
-					id : id
-				}).success(function(res) {
-					notify({
-								message : res.message
-							});
-				})
+			id : id
+		}).success(function(res) {
+			notify({
+				message : res.message
+			});
+		})
 	}
 
 	$scope.del = function(id) {
 
 		$confirm({
-					text : '是否删除?'
-				}).then(function() {
-					$http.post($rootScope.project + "/api/wx/delWxapp.do", {
-								id : id
-							}).success(function(res) {
-								if (res.success) {
-									flush();
-								}
-								notify({
-											message : res.message
-										});
-							})
+			text : '是否删除?'
+		}).then(function() {
+			$http.post($rootScope.project + "/api/wx/delWxapp.do", {
+				id : id
+			}).success(function(res) {
+				if (res.success) {
+					flush();
+				}
+				notify({
+					message : res.message
 				});
+			})
+		});
 	}
 
 };

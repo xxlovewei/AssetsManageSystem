@@ -16,6 +16,7 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.shiro.service.SimpleFilterChainDefinitionsService;
 import com.dt.core.tool.lang.SpringContextUtil;
+import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.schedule.service.ScheduleMangerService;
 import com.dt.module.base.service.RegionService;
@@ -106,6 +107,7 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 						me.set("name", "wx_app");
 						me.set("app_id", wx_appId);
 						me.set("secret", "secret");
+						me.setSE("cdate", DbUtil.getDbDateString(DB.instance().getDBType()));
 						me.set("dr", 0);
 						DB.instance().execute(me);
 						_log.info("Insert Wx apps.");
