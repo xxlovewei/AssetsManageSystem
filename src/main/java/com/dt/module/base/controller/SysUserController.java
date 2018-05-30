@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
+import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.Rcd;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.tool.net.HttpClient;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -33,6 +36,25 @@ public class SysUserController extends BaseController {
 
 	@Autowired
 	private FundService fundService;
+
+	@ResponseBody
+	@Acl(info = "我的雅戈尔上班考勤", value = Acl.ACL_ALLOW)
+	@RequestMapping(value = "/user/queryKqInYoungr.do")
+	public R queryFundTix(String uid) {
+		if (ToolUtil.isEmpty(uid)) {
+			return R.FAILURE();
+		}
+		HttpClient v = new HttpClient();
+		String url = "http://mayorwx.youngor.com/mayormp/query/getUserKq.do";
+		Rcd rs = db.uniqueRecord("select * from sys_params where id='dk_url'");
+		if (rs != null) {
+			url = rs.getString("value");
+		}
+		BaseCommon.print("url:" + url);
+		String body = v.fetchDataByUTF8(url + "?uid=" + uid);
+		JSONArray bodyarr = JSONArray.parseArray(body);
+		return R.SUCCESS_OPER(bodyarr);
+	}
 
 	@ResponseBody
 	@Acl(info = "查询提现记录", value = Acl.ACL_DENY)
@@ -159,5 +181,11 @@ public class SysUserController extends BaseController {
 	public R changePwd() {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return userService.changeUserPwd(ps.getString("opwd", ""), ps.getString("npwd", ""), getUserId());
+	}
+
+	public static void main(String[] args) {
+		HttpClient c = new HttpClient();
+		String body = c.fetchData("http://www.baidu.com", "UTF-8");
+		System.out.println(body);
 	}
 }

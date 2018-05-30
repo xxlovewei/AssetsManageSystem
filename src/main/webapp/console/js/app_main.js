@@ -83,6 +83,8 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 	$ocLazyLoadProvider.config({
 		debug : false
 	});
+	$httpProvider.defaults.headers.post['Cache-Control'] = 'no-cache';
+	$httpProvider.defaults.headers.post['Pragma'] = 'no-cache';
 	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 	// $httpProvider.defaults.withCredentials = false;
 	var param = function(obj) {

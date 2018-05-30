@@ -21,7 +21,7 @@ public class DeployMac {
 	 */
 	public static void main(String[] args) {
 		String dir = "/opt/tomcat/apache-tomcat-8.0.45/webapps";
-		String fstr = "/opt/dw.war";
+		String fstr = "/opt/dt.war";
 		SftpClient sftp = new SftpClient();
 		Machine m = new Machine("localhost", "121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
 		sftp.connect(m, "upload");

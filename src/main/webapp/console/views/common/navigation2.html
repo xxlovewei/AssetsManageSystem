@@ -27,8 +27,9 @@
 }
 </style>
 			<li ng-repeat="first in menu"
-				ng-class="{active: $state.includes('{{first.state}}')}"><a
-				class="" ui-sref="{{first.state}}"> <i
+				ng-class="{active: $state.includes('{{first.state}}')&&first.children_cnt>0}"><a
+				ng-class="{menuwhite: $state.includes('{{first.state}}')}" class=""
+				ui-sref="{{first.state}}"> <i
 					ng-class="{false: 'fa fa-th-large',true:'{{first.logo}}'}[menuLogoIsExist(first.logo)]"></i>
 					<span class="nav-lank nav-label nav-first-level">{{first.node_name}}</span>
 					<span ng-if="first.children_cnt>0" class="fa arrow"></span>

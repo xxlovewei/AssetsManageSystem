@@ -31,6 +31,8 @@ public class FundService extends BaseService {
 
 	public static String TYPE_CZ = "cz";// 充值
 	public static String TYPE_GW = "gw";// 购物
+	public static String TYPE_SELL = "sell";// 卖掉
+	public static String TYPE_REFUND = "refund";// 退款
 
 	public static String ORDER_TYPE = "def_buy";// 购物
 	/* 查询我到提现记录 */
