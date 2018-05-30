@@ -1,11 +1,8 @@
 package com.dt.module.base.service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
@@ -13,7 +10,7 @@ import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
-import com.dt.core.tool.util.ConvertUtil;
+import com.dt.core.tool.lang.NumberUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 
@@ -86,9 +83,10 @@ public class FundService extends BaseService {
 			return ck;
 		}
 		// 金额保留两位小数
-		Double double_je = ConvertUtil.toDouble(jestr, 0.00);
-		BigDecimal b = new BigDecimal(double_je);
-		double r_je = b.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+		Double r_je = NumberUtil.formatStrTwo(jestr, 0.00);
+		if (r_je <= 0) {
+			return R.FAILURE("金额错误");
+		}
 		/******************************************* 检查 *******************************/
 		// 扣除总金额
 		String sql1 = "update sys_user_info set amount=amount-" + r_je + " ,tixamount=tixamount+" + r_je
@@ -152,12 +150,10 @@ public class FundService extends BaseService {
 		}
 
 		// 金额保留两位小数
-		Double double_je = ConvertUtil.toDouble(jestr, 0.00);
-		if (double_je <= 0) {
+		Double r_je = NumberUtil.formatStrTwo(jestr, 0.00);
+		if (r_je <= 0) {
 			return R.FAILURE("金额有误");
 		}
-		BigDecimal b = new BigDecimal(double_je);
-		double r_je = b.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
 
 		String sql = "select * from sys_user_info where user_id='" + user_id + "' and amount-" + r_je + " >=0";
 		if (ToolUtil.isEmpty(db.uniqueRecord(sql))) {
@@ -232,17 +228,6 @@ public class FundService extends BaseService {
 	}
 
 	public static void main(String[] args) {
-		Double double_je = ConvertUtil.toDouble("122.120122", 0.00);
-		BigDecimal b = new BigDecimal(double_je);
-		double df = b.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
-		System.out.println(df);
-		Double v = ConvertUtil.toDouble("12.122", 0.0);
-		System.out.println(v);
-		if (v <= 0) {
-			System.out.println(111);
-		} else {
-			System.out.println(222);
-		}
 
 	}
 

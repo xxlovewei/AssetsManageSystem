@@ -22,6 +22,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 				if (res.success) {
 					if (angular.isDefined(res.data.token)) {
 						// 用户token
+						$log.info("return data:",res.data);
 						$log.warn("set token to $rootScope")
 						$rootScope.dt_app_token = res.data.token;
 						$localStorage.put('dt_app_token', res.data.token);
@@ -32,22 +33,31 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 						// 用户拥有的系统资源
 						$rootScope.dt_systems = res.data.systems;
 						$localStorage.put('dt_systems', res.data.systems);
+						
+						//初始化菜单
 						// 当前默认可能存在Id为1的系统,默认获取该资源
-						$log.warn(res.data.user_info);
 						var menuid = "";
-						if (angular.isDefined(res.data.cur_system)) {
+						if (angular.isDefined(res.data.cur_system)&&res.data.cur_system.length>0) {
 							menuid = res.data.cur_system;
 						}
-						$http.post($rootScope.project + "/api//user/getUserMenus.do", {
-							menu_id : menuid
-						}).success(function(rs) {
-							if (rs.success) {
-								$log.warn("###Action login,load user_menu from service######");
-								$rootScope.dt_sys_menus = rs.data;
-								$localStorage.put('dt_sys_menus', rs.data);
-							}
-							deferred.resolve(rs);
-						});
+						$log.info("selected menu_id:"+menuid);
+						if(menuid.length>0){
+							$http.post($rootScope.project + "/api//user/getUserMenus.do", {
+								menu_id : menuid
+							}).success(function(rs) {
+								if (rs.success) {
+									$log.warn("###Action login,load user_menu from service######");
+									$rootScope.dt_sys_menus = rs.data;
+									$localStorage.put('dt_sys_menus', rs.data);
+								}
+								deferred.resolve(rs);
+							});
+						}else{
+							$log.info("当前无菜单")
+							$rootScope.dt_sys_menus = [];
+							$localStorage.put('dt_sys_menus', []);
+						}
+						
 					} else {
 						$log.debug("返回不存在token");
 					}

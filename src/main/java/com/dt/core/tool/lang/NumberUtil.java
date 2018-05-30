@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.exception.ToolBoxException;
 import com.dt.core.tool.util.support.ObjectKit;
 import com.dt.core.tool.util.support.StrKit;
@@ -38,7 +39,6 @@ import com.dt.core.tool.util.support.StrKit;
  *
  */
 public class NumberUtil {
-
 
 	/** 默认除法运算精度 */
 	private static final int DEFAUT_DIV_SCALE = 10;
@@ -1029,6 +1029,14 @@ public class NumberUtil {
 		return new DecimalFormat(pattern).format(value);
 	}
 
+	public static double formatStrTwo(String value, double def) {
+		Double double_je = ConvertUtil.toDouble(value, def);
+		double_je = double_je + 0.000001;
+		BigDecimal b = new BigDecimal(double_je);
+		double df = b.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+		return df;
+	}
+
 	/**
 	 * 格式化double<br>
 	 * 对 {@link DecimalFormat} 做封装<br>
@@ -1279,7 +1287,7 @@ public class NumberUtil {
 			end = temp;
 		}
 		// 加入逻辑判断，确保begin<end并且size不能大于该表示范围
-		if ((end - begin) < size) {	
+		if ((end - begin) < size) {
 			throw new ToolBoxException("Size is larger than range between begin and end");
 		}
 		// 种子你可以随意生成，但不能重复
@@ -1953,12 +1961,13 @@ public class NumberUtil {
 			return 1;
 		} else {
 			return selectNum * mathNode(selectNum - 1);
-	
+
 		}
 	}
+
 	// -------------------------------------------------------------------------------------------
 	// Private method end
-	public static void main(String [] args){
+	public static void main(String[] args) {
 		System.out.println(isNumber("11.1"));
 		System.out.println(isDouble("1"));
 	}
