@@ -25,7 +25,7 @@ import com.dt.core.tool.util.support.HttpKit;
 @Controller
 @RequestMapping("/api")
 public class ProdItemController extends BaseShopController {
-	public static String ITME_TYPE_OFFLINE = "offine";// 下架
+	public static String ITME_TYPE_OFFLINE = "offline";// 下架
 	public static String ITME_TYPE_ONLINE = "online";// 出售中
 	public static String ITME_TYPE_FINISH = "finish";// 已出售
 
