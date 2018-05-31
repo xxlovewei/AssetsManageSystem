@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -30,11 +31,16 @@ public class WxConfigService extends BaseService {
 	@Autowired
 	private WxService wxService;
 
+	@Value("${wx.appId}")
+	public String appIdconf;
+
+	@Value("${wx.secret}")
+	public String secretconf;
 	private static Logger _log = LoggerFactory.getLogger(WxConfigService.class);
 
 	@Cacheable(value = CacheConfig.CACHE_WX_CONF_300_180, key = "'wx_config_'+#url")
 	public R queryWxConfig(String url) {
-		return queryWxConfig(wxService.appIdconf, wxService.secretconf, url);
+		return queryWxConfig(appIdconf, secretconf, url);
 	}
 
 	/**
