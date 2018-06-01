@@ -16,9 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
-import com.dt.core.shiro.ShiroKit;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.wx.pojo.WeixinOauth2Token;
@@ -68,14 +66,30 @@ public class WebOAuthController extends BaseController {
 	@RequestMapping(value = "/wx/webOauth2.do")
 	public void webOauth2(String code, String state, HttpServletResponse response) {
 
+		if (ToolUtil.isOneEmpty(code, state)) {
+			try {
+				response.getWriter().print(R.FAILURE("parameter is incorrect"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
+		}
+		// 获取跳转等基本信息
+		JSONObject br = wxService.baseWebOauth2Process(state);
+		String url = br.getString("url") == null ? "blank" : br.getString("url");
+		_log.info("Go to url:" + url);
+
 		// 获取open_id
 		String open_id = "";
 		try {
+			// session中存在
 			open_id = (String) HttpKit.getRequest().getSession().getAttribute("open_id");
 		} catch (ClassCastException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// 微信中获取open_id
 		if (ToolUtil.isEmpty(open_id)) {
 			WeixinOauth2Token r = getOauth2AccessToken(code);
 			if (ToolUtil.isNotEmpty(r)) {
@@ -84,20 +98,22 @@ public class WebOAuthController extends BaseController {
 			}
 		}
 
-		// 获取跳转等基本信息
-		JSONObject br = wxService.baseWebOauth2Process(state);
-		String url = br.getString("url");
 		// 处理登录
-		R r = wxService.baseToLogin(open_id, br.getString("login"));
-		if (r.isFailed()) {
-			_log.info("Login failed,msg:" + r.getMessage());
-			url = "blank";
+		R iflogin = wxService.baseToLogin(open_id, br.getString("login"));
+		if (iflogin.isFailed()) {
+			_log.info("Login failed,msg:" + iflogin.getMessage());
 		}
-		_log.info("put user_id into session,user_id:" + r.queryDataToJSONObject().getString("user_id"));
-		super.getSession().setAttribute("user_id", r.queryDataToJSONObject().getString("user_id"));
-		ShiroKit.getSession().setAttribute("sessionFlag", true);
+
+		// 设置session的user 和open_id
+		String user_id = iflogin.queryDataToJSONObject().getString("user_id");
+		_log.info("put user_id into session,user_id:" + user_id);
+		super.getSession().setAttribute("user_id", user_id);
+		super.getSession().setAttribute("sessionFlag", true);
+
+		
+		//跳转
 		try {
-			_log.info("open_id:" + open_id + ",sendRedirect:" + url);
+			_log.info("user_id:" + user_id + ",sendRedirect:" + url);
 			response.sendRedirect(url);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

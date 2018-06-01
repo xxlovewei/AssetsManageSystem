@@ -483,7 +483,7 @@ public class WxService extends BaseService {
 			// 用户不存在
 			if (ur.isFailed()) {
 				// 新建用户
-				_log.info("create user,open_id:" + open_id);
+				_log.info("###################create user action,open_id:" + open_id + "######################");
 				TypedHashMap<String, Object> ps = new TypedHashMap<String, Object>();
 				ps.put("open_id", open_id);
 				ps.put("locked", "N");
@@ -502,10 +502,12 @@ public class WxService extends BaseService {
 					ur = wxUserService.queryUserByOpenId(open_id);
 				}
 				if (ur.isFailed()) {
+					_log.info("###################create user failed######################");
 					return R.FAILURE("create user failed.");
 				}
 			}
-			_log.info("start login,open_id:" + open_id);
+
+			_log.info("###################login action,open_id:" + open_id + "######################");
 			Subject currentUser = ShiroKit.getSubject();
 			String user_id = ur.queryDataToJSONObject().getString("user_id");
 			String pwd = ur.queryDataToJSONObject().getString("pwd");
@@ -527,11 +529,11 @@ public class WxService extends BaseService {
 				error = "其他错误：" + e.getMessage();
 			}
 			if (error.length() > 0) {
-				_log.info("login failed,result:" + error);
+				_log.info("##################login failed,result:" + error + "######################");
 				return R.FAILURE(error);
 			}
 		}
-		_log.info("login success.");
+		_log.info("###################login success.######################");
 		return R.SUCCESS_OPER(ur.queryDataToJSONObject());
 	}
 
