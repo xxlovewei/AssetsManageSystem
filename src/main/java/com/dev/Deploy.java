@@ -20,7 +20,7 @@ public class Deploy {
 	 * @return: void
 	 */
 	public static void main(String[] args) {
-		String dir = "/opt/tomcat/apache-tomcat-8.0.45/webapps";
+		String dir = "/opt/tomcat/tomcat_dt/webapps";
 		String filename = "dt";
 		String fstr = "d:\\" + filename + ".war";
 		SftpClient sftp = new SftpClient();
