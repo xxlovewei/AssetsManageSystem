@@ -23,14 +23,24 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.FileService;
 import com.dt.module.db.DB;
 
-@Controller()
+@Controller
 @RequestMapping("/api/file")
 public class FileUpDownController extends BaseController {
-	@Autowired
-	private DB db = null;
+
 	private static Logger _log = LoggerFactory.getLogger(FileUpDownController.class);
+
+	@Autowired
+	FileService fileService;
+
+	@RequestMapping("/filedownInfo.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_ALLOW, info = "详情")
+	public R filedownInfo(String id) {
+		return R.clearAttachDirect(fileService.queryFileInfoById(id));
+	}
 
 	@RequestMapping("/fileupload.do")
 	@ResponseBody

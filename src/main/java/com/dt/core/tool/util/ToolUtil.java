@@ -22,7 +22,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import com.dt.core.tool.enums.OsType;
-import com.dt.core.tool.lang.RandUtil;
 import com.dt.core.tool.util.support.StrKit;
 
 /**
@@ -33,7 +32,7 @@ public class ToolUtil {
 	 * 均衡的随机从[mix,max]中获取数据
 	 */
 	public static int rand(int mix, int max) {
-		return RandUtil.rand(mix, max);
+		return RandomUtil.rand(mix, max);
 	}
 
 	public static String getUUID() {
@@ -645,5 +644,10 @@ public class ToolUtil {
 	 */
 	public static String getTempPath() {
 		return System.getProperty("java.io.tmpdir");
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(RandomUtil.createRandomWithLength(5));
+		System.out.println(RandomUtil.createRandomFromString("adfasdfasdf", 2));
 	}
 }

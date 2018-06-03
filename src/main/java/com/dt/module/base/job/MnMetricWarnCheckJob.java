@@ -3,7 +3,8 @@ package com.dt.module.base.job;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import com.dt.module.base.schedule.service.JobService;
+
+import com.dt.module.base.service.JobService;
 import com.dt.module.om.service.WarnService;
 
 /**

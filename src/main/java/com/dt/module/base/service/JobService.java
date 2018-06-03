@@ -1,4 +1,4 @@
-package com.dt.module.base.schedule.service;
+package com.dt.module.base.service;
 
 import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.schedule.entity.ScheduleJob;
+import com.dt.module.base.entity.ScheduleJob;
 import com.dt.module.db.DB;
 
 /**

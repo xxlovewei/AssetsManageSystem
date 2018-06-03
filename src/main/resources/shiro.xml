@@ -9,7 +9,7 @@
 	<bean id="credentialsMatcher"
 		class="com.dt.core.shiro.RetryLimitSimpleCredentialsMatcher">
 		<constructor-arg ref="shiroCacheManager" />
-		<property name="LimitretryCount" value="6" />
+		<property name="limitretryCount" value="6" />
 	</bean>
 
 	<!-- 項目自定义的Realm -->

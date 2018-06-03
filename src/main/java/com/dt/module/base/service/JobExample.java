@@ -1,4 +1,4 @@
-package com.dt.module.base.schedule.service;
+package com.dt.module.base.service;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

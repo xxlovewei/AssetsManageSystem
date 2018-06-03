@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dt.core.tool.util.DbUtil;
-import com.dt.module.base.schedule.service.JobService;
+import com.dt.module.base.service.JobService;
 import com.dt.module.db.DB;
 
 /**

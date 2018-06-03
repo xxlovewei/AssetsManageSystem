@@ -29,7 +29,8 @@ public class DemoController extends BaseController {
 		System.out.println("getCurrentPageIndex" + rs.getCurrentPageIndex());
 		System.out.println("getPageCount" + rs.getPageCount());
 		System.out.println("getTotalRowCount" + rs.getTotalRowCount());
-
+		
+		
 		System.out.println(rs.getCurrentPageIndex());
 
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
