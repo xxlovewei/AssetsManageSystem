@@ -1,4 +1,4 @@
-package com.dt.module.base.content.controller;
+package com.dt.module.base.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +15,8 @@ import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.base.content.service.ContentService;
-import com.dt.module.base.content.service.NewsService;;
+import com.dt.module.base.service.ContentService;
+import com.dt.module.base.service.NewsService;;
 
 /**
  * @author: algernonking

@@ -1,4 +1,4 @@
-package com.dt.module.base.content.controller;
+package com.dt.module.base.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +9,7 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.base.content.service.CompanyService;
+import com.dt.module.base.service.CompanyService;
 
 /**
  * @author: algernonking
