@@ -66,8 +66,7 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 	 * <code>username</code>.
 	 * 
 	 * @param usernameParam
-	 *            the name of the request param to check for acquiring the
-	 *            username.
+	 *            the name of the request param to check for acquiring the username.
 	 */
 	public void setUsernameParam(String usernameParam) {
 		log.info("setUsernameParam");
@@ -85,8 +84,7 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 	 * <code>password</code>.
 	 * 
 	 * @param passwordParam
-	 *            the name of the request param to check for acquiring the
-	 *            password.
+	 *            the name of the request param to check for acquiring the password.
 	 */
 	public void setPasswordParam(String passwordParam) {
 		log.info("setPasswordParam");
@@ -155,7 +153,12 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 			if (isReturnJSON(httpRequest)) {
 				httpResponse.setStatus(299);
 				httpResponse.setCharacterEncoding("UTF-8");
-				httpResponse.setHeader("content-type", "text/html;charset=UTF-8");
+				// httpResponse.setHeader("content-type", "text/html;charset=UTF-8");
+				httpResponse.setHeader("Access-Control-Allow-Origin", httpRequest.getHeader("Origin"));
+				httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
+				httpResponse.setContentType("application/json; charset=utf-8");
+				httpResponse.setCharacterEncoding("UTF-8");
+
 				httpResponse.getWriter().print(R.FAILURE_NOT_LOGIN());
 				httpResponse.getWriter().flush();
 				httpResponse.getWriter().close();
@@ -176,10 +179,9 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 	}
 
 	/**
-	 * This default implementation merely returns <code>true</code> if the
-	 * request is an HTTP <code>POST</code>, <code>false</code> otherwise. Can
-	 * be overridden by subclasses for custom login submission detection
-	 * behavior.
+	 * This default implementation merely returns <code>true</code> if the request
+	 * is an HTTP <code>POST</code>, <code>false</code> otherwise. Can be overridden
+	 * by subclasses for custom login submission detection behavior.
 	 * 
 	 * @param request
 	 *            the incoming ServletRequest

@@ -42,7 +42,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 						}
 						$log.info("selected menu_id:"+menuid);
 						if(menuid.length>0){
-							$http.post($rootScope.project + "/api//user/getUserMenus.do", {
+							$http.post($rootScope.project + "/api/user/getUserMenus.do", {
 								menu_id : menuid
 							}).success(function(rs) {
 								if (rs.success) {

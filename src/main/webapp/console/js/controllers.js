@@ -1,8 +1,6 @@
 function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
 		userService, notify, $timeout) {
  
-	console.log("state",$state);
-	//fixed-nav
 	$scope.fullScreen = function() {
 		var element = document.documentElement; // 若要全屏页面中div，var element=
 		// document.getElementById("divID");
