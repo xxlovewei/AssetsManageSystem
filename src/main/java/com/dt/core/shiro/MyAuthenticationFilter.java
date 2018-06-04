@@ -153,12 +153,10 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
 			if (isReturnJSON(httpRequest)) {
 				httpResponse.setStatus(299);
 				httpResponse.setCharacterEncoding("UTF-8");
-				// httpResponse.setHeader("content-type", "text/html;charset=UTF-8");
-				httpResponse.setHeader("Access-Control-Allow-Origin", httpRequest.getHeader("Origin"));
-				httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
+//				httpResponse.setHeader("content-type", "text/html;charset=UTF-8");
+//				httpResponse.setHeader("Access-Control-Allow-Origin", httpRequest.getHeader("Origin"));
+//				httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
 				httpResponse.setContentType("application/json; charset=utf-8");
-				httpResponse.setCharacterEncoding("UTF-8");
-
 				httpResponse.getWriter().print(R.FAILURE_NOT_LOGIN());
 				httpResponse.getWriter().flush();
 				httpResponse.getWriter().close();

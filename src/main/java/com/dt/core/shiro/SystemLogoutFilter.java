@@ -29,7 +29,7 @@ public class SystemLogoutFilter extends LogoutFilter {
 	protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
 		Subject subject = getSubject(request, response);
 		String redirectUrl = getRedirectUrl(request, response, subject);
-		log.info("sessionId:" + subject.getSession().getId() + " to logout");
+		log.info("sessionId:" + subject.getSession().getId() + " to logout," + "redirectUrl:" + redirectUrl);
 		ShiroUser shiroUser = ShiroKit.getUser();
 		try {
 			if (shiroUser != null) {

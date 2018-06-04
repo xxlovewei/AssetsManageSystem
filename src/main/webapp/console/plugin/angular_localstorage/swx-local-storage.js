@@ -46,12 +46,18 @@
          * @description
          * Create a prefix to be used by $window.localStorage
          */
-        var prefix = $location.host().substring(0, $location.host().indexOf('.')) + '_',
-            webStorage,
-            oneDay = 24 * 60 * 60 * 1000,
-            cache = $cacheFactory(prefix + 'cache'),
-            service = this,
-            isLocalStorageAvailable = true;
+      var prefix = $location.host()+ '_',
+      webStorage,
+      oneDay = 24 * 60 * 60 * 1000,
+      cache = $cacheFactory(prefix + 'cache'),
+      service = this,
+      isLocalStorageAvailable = true;
+//        var prefix = $location.host().substring(0, $location.host().indexOf('.')) + '_',
+//            webStorage,
+//            oneDay = 24 * 60 * 60 * 1000,
+//            cache = $cacheFactory(prefix + 'cache'),
+//            service = this,
+//            isLocalStorageAvailable = true;
 
         /**
          * @ngdoc method
