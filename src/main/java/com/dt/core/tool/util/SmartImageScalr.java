@@ -1,4 +1,4 @@
-package com.dt.module.base.controller;
+package com.dt.core.tool.util;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
