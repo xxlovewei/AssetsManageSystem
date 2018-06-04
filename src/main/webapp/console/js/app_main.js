@@ -5,7 +5,13 @@ var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
 		'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar',
 		'ng.ueditor' ])
 var $injector = angular.injector();
+function getContextPath() {
 
+    var pathName = document.location.pathname;
+    var index = pathName.substr(1).indexOf("/");
+    var result = pathName.substr(0,index+1);
+    return result;
+}
 var version = new Date().getTime();
 app.factory('sessionInjector', [
 		'$log',
@@ -63,6 +69,7 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 		$controllerProvider, $compileProvider, $stateProvider, $filterProvider,
 		$provide, $urlRouterProvider, $ocLazyLoadProvider, IdleProvider,
 		KeepaliveProvider, $httpProvider) {
+
 	// 圈圈延迟出现控制
 	console.log("App main config");
 	cfpLoadingBarProvider.latencyThreshold = 2000;
@@ -161,10 +168,12 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 	})
 }
 
+
+
 app
 		.config(config_main)
 		.run(
-				function(Idle, $rootScope, $state, $http, $log, $transitions,
+				function(Idle, $rootScope, $state, $http, $log, $transitions,userService,
 						$templateCache) {
 					console.log("App main run");
 					// start watching when the app runs. also starts the
@@ -248,7 +257,9 @@ app
 
 									});
 					$rootScope.$state = $state;
-					$rootScope.project = '/dt/';
+					var ct = getContextPath();	
+					$rootScope.project = ct+"/";
+					$log.info('$rootScope.project:'+$rootScope.project);
 					$rootScope.version = version;
 					$rootScope.$on('IdleStart', function() {
 						$log.warn('IdleStart');

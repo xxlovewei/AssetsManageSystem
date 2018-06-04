@@ -7,6 +7,7 @@ import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
+import com.dt.core.tool.util.support.HttpKit;
 
 /**
  * @author: algernonking
@@ -26,6 +27,12 @@ public class SystemService extends BaseService {
 	@Cacheable(value = CacheConfig.CACHE_PUBLIC_1d_1h, key = "'system_queryMsg'")
 	public R queryMsg() {
 		return R.clearAttachDirect(BaseCodeMsgEnum.queryAll());
+	}
+
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_1d_1h, key = "'queryContextPath'")
+	public R queryContextPath() {
+		String v = HttpKit.getRequest().getContextPath();
+		return R.SUCCESS_OPER(v);
 	}
 
 }

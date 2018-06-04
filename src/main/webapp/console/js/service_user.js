@@ -13,6 +13,14 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 			})
 			return deferred.promise;
 		},
+		ct : function() {
+			var deferred = $q.defer();
+			$http.post( "/dt/api/system/queryContextPath.do", {}).success(function(res) {
+				 
+				deferred.resolve(res);
+			})
+			return deferred.promise;
+		},
 		login : function(e) {
 			var deferred = $q.defer();
 			e.basePublic = "yes";
@@ -75,12 +83,33 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 			return "";
 		},
 		checkLogin : function() {
+			
 			var deferred = $q.defer();
 			// 后期需要加上菜单选择判断,当前暂时不实现
 			$http.post($rootScope.project + "/api/user/checkLogin.do", {}).success(function(res) {
 				deferred.resolve(res);
 			});
 			return deferred.promise;
+			
+//			if(!angular.isDefined($rootScope.project )){
+//				console.log("not defined")
+//				var deferred = $q.defer();
+//				$http.post( "../api/system/queryContextPath.do", {}).success(function(res) {
+//					if(res.success){
+//						$rootScope.project=res.data+"/";
+//						var deferred = $q.defer();
+//						// 后期需要加上菜单选择判断,当前暂时不实现
+//						$http.post($rootScope.project + "/api/user/checkLogin.do", {}).success(function(res) {
+//							deferred.resolve(res);
+//						});
+//						return deferred.promise;
+//					}
+//					 
+//				})
+//			 
+//			}
+ 
+		
 		},
 		switchSystem : function(id) {
 			var deferred = $q.defer();
