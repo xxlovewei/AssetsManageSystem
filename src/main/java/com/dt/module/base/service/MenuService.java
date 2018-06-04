@@ -118,6 +118,7 @@ public class MenuService extends BaseService {
 			ins.set("route", old_route + "-" + node_id);
 		}
 		ins.set("menu_id", menu_id);
+		ins.setIf("sort",  ps.getString("sort"));
 		// ins.set("NODE_ID", node_id);
 		ins.set("node_name", node_name);
 		// ins.set("PARENT_ID", old_node_id);

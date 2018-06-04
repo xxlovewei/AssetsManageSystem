@@ -11,7 +11,7 @@ import com.dt.module.om.util.RemoteShellExecutor;
  * @date: 2018年4月19日 下午2:38:43
  * @Description: TODO
  */
-public class DeployMac {
+public class DeployDtMac {
 
 	/**
 	 * @Title: main
