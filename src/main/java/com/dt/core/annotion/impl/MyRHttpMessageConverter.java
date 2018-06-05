@@ -42,7 +42,7 @@ public class MyRHttpMessageConverter {
 			@Override
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			public boolean canWrite(Type type, Class<?> clazz, MediaType mediaType) {
-				return ((Class) type).isAssignableFrom(R.class);
+				return true;
 			}
 
 			private Charset getContentTypeCharset(MediaType contentType) {

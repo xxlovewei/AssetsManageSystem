@@ -17,6 +17,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
+import com.dt.core.dao.sql.Delete;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
@@ -527,7 +528,9 @@ public class UserService extends BaseService {
 		Update ups = new Update("sys_user_info");
 		ups.set("deleted", "Y");
 		ups.where().and("user_id=?", user_id);
-		db.execute(ups);
+		Delete del=new Delete("sys_session");
+		del.where().and("user_id=?",user_id);
+		db.executes(ups,del);
 		return R.SUCCESS_OPER();
 	}
 

@@ -22,7 +22,7 @@
 
 	<aop:aspectj-autoproxy />
 	<context:component-scan base-package="com.dt.core.aop" />
-
+ 	<context:component-scan base-package="springfox.**"/>  
 	<!-- 用于实现缓存spring cache扩展 -->
 	<context:component-scan base-package="com.dt.core.cache" />
 
