@@ -3,7 +3,6 @@ package com.dt.core.annotion.impl;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
-
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
@@ -42,7 +41,12 @@ public class MyRHttpMessageConverter {
 			@Override
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			public boolean canWrite(Type type, Class<?> clazz, MediaType mediaType) {
-				return true;
+				if (type instanceof R) {
+					return ((Class) type).isAssignableFrom(R.class);
+				} else {
+					return true;
+				}
+
 			}
 
 			private Charset getContentTypeCharset(MediaType contentType) {

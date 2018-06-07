@@ -17,12 +17,12 @@
 	http://www.springframework.org/schema/task 
 	http://www.springframework.org/schema/task/spring-task.xsd ">
 	<!-- 定时器开关 -->
-	<task:annotation-driven scheduler="myScheduler" />
-	<task:scheduler id="myScheduler" pool-size="5" />
+<!-- 	<task:annotation-driven scheduler="myScheduler" />
+	<task:scheduler id="myScheduler" pool-size="5" /> -->
 
 	<aop:aspectj-autoproxy />
 	<context:component-scan base-package="com.dt.core.aop" />
- 	<context:component-scan base-package="springfox.**"/>  
+<!--   	<context:component-scan base-package="springfox.**"/>   -->
 	<!-- 用于实现缓存spring cache扩展 -->
 	<context:component-scan base-package="com.dt.core.cache" />
 

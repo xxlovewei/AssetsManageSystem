@@ -162,6 +162,7 @@ public class WxService extends BaseService {
 
 		if (ifnew) {
 			JSONObject json = httpRequest(url, "GET", null);
+			_log.info("httpRequest:"+json.toJSONString());
 			ticket = json.getString("ticket");
 			AccessTicket t = new AccessTicket();
 			t.setCtime(System.currentTimeMillis());

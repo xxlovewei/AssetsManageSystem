@@ -58,8 +58,9 @@
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
-		<url-pattern>/*</url-pattern>
-		<url-pattern>*.html</url-pattern>
+		<url-pattern>/swagger-resources/configuration/ui</url-pattern>
+		<url-pattern>/swagger-resources</url-pattern>
+		<url-pattern>/v2/api-docs</url-pattern>
 		<url-pattern>/term</url-pattern>
 	</servlet-mapping>
 	<session-config>
