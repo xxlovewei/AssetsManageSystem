@@ -11,7 +11,7 @@ import com.dt.module.om.util.RemoteShellExecutor;
  * @date: 2018年4月19日 下午2:38:43
  * @Description: TODO
  */
-public class Deploy {
+public class DeployDt {
 
 	/**
 	 * @Title: main
@@ -23,6 +23,10 @@ public class Deploy {
 		String dir = "/opt/tomcat/tomcat_dt/webapps";
 		String filename = "dt";
 		String fstr = "d:\\" + filename + ".war";
+		
+		String tomcatOnly = "tomcat_dt";
+		 
+
 		SftpClient sftp = new SftpClient();
 		Machine m = new Machine("localhost", "121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
 		sftp.connect(m, "upload");
@@ -35,9 +39,24 @@ public class Deploy {
 			e.printStackTrace();
 		}
 		RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
-		System.out.println("mv /tmp/" + filename + ".war " + dir + "/");
+		// 停应用
+		executor.exec("ps -ef|grep " + tomcatOnly + "|grep -v grep |awk '{print $2}' | xargs kill -9 ").print();
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 删除
+		executor.exec("rm -rf " + dir + "/" + filename).print();
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 覆盖
 		executor.exec("mv /tmp/" + filename + ".war " + dir + "/").print();
-		System.out.println(fstr + " deploy success on" + dir);
+		System.out.println("nohup sh " + dir + "/../bin/startup.sh;sleep 30 &");
+		executor.exec("nohup sh " + dir + "/../bin/startup.sh;sleep 30 &").print();
 	}
 
 }
