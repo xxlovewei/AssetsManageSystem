@@ -117,6 +117,7 @@ public class WxService extends BaseService {
 			t.setExpiresIn(json.getIntValue("expires_in"));
 			t.setToken(token);
 			tokens.put(appId, t);
+			_log.info("result:"+json.toJSONString());
 			_log.info("access_token(new):" + token);
 		}
 		if (ToolUtil.isEmpty(token)) {
