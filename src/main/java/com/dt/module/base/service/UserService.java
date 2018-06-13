@@ -620,6 +620,8 @@ public class UserService extends BaseService {
 		ins.setIf("nation", ps.getString("nation"));// 民族
 		ins.setIf("native_place", ps.getString("native_place"));// 籍贯
 		ins.setIf("self_evaluate", ps.getString("self_evaluate"));//自我评价
+		ins.setIf("short_mobile", ps.getString("short_mobile"));//手机短号
+ 
 		ins.set("deleted", "N");
 		db.execute(ins);
 		return R.SUCCESS_OPER(user_id);
@@ -679,7 +681,7 @@ public class UserService extends BaseService {
 		ups.setIf("nation", ps.getString("nation"));// 民族
 		ups.setIf("native_place", ps.getString("native_place"));// 籍贯
 		ups.setIf("self_evaluate", ps.getString("self_evaluate"));
-
+		ups.setIf("short_mobile", ps.getString("short_mobile"));//手机短号
 		ups.where().and("user_id=?", user_id);
 		db.execute(ups);
 		return R.SUCCESS_OPER();
