@@ -82,6 +82,7 @@ public class OrderService extends BaseService {
 	/**
 	 * @Description: 创建商城产品订单
 	 */
+	//user_id是下单用户
 	public R createOrder(TypedHashMap<String, Object> ps, String user_id, String status) {
 		// 创建订单
 		if (ToolUtil.isOneEmpty(status, user_id, ps.getString("amountreal"), ps.getString("amount"),
