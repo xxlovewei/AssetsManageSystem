@@ -2,8 +2,10 @@ package com.dt.module.base.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -22,16 +24,44 @@ import com.dt.core.tool.util.ToolUtil;
 @Service
 public class FundService extends BaseService {
 
-	public static String TYPE_TX = "tx";// 提现
-	public static String TIX_STATUS_ING = "tixing";
-	public static String STATUS_FINISH = "finish";
 
+	
+	
+ 
+	public static String TYPE_TX = "tx";// 提现
 	public static String TYPE_CZ = "cz";// 充值
 	public static String TYPE_GW = "gw";// 购物
+	public static String TYPE_JF = "jf";// 纠纷回扣
 	public static String TYPE_SELL = "sell";// 卖掉
 	public static String TYPE_REFUND = "refund";// 退款
 
-	public static String ORDER_TYPE = "def_buy";// 购物
+	public static String ORDER_TYPE_DEFAULT = "default";// 购物
+  
+	public static String FUND_STATUS_FINISH = "finish";
+	public static String FUND_STATUS_TXING = "tixing";
+	public static int FUND_AMOUNT_PLUS = 1;
+	public static int FUND_AMOUNT_NOT_PLUS = 0;
+	public String recAmountFundChange(String user_id, String type, String order_type, int is_plus, String status,
+			JSONObject rec) {
+		Insert me = new Insert("sys_user_fund_rec");
+		me.set("id", db.getUUID());
+		me.set("user_id", user_id);
+		me.setIf("order_id", rec.getString("order_id"));
+		me.setIf("is_plus", is_plus);
+		me.setIf("status", status);
+		me.set("dr", "0");
+		me.setIf("amount", rec.getString("amount"));
+		me.setIf("oper_id", getUserId());
+		me.setIf("mark", rec.getString("mark"));
+		me.setIf("item_id", rec.getString("item_id"));
+		me.setIf("order_type", order_type);
+		me.setIf("type", type);
+		me.setSE("create_time", "sysdate");
+		me.setSE("process_time", "sysdate");
+		return me.getSQL();
+	}
+	
+	
 	/* 查询我到提现记录 */
 
 	public R queryMyFundTix(String status, String numstr) {
@@ -103,12 +133,50 @@ public class FundService extends BaseService {
 		me.set("amount", r_je);
 		me.set("type", TYPE_TX);
 		me.setIf("oper_id", getUserId());
-		me.set("status", TIX_STATUS_ING);
+		me.set("status", FUND_STATUS_TXING);
 		me.setSE("create_time", DbUtil.getDbDateString(db.getDBType()));
 		sqls.add(me.getSQL());
 
 		db.executeStringList(sqls);
 		return R.SUCCESS("提现成功");
+	}
+
+	/*********************************
+	 * 平台批量结算提现
+	 *******************************************************/
+	public R finishBatchFundTix(String ids) {
+
+		List<String> sqls = new ArrayList<String>();
+
+		if (ToolUtil.isEmpty(ids)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		JSONArray ids_arr = JSONArray.parseArray(ids);
+		if (ids_arr == null || ids_arr.size() == 0) {
+			return R.FAILURE_OPER();
+		}
+		for (int i = 0; i < ids_arr.size(); i++) {
+			String id = ids_arr.getString(i);
+			Rcd rs = db.uniqueRecord("select * from sys_user_fund_rec where dr=0 and id=?", id);
+			if (rs == null) {
+				return R.FAILURE_NO_DATA();
+			}
+			String je = rs.getString("amount");
+			String amount_owner = rs.getString("user_id");
+			// 减少提现冻结金额额
+			String sql1 = "update sys_user_info set tixamount=tixamount-" + je + " where user_id='" + amount_owner
+					+ "'";
+			sqls.add(sql1);
+			// 更新资金流水
+			Update me = new Update("sys_user_fund_rec");
+			me.set("status", FUND_STATUS_FINISH);
+			me.set("oper_id", getUserId());
+			me.setSE("process_time", DbUtil.getDbDateString(db.getDBType()));
+			me.where().and("id=?", id);
+			sqls.add(me.getSQL());
+		}
+		db.executeStringList(sqls);
+		return R.SUCCESS_OPER();
 	}
 
 	/*********************************
@@ -119,19 +187,20 @@ public class FundService extends BaseService {
 		if (ToolUtil.isEmpty(id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
-		String user_id = getUserId();
+
 		Rcd rs = db.uniqueRecord("select * from sys_user_fund_rec where dr=0 and id=?", id);
 		if (rs == null) {
 			return R.FAILURE_NO_DATA();
 		}
 		String je = rs.getString("amount");
-
+		String amount_owner = rs.getString("user_id");
 		// 减少提现冻结金额额
-		String sql1 = "update sys_user_info set tixamount=tixamount-" + je + " where user_id='" + user_id + "'";
+		String sql1 = "update sys_user_info set tixamount=tixamount-" + je + " where user_id='" + amount_owner + "'";
 		sqls.add(sql1);
 		// 更新资金流水
 		Update me = new Update("sys_user_fund_rec");
-		me.set("status", STATUS_FINISH);
+		me.set("status", FUND_STATUS_FINISH);
+		me.set("oper_id", getUserId());
 		me.setSE("process_time", DbUtil.getDbDateString(db.getDBType()));
 		me.where().and("id=?", id);
 		sqls.add(me.getSQL());
@@ -215,10 +284,10 @@ public class FundService extends BaseService {
 		me.set("dr", 0);
 		me.set("user_id", user_id);
 		me.setIf("title", ps.getString("title", ""));
-		me.setIf("order_type", ps.getString("order_type", ORDER_TYPE));
+		me.setIf("order_type", ps.getString("order_type", ORDER_TYPE_DEFAULT));
 		me.set("amount", jestr);
 		me.set("type", TYPE_GW);
-		me.set("status", STATUS_FINISH);
+		me.set("status", FUND_STATUS_FINISH);
 		me.set("order_id", order_id);
 		me.setIf("oper_id", getUserId());
 		me.setSE("create_time", DbUtil.getDbDateString(db.getDBType()));
@@ -230,5 +299,7 @@ public class FundService extends BaseService {
 	public static void main(String[] args) {
 
 	}
+
+
 
 }
