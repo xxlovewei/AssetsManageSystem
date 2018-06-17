@@ -130,6 +130,7 @@ public class FundService extends BaseService {
 		me.set("dr", 0);
 		me.set("user_id", user_id);
 		me.set("title", "提现操作");
+		me.set("mark", "提现操作");
 		me.set("amount", r_je);
 		me.set("type", TYPE_TX);
 		me.setIf("oper_id", getUserId());
