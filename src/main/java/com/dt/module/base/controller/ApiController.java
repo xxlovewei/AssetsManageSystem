@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
+ 
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.module.base.service.ApiService;
@@ -26,7 +27,7 @@ public class ApiController extends BaseController {
 	@Autowired
 	ApiService apiService;
 
-	@RequestMapping(value = "/api/queryApi.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/queryApi.do")
 	@ResponseBody
 	@ApiOperation(value = "查询当前所有Apis", notes = "返回R")
 	@Acl(value = Acl.ACL_DENY, info = "查询api")

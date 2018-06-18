@@ -146,6 +146,12 @@ public class CustomizedEhCacheCache implements Cache {
 		return (T) value;
 	}
 
+	public void put(Element e) {
+
+		this.cache.put(e);
+
+	}
+
 	@Override
 	public void put(Object key, Object value) {
 		Element e = new Element(key, value);

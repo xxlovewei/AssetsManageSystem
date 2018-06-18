@@ -116,6 +116,34 @@ public class CacheService {
 		return R.SUCCESS_OPER();
 	}
 
+	public static String API_CACHE = "public";
+
+	public R putCacheKeyForApi(String key, String ct, long timeout) {
+		if (ToolUtil.isOneEmpty(key, ct)) {
+			return R.FAILURE_NO_DATA();
+		}
+		CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(API_CACHE)));
+		Element e = new Element(key, ct);
+		e.setTimeToIdle((int) timeout);
+		e.setTimeToLive((int) timeout);
+		c.put(e);
+
+		return R.SUCCESS_OPER();
+	}
+
+	public String queryCacheKeyForApi(String key) {
+		if (ToolUtil.isOneEmpty(key)) {
+			return null;
+		}
+		CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(API_CACHE)));
+
+		String value = null;
+		// System.out.println(c.g);
+
+		return value;
+
+	}
+
 	public R queryCustomizedEhCacheCacheManagerCacheKeys(String cache) {
 		if (ToolUtil.isEmpty(cache)) {
 			return R.FAILURE_NO_DATA();
