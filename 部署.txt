@@ -1,1 +1,6 @@
 http://dw.happygroup2015.com/dt/console
+
+
+/opt/tomcat_prod_dt  ; prod_shop
+/opt/tomcat_test_dt  ; test_shop
+
