@@ -54,6 +54,12 @@ public class ContentService extends BaseService {
 		me.setIf("mark", ps.getString("mark"));
 		me.setSE("createtime", DbUtil.getDbDateString(db.getDBType()));
 		me.setSE("modifytime", DbUtil.getDbDateString(db.getDBType()));
+		
+		me.setIf("col_a", ps.getString("col_a"));
+		me.setIf("col_b", ps.getString("col_b"));
+		me.setIf("col_c", ps.getString("col_c"));
+		me.setIf("col_d", ps.getString("col_d"));
+		me.setIf("col_e", ps.getString("col_e"));
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
@@ -77,6 +83,11 @@ public class ContentService extends BaseService {
 		me.setIf("author", ps.getString("author"));
 		me.setIf("tag", ps.getString("tag"));
 		me.setIf("mark", ps.getString("mark"));
+	    me.setIf("col_a", ps.getString("col_a"));
+        me.setIf("col_b", ps.getString("col_b"));
+        me.setIf("col_c", ps.getString("col_c"));
+        me.setIf("col_d", ps.getString("col_d"));
+        me.setIf("col_e", ps.getString("col_e"));
 		me.setSE("modifytime", DbUtil.getDbDateString(db.getDBType()));
 		me.where().and("id=?", ps.getString("id"));
 		db.execute(me);

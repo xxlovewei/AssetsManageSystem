@@ -38,6 +38,11 @@ public class ClassService extends BaseService {
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("module", ps.getString("module"));
 		me.setIf("status", ps.getString("status"));
+	    me.setIf("col_a", ps.getString("col_a"));
+        me.setIf("col_b", ps.getString("col_b"));
+        me.setIf("col_c", ps.getString("col_c"));
+        me.setIf("col_d", ps.getString("col_d"));
+        me.setIf("col_e", ps.getString("col_e"));
 		db.execute(me);
 		return R.SUCCESS_OPER();
 	}
@@ -59,6 +64,11 @@ public class ClassService extends BaseService {
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("module", ps.getString("module"));
 		me.setIf("status", ps.getString("status"));
+	    me.setIf("col_a", ps.getString("col_a"));
+        me.setIf("col_b", ps.getString("col_b"));
+        me.setIf("col_c", ps.getString("col_c"));
+        me.setIf("col_d", ps.getString("col_d"));
+        me.setIf("col_e", ps.getString("col_e"));
 		me.where().and("class_id=?", ps.getString("class_id")).and("type=?", type);
 		db.execute(me);
 		return R.SUCCESS_OPER();
@@ -126,6 +136,11 @@ public class ClassService extends BaseService {
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("status", ps.getString("status"));
 		me.setIf("is_delete", "N");
+	    me.setIf("col_a", ps.getString("col_a"));
+        me.setIf("col_b", ps.getString("col_b"));
+        me.setIf("col_c", ps.getString("col_c"));
+        me.setIf("col_d", ps.getString("col_d"));
+        me.setIf("col_e", ps.getString("col_e"));
 		me.setIf("pic_id", ps.getString("pic_id"));
 		db.execute(me);
 		return R.SUCCESS_OPER();
@@ -148,6 +163,11 @@ public class ClassService extends BaseService {
 			me.setIf("value", idsarr.getString(i));
 			me.setIf("od", ps.getString("od"));
 			me.setIf("mark", ps.getString("mark"));
+		    me.setIf("col_a", ps.getString("col_a"));
+	        me.setIf("col_b", ps.getString("col_b"));
+	        me.setIf("col_c", ps.getString("col_c"));
+	        me.setIf("col_d", ps.getString("col_d"));
+	        me.setIf("col_e", ps.getString("col_e"));
 			me.setIf("status", ps.getString("status"));
 			me.setIf("pic_id", ps.getString("pic_id"));
 			sqls.add(me);
@@ -173,6 +193,11 @@ public class ClassService extends BaseService {
 		me.setIf("status", ps.getString("status"));
 		me.setIf("value", ps.getString("value"));
 		me.setIf("od", ps.getString("od"));
+	    me.setIf("col_a", ps.getString("col_a"));
+        me.setIf("col_b", ps.getString("col_b"));
+        me.setIf("col_c", ps.getString("col_c"));
+        me.setIf("col_d", ps.getString("col_d"));
+        me.setIf("col_e", ps.getString("col_e"));
 		me.setIf("pic_id", ps.getString("pic_id"));
 		me.setIf("mark", ps.getString("mark"));
 		db.execute(me);

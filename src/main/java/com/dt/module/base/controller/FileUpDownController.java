@@ -22,6 +22,7 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
+import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.SmartImageScalr;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.FileService;
@@ -94,6 +95,7 @@ public class FileUpDownController extends BaseController {
 			ins.set("id", uuid);
 			ins.set("path", path + f.getName());
 			ins.set("type", type);
+			ins.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
 			ins.set("bus", bus);
 			db.execute(ins);
 		}
