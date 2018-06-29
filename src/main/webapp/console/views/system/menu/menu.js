@@ -21,7 +21,7 @@ function getTree(data, primaryIdName, parentIdName) {
 		primaryKey = item[primaryIdName];
 		treeObjs[primaryKey] = item;
 		parentId = item[parentIdName];
-		console.log(parentId);
+		//console.log(parentId);
 		if (parentId) {
 			parent = treeObjs[parentId];
 

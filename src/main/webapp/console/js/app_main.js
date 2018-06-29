@@ -1,16 +1,14 @@
 var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
 		'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree',
-		'ngSanitize', 'localytics.directives', 'treeGrid', 'cgNotify',
-		'angular-confirm', 'datatables', 'datatables.select',
-		'datatables.buttons', 'swxLocalStorage', 'angular-loading-bar',
-		'ng.ueditor' ])
+		'ngSanitize', 'localytics.directives', 'cgNotify', 'angular-confirm',
+		'datatables', 'datatables.select', 'datatables.buttons',
+		'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor' ])
 var $injector = angular.injector();
 function getContextPath() {
-
-    var pathName = document.location.pathname;
-    var index = pathName.substr(1).indexOf("/");
-    var result = pathName.substr(0,index+1);
-    return result;
+	var pathName = document.location.pathname;
+	var index = pathName.substr(1).indexOf("/");
+	var result = pathName.substr(0, index + 1);
+	return result;
 }
 var version = new Date().getTime();
 app.factory('sessionInjector', [
@@ -29,7 +27,6 @@ app.factory('sessionInjector', [
 				}
 				return config;
 			}
-
 			sessionInjector.response = function(responseObject) {
 				// 输出调试信息
 				if (angular.isDefined(responseObject.config)
@@ -64,12 +61,10 @@ app.factory('sessionInjector', [
 			};
 			return sessionInjector;
 		} ]);
-
 function config_main(cfpLoadingBarProvider, $locationProvider,
 		$controllerProvider, $compileProvider, $stateProvider, $filterProvider,
 		$provide, $urlRouterProvider, $ocLazyLoadProvider, IdleProvider,
 		KeepaliveProvider, $httpProvider) {
-
 	// 圈圈延迟出现控制
 	console.log("App main config");
 	cfpLoadingBarProvider.latencyThreshold = 2000;
@@ -121,7 +116,6 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 
 		return query.length ? query.substr(0, query.length - 1) : query;
 	};
-
 	$httpProvider.defaults.transformRequest = [ function(data) {
 		return angular.isObject(data) && String(data) !== '[object File]' ? param(data)
 				: data;
@@ -156,7 +150,6 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 			}
 		}
 	});
-
 	// 默认页面需要做检查
 	$stateProvider.state('content', {
 		url : "/show_content",
@@ -167,14 +160,11 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 		templateUrl : "views/common/content.html"
 	})
 }
-
-
-
 app
 		.config(config_main)
 		.run(
-				function(Idle, $rootScope, $state, $http, $log, $transitions,userService,
-						$templateCache) {
+				function(Idle, $rootScope, $state, $http, $log, $transitions,
+						userService, $templateCache) {
 					console.log("App main run");
 					// start watching when the app runs. also starts the
 					// Keepalive service by
@@ -257,9 +247,9 @@ app
 
 									});
 					$rootScope.$state = $state;
-					var ct = getContextPath();	
-					$rootScope.project = ct+"/";
-					$log.info('$rootScope.project:'+$rootScope.project);
+					var ct = getContextPath();
+					$rootScope.project = ct + "/";
+					$log.info('$rootScope.project:' + $rootScope.project);
 					$rootScope.version = version;
 					$rootScope.$on('IdleStart', function() {
 						$log.warn('IdleStart');
@@ -282,7 +272,6 @@ app
 						// you can let them resume their session by calling
 						// Idle.watch()
 					});
-
 					$rootScope.$on('IdleTimeout', function() {
 						$log.warn('IdleTimeout');
 						// the user has timed out (meaning idleDuration +
@@ -290,24 +279,20 @@ app
 						// without any activity)
 						// this is where you'd log them
 					});
-
 					$rootScope.$on('IdleEnd', function() {
 						$log.warn('IdleEnd');
 						// the user has come back from AFK and is doing stuff.
 						// if you are
 						// warning them, you can use this to hide the dialog
 					});
-
 					$rootScope.$on('Keepalive', function() {
 						$log.warn('IdlKeepaliveeEnd');
 						// do something to keep the user's session alive
 					});
 				});
-
 app.config(config_wx).run(function() {
 	console.log("App Wx run");
 });
-
 app.config(config_mshop).run(function() {
 	console.log("App MShop run");
 });
@@ -317,11 +302,9 @@ app.config(config_shop).run(function() {
 app.config(config_om).run(function() {
 	console.log("App Om run");
 });
-
 app.config(config_system).run(function() {
 	console.log("App System run");
 });
-
 app.factory('DTLang', function() {
 	return {
 		processing : "处理中...",

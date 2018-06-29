@@ -140,6 +140,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 					loadPlugin : function($ocLazyLoad) {
 						return $ocLazyLoad.load([
 								{
+									serie: true,
 									name : 'frapontillo.bootstrap-duallistbox',
 									files : [ 'css/plugins/dualListbox/bootstrap-duallistbox.min.css', 'js/plugins/dualListbox/jquery.bootstrap-duallistbox.js?v=' + version,
 											'js/plugins/dualListbox/angular-bootstrap-duallistbox.js?v=' + version ]
@@ -162,7 +163,13 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/system/menu/menu.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
+				return $ocLazyLoad.load([ 
+                    {
+                        name: 'treeGrid',
+                        serie: true,
+                        files: ['plugin/treegrid/treeGrid.css', 'plugin/treegrid/tree-grid-directive.js']
+                    },
+					{
 					serie : true,
 					files : [ 'views/system/menu/menu.js?v=' + version ]
 				} ]);
@@ -243,10 +250,11 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('ct.news_mgr', {
 		url : "/newMgr",
+		data: { pageTitle: '新闻管理'},
 		templateUrl : "views/content/newsMgr.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
+				return $ocLazyLoad.load([  {
 					serie : true,
 					files : [ 'views/content/newsMgr.js?v=' + version ]
 				} ]);

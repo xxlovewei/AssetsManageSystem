@@ -3,17 +3,19 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="Expires" content="0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-control" content="no-cache">
 <meta http-equiv="Cache" content="no-cache">
-
 <title page-title></title>
-<!-- main css  -->
+<!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<!--Font awesome标 -->
 <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-<link href="css/app.all.css" rel="stylesheet">
+<!-- 主要样式 -->
+<link href="css/animate.css" rel="stylesheet">
+<link id="loadBefore" href="css/style.css" rel="stylesheet">
 </head>
 
 <body ng-controller="MainCtrl as main"
@@ -21,22 +23,17 @@
 	landing-scrollspy id="page-top">
 	<!-- Main view  -->
 	<div ui-view></div>
-
-	<!-- app js -->
-	<script src="js/plugins/app.min.js"></script>
-	<!-- jQuery and Bootstrap -->
+	<!--jQuery and Bootstrap  -->
 	<script src="js/jquery/jquery-3.1.1.min.js"></script>
-	<script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
 	<script src="js/bootstrap/bootstrap.min.js"></script>
 	<!-- MetsiMenu -->
 	<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
 	<!-- SlimScroll -->
 	<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="js/inspinia.js"></script>
-
 	<!-- Peace JS -->
 	<script src="js/plugins/pace/pace.min.js"></script>
-
+	<!-- Custom and plugin javascript -->
+	<script src="js/inspinia.js"></script>
 	<!-- Main Angular scripts-->
 	<script src="js/angular/angular.min.js"></script>
 	<script src="js/angular/angular-sanitize.min.js"></script>
@@ -45,70 +42,47 @@
 	<script src="js/ui-router/angular-ui-router.min.js"></script>
 	<script src="js/bootstrap/ui-bootstrap-tpls-1.1.2.min.js"></script>
 	<script src="js/plugins/angular-idle/angular-idle.js"></script>
-
+	<!-- #####################angular插件 #####################-->
 	<!-- noticy -->
+	<link href="css/plugins/angular-notify/angular-notify.min.css"
+		rel="stylesheet">
 	<script src="js/plugins/angular-notify/angular-notify.min.js"></script>
-
 	<!-- loading bar -->
 	<script src="plugin/angular_loading_bar/loading-bar.js"></script>
-
-
-
-	<!-- mask -->
-	<script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+	<!-- dropzone -->
+	<link href="css/plugins/dropzone/basic.css" rel="stylesheet" />
+	<script src="js/plugins/dropzone/dropzone.min.js"></script>
 	<!-- chosen -->
+	<link href="css/plugins/chosen/bootstrap-chosen.min.css"
+		rel="stylesheet">
 	<script src="js/plugins/chosen/chosenall.min.js"></script>
-	<!-- tree-grid -->
-	<script src="plugin/treegrid/tree-grid-directive.js"></script>
 	<!-- jstree -->
 	<link href="plugin/jstree/themes/default/style.min.css"
 		rel="stylesheet" type="text/css" />
 	<script src="plugin/jstree/jstree.min.js"></script>
 	<script src="plugin/jstree/ngJsTree.js"></script>
- 
- 
- 
- 
- 	<!--  datatable -->
+	<!--  datatable -->
 	<link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet"
 		type="text/css" />
 	<script src="js/plugins/dataTables/datatables.min.js"></script>
 	<script src="plugin/datatable/angular-datatables0.6.2.min.js"></script>
-
 	<!-- datatable 按钮 -->
 	<script src="plugin/datatable/angular-datatables.buttons0.6.2.min.js"></script>
 	<script src="plugin/datatable/dataTables.buttons1.22.min.js"></script>
-	<script src="plugin/datatable/buttons.colVis1.22.min.js"></script>
+	<!-- 	其他功能button非必须 -->
+	<!-- 	<script src="plugin/datatable/buttons.colVis1.22.min.js"></script>
 	<script src="plugin/datatable/buttons.flash1.22.min.js"></script>
 	<script src="plugin/datatable/buttons.html51.22.min.js"></script>
-	<script src="plugin/datatable//buttons.print1.22.min.js"></script>
-
+	<script src="plugin/datatable//buttons.print1.22.min.js"></script> -->
 	<!-- datatable自适应 -->
-	<script src="plugin/datatable/dataTables.responsive.min.js"></script>
 	<link rel="stylesheet"
 		href="plugin/datatable/responsive.dataTables.min.css">
-
-
+	<script src="plugin/datatable/dataTables.responsive.min.js"></script>
 	<!-- datatable 选择 -->
 	<link href="plugin/datatable/datatableselect.css" rel="stylesheet"
 		type="text/css" />
 	<script src="plugin/datatable/datatableselect.js"></script>
 	<script src="plugin/datatable/angular-select0.6.2.min.js"></script>
-
-	<!-- datatable 固定列 -->
-	<link rel="stylesheet"
-		href="plugin/datatable/fixedColumns.dataTables.css">
-	<script src="plugin/datatable/dataTables.fixedColumns.js"></script>
-	<script src="plugin/datatable/angular-datatables.fixedcolumns.min.js"></script>
-	
-	
- 
-	<!-- bootstrap主题 -->
-	<script src="plugin/datatable/angular-datatable.boostrap.min.0.6.2.js"></script>
-	<!--  icheck -->
-	<link href="css/plugins/iCheck/custom.css" rel="stylesheet"
-		type="text/css" />
-	<script src="js/plugins/iCheck/icheck.min.js"></script>
 	<!-- ueditor -->
 	<script src="plugin/ueditor/ueditor.config.js"></script>
 	<script src="plugin/ueditor/ueditor.all.min.js"></script>
@@ -117,57 +91,17 @@
 	<script src="plugin/angular_confirm/angular-confirm.min.js"></script>
 	<!-- angular-localstorage -->
 	<script src="plugin/angular_localstorage/swx-local-storage.js"></script>
-
 	<!-- Anglar App Script,先加载config,后启动app -->
-	<script>
-		document
-				.write("<script type='text/javascript' src='js/config_system.js?v="
-						+ Date.now() + "'><\/script>");
-	</script>
-	<script>
-		document.write("<script type='text/javascript' src='js/config_wx.js?v="
-				+ Date.now() + "'><\/script>");
-	</script>
-	<script>
-		document
-				.write("<script type='text/javascript' src='js/config_mshop.js?v="
-						+ Date.now() + "'><\/script>");
-	</script>
-	<script>
-		document
-				.write("<script type='text/javascript' src='js/config_shop.js?v="
-						+ Date.now() + "'><\/script>");
-	</script>
-	<script>
-		document.write("<script type='text/javascript' src='js/config_om.js?v="
-				+ Date.now() + "'><\/script>");
-	</script>
-	<script>
-		document.write("<script type='text/javascript' src='js/app_main.js?v="
-				+ Date.now() + "'><\/script>");
-	</script>
-	<script>
-		document
-				.write("<script type='text/javascript' src='js/service_user.js?v="
-						+ Date.now() + "'><\/script>");
-	</script>
-	<script>
-		document
-				.write("<script type='text/javascript' src='js/translations.js?v="
-						+ Date.now() + "'><\/script>");
-	</script>
-	<script>
-		document
-				.write("<script type='text/javascript' src='js/directives.js?v="
-						+ Date.now() + "'><\/script>");
-	</script>
-	<script>
-		document
-				.write("<script type='text/javascript' src='js/controllers.js?v="
-						+ Date.now() + "'><\/script>");
-	</script>
-
-
+	<script type="text/javascript" src="js/config_system.js?v=15301"></script>
+	<script type="text/javascript" src="js/config_wx.js?v=1530311252709"></script>
+	<script type="text/javascript" src="js/config_mshop.js?v=1530311252720"></script>
+	<script type="text/javascript" src="js/config_shop.js?v=1530311252732"></script>
+	<script type="text/javascript" src="js/config_om.js?v=1530311252741"></script>
+	<script type="text/javascript" src="js/app_main.js?v=1530311252751"></script>
+	<script type="text/javascript" src="js/service_user.js?v=1530311252763"></script>
+	<script type="text/javascript" src="js/translations.js?v=1530311252773"></script>
+	<script type="text/javascript" src="js/directives.js?v=1530311252784"></script>
+	<script type="text/javascript" src="js/controllers.js?v=1530311252794"></script>
 </body>
 </html>
 
