@@ -2,7 +2,7 @@ var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
 		'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree',
 		'ngSanitize', 'localytics.directives', 'cgNotify', 'angular-confirm',
 		'datatables', 'datatables.select', 'datatables.buttons',
-		'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor' ])
+		'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor'])
 var $injector = angular.injector();
 function getContextPath() {
 	var pathName = document.location.pathname;
@@ -305,6 +305,7 @@ app.config(config_om).run(function() {
 app.config(config_system).run(function() {
 	console.log("App System run");
 });
+ 
 app.factory('DTLang', function() {
 	return {
 		processing : "处理中...",

@@ -1,37 +1,308 @@
 function prodCtl($uibModal, $log, $rootScope, $scope, DTLang, DTOptionsBuilder,
-		DTColumnBuilder, $compile, $http) {
+		DTColumnBuilder, $compile, $http, ngDialog) {
 
-	$scope.dtldzconfig = {
-		url : 'fileupload.do',
-		maxFilesize : 10000,
-		paramName : "file",
-		maxThumbnailFilesize : 4,
-		// 一个请求上传多个文件
-		uploadMultiple : true,
-		// 当多文件上传,需要设置parallelUploads>=maxFiles
-		parallelUploads : 4,
-		maxFiles : 4,
-		dictDefaultMessage : "点击上传图片",
-		acceptedFiles : "image/jpeg,image/png,image/gif",
-		// 添加上传取消和删除预览图片的链接，默认不添加
-		addRemoveLinks : true,
-		// 关闭自动上传功能，默认会true会自动上传
-		// 也就是添加一张图片向服务器发送一次请求
-		autoProcessQueue : false,
-		init : function() {
-			$scope.myDropzone = this; // closure
+	$rootScope.jsonData = '{"foo": "bar"}';
+	$rootScope.theme = 'ngdialog-theme-default';
+
+	$scope.t=function(){
+		ngDialog.open({
+		    preCloseCallback: function(value) {
+		        if (confirm('Are you sure you want to close without saving your changes?')) {
+		            return true;
+		        }
+		        return false;
+		    }
+		});
+	}
+	$scope.directivePreCloseCallback = function(value) {
+		if (confirm('Close it? MainCtrl.Directive. (Value = ' + value + ')')) {
+			return true;
 		}
+		return false;
 	};
 
-	$scope.ok = function() {
-	
-		id=getUuid();
-		$scope.myDropzone.options.url = $rootScope.project
-				+ '/api/file/fileupload.do?bus=prodimgs&uuid=' + id
-				+ '&type=image&interval=10000';
-		$scope.myDropzone.uploadFile($scope.myDropzone.files[0]);
-	}
+	$scope.preCloseCallbackOnScope = function(value) {
+		if (confirm('Close it? MainCtrl.OnScope (Value = ' + value + ')')) {
+			return true;
+		}
+		return false;
+	};
 
+	$scope.open = function() {
+		var new_dialog = ngDialog.open({
+			id : 'fromAService',
+			template : 'firstDialogId',
+			controller : 'InsideCtrl',
+			data : {
+				foo : 'from a service'
+			}
+		});
+		// example on checking whether created `new_dialog` is open
+		$timeout(function() {
+			console.log(ngDialog.isOpen(new_dialog.id));
+		}, 2000)
+	};
+
+	$scope.openDefault = function() {
+		ngDialog.open({
+			template : 'firstDialogId',
+			controller : 'InsideCtrl',
+			className : 'ngdialog-theme-default'
+		});
+	};
+
+	$scope.openDefaultWithoutAnimation = function() {
+		ngDialog.open({
+			template : 'firstDialogId',
+			controller : 'InsideCtrl',
+			className : 'ngdialog-theme-default',
+			disableAnimation : true
+		});
+	};
+
+	$scope.openDefaultWithPreCloseCallbackInlined = function() {
+		ngDialog.open({
+			template : 'firstDialogId',
+			controller : 'InsideCtrl',
+			className : 'ngdialog-theme-default',
+			preCloseCallback : function(value) {
+				if (confirm('Close it?  (Value = ' + value + ')')) {
+					return true;
+				}
+				return false;
+			}
+		});
+	};
+
+	$scope.openConfirm = function() {
+		ngDialog.openConfirm({
+			template : 'modalDialogId',
+			className : 'ngdialog-theme-default'
+		}).then(function(value) {
+			console.log('Modal promise resolved. Value: ', value);
+		}, function(reason) {
+			console.log('Modal promise rejected. Reason: ', reason);
+		});
+	};
+
+	$scope.openConfirmWithPreCloseCallbackOnScope = function() {
+		ngDialog.openConfirm({
+			template : 'modalDialogId',
+			className : 'ngdialog-theme-default',
+			preCloseCallback : 'preCloseCallbackOnScope',
+			scope : $scope
+		}).then(function(value) {
+			console.log('Modal promise resolved. Value: ', value);
+		}, function(reason) {
+			console.log('Modal promise rejected. Reason: ', reason);
+		});
+	};
+
+	$scope.openConfirmWithPreCloseCallbackInlinedWithNestedConfirm = function() {
+		ngDialog
+				.openConfirm(
+						{
+							template : 'dialogWithNestedConfirmDialogId',
+							className : 'ngdialog-theme-default',
+							preCloseCallback : function(value) {
+
+								var nestedConfirmDialog = ngDialog
+										.openConfirm({
+											template : '<p>Are you sure you want to close the parent dialog?</p>'
+													+ '<div class="ngdialog-buttons">'
+													+ '<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">No'
+													+ '<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Yes'
+													+ '</button></div>',
+											plain : true,
+											className : 'ngdialog-theme-default'
+										});
+
+								return nestedConfirmDialog;
+							},
+							scope : $scope
+						}).then(function(value) {
+					console.log('resolved:' + value);
+					// Perform the save here
+				}, function(value) {
+					console.log('rejected:' + value);
+
+				});
+	};
+
+	$scope.openPlain = function() {
+		$rootScope.theme = 'ngdialog-theme-plain';
+
+		ngDialog.open({
+			template : 'firstDialogId',
+			controller : 'InsideCtrl',
+			className : 'ngdialog-theme-plain',
+			closeByDocument : false
+		});
+	};
+
+	$scope.openPlainCustomWidth = function() {
+		$rootScope.theme = 'ngdialog-theme-plain custom-width';
+
+		ngDialog.open({
+			template : 'firstDialogId',
+			controller : 'InsideCtrl',
+			className : 'ngdialog-theme-plain custom-width',
+			closeByDocument : false
+		});
+	};
+
+	$scope.openInlineController = function() {
+		$rootScope.theme = 'ngdialog-theme-plain';
+
+		ngDialog.open({
+			template : 'withInlineController',
+			controller : [ '$scope', '$timeout', function($scope, $timeout) {
+				var counter = 0;
+				var timeout;
+				function count() {
+					$scope.exampleExternalData = 'Counter ' + (counter++);
+					timeout = $timeout(count, 450);
+				}
+				count();
+				$scope.$on('$destroy', function() {
+					$timeout.cancel(timeout);
+				});
+			} ],
+			className : 'ngdialog-theme-plain'
+		});
+	};
+
+	$scope.openControllerAsController = function() {
+		$rootScope.theme = 'ngdialog-theme-plain';
+
+		ngDialog.open({
+			template : 'controllerAsDialog',
+			controller : 'InsideCtrlAs',
+			controllerAs : 'ctrl',
+			className : 'ngdialog-theme-plain'
+		});
+	};
+
+	$scope.openTemplate = function() {
+		$scope.value = true;
+
+		ngDialog.open({
+			template : 'externalTemplate.html',
+			className : 'ngdialog-theme-plain',
+			scope : $scope
+		});
+	};
+
+	$scope.openTemplateNoCache = function() {
+		$scope.value = true;
+
+		ngDialog.open({
+			template : 'externalTemplate.html',
+			className : 'ngdialog-theme-plain',
+			scope : $scope,
+			cache : false
+		});
+	};
+
+	$scope.openTimed = function() {
+		var dialog = ngDialog.open({
+			template : '<p>Just passing through!</p>',
+			plain : true,
+			closeByDocument : false,
+			closeByEscape : false
+		});
+		setTimeout(function() {
+			dialog.close();
+		}, 2000);
+	};
+
+	$scope.openNotify = function() {
+		var dialog = ngDialog
+				.open({
+					template : '<p>You can do whatever you want when I close, however that happens.</p>'
+							+ '<div class="ngdialog-buttons"><button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(1)">Close Me</button></div>',
+					plain : true
+				});
+		dialog.closePromise.then(function(data) {
+			console.log('ngDialog closed'
+					+ (data.value === 1 ? ' using the button' : '')
+					+ ' and notified by promise: ' + data.id);
+		});
+	};
+
+	$scope.openWithoutOverlay = function() {
+		ngDialog.open({
+			template : '<h2>Notice that there is no overlay!</h2>',
+			className : 'ngdialog-theme-default',
+			plain : true,
+			overlay : false
+		});
+	};
+
+	$scope.openWithJSSpecificWidth = function() {
+		ngDialog.open({
+			template : '<h2>Notice that style inline set specific width!</h2>',
+			className : 'ngdialog-theme-default',
+			width : 650,
+			plain : true
+		});
+	};
+
+	$scope.openWithJSSpecificHeight = function() {
+		ngDialog
+				.open({
+					template : '<h2>This modal is using a custom height (400px)! See the inline style</h2>',
+					className : 'ngdialog-theme-default',
+					height : 400,
+					plain : true
+				});
+	};
+
+	$rootScope.$on('ngDialog.opened', function(e, $dialog) {
+		console.log('ngDialog opened: ' + $dialog.attr('id'));
+	});
+
+	$rootScope.$on('ngDialog.closed', function(e, $dialog) {
+		console.log('ngDialog closed: ' + $dialog.attr('id'));
+	});
+
+	$rootScope.$on('ngDialog.closing', function(e, $dialog) {
+		console.log('ngDialog closing: ' + $dialog.attr('id'));
+	});
+
+	$rootScope.$on('ngDialog.templateLoading', function(e, template) {
+		console.log('ngDialog template is loading: ' + template);
+	});
+
+	$rootScope.$on('ngDialog.templateLoaded', function(e, template) {
+		console.log('ngDialog template loaded: ' + template);
+	});
+
+}
+
+function InsideCtrl($scope, ngDialog) {
+	$scope.dialogModel = {
+		message : 'message from passed scope'
+	};
+	$scope.openSecond = function() {
+		ngDialog
+				.open({
+					template : '<h3><a href="" ng-click="closeSecond()">Close all by click here!</a></h3>',
+					plain : true,
+					closeByEscape : false,
+					controller : 'SecondModalCtrl'
+				});
+	};
+}
+
+function InsideCtrlAs() {
+	this.value = 'value from controller';
+}
+
+function SecondModalCtrl($scope, ngDialog) {
+	$scope.closeSecond = function() {
+		ngDialog.close();
+	};
 }
 
 app.register.controller('prodCtl', prodCtl);
