@@ -1,12 +1,18 @@
 <div class="row border-bottom">
-	<nav class="navbar navbar-fixed-top" role="navigation">
-		<div class="navbar-header">
-			<span minimaliza-sidebar></span>
-		</div>
-		<ul class="nav navbar-top-links navbar-right">
-			<li ng-if="dt_systems.length>1" uib-dropdown><a uib-dropdown-toggle> <span
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <span minimaliza-sidebar></span>
+        <!--     <form role="search" class="navbar-form-custom" method="post" action="views/search_results.html">
+                <div class="form-group">
+                    <input type="text" placeholder="{{ 'SEARCH' | translate }}" class="form-control" name="top-search" id="top-search">
+                </div>
+            </form> -->
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+
+           	<li ng-if="dt_systems.length>1" uib-dropdown><a uib-dropdown-toggle class=""> <i
 					class="fa fa-dropbox on fa-square" aria-hidden="true"
-					style="color: white; padding-left: 3px; padding-right: 3px"></span></a>
+					style="color: #686B6D; padding-left: 3px; padding-right: 3px"></i></a>
 				<ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
 					<li><a style="text-align: center">请选择系统切换</a></li>
 					<li role="separator" class="divider"></li>
@@ -17,15 +23,15 @@
 				</ul></li>
 			<li uib-dropdown><a uib-dropdown-toggle> <span
 					class="fa fa-ellipsis-v" aria-hidden="true"
-					style="color: white; padding-left: 3px; padding-right: 3px"></span></a>
+					style="color: #686B6D; padding-left: 3px; padding-right: 3px"></span></a>
 				<ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
 					<li ng-click="fullScreen()"><a class="fa fa-window-maximize"
 						href="javascript:;" systemid="1"><i
 							class="zmdi zmdi-shield-security"></i> <span
 							style="padding-left: 6px;">全屏模式</span></a></li>
-					<li><a class="fa fa-user" href="javascript:;" systemid="1"><i
-							class="zmdi zmdi-shield-security"></i> <span
-							style="padding-left: 6px;">个人资料</span></a></li>
+							
+				 
+							
 					<li ng-click="changepwd()"><a class="fa fa-key"
 						href="javascript:;" systemid="1"><i
 							class="zmdi zmdi-shield-security"></i> <span
@@ -35,13 +41,7 @@
 							class="zmdi zmdi-shield-security"></i> <span
 							style="padding-left: 6px;">退出登录</span></a></li>
 				</ul></li>
+        </ul>
 
-			<!-- 	<li><a ng-click="$root.rightSidebar = !$root.rightSidebar">
-					<i class="fa fa-tasks"></i>
-			</a></li> -->
-
-		</ul>
-
-	</nav>
+    </nav>
 </div>
-

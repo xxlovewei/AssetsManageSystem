@@ -10,6 +10,7 @@
 <meta http-equiv="Cache" content="no-cache">
 <title page-title></title>
 <!-- Bootstrap -->
+<link href="css/beforeload.css" rel="stylesheet">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <!--Font awesome标 -->
 <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -17,10 +18,28 @@
 <link href="css/animate.css" rel="stylesheet">
 <link id="loadBefore" href="css/style.css" rel="stylesheet">
 </head>
-
+<!-- 自定义 -->
+<style>
+.menuwhite {
+	color: white !important;
+}
+</style>
 <body ng-controller="MainCtrl as main"
 	class="{{$state.current.data.specialClass?$state.current.data.specialClass:'fixed-nav'}}"
 	landing-scrollspy id="page-top">
+	 <div id="beforePage" class="preloader">
+        <div class="cs-loader">
+            <div class="cs-loader-inner">
+                <label>	●</label>
+                <label>	●</label>
+                <label>	●</label>
+                <label>	●</label>
+                <label>	●</label>
+                <label>	●</label>
+            </div>
+<!--             <div style="  position: fixed;  left: 50%;   top: 50%;  ">正在加载中...</div> -->
+        </div>
+    </div>  
 	<!-- Main view  -->
 	<div ui-view></div>
 	<!--jQuery and Bootstrap  -->

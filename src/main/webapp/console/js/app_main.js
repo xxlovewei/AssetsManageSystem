@@ -332,3 +332,7 @@ app.factory('DTLang', function() {
 		}
 	}
 });
+
+//取出loading
+$("#beforePage").removeClass("preloader");
+$("#beforePage").addClass("preloader-hidden");

@@ -1,31 +1,20 @@
-<nav class="navbar-default navbar-static-side " role="navigation">
+<nav class="navbar-default navbar-static-side" role="navigation">
 	<div class="sidebar-collapse">
-		<!-- 	<span close-off-canvas></span> -->
 		<ul side-navigation class="nav metismenu" id="side-menu">
 			<li class="nav-header">
 				<div class="profile-element" uib-dropdown>
 					<img alt="image" class="img-circle" src="img/profile_small.jpg" />
 					<a uib-dropdown-toggle href> <span class="clear"> <span
 							class="block m-t-xs"> <strong class="font-bold">{{sys_user_info.name}}</strong>
-						</span> <!--  <span class="text-muted text-xs block">{{sys_user_info.USER_NAME}}
-								 <b class="caret"></b> 
-						</span> -->
+						</span>
 					</span>
 					</a>
-					<!-- <ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
-						<li><a ng-click="logout()">退出</a></li>
-					</ul> -->
 				</div>
 				<div class="logo-element">
 					<i class="fa fa-home" aria-hidden="true"></i>
 				</div>
 			</li>
 
-			<style>
-.menuwhite {
-	color: white !important;
-}
-</style>
 			<li ng-repeat="first in menu"
 				ng-class="{active: $state.includes('{{first.state}}')}"><a
 				class="" ui-sref="{{first.state}}"> <i
@@ -49,7 +38,9 @@
 								ui-sref="{{third.state}}">{{third.node_name}} </a></li>
 						</ul></li>
 				</ul></li>
-		</ul>
-	</div>
 
+
+		</ul>
+
+	</div>
 </nav>

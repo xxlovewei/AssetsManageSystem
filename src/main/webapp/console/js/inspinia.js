@@ -67,8 +67,6 @@ $(window).bind("load resize", function () {
 });
 
 
-
-
 //生产UUid
 function getUuid() {
 	var len = 32;// 32长度
