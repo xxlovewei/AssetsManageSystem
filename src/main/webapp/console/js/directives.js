@@ -62,12 +62,7 @@ function sideNavigation($timeout) {
 					railOpacity : 0.9,
 				});
 			}
-
-			// Enable initial fixed sidebar
-			$(".navbar-static-top").removeClass('navbar-static-top').addClass(
-					'navbar-fixed-top');
-			// $("body").removeClass('boxed-layout');
-			// $("body").addClass('fixed-nav');
+ 
 
 		}
 	};

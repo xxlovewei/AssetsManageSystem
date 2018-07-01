@@ -44,24 +44,54 @@ audio, canvas, progress, video {
  */
 audio
 
+
+
+
+
 :not
+
+
+
+
 
 (
 [
 controls
 ]
+
+
+
+
 )
 {
 display
-:
- 
-none
-;
 
-	
-height
+
+
+
 :
+
+
  
+
+
+none
+
+
+
+
+;
+height
+
+
+
+
+:
+
+
+ 
+
+
 0;
 }
 
@@ -175,12 +205,20 @@ svg
 
 
 
+
+
+
+
 :not
 
 
 
 
+
+
  
+
+
 
 
 
@@ -191,7 +229,11 @@ svg
 
 
 
+
+
  
+
+
 
 
 
@@ -199,12 +241,22 @@ svg
 )
 {
 overflow
+
+
+
+
 :
+
+
  
+
+
 hidden
+
+
+
+
 ;
-
-
 }
 
 /* Grouping content
@@ -447,7 +499,7 @@ body {
 	color: red;
 }
 /* .ng-pristine.ng-pristine {
-	border-color: #ffd800;
+    border-color: #ffd800;
 } */
 .alert_warn {
 	color: red !important;
@@ -839,7 +891,7 @@ body.mini-navbar .navbar-default .nav>li>.nav-second-level li a {
 }
 
 .navbar-fixed-top, .navbar-static-top {
-	background: #f3f3f4;
+	background: white;
 }
 
 .fixed-nav #wrapper {
@@ -4545,7 +4597,7 @@ video {
 }
 
 .wrapper-content {
-	padding: 20px 10px 40px;
+	padding: 10px 1px 40px;
 }
 
 #page-wrapper {
@@ -4849,7 +4901,7 @@ code {
 
 .ibox {
 	clear: both;
-	margin-bottom: 25px;
+	margin-bottom: 8px;
 	margin-top: 0;
 	padding: 0;
 }
@@ -4992,7 +5044,7 @@ table.table-mail tr td {
 }
 /* BACKGROUNDS */
 .gray-bg, .bg-muted {
-	background-color: #f3f3f4;
+	background-color: #F2F2F2;
 }
 
 .white-bg {
@@ -7265,68 +7317,180 @@ body.body-small .vote-icon {
 50%
 {
 -webkit-transform
+
+
+
+
 :
+
+
  
+
+
 perspective
-(120px)
- 
+
+
+
+
+(120
+px
+
+
+)
 rotateX
+
+
+
+
 (-180
 .1deg
-)
- 
-rotateY
-(0deg);
 
-    
+
+
+
+)
+rotateY
+
+
+
+
+(0
+deg
+
+
+);
 transform
+
+
+
+
 :
+
+
  
+
+
 perspective
-(120px)
- 
+
+
+
+
+(120
+px
+
+
+)
 rotateX
+
+
+
+
 (-180
 .1deg
-)
- 
-rotateY
-(0deg);
 
-  
+
+
+
+)
+rotateY
+
+
+
+
+(0
+deg
+
+
+);
 }
 100%
 {
 -webkit-transform
+
+
+
+
 :
+
+
  
+
+
 perspective
-(120px)
- 
+
+
+
+
+(120
+px
+
+
+)
 rotateX
-(-180deg)
- 
+
+
+
+
+(-180
+deg
+
+
+)
 rotateY
+
+
+
+
 (-179
 .9deg
-);
 
-    
+
+
+
+);
 transform
+
+
+
+
 :
+
+
  
+
+
 perspective
-(120px)
- 
+
+
+
+
+(120
+px
+
+
+)
 rotateX
-(-180deg)
- 
+
+
+
+
+(-180
+deg
+
+
+)
 rotateY
+
+
+
+
 (-179
 .9deg
-);
 
-  
+
+
+
+);
 }
 }
 @
@@ -7338,68 +7502,180 @@ keyframes sk-rotatePlane { 0% {
 50%
 {
 -webkit-transform
+
+
+
+
 :
+
+
  
+
+
 perspective
-(120px)
- 
+
+
+
+
+(120
+px
+
+
+)
 rotateX
+
+
+
+
 (-180
 .1deg
-)
- 
-rotateY
-(0deg);
 
-    
+
+
+
+)
+rotateY
+
+
+
+
+(0
+deg
+
+
+);
 transform
+
+
+
+
 :
+
+
  
+
+
 perspective
-(120px)
- 
+
+
+
+
+(120
+px
+
+
+)
 rotateX
+
+
+
+
 (-180
 .1deg
-)
- 
-rotateY
-(0deg);
 
-  
+
+
+
+)
+rotateY
+
+
+
+
+(0
+deg
+
+
+);
 }
 100%
 {
 -webkit-transform
+
+
+
+
 :
+
+
  
+
+
 perspective
-(120px)
- 
+
+
+
+
+(120
+px
+
+
+)
 rotateX
-(-180deg)
- 
+
+
+
+
+(-180
+deg
+
+
+)
 rotateY
+
+
+
+
 (-179
 .9deg
-);
 
-    
+
+
+
+);
 transform
+
+
+
+
 :
+
+
  
+
+
 perspective
-(120px)
- 
+
+
+
+
+(120
+px
+
+
+)
 rotateX
-(-180deg)
- 
+
+
+
+
+(-180
+deg
+
+
+)
 rotateY
+
+
+
+
 (-179
 .9deg
-);
 
-  
+
+
+
+);
 }
 }
 /*
@@ -7446,19 +7722,39 @@ rotateY
 50%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-  
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 }
 }
 @
@@ -7470,19 +7766,39 @@ keyframes sk-doubleBounce { 0%, 100% {
 50%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-  
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 }
 }
 /*
@@ -7543,19 +7859,39 @@ scale
 20%
 {
 -webkit-transform
-:
- 
-scaleY
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scaleY
+
+
+
+
+(1);
 transform
-:
- 
-scaleY
-(1);
 
-  
+
+
+
+:
+
+
+ 
+
+
+scaleY
+
+
+
+
+(1);
 }
 }
 @
@@ -7567,19 +7903,39 @@ keyframes sk-waveStretchDelay { 0%, 40%, 100% {
 20%
 {
 -webkit-transform
-:
- 
-scaleY
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scaleY
+
+
+
+
+(1);
 transform
-:
- 
-scaleY
-(1);
 
-  
+
+
+
+:
+
+
+ 
+
+
+scaleY
+
+
+
+
+(1);
 }
 }
 /*
@@ -7625,93 +7981,319 @@ scaleY
 {
 /* Hack to make FF rotate in the right direction */
 -webkit-transform
-:
- 
-translateX
-(42px)
- 
-translateY
-(42px)
- 
-rotate
-(-179deg);
 
-    
+
+
+
+:
+
+
+ 
+
+
+translateX
+
+
+
+
+(42
+px
+
+
+)
+translateY
+
+
+
+
+(42
+px
+
+
+)
+rotate
+
+
+
+
+(-179
+deg
+
+
+);
 transform
-:
- 
-translateX
-(42px)
- 
-translateY
-(42px)
- 
-rotate
-(-179deg);
 
-  
+
+
+
+:
+
+
+ 
+
+
+translateX
+
+
+
+
+(42
+px
+
+
+)
+translateY
+
+
+
+
+(42
+px
+
+
+)
+rotate
+
+
+
+
+(-179
+deg
+
+
+);
 }
 50
-.1 % {
-	-webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
-	transform: translateX(42px) translateY(42px) rotate(-180deg);
-}
+.1
 
+ 
+
+%
+{
+-webkit-transform
+
+
+:
+
+ 
+
+translateX
+
+
+(42
+px
+)
+
+ 
+
+translateY
+
+
+(42
+px
+)
+
+ 
+
+rotate
+
+
+(-180
+deg
+);
+
+
+    
+
+transform
+
+
+:
+
+ 
+
+translateX
+
+
+(42
+px
+)
+
+ 
+
+translateY
+
+
+(42
+px
+)
+
+ 
+
+rotate
+
+
+(-180
+deg
+);
+
+
+
+
+}
 75%
 {
 -webkit-transform
+
+
+
+
 :
+
+
  
+
+
 translateX
-(0px)
- 
+
+
+
+
+(0
+px
+
+
+)
 translateY
-(42px)
- 
+
+
+
+
+(42
+px
+
+
+)
 rotate
-(-270deg)
- 
+
+
+
+
+(-270
+deg
+
+
+)
 scale
+
+
+
+
 (0
 .5
-);
 
-    
+
+
+
+);
 transform
+
+
+
+
 :
+
+
  
+
+
 translateX
-(0px)
- 
+
+
+
+
+(0
+px
+
+
+)
 translateY
-(42px)
- 
+
+
+
+
+(42
+px
+
+
+)
 rotate
-(-270deg)
- 
+
+
+
+
+(-270
+deg
+
+
+)
 scale
+
+
+
+
 (0
 .5
-);
 
-  
+
+
+
+);
 }
 100%
 {
 -webkit-transform
-:
- 
-rotate
-(-360deg);
 
-    
+
+
+
+:
+
+
+ 
+
+
+rotate
+
+
+
+
+(-360
+deg
+
+
+);
 transform
-:
- 
-rotate
-(-360deg);
 
-  
+
+
+
+:
+
+
+ 
+
+
+rotate
+
+
+
+
+(-360
+deg
+
+
+);
 }
 }
 @
@@ -7724,93 +8306,319 @@ keyframes sk-wanderingCubeMove { 25% {
 {
 /* Hack to make FF rotate in the right direction */
 -webkit-transform
-:
- 
-translateX
-(42px)
- 
-translateY
-(42px)
- 
-rotate
-(-179deg);
 
-    
+
+
+
+:
+
+
+ 
+
+
+translateX
+
+
+
+
+(42
+px
+
+
+)
+translateY
+
+
+
+
+(42
+px
+
+
+)
+rotate
+
+
+
+
+(-179
+deg
+
+
+);
 transform
-:
- 
-translateX
-(42px)
- 
-translateY
-(42px)
- 
-rotate
-(-179deg);
 
-  
+
+
+
+:
+
+
+ 
+
+
+translateX
+
+
+
+
+(42
+px
+
+
+)
+translateY
+
+
+
+
+(42
+px
+
+
+)
+rotate
+
+
+
+
+(-179
+deg
+
+
+);
 }
 50
-.1 % {
-	-webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
-	transform: translateX(42px) translateY(42px) rotate(-180deg);
-}
+.1
 
+ 
+
+%
+{
+-webkit-transform
+
+
+:
+
+ 
+
+translateX
+
+
+(42
+px
+)
+
+ 
+
+translateY
+
+
+(42
+px
+)
+
+ 
+
+rotate
+
+
+(-180
+deg
+);
+
+
+    
+
+transform
+
+
+:
+
+ 
+
+translateX
+
+
+(42
+px
+)
+
+ 
+
+translateY
+
+
+(42
+px
+)
+
+ 
+
+rotate
+
+
+(-180
+deg
+);
+
+
+
+
+}
 75%
 {
 -webkit-transform
+
+
+
+
 :
+
+
  
+
+
 translateX
-(0px)
- 
+
+
+
+
+(0
+px
+
+
+)
 translateY
-(42px)
- 
+
+
+
+
+(42
+px
+
+
+)
 rotate
-(-270deg)
- 
+
+
+
+
+(-270
+deg
+
+
+)
 scale
+
+
+
+
 (0
 .5
-);
 
-    
+
+
+
+);
 transform
+
+
+
+
 :
+
+
  
+
+
 translateX
-(0px)
- 
+
+
+
+
+(0
+px
+
+
+)
 translateY
-(42px)
- 
+
+
+
+
+(42
+px
+
+
+)
 rotate
-(-270deg)
- 
+
+
+
+
+(-270
+deg
+
+
+)
 scale
+
+
+
+
 (0
 .5
-);
 
-  
+
+
+
+);
 }
 100%
 {
 -webkit-transform
-:
- 
-rotate
-(-360deg);
 
-    
+
+
+
+:
+
+
+ 
+
+
+rotate
+
+
+
+
+(-360
+deg
+
+
+);
 transform
-:
- 
-rotate
-(-360deg);
 
-  
+
+
+
+:
+
+
+ 
+
+
+rotate
+
+
+
+
+(-360
+deg
+
+
+);
 }
 }
 /*
@@ -7838,22 +8646,50 @@ rotate
 100%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-    
-opacity
+
+
+
 :
+
+
  
+
+
+scale
+
+
+
+
+(1);
+opacity
+
+
+
+
+:
+
+
+ 
+
+
 0;
 }
 }
@@ -7866,22 +8702,50 @@ keyframes sk-pulseScaleOut { 0% {
 100%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-    
-opacity
+
+
+
 :
+
+
  
+
+
+scale
+
+
+
+
+(1);
+opacity
+
+
+
+
+:
+
+
+ 
+
+
 0;
 }
 }
@@ -7946,19 +8810,39 @@ keyframes sk-chasingDotsRotate { 100% {
 50%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-  
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 }
 }
 @
@@ -7970,19 +8854,39 @@ keyframes sk-chasingDotsBounce { 0%, 100% {
 50%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-  
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 }
 }
 /*
@@ -8033,19 +8937,39 @@ scale
 40%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-  
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 }
 }
 @
@@ -8057,19 +8981,39 @@ keyframes sk-threeBounceDelay { 0%, 80%, 100% {
 40%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-  
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 }
 }
 /*
@@ -8251,19 +9195,39 @@ scale
 40%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-  
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 }
 }
 @
@@ -8275,19 +9239,39 @@ keyframes sk-circleBounceDelay { 0%, 80%, 100% {
 40%
 {
 -webkit-transform
-:
- 
-scale
-(1);
 
-    
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 transform
-:
- 
-scale
-(1);
 
-  
+
+
+
+:
+
+
+ 
+
+
+scale
+
+
+
+
+(1);
 }
 }
 /*
@@ -8385,17 +9369,41 @@ scale
 35%
 {
 -webkit-transform
+
+
+
+
 :
+
+
  
+
+
 scale3D
+
+
+
+
 (0
 ,
 0,
 1);
 transform
+
+
+
+
 :
+
+
  
+
+
 scale3D
+
+
+
+
 (0
 ,
 0,
@@ -8411,17 +9419,41 @@ keyframes sk-cubeGridScaleDelay { 0%, 70%, 100% {
 35%
 {
 -webkit-transform
+
+
+
+
 :
+
+
  
+
+
 scale3D
+
+
+
+
 (0
 ,
 0,
 1);
 transform
+
+
+
+
 :
+
+
  
+
+
 scale3D
+
+
+
+
 (0
 ,
 0,
@@ -8467,19 +9499,47 @@ scale3D
 100%
 {
 -webkit-transform
-:
- 
-rotate
-(360deg);
 
-    
+
+
+
+:
+
+
+ 
+
+
+rotate
+
+
+
+
+(360
+deg
+
+
+);
 transform
-:
- 
-rotate
-(360deg);
 
-  
+
+
+
+:
+
+
+ 
+
+
+rotate
+
+
+
+
+(360
+deg
+
+
+);
 }
 }
 @
@@ -8491,19 +9551,47 @@ keyframes sk-innerCircle { 0% {
 100%
 {
 -webkit-transform
-:
- 
-rotate
-(360deg);
 
-    
+
+
+
+:
+
+
+ 
+
+
+rotate
+
+
+
+
+(360
+deg
+
+
+);
 transform
-:
- 
-rotate
-(360deg);
 
-  
+
+
+
+:
+
+
+ 
+
+
+rotate
+
+
+
+
+(360
+deg
+
+
+);
 }
 }
 /*
@@ -8684,8 +9772,16 @@ rotate
 40%
 {
 opacity
+
+
+
+
 :
+
+
  
+
+
 1;
 }
 }
@@ -8697,8 +9793,16 @@ keyframes sk-circleFadeDelay { 0%, 39%, 100% {
 40%
 {
 opacity
+
+
+
+
 :
+
+
  
+
+
 1;
 }
 }
@@ -9911,7 +11015,7 @@ body.skin-1 {
 }
 
 .skin-1 .wrapper-content {
-	padding: 30px 15px;
+	padding: 10px 1px 40px;
 }
 
 .skin-1 #page-wrapper {
@@ -10080,7 +11184,7 @@ body.skin-2 #wrapper {
 }
 
 .skin-2 .wrapper-content {
-	padding: 30px 15px;
+	padding: 10px 1px 40px;
 }
 
 .skin-2 .dashoard-1 .wrapper-content {
@@ -10237,7 +11341,7 @@ body.skin-3 {
 }
 
 .skin-3 .wrapper-content {
-	padding: 30px 15px;
+	padding: 10px 1px 40px;
 }
 
 .skin-3 #page-wrapper {
@@ -10314,7 +11418,7 @@ body.md-skin {
 }
 
 .md-skin .wrapper-content {
-	padding: 30px 20px 40px;
+	padding: 10px 1px 40px;
 }
 
 @media ( max-width : 768px) {
@@ -10337,7 +11441,7 @@ body.md-skin {
 
 .md-skin .ibox {
 	clear: both;
-	margin-bottom: 25px;
+	margin-bottom: 8px;
 	margin-top: 0;
 	padding: 0;
 	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px
@@ -10769,16 +11873,133 @@ body.md-skin {
 	.navbar-static-side {
 		display: none;
 	}
-	body:not (.mini-navbar ) {
-		-webkit-transition: background-color 500ms linear;
-		-moz-transition: background-color 500ms linear;
-		-o-transition: background-color 500ms linear;
-		-ms-transition: background-color 500ms linear;
-		transition: background-color 500ms linear;
-		background-color: #f3f3f4;
-	}
+	body
+	
+	
+	:not
+	
+	
+	(
+	.mini-navbar
+	
+	 
+	
+	)
+	{
+	-webkit-transition
+	
+	
+	:
+	
+	 
+	
+	background-color
+	
+	 
+	
+	500
+	ms
+	
+	 
+	
+	linear
+	
+	
+	;
+	-moz-transition
+	
+	
+	:
+	
+	 
+	
+	background-color
+	
+	 
+	
+	500
+	ms
+	
+	 
+	
+	linear
+	
+	
+	;
+	-o-transition
+	
+	
+	:
+	
+	 
+	
+	background-color
+	
+	 
+	
+	500
+	ms
+	
+	 
+	
+	linear
+	
+	
+	;
+	-ms-transition
+	
+	
+	:
+	
+	 
+	
+	background-color
+	
+	 
+	
+	500
+	ms
+	
+	 
+	
+	linear
+	
+	
+	;
+	transition
+	
+	
+	:
+	
+	 
+	
+	background-color
+	
+	 
+	
+	500
+	ms
+	
+	 
+	
+	linear
+	
+	
+	;
+	background-color
+	
+	
+	:
+	
+	 
+	
+	#f3f3f4
+	
+	
+	;
 }
 
+}
 @media ( max-width : 350px) {
 	.timeline-item .date {
 		text-align: left;
@@ -10828,4 +12049,109 @@ body.md-skin {
 	#page-wrapper {
 		margin: 0;
 	}
+}
+
+/*################默认主题开始################*/
+.default .btn-primary {
+	background-color: #3379B7;
+	border-color: #3379B7;
+	color: #FFFFFF;
+}
+
+.default .btn-primary:active {
+	background-color: #398dee;
+	border-color: #398dee;
+	color: #FFFFFF;
+}
+
+.default .dt-button,a.dt-button {
+	background-color: #3379B7;
+	color: #FFFFFF;
+	position: relative;
+	display: inline-block;
+	box-sizing: border-box;
+	margin-right: 0.333em;
+	padding: 0.3em 0.8em;
+	border: 1px solid #398dee;
+	border-radius: 2px;
+	cursor: pointer;
+	font-size: 0.5em;
+	white-space: nowrap;
+	overflow: hidden;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='white', EndColorStr='#e9e9e9');
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	text-decoration: none;
+	outline: none
+}
+
+.default .dt-button.disabled,div.dt-button.disabled,a.dt-button.disabled {
+	color: #999;
+	border: 1px solid #398dee;
+	cursor: default;
+	background-color: #3379B7;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#f9f9f9')
+}
+
+.default .dt-button:active:not(.disabled),button.dt-button.active:not(.disabled),div.dt-button:active:not(.disabled),div.dt-button.active:not(.disabled),a.dt-button:active:not(.disabled),a.dt-button.active:not(.disabled) {
+	color: #FFFFFF;
+	background-color: #398dee;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f3f3f3', EndColorStr='#e2e2e2');
+	box-shadow: inset 1px 1px 3px #398dee
+}
+
+.default  .dt-button:active:not(.disabled):hover:not(.disabled),button.dt-button.active:not(.disabled):hover:not(.disabled),div.dt-button:active:not(.disabled):hover:not(.disabled),div.dt-button.active:not(.disabled):hover:not(.disabled),a.dt-button:active:not(.disabled):hover:not(.disabled),a.dt-button.active:not(.disabled):hover:not(.disabled) {
+	box-shadow: inset 1px 1px 3px #398dee;
+	color: #FFFFFF;
+	background-color: #3379B7;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#eaeaea', EndColorStr='#cccccc')
+}
+
+.default  .dt-button:hover,div.dt-button:hover,a.dt-button:hover {
+	text-decoration: none
+}
+
+.default .dt-button:hover:not(.disabled),div.dt-button:hover:not(.disabled),a.dt-button:hover:not(.disabled) {
+ 
+	background-color: #3379B7;
+}
+
+.default  .dt-button:focus:not(.disabled),div.dt-button:focus:not(.disabled),a.dt-button:focus:not(.disabled) {
+	outline: none;
+	color: #FFFFFF;
+	background-color: #398dee;
+}
+
+/*################默认主题结束##################*/
+/* 在datatable中的第一列checkbox居中显示 */
+.checkbox_center{
+	width:40px;
+	text-align:center;
+}
+/*main style by lank*/
+.qmimg {
+	height: 50px;
+	width: 50px;
+}
+
+.col-lg-3 {
+	padding-right: 0;
+}
+
+.col-sm-3 {
+	padding-right: 0;
+}
+
+.col-sm-4 {
+	padding-right: 0;
+}
+
+.col-sm-6 {
+	padding-right: 0;
+}
+
+.menuwhite {
+	color: white !important;
 }

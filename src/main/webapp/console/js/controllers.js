@@ -1,6 +1,19 @@
 function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
 		userService, notify, $timeout) {
  
+	//修改主题
+	var cur_theme=$localStorage.get("cur_theme");
+	if(angular.isDefined(cur_theme)){
+		   $scope.cur_skin=cur_theme;
+	}
+	
+	   $scope.change_theme=function(theme){
+		   $scope.cur_skin=theme;
+		   $localStorage.put("cur_theme",theme);
+	   }
+
+	   
+	   
 	$scope.fullScreen = function() {
 		var element = document.documentElement; // 若要全屏页面中div，var element=
 		// document.getElementById("divID");
