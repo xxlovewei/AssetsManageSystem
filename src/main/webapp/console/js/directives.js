@@ -12,7 +12,6 @@
  * 
  */
 
-
 /**
  * pageTitle - Directive for set Page title - mata title
  */
@@ -62,7 +61,6 @@ function sideNavigation($timeout) {
 					railOpacity : 0.9,
 				});
 			}
- 
 
 		}
 	};
@@ -642,6 +640,16 @@ function passwordMeter() {
 		}
 	}
 };
+angular.module('inspinia').directive('compile', function($compile) {
+	return function(scope, element, attrs) {
+		scope.$watch(function(scope) {
+			return scope.$eval(attrs.compile);
+		}, function(value) {
+			element.html(value);
+			$compile(element.contents())(scope);
+		});
+	};
+});
 
 /**
  * 
@@ -664,30 +672,30 @@ angular.module('inspinia').directive('pageTitle', pageTitle).directive(
 		.directive('markdownEditor', markdownEditor).directive('passwordMeter',
 				passwordMeter).directive('onFinishRender', onFinishRender);
 
-angular.module('inspinia').directive("bnDocumentClick", function($document, $parse) {
-	//将Angular的上下文链接到DOM事件
-	var linkFunction = function($scope, $element, $attributes) {
-		//获得表达式
-		var scopeExpression = $attributes.bnDocumentClick;
-		//使用$parse来编译表达式
-		var invoker = $parse(scopeExpression);
-		var event = $attributes.bnDocumentEvent;		
-		if (!angular.isDefined(event)) {
-			event = "click";
-		}
-		//绑定click事件
-		$document.on(event, function(event) {
-			//当点击事件被触发时，我们需要再次调用AngularJS的上下文。再次，我们使用$apply()来确保$digest()方法在幕后被调用
-			$scope.$apply(function() {
-				//在scope中调用处理函数，将jQuery时间映射到$event对象上
-				invoker($scope, {
-					$event : event
+angular.module('inspinia').directive("bnDocumentClick",
+		function($document, $parse) {
+			//将Angular的上下文链接到DOM事件
+			var linkFunction = function($scope, $element, $attributes) {
+				//获得表达式
+				var scopeExpression = $attributes.bnDocumentClick;
+				//使用$parse来编译表达式
+				var invoker = $parse(scopeExpression);
+				var event = $attributes.bnDocumentEvent;
+				if (!angular.isDefined(event)) {
+					event = "click";
+				}
+				//绑定click事件
+				$document.on(event, function(event) {
+					//当点击事件被触发时，我们需要再次调用AngularJS的上下文。再次，我们使用$apply()来确保$digest()方法在幕后被调用
+					$scope.$apply(function() {
+						//在scope中调用处理函数，将jQuery时间映射到$event对象上
+						invoker($scope, {
+							$event : event
+						});
+					});
 				});
-			});
+				//当父控制器被从渲染文档中移除时监听"$destory"事件
+			};
+			//返回linking函数
+			return (linkFunction);
 		});
-		//当父控制器被从渲染文档中移除时监听"$destory"事件
-	};
-	//返回linking函数
-	return (linkFunction);
-});
-

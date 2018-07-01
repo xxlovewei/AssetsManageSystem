@@ -23,7 +23,8 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('basedata.weather', {
 		url : "/weather",
 		data: { pageTitle: '天气数据',loginCheck:true},
-		templateUrl : "views/system/base/weather.html",
+		//templateUrl : "views/system/base/weather.html",
+		template:'<div ng-controller="prodCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {

@@ -336,6 +336,19 @@ function initDT(DTDefaultOptions) {
 	console.log(DTDefaultOptions);
 	DTDefaultOptions.setLanguage(lng);
 	DTDefaultOptions.setDOM('frtilp');
+	DTDefaultOptions.setDisplayLength(25);
+	DTDefaultOptions.setOption('sPaginationType','full_numbers');
+	DTDefaultOptions.setOption('ordering',false);
+	DTDefaultOptions.setOption('searching',false);
+	DTDefaultOptions.setOption('paging',true);
+	DTDefaultOptions.setOption('bStateSave',false);
+	DTDefaultOptions.setOption('bProcessing',true);
+	DTDefaultOptions.setOption('bInfo',false);
+	DTDefaultOptions.setOption('bAutoWidth',false);
+	DTDefaultOptions.setOption('responsive',true);
+	DTDefaultOptions.setOption('bFilter',false);
+	DTDefaultOptions.setOption('serverSide',false);
+	
 }
 
 app.run(initDT);
