@@ -1,24 +1,38 @@
-function prepend(arr, item) {
-	// 将arr数组复制给a
-	var a = arr.slice(0);
-	// 使用unshift方法向a开头添加item
-	a.unshift(item);
-	return a;
-}
+ 
 
-function sysUserQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function sysUserQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+  
 
-	$scope.userGroupOpt = [];
-	$scope.userGroupSel = "";
+	
+	
+	
+	
+	$scope.meta = {
+			tools : [ {
+				id : "1",
+				name : "用户组",
+				type : "select",
+				disablesearch:true,
+				dataOpt :[],
+				dataSel : ""
+			}, {
+				id : "1",
+				name : "查询",
+				type : "btn",
+				template:' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+	 
+			} ]
+		}
+ 
 	$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(
 			function(res) {
 				if (res.success) {
-					$scope.userGroupOpt = prepend(res.data, {
+					 $scope.meta.tools[0].dataOpt= prepend(res.data, {
 						group_id : "ALL",
 						name : "全部"
 					});
-					$scope.userGroupSel = $scope.userGroupOpt[0];
+					 $scope.meta.tools[0].dataSel= $scope.meta.tools[0].dataOpt[0];
 				} else {
 					notify({
 						message : res.message
@@ -27,16 +41,12 @@ function sysUserQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 	$scope.URL = $rootScope.project + "/api/user/userQueryByGroup.do";
 	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp(
-			'data').withPaginationType('full_numbers').withDisplayLength(10)
-			.withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", false).withOption("paging", true)
-			.withOption('bStateSave', true).withOption('bProcessing', false)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', true).withOption('bAutoWidth', false)
+			'data').withPaginationType('full_numbers')
+			.withOption('serverSide', true)
 			.withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
 	
 	$scope.reloadData = reloadData;
 	$scope.dtInstance = {}
@@ -94,10 +104,9 @@ function sysUserQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	
 
 	function flush() {
-
-		if ($scope.userGroupSel.group_id != "ALL") {
+		if ($scope.meta.tools[0].dataSel.group_id != "ALL") {
 			$scope.URL = $rootScope.project
-					+ "/api/user/userQueryByGroup.do?group_id=" + $scope.userGroupSel.group_id;
+					+ "/api/user/userQueryByGroup.do?group_id=" +$scope.meta.tools[0].dataSel.group_id;
 		} else {
 			$scope.URL = $rootScope.project + "/api/user/userQueryByGroup.do";
 		}

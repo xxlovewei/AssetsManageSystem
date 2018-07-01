@@ -98,7 +98,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('user.user_query', {
 		url : "/user_query",
 		data: { pageTitle: '用户查询'},
-		templateUrl : "views/system/user/user_query.html",
+		template:'<div ng-controller="sysUserQueryCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -110,7 +110,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('user.user_group', {
 		url : "/user_group",
 		data: { pageTitle: '用户组设置'},
-		templateUrl : "views/system/user/group_setting.html",
+		template:'<div ng-controller="sysGroupSettingCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -198,7 +198,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('role.role_setting', {
 		url : "/role_setting",
 		data: { pageTitle: '角色设置'},
-		templateUrl : "views/system/role/role_setting.html",
+		template:'<div ng-controller="sysRoleSettingCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -306,7 +306,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('system.file_setting', {
 		url : "/filesetting",
 		data: { pageTitle: '文件设置'},
-		templateUrl : "views/system/filesetting.html",
+		template:'<div ng-controller="sysfileConfCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -354,7 +354,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('system.onlinesession', {
 		url : "/online",
 		data: { pageTitle: '在线用户'},
-		templateUrl : "views/system/user/online.html",
+		template:'<div ng-controller="sysOnlineSessionCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
