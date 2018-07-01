@@ -1,18 +1,16 @@
-function meAccessLogCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function meAccessLogCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+
+	$scope.meta = {
+		tools : []
+	}
 	$scope.URL = $rootScope.project + "/api/user/queryAccessLog.do";
-	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL)
-			.withDataProp('data').withPaginationType('full_numbers')
-			.withDisplayLength(10).withOption("ordering", false).withOption(
-					"responsive", true).withOption("searching", false)
-			.withOption("paging", true).withOption('bStateSave', true)
-			.withOption('bProcessing', false).withOption('bFilter', false)
-			.withOption('bInfo', false).withOption('serverSide', true)
-			.withOption('bAutoWidth', false).withOption('createdRow',
-					function(row) {
-						// Recompiling so we can bind Angular,directive to the
-						$compile(angular.element(row).contents())($scope);
-					}).withLanguage(DTLang);
+	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp(
+			'data').withPaginationType('full_numbers').withOption('serverSide',
+			true).withOption('createdRow', function(row) {
+		// Recompiling so we can bind Angular,directive to the
+		$compile(angular.element(row).contents())($scope);
+	});
 
 	$scope.dtInstance = {}
 	$scope.reloadData = reloadData;
@@ -21,13 +19,9 @@ function meAccessLogCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$scope.dtInstance.reloadData(callback, resetPaging);
 	}
 	function callback(json) {
-
 	}
-
 	function renderAction(data, type, full) {
-
 	}
-
 	$scope.dtColumns = [
 			DTColumnBuilder.newColumn('rtime').withTitle('日期').withOption(
 					'sDefaultContent', ''),
@@ -38,12 +32,11 @@ function meAccessLogCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			DTColumnBuilder.newColumn('info').withTitle('说明').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('postorget').withTitle('参数').withOption(
-					'sDefaultContent', '').withClass('none')]
+					'sDefaultContent', '').withClass('none') ]
 
 	$scope.flush = function() {
 		reloadData();
 	}
-
 };
 
 app.register.controller('meAccessLogCtl', meAccessLogCtl);

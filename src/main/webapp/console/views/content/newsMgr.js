@@ -1,13 +1,9 @@
-function prepend(arr, item) {
-	// 将arr数组复制给a
-	var a = arr.slice(0);
-	// 使用unshift方法向a开头添加item
-	a.unshift(item);
-	return a;
-}
 
 function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
-
+	 
+	$scope.meta ={
+			tools : []
+		}
 	$scope.userGroupOpt = [];
 	$scope.userGroupSel = "";
 	$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(function(res) {
@@ -43,9 +39,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 	} ]
 
 	$scope.URL = $rootScope.project + "/api/news/queryNewsByPage.do?noContent=Y";
-	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp('data').withPaginationType('full_numbers').withDisplayLength(10).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", false).withOption("paging", true).withOption('bStateSave', true).withOption('bProcessing', false).withOption(
-					'bFilter', false).withOption('bInfo', false).withOption('serverSide', true).withOption('bAutoWidth', false).withOption('createdRow', function(row) {
+	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp('data').withOption('bProcessing', true).withOption('serverSide', true).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			}).withLanguage(DTLang);

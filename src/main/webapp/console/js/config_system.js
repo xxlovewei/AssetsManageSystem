@@ -55,7 +55,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('me.receivingaddr', {
 		url : "/receivingaddr",
 		data: { pageTitle: '收货地址'},
-		templateUrl : "views/me/receaddr.html",
+		template:'<div ng-controller="meRecAddrCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -67,7 +67,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('me.accesslog', {
 		url : "/accesslog",
 		data: { pageTitle: '访问日志'},
-		templateUrl : "views/me/accesslog.html",
+		template:'<div ng-controller="meAccessLogCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -252,7 +252,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('ct.news_mgr', {
 		url : "/newMgr",
 		data: { pageTitle: '新闻管理'},
-		templateUrl : "views/content/newsMgr.html",
+		template:'<div ng-controller="ctNewsMgrCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([  {
@@ -452,7 +452,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('task.task_mgr', {
 		url : "/task_mgr",
 		data: { pageTitle: '任务管理'},
-		templateUrl : "views/system/task/task.html",
+		template:'<div ng-controller="sysTaskCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
