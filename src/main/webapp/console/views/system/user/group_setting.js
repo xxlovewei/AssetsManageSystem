@@ -118,7 +118,7 @@ function sysGroupSettingCtl( DTOptionsBuilder, DTColumnBuilder,
 			backdrop : true,
 			templateUrl : 'views/system/user/modal_group_save.html',
 			controller : groupSaveFormCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return id;

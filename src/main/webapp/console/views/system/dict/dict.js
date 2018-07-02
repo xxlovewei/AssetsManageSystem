@@ -182,7 +182,7 @@ function sysDictSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			backdrop : true,
 			templateUrl : 'views/system/dict/modal_dictSave.html',
 			controller : dictSaveCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return id;
@@ -324,7 +324,7 @@ function sysDictSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 			backdrop : true,
 			templateUrl : 'views/system/dict/modal_dictItemSave.html',
 			controller : dictItemSaveCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				data : function() {
 					return ps;

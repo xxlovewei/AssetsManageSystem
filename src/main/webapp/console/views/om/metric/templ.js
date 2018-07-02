@@ -134,7 +134,7 @@ function metricTemplCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 			backdrop : true,
 			templateUrl : 'views/om/metric/modal_templ_save.html',
 			controller : metricTemplAddFormCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return id;

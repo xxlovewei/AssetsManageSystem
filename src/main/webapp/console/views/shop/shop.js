@@ -142,7 +142,7 @@ function shopListCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $lo
 			backdrop : true,
 			templateUrl : 'views/shop/modal_shop_save.html',
 			controller : shopSaveCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				data : function() {
 					return ps

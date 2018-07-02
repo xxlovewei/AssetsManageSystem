@@ -144,7 +144,7 @@ function prodPinpCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 			backdrop : true,
 			templateUrl : 'views/product/pinp/modal_pinp_save.html',
 			controller : prodPinpSaveCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				data : function() {
 					return ps

@@ -119,7 +119,7 @@ function sysModuleCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 			backdrop : true,
 			templateUrl : 'views/system/module/modal_module_save.html',
 			controller : moduleSaveCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return id;

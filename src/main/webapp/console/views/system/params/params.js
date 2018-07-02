@@ -108,7 +108,7 @@ function sysParamsCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 			backdrop : true,
 			templateUrl : 'views/system/params/modal_paramsSave.html',
 			controller : sysParamSaveCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return id;

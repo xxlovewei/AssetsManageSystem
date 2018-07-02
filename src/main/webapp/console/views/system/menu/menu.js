@@ -390,7 +390,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 									backdrop : true,
 									templateUrl : 'views/system/menu/modal_menu_module.html',
 									controller : menuModuleCtl,
-									size : 'md',
+									size : 'lg',
 									resolve : { // 调用控制器与modal控制器中传递值
 										data : function() {
 											return ps;

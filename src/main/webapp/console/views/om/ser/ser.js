@@ -155,7 +155,7 @@ function mnserviceCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			backdrop : true,
 			templateUrl : 'views/om/ser/modal_ser_save.html',
 			controller : mnServiceAddFormCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return id;

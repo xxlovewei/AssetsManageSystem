@@ -273,7 +273,7 @@ function nodeHostMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 					backdrop : true,
 					templateUrl : 'views/om/hostnode/modal_hostSave.html',
 					controller : nodeHostSaveCtl,
-					size : 'md',
+					size : 'lg',
 					resolve : { // 调用控制器与modal控制器中传递值
 						id : function() {
 							return id;

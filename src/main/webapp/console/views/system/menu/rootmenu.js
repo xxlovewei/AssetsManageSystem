@@ -133,7 +133,7 @@ function sysRootMenugCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			backdrop : true,
 			templateUrl : 'views/system/menu/modal_saverootmenu.html',
 			controller : rootMenuSaveCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return id;

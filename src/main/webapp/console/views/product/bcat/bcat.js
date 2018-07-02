@@ -783,7 +783,7 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 									backdrop : true,
 									templateUrl : 'views/product/bcat/modal_bcat_rename.html',
 									controller : prodCatBItemRenameCtl,
-									size : 'md',
+									size : 'lg',
 									resolve : { // 调用控制器与modal控制器中传递值
 										id : function() {
 											return obj.id
