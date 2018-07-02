@@ -1,10 +1,4 @@
-function prepend(arr, item) {
-	// 将arr数组复制给a
-	var a = arr.slice(0);
-	// 使用unshift方法向a开头添加item
-	a.unshift(item);
-	return a;
-}
+ 
 function prodPicsAddCtl($compile, $timeout, $confirm, $log, notify, $scope,
 		$http, $rootScope, $uibModalInstance) {
 
@@ -437,7 +431,7 @@ function prodBaseAttrSaveCtl($log, $http, $rootScope, $scope,
 
 }
 
-function prodQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function prodQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.prodcatOpt = [];
@@ -468,7 +462,7 @@ function prodQueryCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					function(row) {
 						// Recompiling so we can bind Angular,directive to the
 						$compile(angular.element(row).contents())($scope);
-					}).withLanguage(DTLang).withOption("select", {
+					}).withOption("select", {
 						style : 'multi',
 						selector : 'td:first-child'
 					}).withButtons([{

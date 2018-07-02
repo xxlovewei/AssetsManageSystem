@@ -1,4 +1,4 @@
-function prodCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+function prodCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	var opt=[ {

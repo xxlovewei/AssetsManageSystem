@@ -1,5 +1,5 @@
 
-function demoEditorCtl($state,DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function demoEditorCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 	$scope.goto2=function(){
 		$state.go("login",{to:223});
 	}

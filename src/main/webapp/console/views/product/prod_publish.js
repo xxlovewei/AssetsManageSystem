@@ -42,7 +42,7 @@ function prodPicsAddCtl($compile, $timeout, $confirm, $log, notify, $scope, $htt
 	};
 }
 
-function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function prodPublishCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.prodcatOpt = [];
 	$scope.prodcatSel = "";

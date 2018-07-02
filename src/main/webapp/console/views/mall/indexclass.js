@@ -56,7 +56,7 @@ function indexclassSaveCtl($localStorage, notify, $log, $uibModal,
 
 }
 
-function indexClassItemSaveCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
+function indexClassItemSaveCtl( DTOptionsBuilder, DTColumnBuilder,
 		$compile, $confirm, notify, $log, $uibModal, $uibModalInstance, $scope,
 		data, $http, $rootScope) {
 	$log.warn("window in:", data);
@@ -94,7 +94,7 @@ function indexClassItemSaveCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 					function(row) {
 						// Recompiling so we can bind Angular,directive to the
 						$compile(angular.element(row).contents())($scope);
-					}).withLanguage(DTLang).withOption("select", {
+					}).withOption("select", {
 				style : 'multi',
 				selector : 'td:first-child'
 			}).withButtons([ {
@@ -192,7 +192,7 @@ function indexClassItemSaveCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 
 }
 
-function shopIndexClassCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function shopIndexClassCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
@@ -207,7 +207,7 @@ function shopIndexClassCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				$compile(angular.element(row).contents())($scope);
 			}).withOption("select", {
 				style : 'single'
-			}).withLanguage(DTLang);
+			});
 
 	$scope.dtInstance = {}
 
@@ -350,7 +350,7 @@ function shopIndexClassCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					function(row) {
 						// Recompiling so we can bind Angular,directive to the
 						$compile(angular.element(row).contents())($scope);
-					}).withLanguage(DTLang);
+					});
 	$scope.dtItemInstance = {}
 	$scope.reloadItemData = reloadItemData;
 	function reloadItemData(reset) {

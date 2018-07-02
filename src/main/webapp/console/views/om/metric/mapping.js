@@ -1,6 +1,6 @@
  
 
-function metricTemplAddmetricCtl($timeout, DTLang, DTOptionsBuilder,
+function metricTemplAddmetricCtl($timeout, DTOptionsBuilder,
 		DTColumnBuilder, notify, $log, $uibModal, $uibModalInstance, $scope,
 		id, $http, $rootScope, $compile) {
 	$scope.item = {}
@@ -43,7 +43,7 @@ function metricTemplAddmetricCtl($timeout, DTLang, DTOptionsBuilder,
 										}
 									}, 80)
 						}
-					}).withLanguage(DTLang).withOption("select", {
+					}).withOption("select", {
 				style : 'multi',
 				selector : 'td:first-child'
 			});

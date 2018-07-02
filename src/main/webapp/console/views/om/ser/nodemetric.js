@@ -1,10 +1,4 @@
-function prepend(arr, item) {
-	// 将arr数组复制给a
-	var a = arr.slice(0);
-	// 使用unshift方法向a开头添加item
-	a.unshift(item);
-	return a;
-}
+ 
 
 function sernodemetricCtl($localStorage, notify, $log, $uibModal, data,
 		$uibModalInstance, $scope, $http, $rootScope) {
@@ -42,7 +36,7 @@ function sernodemetricCtl($localStorage, notify, $log, $uibModal, data,
 
 }
 
-function mnservicenodemetricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
+function mnservicenodemetricCtl( DTOptionsBuilder, DTColumnBuilder,
 		$compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.serviceOpt = [];
@@ -104,7 +98,7 @@ function mnservicenodemetricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 					function(row) {
 						// Recompiling so we can bind Angular,directive to the
 						$compile(angular.element(row).contents())($scope);
-					}).withLanguage(DTLang);
+					});
 	$scope.dtInstance = {}
 
 	// (ser_id,node_id,metric_id,di,is_show)

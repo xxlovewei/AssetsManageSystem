@@ -1,11 +1,4 @@
-function prepend(arr, item) {
-	// 将arr数组复制给a
-	var a = arr.slice(0);
-	// 使用unshift方法向a开头添加item
-	a.unshift(item);
-	return a;
-}
-
+ 
 //重命名
 function prodCatFItemRenameCtl($log, $http, $rootScope, $scope,
 		$uibModalInstance, id, notify) {
@@ -37,7 +30,7 @@ function prodCatFItemRenameCtl($log, $http, $rootScope, $scope,
 
 }
 
-function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function prodfCatCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.catRootOpt = [];
@@ -405,7 +398,7 @@ function prodfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					$scope.tabdata).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";

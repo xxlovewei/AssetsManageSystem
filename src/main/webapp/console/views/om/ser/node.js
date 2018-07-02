@@ -41,7 +41,7 @@ function mnServiceAddFormCtl($localStorage, notify, $log, $uibModal,
 
 }
 
-function serviceNodeadd($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder,
+function serviceNodeadd($timeout, DTOptionsBuilder, DTColumnBuilder,
 		notify, $log, $uibModal, $uibModalInstance, $scope, id, $http,
 		$rootScope, $compile) {
 	$scope.item = {}
@@ -84,7 +84,7 @@ function serviceNodeadd($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder,
 										}
 									}, 80)
 						}
-					}).withLanguage(DTLang).withOption("select", {
+					}).withOption("select", {
 				style : 'multi',
 				selector : 'td:first-child'
 			});

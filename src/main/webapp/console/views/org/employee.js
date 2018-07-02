@@ -28,7 +28,7 @@ function hrmEmployeeSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance, 
 
 }
 
-function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function hrmOrgEmployeeCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 	$scope.topMenuOpt = []
 	$scope.topMenuSel = "";
 
@@ -37,7 +37,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";

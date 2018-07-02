@@ -50,7 +50,7 @@ function sysParamSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 	};
 }
 
-function sysParamsCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysParamsCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	
 	$scope.meta ={

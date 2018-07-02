@@ -109,7 +109,7 @@ function dictItemSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 
 }
 
-function sysDictSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysDictSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
 			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
@@ -118,7 +118,7 @@ function sysDictSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 				$compile(angular.element(row).contents())($scope);
 			}).withOption("select", {
 				style : 'single'
-			}).withLanguage(DTLang);
+			});
 
 	$scope.dtInstance = {}
 
@@ -260,7 +260,7 @@ function sysDictSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
 	$scope.dtItemInstance = {}
 
 	function renderAction(data, type, full) {

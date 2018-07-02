@@ -1,5 +1,5 @@
 
-function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 	 
 	$scope.meta ={
 			tools : []
@@ -42,7 +42,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp('data').withOption('bProcessing', true).withOption('serverSide', true).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
  		 
 	 
 	$scope.dtInstance = {}

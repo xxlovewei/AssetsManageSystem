@@ -109,16 +109,9 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 		$uibModalInstance.dismiss('cancel');
 	};
 }
+ 
 
-function prepend(arr, item) {
-	// 将arr数组复制给a
-	var a = arr.slice(0);
-	// 使用unshift方法向a开头添加item
-	a.unshift(item);
-	return a;
-}
-
-function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysUserSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.userGroupOpt = [];
 	$scope.userGroupSel = "";
@@ -144,7 +137,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 					'bInfo', false).withOption('serverSide', true).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang).withOption("select", {
+			}).withOption("select", {
 				style : 'multi',
 				selector : 'td:first-child'
 			}).withButtons([ {

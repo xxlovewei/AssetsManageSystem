@@ -61,7 +61,7 @@ function menuModuleCtl($localStorage, notify, $log, $uibModal,
 
 }
 
-function menuAclCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder,
+function menuAclCtl($timeout, DTOptionsBuilder, DTColumnBuilder,
 		notify, $log, $uibModal, $uibModalInstance, $scope, data, $http,
 		$rootScope, $compile) {
 	$scope.item = {}
@@ -104,7 +104,7 @@ function menuAclCtl($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder,
 										}
 									}, 80)
 						}
-					}).withLanguage(DTLang).withOption("select", {
+					}).withOption("select", {
 				style : 'multi',
 				selector : 'td:first-child'
 			});

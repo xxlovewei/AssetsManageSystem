@@ -1,4 +1,4 @@
-function sysOnlineSessionCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
+function sysOnlineSessionCtl( DTOptionsBuilder, DTColumnBuilder,
 		$compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.meta ={

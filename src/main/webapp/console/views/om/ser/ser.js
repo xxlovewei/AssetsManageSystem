@@ -1,11 +1,4 @@
-function prepend(arr, item) {
-	// 将arr数组复制给a
-	var a = arr.slice(0);
-	// 使用unshift方法向a开头添加item
-	a.unshift(item);
-	return a;
-}
-
+ 
 function mnServiceAddFormCtl($localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, id, $http, $rootScope) {
 
@@ -47,7 +40,7 @@ function mnServiceAddFormCtl($localStorage, notify, $log, $uibModal,
 
 }
 
-function mnserviceCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function mnserviceCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 //	$scope.userGroupOpt = [];
@@ -77,7 +70,7 @@ function mnserviceCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					$scope.tabdata).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";

@@ -140,7 +140,7 @@ function orgEmpSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 	};
 }
 
-function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function orgEmpAdjustCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.data = {
 		name : ""
@@ -169,7 +169,7 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
 
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {

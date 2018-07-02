@@ -30,7 +30,7 @@ function prodCatBItemRenameCtl($log, $http, $rootScope, $scope,
 }
 // 属性选项
 function prodCatAttrValueSaveCtl($log, $http, $rootScope, $scope, $compile,
-		DTLang, DTOptionsBuilder, DTColumnBuilder, $uibModalInstance, id,
+		 DTOptionsBuilder, DTColumnBuilder, $uibModalInstance, id,
 		notify) {
 
 	$scope.data = [];
@@ -379,7 +379,7 @@ function prodCatBAddAttrCtl($log, $http, $rootScope, $scope, $uibModalInstance,
 
 }
 
-function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
+function prodCatBCtl($compile, DTOptionsBuilder, DTColumnBuilder,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
@@ -392,7 +392,7 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 					$scope.tabdata).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
 	$scope.dtInstance = {}
 
 	function renderInput(data, type, full) {
