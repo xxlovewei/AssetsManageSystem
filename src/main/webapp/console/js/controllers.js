@@ -5,6 +5,8 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
 	var cur_theme=$localStorage.get("cur_theme");
 	if(angular.isDefined(cur_theme)){
 		   $scope.cur_skin=cur_theme;
+	}else{
+		   $scope.cur_skin="default";
 	}
 	
 	   $scope.change_theme=function(theme){

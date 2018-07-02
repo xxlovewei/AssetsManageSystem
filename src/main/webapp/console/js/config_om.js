@@ -14,10 +14,14 @@ function config_om($stateProvider, $ocLazyLoadProvider) {
 		data : {
 			pageTitle : '节点管理'
 		},
-		templateUrl : "views/om/hostnode/hostmgr.html",
+		template:'<div ng-controller="nodeHostMgrCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([{
+					serie : true,
+					files : ['plugin/term/term.js'
+							+ version]
+				},{
 							serie : true,
 							files : ['views/om/hostnode/hostmgr.js?v='
 									+ version]
@@ -51,7 +55,7 @@ function config_om($stateProvider, $ocLazyLoadProvider) {
 				data : {
 					pageTitle : '服务节点'
 				},
-				templateUrl : "views/om/ser/node.html",
+				template:'<div ng-controller="mnservicenodeCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
 						return $ocLazyLoad.load([{
@@ -102,7 +106,7 @@ function config_om($stateProvider, $ocLazyLoadProvider) {
 				data : {
 					pageTitle : '度量设置'
 				},
-				templateUrl : "views/om/metric/metric.html",
+				template:'<div ng-controller="metricCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
 						return $ocLazyLoad.load([{
@@ -117,7 +121,7 @@ function config_om($stateProvider, $ocLazyLoadProvider) {
 				data : {
 					pageTitle : '度量模版'
 				},
-				templateUrl : "views/om/metric/templ.html",
+				template:'<div ng-controller="metricTemplCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
 						return $ocLazyLoad.load([{
@@ -130,9 +134,9 @@ function config_om($stateProvider, $ocLazyLoadProvider) {
 			}).state('metricmgr.metricmapping', {
 				url : "/metricmgr_metricmapping",
 				data : {
-					pageTitle : '度量模版'
+					pageTitle : '度量映射'
 				},
-				templateUrl : "views/om/metric/mapping.html",
+				template:'<div ng-controller="metricmappingCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
 						return $ocLazyLoad.load([{
@@ -154,7 +158,7 @@ function config_om($stateProvider, $ocLazyLoadProvider) {
 				data : {
 					pageTitle : '检测管理'
 				},
-				templateUrl : "views/om/touch/web.html",
+				template:'<div ng-controller="touchWebCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
 						return $ocLazyLoad.load([{

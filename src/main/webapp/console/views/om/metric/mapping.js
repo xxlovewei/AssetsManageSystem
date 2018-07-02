@@ -1,10 +1,4 @@
-function prepend(arr, item) {
-	// 将arr数组复制给a
-	var a = arr.slice(0);
-	// 使用unshift方法向a开头添加item
-	a.unshift(item);
-	return a;
-}
+ 
 
 function metricTemplAddmetricCtl($timeout, DTLang, DTOptionsBuilder,
 		DTColumnBuilder, notify, $log, $uibModal, $uibModalInstance, $scope,
@@ -114,18 +108,38 @@ function metricTemplAddmetricCtl($timeout, DTLang, DTOptionsBuilder,
 
 }
 
-function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function metricmappingCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.templOpt = [];
-	$scope.templSel = "";
+	$scope.meta ={
+			tools : [ {
+				id : "1",
+				name : "类型",
+				type : "select",
+				disablesearch:true,
+				dataOpt :[] ,
+				dataSel :""
+			},{
+				id : "1",
+				name : "查询",
+				type : "btn",
+				template:' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+	 
+			}, {
+				id : "1",
+				name : "新增",
+				type : "btn",
+				template:' <button ng-click="add()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+	 
+			} ]
+		}
 
 	$http.post($rootScope.project + "/api/mn/queryMetricGroup.do", {}).success(
 			function(res) {
-				if (res.success) {
-					$scope.templOpt = res.data;
+				if (res.success) {				 
 					if (res.data.length > 0) {
-						$scope.templSel = res.data[0];
+						$scope.meta.tools[0].dataOpt = res.data;
+						$scope.meta.tools[0].dataSel= res.data[0];
 						flush();
 					}
 				} else {
@@ -135,17 +149,10 @@ function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				}
 			})
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
-			'full_numbers').withDisplayLength(25).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", false)
-			.withOption("paging", false).withOption('bStateSave', true)
-			.withOption('bProcessing', true).withOption('bFilter', false)
-			.withOption('bInfo', false).withOption('serverSide', false)
-			.withOption('bAutoWidth', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -182,9 +189,9 @@ function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
-
+		console.log($scope.meta.tools[0].dataSel.id);
 		$http.post($rootScope.project + "/api/mn/queryMetricGroupMetrics.do", {
-			id : $scope.templSel.id
+			id : 	$scope.meta.tools[0].dataSel.id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
@@ -195,7 +202,7 @@ function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			}
 		})
 	}
-	flush();
+ 
 
 	$scope.row_dtl = function(id) {
 
@@ -229,7 +236,7 @@ function metricmappingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 	$scope.add = function() {
 
-		var id = $scope.templSel.id;
+		var id =	$scope.meta.tools[0].dataSel.id
 		if (!angular.isDefined(id)) {
 			alert("没有Serviec_Id");
 			return;

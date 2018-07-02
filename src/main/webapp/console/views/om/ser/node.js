@@ -1,10 +1,4 @@
-function prepend(arr, item) {
-	// 将arr数组复制给a
-	var a = arr.slice(0);
-	// 使用unshift方法向a开头添加item
-	a.unshift(item);
-	return a;
-}
+ 
 
 function mnServiceAddFormCtl($localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, id, $http, $rootScope) {
@@ -153,18 +147,42 @@ function serviceNodeadd($timeout, DTLang, DTOptionsBuilder, DTColumnBuilder,
 
 }
 
-function mnservicenodeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function mnservicenodeCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.serviceOpt = [];
-	$scope.serviceSel = "";
+	$scope.meta ={
+			tools : [ {
+				id : "1",
+				name : "服务",
+				type : "select",
+				disablesearch:true,
+				dataOpt :[] ,
+				dataSel :""
+			}, {
+				id : "1",
+				name : "查询",
+				type : "btn",
+				template:' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+	 
+			} , {
+				id : "2",
+				name : "新增",
+				type : "btn",
+				template:' <button ng-click="add()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+	 
+			} ]
+		}
+	
+//	
+//	$scope.serviceOpt = [];
+//	$scope.serviceSel = "";
 
 	$http.post($rootScope.project + "/api/mn/queryServics.do", {}).success(
 			function(res) {
 				if (res.success) {
-					$scope.serviceOpt = res.data;
+					$scope.meta.tools[0].dataOpt = res.data;
 					if (res.data.length > 0) {
-						$scope.serviceSel = res.data[0];
+						$scope.meta.tools[0].dataSel= res.data[0];
 						flush();
 					}
 				} else {
@@ -174,17 +192,11 @@ function mnservicenodeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				}
 			})
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
-			'full_numbers').withDisplayLength(25).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", false)
-			.withOption("paging", false).withOption('bStateSave', true)
-			.withOption('bProcessing', true).withOption('bFilter', false)
-			.withOption('bInfo', false).withOption('serverSide', false)
-			.withOption('bAutoWidth', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+	
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -223,7 +235,7 @@ function mnservicenodeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	function flush() {
 
 		$http.post($rootScope.project + "/api/mn/queryMnServiceNodes.do", {
-			id : $scope.serviceSel.id
+			id : 	$scope.meta.tools[0].dataSel.id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
