@@ -88,7 +88,7 @@ function proddlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('od').withTitle('顺序').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('class_id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('class_id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {

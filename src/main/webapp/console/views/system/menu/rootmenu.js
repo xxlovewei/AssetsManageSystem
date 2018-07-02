@@ -1,5 +1,5 @@
 function rootMenuSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
-
+	
 	$scope.statusOpt = [ {
 		id : "1",
 		name : "正常"
@@ -54,20 +54,28 @@ function rootMenuSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 	};
 }
 
-function sysRootMenugCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysRootMenugCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
-					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+	$scope.meta ={
+			tablehide:false,
+			tools : [ {
+				id : "1",
+				name : "新增",
+				type : "btn",
+				template:' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+	 
+			} ]
+		}
+
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
+		// Recompiling so we can bind Angular,directive to the
+		$compile(angular.element(row).contents())($scope);
+	});
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 		acthtml = acthtml + " <button ng-click=\"save('" + full.menu_id + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
-		// acthtml = acthtml + " <button ng-click=\"row_detail()\"
-		// class=\"btn-white btn btn-xs\">详细</button> ";
+	 
 		acthtml = acthtml + " <button ng-click=\"row_del('" + full.menu_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
@@ -81,7 +89,7 @@ function sysRootMenugCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 
 	$scope.dtColumns = [ DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('used').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('menu_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+			DTColumnBuilder.newColumn('menu_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}

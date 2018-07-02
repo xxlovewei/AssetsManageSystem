@@ -93,7 +93,7 @@ function myshopListCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $con
 	DTColumnBuilder.newColumn('shop_name').withTitle('名称').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('status').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('brand_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+			DTColumnBuilder.newColumn('brand_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		$http.post($rootScope.project + "/api/shop/queryMyShop.do", {}).success(function(res) {

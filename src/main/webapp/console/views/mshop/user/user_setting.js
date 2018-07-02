@@ -255,7 +255,7 @@ function sysUserSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('user_type').withTitle('用户类型')
 					.withOption('sDefaultContent', '').renderWith(renderType),
-			DTColumnBuilder.newColumn('user_id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('user_id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	console.log($scope.dtColumns);

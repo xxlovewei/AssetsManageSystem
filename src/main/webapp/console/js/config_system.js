@@ -179,7 +179,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('module.rootmenu', {
 		url : "/rootmenu",
 		data: { pageTitle: '主菜单管理'},
-		templateUrl : "views/system/menu/rootmenu.html",
+		template:'<div ng-controller="sysRootMenugCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -330,7 +330,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('system.params', {
 		url : "/sys_params",
 		data: { pageTitle: '参数设置'},
-		templateUrl : "views/system/params/params.html",
+		template:'<div ng-controller="sysParamsCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -342,7 +342,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('system.storesql', {
 		url : "/storesql",
 		data: { pageTitle: 'StoreSQL设置'},
-		templateUrl : "views/system/store/storesql.html",
+		template:'<div ng-controller="sysStoreSqlCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -366,7 +366,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('system.cachemgr', {
 		url : "/cachemgr",
 		data: { pageTitle: '缓存管理'},
-		templateUrl : "views/system/cache/cache.html",
+		template:'<div ng-controller="sysCacheCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {

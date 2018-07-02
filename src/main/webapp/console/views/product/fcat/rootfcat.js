@@ -127,7 +127,7 @@ function prodrootfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('is_used').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {

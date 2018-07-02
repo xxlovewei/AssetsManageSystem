@@ -136,7 +136,7 @@ function mallNoticeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('is_show').withTitle('是否显示').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	$scope.row_detail = function(id) {

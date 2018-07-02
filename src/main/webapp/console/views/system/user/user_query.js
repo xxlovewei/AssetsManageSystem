@@ -99,7 +99,7 @@ function sysUserQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 					.withOption('sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('user_id').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('user_id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('user_id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 	
 

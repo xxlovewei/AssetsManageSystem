@@ -48,7 +48,7 @@ function sysTaskCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log
 			DTColumnBuilder.newColumn('jobrunstatus').withTitle('运行状态').withOption('sDefaultContent', '').renderWith(renderRunStatus),
 			DTColumnBuilder.newColumn('last_run').withTitle('最后运行').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', '').withClass('none'),,
-			DTColumnBuilder.newColumn('seq').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+			DTColumnBuilder.newColumn('seq').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}

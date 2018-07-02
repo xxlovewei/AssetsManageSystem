@@ -92,7 +92,7 @@ function prodPinpCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 //			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 //					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('brand_id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('brand_id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {

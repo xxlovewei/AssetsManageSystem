@@ -538,7 +538,7 @@ function prodCatBCtl($compile, DTLang, DTOptionsBuilder, DTColumnBuilder,
 					'sDefaultContent', '').renderWith(renderMust),
 			DTColumnBuilder.newColumn('attr_type_name').withTitle('属性类型')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('attr_id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('attr_id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction),
 
 	]

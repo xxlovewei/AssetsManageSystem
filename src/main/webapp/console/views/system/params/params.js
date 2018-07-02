@@ -52,14 +52,21 @@ function sysParamSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 
 function sysParamsCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
-					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			}).withOption("select", {
-				style : 'single'
-			}).withLanguage(DTLang);
+	
+	$scope.meta ={
+			tools : [ {
+				id : "1",
+				name : "新增",
+				type : "btn",
+				template:' <button ng-click="add()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+	 
+			} ]
+		}
+	
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
+		// Recompiling so we can bind Angular,directive to the
+		$compile(angular.element(row).contents())($scope);
+	});
 	$scope.dtInstance = {}
 
 	function renderStatus(data, type, full) {
@@ -73,10 +80,13 @@ function sysParamsCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 		return value;
 	}
 
+ 
 	$scope.dtColumns = [ DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('value').withTitle('编码').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('type').withTitle('类型').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', '') ]
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('id').withTitle('操作').renderWith(dt_renderUDAction)
+					]
 
 	function flush() {
 		var ps = {}
@@ -87,20 +97,11 @@ function sysParamsCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 			}
 		})
 	}
-	function getSelectId() {
-		var data = $scope.dtInstance.DataTable.rows({
-			selected : true
-		})[0];
-		// 没有选择,或选择多行都返回错误
-		if (data.length == 0 || data.length > 1) {
-			return;
-		} else {
-			return $scope.dtOptions.aaData[data[0]].id;
-		}
-	}
-
+	 
 	flush();
-
+	$scope.update=function(id){
+		save(id);
+	}
 	function save(id) {
 
 		var modalInstance = $uibModal.open({
@@ -126,28 +127,13 @@ function sysParamsCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 
 	}
 
-	$scope.flush = function() {
-		flush();
-	}
-
+	 
 	$scope.add = function() {
 		save();
 	}
 
-	$scope.modify = function() {
-		var id = getSelectId();
-		if (angular.isDefined(id)) {
-			save(id);
-		} else {
-			notify({
-				message : "请选择一行"
-			});
-		}
-
-	}
-
-	$scope.del = function() {
-		var id = getSelectId();
+	 
+	$scope.del = function(id) {
 		if (angular.isDefined(id)) {
 			//删除
 			$confirm({

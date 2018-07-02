@@ -168,7 +168,7 @@ function mnservicenodemetricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder,
 					'sDefaultContent', '').renderWith(warnAction),
 			DTColumnBuilder.newColumn('id').withTitle('告警内容').withOption(
 					'sDefaultContent', '').renderWith(warnctAction),
-			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction)]
 
 	function flush() {

@@ -57,7 +57,7 @@ function hrmOrgEmployeeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 
 	DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption('sDefaultContent', ''), DTColumnBuilder.newColumn('name').withTitle('姓名').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', '') //,
-	//			DTColumnBuilder.newColumn('ID').withTitle('动作').withOption(
+	//			DTColumnBuilder.newColumn('ID').withTitle('操作').withOption(
 	//					'sDefaultContent', '').renderWith(renderAction) 
 
 	]

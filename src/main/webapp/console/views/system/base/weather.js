@@ -71,7 +71,7 @@ function prodCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('is_action').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('role_id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {

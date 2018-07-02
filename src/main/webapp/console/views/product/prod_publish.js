@@ -281,7 +281,7 @@ function prodPublishCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 			}
 		}
 	}
-	/** *******************************动作事件响应************************************ */
+	/** *******************************操作事件响应************************************ */
 	$scope.submit = function() {
 
 		var picid = getUuid();

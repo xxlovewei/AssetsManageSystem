@@ -375,7 +375,7 @@ function shopIndexClassCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('sales').withTitle('销售').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('spu').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('spu').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flushSubtab(id,reset) {

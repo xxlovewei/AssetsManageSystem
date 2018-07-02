@@ -99,3 +99,13 @@ function prepend(arr, item) {
 	a.unshift(item);
 	return a;
 }
+
+
+function dt_renderUDAction(data, type, full) {
+	var acthtml = " <div class=\"btn-group\"> ";
+	acthtml = acthtml + " <button ng-click=\"update('" + full.id
+			+ "')\" class=\"btn-white btn btn-xs\">更新</button>   ";
+	acthtml = acthtml + " <button ng-click=\"del('" + full.id
+	+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+	return acthtml;
+}

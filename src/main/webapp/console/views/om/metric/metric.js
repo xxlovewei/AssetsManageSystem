@@ -143,7 +143,7 @@ function metricCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').renderWith(warnctAction),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction)]
 
 	function flush() {

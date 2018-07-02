@@ -94,7 +94,7 @@ function ctNewsMgrCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('hits').withTitle('点击量').withOption('sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('urltype').withTitle('链接类型').withOption('sDefaultContent', '').renderWith(renderType),
-			DTColumnBuilder.newColumn('user_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+			DTColumnBuilder.newColumn('user_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	$scope.row_del = function(id) {
 		$confirm({

@@ -272,7 +272,7 @@ function sysDictSettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, 
 
 	$scope.dtItemColumns = [ DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('sort').withTitle('排序').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('dict_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+			DTColumnBuilder.newColumn('dict_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flushSubtab(id) {
 

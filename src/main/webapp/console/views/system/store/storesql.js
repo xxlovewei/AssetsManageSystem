@@ -1,11 +1,4 @@
-function prepend(arr, item) {
-	// 将arr数组复制给a
-	var a = arr.slice(0);
-	// 使用unshift方法向a开头添加item
-	a.unshift(item);
-	return a;
-}
-
+ 
 function sysStoreSqlSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope, $timeout) {
 	$scope.usedOpt = [ {
 		id : "Y",
@@ -100,14 +93,21 @@ function sysStoreSqlSaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, 
 	};
 
 }
-function sysStoreSqlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysStoreSqlCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
-					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+	$scope.meta ={
+			tools : [   {
+				id : "1",
+				name : "新增",
+				type : "btn",
+				template:' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+	 
+			} ]
+		}
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
+		// Recompiling so we can bind Angular,directive to the
+		$compile(angular.element(row).contents())($scope);
+	});
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -154,7 +154,7 @@ function sysStoreSqlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 			DTColumnBuilder.newColumn('return_type').withTitle('返回类型').withOption('sDefaultContent', '').renderWith(renderRT),
 			DTColumnBuilder.newColumn('is_used').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
 			DTColumnBuilder.newColumn('sqltext').withTitle('SQL文本').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('user_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+			DTColumnBuilder.newColumn('user_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}
@@ -190,7 +190,7 @@ function sysStoreSqlCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $co
 			backdrop : true,
 			templateUrl : 'views/system/store/modal_storesqlSave.html',
 			controller : sysStoreSqlSaveCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return id;

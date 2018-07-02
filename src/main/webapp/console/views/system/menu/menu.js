@@ -379,7 +379,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 			},
 			{
 				field : "node_id",
-				displayName : "动作",
+				displayName : "操作",
 				cellTemplate : acthtml,
 				cellTemplateScope : {
 					setmodule : function(data) { // this works too:

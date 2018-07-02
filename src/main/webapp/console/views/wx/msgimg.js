@@ -49,7 +49,7 @@ function wxmsgimgCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('ctime').withTitle('日期').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction)]
 
 	function flush() {

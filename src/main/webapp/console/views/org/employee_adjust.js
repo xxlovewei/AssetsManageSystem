@@ -191,7 +191,7 @@ function orgEmpAdjustCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $c
 	$scope.dtColumns = [ DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('name').withTitle('姓名').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('node_name').withTitle('所属').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('role_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+			DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 

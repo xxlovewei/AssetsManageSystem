@@ -3,7 +3,7 @@ function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 
 	$scope.classOpt = [{
 				id : "action",
-				name : "动作"
+				name : "操作"
 			}, {
 				id : "push",
 				name : "推送"
@@ -81,7 +81,7 @@ function wxmsgsettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				name : "全部"
 			}, {
 				id : "action",
-				name : "动作"
+				name : "操作"
 			}, {
 				id : "push",
 				name : "推送"
@@ -130,7 +130,7 @@ function wxmsgsettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		} else if (data == "push") {
 			return "推送";
 		} else if (data == "action") {
-			return "动作";
+			return "操作";
 		} else {
 			return data;
 		}
@@ -152,7 +152,7 @@ function wxmsgsettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			 * DTColumnBuilder.newColumn('is_auto').withTitle('自动回复').withOption(
 			 * 'sDefaultContent', ''),
 			 */
-			DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction)]
 
 	function flush() {

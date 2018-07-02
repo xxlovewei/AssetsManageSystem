@@ -1,14 +1,29 @@
-function sysCacheCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function sysCacheCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.cacheOpt = [];
-	$scope.cacheSel = "";
+	$scope.meta ={
+			tools : [ {
+				id : "1",
+				name : "缓存域",
+				type : "select",
+				disablesearch:true,
+				dataOpt :[] ,
+				dataSel : ""
+			}, {
+				id : "2",
+				name : "查询",
+				type : "btn",
+				template:' <button ng-click="flush()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+	 
+			} ]
+		}
+ 
 	$http.post($rootScope.project + "/api/system/queryCacheName.do", {})
 			.success(function(res) {
 				if (res.success) {
-					$scope.cacheOpt = res.data;
+					 $scope.meta.tools[0].dataOpt = res.data;
 					if (res.data.length > 0) {
-						$scope.cacheSel = $scope.cacheOpt[0];
+						$scope.meta.tools[0].dataSel = res.data[0]
 						flush();
 					}
 				} else {
@@ -18,17 +33,10 @@ function sysCacheCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				}
 			})
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
-			'full_numbers').withDisplayLength(25).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", false)
-			.withOption("paging", false).withOption('bStateSave', true)
-			.withOption('bProcessing', true).withOption('bFilter', false)
-			.withOption('bInfo', false).withOption('serverSide', false)
-			.withOption('bAutoWidth', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -78,14 +86,14 @@ function sysCacheCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('expiretime').withTitle('过期时间')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('key').withTitle('动作').withOption(
+			DTColumnBuilder.newColumn('key').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	
 	function flush() {
 
 		$http.post($rootScope.project + "/api/system/queryCacheKeys.do", {
-			cache : $scope.cacheSel.id
+			cache : $scope.meta.tools[0].dataSel.id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;

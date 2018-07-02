@@ -82,7 +82,7 @@ function sysModuleCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile, $conf
 			DTColumnBuilder.newColumn('MODULE_NAME').withTitle('名称').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('IS_ACTION').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
 			DTColumnBuilder.newColumn('MARK').withTitle('备注').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('MODULE_ID').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+			DTColumnBuilder.newColumn('MODULE_ID').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}

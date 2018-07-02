@@ -19,7 +19,7 @@ function meRecAddrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 			DTColumnBuilder.newColumn('contact').withTitle('联系方式').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('zcode').withTitle('邮编').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('ctdtl').withTitle('地址').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+			DTColumnBuilder.newColumn('id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}

@@ -88,7 +88,7 @@ function sysRoleSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 	$scope.dtColumns = [ DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('is_action').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('role_id').withTitle('动作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+			DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}
