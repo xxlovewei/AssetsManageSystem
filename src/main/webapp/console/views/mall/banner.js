@@ -116,16 +116,41 @@ function mallBannerItemSaveCtl($localStorage, notify, $log, $uibModal,
 	};
 }
 
-function mallbannerCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function mallbannerCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 	$scope.bannerOpt = [];
+	
+	$scope.meta ={
+			tools : [ {
+				id : "1",
+				name : "类型",
+				type : "select",
+				disablesearch:true,
+				dataOpt :[] ,
+				dataSel :""
+			},{
+				id : "1",
+				name : "查询",
+				type : "btn",
+				template:' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+	 
+			} , {
+				id : "1",
+				name : "新增",
+				type : "btn",
+				template:' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+	 
+			} ]
+		}
+	
+	
 	$http.post($rootScope.project + "/api/banner/queryBanner.do", {
 		type : "mall"
 	}).success(function(res) {
 		if (res.success) {
-			$scope.bannerOpt = res.data;
+			$scope.meta.tools[0].dataOpt = res.data;
 			if (res.data.length > 0) {
-				$scope.bannerSel = res.data[0];
+				$scope.meta.tools[0].dataSel = res.data[0];
 				flush();
 			}
 		} else {
@@ -135,17 +160,12 @@ function mallbannerCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 	})
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
-			'full_numbers').withDisplayLength(25).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", false)
-			.withOption("paging", false).withOption('bStateSave', true)
-			.withOption('bProcessing', true).withOption('bFilter', false)
-			.withOption('bInfo', false).withOption('serverSide', false)
-			.withOption('bAutoWidth', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+	
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+			});
+	
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -184,7 +204,7 @@ function mallbannerCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 	function flush() {
 	 
 		var ps = {}
-		ps.banner_id = $scope.bannerSel.banner_id;
+		ps.banner_id = 	$scope.meta.tools[0].dataSel.banner_id;
 		$http.post($rootScope.project + "/api/banner/queryBannerItems.do", ps)
 				.success(function(res) {
 					if (res.success) {
@@ -226,13 +246,13 @@ function mallbannerCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 			backdrop : true,
 			templateUrl : 'views/mall/modal_banneritem_save.html',
 			controller : mallBannerItemSaveCtl,
-			size : 'md',
+			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return id;
 				},
 				banner_id : function() {
-					return $scope.bannerSel.banner_id;
+					return $scope.meta.tools[0].dataSel.banner_id;
 				},
 			}
 		});

@@ -19,7 +19,7 @@ function config_om($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([{
 					serie : true,
-					files : ['plugin/term/term.js'
+					files : ['plugin/term/term.js?v+'
 							+ version]
 				},{
 							serie : true,

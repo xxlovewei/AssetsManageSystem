@@ -90,16 +90,27 @@ function mallNoticeItemSaveCtl($localStorage, notify, $log, $uibModal,
 	};
 }
 
-function mallNoticeCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function mallNoticeCtl(  DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
+	$scope.meta ={
+			tools : [  {
+				id : "1",
+				name : "新增",
+				type : "btn",
+				template:' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+	 
+			} ]
+		}
+		
+ 
 	$scope.URL = $rootScope.project + "/api/mallnotice/queryNotice.do";
 	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp('data').withPaginationType('full_numbers').withDisplayLength(10).withOption("ordering", false)
 	.withOption("responsive", true).withOption("searching", false).withOption("paging", true).withOption('bStateSave', true).withOption('bProcessing', false).withOption(
 			'bFilter', false).withOption('bInfo', false).withOption('serverSide', true).withOption('bAutoWidth', false).withOption('createdRow', function(row) {
 		// Recompiling so we can bind Angular,directive to the
 		$compile(angular.element(row).contents())($scope);
-	}).withLanguage(DTLang);
+	});
 
 	$scope.dtInstance = {}
 	$scope.reloadData = reloadData;

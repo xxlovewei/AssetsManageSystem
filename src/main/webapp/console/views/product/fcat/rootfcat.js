@@ -1,10 +1,4 @@
-function prepend(arr, item) {
-	// 将arr数组复制给a
-	var a = arr.slice(0);
-	// 使用unshift方法向a开头添加item
-	a.unshift(item);
-	return a;
-}
+ 
 
 function prodrootfCatSaveCtl($uibModalInstance, $compile, $confirm, $log,
 		notify, $scope, $http, $rootScope, $uibModal, data) {
@@ -81,20 +75,25 @@ function prodrootfCatSaveCtl($uibModalInstance, $compile, $confirm, $log,
 
 }
 
-function prodrootfCatCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function prodrootfCatCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+	$scope.meta ={
+			tools : [  {
+				id : "1",
+				name : "新增",
+				type : "btn",
+				template:' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+	 
+			} ]
+		}
+		
+		$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
+					// Recompiling so we can bind Angular,directive to the
+					$compile(angular.element(row).contents())($scope);
+				});
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
-			'full_numbers').withDisplayLength(25).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", false)
-			.withOption("paging", false).withOption('bStateSave', true)
-			.withOption('bProcessing', true).withOption('bFilter', false)
-			.withOption('bInfo', false).withOption('serverSide', false)
-			.withOption('bAutoWidth', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			}).withLanguage(DTLang);
+	
+ 
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";

@@ -43,7 +43,7 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html"
 	}).state('shop.shop_list', {
 		url : "/shop_list",
-		templateUrl : "views/shop/shop.html",
+		template:'<div ng-controller="shopListCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -55,7 +55,7 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 	}).state('shop.shop_info', {
 		url : "/shop_info",
 		data: { pageTitle: '我的店铺'},
-		templateUrl : "views/shop/myshop.html",
+		template:'<div ng-controller="shopListCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -74,7 +74,7 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html"
 	}).state('pinp.pinp_mgr', {
 		url : "/pinp_mgr",
-		templateUrl : "views/product/pinp/pinp.html",
+		template:'<div ng-controller="prodPinpCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -94,7 +94,7 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 	}).state('mallmgr.banner', {
 		url : "/mgr",
 		data: { pageTitle: 'Banner设置'},
-		templateUrl : "views/mall/banner.html",
+		template:'<div ng-controller="mallbannerCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -106,7 +106,7 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 	}).state('mallmgr.notice', {
 		url : "/notice",
 		data: { pageTitle: '公告设置'},
-		templateUrl : "views/mall/notice.html",
+		template:'<div ng-controller="mallNoticeCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -151,7 +151,7 @@ function config_shop($stateProvider, $ocLazyLoadProvider) {
 	}).state('cat.fcat_group', {
 		data: { pageTitle: '前台类目组'},
 		url : "/fcat_group",
-		templateUrl : "views/product/fcat/rootfcat.html",
+		template:'<div ng-controller="prodrootfCatCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
