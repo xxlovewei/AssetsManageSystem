@@ -146,17 +146,39 @@ function msgtextsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
 
 }
 
-function wximgtextCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function wximgtextCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.msgOpt = [];
-	$scope.msgSel = "";
+	$scope.meta ={
+			tools : [ {
+				id : "1",
+				name : "图文消息组",
+				type : "select",
+				disablesearch:true,
+				dataOpt :[] ,
+				dataSel : ""
+			}, {
+				id : "1",
+				name : "查询",
+				type : "btn",
+				template:' <button ng-click="flush()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+	 
+			},{
+				id : "1",
+				name : "新增",
+				type : "btn",
+				template:' <button ng-click="modify()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+	 
+			} ]
+		}
+	
+ 
 	$http.post($rootScope.project + "/api/wx/queryImageTextMessagesGroup.do",
 			{}).success(function(res) {
 				if (res.success) {
-					$scope.msgOpt = res.data;
+					$scope.meta.tools[0].dataOpt = res.data;
 					if (res.data.length > 0) {
-						$scope.msgSel = $scope.msgOpt[0];
+						$scope.meta.tools[0].dataSel = res.data[0];
 					}
 					flush();
 				} else {
@@ -166,18 +188,12 @@ function wximgtextCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 				}
 			});
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise()
-			.withPaginationType('full_numbers').withDisplayLength(25)
-			.withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", false).withOption("paging", false)
-			.withOption('bStateSave', true).withOption('bProcessing', true)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('bAutoWidth', false)
-			.withOption('aaData', $scope.tabdata).withOption('createdRow',
-					function(row) {
-						// Recompiling so we can bind Angular,directive to the
-						$compile(angular.element(row).contents())($scope);
-					}).withLanguage(DTLang);
+
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
+				// Recompiling so we can bind Angular,directive to the
+				$compile(angular.element(row).contents())($scope);
+			});
+	
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -204,7 +220,7 @@ function wximgtextCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flush() {
 		var ps = {}
-		ps.id = $scope.msgSel.group_id;
+		ps.id = $scope.meta.tools[0].dataSel.group_id;
 		$http
 				.post($rootScope.project + "/api/wx/queryImageTextMessages.do",
 						ps).success(function(res) {
@@ -235,7 +251,7 @@ function wximgtextCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 							return id;
 						},
 						group_id : function() {
-							return $scope.msgSel.group_id;
+							return $scope.meta.tools[0].dataSel.group_id;
 						}
 					}
 				});

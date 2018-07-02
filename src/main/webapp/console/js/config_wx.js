@@ -17,7 +17,7 @@ function config_wx($stateProvider, $ocLazyLoadProvider) {
 				data : {
 					pageTitle : '应用设置'
 				},
-				templateUrl : "views/wx/app.html",
+				template:'<div ng-controller="wxappCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
 						return $ocLazyLoad.load([{
@@ -31,7 +31,7 @@ function config_wx($stateProvider, $ocLazyLoadProvider) {
 				data : {
 					pageTitle : '网页授权'
 				},
-				templateUrl : "views/wx/weboauth.html",
+				template:'<div ng-controller="weboauthCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
 						return $ocLazyLoad.load([{
@@ -54,7 +54,7 @@ function config_wx($stateProvider, $ocLazyLoadProvider) {
 				data : {
 					pageTitle : '图文消息'
 				},
-				templateUrl : "views/wx/imgtext.html",
+				template:'<div ng-controller="wximgtextCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
 						return $ocLazyLoad.load([{
@@ -68,7 +68,7 @@ function config_wx($stateProvider, $ocLazyLoadProvider) {
 				data : {
 					pageTitle : '消息设置'
 				},
-				templateUrl : "views/wx/setting.html",
+				template:'<div ng-controller="wxmsgsettingCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
 						return $ocLazyLoad.load([{
@@ -80,9 +80,9 @@ function config_wx($stateProvider, $ocLazyLoadProvider) {
 			}).state('wxmsg.msgimg', {
 				url : "/msgimg",
 				data : {
-					pageTitle : '消息图片'
+					pageTitle : '图片素材'
 				},
-				templateUrl : "views/wx/msgimg.html",
+				template:'<div ng-controller="wxmsgimgCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
 						return $ocLazyLoad.load([{

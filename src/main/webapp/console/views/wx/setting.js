@@ -73,36 +73,54 @@ function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 
 }
 
-function wxmsgsettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
+function wxmsgsettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+	var classOpt = [{
+		id : "all",
+		name : "全部"
+	}, {
+		id : "action",
+		name : "操作"
+	}, {
+		id : "push",
+		name : "推送"
+	}, {
+		id : "reply",
+		name : "回复"
+	}];
 
-	$scope.classOpt = [{
-				id : "all",
-				name : "全部"
-			}, {
-				id : "action",
-				name : "操作"
-			}, {
-				id : "push",
-				name : "推送"
-			}, {
-				id : "reply",
-				name : "回复"
-			}];
+ 
 
-	$scope.classSel = $scope.classOpt[0];
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise()
-			.withPaginationType('full_numbers').withDisplayLength(25)
-			.withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", false).withOption("paging", false)
-			.withOption('bStateSave', true).withOption('bProcessing', true)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('bAutoWidth', false)
-			.withOption('aaData', $scope.tabdata).withOption('createdRow',
-					function(row) {
-						// Recompiling so we can bind Angular,directive to the
-						$compile(angular.element(row).contents())($scope);
-					}).withLanguage(DTLang);
+	$scope.meta ={
+			tools : [ {
+				id : "1",
+				name : "分类",
+				type : "select",
+				disablesearch:true,
+				dataOpt :classOpt ,
+				dataSel : ""
+			}, {
+				id : "1",
+				name : "查询",
+				type : "btn",
+				template:' <button ng-click="flush()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+	 
+			},{
+				id : "1",
+				name : "新增",
+				type : "btn",
+				template:' <button ng-click="modify()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+	 
+			} ]
+		}
+	
+	$scope.meta.tools[0].dataSel=classOpt[0];
+	
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
+		// Recompiling so we can bind Angular,directive to the
+		$compile(angular.element(row).contents())($scope);
+	});
+	
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -148,17 +166,14 @@ function wxmsgsettingCtl(DTLang, DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', ''),
-			/*
-			 * DTColumnBuilder.newColumn('is_auto').withTitle('自动回复').withOption(
-			 * 'sDefaultContent', ''),
-			 */
+	 
 			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction)]
 
 	function flush() {
 		var ps = {}
-		if ($scope.classSel.id != "all") {
-			ps.funtype = $scope.classSel.id;
+		if ($scope.meta.tools[0].dataSel.id != "all") {
+			ps.funtype = $scope.meta.tools[0].dataSel.id;
 		}
 		$http.post($rootScope.project + "/api/wx/queryMessages.do", ps)
 				.success(function(res) {
