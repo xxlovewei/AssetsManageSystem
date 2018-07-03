@@ -17,10 +17,19 @@
 <!-- 主要样式 -->
 <link href="css/animate.css" rel="stylesheet">
 <link id="loadBefore" href="css/style.css" rel="stylesheet">
+<script>
+        /* yeah we need this empty stylesheet here. It's cool chrome & chromium fix
+         chrome fix https://code.google.com/p/chromium/issues/detail?id=167083
+         https://code.google.com/p/chromium/issues/detail?id=332189
+         */
+</script>
+<!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
+<!--[if IE 9]>
+        <link href="css/application-ie9-part2.css" rel="stylesheet">
+    <![endif]-->
 </head>
 <!-- 自定义 -->
 <body ng-controller="MainCtrl as main" ng-class="cur_skin"
-	class="{{$state.current.data.specialClass?$state.current.data.specialClass:'fixed-nav'}}"
 	landing-scrollspy id="page-top">
 	<div id="beforePage" class="preloader">
 		<div class="cs-loader">
@@ -41,7 +50,9 @@
 	<!-- SlimScroll -->
 	<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 	<!-- Peace JS -->
-	<script src="js/plugins/pace/pace.min.js"></script>
+	<script
+		data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }'
+		src="js/plugins/pace/pace.min.js"></script>
 	<!-- Custom and plugin javascript -->
 	<script src="js/inspinia.js"></script>
 	<!-- Main Angular scripts-->

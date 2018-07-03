@@ -1,3 +1,9 @@
+var app={
+		
+		
+}
+
+
 function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
 		userService, notify, $timeout) {
  
