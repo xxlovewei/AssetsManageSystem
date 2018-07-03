@@ -12,38 +12,35 @@
 	</div>
 	<div class="modal-body">
 		<div class="wrapper wrapper-content animated fadeInRight">
-			<div class="ibox">
-				<div class="ibox-content" style="border: none;">
-					<table class="table table-bordered table-stripped">
-						<thead>
-							<tr>
-								<th>图片</th>
-								<th>地址</th>
-								<th>排序</th>
-								<th>动作</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="item in prodPics">
-								<td><img style="width: 50px; height: 50px;"
-									src="{{project}}/api/file/imagedown.do?id={{item.pic_id}}"></td>
-								<td><input type="text" class="form-control" disabled
-									value="{{project}}api/file/imagedown.do?id={{item.pic_id}}"></td>
-								<td><input type="text" class="form-control"
-									ng-model=item.od></td>
-								<td>
-									<button ng-click="delpic(item)" class="btn btn-white">
-										<i class="fa fa-trash"></i>
-									</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<button ng-click="addPicture()" class="btn btn-sm btn-primary"
-						type="submit">添加图片</button>
-				</div>
-			</div>
+
+			<table class="table table-bordered table-stripped">
+				<thead>
+					<tr>
+						<th>图片</th>
+						<th>地址</th>
+						<th>排序</th>
+						<th>动作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in prodPics">
+						<td><img style="width: 50px; height: 50px;"
+							src="{{project}}/api/file/imagedown.do?id={{item.pic_id}}"></td>
+						<td><input type="text" class="form-control" disabled
+							value="{{project}}api/file/imagedown.do?id={{item.pic_id}}"></td>
+						<td><input type="text" class="form-control" ng-model=item.od></td>
+						<td>
+							<button ng-click="delpic(item)" class="btn btn-white">
+								<i class="fa fa-trash"></i>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<button ng-click="addPicture()" class="btn btn-sm btn-primary"
+				type="submit">添加图片</button>
 		</div>
+
 	</div>
 	<div class="modal-footer">
 		<button ng-click="cancel()" class="btn btn-warning">取消</button>

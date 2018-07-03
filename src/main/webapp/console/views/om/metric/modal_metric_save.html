@@ -12,11 +12,10 @@
 	</div>
 	<div class="modal-body">
 		<div class="wrapper wrapper-content animated fadeInRight">
-			<div class="ibox">
-				<div class="ibox-content" style="border: none;">
-					<form class="form-horizontal m-t-md " name="myForm" novalidate
-						action="">
-						<!-- 	<div class="form-group">
+
+			<form class="form-horizontal m-t-md " name="myForm" novalidate
+				action="">
+				<!-- 	<div class="form-group">
 							<label class="col-sm-2 control-label">显示设置:</label>
 							<div class="col-sm-10">
 								<input type="text"
@@ -25,104 +24,102 @@
 									class="form-control">
 							</div>
 						</div> -->
-						<div class="form-group">
-							<label class="col-sm-2 control-label">名称:</label>
-							<div class="col-sm-10">
-								<input type="text" required ng-maxlength="100"
-									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="name" ng-model="
+				<div class="form-group">
+					<label class="col-sm-2 control-label">名称:</label>
+					<div class="col-sm-10">
+						<input type="text" required ng-maxlength="100"
+							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+							placeholder="请输入内容" name="name" ng-model="
 									item.name"
-									class="form-control">
-								<div class="text-danger"
-									ng-if="myForm.name.$dirty && myForm.name.$invalid">
-									<span ng-if="myForm.name.$error.required"> 输入不能为空 </span> <span
-										ng-show="myForm.name.$error.maxlength">不能超过20个字符 </span>
-								</div>
-							</div>
+							class="form-control">
+						<div class="text-danger"
+							ng-if="myForm.name.$dirty && myForm.name.$invalid">
+							<span ng-if="myForm.name.$error.required"> 输入不能为空 </span> <span
+								ng-show="myForm.name.$error.maxlength">不能超过20个字符 </span>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">源内容:</label>
-							<div class="col-sm-10">
-								<input type="text"
-									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="ds_value" ng-model="item.ds_value"
-									class="form-control">
-							</div>
-						</div>
-
-
-						<div class="form-group">
-							<label class="col-sm-2 control-label"><span
-								class="text-danger">*</span>图表取数方式:</label>
-							<div class="col-sm-10">
-								<select width=100 chosen disable-search="true"
-									class="chosen-select" no-results-text="'没有找到相应条目'"
-									ng-model="chartdataSel" data-placeholder-text-single="'请选择...'"
-									ng-options="item.name for item in chartdataOpt">
-									<option value=""></option>
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-sm-2 control-label">字段:</label>
-							<div class="col-sm-10">
-								<input type="text"
-									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="cols" ng-model="item.cols"
-									class="form-control">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">备注:</label>
-							<div class="col-sm-10">
-								<input ng-model="item.mark" type="text" class="form-control"></input>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">图表设置:</label>
-							<div class="col-sm-10">
-								<textarea type="text" style="height: 400px;"
-									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入内容" name="chartopt" ng-model="item.chartopt"
-									class="form-control"></textarea>
-							</div>
-						</div>
-						<div class="hr-line-dashed"></div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label"><span
-								class="text-danger">*</span>是否告警:</label>
-							<div class="col-sm-10">
-								<select width=100 chosen disable-search="true"
-									class="chosen-select" no-results-text="'没有找到相应条目'"
-									ng-model="warnSel" data-placeholder-text-single="'请选择...'"
-									ng-options="item.name for item in warnOpt">
-									<option value=""></option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">告警字段:</label>
-							<div class="col-sm-10">
-								<input ng-model="item.v_a" type="text" class="form-control"></input>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">操作:</label>
-							<div class="col-sm-10">
-								<input ng-model="item.v_a_m" type="text" class="form-control"></input>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">阀值:</label>
-							<div class="col-sm-10">
-								<input ng-model="item.v_a_v" type="text" class="form-control"></input>
-							</div>
-						</div>
-
-					</form>
+					</div>
 				</div>
-			</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">源内容:</label>
+					<div class="col-sm-10">
+						<input type="text"
+							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+							placeholder="请输入内容" name="ds_value" ng-model="item.ds_value"
+							class="form-control">
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><span
+						class="text-danger">*</span>图表取数方式:</label>
+					<div class="col-sm-10">
+						<select width=100 chosen disable-search="true"
+							class="chosen-select" no-results-text="'没有找到相应条目'"
+							ng-model="chartdataSel" data-placeholder-text-single="'请选择...'"
+							ng-options="item.name for item in chartdataOpt">
+							<option value=""></option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">字段:</label>
+					<div class="col-sm-10">
+						<input type="text"
+							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+							placeholder="请输入内容" name="cols" ng-model="item.cols"
+							class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">备注:</label>
+					<div class="col-sm-10">
+						<input ng-model="item.mark" type="text" class="form-control"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">图表设置:</label>
+					<div class="col-sm-10">
+						<textarea type="text" style="height: 400px;"
+							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+							placeholder="请输入内容" name="chartopt" ng-model="item.chartopt"
+							class="form-control"></textarea>
+					</div>
+				</div>
+				<div class="hr-line-dashed"></div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><span
+						class="text-danger">*</span>是否告警:</label>
+					<div class="col-sm-10">
+						<select width=100 chosen disable-search="true"
+							class="chosen-select" no-results-text="'没有找到相应条目'"
+							ng-model="warnSel" data-placeholder-text-single="'请选择...'"
+							ng-options="item.name for item in warnOpt">
+							<option value=""></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">告警字段:</label>
+					<div class="col-sm-10">
+						<input ng-model="item.v_a" type="text" class="form-control"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">操作:</label>
+					<div class="col-sm-10">
+						<input ng-model="item.v_a_m" type="text" class="form-control"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">阀值:</label>
+					<div class="col-sm-10">
+						<input ng-model="item.v_a_v" type="text" class="form-control"></input>
+					</div>
+				</div>
+
+			</form>
 		</div>
 	</div>
 

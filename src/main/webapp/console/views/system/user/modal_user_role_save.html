@@ -13,13 +13,11 @@
 	</div>
 	<div class="modal-body">
 		<div class="wrapper wrapper-content animated fadeInRight">
-			<div class="ibox">
-				<div class="ibox-content" style="border: none;">
-					<select ng-options="id as name for (id, name) in userRoles" multiple
-						ng-model="roleSel" bs-duallistbox></select>
 
-				</div>
-			</div>
+			<select ng-options="id as name for (id, name) in userRoles" multiple
+				ng-model="roleSel" bs-duallistbox></select>
+
+
 		</div>
 	</div>
 

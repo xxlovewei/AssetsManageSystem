@@ -12,59 +12,56 @@
 	</div>
 	<div class="modal-body">
 		<div class="wrapper wrapper-content animated fadeInRight">
-			<div class="ibox">
-				<div class="ibox-content" style="border: none;">
 
-					<form class="form-horizontal">
-						<div class="form-group" ng-repeat="item in sale_attr">
-							<label class="col-sm-2 control-label">{{item.name}}:</label>
-							<div class="col-sm-10">
-								<label ng-repeat="attr in item.list"
-									class="checkbox-inline i-checks" style="padding-right: 5px;">
-									<div class="icheckbox_square-green"
-										style="position: relative; padding-right: 3px;">
-										<input ng-change="saleattrvaluechange(item,attr)" icheck
-											type="checkbox" ng-model="value">
-									</div> {{attr.value}}
-								</label>
-							</div>
-						</div>
-						<div class="hr-line-dashed"></div>
-						<div class="form-group">
-							<div class="col-sm-4 col-sm-offset-2">
-								<button ng-click="makeSKU()" class="btn btn-sm btn-primary"
-									type="submit">重新生成SKU</button>
-							</div>
-						</div>
-					</form>
-					<table class="table table-stripped table-bordered"
-						style="width: 90%; margin: 0 auto">
-						<thead>
-							<tr>
-								<th>属性组合</th>
-								<th>货号</th>
-								<th><span style="color: red">*</span>销售价格</th>
-								<th><span style="color: red">*</span>库存数</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="item in prodSku">
-								<td><span ng-repeat="e in item.attr_set_ids">
-										{{saleValueRender(e)}} </span></td>
-								<td><input type="text" class="form-control"
-									ng-model="item.code" placeholder="输入货号"></td>
-								<td><input type="number" class="form-control"
-									ng-model="item.price" placeholder="输入价格"></td>
-								<td><input type="number" class="form-control"
-									ng-model="item.stock" placeholder="输入库存"></td>
-							</tr>
-						</tbody>
-					</table>
 
-					<div style="margin-bottom: 50px"></div>
-
+			<form class="form-horizontal">
+				<div class="form-group" ng-repeat="item in sale_attr">
+					<label class="col-sm-2 control-label">{{item.name}}:</label>
+					<div class="col-sm-10">
+						<label ng-repeat="attr in item.list"
+							class="checkbox-inline i-checks" style="padding-right: 5px;">
+							<div class="icheckbox_square-green"
+								style="position: relative; padding-right: 3px;">
+								<input ng-change="saleattrvaluechange(item,attr)" icheck
+									type="checkbox" ng-model="value">
+							</div> {{attr.value}}
+						</label>
+					</div>
 				</div>
-			</div>
+				<div class="hr-line-dashed"></div>
+				<div class="form-group">
+					<div class="col-sm-4 col-sm-offset-2">
+						<button ng-click="makeSKU()" class="btn btn-sm btn-primary"
+							type="submit">重新生成SKU</button>
+					</div>
+				</div>
+			</form>
+			<table class="table table-stripped table-bordered"
+				style="width: 90%; margin: 0 auto">
+				<thead>
+					<tr>
+						<th>属性组合</th>
+						<th>货号</th>
+						<th><span style="color: red">*</span>销售价格</th>
+						<th><span style="color: red">*</span>库存数</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in prodSku">
+						<td><span ng-repeat="e in item.attr_set_ids">
+								{{saleValueRender(e)}} </span></td>
+						<td><input type="text" class="form-control"
+							ng-model="item.code" placeholder="输入货号"></td>
+						<td><input type="number" class="form-control"
+							ng-model="item.price" placeholder="输入价格"></td>
+						<td><input type="number" class="form-control"
+							ng-model="item.stock" placeholder="输入库存"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div style="margin-bottom: 50px"></div>
+
 		</div>
 	</div>
 	<div class="modal-footer">
