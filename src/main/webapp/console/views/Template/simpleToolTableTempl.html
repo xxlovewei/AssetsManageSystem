@@ -3,7 +3,6 @@
 .chosen-container {
 	width: 150px
 }
-
 .chosen-container-single {
 	width: 150px;
 }
@@ -13,37 +12,44 @@
 		<div class="col-lg-12">
 			<div class="ibox">
 				<div class="ibox-content">
-
+				
+			 
 					<span ng-repeat="item in meta.tools"> 
-					
-					<span
-						ng-switch="item.type"> 
-						
-						<span ng-switch-when="btn"
-							style="line-height: 30px;" compile="item.template"> </span> 
+						<span ng-switch="item.type"> 
+							<span ng-switch-when="btn" compile="item.template"  style="line-height: 30px;"> </span> 
 							
-						<span 
-							ng-switch-when="input" style="line-height: 30px;"   class="form-inline">
-							<div class="form-group"> 
-							  <label>{{item.label}}</label>
-							  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"></div>
+							<span ng-switch-when="btn_query"  style="line-height: 30px;">
+									<button ng-click="btn_query()" class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
+							 </span> 	
+							 <span ng-switch-when="btn_add"  style="line-height: 30px;">
+									<button ng-click="btn_add()" class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
+							 </span> 	
+							  <span ng-switch-when="btn_del"  style="line-height: 30px;">
+									<button ng-click="btn_del()" class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
+							 </span> 	
+							  <span ng-switch-when="btn_modify"  style="line-height: 30px;">
+									<button ng-click="btn_modify()" class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
+							 </span> 
+							  <span ng-switch-when="btn_actiona"  style="line-height: 30px;">
+									<button ng-click="btn_actiona()" class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
+							 </span> 		
+							<span ng-switch-when="input" style="line-height: 30px;" class="form-inline">
+								<div class="form-group"> 
+								  <label ng-hide="item.label_hide">{{item.label}}:</label>
+								  <input type="text" class="form-control" ng-model="item.ct" placeholder="{{item.placeholder}}"></div>
+							</span>
+							<span ng-switch-when="select" class="form-group" style="line-height: 30px; padding-right: 4px">
+							  <label ng-hide="item.label_hide">{{item.label}}:</label>
+									<select chosen width=100 disable-search="{{item.disablesearch}}"
+									class="chosen-select" no-results-text="'没有找到相应条目'"
+									ng-model="item.dataSel" data-placeholder-text-single="'请选择...'"
+									ng-options="i.name for i in item.dataOpt">
+										<option value=""></option>
+							       </select>
+							</span>
+						 <!-- ng-switch -->
 						</span>
-						
-						
-						<span ng-switch-when="select" class="form-group" style="line-height: 30px; padding-right: 4px">
-						  <label>{{item.name}}:</label>
-								<select chosen width=100 disable-search="item.disablesearch"
-								class="chosen-select" no-results-text="'没有找到相应条目'"
-								ng-model="item.dataSel" data-placeholder-text-single="'请选择...'"
-								ng-options="i.name for i in item.dataOpt">
-									<option value=""></option>
-						       </select>
-						</span>
-					
-					 <!-- ng-switch -->
-					</span>
 					<!-- repeat -->
-
 				</div>
 			</div>
 		</div>

@@ -9,12 +9,12 @@ $(document).ready(function () {
 
     // Full height of sidebar
     function fix_height() {
-    	console.log('fix height function')
+ 
         var heightWithoutNavbar = $("#wrapper").height() - 61;
         $(".sidebar-panel").css("min-height", heightWithoutNavbar + "px");
 
         var navbarHeight = $('nav.navbar-default').height();
-        console.log("navbarHeight:"+navbarHeight)
+ 
         var wrapperHeigh = $('#page-wrapper').height();
 
         //$(".sidebar-panel").css("min-height", wrapperHeigh - 61 + "px");
@@ -40,7 +40,7 @@ $(document).ready(function () {
 
     $(window).bind("load resize scroll", function() {
         if(!$("body").hasClass('body-small')) {
-        	console.log("fix_height");
+  
         	fix_height();
         }
     });
@@ -70,7 +70,7 @@ $(window).bind("load resize", function () {
     }
 });
 
-
+/*********************常用函数*****************************/
 //生产UUid
 function getUuid() {
 	var len = 32;// 32长度
@@ -105,6 +105,7 @@ function prepend(arr, item) {
 }
 
 
+/*********************datatable*****************************/
 function dt_renderUDAction(data, type, full) {
 	var acthtml = " <div class=\"btn-group\"> ";
 	acthtml = acthtml + " <button ng-click=\"update('" + full.id
@@ -113,3 +114,16 @@ function dt_renderUDAction(data, type, full) {
 	+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 	return acthtml;
 }
+
+function dt_renderMapSimple(data,type,full,map){
+	if(typeof(map) == undefined){
+		return "unknow";
+	}
+	for(var i=0;i<map.length;i++){
+		if(map[i].id=data){
+			return map[i].name;
+		}
+	}
+	return "unknow"; 
+}
+/*********************datatable end*****************************/

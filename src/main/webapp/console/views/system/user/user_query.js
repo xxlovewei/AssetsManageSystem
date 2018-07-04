@@ -2,12 +2,7 @@
 
 function sysUserQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
-  
-
-	
-	
-	
-	
+   
 	$scope.meta = {
 			tools : [ {
 				id : "1",
@@ -111,7 +106,8 @@ function sysUserQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 			$scope.URL = $rootScope.project + "/api/user/userQueryByGroup.do";
 		}
 		$scope.dtOptions.ajax = $scope.URL;
-		reloadData();
+		console.log($scope.dtInstance);
+		//reloadData();
 
 	}
 
