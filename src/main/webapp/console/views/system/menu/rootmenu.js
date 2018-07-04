@@ -60,7 +60,7 @@ function sysRootMenugCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			tablehide:false,
 			tools : [ {
 				id : "1",
-				name : "新增",
+				label : "新增",
 				type : "btn",
 				template:' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
 	 

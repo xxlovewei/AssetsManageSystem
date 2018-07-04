@@ -4,14 +4,14 @@ function sysCacheCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.meta ={
 			tools : [ {
 				id : "1",
-				name : "缓存域",
+				label : "缓存域",
 				type : "select",
 				disablesearch:true,
 				dataOpt :[] ,
 				dataSel : ""
 			}, {
 				id : "2",
-				name : "查询",
+				label : "查询",
 				type : "btn",
 				template:' <button ng-click="flush()" class="btn btn-sm btn-primary" type="submit">查询</button>'
 	 

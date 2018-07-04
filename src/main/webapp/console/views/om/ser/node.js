@@ -153,20 +153,20 @@ function mnservicenodeCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.meta ={
 			tools : [ {
 				id : "1",
-				name : "服务",
+				label : "服务",
 				type : "select",
 				disablesearch:true,
 				dataOpt :[] ,
 				dataSel :""
 			}, {
 				id : "1",
-				name : "查询",
+				label : "查询",
 				type : "btn",
 				template:' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
 	 
 			} , {
 				id : "2",
-				name : "新增",
+				label : "新增",
 				type : "btn",
 				template:' <button ng-click="add()" class="btn btn-sm btn-primary" type="submit">新增</button>'
 	 

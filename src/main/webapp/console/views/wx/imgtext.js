@@ -152,20 +152,20 @@ function wximgtextCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.meta ={
 			tools : [ {
 				id : "1",
-				name : "图文消息组",
+				label : "图文消息组",
 				type : "select",
 				disablesearch:true,
 				dataOpt :[] ,
 				dataSel : ""
 			}, {
 				id : "1",
-				name : "查询",
+				label : "查询",
 				type : "btn",
 				template:' <button ng-click="flush()" class="btn btn-sm btn-primary" type="submit">查询</button>'
 	 
 			},{
 				id : "1",
-				name : "新增",
+				label : "新增",
 				type : "btn",
 				template:' <button ng-click="modify()" class="btn btn-sm btn-primary" type="submit">新增</button>'
 	 

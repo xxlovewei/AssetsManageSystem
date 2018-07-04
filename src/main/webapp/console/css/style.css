@@ -1,4 +1,3 @@
-
 /*
  *
  *   INSPINIA - Responsive Admin Theme
@@ -320,6 +319,7 @@ body.mini-navbar .navbar-default .nav>li>.nav-second-level li a {
 	background-color: #2f4050;
 	padding: 10px 10px 10px 10px;
 	font-size: 12px;
+	width: 100px;
 }
 
 .canvas-menu.mini-navbar .nav-second-level {
@@ -3898,18 +3898,19 @@ body.tour-open .animated {
 	border-bottom: 1px solid #e7eaec;
 }
 
-
-/*bylank*/
+/*by*/
 body {
-	font-family:  Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,\\5FAE\8F6F\96C5\9ED1,Arial,sans-serif,"sans-serif","open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+		Microsoft YaHei, \\5FAE\8F6F\96C5\9ED1, Arial, sans-serif,
+		"sans-serif", "open sans", "Helvetica Neue", Helvetica, Arial,
+		sans-serif;
 	background-color: #2f4050;
 	font-size: 12px;
 	color: #676a6c;
 	line-height: 1.5;
 	overflow-x: hidden;
-	    -webkit-font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
 	margin: 0;
- 
 }
 
 html, body {
@@ -4797,7 +4798,7 @@ a.close-canvas-menu:hover {
 }
 /* by lank */
 .modal {
-	z-index: 2050  ;
+	z-index: 2050;
 }
 
 .spiner-example {
@@ -6784,7 +6785,7 @@ body.body-small .vote-icon {
 
 .mini-navbar .metismenu .collapse.in {
 	opacity: 1;
-	width:100px;
+	width: 100px;
 }
 
 .mini-navbar .metismenu .collapse a {
@@ -6792,7 +6793,7 @@ body.body-small .vote-icon {
 }
 
 .mini-navbar .metismenu .collapse.in a {
-   display: block;
+	display: block;
 }
 /*
  *  Usage:
@@ -6824,7 +6825,10 @@ body.body-small .vote-icon {
 
 
 
+
+
 :
+
 
 
 
@@ -6832,7 +6836,10 @@ body.body-small .vote-icon {
 
 
 
+
 perspective
+
+
 
 
 
@@ -6845,8 +6852,12 @@ px
 
 
 
+
+
 )
 rotateX
+
+
 
 
 
@@ -6861,6 +6872,8 @@ rotateX
 
 
 
+
+
 )
 rotateY
 
@@ -6869,8 +6882,12 @@ rotateY
 
 
 
+
+
 (0
 deg
+
+
 
 
 
@@ -6883,7 +6900,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -6891,7 +6911,10 @@ transform
 
 
 
+
 perspective
+
+
 
 
 
@@ -6904,8 +6927,12 @@ px
 
 
 
+
+
 )
 rotateX
+
+
 
 
 
@@ -6920,6 +6947,8 @@ rotateX
 
 
 
+
+
 )
 rotateY
 
@@ -6928,8 +6957,12 @@ rotateY
 
 
 
+
+
 (0
 deg
+
+
 
 
 
@@ -6945,7 +6978,10 @@ deg
 
 
 
+
+
 :
+
 
 
 
@@ -6953,7 +6989,10 @@ deg
 
 
 
+
 perspective
+
+
 
 
 
@@ -6966,8 +7005,12 @@ px
 
 
 
+
+
 )
 rotateX
+
+
 
 
 
@@ -6980,6 +7023,8 @@ deg
 
 
 
+
+
 )
 rotateY
 
@@ -6988,8 +7033,12 @@ rotateY
 
 
 
+
+
 (-179
 .9deg
+
+
 
 
 
@@ -7004,7 +7053,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -7012,7 +7064,10 @@ transform
 
 
 
+
 perspective
+
+
 
 
 
@@ -7025,8 +7080,12 @@ px
 
 
 
+
+
 )
 rotateX
+
+
 
 
 
@@ -7039,6 +7098,8 @@ deg
 
 
 
+
+
 )
 rotateY
 
@@ -7047,8 +7108,12 @@ rotateY
 
 
 
+
+
 (-179
 .9deg
+
+
 
 
 
@@ -7073,7 +7138,10 @@ keyframes sk-rotatePlane { 0% {
 
 
 
+
+
 :
+
 
 
 
@@ -7081,7 +7149,10 @@ keyframes sk-rotatePlane { 0% {
 
 
 
+
 perspective
+
+
 
 
 
@@ -7094,8 +7165,12 @@ px
 
 
 
+
+
 )
 rotateX
+
+
 
 
 
@@ -7110,6 +7185,8 @@ rotateX
 
 
 
+
+
 )
 rotateY
 
@@ -7118,8 +7195,12 @@ rotateY
 
 
 
+
+
 (0
 deg
+
+
 
 
 
@@ -7132,7 +7213,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -7140,7 +7224,10 @@ transform
 
 
 
+
 perspective
+
+
 
 
 
@@ -7153,8 +7240,12 @@ px
 
 
 
+
+
 )
 rotateX
+
+
 
 
 
@@ -7169,6 +7260,8 @@ rotateX
 
 
 
+
+
 )
 rotateY
 
@@ -7177,8 +7270,12 @@ rotateY
 
 
 
+
+
 (0
 deg
+
+
 
 
 
@@ -7194,7 +7291,10 @@ deg
 
 
 
+
+
 :
+
 
 
 
@@ -7202,7 +7302,10 @@ deg
 
 
 
+
 perspective
+
+
 
 
 
@@ -7215,8 +7318,12 @@ px
 
 
 
+
+
 )
 rotateX
+
+
 
 
 
@@ -7229,6 +7336,8 @@ deg
 
 
 
+
+
 )
 rotateY
 
@@ -7237,8 +7346,12 @@ rotateY
 
 
 
+
+
 (-179
 .9deg
+
+
 
 
 
@@ -7253,7 +7366,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -7261,7 +7377,10 @@ transform
 
 
 
+
 perspective
+
+
 
 
 
@@ -7274,8 +7393,12 @@ px
 
 
 
+
+
 )
 rotateX
+
+
 
 
 
@@ -7288,6 +7411,8 @@ deg
 
 
 
+
+
 )
 rotateY
 
@@ -7296,8 +7421,12 @@ rotateY
 
 
 
+
+
 (-179
 .9deg
+
+
 
 
 
@@ -7357,7 +7486,10 @@ rotateY
 
 
 
+
+
 :
+
 
 
 
@@ -7365,7 +7497,10 @@ rotateY
 
 
 
+
 scale
+
+
 
 
 
@@ -7380,7 +7515,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -7388,7 +7526,10 @@ transform
 
 
 
+
 scale
+
+
 
 
 
@@ -7413,7 +7554,10 @@ keyframes sk-doubleBounce { 0%, 100% {
 
 
 
+
+
 :
+
 
 
 
@@ -7421,7 +7565,10 @@ keyframes sk-doubleBounce { 0%, 100% {
 
 
 
+
 scale
+
+
 
 
 
@@ -7436,7 +7583,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -7444,7 +7594,10 @@ transform
 
 
 
+
 scale
+
+
 
 
 
@@ -7518,7 +7671,10 @@ scale
 
 
 
+
+
 :
+
 
 
 
@@ -7526,7 +7682,10 @@ scale
 
 
 
+
 scaleY
+
+
 
 
 
@@ -7541,7 +7700,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -7549,7 +7711,10 @@ transform
 
 
 
+
 scaleY
+
+
 
 
 
@@ -7574,7 +7739,10 @@ keyframes sk-waveStretchDelay { 0%, 40%, 100% {
 
 
 
+
+
 :
+
 
 
 
@@ -7582,7 +7750,10 @@ keyframes sk-waveStretchDelay { 0%, 40%, 100% {
 
 
 
+
 scaleY
+
+
 
 
 
@@ -7597,7 +7768,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -7605,7 +7779,10 @@ transform
 
 
 
+
 scaleY
+
+
 
 
 
@@ -7664,11 +7841,15 @@ scaleY
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -7679,8 +7860,12 @@ translateX
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -7693,8 +7878,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -7707,8 +7896,12 @@ rotate
 
 
 
+
+
 (-179
 deg
+
+
 
 
 
@@ -7721,11 +7914,15 @@ transform
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -7736,8 +7933,12 @@ translateX
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -7750,8 +7951,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -7764,8 +7969,12 @@ rotate
 
 
 
+
+
 (-179
 deg
+
+
 
 
 
@@ -7776,7 +7985,9 @@ deg
 .1
 
 
+
  
+
 
 
 %
@@ -7786,10 +7997,14 @@ deg
 
 
 
+
+
 :
 
 
+
  
+
 
 
 translateX
@@ -7797,8 +8012,12 @@ translateX
 
 
 
+
+
 (42
 px
+
+
 
 
 )
@@ -7807,8 +8026,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 )
@@ -7817,8 +8040,12 @@ rotate
 
 
 
+
+
 (-180
 deg
+
+
 
 
 );
@@ -7827,10 +8054,14 @@ transform
 
 
 
+
+
 :
 
 
+
  
+
 
 
 translateX
@@ -7838,8 +8069,12 @@ translateX
 
 
 
+
+
 (42
 px
+
+
 
 
 )
@@ -7848,8 +8083,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 )
@@ -7858,8 +8097,12 @@ rotate
 
 
 
+
+
 (-180
 deg
+
+
 
 
 );
@@ -7873,11 +8116,15 @@ deg
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -7888,8 +8135,12 @@ translateX
 
 
 
+
+
 (0
 px
+
+
 
 
 
@@ -7902,8 +8153,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -7916,8 +8171,12 @@ rotate
 
 
 
+
+
 (-270
 deg
+
+
 
 
 
@@ -7930,8 +8189,12 @@ scale
 
 
 
+
+
 (0
 .5
+
+
 
 
 
@@ -7946,11 +8209,15 @@ transform
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -7961,8 +8228,12 @@ translateX
 
 
 
+
+
 (0
 px
+
+
 
 
 
@@ -7975,8 +8246,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -7989,8 +8264,12 @@ rotate
 
 
 
+
+
 (-270
 deg
+
+
 
 
 
@@ -8003,8 +8282,12 @@ scale
 
 
 
+
+
 (0
 .5
+
+
 
 
 
@@ -8022,11 +8305,15 @@ scale
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -8037,8 +8324,12 @@ rotate
 
 
 
+
+
 (-360
 deg
+
+
 
 
 
@@ -8051,11 +8342,15 @@ transform
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -8066,8 +8361,12 @@ rotate
 
 
 
+
+
 (-360
 deg
+
+
 
 
 
@@ -8091,11 +8390,15 @@ keyframes sk-wanderingCubeMove { 25% {
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -8106,8 +8409,12 @@ translateX
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -8120,8 +8427,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -8134,8 +8445,12 @@ rotate
 
 
 
+
+
 (-179
 deg
+
+
 
 
 
@@ -8148,11 +8463,15 @@ transform
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -8163,8 +8482,12 @@ translateX
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -8177,8 +8500,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -8191,8 +8518,12 @@ rotate
 
 
 
+
+
 (-179
 deg
+
+
 
 
 
@@ -8203,7 +8534,9 @@ deg
 .1
 
 
+
  
+
 
 
 %
@@ -8213,10 +8546,14 @@ deg
 
 
 
+
+
 :
 
 
+
  
+
 
 
 translateX
@@ -8224,8 +8561,12 @@ translateX
 
 
 
+
+
 (42
 px
+
+
 
 
 )
@@ -8234,8 +8575,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 )
@@ -8244,8 +8589,12 @@ rotate
 
 
 
+
+
 (-180
 deg
+
+
 
 
 );
@@ -8254,10 +8603,14 @@ transform
 
 
 
+
+
 :
 
 
+
  
+
 
 
 translateX
@@ -8265,8 +8618,12 @@ translateX
 
 
 
+
+
 (42
 px
+
+
 
 
 )
@@ -8275,8 +8632,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 )
@@ -8285,8 +8646,12 @@ rotate
 
 
 
+
+
 (-180
 deg
+
+
 
 
 );
@@ -8300,11 +8665,15 @@ deg
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -8315,8 +8684,12 @@ translateX
 
 
 
+
+
 (0
 px
+
+
 
 
 
@@ -8329,8 +8702,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -8343,8 +8720,12 @@ rotate
 
 
 
+
+
 (-270
 deg
+
+
 
 
 
@@ -8357,8 +8738,12 @@ scale
 
 
 
+
+
 (0
 .5
+
+
 
 
 
@@ -8373,11 +8758,15 @@ transform
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -8388,8 +8777,12 @@ translateX
 
 
 
+
+
 (0
 px
+
+
 
 
 
@@ -8402,8 +8795,12 @@ translateY
 
 
 
+
+
 (42
 px
+
+
 
 
 
@@ -8416,8 +8813,12 @@ rotate
 
 
 
+
+
 (-270
 deg
+
+
 
 
 
@@ -8430,8 +8831,12 @@ scale
 
 
 
+
+
 (0
 .5
+
+
 
 
 
@@ -8449,11 +8854,15 @@ scale
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -8464,8 +8873,12 @@ rotate
 
 
 
+
+
 (-360
 deg
+
+
 
 
 
@@ -8478,11 +8891,15 @@ transform
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -8493,8 +8910,12 @@ rotate
 
 
 
+
+
 (-360
 deg
+
+
 
 
 
@@ -8533,7 +8954,10 @@ deg
 
 
 
+
+
 :
+
 
 
 
@@ -8541,7 +8965,10 @@ deg
 
 
 
+
 scale
+
+
 
 
 
@@ -8556,7 +8983,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -8564,7 +8994,10 @@ transform
 
 
 
+
 scale
+
+
 
 
 
@@ -8579,11 +9012,15 @@ opacity
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -8605,7 +9042,10 @@ keyframes sk-pulseScaleOut { 0% {
 
 
 
+
+
 :
+
 
 
 
@@ -8613,7 +9053,10 @@ keyframes sk-pulseScaleOut { 0% {
 
 
 
+
 scale
+
+
 
 
 
@@ -8628,7 +9071,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -8636,7 +9082,10 @@ transform
 
 
 
+
 scale
+
+
 
 
 
@@ -8651,11 +9100,15 @@ opacity
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -8729,7 +9182,10 @@ keyframes sk-chasingDotsRotate { 100% {
 
 
 
+
+
 :
+
 
 
 
@@ -8737,7 +9193,10 @@ keyframes sk-chasingDotsRotate { 100% {
 
 
 
+
 scale
+
+
 
 
 
@@ -8752,7 +9211,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -8760,7 +9222,10 @@ transform
 
 
 
+
 scale
+
+
 
 
 
@@ -8785,7 +9250,10 @@ keyframes sk-chasingDotsBounce { 0%, 100% {
 
 
 
+
+
 :
+
 
 
 
@@ -8793,7 +9261,10 @@ keyframes sk-chasingDotsBounce { 0%, 100% {
 
 
 
+
 scale
+
+
 
 
 
@@ -8808,7 +9279,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -8816,7 +9290,10 @@ transform
 
 
 
+
 scale
+
+
 
 
 
@@ -8880,7 +9357,10 @@ scale
 
 
 
+
+
 :
+
 
 
 
@@ -8888,7 +9368,10 @@ scale
 
 
 
+
 scale
+
+
 
 
 
@@ -8903,7 +9386,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -8911,7 +9397,10 @@ transform
 
 
 
+
 scale
+
+
 
 
 
@@ -8936,7 +9425,10 @@ keyframes sk-threeBounceDelay { 0%, 80%, 100% {
 
 
 
+
+
 :
+
 
 
 
@@ -8944,7 +9436,10 @@ keyframes sk-threeBounceDelay { 0%, 80%, 100% {
 
 
 
+
 scale
+
+
 
 
 
@@ -8959,7 +9454,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -8967,7 +9465,10 @@ transform
 
 
 
+
 scale
+
+
 
 
 
@@ -9162,7 +9663,10 @@ scale
 
 
 
+
+
 :
+
 
 
 
@@ -9170,7 +9674,10 @@ scale
 
 
 
+
 scale
+
+
 
 
 
@@ -9185,7 +9692,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -9193,7 +9703,10 @@ transform
 
 
 
+
 scale
+
+
 
 
 
@@ -9218,7 +9731,10 @@ keyframes sk-circleBounceDelay { 0%, 80%, 100% {
 
 
 
+
+
 :
+
 
 
 
@@ -9226,7 +9742,10 @@ keyframes sk-circleBounceDelay { 0%, 80%, 100% {
 
 
 
+
 scale
+
+
 
 
 
@@ -9241,7 +9760,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -9249,7 +9771,10 @@ transform
 
 
 
+
 scale
+
+
 
 
 
@@ -9360,7 +9885,10 @@ scale
 
 
 
+
+
 :
+
 
 
 
@@ -9368,7 +9896,10 @@ scale
 
 
 
+
 scale3D
+
+
 
 
 
@@ -9386,7 +9917,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -9394,7 +9928,10 @@ transform
 
 
 
+
 scale3D
+
+
 
 
 
@@ -9422,7 +9959,10 @@ keyframes sk-cubeGridScaleDelay { 0%, 70%, 100% {
 
 
 
+
+
 :
+
 
 
 
@@ -9430,7 +9970,10 @@ keyframes sk-cubeGridScaleDelay { 0%, 70%, 100% {
 
 
 
+
 scale3D
+
+
 
 
 
@@ -9448,7 +9991,10 @@ transform
 
 
 
+
+
 :
+
 
 
 
@@ -9456,7 +10002,10 @@ transform
 
 
 
+
 scale3D
+
+
 
 
 
@@ -9514,11 +10063,15 @@ scale3D
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -9529,8 +10082,12 @@ rotate
 
 
 
+
+
 (360
 deg
+
+
 
 
 
@@ -9543,11 +10100,15 @@ transform
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -9558,8 +10119,12 @@ rotate
 
 
 
+
+
 (360
 deg
+
+
 
 
 
@@ -9582,11 +10147,15 @@ keyframes sk-innerCircle { 0% {
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -9597,8 +10166,12 @@ rotate
 
 
 
+
+
 (360
 deg
+
+
 
 
 
@@ -9611,11 +10184,15 @@ transform
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -9626,8 +10203,12 @@ rotate
 
 
 
+
+
 (360
 deg
+
+
 
 
 
@@ -9819,11 +10400,15 @@ opacity
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -9844,11 +10429,15 @@ opacity
 
 
 
+
+
 :
 
 
 
+
  
+
 
 
 
@@ -11928,7 +12517,11 @@ body.md-skin {
 	
 	
 	
+	
+	
 	:not
+	
+	
 	
 	
 	
@@ -11937,7 +12530,9 @@ body.md-skin {
 	.mini-navbar
 	
 	
+	
 	 
+	
 	
 	
 	)
@@ -11947,26 +12542,36 @@ body.md-skin {
 	
 	
 	
+	
+	
 	:
 	
 	
+	
 	 
+	
 	
 	
 	background-color
 	
 	
+	
 	 
+	
 	
 	
 	500
 	ms
 	
 	
+	
 	 
 	
 	
+	
 	linear
+	
+	
 	
 	
 	
@@ -11977,26 +12582,36 @@ body.md-skin {
 	
 	
 	
+	
+	
 	:
 	
 	
+	
 	 
+	
 	
 	
 	background-color
 	
 	
+	
 	 
+	
 	
 	
 	500
 	ms
 	
 	
+	
 	 
 	
 	
+	
 	linear
+	
+	
 	
 	
 	
@@ -12007,26 +12622,36 @@ body.md-skin {
 	
 	
 	
+	
+	
 	:
 	
 	
+	
 	 
+	
 	
 	
 	background-color
 	
 	
+	
 	 
+	
 	
 	
 	500
 	ms
 	
 	
+	
 	 
 	
 	
+	
 	linear
+	
+	
 	
 	
 	
@@ -12037,26 +12662,36 @@ body.md-skin {
 	
 	
 	
+	
+	
 	:
 	
 	
+	
 	 
+	
 	
 	
 	background-color
 	
 	
+	
 	 
+	
 	
 	
 	500
 	ms
 	
 	
+	
 	 
 	
 	
+	
 	linear
+	
+	
 	
 	
 	
@@ -12067,26 +12702,36 @@ body.md-skin {
 	
 	
 	
+	
+	
 	:
 	
 	
+	
 	 
+	
 	
 	
 	background-color
 	
 	
+	
 	 
+	
 	
 	
 	500
 	ms
 	
 	
+	
 	 
 	
 	
+	
 	linear
+	
+	
 	
 	
 	
@@ -12097,13 +12742,19 @@ body.md-skin {
 	
 	
 	
+	
+	
 	:
+	
 	
 	
 	 
 	
 	
+	
 	#f3f3f4
+	
+	
 	
 	
 	
@@ -12210,44 +12861,365 @@ body.md-skin {
 		StartColorStr='#ffffff', EndColorStr='#f9f9f9')
 }
 
-.default .dt-button:active:not (.disabled ), button.dt-button.active:not
-	(.disabled ), div.dt-button:active:not (.disabled ), div.dt-button.active:not
-	(.disabled ), a.dt-button:active:not (.disabled ), a.dt-button.active:not
-	(.disabled ) {
-	color: #FFFFFF;
-	background-color: #398dee;
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
-		StartColorStr='#f3f3f3', EndColorStr='#e2e2e2');
-	box-shadow: inset 1px 1px 3px #398dee
-}
+.default
+ 
+.dt-button
+:active
+:not
+ 
+(
+.disabled
+ 
+),
+button
+.dt-button
+.active
+:not
 
-.default  .dt-button:active:not (.disabled ):hover:not (.disabled ),
-	button.dt-button.active:not (.disabled ):hover:not (.disabled ), div.dt-button:active:not
-	(.disabled ):hover:not (.disabled ), div.dt-button.active:not (.disabled
-	):hover:not (.disabled ), a.dt-button:active:not (.disabled ):hover:not
-	(.disabled ), a.dt-button.active:not (.disabled ):hover:not (.disabled
-	) {
-	box-shadow: inset 1px 1px 3px #398dee;
-	color: #FFFFFF;
-	background-color: #3379B7;
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
-		StartColorStr='#eaeaea', EndColorStr='#cccccc')
-}
+	
+(
+.disabled
+ 
+),
+div
+.dt-button
+:active
+:not
+ 
+(
+.disabled
+ 
+),
+div
+.dt-button
+.active
+:not
 
+	
+(
+.disabled
+ 
+),
+a
+.dt-button
+:active
+:not
+ 
+(
+.disabled
+ 
+),
+a
+.dt-button
+.active
+:not
+
+	
+(
+.disabled
+ 
+)
+{
+color
+:
+ 
+#FFFFFF
+;
+
+	
+background-color
+:
+ 
+#398dee
+;
+
+	
+filter
+:
+ 
+progid
+:DXImageTransform
+.Microsoft
+.gradient
+(GradientType=0
+,
+StartColorStr
+='
+#f3f3f3
+'
+,
+EndColorStr
+='
+#e2e2e2
+');
+
+	
+box-shadow
+:
+ 
+inset
+ 
+1
+px
+ 
+1
+px
+ 
+3
+px
+ 
+#398dee
+
+
+}
+.default
+  
+.dt-button
+:active
+:not
+ 
+(
+.disabled
+ 
+)
+:hover
+:not
+ 
+(
+.disabled
+ 
+),
+button
+.dt-button
+.active
+:not
+ 
+(
+.disabled
+ 
+)
+:hover
+:not
+ 
+(
+.disabled
+ 
+),
+div
+.dt-button
+:active
+:not
+
+	
+(
+.disabled
+ 
+)
+:hover
+:not
+ 
+(
+.disabled
+ 
+),
+div
+.dt-button
+.active
+:not
+ 
+(
+.disabled
+
+	
+)
+:hover
+:not
+ 
+(
+.disabled
+ 
+),
+a
+.dt-button
+:active
+:not
+ 
+(
+.disabled
+ 
+)
+:hover
+:not
+
+	
+(
+.disabled
+ 
+),
+a
+.dt-button
+.active
+:not
+ 
+(
+.disabled
+ 
+)
+:hover
+:not
+ 
+(
+.disabled
+
+	
+)
+{
+box-shadow
+:
+ 
+inset
+ 
+1
+px
+ 
+1
+px
+ 
+3
+px
+ 
+#398dee
+;
+
+	
+color
+:
+ 
+#FFFFFF
+;
+
+	
+background-color
+:
+ 
+#3379B7
+;
+
+	
+filter
+:
+ 
+progid
+:DXImageTransform
+.Microsoft
+.gradient
+(GradientType=0
+,
+StartColorStr
+='
+#eaeaea
+'
+,
+EndColorStr
+='
+#cccccc
+')
+
+
+}
 .default  .dt-button:hover, div.dt-button:hover, a.dt-button:hover {
 	text-decoration: none
 }
 
-.default .dt-button:hover:not (.disabled ), div.dt-button:hover:not (.disabled
-	), a.dt-button:hover:not (.disabled ) {
-	background-color: #3379B7;
-}
+.default
+ 
+.dt-button
+:hover
+:not
+ 
+(
+.disabled
+ 
+),
+div
+.dt-button
+:hover
+:not
+ 
+(
+.disabled
 
-.default  .dt-button:focus:not (.disabled ), div.dt-button:focus:not (.disabled
-	), a.dt-button:focus:not (.disabled ) {
-	outline: none;
-	color: #FFFFFF;
-	background-color: #398dee;
+	
+),
+a
+.dt-button
+:hover
+:not
+ 
+(
+.disabled
+ 
+)
+{
+background-color
+:
+ 
+#3379B7
+;
+
+
+}
+.default
+  
+.dt-button
+:focus
+:not
+ 
+(
+.disabled
+ 
+),
+div
+.dt-button
+:focus
+:not
+ 
+(
+.disabled
+
+	
+),
+a
+.dt-button
+:focus
+:not
+ 
+(
+.disabled
+ 
+)
+{
+outline
+:
+ 
+none
+;
+
+	
+color
+:
+ 
+#FFFFFF
+;
+
+	
+background-color
+:
+ 
+#398dee
+;
+
+
 }
 
 /*################默认主题结束##################*/

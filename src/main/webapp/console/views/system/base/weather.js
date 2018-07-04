@@ -26,14 +26,19 @@ function prodCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	var meta = {
 		tools : [ {
 			id : "1",
-			name : "刷新",
+			label : "刷新",
+			type : "input",
+			ct:""
+		}, {
+			id : "1",
+			label : "刷新",
 			type : "select",
 			disablesearch:false,
 			dataOpt :opt ,
 			dataSel : opt[0]
 		}, {
 			id : "1",
-			name : "刷新",
+			label : "刷新",
 			type : "btn",
 			template:' <button ng-click="abcd1()" class="btn btn-sm btn-primary" type="submit">查询</button>'
  
