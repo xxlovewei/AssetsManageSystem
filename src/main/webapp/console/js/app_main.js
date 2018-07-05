@@ -2,7 +2,7 @@ var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
 		'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree',
 		'ngSanitize', 'localytics.directives', 'cgNotify', 'angular-confirm',
 		'datatables', 'datatables.select', 'datatables.buttons',
-		'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor'])
+		'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor','datePicker'])
 var $injector = angular.injector();
 function getContextPath() {
 	var pathName = document.location.pathname;

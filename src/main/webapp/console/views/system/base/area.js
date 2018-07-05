@@ -1,5 +1,11 @@
 function sysRegionCtl($confirm, $log, notify, $scope, $http, $rootScope,
 		$uibModal) {
+ 
+$scope.data = {
+stime : moment().subtract(15, "days"),
+etime : moment().add(1, 'days')
+}
+
 
 	$scope.treeData = [];
 	$scope.ignoreChanges = false;

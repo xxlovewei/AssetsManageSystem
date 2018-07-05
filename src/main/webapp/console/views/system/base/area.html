@@ -6,6 +6,19 @@
 				<div class="ibox">
 					<div class="ibox-content">
 						<form role="form" class="form-inline">
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><span
+									style="color: red">*</span>产品图:</label>
+								<div class="col-sm-10">
+									<input date-time time-zone="Asia/Hong_Kong"
+										style="width: 160px;!important" ng-model="data.stime"
+										date-change="changeDate" view="date" auto-close="true"
+										min-view="date" format="YYYY-MM-DD" class="form-control"
+										type="datetime">
+								</div>
+							</div>
+
 							<!-- <div class="form-group">
 								<label for="class">分类</label> <select id="class"
 									style="width: 120px;" chosen disable-search="true"
@@ -37,7 +50,7 @@
 
 			<div class="col-lg-8">
 
-<!-- 
+				<!-- 
 
 				<div class="ibox float-e-margins" tyle="min-height:250px;">
 					<div class="ibox-title">

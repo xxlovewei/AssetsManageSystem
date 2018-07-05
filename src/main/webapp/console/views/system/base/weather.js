@@ -1,10 +1,158 @@
+
 function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		notify, $scope, $http, $rootScope, $uibModal) {
 	$scope.btn_query = function() {
 		console.log("query");
 	}
 	$scope.btn_add = function() {
-		console.log("add");
+	
+		var meta = {};
+		meta = {
+			footer_hide:false,
+			title:"测试",
+			item:{
+				addr:"金"
+			},
+			dtldzconfig : {
+					url : 'fileupload.do',
+					maxFilesize : 10000,
+					paramName : "file",
+					maxThumbnailFilesize : 1,
+					// 一个请求上传多个文件
+					uploadMultiple : true,
+					// 当多文件上传,需要设置parallelUploads>=maxFiles
+					parallelUploads : 1,
+					maxFiles : 1,
+					dictDefaultMessage : "点击上传图片",
+					acceptedFiles : "image/jpeg,image/png,image/gif",
+					// 添加上传取消和删除预览图片的链接，默认不添加
+					addRemoveLinks : true,
+					// 关闭自动上传功能，默认会true会自动上传
+					// 也就是添加一张图片向服务器发送一次请求
+					autoProcessQueue : false,
+					init : function() {
+						$scope.myDropzone = this; // closure
+					}
+				},
+			stime:moment().subtract(15, "days"),
+			statusOpt:[{id:1,name:"1"},{id:2,name:"2"},{id:3,name:"3"}],
+			statusSel:"",
+			items : [ 
+				{
+					type : "pic",
+					disabled:"false",
+					label : "图片",
+					need : true,
+					name:'text',
+					conf:"dtldzconfig"
+				},
+				{
+					type : "datetime",
+					disabled:"false",
+					label : "文本",
+					need : true,
+					ng_model : "stime"
+				},
+				{
+				type : "textarea",
+				disabled:"false",
+				sub_type : "text",
+				required:true,
+				maxlength:"2",
+				placeholder:"请输入姓名",
+				label : "文本",
+				need : true,
+				height:"200px",
+				name:'text',
+				ng_model : "text"
+			},{
+				type : "input",
+				disabled:"false",
+				sub_type : "text",
+				required:false,
+				maxlength:"2",
+				placeholder:"请输入姓名",
+				label : "姓名",
+				need : true,
+				name:'name',
+				ng_model : "name"
+			},
+			{
+				type:"dashed"	
+			}
+			,{
+				type : "input",
+				disabled:"false",
+				sub_type : "number",
+				required:true,
+				maxlength:"10",
+				placeholder:"请输入手机",
+				label : "手机",
+				need : true,
+				name:'mobile',
+				ng_model : "mobile"
+			}, {
+				type : "input",
+				disabled:"false",
+				sub_type : "text",
+				required:true,
+				maxlength:"10",
+				placeholder:"请输入地址",
+				label : "地址",
+				need : false,
+				name:'addr',
+				ng_model : "addr"
+			} ,{
+				type : "select",
+				disabled:"false",
+				label : "地址",
+				need : false,
+				disable_search:"true",
+				dataOpt:"statusOpt",
+				dataSel:"statusSel"
+			} ]
+			,sure : function(modalInstance,modal_meta) {
+				//返回接口
+				console.log(modal_meta);
+				console.log($scope);
+				console.log(modal_meta.meta.stime.format('YYYY-MM-DD'));
+				var picid = getUuid();
+				$scope.myDropzone.options.url = $rootScope.project + '/api/file/fileupload.do?bus=prodimgs&uuid=' + picid + '&type=image&interval=10000';
+				$scope.myDropzone.uploadFile($scope.myDropzone.files[0])
+			},
+			init :function(modal_meta){
+				$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(
+						function(res) {
+							 console.log(res);
+							 modal_meta.meta.statusOpt=res.data;
+						}); 
+			}
+		}
+	 
+
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/Template/modal_simpleForm.html',
+			controller : modal_simpleFormCtl,
+			size : 'lg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				meta : function() {
+					return meta;
+				}
+			}
+		});
+
+		modalInstance.result.then(function(result) {
+			$log.log("result", result);
+
+			if (result == "OK") {
+
+			}
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
+
 	}
 	$scope.btn_del = function() {
 		console.log("del");
@@ -28,8 +176,14 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 	} ];
 
 	var meta = {
-		tablehide:false,
+		tablehide : false,
 		tools : [
+				{
+				id : "datetime",
+				label : "测试",
+				type : "datetime"
+				 
+			},
 				{
 					id : "input",
 					label : "212",
@@ -70,7 +224,7 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 					fun : "",
 					label : "修改",
 					type : "btn_modify"
-				} ,{
+				}, {
 					id : "btn_actiona",
 					fun : "",
 					label : "action",
@@ -113,7 +267,7 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 						} ]);
 					}),
 			DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption(
-					'sDefaultContent', '').renderWith(renderAction) ]
+					'sDefaultContent', '').renderWith(renderAction)																																															 ]
 
 	function flush() {
 		var ps = {}
