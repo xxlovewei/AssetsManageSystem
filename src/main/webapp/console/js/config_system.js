@@ -252,7 +252,8 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('ct.news_mgr', {
 		url : "/newMgr",
 		data: { pageTitle: '新闻管理'},
-		template:'<div ng-controller="ctNewsMgrCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		templateUrl : "views/content/newsMgr.html",
+	//	template:'<div ng-controller="ctNewsMgrCtl" >  <ng-include src="\'views/Template/simpleToolTableTempl.html\'"></ng-include></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([  {

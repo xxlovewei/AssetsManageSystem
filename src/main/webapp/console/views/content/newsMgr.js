@@ -1,6 +1,6 @@
 
 function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
-	 
+	$scope.dtInstance = {}
 	$scope.meta ={
 			tools : []
 		}
@@ -43,18 +43,19 @@ function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			});
- 		 
-	 
-	$scope.dtInstance = {}
+ 	 
+	
 	$scope.reloadData = reloadData;
-	var tabdata=[]
+	$scope.dtInstance2={}
 	function reloadData() {
 		var resetPaging = true;
-		$scope.dtInstance.reloadData(callback, resetPaging);
+		console.log($scope.dtOptions);
+		console.log($scope.dtInstance);
+		console.log($scope.dtInstance2);
+		//$scope.dtInstance.reloadData(callback, true);
 	}
 	function callback(json) {
-		tabdata=json.data;
-	 
+		console.log(json);
 	}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -97,6 +98,8 @@ function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 			DTColumnBuilder.newColumn('user_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	$scope.row_del = function(id) {
+	//	reloadData();
+		//return ;
 		$confirm({
 			text : '是否删除?'
 		}).then(function() {

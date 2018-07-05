@@ -1,13 +1,12 @@
-<!-- 上面一行工具栏(支持查询,select),下面单表  -->
-<style>
+<!-- 上面一行工具栏(支持查询,select),下面单表,table表dtInstance注入有问题  -->
+ <style>
 .chosen-container {
 	width: 150px
 }
-
 .chosen-container-single {
 	width: 150px;
 }
-</style>
+</style> 
 <div class="wrapper wrapper-content animated fadeInRight">
 	<div class="row" ng-show="meta.tools.length>0">
 		<div class="col-lg-12">
@@ -64,7 +63,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" ng-hide="meta.tablehide">
+	<div class="row" >
 		<div class="col-lg-12">
 			<div class="ibox">
 				<div class="ibox-content">
