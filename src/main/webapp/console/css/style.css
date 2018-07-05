@@ -70,6 +70,7 @@ h3, h4, h5 {
 
 .navbar {
 	border: 0;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .navbar-default {
@@ -90,7 +91,7 @@ h3, h4, h5 {
 }
 
 .navbar-top-links li a {
-	padding: 20px 10px;
+	padding: 15px 10px;
 	min-height: 50px;
 }
 
@@ -224,7 +225,7 @@ ul.nav-second-level {
 
 .minimalize-styl-2 {
 	padding: 4px 12px;
-	margin: 14px 5px 5px 20px;
+	margin: 10px 5px 5px 10px;
 	font-size: 14px;
 	float: left;
 }
@@ -12189,7 +12190,7 @@ body.md-skin {
 }
 
 .md-skin .navbar-top-links li a {
-	padding: 20px 10px;
+	padding: 15px 10px;
 	min-height: 50px;
 }
 
@@ -13257,3 +13258,6 @@ background-color
 td:focus {
 	outline: none;
 }
+.box-shadow {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
+    }
