@@ -23,7 +23,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('basedata.weather', {
 		url : "/weather",
 		data: { pageTitle: '天气数据',loginCheck:true},
-		//templateUrl : "views/system/base/weather.html",
+		// templateUrl : "views/system/base/weather.html",
 		template:'<div ng-controller="prodCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -252,8 +252,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('ct.news_mgr', {
 		url : "/newMgr",
 		data: { pageTitle: '新闻管理'},
-		templateUrl : "views/content/newsMgr.html",
-	//	template:'<div ng-controller="ctNewsMgrCtl" >  <ng-include src="\'views/Template/simpleToolTableTempl.html\'"></ng-include></div>',
+		template:'<div ng-controller="ctNewsMgrCtl" >'+buildSimpleToolTableTpl()+'</div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([  {

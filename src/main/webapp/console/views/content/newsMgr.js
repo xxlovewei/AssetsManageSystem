@@ -1,9 +1,9 @@
 
 function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
-	$scope.dtInstance = {}
-	$scope.meta ={
-			tools : []
-		}
+	
+//	$scope.meta ={
+//			tools : []
+//		}
 	$scope.userGroupOpt = [];
 	$scope.userGroupSel = "";
 	$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(function(res) {
@@ -19,25 +19,7 @@ function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 			});
 		}
 	});
-
-	var dd = [ {
-		"id" : 860,
-		"firstName" : "Superman",
-		"lastName" : "Yoda"
-	}, {
-		"id" : 870,
-		"firstName" : "Foo",
-		"lastName" : "Whateveryournameis"
-	}, {
-		"id" : 590,
-		"firstName" : "Toto",
-		"lastName" : "Titi"
-	}, {
-		"id" : 803,
-		"firstName" : "Luke",
-		"lastName" : "Kyle"
-	} ]
-
+  
 	$scope.URL = $rootScope.project + "/api/news/queryNewsByPage.do?noContent=Y";
 	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp('data').withOption('bProcessing', true).withOption('serverSide', true).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
@@ -46,21 +28,17 @@ function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
  	 
 	
 	$scope.reloadData = reloadData;
-	$scope.dtInstance2={}
+	$scope.dtInstance={}
 	function reloadData() {
 		var resetPaging = true;
-		console.log($scope.dtOptions);
-		console.log($scope.dtInstance);
-		console.log($scope.dtInstance2);
-		//$scope.dtInstance.reloadData(callback, true);
+		$scope.dtInstance.reloadData(callback, true);
 	}
 	function callback(json) {
 		console.log(json);
 	}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-
-//		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.id + "')\" class=\"btn-white btn btn-xs\">详细</button> ";
+ 
 		acthtml = acthtml + " <button ng-click=\"row_del('" + full.id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}

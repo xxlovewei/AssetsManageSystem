@@ -228,14 +228,12 @@ function modal_simpleFormCtl($timeout,$localStorage, notify, $log, $uibModal, $u
 
 	}
 	$scope.template=formhtml;
-	
 	$scope.sure = function() {
 		meta.sure($uibModalInstance,$scope);
 	};
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
- 
 	 $timeout(function(){
 		//设置select全宽度
 		 for(var i=0;i<select_ids.length;i++){
@@ -247,8 +245,12 @@ function modal_simpleFormCtl($timeout,$localStorage, notify, $log, $uibModal, $u
 	if(typeof($scope.meta.init) != "undefined"  ){
 		$scope.meta.init($scope);
 	}
-	
-	
 
 }
 /********************************modal end**************************/
+/********************************simple tool table模版*************************/
+//原因:tooltable模版的table的instance无法初始化
+function buildSimpleToolTableTpl(){
+	return '<div class="wrapper wrapper-content animated fadeInRight">  <ng-include src="\'views/Template/simpleTool.html\'"></ng-include>   <div class="row"> <div class="col-lg-12"><div class="ibox"><div class="ibox-content">	<table datatable="ed" dt-options="dtOptions" dt-instance="dtInstance" dt-columns="dtColumns" dt-column-defs="dtColumnDefs" class="table table-hover"></table></div></div></div></div> </div> ';
+}
+/********************************simple tool table模版结束*************************/
