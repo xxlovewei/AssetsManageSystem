@@ -36,20 +36,20 @@
 	</div>
 	<!-- Main view  -->
 	<div ui-view></div>
+	
+	<!-- Peace JS -->
+	<!-- <script
+		data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }'
+		src="node_modules/pace/pace.js"></script> -->
 	<!--jQuery and Bootstrap  -->
 	<script src="node_modules/jquery/dist/jquery.min.js"></script>
-	<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 	<!-- MetsiMenu -->
-	<script src="node_modules/metismenu/dist/metisMenu.min.js"></script>
+<!-- 	<script src="node_modules/metismenu/dist/metisMenu.min.js"></script> -->
+		<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 	<!-- SlimScroll -->
-	<script src="node_modules/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<!-- Peace JS -->
-	<script
-		data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }'
-		src="plugin/pace/pace.min.js"></script>
-	<!-- Custom and plugin javascript -->
-	<script src="js/base.js"></script>
+<!-- 	<script src="node_modules/jquery-slimscroll/jquery.slimscroll.min.js"></script> -->
 	<!-- Main Angular scripts-->
+	<script src="js/base.js"></script>
 	<script src="node_modules/angular/angular.min.js"></script>
 	<script src="node_modules/angular-sanitize/angular-sanitize.min.js"></script>
 	<script src="node_modules/oclazyload/dist/ocLazyLoad.min.js"></script>
@@ -79,11 +79,15 @@
 		rel="stylesheet"> -->
 	<!-- 	<script src="node_modules/jquery-chosen/chosen.jquery.min.js"></script> -->
 
-	<!-- 	<script src="node_modules/angular-chosen/dist/chosen.min.js"></script> -->
+<!-- 	<script src="node_modules/angular-chosen/dist/chosen.min.js"></script> -->
+
+
 
 	<!-- chosen -->
-	<link href="plugin/chosen/bootstrap-chosen.min.css" rel="stylesheet">
-	<script src="plugin/chosen/chosenall.min.js"></script>
+	<link href="css/plugins/chosen/bootstrap-chosen.min.css"
+		rel="stylesheet">
+	  <script src="js/plugins/chosen/chosenall.min.js"></script>  
+
 
 	<!-- jstree -->
 	<link href="node_modules/jstree/dist/themes/default/style.min.css"
@@ -122,16 +126,14 @@
 
 	<!-- datepick -->
 	<script src="plugin/moment/moment.min.js"></script>
-	<link href="plugin/datapicker/angular-datapicker.css" rel="stylesheet"
-		type="text/css" />
+	<link href="plugin/datapicker/angular-datapicker.css"
+		rel="stylesheet" type="text/css" />
 	<script src="plugin/datapicker/angular-datepicker.js"></script>
-
 	<!-- angular-confirm -->
 	<script src="node_modules/angular-confirm/angular-confirm.min.js"></script>
 	<!-- angular-localstorage -->
 	<script
 		src="node_modules/angular-swx-local-storage/release/swx-local-storage.min.js"></script>
-	<!-- Anglar App Script,先加载config,后启动app -->
 	<script type="text/javascript" src="js/config_system.js?v=15301"></script>
 	<script type="text/javascript" src="js/config_wx.js?v=1530311252709"></script>
 	<script type="text/javascript" src="js/config_mshop.js?v=1530311252720"></script>
