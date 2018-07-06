@@ -143,8 +143,8 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 								{
 									serie: true,
 									name : 'frapontillo.bootstrap-duallistbox',
-									files : [ 'css/plugins/dualListbox/bootstrap-duallistbox.min.css', 'js/plugins/dualListbox/jquery.bootstrap-duallistbox.js?v=' + version,
-											'js/plugins/dualListbox/angular-bootstrap-duallistbox.js?v=' + version ]
+									files : [ 'plugin/dualListbox/bootstrap-duallistbox.min.css', 'plugin/dualListbox/jquery.bootstrap-duallistbox.js?v=' + version,
+											'plugin/dualListbox/angular-bootstrap-duallistbox.js?v=' + version ]
 								}, {
 									serie : true,
 									files : [ 'views/system/user/user_setting.js?v=' + version ]
