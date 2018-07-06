@@ -11,24 +11,19 @@
 <title page-title></title>
 <!-- Bootstrap -->
 <link href="css/beforeload.css" rel="stylesheet">
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="node_modules/bootstrap/dist/css/bootstrap.min.css"
+	rel="stylesheet">
 <!--Font awesome标 -->
-<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 <!-- 主要样式 -->
 <link href="css/animate.css" rel="stylesheet">
 <link id="loadBefore" href="css/style.css" rel="stylesheet">
 <script>
-        /* yeah we need this empty stylesheet here. It's cool chrome & chromium fix
-         chrome fix https://code.google.com/p/chromium/issues/detail?id=167083
-         https://code.google.com/p/chromium/issues/detail?id=332189
-         */
 </script>
-<!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
 <!--[if IE 9]>
         <link href="css/application-ie9-part2.css" rel="stylesheet">
     <![endif]-->
 </head>
-<!-- 自定义 -->
 <body ng-controller="MainCtrl as main" ng-class="cur_skin"
 	landing-scrollspy id="page-top">
 	<div id="beforePage" class="preloader">
@@ -37,51 +32,68 @@
 				<label> ●</label> <label> ●</label> <label> ●</label> <label>
 					●</label> <label> ●</label> <label> ●</label>
 			</div>
-			<!--             <div style="  position: fixed;  left: 50%;   top: 50%;  ">正在加载中...</div> -->
 		</div>
 	</div>
 	<!-- Main view  -->
 	<div ui-view></div>
 	<!--jQuery and Bootstrap  -->
-	<script src="js/jquery/jquery-3.1.1.min.js"></script>
-	<script src="js/bootstrap/bootstrap.min.js"></script>
+	<script src="node_modules/jquery/dist/jquery.min.js"></script>
 	<!-- MetsiMenu -->
-	<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="node_modules/metismenu/dist/metisMenu.min.js"></script>
 	<!-- SlimScroll -->
-	<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="node_modules/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<!-- Peace JS -->
 	<script
 		data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }'
-		src="js/plugins/pace/pace.min.js"></script>
+		src="node_modules/pace/pace.js"></script>
 	<!-- Custom and plugin javascript -->
 	<script src="js/base.js"></script>
 	<!-- Main Angular scripts-->
 	<script src="node_modules/angular/angular.min.js"></script>
-	<script src="js/angular/angular-sanitize.min.js"></script>
-	<script src="js/plugins/oclazyload/dist/ocLazyLoad.min.js"></script>
-	<script src="js/angular-translate/angular-translate.min.js"></script>
-	<script src="js/ui-router/angular-ui-router.min.js"></script>
+	<script src="node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src="node_modules/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<script
+		src="node_modules/angular-translate/dist/angular-translate.min.js"></script>
+	<script
+		src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="node_modules/ng-idle/angular-idle.js"></script>
 	<script src="js/bootstrap/ui-bootstrap-tpls-1.1.2.min.js"></script>
-	<script src="js/plugins/angular-idle/angular-idle.js"></script>
 	<!-- #####################angular插件 #####################-->
 	<!-- noticy -->
 	<link href="css/plugins/angular-notify/angular-notify.min.css"
 		rel="stylesheet">
 	<script src="js/plugins/angular-notify/angular-notify.min.js"></script>
 	<!-- loading bar -->
-	<script src="plugin/angular_loading_bar/loading-bar.js"></script>
+	<link href="node_modules/angular-loading-bar/build/loading-bar.min.css"
+		rel="stylesheet">
+	<script src="node_modules/angular-loading-bar/build/loading-bar.min.js"></script>
 	<!-- dropzone -->
-	<link href="css/plugins/dropzone/basic.css" rel="stylesheet" />
-	<script src="js/plugins/dropzone/dropzone.min.js"></script>
+	<link href="node_modules/dropzone/dist/min/basic.min.css"
+		rel="stylesheet" />
+	<script src="node_modules/dropzone/dist/min/dropzone.min.js"></script>
+
+	<!-- <link href="node_modules/jquery-chosen/chosen.min.css"
+		rel="stylesheet">
+		<link href="node_modules/angular-chosen/dist/chose.min.css"
+		rel="stylesheet"> -->
+	<!-- 	<script src="node_modules/jquery-chosen/chosen.jquery.min.js"></script> -->
+
+	<script src="node_modules/angular-chosen/dist/chosen.min.js"></script>
+
+
+
 	<!-- chosen -->
 	<link href="css/plugins/chosen/bootstrap-chosen.min.css"
 		rel="stylesheet">
-	<script src="js/plugins/chosen/chosenall.min.js"></script>
+	<!-- <script src="js/plugins/chosen/chosenall.min.js"></script> -->
+
+
 	<!-- jstree -->
-	<link href="plugin/jstree/themes/default/style.min.css"
+	<link href="node_modules/jstree/dist/themes/default/style.min.css"
 		rel="stylesheet" type="text/css" />
-	<script src="plugin/jstree/jstree.min.js"></script>
-	<script src="plugin/jstree/ngJsTree.js"></script>
+	<script src="node_modules/jstree/dist/jstree.min.js"></script>
+	<script src="node_modules/ng-js-tree/dist/ngJsTree.min.js"></script>
+
 	<!--  datatable -->
 	<link href="plugin/datatable/dataTables.bootstrap.1.10.16.css"
 		rel="stylesheet" />
@@ -89,8 +101,8 @@
 	<script src="plugin/datatable/jquery.dataTables.min.1.10.16.js"></script>
 	<script src="plugin/datatable/dataTables.bootstrap.min.1.10.16.js"></script>
 	<!--datatable angular -->
-	 <script src="plugin/datatable/angular-datatables0.6.2.min.js"></script>  
-<!--  	<script src="plugin/datatable/angular-datatables0.6.2.js"></script> -->
+	<script src="plugin/datatable/angular-datatables0.6.2.min.js"></script>
+	<!--  	<script src="plugin/datatable/angular-datatables0.6.2.js"></script> -->
 
 	<!-- datatable 按钮 -->
 	<link href="plugin/datatable/buttons.bootstrap.min.1.2.2.css"
@@ -110,15 +122,17 @@
 	<script src="plugin/ueditor/ueditor.config.js"></script>
 	<script src="plugin/ueditor/ueditor.all.min.js"></script>
 	<script src="plugin/ueditor/angular-ueditor.js"></script>
+	
 	<!-- datepick -->
 	<script src="js/plugins/moment/moment.min.js"></script>
 	<link href="css/plugins/datapicker/angular-datapicker.css"
 		rel="stylesheet" type="text/css" />
 	<script src="js/plugins/datapicker/angular-datepicker.js"></script>
 	<!-- angular-confirm -->
-	<script src="plugin/angular_confirm/angular-confirm.min.js"></script>
+	<script src="node_modules/angular-confirm/angular-confirm.min.js"></script>
 	<!-- angular-localstorage -->
-	<script src="plugin/angular_localstorage/swx-local-storage.js"></script>
+	<script
+		src="node_modules/angular-swx-local-storage/release/swx-local-storage.min.js"></script>
 	<!-- Anglar App Script,先加载config,后启动app -->
 	<script type="text/javascript" src="js/config_system.js?v=15301"></script>
 	<script type="text/javascript" src="js/config_wx.js?v=1530311252709"></script>
