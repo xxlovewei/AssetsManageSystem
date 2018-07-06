@@ -650,76 +650,7 @@ angular.module('inspinia').directive('compile', function($compile) {
 		});
 	};
 });
-
-angular.module('ui.jq',[]).
-value('uiJqConfig',{}).
-value('uiJqDependencies',{}).
-directive('uiJq', ['uiJqConfig', '$timeout', 'uiJqDependencies', 'scriptLoader',
-    function uiJqInjectingFunction(uiJqConfig, $timeout, uiJqDependencies, scriptLoader) {
-
-    return {
-        restrict: 'A',
-        compile: function uiJqCompilingFunction(tElm, tAttrs) {
-
-            if (!(angular.isFunction(tElm[tAttrs.uiJq]) || angular.isArray(uiJqDependencies[tAttrs.uiJq]))) {
-                throw new Error('ui-jq: The "' + tAttrs.uiJq + '" function does not exist');
-            }
-            var options = uiJqConfig && uiJqConfig[tAttrs.uiJq];
-
-            return function uiJqLinkingFunction(scope, elm, attrs) {
-
-                // If change compatibility is enabled, the form input's "change" event will trigger an "input" event
-                if (attrs.ngModel && elm.is('select,input,textarea')) {
-                    elm.bind('change', function() {
-                        elm.trigger('input');
-                    });
-                }
-
-                // Call jQuery method and pass relevant options
-                function callPlugin() {
-                    $timeout(function() {
-                        var linkOptions = [];
-
-                        // If ui-options are passed, merge (or override) them onto global defaults and pass to the jQuery method
-                        if (attrs.uiOptions) {
-                            linkOptions = scope.$eval('[' + attrs.uiOptions + ']');
-                            if (angular.isObject(options) && angular.isObject(linkOptions[0])) {
-                                linkOptions[0] = angular.extend({}, options, linkOptions[0]);
-                            }
-                        } else if (options) {
-                            linkOptions = [options];
-                        }
-                        elm[attrs.uiJq].apply(elm, linkOptions);
-                    }, 0, false);
-                }
-
-                // If ui-refresh is used, re-fire the the method upon every change
-                if (attrs.uiRefresh) {
-                    scope.$watch(attrs.uiRefresh, function() {
-                        callPlugin();
-                    });
-                }
-
-                // Sing addition. If there jQuery functions is defined, then just calling plugin
-                // if there is no jQuery function, then loading it first from uiJqDependencies object
-                // defined in app.js
-                var scriptsFromOptions = scope.$eval(tAttrs.uiPreload) || [];
-                if (angular.isFunction(tElm[tAttrs.uiJq])){
-                    if (scriptsFromOptions.length > 0){
-                        scriptLoader.loadScripts(scriptsFromOptions)
-                            .then(callPlugin);
-                    } else {
-                        callPlugin();
-                    }
-                } else {
-                    var scriptsToLoad = uiJqDependencies[tAttrs.uiJq].concat(scriptsFromOptions);
-                    scriptLoader.loadScripts(scriptsToLoad)
-                        .then(callPlugin);
-                }
-            };
-        }
-    };
-}]);
+ 
 /**
  * 
  * Pass all functions into module
@@ -768,3 +699,226 @@ angular.module('inspinia').directive("bnDocumentClick",
 			//返回linking函数
 			return (linkFunction);
 		});
+
+'use strict';
+
+/**
+ * 0.1.1
+ * Deferred load js/css file, used for ui-jq.js and Lazy Loading.
+ * 
+ * @ flatfull.com All Rights Reserved.
+ * Author url: #user/flatfull
+ */
+
+angular.module('ui.load', [])
+	.service('uiLoad', ['$document', '$q', '$timeout', function ($document, $q, $timeout) {
+
+		var loaded = [];
+		var promise = false;
+		var deferred = $q.defer();
+
+		/**
+		 * Chain loads the given sources
+		 * @param srcs array, script or css
+		 * @returns {*} Promise that will be resolved once the sources has been loaded.
+		 */
+		this.load = function (srcs) {
+			srcs = angular.isArray(srcs) ? srcs : srcs.split(/\s+/);
+			var self = this;
+			if(!promise){
+				promise = deferred.promise;
+			}
+      angular.forEach(srcs, function(src) {
+      	promise = promise.then( function(){
+      		return src.indexOf('.css') >=0 ? self.loadCSS(src) : self.loadScript(src);
+      	} );
+      });
+      deferred.resolve();
+      return promise;
+		}
+
+		/**
+		 * Dynamically loads the given script
+		 * @param src The url of the script to load dynamically
+		 * @returns {*} Promise that will be resolved once the script has been loaded.
+		 */
+		this.loadScript = function (src) {
+			if(loaded[src]) return loaded[src].promise;
+
+			var deferred = $q.defer();
+			var script = $document[0].createElement('script');
+			script.src = src;
+			script.onload = function (e) {
+				$timeout(function () {
+					deferred.resolve(e);
+				});
+			};
+			script.onerror = function (e) {
+				$timeout(function () {
+					deferred.reject(e);
+				});
+			};
+			$document[0].body.appendChild(script);
+			loaded[src] = deferred;
+
+			return deferred.promise;
+		};
+
+		/**
+		 * Dynamically loads the given CSS file
+		 * @param href The url of the CSS to load dynamically
+		 * @returns {*} Promise that will be resolved once the CSS file has been loaded.
+		 */
+		this.loadCSS = function (href) {
+			if(loaded[href]) return loaded[href].promise;
+
+			var deferred = $q.defer();
+			var style = $document[0].createElement('link');
+			style.rel = 'stylesheet';
+			style.type = 'text/css';
+			style.href = href;
+			style.onload = function (e) {
+				$timeout(function () {
+					deferred.resolve(e);
+				});
+			};
+			style.onerror = function (e) {
+				$timeout(function () {
+					deferred.reject(e);
+				});
+			};
+			$document[0].head.appendChild(style);
+			loaded[href] = deferred;
+
+			return deferred.promise;
+		};
+}]);
+
+angular.module('ui.jq', ['ui.load']).
+value('uiJqConfig', {}).
+directive('uiJq', ['uiJqConfig', 'JQ_CONFIG', 'uiLoad', '$timeout', function uiJqInjectingFunction(uiJqConfig, JQ_CONFIG, uiLoad, $timeout) {
+
+return {
+  restrict: 'A',
+  compile: function uiJqCompilingFunction(tElm, tAttrs) {
+
+    if (!angular.isFunction(tElm[tAttrs.uiJq]) && !JQ_CONFIG[tAttrs.uiJq]) {
+      throw new Error('ui-jq: The "' + tAttrs.uiJq + '" function does not exist');
+    }
+    var options = uiJqConfig && uiJqConfig[tAttrs.uiJq];
+
+    return function uiJqLinkingFunction(scope, elm, attrs) {
+
+      function getOptions(){
+        var linkOptions = [];
+
+        // If ui-options are passed, merge (or override) them onto global defaults and pass to the jQuery method
+        if (attrs.uiOptions) {
+          linkOptions = scope.$eval('[' + attrs.uiOptions + ']');
+          if (angular.isObject(options) && angular.isObject(linkOptions[0])) {
+            linkOptions[0] = angular.extend({}, options, linkOptions[0]);
+          }
+        } else if (options) {
+          linkOptions = [options];
+        }
+        return linkOptions;
+      }
+
+      // If change compatibility is enabled, the form input's "change" event will trigger an "input" event
+      if (attrs.ngModel && elm.is('select,input,textarea')) {
+        elm.bind('change', function() {
+          elm.trigger('input');
+        });
+      }
+
+      // Call jQuery method and pass relevant options
+      function callPlugin() {
+        $timeout(function() {
+          elm[attrs.uiJq].apply(elm, getOptions());
+        }, 0, false);
+      }
+
+      function refresh(){
+        // If ui-refresh is used, re-fire the the method upon every change
+        if (attrs.uiRefresh) {
+          scope.$watch(attrs.uiRefresh, function() {
+            callPlugin();
+          });
+        }
+      }
+
+      if ( JQ_CONFIG[attrs.uiJq] ) {
+        uiLoad.load(JQ_CONFIG[attrs.uiJq]).then(function() {
+          callPlugin();
+          refresh();
+        }).catch(function() {
+          
+        });
+      } else {
+        callPlugin();
+        refresh();
+      }
+    };
+  }
+};
+}]);
+
+
+app.directive('focusMe', ['$timeout', function($timeout) {  
+	  return {  
+	    scope: { trigger: '@focusMe' },  
+	    link: function(scope, element) {  
+	      scope.$watch('trigger', function(value) {  
+	        if(value === "true") {  
+	          $timeout(function() {  
+	            element[0].focus();  
+	          });  
+	        }  
+	      });  
+	    }  
+	  };  
+	}]); 
+
+app.directive('contenteditable', function() {  
+	  return {  
+	    require: '?ngModel',  
+	    link: function(scope, element, attrs, ctrl) {  
+	   
+	      // Do nothing if this is not bound to a model  
+	      if (!ctrl) { return; }  
+	   
+	      // Checks for updates (input or pressing ENTER)  
+	      // view -> model  
+	      element.bind('input enterKey', function() {  
+	        var rerender = false;  
+	        var html = element.html();  
+	   
+	        if (attrs.noLineBreaks) {  
+	          html = html.replace(/<div>/g, '').replace(/<br>/g, '').replace(/<\/div>/g, '');  
+	          rerender = true;  
+	        }  
+	   
+	        scope.$apply(function() {  
+	          ctrl.$setViewValue(html);  
+	          if(rerender) {  
+	            ctrl.$render();  
+	          }  
+	        });  
+	      });  
+	   
+	      element.keyup(function(e){  
+	        if(e.keyCode === 13){  
+	          element.trigger('enterKey');  
+	        }  
+	      });  
+	   
+	      // model -> view  
+	      ctrl.$render = function() {  
+	        element.html(ctrl.$viewValue);  
+	      };  
+	   
+	      // load init value from DOM  
+	      ctrl.$render();  
+	    }  
+	  };  
+	}); 

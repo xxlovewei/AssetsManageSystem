@@ -3,7 +3,11 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		notify, $scope, $http, $rootScope, $uibModal) {
 	$scope.btn_query = function() {
 		console.log("query");
+		
+		$scope.text=$scope.text+"a";
 	}
+	
+	
 	$scope.btn_add = function() {
 	
 		var meta = {};
