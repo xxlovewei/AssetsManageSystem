@@ -1,8 +1,8 @@
-<div class="row border-bottom"   >
-	<nav   class="navbar navbar-static-top" role="navigation" 
+<div class="row border-bottom">
+	<nav class="navbar navbar-static-top" role="navigation"
 		style="margin-bottom: 0;">
 		<div class="navbar-header">
-		 
+
 			<span minimaliza-sidebar></span>
 			<!--     <form role="search" class="navbar-form-custom" method="post" action="views/search_results.html">
                 <div class="form-group">
@@ -10,9 +10,9 @@
                 </div>
             </form> -->
 		</div>
-		<ul class="nav navbar-top-links navbar-right"   >
+		<ul class="nav navbar-top-links navbar-right">
 
-			<li   ng-if="dt_systems.length>1" uib-dropdown><a
+			<li ng-if="dt_systems.length>1" uib-dropdown><a
 				uib-dropdown-toggle class=""> <i
 					class="fa fa-dropbox on fa-square" aria-hidden="true"
 					style="color: #686B6D; padding-left: 3px; padding-right: 3px"></i></a>
@@ -28,17 +28,23 @@
 					class="fa fa-themeisle" aria-hidden="true"
 					style="color: #686B6D; padding-left: 3px; padding-right: 3px"></span></a>
 				<ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
-					<li ng-click="change_theme('default')"><a 
-						href="javascript:;" systemid="1"><i
-							class="zmdi zmdi-shield-security"></i> <span
+					<li ng-click="change_theme('default')"><a href="javascript:;"
+						systemid="1"><i class="zmdi zmdi-shield-security"></i> <span
 							style="padding-left: 6px;">默认主题</span></a></li>
-					<li ng-click="change_theme('md-skin')"><a 
-						href="javascript:;" systemid="1"><i
-							class="zmdi zmdi-shield-security"></i> <span
+					<li ng-click="change_theme('md-skin')"><a href="javascript:;"
+						systemid="1"><i class="zmdi zmdi-shield-security"></i> <span
 							style="padding-left: 6px;">Material Design风格</span></a></li>
 				</ul></li>
-			<li uib-dropdown><a uib-dropdown-toggle> <span
-					class="fa fa-user" aria-hidden="true"
+
+			<li uib-dropdown><a uib-dropdown-toggle>
+			 <span style="font-size:12px;">
+						{{sys_user_info.name}}
+			<i class="fa fa-caret-down" aria-hidden="true"></i> 			
+						
+						</span>
+						
+						
+						 <span class="fa fa-user" aria-hidden="true"
 					style="color: #686B6D; padding-left: 3px; padding-right: 3px"></span></a>
 				<ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
 					<li ng-click="fullScreen()"><a class="fa fa-window-maximize"

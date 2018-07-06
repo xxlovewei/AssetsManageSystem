@@ -1,7 +1,7 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
 	<div class="sidebar-collapse">
 		<ul side-navigation class="nav metismenu" id="side-menu">
-			<li class="nav-header" >
+			<!-- 	<li class="nav-header" >
 				  <div class="profile-element" uib-dropdown>
 					<img alt="image" class="img-circle" src="img/profile_small.jpg" />
 					<a uib-dropdown-toggle href> <span class="clear"> <span
@@ -10,15 +10,21 @@
 					</span>
 					</a>
 				</div>  
-				<!-- <div class="profile-element" uib-dropdown>
-				   			<span style="font-size:18px!important">后台管理</span>
-				</div> -->
-				
 				<div class="logo-element">
 					<i class="fa fa-home" aria-hidden="true"></i>
 				</div>
-			</li>
-
+			</li> -->
+			<div class="nav-header ">
+				<div class="profile-element"
+					style="padding-left: 20px; padding-top: 15px;">
+					<a href="javacript:void(0);" style="font-size: 15px;"> <i
+						class="fa fa-btc"></i> <span class="hidden-folded m-l-xs">Angulr</span>
+					</a>
+				</div>
+				<div class="logo-element">
+					<i class="fa fa-home" aria-hidden="true"></i>
+				</div>
+			</div>
 			<li ng-repeat="first in menu"
 				ng-class="{active: $state.includes('{{first.state}}')}"><a
 				class="" ui-sref="{{first.state}}"> <i
@@ -42,9 +48,6 @@
 								ui-sref="{{third.state}}">{{third.node_name}} </a></li>
 						</ul></li>
 				</ul></li>
-
-
 		</ul>
-
 	</div>
 </nav>
