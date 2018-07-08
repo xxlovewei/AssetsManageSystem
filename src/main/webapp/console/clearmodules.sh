@@ -4,7 +4,6 @@ echo $basepath
 cd $basepath/node_modules
 rm -rf datatables.net
 rm -rf datatables.net-dt
-rm -rf "@uirouter"
 find ./ -type d -name "node_modules" -exec rm -rf {} \;
 find ./ -type d -name "bower_components" -exec rm -rf {} \;
 find ./ -type d -name "coverage" -exec rm -rf {} \;

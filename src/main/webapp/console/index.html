@@ -9,15 +9,7 @@
 <meta http-equiv="Cache-control" content="no-cache">
 <meta http-equiv="Cache" content="no-cache">
 <title page-title></title>
-<!-- Bootstrap -->
-<link href="css/beforeload.css" rel="stylesheet">
-<link href="node_modules/bootstrap/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<!--Font awesome标 -->
-<link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-<!-- 主要样式 -->
-<link href="css/animate.css" rel="stylesheet">
-<link id="loadBefore" href="css/style.css" rel="stylesheet">
+<link href="css/app.min.css" rel="stylesheet">
 <script>
 </script>
 <!--[if IE 9]>
@@ -37,12 +29,12 @@
 	<!-- Main view  -->
 	<div ui-view></div>
 	<!--jQuery and Bootstrap  -->
-	<script src="node_modules/jquery/dist/jquery.min.js"></script>
-	<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="vendor/jquery/dist/jquery.min.js"></script>
+	<script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 	<!-- MetsiMenu -->
-	<script src="node_modules/metismenu/dist/metisMenu.min.js"></script>
+	<script src="vendor/metismenu/dist/metisMenu.min.js"></script>
 	<!-- SlimScroll -->
-	<script src="node_modules/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<!-- Peace JS -->
 	<script
 		data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }'
@@ -50,14 +42,14 @@
 	<!-- Custom and plugin javascript -->
 	<script src="js/base.js"></script>
 	<!-- Main Angular scripts-->
-	<script src="node_modules/angular/angular.min.js"></script>
-	<script src="node_modules/angular-sanitize/angular-sanitize.min.js"></script>
-	<script src="node_modules/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<script src="vendor/angular/angular.min.js"></script>
+	<script src="vendor/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src="vendor/oclazyload/dist/ocLazyLoad.min.js"></script>
 	<script
-		src="node_modules/angular-translate/dist/angular-translate.min.js"></script>
+		src="vendor/angular-translate/dist/angular-translate.min.js"></script>
 	<script
-		src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
-	<script src="node_modules/ng-idle/angular-idle.js"></script>
+		src="vendor/angular-ui-route/angularjs/release/angular-ui-router.min.js"></script>
+	<script src="vendor/ng-idle/angular-idle.js"></script>
 	<script src="plugin/ui-bootstrap/ui-bootstrap-tpls-1.1.2.min.js"></script>
 	<!-- #####################angular插件 #####################-->
 	<!-- noticy -->
@@ -65,31 +57,31 @@
 		rel="stylesheet">
 	<script src="plugin/angular-notify/angular-notify.min.js"></script>
 	<!-- loading bar -->
-	<link href="node_modules/angular-loading-bar/build/loading-bar.min.css"
+	<link href="vendor/angular-loading-bar/build/loading-bar.min.css"
 		rel="stylesheet">
-	<script src="node_modules/angular-loading-bar/build/loading-bar.min.js"></script>
+	<script src="vendor/angular-loading-bar/build/loading-bar.min.js"></script>
 	<!-- dropzone -->
-	<link href="node_modules/dropzone/dist/min/basic.min.css"
+	<link href="vendor/dropzone/dist/min/basic.min.css"
 		rel="stylesheet" />
-	<script src="node_modules/dropzone/dist/min/dropzone.min.js"></script>
+	<script src="vendor/dropzone/dist/min/dropzone.min.js"></script>
 	<!-- chosen -->
 	<link href="plugin/chosen/bootstrap-chosen.min.css" rel="stylesheet">
-	<script src="node_modules/chosen-js/chosen.jquery.min.js"></script>
+	<script src="vendor/chosen-js/chosen.jquery.min.js"></script>
 	<script
-		src="node_modules/angular-chosen-localytics/dist/angular-chosen.min.js"></script>
+		src="vendor/angular-chosen-localytics/dist/angular-chosen.min.js"></script>
 	<!-- jstree -->
-	<link href="node_modules/jstree/dist/themes/default/style.min.css"
+	<link href="vendor/jstree/dist/themes/default/style.min.css"
 		rel="stylesheet" type="text/css" />
-	<script src="node_modules/jstree/dist/jstree.min.js"></script>
-	<script src="node_modules/ng-js-tree/dist/ngJsTree.min.js"></script>
+	<script src="vendor/jstree/dist/jstree.min.js"></script>
+	<script src="vendor/ng-js-tree/dist/ngJsTree.min.js"></script>
 
 	<!--  datatable -->
 	<link href="plugin/datatable/dataTables.bootstrap.1.10.16.css"
 		rel="stylesheet" />
-	<script src="node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script src="vendor/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script src="plugin/datatable/dataTables.bootstrap.min.1.10.16.js"></script>
 	<script
-		src="node_modules/angular-datatables/dist/angular-datatables.min.js"></script>
+		src="vendor/angular-datatables/dist/angular-datatables.min.js"></script>
 
 	<!-- datatable 按钮 -->
 	<link href="plugin/datatable/buttons.bootstrap.min.1.2.2.css"
@@ -100,23 +92,23 @@
 
 	<!-- datatable自适应 -->
 	<script
-		src="node_modules/datatables-responsive/js/dataTables.responsive.js"></script>
+		src="vendor/datatables-responsive/js/dataTables.responsive.js"></script>
 	<link rel="stylesheet"
 		href="plugin/datatable/responsive.dataTables.min.css">
 
 	<!-- datatable 选择 -->
 	<link
-		href="node_modules/datatables-select/dist/css/select.dataTables.min.css"
+		href="vendor/datatables-select/dist/css/select.dataTables.min.css"
 		rel="stylesheet" type="text/css" />
 	<script
-		src="node_modules/datatables-select/dist/js/dataTables.select.min.js"></script>
+		src="vendor/datatables-select/dist/js/dataTables.select.min.js"></script>
 	<script
-		src="node_modules/angular-datatables/dist/plugins/select/angular-datatables.select.min.js"></script>
+		src="vendor/angular-datatables/dist/plugins/select/angular-datatables.select.min.js"></script>
 
 	<!-- ueditor -->
 	<script src="plugin/ueditor/ueditor.config.js"></script>
 	<script src="plugin/ueditor/ueditor.all.min.js"></script>
-	<script src="plugin/ueditor/angular-ueditor.js"></script>
+	<script src="vendor/angular-ueditor/dist/angular-ueditor.js"></script>
 
 	<!-- datepick -->
 	<script src="plugin/moment/moment.min.js"></script>
@@ -125,12 +117,14 @@
 	<script src="plugin/datapicker/angular-datepicker.js"></script>
 
 	<!-- angular-confirm -->
-	<script src="node_modules/angular-confirm/angular-confirm.min.js"></script>
+	<script src="vendor/angular-confirm/angular-confirm.min.js"></script>
 	<!-- angular-localstorage -->
 	<script
-		src="node_modules/angular-swx-local-storage/release/swx-local-storage.min.js"></script>
-	<!-- Anglar App Script,先加载config,后启动app -->
-	<script type="text/javascript" src="js/config_system.js?v=15301"></script>
+		src="vendor/angular-swx-local-storage/release/swx-local-storage.min.js"></script>
+
+	<!-- common app js -->
+	<script type="text/javascript" src="js/app.js"></script>
+	<!-- 	<script type="text/javascript" src="js/config_system.js?v=15301"></script>
 	<script type="text/javascript" src="js/config_wx.js?v=1530311252709"></script>
 	<script type="text/javascript" src="js/config_mshop.js?v=1530311252720"></script>
 	<script type="text/javascript" src="js/config_shop.js?v=1530311252732"></script>
@@ -139,7 +133,7 @@
 	<script type="text/javascript" src="js/service_user.js?v=1530311252763"></script>
 	<script type="text/javascript" src="js/translations.js?v=1530311252773"></script>
 	<script type="text/javascript" src="js/directives.js?v=1530311252784"></script>
-	<script type="text/javascript" src="js/controllers.js?v=1530311252794"></script>
+	<script type="text/javascript" src="js/controllers.js?v=1530311252794"></script> -->
 </body>
 </html>
 
