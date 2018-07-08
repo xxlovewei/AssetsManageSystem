@@ -1,12 +1,18 @@
 package com.dt.core.aop;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.IOUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,6 +30,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseConstants;
 import com.dt.core.dao.sql.Insert;
@@ -90,6 +97,26 @@ public class AclAop {
 
 	}
 
+	public static String req2RawString(HttpServletRequest request) {
+		String res = "";
+		try {
+			Map<String, String[]> map = request.getParameterMap();
+			if (map != null) {
+				for (String key : map.keySet()) {
+					String values = "";
+					for (int i = 0; i < map.get(key).length; i++) {
+						values = map.get(key)[i] + "";
+					}
+					res = res + key + ":" + values + ",";
+				}
+			}
+		}catch (Exception e){
+			_log.info("record url post data failed");
+		}
+		return res;
+
+	}
+
 	@Around("pointcut()")
 	public Object recAccessLog(ProceedingJoinPoint joinPoint) throws Throwable {
 
@@ -107,7 +134,7 @@ public class AclAop {
 		String info = "";
 		String url = request.getRequestURI().toString();
 		String method_type = request.getMethod();
-		String queryString = request.getQueryString();
+
 		String ip = HttpKit.getIpAddr(request);
 		String aclpri = "";
 		Method method = this.getSpecificmethod(joinPoint);
@@ -126,7 +153,18 @@ public class AclAop {
 				ins.setIf("url", url);
 				ins.setIf("method_type", method_type);
 				ins.setSE("rtime", DbUtil.getDbDateString(db.getDBType()));
-				ins.setIf("postorget", queryString);
+
+				if ("POST".equals(method_type)) {
+					String str = req2RawString(request);
+					if (str.length() > 3500) {
+						ins.setIf("postorget", str.substring(0, 3500));
+					} else {
+						ins.setIf("postorget", str);
+					}
+				} else {
+					ins.setIf("postorget", request.getQueryString());
+				}
+
 				try {
 					db.execute(ins);
 				} catch (Exception e) {
