@@ -11,11 +11,14 @@ var sequence = require('gulp-sequence');
 var clean = require('gulp-clean');
 var cleanCSS = require('gulp-clean-css');// 压缩css
 var assetRev = require('gulp-asset-rev');
-cssver = require('gulp-make-css-url-version'); 
+cssver = require('gulp-make-css-url-version');
 var revCollector = require('gulp-rev-collector');
 
 var lib_dir = "./node_modules/";
-gulp.task('appjs',
+
+
+/*=====================压缩app js文件==========================*/
+gulp.task('app_js',
 		function() {
 			var js_list = [ './js/config_system.js', './js/config_wx.js',
 					'./js/config_wx.js', './js/config_mshop.js',
@@ -27,12 +30,21 @@ gulp.task('appjs',
 			console.log(js_list);
 			gulp.src(js_list) // 数组顺序表示合并的顺序
 			.pipe(concat('app.js')) // 先合并成新文件
-			.pipe(gulp.dest('./js')); // 合并后存放路径
+			.pipe(gulp.dest('./js')) // 存放路径
+			.pipe(rev())
+			.pipe(gulp.dest('./js'))// 合并后存放路径
+			.pipe(rev.manifest())
+			.pipe(gulp.dest('./rev/app_js/'));
 		});
 
-gulp.task('applibjs',
-		function() {
-			var js_list = [ 'vendor/jquery/dist/jquery.min.js', 
+
+/*=====================压缩公共 js文件==========================*/
+gulp
+		.task(
+				'app_libjs',
+				function() {
+					var js_list = [
+							'vendor/jquery/dist/jquery.min.js',
 							'vendor/bootstrap/dist/js/bootstrap.min.js',
 							'vendor/metismenu/dist/metisMenu.min.js',
 							'vendor/jquery-slimscroll/jquery.slimscroll.min.js',
@@ -63,18 +75,22 @@ gulp.task('applibjs',
 							'plugin/moment/moment.min.js',
 							'plugin/datapicker/angular-datepicker.js',
 							'vendor/angular-confirm/angular-confirm.min.js',
-							'vendor/angular-swx-local-storage/release/swx-local-storage.min.js'
-							];
-			console.log("合并js文件");
-			console.log(js_list);
-			gulp.src(js_list) // 数组顺序表示合并的顺序
-			.pipe(concat('applib.min.js')) // 先合并成新文件
-			.pipe(gulp.dest('./js')); // 合并后存放路径
-		});
+							'vendor/angular-swx-local-storage/release/swx-local-storage.min.js' ];
+					console.log("合并js文件");
+					console.log(js_list);
+					gulp.src(js_list) // 数组顺序表示合并的顺序
+					.pipe(concat('applib.min.js')) // 先合并成新文件
+					.pipe(gulp.dest('./js')) // 存放路径
+					.pipe(rev())
+					.pipe(gulp.dest('./js'))// 合并后存放路径
+					.pipe(rev.manifest())
+					.pipe(gulp.dest('./rev/app_libjs/'));
+				});
 
 
- 
-gulp.task('applibcss', function() {
+
+/*=====================压缩公共 css文件==========================*/
+gulp.task('app_libcss', function() {
 	var css_list = [ 'plugin/angular-notify/angular-notify.min.css"',
 			'plugin/angular-notify/angular-notify.min.css',
 			'vendor/angular-loading-bar/build/loading-bar.min.css',
@@ -85,18 +101,23 @@ gulp.task('applibcss', function() {
 			'plugin/datatable/buttons.bootstrap.min.1.2.2.css',
 			'plugin/datatable/responsive.dataTables.min.css',
 			'vendor/datatables-select/dist/css/select.dataTables.min.css',
-			'plugin/datapicker/angular-datapicker.css'		
-			 ];
+			'plugin/datapicker/angular-datapicker.css' ];
 	console.log("合并css文件");
 	console.log(css_list);
 	gulp.src(css_list) // 数组顺序表示合并的顺序
 	.pipe(concat('applib.min.css')) // 先合并成新文件
-	.pipe(cleanCSS())
-	.pipe(gulp.dest('./css')) // 存放路径
- 
+	.pipe(cleanCSS()).
+	pipe(gulp.dest('./css')). // 存放路径
+	pipe(rev()).
+	pipe(gulp.dest('./css')) // 存放路径
+	.pipe(rev.manifest()).
+	pipe(gulp.dest('./rev/app_libcss/'));
+
 });
-		
-gulp.task('appcss', function() {
+
+
+/*=====================压缩app css文件==========================*/
+gulp.task('app_css', function() {
 	var css_list = [ './css/beforeload.css',
 			'./node_modules/bootstrap/dist/css/bootstrap.min.css',
 			'./css/animate.css', './css/style.css' ];
@@ -104,12 +125,24 @@ gulp.task('appcss', function() {
 	console.log(css_list);
 	gulp.src(css_list) // 数组顺序表示合并的顺序
 	.pipe(concat('app.min.css')) // 先合并成新文件
-	.pipe(cleanCSS())
-	.pipe(gulp.dest('./css')) // 存放路径
- 
+	.pipe(cleanCSS()).
+	pipe(gulp.dest('./css')). // 存放路径
+	pipe(rev()).
+	pipe(gulp.dest('./css')) // 存放路径
+	.pipe(rev.manifest()).
+	pipe(gulp.dest('./rev/app_css/'));
+
 });
 
- 
+
+gulp.task('revHtml', function () {
+    return gulp.src(['rev/**/*.json', './tpl/min/index.html'])
+        .pipe(revCollector())
+        .pipe(gulp.dest('./'));
+});
+
+
+/*=====================copy库文件==========================*/
 gulp.task('copy:vendor', function() {
 	gulp.src([ lib_dir + 'angular-confirm/angular-confirm.min.js' ]).pipe(
 			gulp.dest("./vendor/angular-confirm"));
@@ -200,36 +233,12 @@ gulp.task('copy:vendor', function() {
 	return "";
 });
 
-gulp.task('test', function() {
-	var jsFilter = filter('**/*.js', {
-		restore : true
-	});
-	var cssFilter = filter('**/*.css', {
-		restore : true
-	});
-	var indexHtmlFilter = filter([ '**/*', '!**/index.html' ], {
-		restore : true
-	});
-	return gulp.src('js/*.js')/* 需要处理的文件 */
-	.pipe(useref())/* 处理注释压缩 */
-	.pipe(jsFilter)/* 筛选js文件 */
-	.pipe(uglify())/* 压缩js文件 */
-	.pipe(jsFilter.restore)/* 放回流里 */
-	.pipe(cssFilter)/* 筛选css文件 */
-	.pipe(csso())/* 压缩css文件 */
-	.pipe(cssFilter.restore)/* 放回流里 */
-	.pipe(indexHtmlFilter)/* 筛选html文件 */
-	.pipe(rev())/* 生成哈希版本号 */
-	.pipe(indexHtmlFilter.restore)/* 放回流里 */
-	.pipe(revReplace())/* 更新index引用 */
-	.pipe(gulp.dest('dist'));/* 文件流放到dist目录下 */
 
-});
-
+/*=====================清理构建目录==========================*/
 gulp.task('clean', function() {
 	console.log('清空资源');
 	var c_ct = [ './css/app.min.css', './css/app.css', './js/app.js',
-			'./js/app.min.js','./js/applib.min.js','./js/applib.min.css' ];
+			'./js/app.min.js', './js/applib.min.js', './js/applib.min.css' ];
 	//c_ct.push('./vendor/');
 	console.log(c_ct);
 	return gulp.src(c_ct, {
@@ -239,22 +248,9 @@ gulp.task('clean', function() {
 	}));
 });
 
-gulp.task('default', function() {
-	gulp.src('js/*.js') // 路径问题：gulpfile.js为路径的起点。此路径表示js文件下的所有js文件。
-	.pipe(concat('all.js')) // 合并成的js文件名称
-	.pipe(uglify()) //压缩
-	.pipe(gulp.dest('build')); //打包压缩在build目录下。
-});
 
-//更新版本
-gulp.task('rev',['css','js'],function(){
-    return gulp.src(['rev/**/*.json','src/*.html'])
-               .pipe(revCollector({
-                   replaceReved: true
-               })).pipe(gulp.dest('dist'))
-})
+ 
+gulp.task('deploy', sequence('clean', 'app_js', 'app_css'));
 
-
-gulp.task('deploy', sequence('clean', 'appjs', 'appcss'));
-
-gulp.task('deploy:full', sequence('clean', 'appjs', 'appcss','applibcss','applibjs', 'copy:vendor'));
+gulp.task('deploy:full', sequence('clean', 'app_js', 'app_css', 'app_libcss',
+		'app_libjs', 'copy:vendor'));
