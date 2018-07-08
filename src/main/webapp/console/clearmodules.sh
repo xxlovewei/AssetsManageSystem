@@ -1,3 +1,12 @@
+
+basepath=$(cd `dirname $0`; pwd)
+echo $basepath
+mv node_modules /tmp/
+
+
+
+exit 0
+#########clear
 echo "start clear"
 basepath=$(cd `dirname $0`; pwd)
 echo $basepath

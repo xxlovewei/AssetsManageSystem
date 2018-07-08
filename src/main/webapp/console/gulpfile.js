@@ -31,7 +31,7 @@ gulp.task('appcss', function() {
 	gulp.src(
 			[ './css/beforeload.css',
 					'./node_modules/bootstrap/dist/css/bootstrap.min.css',
-					'./css/animate.css', './css/font-awesome.min.css',
+					'./css/animate.css',
 					'./css/style.css' ]) // 数组顺序表示合并的顺序
 	.pipe(concat('app.css')) // 先合并成新文件
 	.pipe(gulp.dest('./css')) // 合并后存放路径
