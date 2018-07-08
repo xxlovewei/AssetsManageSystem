@@ -253,4 +253,4 @@ gulp.task('clean', function() {
 gulp.task('deploy', sequence('clean', 'app_js', 'app_css'));
 
 gulp.task('deploy:full', sequence('clean', 'app_js', 'app_css', 'app_libcss',
-		'app_libjs', 'copy:vendor'));
+		'app_libjs', 'copy:vendor','revHtml'));
