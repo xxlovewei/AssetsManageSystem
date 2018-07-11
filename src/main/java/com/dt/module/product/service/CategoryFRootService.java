@@ -27,10 +27,13 @@ public class CategoryFRootService extends BaseService {
 		if (ToolUtil.isEmpty(code)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
+		
+		
 		if (db.uniqueRecord(" select count(1) value from product_cat_user_root where is_deleted='N' and code=? ", code)
 				.getInteger("value") > 0) {
 			return R.FAILURE("该编码已使用");
 		}
+		
 		ins.set("id", getNextUserCatId());
 		ins.set("is_deleted", "N");
 		ins.set("is_used", ps.getString("is_used"));

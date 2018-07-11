@@ -34,8 +34,8 @@ public class CoreService extends BaseService {
 
 	private static Logger _log = LoggerFactory.getLogger(CoreService.class);
 
-	@Value("${wx.weburl}")
-	public String weburl;
+	@Value("${imgdownurl}")
+	public String imgdownurl;
 
 	@Autowired
 	WxService wxService;
@@ -81,6 +81,7 @@ public class CoreService extends BaseService {
 			String msgType = requestMap.get("MsgType");
 
 			String content = requestMap.get("Content");
+			// 网页授权1,登录
 			wxService.baseToLogin(fromUserName, "1");
 			// 回复文本消息
 			TextMessage textMessage = new TextMessage();
@@ -95,8 +96,9 @@ public class CoreService extends BaseService {
 			// 文本消息
 			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {
 				respContent = "您发送的是文本消息！";
+				_log.info("文本消息");
 				respContent = processMsg(fromUserName, toUserName, msgType, content, "您发送的是文本消息!");
-				return respContent;
+				return eventbykey(content, fromUserName, toUserName);
 			}
 			// 图片消息
 			else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {
@@ -125,9 +127,7 @@ public class CoreService extends BaseService {
 				// 关注
 				if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
 					respContent = "";
-
 					return respContent;
-
 				}
 				// 取消关注
 				else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
@@ -164,10 +164,16 @@ public class CoreService extends BaseService {
 
 	public String eventbykey(String key, String fromUserName, String toUserName) {
 
+		_log.info("eventbykey,key:" + key);
 		Rcd keyrcd = db.uniqueRecord("select * from wx_msg_def where dr=0 and code=?", key);
 		// 单图文的时候会有描述信息
 		// 多图文的时候第一张将放大，描述信息隐藏
-		if ("6".equals(keyrcd.getString("msgtype"))) {
+		if (keyrcd == null) {
+			_log.info("未匹配到" + key);
+			return "";
+		}
+		String msgtype = keyrcd.getString("msgtype")==null?"-none":keyrcd.getString("msgtype");
+		if ("6".equals(msgtype)) {
 			// 为图文消息
 			RcdSet set = db.query("select * from wx_msg_imgitem t where group_id=? and dr=0 order by rn",
 					keyrcd.getString("group_id"));
@@ -178,19 +184,24 @@ public class CoreService extends BaseService {
 			newsMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
 			newsMessage.setCreateTime(new Date().getTime());
 			List<Article> list = new ArrayList<Article>();
+			_log.info("find cnt"+set.size());
+			if (set.size() == 0) {
+				return null;
+			} 
 			for (int i = 0; i < set.size(); i++) {
 				Article art = new Article();
-				art.setTitle(set.getRcd(i).getString("title"));
-				art.setDescription(set.getRcd(i).getString("msgdesc"));
-				art.setPicUrl(set.getRcd(i).getString("imgurl").startsWith("http") ? set.getRcd(i).getString("imgurl")
-						: weburl + "/api/file/imagedown.do?id=" + set.getRcd(i).getString("imgurl"));
-				art.setUrl(set.getRcd(i).getString("docurl"));
+				art.setTitle(set.getRcd(i).getString("title") == null ? "" : set.getRcd(i).getString("title"));
+				art.setDescription(
+						set.getRcd(i).getString("msgdesc") == null ? "" : set.getRcd(i).getString("msgdesc"));
+				String imgurl = set.getRcd(i).getString("imgurl") == null ? "" : set.getRcd(i).getString("imgurl");
+				art.setPicUrl(imgurl.startsWith("http") ? imgurl : imgdownurl + "?id=" + imgurl);
+				art.setUrl(set.getRcd(i).getString("docurl") == null ? "" : set.getRcd(i).getString("docurl"));
 				list.add(art);
 			}
 			newsMessage.setArticles(list);
 			return MessageUtil.newsMessageToXml(newsMessage);
 
-		} else if ("text".equals(keyrcd.getString("msgtype"))) {
+		} else if ("text".equals(msgtype)) {
 			// 文本
 			TextMessage textMessage = new TextMessage();
 			textMessage.setToUserName(fromUserName);
