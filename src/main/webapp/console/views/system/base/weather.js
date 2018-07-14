@@ -247,7 +247,7 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
         .withOption('bAutoWidth', true)
        .withOption('responsive',false)
     .withOption('scrollCollapse', true)
-    .withOption('paging', false)
+    .withOption('paging', true)
     .withFixedColumns({
         leftColumns: 0,
         rightColumns: 1

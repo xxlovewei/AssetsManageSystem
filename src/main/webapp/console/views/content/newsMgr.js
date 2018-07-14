@@ -20,8 +20,20 @@ function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 		}
 	});
   
+ 
+	
+	
 	$scope.URL = $rootScope.project + "/api/news/queryNewsByPage.do?noContent=Y";
-	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp('data').withOption('bProcessing', true).withOption('serverSide', true).withOption('createdRow', function(row) {
+	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp('data').withOption('bProcessing', true).
+	withOption('scrollY', '700px')
+    .withOption('scrollX', true)
+        .withOption('bAutoWidth', false)
+       .withOption('responsive',false)
+    .withOption('scrollCollapse', true)
+    .withFixedColumns({
+        leftColumns: 1,
+        rightColumns: 1
+    }).withOption('serverSide', true).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			});
@@ -31,7 +43,7 @@ function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 	$scope.dtInstance={}
 	function reloadData() {
 		var resetPaging = true;
-		$scope.dtInstance.reloadData(callback, true);
+		$scope.dtInstance.reloadData(callback, false);
 	}
 	function callback(json) {
 		console.log(json);
@@ -70,8 +82,13 @@ function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 
 	DTColumnBuilder.newColumn('id').withTitle('主图').withOption('sDefaultContent', '').renderWith(renderMImage),
 			DTColumnBuilder.newColumn('title').withTitle('标题').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', '').withClass('none'),
-			DTColumnBuilder.newColumn('hits').withTitle('点击量').withOption('sDefaultContent', '').withClass('none'),
+			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('hits').withTitle('点击量').withOption('sDefaultContent', '') ,
 			DTColumnBuilder.newColumn('urltype').withTitle('链接类型').withOption('sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('user_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
