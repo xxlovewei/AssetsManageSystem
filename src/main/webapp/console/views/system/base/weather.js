@@ -123,6 +123,8 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 				var picid = getUuid();
 				$scope.myDropzone.options.url = $rootScope.project + '/api/file/fileupload.do?bus=prodimgs&uuid=' + picid + '&type=image&interval=10000';
 				$scope.myDropzone.uploadFile($scope.myDropzone.files[0])
+				
+				console.log($scope.myDropzone.files[0]);
 			},
 			init :function(modal_meta){
 				$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(
@@ -238,7 +240,18 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 
 	$scope.meta = meta;
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
+	 
+ 
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('scrollY', '300px')
+    .withOption('scrollX', true)
+        .withOption('bAutoWidth', true)
+       .withOption('responsive',false)
+    .withOption('scrollCollapse', true)
+    .withOption('paging', false)
+    .withFixedColumns({
+        leftColumns: 0,
+        rightColumns: 1
+    }).withOption(
 			'createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
@@ -256,6 +269,40 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 	}
 
 	$scope.dtColumns = [
+		DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+				'sDefaultContent', ''),
+				DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+						'sDefaultContent', ''),
+						DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+								'sDefaultContent', ''),
+								DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+										'sDefaultContent', ''),
+										DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+												'sDefaultContent', ''),
+												
+		DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+				'sDefaultContent', ''),
+				DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+						'sDefaultContent', ''),
+						
+		DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+				'sDefaultContent', ''),
+				DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+						'sDefaultContent', ''),
+						DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+								'sDefaultContent', ''),
+								DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+										'sDefaultContent', ''),
+		DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+				'sDefaultContent', ''),
+				DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+						'sDefaultContent', ''),
+						DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+								'sDefaultContent', ''),DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+										'sDefaultContent', ''),
+										DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
+												'sDefaultContent', ''),
+												
 			DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
@@ -270,7 +317,7 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 							name : "无效"
 						} ]);
 					}),
-			DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption(
+			DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption('width','200px').withOption(
 					'sDefaultContent', '').renderWith(renderAction)																																															 ]
 
 	function flush() {

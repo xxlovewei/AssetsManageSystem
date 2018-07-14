@@ -71,6 +71,8 @@ gulp
 							'vendor/datatables-responsive/js/dataTables.responsive.js',
 							'vendor/datatables-select/dist/js/dataTables.select.min.js',
 							'vendor/angular-datatables/dist/plugins/select/angular-datatables.select.min.js',
+							'vendor/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js',
+							'vendor/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.min.js',
 							'vendor/angular-ueditor/dist/angular-ueditor.js',
 							'plugin/moment/moment.min.js',
 							'plugin/datapicker/angular-datepicker.js',
@@ -100,6 +102,7 @@ gulp.task('app_libcss', function() {
 			'plugin/datatable/dataTables.bootstrap.1.10.16.css',
 			'plugin/datatable/buttons.bootstrap.min.1.2.2.css',
 			'plugin/datatable/responsive.dataTables.min.css',
+			'plugin/datatable/fixedColumns.bootstrap3.2.6.css',
 			'vendor/datatables-select/dist/css/select.dataTables.min.css',
 			'plugin/datapicker/angular-datapicker.css' ];
 	console.log("合并css文件");
@@ -174,6 +177,11 @@ gulp.task('copy:vendor', function() {
 	gulp.src([ lib_dir + 'angular-datatables/dist/**/*' ]).pipe(
 			gulp.dest("./vendor/angular-datatables/dist"));
 
+	gulp.src([ lib_dir + 'datatables.net-fixedcolumns/**/*' ]).pipe(
+			gulp.dest("./vendor/datatables.net-fixedcolumns"));
+	
+	
+ 
 	gulp.src([ lib_dir + 'angular-ui-bootstrap/dist/**/*' ]).pipe(
 			gulp.dest("./vendor/angular-ui-bootstrap/dist"));
 
