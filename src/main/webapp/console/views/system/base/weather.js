@@ -251,11 +251,7 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
     .withFixedColumns({
         leftColumns: 0,
         rightColumns: 1
-    }).withOption(
-			'createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			});
+    })
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
@@ -264,7 +260,7 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		// acthtml = acthtml + " <button ng-click=\"row_detail()\"
 		// class=\"btn-white btn btn-xs\">详细</button> ";
 		acthtml = acthtml + " <button ng-click=\"row_del('" + full.role_id
-				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+				+ "')\" class=\"btn-white btn btn-xs\">删除2</button> </div> ";
 		return acthtml;
 	}
 

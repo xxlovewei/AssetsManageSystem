@@ -71,7 +71,7 @@ public class FundService extends BaseService {
 	/* 查询提现记录 */
 	public R queryFundTix(String user_id, String status, String numstr) {
 		int num = ToolUtil.toInt(numstr, -1);
-		String sql = "select * from sys_user_fund_rec where dr=0 and user_id=? and type='" + TYPE_TX + "'";
+		String sql = "select t.*, decode(status,'finish','提现成功','failed','提现失败','tixing','提现中','未知') statusstr from sys_user_fund_rec t where dr=0 and user_id=? and type='" + TYPE_TX + "'";
 		if (ToolUtil.isNotEmpty(status)) {
 			sql = sql + " and status='" + status + "'";
 		}

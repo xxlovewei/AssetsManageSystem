@@ -28,6 +28,7 @@ public class StoreSqlController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询自定义Sql")
 	public R queryStoreSql() {
+		
 		return storeSqlService.queryStoreSql(null);
 	}
 
