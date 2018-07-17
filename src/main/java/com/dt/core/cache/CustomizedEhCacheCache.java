@@ -102,38 +102,37 @@ public class CustomizedEhCacheCache implements Cache {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T get(Object key, Callable<T> valueLoader) {
-		Element element = lookup(key);
-		if (element != null) {
-			return (T) element.getObjectValue();
-		} else {
-			this.cache.acquireWriteLockOnKey(key);
-			try {
-				element = lookup(key); // One more attempt with the write lock
-				if (element != null) {
-					return (T) element.getObjectValue();
-				} else {
-					return loadValue(key, valueLoader);
-				}
-			} finally {
-				this.cache.releaseWriteLockOnKey(key);
-			}
-		}
+//	@SuppressWarnings("unchecked")
+//	public <T> T get(Object key, Callable<T> valueLoader) {
+//		Element element = lookup(key);
+//		if (element != null) {
+//			return (T) element.getObjectValue();
+//		} else {
+//			this.cache.acquireWriteLockOnKey(key);
+//			try {
+//				element = lookup(key); // One more attempt with the write lock
+//				if (element != null) {
+//					return (T) element.getObjectValue();
+//				} else {
+//					return loadValue(key, valueLoader);
+//				}
+//			} finally {
+//				this.cache.releaseWriteLockOnKey(key);
+//			}
+//		}
+//
+//	}
 
-	}
-
-	private <T> T loadValue(Object key, Callable<T> valueLoader) {
-		T value;
-		try {
-			value = valueLoader.call();
-		} catch (Throwable ex) {
-			throw new ValueRetrievalException(key, valueLoader, ex);
-		}
-		put(key, value);
-		return value;
-	}
+//	private <T> T loadValue(Object key, Callable<T> valueLoader) {
+//		T value;
+//		try {
+//			value = valueLoader.call();
+//		} catch (Throwable ex) {
+//			throw new ValueRetrievalException(key, valueLoader, ex);
+//		}
+//		put(key, value);
+//		return value;
+//	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -227,6 +226,20 @@ public class CustomizedEhCacheCache implements Cache {
 		}
 
 		return new SimpleValueWrapper(element.getObjectValue());
+	}
+
+	/* (non Javadoc) 
+	 * @Title: get
+	 * @Description: TODO
+	 * @param key
+	 * @param valueLoader
+	 * @return 
+	 * @see org.springframework.cache.Cache#get(java.lang.Object, java.util.concurrent.Callable) 
+	 */
+	@Override
+	public <T> T get(Object key, Callable<T> valueLoader) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

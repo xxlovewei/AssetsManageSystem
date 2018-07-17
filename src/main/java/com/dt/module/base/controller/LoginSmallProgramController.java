@@ -42,7 +42,7 @@ import com.dt.module.base.service.WxUserService;
 @Controller
 @RequestMapping("/api")
 @Configuration
-@PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
+@PropertySource(value = "classpath:config.properties")
 public class LoginSmallProgramController extends BaseController {
 	@Autowired
 	WxUserService wxUserService;

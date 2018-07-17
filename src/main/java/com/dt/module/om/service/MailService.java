@@ -23,7 +23,7 @@ import jodd.mail.SmtpServer;
  */
 @Service
 @Configuration
-@PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
+@PropertySource(value = "classpath:config.properties")
 public class MailService extends BaseService {
 	private static Logger _log = LoggerFactory.getLogger(MailService.class);
 

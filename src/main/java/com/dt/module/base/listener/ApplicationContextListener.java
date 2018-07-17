@@ -29,7 +29,7 @@ import com.dt.module.db.DB;
  */
 @Component("myServletContextListener")
 @Configuration
-@PropertySource(value = "classpath:config.properties", encoding = "UTF-8")
+@PropertySource(value = "classpath:config.properties")
 public class ApplicationContextListener implements ApplicationListener<ContextRefreshedEvent> {
 	private static Logger _log = LoggerFactory.getLogger(ApplicationContextListener.class);
 
