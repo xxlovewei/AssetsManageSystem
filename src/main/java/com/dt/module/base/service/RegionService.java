@@ -4,6 +4,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alicp.jetcache.anno.Cached;
+import com.alicp.jetcache.anno.CreateCache;
 import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
@@ -17,6 +19,7 @@ import com.dt.core.tool.util.ToolUtil;
  * @Description: TODO
  */
 @Service
+ 
 public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取所有节点数据,不再使用这个API
@@ -34,7 +37,8 @@ public class RegionService extends BaseService {
 			e.put("text", rs.getRcd(i).getString("name"));
 			res.add(e);
 		}
-
+		
+		System.out.println("data");
 		return R.SUCCESS_OPER(res);
 	}
 
