@@ -43,6 +43,10 @@
 	<!-- 扫描所有自定义controller -->
 	<context:component-scan base-package="**.controller" />
 
+
+	<!-- 扫描所有自定义controller -->
+	<context:component-scan base-package="**.mapper" />
+	
 	<!-- 启动时初始化Spring上下文环境工具类 -->
 	<bean id="SpringContextUtil" class="com.dt.core.tool.lang.SpringContextUtil" />
 
@@ -83,6 +87,15 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
+	<!-- 扫描所有自定义controller -->
+	<context:component-scan base-package="**.controller" />
+	
+<!-- 	<import resource="mybaties.xml" /> -->
+	<mvc:resources mapping="/favicon.ico" location="/favicon.ico"/>
+    <mvc:resources mapping="/resources/**" location="/resources/" cache-period="10"/>
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+    <mvc:resources mapping="/swagger-ui.html" location="classpath:/META-INF/resources/"/>
+    
 </beans>
  
 

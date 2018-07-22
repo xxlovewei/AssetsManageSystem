@@ -37,6 +37,7 @@
 		<param-value>
 		 classpath:applicationContext.xml,
 	     classpath:ds_*.xml,
+	     classpath:mybaties.xml,
 	     classpath:shiro.xml,
 	     /WEB-INF/app_config_servlet.xml
 		</param-value>
