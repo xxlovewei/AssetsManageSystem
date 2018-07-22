@@ -19,7 +19,6 @@ import com.dt.core.tool.util.ToolUtil;
  * @Description: TODO
  */
 @Service
- 
 public class RegionService extends BaseService {
 	/**
 	 * @Description: 获取所有节点数据,不再使用这个API
