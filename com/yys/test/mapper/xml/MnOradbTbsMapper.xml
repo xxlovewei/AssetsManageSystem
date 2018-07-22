@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yys.test.mapper.MnOradbTbsEntity">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yys.test.entity.MnOradbTbs">
+        <result column="NODE" property="node" />
+        <result column="ORANAME" property="oraname" />
+        <result column="TBSNAME" property="tbsname" />
+        <result column="SUM_SPACE" property="sumSpace" />
+        <result column="SUM_BLOCKS" property="sumBlocks" />
+        <result column="USED_SPACE" property="usedSpace" />
+        <result column="USED_RATE" property="usedRate" />
+        <result column="FREE_SPACE" property="freeSpace" />
+        <result column="MAX_FREE_SPACE" property="maxFreeSpace" />
+        <result column="PRODUCETIME" property="producetime" />
+        <result column="INSERTTIME" property="inserttime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        NODE, ORANAME, TBSNAME, SUM_SPACE, SUM_BLOCKS, USED_SPACE, USED_RATE, FREE_SPACE, MAX_FREE_SPACE, PRODUCETIME, INSERTTIME
+    </sql>
+
+</mapper>

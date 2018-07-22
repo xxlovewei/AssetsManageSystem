@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yys.test.mapper.SysApiEntity">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yys.test.entity.SysApi">
+        <id column="ID" property="id" />
+        <result column="CT" property="ct" />
+        <result column="CTACL" property="ctacl" />
+        <result column="APITYPE" property="apitype" />
+        <result column="RECTIME" property="rectime" />
+        <result column="MARK" property="mark" />
+        <result column="INFO" property="info" />
+        <result column="TYPE" property="type" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CT, CTACL, APITYPE, RECTIME, MARK, INFO, TYPE
+    </sql>
+
+</mapper>

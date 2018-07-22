@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yys.test.mapper.OmNodeEntity">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yys.test.entity.OmNode">
+        <id column="ID" property="id" />
+        <result column="TYPE" property="type" />
+        <result column="SMALLTYPE" property="smalltype" />
+        <result column="NAME" property="name" />
+        <result column="OPERATOR" property="operator" />
+        <result column="IP" property="ip" />
+        <result column="USERNAME" property="username" />
+        <result column="PWD" property="pwd" />
+        <result column="LOGINTYPE" property="logintype" />
+        <result column="PORT" property="port" />
+        <result column="ISVALID" property="isvalid" />
+        <result column="ISRUNNING" property="isrunning" />
+        <result column="DELETED" property="deleted" />
+        <result column="MARK" property="mark" />
+        <result column="OD" property="od" />
+        <result column="CDATE" property="cdate" />
+        <result column="MDATE" property="mdate" />
+        <result column="PWDMD5" property="pwdmd5" />
+        <result column="CMD_START" property="cmdStart" />
+        <result column="CMD_STOP" property="cmdStop" />
+        <result column="CMD_STATUS" property="cmdStatus" />
+        <result column="TEMPLID" property="templid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, TYPE, SMALLTYPE, NAME, OPERATOR, IP, USERNAME, PWD, LOGINTYPE, PORT, ISVALID, ISRUNNING, DELETED, MARK, OD, CDATE, MDATE, PWDMD5, CMD_START, CMD_STOP, CMD_STATUS, TEMPLID
+    </sql>
+
+</mapper>

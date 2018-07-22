@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yys.test.mapper.MallShopEntity">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yys.test.entity.MallShop">
+        <result column="SHOP_ID" property="shopId" />
+        <result column="SHOP_NAME" property="shopName" />
+        <result column="DELETED" property="deleted" />
+        <result column="STATUS" property="status" />
+        <result column="LOGO" property="logo" />
+        <result column="MARK" property="mark" />
+        <result column="CREATETIME" property="createtime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        SHOP_ID, SHOP_NAME, DELETED, STATUS, LOGO, MARK, CREATETIME
+    </sql>
+
+</mapper>

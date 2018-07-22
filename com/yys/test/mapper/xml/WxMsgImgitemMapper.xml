@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yys.test.mapper.WxMsgImgitemEntity">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yys.test.entity.WxMsgImgitem">
+        <id column="ID" property="id" />
+        <result column="TITLE" property="title" />
+        <result column="MSGDESC" property="msgdesc" />
+        <result column="DOCURL" property="docurl" />
+        <result column="IMGURL" property="imgurl" />
+        <result column="GROUP_ID" property="groupId" />
+        <result column="DR" property="dr" />
+        <result column="MARK" property="mark" />
+        <result column="RN" property="rn" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, TITLE, MSGDESC, DOCURL, IMGURL, GROUP_ID, DR, MARK, RN
+    </sql>
+
+</mapper>

@@ -1,6 +1,7 @@
 package com.dt.core.common.base;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +10,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.session.InvalidSessionException;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.shiro.ShiroUser;
@@ -20,6 +23,12 @@ import com.dt.core.tool.util.support.StrKit;
 
 public class BaseController extends BaseSC {
 
+	@InitBinder
+	public void initBinder(WebDataBinder binder){
+		binder.registerCustomEditor(Date.class, new DateEditor());
+	}
+
+		
 	/**
 	 * 统一异常处理
 	 * 

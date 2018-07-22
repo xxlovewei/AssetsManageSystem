@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yys.test.mapper.CtUriEntity">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yys.test.entity.CtUri">
+        <id column="STORE_ID" property="storeId" />
+        <result column="NAME" property="name" />
+        <result column="CAT_ID" property="catId" />
+        <result column="URI" property="uri" />
+        <result column="URI_PARAMETER" property="uriParameter" />
+        <result column="USER_ID" property="userId" />
+        <result column="SQL" property="sql" />
+        <result column="DB_ID" property="dbId" />
+        <result column="CTIME" property="ctime" />
+        <result column="IS_DELETED" property="isDeleted" />
+        <result column="ACL" property="acl" />
+        <result column="MARK" property="mark" />
+        <result column="RETURN_TYPE" property="returnType" />
+        <result column="IS_USED" property="isUsed" />
+        <result column="ALIAS_ID" property="aliasId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        STORE_ID, NAME, CAT_ID, URI, URI_PARAMETER, USER_ID, SQL, DB_ID, CTIME, IS_DELETED, ACL, MARK, RETURN_TYPE, IS_USED, ALIAS_ID
+    </sql>
+
+</mapper>

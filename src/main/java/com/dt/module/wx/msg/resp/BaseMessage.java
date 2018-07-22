@@ -1,5 +1,5 @@
 package com.dt.module.wx.msg.resp;
-
+ 
 /**
  * 消息基类（公众帐号 -> 普通用户） 响应消息的基类
  * 

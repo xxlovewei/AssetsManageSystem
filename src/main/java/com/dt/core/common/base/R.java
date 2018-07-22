@@ -1,9 +1,14 @@
 package com.dt.core.common.base;
 
 import java.io.Serializable;
+import java.util.List;
 
+import org.apache.poi.hssf.record.formula.functions.T;
+
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
 public class R implements Serializable {
 	/**
@@ -63,7 +68,18 @@ public class R implements Serializable {
 		this.success = success;
 		this.code = code;
 		this.message = msg;
-		this.data = data;
+		
+		if(data instanceof List<?>) {
+			JSONArray r=JSONArray.parseArray(JSON.toJSONString(data,SerializerFeature.WriteDateUseDateFormat));
+			this.data=r;
+		}else if(data instanceof T){
+			JSONObject r=JSONObject.parseObject(JSON.toJSONString(data,SerializerFeature.WriteDateUseDateFormat));
+			this.data=r;
+		}else {
+			this.data = data;
+		}
+
+		
 	}
 
 	public void setData(Object data) {

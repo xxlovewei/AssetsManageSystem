@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yys.test.mapper.ProductEntity">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yys.test.entity.Product">
+        <id column="SPU" property="spu" />
+        <result column="PROD_NAME" property="prodName" />
+        <result column="CAT_ID" property="catId" />
+        <result column="LIST_PRICE" property="listPrice" />
+        <result column="LIST_ORI_PRICE" property="listOriPrice" />
+        <result column="STOCK" property="stock" />
+        <result column="CODE" property="code" />
+        <result column="SALES" property="sales" />
+        <result column="IS_OFF" property="isOff" />
+        <result column="IS_DELETED" property="isDeleted" />
+        <result column="PROD_DESC" property="prodDesc" />
+        <result column="BRAND_ID" property="brandId" />
+        <result column="UNIT" property="unit" />
+        <result column="TITLE" property="title" />
+        <result column="PLACE" property="place" />
+        <result column="PIC_ID" property="picId" />
+        <result column="SHOP_ID" property="shopId" />
+        <result column="GOODREPUTATION" property="goodreputation" />
+        <result column="BONUSPOINTS" property="bonuspoints" />
+        <result column="MOBILE_PROFILE_HTML" property="mobileProfileHtml" />
+        <result column="ISNEEDLOGISTICS" property="isneedlogistics" />
+        <result column="WEIGHT" property="weight" />
+        <result column="CDATE" property="cdate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        SPU, PROD_NAME, CAT_ID, LIST_PRICE, LIST_ORI_PRICE, STOCK, CODE, SALES, IS_OFF, IS_DELETED, PROD_DESC, BRAND_ID, UNIT, TITLE, PLACE, PIC_ID, SHOP_ID, GOODREPUTATION, BONUSPOINTS, MOBILE_PROFILE_HTML, ISNEEDLOGISTICS, WEIGHT, CDATE
+    </sql>
+
+</mapper>

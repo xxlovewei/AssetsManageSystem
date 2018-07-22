@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yys.test.mapper.SysJobEntity">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yys.test.entity.SysJob">
+        <id column="SEQ" property="seq" />
+        <result column="NODE" property="node" />
+        <result column="JOBNAME" property="jobname" />
+        <result column="JOBGROUP" property="jobgroup" />
+        <result column="JOBCLASSNAME" property="jobclassname" />
+        <result column="JOBCRON" property="jobcron" />
+        <result column="JOBTYPE" property="jobtype" />
+        <result column="JOBENABLE" property="jobenable" />
+        <result column="MARK" property="mark" />
+        <result column="RECDATE" property="recdate" />
+        <result column="LAST_RUN" property="lastRun" />
+        <result column="INITED" property="inited" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        SEQ, NODE, JOBNAME, JOBGROUP, JOBCLASSNAME, JOBCRON, JOBTYPE, JOBENABLE, MARK, RECDATE, LAST_RUN, INITED
+    </sql>
+
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yys.test.mapper.OmBackupAppEntity">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yys.test.entity.OmBackupApp">
+        <id column="APP_ID" property="appId" />
+        <result column="TYPE" property="type" />
+        <result column="NAME" property="name" />
+        <result column="IS_DELETE" property="isDelete" />
+        <result column="IP" property="ip" />
+        <result column="POLICY" property="policy" />
+        <result column="IF_WARN" property="ifWarn" />
+        <result column="VALID" property="valid" />
+        <result column="WARN_DAY" property="warnDay" />
+        <result column="MARK" property="mark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        APP_ID, TYPE, NAME, IS_DELETE, IP, POLICY, IF_WARN, VALID, WARN_DAY, MARK
+    </sql>
+
+</mapper>

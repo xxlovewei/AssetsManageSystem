@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yys.test.mapper.MnOsLoadEntity">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yys.test.entity.MnOsLoad">
+        <result column="NODE" property="node" />
+        <result column="USERS" property="users" />
+        <result column="PROC" property="proc" />
+        <result column="ORA_PROC" property="oraProc" />
+        <result column="ORA_SYS_PROC" property="oraSysProc" />
+        <result column="OS_LOAD" property="osLoad" />
+        <result column="PRODUCETIME" property="producetime" />
+        <result column="INSERTTIME" property="inserttime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        NODE, USERS, PROC, ORA_PROC, ORA_SYS_PROC, OS_LOAD, PRODUCETIME, INSERTTIME
+    </sql>
+
+</mapper>

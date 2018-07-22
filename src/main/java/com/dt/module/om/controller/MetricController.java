@@ -13,6 +13,8 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.om.service.MetricGroupService;
 import com.dt.module.om.service.MetricService;
+ 
+import com.yys.test.service.IDtuserService;
 
 /**
  * @author: algernonking
@@ -22,6 +24,11 @@ import com.dt.module.om.service.MetricService;
 @Controller
 @RequestMapping("/api")
 public class MetricController extends BaseController {
+	
+	
+	
+	
+	
 	@Autowired
 	MetricService metricService;
 
