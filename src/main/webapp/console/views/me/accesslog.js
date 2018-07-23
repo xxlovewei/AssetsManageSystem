@@ -4,7 +4,7 @@ function meAccessLogCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.meta = {
 		tools : []
 	}
-	$scope.URL = $rootScope.project + "/api/user/queryAccessLog.do";
+	$scope.URL = $rootScope.project + "/api/sysLogAccess/selectPage.do";
 	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp(
 			'data').withPaginationType('full_numbers').withOption('serverSide',
 			true).withOption('createdRow', function(row) {

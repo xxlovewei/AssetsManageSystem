@@ -1,9 +1,9 @@
-package ${package.Controller};
+package com.dt.module.base.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import ${package.Entity}.${entity};
-import ${package.Service}.${table.serviceName};
+import com.dt.module.base.entity.SysUserInfo;
+import com.dt.module.base.service.ISysUserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -14,84 +14,66 @@ import com.dt.core.tool.util.ToolUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-#if(${restControllerStyle})
-import org.springframework.web.bind.annotation.RestController;
-#else
 import org.springframework.stereotype.Controller;
-#end
-#if(${superControllerClassPackage})
-import ${superControllerClassPackage};
-#end
+import com.dt.core.common.base.BaseController;
 
 /**
  * <p>
- * $!{table.comment} 前端控制器
+ *  前端控制器
  * </p>
  *
- * @author ${author}
- * @since ${date}
+ * @author algernonking
+ * @since 2018-07-23
  */
-#if(${restControllerStyle})
-@RestController
-#else
 @Controller
-#end
-@RequestMapping("/api#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
-#if(${kotlin})
-class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
-
-#else
-#if(${superControllerClass})
-public class ${table.controllerName} extends ${superControllerClass} {
-#else
-public class ${table.controllerName} {
-#end
+@RequestMapping("/api/sysUserInfo")
+public class SysUserInfoController extends BaseController {
 
 
 	@Autowired
-	${table.serviceName} ${table.serviceImplName};
+	ISysUserInfoService SysUserInfoServiceImpl;
 
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(String id) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.deleteById(id));
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(String id) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.selectById(id));
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.selectById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
-	public R insert(${entity} entity) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.insert(entity));
+	public R insert(SysUserInfo entity) {
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.insert(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
 	@RequestMapping(value = "/updateById.do")
-	public R updateById(${entity} entity) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.updateById(entity));
+	public R updateById(SysUserInfo entity) {
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(${entity} entity) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.insertOrUpdate(entity));
+	public R insertOrUpdate(SysUserInfo entity) {
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.insertOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(${table.serviceImplName}.selectList(null));
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.selectList(null));
 	}
 
 	@ResponseBody
@@ -104,18 +86,16 @@ public class ${table.controllerName} {
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<${entity}> ew = new QueryWrapper<${entity}>();
+		QueryWrapper<SysUserInfo> ew = new QueryWrapper<SysUserInfo>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<${entity}> pdata = ${table.serviceImplName}.selectPage(new Page<${entity}>(pageindex, pagesize), ew);
+		IPage<SysUserInfo> pdata = SysUserInfoServiceImpl.selectPage(new Page<SysUserInfo>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
-		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(),SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
-		return R.clearAttachDirect(retrunObject);
+		retrunObject.put("data", pdata.getRecords());
 		return R.clearAttachDirect(retrunObject);
 	}
 
 
 }
 
-#end

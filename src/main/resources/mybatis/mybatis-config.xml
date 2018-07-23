@@ -33,6 +33,8 @@
         <setting name="defaultExecutorType" value="REUSE"/>
         <setting name="defaultStatementTimeout" value="25000"/>
          <setting name="logImpl" value="STDOUT_LOGGING" />
+         
+  		 
     </settings>
       
 

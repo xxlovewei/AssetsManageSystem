@@ -83,7 +83,7 @@ public class CustomGenerator {
 		tableFillList.add(new TableFill("CREATE_TIME", FieldFill.INSERT));
 		tableFillList.add(new TableFill("UPDATE_BY", FieldFill.INSERT_UPDATE));
 		tableFillList.add(new TableFill("UPDATE_TIME", FieldFill.INSERT_UPDATE));
-		tableFillList.add(new TableFill("REMARK", FieldFill.INSERT));
+
 
 		StrategyConfig strategy = new StrategyConfig();
 		strategy.setLogicDeleteFieldName("DR");
@@ -94,7 +94,7 @@ public class CustomGenerator {
 		strategy.entityTableFieldAnnotationEnable(true);
 		// strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-		strategy.setInclude(new String[] { "sys_user_role" }); // 需要生成的表
+		strategy.setInclude(new String[] { "sys_user_info" }); // 需要生成的表
 
 		strategy.setTableFillList(tableFillList);
 		// strategy.setExclude(new String[]{"test"}); // 排除生成的表

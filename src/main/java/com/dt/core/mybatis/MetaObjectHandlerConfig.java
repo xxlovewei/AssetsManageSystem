@@ -26,7 +26,7 @@ public class MetaObjectHandlerConfig extends MetaObjectHandler {
 		setFieldValByName("updateTime", new Date(), metaObject);
 		setFieldValByName("updateBy", user_id, metaObject);
 		setFieldValByName("dr", "0", metaObject);
-		setFieldValByName("remark", "", metaObject);
+
 	}
 
 	@Override
