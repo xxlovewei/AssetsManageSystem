@@ -94,7 +94,7 @@ public class CustomGenerator {
 		strategy.entityTableFieldAnnotationEnable(true);
 		// strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-		strategy.setInclude(new String[] { "dtuser" }); // 需要生成的表
+		strategy.setInclude(new String[] { "sys_log_access" }); // 需要生成的表
 
 		strategy.setTableFillList(tableFillList);
 		// strategy.setExclude(new String[]{"test"}); // 排除生成的表

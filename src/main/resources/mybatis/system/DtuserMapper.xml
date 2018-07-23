@@ -9,7 +9,7 @@
         <result column="PASSWORD" property="password" />
         <result column="SEX" property="sex" />
         <result column="GROUP_ID" property="groupId" />
-        <result column="BIRTHDATA" property="birthdata" jdbcType="DATE"/>
+        <result column="BIRTHDATA" property="birthdata" />
         <result column="CREATE_BY" property="createBy" />
         <result column="CREATE_TIME" property="createTime" />
         <result column="UPDATE_BY" property="updateBy" />
