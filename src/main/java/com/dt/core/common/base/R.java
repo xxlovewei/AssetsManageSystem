@@ -70,7 +70,7 @@ public class R implements Serializable {
 		this.message = msg;
 		
 		if(data instanceof List<?>) {
-			JSONArray r=JSONArray.parseArray(JSON.toJSONString(data,SerializerFeature.WriteDateUseDateFormat));
+			JSONArray r=JSONArray.parseArray(JSON.toJSONString(data,SerializerFeature.WriteDateUseDateFormat,SerializerFeature.DisableCircularReferenceDetect));
 			this.data=r;
 		}else if(data instanceof T){
 			JSONObject r=JSONObject.parseObject(JSON.toJSONString(data,SerializerFeature.WriteDateUseDateFormat));
@@ -83,7 +83,15 @@ public class R implements Serializable {
 	}
 
 	public void setData(Object data) {
-		this.data = data;
+		if(data instanceof List<?>) {
+			JSONArray r=JSONArray.parseArray(JSON.toJSONString(data,SerializerFeature.WriteDateUseDateFormat,SerializerFeature.DisableCircularReferenceDetect));
+			this.data=r;
+		}else if(data instanceof T){
+			JSONObject r=JSONObject.parseObject(JSON.toJSONString(data,SerializerFeature.WriteDateUseDateFormat));
+			this.data=r;
+		}else {
+			this.data = data;
+		}
 	}
 
 	public Object getData() {

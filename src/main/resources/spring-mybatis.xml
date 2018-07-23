@@ -21,7 +21,7 @@
 
 	<!-- 自定义处理器 -->
 	<bean id="myMetaObjectHandler"
-		class="com.yys.test.controller.MetaObjectHandlerConfig" />
+		class="com.dt.core.mybatis.MetaObjectHandlerConfig" />
 	<bean id="logicSqlInjector"
 		class="com.baomidou.mybatisplus.extension.injector.LogicSqlInjector" />
 		
@@ -55,6 +55,15 @@
 			value="classpath*:mybatis/**/**Mapper.xml" />
 		 
 		<property name="globalConfig" ref="globalConfig" />
+		
+		  <property name="plugins">
+            <array>
+                <!-- 分页插件配置 -->
+                <bean id="paginationInterceptor" class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor">
+                    <property name="dialectType" value="oracle"/>
+                </bean>
+            </array>
+        </property>
 
 	</bean>
 

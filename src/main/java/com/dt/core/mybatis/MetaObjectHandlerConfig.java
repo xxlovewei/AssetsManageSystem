@@ -1,4 +1,4 @@
-package com.yys.test.controller;
+package com.dt.core.mybatis;
 
 import java.util.Date;
 

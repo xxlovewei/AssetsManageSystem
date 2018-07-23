@@ -84,11 +84,19 @@ public class ${table.controllerName} {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有无分页", value = Acl.ACL_USER)
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
 		return R.SUCCESS_OPER(${table.serviceImplName}.selectList(null));
 	}
+
+	@ResponseBody
+	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectPage.do")
+	public R selectPage(int current,int size) {
+		return R.SUCCESS_OPER(${table.serviceImplName}.selectPage(new Page<${entity}>(current,size), null));
+	}
+
 
 }
 
