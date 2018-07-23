@@ -1,6 +1,6 @@
 package com.yys.test.service;
 
-import com.yys.test.entity.Dtuser;
+import com.yys.test.entity.DtRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author algernonking
  * @since 2018-07-23
  */
-public interface IDtuserService extends IService<Dtuser> {
+public interface IDtRoleService extends IService<DtRole> {
 
 }

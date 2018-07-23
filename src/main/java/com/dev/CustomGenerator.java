@@ -61,13 +61,13 @@ public class CustomGenerator {
 		DataSourceConfig dsc = new DataSourceConfig();
 
 		dsc.setDbType(DbType.ORACLE);
-        dsc.setTypeConvert(new MySqlTypeConvert(){
-            // 自定义数据库表字段类型转换【可选】
-            public DbColumnType processTypeConvert(String fieldType) {
-                System.out.println("转换类型：" + fieldType);
-                return processTypeConvert(fieldType);
-            }
-        }); 
+		dsc.setTypeConvert(new MySqlTypeConvert() {
+			// 自定义数据库表字段类型转换【可选】
+			public DbColumnType processTypeConvert(String fieldType) {
+				System.out.println("转换类型：" + fieldType);
+				return processTypeConvert(fieldType);
+			}
+		});
 
 		dsc.setDriverName("oracle.jdbc.OracleDriver");
 		dsc.setUrl("jdbc:oracle:thin:@//121.43.168.125:55521/db");
@@ -85,10 +85,11 @@ public class CustomGenerator {
 		tableFillList.add(new TableFill("UPDATE_TIME", FieldFill.INSERT_UPDATE));
 		tableFillList.add(new TableFill("REMARK", FieldFill.INSERT));
 
-		  
 		StrategyConfig strategy = new StrategyConfig();
 		strategy.setLogicDeleteFieldName("DR");
-
+		 
+		strategy.setSuperControllerClass("com.dt.core.common.base.BaseController");
+		
 		strategy.setCapitalMode(false);// 全局大写命名 ORACLE 注意
 		strategy.entityTableFieldAnnotationEnable(true);
 		// strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
@@ -111,6 +112,7 @@ public class CustomGenerator {
 			public void initMap() {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
+				map.put("dt_api", "/api");
 				this.setMap(map);
 			}
 		};
@@ -131,9 +133,16 @@ public class CustomGenerator {
 		// 关闭原来的mapper文件
 		TemplateConfig tc = new TemplateConfig();
 		tc.setXml(null);
+		tc.setController("/template/controller.java.vm");
+		tc.setEntity("/template/entity.java.vm");
+		tc.setMapper("/template/mapper.java.vm");
+		tc.setService("/template/service.java.vm");
+		tc.setServiceImpl("/template/serviceImpl.java.vm");
+
 		mpg.setTemplate(tc);
 		// 执行生成
 		mpg.execute();
+		System.err.println(mpg.getCfg().getMap().get("abc"));  
 	}
 
 }

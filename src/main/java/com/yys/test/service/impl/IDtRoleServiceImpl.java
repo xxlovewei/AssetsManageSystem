@@ -1,8 +1,8 @@
 package com.yys.test.service.impl;
 
-import com.yys.test.entity.Dtuser;
-import com.yys.test.mapper.DtuserMapper;
-import com.yys.test.service.IDtuserService;
+import com.yys.test.entity.DtRole;
+import com.yys.test.mapper.DtRoleMapper;
+import com.yys.test.service.IDtRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2018-07-23
  */
 @Service
-public class IDtuserServiceImpl extends ServiceImpl<DtuserMapper, Dtuser> implements IDtuserService {
+public class IDtRoleServiceImpl extends ServiceImpl<DtRoleMapper, DtRole> implements IDtRoleService {
 
 }

@@ -1,5 +1,6 @@
 package com.yys.test.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -16,22 +17,15 @@ import java.io.Serializable;
  * @author algernonking
  * @since 2018-07-23
  */
-public class Dtuser extends Model<Dtuser> {
+@TableName("DT_ROLE")
+public class DtRole extends Model<DtRole> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId("ID")
     private String id;
-    @TableField("USERNAME")
-    private String username;
-    @TableField("PASSWORD")
-    private String password;
-    @TableField("SEX")
-    private String sex;
-    @TableField("GROUP_ID")
-    private String groupId;
-    @TableField("BIRTHDATA")
-    private Date birthdata;
+    @TableField("ROLE_NAME")
+    private String roleName;
     @TableField(value = "CREATE_BY", fill = FieldFill.INSERT)
     private String createBy;
     @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
@@ -59,44 +53,12 @@ public class Dtuser extends Model<Dtuser> {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    public Date getBirthdata() {
-        return birthdata;
-    }
-
-    public void setBirthdata(Date birthdata) {
-        this.birthdata = birthdata;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public String getCreateBy() {
@@ -170,13 +132,9 @@ public class Dtuser extends Model<Dtuser> {
 
     @Override
     public String toString() {
-        return "Dtuser{" +
+        return "DtRole{" +
         ", id=" + id +
-        ", username=" + username +
-        ", password=" + password +
-        ", sex=" + sex +
-        ", groupId=" + groupId +
-        ", birthdata=" + birthdata +
+        ", roleName=" + roleName +
         ", createBy=" + createBy +
         ", createTime=" + createTime +
         ", updateBy=" + updateBy +

@@ -1,6 +1,6 @@
 package com.yys.test.mapper;
 
-import com.yys.test.entity.Dtuser;
+import com.yys.test.entity.DtRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author algernonking
  * @since 2018-07-23
  */
-public interface DtuserMapper extends BaseMapper<Dtuser> {
+public interface DtRoleMapper extends BaseMapper<DtRole> {
 
 }
