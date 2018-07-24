@@ -19,7 +19,7 @@ function dictSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 	$scope.statusSel = $scope.statusOpt[0];
 	if (angular.isDefined(id)) {
 		// 加载数据
-		$http.post($rootScope.project + "/api/dict/queryByDictId.do", {
+		$http.post($rootScope.project + "/api/sysDict/selectById.do", {
 			id : id
 		}).success(function(res) {
 			if (res.success) {
@@ -31,9 +31,9 @@ function dictSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 					$scope.statusSel = $scope.statusOpt[1];
 				}
 				// DICT_LEVEL
-				if ($scope.item.dict_level == "system") {
+				if ($scope.item.dictLevel == "system") {
 					$scope.typeSel = $scope.typeOpt[0];
-				} else if ($scope.item.dict_level == "biz") {
+				} else if ($scope.item.dictLevel == "biz") {
 					$scope.typeSel = $scope.typeOpt[1];
 				}
 			} else {
@@ -50,8 +50,8 @@ function dictSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 
 	$scope.sure = function() {
 		$scope.item.status = $scope.statusSel.id;
-		$scope.item.dict_level = $scope.typeSel.id;
-		$http.post($rootScope.project + "/api/dict/saveDict.do", $scope.item).success(function(res) {
+		$scope.item.dictLevel = $scope.typeSel.id;
+		$http.post($rootScope.project + "/api/sysDict/insertOrUpdate.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 			} else {
@@ -210,7 +210,7 @@ function sysDictSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 		$confirm({
 			text : '是否删除?'
 		}).then(function() {
-			$http.post($rootScope.project + "/api/dict/deleteDict.do", {
+			$http.post($rootScope.project + "/api/sysDict/deleteById.do", {
 				id : id
 			}).success(function(res) {
 				if (res.success) {
