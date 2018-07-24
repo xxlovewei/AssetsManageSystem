@@ -144,7 +144,7 @@ public class EmplOrgService extends BaseService {
 		// 检查节点是否有人员信息,如果有人,在判断是否需要删除
 		if (db.uniqueRecord("select count(1) v from hrm_org_employee where node_id=? ", node_id).getInteger("v") > 0) {
 			if (db.uniqueRecord(
-					"select count(1) v from sys_user_info a,hrm_org_employee b where a.empl_id=b.empl_id and a.deleted='N' and b.node_id=?",
+					"select count(1) v from sys_user_info a,hrm_org_employee b where a.empl_id=b.empl_id and a.dr='0' and b.node_id=?",
 					node_id).getInteger("v") > 0) {
 				return R.FAILURE("请先删除人员信息");
 			}

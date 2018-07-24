@@ -42,7 +42,7 @@ public class ParamsService extends BaseService {
 	 */
 	public R queryParams() {
 		// 排除内置
-		String sql = "select * from sys_params where deleted='N' and type<>'sysinter' ";
+		String sql = "select * from sys_params where dr='0' and type<>'sysinter' ";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
@@ -75,7 +75,7 @@ public class ParamsService extends BaseService {
 	 * @Description: 按照Id查询参数
 	 */
 	public R queryParamsById(String id) {
-		String sql = "select * from sys_params where deleted='N' and id=?";
+		String sql = "select * from sys_params where dr='0' and id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (ToolUtil.isEmpty(rs)) {
 			return R.FAILURE_NO_DATA();
@@ -91,7 +91,7 @@ public class ParamsService extends BaseService {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 
-		String sql = "select * from sys_params where deleted='N' and id=?";
+		String sql = "select * from sys_params where dr='0' and id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		if (ToolUtil.isEmpty(rs)) {
 			// 数据不存在

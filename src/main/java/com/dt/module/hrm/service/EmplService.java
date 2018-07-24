@@ -143,7 +143,7 @@ public class EmplService extends BaseService {
 			return R.FAILURE("无节点");
 		}
 
-		String sql = "select c.* from hrm_org_employee a,sys_user_info c where a.empl_id=c.empl_id and c.user_type= ? and a.node_id=? and c.deleted='N'";
+		String sql = "select c.* from hrm_org_employee a,sys_user_info c where a.empl_id=c.empl_id and c.user_type= ? and a.node_id=? and c.dr='0'";
 		RcdSet rs = db.query(sql, UserService.USER_TYPE_EMPL, node_id);
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
@@ -165,11 +165,11 @@ public class EmplService extends BaseService {
 				return R.FAILURE("该节点不存在");
 			}
 			// String route = routev.getString("route").replaceAll("-", ",");
-			bsql = "select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+			bsql = "select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
 			// 不级联获取人员数据
 			bsql = bsql + " and a.node_id= '" + node_id + "'";
 		} else {
-			bsql = "select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.deleted='N' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+			bsql = "select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
 		}
 		if (name != null && (!name.trim().equals(""))) {
 			bsql = bsql + " and b.name like '%" + name + "%'";
@@ -184,7 +184,7 @@ public class EmplService extends BaseService {
 	 */
 	public R queryEmplById(String empl_id) {
 		JSONObject res = new JSONObject();
-		Rcd info = db.uniqueRecord("select * from sys_user_info where deleted='N' and empl_id=?", empl_id);
+		Rcd info = db.uniqueRecord("select * from sys_user_info where dr='0' and empl_id=?", empl_id);
 		if (ToolUtil.isEmpty(info)) {
 			return R.FAILURE_NO_DATA();
 		}

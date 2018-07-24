@@ -47,7 +47,7 @@ public class MailService extends BaseService {
 			_log.info("邮件无法发送，请检测配置");
 			return R.FAILURE("邮件无法发送，请检测配置");
 		}
-		String sql = "select b.* from mn_mail_user a,sys_user_info b where a.user_id=b.user_id and b.deleted='N' "
+		String sql = "select b.* from mn_mail_user a,dr b where a.user_id=b.user_id and b.deleted='0' "
 				+ "and b.mail is not null and a.type='mn'";
 		RcdSet rs = db.query(sql);
 		for (int i = 0; i < rs.size(); i++) {

@@ -1,2 +1,14 @@
 http://dt.happygroup2015.com/shop/console/   微信服务器-tomcat
 http://dw.happygroup2015.com/dt/console/     微信服务器-tomcat_dt
+
+ALTER TABLE DT.sys_role_info ADD remark DATE NULL;
+ALTER TABLE DT.SYS_LOG_ACCESS RENAME COLUMN createTime TO create_time;
+
+
+ALTER TABLE DT.SYS_LOG_ACCESS RENAME COLUMN createBy TO create_by;
+
+
+ALTER TABLE DT.SYS_LOG_ACCESS RENAME COLUMN updateTime TO update_Time;
+
+
+ALTER TABLE DT.SYS_LOG_ACCESS RENAME COLUMN updateBy TO update_By;

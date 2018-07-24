@@ -1,6 +1,6 @@
 package com.dt.module.base.mapper;
 
-import com.dt.module.base.entity.SysLogAccess;
+import com.dt.module.base.entity.SysFileConf;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-23
+ * @since 2018-07-24
  */
-public interface SysLogAccessMapper extends BaseMapper<SysLogAccess> {
-	
+public interface SysFileConfMapper extends BaseMapper<SysFileConf> {
+
 }

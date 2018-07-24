@@ -25,7 +25,7 @@
         <result column="BIRTH" property="birth" />
         <result column="WEIXIN" property="weixin" />
         <result column="SEX" property="sex" />
-        <result column="DELETED" property="deleted" />
+        <result column="DR" property="dr" />
         <result column="PHOTO" property="photo" />
         <result column="CREATE_TIME" property="createTime" />
         <result column="CREATE_IP" property="createIp" />
@@ -51,6 +51,23 @@
         <result column="ALI_PAY_USERNAME" property="aliPayUsername" />
         <result column="ALI_PAY_ACCOUNT" property="aliPayAccount" />
         <result column="SHORTMOBILE" property="shortmobile" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_BY" property="updateBy" />
+        
+         <association property="sexName" column="USER_ID" javaType="String" select="selectUserT2" />
+         
     </resultMap>
+    
+     <!--  select a.*,b.url from ( select * from sys_user_info where user_id= #{USER_ID}) a left join sys_log_access b on a.user_id=b.user_id
+     -->
+    
+      <select id="selectById"  resultMap="BaseResultMap">
+      select * from sys_user_info where user_id=#{USER_ID}
+ 	 </select>  
+ 	 
+     <select id="selectUserT2"  resultType="String">
+ 		       select count(1) from sys_log_access where user_id=#{USER_ID}
+ 	 </select>
+    
 
 </mapper>

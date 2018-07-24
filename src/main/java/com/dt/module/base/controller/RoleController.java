@@ -4,15 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.core.dao.util.TypedHashMap;
-import com.dt.core.tool.util.ToolUtil;
-import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.RoleService;
 
 @Controller
@@ -21,13 +17,7 @@ public class RoleController extends BaseController {
 	@Autowired
 	RoleService roleService;
 
-	@RequestMapping(value = "/role/roleQuery.do")
-	@ResponseBody
-	@Acl(info = "查询权限")
-	public R roleQuery() {
-		return roleService.queryRole();
-	}
-
+	 
 	@RequestMapping(value = "/role/roleQueryFormatKV.do")
 	@ResponseBody
 	@Acl(info = "查询权限")
@@ -43,34 +33,5 @@ public class RoleController extends BaseController {
 		}
 		return R.SUCCESS_OPER(obj);
 	}
-
-	@RequestMapping(value = "/role/roleQueryById.do")
-	@ResponseBody
-	@Acl(info = "根据Id查询权限")
-	public R roleQueryById(String role_id) {
-		return roleService.queryRoleById(role_id);
-	}
-
-	@RequestMapping(value = "/role/roleSave.do")
-	@ResponseBody
-	@Acl(info = "保存权限")
-	public R roleSave() {
-		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("role_id");
-		if (ToolUtil.isEmpty(id)) {
-			return roleService.addRole(ps);
-		} else {
-			return roleService.updateRole(ps);
-		}
-	}
-
-	@RequestMapping(value = "/role/roleDelete.do")
-	@ResponseBody
-	@Acl(info = "删除权限")
-	public R roleDelete(String role_id) {
-		if (ToolUtil.isEmpty(role_id)) {
-			return R.FAILURE_OPER();
-		}
-		return roleService.deleteRole(role_id, false);
-	}
+ 
 }

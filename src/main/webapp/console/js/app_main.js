@@ -344,7 +344,7 @@ function initDT(DTDefaultOptions) {
 	DTDefaultOptions.setOption('bStateSave',false);
 	DTDefaultOptions.setOption('bProcessing',true);
 	DTDefaultOptions.setOption('bInfo',false);
-	DTDefaultOptions.setOption('bAutoWidth',true);
+	DTDefaultOptions.setOption('bAutoWidth',false);
 	DTDefaultOptions.setOption('responsive',true);
 	DTDefaultOptions.setOption('bFilter',false);
 	DTDefaultOptions.setOption('serverSide',false);

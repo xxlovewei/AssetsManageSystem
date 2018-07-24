@@ -26,7 +26,7 @@ public class FileConfController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询文件配置")
 	public R fileConfQuery(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		RcdSet rs = db.query("select * from sys_file_conf where is_delete='N'");
+		RcdSet rs = db.query("select * from sys_file_conf where dr='0'");
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 
@@ -34,7 +34,7 @@ public class FileConfController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询文件配置")
 	public R fileConfQueryById(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Rcd rs = db.uniqueRecord("select * from sys_file_conf where is_delete='N' and id=?",
+		Rcd rs = db.uniqueRecord("select * from sys_file_conf where dr='0' and id=?",
 				request.getParameter("id"));
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}

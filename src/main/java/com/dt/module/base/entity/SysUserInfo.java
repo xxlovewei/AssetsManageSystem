@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
@@ -96,8 +97,27 @@ public class SysUserInfo extends Model<SysUserInfo> {
      */
     @TableField("SEX")
     private String sex;
-    @TableField("DELETED")
-    private String deleted;
+    
+    @TableField(exist=false)
+    private String sexName;
+    
+    /**
+	 * @return the sexName
+	 */
+	public String getSexName() {
+		return sexName;
+	}
+
+	/**
+	 * @param sexName the sexName to set
+	 */
+	public void setSexName(String sexName) {
+		this.sexName = sexName;
+	}
+
+	@TableField(value = "DR", fill = FieldFill.INSERT)
+    @TableLogic
+    private String dr;
     /**
      * 头像
      */
@@ -205,6 +225,10 @@ public class SysUserInfo extends Model<SysUserInfo> {
      */
     @TableField("SHORTMOBILE")
     private String shortmobile;
+    @TableField(value = "CREATE_BY", fill = FieldFill.INSERT)
+    private String createBy;
+    @TableField(value = "UPDATE_BY", fill = FieldFill.INSERT_UPDATE)
+    private String updateBy;
 
 
     public String getUserId() {
@@ -375,12 +399,12 @@ public class SysUserInfo extends Model<SysUserInfo> {
         this.sex = sex;
     }
 
-    public String getDeleted() {
-        return deleted;
+    public String getDr() {
+        return dr;
     }
 
-    public void setDeleted(String deleted) {
-        this.deleted = deleted;
+    public void setDr(String dr) {
+        this.dr = dr;
     }
 
     public String getPhoto() {
@@ -583,6 +607,22 @@ public class SysUserInfo extends Model<SysUserInfo> {
         this.shortmobile = shortmobile;
     }
 
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.userId;
@@ -612,7 +652,7 @@ public class SysUserInfo extends Model<SysUserInfo> {
         ", birth=" + birth +
         ", weixin=" + weixin +
         ", sex=" + sex +
-        ", deleted=" + deleted +
+        ", dr=" + dr +
         ", photo=" + photo +
         ", createTime=" + createTime +
         ", createIp=" + createIp +
@@ -638,6 +678,8 @@ public class SysUserInfo extends Model<SysUserInfo> {
         ", aliPayUsername=" + aliPayUsername +
         ", aliPayAccount=" + aliPayAccount +
         ", shortmobile=" + shortmobile +
+        ", createBy=" + createBy +
+        ", updateBy=" + updateBy +
         "}";
     }
 }

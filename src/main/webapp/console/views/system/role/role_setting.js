@@ -12,12 +12,12 @@ function roleSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 	$scope.item = {};
 	if (angular.isDefined(id)) {
 		// 修改
-		$http.post($rootScope.project + "/api/role/roleQueryById.do", {
-			role_id : id
+		$http.post($rootScope.project + "/api/sysRoleInfo/selectById.do", {
+			id : id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data
-				if ($scope.item.is_action == "Y") {
+				if ($scope.item.isAction == "Y") {
 					$scope.statusSel = $scope.statusOpt[0];
 				} else {
 					$scope.statusSel = $scope.statusOpt[1];
@@ -34,9 +34,9 @@ function roleSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 
 	$scope.sure = function() {
 
-		$scope.item.is_action = $scope.statusSel.id;
+		$scope.item.isAction = $scope.statusSel.id;
 
-		$http.post($rootScope.project + "/api/role/roleSave.do", $scope.item).success(function(res) {
+		$http.post($rootScope.project + "/api/sysRoleInfo/insertOrUpdate.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 				notify({
@@ -64,35 +64,35 @@ function sysRoleSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 	 
 			} ]
 		}
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('responsive',false).withOption('createdRow', function(row) {
 		// Recompiling so we can bind Angular,directive to the
 		$compile(angular.element(row).contents())($scope);
 	});
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.role_id + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.roleId + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
 		// acthtml = acthtml + " <button ng-click=\"row_detail()\"
 		// class=\"btn-white btn btn-xs\">详细</button> ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.role_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.roleId + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
 		var res = "无效";
-		if (full.is_action == "Y") {
+		if (full.isAction == "Y") {
 			res = "有效";
 		}
 		return res;
 	}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('role_name').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('is_action').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	$scope.dtColumns = [ DTColumnBuilder.newColumn('roleName').withTitle('名称').withOption('sDefaultContent', '').withOption('width', '80'),
+			DTColumnBuilder.newColumn('remark').withTitle('备注').withOption('sDefaultContent', '').withOption('width', '180'),
+			DTColumnBuilder.newColumn('isAction').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('roleId').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}
-		$http.post($rootScope.project + "/api/role/roleQuery.do", ps).success(function(res) {
+		$http.post($rootScope.project + "/api/sysRoleInfo/selectList.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
 			} else {
@@ -111,8 +111,8 @@ function sysRoleSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 		$confirm({
 			text : '是否删除功能?'
 		}).then(function() {
-			$http.post($rootScope.project + "/api/role/roleDelete.do", {
-				role_id : id
+			$http.post($rootScope.project + "/api/sysRoleInfo/deleteById.do", {
+				id : id
 			}).success(function(res) {
 				if (res.success) {
 					flush();

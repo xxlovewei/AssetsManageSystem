@@ -296,7 +296,7 @@ public class UserService extends BaseService {
 	 */
 	public Boolean isExistUserId(String user_id) {
 		if (ToolUtil.isEmpty(user_id)
-				|| db.uniqueRecord("select * from sys_user_info where deleted='N' and user_id=?", user_id) == null) {
+				|| db.uniqueRecord("select * from sys_user_info where dr='0' and user_id=?", user_id) == null) {
 			return false;
 		}
 		return true;
@@ -336,7 +336,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(user_id)) {
 			return null;
 		}
-		Rcd rs = db.uniqueRecord("select empl_id from sys_user_info where deleted='N' and user_id=?", user_id);
+		Rcd rs = db.uniqueRecord("select empl_id from sys_user_info where dr='0' and user_id=?", user_id);
 		if (rs == null) {
 			return null;
 		}
@@ -350,7 +350,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(empl_id)) {
 			return null;
 		}
-		Rcd rs = db.uniqueRecord("select user_id from sys_user_info where deleted='N' and empl_id=?", empl_id);
+		Rcd rs = db.uniqueRecord("select user_id from sys_user_info where dr='0' and empl_id=?", empl_id);
 		if (rs == null) {
 			return null;
 		}
@@ -364,7 +364,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isOneEmpty(mobile, user_type)) {
 			return null;
 		}
-		RcdSet rs = db.query("select user_id from sys_user_info where deleted='N' and tel=? and user_type=?", mobile,
+		RcdSet rs = db.query("select user_id from sys_user_info where dr='0' and tel=? and user_type=?", mobile,
 				user_type);
 		if (rs.size() > 0) {
 			return rs.toStringArray("user_id");
@@ -379,7 +379,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isEmpty(username)) {
 			return null;
 		}
-		Rcd rs = db.uniqueRecord("select user_id from sys_user_info where deleted='N' and user_name=?", username);
+		Rcd rs = db.uniqueRecord("select user_id from sys_user_info where dr='0' and user_name=?", username);
 		if (rs == null) {
 			return null;
 		}
@@ -394,7 +394,7 @@ public class UserService extends BaseService {
 		if (ToolUtil.isOneEmpty(value, user_type)) {
 			return null;
 		}
-		RcdSet rs = db.query("select user_id from sys_user_info where deleted='N' and user_type=? and mail=?", value,
+		RcdSet rs = db.query("select user_id from sys_user_info where dr='0' and user_type=? and mail=?", value,
 				user_type);
 		return rs.toStringArray("user_id");
 
@@ -427,7 +427,7 @@ public class UserService extends BaseService {
 	 * @Description: 根据用户ID查找
 	 */
 	public JSONObject queryUserById(String user_id) {
-		String sql = "select * from sys_user_info where deleted='N' and user_id=?";
+		String sql = "select * from sys_user_info where dr='0' and user_id=?";
 		Rcd rs = db.uniqueRecord(sql, user_id);
 		if (ToolUtil.isEmpty(rs)) {
 			return null;
@@ -449,7 +449,7 @@ public class UserService extends BaseService {
 	}
 
 	public String buildqueryUserByGroupSql(TypedHashMap<String, Object> ps, String group_id, String user_type) {
-		String basesql = "select * from sys_user_info a where deleted='N' ";
+		String basesql = "select * from sys_user_info a where dr='0' ";
 		if (ToolUtil.isNotEmpty(user_type)) {
 			basesql = basesql + " and user_type='" + user_type + "' ";
 		}
@@ -526,7 +526,7 @@ public class UserService extends BaseService {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		Update ups = new Update("sys_user_info");
-		ups.set("deleted", "Y");
+		ups.set("dr", "0");
 		ups.where().and("user_id=?", user_id);
 		Delete del=new Delete("sys_session");
 		del.where().and("user_id=?",user_id);
@@ -622,7 +622,7 @@ public class UserService extends BaseService {
 		ins.setIf("self_evaluate", ps.getString("self_evaluate"));//自我评价
 		ins.setIf("short_mobile", ps.getString("short_mobile"));//手机短号
  
-		ins.set("deleted", "N");
+		ins.set("dr", "0");
 		db.execute(ins);
 		return R.SUCCESS_OPER(user_id);
 	}
