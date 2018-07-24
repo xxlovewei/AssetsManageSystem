@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+
 import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.BaseConstants;
 import com.dt.core.dao.Rcd;
@@ -18,7 +19,6 @@ import com.dt.core.shiro.service.SimpleFilterChainDefinitionsService;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.service.RegionService;
 import com.dt.module.base.service.ScheduleMangerService;
 import com.dt.module.base.service.SystemService;
 import com.dt.module.db.DB;
@@ -54,8 +54,7 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 	@Value("${wx.secret}")
 	private String wx_secret;
 
-	@Autowired
-	private RegionService regionService;
+ 
 
 	@Autowired
 	SystemService systemService;
