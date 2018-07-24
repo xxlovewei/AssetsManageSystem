@@ -12,7 +12,7 @@ function sysParamSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 	$scope.typeSel = $scope.typeOpt[0];
 	if (angular.isDefined(id)) {
 		// 加载数据
-		$http.post($rootScope.project + "/api/params/queryParamsById.do", {
+		$http.post($rootScope.project + "/api/sysParams/selectById.do", {
 			id : id
 		}).success(function(res) {
 			if (res.success) {
@@ -34,7 +34,7 @@ function sysParamSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 	$scope.sure = function() {
 
 		$scope.item.type = $scope.typeSel.id;
-		$http.post($rootScope.project + "/api/params/saveParams.do", $scope.item).success(function(res) {
+		$http.post($rootScope.project + "/api/sysParams/insertOrUpdate.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 			} else {
@@ -62,8 +62,8 @@ function sysParamsCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 	 
 			} ]
 		}
-	
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
+ 
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('bAutoWidth',false).withOption('createdRow', function(row) {
 		// Recompiling so we can bind Angular,directive to the
 		$compile(angular.element(row).contents())($scope);
 	});
@@ -91,7 +91,7 @@ function sysParamsCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 	function flush() {
 		var ps = {}
 
-		$http.post($rootScope.project + "/api/params/queryParams.do", ps).success(function(res) {
+		$http.post($rootScope.project + "/api/sysParams/selectList.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
 			}
@@ -139,7 +139,7 @@ function sysParamsCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 			$confirm({
 				text : '是否删除?'
 			}).then(function() {
-				$http.post($rootScope.project + "/api/params/deleteParams.do", {
+				$http.post($rootScope.project + "/api/sysParams/deleteById.do", {
 					id : id
 				}).success(function(res) {
 					if (res.success) {

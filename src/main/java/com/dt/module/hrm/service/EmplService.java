@@ -19,7 +19,7 @@ import com.dt.core.dao.sql.SQL;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.service.ParamsService;
+ 
 import com.dt.module.base.service.UserService;
 
 /**
@@ -31,8 +31,7 @@ import com.dt.module.base.service.UserService;
 public class EmplService extends BaseService {
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private ParamsService paramsService;
+ 
 
 	/**
 	 * @Description: 添加员工
@@ -203,8 +202,7 @@ public class EmplService extends BaseService {
 	 *               sys_empl_org_num_ctl:N(可以多个组织),Y(只能属于一个组织)
 	 */
 	public String ifEmplCanMultiPart() {
-		R emplpartRes = paramsService.queryParamsByIdWithExist("sys_empl_org_num_ctl", ParamsService.TYPE_SYSINTER,
-				"N");
-		return ToolUtil.parseYNValueDefN(emplpartRes.queryDataToJSONObject().getString("value"));
+		 
+		return ToolUtil.parseYNValueDefN("Y");
 	}
 }

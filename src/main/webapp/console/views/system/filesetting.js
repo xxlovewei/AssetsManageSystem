@@ -30,15 +30,15 @@ function sysfileConfCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('path').withTitle('路径').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('is_used').withTitle('状态').withOption(
+			DTColumnBuilder.newColumn('isUsed').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('user_id').withTitle('操作').withOption(
+			DTColumnBuilder.newColumn('userId').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}
 
-		$http.post($rootScope.project + "/api/file/fileConfQuery.do", ps)
+		$http.post($rootScope.project + "/api/sysFileConf/selectList.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
