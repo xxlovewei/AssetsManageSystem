@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-23
+ * @since 2018-07-24
  */
 @TableName("SYS_USER_INFO")
 public class SysUserInfo extends Model<SysUserInfo> {

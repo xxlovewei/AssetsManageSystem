@@ -26,14 +26,14 @@ public class RoleService extends BaseService {
 	 * @Description: 查询所有角色
 	 */
 	public R queryRole() {
-		return R.SUCCESS_OPER(db.query("select * from sys_role_info where deleted='N'").toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query("select * from sys_role_info where deleted='0'").toJsonArrayWithJsonObject());
 	}
 
 	/**
 	 * @Description: 查询某个角色
 	 */
 	public R queryRoleById(String id) {
-		String sql = "select * from sys_role_info where deleted='N' and role_id=?";
+		String sql = "select * from sys_role_info where deleted='0' and role_id=?";
 		RcdSet r = db.query(sql, id);
 		if (r.size() > 0) {
 			return R.SUCCESS_OPER(r.getRcd(0).toJsonObject());
