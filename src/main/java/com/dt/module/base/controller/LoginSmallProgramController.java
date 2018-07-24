@@ -130,7 +130,7 @@ public class LoginSmallProgramController extends BaseController {
 		// 用户登录成功
 		super.getSession().setAttribute("shiroUser", shiroUser);
 		super.getSession().setAttribute("user_id", shiroUser.id);
-		loginService.recLogin(shiroUser.id, tid, request);
+	 
 		return R.SUCCESS(BaseCodeMsgEnum.USER_LOGIN_SUCCESS.getMessage(), ret);
 
 	}

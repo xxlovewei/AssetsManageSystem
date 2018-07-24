@@ -113,7 +113,7 @@ public class LoginController extends BaseController {
 		r.put("cur_system", cur_system);
 		r.put("token", super.getSession().getId());
 		_log.info("login:" + r.toJSONString());
-		loginService.recLogin(shiroUser.id, super.getSession().getId(), request);
+		 
 		return R.SUCCESS(BaseCodeMsgEnum.USER_LOGIN_SUCCESS.getMessage(), r);
 	}
 

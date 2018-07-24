@@ -191,31 +191,7 @@ public class LoginService extends BaseService {
 			db.execute(del);
 		}
 	}
-
-	/**
-	 * @Description: 登录记录
-	 */
-	@Transactional
-	public void recLogin(String user_id, String cookie, HttpServletRequest request) {
-		Insert me = new Insert("sys_log_login");
-		me.set("id", db.getUUID());
-		me.setIf("ip", HttpKit.getIpAddr(request));
-		me.setIf("user_id", user_id);
-		me.setSE("rdate", DbUtil.getDbDateString(db.getDBType()));
-		db.execute(me);
-		if (ToolUtil.isNotEmpty(cookie)) {
-			String agent = request.getHeader("User-Agent");
-			String client = (String) request.getParameter("client");
-			Update ups = new Update("sys_session");
-			ups.set("user_id", user_id);
-			ups.setIf("ip", HttpKit.getIpAddr(request));
-			ups.setIf("agent", agent);
-			ups.setIf("client", client);
-			ups.setSE("login_time", DbUtil.getDbDateString(DB.instance().getDBType()));
-			ups.where().and("cookie=?", cookie);
-			db.execute(ups);
-		}
-	}
+ 
 
 	/**
 	 * @Description: 检查登录状态
