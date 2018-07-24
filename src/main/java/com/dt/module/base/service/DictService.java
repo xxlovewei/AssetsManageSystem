@@ -63,7 +63,7 @@ public class DictService extends BaseService {
 	 * @Description: 查询所有字典
 	 */
 	public R queryDict() {
-		String sql = "select * from sys_dict where deleted='N' ";
+		String sql = "select * from sys_dict where dr='0' ";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
