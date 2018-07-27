@@ -41,7 +41,7 @@ public class SysRoleInfoController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
+	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(String id) {
 		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.selectById(id));

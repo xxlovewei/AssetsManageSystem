@@ -75,14 +75,14 @@ public class UserGroupService extends BaseService {
 	 * @Description: 查询所有用户组
 	 */
 	public R queryUserGroup() {
-		return R.SUCCESS_OPER(db.query("select * from sys_user_group where deleted='N' ").toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query("select * from sys_user_group where dr='0' ").toJsonArrayWithJsonObject());
 	}
 
 	/**
 	 * @Description: 查询用户组的一条记录
 	 */
 	public R queryUserGroupById(String group_id) {
-		Rcd rs = db.uniqueRecord("select * from sys_user_group where deleted='N' and group_id=?", group_id);
+		Rcd rs = db.uniqueRecord("select * from sys_user_group where dr='0' and group_id=?", group_id);
 		if (ToolUtil.isEmpty(rs)) {
 			return R.FAILURE_NO_DATA();
 		}

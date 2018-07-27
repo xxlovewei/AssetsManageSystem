@@ -2,8 +2,8 @@ package com.dt.module.base.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.dt.module.base.entity.SysRegion;
-import com.dt.module.base.service.ISysRegionService;
+import com.dt.module.base.entity.SysUserGroupItem;
+import com.dt.module.base.service.ISysUserGroupItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -29,58 +29,58 @@ import com.dt.core.common.base.BaseController;
  * @since 2018-07-27
  */
 @Controller
-@RequestMapping("/api/sysRegion")
-public class SysRegionController extends BaseController {
+@RequestMapping("/api/sysUserGroupItem")
+public class SysUserGroupItemController extends BaseController {
 
 
 	@Autowired
-	ISysRegionService SysRegionServiceImpl;
+	ISysUserGroupItemService SysUserGroupItemServiceImpl;
 
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(String id) {
-		return R.SUCCESS_OPER(SysRegionServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysUserGroupItemServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
+	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(String id) {
-		return R.SUCCESS_OPER(SysRegionServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysUserGroupItemServiceImpl.selectById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_DENY)
+	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
-	public R insert(SysRegion entity) {
-		return R.SUCCESS_OPER(SysRegionServiceImpl.insert(entity));
+	public R insert(SysUserGroupItem entity) {
+		return R.SUCCESS_OPER(SysUserGroupItemServiceImpl.insert(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_DENY)
+	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
 	@RequestMapping(value = "/updateById.do")
-	public R updateById(SysRegion entity) {
-		return R.SUCCESS_OPER(SysRegionServiceImpl.updateById(entity));
+	public R updateById(SysUserGroupItem entity) {
+		return R.SUCCESS_OPER(SysUserGroupItemServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
+	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(SysRegion entity) {
-		return R.SUCCESS_OPER(SysRegionServiceImpl.insertOrUpdate(entity));
+	public R insertOrUpdate(SysUserGroupItem entity) {
+		return R.SUCCESS_OPER(SysUserGroupItemServiceImpl.insertOrUpdate(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysRegionServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysUserGroupItemServiceImpl.selectList(null));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
+	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectPage.do")
 	public R selectPage(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
@@ -89,9 +89,9 @@ public class SysRegionController extends BaseController {
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<SysRegion> ew = new QueryWrapper<SysRegion>();
+		QueryWrapper<SysUserGroupItem> ew = new QueryWrapper<SysUserGroupItem>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysRegion> pdata = SysRegionServiceImpl.selectPage(new Page<SysRegion>(pageindex, pagesize), ew);
+		IPage<SysUserGroupItem> pdata = SysUserGroupItemServiceImpl.selectPage(new Page<SysUserGroupItem>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

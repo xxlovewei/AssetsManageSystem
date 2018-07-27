@@ -35,49 +35,49 @@ public class SysLogAccessController extends BaseController {
 	ISysLogAccessService SysLogAccessServiceImpl;
 
 	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
+	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(String id) {
 		return R.SUCCESS_OPER(SysLogAccessServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
+	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(String id) {
 		return R.SUCCESS_OPER(SysLogAccessServiceImpl.selectById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_USER)
+	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysLogAccess entity) {
 		return R.SUCCESS_OPER(SysLogAccessServiceImpl.insert(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
+	@Acl(info = "根据Id更新", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/updateById.do")
 	public R updateById(SysLogAccess entity) {
 		return R.SUCCESS_OPER(SysLogAccessServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysLogAccess entity) {
 		return R.SUCCESS_OPER(SysLogAccessServiceImpl.insertOrUpdate(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
 		return R.SUCCESS_OPER(SysLogAccessServiceImpl.selectList(null));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
+	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectPage.do")
 	public R selectPage(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);

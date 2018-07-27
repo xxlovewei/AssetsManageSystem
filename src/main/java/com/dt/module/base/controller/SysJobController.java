@@ -38,49 +38,49 @@ public class SysJobController extends BaseController {
 
 
 	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
+	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(String id) {
 		return R.SUCCESS_OPER(SysJobServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
+	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(String id) {
 		return R.SUCCESS_OPER(SysJobServiceImpl.selectById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_USER)
+	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysJob entity) {
 		return R.SUCCESS_OPER(SysJobServiceImpl.insert(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
+	@Acl(info = "根据Id更新", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/updateById.do")
 	public R updateById(SysJob entity) {
 		return R.SUCCESS_OPER(SysJobServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysJob entity) {
 		return R.SUCCESS_OPER(SysJobServiceImpl.insertOrUpdate(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
 		return R.SUCCESS_OPER(SysJobServiceImpl.selectList(null));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
+	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectPage.do")
 	public R selectPage(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);

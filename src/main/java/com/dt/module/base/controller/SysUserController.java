@@ -22,7 +22,7 @@ import com.dt.core.tool.net.HttpClient;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.base.service.FundService;
+ 
 import com.dt.module.base.service.SysUserService;
 import com.dt.module.base.service.UserService;
 
@@ -33,10 +33,7 @@ public class SysUserController extends BaseController {
 	private UserService userService;
 	@Autowired
 	private SysUserService sysUserService;
-
-	@Autowired
-	private FundService fundService;
-
+ 
 	@ResponseBody
 	@Acl(info = "我的雅戈尔上班考勤", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/user/queryKqInYoungr.do")
@@ -56,12 +53,7 @@ public class SysUserController extends BaseController {
 		return R.SUCCESS_OPER(bodyarr);
 	}
 
-	@ResponseBody
-	@Acl(info = "查询提现记录", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/user/queryFundTix.do")
-	public R queryFundTix(String user_id, String cnt) {
-		return fundService.queryFundTix(user_id, null, cnt);
-	}
+	 
 
 	@RequestMapping(value = "/user/userSave.do")
 	@ResponseBody
