@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-24
+ * @since 2018-07-27
  */
 @Service
 public class SysQudChengsServiceImpl extends ServiceImpl<SysQudChengsMapper, SysQudChengs> implements ISysQudChengsService {

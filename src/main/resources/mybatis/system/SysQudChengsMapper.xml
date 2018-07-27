@@ -5,6 +5,11 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.dt.module.base.entity.SysQudChengs">
         <id column="ID" property="id" />
+    <result column="UPDATE_BY" property="updateBy" />
+    <result column="CREATE_BY" property="createBy" />
+    <result column="CREATE_TIME" property="createTime" />
+    <result column="UPDATE_TIME" property="updateTime" />
+    <result column="DR" property="dr" />
         <result column="MINGC" property="mingc" />
         <result column="JIB" property="jib" />
         <result column="SHENGF_ID" property="shengfId" />

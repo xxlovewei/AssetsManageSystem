@@ -1,20 +1,18 @@
 package com.dt.module.base.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
 /**
  * <p>
  * 
  * </p>
  *
  * @author algernonking
- * @since 2018-07-24
+ * @since 2018-07-27
  */
 @TableName("SYS_QUD_CHENGS")
 public class SysQudChengs extends BaseModel<SysQudChengs> {

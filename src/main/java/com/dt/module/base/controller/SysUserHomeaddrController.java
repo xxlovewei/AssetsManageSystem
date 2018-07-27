@@ -2,8 +2,8 @@ package com.dt.module.base.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.dt.module.base.entity.SysQudChengs;
-import com.dt.module.base.service.ISysQudChengsService;
+import com.dt.module.base.entity.SysUserHomeaddr;
+import com.dt.module.base.service.ISysUserHomeaddrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -29,58 +29,58 @@ import com.dt.core.common.base.BaseController;
  * @since 2018-07-27
  */
 @Controller
-@RequestMapping("/api/sysQudChengs")
-public class SysQudChengsController extends BaseController {
+@RequestMapping("/api/sysUserHomeaddr")
+public class SysUserHomeaddrController extends BaseController {
 
 
 	@Autowired
-	ISysQudChengsService SysQudChengsServiceImpl;
+	ISysUserHomeaddrService SysUserHomeaddrServiceImpl;
 
 
 	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
+	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(String id) {
-		return R.SUCCESS_OPER(SysQudChengsServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
+	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(String id) {
-		return R.SUCCESS_OPER(SysQudChengsServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.selectById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_DENY)
+	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
-	public R insert(SysQudChengs entity) {
-		return R.SUCCESS_OPER(SysQudChengsServiceImpl.insert(entity));
+	public R insert(SysUserHomeaddr entity) {
+		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.insert(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_DENY)
+	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
 	@RequestMapping(value = "/updateById.do")
-	public R updateById(SysQudChengs entity) {
-		return R.SUCCESS_OPER(SysQudChengsServiceImpl.updateById(entity));
+	public R updateById(SysUserHomeaddr entity) {
+		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
+	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(SysQudChengs entity) {
-		return R.SUCCESS_OPER(SysQudChengsServiceImpl.insertOrUpdate(entity));
+	public R insertOrUpdate(SysUserHomeaddr entity) {
+		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.insertOrUpdate(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_ALLOW)
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysQudChengsServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.selectList(null));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_ALLOW)
+	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectPage.do")
 	public R selectPage(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
@@ -89,9 +89,9 @@ public class SysQudChengsController extends BaseController {
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<SysQudChengs> ew = new QueryWrapper<SysQudChengs>();
+		QueryWrapper<SysUserHomeaddr> ew = new QueryWrapper<SysUserHomeaddr>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysQudChengs> pdata = SysQudChengsServiceImpl.selectPage(new Page<SysQudChengs>(pageindex, pagesize), ew);
+		IPage<SysUserHomeaddr> pdata = SysUserHomeaddrServiceImpl.selectPage(new Page<SysUserHomeaddr>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

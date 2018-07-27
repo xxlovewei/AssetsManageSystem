@@ -26,7 +26,7 @@ import com.dt.core.common.base.BaseController;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-24
+ * @since 2018-07-27
  */
 @Controller
 @RequestMapping("/api/sysQudShengf")
@@ -45,7 +45,7 @@ public class SysQudShengfController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_ALLOW)
+	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(String id) {
 		return R.SUCCESS_OPER(SysQudShengfServiceImpl.selectById(id));
@@ -59,7 +59,7 @@ public class SysQudShengfController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_ALLOW)
+	@Acl(info = "根据Id更新", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/updateById.do")
 	public R updateById(SysQudShengf entity) {
 		return R.SUCCESS_OPER(SysQudShengfServiceImpl.updateById(entity));
@@ -73,14 +73,14 @@ public class SysQudShengfController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
 		return R.SUCCESS_OPER(SysQudShengfServiceImpl.selectList(null));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
+	@Acl(info = "查询所有,有分页", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/selectPage.do")
 	public R selectPage(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);

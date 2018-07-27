@@ -26,7 +26,7 @@ import com.dt.core.common.base.BaseController;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-24
+ * @since 2018-07-27
  */
 @Controller
 @RequestMapping("/api/sysQudQux")
@@ -45,7 +45,7 @@ public class SysQudQuxController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_ALLOW)
+	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(String id) {
 		return R.SUCCESS_OPER(SysQudQuxServiceImpl.selectById(id));

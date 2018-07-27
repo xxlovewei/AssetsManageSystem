@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-24
+ * @since 2018-07-27
  */
 public interface SysQudQuxMapper extends BaseMapper<SysQudQux> {
 

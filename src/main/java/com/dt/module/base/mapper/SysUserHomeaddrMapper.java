@@ -1,6 +1,6 @@
 package com.dt.module.base.mapper;
 
-import com.dt.module.base.entity.SysQudChengs;
+import com.dt.module.base.entity.SysUserHomeaddr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author algernonking
  * @since 2018-07-27
  */
-public interface SysQudChengsMapper extends BaseMapper<SysQudChengs> {
+public interface SysUserHomeaddrMapper extends BaseMapper<SysUserHomeaddr> {
 
 }

@@ -38,7 +38,7 @@ public class SysRegionController extends BaseController {
 
 
 	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
+	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(String id) {
 		return R.SUCCESS_OPER(SysRegionServiceImpl.deleteById(id));
@@ -73,14 +73,14 @@ public class SysRegionController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
 		return R.SUCCESS_OPER(SysRegionServiceImpl.selectList(null));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
+	@Acl(info = "查询所有,有分页", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/selectPage.do")
 	public R selectPage(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);

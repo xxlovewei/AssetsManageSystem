@@ -1,6 +1,6 @@
 package com.dt.module.base.service;
 
-import com.dt.module.base.entity.SysQudChengs;
+import com.dt.module.base.entity.SysUserHomeaddr;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author algernonking
  * @since 2018-07-27
  */
-public interface ISysQudChengsService extends IService<SysQudChengs> {
+public interface ISysUserHomeaddrService extends IService<SysUserHomeaddr> {
 
 }
