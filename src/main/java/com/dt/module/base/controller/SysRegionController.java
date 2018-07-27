@@ -2,8 +2,8 @@ package com.dt.module.base.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.dt.module.base.entity.SysSession;
-import com.dt.module.base.service.ISysSessionService;
+import com.dt.module.base.entity.SysRegion;
+import com.dt.module.base.service.ISysRegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -29,54 +29,54 @@ import com.dt.core.common.base.BaseController;
  * @since 2018-07-27
  */
 @Controller
-@RequestMapping("/api/sysSession")
-public class SysSessionController extends BaseController {
+@RequestMapping("/api/sysRegion")
+public class SysRegionController extends BaseController {
 
 
 	@Autowired
-	ISysSessionService SysSessionServiceImpl;
+	ISysRegionService SysRegionServiceImpl;
 
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(String id) {
-		return R.SUCCESS_OPER(SysSessionServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysRegionServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(String id) {
-		return R.SUCCESS_OPER(SysSessionServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysRegionServiceImpl.selectById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
-	public R insert(SysSession entity) {
-		return R.SUCCESS_OPER(SysSessionServiceImpl.insert(entity));
+	public R insert(SysRegion entity) {
+		return R.SUCCESS_OPER(SysRegionServiceImpl.insert(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
 	@RequestMapping(value = "/updateById.do")
-	public R updateById(SysSession entity) {
-		return R.SUCCESS_OPER(SysSessionServiceImpl.updateById(entity));
+	public R updateById(SysRegion entity) {
+		return R.SUCCESS_OPER(SysRegionServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(SysSession entity) {
-		return R.SUCCESS_OPER(SysSessionServiceImpl.insertOrUpdate(entity));
+	public R insertOrUpdate(SysRegion entity) {
+		return R.SUCCESS_OPER(SysRegionServiceImpl.insertOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysSessionServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysRegionServiceImpl.selectList(null));
 	}
 
 	@ResponseBody
@@ -89,9 +89,9 @@ public class SysSessionController extends BaseController {
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<SysSession> ew = new QueryWrapper<SysSession>();
+		QueryWrapper<SysRegion> ew = new QueryWrapper<SysRegion>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysSession> pdata = SysSessionServiceImpl.selectPage(new Page<SysSession>(pageindex, pagesize), ew);
+		IPage<SysRegion> pdata = SysRegionServiceImpl.selectPage(new Page<SysRegion>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

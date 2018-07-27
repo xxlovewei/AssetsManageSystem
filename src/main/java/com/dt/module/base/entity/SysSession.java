@@ -1,11 +1,12 @@
 package com.dt.module.base.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.dt.core.common.base.BaseModel;
+
+import java.io.Serializable;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
 
 /**
  * <p>
@@ -13,10 +14,10 @@ import java.io.Serializable;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-26
+ * @since 2018-07-27
  */
 @TableName("SYS_SESSION")
-public class SysSession extends Model<SysSession> {
+public class SysSession extends BaseModel<SysSession> {
 
     private static final long serialVersionUID = 1L;
 

@@ -1,6 +1,6 @@
 package com.dt.module.base.mapper;
 
-import com.dt.module.base.entity.SysSession;
+import com.dt.module.base.entity.SysRegion;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author algernonking
  * @since 2018-07-27
  */
-public interface SysSessionMapper extends BaseMapper<SysSession> {
+public interface SysRegionMapper extends BaseMapper<SysRegion> {
 
 }

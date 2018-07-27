@@ -1,15 +1,12 @@
 package com.dev;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
@@ -98,6 +95,11 @@ public class CustomGenerator {
 		strategy.setInclude(new String[] { "sys_session" }); // 需要生成的表
 
 		strategy.setTableFillList(tableFillList);
+		
+		 
+		strategy.setSuperEntityClass("com.dt.core.common.base.BaseModel");
+		strategy.setSuperEntityColumns("DR", "CREATE_BY", "CREATE_TIME", "UPDATE_BY", "UPDATE_TIME");
+	        
 		// strategy.setExclude(new String[]{"test"}); // 排除生成的表
 
 		mpg.setStrategy(strategy);
