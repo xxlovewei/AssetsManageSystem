@@ -1,4 +1,4 @@
-package com.dt.module.common.bus_enum;
+package com.dt.module.base.bus_enum;
 
 import java.io.Serializable;
 
