@@ -115,9 +115,7 @@ public class SysUserInfo extends Model<SysUserInfo> {
 		this.sexName = sexName;
 	}
 
-	@TableField(value = "DR", fill = FieldFill.INSERT)
-    @TableLogic
-    private String dr;
+ 
     /**
      * 头像
      */
@@ -126,8 +124,7 @@ public class SysUserInfo extends Model<SysUserInfo> {
     /**
      * 创建时间
      */
-    @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
-    private Date createTime;
+ 
     @TableField("CREATE_IP")
     private String createIp;
     @TableField("LAST_LOGIN_TIME")
@@ -196,11 +193,7 @@ public class SysUserInfo extends Model<SysUserInfo> {
      */
     @TableField("DRIVER_CARD")
     private String driverCard;
-    /**
-     * 修改时间
-     */
-    @TableField(value = "UPDATE_TIME", fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
+    /** 
     /**
      * 民族
      */
@@ -225,10 +218,7 @@ public class SysUserInfo extends Model<SysUserInfo> {
      */
     @TableField("SHORTMOBILE")
     private String shortmobile;
-    @TableField(value = "CREATE_BY", fill = FieldFill.INSERT)
-    private String createBy;
-    @TableField(value = "UPDATE_BY", fill = FieldFill.INSERT_UPDATE)
-    private String updateBy;
+  
 
 
     public String getUserId() {
@@ -398,15 +388,7 @@ public class SysUserInfo extends Model<SysUserInfo> {
     public void setSex(String sex) {
         this.sex = sex;
     }
-
-    public String getDr() {
-        return dr;
-    }
-
-    public void setDr(String dr) {
-        this.dr = dr;
-    }
-
+ 
     public String getPhoto() {
         return photo;
     }
@@ -414,14 +396,7 @@ public class SysUserInfo extends Model<SysUserInfo> {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+ 
 
     public String getCreateIp() {
         return createIp;
@@ -551,13 +526,7 @@ public class SysUserInfo extends Model<SysUserInfo> {
         this.driverCard = driverCard;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+  
 
     public String getNation() {
         return nation;
@@ -606,22 +575,7 @@ public class SysUserInfo extends Model<SysUserInfo> {
     public void setShortmobile(String shortmobile) {
         this.shortmobile = shortmobile;
     }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
+ 
 
     @Override
     protected Serializable pkVal() {
@@ -652,9 +606,7 @@ public class SysUserInfo extends Model<SysUserInfo> {
         ", birth=" + birth +
         ", weixin=" + weixin +
         ", sex=" + sex +
-        ", dr=" + dr +
         ", photo=" + photo +
-        ", createTime=" + createTime +
         ", createIp=" + createIp +
         ", lastLoginTime=" + lastLoginTime +
         ", lastLoginIp=" + lastLoginIp +
@@ -671,15 +623,12 @@ public class SysUserInfo extends Model<SysUserInfo> {
         ", creditScore=" + creditScore +
         ", identityCard=" + identityCard +
         ", driverCard=" + driverCard +
-        ", updateTime=" + updateTime +
         ", nation=" + nation +
         ", nativePlace=" + nativePlace +
         ", selfEvaluate=" + selfEvaluate +
         ", aliPayUsername=" + aliPayUsername +
         ", aliPayAccount=" + aliPayAccount +
         ", shortmobile=" + shortmobile +
-        ", createBy=" + createBy +
-        ", updateBy=" + updateBy +
         "}";
     }
 }

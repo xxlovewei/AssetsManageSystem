@@ -1,10 +1,11 @@
 package com.dt.module.base.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
@@ -15,7 +16,7 @@ import java.io.Serializable;
  * @since 2018-07-24
  */
 @TableName("SYS_QUD_SHENGF")
-public class SysQudShengf extends Model<SysQudShengf> {
+public class SysQudShengf extends BaseModel<SysQudShengf> {
 
     private static final long serialVersionUID = 1L;
 

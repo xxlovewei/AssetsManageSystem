@@ -1,13 +1,11 @@
 package com.dt.module.base.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
@@ -18,7 +16,7 @@ import java.io.Serializable;
  * @since 2018-07-24
  */
 @TableName("SYS_DICT_ITEM")
-public class SysDictItem extends Model<SysDictItem> {
+public class SysDictItem extends BaseModel<SysDictItem> {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,17 +32,7 @@ public class SysDictItem extends Model<SysDictItem> {
     private String mark;
     @TableField("CODE")
     private String code;
-    @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
-    private Date createTime;
-    @TableField(value = "CREATE_BY", fill = FieldFill.INSERT)
-    private String createBy;
-    @TableField(value = "UPDATE_TIME", fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
-    @TableField(value = "UPDATE_BY", fill = FieldFill.INSERT_UPDATE)
-    private String updateBy;
-    @TableField(value = "DR", fill = FieldFill.INSERT)
-    @TableLogic
-    private String dr;
+ 
 
 
     public String getDictId() {
@@ -95,45 +83,9 @@ public class SysDictItem extends Model<SysDictItem> {
         this.code = code;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+   
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
-
-    public String getDr() {
-        return dr;
-    }
-
-    public void setDr(String dr) {
-        this.dr = dr;
-    }
+   
 
     @Override
     protected Serializable pkVal() {
@@ -149,11 +101,6 @@ public class SysDictItem extends Model<SysDictItem> {
         ", sort=" + sort +
         ", mark=" + mark +
         ", code=" + code +
-        ", createTime=" + createTime +
-        ", createBy=" + createBy +
-        ", updateTime=" + updateTime +
-        ", updateBy=" + updateBy +
-        ", dr=" + dr +
         "}";
     }
 }
