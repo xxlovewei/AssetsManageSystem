@@ -240,7 +240,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 		$scope.item.sort = ""
 		$scope.item.module_id = "";
 		$scope.item.menu_level = "";
-		$http.post($rootScope.project + "/api/menu/treeTop.do", {}).success(
+		$http.post($rootScope.project + "/api/sysMenus/selectList.do", {}).success(
 				function(res) {
 					if (res.success) {
 						$scope.topMenuOpt = res.data;
@@ -316,7 +316,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	$scope.topMenuSel = "";
 
 	$scope.tree_expand_level = 2;
-	$http.post($rootScope.project + "/api/menu/treeTop.do", {}).success(
+	$http.post($rootScope.project + "/api/sysMenus/selectList.do", {}).success(
 			function(res) {
 				if (res.success) {
 					$scope.topMenuOpt = res.data;
@@ -535,7 +535,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	var myTreeData = [];
 	function flush() {
 		$http.post($rootScope.project + "/api/menu/treeDataDirect.do", {
-			id : $scope.topMenuSel.menu_id
+			id : $scope.topMenuSel.menuId
 		}).success(function(res) {
 			if (res.success) {
 				rawTreeData = res.data

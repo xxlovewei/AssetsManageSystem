@@ -1,6 +1,10 @@
 package com.dt.module.base.service;
 
+import com.dt.module.base.entity.SysMenus;
 import com.dt.module.base.entity.SysUserInfo;
+
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -13,4 +17,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISysUserInfoService extends IService<SysUserInfo> {
 
+	List<SysMenus> listMyMenus(String user_id);
+	
 }

@@ -69,5 +69,13 @@
  		       select count(1) from sys_log_access where user_id=#{USER_ID}
  	 </select>
     
+    
+    
+     <select id="listMyMenus"  resultMap="com.dt.module.base.mapper.SysMenusMapper.BaseResultMap">
+ 		  select * from sys_menus where dr=0 and used=1 and menu_id in ( select distinct menu_id from sys_user_role a,sys_role_module b,sys_menus_node c where a.role_id=b.role_id and c.node_id=b.module_id and user_id=#{user_id}) order by sort
+ 	 </select>
+    
+    
+    
 
 </mapper>

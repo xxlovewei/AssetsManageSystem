@@ -26,7 +26,9 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.shiro.ShiroUser;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.base.service.LoginService;
 import com.dt.module.base.service.UserBalanceService;
 
@@ -36,7 +38,9 @@ public class LoginController extends BaseController {
 	private static Logger _log = LoggerFactory.getLogger(LoginController.class);
 	@Autowired
 	LoginService loginService = null;
- 
+
+	@Autowired
+	ISysUserInfoService SysUserInfoServiceImpl;
 
 	@Autowired
 	UserBalanceService userBalanceService;
@@ -90,7 +94,7 @@ public class LoginController extends BaseController {
 		u.put("pwd", "********");
 		r.put("user_info", u);
 		// 菜单列表
-		JSONArray systems = new JSONArray();;
+		JSONArray systems = ConvertUtil.toJSONArryFromEntityList(SysUserInfoServiceImpl.listMyMenus(this.getUserId()));
 		r.put("systems", systems);
 		// 获取当前需要显示的菜单
 		String tab_system = u.getString("system");
@@ -99,19 +103,19 @@ public class LoginController extends BaseController {
 			cur_system = "";
 		} else {
 			for (int i = 0; i < systems.size(); i++) {
-				if (tab_system.equals(systems.getJSONObject(i).getString("menu_id"))) {
-					cur_system = systems.getJSONObject(i).getString("menu_id");
+				if (tab_system.equals(systems.getJSONObject(i).getString("menuId"))) {
+					cur_system = systems.getJSONObject(i).getString("menuId");
 					break;
 				}
 				if (ToolUtil.isEmpty(cur_system)) {
-					cur_system = systems.getJSONObject(0).getString("menu_id");
+					cur_system = systems.getJSONObject(0).getString("menuId");
 				}
 			}
 		}
 		r.put("cur_system", cur_system);
 		r.put("token", super.getSession().getId());
 		_log.info("login:" + r.toJSONString());
-		 
+
 		return R.SUCCESS(BaseCodeMsgEnum.USER_LOGIN_SUCCESS.getMessage(), r);
 	}
 
