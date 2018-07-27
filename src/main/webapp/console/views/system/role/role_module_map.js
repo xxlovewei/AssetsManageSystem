@@ -8,7 +8,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, 
 
 	var role_id = "";
 
-	$http.post($rootScope.project + "/api/menu/treeTop.do", {}).success(function(res) {
+	$http.post($rootScope.project + "/api/sysMenus/selectList.do", {}).success(function(res) {
 		if (res.success) {
 			$scope.topMenuOpt = res.data;
 			if (res.data.length > 0) {
@@ -37,7 +37,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, 
 	$scope.newNode = {};
 	function flush() {
 		var ps = {};
-		ps.menu_id = $scope.topMenuSel.menu_id;
+		ps.menu_id = $scope.topMenuSel.menuId;
 		ps.role_id = $scope.roleSel.roleId;
 		role_id = ps.role_id;
 		$http.post($rootScope.project + "/api/menu/treeRoleChecked.do", ps).success(function(res) {

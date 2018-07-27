@@ -20,11 +20,11 @@ function sysUserQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 			} ]
 		}
  
-	$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(
+	$http.post($rootScope.project + "/api/sysUserGroup/selectList.do", {}).success(
 			function(res) {
 				if (res.success) {
 					 $scope.meta.tools[0].dataOpt= prepend(res.data, {
-						group_id : "ALL",
+						groupId : "ALL",
 						name : "全部"
 					});
 					 $scope.meta.tools[0].dataSel= $scope.meta.tools[0].dataOpt[0];

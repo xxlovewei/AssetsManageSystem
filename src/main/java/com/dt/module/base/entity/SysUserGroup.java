@@ -26,7 +26,7 @@ public class SysUserGroup extends BaseModel<SysUserGroup> {
     @TableField("NAME")
     private String name;
     @TableField("SORT")
-    private String sort;
+    private Integer sort;
     @TableField("MARK")
     private String mark;
 
@@ -47,11 +47,11 @@ public class SysUserGroup extends BaseModel<SysUserGroup> {
         this.name = name;
     }
 
-    public String getSort() {
+    public Integer getSort() {
         return sort;
     }
 
-    public void setSort(String sort) {
+    public void setSort(Integer sort) {
         this.sort = sort;
     }
 

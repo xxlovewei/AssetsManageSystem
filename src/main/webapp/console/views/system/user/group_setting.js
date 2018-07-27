@@ -5,8 +5,8 @@ function groupSaveFormCtl($localStorage, notify, $log, $uibModal,
 	$scope.item = {}
 
 	if (angular.isDefined(id)) {
-		$http.post($rootScope.project + "/api/user/queryUserGroupById.do", {
-			group_id : id
+		$http.post($rootScope.project + "/api/sysUserGroup/selectById.do", {
+			id : id
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data;
@@ -21,7 +21,7 @@ function groupSaveFormCtl($localStorage, notify, $log, $uibModal,
 	}
 	$scope.sure = function() {
 
-		$http.post($rootScope.project + "/api/user/saveUserGroupById.do",
+		$http.post($rootScope.project + "/api/sysUserGroup/insertOrUpdate.do",
 				$scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
@@ -63,9 +63,9 @@ function sysGroupSettingCtl( DTOptionsBuilder, DTColumnBuilder,
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.group_id
+		acthtml = acthtml + " <button ng-click=\"save('" + full.groupId
 				+ "')\" class=\"btn-white btn btn-xs\">修改</button>   ";
-		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.group_id
+		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.groupId
 				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
@@ -75,11 +75,11 @@ function sysGroupSettingCtl( DTOptionsBuilder, DTColumnBuilder,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('group_id').withTitle('操作').withOption(
+			DTColumnBuilder.newColumn('groupId').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
-		$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(
+		$http.post($rootScope.project + "/api/sysUserGroup/selectList.do", {}).success(
 				function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
@@ -97,8 +97,8 @@ function sysGroupSettingCtl( DTOptionsBuilder, DTColumnBuilder,
 		$confirm({
 			text : '是否删除?'
 		}).then(function() {
-			$http.post($rootScope.project + "/api/user/deleteGroup.do", {
-				group_id : id
+			$http.post($rootScope.project + "/api/sysUserGroup/deleteById.do", {
+				id : id
 			}).success(function(res) {
 				flush();
 				notify({

@@ -38,49 +38,49 @@ public class SysUserHomeaddrController extends BaseController {
 
 
 	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
+	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(String id) {
 		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
+	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(String id) {
 		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.selectById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_USER)
+	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysUserHomeaddr entity) {
 		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.insert(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
+	@Acl(info = "根据Id更新", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/updateById.do")
 	public R updateById(SysUserHomeaddr entity) {
 		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysUserHomeaddr entity) {
 		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.insertOrUpdate(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
 		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.selectList(null));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
+	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectPage.do")
 	public R selectPage(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
