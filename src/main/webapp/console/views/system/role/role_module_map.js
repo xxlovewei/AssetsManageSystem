@@ -22,7 +22,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, 
 		}
 	})
 
-	$http.post($rootScope.project + "/api/role/roleQuery.do", {}).success(function(res) {
+	$http.post($rootScope.project + "/api/sysRoleInfo/selectList.do", {}).success(function(res) {
 		if (res.success) {
 			$scope.roleOpt = res.data;
 		} else {
@@ -38,7 +38,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, 
 	function flush() {
 		var ps = {};
 		ps.menu_id = $scope.topMenuSel.menu_id;
-		ps.role_id = $scope.roleSel.role_id;
+		ps.role_id = $scope.roleSel.roleId;
 		role_id = ps.role_id;
 		$http.post($rootScope.project + "/api/menu/treeRoleChecked.do", ps).success(function(res) {
 			if (res.success) {

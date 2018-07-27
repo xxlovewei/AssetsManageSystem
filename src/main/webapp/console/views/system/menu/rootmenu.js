@@ -12,7 +12,7 @@ function rootMenuSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 	$scope.item = {};
 	if (angular.isDefined(id)) {
 		// 修改
-		$http.post($rootScope.project + "/api/menu/queryMenuRootById.do", {
+		$http.post($rootScope.project + "/api/sysMenus/selectById.do", {
 			id : id
 		}).success(function(res) {
 			if (res.success) {
@@ -36,7 +36,7 @@ function rootMenuSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 
 		$scope.item.used = $scope.statusSel.id;
 
-		$http.post($rootScope.project + "/api/menu/saveMenuRoot.do", $scope.item).success(function(res) {
+		$http.post($rootScope.project + "/api/sysMenus/insertOrUpdate.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 				notify({
@@ -74,9 +74,9 @@ function sysRootMenugCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.menu_id + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.menuId + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
 	 
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.menu_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.menuId + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
@@ -93,7 +93,7 @@ function sysRootMenugCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	function flush() {
 		var ps = {}
-		$http.post($rootScope.project + "/api/menu/queryMenuRoot.do", ps).success(function(res) {
+		$http.post($rootScope.project + "/api/sysMenus/selectList.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
 			} else {
@@ -112,7 +112,7 @@ function sysRootMenugCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$confirm({
 			text : '是否删除功能?'
 		}).then(function() {
-			$http.post($rootScope.project + "/api//menu/deleteMenuRoot.do", {
+			$http.post($rootScope.project + "/api/sysMenus/deleteById.do", {
 				id : id
 			}).success(function(res) {
 				if (res.success) {

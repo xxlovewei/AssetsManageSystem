@@ -92,7 +92,7 @@ public class CustomGenerator {
 		// strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
 		//"","sys_qud_qux"
-		strategy.setInclude(new String[] { "sys_session" }); // 需要生成的表
+		strategy.setInclude(new String[] { "sys_menus_node" }); // 需要生成的表
 
 		strategy.setTableFillList(tableFillList);
 		

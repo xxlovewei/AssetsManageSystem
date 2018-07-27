@@ -14,7 +14,6 @@ import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.MenuRoleMapService;
-import com.dt.module.base.service.MenuRootService;
 import com.dt.module.base.service.MenuService;
 
 @Controller
@@ -22,18 +21,11 @@ import com.dt.module.base.service.MenuService;
 public class MenuController extends BaseController {
 	@Autowired
 	MenuService menuService;
-	@Autowired
-	MenuRootService menuRootService;
+ 
 	@Autowired
 	MenuRoleMapService menuRoleMapService;
 
-	@ResponseBody
-	@Acl(info = "查询菜单", value = Acl.ACL_USER)
-	@RequestMapping(value = "/menu/treeTop.do")
-	public R treeTop() {
-		return R.SUCCESS_OPER(menuRootService.queryMenuRoot(null));
-	}
-
+ 
 	@RequestMapping(value = "/menu/deleteNode.do")
 	@ResponseBody
 	@Acl(info = "删除菜单", value = Acl.ACL_DENY)

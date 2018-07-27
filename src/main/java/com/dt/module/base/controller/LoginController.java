@@ -28,7 +28,6 @@ import com.dt.core.shiro.ShiroKit;
 import com.dt.core.shiro.ShiroUser;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.LoginService;
-import com.dt.module.base.service.MenuRootService;
 import com.dt.module.base.service.UserBalanceService;
 
 @Controller
@@ -37,8 +36,7 @@ public class LoginController extends BaseController {
 	private static Logger _log = LoggerFactory.getLogger(LoginController.class);
 	@Autowired
 	LoginService loginService = null;
-	@Autowired
-	MenuRootService menuRootService;
+ 
 
 	@Autowired
 	UserBalanceService userBalanceService;
@@ -92,7 +90,7 @@ public class LoginController extends BaseController {
 		u.put("pwd", "********");
 		r.put("user_info", u);
 		// 菜单列表
-		JSONArray systems = menuRootService.queryMyMenuRoot(shiroUser.id);
+		JSONArray systems = new JSONArray();;
 		r.put("systems", systems);
 		// 获取当前需要显示的菜单
 		String tab_system = u.getString("system");
