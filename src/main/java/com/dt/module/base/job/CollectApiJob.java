@@ -6,7 +6,6 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dt.module.base.service.impl.ApiService;
 import com.dt.module.base.service.impl.JobService;
 
 /** 
@@ -20,7 +19,7 @@ public class CollectApiJob implements Job {
 	@Override
 	public void execute(JobExecutionContext jc) throws JobExecutionException {
 		_log.info("collect urls start.");
-		ApiService.me().updateApi();
+		//ApiService.me().updateApi();
 		JobService.me().finishedJobUpdate(jc);
 	}
 }
