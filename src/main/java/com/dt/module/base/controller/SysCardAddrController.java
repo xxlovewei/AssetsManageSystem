@@ -38,35 +38,35 @@ public class SysCardAddrController extends BaseController {
 
 
 	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
+	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(String id) {
 		return R.SUCCESS_OPER(SysCardAddrServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
+	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(String id) {
 		return R.SUCCESS_OPER(SysCardAddrServiceImpl.selectById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_USER)
+	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysCardAddr entity) {
 		return R.SUCCESS_OPER(SysCardAddrServiceImpl.insert(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
+	@Acl(info = "根据Id更新", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/updateById.do")
 	public R updateById(SysCardAddr entity) {
 		return R.SUCCESS_OPER(SysCardAddrServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysCardAddr entity) {
 		return R.SUCCESS_OPER(SysCardAddrServiceImpl.insertOrUpdate(entity));
@@ -80,7 +80,7 @@ public class SysCardAddrController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
+	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectPage.do")
 	public R selectPage(String start, String length, String pageSize, String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
