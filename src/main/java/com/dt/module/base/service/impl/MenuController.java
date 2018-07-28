@@ -1,4 +1,4 @@
-package com.dt.module.base.controller;
+package com.dt.module.base.service.impl;
 
 import java.io.IOException;
 
@@ -15,6 +15,7 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.MenuRoleMapService;
 import com.dt.module.base.service.MenuService;
+import com.dt.module.base.service.ModuleItemMapService;
 
 @Controller
 @RequestMapping(value = "/api")
@@ -25,6 +26,21 @@ public class MenuController extends BaseController {
 	@Autowired
 	MenuRoleMapService menuRoleMapService;
 
+	@Autowired
+	ModuleItemMapService moduleItemMapService;
+
+	@ResponseBody
+	@Acl(info="查询模块")
+	@RequestMapping(value = "/module/queryModuleItemMap.do")
+	public R queryModuleItem(String module_id) {
+		return moduleItemMapService.queryModuleItem(module_id);
+	}
+	@ResponseBody
+	@Acl(info="更新模块")
+	@RequestMapping(value = "/module/updateModuleItemMap.do")
+	public R updateModuleItemMap(String module_id, String items) {
+		return moduleItemMapService.updateModuleItem(module_id, items);
+	}
  
 	@RequestMapping(value = "/menu/deleteNode.do")
 	@ResponseBody

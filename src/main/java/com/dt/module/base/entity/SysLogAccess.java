@@ -43,7 +43,25 @@ public class SysLogAccess extends BaseModel<SysLogAccess> {
     private String info;
  
 
-    public String getId() {
+    @TableField(exist=false)
+    private String userName;
+    
+    
+    /**
+	 * @return the userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @param userName the userName to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getId() {
         return id;
     }
 

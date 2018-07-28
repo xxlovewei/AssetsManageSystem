@@ -1,4 +1,4 @@
-package com.dt.module.base.controller;
+package com.dt.module.base.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

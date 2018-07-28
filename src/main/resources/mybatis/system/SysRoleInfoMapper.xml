@@ -16,7 +16,7 @@
         <result column="UPDATE_BY" property="updateBy" />
     </resultMap>
     
-     <select id="isUsed"  resultType="Integer">  
+     <select id="isUsed" resultType="Integer">  
 		select count(1) value from sys_user_role a,sys_user_info b where a.user_id=b.user_id and role_id=#{id} and b.dr='0'
  	 </select>
 </mapper>

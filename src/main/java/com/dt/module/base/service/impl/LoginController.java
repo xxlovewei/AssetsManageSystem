@@ -1,4 +1,4 @@
-package com.dt.module.base.controller;
+package com.dt.module.base.service.impl;
 
 import java.io.IOException;
 
@@ -30,7 +30,6 @@ import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.base.service.LoginService;
-import com.dt.module.base.service.UserBalanceService;
 
 @Controller
 @RequestMapping("/api")
@@ -41,9 +40,7 @@ public class LoginController extends BaseController {
 
 	@Autowired
 	ISysUserInfoService SysUserInfoServiceImpl;
-
-	@Autowired
-	UserBalanceService userBalanceService;
+ 
 
 	/**
 	 * @Description: user,pwd,type,client必须部不为空

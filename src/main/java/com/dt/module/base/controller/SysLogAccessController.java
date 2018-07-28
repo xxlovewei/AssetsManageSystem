@@ -73,7 +73,9 @@ public class SysLogAccessController extends BaseController {
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysLogAccessServiceImpl.selectList(null));
+		QueryWrapper<SysLogAccess> ew = new QueryWrapper<SysLogAccess>();
+		ew.and(i -> i.ne("user_id", "abc"));
+		return R.SUCCESS_OPER(SysLogAccessServiceImpl.selectList(ew));
 	}
 
 	@ResponseBody

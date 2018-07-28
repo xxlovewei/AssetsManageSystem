@@ -1,4 +1,4 @@
-package com.dt.module.base.controller;
+package com.dt.module.base.service.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

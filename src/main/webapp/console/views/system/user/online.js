@@ -19,7 +19,7 @@ function sysOnlineSessionCtl( DTOptionsBuilder, DTColumnBuilder,
 
 	function renderUser(data, type, full) {
 		if (angular.isDefined(data) && data.length > 0) {
-			return full.name;
+			return full.userName;
 		} else {
 			return "游客";
 		}
@@ -29,13 +29,13 @@ function sysOnlineSessionCtl( DTOptionsBuilder, DTColumnBuilder,
 
 			DTColumnBuilder.newColumn('id').withTitle('ID').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('user_id').withTitle('用户名').withOption(
+			DTColumnBuilder.newColumn('userId').withTitle('用户名').withOption(
 					'sDefaultContent', '').renderWith(renderUser),
 			DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('start_time').withTitle('创建时间')
+			DTColumnBuilder.newColumn('startTime').withTitle('创建时间')
 					.withOption('sDefaultContent', '').withClass('none'),
-			DTColumnBuilder.newColumn('login_time').withTitle('登录时间')
+			DTColumnBuilder.newColumn('loginTime').withTitle('登录时间')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('lastaccess').withTitle('最后访问')
 					.withOption('sDefaultContent', ''),
@@ -44,7 +44,7 @@ function sysOnlineSessionCtl( DTOptionsBuilder, DTColumnBuilder,
 
 	function flush() {
 		var ps = {};
-		$http.post($rootScope.project + "/api/system/getOnlineSession.do", ps)
+		$http.post($rootScope.project + "/api/sysSession/selectList.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
