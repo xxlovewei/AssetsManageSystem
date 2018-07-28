@@ -729,21 +729,5 @@ public class UserService extends BaseService {
 		}
 		return R.SUCCESS_OPER();
 	}
-
-	/**
-	 * @Description: 修改用户密码
-	 */
-	public R changeUserPwd(String opwd, String npwd, String user_id) {
-		String csql = "select count(1) value from sys_user_info where pwd='" + opwd + "' and user_id=?";
-		if (db.uniqueRecord(csql, user_id).getString("value").equals("1")) {
-			Update me = new Update("sys_user_info");
-			me.set("pwd", npwd);
-			me.where().and("user_id=?", user_id);
-			db.execute(me);
-		} else {
-			return R.FAILURE("旧密码不正确,请重新输入.");
-		}
-		return R.SUCCESS_OPER();
-	}
-
+ 
 }

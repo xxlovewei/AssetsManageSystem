@@ -3,9 +3,9 @@ function mePwdResetCtl($log, notify, $scope, $http, $rootScope, $uibModal) {
 	$scope.save = function() {
 		if ($scope.item.npwd1 == $scope.item.npwd2) {
 			var ps = {};
-			ps.opwd = $scope.item.opwd;
-			ps.npwd = $scope.item.npwd1;
-			$http.post($rootScope.project + "/api/user/changePwd.do", ps).success(function(res) {
+			ps.oldpwd = $scope.item.opwd;
+			ps.pwd = $scope.item.npwd1;
+			$http.post($rootScope.project + "/api/sysUserInfo/my/modifypwd.do", ps).success(function(res) {
 				notify({
 					message : res.message
 				});

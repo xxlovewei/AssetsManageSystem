@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
@@ -17,7 +18,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
  * @since 2018-07-24
  */
 @TableName("SYS_USER_INFO")
-public class SysUserInfo extends Model<SysUserInfo> {
+public class SysUserInfo extends BaseModel<SysUserInfo> {
 
     private static final long serialVersionUID = 1L;
 

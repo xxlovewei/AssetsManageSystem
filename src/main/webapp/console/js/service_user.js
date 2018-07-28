@@ -85,14 +85,6 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 			})
 			return deferred.promise;
 		},
-		ct : function() {
-			var deferred = $q.defer();
-			$http.post( "/dt/api/system/queryContextPath.do", {}).success(function(res) {
-				 
-				deferred.resolve(res);
-			})
-			return deferred.promise;
-		},
 		login : function(e) {
 			var deferred = $q.defer();
 			e.basePublic = "yes";

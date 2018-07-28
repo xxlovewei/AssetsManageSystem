@@ -30,26 +30,7 @@ public class SysUserController extends BaseController {
 	private UserService userService;
 	@Autowired
 	private SysUserService sysUserService;
- 
-	@ResponseBody
-	@Acl(info = "我的雅戈尔上班考勤", value = Acl.ACL_ALLOW)
-	@RequestMapping(value = "/user/queryKqInYoungr.do")
-	public R queryFundTix(String uid) {
-		if (ToolUtil.isEmpty(uid)) {
-			return R.FAILURE();
-		}
-		HttpClient v = new HttpClient();
-		String url = "http://mayorwx.youngor.com/mayormp/query/getUserKq.do";
-		Rcd rs = db.uniqueRecord("select * from sys_params where id='dk_url'");
-		if (rs != null) {
-			url = rs.getString("value");
-		}
-		BaseCommon.print("url:" + url);
-		String body = v.fetchDataByUTF8(url + "?uid=" + uid);
-		JSONArray bodyarr = JSONArray.parseArray(body);
-		return R.SUCCESS_OPER(bodyarr);
-	}
-
+  
 	 
 
 	@RequestMapping(value = "/user/userSave.do")
@@ -163,18 +144,5 @@ public class SysUserController extends BaseController {
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		return sysUserService.saveCommonSettings(getUserId(), ps);
 	}
-
-	@RequestMapping("/user/changePwd.do")
-	@ResponseBody
-	@Acl(value = Acl.ACL_USER, info = "修改用户密码")
-	public R changePwd() {
-		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		return userService.changeUserPwd(ps.getString("opwd", ""), ps.getString("npwd", ""), getUserId());
-	}
-
-	public static void main(String[] args) {
-		HttpClient c = new HttpClient();
-		String body = c.fetchData("http://www.baidu.com", "UTF-8");
-		System.out.println(body);
-	}
+ 
 }

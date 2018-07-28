@@ -1,46 +1,28 @@
-package com.dt.module.base.service.impl;
+package com.dt.module.base.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.dt.core.annotion.Acl;
 import com.dt.core.cache.CacheSupportImpl;
 import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.R;
+import com.dt.module.base.service.impl.CacheService;
 
 /**
  * @author: algernonking
- * @date: 2017年11月7日 下午8:19:58
+ * @date: 2018年7月28日 下午2:42:22
  * @Description: TODO
  */
 @Controller
-@RequestMapping(value = "/api")
-public class SystemController {
-	@Autowired
-	SystemService systemService;
-
+@RequestMapping("/api/sysApi")
+public class CacheController {
 	@Autowired
 	CacheService cacheService;
 
- 
-
-	@RequestMapping(value = "/system/getOnlineSession.do")
-	@ResponseBody
-	@Acl(info = "查询在线session", value = Acl.ACL_DENY)
-	public R getOnlineSession() {
-		return systemService.queryOnLineSession();
-	}
-
-	@RequestMapping(value = "/system/queryMsg.do")
-	@ResponseBody
-	@Acl(info = "查询消息", value = Acl.ACL_ALLOW)
-	public R queryMsg() {
-		return systemService.queryMsg();
-	}
+	@Autowired
+	private CacheSupportImpl cacheSupportImpl;
 
 	@RequestMapping(value = "/system/queryCacheName.do")
 	@ResponseBody
@@ -63,9 +45,6 @@ public class SystemController {
 		return cacheService.removeCacheKey(cache, key);
 	}
 
-	@Autowired
-	private CacheSupportImpl cacheSupportImpl;
-
 	@RequestMapping(value = "/system/refreshCache.do")
 	@ResponseBody
 	@Acl(info = "删除CacheKey", value = Acl.ACL_DENY)
@@ -77,13 +56,6 @@ public class SystemController {
 			}
 		});
 		return R.SUCCESS_OPER();
-	}
-
-	@RequestMapping(value = "/system/queryContextPath.do")
-	@ResponseBody
-	@Acl(info = "获取项目", value = Acl.ACL_ALLOW)
-	public R queryContextPath() {
-		return systemService.queryContextPath();
 	}
 
 }

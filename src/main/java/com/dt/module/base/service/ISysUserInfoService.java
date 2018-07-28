@@ -1,5 +1,6 @@
 package com.dt.module.base.service;
 
+import com.dt.core.common.base.R;
 import com.dt.module.base.entity.SysMenus;
 import com.dt.module.base.entity.SysUserInfo;
 
@@ -18,5 +19,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ISysUserInfoService extends IService<SysUserInfo> {
 
 	List<SysMenus> listMyMenus(String user_id);
+	
+    R modifyPassword(String user_id, String pwd);
 	
 }

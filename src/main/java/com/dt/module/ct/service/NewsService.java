@@ -1,4 +1,4 @@
-package com.dt.module.base.service.impl;
+package com.dt.module.ct.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -14,7 +14,7 @@ import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.base.service.impl.NoticeService;
+import com.dt.module.ct.service.NoticeService;
 
 /**
  * @author: algernonking

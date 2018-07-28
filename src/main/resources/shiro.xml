@@ -89,7 +89,7 @@
 		<property name="sessionValidationSchedulerEnabled"
 			value="true" />
 		<!-- 删除所有无效的Session对象，此时的session被保存在了内存里面,默认开启 -->
-		<property name="deleteInvalidSessions" value="true" />
+		<property name="deleteInvalidSessions" value="false" />
 
 		<!-- 会话模版 所有的session一定要将id设置到Cookie之中，需要提供有Cookie的操作模版 -->
 		<property name="sessionIdCookie" ref="sessionIdCookie" />

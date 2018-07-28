@@ -20,7 +20,6 @@ import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.impl.ScheduleMangerService;
-import com.dt.module.base.service.impl.SystemService;
 import com.dt.module.db.DB;
 
 /**
@@ -55,9 +54,7 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 	private String wx_secret;
 
  
-
-	@Autowired
-	SystemService systemService;
+ 
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
