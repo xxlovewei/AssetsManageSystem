@@ -19,8 +19,8 @@ import com.dt.core.shiro.service.SimpleFilterChainDefinitionsService;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.service.ScheduleMangerService;
-import com.dt.module.base.service.SystemService;
+import com.dt.module.base.service.impl.ScheduleMangerService;
+import com.dt.module.base.service.impl.SystemService;
 import com.dt.module.db.DB;
 
 /**

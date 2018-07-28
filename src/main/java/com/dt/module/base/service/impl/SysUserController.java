@@ -22,9 +22,6 @@ import com.dt.core.tool.net.HttpClient;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
- 
-import com.dt.module.base.service.SysUserService;
-import com.dt.module.base.service.UserService;
 
 @Controller
 @RequestMapping("/api")

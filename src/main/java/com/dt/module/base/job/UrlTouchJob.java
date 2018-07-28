@@ -4,7 +4,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.dt.module.base.service.JobService;
+import com.dt.module.base.service.impl.JobService;
 import com.dt.module.om.service.UrlTouchService;
 
 /**

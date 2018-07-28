@@ -9,7 +9,6 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.base.service.CompanyService;
 
 /**
  * @author: algernonking

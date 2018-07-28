@@ -8,7 +8,7 @@ import org.quartz.JobExecutionException;
 
 import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.DbUtil;
-import com.dt.module.base.service.JobService;
+import com.dt.module.base.service.impl.JobService;
 import com.dt.module.db.DB;
 
 /**

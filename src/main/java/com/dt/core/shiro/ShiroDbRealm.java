@@ -21,7 +21,7 @@ import com.dt.core.shiro.inter.IShiro;
 import com.dt.core.shiro.service.ShiroServiceImpl;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.entity.User;
-import com.dt.module.base.service.UserService;
+import com.dt.module.base.service.impl.UserService;
 
 public class ShiroDbRealm extends AuthorizingRealm {
 	private static Logger _log = LoggerFactory.getLogger(ShiroDbRealm.class);

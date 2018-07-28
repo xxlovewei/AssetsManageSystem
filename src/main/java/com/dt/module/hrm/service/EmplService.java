@@ -19,8 +19,7 @@ import com.dt.core.dao.sql.SQL;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
- 
-import com.dt.module.base.service.UserService;
+import com.dt.module.base.service.impl.UserService;
 
 /**
  * @author: algernonking

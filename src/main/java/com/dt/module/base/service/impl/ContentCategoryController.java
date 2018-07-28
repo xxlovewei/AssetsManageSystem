@@ -10,8 +10,6 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.base.service.ContentCategoryService;
-import com.dt.module.base.service.ContentRootCategoryService;
 
 /**
  * @author: algernonking

@@ -1,4 +1,4 @@
-package com.dt.module.base.service;
+package com.dt.module.base.service.impl;
 
 import java.util.HashMap;
 import java.util.List;

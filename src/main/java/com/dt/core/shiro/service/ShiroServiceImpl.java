@@ -15,7 +15,7 @@ import com.dt.core.shiro.ShiroUser;
 import com.dt.core.shiro.inter.IShiro;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.module.base.entity.User;
-import com.dt.module.base.service.UserService;
+import com.dt.module.base.service.impl.UserService;
 import com.dt.module.db.DB;
 
 @Service

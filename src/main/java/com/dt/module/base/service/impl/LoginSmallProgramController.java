@@ -30,9 +30,6 @@ import com.dt.core.shiro.ShiroKit;
 import com.dt.core.shiro.ShiroUser;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.base.service.LoginService;
-import com.dt.module.base.service.UserService;
-import com.dt.module.base.service.WxUserService;
 
 /**
  * @author: algernonking
