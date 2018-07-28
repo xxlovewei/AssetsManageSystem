@@ -2,6 +2,8 @@ package com.dt.module.base.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.dt.module.base.entity.SysCardAddr;
 import com.dt.module.base.service.ISysCardAddrService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +42,14 @@ public class SysCardAddrController extends BaseController {
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(String id) {
+	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
 		return R.SUCCESS_OPER(SysCardAddrServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
-	public R selectById(String id) {
+	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
 		return R.SUCCESS_OPER(SysCardAddrServiceImpl.selectById(id));
 	}
 
@@ -79,26 +81,7 @@ public class SysCardAddrController extends BaseController {
 		return R.SUCCESS_OPER(SysCardAddrServiceImpl.selectList(null));
 	}
 
-	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/selectPage.do")
-	public R selectPage(String start, String length, String pageSize, String pageIndex) {
-		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
-		if (ToolUtil.isEmpty(respar)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		int pagesize = respar.getIntValue("pagesize");
-		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<SysCardAddr> ew = new QueryWrapper<SysCardAddr>();
-		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysCardAddr> pdata = SysCardAddrServiceImpl.selectPage(new Page<SysCardAddr>(pageindex, pagesize), ew);
-		JSONObject retrunObject = new JSONObject();
-		retrunObject.put("iTotalRecords", pdata.getTotal());
-		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
-		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(),SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
-		return R.clearAttachDirect(retrunObject);
-	}
-
+ 
 
 }
 

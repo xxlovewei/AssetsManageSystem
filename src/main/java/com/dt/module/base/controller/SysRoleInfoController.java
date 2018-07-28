@@ -4,6 +4,7 @@ package com.dt.module.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dt.core.annotion.Acl;
@@ -32,8 +33,7 @@ public class SysRoleInfoController extends BaseController {
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(String id) {
-		System.out.println(SysRoleInfoServiceImpl.isUsed(id));
+	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
 		if(SysRoleInfoServiceImpl.isUsed(id)>0) {
 			return R.FAILURE("使用中,暂不可删除");
 		}
@@ -43,7 +43,7 @@ public class SysRoleInfoController extends BaseController {
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
-	public R selectById(String id) {
+	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
 		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.selectById(id));
 	}
 

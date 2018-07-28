@@ -2,6 +2,8 @@ package com.dt.module.base.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.dt.module.base.entity.SysQudQux;
 import com.dt.module.base.service.ISysQudQuxService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +42,14 @@ public class SysQudQuxController extends BaseController {
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(String id) {
+	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
 		return R.SUCCESS_OPER(SysQudQuxServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
-	public R selectById(String id) {
+	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
 		return R.SUCCESS_OPER(SysQudQuxServiceImpl.selectById(id));
 	}
 
@@ -82,7 +84,9 @@ public class SysQudQuxController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询所有,有分页", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/selectPage.do")
-	public R selectPage(String start, String length, String pageSize, String pageIndex) {
+	public R selectPage(String start, String length,
+			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize,
+			@RequestParam(value = "pageIndex", required = true, defaultValue = "1") String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
