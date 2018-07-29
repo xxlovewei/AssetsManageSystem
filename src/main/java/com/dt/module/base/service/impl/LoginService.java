@@ -1,22 +1,13 @@
 package com.dt.module.base.service.impl;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
-import com.dt.core.dao.sql.Delete;
-import com.dt.core.dao.sql.Insert;
-import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.lang.SpringContextUtil;
-import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.db.DB;
 
 /**
  * @author: algernonking
@@ -73,9 +64,7 @@ public class LoginService extends BaseService {
 	public void login() {
 	}
 
-	public JSONObject queryLoginUserInfo(String user_id) {
-		return UserService.me().queryUserById(user_id);
-	}
+	 
 
 	/**
 	 * @Description:判断登录方式是否有效,user_type中如果存在两条以上数据,则不允许登录,正确则返回唯一的user_id
@@ -134,18 +123,19 @@ public class LoginService extends BaseService {
 				res = R.FAILURE("用户不存在");
 			}
 		} else if (login_type.equals(LOGIN_TYPE_MAIL)) {
-			String[] userids = UserService.me().getUserIdFromMail(value, login_type);
-			if (ToolUtil.isNotEmpty(userids)) {
-				if (userids.length == 1) {
-					res = R.SUCCESS_OPER(userids[0]);
-				} else if (userids.length == 0) {
-					res = R.FAILURE("用户不存在");
-				} else {
-					res = R.FAILURE("存在两条记录,无法匹配记录不允许登录");
-				}
-			} else {
-				res = R.FAILURE("用户不存在");
-			}
+			R.FAILURE("功能未开发");
+//			String[] userids = UserService.me().getUserIdFromMail(value, login_type);
+//			if (ToolUtil.isNotEmpty(userids)) {
+//				if (userids.length == 1) {
+//					res = R.SUCCESS_OPER(userids[0]);
+//				} else if (userids.length == 0) {
+//					res = R.FAILURE("用户不存在");
+//				} else {
+//					res = R.FAILURE("存在两条记录,无法匹配记录不允许登录");
+//				}
+//			} else {
+//				res = R.FAILURE("用户不存在");
+//			}
 		} else {
 			res = R.FAILURE("未实现校验,暂不支持");
 		}
@@ -185,10 +175,10 @@ public class LoginService extends BaseService {
 	 */
 	public void logout(String cookie) {
 		if (ToolUtil.isNotEmpty(cookie)) {
-			Delete del = new Delete();
-			del.from("sys_session");
-			del.where().and("cookie=?", cookie);
-			db.execute(del);
+//			Delete del = new Delete();
+//			del.from("sys_session");
+//			del.where().and("cookie=?", cookie);
+//			db.execute(del);
 		}
 	}
  

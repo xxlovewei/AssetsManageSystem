@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.enums.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum userTypeEnum implements IEnum {
-	SYSTEM("sys", "系统"), EMPL("empl", "组织"), CRM("crm", "会员粉丝");
+	SYSTEM("sys", "系统"), EMPL("empl", "组织"), CRM("crm", "会员粉丝"), WX("wx", "微信用户");
 
 	
 	

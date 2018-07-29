@@ -46,12 +46,10 @@
 		memoryStoreEvictionPolicy="FIFO"
 		statistics="true">
 	</cache>
-	
 	<cache name="shiro-activeSessionCache"
 		maxEntriesLocalHeap="2000"
 		eternal="false"
 		timeToIdleSeconds="3600"
-		diskPersistent="true"
 		timeToLiveSeconds="0"
 		overflowToDisk="false"
 		statistics="true">

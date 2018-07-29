@@ -2,8 +2,6 @@ package com.dt.module.base.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.dt.module.base.entity.SysSession;
 import com.dt.module.base.service.ISysSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.stereotype.Controller;
 import com.dt.core.common.base.BaseController;
 
@@ -28,7 +27,7 @@ import com.dt.core.common.base.BaseController;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-27
+ * @since 2018-07-29
  */
 @Controller
 @RequestMapping("/api/sysSession")
@@ -42,14 +41,14 @@ public class SysSessionController extends BaseController {
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
+	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
 		return R.SUCCESS_OPER(SysSessionServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
-	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")  String id) {
+	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
 		return R.SUCCESS_OPER(SysSessionServiceImpl.selectById(id));
 	}
 
@@ -84,9 +83,7 @@ public class SysSessionController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectPage.do")
-	public R selectPage(String start, String length,
-			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize,
-			@RequestParam(value = "pageIndex", required = true, defaultValue = "1") String pageIndex) {
+	public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
 			return R.FAILURE_REQ_PARAM_ERROR();

@@ -41,7 +41,7 @@ import com.dt.core.tool.util.support.HttpKit;
 @Configuration
 @PropertySource(value = "classpath:config.properties")
 public class LoginSmallProgramController extends BaseController {
- 
+
 	@Autowired
 	UserService userService;
 	@Autowired
@@ -89,8 +89,8 @@ public class LoginSmallProgramController extends BaseController {
 		}
 		String openId = strres.queryDataToJSONObject().getString("openid");
 		// 判断用户是否存在
-		//R userrs = wxUserService.queryUserByOpenId(openId);
-		R userrs=new R();
+		// R userrs = wxUserService.queryUserByOpenId(openId);
+		R userrs = new R();
 		if (userrs.isFailed()) {
 			return R.FAILURE_USER_NOT_EXISTED();
 		}
@@ -127,7 +127,7 @@ public class LoginSmallProgramController extends BaseController {
 		// 用户登录成功
 		super.getSession().setAttribute("shiroUser", shiroUser);
 		super.getSession().setAttribute("user_id", shiroUser.id);
-	 
+
 		return R.SUCCESS(BaseCodeMsgEnum.USER_LOGIN_SUCCESS.getMessage(), ret);
 
 	}
@@ -152,13 +152,6 @@ public class LoginSmallProgramController extends BaseController {
 		ps.put("score", "0");
 		R rs = userService.addUser(ps, UserService.USER_TYPE_XCX);
 		return rs;
-	}
-
-	@RequestMapping("/smallprogram/userQueryById.do")
-	@ResponseBody
-	@Acl(value = Acl.ACL_USER, info = "小程序用户信息")
-	public R userQueryById() {
-		return R.SUCCESS_OPER(userService.queryUserById(getUserId()));
 	}
 
 	@RequestMapping("/smallprogram/checkLogin.do")

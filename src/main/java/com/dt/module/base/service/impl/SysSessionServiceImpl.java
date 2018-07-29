@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-27
+ * @since 2018-07-29
  */
 @Service
 public class SysSessionServiceImpl extends ServiceImpl<SysSessionMapper, SysSession> implements ISysSessionService {

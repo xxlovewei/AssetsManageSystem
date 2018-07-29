@@ -18,8 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseCodeMsgEnum;
 import com.dt.core.common.base.BaseController;
@@ -40,7 +42,6 @@ public class LoginController extends BaseController {
 
 	@Autowired
 	ISysUserInfoService SysUserInfoServiceImpl;
- 
 
 	/**
 	 * @Description: user,pwd,type,client必须部不为空
@@ -86,7 +87,8 @@ public class LoginController extends BaseController {
 		ShiroKit.getSession().setAttribute("sessionFlag", true);
 
 		JSONObject r = new JSONObject();
-		JSONObject u = loginService.queryLoginUserInfo(user_id);
+		JSONObject u = JSONObject.parseObject(JSON.toJSONString(SysUserInfoServiceImpl.selectById(user_id),
+				SerializerFeature.WriteDateUseDateFormat));
 		// 覆盖重要信息
 		u.put("pwd", "********");
 		r.put("user_info", u);

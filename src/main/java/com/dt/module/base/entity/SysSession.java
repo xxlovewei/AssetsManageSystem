@@ -2,17 +2,19 @@ package com.dt.module.base.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+
+import java.io.Serializable;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+
 /**
  * <p>
  * 
  * </p>
  *
  * @author algernonking
- * @since 2018-07-27
+ * @since 2018-07-29
  */
 @TableName("SYS_SESSION")
 public class SysSession extends BaseModel<SysSession> {
@@ -25,11 +27,11 @@ public class SysSession extends BaseModel<SysSession> {
     private Date lastaccess;
     @TableField("EXPIRE")
     private String expire;
-    @TableId("COOKIE")
+    @TableField("COOKIE")
     private String cookie;
     @TableField("DTSESSION")
     private String dtsession;
-    @TableField("ID")
+    @TableId("ID")
     private String id;
     @TableField("USER_ID")
     private String userId;
@@ -44,25 +46,8 @@ public class SysSession extends BaseModel<SysSession> {
     @TableField("CLIENT")
     private String client;
 
-    @TableField(exist=false)
-    private String userName;
-    
 
-    /**
-	 * @return the userName
-	 */
-	public String getUserName() {
-		return userName;
-	}
-
-	/**
-	 * @param userName the userName to set
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getToken() {
+    public String getToken() {
         return token;
     }
 
@@ -160,7 +145,7 @@ public class SysSession extends BaseModel<SysSession> {
 
     @Override
     protected Serializable pkVal() {
-        return this.cookie;
+        return this.id;
     }
 
     @Override

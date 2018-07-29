@@ -155,7 +155,14 @@ public class SysUserInfoController extends BaseController {
 		}
 		return R.SUCCESS_OPER(res);
 	}
-
+	
+	
+	@ResponseBody
+	@Acl(info = "插入", value = Acl.ACL_DENY)
+	@RequestMapping(value = "/addUser.do")
+	public R addUser(SysUserInfo entity) {
+		return SysUserInfoServiceImpl.addUser(entity);
+	}
 	@Autowired
 	ISysUserRoleService SysUserRoleServiceImpl;
 

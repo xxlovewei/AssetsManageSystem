@@ -52,11 +52,11 @@ public class EmplController extends BaseController {
 		return emplService.queryEmplById(empl_id);
 	}
 
-	@RequestMapping("/hrm/employeeDelete.do")
-	@ResponseBody
-	@Acl(info = "删除人员")
-	@Transactional
-	public R employeeDelete(String empl_id) throws IOException {
-		return emplService.delEmployee(empl_id);
-	}
+//	@RequestMapping("/hrm/employeeDelete.do")
+//	@ResponseBody
+//	@Acl(info = "删除人员")
+//	@Transactional
+//	public R employeeDelete(String empl_id) throws IOException {
+//		return emplService.delEmployee(empl_id);
+//	}
 }

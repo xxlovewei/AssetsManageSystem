@@ -1,7 +1,8 @@
 function sysUserAddCtl($confirm, $log, notify, $scope, $http, $rootScope) {
 
 	$scope.item = {};
-	$scope.item.NAME = "";
+	$scope.item.userType="system";
+	$scope.item.name = "";
 	$scope.userStatusOpt = [{
 				id : "Y",
 				name : "锁定"
@@ -22,7 +23,7 @@ function sysUserAddCtl($confirm, $log, notify, $scope, $http, $rootScope) {
 	$scope.ok = function() {
 		$scope.item.locked = $scope.userStatusSel.id;
 		$log.info($scope.item);
-		$http.post($rootScope.project + "/api/user/userSave.do", $scope.item).success(
+		$http.post($rootScope.project + "/api/sysUserInfo/addUser.do", $scope.item).success(
 				function(res) {
 					if (res.success) {
 						$scope.item = {};

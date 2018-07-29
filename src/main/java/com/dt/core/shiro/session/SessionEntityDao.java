@@ -10,11 +10,14 @@ import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.dao.Rcd;
 import com.dt.core.tool.util.SerializableUtils;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.entity.SysSession;
+import com.dt.module.base.service.ISysSessionService;
 import com.dt.module.db.DB;
 
 /**
@@ -24,13 +27,15 @@ import com.dt.module.db.DB;
  */
 public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 
+	@Autowired
+	ISysSessionService SysSessionService;
 	private static Logger _log = LoggerFactory.getLogger(SessionEntityDao.class);
 
 	@Override
 	public Serializable create(Session session) {
 		// 先保存到缓存中
 		Serializable cookie = super.create(session);
-		// 新建一个entity保存到数据库
+		// 新建一个entity保存到数据库	
 		SimpleSessionEntity entity = new SimpleSessionEntity();
 		entity.setSession(SerializableUtils.serialize(session));
 		entity.setCookie(cookie.toString());
@@ -52,6 +57,8 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 			_log.info("会话无效,不更新存储");
 			return;
 		}
+		
+		
 		SimpleSessionEntity entity = new SimpleSessionEntity();
 		entity.setId(session.getId().toString());
 		entity.setCookie(session.getId().toString());
@@ -115,7 +122,7 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 		ThreadTaskHelper.run(new Runnable() {
 			@Override
 			public void run() {
-				DB.instance().execute("delete from sys_session where cookie=?", session.getId().toString());
+				DB.instance().execute("update sys_session set dr=1 where cookie=? ", session.getId().toString());
 			}
 		});
 

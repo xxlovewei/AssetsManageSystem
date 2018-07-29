@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-27
+ * @since 2018-07-29
  */
 public interface SysSessionMapper extends BaseMapper<SysSession> {
 

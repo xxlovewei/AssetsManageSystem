@@ -69,16 +69,16 @@ public class EmplService extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 
-	/**
-	 * @Description: 根据empl_id删除员工
-	 */
-	public R delEmployee(String empl_id) {
-		String user_id = userService.getUserIdFromEmpl(empl_id);
-		if (ToolUtil.isEmpty(user_id)) {
-			return R.FAILURE("用户ID不存在");
-		}
-		return userService.deleteUser(user_id);
-	}
+//	/**
+//	 * @Description: 根据empl_id删除员工
+//	 */
+//	public R delEmployee(String empl_id) {
+//		String user_id = userService.getUserIdFromEmpl(empl_id);
+//		if (ToolUtil.isEmpty(user_id)) {
+//			return R.FAILURE("用户ID不存在");
+//		}
+//		return userService.deleteUser(user_id);
+//	}
 
 	/**
 	 * @Description: 根据empl_id更新员工

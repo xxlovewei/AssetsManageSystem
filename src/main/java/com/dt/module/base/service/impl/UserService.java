@@ -310,24 +310,7 @@ public class UserService extends BaseService {
 		return isExistUserId(user_id);
 	}
 
-	/**
-	 * @Description: 判断用户是否锁定
-	 */
-	public Boolean isLocked(String user_id) {
-		JSONObject res = queryUserById(user_id);
-		if (ToolUtil.isEmpty(res)) {
-			return true;
-		}
-		String locked = res.getString("locked");
-		if (ToolUtil.isEmpty(locked)) {
-			return true;
-		}
-		if (locked.equals("N")) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+	 
 
 	/**
 	 * @Description: 根据user_id获取empl_id
@@ -385,144 +368,7 @@ public class UserService extends BaseService {
 		}
 		return rs.getString("user_id");
 	}
-
-	/**
-	 * @Description: 根据邮箱获取用户ID
-	 */
-	public String[] getUserIdFromMail(String value, String user_type) {
-
-		if (ToolUtil.isOneEmpty(value, user_type)) {
-			return null;
-		}
-		RcdSet rs = db.query("select user_id from sys_user_info where dr='0' and user_type=? and mail=?", value,
-				user_type);
-		return rs.toStringArray("user_id");
-
-	}
-
-	/**
-	 * @Description: 获取所有用户类型
-	 */
-	public JSONArray getAllUserTypes() {
-		JSONArray res = new JSONArray();
-		return res;
-	}
-
-	/**
-	 * @Description: 获取当前用户类型
-	 */
-	public String getUserType(String user_id) {
-		JSONObject res = queryUserById(user_id);
-		if (ToolUtil.isEmpty(res)) {
-			return null;
-		}
-		String type = res.getString("type");
-		if (ToolUtil.isEmpty(type)) {
-			return null;
-		}
-		return type;
-	}
-
-	/**
-	 * @Description: 根据用户ID查找
-	 */
-	public JSONObject queryUserById(String user_id) {
-		String sql = "select * from sys_user_info where dr='0' and user_id=?";
-		Rcd rs = db.uniqueRecord(sql, user_id);
-		if (ToolUtil.isEmpty(rs)) {
-			return null;
-		}
-		return ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
-	}
-
  
-
-	public String buildqueryUserByGroupSql(TypedHashMap<String, Object> ps, String group_id, String user_type) {
-		String basesql = "select * from sys_user_info a where dr='0' ";
-		if (ToolUtil.isNotEmpty(user_type)) {
-			basesql = basesql + " and user_type='" + user_type + "' ";
-		}
-		if (ToolUtil.isNotEmpty(ps.getString("name"))) {
-			basesql = basesql + " and name='" + ps.getString("name") + "' ";
-		}
-
-		if (ToolUtil.isNotEmpty(ps.getString("user_name"))) {
-			basesql = basesql + " and user_name='" + ps.getString("user_name") + "' ";
-		}
-
-		if (ToolUtil.isNotEmpty(ps.getString("nickname"))) {
-			basesql = basesql + " and nickname='" + ps.getString("nickname") + "' ";
-		}
-		if (ToolUtil.isNotEmpty(ps.getString("tel"))) {
-			basesql = basesql + " and tel='" + ps.getString("tel") + "' ";
-		}
-		if (ToolUtil.isNotEmpty(ps.getString("status"))) {
-			basesql = basesql + " and status='" + ps.getString("status") + "' ";
-		}
-		if (ToolUtil.isNotEmpty(ps.getString("locked"))) {
-			basesql = basesql + " and locked='" + ps.getString("locked") + "' ";
-		}
-
-		basesql = basesql + " and user_id not in ('" + BaseCommon.getSuperAdmin() + "') ";
-		String sql = "";
-		if (ToolUtil.isEmpty(group_id)) {
-			sql = basesql + " order by a.empl_id";
-		} else {
-			// 选择组
-			sql = " select t1.* from ( " + basesql
-					+ " ) t1 ,sys_user_group_item t2 where t1.user_id=t2.user_id and group_id='" + group_id
-					+ "' order by t1.empl_id  ";
-		}
-		return sql;
-	}
-
-	public int queryUserByGroupCount(TypedHashMap<String, Object> ps, String group_id, String user_type) {
-		String sql = buildqueryUserByGroupSql(ps, group_id, user_type);
-		sql = "select count(1) value from (" + sql + ") tab";
-		int total = db.uniqueRecord(sql).getInteger("value");
-		return total;
-	}
-
-	/**
-	 * @Description: 根据用户组查询
-	 */
-	public R queryUserByGroup(TypedHashMap<String, Object> ps, String group_id, String user_type, int pageSize,
-			int pageIndex) {
-		RcdSet rs = db.query(DbUtil.getDBPageSql(db.getDBType(), buildqueryUserByGroupSql(ps, group_id, user_type),
-				pageSize, pageIndex));
-		org.json.JSONArray r = rs.toJsonArrayWithJsonObject();
-		// 清除密码
-		for (int i = 0; i < r.length(); i++) {
-			r.getJSONObject(i).put("pwd", "");
-		}
-		return R.SUCCESS_OPER(r);
-
-	}
-
-	/**
-	 * @Description: 分页查询用户
-	 */
-	public R queryUserPage(TypedHashMap<String, Object> ps, String type, int pageSize, int pageIndex) {
-		return R.SUCCESS();
-	}
-
-	/**
-	 * @Description: 按照系统用户ID删除用户
-	 */
-	@Transactional
-	public R deleteUser(String user_id) {
-		if (ToolUtil.isEmpty(user_id)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		Update ups = new Update("sys_user_info");
-		ups.set("dr", "0");
-		ups.where().and("user_id=?", user_id);
-		Delete del=new Delete("sys_session");
-		del.where().and("user_id=?",user_id);
-		db.executes(ups,del);
-		return R.SUCCESS_OPER();
-	}
-
 	/**
 	 * @Description: 判断插入用户的类型,默认返回系统用户类型
 	 */
@@ -689,34 +535,6 @@ public class UserService extends BaseService {
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * @Description: 修改用户角色
-	 */
-	public R changeUserRole(TypedHashMap<String, Object> ps) {
-		String userids = ps.getString("user_ids");
-		String roles = ps.getString("roles");
-		if (ToolUtil.isOneEmpty(userids, roles)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		JSONArray userids_arr = JSONArray.parseArray(userids);
-		JSONArray roles_arr = JSONArray.parseArray(roles);
-		if (ToolUtil.isEmpty(roles_arr)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		if (userids_arr.isEmpty()) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		for (int i = 0; i < userids_arr.size(); i++) {
-			// 处理用户
-			db.execute("delete from sys_user_role where user_id=?", userids_arr.getString(i));
-			for (int j = 0; j < roles_arr.size(); j++) {
-				db.execute("insert into sys_user_role(user_id,role_id) values(?,?)", userids_arr.getString(i),
-						roles_arr.getString(j));
-			}
-		}
-		return R.SUCCESS_OPER();
 	}
  
 }

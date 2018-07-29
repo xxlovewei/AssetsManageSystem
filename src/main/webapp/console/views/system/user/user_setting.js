@@ -184,7 +184,7 @@ function sysUserSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 	}
 
 	function renderType(data, type, full) {
-		if (data == "sys") {
+		if (data == "system") {
 			return "系统";
 		} else if (data == "empl") {
 			return "员工";

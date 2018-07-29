@@ -55,6 +55,7 @@ public class SimpleSessionEntity {
 		Insert me = new Insert("sys_session");
 		me.set("id", MD5Util.encrypt(cookie + start_time));
 		me.set("cookie", cookie);
+		me.set("dr",0);
 		me.set("dtsession", session + "");
 		me.setIf("start_time", start_time);
 		me.setIf("token", token);

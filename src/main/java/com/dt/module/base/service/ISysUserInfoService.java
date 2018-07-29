@@ -1,13 +1,12 @@
 package com.dt.module.base.service;
 
-import com.dt.core.common.base.R;
-import com.dt.module.base.entity.SysMenus;
-import com.dt.module.base.entity.SysUserInfo;
-
 import java.util.HashMap;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.dt.core.common.base.R;
+import com.dt.module.base.entity.SysMenus;
+import com.dt.module.base.entity.SysUserInfo;
 
 /**
  * <p>
@@ -23,6 +22,8 @@ public interface ISysUserInfoService extends IService<SysUserInfo> {
 	R saveDefMenus(String user_id, String id); 
 	R selectByOpenId(String open_id);
     R modifyPassword(String user_id, String pwd);
+    R addUser(SysUserInfo user);
     List<HashMap<String, Object>> listUserRoles(String user_id);
 	
+ 
 }
