@@ -22,7 +22,7 @@
 					<div class="col-sm-10">
 						<input ng-disabled="true" type="text" required ng-maxlength="10"
 							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							placeholder="请输入内容" name="username" ng-model="item.user_name"
+							placeholder="请输入内容" name="username" ng-model="item.userName"
 							class="form-control">
 						<div class="text-danger"
 							ng-if="myForm.username.$dirty && myForm.username.$invalid">
@@ -83,8 +83,8 @@
 	</div>
 
 	<div class="modal-footer">
-		<button ng-click="cancel()" class="btn    btn-warning">取消</button>
+		<button ng-click="cancel()" class="btn btn-warning">取消</button>
 		<button ng-disabled="myForm.$invalid" ng-click="sure()"
-			class="btn   btn-primary">确认</button>
+			class="btn btn-primary">确认</button>
 	</div>
 </div>

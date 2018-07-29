@@ -46,8 +46,8 @@ import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.base.service.impl.UserService;
-import com.dt.module.base.service.impl.WxUserService;
 import com.dt.module.wx.pojo.WeixinUserInfo;
 import com.dt.module.wx.util.AdvancedUtil;
 import com.dt.module.wx.util.WeiXX509TrustManager;
@@ -69,7 +69,7 @@ public class WxService extends BaseService {
 	public String secretconf;
 
 	@Autowired
-	WxUserService wxUserService;
+	ISysUserInfoService SysUserInfoServiceImpl;
 
 	@Autowired
 	UserService userService;
@@ -481,7 +481,7 @@ public class WxService extends BaseService {
 		R ur = null;
 		// 处理登录信息
 		if ("1".equals(login)) {
-			ur = wxUserService.queryUserByOpenId(open_id);
+			ur=SysUserInfoServiceImpl.selectByOpenId(open_id);
 			// 用户不存在
 			if (ur.isFailed()) {
 				// 新建用户
@@ -501,7 +501,7 @@ public class WxService extends BaseService {
 				R cuserrs = userService.addUser(ps, UserService.USER_TYPE_WX);
 				// 判断用户是否新建成功
 				if (cuserrs.isSuccess()) {
-					ur = wxUserService.queryUserByOpenId(open_id);
+					ur=SysUserInfoServiceImpl.selectByOpenId(open_id);
 				}
 				if (ur.isFailed()) {
 					_log.info("###################create user failed######################");
@@ -511,7 +511,7 @@ public class WxService extends BaseService {
 
 			_log.info("###################login action,open_id:" + open_id + "######################");
 			Subject currentUser = ShiroKit.getSubject();
-			String user_id = ur.queryDataToJSONObject().getString("user_id");
+			String user_id = ur.queryDataToJSONObject().getString("userId");
 			String pwd = ur.queryDataToJSONObject().getString("pwd");
 			UsernamePasswordToken token = new UsernamePasswordToken(user_id, pwd == null ? null : pwd.toCharArray());
 			token.setRememberMe(true);

@@ -41,8 +41,7 @@ import com.dt.core.tool.util.support.HttpKit;
 @Configuration
 @PropertySource(value = "classpath:config.properties")
 public class LoginSmallProgramController extends BaseController {
-	@Autowired
-	WxUserService wxUserService;
+ 
 	@Autowired
 	UserService userService;
 	@Autowired
@@ -90,7 +89,8 @@ public class LoginSmallProgramController extends BaseController {
 		}
 		String openId = strres.queryDataToJSONObject().getString("openid");
 		// 判断用户是否存在
-		R userrs = wxUserService.queryUserByOpenId(openId);
+		//R userrs = wxUserService.queryUserByOpenId(openId);
+		R userrs=new R();
 		if (userrs.isFailed()) {
 			return R.FAILURE_USER_NOT_EXISTED();
 		}

@@ -34,7 +34,7 @@ function sysUserQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 					});
 				}
 			});
-	$scope.URL = $rootScope.project + "/api/user/userQueryByGroup.do";
+	$scope.URL = $rootScope.project + "/api/sysUserInfo/selectPage.do";	
 	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp(
 			'data').withPaginationType('full_numbers')
 			.withOption('serverSide', true)
@@ -58,7 +58,7 @@ function sysUserQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
-		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.user_id
+		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.userId
 				+ "')\" class=\"btn-white btn btn-xs\">详细</button> </div> ";
 		return acthtml;
 	}
@@ -82,28 +82,28 @@ function sysUserQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.dtColumns = [
 
-			DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption(
+			DTColumnBuilder.newColumn('emplId').withTitle('员工编号').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('user_name').withTitle('登录名').withOption(
+			DTColumnBuilder.newColumn('userName').withTitle('登录名').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('name').withTitle('姓名').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('tel').withTitle('手机号').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('user_type').withTitle('用户类型')
+			DTColumnBuilder.newColumn('userType').withTitle('用户类型')
 					.withOption('sDefaultContent', '').renderWith(renderType),
-			DTColumnBuilder.newColumn('user_id').withTitle('状态').withOption(
+			DTColumnBuilder.newColumn('userId').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('user_id').withTitle('操作').withOption(
+			DTColumnBuilder.newColumn('userId').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 	
 
 	function flush() {
-		if ($scope.meta.tools[0].dataSel.group_id != "ALL") {
+		if ($scope.meta.tools[0].dataSel.groupId != "ALL") {
 			$scope.URL = $rootScope.project
-					+ "/api/user/userQueryByGroup.do?group_id=" +$scope.meta.tools[0].dataSel.group_id;
+					+ "/api/sysUserInfo/selectPage.do?groupId=" +$scope.meta.tools[0].dataSel.groupId;
 		} else {
-			$scope.URL = $rootScope.project + "/api/user/userQueryByGroup.do";
+			$scope.URL = $rootScope.project + "/api/sysUserInfo/selectPage.do";
 		}
 		$scope.dtOptions.ajax = $scope.URL;
 		console.log($scope.dtInstance);

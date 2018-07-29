@@ -5,6 +5,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.ISysUserInfoService;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -68,6 +73,16 @@ public class SysUserInfoMyController extends BaseController {
 		} else {
 			return R.FAILURE("请输入正确的密码");
 		}
-
 	}
+
+	@ResponseBody
+	@Acl(info = "修改密码", value = Acl.ACL_USER)
+	@RequestMapping(value = "/saveDefMenus.do")
+	public R saveDefMenus(String system) {
+		return SysUserInfoServiceImpl.saveDefMenus(this.getUserId(), system);
+	}
+	
+	
+
+
 }

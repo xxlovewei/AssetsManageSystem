@@ -1,5 +1,6 @@
 package com.dt.module.base.controller;
 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
@@ -15,7 +18,7 @@ import com.dt.module.base.service.ISysRoleInfoService;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -25,16 +28,14 @@ import com.dt.module.base.service.ISysRoleInfoService;
 @RequestMapping("/api/sysRoleInfo")
 public class SysRoleInfoController extends BaseController {
 
-
 	@Autowired
 	ISysRoleInfoService SysRoleInfoServiceImpl;
-
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		if(SysRoleInfoServiceImpl.isUsed(id)>0) {
+	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+		if (SysRoleInfoServiceImpl.isUsed(id) > 0) {
 			return R.FAILURE("使用中,暂不可删除");
 		}
 		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.deleteById(id));
@@ -43,7 +44,7 @@ public class SysRoleInfoController extends BaseController {
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
-	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
+	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
 		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.selectById(id));
 	}
 
@@ -74,6 +75,17 @@ public class SysRoleInfoController extends BaseController {
 	public R selectList() {
 		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.selectList(null));
 	}
- 
-}
 
+	@RequestMapping(value = "/roleQueryFormatKV.do")
+	@ResponseBody
+	@Acl(info = "查询权限",value = Acl.ACL_DENY)
+	public R roleQueryFormatKV() {
+		List<SysRoleInfo> roles = SysRoleInfoServiceImpl.selectList(null);
+		JSONObject obj = new JSONObject();
+		for (int i = 0; i < roles.size(); i++) {
+			obj.put(roles.get(i).getRoleId(), roles.get(i).getRoleName());
+		}
+		return R.SUCCESS_OPER(obj);
+	}
+
+}

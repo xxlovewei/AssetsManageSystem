@@ -1,4 +1,4 @@
-package com.dt.module.base.service.impl;
+package com.dt.module.base.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,6 +25,7 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.SmartImageScalr;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.impl.FileService;
 import com.dt.module.db.DB;
 
 @Controller

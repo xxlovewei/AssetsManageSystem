@@ -53,8 +53,7 @@
         <result column="SHORTMOBILE" property="shortmobile" />
         <result column="CREATE_BY" property="createBy" />
         <result column="UPDATE_BY" property="updateBy" />
-        
-         <association property="sexName" column="USER_ID" javaType="String" select="selectUserT2" />
+ 
          
     </resultMap>
     
@@ -74,7 +73,12 @@
      <select id="listMyMenus"  resultMap="com.dt.module.base.mapper.SysMenusMapper.BaseResultMap">
  		  select * from sys_menus where dr=0 and used=1 and menu_id in ( select distinct menu_id from sys_user_role a,sys_role_module b,sys_menus_node c where a.role_id=b.role_id and c.node_id=b.module_id and user_id=#{user_id}) order by sort
  	 </select>
+ 	 
+ 	 <select id="listUserRoles"  resultType="java.util.HashMap" >
+ 	  		select a.role_id,b.role_name from sys_user_role a,sys_role_info b where a.role_id=b.role_id and user_id=#{user_id}
+ 	</select>
     
+   
     
     
 

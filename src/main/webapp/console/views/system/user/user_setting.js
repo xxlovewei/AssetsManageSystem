@@ -2,13 +2,13 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal, $uibModal
 
 	$log.warn("window in:", userIds);
 	$scope.userRoles = []
-	$http.post($rootScope.project + "/api/role/roleQueryFormatKV.do", {}).success(function(res) {
+	$http.post($rootScope.project + "/api/sysRoleInfo/roleQueryFormatKV.do", {}).success(function(res) {
 		if (res.success) {
 			$scope.userRoles = res.data;
 			// 如果只有一个用户,则加载他的权限信息
 			console.log("user cnt" + angular.fromJson(userIds).length);
 			if (angular.fromJson(userIds).length == 1) {
-				$http.post($rootScope.project + "/api/user/queryRole.do", {
+				$http.post($rootScope.project + "/api/sysUserInfo/queryRoles.do", {
 					user_id : angular.fromJson(userIds)[0]
 				}).success(function(res) {
 					if (res.success) {
@@ -31,9 +31,9 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal, $uibModal
 			return;
 		}
 		var ps = {};
-		ps.user_ids = userIds;
+		ps.userIds = userIds;
 		ps.roles = angular.toJson($scope.roleSel);
-		$http.post($rootScope.project + "/api/user/userRoleChange.do", ps).success(function(res) {
+		$http.post($rootScope.project + "/api/sysUserInfo/changeRoles.do", ps).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 			}
@@ -68,8 +68,8 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 		$uibModalInstance.dismiss('cancel');
 	} else {
 
-		$http.post($rootScope.project + "/api/user/userQueryById.do", {
-			user_id : id
+		$http.post($rootScope.project + "/api/sysUserInfo/selectById.do", {
+			id : id
 		}).success(function(res) {
 			$log.warn(res);
 			if (res.success) {
@@ -93,7 +93,7 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 	}
 	$scope.sure = function() {
 		$scope.item.locked = $scope.lockedSel.id;
-		$http.post($rootScope.project + "/api/user/userSave.do", $scope.item).success(function(res) {
+		$http.post($rootScope.project + "/api/sysUserInfo/updateById.do", $scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 			} else {
@@ -130,7 +130,7 @@ function sysUserSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 		}
 	});
 
-	$scope.URL = $rootScope.project + "/api/user/userQueryByGroup.do";	
+	$scope.URL = $rootScope.project + "/api/sysUserInfo/selectPage.do";	
 	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp(
 	'data').withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
 			.withOption("searching", false).withOption("paging", true).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
@@ -172,7 +172,7 @@ function sysUserSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
-		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.user_id + "')\" class=\"btn-white btn btn-xs\">详细</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.userId + "')\" class=\"btn-white btn btn-xs\">详细</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
@@ -194,21 +194,21 @@ function sysUserSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 	}
 	$scope.dtColumns = [ DTColumnBuilder.newColumn(null).withTitle('').withClass('select-checkbox').renderWith(function() {
 		return '';
-	}), DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption('sDefaultContent', ''),
-	DTColumnBuilder.newColumn('user_name').withTitle('登录名').withOption('sDefaultContent', ''),
+	}), DTColumnBuilder.newColumn('emplId').withTitle('员工编号').withOption('sDefaultContent', ''),
+	DTColumnBuilder.newColumn('userName').withTitle('登录名').withOption('sDefaultContent', ''),
 	DTColumnBuilder.newColumn('name').withTitle('姓名').withOption('sDefaultContent', ''),
 	DTColumnBuilder.newColumn('tel').withTitle('手机号').withOption('sDefaultContent', ''),
-	DTColumnBuilder.newColumn('user_type').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
-			DTColumnBuilder.newColumn('user_id').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus) ]
+	DTColumnBuilder.newColumn('userType').withTitle('用户类型').withOption('sDefaultContent', '').renderWith(renderType),
+			DTColumnBuilder.newColumn('userId').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus) ]
 
 	console.log($scope.dtColumns);
 	function flush() {
 		
-		if ($scope.userGroupSel.group_id != "ALL") {
+		if ($scope.userGroupSel.groupId != "ALL") {
 			$scope.URL = $rootScope.project
-					+ "/api/user/userQueryByGroup.do?group_id=" + $scope.userGroupSel.group_id;
+					+ "/api/sysUserInfo/selectPage.do?groupId=" + $scope.userGroupSel.groupId;
 		} else {
-			$scope.URL = $rootScope.project + "/api/user/userQueryByGroup.do";
+			$scope.URL = $rootScope.project + "/api/sysUserInfo/selectPage.do";
 		}
 		$scope.dtOptions.ajax = $scope.URL;
 		reloadData();
@@ -245,8 +245,8 @@ function sysUserSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 		$confirm({
 			text : '是否删除选中的用户?'
 		}).then(function() {
-			$http.post($rootScope.project + "/api/user/userDelete.do", {
-				user_ids : angular.toJson(userids)
+			$http.post($rootScope.project + "/api/sysUserInfo/deleteByIds.do", {
+				ids : angular.toJson(userids)
 			}).success(function(res) {
 				flush();
 				notify({
@@ -288,7 +288,7 @@ function sysUserSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
-					return d[data[0]].user_id;
+					return d[data[0]].userId;
 				}
 			}
 		});

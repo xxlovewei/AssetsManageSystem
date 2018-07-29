@@ -435,18 +435,7 @@ public class UserService extends BaseService {
 		return ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
 	}
 
-	/**
-	 * @Description: 查询用户拥有的权限信息
-	 */
-	public HashMap<String, String> queryUserRole(String user_id) {
-		HashMap<String, String> res = new HashMap<String, String>();
-		String sql = "select a.*,b.role_name from sys_user_role a,sys_role_info b where a.role_id=b.role_id and user_id=?";
-		RcdSet rs = db.query(sql, user_id);
-		for (int i = 0; i < rs.size(); i++) {
-			res.put(rs.getRcd(i).getString("role_id"), rs.getRcd(i).getString("role_name"));
-		}
-		return res;
-	}
+ 
 
 	public String buildqueryUserByGroupSql(TypedHashMap<String, Object> ps, String group_id, String user_type) {
 		String basesql = "select * from sys_user_info a where dr='0' ";

@@ -98,24 +98,7 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
     @TableField("SEX")
     private String sex;
     
-    @TableField(exist=false)
-    private String sexName;
     
-    /**
-	 * @return the sexName
-	 */
-	public String getSexName() {
-		return sexName;
-	}
-
-	/**
-	 * @param sexName the sexName to set
-	 */
-	public void setSexName(String sexName) {
-		this.sexName = sexName;
-	}
-
- 
     /**
      * 头像
      */
