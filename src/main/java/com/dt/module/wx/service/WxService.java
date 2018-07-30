@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -34,6 +35,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.cache.CacheConfig;
@@ -46,8 +48,9 @@ import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.bus_enum.userTypeEnum;
+import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.ISysUserInfoService;
-import com.dt.module.base.service.impl.UserService;
 import com.dt.module.wx.pojo.WeixinUserInfo;
 import com.dt.module.wx.util.AdvancedUtil;
 import com.dt.module.wx.util.WeiXX509TrustManager;
@@ -70,9 +73,6 @@ public class WxService extends BaseService {
 
 	@Autowired
 	ISysUserInfoService SysUserInfoServiceImpl;
-
-	@Autowired
-	UserService userService;
 
 	private static Logger _log = LoggerFactory.getLogger(WxService.class);
 
@@ -117,7 +117,7 @@ public class WxService extends BaseService {
 			t.setExpiresIn(json.getIntValue("expires_in"));
 			t.setToken(token);
 			tokens.put(appId, t);
-			_log.info("result:"+json.toJSONString());
+			_log.info("result:" + json.toJSONString());
 			_log.info("access_token(new):" + token);
 		}
 		if (ToolUtil.isEmpty(token)) {
@@ -163,7 +163,7 @@ public class WxService extends BaseService {
 
 		if (ifnew) {
 			JSONObject json = httpRequest(url, "GET", null);
-			_log.info("httpRequest:"+json.toJSONString());
+			_log.info("httpRequest:" + json.toJSONString());
 			ticket = json.getString("ticket");
 			AccessTicket t = new AccessTicket();
 			t.setCtime(System.currentTimeMillis());
@@ -481,7 +481,7 @@ public class WxService extends BaseService {
 		R ur = null;
 		// 处理登录信息
 		if ("1".equals(login)) {
-			ur=SysUserInfoServiceImpl.selectByOpenId(open_id);
+			ur = SysUserInfoServiceImpl.selectByOpenId(open_id);
 			// 用户不存在
 			if (ur.isFailed()) {
 				// 新建用户
@@ -498,17 +498,22 @@ public class WxService extends BaseService {
 				ps.put("avatarurl", weixinUserInfo.getHeadImgUrl());
 				ps.put("name", weixinUserInfo.getNickName());
 				ps.put("sex", weixinUserInfo.getSex());
-				R cuserrs = userService.addUser(ps, UserService.USER_TYPE_WX);
-				// 判断用户是否新建成功
-				if (cuserrs.isSuccess()) {
-					ur=SysUserInfoServiceImpl.selectByOpenId(open_id);
-				}
+				SysUserInfo user = new SysUserInfo();
+				user.setNickname(weixinUserInfo.getNickName());
+				user.setAvatarurl(weixinUserInfo.getHeadImgUrl());
+				user.setName(weixinUserInfo.getNickName());
+				user.setUserType(userTypeEnum.WX.getValue().toString());
+				user.setOpenId(open_id);
+				user.setLocked("N");
+				user.setPwd(MD5Util.encrypt(ToolUtil.getUUID()));
+				SysUserInfoServiceImpl.insert(user);
+				// 判断用户是否新建成
+				ur = SysUserInfoServiceImpl.selectByOpenId(open_id);
 				if (ur.isFailed()) {
 					_log.info("###################create user failed######################");
 					return R.FAILURE("create user failed.");
 				}
 			}
-
 			_log.info("###################login action,open_id:" + open_id + "######################");
 			Subject currentUser = ShiroKit.getSubject();
 			String user_id = ur.queryDataToJSONObject().getString("userId");

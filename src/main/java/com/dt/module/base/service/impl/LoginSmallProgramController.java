@@ -42,8 +42,7 @@ import com.dt.core.tool.util.support.HttpKit;
 @PropertySource(value = "classpath:config.properties")
 public class LoginSmallProgramController extends BaseController {
 
-	@Autowired
-	UserService userService;
+	 
 	@Autowired
 	LoginService loginService;
 
@@ -150,7 +149,8 @@ public class LoginSmallProgramController extends BaseController {
 		ps.put("nickname", nickName);
 		ps.put("avatarurl", avatarUrl);
 		ps.put("score", "0");
-		R rs = userService.addUser(ps, UserService.USER_TYPE_XCX);
+	//	R rs = userService.addUser(ps, UserService.USER_TYPE_XCX);
+	R rs=new R();
 		return rs;
 	}
 

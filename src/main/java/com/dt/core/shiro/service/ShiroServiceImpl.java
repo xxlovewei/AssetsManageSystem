@@ -12,7 +12,6 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.shiro.ShiroUser;
 import com.dt.core.shiro.inter.IShiro;
@@ -21,7 +20,6 @@ import com.dt.module.base.entity.SysModulesItem;
 import com.dt.module.base.entity.User;
 import com.dt.module.base.service.ISysModulesItemService;
 import com.dt.module.base.service.ISysRoleInfoService;
-import com.dt.module.base.service.impl.UserService;
 import com.dt.module.db.DB;
 
 @Service

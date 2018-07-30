@@ -1,25 +1,17 @@
 package com.dt.module.hrm.service;
 
-import java.util.ArrayList;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
-import com.dt.core.dao.sql.Delete;
-import com.dt.core.dao.sql.Insert;
-import com.dt.core.dao.sql.SQL;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.service.impl.UserService;
 
 /**
  * @author: algernonking
@@ -28,9 +20,7 @@ import com.dt.module.base.service.impl.UserService;
  */
 @Service
 public class EmplService extends BaseService {
-	@Autowired
-	private UserService userService;
- 
+	 
 
 	/**
 	 * @Description: 添加员工
@@ -140,9 +130,9 @@ public class EmplService extends BaseService {
 		if (ToolUtil.isEmpty(node_id)) {
 			return R.FAILURE("无节点");
 		}
-
 		String sql = "select c.* from hrm_org_employee a,sys_user_info c where a.empl_id=c.empl_id and c.user_type= ? and a.node_id=? and c.dr='0'";
-		RcdSet rs = db.query(sql, UserService.USER_TYPE_EMPL, node_id);
+		//RcdSet rs = db.query(sql, UserService.USER_TYPE_EMPL, node_id);
+		RcdSet rs=null;
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 

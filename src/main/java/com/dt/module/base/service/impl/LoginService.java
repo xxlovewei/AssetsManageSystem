@@ -21,8 +21,6 @@ public class LoginService extends BaseService {
 		return SpringContextUtil.getBean(LoginService.class);
 	}
 
-	@Autowired
-	UserService userService;
 	/**
 	 * @Description: 所有都登录最终统一转成user_id去判断
 	 */
@@ -63,8 +61,6 @@ public class LoginService extends BaseService {
 
 	public void login() {
 	}
-
-	 
 
 	/**
 	 * @Description:判断登录方式是否有效,user_type中如果存在两条以上数据,则不允许登录,正确则返回唯一的user_id
@@ -183,7 +179,6 @@ public class LoginService extends BaseService {
 //			db.execute(del);
 		}
 	}
- 
 
 	/**
 	 * @Description: 检查登录状态
