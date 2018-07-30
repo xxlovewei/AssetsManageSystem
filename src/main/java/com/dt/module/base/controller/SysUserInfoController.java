@@ -107,7 +107,8 @@ public class SysUserInfoController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectPage.do")
-	public R selectPage(String groupId, String start, String length,
+	public R selectPage(@RequestParam(value = "ct", required = true, defaultValue = "") String ct, String groupId,
+			String start, String length,
 			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize,
 			@RequestParam(value = "pageIndex", required = true, defaultValue = "1") String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
@@ -118,7 +119,7 @@ public class SysUserInfoController extends BaseController {
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<SysUserInfo> ew = new QueryWrapper<SysUserInfo>();
-		ew.and(b -> b.eq("1", "1").apply(ToolUtil.isNotEmpty(groupId),
+		ew.and(b -> b.eq(ToolUtil.isNotEmpty(ct), "name", ct).eq("1", "1").apply(ToolUtil.isNotEmpty(groupId),
 				" user_id in (select user_id from sys_user_group_item where dr=0 and group_id='" + groupId + "')", ""));
 		IPage<SysUserInfo> pdata = SysUserInfoServiceImpl.selectPage(new Page<SysUserInfo>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
@@ -150,14 +151,14 @@ public class SysUserInfoController extends BaseController {
 		}
 		return R.SUCCESS_OPER(res);
 	}
-	
-	
+
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/addUser.do")
 	public R addUser(SysUserInfo entity) {
 		return SysUserInfoServiceImpl.addUser(entity);
 	}
+
 	@Autowired
 	ISysUserRoleService SysUserRoleServiceImpl;
 
