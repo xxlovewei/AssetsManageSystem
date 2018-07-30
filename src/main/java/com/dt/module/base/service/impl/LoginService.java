@@ -1,11 +1,13 @@
 package com.dt.module.base.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.ISysUserInfoService;
 
 /**
  * @author: algernonking
@@ -14,6 +16,9 @@ import com.dt.core.tool.util.ToolUtil;
  */
 @Service
 public class LoginService extends BaseService {
+
+	@Autowired
+	ISysUserInfoService SysUserInfoServiceImpl;
 
 	public static LoginService me() {
 		return SpringContextUtil.getBean(LoginService.class);
@@ -81,7 +86,6 @@ public class LoginService extends BaseService {
 		// 校验login_type
 		// 只校验了LOGIN_TYPE_EMPL,LOGIN_TYPE_USERNAME,LOGIN_TYPE_MOBILE,LOGIN_TYPE_MAIL
 		R res = null;
-		String user_id = "";
 		if (ToolUtil.isOneEmpty(value, login_type)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
@@ -95,14 +99,10 @@ public class LoginService extends BaseService {
 //				res = R.FAILURE("用户不存在");
 //			}
 		} else if (login_type.equals(LOGIN_TYPE_USERNAME)) {
-			// 系统本身唯一
-//			user_id = UserService.me().getUserIdFromUserName(value);
-//			if (ToolUtil.isNotEmpty(user_id)) {
-//				res = R.SUCCESS_OPER(user_id);
-//			} else {
-//				res = R.FAILURE("用户不存在");
-//			}
-			return R.FAILURE("开发中");
+			res = SysUserInfoServiceImpl.queryUserIdByUserName(value);
+			if (res.isFailed()) {
+				return res;
+			}
 		} else if (login_type.equals(LOGIN_TYPE_MOBILE)) {
 			// 系统本身可能不唯一
 //			String[] userids = UserService.me().getUserIdFromMobile(value, login_type);

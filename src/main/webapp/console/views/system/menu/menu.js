@@ -534,8 +534,8 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	var rawTreeData = [];
 	var myTreeData = [];
 	function flush() {
-		$http.post($rootScope.project + "/api/menu/treeDataDirect.do", {
-			id : $scope.topMenuSel.menuId
+		$http.post($rootScope.project + "/api/sysMenusNode/queryMenuNodesForStageSetting.do", {
+			menu_id : $scope.topMenuSel.menuId
 		}).success(function(res) {
 			if (res.success) {
 				rawTreeData = res.data

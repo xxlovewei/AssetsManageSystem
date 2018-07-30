@@ -200,7 +200,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		}
 		String basesql = "";
 		if (BaseCommon.isSuperAdmin(user_id)) {
-			basesql = "select * from sys_menus_node where deleted='N' and menu_id='" + menu_id
+			basesql = "select * from sys_menus_node where dr='0' and menu_id='" + menu_id
 					+ "' and parent_id = ? order by sort";
 		} else {
 			if (db.getDBType().equals(DbUtil.TYPE_ORACLE)) {
@@ -299,7 +299,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 			}
 
 			basesql = "select a.* from sys_menus_node a, (" + basesql + ") b "
-					+ "where a.deleted='N' and a.node_id = b.node_id and menu_id = '" + menu_id + "' and parent_id = ? "
+					+ "where a.dr='0' and a.node_id = b.node_id and menu_id = '" + menu_id + "' and parent_id = ? "
 					+ "order by sort ";
 			basesql = basesql.replaceAll("<#USER_ID#>", user_id);
 
@@ -358,7 +358,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		userMenus.put(mflag, r);
 		return r;
 	}
-	
+
 	/*
 	 * @Description: 获得用户信息
 	 */
@@ -385,6 +385,18 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		}
 		user.setRolsSet(rmap);
 		return user;
+	}
+
+	public R queryUserIdByUserName(String user_name) {
+		QueryWrapper<SysUserInfo> queryWrapper = new QueryWrapper<SysUserInfo>();
+		queryWrapper.eq("user_name", user_name);
+		List<SysUserInfo> lists = this.baseMapper.selectList(queryWrapper);
+		if (lists.size() == 0) {
+			return R.FAILURE("不存在该用户");
+		} else {
+			return R.SUCCESS_OPER(lists.get(0).getUserId());
+		}
+
 	}
 
 }

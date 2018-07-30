@@ -22,7 +22,7 @@ public interface ISysUserInfoService extends IService<SysUserInfo> {
 
 	List<SysMenus> listMyMenus(String user_id);
 
-	JSONArray listMyMenusById(String user_id,String menu_id);
+	JSONArray listMyMenusById(String user_id, String menu_id);
 
 	R saveDefMenus(String user_id, String id);
 
@@ -35,4 +35,6 @@ public interface ISysUserInfoService extends IService<SysUserInfo> {
 	List<HashMap<String, Object>> listUserRoles(String user_id);
 
 	UserShiro listUserForShiro(String user_id);
+
+	R queryUserIdByUserName(String user_id);
 }

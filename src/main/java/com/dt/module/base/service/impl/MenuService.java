@@ -37,20 +37,14 @@ public class MenuService extends BaseService {
 		return TYPE_DIR;
 	}
 
-	/**
-	 * @Description: 直接查询所有节点,用于模块设置
-	 */
-	public R queryMenuNodes(String menu_id) {
-		String sql = "select case is_g_show when 'Y' then '显示' when 'N' then '隐藏' else '未知' end is_g_show_text,(select count(1) from sys_modules_item where module_id=node_id) acl_cnt,a.*,case type when 'dir' then '目录' when 'menu' then '菜单' else '未知' end typetext from sys_menus_node a where menu_id=? and deleted='N' order by node_id";
-		return R.SUCCESS_OPER(db.query(sql, menu_id).toJsonArrayWithJsonObject());
-	}
+	
 
 	/**
 	 * @Description:按照前端js要求直接生成树的json格式,不再使用
 	 */
 	public R queryMenuNodesTree(String menu_id) {
 		JSONArray r = new JSONArray();
-		String basesql = "select * from sys_menus_node where menu_id=? and parent_id=? and deleted='N' order by sort";
+		String basesql = "select * from sys_menus_node where menu_id=? and parent_id=? and dr='0' order by sort";
 		RcdSet first_rs = db.query(basesql, menu_id, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
@@ -125,7 +119,7 @@ public class MenuService extends BaseService {
 		// ins.set("ROUTE", old_route + "-" + node_id);
 		ins.setIf("keyvalue", keyvalue);
 		ins.set("is_action", ps.getString("is_action"));
-		ins.set("deleted", "N");
+		ins.set("dr", "0");
 		ins.set("is_g_show", ps.getString("is_g_show"));
 		ins.setIf("logo", logo);
 		ins.setIf("mark", mark);
@@ -139,13 +133,13 @@ public class MenuService extends BaseService {
 	 * @Description:删除一个节点
 	 */
 	public R deleteNode(String node_id) {
-		int v = db.uniqueRecord("select count(1) value from sys_menus_node where deleted='N' and parent_id=? ", node_id)
+		int v = db.uniqueRecord("select count(1) value from sys_menus_node where dr='0' and parent_id=? ", node_id)
 				.getInteger("value");
 		if (v > 0) {
 			return R.FAILURE("请先删除子节点");
 		} else {
 			Update ups = new Update("sys_menus_node");
-			ups.set("deleted", "Y");
+			ups.set("dr", "1");
 			ups.where().and("node_id=?", node_id);
 			db.execute(ups);
 			return R.SUCCESS_OPER();
@@ -189,7 +183,7 @@ public class MenuService extends BaseService {
 	 */
 	@Transactional
 	private void updateRouteName(String node_id, String node_name) {
-		Rcd rs = db.uniqueRecord("select * from sys_menus_node where deleted='N' and node_id=?", node_id);
+		Rcd rs = db.uniqueRecord("select * from sys_menus_node where dr='0' and node_id=?", node_id);
 		// 判断如果一致则不需要更新routename
 		if (ToolUtil.isEmpty(rs)) {
 			return;
@@ -202,7 +196,7 @@ public class MenuService extends BaseService {
 		String route_name = "";
 		for (int i = 0; i < arr.size(); i++) {
 			route_name = route_name + LEVEL_SPLIT
-					+ db.uniqueRecord("select node_name from sys_menus_node where deleted='N' and node_id=?",
+					+ db.uniqueRecord("select node_name from sys_menus_node where dr='0' and node_id=?",
 							arr.getJSONObject(i).getString("id")).getString("node_name");
 		}
 		route_name = route_name.replaceFirst(LEVEL_SPLIT, "");
@@ -210,7 +204,7 @@ public class MenuService extends BaseService {
 		me.set("route_name", route_name);
 		me.where().and("node_id=?", node_id);
 		db.execute(me);
-		RcdSet rds = db.query("select node_id,node_name from sys_menus_node where deleted='N' and parent_id=?",
+		RcdSet rds = db.query("select node_id,node_name from sys_menus_node where dr='0' and parent_id=?",
 				node_id);
 		for (int j = 0; j < rds.size(); j++) {
 			// 递归调用
@@ -232,7 +226,7 @@ public class MenuService extends BaseService {
 	 * @Description:获取树的第一个节点的父节点
 	 */
 	public String getRootParentId(String id) {
-		String sql = "select min(parent_id) parent_id from sys_menus_node where deleted='N' and menu_id=?";
+		String sql = "select min(parent_id) parent_id from sys_menus_node where dr='0' and menu_id=?";
 		Rcd rs = db.uniqueRecord(sql, id);
 		String parent_id = rs.getString("parent_id");
 		if (ToolUtil.isEmpty(parent_id)) {

@@ -1,6 +1,5 @@
 package com.dt.module.base.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,7 @@ import com.dt.module.base.service.ISysMenusNodeService;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -25,22 +24,20 @@ import com.dt.module.base.service.ISysMenusNodeService;
 @RequestMapping("/api/sysMenusNode")
 public class SysMenusNodeController extends BaseController {
 
-
 	@Autowired
 	ISysMenusNodeService SysMenusNodeServiceImpl;
-
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
+	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
 		return R.SUCCESS_OPER(SysMenusNodeServiceImpl.deleteById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
-	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
+	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
 		return R.SUCCESS_OPER(SysMenusNodeServiceImpl.selectById(id));
 	}
 
@@ -71,8 +68,12 @@ public class SysMenusNodeController extends BaseController {
 	public R selectList() {
 		return R.SUCCESS_OPER(SysMenusNodeServiceImpl.selectList(null));
 	}
- 
 
+	@ResponseBody
+	@Acl(info = "查", value = Acl.ACL_DENY)
+	@RequestMapping(value = "/queryMenuNodesForStageSetting.do")
+	public R queryMenuNodesForStageSetting(String menu_id) {
+		return SysMenusNodeServiceImpl.queryMenuNodesForStageSetting(menu_id);
+	}
 
 }
-

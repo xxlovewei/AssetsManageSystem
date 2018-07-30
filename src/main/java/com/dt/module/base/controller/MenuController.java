@@ -65,20 +65,7 @@ public class MenuController extends BaseController {
 		return menuService.updateNode(ps);
 	}
 
-	@RequestMapping(value = "/menu/treeDataDirect.do")
-	@ResponseBody
-	@Acl(value = Acl.ACL_USER, info = "查询菜单")
-	public R treeDataDirect(String id) {
-		return menuService.queryMenuNodes(id);
-	}
-
-	@Acl(value = Acl.ACL_USER, info = "查询菜单")
-	@RequestMapping(value = "/menu/treeMenus.do")
-	@ResponseBody
-	public R treeMenus() {
-		return menuService.queryMenuNodesTree("1");
-	}
-
+ 
 	@RequestMapping(value = "/menu/treeNodeRoleMap.do")
 	@ResponseBody
 	@Acl(info = "查询菜单权限")
