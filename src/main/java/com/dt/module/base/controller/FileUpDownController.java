@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,7 +25,6 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.SmartImageScalr;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.service.impl.FileService;
 
 @Controller
 @RequestMapping("/api/file")
@@ -34,15 +32,14 @@ public class FileUpDownController extends BaseController {
 
 	private static Logger _log = LoggerFactory.getLogger(FileUpDownController.class);
 
-	@Autowired
-	FileService fileService;
+	 
 
-	@RequestMapping("/filedownInfo.do")
-	@ResponseBody
-	@Acl(value = Acl.ACL_ALLOW, info = "详情")
-	public R filedownInfo(String id) {
-		return R.clearAttachDirect(fileService.queryFileInfoById(id));
-	}
+//	@RequestMapping("/filedownInfo.do")
+//	@ResponseBody
+//	@Acl(value = Acl.ACL_ALLOW, info = "详情")
+//	public R filedownInfo(String id) {
+//		return R.clearAttachDirect(fileService.queryFileInfoById(id));
+//	}
 
 	@RequestMapping("/fileupload.do")
 	@ResponseBody
