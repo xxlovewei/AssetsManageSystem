@@ -76,7 +76,7 @@ public class ClassService extends BaseService {
 
 	/* type必须有 */
 	public R queryClass(String type, String is_used, String status) {
-		String sql = "select * from sys_ct_class where is_delete='N' ";
+		String sql = "select * from sys_ct_class where dr='0' ";
 		if (ToolUtil.isEmpty(type)) {
 			type = "";
 		}
@@ -95,7 +95,7 @@ public class ClassService extends BaseService {
 
 	/* type,module必须有 */
 	public R queryClassWithModule(String type, String is_used, String module, String status) {
-		String sql = "select * from sys_ct_class where is_delete='N' ";
+		String sql = "select * from sys_ct_class where dr='0' ";
 		if (ToolUtil.isEmpty(type)) {
 			type = "";
 		}
@@ -118,7 +118,7 @@ public class ClassService extends BaseService {
 
 	public R queryClassById(String class_id) {
 
-		Rcd rs = db.uniqueRecord("select * from sys_ct_class where is_delete='N' and class_id=? order by od", class_id);
+		Rcd rs = db.uniqueRecord("select * from sys_ct_class where dr='0' and class_id=? order by od", class_id);
 		if (ToolUtil.isEmpty(rs)) {
 			return R.FAILURE_NO_DATA();
 		} else {
@@ -206,7 +206,7 @@ public class ClassService extends BaseService {
 
 	public R queryClassItem(String class_id, String is_used) {
 
-		String sql = "select * from sys_ct_class_item where is_delete='N' ";
+		String sql = "select * from sys_ct_class_item where dr='0'";
 		if (ToolUtil.isNotEmpty(class_id)) {
 			sql += " and class_id='" + class_id + "' ";
 		}

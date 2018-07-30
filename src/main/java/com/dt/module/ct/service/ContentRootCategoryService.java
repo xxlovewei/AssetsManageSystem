@@ -17,6 +17,6 @@ public class ContentRootCategoryService extends BaseService {
 	 */
 	public R queryRootCategory() {
 		return R.SUCCESS_OPER(
-				db.query("select * from ct_category_root where deleted='N' order by od").toJsonArrayWithJsonObject());
+				db.query("select * from ct_category_root where dr='0' order by od").toJsonArrayWithJsonObject());
 	}
 }

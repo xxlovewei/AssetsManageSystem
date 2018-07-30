@@ -25,7 +25,7 @@ public class ContentCategoryService extends BaseService {
 	 * @Description: 删除节点
 	 */
 	public R deleteCategory(String id) {
-		if (db.uniqueRecord("select count(1) value from ct_category where deleted='N' and parent_id=?", id)
+		if (db.uniqueRecord("select count(1) value from ct_category where dr='0' and parent_id=?", id)
 				.getInteger("value") > 0) {
 			return R.FAILURE("请先删除子节点");
 		}
@@ -40,7 +40,7 @@ public class ContentCategoryService extends BaseService {
 	 * @Description: 根据ID显示第一层的数据
 	 */
 	public R queryCategoryFirstFloor(String rootId, String isAction) {
-		String sql = "select * from ct_category where root=? and deleted='N' and node_level=1";
+		String sql = "select * from ct_category where root=? and dr='0' and node_level=1";
 		if (ToolUtil.isNotEmpty(isAction)) {
 			sql = sql + " and isaction='" + ToolUtil.parseYNValueDefY(isAction) + "'";
 		}
@@ -52,7 +52,7 @@ public class ContentCategoryService extends BaseService {
 	 * @Description: 显示子节点数据
 	 */
 	public R queryCategoryChildren(String parentId, String isAction) {
-		String sql = "select * from ct_category where parent_id=? and deleted='N' ";
+		String sql = "select * from ct_category where parent_id=? and dr='0' ";
 		if (ToolUtil.isNotEmpty(isAction)) {
 			sql = sql + " and isaction='" + ToolUtil.parseYNValueDefY(isAction) + "'";
 		}
@@ -68,7 +68,7 @@ public class ContentCategoryService extends BaseService {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		JSONArray res = new JSONArray();
-		String rootsql = "select * from ct_category_root where id=? and deleted='N'";
+		String rootsql = "select * from ct_category_root where id=? and dr='0'";
 		Rcd root_rs = db.uniqueRecord(rootsql, root_id);
 		JSONObject root = new JSONObject();
 		root.put("id", root_id);
@@ -76,7 +76,7 @@ public class ContentCategoryService extends BaseService {
 		root.put("text", root_rs.getString("name"));
 		root.put("type", "root");
 		res.add(root);
-		RcdSet rs = db.query("select * from ct_category where root=? and deleted='N'", root_id);
+		RcdSet rs = db.query("select * from ct_category where root=? and  dr='0'", root_id);
 		JSONObject e = new JSONObject();
 		for (int i = 0; i < rs.size(); i++) {
 			e = new JSONObject();
@@ -106,7 +106,7 @@ public class ContentCategoryService extends BaseService {
 	 */
 	public R queryCategory(String root) {
 		return R.SUCCESS_OPER(
-				db.query("select * from ct_category where deleted='N' and root=?", root).toJsonArrayWithJsonObject());
+				db.query("select * from ct_category where dr='0' and root=?", root).toJsonArrayWithJsonObject());
 	}
 
 	/**

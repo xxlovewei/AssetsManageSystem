@@ -73,7 +73,7 @@ public class NoticeService extends BaseService {
 
 	private String processQuerySql(TypedHashMap<String, Object> ps, String type, String is_show, String user_id) {
 
-		String sql = "select * from sys_notice where is_delete='N' ";
+		String sql = "select * from sys_notice where dr='0' ";
 
 		String bdate = ps.getString("bdate");// 2012-01-01
 		String edate = ps.getString("edate");// 2012-01-01
@@ -116,7 +116,7 @@ public class NoticeService extends BaseService {
 	}
 
 	public R queryNoticeById(String id) {
-		Rcd rs = db.uniqueRecord("select * from sys_notice where is_delete='N' and id=?", id);
+		Rcd rs = db.uniqueRecord("select * from sys_notice where dr='0' and id=?", id);
 		if (ToolUtil.isEmpty(rs)) {
 			return R.FAILURE_NO_DATA();
 		} else {

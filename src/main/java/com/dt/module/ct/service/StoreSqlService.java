@@ -88,7 +88,7 @@ public class StoreSqlService extends BaseService {
 	}
 
 	public R queryStoreSql(String cat_id) {
-		String sql = "select * from ct_uri where is_deleted='N' ";
+		String sql = "select * from ct_uri where dr='0' ";
 		if (ToolUtil.isNotEmpty(cat_id)) {
 			sql = sql + " and cat_id='" + cat_id + "'";
 		}
