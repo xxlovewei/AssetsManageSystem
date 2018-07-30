@@ -262,8 +262,8 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 		ps.is_action ="Y";
 		ps.is_g_show = $scope.showSel.id;
 		ps.type = $scope.nodeSel.id;
-		if (angular.isDefined($scope.topMenuSel.menu_id)) {
-			ps.menu_id = $scope.topMenuSel.menu_id;
+		if (angular.isDefined($scope.topMenuSel.menuId)) {
+			ps.menu_id = $scope.topMenuSel.menuId;
 		}
 
 		if ($scope.item.actiontype == "edit") {

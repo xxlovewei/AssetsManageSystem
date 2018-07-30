@@ -22,7 +22,7 @@ import com.dt.module.base.service.impl.ModuleItemMapService;
 public class MenuController extends BaseController {
 	@Autowired
 	MenuService menuService;
- 
+
 	@Autowired
 	MenuRoleMapService menuRoleMapService;
 
@@ -30,18 +30,19 @@ public class MenuController extends BaseController {
 	ModuleItemMapService moduleItemMapService;
 
 	@ResponseBody
-	@Acl(info="查询模块")
+	@Acl(info = "查询模块", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/module/queryModuleItemMap.do")
 	public R queryModuleItem(String module_id) {
 		return moduleItemMapService.queryModuleItem(module_id);
 	}
+
 	@ResponseBody
-	@Acl(info="更新模块")
+	@Acl(info = "更新模块", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/module/updateModuleItemMap.do")
 	public R updateModuleItemMap(String module_id, String items) {
 		return moduleItemMapService.updateModuleItem(module_id, items);
 	}
- 
+
 	@RequestMapping(value = "/menu/deleteNode.do")
 	@ResponseBody
 	@Acl(info = "删除菜单", value = Acl.ACL_DENY)
@@ -65,10 +66,9 @@ public class MenuController extends BaseController {
 		return menuService.updateNode(ps);
 	}
 
- 
 	@RequestMapping(value = "/menu/treeNodeRoleMap.do")
 	@ResponseBody
-	@Acl(info = "查询菜单权限")
+	@Acl(info = "查询菜单权限", value = Acl.ACL_DENY)
 	public R treeNodeRoleMap(String role_id, String modules_arr, String menu_id) {
 		if (ToolUtil.isOneEmpty(role_id, modules_arr, menu_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -78,7 +78,7 @@ public class MenuController extends BaseController {
 
 	@RequestMapping(value = "/menu/treeRoleChecked.do")
 	@ResponseBody
-	@Acl(info = "查询菜单权限检测")
+	@Acl(info = "查询菜单权限检测", value = Acl.ACL_DENY)
 	public R treeRoleChecked(String menu_id, String role_id) throws IOException {
 		return menuRoleMapService.treeRoleChecked(menu_id, role_id);
 	}
