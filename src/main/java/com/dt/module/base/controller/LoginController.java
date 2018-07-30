@@ -49,7 +49,7 @@ public class LoginController extends BaseController {
 	@Acl(value = Acl.ACL_ALLOW, info = "登录")
 	@RequestMapping(value = "/user/login.do")
 	@ResponseBody
-	public R logindo(String user, String pwd, String type, String client, HttpServletRequest request) {
+	public R login(String user, String pwd, String type, String client, HttpServletRequest request) {
 
 		// 验证账户是否有效
 		R vlrs = loginService.validLogin(user, type, client);
@@ -114,7 +114,57 @@ public class LoginController extends BaseController {
 		r.put("cur_system", cur_system);
 		r.put("token", super.getSession().getId());
 		_log.info("login:" + r.toJSONString());
+		return R.SUCCESS(BaseCodeMsgEnum.USER_LOGIN_SUCCESS.getMessage(), r);
+	}
 
+	@Acl(value = Acl.ACL_ALLOW, info = "登录")
+	@RequestMapping(value = "/user/loginFast.do")
+	@ResponseBody
+	public R loginFast(String user, String pwd, String type, String client, HttpServletRequest request) {
+
+		// 验证账户是否有效
+		R vlrs = loginService.validLogin(user, type, client);
+		if (vlrs.isFailed()) {
+			return vlrs;
+		}
+		String user_id = vlrs.getData().toString();
+		// 登录操作
+		Subject currentUser = ShiroKit.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken(user_id, pwd == null ? null : pwd.toCharArray());
+		token.setRememberMe(true);
+		String error = "";
+		try {
+			currentUser.login(token);
+		} catch (UnknownAccountException e) {
+			error = "账户不存在";
+		} catch (IncorrectCredentialsException e) {
+			error = "账号密码错误";
+		} catch (ExcessiveAttemptsException e) {
+			// TODO: handle exception
+			error = "登录失败多次，账户锁定10分钟";
+		} catch (LockedAccountException e) {
+			error = "账户已被锁定";
+		} catch (AuthenticationException e) {
+			error = "其他错误：" + e.getMessage();
+		}
+		if (ToolUtil.isNotEmpty(error)) {
+			return R.FAILURE(error);
+		}
+
+		// 用户登录成功
+		ShiroUser shiroUser = ShiroKit.getUser();
+		super.getSession().setAttribute("shiroUser", shiroUser);
+		super.getSession().setAttribute("user_id", shiroUser.id);
+		ShiroKit.getSession().setAttribute("sessionFlag", true);
+
+		JSONObject r = new JSONObject();
+		JSONObject u = JSONObject.parseObject(JSON.toJSONString(SysUserInfoServiceImpl.selectById(user_id),
+				SerializerFeature.WriteDateUseDateFormat));
+		// 覆盖重要信息
+		u.put("pwd", "********");
+		r.put("user_info", u);
+		r.put("token", super.getSession().getId());
+		_log.info("login:" + r.toJSONString());
 		return R.SUCCESS(BaseCodeMsgEnum.USER_LOGIN_SUCCESS.getMessage(), r);
 	}
 
