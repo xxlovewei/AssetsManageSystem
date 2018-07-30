@@ -87,4 +87,20 @@ public class SysUserInfoMyController extends BaseController {
 		return R.SUCCESS_OPER(SysUserInfoServiceImpl.listMyMenusById(getUserId(), menu_id));
 	}
 
+	@RequestMapping("/queryReceivingaddr.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_USER, info = "查询用户收货地址")
+	public R queryReceivingaddr() {
+
+		return SysUserInfoServiceImpl.queryReceivingaddr(this.getUserId());
+	}
+
+	@RequestMapping("/deleteReceivingaddr.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_USER, info = "删除收货地址")
+	public R deleteReceivingaddr(String id) {
+		 
+		return SysUserInfoServiceImpl.deleteReceivingaddr(this.getUserId(), id);
+	}
+
 }

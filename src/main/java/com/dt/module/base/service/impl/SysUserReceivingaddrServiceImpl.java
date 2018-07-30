@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-27
+ * @since 2018-07-30
  */
 @Service
 public class SysUserReceivingaddrServiceImpl extends ServiceImpl<SysUserReceivingaddrMapper, SysUserReceivingaddr> implements ISysUserReceivingaddrService {
 
+	
+	
 }

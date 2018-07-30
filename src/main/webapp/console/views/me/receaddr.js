@@ -23,7 +23,7 @@ function meRecAddrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 
 	function flush() {
 		var ps = {}
-		$http.post($rootScope.project + "/api/user/queryReceivingAddr.do", ps).success(function(res) {
+		$http.post($rootScope.project + "/api/sysUserInfo/my/queryReceivingaddr.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
 			} else {
@@ -47,7 +47,7 @@ function meRecAddrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 		$confirm({
 			text : '是否删除该地址?'
 		}).then(function() {
-			$http.post($rootScope.project + "/api/user/delReceivingAddr.do", {
+			$http.post($rootScope.project + "/api/sysUserInfo/my/deleteReceivingaddr.do", {
 				id : id
 			}).success(function(res) {
 				if (res.success) {

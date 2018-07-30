@@ -27,9 +27,11 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.bus_enum.userTypeEnum;
 import com.dt.module.base.entity.SysMenus;
 import com.dt.module.base.entity.SysUserInfo;
+import com.dt.module.base.entity.SysUserReceivingaddr;
 import com.dt.module.base.entity.UserShiro;
 import com.dt.module.base.mapper.SysUserInfoMapper;
 import com.dt.module.base.service.ISysUserInfoService;
+import com.dt.module.base.service.ISysUserReceivingaddrService;
 import com.dt.module.db.DB;
 
 /**
@@ -46,6 +48,8 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 	@Autowired
 	DB db;
 
+	@Autowired
+	ISysUserReceivingaddrService SysUserReceivingaddrServiceImpl;
 	private static HashMap<String, JSONArray> userMenus = new HashMap<String, JSONArray>();
 	private static Logger _log = LoggerFactory.getLogger(SysUserInfoServiceImpl.class);
 
@@ -398,5 +402,28 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		}
 
 	}
+	
+	
+	public R queryReceivingaddr(String user_id) {
+		if(user_id==null) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		QueryWrapper<SysUserReceivingaddr> queryWrapper = new QueryWrapper<SysUserReceivingaddr>();
+		queryWrapper.eq("user_id", user_id);
+		return R.SUCCESS_OPER(SysUserReceivingaddrServiceImpl.selectList(queryWrapper));
+	}
+	
+	
+	public R deleteReceivingaddr(String user_id,String id) {
+		 if(ToolUtil.isOneEmpty(user_id,id)) {
+			 return R.FAILURE_REQ_PARAM_ERROR();
+		 }
+		 QueryWrapper<SysUserReceivingaddr> queryWrapper = new QueryWrapper<SysUserReceivingaddr>();
+		 queryWrapper.eq("user_id", user_id).eq("id", id);
+		 return R.SUCCESS_OPER(SysUserReceivingaddrServiceImpl.delete(queryWrapper));
+		
+	}
+
+	 
 
 }

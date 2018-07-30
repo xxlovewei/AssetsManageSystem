@@ -37,4 +37,8 @@ public interface ISysUserInfoService extends IService<SysUserInfo> {
 	UserShiro listUserForShiro(String user_id);
 
 	R queryUserIdByUserName(String user_id);
+	
+	R queryReceivingaddr(String user_id);
+	
+	R deleteReceivingaddr(String user_id,String id);
 }

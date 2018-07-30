@@ -23,7 +23,6 @@
         <result column="CT" property="ct" />
         <result column="CONTACTUSER" property="contactuser" />
         <result column="CONTACT" property="contact" />
-        <result column="IS_DELETED" property="isDeleted" />
         <result column="ZCODE" property="zcode" />
         <result column="OD" property="od" />
     </resultMap>
