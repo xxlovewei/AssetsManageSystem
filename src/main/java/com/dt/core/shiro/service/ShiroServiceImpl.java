@@ -17,7 +17,7 @@ import com.dt.core.shiro.ShiroUser;
 import com.dt.core.shiro.inter.IShiro;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.module.base.entity.SysModulesItem;
-import com.dt.module.base.entity.User;
+import com.dt.module.base.entity.UserShiro;
 import com.dt.module.base.service.ISysModulesItemService;
 import com.dt.module.base.service.ISysRoleInfoService;
 import com.dt.module.db.DB;
@@ -38,12 +38,12 @@ public class ShiroServiceImpl implements IShiro {
 	}
 
 	@Override
-	public User user(String account) {
-		return new User();
+	public UserShiro user(String account) {
+		return new UserShiro();
 	}
 
 	@Override
-	public ShiroUser shiroUser(User user) {
+	public ShiroUser shiroUser(UserShiro user) {
 		ShiroUser shiroUser = new ShiroUser();
 		shiroUser.setId(user.getUserId()); // 账号id
 		shiroUser.setAccount(user.getAccount());// 账号
@@ -80,7 +80,7 @@ public class ShiroServiceImpl implements IShiro {
 	}
 
 	@Override
-	public SimpleAuthenticationInfo info(ShiroUser shiroUser, User user, String realmName) {
+	public SimpleAuthenticationInfo info(ShiroUser shiroUser, UserShiro user, String realmName) {
 		String credentials = user.getPassword();
 		// 密码加盐处理
 		String source = user.getSalt();

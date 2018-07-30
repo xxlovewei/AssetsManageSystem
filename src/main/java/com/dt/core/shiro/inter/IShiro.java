@@ -6,7 +6,7 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 
 import com.dt.core.shiro.ShiroUser;
 import com.dt.module.base.entity.SysModulesItem;
-import com.dt.module.base.entity.User;
+import com.dt.module.base.entity.UserShiro;
 
 /**
  * 定义shirorealm所需数据的接口
@@ -22,7 +22,7 @@ public interface IShiro {
 	 * @param account
 	 *            账号
 	 */
-	User user(String account);
+	UserShiro user(String account);
 
 	/**
 	 * 根据系统用户获取Shiro的用户
@@ -30,7 +30,7 @@ public interface IShiro {
 	 * @param user
 	 *            系统用户
 	 */
-	ShiroUser shiroUser(User user);
+	ShiroUser shiroUser(UserShiro user);
 
 	/**
 	 * 获取权限列表通过角色id
@@ -51,6 +51,6 @@ public interface IShiro {
 	/**
 	 * 获取shiro的认证信息
 	 */
-	SimpleAuthenticationInfo info(ShiroUser shiroUser, User user, String realmName);
+	SimpleAuthenticationInfo info(ShiroUser shiroUser, UserShiro user, String realmName);
 
 }

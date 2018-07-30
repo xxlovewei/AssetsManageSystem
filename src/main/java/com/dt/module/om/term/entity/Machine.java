@@ -2,7 +2,7 @@ package com.dt.module.om.term.entity;
 
 import java.io.Serializable;
 
-import com.dt.module.base.entity.User;
+import com.dt.module.base.entity.UserShiro;
 
 public class Machine implements Serializable {
 
@@ -15,7 +15,7 @@ public class Machine implements Serializable {
 	private String password;
 	private Integer port;
 
-	private User user;
+	private UserShiro user;
 
 	public Machine() {
 		super();
@@ -78,11 +78,11 @@ public class Machine implements Serializable {
 		this.port = port;
 	}
 
-	public User getUser() {
+	public UserShiro getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserShiro user) {
 		this.user = user;
 	}
 

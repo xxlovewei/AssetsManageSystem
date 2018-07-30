@@ -23,7 +23,7 @@ import com.dt.core.shiro.inter.IShiro;
 import com.dt.core.shiro.service.ShiroServiceImpl;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.entity.SysModulesItem;
-import com.dt.module.base.entity.User;
+import com.dt.module.base.entity.UserShiro;
 import com.dt.module.base.service.ISysUserInfoService;
 
 public class ShiroDbRealm extends AuthorizingRealm {
@@ -45,7 +45,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		_log.info("###################Action 登录认证#################");
 		_log.info("Username:" + token.getUsername());
 		// 从数据库中获取密码
-		User user = SysUserInfoServiceImpl.listUserForShiro(token.getUsername());
+		UserShiro user = SysUserInfoServiceImpl.listUserForShiro(token.getUsername());
 		if (ToolUtil.isEmpty(user.userId)) {
 			throw new UnknownAccountException();//// 没找到帐号
 		}

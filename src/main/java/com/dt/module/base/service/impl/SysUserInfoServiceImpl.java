@@ -27,7 +27,7 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.bus_enum.userTypeEnum;
 import com.dt.module.base.entity.SysMenus;
 import com.dt.module.base.entity.SysUserInfo;
-import com.dt.module.base.entity.User;
+import com.dt.module.base.entity.UserShiro;
 import com.dt.module.base.mapper.SysUserInfoMapper;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.db.DB;
@@ -362,8 +362,8 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 	/*
 	 * @Description: 获得用户信息
 	 */
-	public User listUserForShiro(String user_id) {
-		User user = new User();
+	public UserShiro listUserForShiro(String user_id) {
+		UserShiro user = new UserShiro();
 		String sql = "select * from sys_user_info a where a.user_id=?";
 		// 账号状态信息
 		Rcd u_rs = db.uniqueRecord(sql, user_id);

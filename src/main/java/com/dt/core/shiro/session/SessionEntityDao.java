@@ -16,7 +16,6 @@ import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.dao.Rcd;
 import com.dt.core.tool.util.SerializableUtils;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.entity.SysSession;
 import com.dt.module.base.service.ISysSessionService;
 import com.dt.module.db.DB;
 
@@ -35,7 +34,7 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 	public Serializable create(Session session) {
 		// 先保存到缓存中
 		Serializable cookie = super.create(session);
-		// 新建一个entity保存到数据库	
+		// 新建一个entity保存到数据库
 		SimpleSessionEntity entity = new SimpleSessionEntity();
 		entity.setSession(SerializableUtils.serialize(session));
 		entity.setCookie(cookie.toString());
@@ -57,8 +56,6 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 			_log.info("会话无效,不更新存储");
 			return;
 		}
-		
-		
 		SimpleSessionEntity entity = new SimpleSessionEntity();
 		entity.setId(session.getId().toString());
 		entity.setCookie(session.getId().toString());
@@ -74,7 +71,6 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 		try {
 			session = super.readSession(sessionId);
 		} catch (Exception e) {
-
 		}
 		// 如果session已经被删除，则从数据库中查询session
 		if (session == null) {
@@ -96,12 +92,10 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 				} catch (Exception e) {
 					_log.info("无法初始化,sessionId:" + sessionId);
 				}
-
 			} else {
 				_log.info("session:" + sessionId + "未找到保存的session");
 			}
 		}
-
 		return session;
 	}
 
@@ -130,7 +124,7 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 
 	private SimpleSessionEntity getEntity(Serializable sessionId) {
 
-		String sql = "select * from sys_session where cookie=?";
+		String sql = "select * from sys_session where dr=0 and cookie=?";
 		if (ToolUtil.isEmpty(sessionId)) {
 			return null;
 		}

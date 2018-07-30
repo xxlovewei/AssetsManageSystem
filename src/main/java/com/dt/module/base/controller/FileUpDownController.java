@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
@@ -26,7 +27,6 @@ import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.SmartImageScalr;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.impl.FileService;
-import com.dt.module.db.DB;
 
 @Controller
 @RequestMapping("/api/file")

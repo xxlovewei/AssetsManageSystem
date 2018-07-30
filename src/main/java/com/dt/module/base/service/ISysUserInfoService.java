@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.dt.core.common.base.R;
 import com.dt.module.base.entity.SysMenus;
 import com.dt.module.base.entity.SysUserInfo;
-import com.dt.module.base.entity.User;
+import com.dt.module.base.entity.UserShiro;
 
 /**
  * <p>
@@ -34,5 +34,5 @@ public interface ISysUserInfoService extends IService<SysUserInfo> {
 
 	List<HashMap<String, Object>> listUserRoles(String user_id);
 
-	User listUserForShiro(String user_id);
+	UserShiro listUserForShiro(String user_id);
 }

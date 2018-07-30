@@ -2,7 +2,7 @@ package com.dt.module.base.entity;
 
 import java.util.HashMap;
 
-public class User {
+public class UserShiro {
 
 	public String userId; // 主键ID
 
