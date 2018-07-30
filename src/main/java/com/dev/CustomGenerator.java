@@ -92,7 +92,7 @@ public class CustomGenerator {
 		// strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
 		//"","sys_qud_qux"
-		strategy.setInclude(new String[] { "sys_user_receivingaddr" }); // 需要生成的表
+		strategy.setInclude(new String[] { "ct_content","ct_class","ct_class_item","ct_category","ct_category_root" }); // 需要生成的表
 		strategy.setTableFillList(tableFillList);
 		strategy.setSuperEntityClass("com.dt.core.common.base.BaseModel");
  
@@ -102,7 +102,7 @@ public class CustomGenerator {
 		// 包配置
 		PackageConfig pc = new PackageConfig();
 		pc.setParent("com.dt.module");
-		pc.setModuleName("base");
+		pc.setModuleName("ct");
 		pc.setXml(null);
 
 		InjectionConfig cfg = new InjectionConfig() {
@@ -120,7 +120,7 @@ public class CustomGenerator {
 		focList.add(new FileOutConfig("template/mapper.xml.vm") {
 			@Override
 			public String outputFile(TableInfo tableInfo) {
-				return dir + "/resources/mybatis/system/" + tableInfo.getMapperName() + ".xml";
+				return dir + "/resources/mybatis/ct/" + tableInfo.getMapperName() + ".xml";
 			}
 		});
 		cfg.setFileOutConfigList(focList);
