@@ -37,35 +37,35 @@ public class EmplService extends BaseService {
 	 */
 	@Transactional
 	public R addEmployee(TypedHashMap<String, Object> ps) {
-		ArrayList<SQL> exeSqls = new ArrayList<SQL>();
-		// 先判断组织
-		String nodes = ps.getString("nodes");
-		if (ToolUtil.isEmpty(nodes)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
-		String emplpartCtl = ifEmplCanMultiPart();
-		if (emplpartCtl.equals("Y")) {
-			if (nodes_arr.size() > 1) {
-				return R.FAILURE("必须属于一个组织,不可多选");
-			}
-		}
-		R user_rs = userService.addUser(ps, UserService.USER_TYPE_EMPL);
-		String empl_id = userService.getEmplIdFromUserId((String) user_rs.getData());
-		for (int i = 0; i < nodes_arr.size(); i++) {
-			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
-			Insert ins3 = new Insert("hrm_org_employee");
-			ins3.set("id", ToolUtil.getUUID());
-			ins3.set("node_id", node_id);
-			ins3.set("deleted", "N");
-			ins3.set("empl_id", empl_id);
-			exeSqls.add(ins3);
-		}
-		if (user_rs.isSuccess()) {
-			db.executeSQLList(exeSqls);
-		} else {
-			return user_rs;
-		}
+//		ArrayList<SQL> exeSqls = new ArrayList<SQL>();
+//		// 先判断组织
+//		String nodes = ps.getString("nodes");
+//		if (ToolUtil.isEmpty(nodes)) {
+//			return R.FAILURE_REQ_PARAM_ERROR();
+//		}
+//		JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
+//		String emplpartCtl = ifEmplCanMultiPart();
+//		if (emplpartCtl.equals("Y")) {
+//			if (nodes_arr.size() > 1) {
+//				return R.FAILURE("必须属于一个组织,不可多选");
+//			}
+//		}
+//		R user_rs = userService.addUser(ps, UserService.USER_TYPE_EMPL);
+//		String empl_id = userService.getEmplIdFromUserId((String) user_rs.getData());
+//		for (int i = 0; i < nodes_arr.size(); i++) {
+//			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
+//			Insert ins3 = new Insert("hrm_org_employee");
+//			ins3.set("id", ToolUtil.getUUID());
+//			ins3.set("node_id", node_id);
+//			ins3.set("deleted", "N");
+//			ins3.set("empl_id", empl_id);
+//			exeSqls.add(ins3);
+//		}
+//		if (user_rs.isSuccess()) {
+//			db.executeSQLList(exeSqls);
+//		} else {
+//			return user_rs;
+//		}
 		return R.SUCCESS_OPER();
 	}
 
@@ -84,52 +84,52 @@ public class EmplService extends BaseService {
 	 * @Description: 根据empl_id更新员工
 	 */
 	public R updateEmployee(TypedHashMap<String, Object> ps) {
-		ArrayList<SQL> exeSqls = new ArrayList<SQL>();
-		String user_id = ps.getString("user_id");
-		String empl_id = ps.getString("empl_id");
-		if (ToolUtil.isEmpty(empl_id)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		// 判断是否需要重置user_id,因为updateUser是根据user_id修改数据
-		if (ToolUtil.isEmpty(user_id)) {
-			user_id = userService.getUserIdFromEmpl(empl_id);
-		}
-		ps.put("user_id", user_id);
-		/***********************************
-		 * 组织内用户插入的判断
-		 **************************************/
-		String nodes = ps.getString("nodes");
-		if (ToolUtil.isEmpty(nodes)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
-		String emplpartCtl = ifEmplCanMultiPart();
-		if (emplpartCtl.equals("Y")) {
-			if (nodes_arr.size() > 1) {
-				return R.FAILURE("必须属于一个组织,不可多选");
-			}
-		}
-
-		Delete dls = new Delete();
-		dls.from("hrm_org_employee");
-		dls.where().and("empl_id=?", empl_id);
-		exeSqls.add(dls);
-		for (int i = 0; i < nodes_arr.size(); i++) {
-			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
-			Insert ins3 = new Insert("hrm_org_employee");
-			ins3.set("id", ToolUtil.getUUID());
-			ins3.set("node_id", node_id);
-			ins3.set("deleted", "N");
-			ins3.set("empl_id", empl_id);
-			exeSqls.add(ins3);
-		}
-		/*********************************** 执行 **************************************/
-		R user_rs = userService.updateUser(ps, UserService.USER_TYPE_EMPL);
-		if (user_rs.isSuccess()) {
-			db.executeSQLList(exeSqls);
-		} else {
-			return user_rs;
-		}
+//		ArrayList<SQL> exeSqls = new ArrayList<SQL>();
+//		String user_id = ps.getString("user_id");
+//		String empl_id = ps.getString("empl_id");
+//		if (ToolUtil.isEmpty(empl_id)) {
+//			return R.FAILURE_REQ_PARAM_ERROR();
+//		}
+//		// 判断是否需要重置user_id,因为updateUser是根据user_id修改数据
+//		if (ToolUtil.isEmpty(user_id)) {
+//			user_id = userService.getUserIdFromEmpl(empl_id);
+//		}
+//		ps.put("user_id", user_id);
+//		/***********************************
+//		 * 组织内用户插入的判断
+//		 **************************************/
+//		String nodes = ps.getString("nodes");
+//		if (ToolUtil.isEmpty(nodes)) {
+//			return R.FAILURE_REQ_PARAM_ERROR();
+//		}
+//		JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
+//		String emplpartCtl = ifEmplCanMultiPart();
+//		if (emplpartCtl.equals("Y")) {
+//			if (nodes_arr.size() > 1) {
+//				return R.FAILURE("必须属于一个组织,不可多选");
+//			}
+//		}
+//
+//		Delete dls = new Delete();
+//		dls.from("hrm_org_employee");
+//		dls.where().and("empl_id=?", empl_id);
+//		exeSqls.add(dls);
+//		for (int i = 0; i < nodes_arr.size(); i++) {
+//			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
+//			Insert ins3 = new Insert("hrm_org_employee");
+//			ins3.set("id", ToolUtil.getUUID());
+//			ins3.set("node_id", node_id);
+//			ins3.set("deleted", "N");
+//			ins3.set("empl_id", empl_id);
+//			exeSqls.add(ins3);
+//		}
+//		/*********************************** 执行 **************************************/
+//		R user_rs = userService.updateUser(ps, UserService.USER_TYPE_EMPL);
+//		if (user_rs.isSuccess()) {
+//			db.executeSQLList(exeSqls);
+//		} else {
+//			return user_rs;
+//		}
 		return R.SUCCESS_OPER();
 	}
 

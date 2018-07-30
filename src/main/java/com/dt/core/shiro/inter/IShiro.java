@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 
 import com.dt.core.shiro.ShiroUser;
+import com.dt.module.base.entity.SysModulesItem;
 import com.dt.module.base.entity.User;
 
 /**
@@ -37,7 +38,7 @@ public interface IShiro {
 	 * @param roleId
 	 *            角色id
 	 */
-	List<String> findPermissionsByRoleId(String roleId);
+	List<SysModulesItem>  findPermissionsByRoleId(String roleId);
 
 	/**
 	 * 根据角色id获取角色名称

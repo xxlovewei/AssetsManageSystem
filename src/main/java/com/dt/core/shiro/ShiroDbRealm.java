@@ -17,14 +17,20 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.dt.core.shiro.inter.IShiro;
 import com.dt.core.shiro.service.ShiroServiceImpl;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.entity.SysModulesItem;
 import com.dt.module.base.entity.User;
-import com.dt.module.base.service.impl.UserService;
+import com.dt.module.base.service.ISysUserInfoService;
 
 public class ShiroDbRealm extends AuthorizingRealm {
 	private static Logger _log = LoggerFactory.getLogger(ShiroDbRealm.class);
+
+	@Autowired
+	ISysUserInfoService SysUserInfoServiceImpl;
 
 	/**
 	 * 提供账户信息返回认证信息
@@ -33,14 +39,13 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
 			throws AuthenticationException {
 
-		UserService userService = UserService.me();
 		IShiro shiroService = ShiroServiceImpl.me();
 		// authcToken 中储存着输入的用户名和密码
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		_log.info("###################Action 登录认证#################");
 		_log.info("Username:" + token.getUsername());
 		// 从数据库中获取密码
-		User user = userService.getUser(token.getUsername());
+		User user = SysUserInfoServiceImpl.listUserForShiro(token.getUsername());
 		if (ToolUtil.isEmpty(user.userId)) {
 			throw new UnknownAccountException();//// 没找到帐号
 		}
@@ -72,12 +77,12 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		if (roleList.size() > 0) {
 			for (String roleId : roleList) {
 				_log.info("角色ID:" + roleId);
-				List<String> permissions = shiroService.findPermissionsByRoleId(roleId);
+				List<SysModulesItem> permissions = shiroService.findPermissionsByRoleId(roleId);
 				if (permissions != null) {
-					for (String permission : permissions) {
+					for (SysModulesItem permission : permissions) {
 						if (ToolUtil.isNotEmpty(permission)) {
 							// _log.info(permission);
-							permissionSet.add(permission);
+							permissionSet.add(permission.getCt());
 						}
 					}
 				}

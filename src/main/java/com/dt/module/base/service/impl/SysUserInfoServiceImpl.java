@@ -3,20 +3,31 @@ package com.dt.module.base.service.impl;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.dt.core.cache.CacheConfig;
+import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
+import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Update;
+import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.ConvertUtil;
+import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.bus_enum.userTypeEnum;
 import com.dt.module.base.entity.SysMenus;
 import com.dt.module.base.entity.SysUserInfo;
+import com.dt.module.base.entity.User;
 import com.dt.module.base.mapper.SysUserInfoMapper;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.db.DB;
@@ -34,6 +45,9 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 
 	@Autowired
 	DB db;
+
+	private static HashMap<String, JSONArray> userMenus = new HashMap<String, JSONArray>();
+	private static Logger _log = LoggerFactory.getLogger(SysUserInfoServiceImpl.class);
 
 	// 显示我的菜单
 	public R saveDefMenus(String user_id, String id) {
@@ -175,6 +189,202 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		me.where().and("id=?", "sys_empl_no");
 		db.execute(me);
 		return R.SUCCESS_OPER(ConvertUtil.formatIntToString(empl_id, 6, 100));
+	}
+
+	@Cacheable(value = CacheConfig.CACHE_USER_180_60, key = "'user_menu_'+#user_id+#menu_id")
+	public JSONArray listMyMenusById(String user_id, String menu_id) {
+		// 获得所有tree的node,限制3层
+		String mflag = MD5Util.encrypt(user_id + menu_id);
+		if (userMenus.containsKey(mflag)) {
+			_log.info("get menus from map");
+		}
+		String basesql = "";
+		if (BaseCommon.isSuperAdmin(user_id)) {
+			basesql = "select * from sys_menus_node where deleted='N' and menu_id='" + menu_id
+					+ "' and parent_id = ? order by sort";
+		} else {
+			if (db.getDBType().equals(DbUtil.TYPE_ORACLE)) {
+				basesql = " select distinct level1 node_id                                                 "
+						+ "   from (select *                                                               "
+						+ "           from (select b.module_id,                                            "
+						+ "                        c.route,                                                "
+						+ "                        c.node_name,                                            "
+						+ "                        decode(instr(route, '-'),                               "
+						+ "                               0,                                               "
+						+ "                               route,                                           "
+						+ "                               substr(route, 1, instr(route, '-') - 1)) level1  "
+						+ "                   from sys_user_role a, sys_role_module b, sys_menus_node c    "
+						+ "                  where c.node_id = b.module_id                                 "
+						+ "                    and a.role_id = b.role_id                                   "
+						+ "                    and user_id = '<#USER_ID#>')                                "
+						+ "         union all                                                              "
+						+ "         select *                                                               "
+						+ "           from (select b.module_id,                                            "
+						+ "                        c.route,                                                "
+						+ "                        c.node_name,                                            "
+						+ "                        decode(length(route) - length(replace(route, '-', '')), "
+						+ "                               0,                                               "
+						+ "                               '-1',                                            "
+						+ "                               1,                                               "
+						+ "                               substr(route,                                    "
+						+ "                                      instr(route, '-', 1, 1) + 1,              "
+						+ "                                      length(route) - instr(route, '-', 1, 1)), "
+						+ "                               substr(route,                                    "
+						+ "                                      instr(route, '-', 1, 1) + 1,              "
+						+ "                                      instr(route, '-', 1, 2) -                 "
+						+ "                                      instr(route, '-', 1, 1) - 1)) level2      "
+						+ "                   from sys_user_role a, sys_role_module b, sys_menus_node c    "
+						+ "                  where c.node_id = b.module_id                                 "
+						+ "                    and a.role_id = b.role_id                                   "
+						+ "                    and user_id = '<#USER_ID#>')                                "
+						+ "         union all                                                              "
+						+ "         select *                                                               "
+						+ "           from (select b.module_id,                                            "
+						+ "                        c.route,                                                "
+						+ "                        c.node_name,                                            "
+						+ "                        decode(length(route) - length(replace(route, '-', '')), "
+						+ "                               0,                                               "
+						+ "                               '-1',                                            "
+						+ "                               1,                                               "
+						+ "                               '-1',                                            "
+						+ "                               2,                                               "
+						+ "                               substr(route,                                    "
+						+ "                                      instr(route, '-', 1, 2) + 1,              "
+						+ "                                      length(route) - instr(route, '-', 1, 2)), "
+						+ "                               substr(route,                                    "
+						+ "                                      instr(route, '-', 1, 2) + 1,              "
+						+ "                                      instr(route, '-', 1, 3) -                 "
+						+ "                                      instr(route, '-', 1, 2) - 1)) level3      "
+						+ "                   from sys_user_role a, sys_role_module b, sys_menus_node c    "
+						+ "                  where c.node_id = b.module_id                                 "
+						+ "                    and a.role_id = b.role_id                                   "
+						+ "                    and user_id = '<#USER_ID#>'))                               "
+						+ "  where level1 <> '-1'";
+			} else if (db.getDBType().equals(DbUtil.TYPE_MYSQL)) {
+				// instr(route, '-', 1, 1) 用 locate('-',route) 替换
+				// instr(route, '-', 1, 2) 用case when
+				// substring_index(route,'-',3)=substring_index(route,'-',2)then
+				// 0 else length(substring_index(route,'-',2))+1 end 替换
+				// instr(route, '-', 1, 3) 用case when
+				// substring_index(route,'-',4)=substring_index(route,'-',3)then
+				// 0 else length(substring_index(route,'-',3))+1 end
+
+				basesql = "select distinct level1 node_id " + "from (select * " + "from (select b.module_id, "
+						+ "c.route, " + "c.node_name, " + "case instr(route, '-') " + "when 0 then route " + "else "
+						+ "substr(route, 1, instr(route, '-') - 1) " + "end level1 "
+						+ "from sys_user_role a, sys_role_module b, sys_menus_node c "
+						+ "where c.node_id = b.module_id " + "and a.role_id = b.role_id "
+						+ "and user_id = '<#USER_ID#>') a " + "union all " + "select * " + "from ( " + " "
+						+ "select b.module_id, " + "c.route, " + "c.node_name, "
+						+ "case length(route) - length(replace(route, '-', '')) " + "when 0 then '-1' " + "when 1 then "
+						+ "substr(route, " + "locate('-',route)+ 1, " + "length(route) - locate('-',route)) " + "else "
+						+ "substr(route, " + "locate('-',route) + 1, "
+						+ "case when substring_index(route,'-',3)=substring_index(route,'-',2)then 0 else length(substring_index(route,'-',2))+1 end "
+						+ "- " + "locate('-',route) - 1) " + "end level2 "
+						+ "from sys_user_role a, sys_role_module b, sys_menus_node c "
+						+ "where c.node_id = b.module_id " + "and a.role_id = b.role_id "
+						+ "and user_id = '<#USER_ID#>' " + ")  b " + "union all " + "select * " + "from ( "
+						+ "select b.module_id, " + "c.route, " + "c.node_name, "
+						+ "case length(route) - length(replace(route, '-', '')) " + "when  0 then '-1' "
+						+ "when 1 then '-1' " + "when 2 then " + "substr(route, "
+						+ "case when substring_index(route,'-',3)=substring_index(route,'-',2)then 0 else length(substring_index(route,'-',2))+1 end + 1, "
+						+ "length(route) - case when substring_index(route,'-',3)=substring_index(route,'-',2)then 0 else length(substring_index(route,'-',2))+1 end) "
+						+ "else " + "substr(route, "
+						+ "case when substring_index(route,'-',3)=substring_index(route,'-',2)then 0 else length(substring_index(route,'-',2))+1 end + 1, "
+						+ "case when substring_index(route,'-',4)=substring_index(route,'-',3)then 0 else length(substring_index(route,'-',3))+1 end - "
+						+ "case when substring_index(route,'-',3)=substring_index(route,'-',2)then 0 else length(substring_index(route,'-',2))+1 end - 1) end level3 "
+						+ "from sys_user_role a, sys_role_module b, sys_menus_node c "
+						+ "where c.node_id = b.module_id " + "and a.role_id = b.role_id "
+						+ "and user_id = '<#USER_ID#>' " + ") c) d " + "where level1 <> '-1'";
+			}
+
+			basesql = "select a.* from sys_menus_node a, (" + basesql + ") b "
+					+ "where a.deleted='N' and a.node_id = b.node_id and menu_id = '" + menu_id + "' and parent_id = ? "
+					+ "order by sort ";
+			basesql = basesql.replaceAll("<#USER_ID#>", user_id);
+
+		}
+		_log.info("getMenu sql:" + basesql + ",menu_id:" + menu_id);
+		JSONArray r = new JSONArray();
+		RcdSet first_rs = db.query(basesql, 0);
+		for (int i = 0; i < first_rs.size(); i++) {
+			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
+			String first_key = first_rs.getRcd(i).getString("keyvalue");
+			// 菜单显示控制
+			if (!BaseCommon.isSuperAdmin(user_id)) {
+				String first_is_show = first_rs.getRcd(i).getString("is_g_show");
+				if (ToolUtil.isNotEmpty(first_is_show) && first_is_show.equals("N")) {
+					continue;
+				}
+			}
+			first_obj.put("state", first_key);
+			int second_pid = first_rs.getRcd(i).getInteger("node_id");
+			RcdSet second_rs = db.query(basesql, second_pid);
+			JSONArray second_arr = new JSONArray();
+			for (int j = 0; j < second_rs.size(); j++) {
+				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(j).toJsonObject());
+				String second_key = second_rs.getRcd(j).getString("keyvalue");
+				// 菜单显示控制
+				if (!BaseCommon.isSuperAdmin(user_id)) {
+					String second_is_show = second_rs.getRcd(j).getString("is_g_show");
+					if (ToolUtil.isNotEmpty(second_is_show) && second_is_show.equals("N")) {
+						continue;
+					}
+				}
+				second_obj.put("state", first_key + "." + second_key);
+				int third_pid = second_rs.getRcd(j).getInteger("node_id");
+				RcdSet third_rs = db.query(basesql, third_pid);
+				second_obj.put("children_cnt", third_rs.size());
+				// 处理三层
+				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
+				for (int f = 0; f < third_arr.size(); f++) {
+					// 菜单显示控制
+					if (!BaseCommon.isSuperAdmin(user_id)) {
+						String third_is_show = third_arr.getJSONObject(f).getString("is_g_show");
+						if (ToolUtil.isNotEmpty(third_is_show) && third_is_show.equals("N")) {
+							third_arr.remove(f);
+						}
+					}
+					third_arr.getJSONObject(f).put("state",
+							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("keyvalue"));
+				}
+				second_obj.put("children", third_arr);
+				second_arr.add(second_obj);
+			}
+			first_obj.put("children_cnt", second_rs.size());
+			first_obj.put("children", second_arr);
+			r.add(first_obj);
+		}
+		userMenus.put(mflag, r);
+		return r;
+	}
+	
+	/*
+	 * @Description: 获得用户信息
+	 */
+	public User listUserForShiro(String user_id) {
+		User user = new User();
+		String sql = "select * from sys_user_info a where a.user_id=?";
+		// 账号状态信息
+		Rcd u_rs = db.uniqueRecord(sql, user_id);
+		user.setUserId(u_rs.getString("user_id"));
+		user.setPassword(u_rs.getString("pwd"));
+		user.setAccount(u_rs.getString("user_name"));
+		user.setName(u_rs.getString("user_name"));
+		user.setSalt(MD5Util.encrypt(u_rs.getString("user_id")));
+		if (ToolUtil.isNotEmpty(u_rs.getString("locked")) && u_rs.getString("locked").equals("N")) {
+			user.setIsLocked(false);
+		}
+
+		// 获取角色信息
+		String sql2 = "select a.role_id,b.role_name from sys_user_role a,sys_role_info b where a.role_id=b.role_id and user_id=?";
+		RcdSet r_rs = db.query(sql2, user_id);
+		HashMap<String, String> rmap = new HashMap<String, String>();
+		for (int i = 0; i < r_rs.size(); i++) {
+			rmap.put(r_rs.getRcd(i).getString("role_id"), r_rs.getRcd(i).getString("role_name"));
+		}
+		user.setRolsSet(rmap);
+		return user;
 	}
 
 }

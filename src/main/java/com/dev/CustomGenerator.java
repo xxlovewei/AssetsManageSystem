@@ -92,10 +92,10 @@ public class CustomGenerator {
 		// strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
 		//"","sys_qud_qux"
-		strategy.setInclude(new String[] { "sys_session" }); // 需要生成的表
-		strategy.setTableFillList(tableFillList);
-		strategy.setSuperEntityClass("com.dt.core.common.base.BaseModel");
-		strategy.setSuperEntityColumns("DR", "CREATE_BY", "CREATE_TIME", "UPDATE_BY", "UPDATE_TIME");
+		strategy.setInclude(new String[] { "sys_modules_item" }); // 需要生成的表
+	//	strategy.setTableFillList(tableFillList);
+		//strategy.setSuperEntityClass("com.dt.core.common.base.BaseModel");
+		//strategy.setSuperEntityColumns("DR", "CREATE_BY", "CREATE_TIME", "UPDATE_BY", "UPDATE_TIME");
 		mpg.setStrategy(strategy);
 
 		// 包配置

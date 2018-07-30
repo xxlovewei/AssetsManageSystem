@@ -1346,7 +1346,9 @@ function initDT(DTDefaultOptions) {
 	DTDefaultOptions.setOption('responsive',true);
 	DTDefaultOptions.setOption('bFilter',false);
 	DTDefaultOptions.setOption('serverSide',false);
+ 
 	
+ 
 }
 
 app.run(initDT);
@@ -1446,14 +1448,6 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 			})
 			return deferred.promise;
 		},
-		ct : function() {
-			var deferred = $q.defer();
-			$http.post( "/dt/api/system/queryContextPath.do", {}).success(function(res) {
-				 
-				deferred.resolve(res);
-			})
-			return deferred.promise;
-		},
 		login : function(e) {
 			var deferred = $q.defer();
 			e.basePublic = "yes";
@@ -1483,7 +1477,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 						}
 						$log.info("selected menu_id:"+menuid);
 						if(menuid.length>0){
-							$http.post($rootScope.project + "/api/user/getUserMenus.do", {
+							$http.post($rootScope.project + "/api/sysUserInfo/my/listMyMenusById.do", {
 								menu_id : menuid
 							}).success(function(rs) {
 								if (rs.success) {
@@ -1546,7 +1540,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 		},
 		switchSystem : function(id) {
 			var deferred = $q.defer();
-			$http.post($rootScope.project + "/api/user/getUserMenus.do", {
+			$http.post($rootScope.project + "/api/sysUserInfo/my//listMyMenusById.do", {
 				menu_id : id
 			}).success(function(rs) {
 				if (rs.success) {

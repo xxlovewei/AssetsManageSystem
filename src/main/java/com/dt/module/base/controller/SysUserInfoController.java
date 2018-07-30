@@ -1,37 +1,32 @@
 package com.dt.module.base.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.dt.module.base.entity.SysUserInfo;
-import com.dt.module.base.entity.SysUserRole;
-import com.dt.module.base.service.ISysUserInfoService;
-import com.dt.module.base.service.ISysUserRoleService;
-
-import oracle.net.aso.e;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import com.dt.core.annotion.Acl;
-import com.dt.core.common.base.R;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.dt.core.tool.util.DbUtil;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.dt.core.tool.util.ToolUtil;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import org.springframework.stereotype.Controller;
+import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
+import com.dt.core.common.base.R;
+import com.dt.core.tool.util.DbUtil;
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.entity.SysUserInfo;
+import com.dt.module.base.entity.SysUserRole;
+import com.dt.module.base.service.ISysUserInfoService;
+import com.dt.module.base.service.ISysUserRoleService;
 
 /**
  * <p>

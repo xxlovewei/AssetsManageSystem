@@ -93,35 +93,37 @@ public class LoginService extends BaseService {
 		}
 
 		if (login_type.equals(LOGIN_TYPE_EMPL)) {
-			// 系统本身唯一
-			user_id = UserService.me().getUserIdFromEmpl(value);
-			if (ToolUtil.isNotEmpty(user_id)) {
-				res = R.SUCCESS_OPER(user_id);
-			} else {
-				res = R.FAILURE("用户不存在");
-			}
+//			// 系统本身唯一
+//			user_id = UserService.me().getUserIdFromEmpl(value);
+//			if (ToolUtil.isNotEmpty(user_id)) {
+//				res = R.SUCCESS_OPER(user_id);
+//			} else {
+//				res = R.FAILURE("用户不存在");
+//			}
 		} else if (login_type.equals(LOGIN_TYPE_USERNAME)) {
 			// 系统本身唯一
-			user_id = UserService.me().getUserIdFromUserName(value);
-			if (ToolUtil.isNotEmpty(user_id)) {
-				res = R.SUCCESS_OPER(user_id);
-			} else {
-				res = R.FAILURE("用户不存在");
-			}
+//			user_id = UserService.me().getUserIdFromUserName(value);
+//			if (ToolUtil.isNotEmpty(user_id)) {
+//				res = R.SUCCESS_OPER(user_id);
+//			} else {
+//				res = R.FAILURE("用户不存在");
+//			}
+			return R.FAILURE("开发中");
 		} else if (login_type.equals(LOGIN_TYPE_MOBILE)) {
 			// 系统本身可能不唯一
-			String[] userids = UserService.me().getUserIdFromMobile(value, login_type);
-			if (ToolUtil.isNotEmpty(userids)) {
-				if (userids.length == 1) {
-					res = R.SUCCESS_OPER(userids[0]);
-				} else if (userids.length == 0) {
-					res = R.FAILURE("用户不存在");
-				} else {
-					res = R.FAILURE("存在两条记录,无法匹配记录不允许登录");
-				}
-			} else {
-				res = R.FAILURE("用户不存在");
-			}
+//			String[] userids = UserService.me().getUserIdFromMobile(value, login_type);
+//			if (ToolUtil.isNotEmpty(userids)) {
+//				if (userids.length == 1) {
+//					res = R.SUCCESS_OPER(userids[0]);
+//				} else if (userids.length == 0) {
+//					res = R.FAILURE("用户不存在");
+//				} else {
+//					res = R.FAILURE("存在两条记录,无法匹配记录不允许登录");
+//				}
+//			} else {
+//				res = R.FAILURE("用户不存在");
+//			}
+			return R.FAILURE("开发中");
 		} else if (login_type.equals(LOGIN_TYPE_MAIL)) {
 			R.FAILURE("功能未开发");
 //			String[] userids = UserService.me().getUserIdFromMail(value, login_type);

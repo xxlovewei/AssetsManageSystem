@@ -114,7 +114,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 						}
 						$log.info("selected menu_id:"+menuid);
 						if(menuid.length>0){
-							$http.post($rootScope.project + "/api/user/getUserMenus.do", {
+							$http.post($rootScope.project + "/api/sysUserInfo/my/listMyMenusById.do", {
 								menu_id : menuid
 							}).success(function(rs) {
 								if (rs.success) {
@@ -177,7 +177,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 		},
 		switchSystem : function(id) {
 			var deferred = $q.defer();
-			$http.post($rootScope.project + "/api/user/getUserMenus.do", {
+			$http.post($rootScope.project + "/api/sysUserInfo/my//listMyMenusById.do", {
 				menu_id : id
 			}).success(function(rs) {
 				if (rs.success) {

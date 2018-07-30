@@ -11,10 +11,16 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.shiro.ShiroUser;
 import com.dt.core.shiro.inter.IShiro;
 import com.dt.core.tool.lang.SpringContextUtil;
+import com.dt.module.base.entity.SysModulesItem;
 import com.dt.module.base.entity.User;
+import com.dt.module.base.service.ISysModulesItemService;
+import com.dt.module.base.service.ISysRoleInfoService;
 import com.dt.module.base.service.impl.UserService;
 import com.dt.module.db.DB;
 
@@ -22,6 +28,12 @@ import com.dt.module.db.DB;
 public class ShiroServiceImpl implements IShiro {
 	@Autowired
 	DB db;
+	
+	@Autowired
+	ISysRoleInfoService SysRoleInfoServiceImpl;
+	
+	@Autowired
+	ISysModulesItemService SysModulesItemServiceImpl;
 
 	public static IShiro me() {
 		return SpringContextUtil.getBean(IShiro.class);
@@ -57,13 +69,16 @@ public class ShiroServiceImpl implements IShiro {
 	}
 
 	@Override
-	public List<String> findPermissionsByRoleId(String roleId) {
-		return UserService.me().findPermissionsByRoleId(roleId);
+	public List<SysModulesItem> findPermissionsByRoleId(String roleId) {
+		QueryWrapper<SysModulesItem> wrapper=new QueryWrapper<SysModulesItem>();
+		return SysModulesItemServiceImpl.selectList(wrapper);
+	 
 	}
 
 	@Override
 	public String findRoleNameByRoleId(String roleId) {
-		return UserService.me().findRoleNameByRoleId(roleId);
+		
+		return SysRoleInfoServiceImpl.selectById(roleId).getRoleName();
 	}
 
 	@Override
