@@ -36,7 +36,7 @@ public class ContentService extends BaseService {
 			id = ps.getString("id", id);
 		}
 		me.set("id", id);
-		me.set("deleted", "N");
+		me.set("dr", "0");
 		me.set("type", type);
 		me.set("display", ToolUtil.parseYNValueDefN(ps.getString("display")));
 		me.set("digest", ToolUtil.parseYNValueDefN(ps.getString("digest")));
@@ -52,8 +52,8 @@ public class ContentService extends BaseService {
 		me.setIf("tag", ps.getString("tag"));
 		me.setIf("content", ps.getString("content"));
 		me.setIf("mark", ps.getString("mark"));
-		me.setSE("createtime", DbUtil.getDbDateString(db.getDBType()));
-		me.setSE("modifytime", DbUtil.getDbDateString(db.getDBType()));
+		me.setSE("create_time", DbUtil.getDbDateString(db.getDBType()));
+		me.setSE("update_time", DbUtil.getDbDateString(db.getDBType()));
 		
 		me.setIf("col_a", ps.getString("col_a"));
 		me.setIf("col_b", ps.getString("col_b"));
@@ -88,7 +88,7 @@ public class ContentService extends BaseService {
         me.setIf("col_c", ps.getString("col_c"));
         me.setIf("col_d", ps.getString("col_d"));
         me.setIf("col_e", ps.getString("col_e"));
-		me.setSE("modifytime", DbUtil.getDbDateString(db.getDBType()));
+		me.setSE("modify_time", DbUtil.getDbDateString(db.getDBType()));
 		me.where().and("id=?", ps.getString("id"));
 		db.execute(me);
 		return R.SUCCESS_OPER();
@@ -124,7 +124,7 @@ public class ContentService extends BaseService {
 		String edate = ps.getString("edate");
 		String sort = ps.getString("sort");
 		String noContent = ps.getString("noContent", "N");
-		String sql = "select <#CONTENT#> id,cat_id,digest,title,profile,urltype,url,type,mpic,mpic_loc,hits,author,createtime,modifytime ,display,mark,tag from ct_content where dr='0' and type='"
+		String sql = "select <#CONTENT#> id,cat_id,digest,title,profile,urltype,url,type,mpic,mpic_loc,hits,author,create_time,update_time ,display,mark,tag from ct_content where dr='0' and type='"
 				+ type + "' ";
 		if ("Y".equals(noContent)) {
 			sql = sql.replaceAll("<#CONTENT#>", "");
@@ -133,29 +133,29 @@ public class ContentService extends BaseService {
 		}
 		if (ToolUtil.isNotEmpty(sdate)) {
 			if (db.getDBType().equals(DbUtil.TYPE_ORACLE)) {
-				sql = sql + " and createtime>=to_date('" + sdate + " 00:00:00','yyyy-mm-dd hh24:mi:ss') ";
+				sql = sql + " and create_time>=to_date('" + sdate + " 00:00:00','yyyy-mm-dd hh24:mi:ss') ";
 			} else if (db.getDBType().equals(DbUtil.TYPE_MYSQL)) {
-				sql = sql + " and createtime>=str_to_date('" + sdate + "','%Y-%m-%d %H') ";
+				sql = sql + " and create_time>=str_to_date('" + sdate + "','%Y-%m-%d %H') ";
 			}
 
 		}
 		if (ToolUtil.isNotEmpty(edate)) {
 			if (db.getDBType().equals(DbUtil.TYPE_ORACLE)) {
-				sql = sql + " and createtime<=to_date('" + edate + " 23:59:59','yyyy-mm-dd hh24:mi:ss') ";
+				sql = sql + " and create_time<=to_date('" + edate + " 23:59:59','yyyy-mm-dd hh24:mi:ss') ";
 			} else if (db.getDBType().equals(DbUtil.TYPE_MYSQL)) {
-				sql = sql + " and createtime<=str_to_date('" + sdate + "','%Y-%m-%d %H') ";
+				sql = sql + " and create_time<=str_to_date('" + sdate + "','%Y-%m-%d %H') ";
 			}
 
 		}
 		if (ToolUtil.isEmpty(sort)) {
 			// 如果是新闻
 			if (type.equals(ContentService.TYPE_NEWS)) {
-				sql = sql + " order by createtime desc";
+				sql = sql + " order by create_time desc";
 			}
 		} else {
 			// 按照预定的排序
 			if (sort.equals(SORT_CREATE)) {
-				sql = sql + " order by createtime desc";
+				sql = sql + " order by create_time desc";
 			}
 		}
 		return sql;

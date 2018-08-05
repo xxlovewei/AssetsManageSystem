@@ -140,7 +140,7 @@ public class StoreSqlService extends BaseService {
 		me.setIf("sqltext", ps.getString("sqltext"));
 		me.setIf("db_id", ps.getString("db_id"));
 		// me.setIf("ctime", ps.getString("ctime"));
-		me.set("is_deleted", "N");
+		me.set("dr", "0");
 		me.set("acl", ps.getString("acl", ACL_USER));
 		me.setIf("mark", ps.getString("mark"));
 		me.set("return_type", ps.getString("return_type", RETURN_ACTION));
@@ -172,7 +172,7 @@ public class StoreSqlService extends BaseService {
 
 	public R deleteStoreSql(String store_id) {
 		Update me = new Update("ct_uri");
-		me.set("is_deleted", "Y");
+		me.set("dr", "1");
 		me.where().and("store_id=?", store_id);
 		db.execute(me);
 		return R.SUCCESS_OPER();

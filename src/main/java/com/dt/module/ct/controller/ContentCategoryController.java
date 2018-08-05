@@ -1,4 +1,4 @@
-package com.dt.module.ct.service;
+package com.dt.module.ct.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +10,7 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.support.HttpKit;
+import com.dt.module.ct.service.ContentCategoryService;
 
 /**
  * @author: algernonking
@@ -19,17 +20,10 @@ import com.dt.core.tool.util.support.HttpKit;
 @Controller
 @RequestMapping(value = "/api")
 public class ContentCategoryController extends BaseController {
-	@Autowired
-	ContentRootCategoryService contentRootCategoryService;
+	 
 	@Autowired
 	ContentCategoryService contentCategoryService;
-
-	@ResponseBody
-	@Acl(info = "查询根类目节点")
-	@RequestMapping(value = "/ctCategroy/queryRootCategory.do")
-	public R queryRootCategory() {
-		return contentRootCategoryService.queryRootCategory();
-	}
+ 
 
 	@ResponseBody
 	@Acl(info = "根据Id查询根类目节点")

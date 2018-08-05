@@ -87,15 +87,10 @@ function ctNewsPublishCtl($compile, $confirm, $log, notify, $scope, $http, $root
 		}
 		 
 		$scope.item.mpic=picid;
-		$scope.item.mpic_loc=$scope.mpicSel.id;
+		$scope.item.mpicLoc=$scope.mpicSel.id;
 		$scope.item.content = $scope.content;
 		$scope.item.urltype = $scope.accessSel.id;
 		$http.post($rootScope.project + "/api/news/publishNews.do", $scope.item).success(function(res) {
-//			if (res.success) {
-//
-//			} else {
-//
-//			}
 			notify({
 				message : res.message
 			});

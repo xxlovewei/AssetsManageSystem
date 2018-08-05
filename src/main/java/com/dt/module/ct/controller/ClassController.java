@@ -1,4 +1,4 @@
-package com.dt.module.ct.service;
+package com.dt.module.ct.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +12,7 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
+import com.dt.module.ct.service.ClassService;
 
 /**
  * @author: algernonking

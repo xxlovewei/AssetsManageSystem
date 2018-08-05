@@ -1,6 +1,6 @@
  
 function ctCateSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,$timeout) {
 
 	$scope.actionOpt = [ {
 		id : "Y",
@@ -14,7 +14,7 @@ function ctCateSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.catRootOpt = [];
 	$scope.catRootSel = "";
 	$scope.item = {};
-	$http.post($rootScope.project + "/api/ctCategroy/queryRootCategory.do", {})
+	$http.post($rootScope.project + "/api/ctCategoryRoot/selectList.do", {})
 			.success(function(res) {
 				if (res.success) {
 					$scope.catRootOpt = res.data;
@@ -102,14 +102,21 @@ function ctCateSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 								}).success(function(res) {
 
 							if (res.success) {
-								inst.create_node(obj, {
-									id : res.data.id,
-									text : "新节点",
-									parent : res.data.parent_id,
-									type : "node"
-								}, "last", function(new_node) {
-									console.log("new_node is:", new_node);
-								});
+								  
+								$timeout(function(){
+
+									 $scope.tree.create_node(obj, {
+										id : res.data.id,
+										text : "新节点",
+										parent : res.data.parent_id,
+										type : "node"
+									}, "last", function(new_node) {
+										console.log("new_node is:", new_node);
+									}); 
+						          },300);
+								
+								
+								
 							} else {
 								notify({
 									message : res.message

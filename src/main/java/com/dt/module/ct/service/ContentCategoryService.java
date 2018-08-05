@@ -30,7 +30,7 @@ public class ContentCategoryService extends BaseService {
 			return R.FAILURE("请先删除子节点");
 		}
 		Update me = new Update("ct_category");
-		me.set("deleted", "Y");
+		me.set("dr", "0");
 		me.where().and("id=?", id);
 		db.execute(me);
 		return R.SUCCESS_OPER();
@@ -165,7 +165,7 @@ public class ContentCategoryService extends BaseService {
 			me.set("node_level", oldData.getIntValue("node_level") + 1);
 		}
 		me.set("id", id);
-		me.set("deleted", "N");
+		me.set("dr", "0");
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("mpic", ps.getString("mpic"));
 		me.setIf("name", ps.getString("name", "idle"));

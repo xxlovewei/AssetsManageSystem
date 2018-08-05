@@ -4,23 +4,7 @@ function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 //	$scope.meta ={
 //			tools : []
 //		}
-	$scope.userGroupOpt = [];
-	$scope.userGroupSel = "";
-	$http.post($rootScope.project + "/api/user/queryGroup.do", {}).success(function(res) {
-		if (res.success) {
-			$scope.userGroupOpt = prepend(res.data, {
-				group_id : "ALL",
-				name : "全部"
-			});
-			$scope.userGroupSel = $scope.userGroupOpt[0];
-		} else {
-			notify({
-				message : res.message
-			});
-		}
-	});
-  
- 
+//	 
 	
 	
 	$scope.URL = $rootScope.project + "/api/news/queryNewsByPage.do?noContent=Y";
@@ -82,15 +66,10 @@ function ctNewsMgrCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 
 	DTColumnBuilder.newColumn('id').withTitle('主图').withOption('sDefaultContent', '').renderWith(renderMImage),
 			DTColumnBuilder.newColumn('title').withTitle('标题').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('createtime').withTitle('创建时间').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('createTime').withTitle('创建时间').withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('hits').withTitle('点击量').withOption('sDefaultContent', '') ,
 			DTColumnBuilder.newColumn('urltype').withTitle('链接类型').withOption('sDefaultContent', '').renderWith(renderType),
-			DTColumnBuilder.newColumn('user_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+			DTColumnBuilder.newColumn('userId').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
 
 	$scope.row_del = function(id) {
 	//	reloadData();
