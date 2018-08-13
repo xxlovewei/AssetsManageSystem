@@ -12,6 +12,7 @@ import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.bus_enum.userTypeEnum;
 
 /**
  * @author: algernonking
@@ -131,8 +132,7 @@ public class EmplService extends BaseService {
 			return R.FAILURE("无节点");
 		}
 		String sql = "select c.* from hrm_org_employee a,sys_user_info c where a.empl_id=c.empl_id and c.user_type= ? and a.node_id=? and c.dr='0'";
-		//RcdSet rs = db.query(sql, UserService.USER_TYPE_EMPL, node_id);
-		RcdSet rs=null;
+		RcdSet rs = db.query(sql,userTypeEnum.EMPL.getValue().toString() , node_id);
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 	}
 
