@@ -318,16 +318,27 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 
 	function flush() {
 		var ps = {}
-		$http.post($rootScope.project + "/api/role/roleQuery.do", ps).success(
-				function(res) {
-					if (res.success) {
-						$scope.dtOptions.aaData = res.data;
-					} else {
-						notify({
-							message : res.message
-						});
-					}
-				})
+		var d=[];
+		var a={role_id:1};
+		d.push({role_id:2});
+		d.push({role_id:3});
+		d.push({role_id:5});
+		d.push({role_id:7});
+		d.push({role_id:8});
+		d.push({role_id:19});
+		d.push({role_id:11});
+		 
+		$scope.dtOptions.aaData=d;
+//		$http.post($rootScope.project + "/api/role/roleQuery.do", ps).success(
+//				function(res) {
+//					if (res.success) {
+//						$scope.dtOptions.aaData = res.data;
+//					} else {
+//						notify({
+//							message : res.message
+//						});
+//					}
+//				})
 	}
 	flush();
 
