@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
@@ -27,6 +30,19 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
  */
 
 public class CustomGenerator {
+	 public static String scanner(String tip) {
+	        Scanner scanner = new Scanner(System.in);
+	        StringBuilder help = new StringBuilder();
+	        help.append("请输入" + tip + "：");
+	        System.out.println(help.toString());
+	        if (scanner.hasNext()) {
+	            String ipt = scanner.next();
+	            if (StringUtils.isNotEmpty(ipt)) {
+	                return ipt;
+	            }
+	        }
+	        throw new MybatisPlusException("请输入正确的" + tip + "！");
+	    }
 	public static void main(String[] args) throws InterruptedException {
 
 		GlobalConfig g = new GlobalConfig();
@@ -36,12 +52,14 @@ public class CustomGenerator {
 		// 全局配置
 		GlobalConfig gc = new GlobalConfig();
 		gc.setOutputDir(dir + "/java/");
+		gc.setOpen(true);//生成后打开文件夹
 		gc.setFileOverride(true);
 		gc.setActiveRecord(true);
 		gc.setEnableCache(false);// XML 二级缓存
 		gc.setBaseResultMap(true);// XML ResultMap
 		gc.setBaseColumnList(false);// XML columList
 		gc.setAuthor("algernonking");
+		gc.setFileOverride(true);// 是否覆盖文件
 		gc.setDateType(DateType.ONLY_DATE);
 
 		// 自定义文件命名，注意 %s 会自动填充表实体属性！
@@ -83,6 +101,7 @@ public class CustomGenerator {
 
 
 		StrategyConfig strategy = new StrategyConfig();
+		//已经从baseMapper继承下来，无需再次添加
 		//strategy.setLogicDeleteFieldName("DR");
 		 
 		strategy.setSuperControllerClass("com.dt.core.common.base.BaseController");
@@ -92,8 +111,11 @@ public class CustomGenerator {
 		// strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
 		//"","sys_qud_qux"
+		//"res_attr_value","res_class","res_class_attrs"
 		//"res_attr_value","res_class_attrs"
-		strategy.setInclude(new String[] { "res" }); // 需要生成的表
+		strategy.setInclude(new String[] { "RES","RES_ATTR_VALUE","RES_CLASS","RES_CLASS_ATTRS" }); // 需要生成的表
+		// strategy.setInclude(scanner("表名"));
+		  
 		strategy.setTableFillList(tableFillList);
 		strategy.setSuperEntityClass("com.dt.core.common.base.BaseModel");
  

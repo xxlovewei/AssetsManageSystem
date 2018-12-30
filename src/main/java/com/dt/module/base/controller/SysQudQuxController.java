@@ -43,21 +43,21 @@ public class SysQudQuxController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysQudQuxServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysQudQuxServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysQudQuxServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysQudQuxServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysQudQux entity) {
-		return R.SUCCESS_OPER(SysQudQuxServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysQudQuxServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -71,14 +71,14 @@ public class SysQudQuxController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysQudQux entity) {
-		return R.SUCCESS_OPER(SysQudQuxServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysQudQuxServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysQudQuxServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysQudQuxServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -95,7 +95,7 @@ public class SysQudQuxController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<SysQudQux> ew = new QueryWrapper<SysQudQux>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysQudQux> pdata = SysQudQuxServiceImpl.selectPage(new Page<SysQudQux>(pageindex, pagesize), ew);
+		IPage<SysQudQux> pdata = SysQudQuxServiceImpl.page(new Page<SysQudQux>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

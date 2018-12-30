@@ -87,7 +87,8 @@ public class LoginController extends BaseController {
 		ShiroKit.getSession().setAttribute("sessionFlag", true);
 
 		JSONObject r = new JSONObject();
-		JSONObject u = JSONObject.parseObject(JSON.toJSONString(SysUserInfoServiceImpl.selectById(user_id),
+		 
+		JSONObject u = JSONObject.parseObject(JSON.toJSONString(SysUserInfoServiceImpl.getById(user_id),
 				SerializerFeature.WriteDateUseDateFormat));
 		// 覆盖重要信息
 		u.put("pwd", "********");
@@ -158,7 +159,7 @@ public class LoginController extends BaseController {
 		ShiroKit.getSession().setAttribute("sessionFlag", true);
 
 		JSONObject r = new JSONObject();
-		JSONObject u = JSONObject.parseObject(JSON.toJSONString(SysUserInfoServiceImpl.selectById(user_id),
+		JSONObject u = JSONObject.parseObject(JSON.toJSONString(SysUserInfoServiceImpl.getById(user_id),
 				SerializerFeature.WriteDateUseDateFormat));
 		// 覆盖重要信息
 		u.put("pwd", "********");

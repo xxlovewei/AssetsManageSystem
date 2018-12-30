@@ -42,21 +42,21 @@ public class CtStoreSqlController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtStoreSqlServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(CtStoreSqlServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtStoreSqlServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(CtStoreSqlServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(CtStoreSql entity) {
-		return R.SUCCESS_OPER(CtStoreSqlServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(CtStoreSqlServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -70,14 +70,14 @@ public class CtStoreSqlController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(CtStoreSql entity) {
-		return R.SUCCESS_OPER(CtStoreSqlServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(CtStoreSqlServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(CtStoreSqlServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(CtStoreSqlServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -92,7 +92,7 @@ public class CtStoreSqlController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<CtStoreSql> ew = new QueryWrapper<CtStoreSql>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<CtStoreSql> pdata = CtStoreSqlServiceImpl.selectPage(new Page<CtStoreSql>(pageindex, pagesize), ew);
+		IPage<CtStoreSql> pdata = CtStoreSqlServiceImpl.page(new Page<CtStoreSql>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

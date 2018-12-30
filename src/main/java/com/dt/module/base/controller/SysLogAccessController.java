@@ -40,21 +40,21 @@ public class SysLogAccessController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysLogAccessServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysLogAccessServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysLogAccessServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysLogAccessServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysLogAccess entity) {
-		return R.SUCCESS_OPER(SysLogAccessServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysLogAccessServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -68,7 +68,7 @@ public class SysLogAccessController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysLogAccess entity) {
-		return R.SUCCESS_OPER(SysLogAccessServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysLogAccessServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
@@ -77,7 +77,7 @@ public class SysLogAccessController extends BaseController {
 	public R selectList() {
 		QueryWrapper<SysLogAccess> ew = new QueryWrapper<SysLogAccess>();
 		ew.and(i -> i.ne("user_id", "abc"));
-		return R.SUCCESS_OPER(SysLogAccessServiceImpl.selectList(ew));
+		return R.SUCCESS_OPER(SysLogAccessServiceImpl.list(ew));
 	}
 
 	@ResponseBody
@@ -95,7 +95,7 @@ public class SysLogAccessController extends BaseController {
 		QueryWrapper<SysLogAccess> ew = new QueryWrapper<SysLogAccess>();
 		ew.and(i -> i.eq("user_id", getUserId()));
 		ew.orderByDesc("rtime");
-		IPage<SysLogAccess> pdata = SysLogAccessServiceImpl.selectPage(new Page<SysLogAccess>(pageindex, pagesize), ew);
+		IPage<SysLogAccess> pdata = SysLogAccessServiceImpl.page(new Page<SysLogAccess>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

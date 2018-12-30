@@ -69,14 +69,14 @@ public class ShiroServiceImpl implements IShiro {
 	@Override
 	public List<SysModulesItem> findPermissionsByRoleId(String roleId) {
 		QueryWrapper<SysModulesItem> wrapper=new QueryWrapper<SysModulesItem>();
-		return SysModulesItemServiceImpl.selectList(wrapper);
+		return SysModulesItemServiceImpl.list(wrapper);
 	 
 	}
 
 	@Override
 	public String findRoleNameByRoleId(String roleId) {
 		
-		return SysRoleInfoServiceImpl.selectById(roleId).getRoleName();
+		return SysRoleInfoServiceImpl.getById(roleId).getRoleName();
 	}
 
 	@Override

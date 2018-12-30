@@ -34,21 +34,21 @@ public class SysFileConfController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysFileConfServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysFileConfServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysFileConfServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysFileConfServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysFileConf entity) {
-		return R.SUCCESS_OPER(SysFileConfServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysFileConfServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -62,14 +62,14 @@ public class SysFileConfController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysFileConf entity) {
-		return R.SUCCESS_OPER(SysFileConfServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysFileConfServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysFileConfServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysFileConfServiceImpl.list(null));
 	}
 
 	 

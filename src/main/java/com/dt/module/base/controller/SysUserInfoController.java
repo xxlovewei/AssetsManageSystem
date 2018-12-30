@@ -47,7 +47,7 @@ public class SysUserInfoController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysUserInfoServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
@@ -56,7 +56,7 @@ public class SysUserInfoController extends BaseController {
 	public R deleteByIds(@RequestParam(value = "ids", required = true, defaultValue = "[]") String ids) {
 		JSONArray res = JSONArray.parseArray(ids);
 		for (int i = 0; i < res.size(); i++) {
-			SysUserInfoServiceImpl.deleteById(res.getString(i));
+			SysUserInfoServiceImpl.removeById(res.getString(i));
 		}
 		return R.SUCCESS_OPER();
 	}
@@ -65,15 +65,15 @@ public class SysUserInfoController extends BaseController {
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		SysUserInfo r = SysUserInfoServiceImpl.selectById(id);
-		return R.SUCCESS_OPER(SysUserInfoServiceImpl.selectById(id));
+		SysUserInfo r = SysUserInfoServiceImpl.getById(id);
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysUserInfo entity) {
-		return R.SUCCESS_OPER(SysUserInfoServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -87,14 +87,14 @@ public class SysUserInfoController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysUserInfo entity) {
-		return R.SUCCESS_OPER(SysUserInfoServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysUserInfoServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -121,7 +121,7 @@ public class SysUserInfoController extends BaseController {
 		QueryWrapper<SysUserInfo> ew = new QueryWrapper<SysUserInfo>();
 		ew.and(b -> b.eq(ToolUtil.isNotEmpty(ct), "name", ct).eq("1", "1").apply(ToolUtil.isNotEmpty(groupId),
 				" user_id in (select user_id from sys_user_group_item where dr=0 and group_id='" + groupId + "')", ""));
-		IPage<SysUserInfo> pdata = SysUserInfoServiceImpl.selectPage(new Page<SysUserInfo>(pageindex, pagesize), ew);
+		IPage<SysUserInfo> pdata = SysUserInfoServiceImpl.page(new Page<SysUserInfo>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
@@ -179,12 +179,12 @@ public class SysUserInfoController extends BaseController {
 			String user_id = user_arr.getString(i);
 			QueryWrapper<SysUserRole> we = new QueryWrapper<SysUserRole>();
 			we.and(b -> b.eq("user_id", user_id));
-			SysUserRoleServiceImpl.delete(we);
+			SysUserRoleServiceImpl.remove(we);
 			for (int j = 0; j < roles_arr.size(); j++) {
 				SysUserRole temp = new SysUserRole();
 				temp.setUserId(user_id);
 				temp.setRoleId(roles_arr.getString(j));
-				SysUserRoleServiceImpl.insert(temp);
+				SysUserRoleServiceImpl.save(temp);
 			}
 		}
 		return R.SUCCESS_OPER();

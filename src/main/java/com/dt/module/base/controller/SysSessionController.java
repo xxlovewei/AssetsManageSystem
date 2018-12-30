@@ -42,21 +42,21 @@ public class SysSessionController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysSessionServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysSessionServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysSessionServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysSessionServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysSession entity) {
-		return R.SUCCESS_OPER(SysSessionServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysSessionServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -70,14 +70,14 @@ public class SysSessionController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysSession entity) {
-		return R.SUCCESS_OPER(SysSessionServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysSessionServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysSessionServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysSessionServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -92,7 +92,7 @@ public class SysSessionController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<SysSession> ew = new QueryWrapper<SysSession>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysSession> pdata = SysSessionServiceImpl.selectPage(new Page<SysSession>(pageindex, pagesize), ew);
+		IPage<SysSession> pdata = SysSessionServiceImpl.page(new Page<SysSession>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

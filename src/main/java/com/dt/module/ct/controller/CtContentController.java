@@ -42,21 +42,21 @@ public class CtContentController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtContentServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(CtContentServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtContentServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(CtContentServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(CtContent entity) {
-		return R.SUCCESS_OPER(CtContentServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(CtContentServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -70,14 +70,14 @@ public class CtContentController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(CtContent entity) {
-		return R.SUCCESS_OPER(CtContentServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(CtContentServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(CtContentServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(CtContentServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -92,7 +92,7 @@ public class CtContentController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<CtContent> ew = new QueryWrapper<CtContent>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<CtContent> pdata = CtContentServiceImpl.selectPage(new Page<CtContent>(pageindex, pagesize), ew);
+		IPage<CtContent> pdata = CtContentServiceImpl.page(new Page<CtContent>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

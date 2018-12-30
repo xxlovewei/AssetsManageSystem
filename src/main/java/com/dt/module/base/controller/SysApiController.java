@@ -34,21 +34,21 @@ public class SysApiController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysApiServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysApiServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysApiServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysApiServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysApi entity) {
-		return R.SUCCESS_OPER(SysApiServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysApiServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -62,14 +62,14 @@ public class SysApiController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysApi entity) {
-		return R.SUCCESS_OPER(SysApiServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysApiServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysApiServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysApiServiceImpl.list(null));
 	}
  
 

@@ -27,10 +27,10 @@ import com.dt.core.common.base.BaseController;
  * </p>
  *
  * @author algernonking
- * @since 2018-12-29
+ * @since 2018-12-30
  */
 @Controller
-@RequestMapping("/api/resClass")
+@RequestMapping("/api/cmdb/resClass")
 public class ResClassController extends BaseController {
 
 
@@ -42,21 +42,21 @@ public class ResClassController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(ResClassServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(ResClassServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(ResClassServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(ResClassServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(ResClass entity) {
-		return R.SUCCESS_OPER(ResClassServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(ResClassServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -70,14 +70,14 @@ public class ResClassController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(ResClass entity) {
-		return R.SUCCESS_OPER(ResClassServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(ResClassServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(ResClassServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(ResClassServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -92,7 +92,7 @@ public class ResClassController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<ResClass> ew = new QueryWrapper<ResClass>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<ResClass> pdata = ResClassServiceImpl.selectPage(new Page<ResClass>(pageindex, pagesize), ew);
+		IPage<ResClass> pdata = ResClassServiceImpl.page(new Page<ResClass>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

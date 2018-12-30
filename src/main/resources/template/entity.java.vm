@@ -1,5 +1,6 @@
 package ${package.Entity};
 
+import java.io.Serializable;
 #foreach($pkg in ${table.importPackages})
 import ${pkg};
 #end

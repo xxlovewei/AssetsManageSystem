@@ -60,21 +60,21 @@ public class ${table.controllerName} {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.deleteById(id));
+		return R.SUCCESS_OPER(${table.serviceImplName}.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.selectById(id));
+		return R.SUCCESS_OPER(${table.serviceImplName}.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(${entity} entity) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.insert(entity));
+		return R.SUCCESS_OPER(${table.serviceImplName}.save(entity));
 	}
 
 	@ResponseBody
@@ -88,14 +88,14 @@ public class ${table.controllerName} {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(${entity} entity) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(${table.serviceImplName}.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(${table.serviceImplName}.selectList(null));
+		return R.SUCCESS_OPER(${table.serviceImplName}.list(null));
 	}
 
 	@ResponseBody
@@ -110,7 +110,7 @@ public class ${table.controllerName} {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<${entity}> ew = new QueryWrapper<${entity}>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<${entity}> pdata = ${table.serviceImplName}.selectPage(new Page<${entity}>(pageindex, pagesize), ew);
+		IPage<${entity}> pdata = ${table.serviceImplName}.page(new Page<${entity}>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

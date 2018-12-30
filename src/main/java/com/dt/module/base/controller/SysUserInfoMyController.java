@@ -32,7 +32,7 @@ public class SysUserInfoMyController extends BaseController {
 	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/select.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysUserInfoServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.getById(id));
 	}
 
 	@ResponseBody
@@ -46,7 +46,7 @@ public class SysUserInfoMyController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysUserInfo entity) {
-		return R.SUCCESS_OPER(SysUserInfoServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysUserInfoServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
@@ -54,7 +54,7 @@ public class SysUserInfoMyController extends BaseController {
 	@RequestMapping(value = "/modifypwd.do")
 	public R modifypwd(@RequestParam(value = "oldpwd", required = true, defaultValue = "") String oldpwd,
 			@RequestParam(value = "pwd", required = true, defaultValue = "") String pwd) {
-		SysUserInfo user = SysUserInfoServiceImpl.selectById(this.getUserId());
+		SysUserInfo user = SysUserInfoServiceImpl.getById(this.getUserId());
 		if (oldpwd.equals(user.getPwd())) {
 			return SysUserInfoServiceImpl.modifyPassword(this.getUserId(), pwd);
 		} else {

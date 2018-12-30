@@ -43,21 +43,21 @@ public class SysUserGroupController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysUserGroupServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysUserGroupServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysUserGroupServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysUserGroupServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysUserGroup entity) {
-		return R.SUCCESS_OPER(SysUserGroupServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysUserGroupServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -71,14 +71,14 @@ public class SysUserGroupController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysUserGroup entity) {
-		return R.SUCCESS_OPER(SysUserGroupServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysUserGroupServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysUserGroupServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysUserGroupServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -95,7 +95,7 @@ public class SysUserGroupController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<SysUserGroup> ew = new QueryWrapper<SysUserGroup>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysUserGroup> pdata = SysUserGroupServiceImpl.selectPage(new Page<SysUserGroup>(pageindex, pagesize), ew);
+		IPage<SysUserGroup> pdata = SysUserGroupServiceImpl.page(new Page<SysUserGroup>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

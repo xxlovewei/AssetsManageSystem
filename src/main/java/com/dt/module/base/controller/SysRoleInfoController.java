@@ -37,21 +37,21 @@ public class SysRoleInfoController extends BaseController {
 		if (SysRoleInfoServiceImpl.isUsed(id) > 0) {
 			return R.FAILURE("使用中,暂不可删除");
 		}
-		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysRoleInfo entity) {
-		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -65,21 +65,21 @@ public class SysRoleInfoController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysRoleInfo entity) {
-		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysRoleInfoServiceImpl.list(null));
 	}
 
 	@RequestMapping(value = "/roleQueryFormatKV.do")
 	@ResponseBody
 	@Acl(info = "查询权限",value = Acl.ACL_DENY)
 	public R roleQueryFormatKV() {
-		List<SysRoleInfo> roles = SysRoleInfoServiceImpl.selectList(null);
+		List<SysRoleInfo> roles = SysRoleInfoServiceImpl.list(null);
 		JSONObject obj = new JSONObject();
 		for (int i = 0; i < roles.size(); i++) {
 			obj.put(roles.get(i).getRoleId(), roles.get(i).getRoleName());

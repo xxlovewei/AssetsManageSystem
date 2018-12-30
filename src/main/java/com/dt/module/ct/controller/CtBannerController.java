@@ -3,7 +3,11 @@ package com.dt.module.ct.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.module.ct.entity.CtBanner;
+import com.dt.module.ct.entity.CtCategory;
 import com.dt.module.ct.service.ICtBannerService;
+
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -42,21 +46,21 @@ public class CtBannerController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtBannerServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(CtBannerServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtBannerServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(CtBannerServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
 	public R insert(CtBanner entity) {
-		return R.SUCCESS_OPER(CtBannerServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(CtBannerServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -70,14 +74,14 @@ public class CtBannerController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(CtBanner entity) {
-		return R.SUCCESS_OPER(CtBannerServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(CtBannerServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(CtBannerServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(CtBannerServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -92,7 +96,8 @@ public class CtBannerController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<CtBanner> ew = new QueryWrapper<CtBanner>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<CtBanner> pdata = CtBannerServiceImpl.selectPage(new Page<CtBanner>(pageindex, pagesize), ew);
+ 
+		IPage<CtBanner> pdata = CtBannerServiceImpl.page(new Page<CtBanner>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

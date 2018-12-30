@@ -43,21 +43,21 @@ public class SysJobController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysJobServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysJobServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysJobServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysJobServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysJob entity) {
-		return R.SUCCESS_OPER(SysJobServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysJobServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -71,14 +71,14 @@ public class SysJobController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysJob entity) {
-		return R.SUCCESS_OPER(SysJobServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysJobServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysJobServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysJobServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -95,7 +95,7 @@ public class SysJobController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<SysJob> ew = new QueryWrapper<SysJob>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysJob> pdata = SysJobServiceImpl.selectPage(new Page<SysJob>(pageindex, pagesize), ew);
+		IPage<SysJob> pdata = SysJobServiceImpl.page(new Page<SysJob>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

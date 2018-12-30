@@ -30,7 +30,7 @@ import com.dt.core.common.base.BaseController;
  * @since 2018-12-30
  */
 @Controller
-@RequestMapping("/api/res")
+@RequestMapping("/api/cmdb/res")
 public class ResController extends BaseController {
 
 
@@ -42,21 +42,21 @@ public class ResController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(ResServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(ResServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(ResServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(ResServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(Res entity) {
-		return R.SUCCESS_OPER(ResServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(ResServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -70,14 +70,14 @@ public class ResController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(Res entity) {
-		return R.SUCCESS_OPER(ResServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(ResServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(ResServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(ResServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -92,7 +92,7 @@ public class ResController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<Res> ew = new QueryWrapper<Res>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<Res> pdata = ResServiceImpl.selectPage(new Page<Res>(pageindex, pagesize), ew);
+		IPage<Res> pdata = ResServiceImpl.page(new Page<Res>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

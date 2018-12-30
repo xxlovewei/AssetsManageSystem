@@ -42,21 +42,21 @@ public class CtCategoryController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(CtCategoryServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(CtCategoryServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(CtCategory entity) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(CtCategoryServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -70,14 +70,14 @@ public class CtCategoryController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(CtCategory entity) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(CtCategoryServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(CtCategoryServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -92,7 +92,8 @@ public class CtCategoryController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<CtCategory> ew = new QueryWrapper<CtCategory>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<CtCategory> pdata = CtCategoryServiceImpl.selectPage(new Page<CtCategory>(pageindex, pagesize), ew);
+		 
+		IPage<CtCategory> pdata = CtCategoryServiceImpl.page(new Page<CtCategory>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

@@ -14,7 +14,7 @@ import com.dt.core.tool.util.support.HttpKit;
  * @Description: TODO
  */
 @Component
-public class MetaObjectHandlerConfig extends MetaObjectHandler {
+public class MetaObjectHandlerConfig  implements MetaObjectHandler {
 
 	@Override
 	public void insertFill(MetaObject metaObject) {

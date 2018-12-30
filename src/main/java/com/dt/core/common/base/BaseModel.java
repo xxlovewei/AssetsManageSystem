@@ -109,7 +109,7 @@ public class BaseModel<T> extends Model implements Serializable {
 	@Override
 	protected Serializable pkVal() {
 		// TODO Auto-generated method stub
-		return null;
+	   return this.pkVal();
 	}
 
 }

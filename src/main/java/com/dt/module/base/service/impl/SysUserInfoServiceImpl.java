@@ -410,7 +410,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		}
 		QueryWrapper<SysUserReceivingaddr> queryWrapper = new QueryWrapper<SysUserReceivingaddr>();
 		queryWrapper.eq("user_id", user_id);
-		return R.SUCCESS_OPER(SysUserReceivingaddrServiceImpl.selectList(queryWrapper));
+		return R.SUCCESS_OPER(SysUserReceivingaddrServiceImpl.list(queryWrapper));
 	}
 	
 	
@@ -420,7 +420,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		 }
 		 QueryWrapper<SysUserReceivingaddr> queryWrapper = new QueryWrapper<SysUserReceivingaddr>();
 		 queryWrapper.eq("user_id", user_id).eq("id", id);
-		 return R.SUCCESS_OPER(SysUserReceivingaddrServiceImpl.delete(queryWrapper));
+		 return R.SUCCESS_OPER(SysUserReceivingaddrServiceImpl.remove(queryWrapper));
 		
 	}
 

@@ -38,7 +38,7 @@ public class NewsController extends BaseController {
 	@Acl(info = "根据Id查询", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/news/queryNewsById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtContentServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(CtContentServiceImpl.getById(id));
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class NewsController extends BaseController {
 	@ResponseBody
 	@Acl(value = Acl.ACL_DENY, info = "删除新闻")
 	public R deleteNews(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtContentServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(CtContentServiceImpl.removeById(id));
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class NewsController extends BaseController {
 	@Acl(value = Acl.ACL_DENY, info = "发布新闻")
 	public R publishNews(CtContent entity) {
 		entity.setType(ctCtTypeEnum.NEWS.getValue().toString());
-		return R.SUCCESS_OPER(CtContentServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(CtContentServiceImpl.saveOrUpdate(entity));
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class NewsController extends BaseController {
 		QueryWrapper<CtContent> ew = new QueryWrapper<CtContent>();
 		ew.and(i -> i.eq("type", ctCtTypeEnum.NEWS.getValue()));
 		ew.orderByAsc("create_time");
-		IPage<CtContent> pdata = CtContentServiceImpl.selectPage(new Page<CtContent>(pageindex, pagesize), ew);
+		IPage<CtContent> pdata = CtContentServiceImpl.page(new Page<CtContent>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

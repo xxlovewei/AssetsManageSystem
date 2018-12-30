@@ -43,21 +43,21 @@ public class SysQudShengfController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysQudShengfServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysQudShengfServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysQudShengfServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysQudShengfServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysQudShengf entity) {
-		return R.SUCCESS_OPER(SysQudShengfServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysQudShengfServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -71,14 +71,14 @@ public class SysQudShengfController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysQudShengf entity) {
-		return R.SUCCESS_OPER(SysQudShengfServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysQudShengfServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysQudShengfServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysQudShengfServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -95,7 +95,7 @@ public class SysQudShengfController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<SysQudShengf> ew = new QueryWrapper<SysQudShengf>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysQudShengf> pdata = SysQudShengfServiceImpl.selectPage(new Page<SysQudShengf>(pageindex, pagesize), ew);
+		IPage<SysQudShengf> pdata = SysQudShengfServiceImpl.page(new Page<SysQudShengf>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

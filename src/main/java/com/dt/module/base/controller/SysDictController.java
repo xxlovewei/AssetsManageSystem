@@ -40,21 +40,21 @@ public class SysDictController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysDictServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysDictServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysDictServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysDictServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysDict entity) {
-		return R.SUCCESS_OPER(SysDictServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysDictServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -68,14 +68,14 @@ public class SysDictController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysDict entity) {
-		return R.SUCCESS_OPER(SysDictServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysDictServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysDictServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysDictServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -93,7 +93,7 @@ public class SysDictController extends BaseController {
 		QueryWrapper<SysDict> ew = new QueryWrapper<SysDict>();
 		// ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10,
 		// "rtime>sysdate-1","23"));
-		IPage<SysDict> pdata = SysDictServiceImpl.selectPage(new Page<SysDict>(pageindex, pagesize), ew);
+		IPage<SysDict> pdata = SysDictServiceImpl.page(new Page<SysDict>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

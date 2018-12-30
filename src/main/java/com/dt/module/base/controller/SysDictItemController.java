@@ -34,21 +34,21 @@ public class SysDictItemController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysDictItemServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysDictItemServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysDictItemServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysDictItemServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysDictItem entity) {
-		return R.SUCCESS_OPER(SysDictItemServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysDictItemServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -62,14 +62,14 @@ public class SysDictItemController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysDictItem entity) {
-		return R.SUCCESS_OPER(SysDictItemServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysDictItemServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysDictItemServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysDictItemServiceImpl.list(null));
 	}
 
 	@ResponseBody

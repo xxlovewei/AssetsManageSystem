@@ -43,21 +43,21 @@ public class SysUserHomeaddrController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.deleteById(id));
+		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.selectById(id));
+		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysUserHomeaddr entity) {
-		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.insert(entity));
+		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.save(entity));
 	}
 
 	@ResponseBody
@@ -71,14 +71,14 @@ public class SysUserHomeaddrController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(SysUserHomeaddr entity) {
-		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.insertOrUpdate(entity));
+		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.selectList(null));
+		return R.SUCCESS_OPER(SysUserHomeaddrServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -95,7 +95,7 @@ public class SysUserHomeaddrController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<SysUserHomeaddr> ew = new QueryWrapper<SysUserHomeaddr>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysUserHomeaddr> pdata = SysUserHomeaddrServiceImpl.selectPage(new Page<SysUserHomeaddr>(pageindex, pagesize), ew);
+		IPage<SysUserHomeaddr> pdata = SysUserHomeaddrServiceImpl.page(new Page<SysUserHomeaddr>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

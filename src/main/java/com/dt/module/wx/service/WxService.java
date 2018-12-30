@@ -506,7 +506,7 @@ public class WxService extends BaseService {
 				user.setOpenId(open_id);
 				user.setLocked("N");
 				user.setPwd(MD5Util.encrypt(ToolUtil.getUUID()));
-				SysUserInfoServiceImpl.insert(user);
+				SysUserInfoServiceImpl.save(user);
 				// 判断用户是否新建成
 				ur = SysUserInfoServiceImpl.selectByOpenId(open_id);
 				if (ur.isFailed()) {
