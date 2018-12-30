@@ -233,18 +233,23 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	console.log($scope.dtColumns);
 	function flush() {
 
+		console.log('f');
 		var url = "";
 		if (angular.isDefined($scope.ct)) {
 			url = $rootScope.project
 					+ "/api/sysUserInfo/selectPage.do?none=none&ct="
 					+ $scope.ct;
+		} else {
+			url = $rootScope.project
+					+ "/api/sysUserInfo/selectPage.do?none=none";
 		}
+
 		if ($scope.userGroupSel.groupId != "ALL") {
 			url = url + "&groupId=" + $scope.userGroupSel.groupId;
 		}
 		$scope.URL = url;
 		$scope.dtOptions.ajax = $scope.URL;
-		reloadData();
+		//reloadData();
 
 	}
 
@@ -271,7 +276,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		var userids = [];
 		for (var i = 0; i < data.length; i++) {
 			// alert($scope.dtOptions.aaData[data[i]].USER_NO)
-			userids.push(d[data[i]].user_id);
+			userids.push(d[data[i]].userId);
 		}
 		console.log(angular.toJson(userids))
 		$confirm({
@@ -313,7 +318,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 
 		var d = $scope.dtInstance.DataTable.context[0].json.data;
-		$log.warn(d[data[0]].user_id);
+		$log.warn(d[data[0]].userId);
 
 		var modalInstance = $uibModal.open({
 			backdrop : true,
@@ -358,7 +363,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		var userids = [];
 		for (var i = 0; i < data.length; i++) {
 			// alert($scope.dtOptions.aaData[data[i]].user_no)
-			userids.push(d[data[i]].user_id);
+			userids.push(d[data[i]].userId);
 		}
 
 		var modalInstance = $uibModal.open({

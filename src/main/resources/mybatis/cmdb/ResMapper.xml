@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dt.module.cmdb.mapper.ResMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dt.module.cmdb.entity.Res">
+        <id column="ID" property="id" />
+    <result column="DR" property="dr" />
+    <result column="UPDATE_BY" property="updateBy" />
+    <result column="CREATE_BY" property="createBy" />
+    <result column="CREATE_TIME" property="createTime" />
+    <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UUID" property="uuid" />
+        <result column="CLASS_ID" property="classId" />
+        <result column="SN" property="sn" />
+        <result column="NAME" property="name" />
+        <result column="DESCRIBE" property="describe" />
+        <result column="MAINTAIN_USERID" property="maintainUserid" />
+        <result column="HEADUSERID" property="headuserid" />
+        <result column="PINP" property="pinp" />
+        <result column="LOC" property="loc" />
+        <result column="LOCSHOW" property="locshow" />
+        <result column="FS1" property="fs1" />
+        <result column="FS2" property="fs2" />
+        <result column="FS3" property="fs3" />
+        <result column="FS4" property="fs4" />
+        <result column="FS5" property="fs5" />
+        <result column="FS6" property="fs6" />
+        <result column="FS7" property="fs7" />
+        <result column="FS8" property="fs8" />
+        <result column="FS9" property="fs9" />
+        <result column="FS10" property="fs10" />
+        <result column="FS11" property="fs11" />
+        <result column="FS12" property="fs12" />
+        <result column="FS13" property="fs13" />
+        <result column="FS14" property="fs14" />
+        <result column="FS15" property="fs15" />
+        <result column="FS16" property="fs16" />
+        <result column="FS17" property="fs17" />
+        <result column="FS18" property="fs18" />
+        <result column="FS19" property="fs19" />
+        <result column="FS20" property="fs20" />
+        <result column="FI1" property="fi1" />
+        <result column="FI2" property="fi2" />
+        <result column="FI3" property="fi3" />
+        <result column="FI4" property="fi4" />
+        <result column="FI5" property="fi5" />
+        <result column="FI6" property="fi6" />
+        <result column="FI7" property="fi7" />
+        <result column="FI8" property="fi8" />
+        <result column="FI9" property="fi9" />
+        <result column="FI10" property="fi10" />
+        <result column="FI11" property="fi11" />
+        <result column="FI12" property="fi12" />
+        <result column="FI13" property="fi13" />
+        <result column="FI14" property="fi14" />
+        <result column="FI15" property="fi15" />
+        <result column="FI16" property="fi16" />
+        <result column="FI17" property="fi17" />
+        <result column="FI18" property="fi18" />
+        <result column="FI19" property="fi19" />
+        <result column="FI20" property="fi20" />
+        <result column="FD1" property="fd1" />
+        <result column="FD2" property="fd2" />
+        <result column="FD3" property="fd3" />
+        <result column="STATUS" property="status" />
+        <result column="ENV" property="env" />
+        <result column="OS" property="os" />
+        <result column="VERSION" property="version" />
+        <result column="IMG" property="img" />
+    </resultMap>
+
+</mapper>

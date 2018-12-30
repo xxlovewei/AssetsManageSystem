@@ -67,9 +67,9 @@ public class CustomGenerator {
 		});
 
 		dsc.setDriverName("oracle.jdbc.OracleDriver");
-		dsc.setUrl("jdbc:oracle:thin:@//121.43.168.125:55521/db");
+		dsc.setUrl("jdbc:oracle:thin:@//39.105.191.22:2521/orcl");
 		dsc.setUsername("dt");
-		dsc.setPassword("oracle123oracle");
+		dsc.setPassword("oracle123oracle123");
 		mpg.setDataSource(dsc);
 
 		// 策略配置
@@ -92,7 +92,8 @@ public class CustomGenerator {
 		// strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
 		//"","sys_qud_qux"
-		strategy.setInclude(new String[] { "ct_content","ct_class","ct_class_item","ct_category","ct_category_root" }); // 需要生成的表
+		//"res_attr_value","res_class_attrs"
+		strategy.setInclude(new String[] { "res" }); // 需要生成的表
 		strategy.setTableFillList(tableFillList);
 		strategy.setSuperEntityClass("com.dt.core.common.base.BaseModel");
  
@@ -102,7 +103,7 @@ public class CustomGenerator {
 		// 包配置
 		PackageConfig pc = new PackageConfig();
 		pc.setParent("com.dt.module");
-		pc.setModuleName("ct");
+		pc.setModuleName("cmdb");
 		pc.setXml(null);
 
 		InjectionConfig cfg = new InjectionConfig() {
@@ -120,7 +121,7 @@ public class CustomGenerator {
 		focList.add(new FileOutConfig("template/mapper.xml.vm") {
 			@Override
 			public String outputFile(TableInfo tableInfo) {
-				return dir + "/resources/mybatis/ct/" + tableInfo.getMapperName() + ".xml";
+				return dir + "/resources/mybatis/cmdb/" + tableInfo.getMapperName() + ".xml";
 			}
 		});
 		cfg.setFileOutConfigList(focList);
