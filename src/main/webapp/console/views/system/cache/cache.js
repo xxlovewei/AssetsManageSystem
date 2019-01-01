@@ -18,7 +18,7 @@ function sysCacheCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 			} ]
 		}
  
-	$http.post($rootScope.project + "/api/system/queryCacheName.do", {})
+	$http.post($rootScope.project + "/api/sysApi/system/queryCacheName.do", {})
 			.success(function(res) {
 				if (res.success) {
 					 $scope.meta.tools[0].dataOpt = res.data;
@@ -92,7 +92,7 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', fun
 	
 	function flush() {
 
-		$http.post($rootScope.project + "/api/system/queryCacheKeys.do", {
+		$http.post($rootScope.project + "/api/sysApi/system/queryCacheKeys.do", {
 			cache : $scope.meta.tools[0].dataSel.id
 		}).success(function(res) {
 			if (res.success) {
@@ -118,7 +118,7 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', fun
 
 	}
 	$scope.removeCacheKey = function(key) {
-		$http.post($rootScope.project + "/api/system/removeCacheKey.do", {
+		$http.post($rootScope.project + "/api/sysApi/system/removeCacheKey.do", {
 			key : key,
 			cache : $scope.cacheSel.id
 		}).success(function(res) {
@@ -132,7 +132,7 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', fun
 	}
 
 	$scope.refresh = function(key, cache) {
-		$http.post($rootScope.project + "/api/system/refreshCache.do", {
+		$http.post($rootScope.project + "/api/sysApi/system/refreshCache.do", {
 			key : key,
 			cache : cache
 		}).success(function(res) {

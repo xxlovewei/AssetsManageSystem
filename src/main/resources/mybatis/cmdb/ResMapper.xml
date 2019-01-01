@@ -65,9 +65,10 @@
         <result column="FD3" property="fd3" />
         <result column="STATUS" property="status" />
         <result column="ENV" property="env" />
-        <result column="OS" property="os" />
+        <result column="MAINLEVEL" property="mainlevel" />
         <result column="VERSION" property="version" />
         <result column="IMG" property="img" />
+        <result column="COMPANY" property="company" />
     </resultMap>
 
 </mapper>

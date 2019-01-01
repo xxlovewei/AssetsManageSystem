@@ -113,7 +113,7 @@ public class CustomGenerator {
 		//"","sys_qud_qux"
 		//"res_attr_value","res_class","res_class_attrs"
 		//"res_attr_value","res_class_attrs"
-		strategy.setInclude(new String[] { "RES","RES_ATTR_VALUE","RES_CLASS","RES_CLASS_ATTRS" }); // 需要生成的表
+		strategy.setInclude(new String[] { "RES" }); // 需要生成的表
 		// strategy.setInclude(scanner("表名"));
 		  
 		strategy.setTableFillList(tableFillList);

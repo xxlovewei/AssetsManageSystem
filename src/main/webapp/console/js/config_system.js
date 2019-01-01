@@ -463,5 +463,25 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	});
 	
 	
+	// cmdb
+	$stateProvider.state('cf', {
+		abstract : true,
+		url : "/cf",
+		templateUrl : "views/common/content.html"
+	}).state('cf.sb', {
+		url : "/cf_sb",
+		data: { pageTitle: '设备管理'},
+		template:'<div ng-controller="cmdbHardCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/cmdb/hard.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
+	
+	
 	
 }

@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2018-12-30
+ * @since 2018-12-31
  */
 @TableName("RES")
 public class Res extends BaseModel<Res> {
@@ -133,12 +133,14 @@ public class Res extends BaseModel<Res> {
     private String status;
     @TableField("ENV")
     private String env;
-    @TableField("OS")
-    private String os;
+    @TableField("MAINLEVEL")
+    private String mainlevel;
     @TableField("VERSION")
     private String version;
     @TableField("IMG")
     private String img;
+    @TableField("COMPANY")
+    private String company;
 
 
     public String getId() {
@@ -589,12 +591,12 @@ public class Res extends BaseModel<Res> {
         this.env = env;
     }
 
-    public String getOs() {
-        return os;
+    public String getMainlevel() {
+        return mainlevel;
     }
 
-    public void setOs(String os) {
-        this.os = os;
+    public void setMainlevel(String mainlevel) {
+        this.mainlevel = mainlevel;
     }
 
     public String getVersion() {
@@ -611,6 +613,14 @@ public class Res extends BaseModel<Res> {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     @Override
@@ -677,9 +687,10 @@ public class Res extends BaseModel<Res> {
         ", fd3=" + fd3 +
         ", status=" + status +
         ", env=" + env +
-        ", os=" + os +
+        ", mainlevel=" + mainlevel +
         ", version=" + version +
         ", img=" + img +
+        ", company=" + company +
         "}";
     }
 }

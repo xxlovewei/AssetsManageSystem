@@ -1,11 +1,10 @@
 package com.dt.module.cmdb.entity;
 
+import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
@@ -71,7 +70,7 @@ public class ResAttrValue extends BaseModel<ResAttrValue> {
     @Override
     public String toString() {
         return "ResAttrValue{" +
-        ", id=" + id +
+        "id=" + id +
         ", resId=" + resId +
         ", attrId=" + attrId +
         ", attrValue=" + attrValue +

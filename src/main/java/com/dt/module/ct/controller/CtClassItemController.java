@@ -3,6 +3,7 @@ package com.dt.module.ct.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.module.ct.entity.CtClassItem;
+import com.dt.module.ct.entity.CtContent;
 import com.dt.module.ct.service.ICtClassItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
@@ -76,7 +77,9 @@ public class CtClassItemController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
-	public R selectList() {
+	public R selectList(String class_id) {
+		QueryWrapper<CtClassItem> ew = new QueryWrapper<CtClassItem>();
+		ew.and(ToolUtil.isNotEmpty(class_id), i -> i.eq("class_id", class_id));
 		return R.SUCCESS_OPER(CtClassItemServiceImpl.list(null));
 	}
 

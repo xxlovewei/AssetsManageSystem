@@ -1,6 +1,5 @@
 package com.dt.module.ct.controller;
 
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.module.ct.entity.CtContent;
 import com.dt.module.ct.service.ICtContentService;
@@ -23,7 +22,7 @@ import com.dt.core.common.base.BaseController;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -33,10 +32,8 @@ import com.dt.core.common.base.BaseController;
 @RequestMapping("/api/ctContent")
 public class CtContentController extends BaseController {
 
-
 	@Autowired
 	ICtContentService CtContentServiceImpl;
-
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
@@ -76,14 +73,19 @@ public class CtContentController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectList.do")
-	public R selectList() {
-		return R.SUCCESS_OPER(CtContentServiceImpl.list(null));
+	public R selectList(String cat_id) {
+		QueryWrapper<CtContent> ew = new QueryWrapper<CtContent>();
+		ew.and(ToolUtil.isNotEmpty(cat_id), i -> i.eq("cat_id", cat_id));
+		return R.SUCCESS_OPER(CtContentServiceImpl.list(ew));
+
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectPage.do")
-	public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex) {
+	public R selectPage(String start, String length,
+			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize,
+			@RequestParam(value = "pageIndex", required = true, defaultValue = "1") String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -91,15 +93,15 @@ public class CtContentController extends BaseController {
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<CtContent> ew = new QueryWrapper<CtContent>();
-		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
+		// ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10,
+		// "rtime>sysdate-1","23"));
 		IPage<CtContent> pdata = CtContentServiceImpl.page(new Page<CtContent>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
-		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(),SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
+		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(),
+				SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
 		return R.clearAttachDirect(retrunObject);
 	}
 
-
 }
-

@@ -293,9 +293,7 @@ app
 app.config(config_wx).run(function() {
 	console.log("App Wx run");
 });
-app.config(config_mshop).run(function() {
-	console.log("App MShop run");
-});
+ 
 app.config(config_shop).run(function() {
 	console.log("App Shop run");
 });
