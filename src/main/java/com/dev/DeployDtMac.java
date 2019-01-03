@@ -20,13 +20,13 @@ public class DeployDtMac {
 	 * @return: void
 	 */
 	public static void main(String[] args) {
-		String tomcatOnly = "tomcat_dt";
-		String dir = "/opt/tomcat_dt/webapps";
+		String tomcatOnly = "tomcat_dtdev";
+		String dir = "/opt/tomcat/tomcat_dtdev/webapps";
 		String filename = "dt";
 		String fstr = "/opt/" + filename + ".war";
 
 		SftpClient sftp = new SftpClient();
-		Machine m = new Machine("localhost", "121.43.168.125", "root", "IBG1uFcrs", 60613);
+		Machine m = new Machine("localhost", "39.105.191.22", "root", "Mm15888Mm15888", 22);
 		sftp.connect(m, "upload");
 		sftp.changeDirectory("/tmp");
 		File f = new File(fstr);
@@ -36,7 +36,7 @@ public class DeployDtMac {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "IBG1uFcrs", 60613);
+		RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root", "Mm15888Mm15888", 22);
 		// 停应用
 		executor.exec("ps -ef|grep " + tomcatOnly + "|grep -v grep |awk '{print $2}' | xargs kill -9 ").print();
 		try {

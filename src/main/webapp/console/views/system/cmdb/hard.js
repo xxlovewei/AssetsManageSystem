@@ -83,16 +83,16 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			});
-	
-//	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('scrollY',
-//	'800px').withOption('scrollX', true).withOption('bAutoWidth', true)
-//	.withOption('responsive', false).withOption('scrollCollapse', true)
-//	.withOption('paging', true).withFixedColumns({
-//		leftColumns : 0,
-//		rightColumns : 1
-//	})
-//	
-	
+
+	// $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('scrollY',
+	// '800px').withOption('scrollX', true).withOption('bAutoWidth', true)
+	// .withOption('responsive', false).withOption('scrollCollapse', true)
+	// .withOption('paging', true).withFixedColumns({
+	// leftColumns : 0,
+	// rightColumns : 1
+	// })
+	//	
+
 	$scope.dtInstance = {}
 
 	function renderAction(data, type, full) {
@@ -114,16 +114,16 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('envstr').withTitle('环境').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('mainlevelstr').withTitle('等级').withOption(
-					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('mainlevelstr').withTitle('等级')
+					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('version').withTitle('版本').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('pinpstr').withTitle('品牌').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('headuseridstr').withTitle('负责人')
-					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
 					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('headuseridstr').withTitle('负责人')
+					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
@@ -333,19 +333,20 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	// //////////////////////////save/////////////////////
 	$scope.save = function(id) {
 
-		
 		var class_id = "";
 		console.log($scope.meta.tools[1].dataSel);
 		if (!angular.isDefined(id)) {
-			//获取class_id
-			console.log( $scope.meta.tools[1].dataSel) ;
-			if (angular.isDefined($scope.meta.tools[1].dataSel)&&	$scope.meta.tools[1].dataSel!=null && angular.isDefined($scope.meta.tools[1].dataSel.class_id)) {
+			// 获取class_id
+			console.log($scope.meta.tools[1].dataSel);
+			if (angular.isDefined($scope.meta.tools[1].dataSel)
+					&& $scope.meta.tools[1].dataSel != null
+					&& angular.isDefined($scope.meta.tools[1].dataSel.class_id)) {
 				class_id = $scope.meta.tools[1].dataSel.class_id;
-			} else{
+			} else {
 				alert("请选择配置项!");
 				return;
 			}
-		} 
+		}
 
 		$http
 				.post($rootScope.project + "/api/cmdb/res/queryResAllById.do",
@@ -363,7 +364,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								return;
 							}
 							var meta = {};
-						
+
 							var items = [ {
 								type : "input",
 								disabled : "false",
@@ -472,7 +473,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataSel : "companySel"
 							} ];
 							meta = {
-								class_id:class_id,
+								class_id : class_id,
 								footer_hide : false,
 								title : "基础设施",
 								item : {},
@@ -494,8 +495,9 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								items : items,
 								sure : function(modalInstance, modal_meta) {
 									// 返回接口
-									if(!angular.isDefined(modal_meta.meta.item.id)){
-										modal_meta.meta.item.class_id=modal_meta.meta.class_id;
+									if (!angular
+											.isDefined(modal_meta.meta.item.id)) {
+										modal_meta.meta.item.class_id = modal_meta.meta.class_id;
 									}
 									modal_meta.meta.item.env = modal_meta.meta.envSel.dictItemId;
 									modal_meta.meta.item.loc = modal_meta.meta.locSel.dictItemId;

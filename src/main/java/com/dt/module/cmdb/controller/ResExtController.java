@@ -1,7 +1,5 @@
 package com.dt.module.cmdb.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,6 +15,7 @@ import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -29,6 +28,26 @@ import com.dt.core.tool.util.support.HttpKit;
 @Controller
 @RequestMapping("/api/cmdb/res")
 public class ResExtController extends BaseController {
+
+	private String createUuid() {
+
+		int cnt = 30;
+		String id = MD5Util.encrypt(db.getUUID()).toUpperCase().substring(0, 10);
+		int i = 0;
+		for (i = 0; i < cnt; i++) {
+			Rcd rs = db.uniqueRecord("select * from res where uuid=?", id);
+			if (rs == null) {
+				break;
+			} else {
+				id = MD5Util.encrypt(db.getUUID()).toUpperCase().substring(0, 10);
+			}
+		}
+		if (i > cnt - 1) {
+			return "";
+		} else {
+			return id;
+		}
+	}
 
 	@ResponseBody
 	@Acl(info = "新增Res", value = Acl.ACL_DENY)
@@ -43,7 +62,11 @@ public class ResExtController extends BaseController {
 			Insert me = new Insert("res");
 			id = db.getUUID();
 			me.set("id", id);
-			me.set("uuid", db.getUUID());
+			String uuid = createUuid();
+			if (ToolUtil.isEmpty(uuid)) {
+				return R.FAILURE("未产生有效编号,请重试!");
+			}
+			me.set("uuid", uuid);
 			me.set("sn", ps.getString("sn"));
 			me.setIf("name", ps.getString("name"));
 			me.setIf("describe", ps.getString("describe"));

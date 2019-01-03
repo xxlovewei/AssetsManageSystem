@@ -30,19 +30,20 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
  */
 
 public class CustomGenerator {
-	 public static String scanner(String tip) {
-	        Scanner scanner = new Scanner(System.in);
-	        StringBuilder help = new StringBuilder();
-	        help.append("请输入" + tip + "：");
-	        System.out.println(help.toString());
-	        if (scanner.hasNext()) {
-	            String ipt = scanner.next();
-	            if (StringUtils.isNotEmpty(ipt)) {
-	                return ipt;
-	            }
-	        }
-	        throw new MybatisPlusException("请输入正确的" + tip + "！");
-	    }
+	public static String scanner(String tip) {
+		Scanner scanner = new Scanner(System.in);
+		StringBuilder help = new StringBuilder();
+		help.append("请输入" + tip + "：");
+		System.out.println(help.toString());
+		if (scanner.hasNext()) {
+			String ipt = scanner.next();
+			if (StringUtils.isNotEmpty(ipt)) {
+				return ipt;
+			}
+		}
+		throw new MybatisPlusException("请输入正确的" + tip + "！");
+	}
+
 	public static void main(String[] args) throws InterruptedException {
 
 		GlobalConfig g = new GlobalConfig();
@@ -51,8 +52,9 @@ public class CustomGenerator {
 		String dir = "/Users/algernonking/git/dt2/src/main";
 		// 全局配置
 		GlobalConfig gc = new GlobalConfig();
+		 
 		gc.setOutputDir(dir + "/java/");
-		gc.setOpen(true);//生成后打开文件夹
+		gc.setOpen(true);// 生成后打开文件夹
 		gc.setFileOverride(true);
 		gc.setActiveRecord(true);
 		gc.setEnableCache(false);// XML 二级缓存
@@ -99,26 +101,25 @@ public class CustomGenerator {
 		tableFillList.add(new TableFill("UPDATE_BY", FieldFill.INSERT_UPDATE));
 		tableFillList.add(new TableFill("UPDATE_TIME", FieldFill.INSERT_UPDATE));
 
-
 		StrategyConfig strategy = new StrategyConfig();
-		//已经从baseMapper继承下来，无需再次添加
-		//strategy.setLogicDeleteFieldName("DR");
-		 
+		// 已经从baseMapper继承下来，无需再次添加
+		// strategy.setLogicDeleteFieldName("DR");
+
 		strategy.setSuperControllerClass("com.dt.core.common.base.BaseController");
-		
+
 		strategy.setCapitalMode(false);// 全局大写命名 ORACLE 注意
 		strategy.entityTableFieldAnnotationEnable(true);
 		// strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-		//"","sys_qud_qux"
-		//"res_attr_value","res_class","res_class_attrs"
-		//"res_attr_value","res_class_attrs"
+		// "","sys_qud_qux"
+		// "res_attr_value","res_class","res_class_attrs"
+		// "res_attr_value","res_class_attrs"
 		strategy.setInclude(new String[] { "RES" }); // 需要生成的表
 		// strategy.setInclude(scanner("表名"));
-		  
+
 		strategy.setTableFillList(tableFillList);
 		strategy.setSuperEntityClass("com.dt.core.common.base.BaseModel");
- 
+
 		strategy.setSuperEntityColumns("DR", "CREATE_BY", "CREATE_TIME", "UPDATE_BY", "UPDATE_TIME");
 		mpg.setStrategy(strategy);
 
@@ -163,7 +164,7 @@ public class CustomGenerator {
 		mpg.setTemplate(tc);
 		// 执行生成
 		mpg.execute();
-		System.err.println(mpg.getCfg().getMap().get("abc"));  
+		System.err.println(mpg.getCfg().getMap().get("abc"));
 	}
 
 }
