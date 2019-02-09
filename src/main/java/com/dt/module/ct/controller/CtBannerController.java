@@ -74,6 +74,7 @@ public class CtBannerController extends BaseController {
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(CtBanner entity) {
+		CtBannerServiceImpl.
 		return R.SUCCESS_OPER(CtBannerServiceImpl.saveOrUpdate(entity));
 	}
 

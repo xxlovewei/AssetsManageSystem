@@ -1,0 +1,30 @@
+--Tomcat
+删除manager
+##########server.xml##########
+<Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+pattern="%h %l %u %t &quot;%r&quot; %s %b %{Referer}i %{User-Agent}i %D" />
+
+
+<Host name="localhost"  appBase="webapps" unpackWARs="false" autoDeploy="false">
+
+<Server port="8005" shutdown="87jjiywer98212">        
+         
+<Connector port="80" protocol="HTTP/1.1"  connectionTimeout="20000" redirectPort="8443" maxHttpHeaderSize="8192" server="WAS1.0"  />
+##########web.xml##########
+<error-page>
+    <error-code>404</error-code>
+    <location>/404.html</location>
+</error-page>
+<error-page>
+    <error-code>500</error-code>
+    <location>/500.html</location>
+</error-page>
+
+
+<init-param>
+    <param-name>listings</param-name>
+    <param-value>false</param-value>
+</init-param>
+
+降级运行
