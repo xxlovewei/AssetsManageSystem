@@ -70,6 +70,7 @@ public class ZbProblem extends BaseController {
 		}else {
 			sql2=problemhzsql.replaceAll("<#HOST#>", " and h.hostid in (select bb.hostid from hosts_templates aa,hosts bb where aa.hostid=bb.hostid and aa.templateid in(select  a.hostid  from hosts a,hosts_groups b where a.hostid=b.hostid and b.groupid="+gid+") )");
 		}
+		System.out.println(problemhzsql);
 		return R.SUCCESS_OPER(zb.query(sql2).toJsonArrayWithJsonObject());
 	}
 //	Possible values: 

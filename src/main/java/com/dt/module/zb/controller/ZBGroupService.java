@@ -20,7 +20,7 @@ import com.dt.module.db.ZB;
  */
 @Controller
 @RequestMapping("/api")
-public class MonitorGroupService extends BaseController {
+public class ZBGroupService extends BaseController {
 
 	@Autowired
 	ZB zb;

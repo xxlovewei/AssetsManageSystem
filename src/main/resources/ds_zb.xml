@@ -28,9 +28,9 @@
 		<property name="username" value="${zb.username}" />
 		<property name="password" value="${zb.password}" />
 		<!-- 配置初始化大小、最小、最大 -->
-		<property name="initialSize" value="${jdbc.initialSize}" />
-		<property name="minIdle" value="${jdbc.minIdle}" />
-		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="initialSize" value="10" />
+		<property name="minIdle" value="10" />
+		<property name="maxActive" value="50" />
 
 		<!-- 配置获取连接等待超时的时间 -->
 		<property name="maxWait" value="${jdbc.maxWait}" />
@@ -50,7 +50,7 @@
 		<property name="testOnReturn" value="false" />
 
 		<!-- 打开PSCache，并且指定每个连接上PSCache的大小,mysql下建议关闭 -->
-		<property name="poolPreparedStatements" value="true" />
+		<property name="poolPreparedStatements" value="false" />
 		<property name="maxPoolPreparedStatementPerConnectionSize"
 			value="100" />
 

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>节点资源</title>
+<title>问题统计</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
@@ -33,19 +33,17 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 </head>
 <body>
 
-	<div id="header"></div>
+ 
 
 <div class="container-fluid" style="margin-top: 10px;">
 <table class="table table-hover">
       <thead>
         <tr>
-          <th>#</th>
           <th>名称</th>
           <th>灾难</th>
           <th>严重</th>
           <th>一般</th>
           <th>警告</th>
-          
         </tr>
       </thead>
       <tbody id="datalist">
@@ -64,19 +62,23 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 		dataType : 'json',
 		success : function(res) {
 			 if(res.success){
-				 console.log(res);
 				 var rdata=res.data;
-				 console.log(rdata);
 				 var vhtml="";
-				// console.log( rdata.length);
+
 			 	 for (var i = 0; i < rdata.length; i++) {
-			 		vhtml=vhtml+" <tr><th scope=\"row\">"+(i+1)+"</th>";
-			 		vhtml=vhtml+"<td>"+rdata[i].name+"</td>";
+			 		var bc="";
+			 		if (rdata[i].high>0||rdata[i].disaster>0){
+			 			 bc=" style='background-color:red' ";
+			 		} 
+			 		vhtml=vhtml+" <tr "+bc+" >";
+			 		vhtml=vhtml+"<td>"+rdata[i].name+"</td>"; 
 			 		vhtml=vhtml+"<td>"+rdata[i].disaster+"</td>";
 			 		vhtml=vhtml+"<td>"+rdata[i].high+"</td>";
 			 		vhtml=vhtml+"<td>"+rdata[i].average+"</td>";
-			 		vhtml=vhtml+"<td>"+rdata[i].warn+"</td></tr>"; 
+			 		vhtml=vhtml+"<td>"+rdata[i].warn+"</td></tr>";
 				 }
+ 
+			 	 
 				$("#datalist").html(vhtml);
 			 }else{
 				 alert("取数失败!");
