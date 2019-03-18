@@ -5,9 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.Rcd;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.db.ZB;
 
@@ -52,17 +55,26 @@ public class ZbOsMetric extends BaseController {
 	public R getFsUsed(String id) {
 		// 输出cpu使用率统计
 		String sql = "select (100-t1.value) used,from_unixtime(t1.clock,'%Y-%m-%d %H:%i:%S') rtime,t3.name,t3.hostid,t3.host,\n"
-				+ "   replace(replace( replace( replace( t2.name,'Free',''),'(percentage)',''),'disk ',''),' on ',':') metricname \n" + " from history t1,items t2,hosts t3\n"
-				+ " where  t3.hostid=t2.hostid and t1.itemid=t2.itemid and (t1.itemid,t1.clock) in (\n" + "select\n"
-				+ "  a.itemid,max(h.clock)  from items a,history h\n" + "where key_ like 'vfs.fs%'\n"
+				+ "   replace(replace( replace( replace( t2.name,'Free',''),'(percentage)',''),'disk ',''),' on ',':') metricname \n"
+				+ " from history t1,items t2,hosts t3\n"
+				+ " where  t3.status=0 and  t3.available=1 and t3.hostid=t2.hostid and t1.itemid=t2.itemid and (t1.itemid,t1.clock) in (\n"
+				+ "select\n" + "  a.itemid,max(h.clock)  from items a,history h\n" + "where key_ like 'vfs.fs%'\n"
 				+ "and a.templateid is null\n" + "and a.itemid=h.itemid\n"
 				+ "and a.name like '%percentage%' group by itemid) order by used desc";
-
 		if (ToolUtil.isEmpty(id)) {
-
 		} else {
-
 		}
-		return R.SUCCESS_OPER(zb.query(sql).toJsonArrayWithJsonObject());
+		JSONObject res = new JSONObject();
+		String hzsql = "select  count(distinct hostid) cnt, min(rtime) minrtime,max(rtime)maxrtime from (" + sql
+				+ ")t ";
+		Rcd rs = zb.uniqueRecord(hzsql);
+		if (rs != null) {
+			res = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
+			res.put("data", ConvertUtil.OtherJSONObjectToFastJSONArray(zb.query(sql).toJsonArrayWithJsonObject()));
+		} else {
+			res.put("cnt", 0);
+			res.put("minrtime", "");
+		}
+		return R.SUCCESS_OPER(res);
 	}
 }

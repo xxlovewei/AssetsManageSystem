@@ -36,6 +36,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 
 
 	<div class="container-fluid" style="margin-top: 10px;">
+	 <h5 id="datainfo"></h5>
 		<table class="table table-hover">
 			<thead>
 				<tr>
@@ -62,11 +63,12 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 		dataType : 'json',
 		success : function(res) {
 			 if(res.success){
-				 var rdata=res.data;
+				 var rdata=res.data.data;
 				 var vhtml="";
-				// console.log( rdata.length);
+				 $("#datainfo").html("主机总数:"+res.data.cnt+" 最小记录时间:"+res.data.minrtime);
 			 	 for (var i = 0; i < rdata.length; i++) {
 			 		 var bc="  ";
+			 		 
 			 		if (rdata[i].used>=76){
 			 			 bc=" style='background-color:red' ";
 			 		} 
