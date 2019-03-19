@@ -38,6 +38,7 @@ public class ZbProblem extends BaseController {
 	}
 	
 	public static String problemhzsql="select\n" + 
+			"  h.available,\n" + 
 			"  ifnull(t2.warn,0)warn,\n" + 
 			"  ifnull(t2.average,0)average,\n" + 
 			"  ifnull(t2.high,0)high,\n" + 
@@ -56,9 +57,9 @@ public class ZbProblem extends BaseController {
 			"where a.triggerid=b.triggerid and c.objectid=b.triggerid and a.itemid=d.itemid\n" + 
 			"and e.hostid=d.hostid and c.source=0 and c.acknowledged=0 ) t\n" + 
 			"group by hostid,severity ) dchange)hz group by hostid\n" + 
-			") t2 on h.hostid=t2.hostid where 1=1   <#HOST#>  \n" + 
-			//"and h.hostid in (10265,10270,10269)\n" + 
-			"order by 4 desc ,3 desc,2 desc,1 desc" ;
+			") t2 on h.hostid=t2.hostid where 1=1\n" + 
+			"   <#HOST#> \n" + 
+			"order by available desc ,disaster desc,high desc,average desc,warn desc " ;
  
 	@RequestMapping("/zb/queryProblemHzByHostGroup.do")
 	@ResponseBody
@@ -66,7 +67,7 @@ public class ZbProblem extends BaseController {
 	public R queryProblemHzByHostGroup(String gid ) {
 		String sql2="";
 		if(ToolUtil.isEmpty(gid)) {
-			sql2=problemhzsql.replaceAll("<#HOST#>", " and h.host not like 'Template%' and h.host not like '{#%' ");
+			sql2=problemhzsql.replaceAll("<#HOST#>", " and h.status=0 and h.available<>0 ");
 		}else {
 			sql2=problemhzsql.replaceAll("<#HOST#>", " and h.hostid in (select bb.hostid from hosts_templates aa,hosts bb where aa.hostid=bb.hostid and aa.templateid in(select  a.hostid  from hosts a,hosts_groups b where a.hostid=b.hostid and b.groupid="+gid+") )");
 		}

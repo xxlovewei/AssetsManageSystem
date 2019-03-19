@@ -40,6 +40,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
       <thead>
         <tr>
           <th>名称</th>
+          <th>可用性</th>
           <th>灾难</th>
           <th>严重</th>
           <th>一般</th>
@@ -67,11 +68,18 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 
 			 	 for (var i = 0; i < rdata.length; i++) {
 			 		var bc="";
-			 		if (rdata[i].high>0||rdata[i].disaster>0){
-			 			 bc=" style='background-color:red' ";
+			 		if (rdata[i].high>0||rdata[i].disaster>0 || rdata[i].available>1){
+			 			 bc=" style='background-color:#F75000' ";
 			 		} 
 			 		vhtml=vhtml+" <tr "+bc+" >";
 			 		vhtml=vhtml+"<td>"+rdata[i].name+"</td>"; 
+			 		if(rdata[i].available==1){
+			 			vhtml=vhtml+"<td><img src=\"./images/node_status_up.png\" /></td>"; 
+			 		}else if (rdata[i].available==2){
+			 			vhtml=vhtml+"<td><img src=\"./images/node_status_down.png\" /></td>"; 
+			 		}else{
+			 			vhtml=vhtml+"<td><img src=\"./images/unknow.png\" /></td>"; 
+			 		}
 			 		vhtml=vhtml+"<td>"+rdata[i].disaster+"</td>";
 			 		vhtml=vhtml+"<td>"+rdata[i].high+"</td>";
 			 		vhtml=vhtml+"<td>"+rdata[i].average+"</td>";
