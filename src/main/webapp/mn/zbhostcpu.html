@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>问题统计</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
@@ -41,6 +41,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 	</div>
 
 	<script>
+	//chart: {type: 'spline', height:300},
 	var project = "/dt";
 	 $.ajax({
 			type : "POST",
@@ -53,12 +54,13 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 				 if(res.success){
 					
 						var option={
-							    chart: {type: 'spline', height:300},
+								global: { useUTC: false },
+							    chart: {type: 'area', height:300},
 							    credits: {enabled:false},
 							    title: {text: ''},
 							    subtitle: { text: ''},
 							    xAxis: {
-							        type: 'datetime',
+							       // type: 'datetime'
 							        title: {text: null}
 							    },
 							    yAxis: {
@@ -73,7 +75,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 							        }
 							    },
 							    series:  res.data.seriesdata
-							};
+							  };
 						$('#scpu').highcharts(option);
 						
 						
