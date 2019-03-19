@@ -36,8 +36,8 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 
 
 	<div class="container-fluid" style="margin-top: 10px;">
-	
-	<div id="scpu"></div>
+
+		<div id="scpu"></div>
 	</div>
 
 	<script>
@@ -54,28 +54,33 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 				 if(res.success){
 					
 						var option={
-								global: { useUTC: false },
+								global: { 　useUTC: false} ,  
 							    chart: {type: 'area', height:300},
 							    credits: {enabled:false},
 							    title: {text: ''},
 							    subtitle: { text: ''},
 							    xAxis: {
-							       // type: 'datetime'
+							        type: 'datetime',
 							        title: {text: null}
 							    },
 							    yAxis: {
 							        title: {text: ''},
 							        min: 0
 							    },
-							   plotOptions: {
+							    tooltip: {
+							        valueDecimals: 2
+							    },
+							 
+						   plotOptions: {
 							        spline: {
 							            lineWidth: 1,
 							            states: {hover: {lineWidth: 1}},
 							            marker: { enabled: false} 
 							        }
-							    },
+							    },  
 							    series:  res.data.seriesdata
 							  };
+						 Highcharts.setOptions({ global: { useUTC: false } }); 
 						$('#scpu').highcharts(option);
 						
 						
