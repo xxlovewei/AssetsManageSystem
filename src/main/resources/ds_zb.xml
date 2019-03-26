@@ -70,7 +70,6 @@
 			<list>
 				<ref bean="statFilter" />
 				<ref bean="logFilter" />
-				<ref bean="wallFilter" />
 			</list>
 		</property>
 	</bean>

@@ -33,10 +33,10 @@ public class ZbOsMetric extends BaseController {
 	@Autowired
 	ZB zb;
 
-	@RequestMapping("/zb/getCpuUsed.do")
+	@RequestMapping("/zb/getCpuUsedByType.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW)
-	public R getCpuUsed(String type) {
+	public R getCpuUsedByType(String type) {
 
 		// 输出cpu使用率统计
 		String sql = "select t1.*,t3.* from (\n" + "select\n"
@@ -53,19 +53,84 @@ public class ZbOsMetric extends BaseController {
 		} else {
 			sql = sql.replaceAll("<#TIME#>", "");
 		}
+		System.out.println("getCpuUsedByTypesql:\n"+sql);
 		return R.SUCCESS_OPER(zb.query(sql).toJsonArrayWithJsonObject());
 	}
 
+	 
+	
+	
+	@RequestMapping("/zb/getMemUsed.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_ALLOW)
+	public R getMemUsed(String top) {
+		if(ToolUtil.isEmpty(top)) {
+			top="100";
+		}
+		// 输出mem使用率统计
+		String sql = "select t6.*,case t6.total when 0 then 0 else round((1-t6.available/t6.total)*100 ,2) end  used from (\n" + 
+				"select t3.hostid,t3.name,\n" + 
+				"max((CASE t2.key_  WHEN 'vm.memory.size[total]' THEN value else 0 END) )AS 'total',\n" + 
+				"max((CASE t2.key_  WHEN 'vm.memory.size[available]' THEN value else 0 END)) AS 'available'\n" + 
+				"from history_uint t1 ,items t2,hosts t3\n" + 
+				"where\n" + 
+				"  t1.clock>unix_timestamp(date_sub(now(),interval 2 hour)) and t3.status = 0 and t3.available = 1\n" + 
+				"  and t1.itemid=t2.itemid\n" + 
+				"  and t2.hostid=t3.hostid\n" + 
+				"  and (t1.itemid,t1.clock) in(\n" + 
+				"select itemid,max(clock) from history_uint where clock>unix_timestamp(date_sub(now(),interval 2 hour)) and  itemid in (\n" + 
+				"select itemid from items t2,hosts t3 where key_ in ('vm.memory.size[available]','vm.memory.size[total]')\n" + 
+				"and  t3.hostid = t2.hostid )group by itemid) group by t3.hostid,t3.name )t6 order by used desc";
+
+		System.out.println("memsql:\n"+"select * from ("+sql+")fk limit "+top);
+		return R.SUCCESS_OPER(zb.query("select * from ("+sql+")fk limit "+top).toJsonArrayWithJsonObject());
+	}
+	
+	
+	@RequestMapping("/zb/getCpuUsed.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_ALLOW)
+	public R getCpuUsed(String top) {
+		if(ToolUtil.isEmpty(top)) {
+			top="100";
+		}
+		// 输出cpu使用率统计
+		String sql = "select\n" + 
+				"  t3.hostid,\n" + 
+				"  t3.host,\n" + 
+				"  t3.name,\n" + 
+				"  from_unixtime(t1.clock,'%Y-%m-%d %H:%i:%S') rtime,\n" + 
+				"  (100-t1.value) used\n" + 
+				"from  items t2, hosts t3, history t1\n" + 
+				"where t1.clock>unix_timestamp(date_sub(now(),interval 2 hour)) and t1.itemid = t2.itemid and t3.hostid = t2.hostid and key_ = 'system.cpu.util[,idle]'\n" + 
+				"      and t3.status = 0 and t3.available = 1 and (t1.itemid,t1.clock)\n" + 
+				"in (\n" + 
+				"select itemid,max(clock) from history where\n" + 
+				"itemid in (\n" + 
+				"  select t2.itemid from\n" + 
+				" items t2, hosts t3\n" + 
+				"where  t3.hostid = t2.hostid\n" + 
+				"      and t3.status = 0 and t3.available = 1  and key_ = 'system.cpu.util[,idle]'\n" + 
+				") and  clock>unix_timestamp(date_sub(now(),interval 2 hour)) \n" + 
+				"group by itemid) order by used desc ";
+		System.out.println("cpusql:\n"+"select * from ("+sql+")fk limit "+top);
+		return R.SUCCESS_OPER(zb.query("select * from ("+sql+")fk limit "+top).toJsonArrayWithJsonObject());
+	}
+	
+	
 	@RequestMapping("/zb/getFsUsed.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW)
-	public R getFsUsed(String id) {
+	public R getFsUsed(String id,String top) {
+		if(ToolUtil.isEmpty(top)) {
+			top="100";
+		}
 		// 输出cpu使用率统计
 		String sql = "select (100-t1.value) used,from_unixtime(t1.clock,'%Y-%m-%d %H:%i:%S') rtime,t3.name,t3.hostid,t3.host,\n"
 				+ "   replace(replace( replace( replace( t2.name,'Free',''),'(percentage)',''),'disk ',''),' on ',':') metricname \n"
 				+ " from history t1,items t2,hosts t3\n"
-				+ " where  t3.status=0 and  t3.available=1 and t3.hostid=t2.hostid and t1.itemid=t2.itemid and (t1.itemid,t1.clock) in (\n"
-				+ "select\n" + "  a.itemid,max(h.clock)  from items a,history h\n" + "where key_ like 'vfs.fs%'\n"
+				+ " where  t1.clock>unix_timestamp(CONCAT(DATE_FORMAT(curdate()-3,'%Y-%m-%d'),' 08:00:00')) and  t3.status=0 and  t3.available=1 and t3.hostid=t2.hostid and t1.itemid=t2.itemid and (t1.itemid,t1.clock) in (\n"
+				+ "select\n" + "  a.itemid,max(h.clock)  from items a,history h\n" + "where  h.clock>unix_timestamp(CONCAT(DATE_FORMAT(curdate()-3,'%Y-%m-%d'),' 08:00:00'))   and  key_ like 'vfs.fs%'\n"
 				+ "and a.templateid is null\n" + "and a.itemid=h.itemid\n"
 				+ "and a.name like '%percentage%' group by itemid) order by used desc";
 		if (ToolUtil.isEmpty(id)) {
@@ -74,10 +139,11 @@ public class ZbOsMetric extends BaseController {
 		JSONObject res = new JSONObject();
 		String hzsql = "select  count(distinct hostid) cnt, min(rtime) minrtime,max(rtime)maxrtime from (" + sql
 				+ ")t ";
+		System.out.println("fssql:\n"+sql);
 		Rcd rs = zb.uniqueRecord(hzsql);
 		if (rs != null) {
 			res = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
-			res.put("data", ConvertUtil.OtherJSONObjectToFastJSONArray(zb.query(sql).toJsonArrayWithJsonObject()));
+			res.put("data", ConvertUtil.OtherJSONObjectToFastJSONArray(zb.query("select * from ("+sql+")fk limit "+top).toJsonArrayWithJsonObject()));
 		} else {
 			res.put("cnt", 0);
 			res.put("minrtime", "");

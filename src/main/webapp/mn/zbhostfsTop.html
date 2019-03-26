@@ -36,15 +36,15 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 
 
 	<div class="container-fluid" style="margin-top: 10px;">
-	 <h5 id="datainfo"></h5>
+		<h5 id="datainfo"></h5>
 		<table class="table table-hover">
 			<thead>
 				<tr>
 					<th>名称</th>
-					<th>使用率</th>
-					<th>时间</th>
 					<th>文件系统</th>
-					<th>主机</th>
+					<th>使用率</th>
+					<!-- 		<th>时间</th> -->
+					<!-- 			<th>主机</th> -->
 				</tr>
 			</thead>
 			<tbody id="datalist">
@@ -53,42 +53,44 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 	</div>
 
 	<script>
- var project = "/dt";
- $.ajax({
-		type : "POST",
-		url : project + "/api/zb/getFsUsed.do",
-		data : {
-			 
-		},
-		dataType : 'json',
-		success : function(res) {
-			 if(res.success){
-				 var rdata=res.data.data;
-				 var vhtml="";
-				 $("#datainfo").html("主机总数:"+res.data.cnt+" 最小记录时间:"+res.data.minrtime);
-			 	 for (var i = 0; i < rdata.length; i++) {
-			 		 var bc="  ";
-			 		 
-			 		if (rdata[i].used>=76){
-			 			 bc=" style='background-color:red' ";
-			 		} 
-			 		vhtml=vhtml+" <tr "+bc+" >";
-			 		vhtml=vhtml+"<td>"+rdata[i].name+"</td>"; 
-			 		vhtml=vhtml+"<td>"+rdata[i].used+"%</td>";
-			 		vhtml=vhtml+"<td>"+rdata[i].rtime+"</td>";
-			 		vhtml=vhtml+"<td>"+rdata[i].metricname+"</td>";
-			 		vhtml=vhtml+"<td>"+rdata[i].host+"</td></tr>";
-				 }
-				
-			 	 
-				$("#datalist").html(vhtml);
-			 }else{
-				 alert("取数失败!");
-			 }
-		}
-	});
- 
- </script>
+		var project = "/dt";
+		$.ajax({
+			type : "POST",
+			url : project + "/api/zb/getFsUsed.do",
+			data : {
+				top : "5"
+			},
+			dataType : 'json',
+			success : function(res) {
+				if (res.success) {
+					var rdata = res.data.data;
+					var vhtml = "";
+					$("#datainfo").html(
+							"主机总数:" + res.data.cnt + " 最小记录时间:"
+									+ res.data.minrtime);
+					for (var i = 0; i < rdata.length; i++) {
+						var bc = "  ";
+
+						if (rdata[i].used >= 76) {
+							bc = " style='background-color:red' ";
+						}
+						vhtml = vhtml + " <tr "+bc+" >";
+						vhtml = vhtml + "<td>" + rdata[i].name + "</td>";
+						vhtml = vhtml + "<td>" + rdata[i].metricname + "</td>";
+						vhtml = vhtml + "<td>" + rdata[i].used + "%</td>";
+						/* 	vhtml=vhtml+"<td>"+rdata[i].rtime+"</td>"; */
+
+						/* 	vhtml=vhtml+"<td>"+rdata[i].host+"</td></tr>"; */
+						vhtml = vhtml + "</tr>"
+					}
+
+					$("#datalist").html(vhtml);
+				} else {
+					alert("取数失败!");
+				}
+			}
+		});
+	</script>
 
 
 </body>
