@@ -4,30 +4,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Expires" content="0">
-<meta http-equiv="Pragma" content="no-cache">
+<!-- <meta http-equiv="Expires" content="0"> -->
+<!-- <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-control" content="no-cache">
-<meta http-equiv="Cache" content="no-cache">
+<meta http-equiv="Cache" content="no-cache"> -->
 <title page-title></title>
+
 <!-- Bootstrap -->
-<link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-<link href="css/app.min.css?v=1.1.0" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- Font awesome -->
+<link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+<!-- Main Inspinia CSS files -->
+<link href="css/animate.css" rel="stylesheet">
+<link id="loadBefore" href="css/style.css" rel="stylesheet">
+
 <script>
 </script>
 <!--[if IE 9]>
         <link href="css/application-ie9-part2.css" rel="stylesheet">
     <![endif]-->
 </head>
-<body ng-controller="MainCtrl as main" ng-class="cur_skin"
-	landing-scrollspy id="page-top">
-	<div id="beforePage" class="preloader">
+<body ng-controller="MainCtrl as main"
+	class="{{$state.current.data.specialClass}}" landing-scrollspy
+	id="page-top">
+
+	<!-- <div id="beforePage" class="preloader">
 		<div class="cs-loader">
 			<div class="cs-loader-inner">
 				<label> ●</label> <label> ●</label> <label> ●</label> <label>
 					●</label> <label> ●</label> <label> ●</label>
 			</div>
 		</div>
-	</div>
+	</div> -->
+	
 	<!-- Main view  -->
 	<div ui-view></div>
 	<!--jQuery and Bootstrap  -->
@@ -42,6 +51,7 @@
 		data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }'
 		src="plugin/pace/pace.min.js"></script>
 	<!-- Custom and plugin javascript -->
+
 	<script src="js/base.js"></script>
 	<!-- Main Angular scripts-->
 	<script src="vendor/angular/angular.min.js"></script>
@@ -99,7 +109,8 @@
 	<!-- datatable 列固定 -->
 	<link href="plugin/datatable/fixedColumns.bootstrap3.2.6.css"
 		rel="stylesheet">
-	<script src="vendor/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
+	<script
+		src="vendor/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
 	<script
 		src="vendor/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.min.js"></script>
 	<!-- ueditor -->

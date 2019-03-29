@@ -1,20 +1,8 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
 	<div class="sidebar-collapse">
 		<ul side-navigation class="nav metismenu" id="side-menu">
-			<!-- 	<li class="nav-header" >
-				  <div class="profile-element" uib-dropdown>
-					<img alt="image" class="img-circle" src="img/profile_small.jpg" />
-					<a uib-dropdown-toggle href> <span class="clear"> <span
-							class="block m-t-xs"> <strong class="font-bold">{{sys_user_info.name}}</strong>
-						</span>
-					</span>
-					</a>
-				</div>  
-				<div class="logo-element">
-					<i class="fa fa-home" aria-hidden="true"></i>
-				</div>
-			</li> -->
-			<div class="nav-header ">
+
+			<!-- <div class="nav-header ">
 				<div class="profile-element"
 					style="padding-left: 20px; padding-top: 15px;">
 					<a href="javacript:void(0);" style="font-size: 15px;"> <i
@@ -24,7 +12,7 @@
 				<div class="logo-element">
 					<i class="fa fa-home" aria-hidden="true"></i>
 				</div>
-			</div>
+			</div> -->
 			<li ng-repeat="first in menu"
 				ng-class="{active: $state.includes('{{first.state}}')}"><a
 				class="" ui-sref="{{first.state}}"> <i
