@@ -60,7 +60,7 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal,
 	};
 
 }
-function userSaveFormCtl($localStorage, notify, $log, $uibModal,
+function userSaveFormCtl($timeout,$localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, id, $http, $rootScope) {
 
 	$scope.item = {}
@@ -104,6 +104,16 @@ function userSaveFormCtl($localStorage, notify, $log, $uibModal,
 		})
 
 	}
+	
+	$timeout(function() {
+		var adom = document.getElementsByClassName('chosen-container');
+		for (var i = 0; i < adom.length; i++) {
+			console.log(adom[i]);
+			adom[i].style.width = "100%";
+		}
+	}, 300);
+	
+	
 	$scope.sure = function() {
 		$scope.item.locked = $scope.lockedSel.id;
 		$http.post($rootScope.project + "/api/sysUserInfo/updateById.do",

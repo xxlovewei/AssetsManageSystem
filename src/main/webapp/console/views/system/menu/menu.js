@@ -170,7 +170,7 @@ function menuAclCtl($timeout, DTOptionsBuilder, DTColumnBuilder,
 }
 
 function menuModifyCtl($localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, data, $http, $rootScope) {
+		$uibModalInstance, $scope, data, $http, $rootScope,$timeout) {
 	$log.log("window in:", data);
 	$scope.item = {};
 	$scope.item = angular.copy(data)
@@ -254,6 +254,15 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 					}
 				})
 	}
+	
+	
+	$timeout(function() {
+		var adom = document.getElementsByClassName('chosen-container');
+		for (var i = 0; i < adom.length; i++) {
+			console.log(adom[i]);
+			adom[i].style.width = "100%";
+		}
+	}, 300);
 
 	$scope.sure = function() {
 

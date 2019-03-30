@@ -1,6 +1,7 @@
-function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
+function msgsettingsaveCtl($timeout,notify, $log, $uibModal, $uibModalInstance, $scope,
 		id, $http, $rootScope) {
 
+	
 	$scope.classOpt = [{
 				id : "action",
 				name : "操作"
@@ -50,6 +51,15 @@ function msgsettingsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 
 	}
 
+	$timeout(function() {
+		var adom = document.getElementsByClassName('chosen-container');
+		for (var i = 0; i < adom.length; i++) {
+			console.log(adom[i]);
+			adom[i].style.width = "100%";
+		}
+	}, 300);
+	
+	
 	$scope.sure = function() {
 
 		$scope.item.msgtype = $scope.msgtypeSel.id;

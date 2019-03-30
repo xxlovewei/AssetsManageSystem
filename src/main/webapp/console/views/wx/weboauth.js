@@ -1,4 +1,4 @@
-function saveweboauthCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
+function saveweboauthCtl($timeout,notify, $log, $uibModal, $uibModalInstance, $scope,
 		id, $http, $rootScope) {
 
 	console.log("window in:" + id);
@@ -30,7 +30,14 @@ function saveweboauthCtl(notify, $log, $uibModal, $uibModalInstance, $scope,
 
 	}
 	
-
+	$timeout(function() {
+		var adom = document.getElementsByClassName('chosen-container');
+		for (var i = 0; i < adom.length; i++) {
+			console.log(adom[i]);
+			adom[i].style.width = "100%";
+		}
+	}, 300);
+	
 	$scope.sure = function() {
 		$scope.item.login = $scope.loginSel.id;
 		$http.post($rootScope.project + "/api/wx/saveWebOAuth.do", $scope.item)

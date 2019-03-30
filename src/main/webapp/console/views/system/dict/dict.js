@@ -1,4 +1,4 @@
-function dictSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
+function dictSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
 	$log.warn("window in:" + id);
 	$scope.item = {};
 	$scope.typeOpt = [ {
@@ -48,6 +48,14 @@ function dictSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 		$uibModalInstance.dismiss('cancel');
 	};
 
+	$timeout(function() {
+		var adom = document.getElementsByClassName('chosen-container');
+		for (var i = 0; i < adom.length; i++) {
+			console.log(adom[i]);
+			adom[i].style.width = "100%";
+		}
+	}, 300);
+	
 	$scope.sure = function() {
 		$scope.item.status = $scope.statusSel.id;
 		$scope.item.dictLevel = $scope.typeSel.id;
@@ -64,7 +72,7 @@ function dictSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 
 }
  
-function dictItemSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, data, $http, $rootScope) {
+function dictItemSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, data, $http, $rootScope) {
 	$log.warn("window in:" + data);
 	$scope.item = {};
 	$scope.item.dictId= data.dictId
@@ -84,6 +92,13 @@ function dictItemSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 		})
 	}
 
+	$timeout(function() {
+		var adom = document.getElementsByClassName('chosen-container');
+		for (var i = 0; i < adom.length; i++) {
+			console.log(adom[i]);
+			adom[i].style.width = "100%";
+		}
+	}, 300);
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};

@@ -1,4 +1,4 @@
-function sysParamSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
+function sysParamSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
 
 	$log.warn("window in:" + id);
 	$scope.item = {};
@@ -30,7 +30,14 @@ function sysParamSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 			}
 		})
 	}
-
+	
+	$timeout(function() {
+		var adom = document.getElementsByClassName('chosen-container');
+		for (var i = 0; i < adom.length; i++) {
+			console.log(adom[i]);
+			adom[i].style.width = "100%";
+		}
+	}, 200);
 	$scope.sure = function() {
 
 		$scope.item.type = $scope.typeSel.id;

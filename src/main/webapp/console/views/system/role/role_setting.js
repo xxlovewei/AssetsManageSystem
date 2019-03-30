@@ -1,4 +1,4 @@
-function roleSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
+function roleSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
 
 	$scope.statusOpt = [ {
 		id : "Y",
@@ -49,6 +49,16 @@ function roleSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, 
 			}
 		})
 	}
+	
+	$timeout(function() {
+		var adom = document.getElementsByClassName('chosen-container');
+		for (var i = 0; i < adom.length; i++) {
+			console.log(adom[i]);
+			adom[i].style.width = "100%";
+		}
+	}, 300);
+	
+	
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};

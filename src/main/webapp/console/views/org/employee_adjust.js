@@ -51,7 +51,7 @@ function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
 	}, true);
 
 }
-function orgEmpSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope, partOpt, $timeout) {
+function orgEmpSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope, partOpt, $timeout) {
 
 	$scope.data = {};
 	$timeout(function() {
@@ -85,6 +85,16 @@ function orgEmpSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance
 	} else {
 		$rootScope.sys_partSelItem = [];
 	}
+	
+	$timeout(function() {
+		var adom = document.getElementsByClassName('chosen-container');
+		for (var i = 0; i < adom.length; i++) {
+			console.log(adom[i]);
+			adom[i].style.width = "100%";
+		}
+	}, 300);
+	
+	
 	$scope.sure = function() {
 
 		// 跨越controller获取数据数据

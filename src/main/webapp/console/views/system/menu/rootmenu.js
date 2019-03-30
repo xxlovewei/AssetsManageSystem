@@ -1,5 +1,6 @@
-function rootMenuSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
-	
+function rootMenuSaveCtl($localStorage, notify, $log, $uibModal,
+		$uibModalInstance, $scope, id, $http, $rootScope,$timeout) {
+
 	$scope.statusOpt = [ {
 		id : "1",
 		name : "正常"
@@ -31,12 +32,20 @@ function rootMenuSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 	} else {
 		// 新增
 	}
+	$timeout(function() {
+		var adom = document.getElementsByClassName('chosen-container');
+		for (var i = 0; i < adom.length; i++) {
+			console.log(adom[i]);
+			adom[i].style.width = "100%";
+		}
+	}, 300);
 
 	$scope.sure = function() {
 
 		$scope.item.used = $scope.statusSel.id;
 
-		$http.post($rootScope.project + "/api/sysMenus/insertOrUpdate.do", $scope.item).success(function(res) {
+		$http.post($rootScope.project + "/api/sysMenus/insertOrUpdate.do",
+				$scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 				notify({
@@ -54,29 +63,33 @@ function rootMenuSaveCtl($localStorage, notify, $log, $uibModal, $uibModalInstan
 	};
 }
 
-function sysRootMenugCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysRootMenugCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+		$log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.meta ={
-			tablehide:false,
-			tools : [ {
-				id : "1",
-				label : "新增",
-				type : "btn",
-				template:' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
-	 
-			} ]
-		}
+	$scope.meta = {
+		tablehide : false,
+		tools : [ {
+			id : "1",
+			label : "新增",
+			type : "btn",
+			template : ' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
-		// Recompiling so we can bind Angular,directive to the
-		$compile(angular.element(row).contents())($scope);
-	});
+		} ]
+	}
+
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
+			'createdRow', function(row) {
+				// Recompiling so we can bind Angular,directive to the
+				$compile(angular.element(row).contents())($scope);
+			});
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.menuId + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
-	 
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.menuId + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.menuId
+				+ "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.menuId
+				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
@@ -87,21 +100,26 @@ function sysRootMenugCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		return res;
 	}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('used').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('menu_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	$scope.dtColumns = [
+			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('used').withTitle('状态').withOption(
+					'sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('menu_id').withTitle('操作').withOption(
+					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 		var ps = {}
-		$http.post($rootScope.project + "/api/sysMenus/selectList.do", ps).success(function(res) {
-			if (res.success) {
-				$scope.dtOptions.aaData = res.data;
-			} else {
-				notify({
-					message : res.message
-				});
-			}
-		})
+		$http.post($rootScope.project + "/api/sysMenus/selectList.do", ps)
+				.success(function(res) {
+					if (res.success) {
+						$scope.dtOptions.aaData = res.data;
+					} else {
+						notify({
+							message : res.message
+						});
+					}
+				})
 	}
 	flush();
 
