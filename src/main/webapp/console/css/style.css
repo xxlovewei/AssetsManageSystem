@@ -3476,11 +3476,13 @@ body.tour-open .animated {
   border-bottom: 1px solid #e7eaec;
 }
 body {
-  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Arial,sans-serif;
   background-color: #2f4050;
-  font-size: 13px;
-  color: #676a6c;
+  font-size: 12px;
+  color: #495060;
   overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 html,
 body {
@@ -3903,10 +3905,15 @@ code {
   white-space: nowrap;
 }
 .ibox {
+	
+ 
+/*   border: 1px solid #dcdfe6; */
   clear: both;
   margin-bottom: 25px;
   margin-top: 0;
   padding: 0;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  
 }
 .ibox.collapsed .ibox-content {
   display: none;
@@ -3922,6 +3929,8 @@ code {
   display: table;
 }
 .ibox-title {
+	
+ 
   -moz-border-bottom-colors: none;
   -moz-border-left-colors: none;
   -moz-border-right-colors: none;
@@ -3930,11 +3939,12 @@ code {
   border-color: #e7eaec;
   border-image: none;
   border-style: solid solid none;
-  border-width: 2px 0 0;
+  border-width: 1px 0 0;
   color: inherit;
   margin-bottom: 0;
   padding: 15px 15px 7px;
   min-height: 48px;
+  margin-top:-1px;
 }
 .ibox-content {
   background-color: #ffffff;
@@ -3944,6 +3954,8 @@ code {
   border-image: none;
   border-style: solid solid none;
   border-width: 1px 0;
+  margin-top:-1px;
+
 }
 .ibox-footer {
   color: inherit;

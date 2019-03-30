@@ -4,7 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.dt.module.base.entity.SysMenus">
-        <id column="MENU_ID" property="menuId" />
+    <id column="MENU_ID" property="menuId" />
     <result column="DR" property="dr" />
     <result column="UPDATE_BY" property="updateBy" />
     <result column="CREATE_BY" property="createBy" />

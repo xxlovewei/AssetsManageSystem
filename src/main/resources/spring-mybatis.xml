@@ -60,7 +60,7 @@
             <array>
                 <!-- 分页插件配置 -->
                 <bean id="paginationInterceptor" class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor">
-                    <property name="dialectType" value="oracle"/>
+                    <property name="dialectType" value="mysql"/>
                 </bean>
             </array>
         </property>
