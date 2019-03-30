@@ -32,12 +32,18 @@ function sysParamSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibMo
 	}
 	
 	$timeout(function() {
-		var adom = document.getElementsByClassName('chosen-container');
-		for (var i = 0; i < adom.length; i++) {
-			console.log(adom[i]);
-			adom[i].style.width = "100%";
+
+		var modal = document.getElementsByClassName('modal-body');
+		for (var i = 0; i < modal.length; i++) {
+			console.log(modal[i]);
+			var adom = modal[i].getElementsByClassName('chosen-container');
+			console.log(adom.length);
+			for (var j = 0; j < adom.length; j++) {
+				adom[i].style.width = "100%";
+			}
 		}
-	}, 200);
+	}, 300);
+	
 	$scope.sure = function() {
 
 		$scope.item.type = $scope.typeSel.id;

@@ -61,9 +61,8 @@ function menuModuleCtl($localStorage, notify, $log, $uibModal,
 
 }
 
-function menuAclCtl($timeout, DTOptionsBuilder, DTColumnBuilder,
-		notify, $log, $uibModal, $uibModalInstance, $scope, data, $http,
-		$rootScope, $compile) {
+function menuAclCtl($timeout, DTOptionsBuilder, DTColumnBuilder, notify, $log,
+		$uibModal, $uibModalInstance, $scope, data, $http, $rootScope, $compile) {
 	$scope.item = {}
 	$log.log("window in:", data);
 	var mid = data.node_id;
@@ -170,7 +169,7 @@ function menuAclCtl($timeout, DTOptionsBuilder, DTColumnBuilder,
 }
 
 function menuModifyCtl($localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, data, $http, $rootScope,$timeout) {
+		$uibModalInstance, $scope, data, $http, $rootScope, $timeout) {
 	$log.log("window in:", data);
 	$scope.item = {};
 	$scope.item = angular.copy(data)
@@ -240,8 +239,8 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 		$scope.item.sort = ""
 		$scope.item.module_id = "";
 		$scope.item.menu_level = "";
-		$http.post($rootScope.project + "/api/sysMenus/selectList.do", {}).success(
-				function(res) {
+		$http.post($rootScope.project + "/api/sysMenus/selectList.do", {})
+				.success(function(res) {
 					if (res.success) {
 						$scope.topMenuOpt = res.data;
 						if (res.data.length > 0) {
@@ -254,21 +253,25 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 					}
 				})
 	}
-	
-	
+
 	$timeout(function() {
-		var adom = document.getElementsByClassName('chosen-container');
-		for (var i = 0; i < adom.length; i++) {
-			console.log(adom[i]);
-			adom[i].style.width = "100%";
+
+		var modal = document.getElementsByClassName('modal-body');
+		for (var i = 0; i < modal.length; i++) {
+			console.log(modal[i]);
+			var adom = modal[i].getElementsByClassName('chosen-container');
+			console.log(adom.length);
+			for (var j = 0; j < adom.length; j++) {
+				adom[i].style.width = "100%";
+			}
 		}
 	}, 300);
 
 	$scope.sure = function() {
 
 		var ps = $scope.item;
-//		ps.is_action = $scope.actionSel.id;
-		ps.is_action ="Y";
+		//		ps.is_action = $scope.actionSel.id;
+		ps.is_action = "Y";
 		ps.is_g_show = $scope.showSel.id;
 		ps.type = $scope.nodeSel.id;
 		if (angular.isDefined($scope.topMenuSel.menuId)) {
@@ -418,7 +421,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 						});
 					},
 					add : function(data) { // this works too:
-											// $scope.someMethod;
+						// $scope.someMethod;
 						var ps = data;
 						ps.actiontype = "add";
 						var modalInstance = $uibModal
@@ -445,7 +448,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 						});
 					},
 					del : function(data) { // this works too:
-											// $scope.someMethod;
+						// $scope.someMethod;
 						$log.log('del', data);
 						var ps = {};
 						ps.node_id = data.node_id;
@@ -473,7 +476,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 										});
 					},
 					acl : function(data) { // this works too:
-											// $scope.someMethod;
+						// $scope.someMethod;
 						$log.log('acl', data);
 						var ps = {};
 						ps.node_id = data.node_id;
@@ -510,7 +513,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 					},
 					edit : function(data) { // this works too:
-											// $scope.someMethod;
+						// $scope.someMethod;
 						var ps = data;
 						ps.actiontype = "edit";
 						var modalInstance = $uibModal
@@ -543,9 +546,12 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	var rawTreeData = [];
 	var myTreeData = [];
 	function flush() {
-		$http.post($rootScope.project + "/api/sysMenusNode/queryMenuNodesForStageSetting.do", {
-			menu_id : $scope.topMenuSel.menuId
-		}).success(function(res) {
+		$http.post(
+				$rootScope.project
+						+ "/api/sysMenusNode/queryMenuNodesForStageSetting.do",
+				{
+					menu_id : $scope.topMenuSel.menuId
+				}).success(function(res) {
 			if (res.success) {
 				rawTreeData = res.data
 				myTreeData = getTree(rawTreeData, 'node_id', 'parent_id');

@@ -1216,11 +1216,15 @@ button.dim:active:before {
   border-color: #919191;
 }
 /* CHOSEN PLUGIN */
+.chosen-container{
+	font-size: 12px!important;
+}
+
 .chosen-container-single .chosen-single {
   background: #ffffff;
   box-shadow: none;
   -moz-box-sizing: border-box;
-  border-radius: 2px;
+   border-radius: 0px !important;
   cursor: text;
   height: auto !important;
   margin: 0;
@@ -1233,7 +1237,7 @@ button.dim:active:before {
 .chosen-container-multi .chosen-choices li.search-choice {
   background: #f1f1f1;
   border: 1px solid #e5e6e7;
-  border-radius: 2px;
+  border-radius: 0px !important;
   box-shadow: none;
   color: #333333;
   cursor: default;
