@@ -672,6 +672,8 @@ angular.module('inspinia').directive('pageTitle', pageTitle).directive(
 		.directive('markdownEditor', markdownEditor).directive('passwordMeter',
 				passwordMeter).directive('onFinishRender', onFinishRender);
 
+
+
 angular.module('inspinia').directive("bnDocumentClick",
 		function($document, $parse) {
 			//将Angular的上下文链接到DOM事件

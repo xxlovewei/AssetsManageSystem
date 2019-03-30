@@ -39,7 +39,7 @@ h5 {
 }
 .nav > li > a {
   color: #a7b1c2;
-  font-weight: 600;
+/*   font-weight: 600; */
   padding: 14px 20px 14px 25px;
 }
 .nav.navbar-right > li > a {
@@ -104,7 +104,7 @@ h5 {
   border-radius: 3px;
   color: inherit;
   line-height: 25px;
-  margin: 4px;
+  margin: 1px;
   text-align: left;
   font-weight: normal;
 }
@@ -178,7 +178,7 @@ ul.nav-second-level {
   background: #293846;
 }
 .nav > li.active {
-  border-left: 4px solid #19aa8d;
+  border-left: 4px solid #054bd2;
   background: #293846;
 }
 .nav.nav-second-level > li.active {
@@ -210,7 +210,7 @@ ul.nav-second-level {
   margin-bottom: 0;
 }
 .nav.navbar-top-links a {
-  font-size: 14px;
+  font-size: 12px;
 }
 .navbar-form-custom .form-control {
   background: none repeat scroll 0 0 rgba(0, 0, 0, 0);

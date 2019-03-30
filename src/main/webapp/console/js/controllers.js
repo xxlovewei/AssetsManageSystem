@@ -1,8 +1,5 @@
-var app={
-		
-		
+var app={		
 }
-
 
 function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
 		userService, notify, $timeout) {
@@ -154,10 +151,7 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
 		$scope.dt_systems = dt_systems;
 	}
 
-	// 固定左边导航
-	// function fixnav() {
-	//	}
-	//	fixnav();
+ 
 
 };
 angular.module('inspinia').controller('MainCtrl', MainCtrl);
