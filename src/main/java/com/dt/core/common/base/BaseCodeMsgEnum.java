@@ -41,11 +41,14 @@ public enum BaseCodeMsgEnum {
 
 	WX_FAILED_GET_OPENID(10001, "微信未获取Openid");
 
-	public static JSONArray printAll() {
+ 
+ 
+	public  JSONArray printAll() {
 		JSONArray res = new JSONArray();
 		for (BaseCodeMsgEnum e : BaseCodeMsgEnum.values()) {
-			JSONObject obj = new JSONObject();
-			obj.put(e.friendlyCode + "", e.friendlyMsg);
+			 JSONObject  obj =new JSONObject();
+			 
+			obj.put(e.friendlyCode+"", e.friendlyMsg.toString());
 			res.add(obj);
 		}
 		return res;
