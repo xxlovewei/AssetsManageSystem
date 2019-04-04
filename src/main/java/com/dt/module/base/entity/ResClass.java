@@ -41,6 +41,8 @@ public class ResClass extends BaseModel<ResClass> {
     private BigDecimal sort;
     @TableField("subtype")
     private String subtype;
+    @TableField("mark")
+    private String mark;
 
 
     public String getClassId() {
@@ -115,6 +117,14 @@ public class ResClass extends BaseModel<ResClass> {
         this.subtype = subtype;
     }
 
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.classId;
@@ -132,6 +142,7 @@ public class ResClass extends BaseModel<ResClass> {
         ", status=" + status +
         ", sort=" + sort +
         ", subtype=" + subtype +
+        ", mark=" + mark +
         "}";
     }
 }

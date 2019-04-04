@@ -34,8 +34,8 @@ public class Res extends BaseModel<Res> {
     private String sn;
     @TableField("name")
     private String name;
-    @TableField("describe")
-    private String describe;
+    @TableField("mark")
+    private String mark;
     @TableField("maintain_userid")
     private String maintainUserid;
     @TableField("headuserid")
@@ -190,12 +190,12 @@ public class Res extends BaseModel<Res> {
         this.name = name;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getMark() {
+        return mark;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 
     public String getMaintainUserid() {
@@ -659,7 +659,7 @@ public class Res extends BaseModel<Res> {
         ", classId=" + classId +
         ", sn=" + sn +
         ", name=" + name +
-        ", describe=" + describe +
+        ", mark=" + mark +
         ", maintainUserid=" + maintainUserid +
         ", headuserid=" + headuserid +
         ", pinp=" + pinp +

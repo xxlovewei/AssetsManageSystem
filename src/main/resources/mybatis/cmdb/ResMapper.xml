@@ -14,7 +14,7 @@
         <result column="class_id" property="classId" />
         <result column="sn" property="sn" />
         <result column="name" property="name" />
-        <result column="describe" property="describe" />
+        <result column="mark" property="mark" />
         <result column="maintain_userid" property="maintainUserid" />
         <result column="headuserid" property="headuserid" />
         <result column="pinp" property="pinp" />

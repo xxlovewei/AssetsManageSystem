@@ -464,6 +464,37 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	
 	
 	// cmdb
+	$stateProvider.state('res', {
+		abstract : true,
+		url : "/res",
+		templateUrl : "views/common/content.html"
+	}).state('res.restype', {
+		url : "/res_restype",
+		data: { pageTitle: '设备类型'},
+		template:'<div ng-controller="resTypeCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/res/restype.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('res.res_attr', {
+		url : "/res_attr",
+		data: { pageTitle: '资源属性'},
+		template:'<div ng-controller="resAttrCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/res/resattr.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
+	
+	// cmdb
 	$stateProvider.state('cf', {
 		abstract : true,
 		url : "/cf",

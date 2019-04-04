@@ -8,8 +8,17 @@
 	</div>
 	<div class="modal-body">
 		<div class="wrapper wrapper-content animated fadeInRight">
+			<table class="table">
+				<tr>
+					<th>用户名</th>
+					<th>备注</th>
+				</tr>
+				<tr ng-repeat="x in users">
+					<td>{{x.attr_value}}</td>
+					<td>{{x.mark}}</td>
+				</tr>
+			</table>
 
-		 
 		</div>
 
 	</div>

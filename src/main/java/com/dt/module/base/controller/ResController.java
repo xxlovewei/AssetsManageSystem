@@ -30,7 +30,7 @@ import com.dt.core.common.base.BaseController;
  * @since 2019-04-04
  */
 @Controller
-@RequestMapping("/api/res")
+@RequestMapping("/api/base/res")
 public class ResController extends BaseController {
 
 

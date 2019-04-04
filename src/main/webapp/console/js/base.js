@@ -235,7 +235,7 @@ function modal_simpleFormCtl($timeout,$localStorage, notify, $log, $uibModal, $u
 		 for(var i=0;i<select_ids.length;i++){
 			 document.getElementById(select_ids[i]+"_chosen").style.width="100%";
 		 }
-     },500);
+     },200);
 	
 	$log.log("form init");
 	if(typeof($scope.meta.init) != "undefined"  ){

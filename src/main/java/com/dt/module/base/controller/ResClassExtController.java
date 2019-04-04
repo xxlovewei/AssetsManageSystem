@@ -11,6 +11,8 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
+import com.dt.module.base.service.IResClassService;
+import com.dt.module.base.service.IResService;
 import com.dt.module.ct.service.ContentCategoryService;
 
 /**
@@ -21,6 +23,9 @@ import com.dt.module.ct.service.ContentCategoryService;
 @Controller
 @RequestMapping("/api/res/resClass")
 public class ResClassExtController extends BaseController {
+
+	@Autowired
+	IResClassService ResClassServiceImpl;
 
 	@Autowired
 	ContentCategoryService contentCategoryService;
@@ -54,11 +59,23 @@ public class ResClassExtController extends BaseController {
 
 	}
 
-//	@ResponseBody
-//	@Acl(info = "", value = Acl.ACL_ALLOW)
-//	@RequestMapping(value = "/queryResByConfItem.do")
-//	public R queryResByConfItem(String id) {
-//		return resClassExtServiceImpl.queryResByConfItem(id);
-//	}
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_ALLOW)
+	@RequestMapping(value = "/delResClass.do")
+	public R delResClass(String id) {
+
+		if (ToolUtil.isNotEmpty(id)) {
+			String sql = "select count(1) cnt from res_class_attrs where class_id=? and dr='0' ";
+			if (db.uniqueRecord(sql, id).getInteger("cnt") > 0) {
+				return R.FAILURE("请先删除属性项目 ");
+			} else {
+				ResClassServiceImpl.removeById(id);
+				return R.SUCCESS_OPER();
+			}
+		} else {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+
+	}
 
 }

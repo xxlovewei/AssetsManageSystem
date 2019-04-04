@@ -1,12 +1,13 @@
 function cmdblistUserCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
  
+	$scope.users=[];
 	if (angular.isDefined(id)) {
 		// 加载数据
-		$http.post($rootScope.project + "/api/base/res/queryResValueByNodeForUser.do", {
+		$http.post($rootScope.project + "/api/res/queryResAllById.do", {
 			id : id
 		}).success(function(res) {
 			if (res.success) {
-				 
+				$scope.users=res.data.userlist;
 			} else {
 				notify({
 					message : res.message
@@ -27,12 +28,10 @@ function cmdbUserListCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	 
 	 
 	// 自动获取配置项
-
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
-			'createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			});
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
+		// Recompiling so we can bind Angular,directive to the
+		$compile(angular.element(row).contents())($scope);
+	});
 
  
 
@@ -62,7 +61,7 @@ function cmdbUserListCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$http
 				.post(
 						$rootScope.project
-								+ "/api/base/res/queryResByNodeForUser.do",
+								+ "/api/res/queryResByNodeForUser.do",
 						ps).success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;

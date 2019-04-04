@@ -131,6 +131,7 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 				console.log($scope.myDropzone.files[0]);
 			},
 			init : function(modal_meta) {
+				console.log("INIT");
 				$http.post($rootScope.project + "/api/user/queryGroup.do", {})
 						.success(function(res) {
 							console.log(res);
@@ -317,6 +318,7 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 					.renderWith(renderAction) ]
 
 	function flush() {
+		console.log("!!!!!!!!!!!!!!323");
 		var ps = {}
 		var d = [];
 		var a = {
@@ -357,7 +359,7 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		// }
 		// })
 	}
-	flush();
+	//flush();
 
 	$scope.row_detail = function(id) {
 
