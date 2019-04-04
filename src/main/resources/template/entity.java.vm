@@ -1,6 +1,7 @@
 package ${package.Entity};
 
 import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableName;
 #foreach($pkg in ${table.importPackages})
 import ${pkg};
 #end
@@ -28,9 +29,9 @@ import lombok.experimental.Accessors;
 #end
 @Accessors(chain = true)
 #end
-#if(${table.convert})
+ 
 @TableName("${table.name}")
-#end
+ 
 #if(${superEntityClass})
 public class ${entity} extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
 #elseif(${activeRecord})

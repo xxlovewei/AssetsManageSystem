@@ -1,5 +1,3 @@
-
- 
 app.factory('scriptLoader', ['$q', '$timeout', function($q, $timeout) {
 
     /**

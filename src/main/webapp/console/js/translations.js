@@ -3,10 +3,8 @@
  *
  */
 function config($translateProvider) {
-
     $translateProvider
         .translations('en', {
-
             // Define all menu elements
             DASHBOARD: 'Dashboard',
             GRAPHS: 'Graphs',
@@ -35,7 +33,6 @@ function config($translateProvider) {
 
         })
         .translations('es', {
-
             // Define all menu elements
             DASHBOARD: 'Salpicadero',
             GRAPHS: 'Gráficos',
@@ -62,11 +59,8 @@ function config($translateProvider) {
             SEARCH: 'Busca algo ...',
             DEMO: 'Internacionalización (a veces abreviado como \"I18N, que significa\" I - dieciocho letras N \") es el proceso de planificación e implementación de productos y servicios de manera que se pueden adaptar fácilmente a las lenguas y culturas locales específicas, un proceso llamado localización El proceso de internacionalización. a veces se llama la traducción o la habilitación de localización.'
         });
-
     $translateProvider.preferredLanguage('en');
-
 }
-
 angular
     .module('inspinia')
     .config(config)

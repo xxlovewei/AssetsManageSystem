@@ -10,7 +10,7 @@
 7. Kaptcha 2.3.2
 8. Fastjson 1.2.31
 9. Shiro 1.4.0
-10. Druid 1.0.31
+10.Druid 1.0.31
 
 
 ## 联系方式

@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
 1>功能基本测试 
 
 

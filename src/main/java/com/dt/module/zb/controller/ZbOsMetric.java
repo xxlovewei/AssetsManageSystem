@@ -129,8 +129,8 @@ public class ZbOsMetric extends BaseController {
 		String sql = "select (100-t1.value) used,from_unixtime(t1.clock,'%Y-%m-%d %H:%i:%S') rtime,t3.name,t3.hostid,t3.host,\n"
 				+ "   replace(replace( replace( replace( t2.name,'Free',''),'(percentage)',''),'disk ',''),' on ',':') metricname \n"
 				+ " from history t1,items t2,hosts t3\n"
-				+ " where  t1.clock>unix_timestamp(CONCAT(DATE_FORMAT(curdate()-3,'%Y-%m-%d'),' 08:00:00')) and  t3.status=0 and  t3.available=1 and t3.hostid=t2.hostid and t1.itemid=t2.itemid and (t1.itemid,t1.clock) in (\n"
-				+ "select\n" + "  a.itemid,max(h.clock)  from items a,history h\n" + "where  h.clock>unix_timestamp(CONCAT(DATE_FORMAT(curdate()-3,'%Y-%m-%d'),' 08:00:00'))   and  key_ like 'vfs.fs%'\n"
+				+ " where  t1.clock>unix_timestamp(date_sub(now(),interval 24 hour)) and  t3.status=0 and  t3.available=1 and t3.hostid=t2.hostid and t1.itemid=t2.itemid and (t1.itemid,t1.clock) in (\n"
+				+ "select\n" + "  a.itemid,max(h.clock)  from items a,history h\n" + "where  h.clock>unix_timestamp(date_sub(now(),interval 48 hour))  and  key_ like 'vfs.fs%'\n"
 				+ "and a.templateid is null\n" + "and a.itemid=h.itemid\n"
 				+ "and a.name like '%percentage%' group by itemid) order by used desc";
 		if (ToolUtil.isEmpty(id)) {

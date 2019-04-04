@@ -480,8 +480,19 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('cf.userlist', {
+		url : "/cf_userList",
+		data: { pageTitle: '用户列表'},
+		templateUrl : "views/system/cmdb/userList.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/cmdb/userList.js?v=' + version ]
+				} ]);
+			}
+		}
 	});
-	
 	
 	
 }
