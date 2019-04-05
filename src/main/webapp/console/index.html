@@ -19,24 +19,30 @@
 <link id="loadBefore" href="css/style.css" rel="stylesheet">
 <link id="loadBefore" href="css/beforeload.css" rel="stylesheet">
 <script>
+	
 </script>
 <!--[if IE 9]>
         <link href="css/application-ie9-part2.css" rel="stylesheet">
     <![endif]-->
 </head>
+<script>
+	if (window.navigator.userAgent.indexOf("MSIE") >= 1) {
+		window.location.href="./BrowserInfo.html" ;
+	}
+</script>
 <body ng-controller="MainCtrl as main"
 	class="{{$state.current.data.specialClass}}" landing-scrollspy
 	id="page-top">
 
-	 <div id="beforePage" class="preloader">
+	<div id="beforePage" class="preloader">
 		<div class="cs-loader">
 			<div class="cs-loader-inner">
 				<label> ●</label> <label> ●</label> <label> ●</label> <label>
 					●</label> <label> ●</label> <label> ●</label>
 			</div>
 		</div>
-	</div> 
-	
+	</div>
+
 	<!-- Main view  -->
 	<div ui-view></div>
 	<!--jQuery and Bootstrap  -->

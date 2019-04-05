@@ -243,22 +243,22 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 					var typestr = "未知";
 					if (userdata[j].type == "admin") {
 						html = html
-								+ "<td  style=\"width:80px!important; vertical-align: middle;\" >管理员</td>";
+								+ "<td  style=\"width:100px!important; vertical-align: middle;\" >管理员</td>";
 					} else if (userdata[j].type == "app") {
 						html = html
-								+ "<td  style=\"width:40px!important ; vertical-align: middle;\" >应用账户</td>";
+								+ "<td  style=\"width:100px!important ; vertical-align: middle;\" >应用账户</td>";
 					} else if (userdata[j].type == "db") {
 						html = html
-						+ "<td  style=\"width:40px!important ; vertical-align: middle;\" >数据库账户</td>";
+						+ "<td  style=\"width:100px!important ; vertical-align: middle;\" >数据库账户</td>";
 					}else if (userdata[j].type == "yw") {
 						html = html
-								+ "<td  style=\"width:40px!important; vertical-align: middle;\" >运维人员</td>";
+								+ "<td  style=\"width:100px!important; vertical-align: middle;\" >运维人员</td>";
 					} else if (userdata[j].type == "inter") {
 						html = html
-								+ "<td  style=\"width:40px!important; vertical-align: middle;\" >内置账户</td>";
+								+ "<td  style=\"width:100px!important; vertical-align: middle;\" >内置账户</td>";
 					} else {
 						html = html
-								+ "<td  style=\"width:40px!important; vertical-align: middle;\" >未知</td>";
+								+ "<td  style=\"width:100px!important; vertical-align: middle;\" >未知</td>";
 					}
 					var statusstr = "未知";
 					if (userdata[j].status == "enable") {
@@ -356,6 +356,8 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 		var meta = {};
 
+		
+		
 		var items = [ {
 			type : "input",
 			disabled : "false",
@@ -387,7 +389,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			type : "input",
 			disabled : "false",
 			sub_type : "text",
-			required : true,
+			required : false,
 			maxlength : "300",
 			placeholder : "请输入备注",
 			label : "备注",
@@ -412,7 +414,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 				name : "启用"
 			}, {
 				id : "disable",
-				name : "禁止"
+				name : "停用"
 			} ],
 			statusSel : "",
 			typeOpt : [ {
