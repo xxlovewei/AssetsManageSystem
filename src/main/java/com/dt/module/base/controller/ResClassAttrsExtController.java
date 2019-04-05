@@ -30,7 +30,7 @@ import com.dt.core.common.base.BaseController;
  * @since 2019-04-04
  */
 @Controller
-@RequestMapping("/api/res/resClassAttrs")
+@RequestMapping("/api/base/resClassAttrs")
 public class ResClassAttrsExtController extends BaseController {
 
 
@@ -40,15 +40,27 @@ public class ResClassAttrsExtController extends BaseController {
  
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
+	@Acl(info = "根据Id查询", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/selectByClassId.do")
-	public R selectById(@RequestParam(value = "classId", required = true, defaultValue = "") String classId) {
+	public R selectByClassId(@RequestParam(value = "classId", required = true, defaultValue = "") String classId) {
 		QueryWrapper<ResClassAttrs> ew = new QueryWrapper<ResClassAttrs>();
 		ew.and(i -> i.eq("class_id", classId));
 		
 		return R.SUCCESS_OPER(ResClassAttrsServiceImpl.list(ew));
 		
 	}
+	
+	@ResponseBody
+	@Acl(info = "根据Id查询", value = Acl.ACL_ALLOW)
+	@RequestMapping(value = "/selectByClassIdWithAttrCode.do")
+	public R selectByClassIdWithAttrCode(@RequestParam(value = "classId", required = true, defaultValue = "") String classId,@RequestParam(value = "attrCode", required = true, defaultValue = "") String attrCode) {
+		QueryWrapper<ResClassAttrs> ew = new QueryWrapper<ResClassAttrs>();
+		ew.and(i -> i.eq("class_id", classId)).and(i -> i.eq("attr_code", attrCode));
+		return R.SUCCESS_OPER(ResClassAttrsServiceImpl.list(ew));
+		
+	}
+	
+	 
  
 
 

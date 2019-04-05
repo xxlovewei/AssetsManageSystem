@@ -21,7 +21,7 @@ import com.dt.module.ct.service.ContentCategoryService;
  * @Description: TODO
  */
 @Controller
-@RequestMapping("/api/res/resClass")
+@RequestMapping("/api/base/resClass")
 public class ResClassExtController extends BaseController {
 
 	@Autowired

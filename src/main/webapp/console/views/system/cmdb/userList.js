@@ -1,13 +1,24 @@
-function cmdblistUserCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
- 
-	$scope.users=[];
+/*
+ * 管理操作系统下的用户
+ * 用户按照功能分类,用户拥有状态
+ * 每个节点Ip为唯一,不可重复插入
+ * 插入时候ip已有,则更新数据,否则为新的条目
+ * 
+ * */
+
+var classCode="xtlist";
+var attrCode="userlist";
+function cmdblistUserCtl($timeout, $localStorage, notify, $log, $uibModal,
+		$uibModalInstance, $scope, id, $http, $rootScope) {
+
+	$scope.users = [];
 	if (angular.isDefined(id)) {
 		// 加载数据
-		$http.post($rootScope.project + "/api/res/queryResAllById.do", {
+		$http.post($rootScope.project + "/api/base/queryResAllById.do", {
 			id : id
 		}).success(function(res) {
 			if (res.success) {
-				$scope.users=res.data.userlist;
+				$scope.users = res.data.userlist;
 			} else {
 				notify({
 					message : res.message
@@ -15,25 +26,133 @@ function cmdblistUserCtl($timeout,$localStorage, notify, $log, $uibModal, $uibMo
 			}
 		})
 	}
-	
- 
+
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
 }
 
-function cmdbUserListCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
-		$log, notify, $scope, $http, $rootScope, $uibModal) {
+function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
+		$localStorage) {
 
-	 
-	 
-	// 自动获取配置项
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
-		// Recompiling so we can bind Angular,directive to the
-		$compile(angular.element(row).contents())($scope);
-	});
+	$scope.addNode=function(){
+		
+		var meta = {};
 
+		var items = [ {
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : true,
+			maxlength : "100",
+			placeholder : "请输入名称",
+			label : "名称",
+			need : true,
+			name : 'name',
+			ng_model : "name"
+		}, {
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : true,
+			maxlength : "50",
+			placeholder : "请输入ip",
+			label : "Ip",
+			need : true,
+			name : 'ip',
+			ng_model : "ip"
+		}];
+
+		meta = {
  
+			footer_hide : false,
+			title : "基本信息",
+			item : {},
+		 
+			items : items,
+			sure : function(modalInstance, modal_meta) {
+				modal_meta.meta.item.classCode=classCode;
+				modal_meta.meta.item.attrCode=attrCode;
+				$http.post(
+						$rootScope.project
+								+ "	/api/base/addResNode.do",
+						modal_meta.meta.item).success(function(res) {
+					if (res.success) {
+						modalInstance.close("OK");
+					} else {
+						notify({
+							message : res.message
+						});
+					}
+				});
+
+			},
+			init : function(modal_meta) {
+				console.log(modal_meta.meta);
+				 
+			}
+		}
+
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/Template/modal_simpleForm.html',
+			controller : modal_simpleFormCtl,
+			size : 'lg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				meta : function() {
+					return meta;
+				}
+			}
+		});
+
+		modalInstance.result.then(function(result) {
+			$log.log("result", result);
+
+			if (result == "OK") {
+				queryUsers();
+			}
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
+
+		
+		
+	}
+	
+	
+	$scope.search = "";
+	$scope.typeOpt = [ {
+		id : "all",
+		name : "全部"
+	}, {
+		id : "admin",
+		name : "管理员"
+	}, {
+		id : "yw",
+		name : "运维账户"
+	} ]
+	$scope.typeSel = $scope.typeOpt[0];
+
+	$scope.statusOpt = [ {
+		id : "all",
+		name : "全部"
+	}, {
+		id : "enable",
+		name : "启用"
+	}, {
+		id : "disable",
+		name : "停用"
+	} ]
+	$scope.statusSel = $scope.statusOpt[0];
+
+	// 自动获取配置项
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
+			'createdRow', function(row) {
+				// Recompiling so we can bind Angular,directive to the
+				$compile(angular.element(row).contents())($scope);
+			});
 
 	$scope.dtInstance = {}
 
@@ -57,35 +176,402 @@ function cmdbUserListCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	function flush() {
 		var ps = {}
-		 
-		$http
-				.post(
-						$rootScope.project
-								+ "/api/res/queryResByNodeForUser.do",
-						ps).success(function(res) {
+		ps.classCode=classCode;
+		$http.post($rootScope.project + "/api/base/queryResByNodeForUser.do",
+				ps).success(function(res) {
+			if (res.success) {
+				$scope.dtOptions.aaData = res.data;
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
+	}
+//
+//	for(var i=0;i<120;i++){
+//	var t = {};
+//	t.ip = "10.18"+i;
+//	t.name = "测试主机";
+//	var u = [];
+//	u.push({
+//		user : "12",
+//		status : "enable"
+//	});
+//	u.push({
+//		user : "122",
+//		status : "disable"
+//	});
+//	t.users = angular.toJson(u);
+//	$http.post($rootScope.project + "/api/base/addResBySingleNode.do", t)
+//			.success(function(res) {
+//				if (res.success) {
+//					$scope.dtOptions.aaData = res.data;
+//				} else {
+//					notify({
+//						message : res.message
+//					});
+//				}
+//			})
+//			
+//	}
+
+	function buildHtml(udata) {
+
+		var html = "<table id=\"udatatable\" class=\"table table-bordered\" >";
+		html = html
+				+ "<thead style=\"background-color:#696969\"> <th>名称</th> <th>IP</th><th>用户</th>  <th>类型</th><th>状态</th> <th>备注</th> <th>操作</th>  </thead>  <tbody>";
+
+		for (var i = 0; i < udata.length; i++) {
+			var userdata = udata[i].users;
+			var userlength = udata[i].users.length;
+			if (userlength > 0) {
+				for (var j = 0; j < userdata.length; j++) {
+					html = html + "<tr>";
+					if (j == 0) {
+						html = html
+								+ "<td style=\"font-weight:bold;width:135px!important;vertical-align: middle; \" rowspan=\""
+								+ userlength + "\">" + udata[i].name + "</td>";
+						html = html
+								+ "<td style=\"width:50px!important;vertical-align: middle;\" rowspan=\""
+								+ userlength + "\">" + udata[i].ip + "</td>";
+					}
+					html = html
+							+ "<td style=\"width:60px!important; vertical-align: middle;\">"
+							+ userdata[j].attr_value + "</td>";
+
+					var typestr = "未知";
+					if (userdata[j].type == "admin") {
+						html = html
+								+ "<td  style=\"width:80px!important; vertical-align: middle;\" >管理员</td>";
+					} else if (userdata[j].type == "app") {
+						html = html
+								+ "<td  style=\"width:40px!important ; vertical-align: middle;\" >应用账户</td>";
+					} else if (userdata[j].type == "db") {
+						html = html
+						+ "<td  style=\"width:40px!important ; vertical-align: middle;\" >数据库账户</td>";
+					}else if (userdata[j].type == "yw") {
+						html = html
+								+ "<td  style=\"width:40px!important; vertical-align: middle;\" >运维人员</td>";
+					} else if (userdata[j].type == "inter") {
+						html = html
+								+ "<td  style=\"width:40px!important; vertical-align: middle;\" >内置账户</td>";
+					} else {
+						html = html
+								+ "<td  style=\"width:40px!important; vertical-align: middle;\" >未知</td>";
+					}
+					var statusstr = "未知";
+					if (userdata[j].status == "enable") {
+						html = html
+								+ "<td  style=\"width:80px!important ; vertical-align: middle;color:green;font-weight:bold\" >启用</td>";
+					} else if (userdata[j].status == "disable") {
+						html = html
+								+ "<td  style=\"width:80px!important; vertical-align: middle;color:red;font-weight:bold\" >停用</td>";
+					} else {
+						html = html
+								+ "<td  style=\"width:80px!important; vertical-align: middle;color:red;font-weight:bold\" >未知</td>";
+					}
+					html = html
+							+ "<td style=\"vertical-align: middle;\">"
+							+ (angular.isDefined(userdata[j].mark) ? userdata[j].mark
+									: "") + "</td>";
+					html = html
+							+ "<td style=\"width:180px!important; vertical-align: middle;\" > <div class=\"btn-group\"> <button ng-click=\"saveitem(null,'"
+							+ udata[i].class_id
+							+ "','"
+							+ udata[i].id
+							+ "')\" class=\"btn-white btn btn-xs\">新增</button>    <button ng-click=\"saveitem('"
+							+ userdata[j].id
+							+ "','"
+							+ udata[i].class_id
+							+ "','"
+							+ udata[i].id
+							+ "')\" class=\"btn-white btn btn-xs\">更新</button><button ng-click=\"delitem('"
+							+ userdata[j].id
+							+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div></td>";
+					html = html + "</tr>";
+				}
+
+			} else {
+				html = html + "<tr>";
+				html = html
+						+ "<td style=\"font-weight:bold;width:135px!important\">"
+						+ udata[i].name + "</td>";
+				html = html + "<td style=\"width:50px!important\">"
+						+ udata[i].ip + "</td>";
+				html = html + "<td></td>";
+				html = html + "<td></td>";
+				html = html + "<td></td>";
+				html = html + "<td></td>";
+				html = html
+						+ "<td style=\"width:120px!important\" > <div class=\"btn-group\">  <button ng-click=\"saveitem(null,'"
+						+ udata[i].class_id
+						+ "','"
+						+ udata[i].id
+						+ "')\" class=\"btn-white btn btn-xs\">新增</button> </div></td>";
+				html = html + "</tr>";
+			}
+		}
+		html = html + "</tbody></table>";
+		return html;
+	}
+	function queryUsers() {
+		var par = {};
+		par.status = $scope.statusSel.id;
+		par.type = $scope.typeSel.id;
+		par.search = $scope.search;
+		par.classCode=classCode;
+		par.attrCode=attrCode;
+		$http.post($rootScope.project + "api/base/queryResAllUsers.do", par)
+				.success(function(res) {
 					if (res.success) {
-						$scope.dtOptions.aaData = res.data;
+						var html = buildHtml(res.data);
+						var ele = $compile(html)($scope);
+						angular.element("#content").html(ele);
+						// 放置与localstorage
+						if (localStorage) {
+							localStorage.setItem("cmdbuserlistdata", html);
+						} else {
+							alert("不支持localStorage,无法使用预览功能")
+						}
 					} else {
 						notify({
 							message : res.message
 						});
 					}
 				})
+
 	}
-	flush();
-
 	$scope.query = function() {
-		flush();
+		queryUsers();
+	}
 
+	$scope.querylook = function() {
+
+		var url = "views/system/cmdb/userlook.html";
+		window.open(url, '_blank');
+	}
+
+	$scope.saveitem = function(vid, class_id, hid) {
+
+		var meta = {};
+
+		var items = [ {
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : true,
+			maxlength : "100",
+			placeholder : "请输入用户",
+			label : "用户",
+			need : true,
+			name : 'attrValue',
+			ng_model : "attrValue"
+		}, {
+			type : "select",
+			disabled : "false",
+			label : "状态",
+			need : false,
+			disable_search : "true",
+			dataOpt : "statusOpt",
+			dataSel : "statusSel"
+		}, {
+			type : "select",
+			disabled : "false",
+			label : "类型",
+			need : false,
+			disable_search : "true",
+			dataOpt : "typeOpt",
+			dataSel : "typeSel"
+		}, {
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : true,
+			maxlength : "300",
+			placeholder : "请输入备注",
+			label : "备注",
+			need : true,
+			name : 'mark',
+			ng_model : "mark"
+		} ];
+
+		meta = {
+
+			vid : vid,
+			hid : hid,
+			class_id : class_id,
+			footer_hide : false,
+			title : "基本信息",
+			item : {},
+			statusOpt : [ {
+				id : "unknow",
+				name : "未知"
+			}, {
+				id : "enable",
+				name : "启用"
+			}, {
+				id : "disable",
+				name : "禁止"
+			} ],
+			statusSel : "",
+			typeOpt : [ {
+				id : "admin",
+				name : "管理员"
+			}, {
+				id : "app",
+				name : "应用用户"
+			} ,{
+				id : "db",
+				name : "数据库用户"
+			}, {
+				id : "yw",
+				name : "运维人员"
+			}, {
+				id : "inter",
+				name : "内置"
+			} ],
+			typeSel : "",
+			items : items,
+			sure : function(modalInstance, modal_meta) {
+				modal_meta.meta.item.status = modal_meta.meta.statusSel.id;
+				modal_meta.meta.item.type = modal_meta.meta.typeSel.id;
+				$http.post(
+						$rootScope.project
+								+ "/api/base/resAttrValues/insertOrUpdate.do",
+						modal_meta.meta.item).success(function(res) {
+					if (res.success) {
+						modalInstance.close("OK");
+					} else {
+						notify({
+							message : res.message
+						});
+					}
+				});
+
+			},
+			init : function(modal_meta) {
+				console.log(modal_meta.meta);
+				modal_meta.meta.statusSel = modal_meta.meta.statusOpt[0];
+				modal_meta.meta.typeSel = modal_meta.meta.typeOpt[0];
+				if (angular.isDefined(modal_meta.meta.vid)
+						&& modal_meta.meta.vid != null) {
+					$http
+							.post(
+									$rootScope.project
+											+ "/api/base/resAttrValues/selectById.do",
+									{
+										id : modal_meta.meta.vid
+									})
+							.success(
+									function(res) {
+										if (res.success) {
+											modal_meta.meta.item = res.data;
+											// 处理status
+											for (var i = 0; i < modal_meta.meta.statusOpt.length; i++) {
+												if (modal_meta.meta.statusOpt[i].id == res.data.status) {
+													modal_meta.meta.statusSel = modal_meta.meta.statusOpt[i];
+													break;
+												}
+											}
+											// 处理status
+											for (var i = 0; i < modal_meta.meta.typeOpt.length; i++) {
+												if (modal_meta.meta.typeOpt[i].id == res.data.type) {
+													modal_meta.meta.typeSel = modal_meta.meta.typeOpt[i];
+													break;
+												}
+											}
+										} else {
+											notify({
+												message : res.message
+											});
+										}
+									});
+
+				} else {
+					modal_meta.meta.statusSel = modal_meta.meta.statusOpt[1];
+					modal_meta.meta.item.resId = modal_meta.meta.hid;
+
+					$http
+							.post(
+									$rootScope.project
+											+ "/api/base/resClassAttrs/selectByClassIdWithAttrCode.do",
+									{
+										attrCode : "userlist",
+										classId : class_id
+									})
+							.success(
+									function(res) {
+										if (res.success) {
+											if (res.data.length == 1) {
+												modal_meta.meta.item.attrId = res.data[0].attrId;
+											} else {
+												alert("无法获取元数据");
+											}
+
+										} else {
+											notify({
+												message : res.message
+											});
+										}
+									});
+
+				}
+			}
+		}
+
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/Template/modal_simpleForm.html',
+			controller : modal_simpleFormCtl,
+			size : 'lg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				meta : function() {
+					return meta;
+				}
+			}
+		});
+
+		modalInstance.result.then(function(result) {
+			$log.log("result", result);
+
+			if (result == "OK") {
+				queryUsers();
+			}
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
+
+	}
+	queryUsers();
+	$scope.delitem = function(id) {
+		$confirm({
+			text : '是否删除?'
+		}).then(
+				function() {
+					$http.post(
+							$rootScope.project
+									+ "/api/base/resAttrValues/deleteById.do",
+							{
+								id : id
+							}).success(function(res) {
+						if (res.success) {
+							queryUsers();
+						}
+						notify({
+							message : res.message
+						});
+					})
+				});
 	}
 
 	$scope.del = function(seq) {
 		alert("待开发");
 
 	}
-	
-	$scope.listuser=function(id){
-		
+
+	$scope.listuser = function(id) {
 
 		var modalInstance = $uibModal.open({
 			backdrop : true,
@@ -108,10 +594,7 @@ function cmdbUserListCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			$log.log("reason", reason)
 		});
 
-		
 	}
-
-	 
 
 };
 

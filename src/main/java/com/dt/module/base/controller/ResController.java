@@ -3,6 +3,7 @@ package com.dt.module.base.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.module.base.entity.Res;
+import com.dt.module.base.service.IResAttrValuesService;
 import com.dt.module.base.service.IResService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
@@ -37,6 +38,7 @@ public class ResController extends BaseController {
 	@Autowired
 	IResService ResServiceImpl;
 
+	
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)

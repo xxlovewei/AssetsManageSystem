@@ -27,10 +27,10 @@ import com.dt.core.common.base.BaseController;
  * </p>
  *
  * @author algernonking
- * @since 2019-04-04
+ * @since 2019-04-05
  */
 @Controller
-@RequestMapping("/api/res/resAttrValues")
+@RequestMapping("/api/base/resAttrValues")
 public class ResAttrValuesController extends BaseController {
 
 

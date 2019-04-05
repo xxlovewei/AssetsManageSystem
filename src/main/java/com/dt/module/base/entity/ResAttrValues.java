@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2019-04-04
+ * @since 2019-04-05
  */
  
 @TableName("res_attr_values")
@@ -34,6 +34,12 @@ public class ResAttrValues extends BaseModel<ResAttrValues> {
     private String mark;
     @TableField("res_id")
     private String resId;
+    @TableField("attr_id")
+    private String attrId;
+    @TableField("status")
+    private String status;
+    @TableField("type")
+    private String type;
 
 
     public String getId() {
@@ -84,6 +90,30 @@ public class ResAttrValues extends BaseModel<ResAttrValues> {
         this.resId = resId;
     }
 
+    public String getAttrId() {
+        return attrId;
+    }
+
+    public void setAttrId(String attrId) {
+        this.attrId = attrId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -98,6 +128,9 @@ public class ResAttrValues extends BaseModel<ResAttrValues> {
         ", name=" + name +
         ", mark=" + mark +
         ", resId=" + resId +
+        ", attrId=" + attrId +
+        ", status=" + status +
+        ", type=" + type +
         "}";
     }
 }

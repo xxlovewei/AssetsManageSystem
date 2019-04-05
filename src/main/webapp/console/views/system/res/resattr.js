@@ -60,7 +60,7 @@ function resAttrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	function flush() {
 		var ps = {}
 		ps.classId=$scope.meta.tools[0].dataSel.classId;
-		$http.post($rootScope.project + "/api/res/resClassAttrs/selectByClassId.do", ps)
+		$http.post($rootScope.project + "/api/base/resClassAttrs/selectByClassId.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
@@ -102,7 +102,7 @@ function resAttrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			type : "input",
 			disabled : "false",
 			sub_type : "text",
-			required : false,
+			required : true,
 			maxlength : "100",
 			placeholder : "请输入名称",
 			label : "名称",
@@ -113,7 +113,7 @@ function resAttrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			type : "input",
 			disabled : "false",
 			sub_type : "text",
-			required : false,
+			required : true,
 			maxlength : "50",
 			placeholder : "请输入编码",
 			label : "编码",
@@ -152,7 +152,7 @@ function resAttrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				modal_meta.meta.item.attrType = modal_meta.meta.typeSel.id;
 				$http.post(
 						$rootScope.project
-								+ "/api/res/resClassAttrs/insertOrUpdate.do",
+								+ "/api/base/resClassAttrs/insertOrUpdate.do",
 						modal_meta.meta.item).success(function(res) {
 					if (res.success) {
 						modalInstance.close("OK");
@@ -172,7 +172,7 @@ function resAttrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					$http
 							.post(
 									$rootScope.project
-											+ "/api/res/resClassAttrs/selectById.do",
+											+ "/api/base/resClassAttrs/selectById.do",
 									{
 										id : modal_meta.meta.attrId
 									})
@@ -236,7 +236,7 @@ function resAttrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				function() {
 					$http.post(
 							$rootScope.project
-									+ "/api/res/resClassAttrs/deleteById.do", {
+									+ "/api/base/resClassAttrs/deleteById.do", {
 								id : id
 							}).success(function(res) {
 						if (res.success) {

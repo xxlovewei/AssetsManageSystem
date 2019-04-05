@@ -66,7 +66,7 @@ function resTypeCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			type : "input",
 			disabled : "false",
 			sub_type : "text",
-			required : false,
+			required : true,
 			maxlength : "100",
 			placeholder : "请输入名称",
 			label : "名称",
@@ -77,7 +77,7 @@ function resTypeCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			type : "input",
 			disabled : "false",
 			sub_type : "text",
-			required : false,
+			required : true,
 			maxlength : "50",
 			placeholder : "请输入编码",
 			label : "编码",
@@ -96,7 +96,7 @@ function resTypeCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			type : "input",
 			disabled : "false",
 			sub_type : "text",
-			required : false,
+			required : true,
 			maxlength : "500",
 			placeholder : "请输入备注",
 			label : "备注",
@@ -205,7 +205,7 @@ function resTypeCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				function() {
 					$http.post(
 							$rootScope.project
-									+ "/api/res/resClass/delResClass.do", {
+									+ "/api/base/resClass/delResClass.do", {
 								id : id
 							}).success(function(res) {
 						if (res.success) {
