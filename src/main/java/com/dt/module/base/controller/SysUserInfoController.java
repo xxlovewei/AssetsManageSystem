@@ -144,7 +144,7 @@ public class SysUserInfoController extends BaseController {
 			Iterator<Entry<String, Object>> it = mapt.entrySet().iterator();
 			while (it.hasNext()) {
 				Entry<String, Object> entry = (Entry<String, Object>) it.next();
-				if (entry.getKey().equals("ROLE_ID")) {
+				if (entry.getKey().toLowerCase().equals("role_id")) {
 					res.add(entry.getValue());
 				}
 			}

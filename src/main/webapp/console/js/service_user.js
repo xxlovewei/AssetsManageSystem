@@ -101,6 +101,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 						$localStorage.put('dt_sys_user_info', res.data.user_info);
 
 						// 用户拥有的系统资源
+						console.log("####",res.data.systems,"####")
 						$rootScope.dt_systems = res.data.systems;
 						$localStorage.put('dt_systems', res.data.systems);
 						

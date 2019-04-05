@@ -24,12 +24,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseCodeMsgEnum;
+import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.shiro.ShiroUser;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.ISysMenusService;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.base.service.impl.LoginService;
 
@@ -42,6 +44,9 @@ public class LoginController extends BaseController {
 
 	@Autowired
 	ISysUserInfoService SysUserInfoServiceImpl;
+
+	@Autowired
+	ISysMenusService SysMenusServiceImpl;
 
 	/**
 	 * @Description: user,pwd,type,client必须部不为空
@@ -87,30 +92,40 @@ public class LoginController extends BaseController {
 		ShiroKit.getSession().setAttribute("sessionFlag", true);
 
 		JSONObject r = new JSONObject();
-		 
-		JSONObject u = JSONObject.parseObject(JSON.toJSONString(SysUserInfoServiceImpl.getById(user_id),
-				SerializerFeature.WriteDateUseDateFormat));
+
+		JSONObject u = JSONObject.parseObject(
+				JSON.toJSONString(SysUserInfoServiceImpl.getById(user_id), SerializerFeature.WriteDateUseDateFormat));
 		// 覆盖重要信息
 		u.put("pwd", "********");
 		r.put("user_info", u);
 		// 菜单列表
-		JSONArray systems = ConvertUtil.toJSONArryFromEntityList(SysUserInfoServiceImpl.listMyMenus(this.getUserId()));
-		r.put("systems", systems);
+		JSONArray systems = null;
+		if (BaseCommon.isSuperAdmin(shiroUser.id)) {
+			systems = ConvertUtil.toJSONArryFromEntityList(SysMenusServiceImpl.list());
+			r.put("systems", systems);
+		} else {
+			systems = ConvertUtil.toJSONArryFromEntityList(SysUserInfoServiceImpl.listMyMenus(this.getUserId()));
+			r.put("systems", systems);
+		}
+
 		// 获取当前需要显示的菜单
-		String tab_system = u.getString("system");
 		String cur_system = "";
-		if (systems.size() == 0 || ToolUtil.isEmpty(tab_system)) {
+		 
+		String tab_system = (u.getString("system")==null?"":u.getString("system"));
+		if (systems.size() == 0) {
 			cur_system = "";
 		} else {
 			for (int i = 0; i < systems.size(); i++) {
-				if (tab_system.equals(systems.getJSONObject(i).getString("menuId"))) {
+				//判断当前数据库中选择的system是否存在用户可选列表中
+				if ( systems.getJSONObject(i).getString("menuId").equals(tab_system)){
 					cur_system = systems.getJSONObject(i).getString("menuId");
 					break;
 				}
-				if (ToolUtil.isEmpty(cur_system)) {
-					cur_system = systems.getJSONObject(0).getString("menuId");
-				}
 			}
+			if (ToolUtil.isEmpty(cur_system)||cur_system.equals("")) {
+				cur_system = systems.getJSONObject(0).getString("menuId");
+			}
+
 		}
 		r.put("cur_system", cur_system);
 		r.put("token", super.getSession().getId());
@@ -159,8 +174,8 @@ public class LoginController extends BaseController {
 		ShiroKit.getSession().setAttribute("sessionFlag", true);
 
 		JSONObject r = new JSONObject();
-		JSONObject u = JSONObject.parseObject(JSON.toJSONString(SysUserInfoServiceImpl.getById(user_id),
-				SerializerFeature.WriteDateUseDateFormat));
+		JSONObject u = JSONObject.parseObject(
+				JSON.toJSONString(SysUserInfoServiceImpl.getById(user_id), SerializerFeature.WriteDateUseDateFormat));
 		// 覆盖重要信息
 		u.put("pwd", "********");
 		r.put("user_info", u);

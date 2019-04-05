@@ -319,7 +319,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_ALLOW)
+	@Acl(info = "", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/addResNode.do")
 	public R addResNode(String ip, String name,String classCode,String attrCode) {
 		if (ToolUtil.isOneEmpty(ip,classCode,attrCode)) {
