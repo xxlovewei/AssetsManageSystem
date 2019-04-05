@@ -15,10 +15,7 @@
 
 	<!-- 扫描所有自定义service -->
 	<context:component-scan base-package="**.impl" />
-
-
-
-
+ 
 	<!-- 自定义处理器 -->
 	<bean id="myMetaObjectHandler"
 		class="com.dt.core.mybatis.MetaObjectHandlerConfig" />
@@ -53,9 +50,7 @@
 			value="classpath:mybatis/mybatis-config.xml" />
 		<property name="mapperLocations"
 			value="classpath*:mybatis/**/**Mapper.xml" />
-		 
 		<property name="globalConfig" ref="globalConfig" />
-		
 		  <property name="plugins">
             <array>
                 <!-- 分页插件配置 -->

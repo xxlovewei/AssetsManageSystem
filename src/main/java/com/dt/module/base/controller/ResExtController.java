@@ -2,6 +2,7 @@ package com.dt.module.base.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -321,6 +322,7 @@ public class ResExtController extends BaseController {
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/addResNode.do")
+	@Transactional()
 	public R addResNode(String ip, String name,String classCode,String attrCode) {
 		if (ToolUtil.isOneEmpty(ip,classCode,attrCode)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -348,7 +350,8 @@ public class ResExtController extends BaseController {
 		entity.setName(name);
 		entity.setIp(ip);
 		ResServiceImpl.save(entity);
-
+ 
+		
 		// 插入attr_value
 		ResAttrValue rav = new ResAttrValue();
 		rav.setAttrId(attr_id);

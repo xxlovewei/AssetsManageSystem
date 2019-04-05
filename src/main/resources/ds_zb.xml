@@ -92,56 +92,42 @@
 		<property name="resultSetLogEnabled" value="true" />
 		<property name="statementExecutableSqlLogEnable" value="true" />
 	</bean>
-
-
-
-
+ 
 
 	<bean id="wallFilter" class="com.alibaba.druid.wall.WallFilter">
 		<property name="dbType" value="${jdbc.dbtype}" />
 	</bean>
 
 
-	<bean id="transactionManager"
+	
+		<!-- 配置事务 -->
+	<bean id="ZDB"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="zb" />
+		<qualifier value="ZDB"></qualifier>
 	</bean>
-
-
-	<!-- 声明式事务 -->
-	<tx:annotation-driven
-		transaction-manager="transactionManager" proxy-target-class="true" />
-
+	<!-- 使用注释事务 -->
+	<tx:annotation-driven transaction-manager="ZDB"
+		proxy-target-class="true" />
 
 	<!-- do开头方法传播机制是required，其它的是supports -->
-	<tx:advice id="transactionAdvice"
-		transaction-manager="transactionManager">
+	<!-- 默认情况下如果抛出了RuntimeException 或者Rrror 对象就会回滚事务。 （注意： 这里注意一下，在tx:method中配置了rollback_for 
+		中配置的Exception 这个是运行时的异常才会回滚不然其他异常是不会回滚的！） -->
+	<tx:advice id="transactionAdvice2" transaction-manager="ZDB">
 		<tx:attributes>
-			<tx:method name="query*" propagation="REQUIRED"
-				read-only="true" />
-			<tx:method name="get*" propagation="REQUIRED"
-				read-only="true" />
-			<tx:method name="select*" propagation="REQUIRED"
-				read-only="true" />
-			<tx:method name="list*" propagation="REQUIRED"
-				read-only="true" />
 			<tx:method name="*" read-only="false"
-				propagation="REQUIRED" rollback-for="java.lang.Exception" />
+				propagation="REQUIRED" />
 		</tx:attributes>
 	</tx:advice>
-
-
 	<!-- 配置切面 -->
-	<aop:config>
-		<aop:pointcut id="transactionPointcut"
-			expression="execution(* 
-		com.dt.module.*.service..*.*(..))" />
-		<aop:advisor pointcut-ref="transactionPointcut"
-			advice-ref="transactionAdvice" />
+	<aop:config proxy-target-class="true">
+		<!--配置事务切点 -->
+		<aop:pointcut id="services2"
+			expression="execution(* com.dt.module.zb.service.impl.*.* (..))||execution(* com.dt.module.zb.service.*.* (..))|| execution(* com.dt.module.zb.controller.*.* (..))" />
+		<aop:advisor pointcut-ref="services2"
+			advice-ref="transactionAdvice2" />
 	</aop:config>
-
-
-
+	
 
 
 
