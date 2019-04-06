@@ -12,20 +12,23 @@
 	http://www.springframework.org/schema/tx/spring-tx.xsd
 	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
-
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="1" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="location" value="classpath:config.properties" />
+		<property name="fileEncoding" value="utf-8" />
+	</bean>
 	<!-- 扫描所有自定义service -->
 	<context:component-scan base-package="**.impl" />
- 
 	<!-- 自定义处理器 -->
 	<bean id="myMetaObjectHandler"
 		class="com.dt.core.mybatis.MetaObjectHandlerConfig" />
 	<bean id="logicSqlInjector"
 		class="com.baomidou.mybatisplus.extension.injector.LogicSqlInjector" />
-		
 	<bean id="id_type" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">  
     	<property name="staticField" value="com.baomidou.mybatisplus.annotation.IdType.ID_WORKER_STR" />  
 	</bean>
-		
 	<bean id="globalConfig"
 		class="com.baomidou.mybatisplus.core.config.GlobalConfig">
 		<property name="sqlInjector" ref="logicSqlInjector" />
@@ -40,8 +43,6 @@
 			</bean>
 		</property>
 	</bean>
-
- 
 	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
 	<bean id="sqlSessionFactory"
 		class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
@@ -55,29 +56,17 @@
             <array>
                 <!-- 分页插件配置 -->
                 <bean id="paginationInterceptor" class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor">
-                    <property name="dialectType" value="mysql"/>
+                    <property name="dialectType" value="${jdbc.dbtype}"/>
                 </bean>
             </array>
         </property>
 
 	</bean>
-
-
-
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="**.mapper" />
 		<property name="sqlSessionFactoryBeanName"
 			value="sqlSessionFactory"></property>
 	</bean>
-
-
-
-	<!-- 配置切面 -->
-	<!-- <aop:config> <aop:pointcut id="transactionPointcut" expression="execution(* 
-		com.baomidou.springmvc.service..*.*(..))"/> <aop:advisor pointcut-ref="transactionPointcut" 
-		advice-ref="transactionAdvice"/> </aop:config> -->
-
-
 </beans>
 
 

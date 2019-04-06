@@ -282,7 +282,7 @@ public class ResExtController extends BaseController {
 		if (ToolUtil.isNotEmpty(search)) {
 			sql = sql + " and (a.ip like '%" + search + "%' or a.name like '%"+search+"%')";
 		}
-		sql = sql + " order by name ";
+		sql = sql + " order by a.name ";
 		JSONArray res = new JSONArray();
 		RcdSet rs = db.query(sql);
 		res = ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
