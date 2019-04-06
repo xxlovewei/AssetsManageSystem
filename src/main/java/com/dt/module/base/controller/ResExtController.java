@@ -69,6 +69,7 @@ public class ResExtController extends BaseController {
 	@ResponseBody
 	@Acl(info = "新增Res", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/addResCustom.do")
+	@Transactional
 	public R addResCustom() {
 
 		// addResCustom
@@ -322,7 +323,7 @@ public class ResExtController extends BaseController {
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/addResNode.do")
-	@Transactional()
+	@Transactional
 	public R addResNode(String ip, String name,String classCode,String attrCode) {
 		if (ToolUtil.isOneEmpty(ip,classCode,attrCode)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -351,7 +352,7 @@ public class ResExtController extends BaseController {
 		entity.setIp(ip);
 		ResServiceImpl.save(entity);
  
-		
+ 
 		// 插入attr_value
 		ResAttrValue rav = new ResAttrValue();
 		rav.setAttrId(attr_id);
@@ -366,6 +367,7 @@ public class ResExtController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/addResBySingleNode.do")
+	@Transactional
 	public R addResBySingleNode(String ip, String name, String users,String classCode,String attrCode) {
 
 		if (ToolUtil.isOneEmpty(ip, users,classCode,attrCode)) {
