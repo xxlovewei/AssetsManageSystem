@@ -11,7 +11,7 @@ import com.dt.module.om.util.RemoteShellExecutor;
  * @date: 2018年4月19日 下午2:38:43
  * @Description: TODO
  */
-public class DeployDtMac {
+public class DeployDtDevMac {
 
 	/**
 	 * @Title: main
@@ -20,13 +20,14 @@ public class DeployDtMac {
 	 * @return: void
 	 */
 	public static void main(String[] args) {
-		String tomcatOnly = "tomcat_dtdev";
-		String dir = "/opt/tomcat/tomcat_dtdev/webapps";
+		String tomcatOnlyPort = "18004";
+		String dir = "/opt/tomcat/tomcat_dt/webapps";
 		String filename = "dt";
+		String rfile = dir + "/" + filename + ".war";
 		String fstr = "/opt/" + filename + ".war";
 
 		SftpClient sftp = new SftpClient();
-		Machine m = new Machine("localhost", "39.105.191.22", "root", "Mm15888Mm15888", 22);
+		Machine m = new Machine("localhost", "121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
 		sftp.connect(m, "upload");
 		sftp.changeDirectory("/tmp");
 		File f = new File(fstr);
@@ -36,16 +37,21 @@ public class DeployDtMac {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root", "Mm15888Mm15888", 22);
+
+		RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root", "qwIMs@j*7arv", 12500);
+	//	executor.exec("/usr/bin/cp " + rfile + " /tmp/shop." + filename + ".bak --backup").print();
+
 		// 停应用
-		executor.exec("ps -ef|grep " + tomcatOnly + "|grep -v grep |awk '{print $2}' | xargs kill -9 ").print();
+		executor.exec("/usr/sbin/lsof -i:" + tomcatOnlyPort + " |awk '{print $2}' |grep -v PID|xargs kill -9 {} ")
+				.print();
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		// 删除
-		executor.exec("rm -rf " + dir + "/" + filename).print();
+		executor.exec("rm -rf " + rfile).print();
 		try {
 			Thread.sleep(1000);
 		} catch (Exception e) {
@@ -53,8 +59,14 @@ public class DeployDtMac {
 		}
 		// 覆盖
 		executor.exec("mv /tmp/" + filename + ".war " + dir + "/").print();
-		System.out.println("nohup sh " + dir + "/../bin/startup.sh;sleep 30 &");
-		executor.exec("nohup sh " + dir + "/../bin/startup.sh;sleep 30 &").print();
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("nohup sh " + dir + "/../bin/startup.sh;sleep 40 &");
+		executor.exec("nohup sh " + dir + "/../bin/startup.sh;sleep 40 &").print();
+
 	}
 
 }
