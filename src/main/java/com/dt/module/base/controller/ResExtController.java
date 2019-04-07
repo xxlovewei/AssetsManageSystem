@@ -324,7 +324,7 @@ public class ResExtController extends BaseController {
 	@Acl(info = "", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/addResNode.do")
 	@Transactional
-	public R addResNode(String ip, String name,String classCode,String attrCode) {
+	public R addResNode(String id,String ip, String name,String classCode,String attrCode) {
 		if (ToolUtil.isOneEmpty(ip,classCode,attrCode)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
@@ -336,6 +336,7 @@ public class ResExtController extends BaseController {
 			return R.FAILURE("没有对应的类型");
 		}
 
+		
 		String classId = crs.getString("class_id");
 		Rcd attrrs = db.uniqueRecord("select * from res_class_attrs where class_id=? and attr_code='"+attrCode+"' and dr=0",
 				classId);
@@ -346,20 +347,25 @@ public class ResExtController extends BaseController {
 
 		Res entity = new Res();
 		String uid = db.getUUID();
-		entity.setId(uid);
+		if(ToolUtil.isEmpty(id)){
+			entity.setId(uid);
+		}else {
+			entity.setId(id);
+		}
 		entity.setClassId(classId);
 		entity.setName(name);
 		entity.setIp(ip);
-		ResServiceImpl.save(entity);
+		ResServiceImpl.saveOrUpdate(entity);
  
  
 		// 插入attr_value
-		ResAttrValue rav = new ResAttrValue();
-		rav.setAttrId(attr_id);
-		rav.setAttrValue(attr_id);
-		rav.setResId(uid);
-		ResAttrValueServiceImpl.save(rav);
-
+		if(ToolUtil.isEmpty(id)) {
+			ResAttrValue rav = new ResAttrValue();
+			rav.setAttrId(attr_id);
+			rav.setAttrValue(attr_id);
+			rav.setResId(uid);
+			ResAttrValueServiceImpl.save(rav);
+		}
 		return R.SUCCESS_OPER();
 	}
 	

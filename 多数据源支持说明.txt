@@ -1,7 +1,0 @@
-当前支持数据库oracle,mysql
-数据库切换
-修改DB类,配置文件,mybatis配置文件
-
-
-导入mysql
-use names utf8

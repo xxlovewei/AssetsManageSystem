@@ -6,8 +6,8 @@
  * 
  * */
 
-var classCode="xtlist";
-var attrCode="userlist";
+var classCode = "xtlist";
+var attrCode = "userlist";
 function cmdblistUserCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, id, $http, $rootScope) {
 
@@ -36,8 +36,8 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
 		$localStorage) {
 
-	$scope.addNode=function(){
-		
+	$scope.addNode = function(id) {
+
 		var meta = {};
 
 		var items = [ {
@@ -62,21 +62,19 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			need : true,
 			name : 'ip',
 			ng_model : "ip"
-		}];
+		} ];
 
 		meta = {
- 
+
 			footer_hide : false,
 			title : "基本信息",
 			item : {},
-		 
+			id : id,
 			items : items,
 			sure : function(modalInstance, modal_meta) {
-				modal_meta.meta.item.classCode=classCode;
-				modal_meta.meta.item.attrCode=attrCode;
-				$http.post(
-						$rootScope.project
-								+ "	/api/base/addResNode.do",
+				modal_meta.meta.item.classCode = classCode;
+				modal_meta.meta.item.attrCode = attrCode;
+				$http.post($rootScope.project + "	/api/base/addResNode.do",
 						modal_meta.meta.item).success(function(res) {
 					if (res.success) {
 						modalInstance.close("OK");
@@ -90,7 +88,22 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			},
 			init : function(modal_meta) {
 				console.log(modal_meta.meta);
-				 
+				if (angular.isDefined(modal_meta.meta.id)) {
+					$http
+							.post(
+									$rootScope.project
+											+ "	/api/base/res/selectById.do", {
+										id : modal_meta.meta.id
+									}).success(function(res) {
+								if (res.success) {
+									modal_meta.meta.item = res.data;
+								} else {
+									notify({
+										message : res.message
+									});
+								}
+							});
+				}
 			}
 		}
 
@@ -117,11 +130,8 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			$log.log("reason", reason)
 		});
 
-		
-		
 	}
-	
-	
+
 	$scope.search = "";
 	$scope.typeOpt = [ {
 		id : "all",
@@ -176,7 +186,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flush() {
 		var ps = {}
-		ps.classCode=classCode;
+		ps.classCode = classCode;
 		$http.post($rootScope.project + "/api/base/queryResByNodeForUser.do",
 				ps).success(function(res) {
 			if (res.success) {
@@ -188,39 +198,56 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			}
 		})
 	}
-//
-//	for(var i=0;i<120;i++){
-//	var t = {};
-//	t.ip = "10.18"+i;
-//	t.name = "测试主机";
-//	var u = [];
-//	u.push({
-//		user : "12",
-//		status : "enable"
-//	});
-//	u.push({
-//		user : "122",
-//		status : "disable"
-//	});
-//	t.users = angular.toJson(u);
-//	$http.post($rootScope.project + "/api/base/addResBySingleNode.do", t)
-//			.success(function(res) {
-//				if (res.success) {
-//					$scope.dtOptions.aaData = res.data;
-//				} else {
-//					notify({
-//						message : res.message
-//					});
-//				}
-//			})
-//			
-//	}
+	//
+	// for(var i=0;i<120;i++){
+	// var t = {};
+	// t.ip = "10.18"+i;
+	// t.name = "测试主机";
+	// var u = [];
+	// u.push({
+	// user : "12",
+	// status : "enable"
+	// });
+	// u.push({
+	// user : "122",
+	// status : "disable"
+	// });
+	// t.users = angular.toJson(u);
+	// $http.post($rootScope.project + "/api/base/addResBySingleNode.do", t)
+	// .success(function(res) {
+	// if (res.success) {
+	// $scope.dtOptions.aaData = res.data;
+	// } else {
+	// notify({
+	// message : res.message
+	// });
+	// }
+	// })
+	//			
+	// }
+	
+	$scope.delNode=function(id){
+		$http
+		.post(
+				$rootScope.project
+						+ "	/api/base/res/deleteById.do", {
+					id : id
+				}).success(function(res) {
+			if (res.success) {
+				queryUsers();
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		});
+	}
 
 	function buildHtml(udata) {
 
 		var html = "<table id=\"udatatable\" class=\"table table-bordered\" >";
 		html = html
-				+ "<thead style=\"background-color:#696969\"> <th>名称</th> <th>IP</th><th>用户</th>  <th>类型</th><th>状态</th> <th>备注</th> <th>操作</th>  </thead>  <tbody>";
+				+ "<thead style=\"background-color:#696969\"> <th>名称</th> <th>IP</th><th>用户</th>  <th>类型</th><th>状态</th> <th>备注</th> <th>账户操作</th><th>节点操作</th>  </thead>  <tbody>";
 
 		for (var i = 0; i < udata.length; i++) {
 			var userdata = udata[i].users;
@@ -231,7 +258,8 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 					if (j == 0) {
 						html = html
 								+ "<td style=\"font-weight:bold;width:135px!important;vertical-align: middle; \" rowspan=\""
-								+ userlength + "\">" + udata[i].name + "</td>";
+								+ userlength + "\"   >" + udata[i].name
+								+ "</td>";
 						html = html
 								+ "<td style=\"width:50px!important;vertical-align: middle;\" rowspan=\""
 								+ userlength + "\">" + udata[i].ip + "</td>";
@@ -249,8 +277,8 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 								+ "<td  style=\"width:100px!important ; vertical-align: middle;\" >应用账户</td>";
 					} else if (userdata[j].type == "db") {
 						html = html
-						+ "<td  style=\"width:100px!important ; vertical-align: middle;\" >数据库账户</td>";
-					}else if (userdata[j].type == "yw") {
+								+ "<td  style=\"width:100px!important ; vertical-align: middle;\" >数据库账户</td>";
+					} else if (userdata[j].type == "yw") {
 						html = html
 								+ "<td  style=\"width:100px!important; vertical-align: middle;\" >运维人员</td>";
 					} else if (userdata[j].type == "inter") {
@@ -275,8 +303,9 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 							+ "<td style=\"vertical-align: middle;\">"
 							+ (angular.isDefined(userdata[j].mark) ? userdata[j].mark
 									: "") + "</td>";
+
 					html = html
-							+ "<td style=\"width:180px!important; vertical-align: middle;\" > <div class=\"btn-group\"> <button ng-click=\"saveitem(null,'"
+							+ "<td style=\"font-weight:bold;width:135px!important;vertical-align: middle; \"  <div class=\"btn-group\"> <button ng-click=\"saveitem(null,'"
 							+ udata[i].class_id
 							+ "','"
 							+ udata[i].id
@@ -289,14 +318,24 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 							+ "')\" class=\"btn-white btn btn-xs\">更新</button><button ng-click=\"delitem('"
 							+ userdata[j].id
 							+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div></td>";
+					if (j == 0) {
+						
+						html = html
+						+ "<td style=\"width:180px!important; vertical-align: middle;\" > <div class=\"btn-group\"> <button ng-click=\"addNode('"
+						+ udata[i].id
+						+ "')\" class=\"btn-white btn btn-xs\">更新</button> <button ng-click=\"delNode('"
+						+ udata[i].id
+						+ "')\" class=\"btn-white btn btn-xs\">删除</button>   </div></td>";
+						
+						
+					}
 					html = html + "</tr>";
 				}
 
 			} else {
 				html = html + "<tr>";
 				html = html
-						+ "<td style=\"font-weight:bold;width:135px!important\">"
-						+ udata[i].name + "</td>";
+						+ "<td style=\"font-weight:bold;width:135px!important\"> "+ udata[i].name+" </td>";
 				html = html + "<td style=\"width:50px!important\">"
 						+ udata[i].ip + "</td>";
 				html = html + "<td></td>";
@@ -309,7 +348,15 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 						+ "','"
 						+ udata[i].id
 						+ "')\" class=\"btn-white btn btn-xs\">新增</button> </div></td>";
+				
+				html = html
+				+ "<td style=\"width:180px!important; vertical-align: middle;\" > <div class=\"btn-group\"> <button ng-click=\"addNode('"
+				+ udata[i].id
+				+ "')\" class=\"btn-white btn btn-xs\">更新</button> <button ng-click=\"delNode('"
+				+ udata[i].id
+				+ "')\" class=\"btn-white btn btn-xs\">删除</button>   </div></td>";
 				html = html + "</tr>";
+
 			}
 		}
 		html = html + "</tbody></table>";
@@ -320,8 +367,8 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		par.status = $scope.statusSel.id;
 		par.type = $scope.typeSel.id;
 		par.search = $scope.search;
-		par.classCode=classCode;
-		par.attrCode=attrCode;
+		par.classCode = classCode;
+		par.attrCode = attrCode;
 		$http.post($rootScope.project + "api/base/queryResAllUsers.do", par)
 				.success(function(res) {
 					if (res.success) {
@@ -356,8 +403,6 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 		var meta = {};
 
-		
-		
 		var items = [ {
 			type : "input",
 			disabled : "false",
@@ -423,7 +468,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			}, {
 				id : "app",
 				name : "应用用户"
-			} ,{
+			}, {
 				id : "db",
 				name : "数据库用户"
 			}, {

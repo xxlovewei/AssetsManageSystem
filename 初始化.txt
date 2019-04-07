@@ -1,0 +1,16 @@
+1>oracle数据库
+数据库字符集AMERICAN_AMERICA.AL32UTF8
+设置Linux客户端
+export NLS_LANG="Simplified Chinese_CHINA.AL32UTF8"
+sqlplus user/oracle
+@oracle.sql
+
+2>mysql数据库
+CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
+use names utf8
+source mysql.sql
+
+3>数据库切换
+当前支持数据库oracle,mysql
+数据库切换
+修改DB类,配置文件,mybatis配置文件
