@@ -7,7 +7,7 @@ sqlplus user/oracle
 
 2>mysql数据库
 CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
-use names utf8
+set names utf8;
 source mysql.sql
 
 3>数据库切换

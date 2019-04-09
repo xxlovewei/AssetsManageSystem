@@ -263,24 +263,25 @@ public class ResExtController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/queryResByNodeForUser.do")
-	public R queryResByNodeForUser(String ip,String classCode) {
+	public R queryResByNodeForUser(String ip, String classCode) {
 		String sql = "select\n" + "(select count(1) from res_attr_value t2 where t2.res_id=t.id)ucnt,t.*\n"
-				+ "from res t ,res_class tc where t.class_id=tc.class_id and tc.class_code='"+classCode+"'\n";
+				+ "from res t ,res_class tc where t.class_id=tc.class_id and tc.class_code='" + classCode + "'\n";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/queryResAllUsers.do")
-	public R queryResAllUsers(String status, String search, String type,String classCode,String attrCode) {
+	public R queryResAllUsers(String status, String search, String type, String classCode, String attrCode) {
 
-		if(ToolUtil.isOneEmpty(classCode,attrCode)) {
+		if (ToolUtil.isOneEmpty(classCode, attrCode)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
-		String sql = " select a.* from res a,res_class b where a.class_id=b.class_id and b.dr=0 and a.dr=0 and b.class_code='"+classCode+"' ";
+		String sql = " select a.* from res a,res_class b where a.class_id=b.class_id and b.dr=0 and a.dr=0 and b.class_code='"
+				+ classCode + "' ";
 
 		if (ToolUtil.isNotEmpty(search)) {
-			sql = sql + " and (a.ip like '%" + search + "%' or a.name like '%"+search+"%')";
+			sql = sql + " and (a.ip like '%" + search + "%' or a.name like '%" + search + "%')";
 		}
 		sql = sql + " order by a.name ";
 		JSONArray res = new JSONArray();
@@ -288,7 +289,8 @@ public class ResExtController extends BaseController {
 		res = ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
 		for (int i = 0; i < res.size(); i++) {
 			String res_id = res.getJSONObject(i).getString("id");
-			String usersql = "select * from res_attr_values where res_id=? and attr_id in (select attr_id from res_class_attrs a,res_class b  where a.dr='0' and b.dr='0' and a.attr_code='"+attrCode+"' and a.class_id=b.class_id and b.class_code='"+classCode+"') and dr=0";
+			String usersql = "select * from res_attr_values where res_id=? and attr_id in (select attr_id from res_class_attrs a,res_class b  where a.dr='0' and b.dr='0' and a.attr_code='"
+					+ attrCode + "' and a.class_id=b.class_id and b.class_code='" + classCode + "') and dr=0";
 			if (ToolUtil.isNotEmpty(status)) {
 				if (status.equals("enable")) {
 					usersql = usersql + " and status='enable'";
@@ -324,42 +326,40 @@ public class ResExtController extends BaseController {
 	@Acl(info = "", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/addResNode.do")
 	@Transactional
-	public R addResNode(String id,String ip, String name,String classCode,String attrCode) {
-		if (ToolUtil.isOneEmpty(ip,classCode,attrCode)) {
+	public R addResNode(String id, String ip, String name, String classCode, String attrCode) {
+		if (ToolUtil.isOneEmpty(ip, classCode, attrCode)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		if (ToolUtil.isEmpty(name)) {
 			name = ip;
 		}
-		Rcd crs = db.uniqueRecord("select * from res_class where dr=0 and class_code='"+classCode+"'");
+		Rcd crs = db.uniqueRecord("select * from res_class where dr=0 and class_code='" + classCode + "'");
 		if (crs == null) {
 			return R.FAILURE("没有对应的类型");
 		}
 
-		
 		String classId = crs.getString("class_id");
-		Rcd attrrs = db.uniqueRecord("select * from res_class_attrs where class_id=? and attr_code='"+attrCode+"' and dr=0",
-				classId);
-		if(attrrs==null) {
-			return R.FAILURE("没有对应的属性"); 
+		Rcd attrrs = db.uniqueRecord(
+				"select * from res_class_attrs where class_id=? and attr_code='" + attrCode + "' and dr=0", classId);
+		if (attrrs == null) {
+			return R.FAILURE("没有对应的属性");
 		}
 		String attr_id = attrrs.getString("attr_id");
 
 		Res entity = new Res();
 		String uid = db.getUUID();
-		if(ToolUtil.isEmpty(id)){
+		if (ToolUtil.isEmpty(id)) {
 			entity.setId(uid);
-		}else {
+		} else {
 			entity.setId(id);
 		}
 		entity.setClassId(classId);
 		entity.setName(name);
 		entity.setIp(ip);
 		ResServiceImpl.saveOrUpdate(entity);
- 
- 
+
 		// 插入attr_value
-		if(ToolUtil.isEmpty(id)) {
+		if (ToolUtil.isEmpty(id)) {
 			ResAttrValue rav = new ResAttrValue();
 			rav.setAttrId(attr_id);
 			rav.setAttrValue(attr_id);
@@ -368,38 +368,44 @@ public class ResExtController extends BaseController {
 		}
 		return R.SUCCESS_OPER();
 	}
-	
-	
-	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
-	@RequestMapping(value = "/addResBySingleNode.do")
-	@Transactional
-	public R addResBySingleNode(String ip, String name, String users,String classCode,String attrCode) {
 
-		if (ToolUtil.isOneEmpty(ip, users,classCode,attrCode)) {
+	public R addResBySingleNode(String data, String classCode, String attrCode) {
+
+		System.out.println("data:\n" + data);
+		System.out.println("classCode:\n" + classCode);
+		System.out.println("attrCode:\n" + attrCode);
+
+		if (ToolUtil.isOneEmpty(data, classCode, attrCode)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
-		if (ToolUtil.isEmpty(name)) {
+
+		JSONObject obj = JSONObject.parseObject(data);
+		if (ToolUtil.isEmpty(obj) || ToolUtil.isEmpty(obj.getString("ip"))) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+
+		String ip = obj.getString("ip");
+		String name = "";
+		if (ToolUtil.isEmpty(obj.getString("name"))) {
 			name = ip;
+		} else {
+			name = obj.getString("name");
 		}
 
-		JSONArray usrarr = JSONArray.parseArray(users);
-		if (usrarr.size() == 0) {
-			return R.FAILURE("无用户");
-		}
-
-		Rcd crs = db.uniqueRecord("select * from res_class where dr=0 and class_code='"+classCode+"'");
+		// 检查是否有类型
+		Rcd crs = db.uniqueRecord("select * from res_class where dr=0 and class_code='" + classCode + "'");
 		if (crs == null) {
 			return R.FAILURE("没有对应的类型");
 		}
-
 		String classId = crs.getString("class_id");
-		Rcd attrrs = db.uniqueRecord("select * from res_class_attrs where class_id=? and attr_code='"+attrCode+"' and dr=0",
-				classId);
-		if(attrrs==null) {
-			return R.FAILURE("没有对应的属性"); 
+		Rcd attrrs = db.uniqueRecord(
+				"select * from res_class_attrs where class_id=? and attr_code='" + attrCode + "' and dr=0", classId);
+		if (attrrs == null) {
+			return R.FAILURE("没有对应的属性");
 		}
-		String attr_id = attrrs.getString("attr_id");
+		String attrId = attrrs.getString("attr_id");
+
+		JSONArray listdata = obj.getJSONArray("list");
 
 		Rcd nrs = db.uniqueRecord("select * from res where class_id=? and dr=0 and ip=?", classId, ip);
 		String uid = "";
@@ -415,43 +421,70 @@ public class ResExtController extends BaseController {
 
 			// 插入attr_value
 			ResAttrValue rav = new ResAttrValue();
-			rav.setAttrId(attr_id);
-			rav.setAttrValue(attr_id);
+			rav.setAttrId(attrId);
+			rav.setAttrValue(attrId);
 			rav.setResId(uid);
 			ResAttrValueServiceImpl.save(rav);
 
-			// 插入attr_values,按照需求更新用户列表
-			for (int i = 0; i < usrarr.size(); i++) {
-				ResAttrValues ent = new ResAttrValues();
-				ent.setAttrValue(usrarr.getJSONObject(i).getString("user"));
-				ent.setAttrValueId(attr_id);
-				ent.setAttrId(attr_id);
-				ent.setResId(uid);
-				ent.setStatus(usrarr.getJSONObject(i).getString("status"));
-				ResAttrValuesServiceImpl.save(ent);
+			// 插入attr_values,按照需求将标记为update更新用户列表
+			for (int i = 0; i < listdata.size(); i++) {
+				String act = listdata.getJSONObject(i).getString("act");
+				if (act != null && "update".equals(act)) {
+					ResAttrValues ent = new ResAttrValues();
+					ent.setAttrValue(listdata.getJSONObject(i).getString("user"));
+					ent.setAttrValueId(attrId);
+					ent.setAttrId(attrId);
+					ent.setResId(uid);
+					ent.setStatus(listdata.getJSONObject(i).getString("status"));
+					ResAttrValuesServiceImpl.save(ent);
+				}
 			}
 		} else {
-			// 节点已经存在m插入attr_values,按照需求更新用户列表
+			// 更新name
 			uid = nrs.getString("id");
-			for (int i = 0; i < usrarr.size(); i++) {
-				System.out.println(usrarr.getJSONObject(i).toJSONString());
-				Rcd udrs = db.uniqueRecord(
-						"select * from res_attr_values where dr='0' and res_id=? and attr_id=? and attr_value=? ", uid,
-						attr_id, usrarr.getJSONObject(i).getString("user"));
+			Res resent = new Res();
+			resent.setName(name);
+			resent.setId(uid);
+			ResServiceImpl.saveOrUpdate(resent);
+			// 节点已经存在插入attr_values,按照需求更新用户列表
+			for (int i = 0; i < listdata.size(); i++) {
+				String act = listdata.getJSONObject(i).getString("act");
 				ResAttrValues ent = new ResAttrValues();
-				ent.setAttrValue(usrarr.getJSONObject(i).getString("user"));
-				ent.setAttrValueId(attr_id);
-				ent.setAttrId(attr_id);
-				ent.setResId(uid);
-				ent.setStatus(usrarr.getJSONObject(i).getString("status"));
-				if (udrs != null) {
-					ent.setId(udrs.getString("id"));
+				if (act != null) {
+					Rcd udrs = db.uniqueRecord(
+							"select * from res_attr_values where dr='0' and res_id=? and attr_id=? and attr_value=? ",
+							uid, attrId, listdata.getJSONObject(i).getString("user"));
+					if ("update".equals(act)) {
+						ent.setAttrValue(listdata.getJSONObject(i).getString("user"));
+						ent.setAttrValueId(attrId);
+						ent.setAttrId(attrId);
+						ent.setResId(uid);
+						ent.setStatus(listdata.getJSONObject(i).getString("status"));
+						if (udrs != null) {
+							ent.setId(udrs.getString("id"));
+						}
+						ResAttrValuesServiceImpl.saveOrUpdate(ent);
+					} else if ("delete".equals(act)) {
+						if (udrs != null) {
+							ResAttrValuesServiceImpl.removeById(udrs.getString("id"));
+						}
+
+					}
 				}
-				ResAttrValuesServiceImpl.saveOrUpdate(ent);
+
 			}
 
 		}
 		return R.SUCCESS_OPER();
+
+	}
+
+	@ResponseBody
+	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
+	@RequestMapping(value = "/addUserBySingleNode.do")
+	@Transactional
+	public R addUserBySingleNode(String data, String classCode, String attrCode) {
+		return addResBySingleNode(data, "xtlist", "userlist");
 	}
 
 }

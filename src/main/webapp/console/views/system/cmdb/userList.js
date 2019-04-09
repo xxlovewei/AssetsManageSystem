@@ -198,49 +198,55 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			}
 		})
 	}
-	//
-	// for(var i=0;i<120;i++){
-	// var t = {};
-	// t.ip = "10.18"+i;
-	// t.name = "测试主机";
-	// var u = [];
-	// u.push({
-	// user : "12",
-	// status : "enable"
-	// });
-	// u.push({
-	// user : "122",
-	// status : "disable"
-	// });
-	// t.users = angular.toJson(u);
-	// $http.post($rootScope.project + "/api/base/addResBySingleNode.do", t)
-	// .success(function(res) {
-	// if (res.success) {
-	// $scope.dtOptions.aaData = res.data;
-	// } else {
-	// notify({
-	// message : res.message
-	// });
-	// }
-	// })
-	//			
-	// }
-	
-	$scope.delNode=function(id){
-		$http
-		.post(
-				$rootScope.project
-						+ "	/api/base/res/deleteById.do", {
-					id : id
-				}).success(function(res) {
-			if (res.success) {
-				queryUsers();
-			} else {
-				notify({
-					message : res.message
-				});
-			}
+
+//	var t = {};
+//	t.ip = "10.18.1.2";
+//	t.name = "测试主机22";
+//	var u = [];
+//	u.push({
+//		user : "root",
+//		status : "enable",
+//		act:"delete"
+//	});
+//	u.push({
+//		user : "jinjie",
+//		status : "enable",
+//		act:"update"
+//	});
+//	t.list=u;
+//	console.log(t);
+//	var p={};
+//	p.data=angular.toJson(t);
+// 
+//	$http.post($rootScope.project + "/api/base/addUserBySingleNode.do", p)
+//			.success(function(res) {
+//				if (res.success) {
+//					$scope.dtOptions.aaData = res.data;
+//				} else {
+//					notify({
+//						message : res.message
+//					});
+//				}
+//			})
+
+	$scope.delNode = function(id) {
+
+		$confirm({
+			text : '是否删除?'
+		}).then(function() {
+			$http.post($rootScope.project + "	/api/base/res/deleteById.do", {
+				id : id
+			}).success(function(res) {
+				if (res.success) {
+					queryUsers();
+				} else {
+					notify({
+						message : res.message
+					});
+				}
+			});
 		});
+
 	}
 
 	function buildHtml(udata) {
@@ -257,7 +263,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 					html = html + "<tr>";
 					if (j == 0) {
 						html = html
-								+ "<td style=\"font-weight:bold;width:135px!important;vertical-align: middle; \" rowspan=\""
+								+ "<td style=\"font-weight:bold;width:165px!important;vertical-align: middle; \" rowspan=\""
 								+ userlength + "\"   >" + udata[i].name
 								+ "</td>";
 						html = html
@@ -305,11 +311,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 									: "") + "</td>";
 
 					html = html
-							+ "<td style=\"font-weight:bold;width:135px!important;vertical-align: middle; \"  <div class=\"btn-group\"> <button ng-click=\"saveitem(null,'"
-							+ udata[i].class_id
-							+ "','"
-							+ udata[i].id
-							+ "')\" class=\"btn-white btn btn-xs\">新增</button>    <button ng-click=\"saveitem('"
+							+ "<td style=\"font-weight:bold;width:165px!important;vertical-align: middle; \"> <div class=\"btn-group\">    <button ng-click=\"saveitem('"
 							+ userdata[j].id
 							+ "','"
 							+ udata[i].class_id
@@ -319,15 +321,18 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 							+ userdata[j].id
 							+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div></td>";
 					if (j == 0) {
-						
+
 						html = html
-						+ "<td style=\"width:180px!important; vertical-align: middle;\" > <div class=\"btn-group\"> <button ng-click=\"addNode('"
-						+ udata[i].id
-						+ "')\" class=\"btn-white btn btn-xs\">更新</button> <button ng-click=\"delNode('"
-						+ udata[i].id
-						+ "')\" class=\"btn-white btn btn-xs\">删除</button>   </div></td>";
-						
-						
+								+ "<td style=\"width:180px!important; vertical-align: middle;\" > <div class=\"btn-group\"><button ng-click=\"saveitem(null,'"
+								+ udata[i].class_id
+								+ "','"
+								+ udata[i].id
+								+ "')\" class=\"btn-white btn btn-xs\">新增(账户)</button>  <button ng-click=\"addNode('"
+								+ udata[i].id
+								+ "')\" class=\"btn-white btn btn-xs\">更新</button> <button ng-click=\"delNode('"
+								+ udata[i].id
+								+ "')\" class=\"btn-white btn btn-xs\">删除</button>   </div></td>";
+
 					}
 					html = html + "</tr>";
 				}
@@ -335,26 +340,25 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			} else {
 				html = html + "<tr>";
 				html = html
-						+ "<td style=\"font-weight:bold;width:135px!important\"> "+ udata[i].name+" </td>";
+						+ "<td style=\"font-weight:bold;width:165px!important\"> "
+						+ udata[i].name + " </td>";
 				html = html + "<td style=\"width:50px!important\">"
 						+ udata[i].ip + "</td>";
 				html = html + "<td></td>";
 				html = html + "<td></td>";
 				html = html + "<td></td>";
 				html = html + "<td></td>";
+				html = html + "<td></td>";
 				html = html
-						+ "<td style=\"width:120px!important\" > <div class=\"btn-group\">  <button ng-click=\"saveitem(null,'"
+						+ "<td style=\"width:180px!important; vertical-align: middle;\" > <div class=\"btn-group\"> <button ng-click=\"saveitem(null,'"
 						+ udata[i].class_id
 						+ "','"
 						+ udata[i].id
-						+ "')\" class=\"btn-white btn btn-xs\">新增</button> </div></td>";
-				
-				html = html
-				+ "<td style=\"width:180px!important; vertical-align: middle;\" > <div class=\"btn-group\"> <button ng-click=\"addNode('"
-				+ udata[i].id
-				+ "')\" class=\"btn-white btn btn-xs\">更新</button> <button ng-click=\"delNode('"
-				+ udata[i].id
-				+ "')\" class=\"btn-white btn btn-xs\">删除</button>   </div></td>";
+						+ "')\" class=\"btn-white btn btn-xs\">新增(账户)</button> <button ng-click=\"addNode('"
+						+ udata[i].id
+						+ "')\" class=\"btn-white btn btn-xs\">更新</button> <button ng-click=\"delNode('"
+						+ udata[i].id
+						+ "')\" class=\"btn-white btn btn-xs\">删除</button>   </div></td>";
 				html = html + "</tr>";
 
 			}
@@ -611,11 +615,6 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 						});
 					})
 				});
-	}
-
-	$scope.del = function(seq) {
-		alert("待开发");
-
 	}
 
 	$scope.listuser = function(id) {

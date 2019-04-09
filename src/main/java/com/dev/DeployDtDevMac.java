@@ -38,7 +38,7 @@ public class DeployDtDevMac {
 			e.printStackTrace();
 		}
 
-		RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root", "qwIMs@j*7arv", 12500);
+		RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
 	//	executor.exec("/usr/bin/cp " + rfile + " /tmp/shop." + filename + ".bak --backup").print();
 
 		// 停应用
