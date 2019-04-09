@@ -304,6 +304,8 @@ public class ResExtController extends BaseController {
 					usersql = usersql + " and type='admin'";
 				} else if (type.equals("yw")) {
 					usersql = usersql + " and type='yw'";
+				} else if (type.equals("yw")){
+					usersql = usersql + " and type='unknow'";
 				}
 			}
 
@@ -435,6 +437,7 @@ public class ResExtController extends BaseController {
 					ent.setAttrValueId(attrId);
 					ent.setAttrId(attrId);
 					ent.setResId(uid);
+					ent.setType("unknow");
 					ent.setStatus(listdata.getJSONObject(i).getString("status"));
 					ResAttrValuesServiceImpl.save(ent);
 				}
@@ -459,6 +462,7 @@ public class ResExtController extends BaseController {
 						ent.setAttrValueId(attrId);
 						ent.setAttrId(attrId);
 						ent.setResId(uid);
+						ent.setType("unknow");
 						ent.setStatus(listdata.getJSONObject(i).getString("status"));
 						if (udrs != null) {
 							ent.setId(udrs.getString("id"));

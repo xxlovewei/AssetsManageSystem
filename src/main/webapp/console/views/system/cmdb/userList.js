@@ -142,7 +142,10 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}, {
 		id : "yw",
 		name : "运维账户"
-	} ]
+	}, {
+		id : "unknow",
+		name : "运维账户"
+	}  ]
 	$scope.typeSel = $scope.typeOpt[0];
 
 	$scope.statusOpt = [ {
@@ -199,35 +202,35 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		})
 	}
 
-//	var t = {};
-//	t.ip = "10.18.1.2";
-//	t.name = "测试主机22";
-//	var u = [];
-//	u.push({
-//		user : "root",
-//		status : "enable",
-//		act:"delete"
-//	});
-//	u.push({
-//		user : "jinjie",
-//		status : "enable",
-//		act:"update"
-//	});
-//	t.list=u;
-//	console.log(t);
-//	var p={};
-//	p.data=angular.toJson(t);
-// 
-//	$http.post($rootScope.project + "/api/base/addUserBySingleNode.do", p)
-//			.success(function(res) {
-//				if (res.success) {
-//					$scope.dtOptions.aaData = res.data;
-//				} else {
-//					notify({
-//						message : res.message
-//					});
-//				}
-//			})
+	var t = {};
+	t.ip = "10.18.1.2";
+	t.name = "测试主机22";
+	var u = [];
+	u.push({
+		user : "root",
+		status : "enable",
+		act:"delete"
+	});
+	u.push({
+		user : "jinjie",
+		status : "enable",
+		act:"update"
+	});
+	t.list=u;
+	console.log(t);
+	var p={};
+	p.data=angular.toJson(t);
+ 
+	$http.post($rootScope.project + "/api/base/addUserBySingleNode.do", p)
+			.success(function(res) {
+				if (res.success) {
+					$scope.dtOptions.aaData = res.data;
+				} else {
+					notify({
+						message : res.message
+					});
+				}
+			})
 
 	$scope.delNode = function(id) {
 
