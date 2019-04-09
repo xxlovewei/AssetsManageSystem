@@ -144,7 +144,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		name : "运维账户"
 	}, {
 		id : "unknow",
-		name : "运维账户"
+		name : "未知"
 	}  ]
 	$scope.typeSel = $scope.typeOpt[0];
 
@@ -202,9 +202,10 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		})
 	}
 
+	
 	var t = {};
 	t.ip = "10.18.1.2";
-	t.name = "测试主机22";
+	t.name = "测试主机2啊2ad";
 	var u = [];
 	u.push({
 		user : "root",

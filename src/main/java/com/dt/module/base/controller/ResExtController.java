@@ -304,7 +304,7 @@ public class ResExtController extends BaseController {
 					usersql = usersql + " and type='admin'";
 				} else if (type.equals("yw")) {
 					usersql = usersql + " and type='yw'";
-				} else if (type.equals("yw")){
+				} else if (type.equals("unknow")){
 					usersql = usersql + " and type='unknow'";
 				}
 			}
