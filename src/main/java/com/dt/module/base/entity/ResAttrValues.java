@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2019-04-05
+ * @since 2019-04-10
  */
  
 @TableName("res_attr_values")
@@ -40,6 +40,10 @@ public class ResAttrValues extends BaseModel<ResAttrValues> {
     private String status;
     @TableField("type")
     private String type;
+    @TableField("pwd")
+    private String pwd;
+    @TableField("contact")
+    private String contact;
 
 
     public String getId() {
@@ -114,6 +118,22 @@ public class ResAttrValues extends BaseModel<ResAttrValues> {
         this.type = type;
     }
 
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -131,6 +151,8 @@ public class ResAttrValues extends BaseModel<ResAttrValues> {
         ", attrId=" + attrId +
         ", status=" + status +
         ", type=" + type +
+        ", pwd=" + pwd +
+        ", contact=" + contact +
         "}";
     }
 }

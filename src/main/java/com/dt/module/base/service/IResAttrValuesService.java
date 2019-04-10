@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author algernonking
- * @since 2019-04-05
+ * @since 2019-04-10
  */
 public interface IResAttrValuesService extends IService<ResAttrValues> {
 

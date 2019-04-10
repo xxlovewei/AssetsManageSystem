@@ -16,16 +16,17 @@
 </head>
 <body>
 	<div class="container-fluid" style="margin-top: 10px;">
-		 <div id="tabdata"></div>
+		<div id="tabdata"></div>
 	</div>
 </body>
 <script>
+
 
 function buildHtml(udata) {
 
 	var html = "<table id=\"udatatable\" class=\"table table-bordered\" >";
 	html = html
-			+ "<thead style=\"background-color:#696969\"> <th>名称</th> <th>IP</th><th>用户</th>  <th>类型</th><th>状态</th> <th>备注</th> <th>账户操作</th><th>节点操作</th>  </thead>  <tbody>";
+			+ "<thead style=\"background-color:#696969\"> <th>名称</th> <th>用户</th>  <th>类型</th><th>状态</th>  <th>联系方式</th> <th>备注</th> <th>账户操作</th><th>节点操作</th>  </thead>  <tbody>";
 
 	for (var i = 0; i < udata.length; i++) {
 		var userdata = udata[i].users;
@@ -35,37 +36,19 @@ function buildHtml(udata) {
 				html = html + "<tr>";
 				if (j == 0) {
 					html = html
-							+ "<td style=\"font-weight:bold;width:255px!important;vertical-align: middle; \" rowspan=\""
+							+ "<td style=\"font-weight:bold;width:165px!important;vertical-align: middle; \" rowspan=\""
 							+ userlength + "\"   >" + udata[i].name
 							+ "</td>";
-					html = html
-							+ "<td style=\"width:50px!important;vertical-align: middle;\" rowspan=\""
-							+ userlength + "\">" + udata[i].ip + "</td>";
+
 				}
 				html = html
-						+ "<td style=\"width:60px!important; vertical-align: middle;\">"
+						+ "<td style=\"width:80px!important; vertical-align: middle;\">"
 						+ userdata[j].attr_value + "</td>";
 
-				var typestr = "未知";
-				if (userdata[j].type == "admin") {
-					html = html
-							+ "<td  style=\"width:100px!important; vertical-align: middle;\" >管理员</td>";
-				} else if (userdata[j].type == "app") {
-					html = html
-							+ "<td  style=\"width:100px!important ; vertical-align: middle;\" >应用账户</td>";
-				} else if (userdata[j].type == "db") {
-					html = html
-							+ "<td  style=\"width:100px!important ; vertical-align: middle;\" >数据库账户</td>";
-				} else if (userdata[j].type == "yw") {
-					html = html
-							+ "<td  style=\"width:100px!important; vertical-align: middle;\" >运维人员</td>";
-				} else if (userdata[j].type == "inter") {
-					html = html
-							+ "<td  style=\"width:100px!important; vertical-align: middle;\" >内置账户</td>";
-				} else {
-					html = html
-							+ "<td  style=\"width:100px!important; vertical-align: middle;\" >未知</td>";
-				}
+				html = html
+						+ "<td  style=\"width:100px!important; vertical-align: middle;\" >"
+						+ userdata[j].type + "</td>";
+
 				var statusstr = "未知";
 				if (userdata[j].status == "enable") {
 					html = html
@@ -79,12 +62,16 @@ function buildHtml(udata) {
 				}
 
 				html = html
-						+ "<td style=\"vertical-align: middle;\">"
-						+ (userdata[j].mark == undefined   ? 
-								 "":userdata[j].mark) + "</td>";
+						+ "<td style=\"width:130px!important; vertical-align: middle;\">"
+						+ userdata[j].contact + "</td>";
 
 				html = html
-						+ "<td style=\"font-weight:bold;width:90px!important;vertical-align: middle; \"> <div class=\"btn-group\">    <button ng-click=\"saveitem('"
+				+ "<td style=\"vertical-align: middle;\">"
+				+ (userdata[j].mark == undefined   ? 
+						 "":userdata[j].mark) + "</td>";
+
+				html = html
+						+ "<td style=\"font-weight:bold;width:100px!important;vertical-align: middle; \"> <div class=\"btn-group\">    <button ng-click=\"saveitem('"
 						+ userdata[j].id
 						+ "','"
 						+ udata[i].class_id
@@ -96,9 +83,9 @@ function buildHtml(udata) {
 				if (j == 0) {
 
 					html = html
-							+ "<td  rowspan=\""
+							+ "<td   rowspan=\""
 							+ userlength
-							+ "\"  style=\"width:170px!important; vertical-align: middle;\" > <div class=\"btn-group\"><button ng-click=\"saveitem(null,'"
+							+ "\"style=\"width:170px!important; vertical-align: middle;\" > <div class=\"btn-group\"><button ng-click=\"saveitem(null,'"
 							+ udata[i].class_id
 							+ "','"
 							+ udata[i].id
@@ -115,17 +102,18 @@ function buildHtml(udata) {
 		} else {
 			html = html + "<tr>";
 			html = html
-					+ "<td style=\"font-weight:bold;width:165px!important\"> "
+					+ "<td style=\"font-weight:bold;width:170px!important\"> "
 					+ udata[i].name + " </td>";
-			html = html + "<td style=\"width:50px!important\">"
-					+ udata[i].ip + "</td>";
+			// html = html + "<td style=\"width:50px!important\">"
+			// + udata[i].ip + "</td>";
+			html = html + "<td></td>";
 			html = html + "<td></td>";
 			html = html + "<td></td>";
 			html = html + "<td></td>";
 			html = html + "<td></td>";
 			html = html + "<td></td>";
 			html = html
-					+ "<td style=\"width:170px!important; vertical-align: middle;\" > <div class=\"btn-group\"> <button ng-click=\"saveitem(null,'"
+					+ "<td style=\"width:180px!important; vertical-align: middle;\" > <div class=\"btn-group\"> <button ng-click=\"saveitem(null,'"
 					+ udata[i].class_id
 					+ "','"
 					+ udata[i].id
@@ -141,16 +129,20 @@ function buildHtml(udata) {
 	html = html + "</tbody></table>";
 	return html;
 }
+
+
 var project = "/dt";
 
 if (localStorage) { 
-	var html=localStorage.getItem("cmdbuserlistdata");
+	var html=localStorage.getItem("cmdbcontactlistdata");
 	
 	console.log(html);
 	if(html==null){
 		var ps={};
-		ps.classCode="xtlist";
-		ps.attrCode="userlist";
+		ps.classCode="outercontact";
+		ps.attrCode="contact"; 
+		
+		
 		//如果是新页面打开则加载所有数据
 		$.ajax({
 			type : "POST",
@@ -163,7 +155,7 @@ if (localStorage) {
 					console.log(html);
 					$("#tabdata").html(html);
 					$("#udatatable tr :last-child").remove();
-				 	$("#udatatable tr :nth-child(7)").remove(); 
+					$("#udatatable tr :nth-child(7)").remove();
 					
 				 }else{
 					 alert("取数失败!");
@@ -173,7 +165,7 @@ if (localStorage) {
 	}else{
 		$("#tabdata").html(html);
 		$("#udatatable tr :last-child").remove();
-	 	$("#udatatable tr :nth-child(7)").remove(); 
+		$("#udatatable tr :nth-child(7)").remove();
 	}
  
 	

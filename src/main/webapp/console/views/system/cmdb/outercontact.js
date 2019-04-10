@@ -6,8 +6,8 @@
  * 
  * */
 
-function cmdblistUserCtl($timeout, $localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, id, $http, $rootScope) {
+function cmdbouterContactSaveCtl($timeout, $localStorage, notify, $log,
+		$uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
 
 	$scope.users = [];
 	if (angular.isDefined(id)) {
@@ -30,12 +30,12 @@ function cmdblistUserCtl($timeout, $localStorage, notify, $log, $uibModal,
 	};
 }
 
-function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
+function cmdbouterContactListCtl($sce, DTOptionsBuilder, DTColumnBuilder,
+		$compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
 		$localStorage) {
 
-	var classCode = "xtlist";
-	var attrCode = "userlist";
+	var classCode = "outercontact";
+	var attrCode = "contact";
 
 	$scope.addNode = function(id) {
 
@@ -56,11 +56,11 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			type : "input",
 			disabled : "false",
 			sub_type : "text",
-			required : true,
+			required : false,
 			maxlength : "50",
-			placeholder : "请输入ip",
-			label : "Ip",
-			need : true,
+			placeholder : "请输入备注",
+			label : "备注",
+			need : false,
 			name : 'ip',
 			ng_model : "ip"
 		} ];
@@ -75,6 +75,11 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			sure : function(modalInstance, modal_meta) {
 				modal_meta.meta.item.classCode = classCode;
 				modal_meta.meta.item.attrCode = attrCode;
+
+				if (!angular.isDefined(modal_meta.meta.item.ip)
+						|| modal_meta.meta.item.ip == "") {
+					modal_meta.meta.item.ip = "无";
+				}
 				$http.post($rootScope.project + "	/api/base/addResNode.do",
 						modal_meta.meta.item).success(function(res) {
 					if (res.success) {
@@ -134,20 +139,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 
 	$scope.search = "";
-	$scope.typeOpt = [ {
-		id : "all",
-		name : "全部"
-	}, {
-		id : "admin",
-		name : "管理员"
-	}, {
-		id : "yw",
-		name : "运维账户"
-	}, {
-		id : "unknow",
-		name : "未知"
-	} ]
-	$scope.typeSel = $scope.typeOpt[0];
+ 
 
 	$scope.statusOpt = [ {
 		id : "all",
@@ -203,37 +195,6 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		})
 	}
 
-	//	
-	// var t = {};
-	// t.ip = "10.18.1.2";
-	// t.name = "测试主机2啊2ad";
-	// var u = [];
-	// u.push({
-	// user : "root",
-	// status : "enable",
-	// act:"delete"
-	// });
-	// u.push({
-	// user : "jinjie",
-	// status : "enable",
-	// act:"update"
-	// });
-	// t.list=u;
-	// console.log(t);
-	// var p={};
-	// p.data=angular.toJson(t);
-
-	// $http.post($rootScope.project + "/api/base/addUserBySingleNode.do", p)
-	// .success(function(res) {
-	// if (res.success) {
-	// $scope.dtOptions.aaData = res.data;
-	// } else {
-	// notify({
-	// message : res.message
-	// });
-	// }
-	// })
-
 	$scope.delNode = function(id) {
 
 		$confirm({
@@ -258,7 +219,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 		var html = "<table id=\"udatatable\" class=\"table table-bordered\" >";
 		html = html
-				+ "<thead style=\"background-color:#696969\"> <th>名称</th> <th>IP</th><th>用户</th>  <th>类型</th><th>状态</th> <th>备注</th> <th>账户操作</th><th>节点操作</th>  </thead>  <tbody>";
+				+ "<thead style=\"background-color:#696969\"> <th>名称</th> <th>用户</th>  <th>类型</th><th>状态</th>  <th>联系方式</th> <th>备注</th> <th>账户操作</th><th>节点操作</th>  </thead>  <tbody>";
 
 		for (var i = 0; i < udata.length; i++) {
 			var userdata = udata[i].users;
@@ -268,37 +229,19 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 					html = html + "<tr>";
 					if (j == 0) {
 						html = html
-								+ "<td style=\"font-weight:bold;width:255px!important;vertical-align: middle; \" rowspan=\""
+								+ "<td style=\"font-weight:bold;width:165px!important;vertical-align: middle; \" rowspan=\""
 								+ userlength + "\"   >" + udata[i].name
 								+ "</td>";
-						html = html
-								+ "<td style=\"width:50px!important;vertical-align: middle;\" rowspan=\""
-								+ userlength + "\">" + udata[i].ip + "</td>";
+
 					}
 					html = html
-							+ "<td style=\"width:60px!important; vertical-align: middle;\">"
+							+ "<td style=\"width:80px!important; vertical-align: middle;\">"
 							+ userdata[j].attr_value + "</td>";
 
-					var typestr = "未知";
-					if (userdata[j].type == "admin") {
-						html = html
-								+ "<td  style=\"width:100px!important; vertical-align: middle;\" >管理员</td>";
-					} else if (userdata[j].type == "app") {
-						html = html
-								+ "<td  style=\"width:100px!important ; vertical-align: middle;\" >应用账户</td>";
-					} else if (userdata[j].type == "db") {
-						html = html
-								+ "<td  style=\"width:100px!important ; vertical-align: middle;\" >数据库账户</td>";
-					} else if (userdata[j].type == "yw") {
-						html = html
-								+ "<td  style=\"width:100px!important; vertical-align: middle;\" >运维人员</td>";
-					} else if (userdata[j].type == "inter") {
-						html = html
-								+ "<td  style=\"width:100px!important; vertical-align: middle;\" >内置账户</td>";
-					} else {
-						html = html
-								+ "<td  style=\"width:100px!important; vertical-align: middle;\" >未知</td>";
-					}
+					html = html
+							+ "<td  style=\"width:100px!important; vertical-align: middle;\" >"
+							+ userdata[j].type + "</td>";
+
 					var statusstr = "未知";
 					if (userdata[j].status == "enable") {
 						html = html
@@ -312,12 +255,16 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 					}
 
 					html = html
-							+ "<td style=\"vertical-align: middle;\">"
-							+ (userdata[j].mark == undefined   ? 
-									 "":userdata[j].mark) + "</td>";
+							+ "<td style=\"width:130px!important; vertical-align: middle;\">"
+							+ userdata[j].contact + "</td>";
+ 
+					html = html
+					+ "<td style=\"vertical-align: middle;\">"
+					+ (userdata[j].mark == undefined   ? 
+							 "":userdata[j].mark) + "</td>";
 
 					html = html
-							+ "<td style=\"font-weight:bold;width:90px!important;vertical-align: middle; \"> <div class=\"btn-group\">    <button ng-click=\"saveitem('"
+							+ "<td style=\"font-weight:bold;width:100px!important;vertical-align: middle; \"> <div class=\"btn-group\">    <button ng-click=\"saveitem('"
 							+ userdata[j].id
 							+ "','"
 							+ udata[i].class_id
@@ -329,9 +276,9 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 					if (j == 0) {
 
 						html = html
-								+ "<td  rowspan=\""
+								+ "<td   rowspan=\""
 								+ userlength
-								+ "\"  style=\"width:170px!important; vertical-align: middle;\" > <div class=\"btn-group\"><button ng-click=\"saveitem(null,'"
+								+ "\"style=\"width:170px!important; vertical-align: middle;\" > <div class=\"btn-group\"><button ng-click=\"saveitem(null,'"
 								+ udata[i].class_id
 								+ "','"
 								+ udata[i].id
@@ -348,17 +295,18 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			} else {
 				html = html + "<tr>";
 				html = html
-						+ "<td style=\"font-weight:bold;width:165px!important\"> "
+						+ "<td style=\"font-weight:bold;width:170px!important\"> "
 						+ udata[i].name + " </td>";
-				html = html + "<td style=\"width:50px!important\">"
-						+ udata[i].ip + "</td>";
+				// html = html + "<td style=\"width:50px!important\">"
+				// + udata[i].ip + "</td>";
+				html = html + "<td></td>";
 				html = html + "<td></td>";
 				html = html + "<td></td>";
 				html = html + "<td></td>";
 				html = html + "<td></td>";
 				html = html + "<td></td>";
 				html = html
-						+ "<td style=\"width:170px!important; vertical-align: middle;\" > <div class=\"btn-group\"> <button ng-click=\"saveitem(null,'"
+						+ "<td style=\"width:180px!important; vertical-align: middle;\" > <div class=\"btn-group\"> <button ng-click=\"saveitem(null,'"
 						+ udata[i].class_id
 						+ "','"
 						+ udata[i].id
@@ -377,7 +325,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 	function queryUsers() {
 		var par = {};
 		par.status = $scope.statusSel.id;
-		par.type = $scope.typeSel.id;
+	
 		par.search = $scope.search;
 		par.classCode = classCode;
 		par.attrCode = attrCode;
@@ -386,10 +334,10 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 					if (res.success) {
 						var html = buildHtml(res.data);
 						var ele = $compile(html)($scope);
-						angular.element("#content_user").html(ele);
+						angular.element("#content_contact").html(ele);
 						// 放置与localstorage
 						if (localStorage) {
-							localStorage.setItem("cmdbuserlistdata", html);
+							localStorage.setItem("cmdbcontactlistdata", html);
 						} else {
 							alert("不支持localStorage,无法使用预览功能")
 						}
@@ -407,7 +355,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.querylook = function() {
 
-		var url = "views/system/cmdb/userlook.html";
+		var url = "views/system/cmdb/contactlook.html";
 		window.open(url, '_blank');
 	}
 
@@ -435,13 +383,27 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			dataOpt : "statusOpt",
 			dataSel : "statusSel"
 		}, {
-			type : "select",
+			type : "input",
 			disabled : "false",
+			sub_type : "text",
+			required : true,
+			maxlength : "300",
+			placeholder : "请输入类型",
 			label : "类型",
-			need : false,
-			disable_search : "true",
-			dataOpt : "typeOpt",
-			dataSel : "typeSel"
+			need : true,
+			name : 'type',
+			ng_model : "type"
+		}, {
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : true,
+			maxlength : "300",
+			placeholder : "请输入联系方式",
+			label : "联系方式",
+			need : true,
+			name : 'contact',
+			ng_model : "contact"
 		}, {
 			type : "input",
 			disabled : "false",
@@ -473,28 +435,10 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 				id : "disable",
 				name : "停用"
 			} ],
-			statusSel : "",
-			typeOpt : [ {
-				id : "admin",
-				name : "管理员"
-			}, {
-				id : "app",
-				name : "应用用户"
-			}, {
-				id : "db",
-				name : "数据库用户"
-			}, {
-				id : "yw",
-				name : "运维人员"
-			}, {
-				id : "inter",
-				name : "内置"
-			} ],
-			typeSel : "",
 			items : items,
 			sure : function(modalInstance, modal_meta) {
 				modal_meta.meta.item.status = modal_meta.meta.statusSel.id;
-				modal_meta.meta.item.type = modal_meta.meta.typeSel.id;
+
 				$http.post(
 						$rootScope.project
 								+ "/api/base/resAttrValues/insertOrUpdate.do",
@@ -512,7 +456,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			init : function(modal_meta) {
 				console.log(modal_meta.meta);
 				modal_meta.meta.statusSel = modal_meta.meta.statusOpt[0];
-				modal_meta.meta.typeSel = modal_meta.meta.typeOpt[0];
+
 				if (angular.isDefined(modal_meta.meta.vid)
 						&& modal_meta.meta.vid != null) {
 					$http
@@ -533,13 +477,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 													break;
 												}
 											}
-											// 处理status
-											for (var i = 0; i < modal_meta.meta.typeOpt.length; i++) {
-												if (modal_meta.meta.typeOpt[i].id == res.data.type) {
-													modal_meta.meta.typeSel = modal_meta.meta.typeOpt[i];
-													break;
-												}
-											}
+
 										} else {
 											notify({
 												message : res.message
@@ -630,7 +568,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/system/cmdb/modal_listUsers.html',
-			controller : cmdblistUserCtl,
+			controller : cmdbouterContactSaveCtl,
 			size : 'lg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
@@ -652,4 +590,4 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 };
 
-app.register.controller('cmdbUserListCtl', cmdbUserListCtl);
+app.register.controller('cmdbouterContactListCtl', cmdbouterContactListCtl);

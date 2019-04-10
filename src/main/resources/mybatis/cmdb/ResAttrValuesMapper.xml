@@ -18,6 +18,8 @@
         <result column="attr_id" property="attrId" />
         <result column="status" property="status" />
         <result column="type" property="type" />
+        <result column="pwd" property="pwd" />
+        <result column="contact" property="contact" />
     </resultMap>
 
 </mapper>

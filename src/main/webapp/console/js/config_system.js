@@ -523,7 +523,20 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('cf.outercontact', {
+		url : "/cf_outercontact",
+		data: { pageTitle: '外部联系人'},
+		templateUrl : "views/system/cmdb/outercontact.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/cmdb/outercontact.js?v=' + version ]
+				} ]);
+			}
+		}
 	});
+	
 	
 	
 }
