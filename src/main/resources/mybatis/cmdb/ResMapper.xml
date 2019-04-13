@@ -71,6 +71,10 @@
         <result column="company" property="company" />
         <result column="ip" property="ip" />
         <result column="macaddr" property="macaddr" />
+        <result column="rto" property="rto" />
+        <result column="rpo" property="rpo" />
+        <result column="contact" property="contact" />
+        <result column="leader" property="leader" />
     </resultMap>
 
 </mapper>

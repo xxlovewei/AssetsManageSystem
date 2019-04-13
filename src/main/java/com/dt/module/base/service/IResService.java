@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author algernonking
- * @since 2019-04-04
+ * @since 2019-04-13
  */
 public interface IResService extends IService<Res> {
 

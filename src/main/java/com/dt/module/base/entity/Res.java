@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2019-04-04
+ * @since 2019-04-13
  */
  
 @TableName("res")
@@ -148,6 +148,14 @@ public class Res extends BaseModel<Res> {
     private String ip;
     @TableField("macaddr")
     private String macaddr;
+    @TableField("rto")
+    private String rto;
+    @TableField("rpo")
+    private String rpo;
+    @TableField("contact")
+    private String contact;
+    @TableField("leader")
+    private String leader;
 
 
     public String getId() {
@@ -646,6 +654,38 @@ public class Res extends BaseModel<Res> {
         this.macaddr = macaddr;
     }
 
+    public String getRto() {
+        return rto;
+    }
+
+    public void setRto(String rto) {
+        this.rto = rto;
+    }
+
+    public String getRpo() {
+        return rpo;
+    }
+
+    public void setRpo(String rpo) {
+        this.rpo = rpo;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getLeader() {
+        return leader;
+    }
+
+    public void setLeader(String leader) {
+        this.leader = leader;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -716,6 +756,10 @@ public class Res extends BaseModel<Res> {
         ", company=" + company +
         ", ip=" + ip +
         ", macaddr=" + macaddr +
+        ", rto=" + rto +
+        ", rpo=" + rpo +
+        ", contact=" + contact +
+        ", leader=" + leader +
         "}";
     }
 }

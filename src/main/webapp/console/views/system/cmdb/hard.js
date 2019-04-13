@@ -39,7 +39,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$http
 			.post(
 					$rootScope.project
-							+ "/api/res/resClass/queryCategoryChildren.do?parent_id=3&is_action=Y",
+							+ "/api/base/resClass/queryCategoryChildren.do?parent_id=3&is_action=Y",
 					{}).success(function(res) {
 				if (res.success) {
 					$scope.meta.tools[0].dataOpt = res.data;
@@ -62,7 +62,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			ps.class_id = $scope.meta.tools[0].dataSel.id;
 			$http.post(
 					$rootScope.project
-							+ "/api/res/resClass/queryConfItemByCategory.do",
+							+ "/api/base/resClass/queryConfItemByCategory.do",
 					ps).success(function(xlres) {
 				if (xlres.success) {
 
@@ -349,7 +349,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 
 		$http
-				.post($rootScope.project + "/api/res/queryResAllById.do",
+				.post($rootScope.project + "/api/base/queryResAllById.do",
 						{
 							id : id,
 							class_id : class_id

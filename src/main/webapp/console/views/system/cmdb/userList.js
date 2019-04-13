@@ -239,7 +239,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm({
 			text : '是否删除?'
 		}).then(function() {
-			$http.post($rootScope.project + "	/api/base/res/deleteById.do", {
+			$http.post($rootScope.project + "/api/base/res/deleteById.do", {
 				id : id
 			}).success(function(res) {
 				if (res.success) {

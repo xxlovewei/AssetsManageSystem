@@ -110,7 +110,7 @@ public class CustomGeneratorMysql {
 		// "","sys_qud_qux"
 		// "res_attr_value","res_class","res_class_attrs"
 		// "res_attr_value","res_class_attrs"
-		strategy.setInclude(new String[] { "res_attr_values" }); // 需要生成的表
+		strategy.setInclude(new String[] { "res" }); // 需要生成的表
 		// strategy.setInclude(scanner("表名"));
  
 		strategy.setTableFillList(tableFillList);

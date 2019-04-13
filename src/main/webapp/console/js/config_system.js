@@ -535,8 +535,22 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('cf.systemlist', {
+		url : "/ct_systemlist",
+		data: { pageTitle: '信息系统清单'},
+		template:'<div ng-controller="cmdbsystemListCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/cmdb/systemlist.js?v=' + version ]
+				} ]);
+			}
+		}
 	});
 	
 	
 	
+	
+	 
 }

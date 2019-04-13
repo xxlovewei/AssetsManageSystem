@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
@@ -45,6 +46,15 @@ public class ResExtController extends BaseController {
 
 	@Autowired
 	IResService ResServiceImpl;
+
+	@ResponseBody
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
+	@RequestMapping(value = "/selectListResExd.do")
+	public R selectList(String classId) {
+		QueryWrapper<Res> ew = new QueryWrapper<Res>();
+		ew.and(i -> i.eq("class_id", classId));
+		return R.SUCCESS_OPER(ResServiceImpl.list(ew));
+	}
 
 	private String createUuid() {
 
@@ -304,7 +314,7 @@ public class ResExtController extends BaseController {
 					usersql = usersql + " and type='admin'";
 				} else if (type.equals("yw")) {
 					usersql = usersql + " and type='yw'";
-				} else if (type.equals("unknow")){
+				} else if (type.equals("unknow")) {
 					usersql = usersql + " and type='unknow'";
 				}
 			}
