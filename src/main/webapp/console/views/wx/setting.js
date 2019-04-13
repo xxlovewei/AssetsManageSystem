@@ -57,12 +57,12 @@ function msgsettingsaveCtl($timeout,notify, $log, $uibModal, $uibModalInstance, 
 		for (var i = 0; i < modal.length; i++) {
 			console.log(modal[i]);
 			var adom = modal[i].getElementsByClassName('chosen-container');
-			console.log(adom.length);
+		
 			for (var j = 0; j < adom.length; j++) {
 				adom[i].style.width = "100%";
 			}
 		}
-	}, 300);
+	}, 200);
 	
 	
 	$scope.sure = function() {

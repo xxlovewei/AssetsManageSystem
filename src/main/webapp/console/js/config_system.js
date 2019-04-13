@@ -167,12 +167,8 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
                     {
                         name: 'treeGrid',
                         serie: true,
-                        files: ['plugin/treegrid/treeGrid.css', 'plugin/treegrid/tree-grid-directive.js']
-                    },
-					{
-					serie : true,
-					files : [ 'views/system/menu/menu.js?v=' + version ]
-				} ]);
+                        files: ['plugin/treegrid/treeGrid.css', 'plugin/treegrid/tree-grid-directive.js', 'views/system/menu/menu.js?v=' + version]
+                    } ]);
 			}
 		}
 	}).state('module.rootmenu', {

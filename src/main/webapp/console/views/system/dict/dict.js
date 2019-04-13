@@ -52,14 +52,13 @@ function dictSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalI
 
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
-			console.log(modal[i]);
 			var adom = modal[i].getElementsByClassName('chosen-container');
-			console.log(adom.length);
+ 
 			for (var j = 0; j < adom.length; j++) {
 				adom[i].style.width = "100%";
 			}
 		}
-	}, 300);
+	}, 200);
 	
 	$scope.sure = function() {
 		$scope.item.status = $scope.statusSel.id;
@@ -103,12 +102,11 @@ function dictItemSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibMo
 		for (var i = 0; i < modal.length; i++) {
 			console.log(modal[i]);
 			var adom = modal[i].getElementsByClassName('chosen-container');
-			console.log(adom.length);
 			for (var j = 0; j < adom.length; j++) {
 				adom[i].style.width = "100%";
 			}
 		}
-	}, 300);
+	}, 200);
 	
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');

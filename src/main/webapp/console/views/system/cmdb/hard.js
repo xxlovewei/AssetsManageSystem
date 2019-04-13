@@ -84,15 +84,6 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				$compile(angular.element(row).contents())($scope);
 			});
 
-	// $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('scrollY',
-	// '800px').withOption('scrollX', true).withOption('bAutoWidth', true)
-	// .withOption('responsive', false).withOption('scrollCollapse', true)
-	// .withOption('paging', true).withFixedColumns({
-	// leftColumns : 0,
-	// rightColumns : 1
-	// })
-	//	
-
 	$scope.dtInstance = {}
 
 	function renderAction(data, type, full) {
@@ -106,23 +97,21 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	$scope.dtColumns = [
-			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
+			// DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
+			// 'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('pinpstr').withTitle('品牌').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('statusstr').withTitle('状态').withOption(
+			DTColumnBuilder.newColumn('version').withTitle('版本').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('envstr').withTitle('环境').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('mainlevelstr').withTitle('等级')
+			DTColumnBuilder.newColumn('statusstr').withTitle('维保').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('statusstr').withTitle('启用时间')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('version').withTitle('版本').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('pinpstr').withTitle('品牌').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('headuseridstr').withTitle('负责人')
+			DTColumnBuilder.newColumn('mark').withTitle('备注')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
@@ -132,11 +121,8 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		if (angular.isDefined($scope.meta.tools[1].dataSel.class_id)) {
 			ps.id = $scope.meta.tools[1].dataSel.class_id;
 		}
-		$http
-				.post(
-						$rootScope.project
-								+ "/api/res/queryResAllByClass.do",
-						ps).success(function(res) {
+		$http.post($rootScope.project + "/api/base/queryResAllByClass.do", ps)
+				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
 					} else {
@@ -152,8 +138,22 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	}
 
-	$scope.del = function(seq) {
-		alert("待开发");
+	$scope.del = function(id) {
+		$confirm({
+			text : '是否删除?'
+		}).then(function() {
+			$http.post($rootScope.project + "/api/base/res/deleteById.do", {
+				id : id
+			}).success(function(res) {
+				if (res.success) {
+					flush();
+				} else {
+					notify({
+						message : res.message
+					});
+				}
+			});
+		});
 
 	}
 
@@ -164,7 +164,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$http.post(
 				$rootScope.project
 						+ "/api/sysDictItem/selectDictItemByDict.do ", {
-					dictId : "1079765355797626882"
+					dictId : "sys_device_pinp"
 				}).success(function(res) {
 			console.log(res);
 			modal_meta.meta.pinpOpt = res.data;
@@ -184,60 +184,60 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}
 		});
 		// 负责人
-		$http.post(
-				$rootScope.project
-						+ "/api/sysDictItem/selectDictItemByDict.do ", {
-					dictId : "1079009262096052225"
-				}).success(
-				function(res) {
-					console.log(res);
-					modal_meta.meta.headuserOpt = res.data;
-					if (res.data.length > 0) {
-
-						if (angular.isDefined(item)
-								&& angular.isDefined(item.headuserid)) {
-							for (var i = 0; i < res.data.length; i++) {
-								if (res.data[i].dictItemId == item.headuserid) {
-									modal_meta.meta.headuserSel = res.data[i];
-								}
-							}
-						} else {
-							if (res.data.length > 0) {
-								modal_meta.meta.headuserSel = res.data[0];
-							}
-						}
-					}
-				});
+		// $http.post(
+		// $rootScope.project
+		// + "/api/sysDictItem/selectDictItemByDict.do ", {
+		// dictId : "1079009262096052225"
+		// }).success(
+		// function(res) {
+		// console.log(res);
+		// modal_meta.meta.headuserOpt = res.data;
+		// if (res.data.length > 0) {
+		//
+		// if (angular.isDefined(item)
+		// && angular.isDefined(item.headuserid)) {
+		// for (var i = 0; i < res.data.length; i++) {
+		// if (res.data[i].dictItemId == item.headuserid) {
+		// modal_meta.meta.headuserSel = res.data[i];
+		// }
+		// }
+		// } else {
+		// if (res.data.length > 0) {
+		// modal_meta.meta.headuserSel = res.data[0];
+		// }
+		// }
+		// }
+		// });
 
 		// 等级
-		$http.post(
-				$rootScope.project
-						+ "/api/sysDictItem/selectDictItemByDict.do ", {
-					dictId : "1079695969170706433"
-				}).success(
-				function(res) {
-					modal_meta.meta.mainlevelOpt = res.data;
-					if (res.data.length > 0) {
-
-						if (angular.isDefined(item)
-								&& angular.isDefined(item.mainlevel)) {
-							for (var i = 0; i < res.data.length; i++) {
-								if (res.data[i].dictItemId == item.mainlevel) {
-									modal_meta.meta.mainlevelSel = res.data[i];
-								}
-							}
-						} else {
-							if (res.data.length > 0) {
-								modal_meta.meta.mainlevelSel = res.data[0];
-							}
-						}
-					}
-				});
+		// $http.post(
+		// $rootScope.project
+		// + "/api/sysDictItem/selectDictItemByDict.do ", {
+		// dictId : "1079695969170706433"
+		// }).success(
+		// function(res) {
+		// modal_meta.meta.mainlevelOpt = res.data;
+		// if (res.data.length > 0) {
+		//
+		// if (angular.isDefined(item)
+		// && angular.isDefined(item.mainlevel)) {
+		// for (var i = 0; i < res.data.length; i++) {
+		// if (res.data[i].dictItemId == item.mainlevel) {
+		// modal_meta.meta.mainlevelSel = res.data[i];
+		// }
+		// }
+		// } else {
+		// if (res.data.length > 0) {
+		// modal_meta.meta.mainlevelSel = res.data[0];
+		// }
+		// }
+		// }
+		// });
 		// 环境
 		$http.post(
 				$rootScope.project
 						+ "/api/sysDictItem/selectDictItemByDict.do ", {
-					dictId : "1079009262096052225"
+					dictId : "sys_device_env"
 				}).success(function(res) {
 			modal_meta.meta.envOpt = res.data;
 			if (res.data.length > 0) {
@@ -251,7 +251,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				} else {
 					if (res.data.length > 0) {
 						modal_meta.meta.envSel = res.data[0];
-						console.log('adfasdfasdf', res.data[0])
+
 					}
 				}
 			}
@@ -260,7 +260,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$http.post(
 				$rootScope.project
 						+ "/api/sysDictItem/selectDictItemByDict.do ", {
-					dictId : "1079695434816376834"
+					dictId : "sys_device_wbstatus"
 				}).success(function(res) {
 			console.log(res);
 			modal_meta.meta.statusOpt = res.data;
@@ -280,53 +280,30 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}
 		});
 
-		// 位置
-		$http.post(
-				$rootScope.project
-						+ "/api/sysDictItem/selectDictItemByDict.do ", {
-					dictId : "1079696267025010689"
-				}).success(function(res) {
-			modal_meta.meta.locOpt = res.data;
-			if (res.data.length > 0) {
-
-				if (angular.isDefined(item) && angular.isDefined(item.loc)) {
-					for (var i = 0; i < res.data.length; i++) {
-						if (res.data[i].dictItemId == item.loc) {
-							modal_meta.meta.locSel = res.data[i];
-						}
-					}
-				} else {
-					if (res.data.length > 0) {
-						modal_meta.meta.locSel = res.data[0];
-					}
-				}
-			}
-		});
-
-		// 维保
-		$http.post(
-				$rootScope.project
-						+ "/api/sysDictItem/selectDictItemByDict.do ", {
-					dictId : "1079010352015306754"
-				}).success(
-				function(res) {
-					modal_meta.meta.companyOpt = res.data;
-					if (res.data.length > 0) {
-
-						if (angular.isDefined(item)
-								&& angular.isDefined(item.company)) {
-							for (var i = 0; i < res.data.length; i++) {
-								if (res.data[i].dictItemId == item.company) {
-									modal_meta.meta.companySel = res.data[i];
-								}
-							}
-						} else {
-							if (res.data.length > 0) {
-								modal_meta.meta.companySel = res.data[0];
-							}
-						}
-					}
-				});
+		// 设备厂商
+		// $http.post(
+		// $rootScope.project
+		// + "/api/sysDictItem/selectDictItemByDict.do ", {
+		// dictId : "sys_device_comp"
+		// }).success(
+		// function(res) {
+		// modal_meta.meta.companyOpt = res.data;
+		// if (res.data.length > 0) {
+		//
+		// if (angular.isDefined(item)
+		// && angular.isDefined(item.company)) {
+		// for (var i = 0; i < res.data.length; i++) {
+		// if (res.data[i].dictItemId == item.company) {
+		// modal_meta.meta.companySel = res.data[i];
+		// }
+		// }
+		// } else {
+		// if (res.data.length > 0) {
+		// modal_meta.meta.companySel = res.data[0];
+		// }
+		// }
+		// }
+		// });
 
 	}
 
@@ -349,11 +326,10 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 
 		$http
-				.post($rootScope.project + "/api/base/queryResAllById.do",
-						{
-							id : id,
-							class_id : class_id
-						})
+				.post($rootScope.project + "/api/base/queryResAllById.do", {
+					id : id,
+					classId : class_id
+				})
 				.success(
 						function(res) {
 							console.log(res.data);
@@ -369,7 +345,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								type : "input",
 								disabled : "false",
 								sub_type : "text",
-								required : false,
+								required : true,
 								maxlength : "50",
 								placeholder : "请输入名称",
 								label : "名称",
@@ -384,7 +360,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								maxlength : "50",
 								placeholder : "请输入序列号",
 								label : "序列号",
-								need : true,
+								need : false,
 								name : 'sn',
 								ng_model : "sn"
 							}, {
@@ -395,20 +371,9 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								maxlength : "50",
 								placeholder : "请输入版本",
 								label : "版本",
-								need : true,
+								need : false,
 								name : 'version',
 								ng_model : "version"
-							}, {
-								type : "input",
-								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入描述",
-								label : "描述",
-								need : true,
-								name : 'describe',
-								ng_model : "describe"
 							}, {
 								type : "datetime",
 								disabled : "false",
@@ -418,8 +383,8 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							}, {
 								type : "select",
 								disabled : "false",
-								label : "状态",
-								need : false,
+								label : "维保状态",
+								need : true,
 								disable_search : "true",
 								dataOpt : "statusOpt",
 								dataSel : "statusSel"
@@ -427,50 +392,29 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								type : "select",
 								disabled : "false",
 								label : "环境",
-								need : false,
+								need : true,
 								disable_search : "true",
 								dataOpt : "envOpt",
 								dataSel : "envSel"
 							}, {
 								type : "select",
 								disabled : "false",
-								label : "负责人",
-								need : false,
-								disable_search : "true",
-								dataOpt : "headuserOpt",
-								dataSel : "headuserSel"
-							}, {
-								type : "select",
-								disabled : "false",
-								label : "位置",
-								need : false,
-								disable_search : "true",
-								dataOpt : "locOpt",
-								dataSel : "locSel"
-							}, {
-								type : "select",
-								disabled : "false",
-								label : "等级",
-								need : false,
-								disable_search : "true",
-								dataOpt : "mainlevelOpt",
-								dataSel : "mainlevelSel"
-							}, {
-								type : "select",
-								disabled : "false",
 								label : "品牌",
-								need : false,
+								need : true,
 								disable_search : "true",
 								dataOpt : "pinpOpt",
 								dataSel : "pinpSel"
 							}, {
-								type : "select",
+								type : "input",
 								disabled : "false",
-								label : "维保",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "请输入备注",
+								label : "备注",
 								need : false,
-								disable_search : "true",
-								dataOpt : "companyOpt",
-								dataSel : "companySel"
+								name : 'mark',
+								ng_model : "mark"
 							} ];
 							meta = {
 								class_id : class_id,
@@ -500,12 +444,9 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 										modal_meta.meta.item.class_id = modal_meta.meta.class_id;
 									}
 									modal_meta.meta.item.env = modal_meta.meta.envSel.dictItemId;
-									modal_meta.meta.item.loc = modal_meta.meta.locSel.dictItemId;
-									modal_meta.meta.item.mainlevel = modal_meta.meta.mainlevelSel.dictItemId;
-									modal_meta.meta.item.company = modal_meta.meta.companySel.dictItemId;
 									modal_meta.meta.item.status = modal_meta.meta.statusSel.dictItemId;
 									modal_meta.meta.item.pinp = modal_meta.meta.pinpSel.dictItemId;
-									modal_meta.meta.item.headuserid = modal_meta.meta.headuserSel.dictItemId;
+
 									// 动态参数
 									console.log(modal_meta.meta.attr)
 									if (angular.isDefined(modal_meta.meta.attr)
@@ -521,7 +462,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									$http
 											.post(
 													$rootScope.project
-															+ "/api/res//addResCustom.do",
+															+ "/api/base/addResCustom.do",
 													modal_meta.meta.item)
 											.success(function(res) {
 

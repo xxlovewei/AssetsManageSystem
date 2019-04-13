@@ -48,7 +48,7 @@ public class ResExtController extends BaseController {
 	IResService ResServiceImpl;
 
 	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/selectListResExd.do")
 	public R selectList(String classId) {
 		QueryWrapper<Res> ew = new QueryWrapper<Res>();
@@ -95,9 +95,9 @@ public class ResExtController extends BaseController {
 				return R.FAILURE("未产生有效编号,请重试!");
 			}
 			me.set("uuid", uuid);
-			me.set("sn", ps.getString("sn"));
+			me.setIf("sn", ps.getString("sn"));
 			me.setIf("name", ps.getString("name"));
-			me.setIf("describe", ps.getString("describe"));
+			me.setIf("mark", ps.getString("mark"));
 			me.setIf("maintain_userid", ps.getString("maintain_userid"));
 			me.setIf("headuserid", ps.getString("headuserid"));
 			me.setIf("pinp", ps.getString("pinp"));
@@ -113,9 +113,9 @@ public class ResExtController extends BaseController {
 			sql = me.getSQL();
 		} else {
 			Update me = new Update("res");
-			me.set("sn", ps.getString("sn"));
+			me.setIf("sn", ps.getString("sn"));
 			me.setIf("name", ps.getString("name"));
-			me.setIf("describe", ps.getString("describe"));
+			me.setIf("mark", ps.getString("mark"));
 			me.setIf("maintain_userid", ps.getString("maintain_userid"));
 			me.setIf("headuserid", ps.getString("headuserid"));
 			me.setIf("pinp", ps.getString("pinp"));
@@ -132,12 +132,14 @@ public class ResExtController extends BaseController {
 			sql = me.getSQL();
 		}
 		db.execute(sql);
-		// 更新其他属性，属性值
+		
+		// 更新其他属性，属性值、
 		String attrvals = ps.getString("attrvals");
 		Update del = new Update("res_attr_value");
 		del.set("dr", "1");
 		del.where().and("res_id=?", id);
 		db.execute(del);
+		
 		if (ToolUtil.isNotEmpty(attrvals)) {
 			JSONArray valsarr = JSONArray.parseArray(attrvals);
 			for (int i = 0; i < valsarr.size(); i++) {
@@ -200,7 +202,7 @@ public class ResExtController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/queryResAllById.do")
-	public R queryResAllById(String id) {
+	public R queryResAllById(String id, String classId) {
 		Rcd rs = null;
 
 		// 获取class_id
@@ -210,8 +212,12 @@ public class ResExtController extends BaseController {
 			rs = db.uniqueRecord(sql, id);
 
 		}
+		
 
-		String class_id = rs.getString("class_id");
+		String class_id = classId;
+		if (ToolUtil.isEmpty(classId)) {
+			class_id = rs.getString("class_id");
+		}
 
 		// 获取属性数据
 		RcdSet attrs = null;
