@@ -107,12 +107,14 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('envstr').withTitle('环境').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('statusstr').withTitle('维保').withOption(
+			DTColumnBuilder.newColumn('maintenancestr').withTitle('维保').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('statusstr').withTitle('状态').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('statusstr').withTitle('启用时间')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('mark').withTitle('备注')
-					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
@@ -161,6 +163,8 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		// 品牌
 		var item = modal_meta.meta.item;
 
+		
+		
 		$http.post(
 				$rootScope.project
 						+ "/api/sysDictItem/selectDictItemByDict.do ", {
@@ -256,14 +260,15 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				}
 			}
 		});
-		// 状态
+		
+		
 		$http.post(
 				$rootScope.project
 						+ "/api/sysDictItem/selectDictItemByDict.do ", {
-					dictId : "sys_device_wbstatus"
+					dictId : "sys_device_status"
 				}).success(function(res) {
 			console.log(res);
-			modal_meta.meta.statusOpt = res.data;
+			modal_meta.meta.statusOpt= res.data;
 			if (res.data.length > 0) {
 				if (angular.isDefined(item) && angular.isDefined(item.status)) {
 
@@ -274,7 +279,31 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					}
 				} else {
 					if (res.data.length > 0) {
-						modal_meta.meta.statusSel = res.data[0];
+						modal_meta.meta.statusSel= res.data[0];
+					}
+				}
+			}
+		});
+	 
+		// 状态
+		$http.post(
+				$rootScope.project
+						+ "/api/sysDictItem/selectDictItemByDict.do ", {
+					dictId : "sys_device_wbstatus"
+				}).success(function(res) {
+			console.log(res);
+			modal_meta.meta.maintenanceOpt = res.data;
+			if (res.data.length > 0) {
+				if (angular.isDefined(item) && angular.isDefined(item.maintenance)) {
+
+					for (var i = 0; i < res.data.length; i++) {
+						if (res.data[i].dictItemId == item.maintenance) {
+							modal_meta.meta.maintenanceSel = res.data[i];
+						}
+					}
+				} else {
+					if (res.data.length > 0) {
+						modal_meta.meta.maintenanceSel= res.data[0];
 					}
 				}
 			}
@@ -383,12 +412,20 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							}, {
 								type : "select",
 								disabled : "false",
-								label : "维保状态",
+								label : "维保",
+								need : true,
+								disable_search : "true",
+								dataOpt : "maintenanceOpt",
+								dataSel : "maintenanceSel"
+							}, {
+								type : "select",
+								disabled : "false",
+								label : "状态",
 								need : true,
 								disable_search : "true",
 								dataOpt : "statusOpt",
 								dataSel : "statusSel"
-							}, {
+							} ,{
 								type : "select",
 								disabled : "false",
 								label : "环境",
@@ -430,6 +467,8 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								headuserSel : "",
 								locOpt : [],
 								locSel : "",
+								maintenanceOpt:[],
+								maintenance:"",
 								envOpt : [],
 								envSel : "",
 								mainlevelOpt : [],
@@ -446,7 +485,9 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									modal_meta.meta.item.env = modal_meta.meta.envSel.dictItemId;
 									modal_meta.meta.item.status = modal_meta.meta.statusSel.dictItemId;
 									modal_meta.meta.item.pinp = modal_meta.meta.pinpSel.dictItemId;
-
+									modal_meta.meta.item.maintenance=modal_meta.meta.maintenanceSel.dictItemId;
+									
+									console.log('aa',modal_meta.meta)
 									// 动态参数
 									console.log(modal_meta.meta.attr)
 									if (angular.isDefined(modal_meta.meta.attr)

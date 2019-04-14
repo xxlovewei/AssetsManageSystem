@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2019-04-13
+ * @since 2019-04-14
  */
  
 @TableName("res")
@@ -156,6 +156,8 @@ public class Res extends BaseModel<Res> {
     private String contact;
     @TableField("leader")
     private String leader;
+    @TableField("maintenance")
+    private String maintenance;
 
 
     public String getId() {
@@ -686,6 +688,14 @@ public class Res extends BaseModel<Res> {
         this.leader = leader;
     }
 
+    public String getMaintenance() {
+        return maintenance;
+    }
+
+    public void setMaintenance(String maintenance) {
+        this.maintenance = maintenance;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -760,6 +770,7 @@ public class Res extends BaseModel<Res> {
         ", rpo=" + rpo +
         ", contact=" + contact +
         ", leader=" + leader +
+        ", maintenance=" + maintenance +
         "}";
     }
 }

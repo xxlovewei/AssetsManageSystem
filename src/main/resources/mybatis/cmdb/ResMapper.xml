@@ -75,6 +75,7 @@
         <result column="rpo" property="rpo" />
         <result column="contact" property="contact" />
         <result column="leader" property="leader" />
+        <result column="maintenance" property="maintenance" />
     </resultMap>
 
 </mapper>

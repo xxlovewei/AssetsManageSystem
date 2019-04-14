@@ -1141,9 +1141,6 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 				return $ocLazyLoad.load([ {
 					serie : true,
 					files : [ 'views/system/login/login.js' ]
-				}, {
-					serie : true,
-					files : [ 'views/system/login/l.css' ]
 				} ]);
 			}
 		}

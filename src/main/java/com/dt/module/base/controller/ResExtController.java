@@ -110,6 +110,8 @@ public class ResExtController extends BaseController {
 			me.setIf("version", ps.getString("version"));
 			me.setIf("img", ps.getString("img"));
 			me.setIf("company", ps.getString("company"));
+			me.setIf("maintenance", ps.getString("maintenance"));
+			
 			sql = me.getSQL();
 		} else {
 			Update me = new Update("res");
@@ -120,7 +122,6 @@ public class ResExtController extends BaseController {
 			me.setIf("headuserid", ps.getString("headuserid"));
 			me.setIf("pinp", ps.getString("pinp"));
 			me.setIf("loc", ps.getString("loc"));
-			me.set("dr", "0");
 			me.set("class_id", ps.getString("class_id"));
 			me.setIf("status", ps.getString("status"));
 			me.setIf("env", ps.getString("env"));
@@ -128,7 +129,9 @@ public class ResExtController extends BaseController {
 			me.setIf("version", ps.getString("version"));
 			me.setIf("img", ps.getString("img"));
 			me.setIf("company", ps.getString("company"));
+			me.setIf("maintenance", ps.getString("maintenance"));
 			me.where().and("id=?", id);
+			
 			sql = me.getSQL();
 		}
 		db.execute(sql);
@@ -188,9 +191,10 @@ public class ResExtController extends BaseController {
 		}
 		sql = sql + " (select name from sys_dict_item where dict_item_id=t.pinp ) pinpstr,"
 				+ " (select name from sys_dict_item where dict_item_id=t.loc ) locstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.status  ) statusstr,"
+				+ " (select name from sys_dict_item where dict_item_id=t.status ) statusstr,"
 				+ " (select name from sys_dict_item where dict_item_id=t.env  ) envstr,"
 				+ " (select name from sys_dict_item where dict_item_id=t.mainlevel  ) mainlevelstr,"
+				+ " (select name from sys_dict_item where dict_item_id=t.maintenance  ) maintenancestr,"
 				+ " (select name from sys_dict_item where dict_item_id=t.company   ) companystr,"
 				+ " (select name from sys_dict_item where dict_item_id=t.pinp  ) pinpstr2,"
 				+ " t.* from res t where dr=0  and class_id='" + id + "' ";
