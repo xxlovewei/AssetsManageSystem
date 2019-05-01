@@ -37,6 +37,77 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 	var classCode = "xtlist";
 	var attrCode = "userlist";
 
+	
+	
+ 
+	$scope.custExec = function() {
+		//根据用户修改
+		//status:enable|disable
+		//type:admin,app,db,yw
+		//update  res_attr_values set status='enable' where attr_value='jinjie';
+		var meta={};
+		var items = [ {
+			type : "textarea",
+			disabled : "false",
+			sub_type : "text",
+			required : true,
+			maxlength : "1000",
+			placeholder : "请输入sql",
+			label : "SQL",
+			need : true,
+			name : 'sql',
+			ng_model : "sql"
+		}]
+		meta = {
+
+				footer_hide : false,
+				title : "基本信息",
+				item : {},
+				items : items,
+				sure : function(modalInstance, modal_meta) {
+					$http.post($rootScope.project + "/api/base//batchWork.do",
+							modal_meta.meta.item).success(function(res) {
+						if (res.success) {
+							modalInstance.close("OK");
+						} else {
+							notify({
+								message : res.message
+							});
+						}
+					});
+
+				},
+				init : function(modal_meta) {
+					console.log(modal_meta.meta);
+ 
+				}
+			}
+
+			var modalInstance = $uibModal.open({
+				backdrop : true,
+				templateUrl : 'views/Template/modal_simpleForm.html',
+				controller : modal_simpleFormCtl,
+				size : 'lg',
+				resolve : { // 调用控制器与modal控制器中传递值
+					meta : function() {
+						return meta;
+					}
+				}
+			});
+
+			modalInstance.result.then(function(result) {
+				$log.log("result", result);
+
+				if (result == "OK") {
+					queryUsers();
+				}
+			}, function(reason) {
+				// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+				$log.log("reason", reason)
+			});
+
+		
+	}
 	$scope.addNode = function(id) {
 
 		var meta = {};
@@ -75,7 +146,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 			sure : function(modalInstance, modal_meta) {
 				modal_meta.meta.item.classCode = classCode;
 				modal_meta.meta.item.attrCode = attrCode;
-				$http.post($rootScope.project + "	/api/base/addResNode.do",
+				$http.post($rootScope.project + "/api/base/addResNode.do",
 						modal_meta.meta.item).success(function(res) {
 					if (res.success) {
 						modalInstance.close("OK");
@@ -137,17 +208,28 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.typeOpt = [ {
 		id : "all",
 		name : "全部"
-	}, {
+	}, 
+	{
+		id : "work",
+		name : "全部(db_admin_oper_app)"
+	},
+	{
 		id : "admin",
 		name : "管理员"
 	}, {
 		id : "yw",
 		name : "运维账户"
 	}, {
+		id : "db",
+		name : "数据库"
+	}, {
+		id : "inter",
+		name : "内置"
+	}, {
 		id : "unknow",
 		name : "未知"
 	} ]
-	$scope.typeSel = $scope.typeOpt[0];
+	$scope.typeSel = $scope.typeOpt[1];
 
 	$scope.statusOpt = [ {
 		id : "all",
@@ -159,7 +241,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		id : "disable",
 		name : "停用"
 	} ]
-	$scope.statusSel = $scope.statusOpt[0];
+	$scope.statusSel = $scope.statusOpt[1];
 
 	// 自动获取配置项
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
@@ -204,35 +286,35 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 
 	//	
-	// var t = {};
-	// t.ip = "10.18.1.2";
-	// t.name = "测试主机2啊2ad";
-	// var u = [];
-	// u.push({
-	// user : "root",
-	// status : "enable",
-	// act:"delete"
-	// });
-	// u.push({
-	// user : "jinjie",
-	// status : "enable",
-	// act:"update"
-	// });
-	// t.list=u;
-	// console.log(t);
-	// var p={};
-	// p.data=angular.toJson(t);
+	var t = {};
+	t.ip = "10.18.1.2";
+	t.name = "测试主机2啊2ad";
+	var u = [];
+	u.push({
+		user : "root",
+		status : "enable",
+		act : "delete"
+	});
+	u.push({
+		user : "jinjie",
+		status : "enable",
+		act : "update"
+	});
+	t.list = u;
+	console.log(t);
+	var p = {};
+	p.data = angular.toJson(t);
 
-	// $http.post($rootScope.project + "/api/base/addUserBySingleNode.do", p)
-	// .success(function(res) {
-	// if (res.success) {
-	// $scope.dtOptions.aaData = res.data;
-	// } else {
-	// notify({
-	// message : res.message
-	// });
-	// }
-	// })
+	$http.post($rootScope.project + "/api/base/addUserBySingleNode.do", p)
+			.success(function(res) {
+				if (res.success) {
+					$scope.dtOptions.aaData = res.data;
+				} else {
+					notify({
+						message : res.message
+					});
+				}
+			})
 
 	$scope.delNode = function(id) {
 
@@ -313,8 +395,8 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 					html = html
 							+ "<td style=\"vertical-align: middle;\">"
-							+ (userdata[j].mark == undefined   ? 
-									 "":userdata[j].mark) + "</td>";
+							+ (userdata[j].mark == undefined ? ""
+									: userdata[j].mark) + "</td>";
 
 					html = html
 							+ "<td style=\"font-weight:bold;width:90px!important;vertical-align: middle; \"> <div class=\"btn-group\">    <button ng-click=\"saveitem('"
@@ -381,7 +463,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		par.search = $scope.search;
 		par.classCode = classCode;
 		par.attrCode = attrCode;
-		$http.post($rootScope.project + "api/base/queryResAllUsers.do", par)
+		$http.post($rootScope.project + "/api/base/queryResAllUsers.do", par)
 				.success(function(res) {
 					if (res.success) {
 						var html = buildHtml(res.data);

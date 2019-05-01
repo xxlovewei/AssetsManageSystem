@@ -56,6 +56,18 @@ public class ResExtController extends BaseController {
 		return R.SUCCESS_OPER(ResServiceImpl.list(ew));
 	}
 
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_ALLOW)
+	@RequestMapping(value = "/batchWork.do")
+	public R batchWork(String sql) {
+		if(ToolUtil.isEmpty(sql)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		db.execute(sql);
+		return R.SUCCESS_OPER();
+	}
+
+	
 	private String createUuid() {
 
 		int cnt = 30;
@@ -111,7 +123,7 @@ public class ResExtController extends BaseController {
 			me.setIf("img", ps.getString("img"));
 			me.setIf("company", ps.getString("company"));
 			me.setIf("maintenance", ps.getString("maintenance"));
-			
+
 			sql = me.getSQL();
 		} else {
 			Update me = new Update("res");
@@ -131,18 +143,18 @@ public class ResExtController extends BaseController {
 			me.setIf("company", ps.getString("company"));
 			me.setIf("maintenance", ps.getString("maintenance"));
 			me.where().and("id=?", id);
-			
+
 			sql = me.getSQL();
 		}
 		db.execute(sql);
-		
+
 		// 更新其他属性，属性值、
 		String attrvals = ps.getString("attrvals");
 		Update del = new Update("res_attr_value");
 		del.set("dr", "1");
 		del.where().and("res_id=?", id);
 		db.execute(del);
-		
+
 		if (ToolUtil.isNotEmpty(attrvals)) {
 			JSONArray valsarr = JSONArray.parseArray(attrvals);
 			for (int i = 0; i < valsarr.size(); i++) {
@@ -216,7 +228,6 @@ public class ResExtController extends BaseController {
 			rs = db.uniqueRecord(sql, id);
 
 		}
-		
 
 		String class_id = classId;
 		if (ToolUtil.isEmpty(classId)) {
@@ -320,12 +331,12 @@ public class ResExtController extends BaseController {
 			}
 
 			if (ToolUtil.isNotEmpty(type)) {
-				if (type.equals("admin")) {
-					usersql = usersql + " and type='admin'";
-				} else if (type.equals("yw")) {
-					usersql = usersql + " and type='yw'";
+				if (type.equals("all")) {
+					 
+				} else if (type.equals("work")) {
+					usersql = usersql + " and type in ('admin','yw','db','app') ";
 				} else if (type.equals("unknow")) {
-					usersql = usersql + " and type='unknow'";
+					usersql = usersql + " and type='"+type+"'";
 				}
 			}
 
@@ -389,6 +400,51 @@ public class ResExtController extends BaseController {
 			ResAttrValueServiceImpl.save(rav);
 		}
 		return R.SUCCESS_OPER();
+	}
+
+	// root,inter,db,app,yw,unknow
+	public String autoChosenUserType(String user) {
+
+		if (ToolUtil.isEmpty(user)) {
+			return "unknow";
+		}
+		user = user.toLowerCase();
+		if (user.equals("root") || user.equals("administrator") || user.equals("admin")) {
+			return "admin";
+		}
+
+		if (user.equals("jinj") || user.equals("shouqw") || user.equals("zhangjj")) {
+			return "yw";
+		}
+
+		if (   user.indexOf("mongodb")>0||  user.indexOf("db2inst") > 0 || user.indexOf("oracle") > 0 || user.indexOf("postgres") > 0
+				|| user.indexOf("mysql") > 0 || user.indexOf("dasusr") > 0 || user.indexOf("db2fenc") > 0) {
+			return "db";
+		}
+
+		if (user.indexOf("apache") > 0 || user.indexOf("nginx") > 0 || user.indexOf("tomcat") > 0
+				|| user.indexOf("weblogic") > 0||user.indexOf("grafana")  >0 ||user.indexOf("haproxy")  >0 ||user.indexOf("influxdb")  >0      ) {
+			return "app";
+		}
+
+		if (user.equals("guest") || user.equals("bin") || user.equals("daemon") || user.equals("adm")
+				|| user.equals("lp") || user.equals("sync") || user.equals("shutdown") || user.equals("halt")
+				|| user.equals("mail") || user.equals("uucp") || user.equals("operator") || user.equals("games")
+				|| user.equals("gopher") || user.equals("ftp") || user.equals("nobody") || user.equals("dbus")
+				|| user.equals("vcsa") || user.equals("abrt") || user.equals("ntp") || user.equals("haldaemon")
+				|| user.equals("ntp") || user.equals("saslauth") || user.equals("postfix") || user.equals("sshd")
+				|| user.equals("tcpdump") || user.equals("nscd") || user.equals("rtkit") || user.equals("pulse")
+				|| user.equals("avahi-autoipd") || user.equals("rpc") || user.equals("systemd-network")
+				|| user.equals("nfsnobody") || user.equals("polkitd") || user.equals("chrony") || user.equals("rpcuser")
+				|| user.equals("sys") || user.equals("lpd") || user.equals("invscout") || user.equals("snapp")
+				|| user.equals("ipsec") || user.equals("pconsole") || user.equals("esaadmin") || user.equals("atc")
+				|| user.equals("amdc") || user.equals("pac") || user.equals("atc2") || user.equals("listen")
+				|| user.equals("nuucp") || user.equals("smtp") || user.equals("noaccess") || user.equals("nobody4")
+				|| user.equals("nobody") || user.indexOf("window") > 0||user.indexOf("systemd-")>0 ) {
+			return "inter";
+		}
+
+		return "unknow";
 	}
 
 	public R addResBySingleNode(String data, String classCode, String attrCode) {
@@ -457,13 +513,18 @@ public class ResExtController extends BaseController {
 					ent.setAttrValueId(attrId);
 					ent.setAttrId(attrId);
 					ent.setResId(uid);
-					ent.setType("unknow");
-					ent.setStatus(listdata.getJSONObject(i).getString("status"));
+					String type=autoChosenUserType(listdata.getJSONObject(i).getString("user"));
+					ent.setType(type);
+					if(type.equals("inter")) {
+						ent.setStatus("disable");
+					}else {
+						ent.setStatus(listdata.getJSONObject(i).getString("status"));
+					}
 					ResAttrValuesServiceImpl.save(ent);
 				}
 			}
 		} else {
-			// 更新name
+			// 如果ip存在,则更新该IP所在条目,更新name
 			uid = nrs.getString("id");
 			Res resent = new Res();
 			resent.setName(name);
@@ -482,8 +543,14 @@ public class ResExtController extends BaseController {
 						ent.setAttrValueId(attrId);
 						ent.setAttrId(attrId);
 						ent.setResId(uid);
-						ent.setType("unknow");
-						ent.setStatus(listdata.getJSONObject(i).getString("status"));
+						String type=autoChosenUserType(listdata.getJSONObject(i).getString("user"));
+//						ent.setType(type);
+						//内置全部强制修改成停用
+						if(type.equals("inter")) {
+							ent.setStatus("disable");
+						}else {
+							ent.setStatus(listdata.getJSONObject(i).getString("status"));
+						}
 						if (udrs != null) {
 							ent.setId(udrs.getString("id"));
 						}
