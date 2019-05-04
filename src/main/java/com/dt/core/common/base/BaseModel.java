@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 
+@SuppressWarnings("rawtypes")
 public class BaseModel<T> extends Model implements Serializable {
 
 	private static final long serialVersionUID = 1L;

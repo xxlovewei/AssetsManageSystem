@@ -29,8 +29,7 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
-	<!-- <listener> <description>eureka监听器</description> <listener-class>com.dt.module.base.listener.DtEurekaService</listener-class> 
-		</listener> -->
+ 
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

@@ -4,9 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
- 
 import com.dt.core.tool.util.support.HttpKit;
 
 /**
@@ -16,7 +13,7 @@ import com.dt.core.tool.util.support.HttpKit;
  */
 public class BaseService extends BaseSC {
 
-	private static Logger _log = LoggerFactory.getLogger(BaseService.class);
+	//private static Logger _log = LoggerFactory.getLogger(BaseService.class);
 
 	protected HttpServletRequest getHttpServletRequest() {
 		return HttpKit.getRequest();

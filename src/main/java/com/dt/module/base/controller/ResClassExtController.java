@@ -12,7 +12,6 @@ import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.IResClassService;
-import com.dt.module.base.service.IResService;
 import com.dt.module.ct.service.ContentCategoryService;
 
 /**

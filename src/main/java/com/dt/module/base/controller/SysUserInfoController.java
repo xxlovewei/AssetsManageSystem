@@ -65,7 +65,7 @@ public class SysUserInfoController extends BaseController {
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		SysUserInfo r = SysUserInfoServiceImpl.getById(id);
+		//SysUserInfo r = SysUserInfoServiceImpl.getById(id);
 		return R.SUCCESS_OPER(SysUserInfoServiceImpl.getById(id));
 	}
 
