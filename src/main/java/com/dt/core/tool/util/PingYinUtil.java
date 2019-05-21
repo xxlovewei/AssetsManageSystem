@@ -99,9 +99,8 @@ public class PingYinUtil {
 				res.put(vf, d);
 			}
 		}
-
-		return JSONObject.parseObject(JSONObject.toJSONString(res, SerializerFeature.MapSortField),
-				Feature.OrderedField);
+	 
+		return res;
 
 	}
 

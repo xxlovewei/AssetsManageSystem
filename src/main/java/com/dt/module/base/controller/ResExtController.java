@@ -60,14 +60,13 @@ public class ResExtController extends BaseController {
 	@Acl(info = "", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/batchWork.do")
 	public R batchWork(String sql) {
-		if(ToolUtil.isEmpty(sql)) {
+		if (ToolUtil.isEmpty(sql)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		db.execute(sql);
 		return R.SUCCESS_OPER();
 	}
 
-	
 	private String createUuid() {
 
 		int cnt = 30;
@@ -332,11 +331,11 @@ public class ResExtController extends BaseController {
 
 			if (ToolUtil.isNotEmpty(type)) {
 				if (type.equals("all")) {
-					 
+
 				} else if (type.equals("work")) {
 					usersql = usersql + " and type in ('admin','yw','db','app') ";
 				} else if (type.equals("unknow")) {
-					usersql = usersql + " and type='"+type+"'";
+					usersql = usersql + " and type='" + type + "'";
 				}
 			}
 
@@ -417,30 +416,35 @@ public class ResExtController extends BaseController {
 			return "yw";
 		}
 
-		if (   user.indexOf("mongodb")>0||  user.indexOf("db2inst") > 0 || user.indexOf("oracle") > 0 || user.indexOf("postgres") > 0
-				|| user.indexOf("mysql") > 0 || user.indexOf("dasusr") > 0 || user.indexOf("db2fenc") > 0) {
+		if (user.indexOf("mongodb") >= 0 || user.indexOf("db2inst") >= 0 || user.indexOf("oracle") >= 0
+				|| user.indexOf("postgres") >= 0 || user.indexOf("mysql") >= 0 || user.indexOf("dasusr") >= 0
+				|| user.indexOf("db2fenc") >= 0) {
 			return "db";
 		}
 
-		if (user.indexOf("apache") > 0 || user.indexOf("nginx") > 0 || user.indexOf("tomcat") > 0
-				|| user.indexOf("weblogic") > 0||user.indexOf("grafana")  >0 ||user.indexOf("haproxy")  >0 ||user.indexOf("influxdb")  >0      ) {
+		if (user.indexOf("apache") >= 0 || user.indexOf("nginx") >= 0 || user.indexOf("tomcat") >= 0
+				|| user.indexOf("weblogic") >= 0 || user.indexOf("grafana") >= 0 || user.indexOf("haproxy") >= 0
+				|| user.indexOf("influxdb") >= 0) {
 			return "app";
 		}
 
-		if (user.equals("guest") || user.equals("bin") || user.equals("daemon") || user.equals("adm")
+		if (user.equals("wwwrun") || user.equals("suse-ncc") || user.equals("polkituser") || user.equals("news")
+				|| user.equals("messagebus") || user.equals("man") || user.equals("gdm") || user.equals("at")
+				|| user.equals("guest") || user.equals("bin") || user.equals("daemon") || user.equals("adm")
 				|| user.equals("lp") || user.equals("sync") || user.equals("shutdown") || user.equals("halt")
-				|| user.equals("mail") || user.equals("uucp") || user.equals("operator") || user.equals("games")
-				|| user.equals("gopher") || user.equals("ftp") || user.equals("nobody") || user.equals("dbus")
-				|| user.equals("vcsa") || user.equals("abrt") || user.equals("ntp") || user.equals("haldaemon")
-				|| user.equals("ntp") || user.equals("saslauth") || user.equals("postfix") || user.equals("sshd")
-				|| user.equals("tcpdump") || user.equals("nscd") || user.equals("rtkit") || user.equals("pulse")
-				|| user.equals("avahi-autoipd") || user.equals("rpc") || user.equals("systemd-network")
-				|| user.equals("nfsnobody") || user.equals("polkitd") || user.equals("chrony") || user.equals("rpcuser")
-				|| user.equals("sys") || user.equals("lpd") || user.equals("invscout") || user.equals("snapp")
-				|| user.equals("ipsec") || user.equals("pconsole") || user.equals("esaadmin") || user.equals("atc")
-				|| user.equals("amdc") || user.equals("pac") || user.equals("atc2") || user.equals("listen")
-				|| user.equals("nuucp") || user.equals("smtp") || user.equals("noaccess") || user.equals("nobody4")
-				|| user.equals("nobody") || user.indexOf("window") > 0||user.indexOf("systemd-")>0 ) {
+				|| user.equals("mail") || user.equals("uucp") || user.equals("uuidd") || user.equals("operator")
+				|| user.equals("games") || user.equals("gopher") || user.equals("ftp") || user.equals("nobody")
+				|| user.equals("dbus") || user.equals("vcsa") || user.equals("abrt") || user.equals("ntp")
+				|| user.equals("haldaemon") || user.equals("ntp") || user.equals("saslauth") || user.equals("postfix")
+				|| user.equals("sshd") || user.equals("tcpdump") || user.equals("nscd") || user.equals("rtkit")
+				|| user.equals("pulse") || user.equals("avahi-autoipd") || user.equals("rpc")
+				|| user.equals("systemd-network") || user.equals("nfsnobody") || user.equals("polkitd")
+				|| user.equals("chrony") || user.equals("rpcuser") || user.equals("sys") || user.equals("lpd")
+				|| user.equals("invscout") || user.equals("snapp") || user.equals("ipsec") || user.equals("pconsole")
+				|| user.equals("esaadmin") || user.equals("atc") || user.equals("amdc") || user.equals("pac")
+				|| user.equals("atc2") || user.equals("listen") || user.equals("nuucp") || user.equals("smtp")
+				|| user.equals("noaccess") || user.equals("nobody4") || user.equals("nobody")
+				|| user.indexOf("window") >= 0 || user.indexOf("systemd-") >= 0) {
 			return "inter";
 		}
 
@@ -507,21 +511,25 @@ public class ResExtController extends BaseController {
 			// 插入attr_values,按照需求将标记为update更新用户列表
 			for (int i = 0; i < listdata.size(); i++) {
 				String act = listdata.getJSONObject(i).getString("act");
-				if (act != null && "update".equals(act)) {
+				String user=listdata.getJSONObject(i).getString("user");
+				//首次全部插入
+				if (act != null ) {
 					ResAttrValues ent = new ResAttrValues();
-					ent.setAttrValue(listdata.getJSONObject(i).getString("user"));
+					ent.setAttrValue(user);
 					ent.setAttrValueId(attrId);
 					ent.setAttrId(attrId);
 					ent.setResId(uid);
-					String type=autoChosenUserType(listdata.getJSONObject(i).getString("user"));
+					String type = autoChosenUserType(user);
 					ent.setType(type);
-					if(type.equals("inter")) {
+					if (type.equals("inter")) {
 						ent.setStatus("disable");
-					}else {
+					} else {
 						ent.setStatus(listdata.getJSONObject(i).getString("status"));
 					}
 					ResAttrValuesServiceImpl.save(ent);
+					System.out.println("user:"+user+",type:"+type+",status:"+ent.getStatus());
 				}
+				
 			}
 		} else {
 			// 如果ip存在,则更新该IP所在条目,更新name
@@ -533,34 +541,47 @@ public class ResExtController extends BaseController {
 			// 节点已经存在插入attr_values,按照需求更新用户列表
 			for (int i = 0; i < listdata.size(); i++) {
 				String act = listdata.getJSONObject(i).getString("act");
-				ResAttrValues ent = new ResAttrValues();
+			    String user=listdata.getJSONObject(i).getString("user");
 				if (act != null) {
 					Rcd udrs = db.uniqueRecord(
 							"select * from res_attr_values where dr='0' and res_id=? and attr_id=? and attr_value=? ",
-							uid, attrId, listdata.getJSONObject(i).getString("user"));
-					if ("update".equals(act)) {
-						ent.setAttrValue(listdata.getJSONObject(i).getString("user"));
-						ent.setAttrValueId(attrId);
-						ent.setAttrId(attrId);
-						ent.setResId(uid);
-						String type=autoChosenUserType(listdata.getJSONObject(i).getString("user"));
-//						ent.setType(type);
-						//内置全部强制修改成停用
-						if(type.equals("inter")) {
+							uid, attrId, user);
+					ResAttrValues ent = new ResAttrValues();
+					ent.setAttrValue(user);
+					ent.setAttrValueId(attrId);
+					ent.setAttrId(attrId);
+					ent.setResId(uid);
+					String type = autoChosenUserType(user);
+					if (udrs == null) {
+						// 新增用户
+						ent.setType(type);
+						if (type.equals("inter")) {
 							ent.setStatus("disable");
-						}else {
+						} else {
 							ent.setStatus(listdata.getJSONObject(i).getString("status"));
 						}
-						if (udrs != null) {
-							ent.setId(udrs.getString("id"));
-						}
-						ResAttrValuesServiceImpl.saveOrUpdate(ent);
-					} else if ("delete".equals(act)) {
-						if (udrs != null) {
+						System.out.println("addUser");
+						ResAttrValuesServiceImpl.save(ent);
+					} else {
+						// 判断update或delete
+						if ("update".equals(act)) {
+							System.out.println("updateUser");
+							// 内置全部强制修改成停用
+							if (type.equals("inter")) {
+								ent.setStatus("disable");
+							} else {
+								ent.setStatus(listdata.getJSONObject(i).getString("status"));
+							}
+							ResAttrValuesServiceImpl.saveOrUpdate(ent);
+						} else if ("delete".equals(act)) {
+							System.out.println("updateUser");
 							ResAttrValuesServiceImpl.removeById(udrs.getString("id"));
-						}
 
+						}
 					}
+					
+					System.out.println("user:"+user+",type:"+type+",status:"+ent.getStatus());
+
 				}
 
 			}

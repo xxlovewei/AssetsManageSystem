@@ -287,7 +287,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	//	
 	var t = {};
-	t.ip = "10.18.1.2";
+	t.ip = "10.18.1.211";
 	t.name = "测试主机2啊2ad";
 	var u = [];
 	u.push({
@@ -296,7 +296,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		act : "delete"
 	});
 	u.push({
-		user : "jinjie",
+		user : "tomcat123",
 		status : "enable",
 		act : "update"
 	});
