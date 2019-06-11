@@ -67,7 +67,7 @@ public class ZbProblem extends BaseController {
 	public R queryProblemHzByHostGroup(String gid ) {
 		String sql2="";
 		if(ToolUtil.isEmpty(gid)) {
-			sql2=problemhzsql.replaceAll("<#HOST#>", " and h.status=0 and h.available<>0 ");
+			sql2=problemhzsql.replaceAll("<#HOST#>", " and h.status=0 and flags<>2 ");
 		}else {
 			sql2=problemhzsql.replaceAll("<#HOST#>", " and h.hostid in (select bb.hostid from hosts_templates aa,hosts bb where aa.hostid=bb.hostid and aa.templateid in(select  a.hostid  from hosts a,hosts_groups b where a.hostid=b.hostid and b.groupid="+gid+") )");
 		}

@@ -1,0 +1,5 @@
+http://127.0.0.1:8080/dt/mn/zbhostcpuChart.html
+http://127.0.0.1:8080/dt/mn/zbhostcpuTop.html
+http://127.0.0.1:8080/dt/mn/zbhostfsTop.html
+http://127.0.0.1:8080/dt/mn/zbhostmemTop.html
+http://127.0.0.1:8080/dt/mn/zbhost.html

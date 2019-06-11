@@ -103,14 +103,14 @@ public class ZbOsMetric extends BaseController {
 				"  (100-t1.value) used\n" + 
 				"from  items t2, hosts t3, history t1\n" + 
 				"where t1.clock>unix_timestamp(date_sub(now(),interval 2 hour)) and t1.itemid = t2.itemid and t3.hostid = t2.hostid and key_ = 'system.cpu.util[,idle]'\n" + 
-				"      and t3.status = 0 and t3.available = 1 and (t1.itemid,t1.clock)\n" + 
+				"      and t3.status = 0  and (t1.itemid,t1.clock)\n" + 
 				"in (\n" + 
 				"select itemid,max(clock) from history where\n" + 
 				"itemid in (\n" + 
 				"  select t2.itemid from\n" + 
 				" items t2, hosts t3\n" + 
 				"where  t3.hostid = t2.hostid\n" + 
-				"      and t3.status = 0 and t3.available = 1  and key_ = 'system.cpu.util[,idle]'\n" + 
+				"      and t3.status = 0    and key_ = 'system.cpu.util[,idle]'\n" + 
 				") and  clock>unix_timestamp(date_sub(now(),interval 2 hour)) \n" + 
 				"group by itemid) order by used desc ";
 		System.out.println("cpusql:\n"+"select * from ("+sql+")fk limit "+top);
@@ -129,7 +129,7 @@ public class ZbOsMetric extends BaseController {
 		String sql = "select (100-t1.value) used,from_unixtime(t1.clock,'%Y-%m-%d %H:%i:%S') rtime,t3.name,t3.hostid,t3.host,\n"
 				+ "   replace(replace( replace( replace( t2.name,'Free',''),'(percentage)',''),'disk ',''),' on ',':') metricname \n"
 				+ " from history t1,items t2,hosts t3\n"
-				+ " where  t1.clock>unix_timestamp(date_sub(now(),interval 24 hour)) and  t3.status=0 and  t3.available=1 and t3.hostid=t2.hostid and t1.itemid=t2.itemid and (t1.itemid,t1.clock) in (\n"
+				+ " where  t1.clock>unix_timestamp(date_sub(now(),interval 24 hour)) and  t3.status=0  and t3.hostid=t2.hostid and t1.itemid=t2.itemid and (t1.itemid,t1.clock) in (\n"
 				+ "select\n" + "  a.itemid,max(h.clock)  from items a,history h\n" + "where  h.clock>unix_timestamp(date_sub(now(),interval 48 hour))  and  key_ like 'vfs.fs%'\n"
 				+ "and a.templateid is null\n" + "and a.itemid=h.itemid\n"
 				+ "and a.name like '%percentage%' group by itemid) order by used desc";
@@ -157,7 +157,7 @@ public class ZbOsMetric extends BaseController {
 	public R queryResourceByCpu(String data_interval) {
 
 		JSONObject res = new JSONObject();
-		String hsql = "select distinct b.host from host_inventory a,hosts b where b.status=0 and b.available>0";
+		String hsql = "select distinct b.host from host_inventory a,hosts b where b.status=0 ";
 		RcdSet hrs = zb.query(hsql);
 		JSONObject temphost = new JSONObject();
 		for (int i = 0; i < hrs.size(); i++) {

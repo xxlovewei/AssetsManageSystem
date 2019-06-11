@@ -31,7 +31,7 @@
         <result column="CREATE_IP" property="createIp" />
         <result column="LAST_LOGIN_TIME" property="lastLoginTime" />
         <result column="LAST_LOGIN_IP" property="lastLoginIp" />
-        <result column="SYSTEM" property="system" />
+        <result column="SYSTEM_ID" property="systemId" />
         <result column="OPEN_ID" property="openId" />
         <result column="SCORE" property="score" />
         <result column="SHOP_ID" property="shopId" />

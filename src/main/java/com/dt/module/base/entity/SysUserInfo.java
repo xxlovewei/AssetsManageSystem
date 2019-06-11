@@ -116,8 +116,8 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
     /**
      * 我的系统默认菜单
      */
-    @TableField("SYSTEM")
-    private String system;
+    @TableField("SYSTEM_ID")
+    private String systemId;
     /**
      * 微信open_id
      */
@@ -405,11 +405,11 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
     }
 
     public String getSystem() {
-        return system;
+        return systemId;
     }
 
-    public void setSystem(String system) {
-        this.system = system;
+    public void setSystem(String systemId) {
+        this.systemId = systemId;
     }
 
     public String getOpenId() {
@@ -592,7 +592,7 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
         ", createIp=" + createIp +
         ", lastLoginTime=" + lastLoginTime +
         ", lastLoginIp=" + lastLoginIp +
-        ", system=" + system +
+        ", systemId=" + systemId +
         ", openId=" + openId +
         ", score=" + score +
         ", shopId=" + shopId +
