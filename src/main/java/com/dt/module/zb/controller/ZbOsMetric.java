@@ -74,7 +74,7 @@ public class ZbOsMetric extends BaseController {
 				"max((CASE t2.key_  WHEN 'vm.memory.size[available]' THEN value else 0 END)) AS 'available'\n" + 
 				"from history_uint t1 ,items t2,hosts t3\n" + 
 				"where\n" + 
-				"  t1.clock>unix_timestamp(date_sub(now(),interval 2 hour)) and t3.status = 0 and t3.available = 1\n" + 
+				"  t1.clock>unix_timestamp(date_sub(now(),interval 2 hour)) and t3.status = 0 and t3.flags <> 2\n" + 
 				"  and t1.itemid=t2.itemid\n" + 
 				"  and t2.hostid=t3.hostid\n" + 
 				"  and (t1.itemid,t1.clock) in(\n" + 
@@ -110,7 +110,7 @@ public class ZbOsMetric extends BaseController {
 				"  select t2.itemid from\n" + 
 				" items t2, hosts t3\n" + 
 				"where  t3.hostid = t2.hostid\n" + 
-				"      and t3.status = 0    and key_ = 'system.cpu.util[,idle]'\n" + 
+				"      and t3.status = 0 and t3.flags<>2 and key_ = 'system.cpu.util[,idle]'\n" + 
 				") and  clock>unix_timestamp(date_sub(now(),interval 2 hour)) \n" + 
 				"group by itemid) order by used desc ";
 		System.out.println("cpusql:\n"+"select * from ("+sql+")fk limit "+top);
