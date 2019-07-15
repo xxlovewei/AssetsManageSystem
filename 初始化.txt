@@ -9,6 +9,19 @@ sqlplus user/oracle
 CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
 set names utf8;
 source mysql.sql
+docker exec -it 0afe38d8bd35 /bin/bash  
+docker run --name mysql-dt -t \
+      -e MYSQL_DATABASE="zabbix" \
+      -e MYSQL_USER="zabbix" \
+      -e MYSQL_PASSWORD="zabbix_pwd" \
+      -e MYSQL_ROOT_PASSWORD="root_pwd" \
+      -v /data/dt/mysql:/var/lib/mysql \
+      -p 60011:3306 \
+      -d mysql:5.7  \
+      --character-set-server=utf8 \
+      --lower_case_table_names=1
+
+
 
 3>数据库切换
 当前支持数据库oracle,mysql
