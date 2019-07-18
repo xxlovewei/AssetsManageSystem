@@ -404,11 +404,11 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
         this.lastLoginIp = lastLoginIp;
     }
 
-    public String getSystem() {
+    public String getSystemId() {
         return systemId;
     }
 
-    public void setSystem(String systemId) {
+    public void setSystemId(String systemId) {
         this.systemId = systemId;
     }
 

@@ -1,18 +1,29 @@
 package com.dt.module.hrm.service;
 
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
+import com.dt.core.dao.sql.Delete;
+import com.dt.core.dao.sql.Insert;
+import com.dt.core.dao.sql.SQL;
+import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.bus_enum.userTypeEnum;
+import com.dt.module.base.entity.SysUserInfo;
+import com.dt.module.base.service.impl.SysUserInfoServiceImpl;
+import com.dt.module.wx.pojo.UserInfo;
 
 /**
  * @author: algernonking
@@ -22,105 +33,116 @@ import com.dt.module.base.bus_enum.userTypeEnum;
 @Service
 public class EmplService extends BaseService {
 	 
-
+	@Autowired
+	SysUserInfoServiceImpl sysUserInfoServiceImpl;
 	/**
+	 * 
 	 * @Description: 添加员工
 	 */
 	@Transactional
 	public R addEmployee(TypedHashMap<String, Object> ps) {
-//		ArrayList<SQL> exeSqls = new ArrayList<SQL>();
-//		// 先判断组织
-//		String nodes = ps.getString("nodes");
-//		if (ToolUtil.isEmpty(nodes)) {
-//			return R.FAILURE_REQ_PARAM_ERROR();
-//		}
-//		JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
-//		String emplpartCtl = ifEmplCanMultiPart();
-//		if (emplpartCtl.equals("Y")) {
-//			if (nodes_arr.size() > 1) {
-//				return R.FAILURE("必须属于一个组织,不可多选");
-//			}
-//		}
-//		R user_rs = userService.addUser(ps, UserService.USER_TYPE_EMPL);
-//		String empl_id = userService.getEmplIdFromUserId((String) user_rs.getData());
-//		for (int i = 0; i < nodes_arr.size(); i++) {
-//			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
-//			Insert ins3 = new Insert("hrm_org_employee");
-//			ins3.set("id", ToolUtil.getUUID());
-//			ins3.set("node_id", node_id);
-//			ins3.set("deleted", "N");
-//			ins3.set("empl_id", empl_id);
-//			exeSqls.add(ins3);
-//		}
-//		if (user_rs.isSuccess()) {
-//			db.executeSQLList(exeSqls);
-//		} else {
-//			return user_rs;
-//		}
+		ArrayList<SQL> exeSqls = new ArrayList<SQL>();
+		// 先判断组织
+		String nodes = ps.getString("nodes");
+		if (ToolUtil.isEmpty(nodes)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		
+		JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
+		String emplpartCtl = ifEmplCanMultiPart();
+		if (emplpartCtl.equals("Y")) {
+			if (nodes_arr.size() > 1) {
+				return R.FAILURE("必须属于一个组织,不可多选");
+			}
+		}
+		 
+		SysUserInfo user=new SysUserInfo();
+		user.setLocked("N");
+		user.setTel(ps.getString("tel", ""));
+		user.setUserType(userTypeEnum.EMPL.getValue().toString());
+		user.setName(ps.getString("name", ""));
+		R user_rs = sysUserInfoServiceImpl.addUser(user);
+
+		String empl_id =((SysUserInfo) user_rs.getData()).getEmplId();
+		for (int i = 0; i < nodes_arr.size(); i++) {
+			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
+			Insert ins3 = new Insert("hrm_org_employee");
+			ins3.set("id", ToolUtil.getUUID());
+			ins3.set("node_id", node_id);
+			ins3.set("dr", "0");
+			ins3.set("empl_id", empl_id);
+			exeSqls.add(ins3);
+		}
+		if (user_rs.isSuccess()) {
+			db.executeSQLList(exeSqls);
+		} else {
+			return user_rs;
+		}
+	  
 		return R.SUCCESS_OPER();
 	}
 
-//	/**
-//	 * @Description: 根据empl_id删除员工
-//	 */
-//	public R delEmployee(String empl_id) {
-//		String user_id = userService.getUserIdFromEmpl(empl_id);
-//		if (ToolUtil.isEmpty(user_id)) {
-//			return R.FAILURE("用户ID不存在");
-//		}
-//		return userService.deleteUser(user_id);
-//	}
+	/**
+	 * @Description: 根据empl_id删除员工
+	 */
+	public R delEmployee(String empl_id) {
+		Update ups=new Update("sys_user_info");
+		ups.set("dr", "1");
+		ups.where().and("empl_id=?",empl_id);
+		db.execute(ups);
+		return R.SUCCESS_OPER();
+	}
 
 	/**
 	 * @Description: 根据empl_id更新员工
 	 */
 	public R updateEmployee(TypedHashMap<String, Object> ps) {
-//		ArrayList<SQL> exeSqls = new ArrayList<SQL>();
-//		String user_id = ps.getString("user_id");
-//		String empl_id = ps.getString("empl_id");
-//		if (ToolUtil.isEmpty(empl_id)) {
-//			return R.FAILURE_REQ_PARAM_ERROR();
-//		}
-//		// 判断是否需要重置user_id,因为updateUser是根据user_id修改数据
-//		if (ToolUtil.isEmpty(user_id)) {
-//			user_id = userService.getUserIdFromEmpl(empl_id);
-//		}
-//		ps.put("user_id", user_id);
-//		/***********************************
-//		 * 组织内用户插入的判断
-//		 **************************************/
-//		String nodes = ps.getString("nodes");
-//		if (ToolUtil.isEmpty(nodes)) {
-//			return R.FAILURE_REQ_PARAM_ERROR();
-//		}
-//		JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
-//		String emplpartCtl = ifEmplCanMultiPart();
-//		if (emplpartCtl.equals("Y")) {
-//			if (nodes_arr.size() > 1) {
-//				return R.FAILURE("必须属于一个组织,不可多选");
-//			}
-//		}
-//
-//		Delete dls = new Delete();
-//		dls.from("hrm_org_employee");
-//		dls.where().and("empl_id=?", empl_id);
-//		exeSqls.add(dls);
-//		for (int i = 0; i < nodes_arr.size(); i++) {
-//			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
-//			Insert ins3 = new Insert("hrm_org_employee");
-//			ins3.set("id", ToolUtil.getUUID());
-//			ins3.set("node_id", node_id);
-//			ins3.set("deleted", "N");
-//			ins3.set("empl_id", empl_id);
-//			exeSqls.add(ins3);
-//		}
-//		/*********************************** 执行 **************************************/
-//		R user_rs = userService.updateUser(ps, UserService.USER_TYPE_EMPL);
-//		if (user_rs.isSuccess()) {
-//			db.executeSQLList(exeSqls);
-//		} else {
-//			return user_rs;
-//		}
+		
+		String nodes = ps.getString("nodes");
+		String user_id = ps.getString("user_id");
+		String empl_id = ps.getString("empl_id");
+		
+		
+		ArrayList<SQL> exeSqls = new ArrayList<SQL>();
+	
+		
+		if(ToolUtil.isOneEmpty(user_id,empl_id,nodes)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		
+		Update u=new Update("sys_user_info");
+		u.set("tel", ps.getString("tel", ""));
+		u.set("name", ps.getString("name", ""));
+		u.where().and("user_id=?",user_id);
+	 
+		/************组织内用户插入的判断***********************/
+		JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
+		String emplpartCtl = ifEmplCanMultiPart();
+		if (emplpartCtl.equals("Y")) {
+			if (nodes_arr.size() > 1) {
+				return R.FAILURE("必须属于一个组织,不可多选");
+			}
+		}
+
+		Delete dls = new Delete();
+		dls.from("hrm_org_employee");
+		dls.where().and("empl_id=?", empl_id);
+		exeSqls.add(dls);
+		for (int i = 0; i < nodes_arr.size(); i++) {
+			String node_id = nodes_arr.getJSONObject(i).getString("node_id");
+			Insert ins3 = new Insert("hrm_org_employee");
+			ins3.set("id", ToolUtil.getUUID());
+			ins3.set("node_id", node_id);
+			ins3.set("dr", "1");
+			ins3.set("empl_id", empl_id);
+			exeSqls.add(ins3);
+		}
+		/*********************************** 执行 **************************************/
+ 
+		db.execute(u);
+		db.executeSQLList(exeSqls);
+		
+	 
 		return R.SUCCESS_OPER();
 	}
 

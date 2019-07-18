@@ -403,7 +403,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html"
 	}).state('org.employee', {
 		url : "/org_employee",
-		data: { pageTitle: '人员查询', specialClass: 'fixed-nav' },
+		data: { pageTitle: '人员查询' },
 		templateUrl : "views/org/employee.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -415,7 +415,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('org.employee_adjust', {
 		url : "/org_employee_adjust",
-		data: { pageTitle: '人员调整', specialClass: 'fixed-nav' },
+		data: { pageTitle: '人员调整' },
 		templateUrl : "views/org/employee_adjust.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {

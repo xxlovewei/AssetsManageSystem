@@ -61,8 +61,10 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		UpdateWrapper<SysUserInfo> ew = new UpdateWrapper<SysUserInfo>();
 		ew.and(i -> i.eq("user_id", user_id));
 		SysUserInfo user = new SysUserInfo();
-		user.setSystem(id);
+
+		user.setSystemId(id);
 		baseMapper.update(user, ew);
+		
 		return R.SUCCESS_OPER();
 	}
 
@@ -81,6 +83,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		SysUserInfo user = new SysUserInfo();
 		user.setPwd(pwd);
 		baseMapper.update(user, ew);
+		
 		return R.SUCCESS_OPER();
 
 	}
@@ -140,23 +143,25 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 	public R addUser(SysUserInfo user) {
 		// TODO Auto-generated method stub
 		String user_type = user.getUserType();
+
+		// 判断用户类型
 		if (ToolUtil.isEmpty(user_type)) {
 			return R.FAILURE("请选择用户类型");
 		}
 
-		// 密码
+		// 如果密码为空,则随机
 		if (ToolUtil.isEmpty(user.getPwd())) {
 			user.setPwd(ToolUtil.getUUID());
 		}
 
-		// id
-		if (ToolUtil.isEmpty(user.getEmplId())) {
-			user.setEmplId(ToolUtil.getUUID());
-		}
+//		// 如果组织ID为空，则随机
+//		if (ToolUtil.isEmpty(user.getEmplId())) {
+//			user.setEmplId(ToolUtil.getUUID());
+//		}
 
-		// username
+		// 如果用户名称为空，则随机，用户名称username字段不能重复
 		if (ToolUtil.isEmpty(user.getUserName())) {
-			user.setEmplId(ToolUtil.getUUID());
+			user.setUserName(ToolUtil.getUUID());
 		} else {
 			QueryWrapper<SysUserInfo> queryWrapper = new QueryWrapper<SysUserInfo>();
 			queryWrapper.eq("user_name", user.getUserName());
@@ -165,19 +170,27 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 				return R.FAILURE("登录名重复,请重新输入");
 			}
 		}
+		String emplId = ToolUtil.getUUID();
 		if (userTypeEnum.SYSTEM.getValue().equals(user_type)) {
+			// 无动作
 		} else if (userTypeEnum.EMPL.getValue().equals(user_type)) {
+
 			R r = getEmplNextId();
 			if (r.isFailed()) {
 				return r;
 			}
-			user.setEmplId(r.getData().toString());
+			emplId = r.getData().toString();
 		} else if (userTypeEnum.CRM.getValue().equals(user_type)) {
 		} else if (userTypeEnum.WX.getValue().equals(user_type)) {
 		}
 
-		this.baseMapper.insert(user);
-		return R.SUCCESS_OPER();
+		user.setEmplId(emplId);
+
+		baseMapper.insert(user);
+		QueryWrapper<SysUserInfo> queryWrapper = new QueryWrapper<SysUserInfo>();
+		queryWrapper.eq("empl_id", emplId);
+		return R.SUCCESS_OPER(baseMapper.selectOne(queryWrapper));
+		
 	}
 
 	public R getEmplNextId() {
@@ -402,28 +415,24 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		}
 
 	}
-	
-	
+
 	public R queryReceivingaddr(String user_id) {
-		if(user_id==null) {
+		if (user_id == null) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		QueryWrapper<SysUserReceivingaddr> queryWrapper = new QueryWrapper<SysUserReceivingaddr>();
 		queryWrapper.eq("user_id", user_id);
 		return R.SUCCESS_OPER(SysUserReceivingaddrServiceImpl.list(queryWrapper));
 	}
-	
-	
-	public R deleteReceivingaddr(String user_id,String id) {
-		 if(ToolUtil.isOneEmpty(user_id,id)) {
-			 return R.FAILURE_REQ_PARAM_ERROR();
-		 }
-		 QueryWrapper<SysUserReceivingaddr> queryWrapper = new QueryWrapper<SysUserReceivingaddr>();
-		 queryWrapper.eq("user_id", user_id).eq("id", id);
-		 return R.SUCCESS_OPER(SysUserReceivingaddrServiceImpl.remove(queryWrapper));
-		
-	}
 
-	 
+	public R deleteReceivingaddr(String user_id, String id) {
+		if (ToolUtil.isOneEmpty(user_id, id)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		QueryWrapper<SysUserReceivingaddr> queryWrapper = new QueryWrapper<SysUserReceivingaddr>();
+		queryWrapper.eq("user_id", user_id).eq("id", id);
+		return R.SUCCESS_OPER(SysUserReceivingaddrServiceImpl.remove(queryWrapper));
+
+	}
 
 }

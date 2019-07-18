@@ -50,7 +50,7 @@ public class EmplOrgService extends BaseService {
 		}
 		// 从hrm_org_part,和hrm_org_info找到最大node_id,全局唯一
 		Rcd idrs = db.uniqueRecord(
-				"select case when max(node_id) is null then 50 else max(node_id)+1 end value from (select node_id node_id from hrm_org_part union all select org_id node_id from hrm_org_info)");
+				"select case when max(node_id) is null then 50 else max(node_id)+1 end value from (select node_id node_id from hrm_org_part union all select org_id node_id from hrm_org_info) t");
 		if (ToolUtil.isEmpty(idrs)) {
 			return R.FAILURE("发生系统错误,请开发人员协助");
 		} else {

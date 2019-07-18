@@ -417,15 +417,20 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	});
-	
-	// 组织架构
-	$stateProvider.state('og', {
-		abstract : true,
-		url : "/og",
-		templateUrl : "views/common/content.html"
-	}).state('og.part', {
-		url : "/og_part",
+	}).state('org.employee_adjust', {
+		url : "/org_employee_adjust",
+		data: { pageTitle: '人员调整' },
+		templateUrl : "views/org/employee_adjust.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/org/employee_adjust.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('org.part', {
+		url : "/org_part",
 		data: { pageTitle: '组织设置' },
 		templateUrl : "views/org/part.html",
 		resolve : {
@@ -437,7 +442,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
-	
 
 	// 任务设置
 	$stateProvider.state('task', {
