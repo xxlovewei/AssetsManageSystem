@@ -58,7 +58,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 			type : "POST",
 			url : project + "/api/zb/getFsUsed.do",
 			data : {
-				top : "5"
+				top : "10"
 			},
 			dataType : 'json',
 			success : function(res) {
@@ -71,7 +71,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 					for (var i = 0; i < rdata.length; i++) {
 						var bc = "  ";
 
-						if (rdata[i].used >= 76) {
+						if (rdata[i].used >= 90) {
 							bc = " style='background-color:red' ";
 						}
 						vhtml = vhtml + " <tr "+bc+" >";

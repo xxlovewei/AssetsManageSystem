@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>问题统计</title>
+<title>主机列表</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
@@ -40,11 +40,9 @@ jQuery文件。务必在bootstrap.min.js 之前引入
       <thead>
         <tr>
           <th>名称</th>
-          <th>可用性</th>
-          <th>灾难</th>
-          <th>严重</th>
-          <th>一般</th>
-          <th>警告</th>
+          <th>IP</th>
+          <th>信息</th>
+           <th>版本</th>
         </tr>
       </thead>
       <tbody id="datalist">
@@ -56,7 +54,7 @@ jQuery文件。务必在bootstrap.min.js 之前引入
  var project = "/dt";
  $.ajax({
 		type : "POST",
-		url : project + "/api/zb/queryProblemHzByHostGroup.do",
+		url : project + "/api/zb/queryAllHostByGroupID.do",
 		data : {
 			 
 		},
@@ -68,22 +66,14 @@ jQuery文件。务必在bootstrap.min.js 之前引入
 
 			 	 for (var i = 0; i < rdata.length; i++) {
 			 		var bc="";
-			 		if (rdata[i].high>0||rdata[i].disaster>0 || rdata[i].available>1){
-			 			// bc=" style='background-color:#F75000' ";
-			 		} 
+			 		 
 			 		vhtml=vhtml+" <tr "+bc+" >";
 			 		vhtml=vhtml+"<td>"+rdata[i].name+"</td>"; 
-			 		if(rdata[i].available==1){
-			 			vhtml=vhtml+"<td><img src=\"./images/node_status_up.png\" /></td>"; 
-			 		}else if (rdata[i].available==2){
-			 			vhtml=vhtml+"<td><img src=\"./images/node_status_down.png\" /></td>"; 
-			 		}else{
-			 			vhtml=vhtml+"<td><img src=\"./images/unknow.png\" /></td>"; 
-			 		}
-			 		vhtml=vhtml+"<td>"+rdata[i].disaster+"</td>";
-			 		vhtml=vhtml+"<td>"+rdata[i].high+"</td>";
-			 		vhtml=vhtml+"<td>"+rdata[i].average+"</td>";
-			 		vhtml=vhtml+"<td>"+rdata[i].warn+"</td></tr>";
+			 		 
+			 		vhtml=vhtml+"<td>"+rdata[i].host+"</td>";
+			 		vhtml=vhtml+"<td>"+rdata[i].system_name_v+"</td>";
+			 		vhtml=vhtml+"<td>"+rdata[i].agent_version_v+"</td>";
+	 
 				 }
  
 			 	 

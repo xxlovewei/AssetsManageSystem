@@ -130,7 +130,7 @@ public class ZbOsMetric extends BaseController {
 				+ "   replace(replace( replace( replace( t2.name,'Free',''),'(percentage)',''),'disk ',''),' on ',':') metricname \n"
 				+ " from history t1,items t2,hosts t3\n"
 				+ " where  t1.clock>unix_timestamp(date_sub(now(),interval 24 hour)) and  t3.status=0  and t3.hostid=t2.hostid and t1.itemid=t2.itemid and (t1.itemid,t1.clock) in (\n"
-				+ "select\n" + "  a.itemid,max(h.clock)  from items a,history h\n" + "where  h.clock>unix_timestamp(date_sub(now(),interval 48 hour))  and  key_ like 'vfs.fs%'\n"
+				+ "select\n" + "  a.itemid,max(h.clock)  from items a,history h\n" + "where  h.clock>unix_timestamp(date_sub(now(),interval 24 hour))  and  key_ like 'vfs.fs%'\n"
 				+ "and a.templateid is null\n" + "and a.itemid=h.itemid\n"
 				+ "and a.name like '%percentage%' group by itemid) order by used desc";
 		if (ToolUtil.isEmpty(id)) {
