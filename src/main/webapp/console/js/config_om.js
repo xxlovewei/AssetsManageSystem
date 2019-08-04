@@ -169,5 +169,29 @@ function config_om($stateProvider, $ocLazyLoadProvider) {
 					}
 				}
 			});
+	
+	
+	// metricmgr
+	$stateProvider.state('qadmin', {
+				abstract : true,
+				url : "/qadmin",
+				templateUrl : "views/common/content.html"
+			}).state('qadmin.hosts', {
+				url : "/qadmin_hosts",
+				data : {
+					pageTitle : '主机'
+				},
+				template:'<div ng-controller="qadminhostsCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+				resolve : {
+					loadPlugin : function($ocLazyLoad) {
+						return $ocLazyLoad.load([{
+									serie : true,
+									files : ['views/zb/hostslist.js?v='
+											+ version]
+								}]);
+					}
+				}
+			});
+	 
 
 }
