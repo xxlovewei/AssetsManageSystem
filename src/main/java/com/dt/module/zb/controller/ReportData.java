@@ -38,14 +38,17 @@ public class ReportData extends BaseController {
 			groupid=urs.getString("value");
 		}
 
-		String sql = "\n" + "select\n" + " h.host,\n" + " h.name,\n"
-				+ "(select max(a.value) from history_uint a, items b where a.clock>unix_timestamp(date_sub(now(), interval 2 hour) )  and b.hostid= t.hostid and a.itemid=b.itemid and key_='vm.memory.size[total]' ORDER BY a.clock DESC LIMIT 3 ) total_mem_v,\n"
-				+ "(select max(a.value) from history_uint a, items b where a.clock>unix_timestamp(date_sub(now(), interval 2 hour) )  and b.hostid= t.hostid and a.itemid=b.itemid and key_='system.swap.size[,total]' ORDER BY a.clock DESC LIMIT 3 ) total_swapmem_v,\n"
-				+ "(select max(a.value) from history_str a, items b  where a.clock>unix_timestamp(date_sub(now(), interval 12 hour) ) and b.hostid= t.hostid and a.itemid=b.itemid and key_='system.hostname' ORDER BY a.clock DESC LIMIT 3 ) system_hostname_v,\n"
-				+ "(select max(a.value) from history_uint a, items b where a.clock>unix_timestamp(date_sub(now(), interval 12 hour) ) and b.hostid= t.hostid and a.itemid=b.itemid and key_='system.uptime' ORDER BY a.clock DESC LIMIT 3 ) system_uptime_v,\n"
-				+ " (select max(a.value) from history_str a, items b where a.clock>unix_timestamp(date_sub(now(), interval 2 hour) ) and b.hostid= t.hostid and a.itemid=b.itemid and key_='system.uname' ORDER BY a.clock DESC LIMIT 3 ) system_name_v,\n"
-				+ " (select max(a.value) from history_str a, items b where a.clock>unix_timestamp(date_sub(now(), interval 2 hour) ) and b.hostid= t.hostid and a.itemid=b.itemid and key_='agent.version' ORDER BY a.clock DESC LIMIT 3 ) agent_version_v,\n"
-				+ " t.* from hosts_templates t,hosts h where h.hostid=t.hostid and t.templateid=?\n";
+		String sql = "select\n" + 
+				" h.host,\n" + 
+				" h.name,\n" + 
+				"(select max(a.value) from history_uint a, items b where a.clock>unix_timestamp(date_sub(now(), interval 2 hour) )  and b.hostid= t.hostid and a.itemid=b.itemid and key_='vm.memory.size[total]' ORDER BY a.clock DESC LIMIT 3 ) total_mem_v,\n" + 
+				"(select max(a.value) from history_uint a, items b where a.clock>unix_timestamp(date_sub(now(), interval 2 hour) )  and b.hostid= t.hostid and a.itemid=b.itemid and key_='system.swap.size[,total]' ORDER BY a.clock DESC LIMIT 3 ) total_swapmem_v,\n" + 
+				"(select max(a.value) from history_str a, items b  where a.clock>unix_timestamp(date_sub(now(), interval 12 hour) ) and b.hostid= t.hostid and a.itemid=b.itemid and key_='system.hostname' ORDER BY a.clock DESC LIMIT 3 ) system_hostname_v,\n" + 
+				"(select max(a.value) from history_uint a, items b where a.clock>unix_timestamp(date_sub(now(), interval 12 hour) ) and b.hostid= t.hostid and a.itemid=b.itemid and key_='system.uptime' ORDER BY a.clock DESC LIMIT 3 ) system_uptime_v,\n" + 
+				"(select max(a.value) from history_str a, items b where a.clock>unix_timestamp(date_sub(now(), interval 2 hour) ) and b.hostid= t.hostid and a.itemid=b.itemid and key_='system.uname' ORDER BY a.clock DESC LIMIT 3 ) system_name_v,\n" + 
+				"(select max(a.value) from history_str a, items b where a.clock>unix_timestamp(date_sub(now(), interval 2 hour) ) and b.hostid= t.hostid and a.itemid=b.itemid and key_='agent.version' ORDER BY a.clock DESC LIMIT 3 ) agent_version_v,\n" + 
+				" t.*\n" + 
+				"from hosts_groups t,hosts h where h.hostid=t.hostid and t.groupid=?";
 
 		RcdSet rs = zb.query(sql, groupid);
 

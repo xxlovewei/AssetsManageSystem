@@ -10,3 +10,7 @@ select
  t.*
 from hosts_templates t,hosts h where h.hostid=t.hostid and t.templateid=10001
 
+
+
+select  DATE_FORMAT(FROM_UNIXTIME(clock),'%Y-%m-%d') createTime, severity ,sum(severity) cnt from problem  a where  a.clock>unix_timestamp(date_sub(now(), interval 720 hour) )  group by
+  DATE_FORMAT(FROM_UNIXTIME(clock),'%Y-%m-%d') , severity order by 1,2

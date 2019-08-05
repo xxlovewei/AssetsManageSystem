@@ -59,7 +59,6 @@ public class ZbOsMetric extends BaseController {
 
 	 
 	
-	
 	@RequestMapping("/zb/getMemUsed.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW)
@@ -67,20 +66,48 @@ public class ZbOsMetric extends BaseController {
 		if(ToolUtil.isEmpty(top)) {
 			top="100";
 		}
-		// 输出mem使用率统计
-		String sql = "select t6.*,case t6.total when 0 then 0 else round((1-t6.available/t6.total)*100 ,2) end  used from (\n" + 
-				"select t3.hostid,t3.name,\n" + 
-				"max((CASE t2.key_  WHEN 'vm.memory.size[total]' THEN value else 0 END) )AS 'total',\n" + 
-				"max((CASE t2.key_  WHEN 'vm.memory.size[available]' THEN value else 0 END)) AS 'available'\n" + 
-				"from history_uint t1 ,items t2,hosts t3\n" + 
+		// 输出虚拟内存使用率统计
+		String sql ="select t3.hostid,t3.name,\n" + 
+				"t1.value used\n" + 
+				"from history t1 ,items t2,hosts t3\n" + 
 				"where\n" + 
-				"  t1.clock>unix_timestamp(date_sub(now(),interval 2 hour)) and t3.status = 0 and t3.flags <> 2\n" + 
+				"  t1.clock>unix_timestamp(date_sub(now(),interval 0.5 hour)) and t3.status = 0 and t3.flags <> 2\n" + 
 				"  and t1.itemid=t2.itemid\n" + 
 				"  and t2.hostid=t3.hostid\n" + 
 				"  and (t1.itemid,t1.clock) in(\n" + 
-				"select itemid,max(clock) from history_uint where clock>unix_timestamp(date_sub(now(),interval 2 hour)) and  itemid in (\n" + 
-				"select itemid from items t2,hosts t3 where key_ in ('vm.memory.size[available]','vm.memory.size[total]')\n" + 
-				"and  t3.hostid = t2.hostid )group by itemid) group by t3.hostid,t3.name )t6 order by used desc";
+				"select itemid,max(clock) from history where clock>unix_timestamp(date_sub(now(),interval 0.5 hour)) and  \n" + 
+				"itemid in (\n" + 
+				"select itemid from items t2,hosts t3 where key_ in ('vm.memory.size[pused]')\n" + 
+				"and  t3.hostid = t2.hostid\n" + 
+				" )group by itemid) order by 3 desc";
+		
+		System.out.println("memsql:\n"+"select * from ("+sql+")fk limit "+top);
+		return R.SUCCESS_OPER(zb.query("select * from ("+sql+")fk limit "+top).toJsonArrayWithJsonObject());
+	}
+	
+	
+	
+	@RequestMapping("/zb/getSwapMemUsed.do")
+	@ResponseBody
+	@Acl(value = Acl.ACL_ALLOW)
+	public R getSwapMemUsed(String top) {
+		if(ToolUtil.isEmpty(top)) {
+			top="100";
+		}
+		// 输出虚拟内存使用率统计
+		String sql ="select t3.hostid,t3.name,\n" + 
+				"100-t1.value  used\n" + 
+				"from history t1 ,items t2,hosts t3\n" + 
+				"where\n" + 
+				"  t1.clock>unix_timestamp(date_sub(now(),interval 0.5 hour)) and t3.status = 0 and t3.flags <> 2\n" + 
+				"  and t1.itemid=t2.itemid\n" + 
+				"  and t2.hostid=t3.hostid\n" + 
+				"  and (t1.itemid,t1.clock) in(\n" + 
+				"select itemid,max(clock) from history where clock>unix_timestamp(date_sub(now(),interval 0.5 hour)) and  \n" + 
+				"itemid in (\n" + 
+				"select itemid from items t2,hosts t3 where key_ in ('system.swap.size[,pfree]','vm.vmemory.size[pavailable]')\n" + 
+				"and  t3.hostid = t2.hostid\n" + 
+				" )group by itemid) order by 3 desc";
 
 		System.out.println("memsql:\n"+"select * from ("+sql+")fk limit "+top);
 		return R.SUCCESS_OPER(zb.query("select * from ("+sql+")fk limit "+top).toJsonArrayWithJsonObject());
