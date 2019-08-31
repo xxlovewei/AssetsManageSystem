@@ -21,6 +21,15 @@
 
 	<dependencies>
 
+		<!-- https://mvnrepository.com/artifact/com.github.snakerflow/snaker-core -->
+		<dependency>
+			<groupId>com.bstek.uflo</groupId>
+			<artifactId>uflo-console</artifactId>
+			<version>2.1.4</version>
+		</dependency>
+
+
+
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 
 		<dependency>
@@ -52,7 +61,7 @@
 			<groupId>io.github.esirotkin</groupId>
 			<artifactId>zabbix-api</artifactId>
 			<version>0.0.3</version>
-			 
+
 		</dependency>
 
 
@@ -85,27 +94,11 @@
 
 
 
-	<!-- 	<dependency>
-			<groupId>com.netflix.eureka</groupId>
-			<artifactId>eureka-client</artifactId>
-			<version>1.4.9</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-annotations</artifactId>
-				</exclusion>
-			 
-			</exclusions>
-		</dependency>
- -->
+		<!-- <dependency> <groupId>com.netflix.eureka</groupId> <artifactId>eureka-client</artifactId> 
+			<version>1.4.9</version> <exclusions> <exclusion> <groupId>javax.servlet</groupId> 
+			<artifactId>servlet-api</artifactId> </exclusion> <exclusion> <groupId>com.google.guava</groupId> 
+			<artifactId>guava</artifactId> </exclusion> <exclusion> <groupId>com.fasterxml.jackson.core</groupId> 
+			<artifactId>jackson-annotations</artifactId> </exclusion> </exclusions> </dependency> -->
 
 
 
@@ -319,11 +312,11 @@
 
 		<!-- mysql -->
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-<dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
-    <version>8.0.16</version>
-</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.16</version>
+		</dependency>
 
 
 		<dependency>

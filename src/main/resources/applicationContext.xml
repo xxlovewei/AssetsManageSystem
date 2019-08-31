@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context 
@@ -16,58 +20,85 @@
 	http://www.springframework.org/schema/cache/spring-cache.xsd
 	http://www.springframework.org/schema/task 
 	http://www.springframework.org/schema/task/spring-task.xsd ">
- 
 
-	<aop:aspectj-autoproxy proxy-target-class="true"  expose-proxy="true" />
 
-	<context:component-scan base-package="com.dt.core.aop" />
- 
+	<!-- <import resource="classpath:uflo-console-context.xml" /> -->
+
+	<import resource="classpath:ds_db.xml" />
+	<import resource="classpath:ds_zb.xml" />
+	<import resource="classpath:applicationContext-mybatis.xml" />
+	<import resource="classpath:applicationContext-shiro.xml" />
+	<import resource="classpath:applicationContext-druid.xml" />
+	
+
+	<aop:aspectj-autoproxy proxy-target-class="true"
+		expose-proxy="true" />
+
+	<context:component-scan
+		base-package="com.dt.core.aop" />
+
 	<!-- 用于实现缓存spring cache扩展 -->
-	<context:component-scan base-package="com.dt.core.cache" />
+	<context:component-scan
+		base-package="com.dt.core.cache" />
 
 	<cache:annotation-driven />
 	<bean id="ehCacheManager"
 		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
 		p:configLocation="classpath:ehcache.xml" p:shared="true" />
-	<bean id="cacheManager" class="com.dt.core.cache.CustomizedEhCacheCacheManager"
+	<bean id="cacheManager"
+		class="com.dt.core.cache.CustomizedEhCacheCacheManager"
 		p:cacheManager-ref="ehCacheManager">
 	</bean>
 
 	<context:annotation-config />
+
 	<!-- 扫描impl,R实现需要 -->
-	<context:component-scan base-package="com.dt.core.annotion.impl" />
+	<context:component-scan
+		base-package="com.dt.core.annotion.impl" />
 
 
 	<!-- 扫描所有自定义service -->
-	<context:component-scan base-package="**.service" />
+	<context:component-scan
+		base-package="**.service" />
 
 	<!-- 扫描所有自定义controller -->
-	<context:component-scan base-package="**.controller" />
-
+	<context:component-scan
+		base-package="**.controller" />
 
 	<!-- 扫描所有自定义controller -->
 	<context:component-scan base-package="**.mapper" />
-	
+
+	<!-- 扫描listener -->
+	<context:component-scan
+		base-package="com.dt.module.base.**.listener" />
+
+
 	<!-- 启动时初始化Spring上下文环境工具类 -->
-	<bean id="SpringContextUtil" class="com.dt.core.tool.lang.SpringContextUtil" />
+	<bean id="SpringContextUtil"
+		class="com.dt.core.tool.lang.SpringContextUtil" />
 
 	<!-- 主数据库注入 -->
-	<context:component-scan base-package="com.dt.module.db" />
-	
-	<bean id="ApplicationContextListener" class="com.dt.module.base.listener.ApplicationContextListener" />
+	<context:component-scan
+		base-package="com.dt.module.db" />
+
+	<bean id="ApplicationContextListener"
+		class="com.dt.module.base.listener.ApplicationContextListener" />
 
 	<!-- 配置自定义返回注解 -->
-	<bean id="RHttpMessageConverterFactory" class="com.dt.core.annotion.impl.MyRHttpMessageConverter" />
+	<bean id="RHttpMessageConverterFactory"
+		class="com.dt.core.annotion.impl.MyRHttpMessageConverter" />
 	<!-- 设置配置方案 -->
 	<mvc:annotation-driven>
 		<!-- 设置不使用默认的消息转换器 -->
-		<mvc:message-converters register-defaults="false">
+		<mvc:message-converters
+			register-defaults="false">
 			<!-- 配置Spring的转换器 -->
 			<bean factory-bean="RHttpMessageConverterFactory"
 				factory-method="init"
 				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 			</bean>
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+			<bean
+				class="org.springframework.http.converter.StringHttpMessageConverter">
 				<constructor-arg index="0" value="utf-8"></constructor-arg>
 			</bean>
 			<bean
@@ -88,12 +119,12 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
-	<!-- 扫描所有自定义controller -->
-	<context:component-scan base-package="**.controller" />
-	
- 
-	<mvc:resources mapping="/resources/**" location="/resources/"/>
-    
+
+	<mvc:resources mapping="/resources/**"
+		location="/resources/" />
+
+<import resource="classpath:uflo-console-context.xml" />
+
 </beans>
  
 

@@ -1,0 +1,26 @@
+优化
+create index history_index5 on history(clock);
+create index history_index6 on history_log(clock);
+create index history_index7 on history_str(clock);
+create index history_index8 on history_text(clock);
+create index history_index9 on history_uint(clock);
+
+
+http://127.0.0.1:8080/dt/mn/zbhostcpuChart.html
+
+
+http://127.0.0.1:8080/dt/mn/zbhostcpuTop.html
+
+
+http://127.0.0.1:8080/dt/mn/zbhostfsTop.html
+
+
+http://127.0.0.1:8080/dt/mn/zbhostmemTop.html
+
+
+http://shop.maimaiyouhuiquan.com:60011/dt/mn/zbhosts.html
+
+
+http://127.0.0.1:8080/dt/mn/queryHostByGroup.html
+
+
