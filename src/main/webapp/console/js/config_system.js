@@ -547,6 +547,27 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	
 	
 	
+	// cmdb
+	$stateProvider.state('flow', {
+		abstract : true,
+		url : "/flow",
+		templateUrl : "views/common/content.html"
+	}).state('flow.designer', {
+		url : "/flow_designer",
+		data: { pageTitle: '流程设计'},
+		templateUrl : "views/system/flow/designer.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/flow/designer.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
+	
+	
+	
 	
 	 
 }
