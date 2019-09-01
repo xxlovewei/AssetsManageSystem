@@ -23,12 +23,12 @@
 
 
 		<!-- https://mvnrepository.com/artifact/com.bstek.uflo/uflo-console -->
-<!--  <dependency>
+   <dependency>
 			<groupId>com.bstek.uflo</groupId>
 			<artifactId>uflo-console</artifactId>
-			<version>2.1.4</version>
+			<version>2.1.5</version>
 		</dependency> 
- -->
+ 
 
 
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->

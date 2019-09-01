@@ -135,7 +135,7 @@ public class CacheService {
 		if (ToolUtil.isOneEmpty(key)) {
 			return null;
 		}
-		CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(API_CACHE)));
+		//CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(API_CACHE)));
 
 		String value = null;
 		// System.out.println(c.g);

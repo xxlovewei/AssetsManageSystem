@@ -377,7 +377,7 @@ public class AdvancedUtil {
 			wat = null;
 			int errorcode = jsonObject.getInt("errcode");
 			String errorMsg = jsonObject.getString("errmsg");
-			System.out.println("获取access_token出错");
+			System.out.println("获取access_token出错,errorcode:"+errorcode+",errorMsg:"+errorMsg);
 			e.printStackTrace();
 		}
 
@@ -414,7 +414,7 @@ public class AdvancedUtil {
 			wat = null;
 			int errorcode = jsonObject.getInt("errcode");
 			String errorMsg = jsonObject.getString("errmsg");
-			System.out.println("刷新网页授权凭证失败！");
+			System.out.println("刷新网页授权凭证失败！errorcode:"+errorcode+",errorMsg:"+errorMsg);
 			e.printStackTrace();
 		}
 		return wat;
@@ -453,7 +453,7 @@ public class AdvancedUtil {
 			userInfo = null;
 			int errorcode = jsonObject.getInt("errcode");
 			String errorMsg = jsonObject.getString("errmsg");
-			System.out.println("获取用户信息失败！");
+			System.out.println("获取用户信息失败,errorcode:"+errorcode+",errorMsg:"+errorMsg);
 			e.printStackTrace();
 		}
 		return userInfo;

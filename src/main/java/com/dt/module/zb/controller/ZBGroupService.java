@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONArray;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
@@ -41,7 +40,7 @@ public class ZBGroupService extends BaseController {
 	@Acl(value = Acl.ACL_ALLOW)
 	public R queryGroupHz() {
 
-		JSONArray res = new JSONArray();
+		//JSONArray res = new JSONArray();
 
 		return R.SUCCESS_OPER();
 	}

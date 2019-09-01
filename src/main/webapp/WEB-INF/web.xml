@@ -36,10 +36,11 @@
 		<param-value>
 		 classpath:applicationContext.xml,
          classpath:ds_db.xml,
-           classpath:ds_zb.xml,
+         classpath:ds_zb.xml,
 	     classpath:applicationContext-mybatis.xml,
 	     classpath:applicationContext-shiro.xml,
-	     /WEB-INF/app_config_servlet.xml 
+	     /WEB-INF/app_config_servlet.xml,
+	     classpath:uflo-console-context.xml
 		</param-value>
 	</context-param>
 

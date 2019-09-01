@@ -30,6 +30,7 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
  */
 
 public class CustomGeneratorMysql {
+	@SuppressWarnings("resource")
 	public static String scanner(String tip) {
 		Scanner scanner = new Scanner(System.in);
 		StringBuilder help = new StringBuilder();
@@ -41,12 +42,14 @@ public class CustomGeneratorMysql {
 				return ipt;
 			}
 		}
+		scanner.close();
 		throw new MybatisPlusException("请输入正确的" + tip + "！");
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws InterruptedException {
 
-		GlobalConfig g = new GlobalConfig();
+	//	GlobalConfig g = new GlobalConfig();
 
 		AutoGenerator mpg = new AutoGenerator();
 		String dir = "/Users/algernonking/git/dt2/src/main";
@@ -77,6 +80,7 @@ public class CustomGeneratorMysql {
 		dsc.setDbType(DbType.MYSQL);
 		dsc.setTypeConvert(new MySqlTypeConvert() {
 			// 自定义数据库表字段类型转换【可选】
+			@SuppressWarnings("unused")
 			public DbColumnType processTypeConvert(String fieldType) {
 				System.out.println("转换类型：" + fieldType);
 				return processTypeConvert(fieldType);

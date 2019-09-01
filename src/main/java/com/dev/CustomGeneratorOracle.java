@@ -46,9 +46,10 @@ public class CustomGeneratorOracle {
 		throw new MybatisPlusException("请输入正确的" + tip + "！");
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws InterruptedException {
 
-		GlobalConfig g = new GlobalConfig();
+		//GlobalConfig g = new GlobalConfig();
 
 		AutoGenerator mpg = new AutoGenerator();
 		String dir = "/Users/algernonking/git/dt2/src/main";
@@ -82,6 +83,7 @@ public class CustomGeneratorOracle {
 		dsc.setDbType(DbType.ORACLE);
 		dsc.setTypeConvert(new MySqlTypeConvert() {
 			// 自定义数据库表字段类型转换【可选】
+			@SuppressWarnings("unused")
 			public DbColumnType processTypeConvert(String fieldType) {
 				System.out.println("转换类型：" + fieldType);
 				return processTypeConvert(fieldType);
