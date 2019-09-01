@@ -26,7 +26,6 @@ import com.dt.module.wx.pojo.WeixinOauth2Token;
 import com.dt.module.wx.pojo.WeixinQRCode;
 import com.dt.module.wx.pojo.WeixinUserInfo;
 import com.dt.module.wx.pojo.WeixinUserList;
-import com.dt.module.wx.service.WxConfigService;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

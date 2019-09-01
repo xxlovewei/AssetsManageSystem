@@ -30,6 +30,7 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
  */
 
 public class CustomGeneratorOracle {
+	@SuppressWarnings("resource")
 	public static String scanner(String tip) {
 		Scanner scanner = new Scanner(System.in);
 		StringBuilder help = new StringBuilder();
@@ -41,6 +42,7 @@ public class CustomGeneratorOracle {
 				return ipt;
 			}
 		}
+		scanner.close();
 		throw new MybatisPlusException("请输入正确的" + tip + "！");
 	}
 

@@ -2,7 +2,6 @@ package com.dt.module.wx.util;
 
 
 import java.io.BufferedReader;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -18,13 +17,10 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import net.sf.json.JSONObject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.dt.module.wx.pojo.AccessToken;
 import com.dt.module.wx.pojo.Menu;
+
+import net.sf.json.JSONObject;
 
 /**
  * 公众平台通用接口工具类

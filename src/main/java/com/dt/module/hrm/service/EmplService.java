@@ -23,7 +23,6 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.bus_enum.userTypeEnum;
 import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.impl.SysUserInfoServiceImpl;
-import com.dt.module.wx.pojo.UserInfo;
 
 /**
  * @author: algernonking
