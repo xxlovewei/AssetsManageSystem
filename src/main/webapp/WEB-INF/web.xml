@@ -3,8 +3,7 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-	<display-name>Dw</display-name>
-	<!-- spring编码过滤器 -->
+	<display-name></display-name>
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -19,7 +18,6 @@
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
-
 	<!-- 启动时正常读取ehcache数据文件 -->
 	<listener>
 		<listener-class>net.sf.ehcache.constructs.web.ShutdownListener</listener-class>
@@ -31,35 +29,39 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
-
+ 
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-		 classpath:applicationContext.xml
+		 classpath:applicationContext.xml,
+         classpath:ds_db.xml,
+           classpath:ds_zb.xml,
+	     classpath:applicationContext-mybatis.xml,
+	     classpath:applicationContext-shiro.xml,
+	     /WEB-INF/app_config_servlet.xml 
 		</param-value>
 	</context-param>
 
-	<!--springMVC前端控制器，用于加载springMVC的核心配置文件applicationContext-mvc.xml -->
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/applicationContext-*.xml</param-value>
+			<param-value>
+				/WEB-INF/app_config_*.xml
+			</param-value>
 		</init-param>
-		<!-- 多个servlet存在时数字越小优先级越高 -->
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<!-- 拦截*.do -->
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
 		<url-pattern>/term</url-pattern>
 	</servlet-mapping>
 	<session-config>
-		<session-timeout>30</session-timeout>
+		<session-timeout>300</session-timeout>
 		<cookie-config>
 			<http-only>true</http-only>
 		</cookie-config>
@@ -92,15 +94,6 @@
 	</servlet-mapping>
 
 
-	<!-- uflo2流程引擎入口 -->
-	<servlet>
-		<servlet-name>ufloServlet</servlet-name>
-		<servlet-class>com.bstek.uflo.console.UfloServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ufloServlet</servlet-name>
-		<url-pattern>/uflo/*</url-pattern>
-	</servlet-mapping>
 
 	<filter>
 		<filter-name>DruidWebStatFilter</filter-name>
@@ -157,6 +150,17 @@
 		<listener-class>net.bull.javamelody.SessionListener</listener-class>
 	</listener>
 
+	<!-- uflo2流程引擎入口 -->
+ 	<servlet>
+		<servlet-name>ufloServlet</servlet-name>
+		<servlet-class>com.bstek.uflo.console.UfloServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ufloServlet</servlet-name>
+		<url-pattern>/uflo/*</url-pattern>
+	</servlet-mapping>
+ 
+ 
 
 	<!-- log4j -->
 	<context-param>

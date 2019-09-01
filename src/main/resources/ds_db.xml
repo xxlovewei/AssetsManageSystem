@@ -124,9 +124,9 @@
 			advice-ref="transactionAdvice" />
 	</aop:config>
 
-
  
-	<bean id="sessionFactory"
+ 
+ <!-- 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="db" />
 		<property name="packagesToScan">
@@ -141,8 +141,7 @@
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
-	</bean> 
-
-
+	</bean>  -->
+ 
 
 </beans>
