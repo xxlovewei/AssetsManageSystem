@@ -39,7 +39,7 @@
          classpath:ds_zb.xml,
 	     classpath:applicationContext-mybatis.xml,
 	     classpath:applicationContext-shiro.xml,
-	     classpath:applicationContext-druid.xml,
+	     /WEB-INF/app_config_servlet.xml,
 	     classpath:uflo-console-context.xml
 		</param-value>
 	</context-param>
@@ -59,6 +59,7 @@
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
+		<url-pattern>/term</url-pattern>
 	</servlet-mapping>
 	<session-config>
 		<session-timeout>300</session-timeout>
@@ -79,7 +80,7 @@
 
 	<filter-mapping>
 		<filter-name>shiroFilter</filter-name>
-		<url-pattern>*</url-pattern>
+		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
 
 

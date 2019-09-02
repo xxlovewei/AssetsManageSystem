@@ -32,8 +32,6 @@ public class FileUpDownController extends BaseController {
 
 	private static Logger _log = LoggerFactory.getLogger(FileUpDownController.class);
 
-	 
-
 //	@RequestMapping("/filedownInfo.do")
 //	@ResponseBody
 //	@Acl(value = Acl.ACL_ALLOW, info = "详情")
@@ -63,6 +61,8 @@ public class FileUpDownController extends BaseController {
 		}
 		// 从数据库中获取
 		String bus_path = fileinfo.getString("path");
+		String end_path = "";
+		File f = null;
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		_log.info("Type:" + type);
 		if ("image".equals(type)) {
@@ -80,7 +80,7 @@ public class FileUpDownController extends BaseController {
 					+ File.separatorChar + "" + cale.get(Calendar.MONTH) + "" + File.separatorChar + ""
 					+ cale.get(Calendar.DAY_OF_MONTH) + "" + File.separatorChar;
 			_log.info("Upload Path:" + path);
-			File f = new File(dir + path + name + ".png");
+			f = new File(dir + path + name + ".png");
 			R vaf = valid(f);
 			if (!vaf.isSuccess()) {
 				return vaf;
@@ -88,14 +88,41 @@ public class FileUpDownController extends BaseController {
 			_log.info("File:" + f.getAbsolutePath());
 			_log.info("FileParent:" + f.getParentFile().getAbsolutePath());
 			image.transferTo(f);
-			Insert ins = new Insert("sys_files");
-			ins.set("id", uuid);
-			ins.set("path", path + f.getName());
-			ins.set("type", type);
-			ins.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
-			ins.set("bus", bus);
-			db.execute(ins);
+			end_path = path + f.getName();
+//			Insert ins = new Insert("sys_files");
+//			ins.set("id", uuid);
+//			ins.set("path", path + f.getName());
+//			ins.set("type", type);
+//			ins.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
+//			ins.set("bus", bus);
+//			db.execute(ins);
+		} else if ("file".equals(type)) {
+			MultipartFile file = multipartRequest.getFile("file[0]");
+			file.getName();
+			String dir = getWebRootDir() + ".." + File.separatorChar;
+			_log.info("Upload Dir:" + dir);
+			Calendar cale = Calendar.getInstance();
+			String path = "upload" + File.separatorChar + bus_path + File.separatorChar + cale.get(Calendar.YEAR) + ""
+					+ File.separatorChar + "" + cale.get(Calendar.MONTH) + "" + File.separatorChar + ""
+					+ cale.get(Calendar.DAY_OF_MONTH) + "" + File.separatorChar;
+			_log.info("Upload Path:" + path);
+			f = new File(dir + path + file.getName());
+			R vaf = valid(f);
+			if (!vaf.isSuccess()) {
+				return vaf;
+			}
+			end_path = path + f.getName();
+			file.transferTo(f);
 		}
+		_log.info("File:" + f.getAbsolutePath());
+		_log.info("FileParent:" + f.getParentFile().getAbsolutePath());
+		Insert ins = new Insert("sys_files");
+		ins.set("id", uuid);
+		ins.set("path", end_path);
+		ins.set("type", type);
+		ins.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
+		ins.set("bus", bus);
+		db.execute(ins);
 		return R.SUCCESS_OPER();
 	}
 

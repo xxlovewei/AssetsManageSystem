@@ -109,12 +109,12 @@
 			<version>build260</version>
 		</dependency>
 
-
+<!-- 
 		<dependency>
 			<groupId>net.bull.javamelody</groupId>
 			<artifactId>javamelody-core</artifactId>
-			<version>1.77.0</version>
-		</dependency>
+			<version>1.72.0</version>
+		</dependency> -->
 
 
 

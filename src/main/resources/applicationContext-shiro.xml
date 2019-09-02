@@ -155,7 +155,7 @@
 			<value>
 				/uflo/** = anon
 				/api/user/login.do = anon
-				/api/user/logout.do = logout
+				/api/user/logout.do =logout
 				/console/** = anon
 				/common/** = anon
 				/term/** = anon

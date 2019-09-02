@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	<display-name></display-name>
+
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -29,8 +30,6 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
-
-
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
@@ -39,7 +38,7 @@
          classpath:ds_zb.xml,
 	     classpath:applicationContext-mybatis.xml,
 	     classpath:applicationContext-shiro.xml,
-	     classpath:applicationContext-druid.xml,
+	     /WEB-INF/app_config_servlet.xml,
 	     classpath:uflo-console-context.xml
 		</param-value>
 	</context-param>
@@ -50,7 +49,7 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				/WEB-INF/app_config_servlet*.xml
+				/WEB-INF/app_config_*.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
@@ -59,6 +58,7 @@
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
 	</servlet-mapping>
 	<session-config>
 		<session-timeout>300</session-timeout>
@@ -67,23 +67,53 @@
 		</cookie-config>
 	</session-config>
 
-	<!-- shiro -->
+	<!-- ###############shiro##################### -->
 	<filter>
 		<filter-name>shiroFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 		<init-param>
 			<param-name>targetFilterLifecycle</param-name>
-			<param-value>true</param-value>
+			<param-value>true</param-value>	
 		</init-param>
+		<init-param>
+      		<param-name>ignoreUrls</param-name>
+      		<param-value>/api/file/fileupload.do,**file/fileupload.do</param-value>
+    	</init-param>   
 	</filter>
-
 	<filter-mapping>
 		<filter-name>shiroFilter</filter-name>
-		<url-pattern>*</url-pattern>
+		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
+	<!-- ###############shiro##################### -->
 
 
-	<!-- druid -->
+
+	<!-- javamelody监控 -->
+	<!-- <filter> <filter-name>monitoring</filter-name> <filter-class>net.bull.javamelody.MonitoringFilter</filter-class> 
+		<init-param> <param-name>log</param-name> <param-value>true</param-value> 
+		</init-param> </filter> <filter-mapping> <filter-name>monitoring</filter-name> 
+		<url-pattern>/*</url-pattern> </filter-mapping> <listener> <listener-class>net.bull.javamelody.SessionListener</listener-class> 
+		</listener> -->
+
+
+
+
+
+	<!-- ###############uflo2流程引擎入口##################### -->
+	<servlet>
+		<servlet-name>ufloServlet</servlet-name>
+		<servlet-class>com.bstek.uflo.console.UfloServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ufloServlet</servlet-name>
+		<url-pattern>/uflo/*</url-pattern>
+	</servlet-mapping>
+	<!-- ###############uflo2流程引擎入口##################### -->
+
+
+
+
+	<!-- ###############druid##################### -->
 	<servlet>
 		<servlet-name>DruidStatView</servlet-name>
 		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
@@ -92,9 +122,6 @@
 		<servlet-name>DruidStatView</servlet-name>
 		<url-pattern>/druid/*</url-pattern>
 	</servlet-mapping>
-
-
-
 	<filter>
 		<filter-name>DruidWebStatFilter</filter-name>
 		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
@@ -132,33 +159,12 @@
 		<filter-name>DruidWebStatFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<!-- ###############druid##################### -->
 
-	<!-- javamelody监控 -->
-<!-- 	<filter>
-		<filter-name>monitoring</filter-name>
-		<filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
-		<init-param>
-			<param-name>log</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>monitoring</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<listener>
-		<listener-class>net.bull.javamelody.SessionListener</listener-class>
-	</listener> -->
 
-	<!-- uflo2流程引擎入口 -->
-	<servlet>
-		<servlet-name>ufloServlet</servlet-name>
-		<servlet-class>com.bstek.uflo.console.UfloServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ufloServlet</servlet-name>
-		<url-pattern>/uflo/*</url-pattern>
-	</servlet-mapping>
+
+
+
 
 
 
@@ -167,5 +173,17 @@
 		<param-name>log4jConfigLocation</param-name>
 		<param-value>classpath:log4j.properties</param-value>
 	</context-param>
-
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/*</url-pattern>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>
+			<http-method>OPTIONS</http-method>
+			<http-method>TRACE</http-method>
+			<http-method>CONNECT</http-method>
+			<http-method>PATCH</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+		</auth-constraint>
+	</security-constraint>
 </web-app>
