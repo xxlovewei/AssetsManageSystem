@@ -48,13 +48,12 @@ public class ResClassExtController extends BaseController {
 	@RequestMapping(value = "/queryConfItemByCategory.do")
 	public R queryConfItemByCategory(String class_id) {
 
-		if (ToolUtil.isNotEmpty(class_id)) {
-			String sql = "select b.* from ct_class_item a,res_class b  where a.class_id='" + class_id
-					+ "' and  a.value=b.class_id and a.dr='0' and b.dr='0' ";
-			return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
-		} else {
+		if (ToolUtil.isEmpty(class_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
+
 		}
+		String sql = "select b.* from ct_class_item a,res_class b  where a.class_id=? and  a.value=b.class_id and a.dr='0' and b.dr='0' ";
+		return R.SUCCESS_OPER(db.query(sql, class_id).toJsonArrayWithJsonObject());
 
 	}
 

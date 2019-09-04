@@ -100,7 +100,7 @@ public class SimpleFilterChainDefinitionsService {
 					}
 				}
 			}
-			// log.info("url:" + url + ",aclvalue=" + aclvalue);
+	 
 		}
 		return res;
 	}

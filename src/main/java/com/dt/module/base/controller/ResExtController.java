@@ -181,8 +181,8 @@ public class ResExtController extends BaseController {
 		}
 
 		// 获取属性数据
-		String attrsql = "select * from res_class_attrs where class_id='" + id + "' and dr='0'";
-		RcdSet attrs_rs = db.query(attrsql);
+		String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
+		RcdSet attrs_rs = db.query(attrsql, id);
 		String sql = "select";
 		for (int i = 0; i < attrs_rs.size(); i++) {
 			// 拼接sql
@@ -195,7 +195,6 @@ public class ResExtController extends BaseController {
 			} else {
 				valsql = "attr_value";
 			}
-
 			sql = sql + " (select " + valsql + " from res_attr_value i where i.dr=0 and i.res_id=t.id and i.attr_id='"
 					+ attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
 					+ "\",  ";
@@ -208,8 +207,8 @@ public class ResExtController extends BaseController {
 				+ " (select name from sys_dict_item where dict_item_id=t.maintenance  ) maintenancestr,"
 				+ " (select name from sys_dict_item where dict_item_id=t.company   ) companystr,"
 				+ " (select name from sys_dict_item where dict_item_id=t.pinp  ) pinpstr2,"
-				+ " t.* from res t where dr=0  and class_id='" + id + "' ";
-		RcdSet rs2 = db.query(sql);
+				+ " t.* from res t where dr=0  and class_id=?";
+		RcdSet rs2 = db.query(sql, id);
 
 		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
 	}
@@ -235,8 +234,8 @@ public class ResExtController extends BaseController {
 
 		// 获取属性数据
 		RcdSet attrs = null;
-		String attrsql = "select * from res_class_attrs where class_id='" + class_id + "' and dr='0'";
-		attrs = db.query(attrsql);
+		String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
+		attrs = db.query(attrsql, class_id);
 		data.put("attr", ConvertUtil.OtherJSONObjectToFastJSONArray(attrs.toJsonArrayWithJsonObject()));
 
 		// 获取res数据
@@ -271,16 +270,14 @@ public class ResExtController extends BaseController {
 					+ " (select name from sys_dict_item where dict_item_id=t.mainlevel  ) mainlevelstr,"
 					+ " (select name from sys_dict_item where dict_item_id=t.company   ) companystr,"
 					+ " (select name from sys_dict_item where dict_item_id=t.pinp  ) pinpstr2,"
-					+ " t.* from res t where dr=0  and id='" + id + "' ";
-			Rcd rs2 = db.uniqueRecord(sql);
-
+					+ " t.* from res t where dr=0  and id=? ";
+			Rcd rs2 = db.uniqueRecord(sql, id);
 			if (rs2 != null) {
 				data.put("data", ConvertUtil.OtherJSONObjectToFastJSONObject(rs2.toJsonObject()));
 				// 获取kv一对多数据
 				for (int i = 0; i < kvdataarr.size(); i++) {
-
-					RcdSet trs = db.query("select * from res_attr_values where res_id='" + id + "' and  attr_value_id='"
-							+ rs2.getString(kvdataarr.getString(i)) + "'");
+					RcdSet trs = db.query("select * from res_attr_values where res_id=? and  attr_value_id=?", id,
+							rs2.getString(kvdataarr.getString(i)));
 					data.put(kvdataarr.getString(i),
 							ConvertUtil.OtherJSONObjectToFastJSONArray(trs.toJsonArrayWithJsonObject()));
 				}
@@ -295,8 +292,8 @@ public class ResExtController extends BaseController {
 	@RequestMapping(value = "/queryResByNodeForUser.do")
 	public R queryResByNodeForUser(String ip, String classCode) {
 		String sql = "select\n" + "(select count(1) from res_attr_value t2 where t2.res_id=t.id)ucnt,t.*\n"
-				+ "from res t ,res_class tc where t.class_id=tc.class_id and tc.class_code='" + classCode + "'\n";
-		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+				+ "from res t ,res_class tc where t.class_id=tc.class_id and tc.class_code=?\n";
+		return R.SUCCESS_OPER(db.query(sql,classCode).toJsonArrayWithJsonObject());
 	}
 
 	@ResponseBody
@@ -511,9 +508,9 @@ public class ResExtController extends BaseController {
 			// 插入attr_values,按照需求将标记为update更新用户列表
 			for (int i = 0; i < listdata.size(); i++) {
 				String act = listdata.getJSONObject(i).getString("act");
-				String user=listdata.getJSONObject(i).getString("user");
-				//首次全部插入
-				if (act != null ) {
+				String user = listdata.getJSONObject(i).getString("user");
+				// 首次全部插入
+				if (act != null) {
 					ResAttrValues ent = new ResAttrValues();
 					ent.setAttrValue(user);
 					ent.setAttrValueId(attrId);
@@ -527,9 +524,9 @@ public class ResExtController extends BaseController {
 						ent.setStatus(listdata.getJSONObject(i).getString("status"));
 					}
 					ResAttrValuesServiceImpl.save(ent);
-					System.out.println("user:"+user+",type:"+type+",status:"+ent.getStatus());
+					System.out.println("user:" + user + ",type:" + type + ",status:" + ent.getStatus());
 				}
-				
+
 			}
 		} else {
 			// 如果ip存在,则更新该IP所在条目,更新name
@@ -541,7 +538,7 @@ public class ResExtController extends BaseController {
 			// 节点已经存在插入attr_values,按照需求更新用户列表
 			for (int i = 0; i < listdata.size(); i++) {
 				String act = listdata.getJSONObject(i).getString("act");
-			    String user=listdata.getJSONObject(i).getString("user");
+				String user = listdata.getJSONObject(i).getString("user");
 				if (act != null) {
 					Rcd udrs = db.uniqueRecord(
 							"select * from res_attr_values where dr='0' and res_id=? and attr_id=? and attr_value=? ",
@@ -579,8 +576,8 @@ public class ResExtController extends BaseController {
 
 						}
 					}
-					
-					System.out.println("user:"+user+",type:"+type+",status:"+ent.getStatus());
+
+					System.out.println("user:" + user + ",type:" + type + ",status:" + ent.getStatus());
 
 				}
 

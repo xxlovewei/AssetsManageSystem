@@ -1,8 +1,12 @@
 package com.dt.module.base.controller;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 import javax.imageio.ImageIO;
@@ -32,104 +36,172 @@ public class FileUpDownController extends BaseController {
 
 	private static Logger _log = LoggerFactory.getLogger(FileUpDownController.class);
 
-//	@RequestMapping("/filedownInfo.do")
-//	@ResponseBody
-//	@Acl(value = Acl.ACL_ALLOW, info = "详情")
-//	public R filedownInfo(String id) {
-//		return R.clearAttachDirect(fileService.queryFileInfoById(id));
-//	}
-
+	// curl http://127.0.01:8080/dt/api/file/fileupload.do?uuid=image_111&bus=news
+	// -F "file[0]=@/Users/algernonking/Desktop/a.jpeg" -H
+	// "Content-Type:multipart/form-data"
 	@RequestMapping("/fileupload.do")
 	@ResponseBody
 	@Acl(value = Acl.ACL_ALLOW, info = "上传")
 	public R fileUpload(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String type = request.getParameter("type");
-		String uuid = request.getParameter("uuid");
-		if (ToolUtil.isEmpty(type)) {
-			return R.FAILURE("请输入文件类型");
-		}
-		if (ToolUtil.isEmpty(uuid)) {
-			return R.FAILURE("请输入uuid");
-		}
+
 		String bus = request.getParameter("bus");
 		if (ToolUtil.isEmpty(bus)) {
 			return R.FAILURE("请输入业务号");
 		}
-		Rcd fileinfo = db.uniqueRecord("select * from sys_file_conf where id=? and is_used='Y'", bus);
+		String uuid = request.getParameter("uuid");
+		if (ToolUtil.isEmpty(uuid)) {
+			uuid = db.getUUID();
+		}
+
+		Rcd fileinfo = db.uniqueRecord("select * from sys_file_conf where id=? ", bus);
 		if (fileinfo == null) {
 			return R.FAILURE("数据库并未配置");
 		}
+		if (!"Y".equals(fileinfo.getString("is_used"))) {
+			return R.FAILURE("该上传配置选型未启用");
+		}
+		String limit = fileinfo.getString("limit_str") == null ? "*" : fileinfo.getString("limit_str").trim();
+		String type = fileinfo.getString("type") == null ? "unknow" : fileinfo.getString("type");
+		String keepname = fileinfo.getString("keepname") == null ? "0" : fileinfo.getString("keepname");
 		// 从数据库中获取
 		String bus_path = fileinfo.getString("path");
 		String end_path = "";
 		File f = null;
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		_log.info("Type:" + type);
+		MultipartFile file = multipartRequest.getFile("file[0]");
+		String OriginalFilename = file.getOriginalFilename();
+		String curFilename = "";
+		String dir = getWebRootDir() + ".." + File.separatorChar;
+		Calendar cale = Calendar.getInstance();
+		String path = "upload" + File.separatorChar + bus_path + File.separatorChar + cale.get(Calendar.YEAR) + ""
+				+ File.separatorChar + "" + (cale.get(Calendar.MONTH) + 1) + "" + File.separatorChar + ""
+				+ cale.get(Calendar.DAY_OF_MONTH) + "" + File.separatorChar;
+		_log.info("Upload Dir:" + dir);
+		_log.info("Type:" + type + ",Upload File:" + OriginalFilename);
+		_log.info("Upload Path:" + path);
+
 		if ("image".equals(type)) {
-			String name = "Image_" + uuid;
 			// 获得第1张图片（根据前台的name名称得到上传的文件）
-			MultipartFile image = multipartRequest.getFile("file[0]");
-			if (image == null) {
-				return R.FAILURE("上传的文件不存在");
+			if (!(OriginalFilename.toUpperCase().endsWith("JPEG") || OriginalFilename.toUpperCase().endsWith("GIF")
+					|| OriginalFilename.toUpperCase().endsWith("JPG") || OriginalFilename.toUpperCase().endsWith("PNG")
+					|| OriginalFilename.toUpperCase().endsWith("BMP"))) {
+				return R.FAILURE("图片后缀名不正确");
 			}
-			// dir:/tmp1/wtpwebapps/tt/..
-			String dir = getWebRootDir() + ".." + File.separatorChar;
-			_log.info("Upload Dir:" + dir);
-			Calendar cale = Calendar.getInstance();
-			String path = "upload" + File.separatorChar + bus_path + File.separatorChar + cale.get(Calendar.YEAR) + ""
-					+ File.separatorChar + "" + cale.get(Calendar.MONTH) + "" + File.separatorChar + ""
-					+ cale.get(Calendar.DAY_OF_MONTH) + "" + File.separatorChar;
-			_log.info("Upload Path:" + path);
-			f = new File(dir + path + name + ".png");
+			curFilename = "Image_" + uuid + ".png";
+			end_path = path + curFilename;
+			f = new File(dir + end_path);
 			R vaf = valid(f);
 			if (!vaf.isSuccess()) {
 				return vaf;
 			}
-			_log.info("File:" + f.getAbsolutePath());
-			_log.info("FileParent:" + f.getParentFile().getAbsolutePath());
-			image.transferTo(f);
-			end_path = path + f.getName();
-//			Insert ins = new Insert("sys_files");
-//			ins.set("id", uuid);
-//			ins.set("path", path + f.getName());
-//			ins.set("type", type);
-//			ins.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
-//			ins.set("bus", bus);
-//			db.execute(ins);
+
 		} else if ("file".equals(type)) {
-			MultipartFile file = multipartRequest.getFile("file[0]");
-			file.getName();
-			String dir = getWebRootDir() + ".." + File.separatorChar;
-			_log.info("Upload Dir:" + dir);
-			Calendar cale = Calendar.getInstance();
-			String path = "upload" + File.separatorChar + bus_path + File.separatorChar + cale.get(Calendar.YEAR) + ""
-					+ File.separatorChar + "" + cale.get(Calendar.MONTH) + "" + File.separatorChar + ""
-					+ cale.get(Calendar.DAY_OF_MONTH) + "" + File.separatorChar;
-			_log.info("Upload Path:" + path);
-			f = new File(dir + path + file.getName());
+			// 判断上传类型
+			if (!ifFileRight(OriginalFilename, limit)) {
+				return R.FAILURE("上传的文件后缀不正确");
+			}
+			if ("1".equals(keepname)) {
+				curFilename = OriginalFilename;
+				end_path = path + OriginalFilename;
+			} else {
+				curFilename = "File_" + uuid + ".file";
+				end_path = path + curFilename;
+			}
+			f = new File(dir + end_path);
 			R vaf = valid(f);
 			if (!vaf.isSuccess()) {
 				return vaf;
 			}
-			end_path = path + f.getName();
-			file.transferTo(f);
+		} else {
+			return R.FAILURE("不支持该上传类型");
 		}
+
 		_log.info("File:" + f.getAbsolutePath());
 		_log.info("FileParent:" + f.getParentFile().getAbsolutePath());
+		file.transferTo(f);
 		Insert ins = new Insert("sys_files");
 		ins.set("id", uuid);
 		ins.set("path", end_path);
 		ins.set("type", type);
+		ins.setIf("filename", curFilename);
+		ins.setIf("filename_o", OriginalFilename);
 		ins.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
 		ins.set("bus", bus);
 		db.execute(ins);
 		return R.SUCCESS_OPER();
 	}
 
+	public boolean ifFileRight(String name, String limit) {
+		if (limit.startsWith("*")) {
+			return true;
+		}
+		String[] limit_arr = limit.split(",");
+		for (int i = 0; i < limit_arr.length; i++) {
+			if (name.toUpperCase().endsWith(limit_arr[i].toUpperCase())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@RequestMapping("/filedown.do")
+	@Acl(value = Acl.ACL_ALLOW, info = "下载")
+	public void filedown(String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String sql = "select * from sys_files where id=?";
+		Rcd set = db.uniqueRecord(sql, id);
+		String fileurl = set.getString("path");
+		String filename = ToolUtil.isEmpty(set.getString("filename")) ? "unknow.file" : set.getString("filename");
+		String filePath = getWebRootDir() + ".." + File.separatorChar + fileurl;
+		File file = new File(filePath);
+		System.out.println(file.getName());
+		if (file.exists()) {
+
+			response.setHeader("content-type", "application/octet-stream");
+			response.setContentType("application/octet-stream");
+			try {
+				response.setHeader("Content-Disposition",
+						"attachment;filename=" + new String(filename.getBytes("utf-8"), "ISO-8859-1"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			byte[] buffer = new byte[1024];
+			FileInputStream fis = null;
+			BufferedInputStream bis = null;
+			try {
+				fis = new FileInputStream(file);
+				bis = new BufferedInputStream(fis);
+				OutputStream os = response.getOutputStream();
+				int i = bis.read(buffer);
+				while (i != -1) {
+					os.write(buffer, 0, i);
+					i = bis.read(buffer);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (bis != null) {
+					try {
+						bis.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				if (fis != null) {
+					try {
+						fis.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+	}
+
 	@RequestMapping("/imagedown.do")
 	@Acl(value = Acl.ACL_ALLOW, info = "下载")
-	public void imagedown(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String id = request.getParameter("id");
+	public void imagedown(String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		if (ToolUtil.isEmpty(id)) {
 			id = "none";
 		}

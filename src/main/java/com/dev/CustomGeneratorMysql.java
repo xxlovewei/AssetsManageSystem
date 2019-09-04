@@ -88,7 +88,7 @@ public class CustomGeneratorMysql {
 		});
 		
 		dsc.setDriverName("com.mysql.jdbc.Driver");
-		dsc.setUrl("jdbc:mysql://121.43.168.125:3306/dt?useUnicode=true&characterEncoding=utf8");
+		dsc.setUrl("jdbc:mysql://39.105.191.22:60012/zabbix?useUnicode=true&characterEncoding=utf8&useSSL=false");
 		dsc.setUsername("root");
 		dsc.setPassword("root_pwd");
 		mpg.setDataSource(dsc);
@@ -114,7 +114,7 @@ public class CustomGeneratorMysql {
 		// "","sys_qud_qux"
 		// "res_attr_value","res_class","res_class_attrs"
 		// "res_attr_value","res_class_attrs"
-		strategy.setInclude(new String[] { "res" }); // 需要生成的表
+		strategy.setInclude(new String[] { "sys_file_conf" }); // 需要生成的表
 		// strategy.setInclude(scanner("表名"));
  
 		strategy.setTableFillList(tableFillList);
@@ -145,7 +145,7 @@ public class CustomGeneratorMysql {
 		focList.add(new FileOutConfig("template/mapper.xml.vm") {
 			@Override
 			public String outputFile(TableInfo tableInfo) {
-				return dir + "/resources/mybatis/cmdb/" + tableInfo.getMapperName() + ".xml";
+				return dir + "/resources/mybatis/system/" + tableInfo.getMapperName() + ".xml";
 			}
 		});
 		cfg.setFileOutConfigList(focList);
