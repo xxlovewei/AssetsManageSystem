@@ -1,4 +1,4 @@
-package com.dt.module.base.component;
+package com.dt.module.flow.base;
 
 import javax.annotation.Resource;
 

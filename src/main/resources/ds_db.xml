@@ -126,7 +126,7 @@
 
  
  
-  	<bean id="sessionFactory"
+<!--   	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="db" />
 		<property name="packagesToScan">
@@ -142,6 +142,6 @@
 			</props>
 		</property>
 	</bean>   
- 
+  -->
 
 </beans>

@@ -39,8 +39,7 @@
          classpath:ds_zb.xml,
 	     classpath:applicationContext-mybatis.xml,
 	     classpath:applicationContext-shiro.xml,
-	     classpath:applicationContext-druid.xml,
-	     classpath:uflo-console-context.xml
+	     classpath:applicationContext-druid.xml
 		</param-value>
 	</context-param>
 
@@ -151,14 +150,14 @@
 	</listener> -->
 
 	<!-- uflo2流程引擎入口 -->
-	<servlet>
+<!-- 	<servlet>
 		<servlet-name>ufloServlet</servlet-name>
 		<servlet-class>com.bstek.uflo.console.UfloServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ufloServlet</servlet-name>
 		<url-pattern>/uflo/*</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 
 
 
