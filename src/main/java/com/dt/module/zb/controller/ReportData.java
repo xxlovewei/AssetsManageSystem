@@ -32,6 +32,7 @@ public class ReportData extends BaseController {
 		if (ToolUtil.isEmpty(groupid)) {
 			
 			Rcd urs=db.uniqueRecord("select * from sys_params where dr='0' and id='zb_node_host' ");
+			 
 			if(urs==null) {
 				return R.FAILURE_NO_DATA();
 			}
@@ -51,7 +52,7 @@ public class ReportData extends BaseController {
 				"from hosts_groups t,hosts h where h.hostid=t.hostid and t.groupid=?";
 
 		RcdSet rs = zb.query(sql, groupid);
-
+ 
 		return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
 
 	}

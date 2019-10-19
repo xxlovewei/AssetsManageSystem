@@ -14,10 +14,10 @@
         <result column="class_id" property="classId" />
         <result column="sn" property="sn" />
         <result column="name" property="name" />
-        <result column="mark" property="mark" />
+        <result column="desc" property="desc" />
         <result column="maintain_userid" property="maintainUserid" />
         <result column="headuserid" property="headuserid" />
-        <result column="pinp" property="pinp" />
+        <result column="brand" property="brand" />
         <result column="loc" property="loc" />
         <result column="locshow" property="locshow" />
         <result column="fs1" property="fs1" />
@@ -65,17 +65,23 @@
         <result column="fd3" property="fd3" />
         <result column="status" property="status" />
         <result column="env" property="env" />
-        <result column="mainlevel" property="mainlevel" />
+        <result column="risk" property="risk" />
         <result column="version" property="version" />
         <result column="img" property="img" />
-        <result column="company" property="company" />
+        <result column="supplier" property="supplier" />
+        <result column="mark" property="mark" />
+        <result column="recycle" property="recycle" />
+        <result column="buy_time" property="buyTime" />
+        <result column="offline_time" property="offlineTime" />
+        <result column="online_time" property="onlineTime" />
         <result column="ip" property="ip" />
-        <result column="macaddr" property="macaddr" />
-        <result column="rto" property="rto" />
-        <result column="rpo" property="rpo" />
-        <result column="contact" property="contact" />
-        <result column="leader" property="leader" />
-        <result column="maintenance" property="maintenance" />
+        <result column="rwm" property="rwm" />
+        <result column="model" property="model" />
+        <result column="type" property="type" />
+        <result column="frame" property="frame" />
+        <result column="confdesc" property="confdesc" />
+        <result column="wb" property="wb" />
+        <result column="rack" property="rack" />
     </resultMap>
 
 </mapper>

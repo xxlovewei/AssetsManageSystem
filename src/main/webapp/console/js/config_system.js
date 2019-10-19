@@ -490,61 +490,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		}
 	});
 	
-	// cmdb
-	$stateProvider.state('cf', {
-		abstract : true,
-		url : "/cf",
-		templateUrl : "views/common/content.html"
-	}).state('cf.sb', {
-		url : "/cf_sb",
-		data: { pageTitle: '设备管理'},
-		template:'<div ng-controller="cmdbHardCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/cmdb/hard.js?v=' + version ]
-				} ]);
-			}
-		}
-	}).state('cf.userlist', {
-		url : "/cf_userList",
-		data: { pageTitle: '用户列表'},
-		templateUrl : "views/system/cmdb/userList.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/cmdb/userList.js?v=' + version ]
-				} ]);
-			}
-		}
-	}).state('cf.outercontact', {
-		url : "/cf_outercontact",
-		data: { pageTitle: '外部联系人'},
-		templateUrl : "views/system/cmdb/outercontact.html",
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/cmdb/outercontact.js?v=' + version ]
-				} ]);
-			}
-		}
-	}).state('cf.systemlist', {
-		url : "/ct_systemlist",
-		data: { pageTitle: '信息系统清单'},
-		template:'<div ng-controller="cmdbsystemListCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/cmdb/systemlist.js?v=' + version ]
-				} ]);
-			}
-		}
-	});
-	
 	
 	
 	// cmdb

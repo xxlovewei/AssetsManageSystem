@@ -1,13 +1,13 @@
 package com.dt.module.base.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.math.BigDecimal;
 import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import com.dt.core.common.base.BaseModel;
  * </p>
  *
  * @author algernonking
- * @since 2019-04-14
+ * @since 2019-10-19
  */
  
 @TableName("res")
@@ -34,14 +34,14 @@ public class Res extends BaseModel<Res> {
     private String sn;
     @TableField("name")
     private String name;
-    @TableField("mark")
-    private String mark;
+    @TableField("desc")
+    private String desc;
     @TableField("maintain_userid")
     private String maintainUserid;
     @TableField("headuserid")
     private String headuserid;
-    @TableField("pinp")
-    private String pinp;
+    @TableField("brand")
+    private String brand;
     @TableField("loc")
     private String loc;
     @TableField("locshow")
@@ -136,28 +136,40 @@ public class Res extends BaseModel<Res> {
     private String status;
     @TableField("env")
     private String env;
-    @TableField("mainlevel")
-    private String mainlevel;
+    @TableField("risk")
+    private String risk;
     @TableField("version")
     private String version;
     @TableField("img")
     private String img;
-    @TableField("company")
-    private String company;
+    @TableField("supplier")
+    private String supplier;
+    @TableField("mark")
+    private String mark;
+    @TableField("recycle")
+    private String recycle;
+    @TableField("buy_time")
+    private Date buyTime;
+    @TableField("offline_time")
+    private Date offlineTime;
+    @TableField("online_time")
+    private Date onlineTime;
     @TableField("ip")
     private String ip;
-    @TableField("macaddr")
-    private String macaddr;
-    @TableField("rto")
-    private String rto;
-    @TableField("rpo")
-    private String rpo;
-    @TableField("contact")
-    private String contact;
-    @TableField("leader")
-    private String leader;
-    @TableField("maintenance")
-    private String maintenance;
+    @TableField("rwm")
+    private String rwm;
+    @TableField("model")
+    private String model;
+    @TableField("type")
+    private String type;
+    @TableField("frame")
+    private String frame;
+    @TableField("confdesc")
+    private String confdesc;
+    @TableField("wb")
+    private String wb;
+    @TableField("rack")
+    private String rack;
 
 
     public String getId() {
@@ -200,12 +212,12 @@ public class Res extends BaseModel<Res> {
         this.name = name;
     }
 
-    public String getMark() {
-        return mark;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public String getMaintainUserid() {
@@ -224,12 +236,12 @@ public class Res extends BaseModel<Res> {
         this.headuserid = headuserid;
     }
 
-    public String getPinp() {
-        return pinp;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setPinp(String pinp) {
-        this.pinp = pinp;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public String getLoc() {
@@ -608,12 +620,12 @@ public class Res extends BaseModel<Res> {
         this.env = env;
     }
 
-    public String getMainlevel() {
-        return mainlevel;
+    public String getRisk() {
+        return risk;
     }
 
-    public void setMainlevel(String mainlevel) {
-        this.mainlevel = mainlevel;
+    public void setRisk(String risk) {
+        this.risk = risk;
     }
 
     public String getVersion() {
@@ -632,12 +644,52 @@ public class Res extends BaseModel<Res> {
         this.img = img;
     }
 
-    public String getCompany() {
-        return company;
+    public String getSupplier() {
+        return supplier;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
+    public String getRecycle() {
+        return recycle;
+    }
+
+    public void setRecycle(String recycle) {
+        this.recycle = recycle;
+    }
+
+    public Date getBuyTime() {
+        return buyTime;
+    }
+
+    public void setBuyTime(Date buyTime) {
+        this.buyTime = buyTime;
+    }
+
+    public Date getOfflineTime() {
+        return offlineTime;
+    }
+
+    public void setOfflineTime(Date offlineTime) {
+        this.offlineTime = offlineTime;
+    }
+
+    public Date getOnlineTime() {
+        return onlineTime;
+    }
+
+    public void setOnlineTime(Date onlineTime) {
+        this.onlineTime = onlineTime;
     }
 
     public String getIp() {
@@ -648,52 +700,60 @@ public class Res extends BaseModel<Res> {
         this.ip = ip;
     }
 
-    public String getMacaddr() {
-        return macaddr;
+    public String getRwm() {
+        return rwm;
     }
 
-    public void setMacaddr(String macaddr) {
-        this.macaddr = macaddr;
+    public void setRwm(String rwm) {
+        this.rwm = rwm;
     }
 
-    public String getRto() {
-        return rto;
+    public String getModel() {
+        return model;
     }
 
-    public void setRto(String rto) {
-        this.rto = rto;
+    public void setModel(String model) {
+        this.model = model;
     }
 
-    public String getRpo() {
-        return rpo;
+    public String getType() {
+        return type;
     }
 
-    public void setRpo(String rpo) {
-        this.rpo = rpo;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getContact() {
-        return contact;
+    public String getFrame() {
+        return frame;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setFrame(String frame) {
+        this.frame = frame;
     }
 
-    public String getLeader() {
-        return leader;
+    public String getConfdesc() {
+        return confdesc;
     }
 
-    public void setLeader(String leader) {
-        this.leader = leader;
+    public void setConfdesc(String confdesc) {
+        this.confdesc = confdesc;
     }
 
-    public String getMaintenance() {
-        return maintenance;
+    public String getWb() {
+        return wb;
     }
 
-    public void setMaintenance(String maintenance) {
-        this.maintenance = maintenance;
+    public void setWb(String wb) {
+        this.wb = wb;
+    }
+
+    public String getRack() {
+        return rack;
+    }
+
+    public void setRack(String rack) {
+        this.rack = rack;
     }
 
     @Override
@@ -709,10 +769,10 @@ public class Res extends BaseModel<Res> {
         ", classId=" + classId +
         ", sn=" + sn +
         ", name=" + name +
-        ", mark=" + mark +
+        ", desc=" + desc +
         ", maintainUserid=" + maintainUserid +
         ", headuserid=" + headuserid +
-        ", pinp=" + pinp +
+        ", brand=" + brand +
         ", loc=" + loc +
         ", locshow=" + locshow +
         ", fs1=" + fs1 +
@@ -760,17 +820,23 @@ public class Res extends BaseModel<Res> {
         ", fd3=" + fd3 +
         ", status=" + status +
         ", env=" + env +
-        ", mainlevel=" + mainlevel +
+        ", risk=" + risk +
         ", version=" + version +
         ", img=" + img +
-        ", company=" + company +
+        ", supplier=" + supplier +
+        ", mark=" + mark +
+        ", recycle=" + recycle +
+        ", buyTime=" + buyTime +
+        ", offlineTime=" + offlineTime +
+        ", onlineTime=" + onlineTime +
         ", ip=" + ip +
-        ", macaddr=" + macaddr +
-        ", rto=" + rto +
-        ", rpo=" + rpo +
-        ", contact=" + contact +
-        ", leader=" + leader +
-        ", maintenance=" + maintenance +
+        ", rwm=" + rwm +
+        ", model=" + model +
+        ", type=" + type +
+        ", frame=" + frame +
+        ", confdesc=" + confdesc +
+        ", wb=" + wb +
+        ", rack=" + rack +
         "}";
     }
 }

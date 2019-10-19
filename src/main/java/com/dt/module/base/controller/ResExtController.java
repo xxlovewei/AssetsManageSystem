@@ -1,5 +1,10 @@
 package com.dt.module.base.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,14 +75,14 @@ public class ResExtController extends BaseController {
 	private String createUuid() {
 
 		int cnt = 30;
-		String id = MD5Util.encrypt(db.getUUID()).toUpperCase().substring(0, 10);
+		String id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
 		int i = 0;
 		for (i = 0; i < cnt; i++) {
 			Rcd rs = db.uniqueRecord("select * from res where uuid=?", id);
 			if (rs == null) {
 				break;
 			} else {
-				id = MD5Util.encrypt(db.getUUID()).toUpperCase().substring(0, 10);
+				id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
 			}
 		}
 		if (i > cnt - 1) {
@@ -88,11 +93,29 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "新增Res", value = Acl.ACL_DENY)
+	@Acl(info = "", value = Acl.ACL_ALLOW)
+	@RequestMapping(value = "/queryDictFast.do")
+	@Transactional
+	public R queryDictFast(String dicts) {
+		JSONObject res = new JSONObject();
+		String[] dict_arr = dicts.split(",");
+		for (int i = 0; i < dict_arr.length; i++) {
+			RcdSet rs = db.query("select * from sys_dict_item where dict_id=? and dr='0' order by sort", dict_arr[i]);
+			res.put(dict_arr[i], ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
+		}
+
+		return R.SUCCESS_OPER(res);
+	}
+
+	@ResponseBody
+	@Acl(info = "新增Res", value = Acl.ACL_USER)
 	@RequestMapping(value = "/addResCustom.do")
 	@Transactional
 	public R addResCustom() {
 
+		Date date = new Date(); // 获取一个Date对象
+		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+		String nowtime = simpleDateFormat.format(date);
 		// addResCustom
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String id = ps.getString("id");
@@ -111,18 +134,26 @@ public class ResExtController extends BaseController {
 			me.setIf("mark", ps.getString("mark"));
 			me.setIf("maintain_userid", ps.getString("maintain_userid"));
 			me.setIf("headuserid", ps.getString("headuserid"));
-			me.setIf("pinp", ps.getString("pinp"));
+			me.setIf("rank", ps.getString("rank"));
 			me.setIf("loc", ps.getString("loc"));
+			me.setIf("locshow", ps.getString("locshow"));
 			me.set("dr", "0");
 			me.set("class_id", ps.getString("class_id"));
 			me.setIf("status", ps.getString("status"));
 			me.setIf("env", ps.getString("env"));
-			me.setIf("mainlevel", ps.getString("mainlevel"));
-			me.setIf("version", ps.getString("version"));
-			me.setIf("img", ps.getString("img"));
-			me.setIf("company", ps.getString("company"));
-			me.setIf("maintenance", ps.getString("maintenance"));
-
+			me.setIf("risk", ps.getString("risk"));
+			me.setIf("type", ps.getString("type"));
+			me.setIf("recycle", ps.getString("recycle"));
+			me.setIf("ip", ps.getString("ip"));
+			me.setIf("frame", ps.getString("frame"));
+			me.setIf("brand", ps.getString("brand"));
+			me.setIf("wb", ps.getString("wb"));
+			me.setIf("confdesc", ps.getString("confdesc"));
+			me.setIf("rack", ps.getString("rack"));
+			me.setIf("model", ps.getString("model"));
+			me.setIf("buy_time", ps.getString("buy_time") + " 12:00:00");
+			me.setIf("create_time", nowtime);
+			me.setIf("create_by", this.getUserId());
 			sql = me.getSQL();
 		} else {
 			Update me = new Update("res");
@@ -131,21 +162,42 @@ public class ResExtController extends BaseController {
 			me.setIf("mark", ps.getString("mark"));
 			me.setIf("maintain_userid", ps.getString("maintain_userid"));
 			me.setIf("headuserid", ps.getString("headuserid"));
-			me.setIf("pinp", ps.getString("pinp"));
+			me.setIf("rank", ps.getString("rank"));
 			me.setIf("loc", ps.getString("loc"));
+			me.setIf("locshow", ps.getString("locshow"));
+			me.set("dr", "0");
 			me.set("class_id", ps.getString("class_id"));
 			me.setIf("status", ps.getString("status"));
 			me.setIf("env", ps.getString("env"));
-			me.setIf("mainlevel", ps.getString("mainlevel"));
-			me.setIf("version", ps.getString("version"));
-			me.setIf("img", ps.getString("img"));
-			me.setIf("company", ps.getString("company"));
-			me.setIf("maintenance", ps.getString("maintenance"));
-			me.where().and("id=?", id);
+			me.setIf("risk", ps.getString("risk"));
+			me.setIf("type", ps.getString("type"));
+			me.setIf("recycle", ps.getString("recycle"));
+			me.setIf("ip", ps.getString("ip"));
+			me.setIf("frame", ps.getString("frame"));
+			me.setIf("wb", ps.getString("wb"));
+			me.setIf("confdesc", ps.getString("confdesc"));
+			me.setIf("rack", ps.getString("rack"));
+			me.setIf("model", ps.getString("model"));
+			me.setIf("brand", ps.getString("brand"));
+			me.setIf("buy_time", ps.getString("buy_time") + " 12:00:00");
 
+			me.setIf("update_time", nowtime);
+			me.setIf("update_by", this.getUserId());
+
+			me.where().and("id=?", id);
 			sql = me.getSQL();
+
 		}
+		System.out.println(sql);
 		db.execute(sql);
+
+		Insert ins = new Insert("res_history");
+		ins.set("id", db.getUUID());
+		ins.set("res_id", id);
+		ins.set("oper_time", nowtime);
+		ins.set("oper_user", this.getUserId());
+		ins.set("fullct", ps.toString());
+		db.execute(ins);
 
 		// 更新其他属性，属性值、
 		String attrvals = ps.getString("attrvals");
@@ -174,7 +226,7 @@ public class ResExtController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/queryResAllByClass.do")
-	public R queryResAllByClass(String id) {
+	public R queryResAllByClass(String id, String wb, String env, String recycle, String loc, String search) {
 
 		if (ToolUtil.isEmpty(id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -199,15 +251,37 @@ public class ResExtController extends BaseController {
 					+ attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
 					+ "\",  ";
 		}
-		sql = sql + " (select name from sys_dict_item where dict_item_id=t.pinp ) pinpstr,"
+		sql = sql + " (select name from sys_dict_item where dict_item_id=t.type ) typestr,"
 				+ " (select name from sys_dict_item where dict_item_id=t.loc ) locstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.status ) statusstr,"
+				+ " (select name from sys_dict_item where dict_item_id=t.recycle ) recyclestr,"
 				+ " (select name from sys_dict_item where dict_item_id=t.env  ) envstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.mainlevel  ) mainlevelstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.maintenance  ) maintenancestr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.company   ) companystr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.pinp  ) pinpstr2,"
-				+ " t.* from res t where dr=0  and class_id=?";
+				+ " (select name from sys_dict_item where dict_item_id=t.risk  ) riskstr,"
+				+ " (select name from sys_dict_item where dict_item_id=t.brand  ) brandstr,"
+				+ " (select name from sys_dict_item where dict_item_id=t.wb  ) wbstr,"
+				+ " (select name from sys_dict_item where dict_item_id=t.rack  ) rackstr,"
+				+ "date_format(buy_time,'%Y-%m-%d') buy_timestr , t.* from res t where dr=0  and class_id=?";
+
+		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
+			sql = sql + " and loc='" + loc + "'";
+		}
+
+		if (ToolUtil.isNotEmpty(env) && !"all".equals(env)) {
+			sql = sql + " and env='" + env + "'";
+		}
+
+		if (ToolUtil.isNotEmpty(wb) && !"all".equals(wb)) {
+			sql = sql + " and wb='" + wb + "'";
+		}
+
+		if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
+			sql = sql + " and recycle='" + recycle + "'";
+		}
+
+		if (ToolUtil.isNotEmpty(search)) {
+			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
+					+ "%' )";
+		}
+
 		RcdSet rs2 = db.query(sql, id);
 
 		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
@@ -217,19 +291,24 @@ public class ResExtController extends BaseController {
 	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/queryResAllById.do")
 	public R queryResAllById(String id, String classId) {
-		Rcd rs = null;
 
-		// 获取class_id
 		JSONObject data = new JSONObject();
-		if (ToolUtil.isNotEmpty(id)) {
-			String sql = "select * from res t where dr=0 and id=?";
-			rs = db.uniqueRecord(sql, id);
 
+		if (ToolUtil.isEmpty(id)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 
-		String class_id = classId;
-		if (ToolUtil.isEmpty(classId)) {
+		String class_id = "";
+		Rcd rs = db.uniqueRecord("select * from res t where dr=0 and id=?", id);
+		if (rs != null) {
 			class_id = rs.getString("class_id");
+		} else {
+			class_id = classId;
+		}
+
+		// 获取class_id
+		if (ToolUtil.isEmpty(class_id)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 
 		// 获取属性数据
@@ -241,7 +320,7 @@ public class ResExtController extends BaseController {
 		// 获取res数据
 		if (ToolUtil.isNotEmpty(id)) {
 			String sql = "select";
-			RcdSet attrs_rs = db.query(attrsql);
+			RcdSet attrs_rs = db.query(attrsql, class_id);
 
 			// 如果包含一对多，则将一对多保存至dataarr
 			JSONArray kvdataarr = new JSONArray();
@@ -263,14 +342,16 @@ public class ResExtController extends BaseController {
 						+ attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
 						+ "\",  ";
 			}
-			sql = sql + " (select name from sys_dict_item where dict_item_id=t.pinp ) pinpstr,"
+			sql = sql + " (select name from sys_dict_item where dict_item_id=t.type ) typestr,"
 					+ " (select name from sys_dict_item where dict_item_id=t.loc ) locstr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.status  ) statusstr,"
+					+ " (select name from sys_dict_item where dict_item_id=t.recycle ) recyclestr,"
 					+ " (select name from sys_dict_item where dict_item_id=t.env  ) envstr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.mainlevel  ) mainlevelstr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.company   ) companystr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.pinp  ) pinpstr2,"
-					+ " t.* from res t where dr=0  and id=? ";
+					+ " (select name from sys_dict_item where dict_item_id=t.risk  ) riskstr,"
+					+ " (select name from sys_dict_item where dict_item_id=t.brand  ) brandstr,"
+					+ " (select name from sys_dict_item where dict_item_id=t.wb  ) wbstr,"
+					+ " (select name from sys_dict_item where dict_item_id=t.rack  ) rackstr,"
+					+ "date_format(buy_time,'%Y-%m-%d') buy_timestr , t.* from res t where dr=0  and id=?";
+
 			Rcd rs2 = db.uniqueRecord(sql, id);
 			if (rs2 != null) {
 				data.put("data", ConvertUtil.OtherJSONObjectToFastJSONObject(rs2.toJsonObject()));
@@ -293,7 +374,7 @@ public class ResExtController extends BaseController {
 	public R queryResByNodeForUser(String ip, String classCode) {
 		String sql = "select\n" + "(select count(1) from res_attr_value t2 where t2.res_id=t.id)ucnt,t.*\n"
 				+ "from res t ,res_class tc where t.class_id=tc.class_id and tc.class_code=?\n";
-		return R.SUCCESS_OPER(db.query(sql,classCode).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql, classCode).toJsonArrayWithJsonObject());
 	}
 
 	@ResponseBody

@@ -300,9 +300,17 @@ app.config(config_shop).run(function() {
 app.config(config_om).run(function() {
 	console.log("App Om run");
 });
+
+app.config(config_cmdb).run(function() {
+	console.log("App cmdb run");
+});
+
+
 app.config(config_system).run(function() {
 	console.log("App System run");
 });
+
+
 
 
 function initDT(DTDefaultOptions) {
