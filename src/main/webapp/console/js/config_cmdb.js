@@ -4,24 +4,47 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		debug : true
 	});
 	
-
+	 
+ 
+	// cmdb
+	$stateProvider.state('maintain', {
+		abstract : true,
+		url : "/maintain",
+		templateUrl : "views/common/content.html"
+	}).state('maintain.faultrecord', {
+		url : "/maintain_faultrecord",
+		data: { pageTitle: '故障上报'},
+		template:'<div ng-controller="cmdbfaultrecordCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/faultrecord.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('maintain.devsearch', {
+		url : "/maintain_devsearch",
+		data: { pageTitle: '设备查询'},
+		template:'<div ng-controller="cmdbdevsearchCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/devsearch.js?v=' + version ]
+				} ]);
+			}
+		}
+	})
+	
+	
+	
+	
 	// cmdb
 	$stateProvider.state('cf', {
 		abstract : true,
 		url : "/cf",
 		templateUrl : "views/common/content.html"
-	}).state('cf.sb', {
-		url : "/cf_sb",
-		data: { pageTitle: '设备管理'},
-		template:'<div ng-controller="cmdbHardCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/cmdb/hard.js?v=' + version ]
-				} ]);
-			}
-		}
 	}).state('cf.server', {
 		url : "/cf_server",
 		data: { pageTitle: '服务器'},

@@ -1,3 +1,5 @@
+
+
 /**
  * INSPINIA - Responsive Admin Theme
  * 
@@ -676,40 +678,37 @@ angular.module('inspinia').directive('pageTitle', pageTitle).directive(
 
 angular.module('inspinia').directive("bnDocumentClick",
 		function($document, $parse) {
-			//将Angular的上下文链接到DOM事件
+			// 将Angular的上下文链接到DOM事件
 			var linkFunction = function($scope, $element, $attributes) {
-				//获得表达式
+				// 获得表达式
 				var scopeExpression = $attributes.bnDocumentClick;
-				//使用$parse来编译表达式
+				// 使用$parse来编译表达式
 				var invoker = $parse(scopeExpression);
 				var event = $attributes.bnDocumentEvent;
 				if (!angular.isDefined(event)) {
 					event = "click";
 				}
-				//绑定click事件
+				// 绑定click事件
 				$document.on(event, function(event) {
-					//当点击事件被触发时，我们需要再次调用AngularJS的上下文。再次，我们使用$apply()来确保$digest()方法在幕后被调用
+					// 当点击事件被触发时，我们需要再次调用AngularJS的上下文。再次，我们使用$apply()来确保$digest()方法在幕后被调用
 					$scope.$apply(function() {
-						//在scope中调用处理函数，将jQuery时间映射到$event对象上
+						// 在scope中调用处理函数，将jQuery时间映射到$event对象上
 						invoker($scope, {
 							$event : event
 						});
 					});
 				});
-				//当父控制器被从渲染文档中移除时监听"$destory"事件
+				// 当父控制器被从渲染文档中移除时监听"$destory"事件
 			};
-			//返回linking函数
+			// 返回linking函数
 			return (linkFunction);
 		});
 
 'use strict';
 
 /**
- * 0.1.1
- * Deferred load js/css file, used for ui-jq.js and Lazy Loading.
- * 
- * @ flatfull.com All Rights Reserved.
- * Author url: #user/flatfull
+ * 0.1.1 Deferred load js/css file, used for ui-jq.js and Lazy Loading. @ flatfull.com
+ * All Rights Reserved. Author url: #user/flatfull
  */
 
 angular.module('ui.load', [])
@@ -721,8 +720,11 @@ angular.module('ui.load', [])
 
 		/**
 		 * Chain loads the given sources
-		 * @param srcs array, script or css
-		 * @returns {*} Promise that will be resolved once the sources has been loaded.
+		 * 
+		 * @param srcs
+		 *            array, script or css
+		 * @returns {*} Promise that will be resolved once the sources has been
+		 *          loaded.
 		 */
 		this.load = function (srcs) {
 			srcs = angular.isArray(srcs) ? srcs : srcs.split(/\s+/);
@@ -741,8 +743,11 @@ angular.module('ui.load', [])
 
 		/**
 		 * Dynamically loads the given script
-		 * @param src The url of the script to load dynamically
-		 * @returns {*} Promise that will be resolved once the script has been loaded.
+		 * 
+		 * @param src
+		 *            The url of the script to load dynamically
+		 * @returns {*} Promise that will be resolved once the script has been
+		 *          loaded.
 		 */
 		this.loadScript = function (src) {
 			if(loaded[src]) return loaded[src].promise;
@@ -768,8 +773,11 @@ angular.module('ui.load', [])
 
 		/**
 		 * Dynamically loads the given CSS file
-		 * @param href The url of the CSS to load dynamically
-		 * @returns {*} Promise that will be resolved once the CSS file has been loaded.
+		 * 
+		 * @param href
+		 *            The url of the CSS to load dynamically
+		 * @returns {*} Promise that will be resolved once the CSS file has been
+		 *          loaded.
 		 */
 		this.loadCSS = function (href) {
 			if(loaded[href]) return loaded[href].promise;
@@ -814,7 +822,8 @@ return {
       function getOptions(){
         var linkOptions = [];
 
-        // If ui-options are passed, merge (or override) them onto global defaults and pass to the jQuery method
+        // If ui-options are passed, merge (or override) them onto global
+		// defaults and pass to the jQuery method
         if (attrs.uiOptions) {
           linkOptions = scope.$eval('[' + attrs.uiOptions + ']');
           if (angular.isObject(options) && angular.isObject(linkOptions[0])) {
@@ -826,7 +835,8 @@ return {
         return linkOptions;
       }
 
-      // If change compatibility is enabled, the form input's "change" event will trigger an "input" event
+      // If change compatibility is enabled, the form input's "change" event
+		// will trigger an "input" event
       if (attrs.ngModel && elm.is('select,input,textarea')) {
         elm.bind('change', function() {
           elm.trigger('input');
@@ -886,11 +896,11 @@ app.directive('contenteditable', function() {
 	    require: '?ngModel',  
 	    link: function(scope, element, attrs, ctrl) {  
 	   
-	      // Do nothing if this is not bound to a model  
+	      // Do nothing if this is not bound to a model
 	      if (!ctrl) { return; }  
 	   
-	      // Checks for updates (input or pressing ENTER)  
-	      // view -> model  
+	      // Checks for updates (input or pressing ENTER)
+	      // view -> model
 	      element.bind('input enterKey', function() {  
 	        var rerender = false;  
 	        var html = element.html();  
@@ -914,13 +924,133 @@ app.directive('contenteditable', function() {
 	        }  
 	      });  
 	   
-	      // model -> view  
+	      // model -> view
 	      ctrl.$render = function() {  
 	        element.html(ctrl.$viewValue);  
 	      };  
 	   
-	      // load init value from DOM  
+	      // load init value from DOM
 	      ctrl.$render();  
 	    }  
 	  };  
 	}); 
+
+
+ 
+function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
+		$uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
+		DTColumnBuilder, $compile,$window) {
+
+	$scope.item = {};
+
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
+			'createdRow', function(row) {
+				// Recompiling so we can bind Angular,directive to the
+				$compile(angular.element(row).contents())($scope);
+			
+			});
+	$scope.dtInstance = {}
+	
+	
+	function renderAttach(data, type, full) {
+		if(data>0){
+			var acthtml =" <button ng-click=\"attachdown('" + full.id
+			+ "')\" class=\"btn-white btn btn-xs\">下载("+data+")</button>   ";
+			return acthtml;
+		}else{
+			return data;
+		}	
+	}
+	
+	
+	
+	$scope.attachdown=function(faultid){
+	
+		$http.post($rootScope.project + "/api/base//queryResFaultById.do", {
+			id :faultid
+		}).success(function(res) {
+			if (res.success) {
+			 
+		
+	 // $window
+ if(res.data.attachdata.length>0){
+ for(var i=0;i<res.data.attachdata.length;i++){
+ var objectUrl=$rootScope.project +"/api/file/filedown.do?id="+res.data.attachdata[i].fileid;
+ $window.open(objectUrl)
+ }
+ }
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		});
+	}
+	
+	$scope.dtColumns = [
+			DTColumnBuilder.newColumn('oper_time').withTitle('操作时间')
+					.withOption('sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('name').withTitle('操作人').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('uuid').withTitle('维护编号').withOption(
+							'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('oper_time').withTitle('维护时间')
+							.withOption('sDefaultContent', '').withOption('width', '80'),
+			DTColumnBuilder.newColumn('attach_cnt').withTitle('附件数')
+							.withOption('sDefaultContent', '').withOption('width', '30').renderWith(renderAttach),
+			DTColumnBuilder.newColumn('reason').withTitle('原因').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+					'sDefaultContent', '')]
+
+	$scope.dtOptions2 = DTOptionsBuilder.fromFnPromise().withOption(
+			'createdRow', function(row) {
+				// Recompiling so we can bind Angular,directive to the
+				$compile(angular.element(row).contents())($scope);
+			});
+	$scope.dtInstance2 = {}
+	
+	function renderCT(data, type, full) {
+			return data.substr(0,100)+"...";
+	}
+
+	
+	$scope.dtColumns2 = [
+			DTColumnBuilder.newColumn('oper_time').withTitle('操作时间')
+					.withOption('sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('name').withTitle('操作人').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('oper_type').withTitle('操作类型').withOption(
+							'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('fullct').withTitle('内容').withOption(
+					'sDefaultContent', '').withOption('width', '100').renderWith(renderCT),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+					'sDefaultContent', '') ]
+
+	if (angular.isDefined(meta.id)) {
+		// 加载数据
+		$http.post($rootScope.project + "/api/base/queryResAllById.do", {
+			id : meta.id
+		}).success(function(res) {
+			if (res.success) {
+				$scope.item = res.data.data;
+				if(res.data.data.changestate=="reviewed"){
+					$scope.item.changestatestr="已复核";
+				}else{
+					$scope.item.changestatestr="未复核";
+				}
+				$scope.dtOptions.aaData = res.data.faultdata;
+				$scope.dtOptions2.aaData = res.data.updatadata;
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		});
+	}
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+}
+

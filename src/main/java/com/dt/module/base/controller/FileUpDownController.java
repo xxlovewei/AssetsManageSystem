@@ -150,7 +150,7 @@ public class FileUpDownController extends BaseController {
 		String sql = "select * from sys_files where id=?";
 		Rcd set = db.uniqueRecord(sql, id);
 		String fileurl = set.getString("path");
-		String filename = ToolUtil.isEmpty(set.getString("filename")) ? "unknow.file" : set.getString("filename");
+		String filename = ToolUtil.isEmpty(set.getString("filename_o")) ? "unknow.file" : set.getString("filename_o");
 		String filePath = getWebRootDir() + ".." + File.separatorChar + fileurl;
 		File file = new File(filePath);
 		System.out.println(file.getName());

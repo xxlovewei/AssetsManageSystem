@@ -1,30 +1,3 @@
-
-function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, meta, $http, $rootScope) {
- 
-	$scope.item={};
-	if (angular.isDefined(meta.id)) {
-		// 加载数据
-		
-		$http.post($rootScope.project + "/api/base/queryResAllById.do", {
-			id : meta.id
-		}).success(function(res) {
-			if (res.success) {
-				$scope.item=res.data.data;
-			} else {
-				notify({
-					message : res.message
-				});
-			}
-		});
-	}
-
-	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
-	};
-}
-
-
 function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal) {
 
@@ -34,7 +7,7 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			'createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			});
+			}).withOption("searching", true).withDisplayLength(50);
 
 	$scope.dtInstance = {}
 
@@ -60,10 +33,16 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	function renderJg(data, type, full) {
-
 		var html = full.rackstr + "-" + full.frame;
 		return html;
+	}
 
+	function renderReview(data, type, full) {
+		if (data == "reviewed") {
+			return "已复核"
+		} else {
+			return "未复核"
+		}
 	}
 
 	$scope.dtColumns = [
@@ -95,7 +74,15 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
 					.withOption('sDefaultContent', '').withClass('none'),
-
+			DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
+					.withOption('sDefaultContent', '').withClass('none')
+					.renderWith(renderReview),
+			DTColumnBuilder.newColumn('create_username').withTitle('录入人')
+					.withOption('sDefaultContent', '').withClass('none'),
+			DTColumnBuilder.newColumn('update_username').withTitle('更新人')
+					.withOption('sDefaultContent', '').withClass('none'),
+			DTColumnBuilder.newColumn('review_username').withTitle('复核人')
+					.withOption('sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
@@ -406,9 +393,9 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	$scope.detail = function(id) {
-		
-		var ps={};
-		ps.id=id;
+
+		var ps = {};
+		ps.id = id;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/cmdb/modal_dtl.html',
@@ -425,15 +412,12 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			$log.log("result", result);
 
 			if (result == "OK") {
-			 
+
 			}
 		}, function(reason) {
 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
 			$log.log("reason", reason)
 		});
-
-		
-
 
 	}
 
