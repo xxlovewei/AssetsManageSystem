@@ -1,14 +1,11 @@
 package com.dt.core.dao;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -176,11 +173,10 @@ public class RcdSetExporter {
 
 	}
 
-	@SuppressWarnings({ "rawtypes" })
 	private void setExcelCellValue(HSSFWorkbook wb, Object value, HSSFCell cell) {
 		if (value == null)
 			return;
-		Class cls = value.getClass();
+//		Class cls = value.getClass();
 //		if (cls.equals(Boolean.class)) {
 //			cell.setCellType(HSSFCell.CELL_TYPE_BOOLEAN);
 //			cell.setCellValue((Boolean) value);
