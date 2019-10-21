@@ -1,5 +1,5 @@
 function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
-		$log, notify, $scope, $http, $rootScope, $uibModal) {
+		$log, notify, $scope, $http, $rootScope, $uibModal, $window) {
 
 	// 分类
 
@@ -68,7 +68,7 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			DTColumnBuilder.newColumn('uuid').withTitle('机柜').withOption(
 					'sDefaultContent', '').renderWith(renderJg).withClass(
 					'none'),
-			DTColumnBuilder.newColumn('typestr').withTitle('类型').withOption(
+			DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
 					'sDefaultContent', '').withClass('none'),
@@ -147,6 +147,12 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					label : "",
 					type : "btn",
 					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">新增</button>'
+				},
+				{
+					id : "btn3",
+					label : "",
+					type : "btn",
+					template : ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">下载</button>'
 				} ]
 	}
 	$scope.meta = meta;
@@ -171,6 +177,19 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				})
 	}
 
+	$scope.filedown = function() {
+		var ps = {}
+		ps.id = gclass_id;
+		ps.loc = $scope.meta.tools[0].dataSel.dict_item_id;
+		ps.env = $scope.meta.tools[1].dataSel.dict_item_id;
+		ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
+		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
+		ps.search = $scope.meta.tools[4].ct;
+		$window.open($rootScope.project
+				+ "/api/base/res/exportServerData.do?id=" + ps.id + "&loc="
+				+ ps.loc + "&env=" + ps.env + "&wb=" + ps.wb + "&recycle="
+				+ ps.recycle + "&search=" + ps.search);
+	}
 	var gdicts = {};
 	$http
 			.post(

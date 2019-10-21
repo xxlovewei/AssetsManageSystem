@@ -1,17 +1,13 @@
-package com.dt.module.base.controller;
+package com.dt.module.cmdb.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -21,9 +17,7 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
-import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
-import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
@@ -33,6 +27,7 @@ import com.dt.module.base.entity.ResAttrValues;
 import com.dt.module.base.service.IResAttrValueService;
 import com.dt.module.base.service.IResAttrValuesService;
 import com.dt.module.base.service.IResService;
+import com.dt.module.cmdb.service.ResExtService;
 
 /**
  * @author: algernonking
@@ -42,6 +37,9 @@ import com.dt.module.base.service.IResService;
 @Controller
 @RequestMapping("/api/base")
 public class ResExtController extends BaseController {
+
+	@Autowired
+	ResExtService resExtService;
 
 	@Autowired
 	IResAttrValuesService ResAttrValuesServiceImpl;
@@ -72,31 +70,12 @@ public class ResExtController extends BaseController {
 		return R.SUCCESS_OPER();
 	}
 
-	private String createUuid() {
-
-		int cnt = 30;
-		String id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
-		int i = 0;
-		for (i = 0; i < cnt; i++) {
-			Rcd rs = db.uniqueRecord("select * from res where uuid=?", id);
-			if (rs == null) {
-				break;
-			} else {
-				id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
-			}
-		}
-		if (i > cnt - 1) {
-			return "";
-		} else {
-			return id;
-		}
-	}
-
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/res/addfaultdevice.do")
 	@Transactional
-	public R faultdevice(String resid, String reason, String mark, String files) {
+	public R faultdevice(String resid, String reason, String mark, String files, String processtime,
+			String processuser) {
 
 		if (ToolUtil.isOneEmpty(resid, reason)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -109,11 +88,15 @@ public class ResExtController extends BaseController {
 		String uid = db.getUUID();
 		ins.set("id", uid);
 		ins.set("res_id", resid);
-		ins.set("uuid", this.createUuid());
+		ins.set("uuid", resExtService.createUuid());
 		ins.setIf("mark", mark);
 		ins.setIf("reason", reason);
 		ins.setIf("oper_user", this.getUserId());
 		ins.setIf("oper_time", nowtime);
+
+		ins.setIf("processtime", processtime);
+		ins.setIf("processuser", processuser);
+
 		db.execute(ins);
 
 		if (ToolUtil.isNotEmpty(files)) {
@@ -151,194 +134,8 @@ public class ResExtController extends BaseController {
 	@RequestMapping(value = "/addResCustom.do")
 	@Transactional
 	public R addResCustom() {
-
-		Date date = new Date(); // 获取一个Date对象
-		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
-		String nowtime = simpleDateFormat.format(date);
-		// addResCustom
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("id");
-		String sql = "";
-
-		Insert ins = new Insert("res_history");
-
-		if (ToolUtil.isEmpty(id)) {
-			Insert me = new Insert("res");
-			id = db.getUUID();
-			me.set("id", id);
-			String uuid = createUuid();
-			if (ToolUtil.isEmpty(uuid)) {
-				return R.FAILURE("未产生有效编号,请重试!");
-			}
-			me.set("uuid", uuid);
-			me.setIf("sn", ps.getString("sn"));
-			me.setIf("name", ps.getString("name"));
-			me.setIf("mark", ps.getString("mark"));
-			me.setIf("maintain_userid", ps.getString("maintain_userid"));
-			me.setIf("headuserid", ps.getString("headuserid"));
-			me.setIf("rank", ps.getString("rank"));
-			me.setIf("loc", ps.getString("loc"));
-			me.setIf("locshow", ps.getString("locshow"));
-			me.set("dr", "0");
-			me.set("class_id", ps.getString("class_id"));
-			me.setIf("status", ps.getString("status"));
-			me.setIf("env", ps.getString("env"));
-			me.setIf("risk", ps.getString("risk"));
-			me.setIf("type", ps.getString("type"));
-			me.setIf("recycle", ps.getString("recycle"));
-			me.setIf("ip", ps.getString("ip"));
-			me.setIf("frame", ps.getString("frame"));
-			me.setIf("brand", ps.getString("brand"));
-			me.setIf("wb", ps.getString("wb"));
-			me.setIf("confdesc", ps.getString("confdesc"));
-			me.setIf("rack", ps.getString("rack"));
-			me.setIf("model", ps.getString("model"));
-			me.setIf("buy_time", ps.getString("buy_time") + " 12:00:00");
-			me.setIf("changestate", "updated");
-			me.setIf("create_time", nowtime);
-			me.setIf("create_by", this.getUserId());
-
-			ins.set("oper_type", "入库");
-			sql = me.getSQL();
-		} else {
-			Update me = new Update("res");
-			me.setIf("sn", ps.getString("sn"));
-			me.setIf("name", ps.getString("name"));
-			me.setIf("mark", ps.getString("mark"));
-			me.setIf("maintain_userid", ps.getString("maintain_userid"));
-			me.setIf("headuserid", ps.getString("headuserid"));
-			me.setIf("rank", ps.getString("rank"));
-			me.setIf("loc", ps.getString("loc"));
-			me.setIf("locshow", ps.getString("locshow"));
-			me.set("dr", "0");
-			me.set("class_id", ps.getString("class_id"));
-			me.setIf("status", ps.getString("status"));
-			me.setIf("env", ps.getString("env"));
-			me.setIf("risk", ps.getString("risk"));
-			me.setIf("type", ps.getString("type"));
-			me.setIf("recycle", ps.getString("recycle"));
-			me.setIf("ip", ps.getString("ip"));
-			me.setIf("frame", ps.getString("frame"));
-			me.setIf("wb", ps.getString("wb"));
-			me.setIf("confdesc", ps.getString("confdesc"));
-			me.setIf("rack", ps.getString("rack"));
-			me.setIf("model", ps.getString("model"));
-			me.setIf("brand", ps.getString("brand"));
-			me.setIf("buy_time", ps.getString("buy_time") + " 12:00:00");
-			me.setIf("update_time", nowtime);
-			me.setIf("changestate", "updated");
-			me.setIf("update_by", this.getUserId());
-
-			if ("scrap".equals(ps.getString("recycle"))) {
-				ins.set("oper_type", "报废");
-			} else if ("stop".equals(ps.getString("recycle"))) {
-				ins.set("oper_type", "停用");
-			} else if ("undercarriage".equals(ps.getString("recycle"))) {
-				ins.set("oper_type", "下架");
-			} else {
-				ins.set("oper_type", "更新");
-			}
-			me.where().and("id=?", id);
-			sql = me.getSQL();
-
-		}
-		db.execute(sql);
-
-		ins.set("id", db.getUUID());
-		ins.set("res_id", id);
-		ins.set("oper_time", nowtime);
-		ins.set("oper_user", this.getUserId());
-		ins.set("fullct", ps.toString());
-		db.execute(ins);
-
-		// 更新其他属性，属性值、
-		String attrvals = ps.getString("attrvals");
-		Update del = new Update("res_attr_value");
-		del.set("dr", "1");
-		del.where().and("res_id=?", id);
-		db.execute(del);
-
-		if (ToolUtil.isNotEmpty(attrvals)) {
-			JSONArray valsarr = JSONArray.parseArray(attrvals);
-			for (int i = 0; i < valsarr.size(); i++) {
-				Insert me = new Insert("res_attr_value");
-				me.set("id", db.getUUID());
-				me.set("res_id", id);
-				me.set("dr", "0");
-				me.setIf("attr_id", valsarr.getJSONObject(i).getString("attr_id"));
-				me.setIf("attr_value", valsarr.getJSONObject(i).getString("attr_value"));
-				db.execute(me);
-			}
-
-		}
-
-		return R.SUCCESS_OPER();
-	}
-
-	public R queryResAllByClassGetData(String id, String wb, String env, String recycle, String loc, String search) {
-
-		// 获取属性数据
-		String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
-		RcdSet attrs_rs = db.query(attrsql, id);
-		String sql = "select";
-		for (int i = 0; i < attrs_rs.size(); i++) {
-			// 拼接sql
-			String valsql = "";
-			if (attrs_rs.getRcd(i).getString("attr_type").equals("number")) {
-				// "to_number(attr_value)";
-				valsql = " cast( attr_value as SIGNED INTEGER)";
-			} else if (attrs_rs.getRcd(i).getString("attr_type").equals("string_arr")) {
-				valsql = "attr_value";
-			} else {
-				valsql = "attr_value";
-			}
-			sql = sql + " (select " + valsql + " from res_attr_value i where i.dr=0 and i.res_id=t.id and i.attr_id='"
-					+ attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
-					+ "\",  ";
-		}
-		sql = sql + " (select name from sys_dict_item where dict_item_id=t.type ) typestr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.loc ) locstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.recycle ) recyclestr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.env  ) envstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.risk  ) riskstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.brand  ) brandstr,"
-				+ " (select name from sys_user_info where user_id=t.create_by  ) create_username,"
-				+ " (select name from sys_user_info where user_id=t.update_by  ) update_username,"
-				+ " (select name from sys_user_info where user_id=t.review_userid  ) review_username,"
-				+ " (select name from sys_dict_item where dict_item_id=t.wb  ) wbstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.rack  ) rackstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.class_id  ) classname,"
-				+ " (select name from sys_dict_item where dict_item_id=t.type  ) typename,"
-				+ "date_format(buy_time,'%Y-%m-%d') buy_timestr , t.* from res t where dr=0  ";
-
-		if (ToolUtil.isNotEmpty(loc) && !"all".equals(id)) {
-			sql = sql + " and class_id='" + id + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
-			sql = sql + " and loc='" + loc + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(env) && !"all".equals(env)) {
-			sql = sql + " and env='" + env + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(wb) && !"all".equals(wb)) {
-			sql = sql + " and wb='" + wb + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
-			sql = sql + " and recycle='" + recycle + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(search)) {
-			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
-					+ "%' )";
-		}
-
-		RcdSet rs2 = db.query(sql);
-
-		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
+		return resExtService.addRes(ps);
 	}
 
 	public R queryResAllGetData(String id, String wb, String env, String recycle, String loc, String search) {
@@ -382,9 +179,7 @@ public class ResExtController extends BaseController {
 			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
 					+ "%' )";
 		}
-
 		RcdSet rs2 = db.query(sql);
-
 		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
 	}
 
@@ -396,8 +191,7 @@ public class ResExtController extends BaseController {
 		if (ToolUtil.isEmpty(id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
-		return queryResAllByClassGetData(id, wb, env, recycle, loc, search);
-
+		return resExtService.queryResAllByClassGetData(id, wb, env, recycle, loc, search);
 	}
 
 	@ResponseBody
@@ -507,18 +301,17 @@ public class ResExtController extends BaseController {
 							ConvertUtil.OtherJSONObjectToFastJSONArray(trs.toJsonArrayWithJsonObject()));
 				}
 			}
-
 		}
-
 		// 获取更新记录
 		RcdSet urs = db.query(
-				"select a.*,b.name from res_history a ,sys_user_info b where res_id=? and a.oper_user=b.user_id order by oper_time desc limit 50",
+				"select a.*,b.name from res_history a ,sys_user_info b where res_id=? and a.oper_user=b.user_id order by oper_time desc limit 100",
 				id);
 		data.put("updatadata", ConvertUtil.OtherJSONObjectToFastJSONArray(urs.toJsonArrayWithJsonObject()));
 
 		// 获取故障登记表
 		RcdSet grs = db.query(
-				"select a.*,b.name, (select count(1) from res_fault_file where a.id=faultid) attach_cnt from res_fault a ,sys_user_info b where a.oper_user=b.user_id order by oper_time desc limit 50");
+				"select a.*,b.name, (select count(1) from res_fault_file where a.id=faultid) attach_cnt from res_fault a ,sys_user_info b where a.res_id=? and a.oper_user=b.user_id order by oper_time desc limit 100",
+				id);
 		data.put("faultdata", ConvertUtil.OtherJSONObjectToFastJSONArray(grs.toJsonArrayWithJsonObject()));
 
 		return R.SUCCESS_OPER(data);
@@ -528,8 +321,8 @@ public class ResExtController extends BaseController {
 	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/queryResByNodeForUser.do")
 	public R queryResByNodeForUser(String ip, String classCode) {
-		String sql = "select\n" + "(select count(1) from res_attr_value t2 where t2.res_id=t.id)ucnt,t.*\n"
-				+ "from res t ,res_class tc where t.class_id=tc.class_id and tc.class_code=?\n";
+		String sql = "select (select count(1) from res_attr_value t2 where t2.res_id=t.id)ucnt,t.* "
+				+ "from res t ,res_class tc where t.class_id=tc.class_id and tc.class_code=?";
 		return R.SUCCESS_OPER(db.query(sql, classCode).toJsonArrayWithJsonObject());
 	}
 

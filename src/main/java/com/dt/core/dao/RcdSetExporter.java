@@ -181,54 +181,54 @@ public class RcdSetExporter {
 		if (value == null)
 			return;
 		Class cls = value.getClass();
-		if (cls.equals(Boolean.class)) {
-			cell.setCellType(HSSFCell.CELL_TYPE_BOOLEAN);
-			cell.setCellValue((Boolean) value);
-		} else if (cls.equals(Byte.class)) {
-			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-			cell.setCellValue((Byte) value);
-		} else if (cls.equals(Short.class)) {
-			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-			cell.setCellValue((Short) value);
-		} else if (cls.equals(Integer.class)) {
-			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-			cell.setCellValue((Integer) value);
-		} else if (cls.equals(Long.class)) {
-			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-			cell.setCellValue((Long) value);
-		} else if (cls.equals(Float.class)) {
-			cell.setCellValue((Float) value);
-		} else if (cls.equals(BigDecimal.class)) {
-			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-			cell.setCellValue(((BigDecimal) value).doubleValue());
-		} else if (cls.equals(BigInteger.class)) {
-			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-			cell.setCellValue(((BigInteger) value).longValue());
-		} else if (cls.equals(java.util.Date.class)) {
-			HSSFCellStyle dateCellStyle = wb.createCellStyle();
-			short df = wb.createDataFormat().getFormat("yyyy-mm-dd hh:mm");
-			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-			dateCellStyle.setDataFormat(df);
-			cell.setCellStyle(dateCellStyle);
-
-			cell.setCellValue((java.util.Date) value);
-		} else if (cls.equals(java.sql.Date.class)) {
-			HSSFCellStyle dateCellStyle = wb.createCellStyle();
-			short df = wb.createDataFormat().getFormat("yyyy-mm-dd hh:mm");
-			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-			dateCellStyle.setDataFormat(df);
-			cell.setCellStyle(dateCellStyle);
-			cell.setCellValue((java.sql.Date) value);
-		} else if (cls.equals(java.sql.Timestamp.class)) {
-			HSSFCellStyle dateCellStyle = wb.createCellStyle();
-			short df = wb.createDataFormat().getFormat("yyyy-mm-dd hh:mm");
-			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-			dateCellStyle.setDataFormat(df);
-			cell.setCellStyle(dateCellStyle);
-			cell.setCellValue((java.sql.Timestamp) value);
-		} else {
-			cell.setCellValue(new HSSFRichTextString(value.toString()));
-		}
+//		if (cls.equals(Boolean.class)) {
+//			cell.setCellType(HSSFCell.CELL_TYPE_BOOLEAN);
+//			cell.setCellValue((Boolean) value);
+//		} else if (cls.equals(Byte.class)) {
+//			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+//			cell.setCellValue((Byte) value);
+//		} else if (cls.equals(Short.class)) {
+//			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+//			cell.setCellValue((Short) value);
+//		} else if (cls.equals(Integer.class)) {
+//			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+//			cell.setCellValue((Integer) value);
+//		} else if (cls.equals(Long.class)) {
+//			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+//			cell.setCellValue((Long) value);
+//		} else if (cls.equals(Float.class)) {
+//			cell.setCellValue((Float) value);
+//		} else if (cls.equals(BigDecimal.class)) {
+//			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+//			cell.setCellValue(((BigDecimal) value).doubleValue());
+//		} else if (cls.equals(BigInteger.class)) {
+//			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+//			cell.setCellValue(((BigInteger) value).longValue());
+//		} else if (cls.equals(java.util.Date.class)) {
+//			HSSFCellStyle dateCellStyle = wb.createCellStyle();
+//			short df = wb.createDataFormat().getFormat("yyyy-mm-dd hh:mm");
+//			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+//			dateCellStyle.setDataFormat(df);
+//			cell.setCellStyle(dateCellStyle);
+//
+//			cell.setCellValue((java.util.Date) value);
+//		} else if (cls.equals(java.sql.Date.class)) {
+//			HSSFCellStyle dateCellStyle = wb.createCellStyle();
+//			short df = wb.createDataFormat().getFormat("yyyy-mm-dd hh:mm");
+//			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+//			dateCellStyle.setDataFormat(df);
+//			cell.setCellStyle(dateCellStyle);
+//			cell.setCellValue((java.sql.Date) value);
+//		} else if (cls.equals(java.sql.Timestamp.class)) {
+//			HSSFCellStyle dateCellStyle = wb.createCellStyle();
+//			short df = wb.createDataFormat().getFormat("yyyy-mm-dd hh:mm");
+//			cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+//			dateCellStyle.setDataFormat(df);
+//			cell.setCellStyle(dateCellStyle);
+//			cell.setCellValue((java.sql.Timestamp) value);
+//		} else {
+//			cell.setCellValue(new HSSFRichTextString(value.toString()));
+//		}
 	}
 
 	public void asExcel(HttpServletResponse response, String fileName, String sheetName,

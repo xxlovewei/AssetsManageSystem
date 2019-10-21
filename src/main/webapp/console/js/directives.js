@@ -990,18 +990,19 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
 	$scope.dtColumns = [
 			DTColumnBuilder.newColumn('oper_time').withTitle('操作时间')
 					.withOption('sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('name').withTitle('操作人').withOption(
+			DTColumnBuilder.newColumn('name').withTitle('记录人').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('uuid').withTitle('维护编号').withOption(
 							'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('oper_time').withTitle('维护时间')
-							.withOption('sDefaultContent', '').withOption('width', '80'),
+			DTColumnBuilder.newColumn('processuser').withTitle('维护人').withOption(
+									'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('processtime').withTitle('维护时间')
+							.withOption('sDefaultContent', '').withOption('width', '90'),
 			DTColumnBuilder.newColumn('attach_cnt').withTitle('附件数')
 							.withOption('sDefaultContent', '').withOption('width', '30').renderWith(renderAttach),
 			DTColumnBuilder.newColumn('reason').withTitle('原因').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
-					'sDefaultContent', '')]
+					'sDefaultContent', '')
+			]
 
 	$scope.dtOptions2 = DTOptionsBuilder.fromFnPromise().withOption(
 			'createdRow', function(row) {
