@@ -1012,7 +1012,12 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
 	$scope.dtInstance2 = {}
 	
 	function renderCT(data, type, full) {
-			return data.substr(0,100)+"...";
+		 	if(angular.isDefined(data)){
+		 		return data.substr(0,100)+"...";
+		 	}else{
+		 		return "";
+		 	}
+			
 	}
 
 	
@@ -1035,11 +1040,6 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
 		}).success(function(res) {
 			if (res.success) {
 				$scope.item = res.data.data;
-				if(res.data.data.changestate=="reviewed"){
-					$scope.item.changestatestr="已复核";
-				}else{
-					$scope.item.changestatestr="未复核";
-				}
 				$scope.dtOptions.aaData = res.data.faultdata;
 				$scope.dtOptions2.aaData = res.data.updatadata;
 			} else {

@@ -1,8 +1,8 @@
-function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+var gclass_id = "print";
+function printCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal, $window) {
-
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withPaginationType('full_numbers').withDisplayLength(10)
+			.withPaginationType('full_numbers').withDisplayLength(50)
 			.withOption("ordering", false).withOption("responsive", false)
 			.withOption("searching", true).withOption('scrollY', '600px')
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
@@ -33,17 +33,6 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			});
 
 	$scope.dtInstance = {}
-
-	function renderAction(data, type, full) {
-		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.id
-				+ "')\" class=\"btn-white btn btn-xs\">更新</button>  ";
-		acthtml = acthtml + " <button ng-click=\"del('" + full.id
-				+ "')\" class=\"btn-white btn btn-xs\">删除</button>   ";
-		acthtml = acthtml + " <button ng-click=\"detail('" + full.id
-				+ "')\" class=\"btn-white btn btn-xs\">详情</button> </div> ";
-		return acthtml;
-	}
 
 	function renderName(data, type, full) {
 
@@ -123,7 +112,6 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		flush();
 	}
 
-	var gclass_id = "firewall";
 	var meta = {
 		tablehide : false,
 		toolsbtn : [
@@ -240,7 +228,9 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.post(
 					$rootScope.project + "/api/base/queryDictFast.do",
 					{
-						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devservertype,devrack"
+						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devservertype,devrack",
+						parts : "Y",
+						partusers : "Y"
 					}).success(function(res) {
 				if (res.success) {
 					gdicts = res.data;
@@ -257,6 +247,25 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 					var trecycle = [];
 					angular.copy(gdicts.devrecycle, trecycle);
+
+					var parts = [];
+					angular.copy(gdicts.parts, parts);
+
+					var partusers = [];
+					angular.copy(gdicts.partusers, partusers);
+
+					gdicts.parts.unshift({
+						partid : "none",
+						name : "未设置"
+					});
+
+					gdicts.partusers.unshift({
+						user_id : "none",
+						name : "未设置"
+					});
+
+					$scope.meta.tools[0].dataOpt = tloc;
+					$scope.meta.tools[0].dataSel = tloc[0];
 
 					tloc.unshift({
 						dict_item_id : "all",
@@ -342,8 +351,39 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}
 		}
 
-		// 等级
+		// 部门
+		modal_meta.meta.partOpt = gdicts.parts;
+		if (gdicts.parts.length > 0) {
+			if (angular.isDefined(item) && angular.isDefined(item.part_id)) {
+				for (var i = 0; i < gdicts.parts.length; i++) {
+					if (gdicts.parts[i].partid == item.part_id) {
+						modal_meta.meta.partSel = gdicts.parts[i];
+					}
+				}
+			} else {
+				if (gdicts.parts.length > 0) {
+					modal_meta.meta.partSel = gdicts.parts[0];
+				}
+			}
+		}
 
+		// 使用人
+		modal_meta.meta.usedunameOpt = gdicts.partusers;
+		if (gdicts.partusers.length > 0) {
+			if (angular.isDefined(item) && angular.isDefined(item.used_userid)) {
+				for (var i = 0; i < gdicts.partusers.length; i++) {
+					if (gdicts.partusers[i].user_id == item.used_userid) {
+						modal_meta.meta.usedunameSel = gdicts.partusers[i];
+					}
+				}
+			} else {
+				if (gdicts.partusers.length > 0) {
+					modal_meta.meta.usedunameSel = gdicts.partusers[0];
+				}
+			}
+		}
+
+		// 等级
 		modal_meta.meta.riskOpt = gdicts.devrisk;
 		if (gdicts.devrisk.length > 0) {
 			if (angular.isDefined(item) && angular.isDefined(item.risk)) {
@@ -360,7 +400,6 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 
 		// 环境
-
 		modal_meta.meta.envOpt = gdicts.devenv;
 		if (gdicts.devenv.length > 0) {
 			if (angular.isDefined(item) && angular.isDefined(item.env)) {
@@ -378,7 +417,6 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 
 		// 状态
-
 		modal_meta.meta.statusOpt = gdicts.devrecycle;
 		if (gdicts.devrecycle.length > 0) {
 			if (angular.isDefined(item) && angular.isDefined(item.recycle)) {
@@ -411,7 +449,6 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 
 		// 位置
-
 		modal_meta.meta.locOpt = gdicts.devdc;
 		if (gdicts.devdc.length > 0) {
 			if (angular.isDefined(item) && angular.isDefined(item.loc)) {
@@ -428,7 +465,6 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 
 		// 类型
-
 		modal_meta.meta.typeOpt = gdicts.devservertype;
 		if (gdicts.devservertype.length > 0) {
 			if (angular.isDefined(item) && angular.isDefined(item.type)) {
@@ -555,15 +591,16 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								name : 'uuid',
 								ng_model : "uuid"
-							}, {
-								type : "select",
-								disabled : "false",
-								label : "类型",
-								need : true,
-								disable_search : "true",
-								dataOpt : "typeOpt",
-								dataSel : "typeSel"
-							},
+							}, 
+//							{
+//								type : "select",
+//								disabled : "false",
+//								label : "类型",
+//								need : true,
+//								disable_search : "true",
+//								dataOpt : "typeOpt",
+//								dataSel : "typeSel"
+//							},
 							// {
 							// type : "input",
 							// disabled : "false",
@@ -671,8 +708,7 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								name : 'frame',
 								ng_model : "frame"
-							},
-							{
+							}, {
 								type : "input",
 								disabled : "false",
 								sub_type : "number",
@@ -683,8 +719,23 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								name : 'buy_price',
 								ng_model : "buy_price"
-							},	
-							{
+							}, {
+								type : "select",
+								disabled : "false",
+								label : "使用部门",
+								need : false,
+								disable_search : "false",
+								dataOpt : "partOpt",
+								dataSel : "partSel"
+							}, {
+								type : "select",
+								disabled : "false",
+								label : "使用人",
+								need : false,
+								disable_search : "false",
+								dataOpt : "usedunameOpt",
+								dataSel : "usedunameSel"
+							}, {
 								type : "input",
 								disabled : "false",
 								sub_type : "text",
@@ -724,6 +775,10 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								pinpSel : "",
 								headuserOpt : [],
 								headuserSel : "",
+								partOpt : [],
+								partSel : "",
+								usedunameOpt : [],
+								usedunameSel : "",
 								locOpt : [],
 								locSel : "",
 								wbOpt : [],
@@ -738,6 +793,8 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								sure : function(modalInstance, modal_meta) {
 									// 返回接口
 									console.log('sure', modal_meta.meta)
+									modal_meta.meta.item.part_id = modal_meta.meta.partSel.partid;
+									modal_meta.meta.item.used_userid = modal_meta.meta.usedunameSel.user_id;
 									modal_meta.meta.item.class_id = gclass_id;
 									modal_meta.meta.item.env = modal_meta.meta.envSel.dict_item_id;
 									modal_meta.meta.item.recycle = modal_meta.meta.statusSel.dict_item_id;
@@ -750,8 +807,8 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									modal_meta.meta.item.buy_time = modal_meta.meta.buytime
 											.format('YYYY-MM-DD');
 									console.log('sure set', modal_meta.meta)
-									// 动态参数
 
+									// 动态参数
 									if (angular.isDefined(modal_meta.meta.attr)
 											&& modal_meta.meta.attr.length > 0) {
 										for (var j = 0; j < modal_meta.meta.attr.length; j++) {
@@ -872,4 +929,4 @@ function cmdbfirewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 };
 
-app.register.controller('cmdbfirewallCtl', cmdbfirewallCtl);
+app.register.controller('printCtl', printCtl);

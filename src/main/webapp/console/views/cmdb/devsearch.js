@@ -58,9 +58,6 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('uuid').withTitle('机柜').withOption(
-					'sDefaultContent', '').renderWith(renderJg).withClass(
-					'none'),
 			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
 					'sDefaultContent', '').withClass('none'),
 			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')

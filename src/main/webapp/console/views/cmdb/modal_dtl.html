@@ -212,7 +212,7 @@
 								<div class="form-group">
 									<label class="col-sm-4 control-label">复核状态</label>
 									<div class="col-sm-8">
-										<input ng-disabled="true" ng-model="item.changestatestr"
+										<input ng-disabled="true" ng-model="item.reviewstr"
 											type="text" class="form-control">
 									</div>
 								</div>
@@ -286,7 +286,7 @@
 								<div class="form-group">
 									<label class="col-sm-4 control-label">使用部门</label>
 									<div class="col-sm-8">
-										<input ng-disabled="true" ng-model="item.partname"
+										<input ng-disabled="true" ng-model="item.part_name"
 											type="text" class="form-control">
 									</div>
 								</div>
@@ -297,7 +297,7 @@
 								<div class="form-group">
 									<label class="col-sm-4 control-label">使用人</label>
 									<div class="col-sm-8">
-										<input ng-disabled="true" ng-model="item.useduname"
+										<input ng-disabled="true" ng-model="item.used_username"
 											type="text" class="form-control">
 									</div>
 								</div>
@@ -310,6 +310,21 @@
 						<span ng-switch-when="server">
 							<div ng-include="'views/cmdb/dtl_server.html'"></div>
 						</span>
+						<span ng-switch-when="lightsw">
+							<div ng-include="'views/cmdb/dtl_server.html'"></div>
+						</span>
+						<span ng-switch-when="route">
+							<div ng-include="'views/cmdb/dtl_server.html'"></div>
+						</span>
+						<span ng-switch-when="safety">
+							<div ng-include="'views/cmdb/dtl_server.html'"></div>
+						</span>
+						<span ng-switch-when="storage">
+							<div ng-include="'views/cmdb/dtl_server.html'"></div>
+						</span>
+						<span ng-switch-when="switch">
+							<div ng-include="'views/cmdb/dtl_server.html'"></div>
+						</span>	 
 					</div>
 
 
@@ -376,9 +391,5 @@
 		</div>
 
 	</div>
-	<!-- <div class="modal-footer">
-		<button ng-click="cancel()" class="btn    btn-warning">取消</button>
-		<button ng-disabled="myForm.$invalid" ng-click="sure()"
-			class="btn btn-primary">确认</button>
-	</div> -->
+
 </div>

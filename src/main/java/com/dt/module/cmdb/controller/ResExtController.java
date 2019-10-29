@@ -2,7 +2,10 @@ package com.dt.module.cmdb.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,8 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
+import com.dt.core.dao.sql.SQL;
+import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
@@ -67,6 +72,56 @@ public class ResExtController extends BaseController {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
 		db.execute(sql);
+		return R.SUCCESS_OPER();
+	}
+
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_ALLOW)
+	@RequestMapping(value = "/res/needreview.do")
+	@Transactional
+	public R needreview(String search) {
+
+		// reviewed(已复核),insert(待核(录入)),updated(待核(已更新))
+		String sql = "select ";
+		sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  and changestate<>'reviewed'";
+
+		if (ToolUtil.isNotEmpty(search)) {
+			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
+					+ "%' )";
+		}
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+	}
+
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	@RequestMapping(value = "/res/review.do")
+	@Transactional
+	public R review(String ids) {
+		Date date = new Date(); // 获取一个Date对象
+		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+		String nowtime = simpleDateFormat.format(date);
+		List<SQL> sqls = new ArrayList<SQL>();
+		JSONArray ids_arr = JSONArray.parseArray(ids);
+		
+
+			
+		for (int i = 0; i < ids_arr.size(); i++) {
+			Update me = new Update("res");
+			me.set("changestate", "reviewed");
+			me.setIf("review_userid", this.getUserId());
+			me.setIf("review_date", nowtime);
+			me.where().and("id=?", ids_arr.getString(i));
+			sqls.add(me);
+
+			Insert ins = new Insert("res_history");
+			ins.set("oper_type", "复核操作");
+			ins.set("id", db.getUUID());
+			ins.set("res_id", ids_arr.getString(i));
+			ins.set("oper_time", nowtime);
+			ins.set("oper_user", this.getUserId());
+			sqls.add(ins);
+		}
+		db.executeSQLList(sqls);
 		return R.SUCCESS_OPER();
 	}
 
@@ -128,16 +183,16 @@ public class ResExtController extends BaseController {
 
 		// 所有部门
 		if (ToolUtil.isNotEmpty(parts)) {
-			RcdSet partrs = db.query(
-					"select node_id  partid ,route_name partname from hrm_org_part  where org_id=1 order by route");
+			RcdSet partrs = db
+					.query("select node_id  partid ,route_name name from hrm_org_part  where org_id=1 order by route");
 			res.put("parts", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
 		}
 
 		// 所有用户
 		if (ToolUtil.isNotEmpty(partusers)) {
-			RcdSet partuserrs = db.query(
-					"select  a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n" + 
-					"  a.empl_id=b.empl_id and a.dr='0' and b.dr='0'  and c.node_id=b.node_id");
+			RcdSet partuserrs = db
+					.query("select  a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n"
+							+ "  a.empl_id=b.empl_id and a.dr='0' and b.dr='0'  and c.node_id=b.node_id");
 			res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
 		}
 
@@ -154,21 +209,8 @@ public class ResExtController extends BaseController {
 	}
 
 	public R queryResAllGetData(String id, String wb, String env, String recycle, String loc, String search) {
-		String sql = "select";
-		sql = sql + " (select name from sys_dict_item where dict_item_id=t.type ) typestr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.loc ) locstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.recycle ) recyclestr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.env  ) envstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.risk  ) riskstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.brand  ) brandstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.wb  ) wbstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.rack  ) rackstr,"
-				+ " (select name from sys_dict_item where dict_item_id=t.class_id  ) classname,"
-				+ " (select name from sys_dict_item where dict_item_id=t.type  ) typename,"
-				+ " (select name from sys_user_info where user_id=t.create_by  ) create_username,"
-				+ " (select name from sys_user_info where user_id=t.update_by  ) update_username,"
-				+ " (select name from sys_user_info where user_id=t.review_userid  ) review_username,"
-				+ "date_format(buy_time,'%Y-%m-%d') buy_timestr , t.* from res t where dr=0  ";
+		String sql = "select ";
+		sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  ";
 
 		if (ToolUtil.isNotEmpty(id) && !"all".equals(id)) {
 			sql = sql + " and class_id='" + id + "'";
@@ -290,20 +332,7 @@ public class ResExtController extends BaseController {
 						+ attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
 						+ "\",  ";
 			}
-			sql = sql + " (select name from sys_dict_item where dict_item_id=t.type ) typestr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.loc ) locstr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.recycle ) recyclestr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.env  ) envstr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.risk  ) riskstr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.brand  ) brandstr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.wb  ) wbstr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.rack  ) rackstr,"
-					+ " (select name from sys_dict_item where dict_item_id=t.class_id  ) classname,"
-					+ " (select name from sys_dict_item where dict_item_id=t.type  ) typename,"
-					+ " (select name from sys_user_info where user_id=t.create_by  ) create_username,"
-					+ " (select name from sys_user_info where user_id=t.update_by  ) update_username,"
-					+ " (select name from sys_user_info where user_id=t.review_userid  ) review_username,"
-					+ "date_format(buy_time,'%Y-%m-%d') buy_timestr , t.* from res t where dr=0  and id=?";
+			sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  and id=?";
 
 			Rcd rs2 = db.uniqueRecord(sql, id);
 			if (rs2 != null) {
