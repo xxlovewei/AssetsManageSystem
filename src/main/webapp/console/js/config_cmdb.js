@@ -4,8 +4,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		debug : true
 	});
 	
-	 
- 
 	// cmdb
 	$stateProvider.state('maintain', {
 		abstract : true,
@@ -48,7 +46,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.server', {
 		url : "/cf_server",
 		data: { pageTitle: '服务器'},
-		template:'<div ng-controller="cmdbserverCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		templateUrl : "views/cmdb/server.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -60,7 +58,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.firewall', {
 		url : "/cf_firewall",
 		data: { pageTitle: '防火墙'},
-		template:'<div ng-controller="cmdbfirewallCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		templateUrl : "views/cmdb/firewall.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {

@@ -1,7 +1,7 @@
 var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
 		'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree',
 		'ngSanitize', 'cgNotify', 'angular-confirm',
-		'datatables', 'datatables.select', 'datatables.buttons','datatables.fixedcolumns','localytics.directives',
+		'datatables', 'datatables.select', 'datatables.fixedcolumns','datatables.buttons','localytics.directives',
 		'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor','datePicker'])
 var $injector = angular.injector();
 function getContextPath() {

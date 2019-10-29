@@ -1,13 +1,36 @@
 function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal, $window) {
-
-	// 分类
-
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
-			'createdRow', function(row) {
+	var gclass_id = "server";
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
+			.withPaginationType('full_numbers').withDisplayLength(50)
+			.withOption("ordering", false).withOption("responsive", false)
+			.withOption("searching", true).withOption('scrollY', '600px')
+			.withOption('scrollX', true).withOption('bAutoWidth', true)
+			.withOption('scrollCollapse', true).withOption('paging', true)
+			.withFixedColumns({
+				leftColumns : 0,
+				rightColumns : 0
+			}).withOption('bStateSave', true).withOption('bProcessing', false)
+			.withOption('bFilter', false).withOption('bInfo', false)
+			.withOption('serverSide', false).withOption('aaData',
+					$scope.tabdata).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
-			}).withOption("searching", true).withDisplayLength(50);
+			}).withOption(
+					'headerCallback',
+					function(header) {
+						if ((!angular.isDefined($scope.headerCompiled))
+								|| $scope.headerCompiled) {
+							// Use this headerCompiled field to only compile
+							// header once
+							$scope.headerCompiled = true;
+							$compile(angular.element(header).contents())
+									($scope);
+						}
+					}).withOption("select", {
+				style : 'multi',
+				selector : 'td:first-child'
+			});
 
 	$scope.dtInstance = {}
 
@@ -25,9 +48,6 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	function renderName(data, type, full) {
 
 		var html = full.model;
-		// if (angular.isDefined(full.model)) {
-		// html = html + "(" + full.model + ")";
-		// }
 		return html;
 
 	}
@@ -45,16 +65,31 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 	}
 
+	$scope.selectCheckBoxAll = function(selected) {
+
+		if (selected) {
+			$scope.dtInstance.DataTable.rows().select();
+		} else {
+			$scope.dtInstance.DataTable.rows().deselect();
+		}
+	}
+
+	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
+
 	$scope.dtColumns = [
+			DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
+					'select-checkbox checkbox_center').renderWith(function() {
+				return ""
+			}),
 			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
 					'sDefaultContent', '').withOption("width", '30'),
-			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
 					'sDefaultContent', '').withOption('width', '50')
 					.renderWith(renderName),
+			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('recyclestr').withTitle('状态').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('wbstr').withTitle('维保').withOption(
@@ -66,76 +101,32 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('uuid').withTitle('机柜').withOption(
-					'sDefaultContent', '').renderWith(renderJg).withClass(
-					'none'),
-			DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
-					'sDefaultContent', '').withClass('none'),
+					'sDefaultContent', '').renderWith(renderJg),
+			// DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
+			// 'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
-					'sDefaultContent', '').withClass('none'),
+					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-					.withOption('sDefaultContent', '').withClass('none'),
+					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
-					.withOption('sDefaultContent', '').withClass('none')
-					.renderWith(renderReview),
-			DTColumnBuilder.newColumn('create_username').withTitle('录入人')
-					.withOption('sDefaultContent', '').withClass('none'),
+					.withOption('sDefaultContent', '').renderWith(renderReview),
+			// DTColumnBuilder.newColumn('create_username').withTitle('录入人')
+			// .withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('update_username').withTitle('更新人')
-					.withOption('sDefaultContent', '').withClass('none'),
-			DTColumnBuilder.newColumn('review_username').withTitle('复核人')
-					.withOption('sDefaultContent', '').withClass('none'),
-			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
-					'sDefaultContent', '').withClass('none'),
-			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
-					'sDefaultContent', '').renderWith(renderAction) ]
+					.withOption('sDefaultContent', '')
+	// ,
+	// DTColumnBuilder.newColumn('review_username').withTitle('复核人')
+	// .withOption('sDefaultContent', '')
+	]
 
 	$scope.query = function() {
 		flush();
-
 	}
 
-	var gclass_id = "server";
+
 	var meta = {
 		tablehide : false,
-		tools : [
-				{
-					id : "select",
-					label : "位置",
-					type : "select",
-					disablesearch : true,
-					dataOpt : [],
-					dataSel : ""
-				},
-				{
-					id : "select",
-					label : "环境",
-					type : "select",
-					disablesearch : true,
-					dataOpt : [],
-					dataSel : ""
-				},
-				{
-					id : "select",
-					label : "维保",
-					type : "select",
-					disablesearch : true,
-					dataOpt : [],
-					dataSel : ""
-				},
-				{
-					id : "select",
-					label : "状态",
-					type : "select",
-					disablesearch : true,
-					dataOpt : [],
-					dataSel : ""
-				},
-				{
-					id : "input",
-					label : "内容",
-					placeholder : "输入型号、编号、序列号",
-					type : "input",
-					ct : ""
-				},
+		toolsbtn : [
 				{
 					id : "btn",
 					label : "",
@@ -149,11 +140,65 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">新增</button>'
 				},
 				{
+					id : "btn2",
+					label : "",
+					type : "btn",
+					template : ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">修改</button>'
+				},
+
+				{
+					id : "btn2",
+					label : "",
+					type : "btn",
+					template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
+				},
+				{
+					id : "btn2",
+					label : "",
+					type : "btn",
+					template : ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
+				},
+				{
 					id : "btn3",
 					label : "",
 					type : "btn",
 					template : ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">下载</button>'
-				} ]
+				} ],
+		tools : [ {
+			id : "select",
+			label : "位置",
+			type : "select",
+			disablesearch : true,
+			dataOpt : [],
+			dataSel : ""
+		}, {
+			id : "select",
+			label : "环境",
+			type : "select",
+			disablesearch : true,
+			dataOpt : [],
+			dataSel : ""
+		}, {
+			id : "select",
+			label : "维保",
+			type : "select",
+			disablesearch : true,
+			dataOpt : [],
+			dataSel : ""
+		}, {
+			id : "select",
+			label : "状态",
+			type : "select",
+			disablesearch : true,
+			dataOpt : [],
+			dataSel : ""
+		}, {
+			id : "input",
+			label : "内容",
+			placeholder : "输入型号、编号、序列号",
+			type : "input",
+			ct : ""
+		} ]
 	}
 	$scope.meta = meta;
 
@@ -249,28 +294,35 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				}
 			})
 
-	$scope.del = function(id) {
-		$confirm({
-			text : '是否删除?'
-		}).then(function() {
-			$http.post($rootScope.project + "/api/base/res/deleteById.do", {
-				id : id
-			}).success(function(res) {
-				if (res.success) {
-					flush();
-				} else {
-					notify({
-						message : res.message
+	$scope.del = function() {
+
+		var selrow = getSelectRow();
+		if (angular.isDefined(selrow)) {
+			var id = selrow.id;
+			$confirm({
+				text : '是否删除?'
+			}).then(
+					function() {
+						$http.post(
+								$rootScope.project
+										+ "/api/base/res/deleteById.do", {
+									id : id
+								}).success(function(res) {
+							if (res.success) {
+								flush();
+							} else {
+								notify({
+									message : res.message
+								});
+							}
+						});
 					});
-				}
-			});
-		});
+		}
 
 	}
 
 	function loadOpt(modal_meta, gdicts) {
 		// 品牌
-
 		var item = modal_meta.meta.item;
 		console.log("loadOpt", item)
 		modal_meta.meta.pinpOpt = gdicts.devbrand;
@@ -393,7 +445,6 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 
 		// 机柜
-
 		modal_meta.meta.jgOpt = gdicts.devrack;
 		if (gdicts.devrack.length > 0) {
 			if (angular.isDefined(item) && angular.isDefined(item.rack)) {
@@ -411,8 +462,14 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	}
 
-	$scope.detail = function(id) {
-
+	$scope.detail = function() {
+		var id = "";
+		var selrow = getSelectRow();
+		if (angular.isDefined(selrow)) {
+			id = selrow.id;
+		} else {
+			return;
+		}
 		var ps = {};
 		ps.id = id;
 		var modalInstance = $uibModal.open({
@@ -440,8 +497,37 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	}
 
+	function getSelectRow() {
+		var data = $scope.dtInstance.DataTable.rows({
+			selected : true
+		})[0];
+		if (data.length == 0) {
+			notify({
+				message : "请至少选择一项"
+			});
+			return;
+		} else if (data.length > 1) {
+			notify({
+				message : "请最多选择一项"
+			});
+			return;
+		} else {
+			console.log("sel:", data);
+			return $scope.dtOptions.aaData[data[0]];
+		}
+	}
+
 	// //////////////////////////save/////////////////////
-	$scope.save = function(id) {
+	$scope.save = function(type) {
+		var id;
+		if (type == 1) {
+			var selrow = getSelectRow();
+			if (angular.isDefined(selrow)) {
+				id = selrow.id;
+			} else {
+				return;
+			}
+		}
 		$http
 				.post($rootScope.project + "/api/base/queryResAllById.do", {
 					id : id,
@@ -585,7 +671,36 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								name : 'frame',
 								ng_model : "frame"
-							}, {
+							},
+							{
+								type : "input",
+								disabled : "false",
+								sub_type : "number",
+								required : false,
+								maxlength : "30",
+								placeholder : "请输入采购价",
+								label : "采购价",
+								need : false,
+								name : 'buy_price',
+								ng_model : "buy_price"
+							},{
+								type : "select",
+								disabled : "false",
+								label : "使用部门",
+								need : false,
+								disable_search : "true",
+								dataOpt : "partOpt",
+								dataSel : "partSel"
+							},	{
+								type : "select",
+								disabled : "false",
+								label : "使用人",
+								need : false,
+								disable_search : "true",
+								dataOpt : "usedunameOpt",
+								dataSel : "usedunameSel"
+							},	
+							{
 								type : "input",
 								disabled : "false",
 								sub_type : "text",
@@ -625,6 +740,10 @@ function cmdbserverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								pinpSel : "",
 								headuserOpt : [],
 								headuserSel : "",
+								partOpt:[],
+								partSel:"",
+								usedunameOpt:[],
+								usedunameSel:"",
 								locOpt : [],
 								locSel : "",
 								wbOpt : [],

@@ -1,252 +1,283 @@
-function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
-		$uibModal) {
-	$scope.topMenuOpt = []
-	$scope.topMenuSel = "";
+function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
 
-	$scope.item = {};
+	$scope.partOpt = []
+	$scope.partSel = []
 
-	var org_id = "";
-	$http.post($rootScope.project + "/api/hrm/orgQuery.do", {}).success(
-			function(res) {
-				if (res.success) {
-					$scope.topMenuOpt = res.data;
-					if (res.data.length > 0) {
-						$scope.topMenuSel = res.data[0];
-						// 加载组织信息
-						flush();
+	$scope.$watch('partSel', function() {
+		$log.info('partSel change');
+		$rootScope.sys_partSel = $scope.partSel;
+	}, true);
 
-					}
-				}else{
-					notify({
-						message : res.message
-					});
-				}
-			})
-
-	$scope.treeData = [];
-	$scope.ignoreChanges = false;
-	$scope.newNode = {};
-
-	function flush() {
-		var ps = {};
-		ps.org_id = $scope.topMenuSel.org_id;
-		org_id = ps.org_id;
-		$http.post($rootScope.project + "/api/hrm/orgNodeTreeQuery.do", ps)
-				.success(function(res) {
-					if (res.success) {
-						 
-						$scope.ignoreChanges = true;
-						$scope.treeData = angular.copy(res.data);
-						$scope.treeConfig.version++;
-					} else {
-						notify({
-							message : res.message
-						});
-					}
-				})
-
-	}
-
-	$scope.treeConfig = {
-		core : {
-			multiple : false,
-			animation : true,
-			error : function(error) {
-				$log.error('treeCtrl: error from js tree - '
-						+ angular.toJson(error));
-			},
-			check_callback : true,
-			worker : true
-		},
-		loading : "加载中……",
-		ui : {
-			theme_name : "classic" // 设置皮肤样式
-		},
-		rules : {
-			type_attr : "rel", // 设置节点类型
-			valid_children : "root" // 只有root节点才能作为顶级结点
-		},
-		callback : {
-			onopen : function(node, tree_obj) {
-				return true;
-			}
-		},
-
-		types : {
-			"default" : {
-				icon : 'glyphicon glyphicon-th'
-			},
-			root : {
-				icon : 'glyphicon glyphicon-home'
-			},
-			"file" : {
-				"icon" : "fa fa-file icon-state-warning icon-lg"
-			}
-
-		},
-		version : 1,
-		plugins : [ 'themes', 'types', 'contextmenu', 'changed' ],
-		contextmenu : {
-			items : {
-				"createPoint" : {
-					"separator_before" : false,
-					"separator_after" : false,
-					"label" : function() {
-						return "新建下级节点";
-					},
-					"action" : function(data) {
-						// first before after last
-						var inst = $scope.tree;
-						var obj = inst.get_node(data.reference);
-						console.log("cur:obj", obj);
-						$http.post($rootScope.project + "/api/hrm/orgNodeSave.do",
-								{
-									node_type : obj.type,
-									node_name : "新节点",
-									org_id : org_id,
-									parent_id : obj.id
-								}).success(function(res) {
-							if (res.success) {
-							 
-								inst.create_node(obj, {
-									id : res.data.ID,
-									text : "新节点",
-									parent : obj.id
-								}, "last", function(new_node) {
-									console.log("new_node is:", new_node);
-								});
-							} else {
-								notify({
-									message : res.message
-								});
-
-							}
-						})
-					}
-				},
-				"DeleteItem" : {
-					"separator_before" : false,
-					"separator_after" : false,
-					"label" : "删除节点",
-					"action" : function(data) {
-						$log.info("删除节点");
-						var inst = $scope.tree;
-						var obj = inst.get_node(data.reference);
-						$http.post(
-								$rootScope.project + "/api/hrm/orgNodeDelete.do", {
-									node_id : obj.id
-								}).success(function(res) {
-							if (res.success) {
-								inst.delete_node(obj);
-							}
-							notify({
-								message : res.message
-							});
-						})
-					}
-
-				}
+	// 获取列表
+	$scope.$watch(function() {
+		return $rootScope.sys_partOpt;
+	}, function() {
+		//$log.info("wath sys_partOpt change.", $rootScope.sys_partOpt);
+		if (angular.isDefined($rootScope.sys_partOpt)) {
+			$scope.partOpt = $rootScope.sys_partOpt;
+			if ($scope.partOpt.length > 0) {
+				$scope.partSel.push($scope.partOpt[0]);
 			}
 		}
-	}
+	}, true);
 
-	$scope.addNewNode = function() {
-		$scope.treeData.push({
-			id : (newId++).toString(),
-			parent : $scope.newNode.parent,
-			text : $scope.newNode.text
-		});
-	};
+	$scope.$watch(function() {
+		return $rootScope.sys_partSelItem;
+	}, function() {
+		var parts = $rootScope.sys_partSelItem;
+		if (angular.isDefined(parts)) {
+			//$log.info("wath sys_partSelItem change.", $scope.partOpt.length,$rootScope.sys_partSelItem, parts.length);
+			if (parts.length == 0) {
 
-	$scope.modelChanges = function(t) {
-
-		return true;
-	}
-
-	$scope.test = function() {
-		$log.info("测试");
- 
-
-	}
-	$scope.readyCB = function() {
-		 
-		$scope.tree = $scope.treeInstance.jstree(true)
-		// 展开所有节点
-		$scope.tree.open_all();
-		// 响应节点变化
-		$scope.treeInstance.on("changed.jstree", function(e, data) {
-	
-			if (data.action == "select_node") {
-				// 加载数据
-				var snodes = $scope.tree.get_selected();
-				if (snodes.length == 1) {
-					var node = snodes[0];
-					console.log("select node:", node);
-					$http.post($rootScope.project + "/api/hrm/orgNodeQuery.do", {
-						node_id : node
-					}).success(function(res) {
-						if (res.success) {
-						 
-							$scope.item = res.data;
-						} else {
-							notify({
-								message : res.message
-							});
+			} else {
+				var partsSel = [];
+				$timeout(function() {
+					for (var i = 0; i < parts.length; i++) {
+						for (var j = 0; j < $scope.partOpt.length; j++) {
+							if ($scope.partOpt[j].node_id == parts[i].node_id) {
+								$log.info("match");
+								partsSel.push($scope.partOpt[j]);
+								break;
+							}
 						}
-					})
-
-				}
-
+					}
+					if (partsSel.length > 0) {
+						$scope.partSel = partsSel;
+					}
+				}, 300);
 			}
 
-		});
+		}
+	}, true);
 
+}
+function orgEmpSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope, partOpt, $timeout) {
+
+	$scope.data = {};
+	$timeout(function() {
+		var d = angular.copy(partOpt)
+		d.splice(0, 1);
+		$rootScope.sys_partOpt = d;
+	}, 800);
+
+	$rootScope.sys_partSel;
+
+	if (angular.isDefined(id)) {
+		// 加载数据
+		$http.post($rootScope.project + "/api/hrm/employeeQueryById.do", {
+			empl_id : id
+		}).success(function(res) {
+			if (res.success) {
+
+				$scope.data = res.data;
+				$scope.data.OLD_PARTS = res.data.PARTS;
+				$timeout(function() {
+					$rootScope.sys_partSelItem = res.data.PARTS
+				}, 810);
+
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+
+		})
+	} else {
+		$rootScope.sys_partSelItem = [];
 	}
-	$scope.cc = function() {
-		 
+	$timeout(function() {
 
-	}
+		var modal = document.getElementsByClassName('modal-body');
+		for (var i = 0; i < modal.length; i++) {
+			console.log(modal[i]);
+			var adom = modal[i].getElementsByClassName('chosen-container');
+			for (var j = 0; j < adom.length; j++) {
+				adom[i].style.width = "100%";
+			}
+		}
+	}, 200);
+	
+	
+	$scope.sure = function() {
 
-	$scope.createCB = function(e, item) {
-		 
-	};
-
-	$scope.query = function treeInstance() {
-		$log.info($scope.topMenuSel, $scope.roleSel);
-		if ($scope.topMenuSel == "" || $scope.roleSel == "") {
+		// 跨越controller获取数据数据
+		if (!angular.isDefined($rootScope.sys_partSel)) {
 			notify({
-				message : "请选择条件"
+				message : "发生系统错误"
 			});
 			return;
 		}
+		if ($rootScope.sys_partSel.length == 0) {
+			notify({
+				message : "至少选择一个组织"
+			});
+			return;
 
-		flush();
+		}
+		if ($rootScope.sys_partSel.length > 3) {
+			notify({
+				message : "最多只可选三个组织"
+			});
+			return;
+
+		}
+		// 检查姓名
+		if (!angular.isDefined($scope.data.name)) {
+			notify({
+				message : "请输入姓名"
+			});
+			return;
+		}
+		$scope.data.nodes = angular.toJson($rootScope.sys_partSel);
+
+		var cmd = "";
+		if (angular.isDefined($scope.data.empl_id)) {
+			cmd = "/api/hrm/employeeUpdate.do"
+			$scope.data.old_nodes = angular.toJson($scope.data.old_parts)
+		} else {
+			cmd = "/api/hrm/employeeAdd.do";
+		}
+
+		$http.post($rootScope.project + cmd, $scope.data).success(function(res) {
+			notify({
+				message : res.message
+			});
+			if (res.success) {
+				$uibModalInstance.close("OK");
+			}
+		})
 
 	}
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+}
 
-	$scope.ok = function() {
-		if (angular.isDefined($scope.item.node_id)) {
-			$http.post($rootScope.project + "/api/hrm/orgNodeSave.do", $scope.item)
-					.success(
-							function(res) {
-								if (res.success) {
-									var inst = $scope.tree;
-									inst.rename_node($scope.item.node_id,
-											$scope.item.node_name)
-								}
+function orgEmpAdjustCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
-								notify({
-									message : res.message
-								});
-							})
+	$scope.data = {
+		name : ""
+	};
+	$scope.partOpt = [];
+	$scope.partSel = "";
+	$http.post($rootScope.project + "/api/hrm/orgQueryLevelList.do", {}).success(function(res) {
+		if (res.success) {
+			var d = res.data;
+			d.splice(0, 0, {
+				"routename" : "全部",
+				node_id : "-1",
+				levels : 0
+			})
+			$scope.partOpt = d;
+			$scope.partSel = $scope.partOpt[0];
 		} else {
 			notify({
-				message : "请选择节点"
+				message : res.message
 			});
-			return;
 		}
+	})
+
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
+			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
+					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
+				// Recompiling so we can bind Angular,directive to the
+				$compile(angular.element(row).contents())($scope);
+			});
+
+	$scope.dtInstance = {}
+	function renderAction(data, type, full) {
+		var acthtml = " <div class=\"btn-group\"> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.empl_id + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+		// acthtml = acthtml + " <button ng-click=\"row_detail()\"
+		// class=\"btn-white btn btn-xs\">详细</button> ";
+		acthtml = acthtml + " <button ng-click=\"row_del('" + full.empl_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		return acthtml;
+	}
+	function renderStatus(data, type, full) {
+		var res = "无效";
+		if (full.is_action == "Y") {
+			res = "有效";
+		}
+		return res;
+	}
+
+	$scope.dtColumns = [ DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('name').withTitle('姓名').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('node_name').withTitle('所属').withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+
+	function flush() {
+
+		$scope.data.node_id = $scope.partSel.node_id;
+		$http.post($rootScope.project + "/api/hrm/employeeQueryList.do", $scope.data).success(function(res) {
+			if (res.success) {
+				$scope.dtOptions.aaData = res.data;
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
+	}
+
+	$scope.row_detail = function(id) {
 
 	}
+	$scope.row_del = function(id) {
+
+		var data = $scope.dtInstance.DataTable.rows({
+			selected : true
+		})[0];
+
+		$confirm({
+			text : '是否删除功能?'
+		}).then(function() {
+			$http.post($rootScope.project + "/api/hrm/employeeDelete.do", {
+				empl_id : id
+			}).success(function(res) {
+				if (res.success) {
+					flush();
+				}
+				notify({
+					message : res.message
+				});
+			})
+		});
+	}
+
+	$scope.query = function() {
+		flush();
+	}
+	$scope.save = function(id) {
+
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/org/modal_employee_save.html',
+			controller : orgEmpSaveCtl,
+			size : 'lg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				id : function() {
+					return id;
+				},
+				partOpt : function() {
+					return $scope.partOpt;
+				}
+			}
+		});
+
+		modalInstance.result.then(function(result) {
+
+			if (result == "OK") {
+				flush();
+			}
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
+	}
+
 };
 
-app.register.controller('hrmOrgPartCtl', hrmOrgPartCtl);
+app.register.controller('orgEmpAdjustCtl', orgEmpAdjustCtl);
+
+app.register.controller('orgEmpSavePartCtl', orgEmpSavePartCtl);

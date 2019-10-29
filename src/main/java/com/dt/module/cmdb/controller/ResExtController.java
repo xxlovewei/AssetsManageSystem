@@ -117,13 +117,28 @@ public class ResExtController extends BaseController {
 	@Acl(info = "", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/queryDictFast.do")
 	@Transactional
-	public R queryDictFast(String dicts) {
+	public R queryDictFast(String dicts, String parts, String partusers) {
 
 		JSONObject res = new JSONObject();
 		String[] dict_arr = dicts.split(",");
 		for (int i = 0; i < dict_arr.length; i++) {
 			RcdSet rs = db.query("select * from sys_dict_item where dict_id=? and dr='0' order by sort", dict_arr[i]);
 			res.put(dict_arr[i], ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
+		}
+
+		// 所有部门
+		if (ToolUtil.isNotEmpty(parts)) {
+			RcdSet partrs = db.query(
+					"select node_id  partid ,route_name partname from hrm_org_part  where org_id=1 order by route");
+			res.put("parts", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+		}
+
+		// 所有用户
+		if (ToolUtil.isNotEmpty(partusers)) {
+			RcdSet partuserrs = db.query(
+					"select  a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n" + 
+					"  a.empl_id=b.empl_id and a.dr='0' and b.dr='0'  and c.node_id=b.node_id");
+			res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
 		}
 
 		return R.SUCCESS_OPER(res);
@@ -226,10 +241,10 @@ public class ResExtController extends BaseController {
 	public R queryResAllById(String id, String classId) {
 
 		JSONObject data = new JSONObject();
-
-		if (ToolUtil.isEmpty(id)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
+//
+//		if (ToolUtil.isEmpty(id)) {
+//			return R.FAILURE_REQ_PARAM_ERROR();
+//		}
 
 		String class_id = "";
 		Rcd rs = db.uniqueRecord("select * from res t where dr=0 and id=?", id);

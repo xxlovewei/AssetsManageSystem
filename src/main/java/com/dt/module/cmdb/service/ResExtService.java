@@ -140,6 +140,9 @@ public class ResExtService extends BaseService {
 			me.setIf("create_time", nowtime);
 			me.setIf("create_by", this.getUserId());
 
+			me.setIf("buy_price", ps.getString("buy_price", "0"));
+			
+			
 			ins.set("oper_type", "入库");
 			sql = me.getSQL();
 		} else {
@@ -171,6 +174,8 @@ public class ResExtService extends BaseService {
 			me.setIf("changestate", "updated");
 			me.setIf("update_by", this.getUserId());
 
+			me.setIf("buy_price", ps.getString("buy_price", "0"));
+			
 			if ("scrap".equals(ps.getString("recycle"))) {
 				ins.set("oper_type", "报废");
 			} else if ("stop".equals(ps.getString("recycle"))) {
