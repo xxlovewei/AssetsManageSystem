@@ -1,4 +1,4 @@
-package com.dt.module.cmdb.controller;
+package com.dt.module.cmdb.service;
 
 import com.alibaba.fastjson.JSONObject;
 

@@ -56,7 +56,7 @@ public class ResExtController extends BaseController {
 	IResService ResServiceImpl;
 
 	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_ALLOW)
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectListResExd.do")
 	public R selectList(String classId) {
 		QueryWrapper<Res> ew = new QueryWrapper<Res>();
@@ -65,7 +65,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_ALLOW)
+	@Acl(info = "", value = Acl.ACL_USER)
 	@RequestMapping(value = "/batchWork.do")
 	public R batchWork(String sql) {
 		if (ToolUtil.isEmpty(sql)) {
@@ -76,7 +76,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_ALLOW)
+	@Acl(info = "", value = Acl.ACL_USER)
 	@RequestMapping(value = "/res/needreview.do")
 	@Transactional
 	public R needreview(String search) {
@@ -126,7 +126,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_ALLOW)
+	@Acl(info = "", value = Acl.ACL_USER)
 	@RequestMapping(value = "/res/addfaultdevice.do")
 	@Transactional
 	public R faultdevice(String resid, String reason, String mark, String files, String processtime,
@@ -241,7 +241,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
+	@Acl(info = "查询Res", value = Acl.ACL_USER)
 	@RequestMapping(value = "/queryResAllByClass.do")
 	public R queryResAllByClass(String id, String wb, String env, String recycle, String loc, String search) {
 
@@ -252,7 +252,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
+	@Acl(info = "查询Res", value = Acl.ACL_USER)
 	@RequestMapping(value = "/queryResAll.do")
 	public R queryResAll(String id, String wb, String env, String recycle, String loc, String search) {
 
@@ -261,7 +261,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
+	@Acl(info = "查询Res", value = Acl.ACL_USER)
 	@RequestMapping(value = "/queryResFaultById.do")
 	public R queryResFaultById(String id) {
 
@@ -278,7 +278,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
+	@Acl(info = "查询Res", value = Acl.ACL_USER)
 	@RequestMapping(value = "/queryResAllById.do")
 	public R queryResAllById(String id, String classId) {
 
@@ -362,7 +362,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
+	@Acl(info = "查询Res", value = Acl.ACL_USER)
 	@RequestMapping(value = "/queryResByNodeForUser.do")
 	public R queryResByNodeForUser(String ip, String classCode) {
 		String sql = "select (select count(1) from res_attr_value t2 where t2.res_id=t.id)ucnt,t.* "
@@ -371,7 +371,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
+	@Acl(info = "查询Res", value = Acl.ACL_USER)
 	@RequestMapping(value = "/queryResAllUsers.do")
 	public R queryResAllUsers(String status, String search, String type, String classCode, String attrCode) {
 
@@ -418,7 +418,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
+	@Acl(info = "查询Res", value = Acl.ACL_USER)
 	@RequestMapping(value = "/queryResValueByNodeForUser.do")
 	public R queryResValueByNodeForUser(String id) {
 		String sql = "select * from res_attr_value where res_id='" + id + "'";
@@ -426,7 +426,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_DENY)
+	@Acl(info = "", value = Acl.ACL_USER)
 	@RequestMapping(value = "/addResNode.do")
 	@Transactional
 	public R addResNode(String id, String ip, String name, String classCode, String attrCode) {
@@ -663,7 +663,7 @@ public class ResExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_ALLOW)
+	@Acl(info = "查询Res", value = Acl.ACL_USER)
 	@RequestMapping(value = "/addUserBySingleNode.do")
 	@Transactional
 	public R addUserBySingleNode(String data, String classCode, String attrCode) {
