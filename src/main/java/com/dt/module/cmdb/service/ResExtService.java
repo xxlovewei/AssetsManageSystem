@@ -170,6 +170,7 @@ public class ResExtService extends BaseService {
 			me.setIf("part_id", "none".equals(ps.getString("part_id")) ? 0 : ps.getString("part_id"));
 			me.setIf("mgr_part_id", "none".equals(ps.getString("mgr_part_id")) ? 0 : ps.getString("mgr_part_id"));
 			me.setIf("used_userid", ps.getString("used_userid"));
+			me.setIf("locdtl", ps.getString("locdtl"));
 			ins.set("oper_type", "入库");
 			sql = me.getSQL();
 		} else {
@@ -206,6 +207,7 @@ public class ResExtService extends BaseService {
 			me.setIf("mgr_part_id", "none".equals(ps.getString("mgr_part_id")) ? 0 : ps.getString("mgr_part_id"));
 			me.setIf("used_userid", ps.getString("used_userid"));
 			me.setIf("zc_category", ps.getString("zc_category"));
+			me.setIf("locdtl", ps.getString("locdtl"));
 			if (ToolUtil.isNotEmpty(recycle)) {
 				String source_recycle = db.uniqueRecord(" select recycle from res where id=?", id).getString("recycle");
 				if (source_recycle.equals(recycle)) {

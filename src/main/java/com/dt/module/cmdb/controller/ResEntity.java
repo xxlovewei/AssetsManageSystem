@@ -15,6 +15,70 @@ public class ResEntity implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	// 用户提现导出
+	@Excel(name = "资产编号", width = 30)
+	private String uuid;
+
+	@Excel(name = "位置", width = 10)
+	private String locstr;
+
+	@Excel(name = "机柜", width = 10)
+	private String rackstr;
+
+	@Excel(name = "机架", width = 10)
+	private String frame;
+
+	@Excel(name = "类型", width = 8)
+	private String typestr;
+
+	@Excel(name = "资产名称", width = 10)
+	private String name;
+
+	@Excel(name = "品牌", width = 10)
+	private String brandstr;
+
+	@Excel(name = "型号", width = 15)
+	private String model;
+
+	@Excel(name = "配置描述", width = 50)
+	private String confdesc;
+
+	@Excel(name = "序列号", width = 12)
+	private String sn;
+
+	@Excel(name = "状态", width = 10)
+	private String recyclestr;
+
+	@Excel(name = "维保情况", width = 10)
+	private String wbstr;
+
+	@Excel(name = "运行环境", width = 10)
+	private String envstr;
+
+	@Excel(name = "风险等级", width = 10)
+	private String riskstr;
+
+	@Excel(name = "采购时间", width = 15)
+	private String buy_timestr;
+
+	@Excel(name = "使用部门", width = 10)
+	private String part_fullname;
+
+	@Excel(name = "管理部门", width = 10)
+	private String mgr_part_fullname;
+
+	@Excel(name = "使用人", width = 10)
+	private String used_username;
+
+	@Excel(name = "原值", width = 10)
+	private String buy_price;
+
+	@Excel(name = "位置详情", width = 30)
+	private String locdtl;
+
+	@Excel(name = "备注", width = 10)
+	private String mark;
+
 	/**
 	 * @return the uuid
 	 */
@@ -232,66 +296,20 @@ public class ResEntity implements java.io.Serializable {
 		return serialVersionUID;
 	}
 
-	// 用户提现导出
-	@Excel(name = "资产编号", width = 30)
-	private String uuid;
+	/**
+	 * @return the locdtl
+	 */
+	public String getLocdtl() {
+		return locdtl;
+	}
 
-	@Excel(name = "位置", width = 10)
-	private String locstr;
+	/**
+	 * @param locdtl the locdtl to set
+	 */
+	public void setLocdtl(String locdtl) {
+		this.locdtl = locdtl;
+	}
 
-	@Excel(name = "机柜", width = 10)
-	private String rackstr;
-
-	@Excel(name = "机架", width = 10)
-	private String frame;
-
-	@Excel(name = "类型", width = 8)
-	private String typestr;
-
-	@Excel(name = "资产名称", width = 10)
-	private String name;
-
-	@Excel(name = "品牌", width = 10)
-	private String brandstr;
-
-	@Excel(name = "型号", width = 15)
-	private String model;
-
-	@Excel(name = "配置描述", width = 50)
-	private String confdesc;
-
-	@Excel(name = "序列号", width = 12)
-	private String sn;
-
-	@Excel(name = "状态", width = 10)
-	private String recyclestr;
-
-	@Excel(name = "维保情况", width = 10)
-	private String wbstr;
-
-	@Excel(name = "运行环境", width = 10)
-	private String envstr;
-
-	@Excel(name = "风险等级", width = 10)
-	private String riskstr;
-
-	@Excel(name = "采购时间", width = 15)
-	private String buy_timestr;
-
-	@Excel(name = "使用部门", width = 10)
-	private String part_fullname;
-
-	@Excel(name = "管理部门", width = 10)
-	private String mgr_part_fullname;
-
-	@Excel(name = "使用人", width = 10)
-	private String used_username;
-
-
-	@Excel(name = "原值", width = 10)
-	private String buy_price;
-	
-	
 	/**
 	 * @return the name
 	 */
@@ -362,9 +380,6 @@ public class ResEntity implements java.io.Serializable {
 		this.buy_price = buy_price;
 	}
 
-	@Excel(name = "备注", width = 10)
-	private String mark;
-
 	public ResEntity(JSONObject obj) {
 
 		this.uuid = obj.getString("uuid");
@@ -382,13 +397,14 @@ public class ResEntity implements java.io.Serializable {
 		this.frame = obj.getString("frame");
 		this.buy_timestr = obj.getString("buy_timestr");
 		this.mark = obj.getString("mark");
-		
+
 		this.buy_price = obj.getString("buy_price");
 		this.name = obj.getString("name");
 		this.part_fullname = obj.getString("part_fullname");
 		this.mgr_part_fullname = obj.getString("mgr_part_fullname");
 		this.used_username = obj.getString("used_username");
-		
+		this.locdtl = obj.getString("locdtl");
+
 	}
 
 }

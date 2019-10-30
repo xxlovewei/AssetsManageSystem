@@ -697,7 +697,20 @@ function routeCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 								need : false,
 								name : 'frame',
 								ng_model : "frame"
-							}, {
+							}, 
+							 {
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "请输入",
+								label : "详细位置",
+								need : false,
+								name : 'locdtl',
+								ng_model : "locdtl"
+							},
+							{
 								type : "input",
 								disabled : "false",
 								sub_type : "number",
