@@ -1,6 +1,6 @@
-var gclass_id = "pc";
 function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		notify, $scope, $http, $rootScope, $uibModal, $window) {
+	var gclass_id = "pc";
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(50)
 			.withOption("ordering", false).withOption("responsive", false)
@@ -72,6 +72,8 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			}),
 			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
 					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
 					'sDefaultContent', '').withOption('width', '50')
 					.renderWith(renderName),
@@ -81,8 +83,9 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('part_name').withTitle('部门').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('used_username').withTitle('使用人')
+					.withOption('sDefaultContent', '')
+					.withOption('width', '30'),
 			DTColumnBuilder.newColumn('recyclestr').withTitle('状态').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('wbstr').withTitle('维保').withOption(
@@ -232,13 +235,13 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			.post(
 					$rootScope.project + "/api/base/queryDictFast.do",
 					{
-						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devservertype,devrack",
+						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devcompute,devrack",
 						parts : "Y",
 						partusers : "Y"
 					}).success(function(res) {
 				if (res.success) {
 					gdicts = res.data;
-
+					gdicts.stype = gdicts.devcompute;
 					// 填充行数据
 					var tenv = [];
 					angular.copy(gdicts.devenv, tenv);
@@ -469,17 +472,17 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		}
 
 		// 类型
-		modal_meta.meta.typeOpt = gdicts.devservertype;
-		if (gdicts.devservertype.length > 0) {
+		modal_meta.meta.typeOpt = gdicts.stype;
+		if (gdicts.stype.length > 0) {
 			if (angular.isDefined(item) && angular.isDefined(item.type)) {
-				for (var i = 0; i < gdicts.devservertype.length; i++) {
-					if (gdicts.devservertype[i].dict_item_id == item.type) {
-						modal_meta.meta.typeSel = gdicts.devservertype[i];
+				for (var i = 0; i < gdicts.stype.length; i++) {
+					if (gdicts.stype[i].dict_item_id == item.type) {
+						modal_meta.meta.typeSel = gdicts.stype[i];
 					}
 				}
 			} else {
-				if (gdicts.devservertype.length > 0) {
-					modal_meta.meta.typeSel = gdicts.devservertype[0];
+				if (gdicts.stype.length > 0) {
+					modal_meta.meta.typeSel = gdicts.stype[0];
 				}
 			}
 		}
@@ -595,16 +598,15 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 								need : false,
 								name : 'uuid',
 								ng_model : "uuid"
+							}, {
+								type : "select",
+								disabled : "false",
+								label : "类型",
+								need : true,
+								disable_search : "true",
+								dataOpt : "typeOpt",
+								dataSel : "typeSel"
 							},
-							// {
-							// type : "select",
-							// disabled : "false",
-							// label : "类型",
-							// need : true,
-							// disable_search : "true",
-							// dataOpt : "typeOpt",
-							// dataSel : "typeSel"
-							// },
 							// {
 							// type : "input",
 							// disabled : "false",
@@ -693,26 +695,28 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 								disable_search : "true",
 								dataOpt : "locOpt",
 								dataSel : "locSel"
-							}, {
-								type : "select",
-								disabled : "false",
-								label : "机柜号",
-								need : false,
-								disable_search : "true",
-								dataOpt : "jgOpt",
-								dataSel : "jgSel"
-							}, {
-								type : "input",
-								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入",
-								label : "机架",
-								need : false,
-								name : 'frame',
-								ng_model : "frame"
-							}, {
+							},
+							// {
+							// type : "select",
+							// disabled : "false",
+							// label : "机柜号",
+							// need : false,
+							// disable_search : "true",
+							// dataOpt : "jgOpt",
+							// dataSel : "jgSel"
+							// }, {
+							// type : "input",
+							// disabled : "false",
+							// sub_type : "text",
+							// required : false,
+							// maxlength : "50",
+							// placeholder : "请输入",
+							// label : "机架",
+							// need : false,
+							// name : 'frame',
+							// ng_model : "frame"
+							// },
+							{
 								type : "input",
 								disabled : "false",
 								sub_type : "number",
@@ -770,7 +774,7 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 							meta = {
 								class_id : gclass_id,
 								footer_hide : false,
-								title : "基础设施",
+								title : "资产",
 								item : {},
 								buytime : bt,
 								statusOpt : [],

@@ -1,6 +1,6 @@
-var gclass_id = "server";
-function serverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
-		$log, notify, $scope, $http, $rootScope, $uibModal, $window) {
+function serverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
+		notify, $scope, $http, $rootScope, $uibModal, $window) {
+	var gclass_id = "server";
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(50)
 			.withOption("ordering", false).withOption("responsive", false)
@@ -72,11 +72,13 @@ function serverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}),
 			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
 					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
+					'sDefaultContent', '').withOption('width', '50'),
+			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
 					'sDefaultContent', '').withOption('width', '50')
 					.renderWith(renderName),
-			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('recyclestr').withTitle('状态').withOption(
@@ -91,22 +93,12 @@ function serverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('uuid').withTitle('机柜').withOption(
 					'sDefaultContent', '').renderWith(renderJg),
-			// DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
-			// 'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
-					.withOption('sDefaultContent', '').renderWith(renderReview),
-			// DTColumnBuilder.newColumn('create_username').withTitle('录入人')
-			// .withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('update_username').withTitle('更新人')
-					.withOption('sDefaultContent', '')
-	// ,
-	// DTColumnBuilder.newColumn('review_username').withTitle('复核人')
-	// .withOption('sDefaultContent', '')
-	]
+					.withOption('sDefaultContent', '').renderWith(renderReview) ]
 
 	$scope.query = function() {
 		flush();
@@ -234,7 +226,7 @@ function serverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					}).success(function(res) {
 				if (res.success) {
 					gdicts = res.data;
-
+					gdicts.stype = gdicts.devservertype;
 					// 填充行数据
 					var tenv = [];
 					angular.copy(gdicts.devenv, tenv);
@@ -465,17 +457,17 @@ function serverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 
 		// 类型
-		modal_meta.meta.typeOpt = gdicts.devservertype;
-		if (gdicts.devservertype.length > 0) {
+		modal_meta.meta.typeOpt = gdicts.stype;
+		if (gdicts.stype.length > 0) {
 			if (angular.isDefined(item) && angular.isDefined(item.type)) {
-				for (var i = 0; i < gdicts.devservertype.length; i++) {
-					if (gdicts.devservertype[i].dict_item_id == item.type) {
-						modal_meta.meta.typeSel = gdicts.devservertype[i];
+				for (var i = 0; i < gdicts.stype.length; i++) {
+					if (gdicts.stype[i].dict_item_id == item.type) {
+						modal_meta.meta.typeSel = gdicts.stype[i];
 					}
 				}
 			} else {
-				if (gdicts.devservertype.length > 0) {
-					modal_meta.meta.typeSel = gdicts.devservertype[0];
+				if (gdicts.stype.length > 0) {
+					modal_meta.meta.typeSel = gdicts.stype[0];
 				}
 			}
 		}
@@ -765,7 +757,7 @@ function serverCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							meta = {
 								class_id : gclass_id,
 								footer_hide : false,
-								title : "基础设施",
+								title : "资产",
 								item : {},
 								buytime : bt,
 								statusOpt : [],

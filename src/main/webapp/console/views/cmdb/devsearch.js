@@ -41,9 +41,11 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').withOption("width", '30'),
 			DTColumnBuilder.newColumn('classname').withTitle('类型').withOption(
 					'sDefaultContent', '').withOption("width", '30'),
-			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
+					'sDefaultContent', '').withOption("width", '30'),
 			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
 					'sDefaultContent', '').withOption('width', '50')
@@ -98,7 +100,7 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		ps.search = $scope.meta.tools[0].ct;
 		console.log($scope.meta.tools[0].ct)
 
-		if ($scope.meta.tools[0].ct=="") {
+		if ($scope.meta.tools[0].ct == "") {
 			notify({
 				message : "请输入搜索内容"
 			});

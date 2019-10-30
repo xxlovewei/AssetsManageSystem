@@ -48,7 +48,36 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	})
 	
  
-	
+		// 报表
+	$stateProvider.state('cmdbresp', {
+		abstract : true,
+		url : "/cmdbresp",
+		templateUrl : "views/common/content.html"
+	}).state('cmdbresp.partzc', {
+		url : "/maintain_partzc",
+		data: { pageTitle: '部门资产'},
+		template:'<div ng-controller="cmdbrepPartZcCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/rep/partzj.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('cmdbresp.zctjshow', {
+		url : "/cmdbresp_zctjshow",
+		data: { pageTitle: '资产统计'},
+		templateUrl : "views/cmdb/rep/zctj.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/rep/zctj.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
 	
 	
 	// cmdb
@@ -165,15 +194,27 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	}).state('cf.print', {
-		url : "/cf_print",
-		data: { pageTitle: '打印机'},
-		templateUrl : "views/cmdb/html_print.html",
+	}).state('cf.bjpj', {
+		url : "/cf_bjpj",
+		data: { pageTitle: 'IT备件配件'},
+		templateUrl : "views/cmdb/html_bjpj.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_print.js?v=' + version ]
+					files : [ 'views/cmdb/js_bjpj.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('cf.zcotherhard', {
+		url : "/cf_zcotherhard",
+		data: { pageTitle: '其他设备'},
+		templateUrl : "views/cmdb/html_zcotherhard.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/js_zcotherhard.js?v=' + version ]
 				} ]);
 			}
 		}

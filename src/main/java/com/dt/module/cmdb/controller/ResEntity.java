@@ -11,7 +11,7 @@ import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
  * @Description: TODO
  */
 @ExcelTarget("ServiceEntity")
-public class ServerEntity implements java.io.Serializable {
+public class ResEntity implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -245,11 +245,12 @@ public class ServerEntity implements java.io.Serializable {
 	@Excel(name = "机架", width = 10)
 	private String frame;
 
-
 	@Excel(name = "类型", width = 8)
 	private String typestr;
 
-	
+	@Excel(name = "资产名称", width = 10)
+	private String name;
+
 	@Excel(name = "品牌", width = 10)
 	private String brandstr;
 
@@ -277,10 +278,94 @@ public class ServerEntity implements java.io.Serializable {
 	@Excel(name = "采购时间", width = 15)
 	private String buy_timestr;
 
+	@Excel(name = "使用部门", width = 10)
+	private String part_fullname;
+
+	@Excel(name = "管理部门", width = 10)
+	private String mgr_part_fullname;
+
+	@Excel(name = "使用人", width = 10)
+	private String used_username;
+
+
+	@Excel(name = "原值", width = 10)
+	private String buy_price;
+	
+	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the part_fullname
+	 */
+	public String getPart_fullname() {
+		return part_fullname;
+	}
+
+	/**
+	 * @param part_fullname the part_fullname to set
+	 */
+	public void setPart_fullname(String part_fullname) {
+		this.part_fullname = part_fullname;
+	}
+
+	/**
+	 * @return the mgr_part_fullname
+	 */
+	public String getMgr_part_fullname() {
+		return mgr_part_fullname;
+	}
+
+	/**
+	 * @param mgr_part_fullname the mgr_part_fullname to set
+	 */
+	public void setMgr_part_fullname(String mgr_part_fullname) {
+		this.mgr_part_fullname = mgr_part_fullname;
+	}
+
+	/**
+	 * @return the used_username
+	 */
+	public String getUsed_username() {
+		return used_username;
+	}
+
+	/**
+	 * @param used_username the used_username to set
+	 */
+	public void setUsed_username(String used_username) {
+		this.used_username = used_username;
+	}
+
+	/**
+	 * @return the buy_price
+	 */
+	public String getBuy_price() {
+		return buy_price;
+	}
+
+	/**
+	 * @param buy_price the buy_price to set
+	 */
+	public void setBuy_price(String buy_price) {
+		this.buy_price = buy_price;
+	}
+
 	@Excel(name = "备注", width = 10)
 	private String mark;
 
-	public ServerEntity(JSONObject obj) {
+	public ResEntity(JSONObject obj) {
 
 		this.uuid = obj.getString("uuid");
 		this.typestr = obj.getString("typestr");
@@ -297,7 +382,13 @@ public class ServerEntity implements java.io.Serializable {
 		this.frame = obj.getString("frame");
 		this.buy_timestr = obj.getString("buy_timestr");
 		this.mark = obj.getString("mark");
-
+		
+		this.buy_price = obj.getString("buy_price");
+		this.name = obj.getString("name");
+		this.part_fullname = obj.getString("part_fullname");
+		this.mgr_part_fullname = obj.getString("mgr_part_fullname");
+		this.used_username = obj.getString("used_username");
+		
 	}
 
 }

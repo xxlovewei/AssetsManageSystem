@@ -45,7 +45,6 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		return html;
 	}
 
- 
 	$scope.selectCheckBoxAll = function(selected) {
 
 		if (selected) {
@@ -66,14 +65,16 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 					'sDefaultContent', '').withOption("width", '30'),
 			DTColumnBuilder.newColumn('classname').withTitle('类型').withOption(
 					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
+					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
 					'sDefaultContent', '').withOption('width', '50')
 					.renderWith(renderName),
 			DTColumnBuilder.newColumn('reviewstr').withTitle('复核状态')
 					.withOption('sDefaultContent', '')
 					.withOption('width', '50'),
-			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('part_name').withTitle('部门').withOption(
@@ -108,7 +109,15 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 
 	var meta = {
 		tablehide : false,
-		toolsbtn : [
+		toolsbtn : [],
+		tools : [
+				{
+					id : "input",
+					label : "内容",
+					placeholder : "输入型号、编号、序列号",
+					type : "input",
+					ct : ""
+				},
 				{
 					id : "btn",
 					label : "",
@@ -126,14 +135,7 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 					label : "",
 					type : "btn",
 					template : ' <button ng-click="reviewbtn()" class="btn btn-sm btn-primary" type="submit">复核</button>'
-				} ],
-		tools : [ {
-			id : "input",
-			label : "内容",
-			placeholder : "输入型号、编号、序列号",
-			type : "input",
-			ct : ""
-		} ]
+				} ]
 	}
 	$scope.meta = meta;
 
@@ -213,15 +215,15 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 				message : "请至少选择一项"
 			});
 			return;
-		}else if(data.length > 100) {
+		} else if (data.length > 100) {
 			notify({
 				message : "不允许超过500个"
 			});
 			return;
-		}  else {
-			var res=[];
+		} else {
+			var res = [];
 			console.log("sel:", data);
-			for(var i=0;i<data.length;i++){
+			for (var i = 0; i < data.length; i++) {
 				res.push($scope.dtOptions.aaData[data[i]].id)
 			}
 			return angular.toJson(res);

@@ -1,7 +1,7 @@
 
-function firewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal, $window) {
-	var gclass_id = "firewall";
+	var gclass_id = "zcotherhard";
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(50)
 			.withOption("ordering", false).withOption("responsive", false)
@@ -67,37 +67,47 @@ function firewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 
 	$scope.dtColumns = [
-		DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
-				'select-checkbox checkbox_center').renderWith(function() {
-			return ""
-		}),
-		DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
-				'sDefaultContent', '').withOption("width", '30'),
-		DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
-				'sDefaultContent', '').withOption('width', '50')
-				.renderWith(renderName),
-		DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('recyclestr').withTitle('状态').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('wbstr').withTitle('维保').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
-				'sDefaultContent', ''),
-		DTColumnBuilder.newColumn('uuid').withTitle('机柜').withOption(
-				'sDefaultContent', '').renderWith(renderJg),
-		DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
-				'sDefaultContent', ''),
-		DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-				.withOption('sDefaultContent', ''),
-		DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
-				.withOption('sDefaultContent', '').renderWith(renderReview) ]
+			DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
+					'select-checkbox checkbox_center').renderWith(function() {
+				return ""
+			}),
+			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
+					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
+					'sDefaultContent', '').withOption('width', '50')
+					.renderWith(renderName),
+			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('recyclestr').withTitle('状态').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('wbstr').withTitle('维保').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('uuid').withTitle('机柜').withOption(
+					'sDefaultContent', '').renderWith(renderJg),
+			// DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
+			// 'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
+					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
+					.withOption('sDefaultContent', '').renderWith(renderReview),
+			// DTColumnBuilder.newColumn('create_username').withTitle('录入人')
+			// .withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('update_username').withTitle('更新人')
+					.withOption('sDefaultContent', '')
+	// ,
+	// DTColumnBuilder.newColumn('review_username').withTitle('复核人')
+	// .withOption('sDefaultContent', '')
+	]
 
 	$scope.query = function() {
 		flush();
@@ -219,13 +229,14 @@ function firewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.post(
 					$rootScope.project + "/api/base/queryDictFast.do",
 					{
-						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devservertype,devrack",
+						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devbjpj,devrack",
 						parts : "Y",
 						partusers : "Y"
 					}).success(function(res) {
 				if (res.success) {
 					gdicts = res.data;
-					gdicts.stype=[]
+					gdicts.stype=gdicts.devbjpj;
+					
 					// 填充行数据
 					var tenv = [];
 					angular.copy(gdicts.devenv, tenv);
@@ -241,7 +252,7 @@ function firewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 					var parts = [];
 					angular.copy(gdicts.parts, parts);
-
+				 
 					var partusers = [];
 					angular.copy(gdicts.partusers, partusers);
 
@@ -255,6 +266,7 @@ function firewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						name : "未设置"
 					});
 
+					
 					$scope.meta.tools[0].dataOpt = tloc;
 					$scope.meta.tools[0].dataSel = tloc[0];
 
@@ -582,17 +594,15 @@ function firewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								name : 'uuid',
 								ng_model : "uuid"
-							}, 
-							
-//							{
-//								type : "select",
-//								disabled : "false",
-//								label : "类型",
-//								need : true,
-//								disable_search : "true",
-//								dataOpt : "typeOpt",
-//								dataSel : "typeSel"
-//							},
+							}, {
+								type : "select",
+								disabled : "false",
+								label : "类型",
+								need : true,
+								disable_search : "true",
+								dataOpt : "typeOpt",
+								dataSel : "typeSel"
+							},
 							// {
 							// type : "input",
 							// disabled : "false",
@@ -794,7 +804,7 @@ function firewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									modal_meta.meta.item.wb = modal_meta.meta.wbSel.dict_item_id;
 									modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
 									modal_meta.meta.item.risk = modal_meta.meta.riskSel.dict_item_id;
-//									modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
+									modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
 									modal_meta.meta.item.rack = modal_meta.meta.jgSel.dict_item_id;
 									modal_meta.meta.item.buy_time = modal_meta.meta.buytime
 											.format('YYYY-MM-DD');
@@ -921,4 +931,4 @@ function firewallCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 };
 
-app.register.controller('firewallCtl', firewallCtl);
+app.register.controller('otherhardCtl', otherhardCtl);

@@ -44,20 +44,20 @@ public class ResExtExportController extends BaseController {
 				ps.getString("recycle"), ps.getString("loc"), ps.getString("search"));
 
 		JSONArray data = res.queryDataToJSONArray();
-		List<ServerEntity> data_excel = new ArrayList<ServerEntity>();
+		List<ResEntity> data_excel = new ArrayList<ResEntity>();
 		for (int i = 0; i < data.size(); i++) {
-			data_excel.add(new ServerEntity(data.getJSONObject(i)));
+			data_excel.add(new ResEntity(data.getJSONObject(i)));
 		}
 
-		ExportParams parms = new ExportParams("服务器设备信息", "服务器");
+		ExportParams parms = new ExportParams("导出列表", "数据");
 
 	 
 		Workbook workbook;
-		workbook = ExcelExportUtil.exportExcel(parms, ServerEntity.class, data_excel);
+		workbook = ExcelExportUtil.exportExcel(parms, ResEntity.class, data_excel);
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/x-download");
-		String filedisplay = "服务器.xls";
+		String filedisplay = "file.xls";
 		filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
 		response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
 		try {

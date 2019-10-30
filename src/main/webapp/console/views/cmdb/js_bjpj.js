@@ -1,6 +1,6 @@
-var gclass_id = "print";
-function printCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
-		$log, notify, $scope, $http, $rootScope, $uibModal, $window) {
+function bjpjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
+		notify, $scope, $http, $rootScope, $uibModal, $window) {
+	var gclass_id = "bjpj";
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(50)
 			.withOption("ordering", false).withOption("responsive", false)
@@ -72,6 +72,8 @@ function printCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}),
 			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
 					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
 					'sDefaultContent', '').withOption('width', '50')
 					.renderWith(renderName),
@@ -228,13 +230,13 @@ function printCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.post(
 					$rootScope.project + "/api/base/queryDictFast.do",
 					{
-						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devservertype,devrack",
+						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devbjpj,devrack",
 						parts : "Y",
 						partusers : "Y"
 					}).success(function(res) {
 				if (res.success) {
 					gdicts = res.data;
-
+					gdicts.stype = gdicts.devbjpj;
 					// 填充行数据
 					var tenv = [];
 					angular.copy(gdicts.devenv, tenv);
@@ -465,17 +467,17 @@ function printCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 
 		// 类型
-		modal_meta.meta.typeOpt = gdicts.devservertype;
-		if (gdicts.devservertype.length > 0) {
+		modal_meta.meta.typeOpt = gdicts.stype;
+		if (gdicts.stype.length > 0) {
 			if (angular.isDefined(item) && angular.isDefined(item.type)) {
-				for (var i = 0; i < gdicts.devservertype.length; i++) {
-					if (gdicts.devservertype[i].dict_item_id == item.type) {
-						modal_meta.meta.typeSel = gdicts.devservertype[i];
+				for (var i = 0; i < gdicts.stype.length; i++) {
+					if (gdicts.stype[i].dict_item_id == item.type) {
+						modal_meta.meta.typeSel = gdicts.stype[i];
 					}
 				}
 			} else {
-				if (gdicts.devservertype.length > 0) {
-					modal_meta.meta.typeSel = gdicts.devservertype[0];
+				if (gdicts.stype.length > 0) {
+					modal_meta.meta.typeSel = gdicts.stype[0];
 				}
 			}
 		}
@@ -591,16 +593,15 @@ function printCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								name : 'uuid',
 								ng_model : "uuid"
-							}, 
-//							{
-//								type : "select",
-//								disabled : "false",
-//								label : "类型",
-//								need : true,
-//								disable_search : "true",
-//								dataOpt : "typeOpt",
-//								dataSel : "typeSel"
-//							},
+							}, {
+								type : "select",
+								disabled : "false",
+								label : "类型",
+								need : true,
+								disable_search : "true",
+								dataOpt : "typeOpt",
+								dataSel : "typeSel"
+							},
 							// {
 							// type : "input",
 							// disabled : "false",
@@ -766,7 +767,7 @@ function printCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							meta = {
 								class_id : gclass_id,
 								footer_hide : false,
-								title : "基础设施",
+								title : "资产",
 								item : {},
 								buytime : bt,
 								statusOpt : [],
@@ -929,4 +930,4 @@ function printCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 };
 
-app.register.controller('printCtl', printCtl);
+app.register.controller('bjpjCtl', bjpjCtl);
