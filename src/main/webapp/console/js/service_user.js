@@ -146,9 +146,9 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 			return "";
 		},
 		checkLogin : function() {
-			
 			var deferred = $q.defer();
 			// 后期需要加上菜单选择判断,当前暂时不实现
+			console.log("检查是否登陆状态");
 			$http.post($rootScope.project + "/api/user/checkLogin.do", {}).success(function(res) {
 				deferred.resolve(res);
 			});

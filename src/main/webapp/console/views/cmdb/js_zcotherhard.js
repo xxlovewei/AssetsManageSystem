@@ -1,9 +1,8 @@
-
 function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal, $window) {
 	var gclass_id = "zcotherhard";
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withPaginationType('full_numbers').withDisplayLength(50)
+			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
 			.withOption("searching", true).withOption('scrollY', '600px')
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
@@ -35,35 +34,7 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.dtInstance = {}
 
-	function renderName(data, type, full) {
-
-		var html = full.model;
-		return html;
-
-	}
-
-	function renderJg(data, type, full) {
-		var html = full.rackstr + "-" + full.frame;
-		return html;
-	}
-
-	function renderReview(data, type, full) {
-		if (data == "reviewed") {
-			return "已复核"
-		} else {
-			return "未复核"
-		}
-	}
-
-	$scope.selectCheckBoxAll = function(selected) {
-
-		if (selected) {
-			$scope.dtInstance.DataTable.rows().select();
-		} else {
-			$scope.dtInstance.DataTable.rows().deselect();
-		}
-	}
-
+ 
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 
 	$scope.dtColumns = [
@@ -73,17 +44,20 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}),
 			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
 					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
 					'sDefaultContent', '').withOption('width', '50')
 					.renderWith(renderName),
-			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('recyclestr').withTitle('状态').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('wbstr').withTitle('维保').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
+					DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
+							'sDefaultContent', '').withOption('width', '30')
+							.renderWith(renderWb),
 			DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
@@ -92,22 +66,16 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('uuid').withTitle('机柜').withOption(
 					'sDefaultContent', '').renderWith(renderJg),
-			// DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
-			// 'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
 					.withOption('sDefaultContent', ''),
+					DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
+					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
+					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
-					.withOption('sDefaultContent', '').renderWith(renderReview),
-			// DTColumnBuilder.newColumn('create_username').withTitle('录入人')
-			// .withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('update_username').withTitle('更新人')
-					.withOption('sDefaultContent', '')
-	// ,
-	// DTColumnBuilder.newColumn('review_username').withTitle('复核人')
-	// .withOption('sDefaultContent', '')
-	]
+					.withOption('sDefaultContent', '').renderWith(renderReview) ]
 
 	$scope.query = function() {
 		flush();
@@ -151,7 +119,7 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "btn3",
 					label : "",
 					type : "btn",
-					template : ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">下载</button>'
+					template : ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">导出</button>'
 				} ],
 		tools : [ {
 			id : "select",
@@ -225,18 +193,18 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				+ ps.recycle + "&search=" + ps.search);
 	}
 	var gdicts = {};
+	
 	$http
 			.post(
 					$rootScope.project + "/api/base/queryDictFast.do",
 					{
-						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devbjpj,devrack",
+						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack,zcother",
 						parts : "Y",
 						partusers : "Y"
 					}).success(function(res) {
 				if (res.success) {
 					gdicts = res.data;
-					gdicts.stype=gdicts.devbjpj;
-					
+					gdicts.stype = gdicts.zcother;
 					// 填充行数据
 					var tenv = [];
 					angular.copy(gdicts.devenv, tenv);
@@ -252,7 +220,7 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 					var parts = [];
 					angular.copy(gdicts.parts, parts);
-				 
+
 					var partusers = [];
 					angular.copy(gdicts.partusers, partusers);
 
@@ -266,7 +234,6 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						name : "未设置"
 					});
 
-					
 					$scope.meta.tools[0].dataOpt = tloc;
 					$scope.meta.tools[0].dataSel = tloc[0];
 
@@ -332,175 +299,9 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 
 	}
-
-	function loadOpt(modal_meta, gdicts) {
-		// 品牌
-		var item = modal_meta.meta.item;
-		console.log("loadOpt", item)
-		modal_meta.meta.pinpOpt = gdicts.devbrand;
-		if (modal_meta.meta.pinpOpt.length > 0) {
-			if (angular.isDefined(item) && angular.isDefined(item.brand)) {
-				for (var i = 0; i < gdicts.devbrand.length; i++) {
-					console.log(modal_meta.meta.pinpOpt[i].dict_item_id + "--"
-							+ item.brand)
-					if (modal_meta.meta.pinpOpt[i].dict_item_id == item.brand) {
-						modal_meta.meta.pinpSel = modal_meta.meta.pinpOpt[i];
-					}
-				}
-			} else {
-				if (gdicts.devbrand.length > 0) {
-					modal_meta.meta.pinpSel = modal_meta.meta.pinpOpt[0];
-				}
-			}
-		}
-
-		// 部门
-		modal_meta.meta.partOpt = gdicts.parts;
-		if (gdicts.parts.length > 0) {
-			if (angular.isDefined(item) && angular.isDefined(item.part_id)) {
-				for (var i = 0; i < gdicts.parts.length; i++) {
-					if (gdicts.parts[i].partid == item.part_id) {
-						modal_meta.meta.partSel = gdicts.parts[i];
-					}
-				}
-			} else {
-				if (gdicts.parts.length > 0) {
-					modal_meta.meta.partSel = gdicts.parts[0];
-				}
-			}
-		}
-
-		// 使用人
-		modal_meta.meta.usedunameOpt = gdicts.partusers;
-		if (gdicts.partusers.length > 0) {
-			if (angular.isDefined(item) && angular.isDefined(item.used_userid)) {
-				for (var i = 0; i < gdicts.partusers.length; i++) {
-					if (gdicts.partusers[i].user_id == item.used_userid) {
-						modal_meta.meta.usedunameSel = gdicts.partusers[i];
-					}
-				}
-			} else {
-				if (gdicts.partusers.length > 0) {
-					modal_meta.meta.usedunameSel = gdicts.partusers[0];
-				}
-			}
-		}
-
-		// 等级
-		modal_meta.meta.riskOpt = gdicts.devrisk;
-		if (gdicts.devrisk.length > 0) {
-			if (angular.isDefined(item) && angular.isDefined(item.risk)) {
-				for (var i = 0; i < gdicts.devrisk.length; i++) {
-					if (gdicts.devrisk[i].dict_item_id == item.risk) {
-						modal_meta.meta.riskSel = gdicts.devrisk[i];
-					}
-				}
-			} else {
-				if (gdicts.devrisk.length > 0) {
-					modal_meta.meta.riskSel = gdicts.devrisk[0];
-				}
-			}
-		}
-
-		// 环境
-		modal_meta.meta.envOpt = gdicts.devenv;
-		if (gdicts.devenv.length > 0) {
-			if (angular.isDefined(item) && angular.isDefined(item.env)) {
-				for (var i = 0; i < gdicts.devenv.length; i++) {
-					if (gdicts.devenv[i].dict_item_id == item.env) {
-						modal_meta.meta.envSel = gdicts.devenv[i];
-					}
-				}
-			} else {
-				if (gdicts.devenv.length > 0) {
-					modal_meta.meta.envSel = gdicts.devenv[0];
-
-				}
-			}
-		}
-
-		// 状态
-		modal_meta.meta.statusOpt = gdicts.devrecycle;
-		if (gdicts.devrecycle.length > 0) {
-			if (angular.isDefined(item) && angular.isDefined(item.recycle)) {
-				for (var i = 0; i < gdicts.devrecycle.length; i++) {
-					if (gdicts.devrecycle[i].dict_item_id == item.recycle) {
-						modal_meta.meta.statusSel = gdicts.devrecycle[i];
-					}
-				}
-			} else {
-				if (gdicts.devrecycle.length > 0) {
-					modal_meta.meta.statusSel = gdicts.devrecycle[0];
-				}
-			}
-		}
-
-		// 维保
-		modal_meta.meta.wbOpt = gdicts.devwb;
-		if (gdicts.devwb.length > 0) {
-			if (angular.isDefined(item) && angular.isDefined(item.wb)) {
-				for (var i = 0; i < gdicts.devwb.length; i++) {
-					if (gdicts.devwb[i].dict_item_id == item.wb) {
-						modal_meta.meta.wbSel = gdicts.devwb[i];
-					}
-				}
-			} else {
-				if (gdicts.devwb.length > 0) {
-					modal_meta.meta.wbSel = gdicts.devwb[0];
-				}
-			}
-		}
-
-		// 位置
-		modal_meta.meta.locOpt = gdicts.devdc;
-		if (gdicts.devdc.length > 0) {
-			if (angular.isDefined(item) && angular.isDefined(item.loc)) {
-				for (var i = 0; i < gdicts.devdc.length; i++) {
-					if (gdicts.devdc[i].dict_item_id == item.loc) {
-						modal_meta.meta.locSel = gdicts.devdc[i];
-					}
-				}
-			} else {
-				if (gdicts.devdc.length > 0) {
-					modal_meta.meta.locSel = gdicts.devdc[0];
-				}
-			}
-		}
-
-		// 类型
-		modal_meta.meta.typeOpt = gdicts.stype;
-		if (gdicts.stype.length > 0) {
-			if (angular.isDefined(item) && angular.isDefined(item.type)) {
-				for (var i = 0; i < gdicts.stype.length; i++) {
-					if (gdicts.stype[i].dict_item_id == item.type) {
-						modal_meta.meta.typeSel = gdicts.stype[i];
-					}
-				}
-			} else {
-				if (gdicts.stype.length > 0) {
-					modal_meta.meta.typeSel = gdicts.stype[0];
-				}
-			}
-		}
-
-		// 机柜
-		modal_meta.meta.jgOpt = gdicts.devrack;
-		if (gdicts.devrack.length > 0) {
-			if (angular.isDefined(item) && angular.isDefined(item.rack)) {
-				for (var i = 0; i < gdicts.devrack.length; i++) {
-					if (gdicts.devrack[i].dict_item_id == item.rack) {
-						modal_meta.meta.jgSel = gdicts.devrack[i];
-					}
-				}
-			} else {
-				if (gdicts.devrack.length > 0) {
-					modal_meta.meta.jgSel = gdicts.devrack[0];
-				}
-			}
-		}
-
-	}
-
+	
+	
+ 
 	$scope.detail = function() {
 		var id = "";
 		var selrow = getSelectRow();
@@ -522,7 +323,6 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				}
 			}
 		});
-
 		modalInstance.result.then(function(result) {
 			$log.log("result", result);
 
@@ -643,10 +443,24 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								label : "采购时间",
 								need : true,
 								ng_model : "buytime"
+							},  {
+								type : "select",
+								disabled : "false",
+								label : "脱保计算",
+								need : false,
+								disable_search : "true",
+								dataOpt : "tbOpt",
+								dataSel : "tbSel"
+							}, {
+								type : "datetime",
+								disabled : "false",
+								label : "脱保时间",
+								need : false,
+								ng_model : "wboutdate"
 							}, {
 								type : "select",
 								disabled : "false",
-								label : "维保",
+								label : "维保状态",
 								need : true,
 								disable_search : "true",
 								dataOpt : "wbOpt",
@@ -764,13 +578,36 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							];
 
 							var bt = moment().subtract(1, "days");
+							var tbtime = moment();
+							if (angular.isDefined(res.data)
+									&& angular.isDefined(res.data.data)
+									&& angular
+											.isDefined(res.data.data.buy_timestr)) {
+								bt = moment(res.data.data.buy_timestr);
+							}
+							if (angular.isDefined(res.data)
+									&& angular.isDefined(res.data.data)
+									&& angular
+											.isDefined(res.data.data.wbout_datestr)) {
+								tbtime = moment(res.data.data.wbout_datestr);
+							}
 
+							
 							meta = {
 								class_id : gclass_id,
 								footer_hide : false,
 								title : "资产",
 								item : {},
 								buytime : bt,
+								wboutdate : tbtime,
+								tbOpt : [ {
+									id : "1",
+									name : "自动计算"
+								}, {
+									id : "0",
+									name : "手工"
+								} ],
+								tbSel : "",
 								statusOpt : [],
 								statusSel : "",
 								pinpOpt : [],
@@ -806,8 +643,11 @@ function otherhardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									modal_meta.meta.item.risk = modal_meta.meta.riskSel.dict_item_id;
 									modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
 									modal_meta.meta.item.rack = modal_meta.meta.jgSel.dict_item_id;
-									modal_meta.meta.item.buy_time = modal_meta.meta.buytime
-											.format('YYYY-MM-DD');
+									modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
+									.format('YYYY-MM-DD');
+									modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
+									.format('YYYY-MM-DD');
+							modal_meta.meta.item.wb_auto = modal_meta.meta.tbSel.id;
 									console.log('sure set', modal_meta.meta)
 
 									// 动态参数

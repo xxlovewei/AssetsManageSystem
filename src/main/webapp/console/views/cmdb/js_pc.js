@@ -2,7 +2,7 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		notify, $scope, $http, $rootScope, $uibModal, $window) {
 	var gclass_id = "pc";
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withPaginationType('full_numbers').withDisplayLength(50)
+			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
 			.withOption("searching", true).withOption('scrollY', '600px')
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
@@ -33,26 +33,6 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			});
 
 	$scope.dtInstance = {}
-
-	function renderName(data, type, full) {
-
-		var html = full.model;
-		return html;
-
-	}
-
-	function renderJg(data, type, full) {
-		var html = full.rackstr + "-" + full.frame;
-		return html;
-	}
-
-	function renderReview(data, type, full) {
-		if (data == "reviewed") {
-			return "已复核"
-		} else {
-			return "未复核"
-		}
-	}
 
 	$scope.selectCheckBoxAll = function(selected) {
 
@@ -88,8 +68,9 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 					.withOption('width', '30'),
 			DTColumnBuilder.newColumn('recyclestr').withTitle('状态').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('wbstr').withTitle('维保').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
+					'sDefaultContent', '').withOption('width', '30')
+					.renderWith(renderWb),
 			DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
@@ -104,15 +85,13 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
 					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
+					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
+					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
-					.withOption('sDefaultContent', '').renderWith(renderReview),
-			// DTColumnBuilder.newColumn('create_username').withTitle('录入人')
-			// .withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('update_username').withTitle('更新人')
-					.withOption('sDefaultContent', '')
-	// ,
-	// DTColumnBuilder.newColumn('review_username').withTitle('复核人')
-	// .withOption('sDefaultContent', '')
+					.withOption('sDefaultContent', '').renderWith(renderReview)
+
 	]
 
 	$scope.query = function() {
@@ -157,7 +136,7 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 					id : "btn3",
 					label : "",
 					type : "btn",
-					template : ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">下载</button>'
+					template : ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">导出</button>'
 				} ],
 		tools : [ {
 			id : "select",
@@ -340,6 +319,16 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 	function loadOpt(modal_meta, gdicts) {
 		// 品牌
 		var item = modal_meta.meta.item;
+		
+		// 脱保
+		modal_meta.meta.tbSel = modal_meta.meta.tbOpt[0];
+		if (angular.isDefined(item.wb_auto)) {
+			if (item.wb_auto == "0") {
+				modal_meta.meta.tbSel = modal_meta.meta.tbOpt[1];
+			}
+		}
+		
+		
 		console.log("loadOpt", item)
 		modal_meta.meta.pinpOpt = gdicts.devbrand;
 		if (modal_meta.meta.pinpOpt.length > 0) {
@@ -647,10 +636,24 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 								label : "采购时间",
 								need : true,
 								ng_model : "buytime"
+							},  {
+								type : "select",
+								disabled : "false",
+								label : "脱保计算",
+								need : false,
+								disable_search : "true",
+								dataOpt : "tbOpt",
+								dataSel : "tbSel"
+							}, {
+								type : "datetime",
+								disabled : "false",
+								label : "脱保时间",
+								need : false,
+								ng_model : "wboutdate"
 							}, {
 								type : "select",
 								disabled : "false",
-								label : "维保",
+								label : "维保状态",
 								need : true,
 								disable_search : "true",
 								dataOpt : "wbOpt",
@@ -770,6 +773,19 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 							];
 
 							var bt = moment().subtract(1, "days");
+							var tbtime = moment();
+							if (angular.isDefined(res.data)
+									&& angular.isDefined(res.data.data)
+									&& angular
+											.isDefined(res.data.data.buy_timestr)) {
+								bt = moment(res.data.data.buy_timestr);
+							}
+							if (angular.isDefined(res.data)
+									&& angular.isDefined(res.data.data)
+									&& angular
+											.isDefined(res.data.data.wbout_datestr)) {
+								tbtime = moment(res.data.data.wbout_datestr);
+							}
 
 							meta = {
 								class_id : gclass_id,
@@ -777,6 +793,15 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 								title : "资产",
 								item : {},
 								buytime : bt,
+								wboutdate : tbtime,
+								tbOpt : [ {
+									id : "1",
+									name : "自动计算"
+								}, {
+									id : "0",
+									name : "手工"
+								} ],
+								tbSel : "",
 								statusOpt : [],
 								statusSel : "",
 								pinpOpt : [],
@@ -812,8 +837,11 @@ function pcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 									modal_meta.meta.item.risk = modal_meta.meta.riskSel.dict_item_id;
 									modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
 									modal_meta.meta.item.rack = modal_meta.meta.jgSel.dict_item_id;
-									modal_meta.meta.item.buy_time = modal_meta.meta.buytime
-											.format('YYYY-MM-DD');
+									modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
+									.format('YYYY-MM-DD');
+									modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
+									.format('YYYY-MM-DD');
+							modal_meta.meta.item.wb_auto = modal_meta.meta.tbSel.id;
 									console.log('sure set', modal_meta.meta)
 
 									// 动态参数

@@ -1,8 +1,9 @@
 var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
 		'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree',
-		'ngSanitize', 'cgNotify', 'angular-confirm',
-		'datatables', 'datatables.select', 'datatables.fixedcolumns','datatables.buttons','localytics.directives',
-		'swxLocalStorage', 'angular-loading-bar', 'ng.ueditor','datePicker'])
+		'ngSanitize', 'cgNotify', 'angular-confirm', 'datatables',
+		'datatables.select', 'datatables.fixedcolumns', 'datatables.buttons',
+		'localytics.directives', 'swxLocalStorage', 'angular-loading-bar',
+		'ng.ueditor', 'datePicker' ])
 var $injector = angular.injector();
 function getContextPath() {
 	var pathName = document.location.pathname;
@@ -160,6 +161,7 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 		templateUrl : "views/common/content.html"
 	})
 }
+
 app
 		.config(config_main)
 		.run(
@@ -206,46 +208,47 @@ app
 										$log.warn("from:", from);
 										// 处理to
 										var target = trans._targetState._definition;
-										if (angular.isDefined(target.data)
-												&& angular
-														.isDefined(target.data.loginCheck)
-												&& target.data.loginCheck) {
-											$log.warn("Action LoginCheck");
-											var userService = trans.injector()
-													.get('userService');
-											userService
-													.checkLogin()
-													.then(
-															function(result) {
-																$log
-																		.warn(
-																				"check login result,from:"
-																						+ from
-																						+ ",result:",
-																				result)
+										console.log("target.data", target.data);
+										//										if (angular.isDefined(target.data)
+										//												&& angular
+										//														.isDefined(target.data.loginCheck)
+										//												&& target.data.loginCheck) {
+										$log.warn("Action LoginCheck");
+										var userService = trans.injector().get(
+												'userService');
+										userService
+												.checkLogin()
+												.then(
+														function(result) {
+															$log
+																	.warn(
+																			"check login result,from:"
+																					+ from
+																					+ ",result:",
+																			result)
 
-																if (!result.success) {
-																	if (from != "login") {
-																		$state
-																				.go(
-																						"login",
-																						{
-																							to : from
-																						});
-																	} else {
-																	}
+															if (!result.success) {
+																if (from != "login") {
+																	$state
+																			.go(
+																					"login",
+																					{
+																						to : from
+																					});
+																} else {
 																}
-															},
-															function(error) {
-																alert('系统错误');
-																event
-																		.preventDefault();
-															},
-															function(progress) {
-															})
-										}
+															}
+														},
+														function(error) {
+															alert('系统错误');
+															event
+																	.preventDefault();
+														}, function(progress) {
+														})
+										//}
 
 									});
+
 					$rootScope.$state = $state;
 					var ct = getContextPath();
 					$rootScope.project = ct + "/";
@@ -293,7 +296,7 @@ app
 app.config(config_wx).run(function() {
 	console.log("App Wx run");
 });
- 
+
 app.config(config_shop).run(function() {
 	console.log("App Shop run");
 });
@@ -305,66 +308,56 @@ app.config(config_cmdb).run(function() {
 	console.log("App cmdb run");
 });
 
-
 app.config(config_system).run(function() {
 	console.log("App System run");
 });
 
-
-
-
 function initDT(DTDefaultOptions) {
-	var lng={
-			processing : "处理中...",
-			lengthMenu : "每页显示 _MENU_ 项结果",
-			zeroRecords : "没有匹配结果",
-			info : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项；当前第 _PAGE_页，共 _PAGES_ 页",
-			infoEmpty : "显示第 0 至 0 项结果，共 0 项",
-			infoFiltered : "(由 _MAX_ 项结果过滤)",
-			infoPostFix : "",
-			search : "搜索:",
-			url : "",
-			emptyTable : "表中数据为空",
-			sLoadingRecords : "载入中...",
-			infoThousands : ",",
-			paginate : {
-				first : "首页",
-				previous : "上页",
-				next : "下页",
-				last : "末页"
-			},
-			oAria : {
-				sortAscending : ": 以升序排列此列",
-				sortDescending : ": 以降序排列此列"
-			}
-		};
-	
+	var lng = {
+		processing : "处理中...",
+		lengthMenu : "每页显示 _MENU_ 项结果",
+		zeroRecords : "没有匹配结果",
+		info : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项；当前第 _PAGE_页，共 _PAGES_ 页",
+		infoEmpty : "显示第 0 至 0 项结果，共 0 项",
+		infoFiltered : "(由 _MAX_ 项结果过滤)",
+		infoPostFix : "",
+		search : "搜索:",
+		url : "",
+		emptyTable : "表中数据为空",
+		sLoadingRecords : "载入中...",
+		infoThousands : ",",
+		paginate : {
+			first : "首页",
+			previous : "上页",
+			next : "下页",
+			last : "末页"
+		},
+		oAria : {
+			sortAscending : ": 以升序排列此列",
+			sortDescending : ": 以降序排列此列"
+		}
+	};
+
 	console.log(DTDefaultOptions);
 	DTDefaultOptions.setLanguage(lng);
 	DTDefaultOptions.setDOM('frtilp');
 	DTDefaultOptions.setDisplayLength(25);
-	DTDefaultOptions.setOption('sPaginationType','full_numbers');
-	DTDefaultOptions.setOption('ordering',false);
-	DTDefaultOptions.setOption('searching',false);
-	DTDefaultOptions.setOption('paging',true);
-	DTDefaultOptions.setOption('bStateSave',false);
-	DTDefaultOptions.setOption('bProcessing',true);
-	DTDefaultOptions.setOption('bInfo',false);
-	DTDefaultOptions.setOption('bAutoWidth',false);
-	DTDefaultOptions.setOption('responsive',true);
-	DTDefaultOptions.setOption('bFilter',false);
-	DTDefaultOptions.setOption('serverSide',false);
- 
-	
- 
+	DTDefaultOptions.setOption('sPaginationType', 'full_numbers');
+	DTDefaultOptions.setOption('ordering', false);
+	DTDefaultOptions.setOption('searching', false);
+	DTDefaultOptions.setOption('paging', true);
+	DTDefaultOptions.setOption('bStateSave', false);
+	DTDefaultOptions.setOption('bProcessing', true);
+	DTDefaultOptions.setOption('bInfo', false);
+	DTDefaultOptions.setOption('bAutoWidth', false);
+	DTDefaultOptions.setOption('responsive', true);
+	DTDefaultOptions.setOption('bFilter', false);
+	DTDefaultOptions.setOption('serverSide', false);
+
 }
 
 app.run(initDT);
 
-
 //before loading
 $("#beforePage").removeClass("preloader");
 $("#beforePage").addClass("preloader-hidden");
-
-
-

@@ -1,8 +1,7 @@
 package com.dt.module.cmdb.service;
 
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withUnauthorizedRequest;
-
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -34,20 +33,19 @@ public class ResExtService extends BaseService {
 			+ " (select name from sys_user_info where user_id=t.create_by  ) create_username,"
 			+ " (select name from sys_user_info where user_id=t.update_by  ) update_username,"
 			+ " (select name from sys_user_info where user_id=t.review_userid  ) review_username,"
-
 			+ " (select name from sys_user_info where user_id=t.used_userid  ) used_username,"
 			+ " (select node_name from hrm_org_part where node_id=t.part_id  ) part_name,"
 			+ " (select route_name from hrm_org_part where node_id=t.part_id  ) part_fullname,"
-
 			+ " (select route_name from hrm_org_part where node_id=t.mgr_part_id  ) mgr_part_name,"
 			+ " (select route_name from hrm_org_part where node_id=t.mgr_part_id  ) mgr_part_fullname,"
-
 			+ " (select name from sys_dict_item where dict_item_id=t.wb  ) wbstr,"
 			+ " (select name from sys_dict_item where dict_item_id=t.rack  ) rackstr,"
 			+ " (select name from sys_dict_item where dict_item_id=t.class_id  ) classname,"
 			+ " (select name from sys_dict_item where dict_item_id=t.type  ) typename,"
-			+ "  CASE  WHEN t.changestate = 'reviewed'  THEN '已复核' WHEN t.changestate = 'insert'  THEN '待核(录入)'  WHEN t.changestate = 'updated'  THEN '待核(已更新)' ELSE '未知'  END reviewstr ,"
-			+ " date_format(buy_time,'%Y-%m-%d') buy_timestr ,";
+			+ "  date_format(wbout_date,'%Y-%m-%d')  wbout_datestr,"
+			+ "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
+			+ "  case when t.wb_auto = '1' then '自动'  else '手动' end wb_autostr, "
+			+ "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
 
 	// 根据ClassId获取数据
 	public R queryResAllByClassGetData(String id, String wb, String env, String recycle, String loc, String search) {
@@ -98,7 +96,7 @@ public class ResExtService extends BaseService {
 					+ "%' )";
 		}
 
-		sql = sql + " order by loc,rack,frame ";
+		sql = sql + " order by update_time desc,loc,rack,frame ";
 
 		RcdSet rs2 = db.query(sql);
 
@@ -116,13 +114,32 @@ public class ResExtService extends BaseService {
 		String recycle = ps.getString("recycle");
 		Insert ins = new Insert("res_history");
 
-		// 重置资产名称，默认将class_name填写资产名称
+		// 计算资产名称，默认将class_name填写资产名称
 		String zcname = ps.getString("name");
 		if (ToolUtil.isEmpty(ps.getString("name")) && ToolUtil.isNotEmpty(ps.getString("class_id"))) {
 			Rcd rs = db.uniqueRecord(" select * from sys_dict_item where dict_id='devclass' and dict_item_id=?",
 					ps.getString("class_id"));
 			if (rs != null) {
 				zcname = rs.getString("name");
+			}
+		}
+
+		// 自动计算脱保情况
+		String wbcompute = ps.getString("wb");
+		if (ToolUtil.isNotEmpty(ps.getString("wb_auto")) && "1".equals(ps.getString("wb_auto"))
+				&& ToolUtil.isNotEmpty(ps.getString("wbout_date_f"))) {
+			try {
+				Date wboutdate = simpleDateFormat.parse(ps.getString("wbout_date_f") + " 01:00:00");
+				if (date.getTime() > wboutdate.getTime()) {
+					// 脱保
+					wbcompute = "invalid";
+				} else {
+					// 未脱保
+					wbcompute = "valid";
+				}
+				System.out.println(date);
+			} catch (ParseException px) {
+				px.printStackTrace();
 			}
 		}
 
@@ -157,11 +174,13 @@ public class ResExtService extends BaseService {
 			me.setIf("ip", ps.getString("ip"));
 			me.setIf("frame", ps.getString("frame"));
 			me.setIf("brand", ps.getString("brand"));
-			me.setIf("wb", ps.getString("wb"));
+			me.setIf("wb", wbcompute);
 			me.setIf("confdesc", ps.getString("confdesc"));
 			me.setIf("rack", ps.getString("rack"));
 			me.setIf("model", ps.getString("model"));
-			me.setIf("buy_time", ps.getString("buy_time") + " 12:00:00");
+			me.setIf("update_time", nowtime);
+			me.setIf("update_by", this.getUserId());
+			me.setIf("buy_time", ps.getString("buy_time_f") == null ? null : ps.getString("buy_time_f") + " 12:00:00");
 			me.setIf("changestate", "insert");
 			me.setIf("create_time", nowtime);
 			me.setIf("create_by", this.getUserId());
@@ -171,6 +190,9 @@ public class ResExtService extends BaseService {
 			me.setIf("mgr_part_id", "none".equals(ps.getString("mgr_part_id")) ? 0 : ps.getString("mgr_part_id"));
 			me.setIf("used_userid", ps.getString("used_userid"));
 			me.setIf("locdtl", ps.getString("locdtl"));
+			me.setIf("wb_auto", ps.getString("wb_auto"));
+			me.setIf("wbout_date",
+					ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 12:00:00");
 			ins.set("oper_type", "入库");
 			sql = me.getSQL();
 		} else {
@@ -192,15 +214,15 @@ public class ResExtService extends BaseService {
 			me.setIf("recycle", ps.getString("recycle"));
 			me.setIf("ip", ps.getString("ip"));
 			me.setIf("frame", ps.getString("frame"));
-			me.setIf("wb", ps.getString("wb"));
+			me.setIf("wb", wbcompute);
 			me.setIf("confdesc", ps.getString("confdesc"));
 			me.setIf("rack", ps.getString("rack"));
 			me.setIf("model", ps.getString("model"));
 			me.setIf("brand", ps.getString("brand"));
-			me.setIf("buy_time", ps.getString("buy_time") + " 12:00:00");
-			me.setIf("update_time", nowtime);
+			me.setIf("buy_time", ps.getString("buy_time_f") == null ? null : ps.getString("buy_time_f") + " 01:00:00");
+	
 			me.setIf("changestate", "updated");
-			me.setIf("update_by", this.getUserId());
+		
 			me.setIf("buy_price", ps.getString("buy_price", "0"));
 			me.setIf("net_worth", ps.getString("net_worth", "0"));
 			me.setIf("part_id", "none".equals(ps.getString("part_id")) ? 0 : ps.getString("part_id"));
@@ -208,6 +230,10 @@ public class ResExtService extends BaseService {
 			me.setIf("used_userid", ps.getString("used_userid"));
 			me.setIf("zc_category", ps.getString("zc_category"));
 			me.setIf("locdtl", ps.getString("locdtl"));
+			me.setIf("wb_auto", ps.getString("wb_auto"));
+			me.setIf("wbout_date",
+					ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 01:00:00");
+
 			if (ToolUtil.isNotEmpty(recycle)) {
 				String source_recycle = db.uniqueRecord(" select recycle from res where id=?", id).getString("recycle");
 				if (source_recycle.equals(recycle)) {
@@ -228,6 +254,8 @@ public class ResExtService extends BaseService {
 		}
 
 		db.execute(sql);
+
+		// 更新记录表
 		ins.set("id", db.getUUID());
 		ins.set("res_id", id);
 		ins.set("oper_time", nowtime);
