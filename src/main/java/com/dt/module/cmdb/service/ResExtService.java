@@ -220,9 +220,9 @@ public class ResExtService extends BaseService {
 			me.setIf("model", ps.getString("model"));
 			me.setIf("brand", ps.getString("brand"));
 			me.setIf("buy_time", ps.getString("buy_time_f") == null ? null : ps.getString("buy_time_f") + " 01:00:00");
-	
+
 			me.setIf("changestate", "updated");
-		
+
 			me.setIf("buy_price", ps.getString("buy_price", "0"));
 			me.setIf("net_worth", ps.getString("net_worth", "0"));
 			me.setIf("part_id", "none".equals(ps.getString("part_id")) ? 0 : ps.getString("part_id"));
@@ -234,9 +234,11 @@ public class ResExtService extends BaseService {
 			me.setIf("wbout_date",
 					ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 01:00:00");
 
-			if (ToolUtil.isNotEmpty(recycle)) {
-				String source_recycle = db.uniqueRecord(" select recycle from res where id=?", id).getString("recycle");
-				if (source_recycle.equals(recycle)) {
+			Rcd source_recycle_rs = db.uniqueRecord(" select recycle from res where id=?", id);
+			if (ToolUtil.isNotEmpty(recycle) && source_recycle_rs != null) {
+				// 获取当前的recycel
+				String source_recycle = source_recycle_rs.getString("recycle");
+				if (source_recycle == null || source_recycle.equals(recycle)) {
 					ins.set("oper_type", "更新");
 				} else {
 					String act = db
@@ -244,6 +246,7 @@ public class ResExtService extends BaseService {
 							.getString("name");
 					ins.set("oper_type", "动作-" + act);
 				}
+
 			} else {
 				ins.set("oper_type", "更新");
 			}
