@@ -11,7 +11,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html"
 	}).state('maintain.faultrecord', {
 		url : "/maintain_faultrecord",
-		data: { pageTitle: '故障上报'},
+		data: { pageTitle: '维护工作'},
 		template:'<div ng-controller="cmdbfaultrecordCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -87,134 +87,134 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html"
 	}).state('cf.server', {
 		url : "/cf_server",
-		data: { pageTitle: '服务器'},
-		templateUrl : "views/cmdb/html_server.html",
+		data: { pageTitle: '服务器',classid:'server',input_type:"devservertype"},
+		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_server.js?v=' + version ]
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
 				} ]);
 			}
 		}
 	}).state('cf.firewall', {
 		url : "/cf_firewall",
-		data: { pageTitle: '防火墙'},
-		templateUrl : "views/cmdb/html_firewall.html",
+		data: { pageTitle: '防火墙',classid:'firewall'},
+		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_firewall.js?v=' + version ]
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
 				} ]);
 			}
 		}
 	}).state('cf.lightsw', {
 		url : "/cf_lightsw",
-		data: { pageTitle: '光交'},
-		templateUrl : "views/cmdb/html_lightsw.html",
+		data: { pageTitle: '光交',classid:'lightsw'},
+		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_lightsw.js?v=' + version ]
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
 				} ]);
 			}
 		}
 	}).state('cf.compute', {
 		url : "/cf_compute",
-		data: { pageTitle: 'PC电脑'},
-		templateUrl : "views/cmdb/html_pc.html",
+		data: { pageTitle: 'PC电脑',classid:'pc',input_type:"devcompute"},
+		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_pc.js?v=' + version ]
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
 				} ]);
 			}
 		}
 	}).state('cf.outlets', {
 		url : "/cf_outlets",
-		data: { pageTitle: '网点设备'},
-		templateUrl : "views/cmdb/html_pointdev.html",
+		data: { pageTitle: '网点设备',classid:"pointdev",input_type:"devdotequipment"},
+		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_pointdev.js?v=' + version ]
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
 				} ]);
 			}
 		}
 	}).state('cf.route', {
 		url : "/cf_route",
-		data: { pageTitle: '路由设备'},
-		templateUrl : "views/cmdb/html_route.html",
+		data: { pageTitle: '路由设备',classid:'route'},
+		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_route.js?v=' + version ]
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
 				} ]);
 			}
 		}
 	}).state('cf.safety', {
 		url : "/cf_safety",
-		data: { pageTitle: '安全设备'},
-		templateUrl : "views/cmdb/html_safety.html",
+		data: { pageTitle: '安全设备',classid:'safety'},
+		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_safety.js?v=' + version ]
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
 				} ]);
 			}
 		}
 	}).state('cf.storage', {
 		url : "/cf_storage",
-		data: { pageTitle: '存储设备'},
-		templateUrl : "views/cmdb/html_storage.html",
+		data: { pageTitle: '存储设备',classid:'storage'},
+		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_storage.js?v=' + version ]
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
 				} ]);
 			}
 		}
 	})
 	.state('cf.switch', {
 		url : "/cf_switch",
-		data: { pageTitle: '交换机'},
-		templateUrl : "views/cmdb/html_switch.html",
+		data: { pageTitle: '交换机',classid:"switch"},
+		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_switch.js?v=' + version ]
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
 				} ]);
 			}
 		}
 	}).state('cf.bjpj', {
 		url : "/cf_bjpj",
-		data: { pageTitle: 'IT备件配件'},
-		templateUrl : "views/cmdb/html_bjpj.html",
+		data: { pageTitle: 'IT备件配件',classid:'bjpj',input_type:"devbjpj"},
+		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_bjpj.js?v=' + version ]
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
 				} ]);
 			}
 		}
 	}).state('cf.zcotherhard', {
 		url : "/cf_zcotherhard",
-		data: { pageTitle: '其他设备'},
-		templateUrl : "views/cmdb/html_zcotherhard.html",
+		data: { pageTitle: '其他设备',classid:"zcotherhard",input_type:"zcother"},
+		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/js_zcotherhard.js?v=' + version ]
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
 				} ]);
 			}
 		}

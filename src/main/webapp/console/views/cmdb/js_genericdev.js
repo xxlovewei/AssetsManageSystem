@@ -1,7 +1,6 @@
-
-function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
-		$log, notify, $scope, $http, $rootScope, $uibModal, $window) {
-	var gclass_id = "storage";
+function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+		$log, notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
+	var gclass_id = $state.router.globals.current.data.classid;
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
@@ -15,15 +14,12 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withOption('bFilter', false).withOption('bInfo', false)
 			.withOption('serverSide', false).withOption('aaData',
 					$scope.tabdata).withOption('createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
 					'headerCallback',
 					function(header) {
 						if ((!angular.isDefined($scope.headerCompiled))
 								|| $scope.headerCompiled) {
-							// Use this headerCompiled field to only compile
-							// header once
 							$scope.headerCompiled = true;
 							$compile(angular.element(header).contents())
 									($scope);
@@ -34,9 +30,7 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			});
 
 	$scope.dtInstance = {}
- 
 	$scope.selectCheckBoxAll = function(selected) {
-
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
 		} else {
@@ -45,44 +39,50 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
-
-	$scope.dtColumns = [
-		DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
-				'select-checkbox checkbox_center').renderWith(function() {
-			return ""
-		}),
-		DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
-				'sDefaultContent', '').withOption("width", '30'),
-		DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
-				'sDefaultContent', '').withOption('width', '50')
-				.renderWith(renderName),
-		DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('recyclestr').withTitle('状态').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-				DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
-						'sDefaultContent', '').withOption('width', '30')
-						.renderWith(renderWb),
-		DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
-				'sDefaultContent', ''),
-		DTColumnBuilder.newColumn('uuid').withTitle('机柜').withOption(
-				'sDefaultContent', '').renderWith(renderJg),
-		DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
-				'sDefaultContent', ''),
-		DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-				.withOption('sDefaultContent', ''),
-				DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
-				.withOption('sDefaultContent', ''),
-		DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
-				.withOption('sDefaultContent', ''),
-		DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
-				.withOption('sDefaultContent', '').renderWith(renderReview) ]
+	$scope.dtColumns = [];
+	$scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
+	'select-checkbox checkbox_center').renderWith(function() {
+		return ""
+	}));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
+			'sDefaultContent', '').withOption("width", '30'));
+	// 输入判断
+	if (angular.isDefined($state.router.globals.current.data.input_type)) {
+		$scope.dtColumns.push(DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
+				 'sDefaultContent', '').withOption("width", '30'));
+	}
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
+			 'sDefaultContent', '').withOption('width', '30'));			 
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
+			 'sDefaultContent', '').withOption('width', '50')
+			 .renderWith(renderName));		
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
+			 'sDefaultContent', '').withOption('width', '30'));		
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
+			 'sDefaultContent', '').withOption('width', '30'));		
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
+			 'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));		
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
+			 'sDefaultContent', '').withOption('width', '30'));	
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
+			 'sDefaultContent', '').withOption('width', '30'));	
+	$scope.dtColumns.push(  DTColumnBuilder.newColumn('uuid').withTitle('机柜').withOption(
+			 'sDefaultContent', '').renderWith(renderJg));	
+	$scope.dtColumns.push(  DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
+			 'sDefaultContent', ''));	
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
+			 .withOption('sDefaultContent', ''));	
+	$scope.dtColumns.push(  DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
+			 .withOption('sDefaultContent', ''));	
+	$scope.dtColumns.push(   DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
+			 .withOption('sDefaultContent', ''));	
+	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
+			 'sDefaultContent', ''));	
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
+			 .withOption('sDefaultContent', '').renderWith(renderReview));	
+				
+				
+ 
 
 	$scope.query = function() {
 		flush();
@@ -165,7 +165,7 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		} ]
 	}
 	$scope.meta = meta;
-
+	
 	function flush() {
 		var ps = {}
 		ps.id = gclass_id;
@@ -199,88 +199,86 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				+ ps.loc + "&env=" + ps.env + "&wb=" + ps.wb + "&recycle="
 				+ ps.recycle + "&search=" + ps.search);
 	}
+
 	var gdicts = {};
+	var dicts = "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack";
+	
+	// 判断输入框
+	if (angular.isDefined($state.router.globals.current.data.input_type)) {
+		dicts = dicts + "," + $state.router.globals.current.data.input_type;
+	}
 	$http
-			.post(
-					$rootScope.project + "/api/base/queryDictFast.do",
-					{
-						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devservertype,devrack",
-						parts : "Y",
-						partusers : "Y"
-					}).success(function(res) {
-				if (res.success) {
-					gdicts = res.data;
-					gdicts.stype=[]
-					// 填充行数据
-					var tenv = [];
-					angular.copy(gdicts.devenv, tenv);
-
-					var twb = [];
-					angular.copy(gdicts.devwb, twb);
-
-					var tloc = [];
-					angular.copy(gdicts.devdc, tloc);
-
-					var trecycle = [];
-					angular.copy(gdicts.devrecycle, trecycle);
-
-					var parts = [];
-					angular.copy(gdicts.parts, parts);
-
-					var partusers = [];
-					angular.copy(gdicts.partusers, partusers);
-
-					gdicts.parts.unshift({
-						partid : "none",
-						name : "未设置"
-					});
-
-					gdicts.partusers.unshift({
-						user_id : "none",
-						name : "未设置"
-					});
-
-					$scope.meta.tools[0].dataOpt = tloc;
-					$scope.meta.tools[0].dataSel = tloc[0];
-
-					tloc.unshift({
-						dict_item_id : "all",
-						name : "全部"
-					});
-					$scope.meta.tools[0].dataOpt = tloc;
-					$scope.meta.tools[0].dataSel = tloc[0];
-
-					tenv.unshift({
-						dict_item_id : "all",
-						name : "全部"
-					});
-					$scope.meta.tools[1].dataOpt = tenv;
-					$scope.meta.tools[1].dataSel = tenv[0];
-
-					twb.unshift({
-						dict_item_id : "all",
-						name : "全部"
-					});
-					$scope.meta.tools[2].dataOpt = twb;
-					$scope.meta.tools[2].dataSel = twb[0];
-
-					trecycle.unshift({
-						dict_item_id : "all",
-						name : "全部"
-					});
-					$scope.meta.tools[3].dataOpt = trecycle;
-					$scope.meta.tools[3].dataSel = trecycle[0];
-
-					flush();
-				} else {
-					notify({
-						message : res.message
-					});
-				}
+			.post($rootScope.project + "/api/base/queryDictFast.do", {
+				dicts : dicts,
+				parts : "Y",
+				partusers : "Y"
 			})
-
+			.success(
+					function(res) {
+						if (res.success) {
+							gdicts = res.data;
+							// 判断输入框
+							if (angular
+									.isDefined($state.router.globals.current.data.input_type)) {
+								gdicts.stype = gdicts[$state.router.globals.current.data.input_type];
+							} else {
+								gdicts.stype = [];
+							}
+							// 填充行数据
+							var tenv = [];
+							angular.copy(gdicts.devenv, tenv);
+							var twb = [];
+							angular.copy(gdicts.devwb, twb);
+							var tloc = [];
+							angular.copy(gdicts.devdc, tloc);
+							var trecycle = [];
+							angular.copy(gdicts.devrecycle, trecycle);
+							var parts = [];
+							angular.copy(gdicts.parts, parts);
+							var partusers = [];
+							angular.copy(gdicts.partusers, partusers);
+							gdicts.parts.unshift({
+								partid : "none",
+								name : "未设置"
+							});
+							gdicts.partusers.unshift({
+								user_id : "none",
+								name : "未设置"
+							});
+							$scope.meta.tools[0].dataOpt = tloc;
+							$scope.meta.tools[0].dataSel = tloc[0];
+							tloc.unshift({
+								dict_item_id : "all",
+								name : "全部"
+							});
+							$scope.meta.tools[0].dataOpt = tloc;
+							$scope.meta.tools[0].dataSel = tloc[0];
+							tenv.unshift({
+								dict_item_id : "all",
+								name : "全部"
+							});
+							$scope.meta.tools[1].dataOpt = tenv;
+							$scope.meta.tools[1].dataSel = tenv[0];
+							twb.unshift({
+								dict_item_id : "all",
+								name : "全部"
+							});
+							$scope.meta.tools[2].dataOpt = twb;
+							$scope.meta.tools[2].dataSel = twb[0];
+							trecycle.unshift({
+								dict_item_id : "all",
+								name : "全部"
+							});
+							$scope.meta.tools[3].dataOpt = trecycle;
+							$scope.meta.tools[3].dataSel = trecycle[0];
+							flush();
+						} else {
+							notify({
+								message : res.message
+							});
+						}
+					})
 	$scope.del = function() {
-
 		var selrow = getSelectRow();
 		if (angular.isDefined(selrow)) {
 			var id = selrow.id;
@@ -306,8 +304,6 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	}
 
-	 
-
 	$scope.detail = function() {
 		var id = "";
 		var selrow = getSelectRow();
@@ -332,9 +328,7 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 		modalInstance.result.then(function(result) {
 			$log.log("result", result);
-
 			if (result == "OK") {
-
 			}
 		}, function(reason) {
 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
@@ -390,7 +384,8 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							}
 							var meta = {};
 
-							var items = [ {
+							var items = [ ]; 
+							items.push({
 								type : "input",
 								disabled : "true",
 								sub_type : "text",
@@ -401,40 +396,42 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								name : 'uuid',
 								ng_model : "uuid"
-							}, 
-//							{
-//								type : "select",
-//								disabled : "false",
-//								label : "类型",
-//								need : true,
-//								disable_search : "true",
-//								dataOpt : "typeOpt",
-//								dataSel : "typeSel"
-//							},
-							// {
-							// type : "input",
-							// disabled : "false",
-							// sub_type : "text",
-							// required : true,
-							// maxlength : "50",
-							// placeholder : "请输入名称",
-							// label : "名称",
-							// need : true,
-							// name : 'name',
-							// ng_model : "name"
-							// },
-							{
+							});
+							
+							if (angular
+									.isDefined($state.router.globals.current.data.input_type)) {
+								items.push({
+									type : "select",
+									disabled : "true",
+									label : "资产类型",
+									need : false,
+									disable_search : "true",
+									dataOpt : "typeOpt",
+									dataSel : "typeSel"
+								});
+							}
+							items.push( {
+								type : "select",
+								disabled : "false",
+								label : "资产品牌",
+								need : false,
+								disable_search : "true",
+								dataOpt : "pinpOpt",
+								dataSel : "pinpSel"
+							});
+							items.push({
 								type : "input",
 								disabled : "false",
 								sub_type : "text",
 								required : true,
 								maxlength : "50",
 								placeholder : "请输型号",
-								label : "型号",
+								label : "资产型号",
 								need : true,
 								name : 'model',
 								ng_model : "model"
-							}, {
+							});
+							items.push({
 								type : "input",
 								disabled : "false",
 								sub_type : "text",
@@ -445,35 +442,8 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : true,
 								name : 'sn',
 								ng_model : "sn"
-							}, {
-								type : "datetime",
-								disabled : "false",
-								label : "采购时间",
-								need : true,
-								ng_model : "buytime"
-							},  {
-								type : "select",
-								disabled : "false",
-								label : "脱保计算",
-								need : false,
-								disable_search : "true",
-								dataOpt : "tbOpt",
-								dataSel : "tbSel"
-							}, {
-								type : "datetime",
-								disabled : "false",
-								label : "脱保时间",
-								need : false,
-								ng_model : "wboutdate"
-							}, {
-								type : "select",
-								disabled : "false",
-								label : "维保状态",
-								need : true,
-								disable_search : "true",
-								dataOpt : "wbOpt",
-								dataSel : "wbSel"
-							}, {
+							});						
+							items.push( {
 								type : "select",
 								disabled : "false",
 								label : "风险等级",
@@ -481,31 +451,44 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disable_search : "true",
 								dataOpt : "riskOpt",
 								dataSel : "riskSel"
-							}, {
+							});
+							
+							items.push( {
+								type : "select",
+								disabled : "false",
+								label : "脱保计算",
+								need : false,
+								disable_search : "true",
+								dataOpt : "tbOpt",
+								dataSel : "tbSel"
+							});
+							items.push( {
+								type : "datetime",
+								disabled : "false",
+								label : "脱保时间",
+								need : false,
+								ng_model : "wboutdate"
+							});
+							items.push( {
+								type : "select",
+								disabled : "false",
+								label : "维保状态",
+								false : true,
+								disable_search : "true",
+								dataOpt : "wbOpt",
+								dataSel : "wbSel"
+							});
+							
+							items.push( {
 								type : "select",
 								disabled : "false",
 								label : "设备状态",
-								need : true,
+								need : false,
 								disable_search : "true",
 								dataOpt : "statusOpt",
 								dataSel : "statusSel"
-							}, {
-								type : "select",
-								disabled : "false",
-								label : "运行环境",
-								need : true,
-								disable_search : "true",
-								dataOpt : "envOpt",
-								dataSel : "envSel"
-							}, {
-								type : "select",
-								disabled : "false",
-								label : "品牌",
-								need : false,
-								disable_search : "true",
-								dataOpt : "pinpOpt",
-								dataSel : "pinpSel"
-							}, {
+							});
+							items.push( {
 								type : "select",
 								disabled : "false",
 								label : "设备位置",
@@ -513,7 +496,8 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disable_search : "true",
 								dataOpt : "locOpt",
 								dataSel : "locSel"
-							}, {
+							});
+							items.push({
 								type : "select",
 								disabled : "false",
 								label : "机柜号",
@@ -521,7 +505,8 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disable_search : "true",
 								dataOpt : "jgOpt",
 								dataSel : "jgSel"
-							}, {
+							});
+							items.push({
 								type : "input",
 								disabled : "false",
 								sub_type : "text",
@@ -532,18 +517,27 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								name : 'frame',
 								ng_model : "frame"
-							}, {
+							});
+							items.push({
+								type : "datetime",
+								disabled : "false",
+								label : "采购时间",
+								false : true,
+								ng_model : "buytime"
+							});
+							items.push({
 								type : "input",
 								disabled : "false",
 								sub_type : "number",
 								required : false,
 								maxlength : "30",
-								placeholder : "请输入采购价",
-								label : "采购价",
+								placeholder : "请输入采购价格",
+								label : "采购价格",
 								need : false,
 								name : 'buy_price',
 								ng_model : "buy_price"
-							}, {
+							});
+							items.push({
 								type : "select",
 								disabled : "false",
 								label : "使用部门",
@@ -551,7 +545,8 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disable_search : "false",
 								dataOpt : "partOpt",
 								dataSel : "partSel"
-							}, {
+							});
+							items.push({
 								type : "select",
 								disabled : "false",
 								label : "使用人",
@@ -559,7 +554,8 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disable_search : "false",
 								dataOpt : "usedunameOpt",
 								dataSel : "usedunameSel"
-							}, {
+							});
+							items.push( {
 								type : "input",
 								disabled : "false",
 								sub_type : "text",
@@ -570,7 +566,8 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								name : 'confdesc',
 								ng_model : "confdesc"
-							}, {
+							});
+							items.push({
 								type : "input",
 								disabled : "false",
 								sub_type : "text",
@@ -581,12 +578,12 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								name : 'mark',
 								ng_model : "mark"
-							}
-
-							];
+							});
+						 
 
 							var bt = moment().subtract(1, "days");
 							var tbtime = moment();
+
 							if (angular.isDefined(res.data)
 									&& angular.isDefined(res.data.data)
 									&& angular
@@ -603,18 +600,10 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							meta = {
 								class_id : gclass_id,
 								footer_hide : false,
-								title : "资产",
+								title : "资产-"+$state.router.globals.current.data.pageTitle,
 								item : {},
 								buytime : bt,
 								wboutdate : tbtime,
-								tbOpt : [ {
-									id : "1",
-									name : "自动计算"
-								}, {
-									id : "0",
-									name : "手工"
-								} ],
-								tbSel : "",
 								statusOpt : [],
 								statusSel : "",
 								pinpOpt : [],
@@ -630,6 +619,14 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								wbOpt : [],
 								wbSel : "",
 								envOpt : [],
+								tbOpt : [ {
+									id : "1",
+									name : "自动计算"
+								}, {
+									id : "0",
+									name : "手工"
+								} ],
+								tbSel : "",
 								envSel : "",
 								jgOpt : [],
 								jgSel : "",
@@ -637,8 +634,11 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								riskSel : "",
 								items : items,
 								sure : function(modalInstance, modal_meta) {
-									// 返回接口
-									console.log('sure', modal_meta.meta)
+									// 判断输入框
+									if (angular
+											.isDefined($state.router.globals.current.data.input_type)) {
+										modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
+									}
 									modal_meta.meta.item.part_id = modal_meta.meta.partSel.partid;
 									modal_meta.meta.item.used_userid = modal_meta.meta.usedunameSel.user_id;
 									modal_meta.meta.item.class_id = gclass_id;
@@ -648,14 +648,13 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									modal_meta.meta.item.wb = modal_meta.meta.wbSel.dict_item_id;
 									modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
 									modal_meta.meta.item.risk = modal_meta.meta.riskSel.dict_item_id;
-//									modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
 									modal_meta.meta.item.rack = modal_meta.meta.jgSel.dict_item_id;
 									modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
-									.format('YYYY-MM-DD');
-									
+											.format('YYYY-MM-DD');
+
 									modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
-									.format('YYYY-MM-DD');
-							modal_meta.meta.item.wb_auto = modal_meta.meta.tbSel.id;
+											.format('YYYY-MM-DD');
+									modal_meta.meta.item.wb_auto = modal_meta.meta.tbSel.id;
 									console.log('sure set', modal_meta.meta)
 
 									// 动态参数
@@ -761,7 +760,6 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 											}
 										}
 									});
-
 							modalInstance.result.then(function(result) {
 								$log.log("result", result);
 
@@ -772,11 +770,8 @@ function storageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
 								$log.log("reason", reason)
 							});
-
 						})
-
 	}
-
 };
 
-app.register.controller('storageCtl', storageCtl);
+app.register.controller('genericdevCtl', genericdevCtl);
