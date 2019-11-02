@@ -35,7 +35,7 @@ public class CmdbJobService extends BaseService {
 				+ "        and wbout_date > now())t\n" + "\n" + ")";
 		int valid = db.execute(sql2);
 
-		System.out.println("Time:" + nowtime + "| Execute Job,Check Wb Status|" + "Covert to valid Cnt:" + valid
+		System.out.println("Time:" + nowtime + " | Execute Job,Check Wb Status |" + " Covert to valid Cnt:" + valid
 				+ ",Covert to invalid Cnt:" + invalid);
 	}
 }
