@@ -1,3 +1,0 @@
-备份数据库
-mysqldump -uroot -proot_pwd --databases dt>db.sql
-
