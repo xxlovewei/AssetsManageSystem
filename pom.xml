@@ -45,11 +45,7 @@
 			<version>3.0.7.1</version>
 		</dependency>
 
-		<!-- cache --><!-- <dependency> <groupId>com.alicp.jetcache</groupId> <artifactId>jetcache-core</artifactId> 
-			<version>2.5.5</version> </dependency> <dependency> <groupId>com.alicp.jetcache</groupId> 
-			<artifactId>jetcache-anno</artifactId> <version>2.5.5</version> </dependency> -->
-
-
+	 
 		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -109,16 +105,7 @@
 			<version>build260</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>net.bull.javamelody</groupId> <artifactId>javamelody-core</artifactId> 
-			<version>1.72.0</version> </dependency> -->
-
-
-
-
-		<!-- https://mvnrepository.com/artifact/oracle/ojdbc6 -->
-		<!-- <dependency> <groupId>oracle</groupId> <artifactId>ojdbc6</artifactId> 
-			<version>11.2.0.3</version> </dependency> -->
-
+	 
 
 
 		<dependency>
@@ -328,13 +315,7 @@
 			<artifactId>druid</artifactId>
 			<version>1.1.15</version>
 		</dependency>
-
-		<!-- <dependency> <groupId>com.alibaba</groupId> <artifactId>druid</artifactId> 
-			<version>1.1.14</version> <exclusions> <exclusion> <groupId>com.alibaba</groupId> 
-			<artifactId>jconsole</artifactId> </exclusion> <exclusion> <groupId>com.alibaba</groupId> 
-			<artifactId>tools</artifactId> </exclusion> </exclusions> </dependency> -->
-
-
+ 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
