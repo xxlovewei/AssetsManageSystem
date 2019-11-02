@@ -250,14 +250,19 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 }
 
 function renderName(data, type, full) {
-
 	var html = full.model;
 	return html;
 
 }
 
 function renderJg(data, type, full) {
-	var html = full.rackstr + "-" + full.frame;
+	var html="";
+	if(angular.isDefined( full.rackstr)){
+		 html = html+full.rackstr+"-";
+	}
+	if(angular.isDefined( full.frame)){
+		 html = html+full.frame;
+	}
 	return html;
 }
 
@@ -305,7 +310,7 @@ function loadOpt(modal_meta, gdicts) {
 			}
 		} else {
 			if (gdicts.devbrand.length > 0) {
-				modal_meta.meta.pinpSel = modal_meta.meta.pinpOpt[0];
+// modal_meta.meta.pinpSel = modal_meta.meta.pinpOpt[0];
 			}
 		}
 	}
@@ -321,7 +326,7 @@ function loadOpt(modal_meta, gdicts) {
 			}
 		} else {
 			if (gdicts.parts.length > 0) {
-				modal_meta.meta.partSel = gdicts.parts[0];
+				// modal_meta.meta.partSel = gdicts.parts[0];
 			}
 		}
 	}
@@ -337,12 +342,12 @@ function loadOpt(modal_meta, gdicts) {
 			}
 		} else {
 			if (gdicts.partusers.length > 0) {
-				modal_meta.meta.usedunameSel = gdicts.partusers[0];
+				// modal_meta.meta.usedunameSel = gdicts.partusers[0];
 			}
 		}
 	}
 
-	// 等级
+	// 风险等级
 	modal_meta.meta.riskOpt = gdicts.devrisk;
 	if (gdicts.devrisk.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.risk)) {
@@ -369,24 +374,23 @@ function loadOpt(modal_meta, gdicts) {
 			}
 		} else {
 			if (gdicts.devenv.length > 0) {
-				modal_meta.meta.envSel = gdicts.devenv[0];
-
+				// modal_meta.meta.envSel = gdicts.devenv[0];
 			}
 		}
 	}
 
 	// 状态
-	modal_meta.meta.statusOpt = gdicts.devrecycle;
+	modal_meta.meta.recycelOpt = gdicts.devrecycle;
 	if (gdicts.devrecycle.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.recycle)) {
 			for (var i = 0; i < gdicts.devrecycle.length; i++) {
 				if (gdicts.devrecycle[i].dict_item_id == item.recycle) {
-					modal_meta.meta.statusSel = gdicts.devrecycle[i];
+					modal_meta.meta.recycelSel = gdicts.devrecycle[i];
 				}
 			}
 		} else {
 			if (gdicts.devrecycle.length > 0) {
-				modal_meta.meta.statusSel = gdicts.devrecycle[0];
+				modal_meta.meta.recycelSel = gdicts.devrecycle[0];
 			}
 		}
 	}
@@ -450,7 +454,7 @@ function loadOpt(modal_meta, gdicts) {
 			}
 		} else {
 			if (gdicts.devrack.length > 0) {
-				modal_meta.meta.jgSel = gdicts.devrack[0];
+				// modal_meta.meta.jgSel = gdicts.devrack[0];
 			}
 		}
 	}

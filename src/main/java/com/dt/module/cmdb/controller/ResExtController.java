@@ -77,6 +77,34 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_USER)
+	@RequestMapping(value = "/res/deleteByIds.do")
+	public R deleteByIds(String ids) {
+		if (ToolUtil.isEmpty(ids)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		Date date = new Date(); // 获取一个Date对象
+		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+		String nowtime = simpleDateFormat.format(date);
+		JSONArray ids_arr = JSONArray.parseArray(ids);
+		if (ids_arr.size() > 100) {
+			return R.FAILURE("不得超过100个");
+		}
+		ArrayList<SQL> sqls = new ArrayList<SQL>();
+		for (int i = 0; i < ids_arr.size(); i++) {
+			String id = ids_arr.getString(i);
+			Update me = new Update("res");
+			me.set("dr", "1");
+			me.setIf("update_time", nowtime);
+			me.setIf("update_by", this.getUserId());
+			me.where().and("id=?", id);
+			sqls.add(me);
+		}
+		db.executeSQLList(sqls);
+		return R.SUCCESS_OPER();
+	}
+
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
 	@RequestMapping(value = "/res/needreview.do")
 	@Transactional
 	public R needreview(String search) {
@@ -102,9 +130,7 @@ public class ResExtController extends BaseController {
 		String nowtime = simpleDateFormat.format(date);
 		List<SQL> sqls = new ArrayList<SQL>();
 		JSONArray ids_arr = JSONArray.parseArray(ids);
-		
 
-			
 		for (int i = 0; i < ids_arr.size(); i++) {
 			Update me = new Update("res");
 			me.set("changestate", "reviewed");
@@ -197,6 +223,15 @@ public class ResExtController extends BaseController {
 		}
 
 		return R.SUCCESS_OPER(res);
+	}
+
+	@ResponseBody
+	@Acl(info = "批量新增Res", value = Acl.ACL_USER)
+	@RequestMapping(value = "/res/batchUpdateRes.do")
+	@Transactional
+	public R batchUpdateRes() {
+		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+		return resExtService.batchUpdateRes(ps);
 	}
 
 	@ResponseBody

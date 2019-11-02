@@ -1,3 +1,157 @@
+ function modalresBatchUpdateCtl($timeout, $localStorage, notify, $log, $uibModal,
+		$uibModalInstance, $scope, meta, $http, $rootScope,  
+		$compile) {
+	console.log("window in ",meta);
+	var tgdict=meta.gdicts;
+	$scope.item={};
+	$scope.item.ids=meta.selrows;
+	$scope.date = {
+			buytime2 : moment().subtract(15, "days"),
+			wboutdate2 : moment().add(1, 'days')
+		}
+	$scope.ifrecycleOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
+	$scope.ifrecycleSel=$scope.ifrecycleOpt[0];
+	$scope.recycleOpt=[];
+	$scope.recycleSel="";
+	if(angular.isDefined(tgdict.devrecycle)){
+		$scope.recycleOpt=tgdict.devrecycle;
+		if(tgdict.devrecycle.length>0){
+			$scope.recycleSel=tgdict.devrecycle[0];
+		}
+	}
+	
+	$scope.ifriskOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
+	$scope.ifriskSel=$scope.ifriskOpt[0];
+	$scope.riskOpt=[];
+	$scope.riskSel="";
+	if(angular.isDefined(tgdict.devrisk)){
+		$scope.riskOpt=tgdict.devrisk;
+		if(tgdict.devrisk.length>0){
+			$scope.riskSel=tgdict.devrisk[0];
+		}
+	}
+	
+	$scope.ifenvOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
+	$scope.ifenvSel=$scope.ifenvOpt[0];
+	$scope.envOpt=[];
+	$scope.envSel="";
+	if(angular.isDefined(tgdict.devenv)){
+		$scope.envOpt=tgdict.devenv;
+		if(tgdict.devenv.length>0){
+			$scope.envSel=tgdict.devenv[0];
+		}
+	}
+	
+	$scope.ifwbOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
+	$scope.ifwbSel=$scope.ifwbOpt[0];
+	$scope.wbOpt=[];
+	$scope.wbSel="";
+	if(angular.isDefined(tgdict.devwb)){
+		$scope.wbOpt=tgdict.devwb;
+		if(tgdict.devwb.length>0){
+			$scope.wbSel=tgdict.devwb[0];
+		}
+	}
+	
+	$scope.ifusedPartOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
+	$scope.ifusedPartSel=$scope.ifusedPartOpt[0];
+	$scope.partOpt=[];
+	$scope.partSel="";
+	if(angular.isDefined(tgdict.parts)){
+		$scope.partOpt=tgdict.parts;
+		if(tgdict.parts.length>0){
+			$scope.partSel=tgdict.parts[0];
+		}
+	}
+
+	$scope.ifusedUserOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
+	$scope.ifusedUserSel=$scope.ifusedUserOpt[0];
+	$scope.usedunameOpt=[];
+	$scope.usedunameSel="";
+	if(angular.isDefined(tgdict.partusers)){
+		$scope.usedunameOpt=tgdict.partusers;
+		if(tgdict.partusers.length>0){
+			$scope.usedunameSel=tgdict.partusers[0];
+		}
+	}
+	
+	$scope.iflocOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
+	$scope.iflocSel=$scope.iflocOpt[0];
+	$scope.locOpt=[];
+	$scope.locSel="";
+	if(angular.isDefined(tgdict.devdc)){
+		$scope.locOpt=tgdict.devdc;
+		if(tgdict.devdc.length>0){
+			$scope.locSel=tgdict.devdc[0];
+		}
+	}
+	
+	$scope.ifbuyOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
+	$scope.ifbuySel=$scope.ifbuyOpt[0];
+	
+	$scope.ifTbOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
+	$scope.ifTbSel=$scope.ifTbOpt[0];
+	
+	$scope.iftbComputeOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
+	$scope.iftbComputeSel=$scope.iftbComputeOpt[0];
+	$scope.tbOpt=[{id:"1",name:"自动"},{id:"0",name:"手动"}]
+	$scope.tbSel=$scope.tbOpt[0];
+	
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+	$scope.sure = function() {
+		 
+		$scope.item.ifrecycleSel=$scope.ifrecycleSel.id;
+		$scope.item.recycleSel=$scope.recycleSel.dict_item_id;
+		
+		$scope.item.ifriskSel=$scope.ifriskSel.id;
+		$scope.item.riskSel=$scope.riskSel.dict_item_id;
+		
+		$scope.item.ifenvSel=$scope.ifenvSel.id;
+		$scope.item.envSel=$scope.envSel.dict_item_id;
+
+		$scope.item.ifwbSel=$scope.ifwbSel.id;
+		$scope.item.wbSel=$scope.wbSel.dict_item_id;
+		
+		$scope.item.ifusedPartSel=$scope.ifusedPartSel.id;
+		$scope.item.partSel=$scope.partSel.partid;
+		
+		$scope.item.ifusedUserSel=$scope.ifusedUserSel.id;
+		$scope.item.usedunameSel=$scope.usedunameSel.user_id;
+		
+		$scope.item.ifbuySel=$scope.ifbuySel.id;
+		$scope.item.buy_time_f = $scope.date.buytime2.format('YYYY-MM-DD');
+		
+		$scope.item.ifTbSel=$scope.ifTbSel.id;
+		$scope.item.wbout_date_f = $scope.date.wboutdate2.format('YYYY-MM-DD');
+		
+		$scope.item.iftbComputeSel=$scope.iftbComputeSel.id;
+		$scope.item.tbSel=$scope.tbSel.id;
+		
+		$scope.item.iflocSel=$scope.iflocSel.id;
+		$scope.item.locSel=$scope.locSel.dict_item_id;
+		
+		$http
+		.post(
+				$rootScope.project
+						+ "/api/base/res/batchUpdateRes.do",
+						$scope.item)
+		.success(function(res) {
+			if (res.success) {
+				$uibModalInstance.close('OK');
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		});
+ 
+	}
+}
+
+
 function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
 	var gclass_id = $state.router.globals.current.data.classid;
@@ -107,7 +261,13 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "btn2",
 					label : "",
 					type : "btn",
-					template : ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">修改</button>'
+					template : ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新</button>'
+				},				
+				{
+					id : "btn2",
+					label : "",
+					type : "btn",
+					template : ' <button ng-click="batchupate()" class="btn btn-sm btn-primary" type="submit">批量更新</button>'
 				},
 
 				{
@@ -184,6 +344,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						});
 					}
 				})
+				 	
 	}
 
 	$scope.filedown = function() {
@@ -237,14 +398,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							angular.copy(gdicts.parts, parts);
 							var partusers = [];
 							angular.copy(gdicts.partusers, partusers);
-							gdicts.parts.unshift({
-								partid : "none",
-								name : "未设置"
-							});
-							gdicts.partusers.unshift({
-								user_id : "none",
-								name : "未设置"
-							});
 							$scope.meta.tools[0].dataOpt = tloc;
 							$scope.meta.tools[0].dataSel = tloc[0];
 							tloc.unshift({
@@ -278,18 +431,77 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							});
 						}
 					})
+					
+					
+					
+	function getSelectRows() {
+		var data = $scope.dtInstance.DataTable.rows({
+			selected : true
+		})[0];
+		if (data.length == 0) {
+			notify({
+				message : "请至少选择一项"
+			});
+			return;
+		} else if (data.length > 100) {
+			notify({
+				message : "不允许超过500个"
+			});
+			return;
+		} else {
+			var res = [];
+			console.log("sel:", data);
+			for (var i = 0; i < data.length; i++) {
+				res.push($scope.dtOptions.aaData[data[i]].id)
+			}
+			return angular.toJson(res);
+		}
+	}	
+	$scope.batchupate=function(){
+	
+		var selrows=getSelectRows();
+		var ps={};
+		if (angular.isDefined(selrows)) {
+			ps.selrows=selrows;
+			ps.gdicts=gdicts;
+			var modalInstance = $uibModal.open({
+				backdrop : true,
+				templateUrl : 'views/cmdb/modal_batchUpdateRes.html',
+				controller : modalresBatchUpdateCtl,
+				size : 'blg',
+				resolve : { // 调用控制器与modal控制器中传递值
+					meta : function() {
+						return ps;
+					}
+				}
+			});
+
+			modalInstance.result.then(function(result) {
+				$log.log("result", result);
+				if (result == "OK") {
+					flush();
+				}
+		 
+ 
+			}, function(reason) {
+				// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+				$log.log("reason", reason)
+			}); 
+		}
+	}
+
 	$scope.del = function() {
-		var selrow = getSelectRow();
-		if (angular.isDefined(selrow)) {
-			var id = selrow.id;
+		var selrows=getSelectRows();
+		console.log(selrows);
+		if (angular.isDefined(selrows)) {
 			$confirm({
 				text : '是否删除?'
 			}).then(
 					function() {
 						$http.post(
 								$rootScope.project
-										+ "/api/base/res/deleteById.do", {
-									id : id
+										+ "/api/base/res/deleteByIds.do", {
+									ids : selrows
 								}).success(function(res) {
 							if (res.success) {
 								flush();
@@ -357,6 +569,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 	}
 
+	
 	// //////////////////////////save/////////////////////
 	$scope.save = function(type) {
 		var id;
@@ -452,7 +665,15 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataOpt : "riskOpt",
 								dataSel : "riskSel"
 							});
-							
+							items.push( {
+								type : "select",
+								disabled : "false",
+								label : "运行环境",
+								need : false,
+								disable_search : "true",
+								dataOpt : "envOpt",
+								dataSel : "envSel"
+							});
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -482,16 +703,16 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							items.push( {
 								type : "select",
 								disabled : "false",
-								label : "设备状态",
+								label : "资产状态",
 								need : false,
 								disable_search : "true",
-								dataOpt : "statusOpt",
-								dataSel : "statusSel"
+								dataOpt : "recycelOpt",
+								dataSel : "recycelSel"
 							});
 							items.push( {
 								type : "select",
 								disabled : "false",
-								label : "设备位置",
+								label : "资产位置",
 								need : false,
 								disable_search : "true",
 								dataOpt : "locOpt",
@@ -603,6 +824,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								title : "资产-"+$state.router.globals.current.data.pageTitle,
 								item : {},
 								buytime : bt,
+								typeOpt:[],
+								typeSel:"",
 								wboutdate : tbtime,
 								statusOpt : [],
 								statusSel : "",
@@ -634,24 +857,20 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								riskSel : "",
 								items : items,
 								sure : function(modalInstance, modal_meta) {
-									// 判断输入框
-									if (angular
-											.isDefined($state.router.globals.current.data.input_type)) {
-										modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
-									}
+									console.log('sure set', modal_meta.meta)
+									modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
 									modal_meta.meta.item.part_id = modal_meta.meta.partSel.partid;
 									modal_meta.meta.item.used_userid = modal_meta.meta.usedunameSel.user_id;
 									modal_meta.meta.item.class_id = gclass_id;
 									modal_meta.meta.item.env = modal_meta.meta.envSel.dict_item_id;
-									modal_meta.meta.item.recycle = modal_meta.meta.statusSel.dict_item_id;
+									modal_meta.meta.item.recycle = modal_meta.meta.recycelSel.dict_item_id;
 									modal_meta.meta.item.brand = modal_meta.meta.pinpSel.dict_item_id;
 									modal_meta.meta.item.wb = modal_meta.meta.wbSel.dict_item_id;
 									modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
-									modal_meta.meta.item.risk = modal_meta.meta.riskSel.dict_item_id;
-									modal_meta.meta.item.rack = modal_meta.meta.jgSel.dict_item_id;
+									modal_meta.meta.item.risk = modal_meta.meta.riskSel.dict_item_id;		
+									modal_meta.meta.item.rack =modal_meta.meta.jgSel.dict_item_id ;
 									modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
 											.format('YYYY-MM-DD');
-
 									modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
 											.format('YYYY-MM-DD');
 									modal_meta.meta.item.wb_auto = modal_meta.meta.tbSel.id;

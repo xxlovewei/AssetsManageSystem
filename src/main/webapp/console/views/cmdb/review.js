@@ -178,6 +178,7 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		modalInstance.result.then(function(result) {
 			$log.log("result", result);
 			if (result == "OK") {
+				
 			}
 		}, function(reason) {
 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
@@ -236,16 +237,24 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			var ps = {};
 			console.log(ids);
 			ps.ids = ids;
-			$http.post($rootScope.project + "/api/base/res/review.do", ps)
-					.success(function(res) {
-						if (res.success) {
-							flush();
-						} else {
-						}
-						notify({
-							message : res.message
-						});
-					})
+
+			$confirm({
+				text : '是否复核?'
+			}).then(
+					function() {
+						$http.post(
+								$rootScope.project + "/api/base/res/review.do",
+								ps).success(function(res) {
+							if (res.success) {
+								flush();
+							} else {
+							}
+							notify({
+								message : res.message
+							});
+						})
+					});
+
 		}
 
 	}

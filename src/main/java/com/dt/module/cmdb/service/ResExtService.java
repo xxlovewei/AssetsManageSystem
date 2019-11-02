@@ -3,7 +3,9 @@ package com.dt.module.cmdb.service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
@@ -12,6 +14,7 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
+import com.dt.core.dao.sql.SQL;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
@@ -103,6 +106,116 @@ public class ResExtService extends BaseService {
 		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
 	}
 
+	public R batchUpdateRes(TypedHashMap<String, Object> ps) {
+		Date date = new Date(); // 获取一个Date对象
+		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+		String nowtime = simpleDateFormat.format(date);
+
+		String ids = ps.getString("ids");
+		JSONArray ids_arr = JSONArray.parseArray(ids);
+		List<SQL> sqls = new ArrayList<SQL>();
+		for (int i = 0; i < ids_arr.size(); i++) {
+			Update me = new Update("res");
+
+			if (ToolUtil.isNotEmpty(ps.getString("ifrecycleSel")) && "Y".equals(ps.getString("ifrecycleSel"))) {
+				me.setIf("recycle", ps.getString("recycleSel"));
+			}
+
+			if (ToolUtil.isNotEmpty(ps.getString("ifriskSel")) && "Y".equals(ps.getString("ifriskSel"))) {
+				me.setIf("risk", ps.getString("riskSel"));
+			}
+
+			if (ToolUtil.isNotEmpty(ps.getString("ifenvSel")) && "Y".equals(ps.getString("ifenvSel"))) {
+				me.setIf("env", ps.getString("envSel"));
+			}
+
+			if (ToolUtil.isNotEmpty(ps.getString("ifwbSel")) && "Y".equals(ps.getString("ifwbSel"))) {
+				me.setIf("wb", ps.getString("wbSel"));
+			}
+
+			if (ToolUtil.isNotEmpty(ps.getString("ifusedPartSel")) && "Y".equals(ps.getString("ifusedPartSel"))) {
+				me.setIf("part_id", ps.getString("partSel"));
+			}
+
+			if (ToolUtil.isNotEmpty(ps.getString("ifusedUserSel")) && "Y".equals(ps.getString("ifusedUserSel"))) {
+				me.setIf("used_userid", ps.getString("usedunameSel"));
+			}
+
+			if (ToolUtil.isNotEmpty(ps.getString("iftbComputeSel")) && "Y".equals(ps.getString("iftbComputeSel"))) {
+				me.setIf("wb_auto", ps.getString("tbSel"));
+			}
+
+			if (ToolUtil.isNotEmpty(ps.getString("iflocSel")) && "Y".equals(ps.getString("iflocSel"))) {
+				me.setIf("loc", ps.getString("locSel"));
+			}
+
+			if (ToolUtil.isNotEmpty(ps.getString("ifbuySel")) && "Y".equals(ps.getString("ifbuySel"))) {
+				me.setIf("buy_time",
+						ps.getString("buy_time_f") == null ? null : ps.getString("buy_time_f") + " 01:00:00");
+			}
+
+			if (ToolUtil.isNotEmpty(ps.getString("ifTbSel")) && "Y".equals(ps.getString("ifTbSel"))) {
+				me.setIf("wbout_date",
+						ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 01:00:00");
+
+			}
+
+			me.setIf("changestate", "updated");
+			me.setIf("update_time", nowtime);
+			me.setIf("update_by", this.getUserId());
+			me.where().and("id=?", ids_arr.getString(i));
+			sqls.add(me);
+
+			Insert ins = new Insert("res_history");
+			ins.set("oper_type", "批量更新");
+			ins.set("id", db.getUUID());
+			ins.set("res_id", ids_arr.getString(i));
+			ins.set("oper_time", nowtime);
+			ins.set("oper_user", this.getUserId());
+			ins.set("fullct", "略");
+			sqls.add(ins);
+		}
+
+		// 批量计算
+		db.executeSQLList(sqls);
+		// 转脱保
+		String sql1 = "update  res set wb='invalid' where id in (\n" + "    select t.id from (\n" + "      select id\n"
+				+ "      from res\n"
+				+ "      where wbout_date is not null and dr = 0 and wb <> 'invalid' and wb_auto = '1'\n"
+				+ "            and wbout_date < now()\n" + "    ) t\n" + ")";
+		db.execute(sql1);
+		String sql2 = "update  res set wb='valid' where id in (\n" + "    select t.id from (\n" + "  select id\n"
+				+ "  from res\n" + "  where wbout_date is not null and dr = 0 and wb <> 'valid' and wb_auto = '1'\n"
+				+ "        and wbout_date > now())t\n" + "\n" + ")";
+		db.execute(sql2);
+
+		// 转在保
+		return R.SUCCESS_OPER();
+
+	}
+
+	public String computeWb(String cur_wb, String wb_auto, String wbout_date_f) {
+		Date date = new Date(); // 获取一个Date对象
+		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+		String wbcompute = cur_wb;
+		if (ToolUtil.isNotEmpty(wb_auto) && "1".equals(wb_auto) && ToolUtil.isNotEmpty(wbout_date_f)) {
+			try {
+				Date wboutdate = simpleDateFormat.parse(wbout_date_f + " 01:00:00");
+				if (date.getTime() > wboutdate.getTime()) {
+					// 脱保
+					wbcompute = "invalid";
+				} else {
+					// 未脱保
+					wbcompute = "valid";
+				}
+				System.out.println(date);
+			} catch (ParseException px) {
+				px.printStackTrace();
+			}
+		}
+		return wbcompute;
+	}
+
 	public R addRes(TypedHashMap<String, Object> ps) {
 		Date date = new Date(); // 获取一个Date对象
 		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
@@ -125,23 +238,7 @@ public class ResExtService extends BaseService {
 		}
 
 		// 自动计算脱保情况
-		String wbcompute = ps.getString("wb");
-		if (ToolUtil.isNotEmpty(ps.getString("wb_auto")) && "1".equals(ps.getString("wb_auto"))
-				&& ToolUtil.isNotEmpty(ps.getString("wbout_date_f"))) {
-			try {
-				Date wboutdate = simpleDateFormat.parse(ps.getString("wbout_date_f") + " 01:00:00");
-				if (date.getTime() > wboutdate.getTime()) {
-					// 脱保
-					wbcompute = "invalid";
-				} else {
-					// 未脱保
-					wbcompute = "valid";
-				}
-				System.out.println(date);
-			} catch (ParseException px) {
-				px.printStackTrace();
-			}
-		}
+		String wbcompute = computeWb(ps.getString("wb"), ps.getString("wb_auto"), ps.getString("wbout_date_f"));
 
 		if (ToolUtil.isEmpty(id)) {
 			Insert me = new Insert("res");
@@ -180,7 +277,7 @@ public class ResExtService extends BaseService {
 			me.setIf("model", ps.getString("model"));
 			me.setIf("update_time", nowtime);
 			me.setIf("update_by", this.getUserId());
-			me.setIf("buy_time", ps.getString("buy_time_f") == null ? null : ps.getString("buy_time_f") + " 12:00:00");
+			me.setIf("buy_time", ps.getString("buy_time_f") == null ? null : ps.getString("buy_time_f") + " 01:00:00");
 			me.setIf("changestate", "insert");
 			me.setIf("create_time", nowtime);
 			me.setIf("create_by", this.getUserId());
@@ -192,7 +289,7 @@ public class ResExtService extends BaseService {
 			me.setIf("locdtl", ps.getString("locdtl"));
 			me.setIf("wb_auto", ps.getString("wb_auto"));
 			me.setIf("wbout_date",
-					ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 12:00:00");
+					ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 01:00:00");
 			ins.set("oper_type", "入库");
 			sql = me.getSQL();
 		} else {
@@ -220,9 +317,7 @@ public class ResExtService extends BaseService {
 			me.setIf("model", ps.getString("model"));
 			me.setIf("brand", ps.getString("brand"));
 			me.setIf("buy_time", ps.getString("buy_time_f") == null ? null : ps.getString("buy_time_f") + " 01:00:00");
-
 			me.setIf("changestate", "updated");
-
 			me.setIf("buy_price", ps.getString("buy_price", "0"));
 			me.setIf("net_worth", ps.getString("net_worth", "0"));
 			me.setIf("part_id", "none".equals(ps.getString("part_id")) ? 0 : ps.getString("part_id"));
