@@ -181,15 +181,16 @@ public class ResExtService extends BaseService {
 		// 转脱保
 		String sql1 = "update  res set wb='invalid' where id in (\n" + "    select t.id from (\n" + "      select id\n"
 				+ "      from res\n"
-				+ "      where wbout_date is not null and dr = 0 and wb <> 'invalid' and wb_auto = '1'\n"
+				+ "      where wbout_date is not null and dr = 0 and    (wb <> 'invalid' or wb is null)   and wb_auto = '1'\n"
 				+ "            and wbout_date < now()\n" + "    ) t\n" + ")";
 		db.execute(sql1);
+		// 转在保
 		String sql2 = "update  res set wb='valid' where id in (\n" + "    select t.id from (\n" + "  select id\n"
-				+ "  from res\n" + "  where wbout_date is not null and dr = 0 and wb <> 'valid' and wb_auto = '1'\n"
+				+ "  from res\n"
+				+ "  where wbout_date is not null and dr = 0 and (wb <> 'valid' or wb is null)  and wb_auto = '1'\n"
 				+ "        and wbout_date > now())t\n" + "\n" + ")";
 		db.execute(sql2);
 
-		// 转在保
 		return R.SUCCESS_OPER();
 
 	}

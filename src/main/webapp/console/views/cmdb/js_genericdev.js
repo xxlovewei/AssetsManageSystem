@@ -220,8 +220,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			 'sDefaultContent', '').withOption('width', '30'));	
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
 			 'sDefaultContent', '').withOption('width', '30'));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('uuid').withTitle('机柜').withOption(
-			 'sDefaultContent', '').renderWith(renderJg));	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
 			 'sDefaultContent', ''));	
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
@@ -232,6 +230,12 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			 .withOption('sDefaultContent', ''));	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
 			 'sDefaultContent', ''));	
+	
+	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('机柜').withOption(
+			 'sDefaultContent', '').renderWith(renderJg));	
+	$scope.dtColumns.push(  DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
+			 'sDefaultContent', ''));	
+	
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
 			 .withOption('sDefaultContent', '').renderWith(renderReview));	
 				
@@ -721,7 +725,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							items.push({
 								type : "select",
 								disabled : "false",
-								label : "机柜号",
+								label : "机柜编号",
 								need : false,
 								disable_search : "true",
 								dataOpt : "jgOpt",
@@ -733,11 +737,23 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								sub_type : "text",
 								required : false,
 								maxlength : "50",
-								placeholder : "请输入",
-								label : "机架",
+								placeholder : "请输入机架编号",
+								label : "机架编号",
 								need : false,
 								name : 'frame',
 								ng_model : "frame"
+							});
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "请输入详细位置",
+								label : "详细位置",
+								need : false,
+								name : 'locdtl',
+								ng_model : "locdtl"
 							});
 							items.push({
 								type : "datetime",
