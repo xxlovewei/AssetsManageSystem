@@ -71,6 +71,7 @@ public class ResImportService extends BaseService {
 		}
 		return r;
 	}
+
 	@Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkBuyPrice'+#value")
 	public R checkBuyPrice(String value) {
 		if (ToolUtil.isEmpty(value)) {
@@ -102,11 +103,15 @@ public class ResImportService extends BaseService {
 	// 检查数据字典
 	@Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkDictItem'+#dict+'_'+#name")
 	public R checkDictItem(String dict, String name) {
-		// 允许未空
-		if (!"devclass".equals(dict)) {
+		// 大类为空,则失败
+		if ("devclass".equals(dict)) {
 			if (ToolUtil.isEmpty(name)) {
-				return R.SUCCESS_OPER();
+				return R.FAILURE("大类不允许未空");
 			}
+		}
+		// 其他为空，判断为成功
+		if (ToolUtil.isEmpty(name)) {
+			return R.SUCCESS_OPER("0");
 		}
 		Rcd rs = db.uniqueRecord("select dict_item_id from dt.sys_dict_item where  dr='0' and dict_id=? and name=?",
 				dict, name);
@@ -122,6 +127,7 @@ public class ResImportService extends BaseService {
 		String nowtime = simpleDateFormat.format(date);
 		String sql = "";
 		int uuidR = checkUUid(re.getUuid());
+
 		R buypriceR = checkBuyPrice(re.getBuy_price());
 		if (buypriceR.isFailed()) {
 			return R.FAILURE(buypriceR.getMessage());
@@ -179,6 +185,7 @@ public class ResImportService extends BaseService {
 		if (type.equals("insert")) {
 			Insert me = new Insert("res");
 			me.set("id", db.getUUID());
+			me.set("dr", "0");
 			me.setIf("changestate", "updated");
 			me.setIf("create_time", nowtime);
 			me.setIf("create_by", this.getUserId());
@@ -196,14 +203,18 @@ public class ResImportService extends BaseService {
 			me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
 
 			// 数据字典匹配
-			me.set("class_id", classR.getData());
-			me.set("rack", rackR.getData());
-			me.set("brand", brandR.getData());
-			me.set("recycle", recycleR.getData());
-			me.set("wb", wbR.getData());
-			me.set("risk", riskR.getData());
-			me.set("loc", locR.getData());
-			me.set("env", envR.getData());
+			me.setIf("class_id", classR.getData());
+
+			me.setIf("rack", rackR.getData());
+			me.setIf("brand", brandR.getData());
+			me.setIf("recycle", recycleR.getData());
+			me.setIf("wb", wbR.getData());
+			me.setIf("risk", riskR.getData());
+			me.setIf("loc", locR.getData());
+			me.setIf("env", envR.getData());
+
+			// 默认值
+			me.setIf("wb_auto", "1");
 
 			// 处理资产编号,必需不存在
 			if (ToolUtil.isEmpty(re.getUuid())) {
@@ -235,14 +246,15 @@ public class ResImportService extends BaseService {
 			me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
 
 			// 数据字典
-			me.set("class_id", classR.getData());
-			me.set("rack", rackR.getData());
-			me.set("brand", brandR.getData());
-			me.set("recycle", recycleR.getData());
-			me.set("wb", wbR.getData());
-			me.set("risk", riskR.getData());
-			me.set("loc", locR.getData());
-			me.set("env", envR.getData());
+			me.setIf("class_id", classR.getData());
+
+			me.setIf("rack", rackR.getData());
+			me.setIf("brand", brandR.getData());
+			me.setIf("recycle", recycleR.getData());
+			me.setIf("wb", wbR.getData());
+			me.setIf("risk", riskR.getData());
+			me.setIf("loc", locR.getData());
+			me.setIf("env", envR.getData());
 
 			// 处理资产编号,必需一条
 			if (uuidR == 1) {

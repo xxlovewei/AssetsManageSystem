@@ -5,12 +5,15 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
@@ -19,9 +22,9 @@ import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.cmdb.service.ResEntity;
 import com.dt.module.cmdb.service.ResExtService;
+
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
-import redis.clients.jedis.params.Params;
 
 /**
  * @author: algernonking

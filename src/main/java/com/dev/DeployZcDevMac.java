@@ -11,7 +11,7 @@ import com.dt.module.om.util.RemoteShellExecutor;
  * @date: 2018年4月19日 下午2:38:43
  * @Description: TODO
  */
-public class DeployDtDevMac {
+public class DeployZcDevMac {
 
 	/**
 	 * @Title: main
@@ -20,14 +20,14 @@ public class DeployDtDevMac {
 	 * @return: void
 	 */
 	public static void main(String[] args) {
-		String tomcatOnlyPort = "18004";
-		String dir = "/opt/tomcat/tomcat_dt/webapps";
+		String tomcatOnlyPort = "3037";
+		String dir = "/opt/tomcat/tomcat_shopuat/webapps";
 		String filename = "dt";
 		String rfile = dir + "/" + filename + ".war";
 		String fstr = "/opt/" + filename + ".war";
 
 		SftpClient sftp = new SftpClient();
-		Machine m = new Machine("localhost", "121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
+		Machine m = new Machine("localhost", "39.105.191.22", "root", "qwIMs@j*7arv", 12500);
 		sftp.connect(m, "upload");
 		sftp.changeDirectory("/tmp");
 		File f = new File(fstr);
@@ -38,7 +38,7 @@ public class DeployDtDevMac {
 			e.printStackTrace();
 		}
 
-		RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
+		RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root", "qwIMs@j*7arv", 12500);
 	//	executor.exec("/usr/bin/cp " + rfile + " /tmp/shop." + filename + ".bak --backup").print();
 
 		// 停应用
