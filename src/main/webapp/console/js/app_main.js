@@ -293,17 +293,15 @@ app
 						// do something to keep the user's session alive
 					});
 				});
-app.config(config_wx).run(function() {
-	console.log("App Wx run");
-});
-
-app.config(config_shop).run(function() {
-	console.log("App Shop run");
-});
-app.config(config_om).run(function() {
-	console.log("App Om run");
-});
-
+//app.config(config_wx).run(function() {
+//	console.log("App Wx run");
+//});
+//
+// 
+//app.config(config_om).run(function() {
+//	console.log("App Om run");
+//});
+ 
 app.config(config_cmdb).run(function() {
 	console.log("App cmdb run");
 });

@@ -1,5 +1,5 @@
 function config_cmdb($stateProvider, $ocLazyLoadProvider) {
-	console.log("App Shop config");
+	console.log("App cmdb config");
 	$ocLazyLoadProvider.config({
 		debug : true
 	});
@@ -42,6 +42,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				return $ocLazyLoad.load([ {
 					serie : true,
 					files : [ 'views/cmdb/review.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('maintain.dataimport', {
+		url : "/maintain_dataimport",
+		data: { pageTitle: '资产导入'},
+		templateUrl : "views/cmdb/dataimport.html",
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/dataimport.js?v=' + version ]
 				} ]);
 			}
 		}

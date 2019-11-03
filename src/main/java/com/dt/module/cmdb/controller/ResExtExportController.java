@@ -21,6 +21,7 @@ import com.dt.module.cmdb.service.ResEntity;
 import com.dt.module.cmdb.service.ResExtService;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
+import redis.clients.jedis.params.Params;
 
 /**
  * @author: algernonking
@@ -47,12 +48,15 @@ public class ResExtExportController extends BaseController {
 		JSONArray data = res.queryDataToJSONArray();
 		List<ResEntity> data_excel = new ArrayList<ResEntity>();
 		for (int i = 0; i < data.size(); i++) {
-			data_excel.add(new ResEntity(data.getJSONObject(i)));
+			ResEntity entity = new ResEntity();
+			entity.fullResEntity(data.getJSONObject(i));
+			data_excel.add(entity);
 		}
 
-		ExportParams parms = new ExportParams("导出列表", "数据");
+		ExportParams parms = new ExportParams();
+		parms.setSheetName("数据");
+		parms.setHeaderHeight(1000);
 
-	 
 		Workbook workbook;
 		workbook = ExcelExportUtil.exportExcel(parms, ResEntity.class, data_excel);
 		request.setCharacterEncoding("UTF-8");

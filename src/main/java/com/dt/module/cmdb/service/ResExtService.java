@@ -27,12 +27,12 @@ import com.dt.core.tool.util.ToolUtil;
 @Service
 public class ResExtService extends BaseService {
 
-	public static String resSqlbody = " (select name from sys_dict_item where dict_item_id=t.type ) typestr,"
-			+ " (select name from sys_dict_item where dict_item_id=t.loc ) locstr,"
-			+ " (select name from sys_dict_item where dict_item_id=t.recycle ) recyclestr,"
-			+ " (select name from sys_dict_item where dict_item_id=t.env  ) envstr,"
-			+ " (select name from sys_dict_item where dict_item_id=t.risk  ) riskstr,"
-			+ " (select name from sys_dict_item where dict_item_id=t.brand  ) brandstr,"
+	public static String resSqlbody = " (select name from sys_dict_item where dr='0' and dict_item_id=t.type ) typestr,"
+			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.loc ) locstr,"
+			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.recycle ) recyclestr,"
+			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.env  ) envstr,"
+			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.risk  ) riskstr,"
+			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.brand  ) brandstr,"
 			+ " (select name from sys_user_info where user_id=t.create_by  ) create_username,"
 			+ " (select name from sys_user_info where user_id=t.update_by  ) update_username,"
 			+ " (select name from sys_user_info where user_id=t.review_userid  ) review_username,"
@@ -41,10 +41,10 @@ public class ResExtService extends BaseService {
 			+ " (select route_name from hrm_org_part where node_id=t.part_id  ) part_fullname,"
 			+ " (select route_name from hrm_org_part where node_id=t.mgr_part_id  ) mgr_part_name,"
 			+ " (select route_name from hrm_org_part where node_id=t.mgr_part_id  ) mgr_part_fullname,"
-			+ " (select name from sys_dict_item where dict_item_id=t.wb  ) wbstr,"
-			+ " (select name from sys_dict_item where dict_item_id=t.rack  ) rackstr,"
-			+ " (select name from sys_dict_item where dict_item_id=t.class_id  ) classname,"
-			+ " (select name from sys_dict_item where dict_item_id=t.type  ) typename,"
+			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.wb  ) wbstr,"
+			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.rack  ) rackstr,"
+			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.class_id  ) classname,"
+			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.type  ) typename,"
 			+ "  date_format(wbout_date,'%Y-%m-%d')  wbout_datestr,"
 			+ "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
 			+ "  case when t.wb_auto = '1' then '自动'  else '手动' end wb_autostr, "
@@ -178,6 +178,13 @@ public class ResExtService extends BaseService {
 
 		// 批量计算
 		db.executeSQLList(sqls);
+		checkWbMethod();
+		return R.SUCCESS_OPER();
+
+	}
+
+	
+	public void checkWbMethod() {
 		// 转脱保
 		String sql1 = "update  res set wb='invalid' where id in (\n" + "    select t.id from (\n" + "      select id\n"
 				+ "      from res\n"
@@ -190,8 +197,6 @@ public class ResExtService extends BaseService {
 				+ "  where wbout_date is not null and dr = 0 and (wb <> 'valid' or wb is null)  and wb_auto = '1'\n"
 				+ "        and wbout_date > now())t\n" + "\n" + ")";
 		db.execute(sql2);
-
-		return R.SUCCESS_OPER();
 
 	}
 

@@ -1,24 +1,24 @@
-var app={		
-}
+var app = {}
 
 function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
 		userService, notify, $timeout) {
- 
-	//修改主题
-	var cur_theme=$localStorage.get("cur_theme");
-	if(angular.isDefined(cur_theme)){
-		   $scope.cur_skin=cur_theme;
-	}else{
-		   $scope.cur_skin="default";
-	}
-	
-	   $scope.change_theme=function(theme){
-		   $scope.cur_skin=theme;
-		   $localStorage.put("cur_theme",theme);
-	   }
 
-	   
-	   
+	//修改主题
+
+	//修改主题
+	var cur_theme = $localStorage.get("cur_theme");
+	if (angular.isDefined(cur_theme)) {
+		$scope.cur_skin = cur_theme;
+	} else {
+		$scope.cur_skin = "default";
+	}
+
+	$scope.change_theme = function(theme) {
+		console.log("change theme");
+		$scope.cur_skin = theme;
+		$localStorage.put("cur_theme", theme);
+	}
+
 	$scope.fullScreen = function() {
 		var element = document.documentElement; // 若要全屏页面中div，var element=
 		// document.getElementById("divID");
@@ -150,8 +150,6 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
 		$log.warn("dt_systems load from localstorage", dt_systems);
 		$scope.dt_systems = dt_systems;
 	}
-
- 
 
 };
 angular.module('inspinia').controller('MainCtrl', MainCtrl);

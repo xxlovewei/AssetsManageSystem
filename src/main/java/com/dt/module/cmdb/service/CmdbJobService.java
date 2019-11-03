@@ -16,7 +16,7 @@ import com.dt.core.common.base.BaseService;
  */
 @Service
 public class CmdbJobService extends BaseService {
-	@Scheduled(cron = "* */50 * * * ? ")
+	@Scheduled(cron = "0 */30 * * * ? ")
 	public void checkWbAuto() {
 		Date date = new Date(); // 获取一个Date对象
 		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象

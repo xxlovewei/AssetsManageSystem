@@ -290,7 +290,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "btn3",
 					label : "",
 					type : "btn",
-					template : ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">导出</button>'
+					template : ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">全部导出(Excel)</button>'
 				} ],
 		tools : [ {
 			id : "select",

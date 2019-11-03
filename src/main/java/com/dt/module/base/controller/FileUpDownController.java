@@ -335,7 +335,7 @@ public class FileUpDownController extends BaseController {
 		return R.SUCCESS_OPER();
 	}
 
-	private static String getWebRootDir() {
+	public static String getWebRootDir() {
 		return ToolUtil.getRealPathInWebApp("");
 	}
 }

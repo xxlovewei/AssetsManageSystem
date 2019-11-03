@@ -1,7 +1,6 @@
 package com.dt.module.cmdb.service;
 
 import com.alibaba.fastjson.JSONObject;
-
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
 
@@ -10,29 +9,26 @@ import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
  * @date: Oct 21, 2019 7:19:11 PM
  * @Description: TODO
  */
-@ExcelTarget("ServiceEntity")
+@ExcelTarget("ResEntity")
 public class ResEntity implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	// 用户提现导出
-	@Excel(name = "资产编号", width = 30)
+	@Excel(name = "资产编号", width = 16)
 	private String uuid;
 
-	@Excel(name = "位置", width = 10)
-	private String locstr;
+	@Excel(name = "大类(必需)", width = 15)
+	private String classname;
 
-	@Excel(name = "机柜", width = 10)
-	private String rackstr;
-
-	@Excel(name = "机架", width = 10)
-	private String frame;
-
-	@Excel(name = "类型", width = 8)
+	@Excel(name = "小类(不支持)", width = 15)
 	private String typestr;
 
-	@Excel(name = "资产名称", width = 10)
+	@Excel(name = "资产名称(不支持)", width = 15)
 	private String name;
+
+	@Excel(name = "资产位置", width = 30)
+	private String locstr;
 
 	@Excel(name = "品牌", width = 10)
 	private String brandstr;
@@ -40,41 +36,50 @@ public class ResEntity implements java.io.Serializable {
 	@Excel(name = "型号", width = 15)
 	private String model;
 
-	@Excel(name = "配置描述", width = 50)
-	private String confdesc;
-
 	@Excel(name = "序列号", width = 12)
 	private String sn;
-
-	@Excel(name = "状态", width = 10)
-	private String recyclestr;
 
 	@Excel(name = "维保情况", width = 10)
 	private String wbstr;
 
-	@Excel(name = "运行环境", width = 10)
+	@Excel(name = "脱保时间", width = 15)
+	private String wbout_datestr;
+
+	@Excel(name = "机柜", width = 10)
+	private String rackstr;
+
+	@Excel(name = "机架", width = 10)
+	private String frame;
+
+	@Excel(name = "位置详情", width = 30)
+	private String locdtl;
+
+	@Excel(name = "资产状态", width = 10)
+	private String recyclestr;
+
+	@Excel(name = "运行环境", width = 18)
 	private String envstr;
 
 	@Excel(name = "风险等级", width = 10)
 	private String riskstr;
 
-	@Excel(name = "采购时间", width = 15)
-	private String buy_timestr;
-
-	@Excel(name = "使用部门", width = 10)
+	@Excel(name = "使用部门(不支持)", width = 20)
 	private String part_fullname;
 
-	@Excel(name = "管理部门", width = 10)
+//	@Excel(name = "管理部门", width = 18)
 	private String mgr_part_fullname;
 
-	@Excel(name = "使用人", width = 10)
+	@Excel(name = "使用人(不支持)", width = 20)
 	private String used_username;
+
+	@Excel(name = "采购时间", width = 15)
+	private String buy_timestr;
 
 	@Excel(name = "原值", width = 10)
 	private String buy_price;
 
-	@Excel(name = "位置详情", width = 30)
-	private String locdtl;
+	@Excel(name = "配置描述", width = 30)
+	private String confdesc;
 
 	@Excel(name = "备注", width = 10)
 	private String mark;
@@ -380,9 +385,25 @@ public class ResEntity implements java.io.Serializable {
 		this.buy_price = buy_price;
 	}
 
-	public ResEntity(JSONObject obj) {
+	/**
+	 * @return the wbout_datestr
+	 */
+	public String getWbout_datestr() {
+		return wbout_datestr;
+	}
+
+	/**
+	 * @param wbout_datestr the wbout_datestr to set
+	 */
+	public void setWbout_datestr(String wbout_datestr) {
+		this.wbout_datestr = wbout_datestr;
+	}
+
+	public void fullResEntity(JSONObject obj) {
 
 		this.uuid = obj.getString("uuid");
+		this.classname = obj.getString("classname");
+		this.wbout_datestr = obj.getString("wbout_datestr");
 		this.typestr = obj.getString("typestr");
 		this.brandstr = obj.getString("brandstr");
 		this.model = obj.getString("model");
@@ -401,10 +422,40 @@ public class ResEntity implements java.io.Serializable {
 		this.buy_price = obj.getString("buy_price");
 		this.name = obj.getString("name");
 		this.part_fullname = obj.getString("part_fullname");
-		this.mgr_part_fullname = obj.getString("mgr_part_fullname");
+//		this.mgr_part_fullname = obj.getString("mgr_part_fullname");
 		this.used_username = obj.getString("used_username");
 		this.locdtl = obj.getString("locdtl");
 
+	}
+
+	/**
+	 * @return the classname
+	 */
+	public String getClassname() {
+		return classname;
+	}
+
+	/**
+	 * @param classname the classname to set
+	 */
+	public void setClassname(String classname) {
+		this.classname = classname;
+	}
+
+	private String processmsg = "";
+
+	/**
+	 * @return the processmsg
+	 */
+	public String getProcessmsg() {
+		return processmsg;
+	}
+
+	/**
+	 * @param processmsg the processmsg to set
+	 */
+	public void setProcessmsg(String processmsg) {
+		this.processmsg = processmsg;
 	}
 
 }
