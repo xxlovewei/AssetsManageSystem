@@ -2,7 +2,6 @@ function modalimportdataFailCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, meta, $http, $rootScope, $uibModal,
 		$uibModalInstance) {
 
-	
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
 			'bAutoWidth', false).withOption('createdRow', function(row) {
 		// Recompiling so we can bind Angular,directive to the
@@ -20,10 +19,25 @@ function modalimportdataFailCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtOptions.aaData = meta.failed_data;
 
 }
+
+function modalimpordocCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+		$confirm, $log, notify, $scope, meta, $http, $rootScope, $uibModal,
+		$window, $uibModalInstance) {
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+	$scope.downdict = function() {
+		$window.open($rootScope.project + "/api/base/res/exportDictItems.do");
+	}
+
+}
+
 function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal, $window, $timeout) {
 
-	$scope.okbtnstatus=false;
+	$scope.okbtnstatus = false;
 	$scope.importOpt = [ {
 		id : "insert",
 		name : "新增"
@@ -55,9 +69,30 @@ function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 	};
 
+	$scope.doc = function() {
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/cmdb/modal_importdoc.html',
+			controller : modalimpordocCtl,
+			size : 'blg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				meta : function() {
+					return ""
+				}
+			}
+		});
+		$scope.myDropzone.removeAllFiles(true);
+		modalInstance.result.then(function(result) {
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
+
+	}
+
 	$scope.ok = function() {
 
-		$scope.okbtnstatus=true;
+		$scope.okbtnstatus = true;
 		var id = getUuid();
 		console.log("开始上传文件" + id);
 		if ($scope.myDropzone.files.length > 0) {
@@ -75,7 +110,7 @@ function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				type : $scope.importSel.id,
 				id : id
 			}).success(function(res) {
-				$scope.okbtnstatus=false;
+				$scope.okbtnstatus = false;
 				if (res.success) {
 					$scope.myDropzone.removeAllFiles(true);
 					notify({

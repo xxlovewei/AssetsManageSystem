@@ -14,7 +14,6 @@ public class ResEntity implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// 用户提现导出
 	@Excel(name = "资产编号", width = 16)
 	private String uuid;
 

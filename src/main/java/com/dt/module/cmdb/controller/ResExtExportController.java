@@ -18,8 +18,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.support.HttpKit;
+import com.dt.module.cmdb.service.DictItemEntity;
 import com.dt.module.cmdb.service.ResEntity;
 import com.dt.module.cmdb.service.ResExtService;
 
@@ -38,9 +41,46 @@ public class ResExtExportController extends BaseController {
 	@Autowired
 	ResExtService resExtService;
 
+	@RequestMapping("/exportDictItems.do")
+	@Acl(value = Acl.ACL_USER)
+	public void exportDictItems(HttpServletRequest request, HttpServletResponse response)
+			throws UnsupportedEncodingException {
+
+		RcdSet rs = db.query(
+				"select b.name,a.name item_name from sys_dict_item a ,sys_dict b where  a.dict_id=b.dict_id and a.dr='0' and b.dr='0' order by a.dict_id");
+
+		List<DictItemEntity> data_excel = new ArrayList<DictItemEntity>();
+		for (int i = 0; i < rs.size(); i++) {
+			DictItemEntity entity = new DictItemEntity();
+			entity.fullResEntity(ConvertUtil.OtherJSONObjectToFastJSONObject(rs.getRcd(i).toJsonObject()));
+			data_excel.add(entity);
+		}
+
+		ExportParams parms = new ExportParams();
+		parms.setSheetName("数据字典项");
+		parms.setHeaderHeight(1000);
+
+		Workbook workbook;
+		workbook = ExcelExportUtil.exportExcel(parms, DictItemEntity.class, data_excel);
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/x-download");
+		String filedisplay = "dictItem.xls";
+		filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+		response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
+		try {
+			OutputStream out = response.getOutputStream();
+			workbook.write(out);
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	@RequestMapping("/exportServerData.do")
 	@Acl(value = Acl.ACL_USER)
-	public void queryOrdersDownload(HttpServletRequest request, HttpServletResponse response)
+	public void exportServerData(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException {
 
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
