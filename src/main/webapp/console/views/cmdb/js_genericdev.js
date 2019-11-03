@@ -447,9 +447,9 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				message : "请至少选择一项"
 			});
 			return;
-		} else if (data.length > 100) {
+		} else if (data.length > 600) {
 			notify({
-				message : "不允许超过500个"
+				message : "不允许超过600个"
 			});
 			return;
 		} else {
