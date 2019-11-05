@@ -3,7 +3,7 @@
 2>初始化sql
 CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
 set names utf8;
-source mysql.sql
+source db.sql
 
 3>导出war包,dt.war
 部署到webapps下,修改配置文件config.properties 
