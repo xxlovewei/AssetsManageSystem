@@ -1,0 +1,15 @@
+1>准备环境，tomcat 9  mysql 5.7
+
+2>初始化sql
+CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
+set names utf8;
+source mysql.sql
+
+3>导出war包,dt.war
+部署到webapps下,修改配置文件config.properties 
+jdbc.url=jdbc:mysql://ip:port/dt?useUnicode=true&characterEncoding=utf8&useSSL=false
+jdbc.username=root
+jdbc.password=root_pwd
+
+4>启动服务访问
+http://ip:port/dt/console
