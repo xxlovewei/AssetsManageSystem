@@ -168,7 +168,16 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			.withOption('bStateSave', true).withOption('bProcessing', true)
 			.withOption('bFilter', false).withOption('bInfo', false)
 			.withOption('serverSide', true).withOption('bAutoWidth', false)
-			.withOption('aaData', $scope.tabdata).withOption('createdRow',
+			.withOption('aaData', $scope.tabdata).withOption(
+					'headerCallback',
+					function(header) {
+						if ((!angular.isDefined($scope.headerCompiled))
+								|| $scope.headerCompiled) {
+							$scope.headerCompiled = true;
+							$compile(angular.element(header).contents())
+									($scope);
+						}
+					}).withOption('createdRow',
 					function(row) {
 						// Recompiling so we can bind Angular,directive to the
 						$compile(angular.element(row).contents())($scope);
@@ -227,12 +236,10 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 	
 	$scope.dtColumns = [
-		 
-	 
-			DTColumnBuilder.newColumn(null).withTitle('').withClass(
-					'select-checkbox').renderWith(function() {
-				return '';
-			}),
+		DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
+		'select-checkbox checkbox_center').renderWith(function() {
+			return ""
+		}),
 			DTColumnBuilder.newColumn('emplId').withTitle('员工编号').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('userName').withTitle('登录名').withOption(
