@@ -71,8 +71,6 @@
 			value="sqlSessionFactory"></property>
 	</bean>
 
- 
-
 </beans>
 
 
