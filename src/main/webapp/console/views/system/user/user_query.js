@@ -1,51 +1,53 @@
- 
 
-function sysUserQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
-   
+function sysUserQueryCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+		$log, notify, $scope, $http, $rootScope, $uibModal) {
+
 	$scope.meta = {
-			tools : [ {
-				id : "1",
-				label : "用户组",
-				type : "select",
-				disablesearch:true,
-				dataOpt :[],
-				dataSel : ""
-			}, {
-				id : "1",
-				label : "查询",
-				type : "btn",
-				template:' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
-	 
-			} ]
-		}
- 
-	$http.post($rootScope.project + "/api/sysUserGroup/selectList.do", {}).success(
-			function(res) {
-				if (res.success) {
-					 $scope.meta.tools[0].dataOpt= prepend(res.data, {
-						groupId : "ALL",
-						name : "全部"
+		tools : [
+				{
+					id : "1",
+					label : "用户组",
+					type : "select",
+					disablesearch : true,
+					dataOpt : [],
+					dataSel : ""
+				},
+				{
+					id : "1",
+					label : "查询",
+					type : "btn",
+					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+
+				} ]
+	}
+
+	$http
+			.post($rootScope.project + "/api/sysUserGroup/selectList.do", {})
+			.success(
+					function(res) {
+						if (res.success) {
+							$scope.meta.tools[0].dataOpt = prepend(res.data, {
+								groupId : "ALL",
+								name : "全部"
+							});
+							$scope.meta.tools[0].dataSel = $scope.meta.tools[0].dataOpt[0];
+						} else {
+							notify({
+								message : res.message
+							});
+						}
 					});
-					 $scope.meta.tools[0].dataSel= $scope.meta.tools[0].dataOpt[0];
-				} else {
-					notify({
-						message : res.message
-					});
-				}
-			});
-	$scope.URL = $rootScope.project + "/api/sysUserInfo/selectPage.do";	
+	$scope.URL = $rootScope.project + "/api/sysUserInfo/selectPage.do";
 	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp(
-			'data').withPaginationType('full_numbers')
-			.withOption('serverSide', true)
-			.withOption('createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			});
-	
+			'data').withPaginationType('full_numbers').withOption('serverSide',
+			true).withOption('createdRow', function(row) {
+		// Recompiling so we can bind Angular,directive to the
+		$compile(angular.element(row).contents())($scope);
+	});
+
 	$scope.reloadData = reloadData;
 	$scope.dtInstance = {}
-	
+
 	function reloadData() {
 		var resetPaging = false;
 		$scope.dtInstance.reloadData(callback, resetPaging);
@@ -54,7 +56,7 @@ function sysUserQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		console.log(json);
 
 	}
-	 
+
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
@@ -90,24 +92,22 @@ function sysUserQueryCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('tel').withTitle('手机号').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('userType').withTitle('用户类型')
-					.withOption('sDefaultContent', '').renderWith(renderType),
+			DTColumnBuilder.newColumn('userType').withTitle('用户类型').withOption(
+					'sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('userId').withTitle('状态').withOption(
-					'sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('userId').withTitle('操作').withOption(
-					'sDefaultContent', '').renderWith(renderAction) ]
-	
+					'sDefaultContent', '').renderWith(renderStatus) ]
 
 	function flush() {
 		if ($scope.meta.tools[0].dataSel.groupId != "ALL") {
 			$scope.URL = $rootScope.project
-					+ "/api/sysUserInfo/selectPage.do?groupId=" +$scope.meta.tools[0].dataSel.groupId;
+					+ "/api/sysUserInfo/selectPage.do?groupId="
+					+ $scope.meta.tools[0].dataSel.groupId;
 		} else {
 			$scope.URL = $rootScope.project + "/api/sysUserInfo/selectPage.do";
 		}
 		$scope.dtOptions.ajax = $scope.URL;
 		console.log($scope.dtInstance);
-		//reloadData();
+		// reloadData();
 
 	}
 

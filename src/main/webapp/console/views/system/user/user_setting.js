@@ -175,20 +175,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					}).withOption("select", {
 				style : 'multi',
 				selector : 'td:first-child'
-			}).withButtons([ {
-				text : '全选',
-				key : '1',
-				action : function(e, dt, node, config) {
-					dt.rows().select();
-				}
-			}, {
-				text : '全不选',
-				key : '1',
-				action : function(e, dt, node, config) {
-
-					dt.rows().deselect();
-				}
-			} ]);
+			}) ;
 	$scope.dtInstance = {}
 	$scope.reloadData = reloadData;
 
@@ -203,6 +190,16 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	}
 
+	$scope.selectCheckBoxAll = function(selected) {
+		if (selected) {
+			$scope.dtInstance.DataTable.rows().select();
+		} else {
+			$scope.dtInstance.DataTable.rows().deselect();
+		}
+	}
+
+	
+	
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
@@ -227,7 +224,11 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			return data;
 		}
 	}
+	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
+	
 	$scope.dtColumns = [
+		 
+	 
 			DTColumnBuilder.newColumn(null).withTitle('').withClass(
 					'select-checkbox').renderWith(function() {
 				return '';
@@ -264,7 +265,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 		$scope.URL = url;
 		$scope.dtOptions.ajax = $scope.URL;
-		//reloadData();
+		reloadData();
 
 	}
 
@@ -303,7 +304,10 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 									+ "/api/sysUserInfo/deleteByIds.do", {
 								ids : angular.toJson(userids)
 							}).success(function(res) {
-						flush();
+						
+						if(res.success){
+							flush();
+						}
 						notify({
 							message : res.message
 						});

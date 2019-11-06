@@ -2,7 +2,7 @@ function meCommonMgrCtl($localStorage, $confirm, $log, notify, $scope, $http, $r
 	var dt_systems = $localStorage.get("dt_systems")
 	var sys_user_info = $localStorage.get("dt_sys_user_info")
 
-	$log.warn($rootScope);
+	$log.warn(dt_systems);
 	$log.warn(sys_user_info);
 
 	$scope.systemOpt = [];
@@ -12,9 +12,9 @@ function meCommonMgrCtl($localStorage, $confirm, $log, notify, $scope, $http, $r
 	}
 
 
-	if (angular.isDefined(sys_user_info.system)) {
+	if (angular.isDefined(sys_user_info.systemId)) {
 		for (var i = 0; i < $scope.systemOpt.length; i++) {
-			if (sys_user_info.system == $scope.systemOpt[i].menuId) {
+			if (sys_user_info.systemId == $scope.systemOpt[i].menuId) {
 				$scope.systemSel = $scope.systemOpt[i];
 				break;
 			}

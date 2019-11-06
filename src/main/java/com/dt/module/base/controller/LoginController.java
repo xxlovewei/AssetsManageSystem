@@ -111,7 +111,7 @@ public class LoginController extends BaseController {
 		// 获取当前需要显示的菜单
 		String cur_system = "";
 		 
-		String tab_system = (u.getString("systemid")==null?"":u.getString("systemid"));
+		String tab_system = (u.getString("systemId")==null?"":u.getString("systemId"));
 		if (systems.size() == 0) {
 			cur_system = "";
 		} else {
