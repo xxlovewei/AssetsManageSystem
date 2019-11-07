@@ -1,16 +1,15 @@
 ## 更新日志
  
 ## 所用框架
-1. SpringBoot 1.5.3.RELEASE
-2. MyBatis-Plus 2.0.8
-3. MyBatis 3.4.4
-4. Spring 4.3.8.RELEASE
-5. hibernate-validator 5.3.5.Final
-6. Ehcache 3.3.1
-7. Kaptcha 2.3.2
-8. Fastjson 1.2.31
-9. Shiro 1.4.0
-10.Druid 1.0.31
+- SpringBoot 1.5.3.RELEASE
+- MyBatis-Plus 2.0.8
+- MyBatis 3.4.4
+- Spring 4.3.8.RELEASE
+- Ehcache 3.3.1
+- Kaptcha 2.3.2
+- Fastjson 1.2.31
+- Shiro 1.4.0
+- Druid 1.0.31
 
 ## 联系方式
 maillank@qq.com
@@ -36,7 +35,7 @@ maillank@qq.com
 - SQL>source db.sql
 
 步骤三
-- 发布营业
+- 发布
 - 部署到Tomcat目录的webapps下,修改配置文件(webapps/dt/WEB-INF/classes)中数据库的连接信息
 - jdbc.url=jdbc:mysql://ip:port/dt?useUnicode=true&characterEncoding=utf8&useSSL=false
 - jdbc.username=root
