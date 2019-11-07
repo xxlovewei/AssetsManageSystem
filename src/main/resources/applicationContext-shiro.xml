@@ -124,7 +124,7 @@
 		<!-- Shiro的核心安全接口,这个属性是必须的 -->
 		<property name="securityManager" ref="securityManager" />
 		<!-- 没有登录的用户请求需要登录的页面时自动跳转到登录页面，可配置也可不配置 -->
-		<property name="loginUrl" value="/dt/console/#/login" />
+		<property name="loginUrl" value="/console/#/login" />
 		<!-- 登录成功默认跳转页面，不配置则跳转至”/”，一般可以不配置，直接通过代码进行处理 -->
 		<property name="successUrl" value="/dt/console/" />
 		<!-- 没有权限默认跳转的页面 -->
@@ -158,10 +158,6 @@
 				/api/user/logout.do =logout
 				/console/** = anon
 				/common/** = anon
-				/term/** = anon
-				/wx/** = anon
-				/mn/** = anon
-				/wx3/** = anon
 				/public/** = anon
 				/api/** = authc,perms
 				/** = authc
