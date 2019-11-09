@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.module.cmdb.service.ResExtService;
+import com.dt.module.cmdb.service.impl.ResExtService;
 
 /**
  * @author: algernonking

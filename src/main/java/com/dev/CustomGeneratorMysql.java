@@ -49,13 +49,13 @@ public class CustomGeneratorMysql {
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws InterruptedException {
 
-	//	GlobalConfig g = new GlobalConfig();
+		// GlobalConfig g = new GlobalConfig();
 
 		AutoGenerator mpg = new AutoGenerator();
-		String dir = "/Users/algernonking/git/dt2/src/main";
+		String dir = "/Users/algernonking/Documents/sts2/zcdev/src/main";
 		// 全局配置
 		GlobalConfig gc = new GlobalConfig();
-		 
+
 		gc.setOutputDir(dir + "/java/");
 		gc.setOpen(true);// 生成后打开文件夹
 		gc.setFileOverride(true);
@@ -86,14 +86,12 @@ public class CustomGeneratorMysql {
 				return processTypeConvert(fieldType);
 			}
 		});
-		
+
 		dsc.setDriverName("com.mysql.jdbc.Driver");
 		dsc.setUrl("jdbc:mysql://39.105.191.22:60013/dt?useUnicode=true&characterEncoding=utf8&useSSL=false");
 		dsc.setUsername("root");
 		dsc.setPassword("root_pwd");
 		mpg.setDataSource(dsc);
-		
- 
 
 		// 策略配置
 		// 公共字段
@@ -107,7 +105,7 @@ public class CustomGeneratorMysql {
 		StrategyConfig strategy = new StrategyConfig();
 		// strategy.setLogicDeleteFieldName("DR");
 		strategy.setSuperControllerClass("com.dt.core.common.base.BaseController");
-	 
+
 		strategy.entityTableFieldAnnotationEnable(true);
 		// strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
@@ -116,7 +114,7 @@ public class CustomGeneratorMysql {
 		// "res_attr_value","res_class_attrs"
 		strategy.setInclude(new String[] { "res" }); // 需要生成的表
 		// strategy.setInclude(scanner("表名"));
- 
+
 		strategy.setTableFillList(tableFillList);
 		strategy.setSuperEntityClass("com.dt.core.common.base.BaseModel");
 
@@ -124,9 +122,10 @@ public class CustomGeneratorMysql {
 		mpg.setStrategy(strategy);
 
 		// 包配置
+		String busRoute = "cmdb";
 		PackageConfig pc = new PackageConfig();
 		pc.setParent("com.dt.module");
-		pc.setModuleName("base");
+		pc.setModuleName(busRoute);
 		pc.setXml(null);
 
 		InjectionConfig cfg = new InjectionConfig() {
@@ -135,7 +134,7 @@ public class CustomGeneratorMysql {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
 				map.put("dt_api", "/api");
-			 
+
 				this.setMap(map);
 			}
 		};
@@ -145,7 +144,7 @@ public class CustomGeneratorMysql {
 		focList.add(new FileOutConfig("template/mapper.xml.vm") {
 			@Override
 			public String outputFile(TableInfo tableInfo) {
-				return dir + "/resources/mybatis/system/" + tableInfo.getMapperName() + ".xml";
+				return dir + "/resources/mybatis/" + busRoute + "/" + tableInfo.getMapperName() + ".xml";
 			}
 		});
 		cfg.setFileOutConfigList(focList);
@@ -156,7 +155,7 @@ public class CustomGeneratorMysql {
 		// 关闭原来的mapper文件
 		TemplateConfig tc = new TemplateConfig();
 		tc.setXml(null);
-	
+
 		tc.setController("/template/controller.java.vm");
 		tc.setEntity("/template/entity.java.vm");
 		tc.setMapper("/template/mapper.java.vm");

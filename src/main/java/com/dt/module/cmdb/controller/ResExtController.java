@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
@@ -27,13 +26,7 @@ import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.base.entity.Res;
-import com.dt.module.base.entity.ResAttrValue;
-import com.dt.module.base.entity.ResAttrValues;
-import com.dt.module.base.service.IResAttrValueService;
-import com.dt.module.base.service.IResAttrValuesService;
-import com.dt.module.base.service.IResService;
-import com.dt.module.cmdb.service.ResExtService;
+import com.dt.module.cmdb.service.impl.ResExtService;
 
 /**
  * @author: algernonking
@@ -47,23 +40,23 @@ public class ResExtController extends BaseController {
 	@Autowired
 	ResExtService resExtService;
 
-	@Autowired
-	IResAttrValuesService ResAttrValuesServiceImpl;
+//	@Autowired
+//	IResAttrValuesService ResAttrValuesServiceImpl;
 
-	@Autowired
-	IResAttrValueService ResAttrValueServiceImpl;
+//	@Autowired
+//	IResAttrValueService ResAttrValueServiceImpl;
+//
+//	@Autowired
+//	IResService ResServiceImpl;
 
-	@Autowired
-	IResService ResServiceImpl;
-
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/selectListResExd.do")
-	public R selectList(String classId) {
-		QueryWrapper<Res> ew = new QueryWrapper<Res>();
-		ew.and(i -> i.eq("class_id", classId));
-		return R.SUCCESS_OPER(ResServiceImpl.list(ew));
-	}
+//	@ResponseBody
+//	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+//	@RequestMapping(value = "/res/selectListResExd.do")
+//	public R selectList(String classId) {
+//		QueryWrapper<Res> ew = new QueryWrapper<Res>();
+//		ew.and(i -> i.eq("class_id", classId));
+//		return R.SUCCESS_OPER(ResServiceImpl.list(ew));
+//	}
 
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_USER)
@@ -375,7 +368,7 @@ public class ResExtController extends BaseController {
 				data.put("data", ConvertUtil.OtherJSONObjectToFastJSONObject(rs2.toJsonObject()));
 				// 获取kv一对多数据
 				for (int i = 0; i < kvdataarr.size(); i++) {
-					RcdSet trs = db.query("select * from res_attr_values where res_id=? and  attr_value_id=?", id,
+					RcdSet trs = db.query("select * from res_attr_value where res_id=? and  attr_value_id=?", id,
 							rs2.getString(kvdataarr.getString(i)));
 					data.put(kvdataarr.getString(i),
 							ConvertUtil.OtherJSONObjectToFastJSONArray(trs.toJsonArrayWithJsonObject()));
@@ -397,313 +390,313 @@ public class ResExtController extends BaseController {
 		return R.SUCCESS_OPER(data);
 	}
 
-	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/queryResByNodeForUser.do")
-	public R queryResByNodeForUser(String ip, String classCode) {
-		String sql = "select (select count(1) from res_attr_value t2 where t2.res_id=t.id)ucnt,t.* "
-				+ "from res t ,res_class tc where t.class_id=tc.class_id and tc.class_code=?";
-		return R.SUCCESS_OPER(db.query(sql, classCode).toJsonArrayWithJsonObject());
-	}
+//	@ResponseBody
+//	@Acl(info = "查询Res", value = Acl.ACL_USER)
+//	@RequestMapping(value = "/res/queryResByNodeForUser.do")
+//	public R queryResByNodeForUser(String ip, String classCode) {
+//		String sql = "select (select count(1) from res_attr_value t2 where t2.res_id=t.id)ucnt,t.* "
+//				+ "from res t ,res_class tc where t.class_id=tc.class_id and tc.class_code=?";
+//		return R.SUCCESS_OPER(db.query(sql, classCode).toJsonArrayWithJsonObject());
+//	}
 
-	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/queryResAllUsers.do")
-	public R queryResAllUsers(String status, String search, String type, String classCode, String attrCode) {
+//	@ResponseBody
+//	@Acl(info = "查询Res", value = Acl.ACL_USER)
+//	@RequestMapping(value = "/res/queryResAllUsers.do")
+//	public R queryResAllUsers(String status, String search, String type, String classCode, String attrCode) {
+//
+//		if (ToolUtil.isOneEmpty(classCode, attrCode)) {
+//			return R.FAILURE_REQ_PARAM_ERROR();
+//		}
+//		String sql = " select a.* from res a,res_class b where a.class_id=b.class_id and b.dr=0 and a.dr=0 and b.class_code='"
+//				+ classCode + "' ";
+//
+//		if (ToolUtil.isNotEmpty(search)) {
+//			sql = sql + " and (a.ip like '%" + search + "%' or a.name like '%" + search + "%')";
+//		}
+//		sql = sql + " order by a.name ";
+//		JSONArray res = new JSONArray();
+//		RcdSet rs = db.query(sql);
+//		res = ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
+//		for (int i = 0; i < res.size(); i++) {
+//			String res_id = res.getJSONObject(i).getString("id");
+//			String usersql = "select * from res_attr_value where res_id=? and attr_id in (select attr_id from res_class_attrs a,res_class b  where a.dr='0' and b.dr='0' and a.attr_code='"
+//					+ attrCode + "' and a.class_id=b.class_id and b.class_code='" + classCode + "') and dr=0";
+//			if (ToolUtil.isNotEmpty(status)) {
+//				if (status.equals("enable")) {
+//					usersql = usersql + " and status='enable'";
+//				} else if (status.equals("disable")) {
+//					usersql = usersql + " and status='disable'";
+//				}
+//			}
+//
+//			if (ToolUtil.isNotEmpty(type)) {
+//				if (type.equals("all")) {
+//
+//				} else if (type.equals("work")) {
+//					usersql = usersql + " and type in ('admin','yw','db','app') ";
+//				} else if (type.equals("unknow")) {
+//					usersql = usersql + " and type='" + type + "'";
+//				}
+//			}
+//
+//			RcdSet urs = db.query(usersql, res_id);
+//			res.getJSONObject(i).put("users",
+//					ConvertUtil.OtherJSONObjectToFastJSONArray(urs.toJsonArrayWithJsonObject()));
+//		}
+//		return R.SUCCESS_OPER(res);
+//	}
 
-		if (ToolUtil.isOneEmpty(classCode, attrCode)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		String sql = " select a.* from res a,res_class b where a.class_id=b.class_id and b.dr=0 and a.dr=0 and b.class_code='"
-				+ classCode + "' ";
-
-		if (ToolUtil.isNotEmpty(search)) {
-			sql = sql + " and (a.ip like '%" + search + "%' or a.name like '%" + search + "%')";
-		}
-		sql = sql + " order by a.name ";
-		JSONArray res = new JSONArray();
-		RcdSet rs = db.query(sql);
-		res = ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
-		for (int i = 0; i < res.size(); i++) {
-			String res_id = res.getJSONObject(i).getString("id");
-			String usersql = "select * from res_attr_values where res_id=? and attr_id in (select attr_id from res_class_attrs a,res_class b  where a.dr='0' and b.dr='0' and a.attr_code='"
-					+ attrCode + "' and a.class_id=b.class_id and b.class_code='" + classCode + "') and dr=0";
-			if (ToolUtil.isNotEmpty(status)) {
-				if (status.equals("enable")) {
-					usersql = usersql + " and status='enable'";
-				} else if (status.equals("disable")) {
-					usersql = usersql + " and status='disable'";
-				}
-			}
-
-			if (ToolUtil.isNotEmpty(type)) {
-				if (type.equals("all")) {
-
-				} else if (type.equals("work")) {
-					usersql = usersql + " and type in ('admin','yw','db','app') ";
-				} else if (type.equals("unknow")) {
-					usersql = usersql + " and type='" + type + "'";
-				}
-			}
-
-			RcdSet urs = db.query(usersql, res_id);
-			res.getJSONObject(i).put("users",
-					ConvertUtil.OtherJSONObjectToFastJSONArray(urs.toJsonArrayWithJsonObject()));
-		}
-		return R.SUCCESS_OPER(res);
-	}
-
-	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/queryResValueByNodeForUser.do")
-	public R queryResValueByNodeForUser(String id) {
-		String sql = "select * from res_attr_value where res_id='" + id + "'";
-		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
-	}
-
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	@RequestMapping(value = "/addResNode.do")
-	@Transactional
-	public R addResNode(String id, String ip, String name, String classCode, String attrCode) {
-		if (ToolUtil.isOneEmpty(ip, classCode, attrCode)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		if (ToolUtil.isEmpty(name)) {
-			name = ip;
-		}
-		Rcd crs = db.uniqueRecord("select * from res_class where dr=0 and class_code='" + classCode + "'");
-		if (crs == null) {
-			return R.FAILURE("没有对应的类型");
-		}
-
-		String classId = crs.getString("class_id");
-		Rcd attrrs = db.uniqueRecord(
-				"select * from res_class_attrs where class_id=? and attr_code='" + attrCode + "' and dr=0", classId);
-		if (attrrs == null) {
-			return R.FAILURE("没有对应的属性");
-		}
-		String attr_id = attrrs.getString("attr_id");
-
-		Res entity = new Res();
-		String uid = db.getUUID();
-		if (ToolUtil.isEmpty(id)) {
-			entity.setId(uid);
-		} else {
-			entity.setId(id);
-		}
-		entity.setClassId(classId);
-		entity.setName(name);
-		entity.setIp(ip);
-		ResServiceImpl.saveOrUpdate(entity);
-
-		// 插入attr_value
-		if (ToolUtil.isEmpty(id)) {
-			ResAttrValue rav = new ResAttrValue();
-			rav.setAttrId(attr_id);
-			rav.setAttrValue(attr_id);
-			rav.setResId(uid);
-			ResAttrValueServiceImpl.save(rav);
-		}
-		return R.SUCCESS_OPER();
-	}
+//	@ResponseBody
+//	@Acl(info = "查询Res", value = Acl.ACL_USER)
+//	@RequestMapping(value = "/res/queryResValueByNodeForUser.do")
+//	public R queryResValueByNodeForUser(String id) {
+//		String sql = "select * from res_attr_value where res_id='" + id + "'";
+//		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+//	}
+//
+//	@ResponseBody
+//	@Acl(info = "", value = Acl.ACL_USER)
+//	@RequestMapping(value = "/addResNode.do")
+//	@Transactional
+//	public R addResNode(String id, String ip, String name, String classCode, String attrCode) {
+//		if (ToolUtil.isOneEmpty(ip, classCode, attrCode)) {
+//			return R.FAILURE_REQ_PARAM_ERROR();
+//		}
+//		if (ToolUtil.isEmpty(name)) {
+//			name = ip;
+//		}
+//		Rcd crs = db.uniqueRecord("select * from res_class where dr=0 and class_code='" + classCode + "'");
+//		if (crs == null) {
+//			return R.FAILURE("没有对应的类型");
+//		}
+//
+//		String classId = crs.getString("class_id");
+//		Rcd attrrs = db.uniqueRecord(
+//				"select * from res_class_attrs where class_id=? and attr_code='" + attrCode + "' and dr=0", classId);
+//		if (attrrs == null) {
+//			return R.FAILURE("没有对应的属性");
+//		}
+//		String attr_id = attrrs.getString("attr_id");
+//
+//		Res entity = new Res();
+//		String uid = db.getUUID();
+//		if (ToolUtil.isEmpty(id)) {
+//			entity.setId(uid);
+//		} else {
+//			entity.setId(id);
+//		}
+//		entity.setClassId(classId);
+//		entity.setName(name);
+//		entity.setIp(ip);
+//		ResServiceImpl.saveOrUpdate(entity);
+//
+//		// 插入attr_value
+//		if (ToolUtil.isEmpty(id)) {
+//			ResAttrValue rav = new ResAttrValue();
+//			rav.setAttrId(attr_id);
+//			rav.setAttrValue(attr_id);
+//			rav.setResId(uid);
+//			ResAttrValueServiceImpl.save(rav);
+//		}
+//		return R.SUCCESS_OPER();
+//	}
 
 	// root,inter,db,app,yw,unknow
-	public String autoChosenUserType(String user) {
+//	public String autoChosenUserType(String user) {
+//
+//		if (ToolUtil.isEmpty(user)) {
+//			return "unknow";
+//		}
+//		user = user.toLowerCase();
+//		if (user.equals("root") || user.equals("administrator") || user.equals("admin")) {
+//			return "admin";
+//		}
+//
+//		if (user.equals("jinj") || user.equals("shouqw") || user.equals("zhangjj")) {
+//			return "yw";
+//		}
+//
+//		if (user.indexOf("mongodb") >= 0 || user.indexOf("db2inst") >= 0 || user.indexOf("oracle") >= 0
+//				|| user.indexOf("postgres") >= 0 || user.indexOf("mysql") >= 0 || user.indexOf("dasusr") >= 0
+//				|| user.indexOf("db2fenc") >= 0) {
+//			return "db";
+//		}
+//
+//		if (user.indexOf("apache") >= 0 || user.indexOf("nginx") >= 0 || user.indexOf("tomcat") >= 0
+//				|| user.indexOf("weblogic") >= 0 || user.indexOf("grafana") >= 0 || user.indexOf("haproxy") >= 0
+//				|| user.indexOf("influxdb") >= 0) {
+//			return "app";
+//		}
+//
+//		if (user.equals("wwwrun") || user.equals("suse-ncc") || user.equals("polkituser") || user.equals("news")
+//				|| user.equals("messagebus") || user.equals("man") || user.equals("gdm") || user.equals("at")
+//				|| user.equals("guest") || user.equals("bin") || user.equals("daemon") || user.equals("adm")
+//				|| user.equals("lp") || user.equals("sync") || user.equals("shutdown") || user.equals("halt")
+//				|| user.equals("mail") || user.equals("uucp") || user.equals("uuidd") || user.equals("operator")
+//				|| user.equals("games") || user.equals("gopher") || user.equals("ftp") || user.equals("nobody")
+//				|| user.equals("dbus") || user.equals("vcsa") || user.equals("abrt") || user.equals("ntp")
+//				|| user.equals("haldaemon") || user.equals("ntp") || user.equals("saslauth") || user.equals("postfix")
+//				|| user.equals("sshd") || user.equals("tcpdump") || user.equals("nscd") || user.equals("rtkit")
+//				|| user.equals("pulse") || user.equals("avahi-autoipd") || user.equals("rpc")
+//				|| user.equals("systemd-network") || user.equals("nfsnobody") || user.equals("polkitd")
+//				|| user.equals("chrony") || user.equals("rpcuser") || user.equals("sys") || user.equals("lpd")
+//				|| user.equals("invscout") || user.equals("snapp") || user.equals("ipsec") || user.equals("pconsole")
+//				|| user.equals("esaadmin") || user.equals("atc") || user.equals("amdc") || user.equals("pac")
+//				|| user.equals("atc2") || user.equals("listen") || user.equals("nuucp") || user.equals("smtp")
+//				|| user.equals("noaccess") || user.equals("nobody4") || user.equals("nobody")
+//				|| user.indexOf("window") >= 0 || user.indexOf("systemd-") >= 0) {
+//			return "inter";
+//		}
+//
+//		return "unknow";
+//	}
 
-		if (ToolUtil.isEmpty(user)) {
-			return "unknow";
-		}
-		user = user.toLowerCase();
-		if (user.equals("root") || user.equals("administrator") || user.equals("admin")) {
-			return "admin";
-		}
-
-		if (user.equals("jinj") || user.equals("shouqw") || user.equals("zhangjj")) {
-			return "yw";
-		}
-
-		if (user.indexOf("mongodb") >= 0 || user.indexOf("db2inst") >= 0 || user.indexOf("oracle") >= 0
-				|| user.indexOf("postgres") >= 0 || user.indexOf("mysql") >= 0 || user.indexOf("dasusr") >= 0
-				|| user.indexOf("db2fenc") >= 0) {
-			return "db";
-		}
-
-		if (user.indexOf("apache") >= 0 || user.indexOf("nginx") >= 0 || user.indexOf("tomcat") >= 0
-				|| user.indexOf("weblogic") >= 0 || user.indexOf("grafana") >= 0 || user.indexOf("haproxy") >= 0
-				|| user.indexOf("influxdb") >= 0) {
-			return "app";
-		}
-
-		if (user.equals("wwwrun") || user.equals("suse-ncc") || user.equals("polkituser") || user.equals("news")
-				|| user.equals("messagebus") || user.equals("man") || user.equals("gdm") || user.equals("at")
-				|| user.equals("guest") || user.equals("bin") || user.equals("daemon") || user.equals("adm")
-				|| user.equals("lp") || user.equals("sync") || user.equals("shutdown") || user.equals("halt")
-				|| user.equals("mail") || user.equals("uucp") || user.equals("uuidd") || user.equals("operator")
-				|| user.equals("games") || user.equals("gopher") || user.equals("ftp") || user.equals("nobody")
-				|| user.equals("dbus") || user.equals("vcsa") || user.equals("abrt") || user.equals("ntp")
-				|| user.equals("haldaemon") || user.equals("ntp") || user.equals("saslauth") || user.equals("postfix")
-				|| user.equals("sshd") || user.equals("tcpdump") || user.equals("nscd") || user.equals("rtkit")
-				|| user.equals("pulse") || user.equals("avahi-autoipd") || user.equals("rpc")
-				|| user.equals("systemd-network") || user.equals("nfsnobody") || user.equals("polkitd")
-				|| user.equals("chrony") || user.equals("rpcuser") || user.equals("sys") || user.equals("lpd")
-				|| user.equals("invscout") || user.equals("snapp") || user.equals("ipsec") || user.equals("pconsole")
-				|| user.equals("esaadmin") || user.equals("atc") || user.equals("amdc") || user.equals("pac")
-				|| user.equals("atc2") || user.equals("listen") || user.equals("nuucp") || user.equals("smtp")
-				|| user.equals("noaccess") || user.equals("nobody4") || user.equals("nobody")
-				|| user.indexOf("window") >= 0 || user.indexOf("systemd-") >= 0) {
-			return "inter";
-		}
-
-		return "unknow";
-	}
-
-	public R addResBySingleNode(String data, String classCode, String attrCode) {
-
-		System.out.println("data:\n" + data);
-		System.out.println("classCode:\n" + classCode);
-		System.out.println("attrCode:\n" + attrCode);
-
-		if (ToolUtil.isOneEmpty(data, classCode, attrCode)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-
-		JSONObject obj = JSONObject.parseObject(data);
-		if (ToolUtil.isEmpty(obj) || ToolUtil.isEmpty(obj.getString("ip"))) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-
-		String ip = obj.getString("ip");
-		String name = "";
-		if (ToolUtil.isEmpty(obj.getString("name"))) {
-			name = ip;
-		} else {
-			name = obj.getString("name");
-		}
-
-		// 检查是否有类型
-		Rcd crs = db.uniqueRecord("select * from res_class where dr=0 and class_code='" + classCode + "'");
-		if (crs == null) {
-			return R.FAILURE("没有对应的类型");
-		}
-		String classId = crs.getString("class_id");
-		Rcd attrrs = db.uniqueRecord(
-				"select * from res_class_attrs where class_id=? and attr_code='" + attrCode + "' and dr=0", classId);
-		if (attrrs == null) {
-			return R.FAILURE("没有对应的属性");
-		}
-		String attrId = attrrs.getString("attr_id");
-
-		JSONArray listdata = obj.getJSONArray("list");
-
-		Rcd nrs = db.uniqueRecord("select * from res where class_id=? and dr=0 and ip=?", classId, ip);
-		String uid = "";
-		if (nrs == null) {
-			// 判断节点是否存在,全部重新插入
-			Res entity = new Res();
-			uid = db.getUUID();
-			entity.setId(uid);
-			entity.setClassId(classId);
-			entity.setName(name);
-			entity.setIp(ip);
-			ResServiceImpl.save(entity);
-
-			// 插入attr_value
-			ResAttrValue rav = new ResAttrValue();
-			rav.setAttrId(attrId);
-			rav.setAttrValue(attrId);
-			rav.setResId(uid);
-			ResAttrValueServiceImpl.save(rav);
-
-			// 插入attr_values,按照需求将标记为update更新用户列表
-			for (int i = 0; i < listdata.size(); i++) {
-				String act = listdata.getJSONObject(i).getString("act");
-				String user = listdata.getJSONObject(i).getString("user");
-				// 首次全部插入
-				if (act != null) {
-					ResAttrValues ent = new ResAttrValues();
-					ent.setAttrValue(user);
-					ent.setAttrValueId(attrId);
-					ent.setAttrId(attrId);
-					ent.setResId(uid);
-					String type = autoChosenUserType(user);
-					ent.setType(type);
-					if (type.equals("inter")) {
-						ent.setStatus("disable");
-					} else {
-						ent.setStatus(listdata.getJSONObject(i).getString("status"));
-					}
-					ResAttrValuesServiceImpl.save(ent);
-					System.out.println("user:" + user + ",type:" + type + ",status:" + ent.getStatus());
-				}
-
-			}
-		} else {
-			// 如果ip存在,则更新该IP所在条目,更新name
-			uid = nrs.getString("id");
-			Res resent = new Res();
-			resent.setName(name);
-			resent.setId(uid);
-			ResServiceImpl.saveOrUpdate(resent);
-			// 节点已经存在插入attr_values,按照需求更新用户列表
-			for (int i = 0; i < listdata.size(); i++) {
-				String act = listdata.getJSONObject(i).getString("act");
-				String user = listdata.getJSONObject(i).getString("user");
-				if (act != null) {
-					Rcd udrs = db.uniqueRecord(
-							"select * from res_attr_values where dr='0' and res_id=? and attr_id=? and attr_value=? ",
-							uid, attrId, user);
-					ResAttrValues ent = new ResAttrValues();
-					ent.setAttrValue(user);
-					ent.setAttrValueId(attrId);
-					ent.setAttrId(attrId);
-					ent.setResId(uid);
-					String type = autoChosenUserType(user);
-					if (udrs == null) {
-						// 新增用户
-						ent.setType(type);
-						if (type.equals("inter")) {
-							ent.setStatus("disable");
-						} else {
-							ent.setStatus(listdata.getJSONObject(i).getString("status"));
-						}
-						System.out.println("addUser");
-						ResAttrValuesServiceImpl.save(ent);
-					} else {
-						// 判断update或delete
-						if ("update".equals(act)) {
-							System.out.println("updateUser");
-							// 内置全部强制修改成停用
-							if (type.equals("inter")) {
-								ent.setStatus("disable");
-							} else {
-								ent.setStatus(listdata.getJSONObject(i).getString("status"));
-							}
-							ResAttrValuesServiceImpl.saveOrUpdate(ent);
-						} else if ("delete".equals(act)) {
-							System.out.println("updateUser");
-							ResAttrValuesServiceImpl.removeById(udrs.getString("id"));
-
-						}
-					}
-
-					System.out.println("user:" + user + ",type:" + type + ",status:" + ent.getStatus());
-
-				}
-
-			}
-
-		}
-		return R.SUCCESS_OPER();
-
-	}
-
-	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/addUserBySingleNode.do")
-	@Transactional
-	public R addUserBySingleNode(String data, String classCode, String attrCode) {
-		return addResBySingleNode(data, "xtlist", "userlist");
-	}
+//	public R addResBySingleNode(String data, String classCode, String attrCode) {
+//
+//		System.out.println("data:\n" + data);
+//		System.out.println("classCode:\n" + classCode);
+//		System.out.println("attrCode:\n" + attrCode);
+//
+//		if (ToolUtil.isOneEmpty(data, classCode, attrCode)) {
+//			return R.FAILURE_REQ_PARAM_ERROR();
+//		}
+//
+//		JSONObject obj = JSONObject.parseObject(data);
+//		if (ToolUtil.isEmpty(obj) || ToolUtil.isEmpty(obj.getString("ip"))) {
+//			return R.FAILURE_REQ_PARAM_ERROR();
+//		}
+//
+//		String ip = obj.getString("ip");
+//		String name = "";
+//		if (ToolUtil.isEmpty(obj.getString("name"))) {
+//			name = ip;
+//		} else {
+//			name = obj.getString("name");
+//		}
+//
+//		// 检查是否有类型
+//		Rcd crs = db.uniqueRecord("select * from res_class where dr=0 and class_code='" + classCode + "'");
+//		if (crs == null) {
+//			return R.FAILURE("没有对应的类型");
+//		}
+//		String classId = crs.getString("class_id");
+//		Rcd attrrs = db.uniqueRecord(
+//				"select * from res_class_attrs where class_id=? and attr_code='" + attrCode + "' and dr=0", classId);
+//		if (attrrs == null) {
+//			return R.FAILURE("没有对应的属性");
+//		}
+//		String attrId = attrrs.getString("attr_id");
+//
+//		JSONArray listdata = obj.getJSONArray("list");
+//
+//		Rcd nrs = db.uniqueRecord("select * from res where class_id=? and dr=0 and ip=?", classId, ip);
+//		String uid = "";
+//		if (nrs == null) {
+//			// 判断节点是否存在,全部重新插入
+//			Res entity = new Res();
+//			uid = db.getUUID();
+//			entity.setId(uid);
+//			entity.setClassId(classId);
+//			entity.setName(name);
+//			entity.setIp(ip);
+//			ResServiceImpl.save(entity);
+//
+//			// 插入attr_value
+//			ResAttrValue rav = new ResAttrValue();
+//			rav.setAttrId(attrId);
+//			rav.setAttrValue(attrId);
+//			rav.setResId(uid);
+//			ResAttrValueServiceImpl.save(rav);
+//
+//			// 插入attr_values,按照需求将标记为update更新用户列表
+//			for (int i = 0; i < listdata.size(); i++) {
+//				String act = listdata.getJSONObject(i).getString("act");
+//				String user = listdata.getJSONObject(i).getString("user");
+//				// 首次全部插入
+//				if (act != null) {
+//					ResAttrValues ent = new ResAttrValues();
+//					ent.setAttrValue(user);
+//					ent.setAttrValueId(attrId);
+//					ent.setAttrId(attrId);
+//					ent.setResId(uid);
+//					String type = autoChosenUserType(user);
+//					ent.setType(type);
+//					if (type.equals("inter")) {
+//						ent.setStatus("disable");
+//					} else {
+//						ent.setStatus(listdata.getJSONObject(i).getString("status"));
+//					}
+//					ResAttrValuesServiceImpl.save(ent);
+//					System.out.println("user:" + user + ",type:" + type + ",status:" + ent.getStatus());
+//				}
+//
+//			}
+//		} else {
+//			// 如果ip存在,则更新该IP所在条目,更新name
+//			uid = nrs.getString("id");
+//			Res resent = new Res();
+//			resent.setName(name);
+//			resent.setId(uid);
+//			ResServiceImpl.saveOrUpdate(resent);
+//			// 节点已经存在插入attr_values,按照需求更新用户列表
+//			for (int i = 0; i < listdata.size(); i++) {
+//				String act = listdata.getJSONObject(i).getString("act");
+//				String user = listdata.getJSONObject(i).getString("user");
+//				if (act != null) {
+//					Rcd udrs = db.uniqueRecord(
+//							"select * from res_attr_value where dr='0' and res_id=? and attr_id=? and attr_value=? ",
+//							uid, attrId, user);
+//					ResAttrValues ent = new ResAttrValues();
+//					ent.setAttrValue(user);
+//					ent.setAttrValueId(attrId);
+//					ent.setAttrId(attrId);
+//					ent.setResId(uid);
+//					String type = autoChosenUserType(user);
+//					if (udrs == null) {
+//						// 新增用户
+//						ent.setType(type);
+//						if (type.equals("inter")) {
+//							ent.setStatus("disable");
+//						} else {
+//							ent.setStatus(listdata.getJSONObject(i).getString("status"));
+//						}
+//						System.out.println("addUser");
+//						ResAttrValuesServiceImpl.save(ent);
+//					} else {
+//						// 判断update或delete
+//						if ("update".equals(act)) {
+//							System.out.println("updateUser");
+//							// 内置全部强制修改成停用
+//							if (type.equals("inter")) {
+//								ent.setStatus("disable");
+//							} else {
+//								ent.setStatus(listdata.getJSONObject(i).getString("status"));
+//							}
+//							ResAttrValuesServiceImpl.saveOrUpdate(ent);
+//						} else if ("delete".equals(act)) {
+//							System.out.println("updateUser");
+//							ResAttrValuesServiceImpl.removeById(udrs.getString("id"));
+//
+//						}
+//					}
+//
+//					System.out.println("user:" + user + ",type:" + type + ",status:" + ent.getStatus());
+//
+//				}
+//
+//			}
+//
+//		}
+//		return R.SUCCESS_OPER();
+//
+//	}
+//
+//	@ResponseBody
+//	@Acl(info = "查询Res", value = Acl.ACL_USER)
+//	@RequestMapping(value = "/addUserBySingleNode.do")
+//	@Transactional
+//	public R addUserBySingleNode(String data, String classCode, String attrCode) {
+//		return addResBySingleNode(data, "xtlist", "userlist");
+//	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
 import com.alibaba.fastjson.JSONArray;
+import com.dt.module.cmdb.entity.ResEntity;
 
 import net.sf.json.JSONObject;
 
@@ -16,14 +17,19 @@ import net.sf.json.JSONObject;
  */
 public class ResImportResult {
 
-	List<String> success_cmds = new ArrayList<String>();
-	List<String> msg = new ArrayList<String>();
-	int total = 0;
-	int success_cnt = 0;
-	int failed_cnt = 0;
-	List<ResEntity> faileentity = new ArrayList<ResEntity>();
+	public List<String> success_cmds = new ArrayList<String>();
 
-	boolean is_success_all = false;
+	public List<String> msg = new ArrayList<String>();
+
+	public int total = 0;
+
+	public int success_cnt = 0;
+
+	public int failed_cnt = 0;
+
+	public List<ResEntity> faileentity = new ArrayList<ResEntity>();
+
+	public boolean is_success_all = false;
 
 	public void printResult() {
 

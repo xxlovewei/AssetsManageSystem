@@ -16,8 +16,8 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.module.base.controller.FileUpDownController;
-import com.dt.module.cmdb.service.ResExtService;
 import com.dt.module.cmdb.service.ResImportService;
+import com.dt.module.cmdb.service.impl.ResExtService;
 
 /**
  * @author: algernonking

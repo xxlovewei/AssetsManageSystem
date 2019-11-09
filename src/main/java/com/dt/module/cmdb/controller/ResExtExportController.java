@@ -22,9 +22,9 @@ import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.cmdb.service.DictItemEntity;
-import com.dt.module.cmdb.service.ResEntity;
-import com.dt.module.cmdb.service.ResExtService;
+import com.dt.module.cmdb.entity.DictItemEntity;
+import com.dt.module.cmdb.entity.ResEntity;
+import com.dt.module.cmdb.service.impl.ResExtService;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;

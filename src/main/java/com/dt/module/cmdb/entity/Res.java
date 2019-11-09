@@ -1,4 +1,4 @@
-package com.dt.module.base.entity;
+package com.dt.module.cmdb.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
