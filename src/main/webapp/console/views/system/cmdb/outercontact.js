@@ -12,7 +12,7 @@ function cmdbouterContactSaveCtl($timeout, $localStorage, notify, $log,
 	$scope.users = [];
 	if (angular.isDefined(id)) {
 		// 加载数据
-		$http.post($rootScope.project + "/api/base/queryResAllById.do", {
+		$http.post($rootScope.project + "/api/base/res/queryResAllById.do", {
 			id : id
 		}).success(function(res) {
 			if (res.success) {
@@ -183,7 +183,7 @@ function cmdbouterContactListCtl($sce, DTOptionsBuilder, DTColumnBuilder,
 	function flush() {
 		var ps = {}
 		ps.classCode = classCode;
-		$http.post($rootScope.project + "/api/base/queryResByNodeForUser.do",
+		$http.post($rootScope.project + "/api/base/res/queryResByNodeForUser.do",
 				ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
@@ -329,7 +329,7 @@ function cmdbouterContactListCtl($sce, DTOptionsBuilder, DTColumnBuilder,
 		par.search = $scope.search;
 		par.classCode = classCode;
 		par.attrCode = attrCode;
-		$http.post($rootScope.project + "api/base/queryResAllUsers.do", par)
+		$http.post($rootScope.project + "api/base/res/queryResAllUsers.do", par)
 				.success(function(res) {
 					if (res.success) {
 						var html = buildHtml(res.data);

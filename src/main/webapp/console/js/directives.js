@@ -966,7 +966,7 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
 	
 	$scope.attachdown=function(faultid){
 	
-		$http.post($rootScope.project + "/api/base//queryResFaultById.do", {
+		$http.post($rootScope.project + "/api/base/res/queryResFaultById.do", {
 			id :faultid
 		}).success(function(res) {
 			if (res.success) {
@@ -1035,7 +1035,7 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 	if (angular.isDefined(meta.id)) {
 		// 加载数据
-		$http.post($rootScope.project + "/api/base/queryResAllById.do", {
+		$http.post($rootScope.project + "/api/base/res/queryResAllById.do", {
 			id : meta.id
 		}).success(function(res) {
 			if (res.success) {

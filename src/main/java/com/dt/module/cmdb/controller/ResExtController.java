@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -57,7 +58,7 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectListResExd.do")
+	@RequestMapping(value = "/res/selectListResExd.do")
 	public R selectList(String classId) {
 		QueryWrapper<Res> ew = new QueryWrapper<Res>();
 		ew.and(i -> i.eq("class_id", classId));
@@ -66,7 +67,7 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_USER)
-	@RequestMapping(value = "/batchWork.do")
+	@RequestMapping(value = "/res/batchWork.do")
 	public R batchWork(String sql) {
 		if (ToolUtil.isEmpty(sql)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -196,7 +197,7 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_ALLOW)
-	@RequestMapping(value = "/queryDictFast.do")
+	@RequestMapping(value = "/res/queryDictFast.do")
 	@Transactional
 	public R queryDictFast(String dicts, String parts, String partusers) {
 
@@ -236,7 +237,7 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "新增Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/addResCustom.do")
+	@RequestMapping(value = "/res/addResCustom.do")
 	@Transactional
 	public R addResCustom() {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
@@ -277,7 +278,7 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/queryResAllByClass.do")
+	@RequestMapping(value = "/res/queryResAllByClass.do")
 	public R queryResAllByClass(String id, String wb, String env, String recycle, String loc, String search) {
 
 		if (ToolUtil.isEmpty(id)) {
@@ -288,7 +289,7 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/queryResAll.do")
+	@RequestMapping(value = "/res/queryResAll.do")
 	public R queryResAll(String id, String wb, String env, String recycle, String loc, String search) {
 
 		return queryResAllGetData(id, wb, env, recycle, loc, search);
@@ -297,7 +298,7 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/queryResFaultById.do")
+	@RequestMapping(value = "/res/queryResFaultById.do")
 	public R queryResFaultById(String id) {
 
 		JSONObject res = new JSONObject();
@@ -314,7 +315,7 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/queryResAllById.do")
+	@RequestMapping(value = "/res/queryResAllById.do")
 	public R queryResAllById(String id, String classId) {
 
 		JSONObject data = new JSONObject();
@@ -398,7 +399,7 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/queryResByNodeForUser.do")
+	@RequestMapping(value = "/res/queryResByNodeForUser.do")
 	public R queryResByNodeForUser(String ip, String classCode) {
 		String sql = "select (select count(1) from res_attr_value t2 where t2.res_id=t.id)ucnt,t.* "
 				+ "from res t ,res_class tc where t.class_id=tc.class_id and tc.class_code=?";
@@ -407,7 +408,7 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/queryResAllUsers.do")
+	@RequestMapping(value = "/res/queryResAllUsers.do")
 	public R queryResAllUsers(String status, String search, String type, String classCode, String attrCode) {
 
 		if (ToolUtil.isOneEmpty(classCode, attrCode)) {
@@ -454,7 +455,7 @@ public class ResExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/queryResValueByNodeForUser.do")
+	@RequestMapping(value = "/res/queryResValueByNodeForUser.do")
 	public R queryResValueByNodeForUser(String id) {
 		String sql = "select * from res_attr_value where res_id='" + id + "'";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());

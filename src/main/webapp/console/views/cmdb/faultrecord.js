@@ -31,7 +31,7 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
 	if (angular.isDefined(meta.id)) {
 		// 加载数据
 
-		$http.post($rootScope.project + "/api/base/queryResAllById.do", {
+		$http.post($rootScope.project + "/api/base/res/queryResAllById.do", {
 			id : meta.id
 		}).success(function(res) {
 			if (res.success) {
@@ -213,7 +213,7 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 			return;
 		}
-		$http.post($rootScope.project + "/api/base/queryResAll.do", ps)
+		$http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
@@ -228,7 +228,7 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	var gdicts = {};
 	$http
 			.post(
-					$rootScope.project + "/api/base/queryDictFast.do",
+					$rootScope.project + "/api/base/res/queryDictFast.do",
 					{
 						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devservertype,devrack"
 					}).success(function(res) {

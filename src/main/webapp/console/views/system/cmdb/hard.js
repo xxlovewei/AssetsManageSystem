@@ -123,7 +123,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		if (angular.isDefined($scope.meta.tools[1].dataSel.class_id)) {
 			ps.id = $scope.meta.tools[1].dataSel.class_id;
 		}
-		$http.post($rootScope.project + "/api/base/queryResAllByClass.do", ps)
+		$http.post($rootScope.project + "/api/base/res/queryResAllByClass.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
@@ -355,7 +355,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 
 		$http
-				.post($rootScope.project + "/api/base/queryResAllById.do", {
+				.post($rootScope.project + "/api/base/res/queryResAllById.do", {
 					id : id,
 					classId : class_id
 				})
@@ -503,7 +503,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									$http
 											.post(
 													$rootScope.project
-															+ "/api/base/addResCustom.do",
+															+ "/api/base/res/addResCustom.do",
 													modal_meta.meta.item)
 											.success(function(res) {
 

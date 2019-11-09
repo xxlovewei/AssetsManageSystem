@@ -220,7 +220,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('cf.zcotherhard', {
 		url : "/cf_zcotherhard",
-		data: { pageTitle: '其他设备',classid:"zcotherhard",input_type:"zcother"},
+		data: { pageTitle: '其他资产',classid:"zcotherhard"},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -322,7 +322,6 @@ function loadOpt(modal_meta, gdicts) {
 			}
 		} else {
 			if (gdicts.devbrand.length > 0) {
-// modal_meta.meta.pinpSel = modal_meta.meta.pinpOpt[0];
 			}
 		}
 	}
@@ -439,7 +438,7 @@ function loadOpt(modal_meta, gdicts) {
 		}
 	}
 
-	// 类型
+	// 小类
 	modal_meta.meta.typeOpt = gdicts.stype;
 	if (gdicts.stype.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.type)) {
@@ -455,6 +454,22 @@ function loadOpt(modal_meta, gdicts) {
 		}
 	}
 
+	// 大类
+	modal_meta.meta.classOpt = gdicts.btype;
+	if (gdicts.btype.length > 0) {
+		if (angular.isDefined(item) && angular.isDefined(item.class_id)) {
+			for (var i = 0; i < gdicts.btype.length; i++) {
+				if (gdicts.btype[i].dict_item_id == item.class_id) {
+					modal_meta.meta.classSel = gdicts.btype[i];
+				}
+			}
+		} else {
+			if (gdicts.btype.length > 0) {
+				modal_meta.meta.classSel = gdicts.btype[0];
+			}
+		}
+	}
+	
 	// 机柜
 	modal_meta.meta.jgOpt = gdicts.devrack;
 	if (gdicts.devrack.length > 0) {

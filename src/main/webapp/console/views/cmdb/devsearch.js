@@ -106,7 +106,7 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 			return;
 		}
-		$http.post($rootScope.project + "/api/base/queryResAll.do", ps)
+		$http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
@@ -121,7 +121,7 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	var gdicts = {};
 	$http
 			.post(
-					$rootScope.project + "/api/base/queryDictFast.do",
+					$rootScope.project + "/api/base/res/queryDictFast.do",
 					{
 						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devservertype,devrack"
 					}).success(function(res) {

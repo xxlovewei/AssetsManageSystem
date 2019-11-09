@@ -69,7 +69,7 @@ function cmdbsystemListCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	function flush() {
 		var ps = {}
 		ps.classId = classId;
-		$http.post($rootScope.project + "/api/base/selectListResExd.do", ps)
+		$http.post($rootScope.project + "/api/base/res/selectListResExd.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;

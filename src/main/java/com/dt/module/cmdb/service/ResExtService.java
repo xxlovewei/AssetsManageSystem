@@ -74,8 +74,14 @@ public class ResExtService extends BaseService {
 		}
 		sql = sql + resSqlbody + " t.* from res t where dr=0  ";
 
-		if (ToolUtil.isNotEmpty(loc) && !"all".equals(id)) {
-			sql = sql + " and class_id='" + id + "'";
+		if (ToolUtil.isNotEmpty(id) && !"all".equals(id)) {
+			if (id.equals("zcotherhard")) {
+				sql = sql
+						+ " and class_id in (select dict_item_id  from sys_dict_item where dict_id='zcother' and dr='0')";
+			} else {
+				sql = sql + " and class_id='" + id + "'";
+			}
+
 		}
 
 		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
@@ -183,7 +189,6 @@ public class ResExtService extends BaseService {
 
 	}
 
-	
 	public void checkWbMethod() {
 		// 转脱保
 		String sql1 = "update  res set wb='invalid' where id in (\n" + "    select t.id from (\n" + "      select id\n"

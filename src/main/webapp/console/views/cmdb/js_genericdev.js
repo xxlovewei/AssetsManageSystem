@@ -200,6 +200,14 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
 			'sDefaultContent', '').withOption("width", '30'));
+	
+
+	if (angular
+			.isDefined($state.router.globals.current.data.classid) && $state.router.globals.current.data.classid == "zcotherhard"  ) {
+		$scope.dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('大类').withOption(
+				 'sDefaultContent', '').withOption("width", '30'));
+	}  
+	
 	// 输入判断
 	if (angular.isDefined($state.router.globals.current.data.input_type)) {
 		$scope.dtColumns.push(DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
@@ -338,7 +346,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
 		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
 		ps.search = $scope.meta.tools[4].ct;
-		$http.post($rootScope.project + "/api/base/queryResAllByClass.do", ps)
+		$http.post($rootScope.project + "/api/base/res/queryResAllByClass.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
@@ -366,14 +374,14 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	var gdicts = {};
-	var dicts = "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack";
+	var dicts = "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack,zcother";
 	
 	// 判断输入框
 	if (angular.isDefined($state.router.globals.current.data.input_type)) {
 		dicts = dicts + "," + $state.router.globals.current.data.input_type;
 	}
 	$http
-			.post($rootScope.project + "/api/base/queryDictFast.do", {
+			.post($rootScope.project + "/api/base/res/queryDictFast.do", {
 				dicts : dicts,
 				parts : "Y",
 				partusers : "Y"
@@ -382,13 +390,23 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					function(res) {
 						if (res.success) {
 							gdicts = res.data;
-							// 判断输入框
+							// 资产小类
 							if (angular
 									.isDefined($state.router.globals.current.data.input_type)) {
 								gdicts.stype = gdicts[$state.router.globals.current.data.input_type];
 							} else {
 								gdicts.stype = [];
 							}
+							
+							// 资产大类
+							if (angular
+									.isDefined($state.router.globals.current.data.classid) && $state.router.globals.current.data.classid == "zcotherhard"  ) {
+								gdicts.btype = gdicts["zcother"];
+							} else {
+								gdicts.btype = [];
+							}
+							
+							
 							// 填充行数据
 							var tenv = [];
 							angular.copy(gdicts.devenv, tenv);
@@ -586,7 +604,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}
 		}
 		$http
-				.post($rootScope.project + "/api/base/queryResAllById.do", {
+				.post($rootScope.project + "/api/base/res/queryResAllById.do", {
 					id : id,
 					classId : gclass_id
 				})
@@ -615,27 +633,34 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								ng_model : "uuid"
 							});
 							
+							// 资产大类
+							if (angular
+									.isDefined($state.router.globals.current.data.classid) && $state.router.globals.current.data.classid == "zcotherhard"  ) {
+								items.push({
+									type : "select",
+									disabled : "true",
+									label : "资产大类",
+									need : false,
+									disable_search : "true",
+									dataOpt : "classOpt",
+									dataSel : "classSel"
+								});
+							}  
+							// 资产大类
 							if (angular
 									.isDefined($state.router.globals.current.data.input_type)) {
 								items.push({
 									type : "select",
 									disabled : "true",
-									label : "资产类型",
+									label : "资产小类",
 									need : false,
 									disable_search : "true",
 									dataOpt : "typeOpt",
 									dataSel : "typeSel"
 								});
 							}
-							items.push( {
-								type : "select",
-								disabled : "false",
-								label : "资产品牌",
-								need : false,
-								disable_search : "true",
-								dataOpt : "pinpOpt",
-								dataSel : "pinpSel"
-							});
+							
+						
 							items.push({
 								type : "input",
 								disabled : "false",
@@ -659,7 +684,16 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : true,
 								name : 'sn',
 								ng_model : "sn"
-							});						
+							});			
+							items.push( {
+								type : "select",
+								disabled : "false",
+								label : "资产品牌",
+								need : false,
+								disable_search : "true",
+								dataOpt : "pinpOpt",
+								dataSel : "pinpSel"
+							});
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -851,6 +885,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								headuserSel : "",
 								partOpt : [],
 								partSel : "",
+								classOpt:[],
+								classSel:[],
 								usedunameOpt : [],
 								usedunameSel : "",
 								locOpt : [],
@@ -874,10 +910,18 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								items : items,
 								sure : function(modalInstance, modal_meta) {
 									console.log('sure set', modal_meta.meta)
+									
+								
+									if (angular
+											.isDefined($state.router.globals.current.data.classid) && $state.router.globals.current.data.classid == "zcotherhard"  ) {
+										modal_meta.meta.item.class_id = modal_meta.meta.classSel.dict_item_id; 
+									} else{
+										modal_meta.meta.item.class_id = gclass_id;
+									} 
+									
 									modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
 									modal_meta.meta.item.part_id = modal_meta.meta.partSel.partid;
 									modal_meta.meta.item.used_userid = modal_meta.meta.usedunameSel.user_id;
-									modal_meta.meta.item.class_id = gclass_id;
 									modal_meta.meta.item.env = modal_meta.meta.envSel.dict_item_id;
 									modal_meta.meta.item.recycle = modal_meta.meta.recycelSel.dict_item_id;
 									modal_meta.meta.item.brand = modal_meta.meta.pinpSel.dict_item_id;
@@ -906,7 +950,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									$http
 											.post(
 													$rootScope.project
-															+ "/api/base/addResCustom.do",
+															+ "/api/base/res/addResCustom.do",
 													modal_meta.meta.item)
 											.success(function(res) {
 												if (res.success) {
@@ -927,7 +971,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								}
 							}
 
-							//
 							if (angular.isDefined(res.data.data)
 									&& angular.isDefined(res.data.data.id)) {
 								meta.item = res.data.data;
