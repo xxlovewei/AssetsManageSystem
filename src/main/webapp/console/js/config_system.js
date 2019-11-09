@@ -9,7 +9,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		url : "/basedata",
 		templateUrl : "views/common/content.html"
 	}).state('basedata.area', {
-		url : "/area",
+		url : "/area?psBtns",
 		data: { pageTitle: '省份数据'},
 		templateUrl : "views/system/base/area.html",
 		resolve : {
@@ -17,19 +17,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				return $ocLazyLoad.load([ {
 					serie : true,
 					files : [ 'views/system/base/area.js?v=' + version ]
-				} ]);
-			}
-		}
-	}).state('basedata.weather', {
-		url : "/weather",
-		data: { pageTitle: '天气数据',loginCheck:true},
-		// templateUrl : "views/system/base/weather.html",
-		template:'<div ng-controller="prodCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/base/weather.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -41,7 +28,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		url : "/me",
 		templateUrl : "views/common/content.html"
 	}).state('me.common_mgr', {
-		url : "/common_mgr",
+		url : "/common_mgr?psBtns",
 		data: { pageTitle: '通用设置'},
 		templateUrl : "views/me/common_mgr.html",
 		resolve : {
@@ -53,7 +40,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('me.receivingaddr', {
-		url : "/receivingaddr",
+		url : "/receivingaddr?psBtns",
 		data: { pageTitle: '收货地址'},
 		template:'<div ng-controller="meRecAddrCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -65,7 +52,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('me.accesslog', {
-		url : "/accesslog",
+		url : "/accesslog?psBtns",
 		data: { pageTitle: '访问日志'},
 		template:'<div ng-controller="meAccessLogCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -77,7 +64,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('me.pwdreset', {
-		url : "/pwdreset",
+		url : "/pwdreset?psBtns",
 		data: { pageTitle: '密码修改'},
 		templateUrl : "views/me/pwdreset.html",
 		resolve : {
@@ -96,7 +83,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		url : "/user",
 		templateUrl : "views/common/content.html"
 	}).state('user.user_query', {
-		url : "/user_query",
+		url : "/user_query?psBtns",
 		data: { pageTitle: '用户查询'},
 		template:'<div ng-controller="sysUserQueryCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -108,7 +95,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('user.user_group', {
-		url : "/user_group",
+		url : "/user_group?psBtns",
 		data: { pageTitle: '用户组设置'},
 		template:'<div ng-controller="sysGroupSettingCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -120,7 +107,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('user.user_add', {
-		url : "/user_add",
+		url : "/user_add?psBtns",
 		data: { pageTitle: '用户新增'},
 		templateUrl : "views/system/user/user_add.html",
 		resolve : {
@@ -134,7 +121,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state(
 			'user.user_setting',
 			{
-				url : "/user_setting",
+				url : "/user_setting?psBtns",
 				templateUrl : "views/system/user/user_setting.html",
 				data: { pageTitle: '用户设置'},
 				resolve : {
@@ -158,7 +145,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		url : "/module",
 		templateUrl : "views/common/content.html"
 	}).state('module.module_setting', {
-		url : "/module_setting",
+		url : "/module_setting?psBtns",
 		data: { pageTitle: '模块管理'},
 		templateUrl : "views/system/menu/menu.html",
 		resolve : {
@@ -172,7 +159,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('module.rootmenu', {
-		url : "/rootmenu",
+		url : "/rootmenu?psBtns",
 		data: { pageTitle: '主菜单管理'},
 		template:'<div ng-controller="sysRootMenugCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -191,7 +178,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		url : "/role",
 		templateUrl : "views/common/content.html"
 	}).state('role.role_setting', {
-		url : "/role_setting",
+		url : "/role_setting?psBtns",
 		data: { pageTitle: '角色设置'},
 		template:'<div ng-controller="sysRoleSettingCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -203,7 +190,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('role.role_module_map', {
-		url : "/role_module_map",
+		url : "/role_module_map?psBtns",
 		data: { pageTitle: '角色模块映射'},
 		templateUrl : "views/system/role/role_module_map.html",
 		resolve : {
@@ -221,7 +208,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		abstract : true,
 		templateUrl : "views/common/content.html",
 	}).state('ct.catesetting', {
-		url : "/catesetting",
+		url : "/catesetting?psBtns",
 		data: { pageTitle: '类目设置'},
 		templateUrl : "views/content/ctCategory.html",
 		resolve : {
@@ -233,7 +220,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('ct.publishnews', {
-		url : "/publishnews",
+		url : "/publishnews?psBtns",
 		data: { pageTitle: '发布信息'},
 		templateUrl : "views/content/newsPublish.html",
 		resolve : {
@@ -245,7 +232,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('ct.news_mgr', {
-		url : "/newMgr",
+		url : "/newMgr?psBtns",
 		data: { pageTitle: '新闻管理'},
 		template:'<div ng-controller="ctNewsMgrCtl" >'+buildSimpleToolTableTpl()+'</div>',
 		resolve : {
@@ -257,7 +244,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('ct.company_profile', {
-		url : "/company_profile",
+		url : "/company_profile?psBtns",
 		data: { pageTitle: '公司简介'},
 		templateUrl : "views/content/company.html",
 		resolve : {
@@ -299,7 +286,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html"
 
 	}).state('system.file_setting', {
-		url : "/filesetting",
+		url : "/filesetting?psBtns",
 		data: { pageTitle: '文件设置'},
 		template:'<div ng-controller="sysfileConfCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -311,7 +298,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('system.dict_setting', {
-		url : "/dict_setting",
+		url : "/dict_setting?psBtns",
 		data: { pageTitle: '字典设置'},
 		templateUrl : "views/system/dict/dict.html",
 		resolve : {
@@ -323,7 +310,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('system.params', {
-		url : "/sys_params",
+		url : "/sys_params?psBtns",
 		data: { pageTitle: '参数设置'},
 		template:'<div ng-controller="sysParamsCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -335,7 +322,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('system.storesql', {
-		url : "/storesql",
+		url : "/storesql?psBtns",
 		data: { pageTitle: 'StoreSQL设置'},
 		template:'<div ng-controller="sysStoreSqlCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -347,7 +334,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('system.onlinesession', {
-		url : "/online",
+		url : "/online?psBtns",
 		data: { pageTitle: '在线用户'},
 		template:'<div ng-controller="sysOnlineSessionCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -359,7 +346,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('system.cachemgr', {
-		url : "/cachemgr",
+		url : "/cachemgr?psBtns",
 		data: { pageTitle: '缓存管理'},
 		template:'<div ng-controller="sysCacheCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -371,7 +358,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('system.druid', {
-		url : "/druid",
+		url : "/druid?psBtns",
 		data: { pageTitle: 'Druid监控'},
 		templateUrl : "views/system/mon/druid.html",
 		resolve : {
@@ -383,7 +370,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('system.melody', {
-		url : "/melody",
+		url : "/melody?psBtns",
 		data: { pageTitle: 'Melody监控'},
 		templateUrl : "views/system/mon/melody.html",
 		resolve : {
@@ -402,7 +389,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		url : "/org",
 		templateUrl : "views/common/content.html"
 	}).state('org.employee', {
-		url : "/org_employee",
+		url : "/org_employee?psBtns",
 		data: { pageTitle: '人员查询' },
 		templateUrl : "views/org/employee.html",
 		resolve : {
@@ -414,7 +401,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('org.employee_adjust', {
-		url : "/org_employee_adjust",
+		url : "/org_employee_adjust?psBtns",
 		data: { pageTitle: '人员调整' },
 		templateUrl : "views/org/employee_adjust.html",
 		resolve : {
@@ -426,7 +413,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('org.part', {
-		url : "/org_part",
+		url : "/org_part?psBtns",
 		data: { pageTitle: '组织设置' },
 		templateUrl : "views/org/part.html",
 		resolve : {
@@ -445,7 +432,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		url : "/task",
 		templateUrl : "views/common/content.html"
 	}).state('task.task_mgr', {
-		url : "/task_mgr",
+		url : "/task_mgr?psBtns",
 		data: { pageTitle: '任务管理'},
 		template:'<div ng-controller="sysTaskCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -458,47 +445,16 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		}
 	});
 	
-	
-	// cmdb
-	$stateProvider.state('res', {
-		abstract : true,
-		url : "/res",
-		templateUrl : "views/common/content.html"
-	}).state('res.restype', {
-		url : "/res_restype",
-		data: { pageTitle: '设备类型'},
-		template:'<div ng-controller="resTypeCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/res/restype.js?v=' + version ]
-				} ]);
-			}
-		}
-	}).state('res.res_attr', {
-		url : "/res_attr",
-		data: { pageTitle: '资源属性'},
-		template:'<div ng-controller="resAttrCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/system/res/resattr.js?v=' + version ]
-				} ]);
-			}
-		}
-	});
+ 
 	
 	
-	
-	// cmdb
+	// flow
 	$stateProvider.state('flow', {
 		abstract : true,
 		url : "/flow",
 		templateUrl : "views/common/content.html"
 	}).state('flow.designer', {
-		url : "/flow_designer",
+		url : "/flow_designer?psBtns",
 		data: { pageTitle: '流程设计'},
 		templateUrl : "views/system/flow/designer.html",
 		resolve : {
@@ -510,9 +466,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
-	
-	
-	
-	
-	 
+
 }
+ 

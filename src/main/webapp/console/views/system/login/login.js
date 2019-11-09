@@ -1,14 +1,15 @@
-function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService, $state, $localStorage, notify, $stateParams) {
+function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService,
+		$state, $localStorage, notify, $stateParams) {
 
 	var to = $stateParams.to;
-	$log.warn("login to:", to);
+	var pbtns = $stateParams.psBtns;
+	console.log("########login to###########",$stateParams);
 	$scope.user = {
 		user : "",
 		pwd : "",
 		type : "username"
 	};
-	
-	
+
 	$scope.login = function(e) {
 		if (e == "A") {
 			$scope.user = {
@@ -30,25 +31,11 @@ function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService, $st
 			};
 		} else if (e == "S") {
 			$scope.user = {
-					user : "sys",
-					pwd : "0",
-					type : "username"
-				};
-			}
-
-
-//		if ($scope.user.user.length == 0) {
-//			notify({
-//				message : "请输入账户"
-//			});
-//			return;
-//		}
-//		if ($scope.user.pwd.length == 0) {
-//			notify({
-//				message : "请输入密码"
-//			});
-//			return;
-//		}
+				user : "sys",
+				pwd : "0",
+				type : "username"
+			};
+		}
 
 		userService.login($scope.user).then(function(result) {
 			$log.warn("userService result", result)
@@ -56,7 +43,9 @@ function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService, $st
 				$timeout(function() {
 					if (angular.isDefined(to) && to != null && to != 'login') {
 						$log.warn("end:" + to);
-						$state.go(to);
+						$state.go(to, {
+							psBtns : pbtns
+						});
 					} else {
 						$state.go("content");
 					}

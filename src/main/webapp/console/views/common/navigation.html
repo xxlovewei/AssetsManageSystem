@@ -25,8 +25,8 @@
 					ng-class="{in: $state.includes('{{first.state}}')}">
 					<li ng-class="{active: $state.includes('{{second.state}}')}"
 						ng-repeat="second in first.children"><a
-						ui-sref="{{second.state}}">{{second.node_name}} <span
-							ng-if="second.children_cnt>0" class="fa arrow"></span>
+						ui-sref="{{second.state}}({psBtnCnt:{{second.btn_cnt}},psBtns:'{{second.btn}}'})">{{second.node_name}}
+							<span ng-if="second.children_cnt>0" class="fa arrow"></span>
 					</a>
 						<ul ng-if="second.children_cnt>0"
 							ng-class="{in: $state.includes('{{third.state}}')}"

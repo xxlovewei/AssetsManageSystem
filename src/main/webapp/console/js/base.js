@@ -250,3 +250,50 @@ function buildSimpleToolTableTpl(){
 	return '<div class="wrapper wrapper-content animated fadeInRight">  <ng-include src="\'views/Template/simpleTool.html\'"></ng-include>   <div class="row"> <div class="col-lg-12"><div class="ibox"><div class="ibox-content">	<table datatable="ed" dt-options="dtOptions" dt-instance="dtInstance" dt-columns="dtColumns" dt-column-defs="dtColumnDefs" class="table table-hover"></table></div></div></div></div> </div> ';
 }
 /********************************simple tool table模版结束*************************/
+
+
+/** **************按钮权限判断函数*************** */
+function privCrudCompute(curd, pbtns) {
+	var pbtns_arr = angular.fromJson(pbtns);
+	if (angular.isDefined(pbtns_arr)&&pbtns_arr.length > 0) {
+		for (var i = 0; i < pbtns_arr.length; i++) {
+			if (pbtns_arr[i].keyvalue == "update") {
+				curd.update = true;
+			}
+			if (pbtns_arr[i].keyvalue == "remove") {
+				curd.remove = true;
+			}
+			if (pbtns_arr[i].keyvalue == "select") {
+				curd.select = true;
+			}
+			if (pbtns_arr[i].keyvalue == "insert") {
+				curd.select = true;
+			}
+			if (pbtns_arr[i].keyvalue == "exportfile") {
+				curd.exportfile = true;
+			}
+			if (pbtns_arr[i].keyvalue == "importfile") {
+				curd.importfile = true;
+			}
+			if (pbtns_arr[i].keyvalue == "uploadfile") {
+				curd.uploadfile = true;
+			}
+		}
+	}
+
+}
+
+function privNormalCompute(meta, pbtns) {
+	console.log("#########privNormalCompute###########");
+	var pbtns_arr = angular.fromJson(pbtns);
+	if (angular.isDefined(pbtns_arr)&&pbtns_arr.length > 0) {
+		for (var i = 0; i < meta.length; i++) {
+			for (var j = 0; j < pbtns_arr.length; j++) {
+				if (meta[i].priv == pbtns_arr[j].keyvalue) {
+					meta[i].hide = false;
+				}
+			}
+		}
+	}
+}
+

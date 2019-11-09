@@ -21,7 +21,7 @@ function getTree(data, primaryIdName, parentIdName) {
 		primaryKey = item[primaryIdName];
 		treeObjs[primaryKey] = item;
 		parentId = item[parentIdName];
-		//console.log(parentId);
+		// console.log(parentId);
 		if (parentId) {
 			parent = treeObjs[parentId];
 
@@ -199,6 +199,9 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 	}, {
 		id : "menu",
 		name : "菜单"
+	}, {
+		id : "btn",
+		name : "按钮"
 	} ];
 	$scope.nodeSel = $scope.nodeOpt[0];
 
@@ -217,6 +220,8 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 			$scope.nodeSel = $scope.nodeOpt[1];
 		} else if ($scope.item.type == "dir") {
 			$scope.nodeSel = $scope.nodeOpt[0];
+		}else if ($scope.item.type == "btn") {
+			$scope.nodeSel = $scope.nodeOpt[2];
 		}
 
 		if ($scope.item.is_action == "Y") {
@@ -268,7 +273,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 	$scope.sure = function() {
 
 		var ps = $scope.item;
-		//		ps.is_action = $scope.actionSel.id;
+		// ps.is_action = $scope.actionSel.id;
 		ps.is_action = "Y";
 		ps.is_g_show = $scope.showSel.id;
 		ps.type = $scope.nodeSel.id;
@@ -325,7 +330,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	$scope.topMenuOpt = []
 	$scope.topMenuSel = "";
 
-	$scope.tree_expand_level = 2;
+	$scope.tree_expand_level = 3;
 	$http.post($rootScope.project + "/api/sysMenus/selectList.do", {}).success(
 			function(res) {
 				if (res.success) {
@@ -480,7 +485,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 						ps.node_id = data.node_id;
 						ps.menu_id = data.menu_id;
 
-						if (data.type != "menu") {
+						if (data.type == "dir") {
 							notify({
 								message : "请选择菜单"
 							});

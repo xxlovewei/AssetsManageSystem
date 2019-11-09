@@ -1,4 +1,5 @@
-function sysParamSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
+function sysParamSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
+		$uibModalInstance, $scope, id, $http, $rootScope) {
 
 	$log.warn("window in:" + id);
 	$scope.item = {};
@@ -30,24 +31,25 @@ function sysParamSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibMo
 			}
 		})
 	}
-	
+
 	$timeout(function() {
 
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
 			console.log(modal[i]);
 			var adom = modal[i].getElementsByClassName('chosen-container');
-	
+
 			for (var j = 0; j < adom.length; j++) {
 				adom[i].style.width = "100%";
 			}
 		}
 	}, 200);
-	
+
 	$scope.sure = function() {
 
 		$scope.item.type = $scope.typeSel.id;
-		$http.post($rootScope.project + "/api/sysParams/insertOrUpdate.do", $scope.item).success(function(res) {
+		$http.post($rootScope.project + "/api/sysParams/insertOrUpdate.do",
+				$scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 			} else {
@@ -63,25 +65,32 @@ function sysParamSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibMo
 	};
 }
 
-function sysParamsCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysParamsCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+		$log, notify, $scope, $http, $rootScope, $uibModal, $stateParams) {
 
-	
-	$scope.meta ={
-			tools : [ {
-				id : "1",
-				label : "新增",
-				type : "btn",
-				template:' <button ng-click="add()" class="btn btn-sm btn-primary" type="submit">新增</button>'
-	 
-			} ]
-		}
- 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('bAutoWidth',false).withOption('createdRow', function(row) {
+	$scope.meta = {
+		tools : [ {
+			id : "1",
+			priv : "insert",
+			label : "新增",
+			type : "btn_add",
+			hide : true,
+		} ]
+	}
+	privNormalCompute($scope.meta.tools, $stateParams.psBtns);
+	var crud = {
+		"update" : false,
+		"insert" : false,
+		"select" : false,
+		"remove" : false,
+	};
+	privCrudCompute(crud, $stateParams.psBtns);
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
+			'bAutoWidth', false).withOption('createdRow', function(row) {
 		// Recompiling so we can bind Angular,directive to the
 		$compile(angular.element(row).contents())($scope);
 	});
 	$scope.dtInstance = {}
-
 	function renderStatus(data, type, full) {
 
 		var value = data
@@ -92,27 +101,47 @@ function sysParamsCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 		}
 		return value;
 	}
+	/** base*** */
 
- 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('value').withTitle('编码').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('type').withTitle('类型').withOption('sDefaultContent', '').renderWith(renderStatus),
-			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('id').withTitle('操作').renderWith(dt_renderUDAction)
-					]
+	function dt_renderCRUDction(data, type, full) {
+		var acthtml = " <div class=\"btn-group\"> ";
+		if (crud.update) {
+			acthtml = acthtml + " <button ng-click=\"update('" + full.id
+					+ "')\" class=\"btn-white btn btn-xs\">更新</button>   ";
+		}
+		if (crud.remove) {
+			acthtml = acthtml + " <button ng-click=\"del('" + full.id
+					+ "')\" class=\"btn-white btn btn-xs\">删除</button> ";
+		}
+		acthtml = acthtml + "</div>"
+		return acthtml;
+	}
+
+	$scope.dtColumns = [
+			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('value').withTitle('编码').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('type').withTitle('类型').withOption(
+					'sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('id').withTitle('操作').renderWith(
+					dt_renderCRUDction) ]
 
 	function flush() {
 		var ps = {}
 
-		$http.post($rootScope.project + "/api/sysParams/selectList.do", ps).success(function(res) {
-			if (res.success) {
-				$scope.dtOptions.aaData = res.data;
-			}
-		})
+		$http.post($rootScope.project + "/api/sysParams/selectList.do", ps)
+				.success(function(res) {
+					if (res.success) {
+						$scope.dtOptions.aaData = res.data;
+					}
+				})
 	}
-	 
+
 	flush();
-	$scope.update=function(id){
+	$scope.update = function(id) {
 		save(id);
 	}
 	function save(id) {
@@ -140,29 +169,30 @@ function sysParamsCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 
 	}
 
-	 
-	$scope.add = function() {
+	$scope.btn_add = function() {
 		save();
 	}
 
-	 
 	$scope.del = function(id) {
 		if (angular.isDefined(id)) {
-			//删除
+			// 删除
 			$confirm({
 				text : '是否删除?'
-			}).then(function() {
-				$http.post($rootScope.project + "/api/sysParams/deleteById.do", {
-					id : id
-				}).success(function(res) {
-					if (res.success) {
-						flush();
-					}
-					notify({
-						message : res.message
+			}).then(
+					function() {
+						$http.post(
+								$rootScope.project
+										+ "/api/sysParams/deleteById.do", {
+									id : id
+								}).success(function(res) {
+							if (res.success) {
+								flush();
+							}
+							notify({
+								message : res.message
+							});
+						})
 					});
-				})
-			});
 
 		} else {
 			notify({

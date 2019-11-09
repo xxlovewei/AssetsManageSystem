@@ -123,11 +123,12 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 	} ];
 	// 登录
 	$stateProvider.state('login', {
-		url : "/login",
+		url : "/login?psBtns",
 		transclude : true,
 		templateUrl : "views/system/login/login.html",
 		params : {
-			to : null
+			to : null,
+			psBtns:"[]"
 		},
 		resolve : {
 			check : function(userService, $log, $state) {
@@ -202,8 +203,12 @@ app
 										// 处理from
 										var from_arr = trans._treeChanges.from;
 										var from = null;
+										var pbtns = "";
 										if (from_arr.length > 0) {
 											from = from_arr[from_arr.length - 1].state.name;
+											if(angular.isDefined(from_arr[from_arr.length - 1].paramValues)){
+												pbtns = from_arr[from_arr.length - 1].paramValues.psBtns;
+											}	
 										}
 										$log.warn("from:", from);
 										// 处理to
@@ -233,7 +238,8 @@ app
 																			.go(
 																					"login",
 																					{
-																						to : from
+																						to : from,
+																						psBtns : pbtns
 																					});
 																} else {
 																}

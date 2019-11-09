@@ -6,7 +6,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
@@ -14,7 +13,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -64,7 +62,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 
 		user.setSystemId(id);
 		baseMapper.update(user, ew);
-		
+
 		return R.SUCCESS_OPER();
 	}
 
@@ -83,7 +81,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		SysUserInfo user = new SysUserInfo();
 		user.setPwd(pwd);
 		baseMapper.update(user, ew);
-		
+
 		return R.SUCCESS_OPER();
 
 	}
@@ -190,7 +188,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		QueryWrapper<SysUserInfo> queryWrapper = new QueryWrapper<SysUserInfo>();
 		queryWrapper.eq("empl_id", emplId);
 		return R.SUCCESS_OPER(baseMapper.selectOne(queryWrapper));
-		
+
 	}
 
 	public R getEmplNextId() {
@@ -208,7 +206,8 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		return R.SUCCESS_OPER(ConvertUtil.formatIntToString(empl_id, 6, 100));
 	}
 
-	@Cacheable(value = CacheConfig.CACHE_USER_180_60, key = "'user_menu_'+#user_id+#menu_id")
+	// @Cacheable(value = CacheConfig.CACHE_USER_180_60, key =
+	// "'user_menu_'+#user_id+#menu_id")
 	public JSONArray listMyMenusById(String user_id, String menu_id) {
 		// 获得所有tree的node,限制3层
 		String mflag = MD5Util.encrypt(user_id + menu_id);
@@ -217,7 +216,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		}
 		String basesql = "";
 		if (BaseCommon.isSuperAdmin(user_id)) {
-			basesql = "select * from sys_menus_node where dr='0' and menu_id='" + menu_id
+			basesql = "select * from sys_menus_node where dr='0' and type <>'btn' and menu_id='" + menu_id
 					+ "' and parent_id = ? order by sort";
 		} else {
 			if (db.getDBType().equals(DbUtil.TYPE_ORACLE)) {
@@ -231,7 +230,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 						+ "                               route,                                           "
 						+ "                               substr(route, 1, instr(route, '-') - 1)) level1  "
 						+ "                   from sys_user_role a, sys_role_module b, sys_menus_node c    "
-						+ "                  where c.node_id = b.module_id                                 "
+						+ "                  where c.node_id = b.module_id  and c.type <>'btn'             "
 						+ "                    and a.role_id = b.role_id                                   "
 						+ "                    and user_id = '<#USER_ID#>')                                "
 						+ "         union all                                                              "
@@ -252,7 +251,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 						+ "                                      instr(route, '-', 1, 1) - 1)) level2      "
 						+ "                   from sys_user_role a, sys_role_module b, sys_menus_node c    "
 						+ "                  where c.node_id = b.module_id                                 "
-						+ "                    and a.role_id = b.role_id                                   "
+						+ "                    and a.role_id = b.role_id  and  and c.type <>'btn'          "
 						+ "                    and user_id = '<#USER_ID#>')                                "
 						+ "         union all                                                              "
 						+ "         select *                                                               "
@@ -274,7 +273,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 						+ "                                      instr(route, '-', 1, 2) - 1)) level3      "
 						+ "                   from sys_user_role a, sys_role_module b, sys_menus_node c    "
 						+ "                  where c.node_id = b.module_id                                 "
-						+ "                    and a.role_id = b.role_id                                   "
+						+ "                    and a.role_id = b.role_id   and c.type <>'btn'              "
 						+ "                    and user_id = '<#USER_ID#>'))                               "
 						+ "  where level1 <> '-1'";
 			} else if (db.getDBType().equals(DbUtil.TYPE_MYSQL)) {
@@ -311,65 +310,68 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 						+ "case when substring_index(route,'-',4)=substring_index(route,'-',3)then 0 else length(substring_index(route,'-',3))+1 end - "
 						+ "case when substring_index(route,'-',3)=substring_index(route,'-',2)then 0 else length(substring_index(route,'-',2))+1 end - 1) end level3 "
 						+ "from sys_user_role a, sys_role_module b, sys_menus_node c "
-						+ "where c.node_id = b.module_id " + "and a.role_id = b.role_id "
+						+ "where c.type<>'btn' and c.node_id = b.module_id " + "and a.role_id = b.role_id "
 						+ "and user_id = '<#USER_ID#>' " + ") c) d " + "where level1 <> '-1'";
 			}
 
 			basesql = "select a.* from sys_menus_node a, (" + basesql + ") b "
-					+ "where a.dr='0' and a.node_id = b.node_id and menu_id = '" + menu_id + "' and parent_id = ? "
-					+ "order by sort ";
+					+ "where a.type<>'btn' and a.dr='0' and a.node_id = b.node_id and menu_id = '" + menu_id
+					+ "' and parent_id = ? " + "order by sort ";
 			basesql = basesql.replaceAll("<#USER_ID#>", user_id);
 
 		}
 		_log.info("getMenu sql:" + basesql + ",menu_id:" + menu_id);
+		String btnsql = "select keyvalue from sys_menus_node where dr='0' and parent_id=? and type='btn'\n"
+				+ "and node_id in (select module_id from sys_user_role a,sys_role_module b  where a.user_id=? and a.role_id=b.role_id)\n";
+
 		JSONArray r = new JSONArray();
 		RcdSet first_rs = db.query(basesql, 0);
 		for (int i = 0; i < first_rs.size(); i++) {
+			// 处理第一层数据
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
+			_log.info("显示第一层菜单数据:\n" + first_obj);
 			String first_key = first_rs.getRcd(i).getString("keyvalue");
-			// 菜单显示控制
-			if (!BaseCommon.isSuperAdmin(user_id)) {
-				String first_is_show = first_rs.getRcd(i).getString("is_g_show");
-				if (ToolUtil.isNotEmpty(first_is_show) && first_is_show.equals("N")) {
-					continue;
-				}
-			}
 			first_obj.put("state", first_key);
 			int second_pid = first_rs.getRcd(i).getInteger("node_id");
 			RcdSet second_rs = db.query(basesql, second_pid);
 			JSONArray second_arr = new JSONArray();
 			for (int j = 0; j < second_rs.size(); j++) {
+				// 处理第二层数据
 				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(j).toJsonObject());
+				_log.info("显示第二层菜单数据:\n" + second_obj);
 				String second_key = second_rs.getRcd(j).getString("keyvalue");
 				// 菜单显示控制
-				if (!BaseCommon.isSuperAdmin(user_id)) {
-					String second_is_show = second_rs.getRcd(j).getString("is_g_show");
-					if (ToolUtil.isNotEmpty(second_is_show) && second_is_show.equals("N")) {
-						continue;
-					}
-				}
 				second_obj.put("state", first_key + "." + second_key);
 				int third_pid = second_rs.getRcd(j).getInteger("node_id");
 				RcdSet third_rs = db.query(basesql, third_pid);
 				second_obj.put("children_cnt", third_rs.size());
-				// 处理三层
 				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
 				for (int f = 0; f < third_arr.size(); f++) {
+					_log.info("显示第三层菜单数据:\n" + third_arr);
 					// 菜单显示控制
-					if (!BaseCommon.isSuperAdmin(user_id)) {
-						String third_is_show = third_arr.getJSONObject(f).getString("is_g_show");
-						if (ToolUtil.isNotEmpty(third_is_show) && third_is_show.equals("N")) {
-							third_arr.remove(f);
-						}
-					}
 					third_arr.getJSONObject(f).put("state",
 							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("keyvalue"));
 				}
+				second_obj.put("btn_cnt", 0);
+				if ("menu".equals(second_rs.getRcd(j).getString("type"))) {
+					RcdSet second_btn_rs = db.query(btnsql, second_rs.getRcd(j).getString("node_id"), user_id);
+					second_obj.put("btn_cnt", second_btn_rs.size());
+					second_obj.put("btn",
+							ConvertUtil.OtherJSONObjectToFastJSONArray(second_btn_rs.toJsonArrayWithJsonObject()));
+				}
+
 				second_obj.put("children", third_arr);
 				second_arr.add(second_obj);
 			}
 			first_obj.put("children_cnt", second_rs.size());
 			first_obj.put("children", second_arr);
+			first_obj.put("btn_cnt", 0);
+			if ("menu".equals(first_rs.getRcd(i).getString("type"))) {
+				RcdSet first_btn_rs = db.query(btnsql, first_rs.getRcd(i).getString("node_id"), user_id);
+				first_obj.put("btn_cnt", first_btn_rs.size());
+				first_obj.put("btn",
+						ConvertUtil.OtherJSONObjectToFastJSONArray(first_btn_rs.toJsonArrayWithJsonObject()));
+			}
 			r.add(first_obj);
 		}
 		userMenus.put(mflag, r);

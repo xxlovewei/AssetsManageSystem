@@ -26,7 +26,7 @@ public class SysMenusNodeServiceImpl extends ServiceImpl<SysMenusNodeMapper, Sys
 	DB db;
 
 	public R queryMenuNodesForStageSetting(String menu_id) {
-		String sql = "select case is_g_show when 'Y' then '显示' when 'N' then '隐藏' else '未知' end is_g_show_text,(select count(1) from sys_modules_item where module_id=node_id) acl_cnt,a.*,case type when 'dir' then '目录' when 'menu' then '菜单' else '未知' end typetext from sys_menus_node a where menu_id=? and dr='0' order by node_id";
+		String sql = "select case is_g_show when 'Y' then '显示' when 'N' then '隐藏' else '未知' end is_g_show_text,(select count(1) from sys_modules_item where module_id=node_id) acl_cnt,a.*,case type when 'dir' then '目录' when 'menu' then '菜单' when 'btn' then '按钮' else '未知' end typetext from sys_menus_node a where menu_id=? and dr='0' order by node_id";
 		return R.SUCCESS_OPER(db.query(sql, menu_id).toJsonArrayWithJsonObject());
 	}
 

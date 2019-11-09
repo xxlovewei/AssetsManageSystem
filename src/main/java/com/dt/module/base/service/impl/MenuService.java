@@ -3,8 +3,8 @@ package com.dt.module.base.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -42,37 +42,37 @@ public class MenuService extends BaseService {
 	/**
 	 * @Description:按照前端js要求直接生成树的json格式,不再使用
 	 */
-	public R queryMenuNodesTree(String menu_id) {
-		JSONArray r = new JSONArray();
-		String basesql = "select * from sys_menus_node where menu_id=? and parent_id=? and dr='0' order by sort";
-		RcdSet first_rs = db.query(basesql, menu_id, 0);
-		for (int i = 0; i < first_rs.size(); i++) {
-			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
-			String first_key = first_rs.getRcd(i).getString("keyvalue");
-			first_obj.put("state", first_key);
-			RcdSet second_rs = db.query(basesql, menu_id, first_rs.getRcd(i).getString("node_id"));
-			JSONArray second_arr = new JSONArray();
-			for (int j = 0; j < second_rs.size(); j++) {
-				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(i).toJsonObject());
-				String second_key = second_rs.getRcd(j).getString("keyvalue");
-				second_obj.put("state", first_key + "." + second_key);
-				RcdSet third_rs = db.query(basesql, menu_id, second_rs.getRcd(j).getString("node_id"));
-				second_obj.put("children_cnt", third_rs.size());
-				// 处理三层
-				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
-				for (int f = 0; f < third_arr.size(); f++) {
-					third_arr.getJSONObject(f).put("state",
-							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("keyvalue"));
-				}
-				second_obj.put("children", third_arr);
-				second_arr.add(second_obj);
-			}
-			first_obj.put("children_cnt", second_rs.size());
-			first_obj.put("children", second_arr);
-			r.add(first_obj);
-		}
-		return R.SUCCESS_OPER(r);
-	}
+//	public R queryMenuNodesTree(String menu_id) {
+//		JSONArray r = new JSONArray();
+//		String basesql = "select * from sys_menus_node where menu_id=? and parent_id=? and dr='0' and type <> 'btn' order by sort";
+//		RcdSet first_rs = db.query(basesql, menu_id, 0);
+//		for (int i = 0; i < first_rs.size(); i++) {
+//			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
+//			String first_key = first_rs.getRcd(i).getString("keyvalue");
+//			first_obj.put("state", first_key);
+//			RcdSet second_rs = db.query(basesql, menu_id, first_rs.getRcd(i).getString("node_id"));
+//			JSONArray second_arr = new JSONArray();
+//			for (int j = 0; j < second_rs.size(); j++) {
+//				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(i).toJsonObject());
+//				String second_key = second_rs.getRcd(j).getString("keyvalue");
+//				second_obj.put("state", first_key + "." + second_key);
+//				RcdSet third_rs = db.query(basesql, menu_id, second_rs.getRcd(j).getString("node_id"));
+//				second_obj.put("children_cnt", third_rs.size());
+//				// 处理三层
+//				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
+//				for (int f = 0; f < third_arr.size(); f++) {
+//					third_arr.getJSONObject(f).put("state",
+//							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("keyvalue"));
+//				}
+//				second_obj.put("children", third_arr);
+//				second_arr.add(second_obj);
+//			}
+//			first_obj.put("children_cnt", second_rs.size());
+//			first_obj.put("children", second_arr);
+//			r.add(first_obj);
+//		}
+//		return R.SUCCESS_OPER(r);
+//	}
 
 	/**
 	 * @Description:查询菜单一个节点的数据
