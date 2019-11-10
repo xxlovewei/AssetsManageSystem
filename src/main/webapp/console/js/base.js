@@ -110,55 +110,55 @@ function privCrudCompute(curd, pbtns) {
 	var pbtns_arr = angular.fromJson(pbtns);
 	if (angular.isDefined(pbtns_arr) && pbtns_arr.length > 0) {
 		for (var i = 0; i < pbtns_arr.length; i++) {
-			if (pbtns_arr[i].keyvalue == "update") {
+			if (pbtns_arr[i].p == "update") {
 				curd.update = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "remove") {
+			if (pbtns_arr[i].p == "remove") {
 				curd.remove = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "select") {
+			if (pbtns_arr[i].p == "select") {
 				curd.select = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "insert") {
+			if (pbtns_arr[i].p == "insert") {
 				curd.insert = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "submit") {
+			if (pbtns_arr[i].p == "submit") {
 				curd.submit = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "exportfile") {
+			if (pbtns_arr[i].p == "exportfile") {
 				curd.exportfile = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "importfile") {
+			if (pbtns_arr[i].p == "importfile") {
 				curd.importfile = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "uploadfile") {
+			if (pbtns_arr[i].p == "uploadfile") {
 				curd.uploadfile = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "item_insert") {
+			if (pbtns_arr[i].p == "item_insert") {
 				curd.item_insert = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "item_select") {
+			if (pbtns_arr[i].p == "item_select") {
 				curd.item_select = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "item_update") {
+			if (pbtns_arr[i].p == "item_update") {
 				curd.item_update = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "item_remove") {
+			if (pbtns_arr[i].p == "item_remove") {
 				curd.item_remove = true;
 				continue;
 			}
-			if (pbtns_arr[i].keyvalue == "priv") {
+			if (pbtns_arr[i].p == "priv") {
 				curd.priv = true;
 				continue;
 			}
@@ -174,7 +174,7 @@ function privNormalCompute(meta, pbtns) {
 	if (angular.isDefined(pbtns_arr) && pbtns_arr.length > 0) {
 		for (var i = 0; i < meta.length; i++) {
 			for (var j = 0; j < pbtns_arr.length; j++) {
-				if (meta[i].priv == pbtns_arr[j].keyvalue) {
+				if (meta[i].priv == pbtns_arr[j].p) {
 					meta[i].show = true;
 				}
 			}

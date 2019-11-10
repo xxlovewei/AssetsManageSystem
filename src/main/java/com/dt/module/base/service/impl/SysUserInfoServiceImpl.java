@@ -321,7 +321,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 
 		}
 		_log.info("getMenu sql:" + basesql + ",menu_id:" + menu_id);
-		String btnsql = "select keyvalue from sys_menus_node where dr='0' and parent_id=? and type='btn'\n"
+		String btnsql = "select keyvalue p from sys_menus_node where dr='0' and parent_id=? and type='btn'\n"
 				+ "and node_id in (select module_id from sys_user_role a,sys_role_module b  where a.user_id=? and a.role_id=b.role_id)\n";
 
 		JSONArray r = new JSONArray();
