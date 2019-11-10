@@ -210,7 +210,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 		$scope.item.mark = ""
 		$scope.item.keyvalue = ""
 		$scope.item.logo = ""
-		$scope.item.sort = ""
+		$scope.item.sort = 0
 		$scope.item.module_id = "";
 		$scope.item.menu_level = "";
 		$scope.item.old_node_id = $scope.item.node_id;

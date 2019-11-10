@@ -41,7 +41,7 @@ function hrmOrgEmployeeCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.role_id + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.role_id + "')\" class=\"btn-white btn btn-xs\">更新</button> ";
 		acthtml = acthtml + " <button ng-click=\"row_del('" + full.role_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}

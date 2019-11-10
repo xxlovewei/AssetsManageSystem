@@ -12,7 +12,7 @@ function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
 	$scope.$watch(function() {
 		return $rootScope.sys_partOpt;
 	}, function() {
-		//$log.info("wath sys_partOpt change.", $rootScope.sys_partOpt);
+		// $log.info("wath sys_partOpt change.", $rootScope.sys_partOpt);
 		if (angular.isDefined($rootScope.sys_partOpt)) {
 			$scope.partOpt = $rootScope.sys_partOpt;
 			if ($scope.partOpt.length > 0) {
@@ -26,7 +26,8 @@ function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
 	}, function() {
 		var parts = $rootScope.sys_partSelItem;
 		if (angular.isDefined(parts)) {
-			//$log.info("wath sys_partSelItem change.", $scope.partOpt.length,$rootScope.sys_partSelItem, parts.length);
+			// $log.info("wath sys_partSelItem change.",
+			// $scope.partOpt.length,$rootScope.sys_partSelItem, parts.length);
 			if (parts.length == 0) {
 
 			} else {
@@ -51,7 +52,8 @@ function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
 	}, true);
 
 }
-function orgEmpSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope, partOpt, $timeout) {
+function orgEmpSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
+		$uibModalInstance, $scope, id, $http, $rootScope, partOpt, $timeout) {
 
 	$scope.data = {};
 	$timeout(function() {
@@ -96,8 +98,7 @@ function orgEmpSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModa
 			}
 		}
 	}, 200);
-	
-	
+
 	$scope.sure = function() {
 
 		// 跨越controller获取数据数据
@@ -138,14 +139,15 @@ function orgEmpSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModa
 			cmd = "/api/hrm/employeeAdd.do";
 		}
 
-		$http.post($rootScope.project + cmd, $scope.data).success(function(res) {
-			notify({
-				message : res.message
-			});
-			if (res.success) {
-				$uibModalInstance.close("OK");
-			}
-		})
+		$http.post($rootScope.project + cmd, $scope.data).success(
+				function(res) {
+					notify({
+						message : res.message
+					});
+					if (res.success) {
+						$uibModalInstance.close("OK");
+					}
+				})
 
 	}
 	$scope.cancel = function() {
@@ -153,33 +155,49 @@ function orgEmpSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModa
 	};
 }
 
-function orgEmpAdjustCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
+		$compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
 	$scope.data = {
 		name : ""
 	};
 	$scope.partOpt = [];
 	$scope.partSel = "";
-	$http.post($rootScope.project + "/api/hrm/orgQueryLevelList.do", {}).success(function(res) {
-		if (res.success) {
-			var d = res.data;
-			d.splice(0, 0, {
-				"routename" : "全部",
-				node_id : "-1",
-				levels : 0
-			})
-			$scope.partOpt = d;
-			$scope.partSel = $scope.partOpt[0];
-		} else {
-			notify({
-				message : res.message
-			});
-		}
-	})
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
-					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
+	$scope.crud = {
+		"update" : false,
+		"insert" : false,
+		"remove" : false
+
+	}
+	privCrudCompute($scope.crud, $stateParams.psBtns);
+
+	$http.post($rootScope.project + "/api/hrm/orgQueryLevelList.do", {})
+			.success(function(res) {
+				if (res.success) {
+					var d = res.data;
+					d.splice(0, 0, {
+						"routename" : "全部",
+						node_id : "-1",
+						levels : 0
+					})
+					$scope.partOpt = d;
+					$scope.partSel = $scope.partOpt[0];
+				} else {
+					notify({
+						message : res.message
+					});
+				}
+			})
+
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
+			'full_numbers').withDisplayLength(25).withOption("ordering", false)
+			.withOption("responsive", true).withOption("searching", false)
+			.withOption("paging", false).withOption('bStateSave', true)
+			.withOption('bProcessing', true).withOption('bFilter', false)
+			.withOption('bInfo', false).withOption('serverSide', false)
+			.withOption('bAutoWidth', false).withOption('aaData',
+					$scope.tabdata).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			});
@@ -187,10 +205,15 @@ function orgEmpAdjustCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.empl_id + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
-		// acthtml = acthtml + " <button ng-click=\"row_detail()\"
-		// class=\"btn-white btn btn-xs\">详细</button> ";
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.empl_id + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		if ($scope.crud.update) {
+			acthtml = acthtml + " <button ng-click=\"save('" + full.empl_id
+					+ "')\" class=\"btn-white btn btn-xs\">更新</button> ";
+		}
+		if ($scope.crud.remove) {
+			acthtml = acthtml + " <button ng-click=\"row_del('" + full.empl_id
+					+ "')\" class=\"btn-white btn btn-xs\">删除</button>  ";
+		}
+		acthtml = acthtml + "</div>"
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {
@@ -201,15 +224,21 @@ function orgEmpAdjustCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		return res;
 	}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('name').withTitle('姓名').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('node_name').withTitle('所属').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	$scope.dtColumns = [
+			DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('name').withTitle('姓名').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('node_name').withTitle('所属').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption(
+					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
 
 		$scope.data.node_id = $scope.partSel.node_id;
-		$http.post($rootScope.project + "/api/hrm/employeeQueryList.do", $scope.data).success(function(res) {
+		$http.post($rootScope.project + "/api/hrm/employeeQueryList.do",
+				$scope.data).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
 			} else {

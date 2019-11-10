@@ -73,15 +73,23 @@ function roleSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 function sysRoleSettingCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 		$compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 	$scope.meta = {
-		tools : [ {
-			id : "1",
-			label : "新增",
-			priv : "insert",
-			show : false,
-			type : "btn",
-			template : ' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+		tools : [
+				{
+					id : "0",
+					priv : "select",
+					label : "查询",
+					type : "btn_query",
+					hide : false,
+				},
+				{
+					id : "1",
+					label : "新增",
+					priv : "insert",
+					show : false,
+					type : "btn",
+					template : ' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
 
-		} ]
+				} ]
 	}
 	privNormalCompute($scope.meta.tools, $stateParams.psBtns);
 	var crud = {
@@ -91,6 +99,7 @@ function sysRoleSettingCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 		"remove" : false,
 	};
 	privCrudCompute(crud, $stateParams.psBtns);
+
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
 			'responsive', false).withOption('createdRow', function(row) {
 		// Recompiling so we can bind Angular,directive to the
@@ -142,7 +151,9 @@ function sysRoleSettingCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 				})
 	}
 	flush();
-
+	$scope.btn_query = function() {
+		flush();
+	}
 	$scope.row_detail = function(id) {
 
 	}

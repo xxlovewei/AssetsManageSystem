@@ -70,6 +70,12 @@ function sysParamsCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.meta = {
 		tools : [ {
+			id : "0",
+			priv : "select",
+			label : "查询",
+			type : "btn_query",
+			hide : false,
+		} ,{
 			id : "1",
 			priv : "insert",
 			label : "新增",
@@ -79,6 +85,7 @@ function sysParamsCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 	privNormalCompute($scope.meta.tools, $stateParams.psBtns);
  
+	
 	var crud = {
 		"update" : false,
 		"insert" : false,
@@ -141,7 +148,10 @@ function sysParamsCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				})
 	}
 
-	flush();
+	$scope.btn_query=function(){
+		flush();
+	}
+
 	$scope.update = function(id) {
 		save(id);
 	}

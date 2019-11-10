@@ -93,7 +93,7 @@ function modalpartzcCtl($timeout, $localStorage, notify, $log, $uibModal,
 }
 
 function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window,$stateParams) {
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(50)
 			.withOption("ordering", false).withOption("responsive", false)
@@ -131,15 +131,18 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	var meta = {
 		tablehide : false,
 		toolsbtn : [],
-		tools : [ {
-			id : "btn",
-			label : "",
-			type : "btn",
-			template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
-		} ]
+		tools : [
+				 
+				{
+					id : "btn",
+					show : true,
+					label : "",
+					type : "btn",
+					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+				} ]
 	}
 	$scope.meta = meta;
-
+ 
 	function flush() {
 		var ps = {}
 		$http.post($rootScope.project + "/api/base/res/rep/queryZcTjByOrg.do",
@@ -154,6 +157,9 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		})
 	}
 	flush();
+	$scope.btn_query=function(){
+		flush();
+	}
 	$scope.detail = function(id) {
 		var ps = {};
 		ps.part_id = id;

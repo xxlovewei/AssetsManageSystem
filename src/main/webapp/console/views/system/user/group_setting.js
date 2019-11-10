@@ -41,15 +41,23 @@ function sysGroupSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
 		$stateParams) {
 	$scope.meta = {
-		tools : [ {
-			id : "1",
-			priv : "insert",
-			label : "新增",
-			type : "btn",
-			show : false,
-			template : ' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+		tools : [
+				{
+					id : "0",
+					priv : "select",
+					label : "查询",
+					type : "btn_query",
+					hide : false,
+				},
+				{
+					id : "1",
+					priv : "insert",
+					label : "新增",
+					type : "btn",
+					show : false,
+					template : ' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
 
-		} ]
+				} ]
 	}
 	privNormalCompute($scope.meta.tools, $stateParams.psBtns);
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
@@ -104,7 +112,9 @@ function sysGroupSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 
 	flush();
-
+	$scope.btn_query = function() {
+		flush();
+	}
 	$scope.row_delete = function(id) {
 		$confirm({
 			text : '是否删除?'
