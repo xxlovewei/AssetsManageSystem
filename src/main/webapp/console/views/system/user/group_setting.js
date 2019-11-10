@@ -36,37 +36,49 @@ function groupSaveFormCtl($localStorage, notify, $log, $uibModal,
 		$uibModalInstance.dismiss('cancel');
 	};
 }
- 
-function sysGroupSettingCtl( DTOptionsBuilder, DTColumnBuilder,
-		$compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
-	$scope.meta ={
-			tools : [  {
-				id : "1",
-				label : "新增",
-				type : "btn",
-				template:' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
-	 
-			} ]
-		}
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
-		// Recompiling so we can bind Angular,directive to the
-		$compile(angular.element(row).contents())($scope);
-	});
+
+function sysGroupSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
+		$stateParams) {
+	$scope.meta = {
+		tools : [ {
+			id : "1",
+			priv : "insert",
+			label : "新增",
+			type : "btn",
+			show : false,
+			template : ' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
+
+		} ]
+	}
+	privNormalCompute($scope.meta.tools, $stateParams.psBtns);
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
+			'createdRow', function(row) {
+				// Recompiling so we can bind Angular,directive to the
+				$compile(angular.element(row).contents())($scope);
+			});
 
 	$scope.dtInstance = {}
-	function renderAction(data, type, full) {
-		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.user_id
-				+ "')\" class=\"btn-white btn btn-xs\">详细</button> </div> ";
-		return acthtml;
-	}
 
+	var crud = {
+		"update" : false,
+		"insert" : false,
+		"select" : false,
+		"remove" : false,
+	};
+	privCrudCompute(crud, $stateParams.psBtns);
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.groupId
-				+ "')\" class=\"btn-white btn btn-xs\">修改</button>   ";
-		acthtml = acthtml + " <button ng-click=\"row_delete('" + full.groupId
-				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		if (crud.update) {
+			acthtml = acthtml + " <button ng-click=\"save('" + full.groupId
+					+ "')\" class=\"btn-white btn btn-xs\">更新</button>   ";
+		}
+		if (crud.remove) {
+			acthtml = acthtml + " <button ng-click=\"row_delete('"
+					+ full.groupId
+					+ "')\" class=\"btn-white btn btn-xs\">删除</button>   ";
+		}
+		acthtml = acthtml + " </div> ";
 		return acthtml;
 	}
 
@@ -79,8 +91,8 @@ function sysGroupSettingCtl( DTOptionsBuilder, DTColumnBuilder,
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flush() {
-		$http.post($rootScope.project + "/api/sysUserGroup/selectList.do", {}).success(
-				function(res) {
+		$http.post($rootScope.project + "/api/sysUserGroup/selectList.do", {})
+				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
 					} else {
@@ -96,16 +108,19 @@ function sysGroupSettingCtl( DTOptionsBuilder, DTColumnBuilder,
 	$scope.row_delete = function(id) {
 		$confirm({
 			text : '是否删除?'
-		}).then(function() {
-			$http.post($rootScope.project + "/api/sysUserGroup/deleteById.do", {
-				id : id
-			}).success(function(res) {
-				flush();
-				notify({
-					message : res.message
+		}).then(
+				function() {
+					$http.post(
+							$rootScope.project
+									+ "/api/sysUserGroup/deleteById.do", {
+								id : id
+							}).success(function(res) {
+						flush();
+						notify({
+							message : res.message
+						});
+					});
 				});
-			});
-		});
 
 	}
 

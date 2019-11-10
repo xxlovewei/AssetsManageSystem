@@ -348,7 +348,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 	var acthtml = " <div class=\"btn-group\"> ";
 	acthtml = acthtml
-			+ " <button ng-click=\"cellTemplateScope.edit(row.branch)\" class=\"btn-white btn btn-xs\">编辑</button> ";
+			+ " <button ng-click=\"cellTemplateScope.edit(row.branch)\" class=\"btn-white btn btn-xs\">更新</button> ";
 	acthtml = acthtml
 			+ " <button ng-click=\"cellTemplateScope.add(row.branch)\" class=\"btn-white btn btn-xs\">新增</button> ";
 	acthtml = acthtml

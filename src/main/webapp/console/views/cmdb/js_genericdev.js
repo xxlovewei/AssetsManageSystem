@@ -153,7 +153,7 @@
 
 
 function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
-		$log, notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
+		$log, notify, $stateParams,$scope, $http, $rootScope, $uibModal, $window, $state) {
 	var gclass_id = $state.router.globals.current.data.classid;
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(100)
@@ -261,24 +261,31 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "btn",
 					label : "",
 					type : "btn",
+					show:true,
 					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
 				},
 				{
 					id : "btn2",
 					label : "",
 					type : "btn",
+					show:false,
+					priv:"insert",
 					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">新增</button>'
 				},
 				{
 					id : "btn2",
 					label : "",
 					type : "btn",
+					show:false,
+					priv:"update",
 					template : ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新</button>'
 				},				
 				{
 					id : "btn2",
 					label : "",
 					type : "btn",
+					show:false,
+					priv:"item_update",
 					template : ' <button ng-click="batchupate()" class="btn btn-sm btn-primary" type="submit">批量更新</button>'
 				},
 
@@ -286,18 +293,23 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "btn2",
 					label : "",
 					type : "btn",
+					show:true,
 					template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
 				},
 				{
 					id : "btn2",
 					label : "",
 					type : "btn",
+					show:false,
+					priv:"remove",
 					template : ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
 				},
 				{
 					id : "btn3",
 					label : "",
 					type : "btn",
+					show:false,
+					priv:"exportfile",
 					template : ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">全部导出(Excel)</button>'
 				} ],
 		tools : [ {
@@ -305,6 +317,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			label : "位置",
 			type : "select",
 			disablesearch : true,
+			show:true,
 			dataOpt : [],
 			dataSel : ""
 		}, {
@@ -312,6 +325,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			label : "环境",
 			type : "select",
 			disablesearch : true,
+			show:true,
 			dataOpt : [],
 			dataSel : ""
 		}, {
@@ -319,6 +333,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			label : "维保",
 			type : "select",
 			disablesearch : true,
+			show:true,
 			dataOpt : [],
 			dataSel : ""
 		}, {
@@ -326,18 +341,22 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			label : "状态",
 			type : "select",
 			disablesearch : true,
+			show:true,
 			dataOpt : [],
 			dataSel : ""
 		}, {
 			id : "input",
+			show:true,
 			label : "内容",
 			placeholder : "输入型号、编号、序列号",
 			type : "input",
 			ct : ""
 		} ]
-	}
-	$scope.meta = meta;
-	
+	};
+ 
+	$scope.meta=meta;
+	privNormalCompute($scope.meta.toolsbtn, $stateParams.psBtns);
+
 	function flush() {
 		var ps = {}
 		ps.id = gclass_id;

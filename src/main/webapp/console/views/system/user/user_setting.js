@@ -60,7 +60,7 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal,
 	};
 
 }
-function userSaveFormCtl($timeout,$localStorage, notify, $log, $uibModal,
+function userSaveFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, id, $http, $rootScope) {
 
 	$scope.item = {}
@@ -104,21 +104,20 @@ function userSaveFormCtl($timeout,$localStorage, notify, $log, $uibModal,
 		})
 
 	}
-	
+
 	$timeout(function() {
 
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
 			console.log(modal[i]);
 			var adom = modal[i].getElementsByClassName('chosen-container');
-			 
+
 			for (var j = 0; j < adom.length; j++) {
 				adom[i].style.width = "100%";
 			}
 		}
 	}, 200);
-	
-	
+
 	$scope.sure = function() {
 		$scope.item.locked = $scope.lockedSel.id;
 		$http.post($rootScope.project + "/api/sysUserInfo/updateById.do",
@@ -140,8 +139,16 @@ function userSaveFormCtl($timeout,$localStorage, notify, $log, $uibModal,
 }
 
 function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,$stateParams) {
 
+	$scope.crud = {
+		"update" : false,
+		"insert" : false,
+		"select" : false,
+		"remove" : false,
+		"priv" : false
+	};
+	privCrudCompute($scope.crud, $stateParams.psBtns);
 	$scope.userGroupOpt = [];
 	$scope.userGroupSel = "";
 	$http.post($rootScope.project + "/api/sysUserGroup/selectList.do", {})
@@ -177,14 +184,13 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 							$compile(angular.element(header).contents())
 									($scope);
 						}
-					}).withOption('createdRow',
-					function(row) {
-						// Recompiling so we can bind Angular,directive to the
-						$compile(angular.element(row).contents())($scope);
-					}).withOption("select", {
+					}).withOption('createdRow', function(row) {
+				// Recompiling so we can bind Angular,directive to the
+				$compile(angular.element(row).contents())($scope);
+			}).withOption("select", {
 				style : 'multi',
 				selector : 'td:first-child'
-			}) ;
+			});
 	$scope.dtInstance = {}
 	$scope.reloadData = reloadData;
 
@@ -207,8 +213,6 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 	}
 
-	
-	
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 
@@ -234,12 +238,12 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 	}
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
-	
+
 	$scope.dtColumns = [
-		DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
-		'select-checkbox checkbox_center').renderWith(function() {
-			return ""
-		}),
+			DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
+					'select-checkbox checkbox_center').renderWith(function() {
+				return ""
+			}),
 			DTColumnBuilder.newColumn('emplId').withTitle('员工编号').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('userName').withTitle('登录名').withOption(
@@ -311,8 +315,8 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 									+ "/api/sysUserInfo/deleteByIds.do", {
 								ids : angular.toJson(userids)
 							}).success(function(res) {
-						
-						if(res.success){
+
+						if (res.success) {
 							flush();
 						}
 						notify({

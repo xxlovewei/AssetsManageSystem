@@ -232,7 +232,7 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 				}, {
 					id : "btn_modify",
 					fun : "",
-					label : "修改",
+					label : "更新",
 					type : "btn_modify"
 				}, {
 					id : "btn_actiona",
@@ -255,11 +255,11 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 		acthtml = acthtml + " <button ng-click=\"save('" + full.role_id
-				+ "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+				+ "')\" class=\"btn-white btn btn-xs\">更新</button> ";
 		// acthtml = acthtml + " <button ng-click=\"row_detail()\"
 		// class=\"btn-white btn btn-xs\">详细</button> ";
 		acthtml = acthtml + " <button ng-click=\"row_del('" + full.role_id
-				+ "')\" class=\"btn-white btn btn-xs\">删除2</button> </div> ";
+				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
 

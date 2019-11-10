@@ -116,24 +116,28 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 					label : "内容",
 					placeholder : "输入型号、编号、序列号",
 					type : "input",
+					show : true,
 					ct : ""
 				},
 				{
 					id : "btn",
 					label : "",
 					type : "btn",
+					show : true,
 					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
 				},
 				{
 					id : "btn",
 					label : "",
 					type : "btn",
+					show : true,
 					template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
 				},
 				{
 					id : "btn2",
 					label : "",
 					type : "btn",
+					show : true,
 					template : ' <button ng-click="reviewbtn()" class="btn btn-sm btn-primary" type="submit">复核</button>'
 				} ]
 	}
@@ -178,7 +182,7 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		modalInstance.result.then(function(result) {
 			$log.log("result", result);
 			if (result == "OK") {
-				
+
 			}
 		}, function(reason) {
 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel

@@ -17,23 +17,19 @@
 							</div>
 
 							<div class="form-group">
-								  <input type="text"
+								<input type="text"
 									class="form-control ng-pristine ng-valid ng-empty ng-touched"
 									placeholder="输入姓名" name="name" ng-model="ct">
 							</div>
 
 							<button ng-click="query()" class="btn btn-sm btn-primary"
 								type="submit">查询</button>
-						<!-- 	<button ng-click="detail()" class="btn btn-sm btn-primary"
-								type="submit">用户详情</button> -->
-							<button ng-click="update()" class="btn btn-sm btn-primary"
-								type="submit">用户修改</button>
-
-							<button ng-click="updateRole()" class="btn btn-sm btn-primary"
-								type="submit">批量权限修改</button>
-
-							<button ng-click="del()" class="btn btn-sm btn-primary"
-								type="submit">用户删除</button>
+							<button ng-show="crud.update" ng-click="update()" class="btn btn-sm btn-primary"
+								type="submit">更新</button>
+							<button ng-show="crud.priv" ng-click="updateRole()" class="btn btn-sm btn-primary"
+								type="submit">授权</button>
+							<button ng-show="crud.remove" ng-click="del()" class="btn btn-sm btn-primary"
+								type="submit">删除</button>
 
 
 						</form>

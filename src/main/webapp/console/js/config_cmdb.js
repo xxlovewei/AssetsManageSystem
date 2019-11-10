@@ -10,7 +10,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		url : "/maintain",
 		templateUrl : "views/common/content.html"
 	}).state('maintain.faultrecord', {
-		url : "/maintain_faultrecord",
+		url : "/maintain_faultrecord?psBtns",
 		data: { pageTitle: '维护工作'},
 		template:'<div ng-controller="cmdbfaultrecordCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -22,7 +22,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('maintain.devsearch', {
-		url : "/maintain_devsearch",
+		url : "/maintain_devsearch?psBtns",
 		data: { pageTitle: '设备查询'},
 		template:'<div ng-controller="cmdbdevsearchCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -34,7 +34,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('maintain.review', {
-		url : "/maintain_review",
+		url : "/maintain_review?psBtns",
 		data: { pageTitle: '资产复核'},
 		templateUrl : "views/cmdb/review.html",
 		resolve : {
@@ -46,7 +46,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('maintain.dataimport', {
-		url : "/maintain_dataimport",
+		url : "/maintain_dataimport?psBtns",
 		data: { pageTitle: '资产导入'},
 		templateUrl : "views/cmdb/dataimport.html",
 		resolve : {
@@ -66,7 +66,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		url : "/cmdbresp",
 		templateUrl : "views/common/content.html"
 	}).state('cmdbresp.partzc', {
-		url : "/maintain_partzc",
+		url : "/maintain_partzc?psBtns",
 		data: { pageTitle: '部门资产'},
 		template:'<div ng-controller="cmdbrepPartZcCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -78,7 +78,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('cmdbresp.zctjshow', {
-		url : "/cmdbresp_zctjshow",
+		url : "/cmdbresp_zctjshow?psBtns",
 		data: { pageTitle: '资产统计'},
 		templateUrl : "views/cmdb/rep/zctj.html",
 		resolve : {
@@ -97,7 +97,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		url : "/xt",
 		templateUrl : "views/common/content.html"
 	}).state('xt.outercontact', {
-		url : "/xt_outercontact",
+		url : "/xt_outercontact?psBtns",
 		data: { pageTitle: '外部联系人'},
 		templateUrl : "views/cmdb/outercontact.html",
 		resolve : {
@@ -110,7 +110,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	})
 	.state('xt.systemlist', {
-		url : "/xt_systemlist",
+		url : "/xt_systemlist?psBtns",
 		data: { pageTitle: '信息系统清单'},
 		template:'<div ng-controller="cmdbsystemListCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
 		resolve : {
@@ -131,7 +131,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		url : "/cf",
 		templateUrl : "views/common/content.html"
 	}).state('cf.server', {
-		url : "/cf_server",
+		url : "/cf_server?psBtns",
 		data: { pageTitle: '服务器',classid:'server',input_type:"devservertype"},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
@@ -143,7 +143,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('cf.firewall', {
-		url : "/cf_firewall",
+		url : "/cf_firewall?psBtns",
 		data: { pageTitle: '防火墙',classid:'firewall'},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
@@ -155,7 +155,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('cf.lightsw', {
-		url : "/cf_lightsw",
+		url : "/cf_lightsw?psBtns",
 		data: { pageTitle: '光交',classid:'lightsw'},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
@@ -167,7 +167,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('cf.compute', {
-		url : "/cf_compute",
+		url : "/cf_compute?psBtns",
 		data: { pageTitle: 'PC电脑',classid:'pc',input_type:"devcompute"},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
@@ -179,7 +179,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('cf.outlets', {
-		url : "/cf_outlets",
+		url : "/cf_outlets?psBtns",
 		data: { pageTitle: '网点设备',classid:"pointdev",input_type:"devdotequipment"},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
@@ -191,7 +191,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('cf.route', {
-		url : "/cf_route",
+		url : "/cf_route?psBtns",
 		data: { pageTitle: '路由设备',classid:'route'},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
@@ -203,7 +203,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('cf.safety', {
-		url : "/cf_safety",
+		url : "/cf_safety?psBtns",
 		data: { pageTitle: '安全设备',classid:'safety'},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
@@ -215,7 +215,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('cf.storage', {
-		url : "/cf_storage",
+		url : "/cf_storage?psBtns",
 		data: { pageTitle: '存储设备',classid:'storage'},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
@@ -228,7 +228,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	})
 	.state('cf.switch', {
-		url : "/cf_switch",
+		url : "/cf_switch?psBtns",
 		data: { pageTitle: '交换机',classid:"switch"},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
@@ -240,7 +240,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('cf.bjpj', {
-		url : "/cf_bjpj",
+		url : "/cf_bjpj?psBtns",
 		data: { pageTitle: 'IT备件配件',classid:'bjpj',input_type:"devbjpj"},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {
@@ -252,7 +252,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	}).state('cf.zcotherhard', {
-		url : "/cf_zcotherhard",
+		url : "/cf_zcotherhard?psBtns",
 		data: { pageTitle: '其他资产',classid:"zcotherhard"},
 		templateUrl : "views/cmdb/html_genericdev.html",
 		resolve : {

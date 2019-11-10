@@ -1,5 +1,5 @@
 function rootMenuSaveCtl($localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, id, $http, $rootScope,$timeout) {
+		$uibModalInstance, $scope, id, $http, $rootScope, $timeout) {
 
 	$scope.statusOpt = [ {
 		id : "1",
@@ -37,7 +37,7 @@ function rootMenuSaveCtl($localStorage, notify, $log, $uibModal,
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
 			var adom = modal[i].getElementsByClassName('chosen-container');
-		
+
 			for (var j = 0; j < adom.length; j++) {
 				adom[i].style.width = "100%";
 			}
@@ -68,7 +68,7 @@ function rootMenuSaveCtl($localStorage, notify, $log, $uibModal,
 }
 
 function sysRootMenugCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
-		$log, notify, $scope, $http, $rootScope, $uibModal) {
+		$log, notify, $scope, $http, $rootScope, $uibModal, $stateParams) {
 
 	$scope.meta = {
 		tablehide : false,
@@ -76,11 +76,30 @@ function sysRootMenugCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			id : "1",
 			label : "新增",
 			type : "btn",
+			show : false,
+			priv : 'insert',
 			template : ' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
 
 		} ]
 	}
+	$scope.meta = {
+		tools : [ {
+			id : "1",
+			priv : "insert",
+			label : "新增",
+			type : "btn_add",
+			hide : false,
+		} ]
+	}
+	privNormalCompute($scope.meta.tools, $stateParams.psBtns);
 
+	var crud = {
+		"update" : false,
+		"insert" : false,
+		"select" : false,
+		"remove" : false,
+	};
+	privCrudCompute(crud, $stateParams.psBtns);
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
 			'createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
@@ -89,11 +108,16 @@ function sysRootMenugCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.menuId
-				+ "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+		if (crud.update) {
+			acthtml = acthtml + " <button ng-click=\"save('" + full.menuId
+					+ "')\" class=\"btn-white btn btn-xs\">更新</button> ";
+		}
+		if (crud.remove) {
+			acthtml = acthtml + " <button ng-click=\"row_del('" + full.menuId
+					+ "')\" class=\"btn-white btn btn-xs\">删除</button>   ";
 
-		acthtml = acthtml + " <button ng-click=\"row_del('" + full.menuId
-				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		}
+		acthtml = acthtml + "</div>"
 		return acthtml;
 	}
 	function renderStatus(data, type, full) {

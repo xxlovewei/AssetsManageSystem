@@ -1,4 +1,5 @@
-function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,$stateParams,
+		$uibModal) {
 	$scope.topMenuOpt = []
 	$scope.topMenuSel = "";
 
@@ -8,29 +9,40 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, 
 
 	var role_id = "";
 
-	$http.post($rootScope.project + "/api/sysMenus/selectList.do", {}).success(function(res) {
-		if (res.success) {
-			$scope.topMenuOpt = res.data;
-			if (res.data.length > 0) {
-				$scope.topMenuSel = res.data[0];
+	$scope.crud = {
+		"update" : false,
+		"insert" : false,
+		"select" : false,
+		"remove" : false,
+		"submit" : false
+	};
+	privCrudCompute($scope.crud, $stateParams.psBtns);
 
-			}
-		} else {
-			notify({
-				message : res.message
-			});
-		}
-	})
+	$http.post($rootScope.project + "/api/sysMenus/selectList.do", {}).success(
+			function(res) {
+				if (res.success) {
+					$scope.topMenuOpt = res.data;
+					if (res.data.length > 0) {
+						$scope.topMenuSel = res.data[0];
 
-	$http.post($rootScope.project + "/api/sysRoleInfo/selectList.do", {}).success(function(res) {
-		if (res.success) {
-			$scope.roleOpt = res.data;
-		} else {
-			notify({
-				message : res.message
-			});
-		}
-	})
+					}
+				} else {
+					notify({
+						message : res.message
+					});
+				}
+			})
+
+	$http.post($rootScope.project + "/api/sysRoleInfo/selectList.do", {})
+			.success(function(res) {
+				if (res.success) {
+					$scope.roleOpt = res.data;
+				} else {
+					notify({
+						message : res.message
+					});
+				}
+			})
 
 	$scope.treeData = [];
 	$scope.ignoreChanges = false;
@@ -40,18 +52,19 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, 
 		ps.menu_id = $scope.topMenuSel.menuId;
 		ps.role_id = $scope.roleSel.roleId;
 		role_id = ps.role_id;
-		$http.post($rootScope.project + "/api/menu/treeRoleChecked.do", ps).success(function(res) {
-			if (res.success) {
-				$scope.show = true;
-				$scope.ignoreChanges = true;
-				$scope.treeData = angular.copy(res.data);
-				$scope.treeConfig.version++;
-			} else {
-				notify({
-					message : res.message
-				});
-			}
-		})
+		$http.post($rootScope.project + "/api/menu/treeRoleChecked.do", ps)
+				.success(function(res) {
+					if (res.success) {
+						$scope.show = true;
+						$scope.ignoreChanges = true;
+						$scope.treeData = angular.copy(res.data);
+						$scope.treeConfig.version++;
+					} else {
+						notify({
+							message : res.message
+						});
+					}
+				})
 
 	}
 
@@ -60,7 +73,8 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, 
 			multiple : true,
 			animation : true,
 			error : function(error) {
-				$log.error('treeCtrl: error from js tree - ' + angular.toJson(error));
+				$log.error('treeCtrl: error from js tree - '
+						+ angular.toJson(error));
 			},
 			check_callback : true,
 			worker : true

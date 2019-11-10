@@ -190,12 +190,15 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					label : "内容",
 					placeholder : "输入型号、编号、序列号",
 					type : "input",
+					show:true,
 					ct : ""
+					
 				},
 				{
 					id : "btn",
 					label : "",
 					type : "btn",
+					show:true,
 					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
 				} ]
 	}

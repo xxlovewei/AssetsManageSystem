@@ -65,7 +65,7 @@ function sysModuleCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"save('" + full.MODULE_ID + "')\" class=\"btn-white btn btn-xs\">编辑</button> ";
+		acthtml = acthtml + " <button ng-click=\"save('" + full.MODULE_ID + "')\" class=\"btn-white btn btn-xs\">更新</button> ";
 		//acthtml = acthtml + " <button ng-click=\"row_detail()\" class=\"btn-white btn btn-xs\">详细</button> ";
 		acthtml = acthtml + " <button ng-click=\"row_del('" + full.MODULE_ID + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;

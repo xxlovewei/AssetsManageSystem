@@ -78,7 +78,7 @@ function sysParamsCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		} ]
 	}
 	privNormalCompute($scope.meta.tools, $stateParams.psBtns);
-	console.log($scope.meta )
+ 
 	var crud = {
 		"update" : false,
 		"insert" : false,

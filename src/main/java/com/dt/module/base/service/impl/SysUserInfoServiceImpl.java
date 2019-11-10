@@ -329,7 +329,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		for (int i = 0; i < first_rs.size(); i++) {
 			// 处理第一层数据
 			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
-			_log.info("显示第一层菜单数据:\n" + first_obj);
+			// _log.info("显示第一层菜单数据:\n" + first_obj);
 			String first_key = first_rs.getRcd(i).getString("keyvalue");
 			first_obj.put("state", first_key);
 			int second_pid = first_rs.getRcd(i).getInteger("node_id");
@@ -338,7 +338,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 			for (int j = 0; j < second_rs.size(); j++) {
 				// 处理第二层数据
 				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(j).toJsonObject());
-				_log.info("显示第二层菜单数据:\n" + second_obj);
+				// _log.info("显示第二层菜单数据:\n" + second_obj);
 				String second_key = second_rs.getRcd(j).getString("keyvalue");
 				// 菜单显示控制
 				second_obj.put("state", first_key + "." + second_key);
@@ -347,7 +347,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 				second_obj.put("children_cnt", third_rs.size());
 				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
 				for (int f = 0; f < third_arr.size(); f++) {
-					_log.info("显示第三层菜单数据:\n" + third_arr);
+					// _log.info("显示第三层菜单数据:\n" + third_arr);
 					// 菜单显示控制
 					third_arr.getJSONObject(f).put("state",
 							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("keyvalue"));

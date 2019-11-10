@@ -142,10 +142,10 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		"remove" : false,
 		"item_insert" : false,
 		"item_update" : false,
-		"item_remove" : false,
+		"item_remove" : false
 	};
 	privCrudCompute($scope.crud, $stateParams.psBtns);
-	console.log($scope.crud)
+
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
 			'full_numbers').withDisplayLength(25).withOption("ordering", false)
 			.withOption("responsive", true).withOption("searching", false)

@@ -112,36 +112,55 @@ function privCrudCompute(curd, pbtns) {
 		for (var i = 0; i < pbtns_arr.length; i++) {
 			if (pbtns_arr[i].keyvalue == "update") {
 				curd.update = true;
+				continue;
 			}
 			if (pbtns_arr[i].keyvalue == "remove") {
 				curd.remove = true;
+				continue;
 			}
 			if (pbtns_arr[i].keyvalue == "select") {
 				curd.select = true;
+				continue;
 			}
 			if (pbtns_arr[i].keyvalue == "insert") {
 				curd.insert = true;
+				continue;
+			}
+			if (pbtns_arr[i].keyvalue == "submit") {
+				curd.submit = true;
+				continue;
 			}
 			if (pbtns_arr[i].keyvalue == "exportfile") {
 				curd.exportfile = true;
+				continue;
 			}
 			if (pbtns_arr[i].keyvalue == "importfile") {
 				curd.importfile = true;
+				continue;
 			}
 			if (pbtns_arr[i].keyvalue == "uploadfile") {
 				curd.uploadfile = true;
+				continue;
 			}
 			if (pbtns_arr[i].keyvalue == "item_insert") {
 				curd.item_insert = true;
+				continue;
 			}
 			if (pbtns_arr[i].keyvalue == "item_select") {
 				curd.item_select = true;
+				continue;
 			}
 			if (pbtns_arr[i].keyvalue == "item_update") {
 				curd.item_update = true;
+				continue;
 			}
 			if (pbtns_arr[i].keyvalue == "item_remove") {
 				curd.item_remove = true;
+				continue;
+			}
+			if (pbtns_arr[i].keyvalue == "priv") {
+				curd.priv = true;
+				continue;
 			}
 
 		}

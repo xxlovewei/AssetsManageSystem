@@ -1,5 +1,5 @@
 function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
-		$log, notify, $scope, $http, $rootScope, $uibModal) {
+		$log, notify, $scope, $http, $rootScope, $uibModal,$stateParams) {
 
 	$scope.meta = {
 		tools : [
@@ -9,12 +9,14 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					type : "select",
 					disablesearch : true,
 					dataOpt : [],
-					dataSel : ""
+					dataSel : "",
+					show:true,
 				},
 				{
 					id : "2",
 					label : "查询",
 					type : "btn",
+					show:true,
 					template : ' <button ng-click="flush()" class="btn btn-sm btn-primary" type="submit">查询</button>'
 
 				} ]
