@@ -74,10 +74,11 @@ function sysParamsCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			priv : "insert",
 			label : "新增",
 			type : "btn_add",
-			hide : true,
+			hide : false,
 		} ]
 	}
 	privNormalCompute($scope.meta.tools, $stateParams.psBtns);
+	console.log($scope.meta )
 	var crud = {
 		"update" : false,
 		"insert" : false,

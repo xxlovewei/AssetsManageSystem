@@ -1,27 +1,29 @@
-function sysCacheCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+		$log, notify, $scope, $http, $rootScope, $uibModal) {
 
-	$scope.meta ={
-			tools : [ {
-				id : "1",
-				label : "缓存域",
-				type : "select",
-				disablesearch:true,
-				dataOpt :[] ,
-				dataSel : ""
-			}, {
-				id : "2",
-				label : "查询",
-				type : "btn",
-				template:' <button ng-click="flush()" class="btn btn-sm btn-primary" type="submit">查询</button>'
-	 
-			} ]
-		}
- 
+	$scope.meta = {
+		tools : [
+				{
+					id : "1",
+					label : "缓存域",
+					type : "select",
+					disablesearch : true,
+					dataOpt : [],
+					dataSel : ""
+				},
+				{
+					id : "2",
+					label : "查询",
+					type : "btn",
+					template : ' <button ng-click="flush()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+
+				} ]
+	}
+
 	$http.post($rootScope.project + "/api/sysApi/system/queryCacheName.do", {})
 			.success(function(res) {
 				if (res.success) {
-					 $scope.meta.tools[0].dataOpt = res.data;
+					$scope.meta.tools[0].dataOpt = res.data;
 					if (res.data.length > 0) {
 						$scope.meta.tools[0].dataSel = res.data[0]
 						flush();
@@ -33,18 +35,32 @@ function sysCacheCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 				}
 			})
 
-$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
+			'createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			});
 	$scope.dtInstance = {}
+
+	var crud = {
+		"update" : false,
+		"insert" : false,
+		"select" : false,
+		"remove" : false,
+	};
+	privCrudCompute(crud, $stateParams.psBtns);
+
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 		acthtml = acthtml + " <button ng-click=\"refresh('" + full.key + "','"
 				+ full.cache
-				+ "')\" class=\"btn-white btn btn-xs\">刷新</button> </div> ";
-		acthtml = acthtml + " <button ng-click=\"removeCacheKey('" + full.key
-				+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+				+ "')\" class=\"btn-white btn btn-xs\">刷新</button>   ";
+		if (crud.remove) {
+			acthtml = acthtml + " <button ng-click=\"removeCacheKey('"
+					+ full.key
+					+ "')\" class=\"btn-white btn btn-xs\">删除</button> ";
+		}
+		acthtml = acthtml + " </div>";
 		return acthtml;
 	}
 
@@ -89,12 +105,12 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', fun
 			DTColumnBuilder.newColumn('key').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
-	
 	function flush() {
 
-		$http.post($rootScope.project + "/api/sysApi/system/queryCacheKeys.do", {
-			cache : $scope.meta.tools[0].dataSel.id
-		}).success(function(res) {
+		$http.post($rootScope.project + "/api/sysApi/system/queryCacheKeys.do",
+				{
+					cache : $scope.meta.tools[0].dataSel.id
+				}).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
 			} else {
@@ -118,10 +134,11 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', fun
 
 	}
 	$scope.removeCacheKey = function(key) {
-		$http.post($rootScope.project + "/api/sysApi/system/removeCacheKey.do", {
-			key : key,
-			cache : $scope.cacheSel.id
-		}).success(function(res) {
+		$http.post($rootScope.project + "/api/sysApi/system/removeCacheKey.do",
+				{
+					key : key,
+					cache : $scope.cacheSel.id
+				}).success(function(res) {
 			notify({
 				message : res.message
 			});

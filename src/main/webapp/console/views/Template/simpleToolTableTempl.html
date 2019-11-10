@@ -16,28 +16,27 @@
 			<div class="ibox">
 				<div class="ibox-content">
 					<div>
-						<!--第一排 -->
 						<span ng-repeat="item in meta.tools"> <span
 							ng-switch="item.type"> <span ng-switch-when="btn"
-								ng-hide="item.hide" compile="item.template"
+								ng-show="item.show" compile="item.template"
 								style="line-height: 30px;"> </span> <span
 								ng-switch-when="btn_query" style="line-height: 30px;">
-									<button ng-hide="item.hide" ng-click="btn_query()"
+									<button ng-show="item.show" ng-click="btn_query()"
 										class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
 							</span> <span ng-switch-when="btn_add" style="line-height: 30px;">
-									<button ng-hide="item.hide" ng-click="btn_add()"
+									<button ng-show="item.show" ng-click="btn_add()"
 										class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
 							</span> <span ng-switch-when="btn_del" style="line-height: 30px;">
-									<button ng-hide="item.hide" ng-click="btn_del()"
+									<button ng-show="item.show" ng-click="btn_del()"
 										class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
 							</span> <span ng-switch-when="btn_modify" style="line-height: 30px;">
-									<button ng-hide="item.hide" ng-click="btn_modify()"
+									<button ng-show="item.show" ng-click="btn_modify()"
 										class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
 							</span> <span ng-switch-when="btn_actiona" style="line-height: 30px;">
-									<button ng-hide="item.hide" ng-click="btn_actiona()"
+									<button ng-show="item.show" ng-click="btn_actiona()"
 										class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
 							</span> <span ng-switch-when="datetime" class="form-inline"
-								ng-hide="item.hide"
+								ng-show="item.show"
 								style="line-height: 30px; padding-right: 4px">
 									<div class="form-group">
 										<label ng-hide="item.label_hide">{{item.label}}:</label> <input
@@ -47,14 +46,14 @@
 											type="datetime">
 									</div>
 							</span> <span ng-switch-when="input" style="line-height: 30px;"
-								ng-hide="item.hide" class="form-inline">
+								ng-show="item.show" class="form-inline">
 									<div class="form-group">
 										<label ng-hide="item.label_hide">{{item.label}}:</label> <input
 											type="text" class="form-control" ng-model="item.ct"
 											placeholder="{{item.placeholder}}">
 									</div>
 							</span> <span ng-switch-when="select" class="form-group"
-								ng-hide="item.hide"
+								ng-show="item.show"
 								style="line-height: 30px; padding-right: 4px"> <label
 									ng-hide="item.label_hide">{{item.label}}:</label> <select
 									chosen width=100 disable-search="{{item.disablesearch}}"
@@ -70,25 +69,25 @@
 					<div>
 						<span ng-repeat="item in meta.toolsbtn"> <span
 							ng-switch="item.type"> <span ng-switch-when="btn"
-								ng-hide="item.hide" compile="item.template"
+								ng-show="item.show" compile="item.template"
 								style="line-height: 30px;"> </span> <span
 								ng-switch-when="btn_query" style="line-height: 30px;">
-									<button ng-hide="item.hide" ng-click="btn_query()"
+									<button ng-show="item.show" ng-click="btn_query()"
 										class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
 							</span> <span ng-switch-when="btn_add" style="line-height: 30px;">
-									<button ng-hide="item.hide" ng-click="btn_add()"
+									<button ng-show="item.show" ng-click="btn_add()"
 										class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
 							</span> <span ng-switch-when="btn_del" style="line-height: 30px;">
-									<button ng-hide="item.hide" ng-click="btn_del()"
+									<button ng-show="item.show" ng-click="btn_del()"
 										class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
 							</span> <span ng-switch-when="btn_modify" style="line-height: 30px;">
-									<button ng-hide="item.hide" ng-click="btn_modify()"
+									<button ng-show="item.show" ng-click="btn_modify()"
 										class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
 							</span> <span ng-switch-when="btn_actiona" style="line-height: 30px;">
-									<button ng-hide="item.hide" ng-click="btn_actiona()"
+									<button ng-show="item.show" ng-click="btn_actiona()"
 										class="btn btn-sm btn-primary" type="submit">{{item.label}}</button>
 							</span> <span ng-switch-when="datetime" class="form-inline"
-								ng-hide="item.hide"
+								ng-show="item.show"
 								style="line-height: 30px; padding-right: 4px">
 									<div class="form-group">
 										<label ng-hide="item.label_hide">{{item.label}}:</label> <input
@@ -98,14 +97,14 @@
 											type="datetime">
 									</div>
 							</span> <span ng-switch-when="input" style="line-height: 30px;"
-								ng-hide="item.hide" class="form-inline">
+								ng-show="item.show" class="form-inline">
 									<div class="form-group">
 										<label ng-hide="item.label_hide">{{item.label}}:</label> <input
 											type="text" class="form-control" ng-model="item.ct"
 											placeholder="{{item.placeholder}}">
 									</div>
 							</span> <span ng-switch-when="select" class="form-group"
-								ng-hide="item.hide"
+								ng-show="item.show"
 								style="line-height: 30px; padding-right: 4px"> <label
 									ng-hide="item.label_hide">{{item.label}}:</label> <select
 									chosen width=100 disable-search="{{item.disablesearch}}"

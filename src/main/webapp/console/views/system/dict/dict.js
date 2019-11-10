@@ -1,6 +1,8 @@
-function dictSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, id, $http, $rootScope) {
+function dictSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
+		$uibModalInstance, $scope, id, $http, $rootScope) {
 	$log.warn("window in:" + id);
 	$scope.item = {};
+
 	$scope.typeOpt = [ {
 		id : "system",
 		name : "系统"
@@ -53,17 +55,18 @@ function dictSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalI
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
 			var adom = modal[i].getElementsByClassName('chosen-container');
- 
+
 			for (var j = 0; j < adom.length; j++) {
 				adom[i].style.width = "100%";
 			}
 		}
 	}, 200);
-	
+
 	$scope.sure = function() {
 		$scope.item.status = $scope.statusSel.id;
 		$scope.item.dictLevel = $scope.typeSel.id;
-		$http.post($rootScope.project + "/api/sysDict/insertOrUpdate.do", $scope.item).success(function(res) {
+		$http.post($rootScope.project + "/api/sysDict/insertOrUpdate.do",
+				$scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 			} else {
@@ -75,11 +78,12 @@ function dictSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalI
 	};
 
 }
- 
-function dictItemSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibModalInstance, $scope, data, $http, $rootScope) {
+
+function dictItemSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
+		$uibModalInstance, $scope, data, $http, $rootScope) {
 	$log.warn("window in:" + data);
 	$scope.item = {};
-	$scope.item.dictId= data.dictId
+	$scope.item.dictId = data.dictId
 	if (angular.isDefined(data.dictItemId)) {
 		// 加载数据
 		$http.post($rootScope.project + "/api/sysDictItem/selectById.do", {
@@ -107,13 +111,14 @@ function dictItemSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibMo
 			}
 		}
 	}, 200);
-	
+
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
 
 	$scope.sure = function() {
-		$http.post($rootScope.project + "/api/sysDictItem/insertOrUpdate.do", $scope.item).success(function(res) {
+		$http.post($rootScope.project + "/api/sysDictItem/insertOrUpdate.do",
+				$scope.item).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");
 			} else {
@@ -126,11 +131,29 @@ function dictItemSaveCtl($timeout,$localStorage, notify, $log, $uibModal, $uibMo
 
 }
 
-function sysDictSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
+		$stateParams) {
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
-					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('rowCallback', rowCallback).withOption('createdRow', function(row) {
+	$scope.crud = {
+		"update" : false,
+		"insert" : false,
+		"select" : false,
+		"remove" : false,
+		"item_insert" : false,
+		"item_update" : false,
+		"item_remove" : false,
+	};
+	privCrudCompute($scope.crud, $stateParams.psBtns);
+	console.log($scope.crud)
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
+			'full_numbers').withDisplayLength(25).withOption("ordering", false)
+			.withOption("responsive", true).withOption("searching", false)
+			.withOption("paging", false).withOption('bStateSave', true)
+			.withOption('bProcessing', true).withOption('bFilter', false)
+			.withOption('bInfo', false).withOption('serverSide', false)
+			.withOption('bAutoWidth', false).withOption('rowCallback',
+					rowCallback).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			}).withOption("select", {
@@ -175,22 +198,27 @@ function sysDictSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 		}
 	}
 
-	$scope.dtColumns = [ DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('dictLevel').withTitle('类型').withOption('sDefaultContent', '').renderWith(renderMType),
-			DTColumnBuilder.newColumn('status').withTitle('状态').withOption('sDefaultContent', '').renderWith(renderMStatus) ]
+	$scope.dtColumns = [
+			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('dictLevel').withTitle('类型').withOption(
+					'sDefaultContent', '').renderWith(renderMType),
+			DTColumnBuilder.newColumn('status').withTitle('状态').withOption(
+					'sDefaultContent', '').renderWith(renderMStatus) ]
 
 	function flush() {
 		var ps = {};
-		$http.post($rootScope.project + "/api/sysDict/selectList.do", ps).success(function(res) {
-			if (res.success) {
-				$scope.dtOptions.aaData = res.data;
-				$scope.dtItemOptions.aaData = [];
-			} else {
-				notify({
-					message : res.message
-				});
-			}
-		})
+		$http.post($rootScope.project + "/api/sysDict/selectList.do", ps)
+				.success(function(res) {
+					if (res.success) {
+						$scope.dtOptions.aaData = res.data;
+						$scope.dtItemOptions.aaData = [];
+					} else {
+						notify({
+							message : res.message
+						});
+					}
+				})
 	}
 	flush();
 
@@ -273,24 +301,43 @@ function sysDictSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 
 	/** ********************子表******************* */
 
-	$scope.dtItemOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
-			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
-					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			});
+	$scope.dtItemOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
+			'full_numbers').withDisplayLength(25).withOption("ordering", false)
+			.withOption("responsive", true).withOption("searching", false)
+			.withOption("paging", false).withOption('bStateSave', true)
+			.withOption('bProcessing', true).withOption('bFilter', false)
+			.withOption('bInfo', false).withOption('serverSide', false)
+			.withOption('bAutoWidth', false).withOption('createdRow',
+					function(row) {
+						// Recompiling so we can bind Angular,directive to the
+						$compile(angular.element(row).contents())($scope);
+					});
 	$scope.dtItemInstance = {}
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-		acthtml = acthtml + " <button ng-click=\"row_update('" + full.dictItemId + "')\" class=\"btn-white btn btn-xs\">更新</button>   ";
-		acthtml = acthtml + " <button ng-click=\"row_dtl('" + full.dictItemId + "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
+		console.log($scope.crud.item_update);
+		if ($scope.crud.item_update) {
+			acthtml = acthtml + " <button ng-click=\"row_update('"
+					+ full.dictItemId
+					+ "')\" class=\"btn-white btn btn-xs\">更新</button>   ";
+		}
+		if ($scope.crud.item_remove) {
+			acthtml = acthtml + " <button ng-click=\"row_dtl('"
+					+ full.dictItemId
+					+ "')\" class=\"btn-white btn btn-xs\">删除</button> ";
+		}
+		acthtml = acthtml + "</div>"
 		return acthtml;
 	}
 
-	$scope.dtItemColumns = [ DTColumnBuilder.newColumn('name').withTitle('名称').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('sort').withTitle('排序').withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('dict_id').withTitle('操作').withOption('sDefaultContent', '').renderWith(renderAction) ]
+	$scope.dtItemColumns = [
+			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('sort').withTitle('排序').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('dict_id').withTitle('操作').withOption(
+					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flushSubtab(id) {
 		console.log(id);
@@ -310,15 +357,18 @@ function sysDictSettingCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 			return;
 		}
 
-		$http.post($rootScope.project + "/api/sysDictItem/selectDictItemByDict.do?", ps).success(function(res) {
-			if (res.success) {
-				$scope.dtItemOptions.aaData = res.data;
-			} else {
-				notify({
-					message : res.message
-				});
-			}
-		})
+		$http.post(
+				$rootScope.project
+						+ "/api/sysDictItem/selectDictItemByDict.do?", ps)
+				.success(function(res) {
+					if (res.success) {
+						$scope.dtItemOptions.aaData = res.data;
+					} else {
+						notify({
+							message : res.message
+						});
+					}
+				})
 
 	}
 

@@ -43,7 +43,6 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope, 
 		$http.post($rootScope.project + "/api/menu/treeRoleChecked.do", ps).success(function(res) {
 			if (res.success) {
 				$scope.show = true;
-
 				$scope.ignoreChanges = true;
 				$scope.treeData = angular.copy(res.data);
 				$scope.treeConfig.version++;
