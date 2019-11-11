@@ -44,8 +44,12 @@ maillank@qq.com
 步骤四
 - 启动服务,访问地址
 - http://ip:port/dt/console
+- 选择用户名登陆
 - 账户:admin 
 - 密码:1
+启动服务,访问地址
+http://ip:port/dt/console
+
 
 ## 后期开发计划
 - 添加资产自定义属性功能
