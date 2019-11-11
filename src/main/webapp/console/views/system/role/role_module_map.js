@@ -16,7 +16,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,$
 		"remove" : false,
 		"submit" : false
 	};
-	privCrudCompute($scope.crud, $stateParams.psBtns);
+	privCrudCompute($scope.crud, $rootScope.curMemuBtns);
 
 	$http.post($rootScope.project + "/api/sysMenus/selectList.do", {}).success(
 			function(res) {

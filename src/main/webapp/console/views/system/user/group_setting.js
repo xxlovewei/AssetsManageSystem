@@ -59,7 +59,7 @@ function sysGroupSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 				} ]
 	}
-	privNormalCompute($scope.meta.tools, $stateParams.psBtns);
+	privNormalCompute($scope.meta.tools, $rootScope.curMemuBtns);
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
 			'createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
@@ -74,7 +74,7 @@ function sysGroupSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		"select" : false,
 		"remove" : false,
 	};
-	privCrudCompute(crud, $stateParams.psBtns);
+	privCrudCompute(crud, $rootScope.curMemuBtns);
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 		if (crud.update) {

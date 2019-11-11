@@ -1,9 +1,8 @@
 function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService,
-		$state, $localStorage, notify, $stateParams) {
+		$state, $localStorage, notify,$stateParams) {
 
 	var to = $stateParams.to;
-	var pbtns = $stateParams.psBtns;
-	console.log("########login to###########",$stateParams);
+ 
 	$scope.user = {
 		user : "",
 		pwd : "",
@@ -44,7 +43,7 @@ function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService,
 					if (angular.isDefined(to) && to != null && to != 'login') {
 						$log.warn("end:" + to);
 						$state.go(to, {
-							psBtns : pbtns
+							 
 						});
 					} else {
 						$state.go("content");

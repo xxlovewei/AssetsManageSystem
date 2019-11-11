@@ -4,8 +4,6 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
 		userService, notify, $timeout) {
 
 	//修改主题
-
-	//修改主题
 	var cur_theme = $localStorage.get("cur_theme");
 	if (angular.isDefined(cur_theme)) {
 		$scope.cur_skin = cur_theme;

@@ -83,7 +83,7 @@ function sysParamsCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			hide : false,
 		} ]
 	}
-	privNormalCompute($scope.meta.tools, $stateParams.psBtns);
+	privNormalCompute($scope.meta.tools, $rootScope.curMemuBtns);
  
 	
 	var crud = {
@@ -92,7 +92,7 @@ function sysParamsCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		"select" : false,
 		"remove" : false,
 	};
-	privCrudCompute(crud, $stateParams.psBtns);
+	privCrudCompute(crud, $rootScope.curMemuBtns);
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
 			'bAutoWidth', false).withOption('createdRow', function(row) {
 		// Recompiling so we can bind Angular,directive to the

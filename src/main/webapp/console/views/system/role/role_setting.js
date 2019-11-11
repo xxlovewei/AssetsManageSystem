@@ -91,14 +91,14 @@ function sysRoleSettingCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 
 				} ]
 	}
-	privNormalCompute($scope.meta.tools, $stateParams.psBtns);
+	privNormalCompute($scope.meta.tools, $rootScope.curMemuBtns);
 	var crud = {
 		"update" : false,
 		"insert" : false,
 		"select" : false,
 		"remove" : false,
 	};
-	privCrudCompute(crud, $stateParams.psBtns);
+	privCrudCompute(crud,$rootScope.curMemuBtns);
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
 			'responsive', false).withOption('createdRow', function(row) {

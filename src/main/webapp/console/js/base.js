@@ -107,6 +107,7 @@ function prepend(arr, item) {
 
 /** **************按钮权限判断函数*************** */
 function privCrudCompute(curd, pbtns) {
+	console.log("#########privNormalCompute###########",pbtns);
 	var pbtns_arr = angular.fromJson(pbtns);
 	if (angular.isDefined(pbtns_arr) && pbtns_arr.length > 0) {
 		for (var i = 0; i < pbtns_arr.length; i++) {
@@ -169,7 +170,7 @@ function privCrudCompute(curd, pbtns) {
 }
 
 function privNormalCompute(meta, pbtns) {
-	console.log("#########privNormalCompute###########");
+	console.log("#########privNormalCompute###########",pbtns);
 	var pbtns_arr = angular.fromJson(pbtns);
 	if (angular.isDefined(pbtns_arr) && pbtns_arr.length > 0) {
 		for (var i = 0; i < meta.length; i++) {

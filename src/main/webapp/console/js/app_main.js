@@ -128,7 +128,7 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 		templateUrl : "views/system/login/login.html",
 		params : {
 			to : null,
-			psBtns:"[]"
+			psBtns : "[]"
 		},
 		resolve : {
 			check : function(userService, $log, $state) {
@@ -167,7 +167,7 @@ app
 		.config(config_main)
 		.run(
 				function(Idle, $rootScope, $state, $http, $log, $transitions,
-						userService, $templateCache) {
+						$localStorage, userService, $templateCache) {
 					console.log("App main run");
 					// start watching when the app runs. also starts the
 					// Keepalive service by
@@ -180,6 +180,43 @@ app
 						alert("未配置路由.");
 					});
 					// 替换了之前的$stateChangeStart
+
+					$transitions
+							.onBefore(
+									{
+										to : '**'
+									},
+									function(trans) {
+
+										console.log("trans to:",
+												trans._targetState);
+										if (angular
+												.isDefined(trans._targetState._options.custom.btns)) {
+											// 如果不是空的,直接放到$rootScope中
+											console
+													.log("pbtns trans exists,put btns into rootScope")
+											$rootScope.curMemuBtns = trans._targetState._options.custom.btns;
+											$localStorage
+													.put(
+															"curMemuBtns_"
+																	+ trans._targetState._definition.name,
+															trans._targetState._options.custom.btns);
+										} else {
+											console
+													.log("pbtns trans not exists,get from localstorage")
+											var v = $localStorage
+													.get("curMemuBtns_"
+															+ trans._targetState._definition.name);
+											$rootScope.curMemuBtns = v;
+											if (angular.isDefined(v)) {
+												console
+														.log("pbtns trans get from localstorage,success")
+											}
+
+										}
+
+									});
+
 					$transitions
 							.onSuccess(
 									{
@@ -200,25 +237,21 @@ app
 											$templateCache
 													.remove($state.router.globals.current.templateUrl)
 										}
+
 										// 处理from
 										var from_arr = trans._treeChanges.from;
 										var from = null;
 										var pbtns = "";
 										if (from_arr.length > 0) {
 											from = from_arr[from_arr.length - 1].state.name;
-											if(angular.isDefined(from_arr[from_arr.length - 1].paramValues)){
+											if (angular
+													.isDefined(from_arr[from_arr.length - 1].paramValues)) {
 												pbtns = from_arr[from_arr.length - 1].paramValues.psBtns;
-											}	
+											}
 										}
 										$log.warn("from:", from);
-										// 处理to
-										var target = trans._targetState._definition;
-										console.log("target.data", target.data);
-										//										if (angular.isDefined(target.data)
-										//												&& angular
-										//														.isDefined(target.data.loginCheck)
-										//												&& target.data.loginCheck) {
-										$log.warn("Action LoginCheck");
+
+										console.log("Action LoginCheck");
 										var userService = trans.injector().get(
 												'userService');
 										userService
@@ -251,7 +284,7 @@ app
 																	.preventDefault();
 														}, function(progress) {
 														})
-										//}
+										// }
 
 									});
 
@@ -299,15 +332,7 @@ app
 						// do something to keep the user's session alive
 					});
 				});
-//app.config(config_wx).run(function() {
-//	console.log("App Wx run");
-//});
-//
-// 
-//app.config(config_om).run(function() {
-//	console.log("App Om run");
-//});
- 
+
 app.config(config_cmdb).run(function() {
 	console.log("App cmdb run");
 });
@@ -362,6 +387,6 @@ function initDT(DTDefaultOptions) {
 
 app.run(initDT);
 
-//before loading
+// before loading
 $("#beforePage").removeClass("preloader");
 $("#beforePage").addClass("preloader-hidden");

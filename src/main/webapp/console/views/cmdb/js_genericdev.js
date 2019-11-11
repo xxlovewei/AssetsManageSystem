@@ -153,7 +153,10 @@
 
 
 function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
-		$log, notify, $stateParams,$scope, $http, $rootScope, $uibModal, $window, $state) {
+		$log, notify,$scope, $http, $rootScope, $uibModal, $window,$state) {
+ 
+	var pbtns=$rootScope.curMemuBtns;
+	 
 	var gclass_id = $state.router.globals.current.data.classid;
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(100)
@@ -355,7 +358,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	};
  
 	$scope.meta=meta;
-	privNormalCompute($scope.meta.toolsbtn, $stateParams.psBtns);
+	privNormalCompute($scope.meta.toolsbtn, pbtns);
 
 	function flush() {
 		var ps = {}

@@ -170,7 +170,8 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 		"remove" : false
 
 	}
-	privCrudCompute($scope.crud, $stateParams.psBtns);
+	var pbtns=$rootScope.curMemuBtns;
+	privCrudCompute($scope.crud, pbtns);
 
 	$http.post($rootScope.project + "/api/hrm/orgQueryLevelList.do", {})
 			.success(function(res) {

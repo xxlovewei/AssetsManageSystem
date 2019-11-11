@@ -148,7 +148,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		"remove" : false,
 		"priv" : false
 	};
-	privCrudCompute($scope.crud, $stateParams.psBtns);
+	privCrudCompute($scope.crud, $rootScope.curMemuBtns);
 	$scope.userGroupOpt = [];
 	$scope.userGroupSel = "";
 	$http.post($rootScope.project + "/api/sysUserGroup/selectList.do", {})

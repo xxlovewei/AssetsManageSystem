@@ -50,7 +50,8 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		"select" : false,
 		"remove" : false,
 	};
-	privCrudCompute(crud, $stateParams.psBtns);
+	var pbtns=$rootScope.curMemuBtns;
+	privCrudCompute(crud,pbtns);
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
