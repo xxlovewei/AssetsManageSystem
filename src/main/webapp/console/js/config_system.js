@@ -7,11 +7,11 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('basedata', {
 		abstract : true,
 		url : "/basedata",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('basedata.area', {
 		url : "/area?psBtns",
 		data: { pageTitle: '省份数据'},
-		templateUrl : "views/system/base/area.html",
+		templateUrl : "views/system/base/area.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -26,11 +26,11 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('me', {
 		abstract : true,
 		url : "/me",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('me.common_mgr', {
 		url : "/common_mgr?psBtns",
 		data: { pageTitle: '通用设置'},
-		templateUrl : "views/me/common_mgr.html",
+		templateUrl : "views/me/common_mgr.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -66,7 +66,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('me.pwdreset', {
 		url : "/pwdreset?psBtns",
 		data: { pageTitle: '密码修改'},
-		templateUrl : "views/me/pwdreset.html",
+		templateUrl : "views/me/pwdreset.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -81,7 +81,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('user', {
 		abstract : true,
 		url : "/user",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('user.user_query', {
 		url : "/user_query?psBtns",
 		data: { pageTitle: '用户查询'},
@@ -109,7 +109,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('user.user_add', {
 		url : "/user_add?psBtns",
 		data: { pageTitle: '用户新增'},
-		templateUrl : "views/system/user/user_add.html",
+		templateUrl : "views/system/user/user_add.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -122,7 +122,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			'user.user_setting',
 			{
 				url : "/user_setting?psBtns",
-				templateUrl : "views/system/user/user_setting.html",
+				templateUrl : "views/system/user/user_setting.html?v="+version,
 				data: { pageTitle: '用户设置'},
 				resolve : {
 					loadPlugin : function($ocLazyLoad) {
@@ -143,11 +143,11 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('module', {
 		abstract : true,
 		url : "/module",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('module.module_setting', {
 		url : "/module_setting?psBtns",
 		data: { pageTitle: '模块管理'},
-		templateUrl : "views/system/menu/menu.html",
+		templateUrl : "views/system/menu/menu.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ 
@@ -176,7 +176,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('role', {
 		abstract : true,
 		url : "/role",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('role.role_setting', {
 		url : "/role_setting?psBtns",
 		data: { pageTitle: '角色设置'},
@@ -192,7 +192,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('role.role_module_map', {
 		url : "/role_module_map?psBtns",
 		data: { pageTitle: '角色模块映射'},
-		templateUrl : "views/system/role/role_module_map.html",
+		templateUrl : "views/system/role/role_module_map.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -206,11 +206,11 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	// 内容管理
 	$stateProvider.state('ct', {
 		abstract : true,
-		templateUrl : "views/common/content.html",
+		templateUrl : "views/common/content.html?v="+version,
 	}).state('ct.catesetting', {
 		url : "/catesetting?psBtns",
 		data: { pageTitle: '类目设置'},
-		templateUrl : "views/content/ctCategory.html",
+		templateUrl : "views/content/ctCategory.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -222,7 +222,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('ct.publishnews', {
 		url : "/publishnews?psBtns",
 		data: { pageTitle: '发布信息'},
-		templateUrl : "views/content/newsPublish.html",
+		templateUrl : "views/content/newsPublish.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -246,7 +246,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('ct.company_profile', {
 		url : "/company_profile?psBtns",
 		data: { pageTitle: '公司简介'},
-		templateUrl : "views/content/company.html",
+		templateUrl : "views/content/company.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -261,14 +261,14 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('privilige', {
 		abstract : true,
 		url : "/privilige",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('privilige.role', {
 		url : "/role",
 		abstract : true,
-		templateUrl : "views/common/c.html"
+		templateUrl : "views/common/c.html?v="+version
 	}).state('privilige.role.role_module_map', {
 		url : "/role_module_map",
-		templateUrl : "views/system/role/role_module_map.html",
+		templateUrl : "views/system/role/role_module_map.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -283,7 +283,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('system', {
 		abstract : true,
 		url : "/system",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 
 	}).state('system.file_setting', {
 		url : "/filesetting?psBtns",
@@ -300,7 +300,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('system.dict_setting', {
 		url : "/dict_setting?psBtns",
 		data: { pageTitle: '字典设置'},
-		templateUrl : "views/system/dict/dict.html",
+		templateUrl : "views/system/dict/dict.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -360,7 +360,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('system.druid', {
 		url : "/druid?psBtns",
 		data: { pageTitle: 'Druid监控'},
-		templateUrl : "views/system/mon/druid.html",
+		templateUrl : "views/system/mon/druid.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -372,7 +372,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('system.melody', {
 		url : "/melody?psBtns",
 		data: { pageTitle: 'Melody监控'},
-		templateUrl : "views/system/mon/melody.html",
+		templateUrl : "views/system/mon/melody.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -387,11 +387,11 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('org', {
 		abstract : true,
 		url : "/org",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('org.employee', {
 		url : "/org_employee?psBtns",
 		data: { pageTitle: '人员查询' },
-		templateUrl : "views/org/employee.html",
+		templateUrl : "views/org/employee.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -403,7 +403,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('org.employee_adjust', {
 		url : "/org_employee_adjust?psBtns",
 		data: { pageTitle: '人员调整' },
-		templateUrl : "views/org/employee_adjust.html",
+		templateUrl : "views/org/employee_adjust.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -415,7 +415,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('org.part', {
 		url : "/org_part?psBtns",
 		data: { pageTitle: '组织设置' },
-		templateUrl : "views/org/part.html",
+		templateUrl : "views/org/part.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -430,7 +430,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('task', {
 		abstract : true,
 		url : "/task",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('task.task_mgr', {
 		url : "/task_mgr?psBtns",
 		data: { pageTitle: '任务管理'},
@@ -452,11 +452,11 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('flow', {
 		abstract : true,
 		url : "/flow",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('flow.designer', {
 		url : "/flow_designer?psBtns",
 		data: { pageTitle: '流程设计'},
-		templateUrl : "views/system/flow/designer.html",
+		templateUrl : "views/system/flow/designer.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {

@@ -8,7 +8,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('maintain', {
 		abstract : true,
 		url : "/maintain",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('maintain.faultrecord', {
 		url : "/maintain_faultrecord?psBtns",
 		data: { pageTitle: '维护工作'},
@@ -36,7 +36,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('maintain.review', {
 		url : "/maintain_review?psBtns",
 		data: { pageTitle: '资产复核'},
-		templateUrl : "views/cmdb/review.html",
+		templateUrl : "views/cmdb/review.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -48,7 +48,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('maintain.dataimport', {
 		url : "/maintain_dataimport?psBtns",
 		data: { pageTitle: '资产导入'},
-		templateUrl : "views/cmdb/dataimport.html",
+		templateUrl : "views/cmdb/dataimport.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -64,7 +64,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('cmdbresp', {
 		abstract : true,
 		url : "/cmdbresp",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('cmdbresp.partzc', {
 		url : "/maintain_partzc?psBtns",
 		data: { pageTitle: '部门资产'},
@@ -80,7 +80,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cmdbresp.zctjshow', {
 		url : "/cmdbresp_zctjshow?psBtns",
 		data: { pageTitle: '资产统计'},
-		templateUrl : "views/cmdb/rep/zctj.html",
+		templateUrl : "views/cmdb/rep/zctj.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -95,11 +95,11 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('xt', {
 		abstract : true,
 		url : "/xt",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('xt.outercontact', {
 		url : "/xt_outercontact?psBtns",
 		data: { pageTitle: '外部联系人'},
-		templateUrl : "views/cmdb/outercontact.html",
+		templateUrl : "views/cmdb/outercontact.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -129,11 +129,11 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	$stateProvider.state('cf', {
 		abstract : true,
 		url : "/cf",
-		templateUrl : "views/common/content.html"
+		templateUrl : "views/common/content.html?v="+version
 	}).state('cf.server', {
 		url : "/cf_server?psBtns",
 		data: { pageTitle: '服务器',classid:'server',input_type:"devservertype"},
-		templateUrl : "views/cmdb/html_genericdev.html",
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -145,7 +145,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.firewall', {
 		url : "/cf_firewall?psBtns",
 		data: { pageTitle: '防火墙',classid:'firewall'},
-		templateUrl : "views/cmdb/html_genericdev.html",
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -157,7 +157,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.lightsw', {
 		url : "/cf_lightsw?psBtns",
 		data: { pageTitle: '光交',classid:'lightsw'},
-		templateUrl : "views/cmdb/html_genericdev.html",
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -169,7 +169,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.compute', {
 		url : "/cf_compute?psBtns",
 		data: { pageTitle: 'PC电脑',classid:'pc',input_type:"devcompute"},
-		templateUrl : "views/cmdb/html_genericdev.html",
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -181,7 +181,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.outlets', {
 		url : "/cf_outlets?psBtns",
 		data: { pageTitle: '网点设备',classid:"pointdev",input_type:"devdotequipment"},
-		templateUrl : "views/cmdb/html_genericdev.html",
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -193,7 +193,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.route', {
 		url : "/cf_route?psBtns",
 		data: { pageTitle: '路由设备',classid:'route'},
-		templateUrl : "views/cmdb/html_genericdev.html",
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -205,7 +205,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.safety', {
 		url : "/cf_safety?psBtns",
 		data: { pageTitle: '安全设备',classid:'safety'},
-		templateUrl : "views/cmdb/html_genericdev.html",
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -217,7 +217,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.storage', {
 		url : "/cf_storage?psBtns",
 		data: { pageTitle: '存储设备',classid:'storage'},
-		templateUrl : "views/cmdb/html_genericdev.html",
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -230,7 +230,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	.state('cf.switch', {
 		url : "/cf_switch?psBtns",
 		data: { pageTitle: '交换机',classid:"switch"},
-		templateUrl : "views/cmdb/html_genericdev.html",
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -242,7 +242,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.bjpj', {
 		url : "/cf_bjpj?psBtns",
 		data: { pageTitle: 'IT备件配件',classid:'bjpj',input_type:"devbjpj"},
-		templateUrl : "views/cmdb/html_genericdev.html",
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -254,7 +254,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.zcotherhard', {
 		url : "/cf_zcotherhard?psBtns",
 		data: { pageTitle: '其他资产',classid:"zcotherhard"},
-		templateUrl : "views/cmdb/html_genericdev.html",
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
