@@ -7,6 +7,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.ISysUserInfoService;
 
 /**
@@ -91,13 +92,13 @@ public class LoginService extends BaseService {
 		}
 
 		if (login_type.equals(LOGIN_TYPE_EMPL)) {
-//			// 系统本身唯一
-//			user_id = UserService.me().getUserIdFromEmpl(value);
-//			if (ToolUtil.isNotEmpty(user_id)) {
-//				res = R.SUCCESS_OPER(user_id);
-//			} else {
-//				res = R.FAILURE("用户不存在");
-//			}
+			// 系统本身唯一
+			SysUserInfo s = SysUserInfoServiceImpl.selectOneByEmpl(value);
+			if (s == null) {
+				return R.FAILURE("用户不存在");
+			}
+			return R.SUCCESS_OPER(s.getUserId());
+
 		} else if (login_type.equals(LOGIN_TYPE_USERNAME)) {
 			res = SysUserInfoServiceImpl.queryUserIdByUserName(value);
 			if (res.isFailed()) {

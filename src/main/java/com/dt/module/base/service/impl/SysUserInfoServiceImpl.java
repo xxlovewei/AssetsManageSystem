@@ -71,6 +71,15 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		return this.baseMapper.listMyMenus(user_id);
 	}
 
+	@Override
+	public SysUserInfo selectOneByEmpl(String empl) {
+		// TODO Auto-generated method stub
+		QueryWrapper<SysUserInfo> ew = new QueryWrapper<SysUserInfo>();
+		ew.and(i -> i.eq("empl_id", empl));
+		return baseMapper.selectOne(ew);
+
+	}
+
 	// 修改用户密码
 	public R modifyPassword(String user_id, String pwd) {
 		if (ToolUtil.isOneEmpty(user_id, pwd)) {
@@ -123,17 +132,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 	}
 
 	/*
-	 * (non Javadoc)
 	 * 
-	 * @Title: addUser
-	 * 
-	 * @Description: TODO
-	 * 
-	 * @param user
-	 * 
-	 * @return
-	 * 
-	 * @see
 	 * com.dt.module.base.service.ISysUserInfoService#addUser(com.dt.module.base.
 	 * entity.SysUserInfo)
 	 */

@@ -41,4 +41,6 @@ public interface ISysUserInfoService extends IService<SysUserInfo> {
 	R queryReceivingaddr(String user_id);
 	
 	R deleteReceivingaddr(String user_id,String id);
+ 
+	SysUserInfo selectOneByEmpl(String empl);
 }
