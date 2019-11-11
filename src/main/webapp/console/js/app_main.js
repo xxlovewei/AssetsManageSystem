@@ -88,6 +88,8 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 	});
 	$httpProvider.defaults.headers.post['Cache-Control'] = 'no-cache';
 	$httpProvider.defaults.headers.post['Pragma'] = 'no-cache';
+	$httpProvider.defaults.headers.post['Cache'] = 'no-cache';
+	$httpProvider.defaults.headers.post['Expires'] = '0';
 	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 	// $httpProvider.defaults.withCredentials = false;
 	var param = function(obj) {
@@ -125,7 +127,7 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 	$stateProvider.state('login', {
 		url : "/login?psBtns",
 		transclude : true,
-		templateUrl : "views/system/login/login.html",
+		templateUrl : "views/system/login/login.html?v=" + version,
 		params : {
 			to : null,
 			psBtns : "[]"
@@ -144,7 +146,7 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/login/login.js' ]
+					files : [ 'views/system/login/login.js?v=' + version ]
 				}, {
 					serie : true,
 					files : [ 'views/system/login/l.css' ]
