@@ -1,22 +1,18 @@
-## 更新日志
- 
+
 ## 所用框架
-- SpringBoot 1.5.3.RELEASE
-- MyBatis-Plus 2.0.8
-- MyBatis 3.4.4
-- Spring 4.3.8.RELEASE
-- Ehcache 3.3.1
-- Kaptcha 2.3.2
-- Fastjson 1.2.31
-- Shiro 1.4.0
-- Druid 1.0.31
+- MyBatis-Plus 3.0.7
+- MyBatis 3.4.6
+- Spring 5.0.7
+- Fastjson 1.2.61
+- Shiro 1.4.1
+- Druid 1.1.15
+- Easypoi 4.1.2
+- quartz 2.3.0
 
 ## 联系方式
-maillank@qq.com
+- Mail:maillank@qq.com
 
 ## 效果图
-
-
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1102/172610_6018f0eb_448530.png "1.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1102/172619_331b99ae_448530.png "2.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1102/172629_80f2db34_448530.png "3.png")
@@ -54,7 +50,6 @@ maillank@qq.com
 - 账户:admin 
 - 密码:1
 ```
-
 
 ## 后期开发计划
 - 添加资产自定义属性功能
