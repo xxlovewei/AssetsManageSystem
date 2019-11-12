@@ -30,7 +30,7 @@
 ```
 
 ### 步骤三
-- 发布应用
+- 发布应用,注意:最新版本的war包已经发布,请直接下载,不需要下载源代码进行编译。
 ```
 - 部署到Tomcat目录的webapps下,修改配置文件(webapps/dt/WEB-INF/classes)中数据库的连接信息
 - jdbc.url=jdbc:mysql://ip:port/dt?useUnicode=true&characterEncoding=utf8&useSSL=false
