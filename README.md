@@ -25,7 +25,7 @@ maillank@qq.com
 ## 部署说明
 步骤一
 准备环境
-- 中间件:Tomcat
+- 中间件:Tomcat 8 以上
 - 数据库:Mysql 5.7
 
 步骤二
@@ -44,11 +44,10 @@ maillank@qq.com
 步骤四
 - 启动服务,访问地址
 - http://ip:port/dt/console
-- 选择用户名登陆
+- 选择用户名方式登陆
 - 账户:admin 
 - 密码:1
-启动服务,访问地址
-http://ip:port/dt/console
+
 
 
 ## 后期开发计划
