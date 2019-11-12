@@ -681,8 +681,18 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									dataSel : "typeSel"
 								});
 							}
-							
-						
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "请输资产名称",
+								label : "资产名称",
+								need : false,
+								name : 'name',
+								ng_model : "name"
+							});
 							items.push({
 								type : "input",
 								disabled : "false",
@@ -699,14 +709,15 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								type : "input",
 								disabled : "false",
 								sub_type : "text",
-								required : true,
+								required : false,
 								maxlength : "50",
 								placeholder : "请输入序列号",
 								label : "序列号",
-								need : true,
+								need : false,
 								name : 'sn',
 								ng_model : "sn"
-							});			
+							});		
+							
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -725,15 +736,17 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataOpt : "riskOpt",
 								dataSel : "riskSel"
 							});
-							items.push( {
-								type : "select",
-								disabled : "false",
-								label : "运行环境",
-								need : false,
-								disable_search : "true",
-								dataOpt : "envOpt",
-								dataSel : "envSel"
-							});
+							if (gclass_id!="softzc"){
+								items.push( {
+									type : "select",
+									disabled : "false",
+									label : "运行环境",
+									need : false,
+									disable_search : "true",
+									dataOpt : "envOpt",
+									dataSel : "envSel"
+								});
+							}
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -750,6 +763,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								ng_model : "wboutdate"
 							});
+							if (gclass_id!="softzc"){
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -759,6 +773,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataOpt : "wbOpt",
 								dataSel : "wbSel"
 							});
+							}
 							
 							items.push( {
 								type : "select",
@@ -769,6 +784,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataOpt : "recycelOpt",
 								dataSel : "recycelSel"
 							});
+							
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -778,6 +794,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataOpt : "locOpt",
 								dataSel : "locSel"
 							});
+							if (gclass_id!="softzc"){
 							items.push({
 								type : "select",
 								disabled : "false",
@@ -787,6 +804,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataOpt : "jgOpt",
 								dataSel : "jgSel"
 							});
+							}
+							if (gclass_id!="softzc"){
 							items.push({
 								type : "input",
 								disabled : "false",
@@ -799,6 +818,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								name : 'frame',
 								ng_model : "frame"
 							});
+							}
 							items.push({
 								type : "input",
 								disabled : "false",
@@ -831,6 +851,18 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								ng_model : "buy_price"
 							});
 							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "number",
+								required : false,
+								maxlength : "30",
+								placeholder : "请输入资产净值",
+								label : "资产净值",
+								need : false,
+								name : 'net_worth',
+								ng_model : "net_worth"
+							});
+							items.push({
 								type : "select",
 								disabled : "false",
 								label : "使用部门",
@@ -860,6 +892,45 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								name : 'confdesc',
 								ng_model : "confdesc"
 							});
+							
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "请输入标签1",
+								label : "标签1",
+								need : false,
+								name : 'fs1',
+								ng_model : "fs1"
+							});
+							
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "请输入标签",
+								label : "标签2",
+								need : false,
+								name : 'fs2',
+								ng_model : "fs2"
+							});
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "number",
+								required : false,
+								maxlength : "50",
+								placeholder : "",
+								label : "资产数量",
+								need : false,
+								name : 'zc_cnt',
+								ng_model : "zc_cnt"
+							});
+							
 							items.push({
 								type : "input",
 								disabled : "false",

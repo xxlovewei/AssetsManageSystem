@@ -302,6 +302,16 @@ public class ResExtService extends BaseService {
 			me.setIf("wbout_date",
 					ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 01:00:00");
 			ins.set("oper_type", "入库");
+			
+			
+			me.setIf("fs1", ps.getString("fs1"));
+			me.setIf("fs2", ps.getString("fs2"));
+			me.setIf("fs3", ps.getString("fs3"));
+			me.setIf("fs4", ps.getString("fs4"));
+			me.setIf("fs5", ps.getString("fs5"));
+			me.setIf("fs6", ps.getString("fs6"));
+			me.setIf("fs7", ps.getString("fs7"));
+			me.setIf("zc_cnt", ps.getString("zc_cnt"));
 			sql = me.getSQL();
 		} else {
 			Update me = new Update("res");
@@ -357,6 +367,15 @@ public class ResExtService extends BaseService {
 				ins.set("oper_type", "更新");
 			}
 
+			
+			me.setIf("fs1", ps.getString("fs1"));
+			me.setIf("fs2", ps.getString("fs2"));
+			me.setIf("fs3", ps.getString("fs3"));
+			me.setIf("fs4", ps.getString("fs4"));
+			me.setIf("fs5", ps.getString("fs5"));
+			me.setIf("fs6", ps.getString("fs6"));
+			me.setIf("fs7", ps.getString("fs7"));
+			me.setIf("zc_cnt", ps.getString("zc_cnt"));
 			me.where().and("id=?", id);
 			sql = me.getSQL();
 

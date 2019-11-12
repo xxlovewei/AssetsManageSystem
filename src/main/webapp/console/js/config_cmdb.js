@@ -265,6 +265,26 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	});
 	
+
+	$stateProvider.state('softzc', {
+		abstract : true,
+		url : "/softzc",
+		templateUrl : "views/common/content.html?v="+version
+	}).state('softzc.soft', {
+		url : "/softzc.soft",
+		data: { pageTitle: '软件资产',classid:"softzc",input_type:"zcsofttype"},
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
+				} ]);
+			}
+		}
+	})
+ 
+	
 	
 }
 
