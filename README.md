@@ -19,14 +19,14 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1102/172638_0d2d0225_448530.png "4.png")
 
 ## 部署说明
-步骤一
-准备环境
+### 步骤一
+- 准备环境
 ```
 - 中间件:Tomcat 8 以上
 - 数据库:Mysql 5.7
 ```
 
-步骤二
+### 步骤二
 - 初始化sql
 ```
 - SQL>CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
@@ -34,16 +34,17 @@
 - SQL>source db.sql
 ```
 
-步骤三
-- 发布
+### 步骤三
+- 发布应用
 ```
 - 部署到Tomcat目录的webapps下,修改配置文件(webapps/dt/WEB-INF/classes)中数据库的连接信息
 - jdbc.url=jdbc:mysql://ip:port/dt?useUnicode=true&characterEncoding=utf8&useSSL=false
 - jdbc.username=root
 - jdbc.password=root_pwd
 ```
-步骤四
-- 启动服务,访问地址
+
+### 步骤四
+- 启动服务访问
 ```
 - http://ip:port/dt/console
 - 选择用户名方式登陆
