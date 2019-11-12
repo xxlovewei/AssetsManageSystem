@@ -111,6 +111,10 @@ function privCrudCompute(curd, pbtns) {
 	var pbtns_arr = angular.fromJson(pbtns);
 	if (angular.isDefined(pbtns_arr) && pbtns_arr.length > 0) {
 		for (var i = 0; i < pbtns_arr.length; i++) {
+			if (pbtns_arr[i].p == "root_insert") {
+				curd.root_insert = true;
+				continue;
+			}
 			if (pbtns_arr[i].p == "update") {
 				curd.update = true;
 				continue;

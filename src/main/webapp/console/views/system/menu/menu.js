@@ -220,7 +220,7 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 			$scope.nodeSel = $scope.nodeOpt[1];
 		} else if ($scope.item.type == "dir") {
 			$scope.nodeSel = $scope.nodeOpt[0];
-		}else if ($scope.item.type == "btn") {
+		} else if ($scope.item.type == "btn") {
 			$scope.nodeSel = $scope.nodeOpt[2];
 		}
 
@@ -346,15 +346,36 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 				}
 			})
 
+	$scope.crud = {
+		"root_insert" : false,
+		"update" : false,
+		"insert" : false,
+		"remove" : false,
+		"priv" : false,
+	};
+
+	privCrudCompute($scope.crud, $rootScope.curMemuBtns);
+
 	var acthtml = " <div class=\"btn-group\"> ";
-	acthtml = acthtml
-			+ " <button ng-click=\"cellTemplateScope.edit(row.branch)\" class=\"btn-white btn btn-xs\">更新</button> ";
-	acthtml = acthtml
-			+ " <button ng-click=\"cellTemplateScope.add(row.branch)\" class=\"btn-white btn btn-xs\">新增</button> ";
-	acthtml = acthtml
-			+ " <button ng-click=\"cellTemplateScope.del(row.branch)\" class=\"btn-white btn btn-xs\">删除</button> ";
-	acthtml = acthtml
-			+ " <button ng-click=\"cellTemplateScope.acl(row.branch)\" class=\"btn-white  btn btn-xs\">权限</button> </div> ";
+
+	if ($scope.crud.update) {
+		acthtml = acthtml
+				+ " <button ng-click=\"cellTemplateScope.edit(row.branch)\" class=\"btn-white btn btn-xs\">更新</button> ";
+	}
+	if ($scope.crud.insert) {
+		acthtml = acthtml
+				+ " <button ng-click=\"cellTemplateScope.add(row.branch)\" class=\"btn-white btn btn-xs\">新增</button> ";
+	}
+	if ($scope.crud.remove) {
+		acthtml = acthtml
+				+ " <button ng-click=\"cellTemplateScope.del(row.branch)\" class=\"btn-white btn btn-xs\">删除</button> ";
+	}
+	if ($scope.crud.priv) {
+		acthtml = acthtml
+				+ " <button ng-click=\"cellTemplateScope.acl(row.branch)\" class=\"btn-white  btn btn-xs\">权限</button>";
+	}
+
+	acthtml = acthtml + " </div>";
 
 	var tree;
 	var myTreeData = [];

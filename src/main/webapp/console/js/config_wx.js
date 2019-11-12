@@ -1,9 +1,8 @@
 function config_wx($stateProvider, $ocLazyLoadProvider) {
 	console.log("App Wx config");
 	$ocLazyLoadProvider.config({
-				debug : true
+				debug : false
 			});
-
 	// 菜单
 	$stateProvider.state('wxmgr', {
 				abstract : true,

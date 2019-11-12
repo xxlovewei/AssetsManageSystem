@@ -72,24 +72,21 @@ function sysRootMenugCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.meta = {
 		tablehide : false,
-		tools : [ {
-			id : "1",
-			label : "新增",
-			type : "btn",
-			show : false,
-			priv : 'insert',
-			template : ' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>'
-
-		} ]
-	}
-	$scope.meta = {
-		tools : [ {
-			id : "1",
-			priv : "insert",
-			label : "新增",
-			type : "btn_add",
-			hide : false,
-		} ]
+		tools : [
+				{
+					id : "1",
+					label : "查询",
+					type : "btn",
+					show : false,
+					priv : 'select',
+					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+				}, {
+					id : "1",
+					priv : "insert",
+					label : "新增",
+					type : "btn_add",
+					hide : false,
+				} ]
 	}
 	privNormalCompute($scope.meta.tools, $rootScope.curMemuBtns);
 
@@ -99,6 +96,7 @@ function sysRootMenugCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		"select" : false,
 		"remove" : false,
 	};
+
 	privCrudCompute(crud, $rootScope.curMemuBtns);
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
 			'createdRow', function(row) {
@@ -150,7 +148,9 @@ function sysRootMenugCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				})
 	}
 	flush();
-
+	$scope.query = function() {
+		flush();
+	}
 	$scope.row_detail = function(id) {
 
 	}

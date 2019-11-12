@@ -16,7 +16,7 @@
 							</div>
 							<button ng-click="query()" class="btn btn-sm btn-primary"
 								type="submit">查询</button>
-							<button ng-click="addMasterNode()" class="btn btn-sm btn-primary"
+							<button ng-show="{{crud.root_insert}}" ng-click="addMasterNode()" class="btn btn-sm btn-primary"
 								type="submit">新增主节点</button>
 						</form>
 					</div>
