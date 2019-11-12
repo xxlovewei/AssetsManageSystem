@@ -12,11 +12,6 @@
 ## 联系方式
 - Mail:maillank@qq.com
 
-## 效果图
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1102/172610_6018f0eb_448530.png "1.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1102/172619_331b99ae_448530.png "2.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1102/172629_80f2db34_448530.png "3.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1102/172638_0d2d0225_448530.png "4.png")
 
 ## 部署说明
 ### 步骤一
@@ -51,6 +46,14 @@
 - 账户:admin 
 - 密码:1
 ```
+
+## 效果图
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124456_2c78331d_448530.jpeg "1.jpg")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124506_47c9ca08_448530.jpeg "2.jpg")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124517_26d41cea_448530.jpeg "3.jpg")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124530_b7e7847b_448530.jpeg "4.jpg")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124540_62166efa_448530.jpeg "5.jpg")
+
 
 ## 后期开发计划
 - 添加资产自定义属性功能
