@@ -487,9 +487,9 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				message : "请至少选择一项"
 			});
 			return;
-		} else if (data.length > 600) {
+		} else if (data.length > 1000) {
 			notify({
-				message : "不允许超过600个"
+				message : "不允许超过1000个"
 			});
 			return;
 		} else {
@@ -886,8 +886,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								sub_type : "text",
 								required : false,
 								maxlength : "50",
-								placeholder : "配置描述",
-								label : "请输入配置描述",
+								placeholder : "请输入配置描述",
+								label : "配置描述",
 								need : false,
 								name : 'confdesc',
 								ng_model : "confdesc"
@@ -918,6 +918,20 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								name : 'fs2',
 								ng_model : "fs2"
 							});
+							
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "",
+								label : "其他资产编号",
+								need : false,
+								name : 'fs20',
+								ng_model : "fs20"
+							});
+					
 							items.push({
 								type : "input",
 								disabled : "false",
@@ -930,6 +944,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								name : 'zc_cnt',
 								ng_model : "zc_cnt"
 							});
+							
+						
 							
 							items.push({
 								type : "input",
@@ -988,11 +1004,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								wbSel : "",
 								envOpt : [],
 								tbOpt : [ {
-									id : "1",
+									id : "wbcompute_1",
 									name : "自动计算"
 								}, {
-									id : "0",
-									name : "手工"
+									id : "wbcompute_0",
+									name : "手动"
 								} ],
 								tbSel : "",
 								envSel : "",

@@ -94,6 +94,7 @@
         <result column="locdtl" property="locdtl" />
         <result column="wb_auto" property="wbAuto" />
         <result column="wbout_date" property="wboutDate" />
+        <result column="zc_cnt" property="zcCnt" />
     </resultMap>
 
 </mapper>

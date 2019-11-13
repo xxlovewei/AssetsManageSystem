@@ -80,8 +80,8 @@ public class ResExtController extends BaseController {
 		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
 		String nowtime = simpleDateFormat.format(date);
 		JSONArray ids_arr = JSONArray.parseArray(ids);
-		if (ids_arr.size() > 100) {
-			return R.FAILURE("不得超过100个");
+		if (ids_arr.size() > 10000) {
+			return R.FAILURE("不得超过1000个");
 		}
 		ArrayList<SQL> sqls = new ArrayList<SQL>();
 		for (int i = 0; i < ids_arr.size(); i++) {

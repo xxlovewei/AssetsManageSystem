@@ -45,11 +45,41 @@ public class ResExtService extends BaseService {
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.rack  ) rackstr,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.class_id  ) classname,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.type  ) typename,"
+			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.wb_auto  ) wb_autostr,"
 			+ "  date_format(wbout_date,'%Y-%m-%d')  wbout_datestr,"
 			+ "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
-			+ "  case when t.wb_auto = '1' then '自动'  else '手动' end wb_autostr, "
 			+ "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
 
+	
+	public R queryResAllByClassGetDataWithoutAttr(String id, String wb, String env, String recycle, String loc, String search) {
+		String sql = "select " + resSqlbody + " t.* from res t where dr=0  ";
+
+		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
+			sql = sql + " and loc='" + loc + "'";
+		}
+
+		if (ToolUtil.isNotEmpty(env) && !"all".equals(env)) {
+			sql = sql + " and env='" + env + "'";
+		}
+
+		if (ToolUtil.isNotEmpty(wb) && !"all".equals(wb)) {
+			sql = sql + " and wb='" + wb + "'";
+		}
+
+		if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
+			sql = sql + " and recycle='" + recycle + "'";
+		}
+
+		if (ToolUtil.isNotEmpty(search)) {
+			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
+					+ "%' )";
+		}
+		RcdSet rs2 = db.query(sql);
+		sql = sql + " order by loc,rack ";
+		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
+		
+
+	}
 	// 根据ClassId获取数据
 	public R queryResAllByClassGetData(String id, String wb, String env, String recycle, String loc, String search) {
 
@@ -311,6 +341,7 @@ public class ResExtService extends BaseService {
 			me.setIf("fs5", ps.getString("fs5"));
 			me.setIf("fs6", ps.getString("fs6"));
 			me.setIf("fs7", ps.getString("fs7"));
+			me.setIf("fs20", ps.getString("fs20"));
 			me.setIf("zc_cnt", ps.getString("zc_cnt"));
 			sql = me.getSQL();
 		} else {
@@ -375,6 +406,7 @@ public class ResExtService extends BaseService {
 			me.setIf("fs5", ps.getString("fs5"));
 			me.setIf("fs6", ps.getString("fs6"));
 			me.setIf("fs7", ps.getString("fs7"));
+			me.setIf("fs20", ps.getString("fs20"));
 			me.setIf("zc_cnt", ps.getString("zc_cnt"));
 			me.where().and("id=?", id);
 			sql = me.getSQL();

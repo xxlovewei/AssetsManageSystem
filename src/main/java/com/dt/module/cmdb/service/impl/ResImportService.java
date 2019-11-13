@@ -1,4 +1,4 @@
-package com.dt.module.cmdb.service;
+package com.dt.module.cmdb.service.impl;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -19,7 +19,7 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.cmdb.entity.ResEntity;
-import com.dt.module.cmdb.service.impl.ResExtService;
+import com.dt.module.cmdb.service.ResImportResult;
 
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
@@ -185,6 +185,12 @@ public class ResImportService extends BaseService {
 		if (envR.isFailed()) {
 			return R.FAILURE(envR.getMessage());
 		}
+		
+		R zcwbcomouteR= checkDictItem("zcwbcomoute", re.getWb_autostr());
+		if (zcwbcomouteR.isFailed()) {
+			return R.FAILURE(zcwbcomouteR.getMessage());
+		}
+
 
 		if (type.equals("insert")) {
 			Insert me = new Insert("res");
@@ -196,6 +202,9 @@ public class ResImportService extends BaseService {
 			me.setIf("update_time", nowtime);
 			me.setIf("update_by", this.getUserId());
 			/////////////// 开始处理////////////
+			me.setIf("fs1", re.getFs1());
+			me.setIf("fs2", re.getFs2());
+			me.setIf("fs20", re.getFs20());
 			me.setIf("frame", re.getFrame());
 			me.setIf("model", re.getModel());
 			me.setIf("confdesc", re.getConfdesc());
@@ -205,10 +214,9 @@ public class ResImportService extends BaseService {
 			me.setIf("buy_price", re.getBuy_price());
 			me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
 			me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
-
+ 
 			// 数据字典匹配
 			me.setIf("class_id", classR.getData());
-
 			me.setIf("rack", rackR.getData());
 			me.setIf("brand", brandR.getData());
 			me.setIf("recycle", recycleR.getData());
@@ -216,10 +224,9 @@ public class ResImportService extends BaseService {
 			me.setIf("risk", riskR.getData());
 			me.setIf("loc", locR.getData());
 			me.setIf("env", envR.getData());
-
-			// 默认值
-			me.setIf("wb_auto", "1");
-
+			me.setIf("wb_auto", zcwbcomouteR.getData());
+		 
+		 
 			// 处理资产编号,必需不存在
 			if (ToolUtil.isEmpty(re.getUuid())) {
 				// 插入时候，无编号自动生产
@@ -239,6 +246,9 @@ public class ResImportService extends BaseService {
 			me.setIf("update_time", nowtime);
 			me.setIf("update_by", this.getUserId());
 			/////////////// 开始处理////////////
+			me.setIf("fs1", re.getFs1());
+			me.setIf("fs2", re.getFs2());
+			me.setIf("fs20", re.getFs20());
 			me.setIf("frame", re.getFrame());
 			me.setIf("model", re.getModel());
 			me.setIf("confdesc", re.getConfdesc());
@@ -259,7 +269,8 @@ public class ResImportService extends BaseService {
 			me.setIf("risk", riskR.getData());
 			me.setIf("loc", locR.getData());
 			me.setIf("env", envR.getData());
-
+			me.setIf("wb_auto", zcwbcomouteR.getData());
+			
 			// 处理资产编号,必需一条
 			if (uuidR == 1) {
 				me.set("uuid", re.getUuid());

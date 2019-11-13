@@ -32,10 +32,10 @@ public class ResEntity implements java.io.Serializable {
 	@Excel(name = "品牌", width = 10)
 	private String brandstr;
 
-	@Excel(name = "型号", width = 15)
+	@Excel(name = "型号", width = 20)
 	private String model;
 
-	@Excel(name = "序列号", width = 12)
+	@Excel(name = "序列号", width = 25)
 	private String sn;
 
 	@Excel(name = "维保情况", width = 10)
@@ -77,11 +77,82 @@ public class ResEntity implements java.io.Serializable {
 	@Excel(name = "原值", width = 10)
 	private String buy_price;
 
+	@Excel(name = "净值", width = 10)
+	private String net_worth;
+
 	@Excel(name = "配置描述", width = 30)
 	private String confdesc;
 
 	@Excel(name = "备注", width = 10)
 	private String mark;
+
+	@Excel(name = "标签1", width = 12)
+	private String fs1;
+
+	@Excel(name = "标签2", width = 12)
+	private String fs2;
+
+	@Excel(name = "其他资产编号", width = 12)
+	private String fs20;
+
+	@Excel(name = "维保计算", width = 8)
+	private String wb_autostr;
+
+	/**
+	 * @return the wb_autostr
+	 */
+	public String getWb_autostr() {
+		return wb_autostr;
+	}
+
+	/**
+	 * @param wb_autostr the wb_autostr to set
+	 */
+	public void setWb_autostr(String wb_autostr) {
+		this.wb_autostr = wb_autostr;
+	}
+
+	/**
+	 * @return the fs1
+	 */
+	public String getFs1() {
+		return fs1;
+	}
+
+	/**
+	 * @param fs1 the fs1 to set
+	 */
+	public void setFs1(String fs1) {
+		this.fs1 = fs1;
+	}
+
+	/**
+	 * @return the fs2
+	 */
+	public String getFs2() {
+		return fs2;
+	}
+
+	/**
+	 * @param fs2 the fs2 to set
+	 */
+	public void setFs2(String fs2) {
+		this.fs2 = fs2;
+	}
+
+	/**
+	 * @return the fs20
+	 */
+	public String getFs20() {
+		return fs20;
+	}
+
+	/**
+	 * @param fs20 the fs20 to set
+	 */
+	public void setFs20(String fs20) {
+		this.fs20 = fs20;
+	}
 
 	/**
 	 * @return the uuid
@@ -193,6 +264,20 @@ public class ResEntity implements java.io.Serializable {
 	 */
 	public void setWbstr(String wbstr) {
 		this.wbstr = wbstr;
+	}
+
+	/**
+	 * @return the net_worth
+	 */
+	public String getNet_worth() {
+		return net_worth;
+	}
+
+	/**
+	 * @param net_worth the net_worth to set
+	 */
+	public void setNet_worth(String net_worth) {
+		this.net_worth = net_worth;
 	}
 
 	/**
@@ -424,6 +509,12 @@ public class ResEntity implements java.io.Serializable {
 //		this.mgr_part_fullname = obj.getString("mgr_part_fullname");
 		this.used_username = obj.getString("used_username");
 		this.locdtl = obj.getString("locdtl");
+
+		this.fs1 = obj.getString("fs1");
+		this.fs2 = obj.getString("fs2");
+		this.fs20 = obj.getString("fs20");
+		this.net_worth = obj.getString("net_worth");
+		this.wb_autostr = obj.getString("wb_autostr");
 
 	}
 

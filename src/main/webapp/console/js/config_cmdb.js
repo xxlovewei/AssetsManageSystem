@@ -57,6 +57,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('maintain.dataexport', {
+		url : "/maintain_dataexport",
+		data: { pageTitle: '资产导出'},
+		templateUrl : "views/cmdb/dataexport.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/dataexport.js?v=' + version ]
+				} ]);
+			}
+		}
 	})
 	
  

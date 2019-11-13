@@ -1,13 +1,13 @@
 package com.dt.module.cmdb.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.math.BigDecimal;
 import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import com.dt.core.common.base.BaseModel;
  * </p>
  *
  * @author algernonking
- * @since 2019-11-09
+ * @since 2019-11-13
  */
  
 @TableName("res")
@@ -73,8 +73,14 @@ public class Res extends BaseModel<Res> {
      */
     @TableField("locshow")
     private String locshow;
+    /**
+     * 资产标签1
+     */
     @TableField("fs1")
     private String fs1;
+    /**
+     * 资产标签2
+     */
     @TableField("fs2")
     private String fs2;
     @TableField("fs3")
@@ -305,6 +311,8 @@ public class Res extends BaseModel<Res> {
      */
     @TableField("wbout_date")
     private Date wboutDate;
+    @TableField("zc_cnt")
+    private BigDecimal zcCnt;
 
 
     public String getId() {
@@ -987,6 +995,14 @@ public class Res extends BaseModel<Res> {
         this.wboutDate = wboutDate;
     }
 
+    public BigDecimal getZcCnt() {
+        return zcCnt;
+    }
+
+    public void setZcCnt(BigDecimal zcCnt) {
+        this.zcCnt = zcCnt;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -1080,6 +1096,7 @@ public class Res extends BaseModel<Res> {
         ", locdtl=" + locdtl +
         ", wbAuto=" + wbAuto +
         ", wboutDate=" + wboutDate +
+        ", zcCnt=" + zcCnt +
         "}";
     }
 }
