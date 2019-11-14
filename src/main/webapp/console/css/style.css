@@ -8591,7 +8591,7 @@ body.md-skin {
 
 .default .dt-button, a.dt-button {
 	background-color: #3379B7;
-	color: #FFFFFF;
+/* 	color: #FFFFFF; */
 	position: relative;
 	display: inline-block;
 	box-sizing: border-box;

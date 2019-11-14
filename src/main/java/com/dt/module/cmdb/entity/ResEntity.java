@@ -83,7 +83,7 @@ public class ResEntity implements java.io.Serializable {
 	@Excel(name = "配置描述", width = 30)
 	private String confdesc;
 
-	@Excel(name = "备注", width = 10)
+	@Excel(name = "备注", width = 20)
 	private String mark;
 
 	@Excel(name = "标签1", width = 12)

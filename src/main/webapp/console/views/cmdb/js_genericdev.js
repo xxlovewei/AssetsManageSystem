@@ -158,8 +158,12 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	var pbtns=$rootScope.curMemuBtns;
 	 
 	var gclass_id = $state.router.globals.current.data.classid;
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withPaginationType('full_numbers').withDisplayLength(100)
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('Bfrtip')
+			.withPaginationType('full_numbers').withDisplayLength(100).withColVis()
+	        // Add a state change function
+	        .withColVisStateChange(stateChange)
+	        // Exclude the last column from the list
+	        .withColVisOption('aiExclude', [2])
 			.withOption("ordering", false).withOption("responsive", false)
 			.withOption("searching", true).withOption('scrollY', '600px')
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
@@ -184,8 +188,27 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					}).withOption("select", {
 				style : 'multi',
 				selector : 'td:first-child'
-			});
+			}).withButtons([
+	            {
+	                extend: 'colvis',
+	                text: '显示隐藏列',
+	                exportOptions: {   
+	                }
+	            },
+	            {
+	                extend: 'print',
+	                autoPrint: true,
+	                text: '打印',
+	                exportOptions: {
+	                	 stripHtml: false,
+	                	 columns: ':visible'
+	                }
+	            }
+	        ]);
 
+	function stateChange(iColumn, bVisible) {
+        console.log('The column', iColumn, ' has changed its status to', bVisible);
+    }
 	$scope.dtInstance = {}
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
@@ -195,7 +218,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 	}
 
-	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
+	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">全选';
 	$scope.dtColumns = [];
 	$scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
 	'select-checkbox checkbox_center').renderWith(function() {
@@ -203,14 +226,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
 			'sDefaultContent', '').withOption("width", '30'));
-	
-
 	if (angular
 			.isDefined($state.router.globals.current.data.classid) && $state.router.globals.current.data.classid == "zcotherhard"  ) {
 		$scope.dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('大类').withOption(
 				 'sDefaultContent', '').withOption("width", '30'));
 	}  
-	
 	// 输入判断
 	if (angular.isDefined($state.router.globals.current.data.input_type)) {
 		$scope.dtColumns.push(DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
@@ -233,25 +253,22 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			 'sDefaultContent', '').withOption('width', '30'));	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
 			 'sDefaultContent', ''));	
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-			 .withOption('sDefaultContent', ''));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
-			 .withOption('sDefaultContent', ''));	
-	$scope.dtColumns.push(   DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
-			 .withOption('sDefaultContent', ''));	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
 			 'sDefaultContent', ''));	
-	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('机柜').withOption(
 			 'sDefaultContent', '').renderWith(renderJg));	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
 			 'sDefaultContent', ''));	
-	
+	$scope.dtColumns.push(  DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+			 'sDefaultContent', ''));	
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
 			 .withOption('sDefaultContent', '').renderWith(renderReview));	
-				
-				
- 
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
+			 .withOption('sDefaultContent', ''));	
+	$scope.dtColumns.push(  DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
+			 .withOption('sDefaultContent', ''));			
+	$scope.dtColumns.push(   DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
+			 .withOption('sDefaultContent', ''));		
 
 	$scope.query = function() {
 		flush();
@@ -1027,17 +1044,48 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									} else{
 										modal_meta.meta.item.class_id = gclass_id;
 									} 
+									if(angular.idDefined(modal_meta.meta.typeSel.dict_item_id)){
+										modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
+									}
+
+									if(angular.idDefined(modal_meta.meta.partSel.partid)){
+										modal_meta.meta.item.part_id = modal_meta.meta.partSel.partid;
+									}
+								
+									if(angular.idDefined( modal_meta.meta.usedunameSel.user_id)){
+										modal_meta.meta.item.used_userid = modal_meta.meta.usedunameSel.user_id;
+									}
+								
+									if(angular.idDefined( modal_meta.meta.envSel.dict_item_id)){
+										modal_meta.meta.item.env = modal_meta.meta.envSel.dict_item_id;
+									}
 									
-									modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
-									modal_meta.meta.item.part_id = modal_meta.meta.partSel.partid;
-									modal_meta.meta.item.used_userid = modal_meta.meta.usedunameSel.user_id;
-									modal_meta.meta.item.env = modal_meta.meta.envSel.dict_item_id;
-									modal_meta.meta.item.recycle = modal_meta.meta.recycelSel.dict_item_id;
-									modal_meta.meta.item.brand = modal_meta.meta.pinpSel.dict_item_id;
-									modal_meta.meta.item.wb = modal_meta.meta.wbSel.dict_item_id;
-									modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
-									modal_meta.meta.item.risk = modal_meta.meta.riskSel.dict_item_id;		
-									modal_meta.meta.item.rack =modal_meta.meta.jgSel.dict_item_id ;
+									if(angular.idDefined( modal_meta.meta.recycelSel.dict_item_id)){
+										modal_meta.meta.item.recycle = modal_meta.meta.recycelSel.dict_item_id;
+									}
+									
+									
+									if(angular.idDefined(modal_meta.meta.pinpSel.dict_item_id)){
+										modal_meta.meta.item.brand = modal_meta.meta.pinpSel.dict_item_id;
+									}
+									
+									if(angular.idDefined( modal_meta.meta.wbSel.dict_item_id)){
+										modal_meta.meta.item.wb =modal_meta.meta.wbSel.dict_item_id;
+									}
+									
+									if(angular.idDefined( modal_meta.meta.locSel.dict_item_id)){
+										modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
+									}
+
+									if(angular.idDefined( modal_meta.meta.riskSel.dict_item_id)){
+										modal_meta.meta.item.risk = modal_meta.meta.riskSel.dict_item_id;
+									}
+									
+									if(angular.idDefined( modal_meta.meta.jgSel.dict_item_id)){
+										modal_meta.meta.item.rack =modal_meta.meta.jgSel.dict_item_id ;
+									}
+							
+								
 									modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
 											.format('YYYY-MM-DD');
 									modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
