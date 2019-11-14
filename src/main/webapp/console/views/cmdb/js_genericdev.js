@@ -159,11 +159,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	 
 	var gclass_id = $state.router.globals.current.data.classid;
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('Bfrtip')
-			.withPaginationType('full_numbers').withDisplayLength(100).withColVis()
-	        // Add a state change function
-	        .withColVisStateChange(stateChange)
-	        // Exclude the last column from the list
-	        .withColVisOption('aiExclude', [2])
+			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
 			.withOption("searching", true).withOption('scrollY', '600px')
 			.withOption('scrollX', true).withOption('bAutoWidth', true)

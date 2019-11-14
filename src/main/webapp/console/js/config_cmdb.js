@@ -12,7 +12,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('maintain.faultrecord', {
 		url : "/maintain_faultrecord?psBtns",
 		data: { pageTitle: '维护工作'},
-		template:'<div ng-controller="cmdbfaultrecordCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		templateUrl : "views/cmdb/faultrecord.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
@@ -24,7 +24,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('maintain.devsearch', {
 		url : "/maintain_devsearch?psBtns",
 		data: { pageTitle: '设备查询'},
-		template:'<div ng-controller="cmdbdevsearchCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		templateUrl : "views/cmdb/devsearch.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
