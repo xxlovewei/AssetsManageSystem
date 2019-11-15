@@ -1,9 +1,9 @@
 function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
 
 	// 分类
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withPaginationType('full_numbers').withDisplayLength(100)
+			.withPaginationType('full_numbers').withDisplayLength(100).withDOM('frtlip')
 			.withOption("ordering", false).withOption("responsive", false)
 			.withOption("searching", true).withOption('scrollY', '600px')
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
@@ -28,7 +28,39 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					}).withOption("select", {
 				style : 'multi',
 				selector : 'td:first-child'
-			})
+			}).withButtons([
+	            {
+	                extend: 'colvis',
+	                text: '显示隐藏列',
+	                fnLabel: function ( dt, idx, title ) {
+	                	console.log(dt,idx,title);
+	                    return (idx+1)+': '+title;
+	                } 
+	            },
+	            {
+	            	extend:'csv',
+	                text: 'Excel',
+	                exportOptions: {
+	                	columns: ':visible',
+	                	trim:true,
+	                    modifier: {
+	                        page: 'current'
+	                    }
+	                }
+	            },
+	            {
+	            	extend:'print',
+	                text: '打印',
+	                exportOptions: {
+	                	 columns: ':visible',
+	                	 stripHtml: false,
+	                	 columns: ':visible',
+	                	 modifier: {
+		                        page: 'current'
+		                    }
+	                }
+	            }
+	        ]);
 
 	$scope.dtInstance = {}
 
@@ -52,78 +84,67 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
+			console.log($scope.dtInstance.DataTable)
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
+			console.log($scope.dtInstance.DataTable)
 		}
 	}
 
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 
-	$scope.dtColumns = [];
 	$scope.dtColumns = [
-		DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
-				'select-checkbox checkbox_center').renderWith(function() {
-			return ""
-		}),
-		DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
-				'sDefaultContent', '').withOption("width", '30'),
-		DTColumnBuilder.newColumn('classname').withTitle('类型').withOption(
-				'sDefaultContent', '').withOption("width", '30'),
-		DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
-				'sDefaultContent', '').withOption("width", '30'),
-		DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
-				'sDefaultContent', '').withOption('width', '50')
-				.renderWith(renderName),
-		DTColumnBuilder.newColumn('reviewstr').withTitle('复核状态')
-				.withOption('sDefaultContent', '')
-				.withOption('width', '50'),
-		DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('part_name').withTitle('部门').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('used_username').withTitle('使用人')
-				.withOption('sDefaultContent', '')
-				.withOption('width', '30'),
-		DTColumnBuilder.newColumn('recyclestr').withTitle('状态').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('wbstr').withTitle('维保').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
-				'sDefaultContent', '').withOption('width', '30'),
-		DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
-				'sDefaultContent', ''),
-		DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
-				'sDefaultContent', ''),
-		DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-				.withOption('sDefaultContent', ''),
-		// DTColumnBuilder.newColumn('create_username').withTitle('录入人')
-		// .withOption('sDefaultContent', ''),
-		DTColumnBuilder.newColumn('update_username').withTitle('更新人')
-				.withOption('sDefaultContent', ''),
-		DTColumnBuilder.newColumn('review_username').withTitle('复核人')
-				.withOption('sDefaultContent', '') ]
+			DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
+					'select-checkbox checkbox_center').renderWith(function() {
+				return ""
+			}),
+			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
+					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('classname').withTitle('类型').withOption(
+					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
+					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
+					'sDefaultContent', '').withOption('width', '50')
+					.renderWith(renderName),
+			DTColumnBuilder.newColumn('reviewstr').withTitle('复核状态')
+					.withOption('sDefaultContent', '')
+					.withOption('width', '50'),
+			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('rackstr').withTitle('机柜').withOption(
+					'sDefaultContent', '').withOption('width', '5'),
+			DTColumnBuilder.newColumn('part_name').withTitle('部门').withOption(
+					'sDefaultContent', '').withOption('width', '10'),
+			DTColumnBuilder.newColumn('used_username').withTitle('使用人')
+					.withOption('sDefaultContent', '')
+					.withOption('width', '20'),
+			DTColumnBuilder.newColumn('recyclestr').withTitle('状态').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('wbstr').withTitle('维保').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
+					.withOption('sDefaultContent', ''),
+			// DTColumnBuilder.newColumn('create_username').withTitle('录入人')
+			// .withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('update_username').withTitle('更新人')
+					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('review_username').withTitle('复核人')
+					.withOption('sDefaultContent', '') ]
 
-	$scope.query = function() {
-		flush();
-
-	}
-
-	var gclass_id = "server";
 	var meta = {
 		tablehide : false,
-		tools : [
-				{
-					id : "input",
-					label : "内容",
-					placeholder : "输入型号、编号、序列号",
-					type : "input",
-					show : true,
-					ct : ""
-				},
+		toolsbtn : [
 				{
 					id : "btn",
 					label : "",
@@ -132,27 +153,65 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
 				},
 				{
-					id : "btn",
+					id : "btn2",
 					label : "",
 					type : "btn",
 					show : true,
-					template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
-				}, ]
-	}
+					priv : "export",
+					template : ' <button ng-click="exportfile()" class="btn btn-sm btn-primary" type="submit">导出</button>'
+				} ],
+		tools : [ {
+			id : "select",
+			label : "位置",
+			type : "select",
+			disablesearch : true,
+			show : true,
+			dataOpt : [],
+			dataSel : ""
+		}, {
+			id : "select",
+			label : "环境",
+			type : "select",
+			disablesearch : true,
+			show : true,
+			dataOpt : [],
+			dataSel : ""
+		}, {
+			id : "select",
+			label : "维保",
+			type : "select",
+			disablesearch : true,
+			show : true,
+			dataOpt : [],
+			dataSel : ""
+		}, {
+			id : "select",
+			label : "状态",
+			type : "select",
+			disablesearch : true,
+			show : true,
+			dataOpt : [],
+			dataSel : ""
+		}, {
+			id : "input",
+			show : true,
+			label : "内容",
+			placeholder : "输入型号、编号、序列号",
+			type : "input",
+			ct : ""
+		} ]
+	};
 	$scope.meta = meta;
 
 	function flush() {
+
 		var ps = {}
+		ps.loc = $scope.meta.tools[0].dataSel.dict_item_id;
+		ps.env = $scope.meta.tools[1].dataSel.dict_item_id;
+		ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
+		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
+		ps.search = $scope.meta.tools[4].ct;
 
-		ps.search = $scope.meta.tools[0].ct;
-		console.log($scope.meta.tools[0].ct)
-
-		if ($scope.meta.tools[0].ct == "") {
-			notify({
-				message : "请输入搜索内容"
-			});
-			return;
-		}
 		$http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
 				.success(function(res) {
 					if (res.success) {
@@ -164,16 +223,74 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					}
 				})
 	}
+	$scope.query = function() {
+		flush();
+	}
 
+	$scope.exportfile = function() {
+		var ps = {}
+		ps.loc = $scope.meta.tools[0].dataSel.dict_item_id;
+		ps.env = $scope.meta.tools[1].dataSel.dict_item_id;
+		ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
+		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
+		ps.search = $scope.meta.tools[4].ct;
+		$window.open($rootScope.project + "/api/base/res/exportAllRes.do?loc="
+				+ ps.loc + "&env=" + ps.env + "&wb=" + ps.wb + "&recycle="
+				+ ps.recycle + "&search=" + ps.search);
+
+	}
 	var gdicts = {};
 	$http
 			.post(
 					$rootScope.project + "/api/base/res/queryDictFast.do",
 					{
-						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devservertype,devrack"
+						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devservertype,devrack",
+						parts : "Y",
+						partusers : "Y"
 					}).success(function(res) {
 				if (res.success) {
 					gdicts = res.data;
+					// 填充行数据
+					var tenv = [];
+					angular.copy(gdicts.devenv, tenv);
+					var twb = [];
+					angular.copy(gdicts.devwb, twb);
+					var tloc = [];
+					angular.copy(gdicts.devdc, tloc);
+					var trecycle = [];
+					angular.copy(gdicts.devrecycle, trecycle);
+					var parts = [];
+					angular.copy(gdicts.parts, parts);
+					var partusers = [];
+					angular.copy(gdicts.partusers, partusers);
+					tloc.unshift({
+						dict_item_id : "all",
+						name : "全部"
+					});
+					$scope.meta.tools[0].dataOpt = tloc;
+					$scope.meta.tools[0].dataSel = tloc[0];
+
+					tenv.unshift({
+						dict_item_id : "all",
+						name : "全部"
+					});
+					$scope.meta.tools[1].dataOpt = tenv;
+					$scope.meta.tools[1].dataSel = tenv[0];
+
+					twb.unshift({
+						dict_item_id : "all",
+						name : "全部"
+					});
+					$scope.meta.tools[2].dataOpt = twb;
+					$scope.meta.tools[2].dataSel = twb[0];
+
+					trecycle.unshift({
+						dict_item_id : "all",
+						name : "全部"
+					});
+					$scope.meta.tools[3].dataOpt = trecycle;
+					$scope.meta.tools[3].dataSel = trecycle[0];
+
 				} else {
 					notify({
 						message : res.message

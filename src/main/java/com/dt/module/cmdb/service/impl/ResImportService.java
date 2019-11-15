@@ -110,7 +110,7 @@ public class ResImportService extends BaseService {
 		// 大类为空,则失败
 		if ("devclass".equals(dict)) {
 			if (ToolUtil.isEmpty(name)) {
-				return R.FAILURE("大类不允许未空");
+				return R.FAILURE("大类不允许为空");
 			}
 		}
 		// 其他为空，判断为成功

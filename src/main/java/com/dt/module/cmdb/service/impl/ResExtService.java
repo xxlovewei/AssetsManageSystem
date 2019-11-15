@@ -51,8 +51,13 @@ public class ResExtService extends BaseService {
 			+ "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
 
 	
-	public R queryResAllByClassGetDataWithoutAttr(String id, String wb, String env, String recycle, String loc, String search) {
-		String sql = "select " + resSqlbody + " t.* from res t where dr=0  ";
+	public R queryResAllGetData(String id, String wb, String env, String recycle, String loc, String search) {
+		String sql = "select ";
+		sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  ";
+
+		if (ToolUtil.isNotEmpty(id) && !"all".equals(id)) {
+			sql = sql + " and class_id='" + id + "'";
+		}
 
 		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
 			sql = sql + " and loc='" + loc + "'";
@@ -74,12 +79,40 @@ public class ResExtService extends BaseService {
 			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
 					+ "%' )";
 		}
+		sql=sql+" order by loc,rack ";
 		RcdSet rs2 = db.query(sql);
-		sql = sql + " order by loc,rack ";
 		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
-		
-
 	}
+//	
+//	public R queryResAllByClassGetDataWithoutAttr(String id, String wb, String env, String recycle, String loc, String search) {
+//		String sql = "select " + resSqlbody + " t.* from res t where dr=0  ";
+//
+//		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
+//			sql = sql + " and loc='" + loc + "'";
+//		}
+//
+//		if (ToolUtil.isNotEmpty(env) && !"all".equals(env)) {
+//			sql = sql + " and env='" + env + "'";
+//		}
+//
+//		if (ToolUtil.isNotEmpty(wb) && !"all".equals(wb)) {
+//			sql = sql + " and wb='" + wb + "'";
+//		}
+//
+//		if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
+//			sql = sql + " and recycle='" + recycle + "'";
+//		}
+//
+//		if (ToolUtil.isNotEmpty(search)) {
+//			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
+//					+ "%' )";
+//		}
+//		RcdSet rs2 = db.query(sql);
+//		sql = sql + " order by loc,rack ";
+//		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
+//		
+//
+//	}
 	// 根据ClassId获取数据
 	public R queryResAllByClassGetData(String id, String wb, String env, String recycle, String loc, String search) {
 

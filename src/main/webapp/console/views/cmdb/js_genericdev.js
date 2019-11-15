@@ -158,12 +158,17 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	var pbtns=$rootScope.curMemuBtns;
 	 
 	var gclass_id = $state.router.globals.current.data.classid;
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('Bfrtip')
-			.withPaginationType('full_numbers').withDisplayLength(100)
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
+			.withPaginationType('full_numbers').withDisplayLength(50)
 			.withOption("ordering", false).withOption("responsive", false)
 			.withOption("searching", true).withOption('scrollY', '600px')
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
-			.withOption('scrollCollapse', true).withOption('paging', true)
+			.withOption('scrollCollapse', true).withOption('paging', true).withOption('oColVis', {
+				"buttonText": "&nbsp;",
+				"bRestore": true,
+				"sAlign": "left",
+				"activate": "mouseover"
+			})
 			.withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0
@@ -183,21 +188,37 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						}
 					}).withOption("select", {
 				style : 'multi',
-				selector : 'td:first-child'
+				selector : 'td:first-child' 
 			}).withButtons([
 	            {
 	                extend: 'colvis',
 	                text: '显示隐藏列',
-	                exportOptions: {   
+	                fnLabel: function ( dt, idx, title ) {
+	                	console.log(dt,idx,title);
+	                    return (idx+1)+': '+title;
+	                } 
+	            },
+	            {
+	            	extend:'csv',
+	                text: 'Excel',
+	                exportOptions: {
+	                	columns: ':visible',
+	                	trim:true,
+	                    modifier: {
+	                        page: 'current'
+	                    }
 	                }
 	            },
 	            {
-	                extend: 'print',
-	                autoPrint: true,
+	            	extend:'print',
 	                text: '打印',
 	                exportOptions: {
+	                	 columns: ':visible',
 	                	 stripHtml: false,
-	                	 columns: ':visible'
+	                	 columns: ':visible',
+	                	 modifier: {
+		                        page: 'current'
+		                    }
 	                }
 	            }
 	        ]);
@@ -209,12 +230,16 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
+			console.log($scope.dtInstance.DataTable)
+				console.log($scope.dtInstance);
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
+			console.log($scope.dtInstance.DataTable)
+			console.log($scope.dtInstance);
 		}
 	}
 
-	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">全选';
+	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 	$scope.dtColumns = [];
 	$scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
 	'select-checkbox checkbox_center').renderWith(function() {
@@ -455,26 +480,28 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							angular.copy(gdicts.parts, parts);
 							var partusers = [];
 							angular.copy(gdicts.partusers, partusers);
-							$scope.meta.tools[0].dataOpt = tloc;
-							$scope.meta.tools[0].dataSel = tloc[0];
+							
 							tloc.unshift({
 								dict_item_id : "all",
 								name : "全部"
 							});
 							$scope.meta.tools[0].dataOpt = tloc;
 							$scope.meta.tools[0].dataSel = tloc[0];
+							
 							tenv.unshift({
 								dict_item_id : "all",
 								name : "全部"
 							});
 							$scope.meta.tools[1].dataOpt = tenv;
 							$scope.meta.tools[1].dataSel = tenv[0];
+							
 							twb.unshift({
 								dict_item_id : "all",
 								name : "全部"
 							});
 							$scope.meta.tools[2].dataOpt = twb;
 							$scope.meta.tools[2].dataSel = twb[0];
+							
 							trecycle.unshift({
 								dict_item_id : "all",
 								name : "全部"
@@ -1040,44 +1067,44 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									} else{
 										modal_meta.meta.item.class_id = gclass_id;
 									} 
-									if(angular.idDefined(modal_meta.meta.typeSel.dict_item_id)){
+									if(angular.isDefined(modal_meta.meta.typeSel.dict_item_id)){
 										modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
 									}
 
-									if(angular.idDefined(modal_meta.meta.partSel.partid)){
+									if(angular.isDefined(modal_meta.meta.partSel.partid)){
 										modal_meta.meta.item.part_id = modal_meta.meta.partSel.partid;
 									}
 								
-									if(angular.idDefined( modal_meta.meta.usedunameSel.user_id)){
+									if(angular.isDefined( modal_meta.meta.usedunameSel.user_id)){
 										modal_meta.meta.item.used_userid = modal_meta.meta.usedunameSel.user_id;
 									}
 								
-									if(angular.idDefined( modal_meta.meta.envSel.dict_item_id)){
+									if(angular.isDefined( modal_meta.meta.envSel.dict_item_id)){
 										modal_meta.meta.item.env = modal_meta.meta.envSel.dict_item_id;
 									}
 									
-									if(angular.idDefined( modal_meta.meta.recycelSel.dict_item_id)){
+									if(angular.isDefined( modal_meta.meta.recycelSel.dict_item_id)){
 										modal_meta.meta.item.recycle = modal_meta.meta.recycelSel.dict_item_id;
 									}
 									
 									
-									if(angular.idDefined(modal_meta.meta.pinpSel.dict_item_id)){
+									if(angular.isDefined(modal_meta.meta.pinpSel.dict_item_id)){
 										modal_meta.meta.item.brand = modal_meta.meta.pinpSel.dict_item_id;
 									}
 									
-									if(angular.idDefined( modal_meta.meta.wbSel.dict_item_id)){
+									if(angular.isDefined( modal_meta.meta.wbSel.dict_item_id)){
 										modal_meta.meta.item.wb =modal_meta.meta.wbSel.dict_item_id;
 									}
 									
-									if(angular.idDefined( modal_meta.meta.locSel.dict_item_id)){
+									if(angular.isDefined( modal_meta.meta.locSel.dict_item_id)){
 										modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
 									}
 
-									if(angular.idDefined( modal_meta.meta.riskSel.dict_item_id)){
+									if(angular.isDefined( modal_meta.meta.riskSel.dict_item_id)){
 										modal_meta.meta.item.risk = modal_meta.meta.riskSel.dict_item_id;
 									}
 									
-									if(angular.idDefined( modal_meta.meta.jgSel.dict_item_id)){
+									if(angular.isDefined( modal_meta.meta.jgSel.dict_item_id)){
 										modal_meta.meta.item.rack =modal_meta.meta.jgSel.dict_item_id ;
 									}
 							

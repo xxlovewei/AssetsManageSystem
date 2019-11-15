@@ -77,8 +77,6 @@ public class ResExtExportController extends BaseController {
 		}
 
 	}
-	
- 
 
 	@RequestMapping("/exportAllRes.do")
 	@Acl(value = Acl.ACL_USER)
@@ -87,7 +85,7 @@ public class ResExtExportController extends BaseController {
 
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 
-		R res = resExtService.queryResAllByClassGetDataWithoutAttr(ps.getString("id"), ps.getString("wb"), ps.getString("env"),
+		R res = resExtService.queryResAllGetData(ps.getString("id"), ps.getString("wb"), ps.getString("env"),
 				ps.getString("recycle"), ps.getString("loc"), ps.getString("search"));
 
 		JSONArray data = res.queryDataToJSONArray();

@@ -237,37 +237,7 @@ public class ResExtController extends BaseController {
 		return resExtService.addRes(ps);
 	}
 
-	public R queryResAllGetData(String id, String wb, String env, String recycle, String loc, String search) {
-		String sql = "select ";
-		sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  ";
 
-		if (ToolUtil.isNotEmpty(id) && !"all".equals(id)) {
-			sql = sql + " and class_id='" + id + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
-			sql = sql + " and loc='" + loc + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(env) && !"all".equals(env)) {
-			sql = sql + " and env='" + env + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(wb) && !"all".equals(wb)) {
-			sql = sql + " and wb='" + wb + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
-			sql = sql + " and recycle='" + recycle + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(search)) {
-			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
-					+ "%' )";
-		}
-		RcdSet rs2 = db.query(sql);
-		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
-	}
 
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_USER)
@@ -285,7 +255,7 @@ public class ResExtController extends BaseController {
 	@RequestMapping(value = "/res/queryResAll.do")
 	public R queryResAll(String id, String wb, String env, String recycle, String loc, String search) {
 
-		return queryResAllGetData(id, wb, env, recycle, loc, search);
+		return resExtService.queryResAllGetData(id, wb, env, recycle, loc, search);
 
 	}
 
