@@ -76,8 +76,8 @@ public class ResExtService extends BaseService {
 		}
 
 		if (ToolUtil.isNotEmpty(search)) {
-			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
-					+ "%' )";
+			sql = sql + " and  (rack like '%"+search+"%' or fs1 like '%" + search + "%' or mark like '%" + search + "%' or uuid like '%" + search
+					+ "%' or model like '%" + search + "%'  or  sn like '%" + search + "%' )";
 		}
 		sql=sql+" order by loc,rack ";
 		RcdSet rs2 = db.query(sql);
@@ -140,7 +140,7 @@ public class ResExtService extends BaseService {
 		if (ToolUtil.isNotEmpty(id) && !"all".equals(id)) {
 			if (id.equals("zcotherhard")) {
 				sql = sql
-						+ " and class_id in (select dict_item_id  from sys_dict_item where dict_id='zcother' and dr='0')";
+						+ " and class_id in (select dict_item_id  from sys_dict_item where dict_id='devclass' and code<>'menu' and dr='0')";
 			} else {
 				sql = sql + " and class_id='" + id + "'";
 			}
@@ -164,8 +164,8 @@ public class ResExtService extends BaseService {
 		}
 
 		if (ToolUtil.isNotEmpty(search)) {
-			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
-					+ "%' )";
+			sql = sql + " and  (rack like '%"+search+"%' or fs1 like '%" + search + "%' or mark like '%" + search + "%' or uuid like '%" + search
+					+ "%' or model like '%" + search + "%'  or  sn like '%" + search + "%' )";
 		}
 
 		sql = sql + " order by update_time desc,loc,rack,frame ";

@@ -60,9 +60,35 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal,
 	};
 
 }
+function userPwdFormCtl($timeout, $localStorage, notify, $log, $uibModal,
+		$uibModalInstance, $scope, id, $http, $rootScope) {
+	
+	$scope.item={pwd1:"",pwd2:""};
+	$scope.item.user_id=id;
+	$scope.sure = function() {
+		 
+		$http.post($rootScope.project + "/api/sysUserInfo/changeUserPwd.do",
+				$scope.item).success(function(res) {
+			if (res.success) {
+				$uibModalInstance.close("OK");
+			} else {
+
+			}
+			notify({
+				message : res.message
+			});
+		});
+
+	}
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+	
+}
 function userSaveFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, id, $http, $rootScope) {
 
+	
 	$scope.item = {}
 	$scope.lockedOpt = [ {
 		id : "Y",
@@ -139,14 +165,16 @@ function userSaveFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 }
 
 function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,$stateParams) {
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
+		$stateParams) {
 
 	$scope.crud = {
 		"update" : false,
 		"insert" : false,
 		"select" : false,
 		"remove" : false,
-		"priv" : false
+		"priv" : false,
+		"cpwd" : false
 	};
 	privCrudCompute($scope.crud, $rootScope.curMemuBtns);
 	$scope.userGroupOpt = [];
@@ -258,6 +286,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').renderWith(renderStatus) ]
 
 	console.log($scope.dtColumns);
+
 	function flush() {
 
 		console.log('f');
@@ -326,6 +355,44 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 				});
 
 	}
+	$scope.cpwd = function() {
+		var data = $scope.dtInstance.DataTable.rows({
+			selected : true
+		})[0];
+		console.log(data);
+
+		if (data.length == 0) {
+			notify({
+				message : "请至少选择一个用户"
+			});
+			return;
+		}
+		if (data.length > 1) {
+			notify({
+				message : "只能选择一个用户"
+			});
+			return;
+		}
+		var d = $scope.dtInstance.DataTable.context[0].json.data;
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/system/user/modal_user_pwd.html',
+			controller : userPwdFormCtl,
+			size : 'lg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				id : function() {
+					return d[data[0]].userId;
+				}
+			}
+		});
+
+		modalInstance.result.then(function(result) {
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
+		
+	}
 
 	$scope.update = function() {
 
@@ -348,8 +415,6 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 
 		var d = $scope.dtInstance.DataTable.context[0].json.data;
-		$log.warn(d[data[0]].userId);
-
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/system/user/modal_user_save.html',
@@ -373,7 +438,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			$log.log("reason", reason)
 		});
 
-		console.log("select data", data.length);
+		 
 
 	}
 

@@ -159,16 +159,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	 
 	var gclass_id = $state.router.globals.current.data.classid;
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
-			.withPaginationType('full_numbers').withDisplayLength(50)
+			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", true).withOption('scrollY', '600px')
+			.withOption("searching", false).withOption('scrollY', '600px')
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
-			.withOption('scrollCollapse', true).withOption('paging', true).withOption('oColVis', {
-				"buttonText": "&nbsp;",
-				"bRestore": true,
-				"sAlign": "left",
-				"activate": "mouseover"
-			})
+			.withOption('scrollCollapse', true).withOption('paging', true)
 			.withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0

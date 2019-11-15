@@ -84,7 +84,8 @@ function sysRootMenugCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "1",
 					priv : "insert",
 					label : "新增",
-					type : "btn_add",
+					type : "btn",
+					template : ' <button ng-click="save()" class="btn btn-sm btn-primary" type="submit">新增</button>',
 					hide : false,
 				} ]
 	}

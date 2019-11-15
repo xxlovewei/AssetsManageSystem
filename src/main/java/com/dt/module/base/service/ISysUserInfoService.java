@@ -43,4 +43,6 @@ public interface ISysUserInfoService extends IService<SysUserInfo> {
 	R deleteReceivingaddr(String user_id,String id);
  
 	SysUserInfo selectOneByEmpl(String empl);
+
+	R changeUserPwdForce(String user_id, String pwd1, String pwd2);
 }

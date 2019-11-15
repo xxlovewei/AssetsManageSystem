@@ -65,7 +65,7 @@ public class SysUserInfoController extends BaseController {
 	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		//SysUserInfo r = SysUserInfoServiceImpl.getById(id);
+		// SysUserInfo r = SysUserInfoServiceImpl.getById(id);
 		return R.SUCCESS_OPER(SysUserInfoServiceImpl.getById(id));
 	}
 
@@ -153,7 +153,14 @@ public class SysUserInfoController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_DENY)
+	@Acl(info = "强制修改密码", value = Acl.ACL_USER)
+	@RequestMapping(value = "/changeUserPwd.do")
+	public R changeUserPwd(String pwd1, String pwd2, String user_id) {
+		return SysUserInfoServiceImpl.changeUserPwdForce(user_id, pwd1, pwd2);
+	}
+
+	@ResponseBody
+	@Acl(info = "增加用户", value = Acl.ACL_USER)
 	@RequestMapping(value = "/addUser.do")
 	public R addUser(SysUserInfo entity) {
 		return SysUserInfoServiceImpl.addUser(entity);

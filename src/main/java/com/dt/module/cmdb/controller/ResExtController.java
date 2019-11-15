@@ -108,7 +108,8 @@ public class ResExtController extends BaseController {
 		sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  and changestate<>'reviewed'";
 
 		if (ToolUtil.isNotEmpty(search)) {
-			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
+			sql = sql + " and  (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
+					+ "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
 					+ "%' )";
 		}
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
@@ -197,7 +198,13 @@ public class ResExtController extends BaseController {
 		JSONObject res = new JSONObject();
 		String[] dict_arr = dicts.split(",");
 		for (int i = 0; i < dict_arr.length; i++) {
-			RcdSet rs = db.query("select * from sys_dict_item where dict_id=? and dr='0' order by sort", dict_arr[i]);
+			String sql = "select * from sys_dict_item where dict_id=? and dr='0' order by sort";
+			String cls = dict_arr[i];
+			if ("zcother".equals(dict_arr[i].toString())) {
+				sql = "select * from sys_dict_item where dict_id=? and dr='0' and code<>'menu' order by sort";
+				cls = "devclass";
+			}
+			RcdSet rs = db.query(sql, cls);
 			res.put(dict_arr[i], ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
 		}
 
@@ -236,8 +243,6 @@ public class ResExtController extends BaseController {
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		return resExtService.addRes(ps);
 	}
-
-
 
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_USER)

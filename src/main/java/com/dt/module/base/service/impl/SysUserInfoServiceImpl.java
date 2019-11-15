@@ -66,6 +66,22 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 		return R.SUCCESS_OPER();
 	}
 
+	// 强制修改密码
+	public R changeUserPwdForce(String user_id, String pwd1, String pwd2) {
+		if (ToolUtil.isOneEmpty(pwd1, pwd2)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		if (!pwd1.equals(pwd2)) {
+			return R.FAILURE("密码输入不一致");
+		}
+		UpdateWrapper<SysUserInfo> ew = new UpdateWrapper<SysUserInfo>();
+		ew.and(i -> i.eq("user_id", user_id));
+		SysUserInfo user = new SysUserInfo();
+		user.setPwd(pwd1);
+		baseMapper.update(user, ew);
+		return R.SUCCESS_OPER();
+	}
+
 	// 显示我的菜单
 	public List<SysMenus> listMyMenus(String user_id) {
 		return this.baseMapper.listMyMenus(user_id);

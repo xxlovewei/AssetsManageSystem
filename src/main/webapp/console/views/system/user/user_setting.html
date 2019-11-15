@@ -24,12 +24,14 @@
 
 							<button ng-click="query()" class="btn btn-sm btn-primary"
 								type="submit">查询</button>
-							<button ng-show="crud.update" ng-click="update()" class="btn btn-sm btn-primary"
-								type="submit">更新</button>
-							<button ng-show="crud.priv" ng-click="updateRole()" class="btn btn-sm btn-primary"
-								type="submit">授权</button>
-							<button ng-show="crud.remove" ng-click="del()" class="btn btn-sm btn-primary"
-								type="submit">删除</button>
+							<button ng-show="crud.update" ng-click="update()"
+								class="btn btn-sm btn-primary" type="submit">更新</button>
+							<button ng-show="crud.priv" ng-click="updateRole()"
+								class="btn btn-sm btn-primary" type="submit">授权</button>
+							<button ng-show="crud.remove" ng-click="del()"
+								class="btn btn-sm btn-primary" type="submit">删除</button>
+							<button ng-show="crud.cpwd" ng-click="cpwd()"
+								class="btn btn-sm btn-primary" type="submit">改密</button>
 
 
 						</form>
