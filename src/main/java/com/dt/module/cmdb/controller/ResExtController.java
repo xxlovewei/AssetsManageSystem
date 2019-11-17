@@ -316,7 +316,7 @@ public class ResExtController extends BaseController {
 
 		// 获取故障登记表
 		RcdSet grs = db.query(
-				"select a.*,b.name, (select count(1) from res_fault_file where a.id=faultid) attach_cnt from res_fault a ,sys_user_info b where a.res_id=? and a.oper_user=b.user_id order by oper_time desc limit 100",
+				"select a.*,b.name, (select count(1) from res_fault_file where a.id=faultid) attach_cnt from res_fault a ,sys_user_info b where a.f_res_id=? and a.f_oper_user=b.user_id order by f_oper_time desc limit 100",
 				id);
 		data.put("faultdata", ConvertUtil.OtherJSONObjectToFastJSONArray(grs.toJsonArrayWithJsonObject()));
 

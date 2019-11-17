@@ -11,7 +11,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html?v="+version
 	}).state('maintain.faultrecord', {
 		url : "/maintain_faultrecord?psBtns",
-		data: { pageTitle: '维护工作'},
+		data: { pageTitle: '报修工作'},
 		templateUrl : "views/cmdb/faultrecord.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
