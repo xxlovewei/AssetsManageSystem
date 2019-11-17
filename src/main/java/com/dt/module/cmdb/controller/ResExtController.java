@@ -146,48 +146,6 @@ public class ResExtController extends BaseController {
 		return R.SUCCESS_OPER();
 	}
 
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/addfaultdevice.do")
-	@Transactional
-	public R faultdevice(String resid, String reason, String mark, String files, String processtime,
-			String processuser) {
-
-		if (ToolUtil.isOneEmpty(resid, reason)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-
-		Date date = new Date(); // 获取一个Date对象
-		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
-		String nowtime = simpleDateFormat.format(date);
-		Insert ins = new Insert("res_fault");
-		String uid = db.getUUID();
-		ins.set("id", uid);
-		ins.set("res_id", resid);
-		ins.set("uuid", resExtService.createUuid());
-		ins.setIf("mark", mark);
-		ins.setIf("reason", reason);
-		ins.setIf("oper_user", this.getUserId());
-		ins.setIf("oper_time", nowtime);
-
-		ins.setIf("processtime", processtime);
-		ins.setIf("processuser", processuser);
-
-		db.execute(ins);
-
-		if (ToolUtil.isNotEmpty(files)) {
-			String[] files_arr = files.split("#");
-			for (int i = 0; i < files_arr.length; i++) {
-				Insert me = new Insert("res_fault_file");
-				me.set("id", db.getUUID());
-				me.setIf("faultid", uid);
-				me.setIf("fileid", files_arr[i]);
-				db.execute(me);
-			}
-		}
-
-		return R.SUCCESS_OPER();
-	}
 
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_ALLOW)

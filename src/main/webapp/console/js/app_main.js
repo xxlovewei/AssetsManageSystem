@@ -179,7 +179,7 @@ app
 						$log.warn("to", to);
 						$log.warn("from", from);
 						$log.warn("injector", injector);
-						alert("未配置路由.");
+						alert("未开发完成.");
 					});
 					// 替换了之前的$stateChangeStart
 

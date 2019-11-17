@@ -1,0 +1,51 @@
+<style>
+@media ( min-width : 992px) {
+	.modal-blg {
+		width: 95%;
+	}
+}
+</style>
+<div class="modal-content">
+	<div class="modal-header">
+		<button ng-click="cancel()" type="button" class="close">
+			<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+		</button>
+		<h4 class="modal-title">资产查询</h4>
+	</div>
+	<div class="modal-body">
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="ibox">
+						<div class="ibox-content">
+							<form role="form" class="form-inline">
+								<input type="text" class="form-control " placeholder="搜索"
+									name="search" ng-model="search">
+								<button ng-click="query()" class="btn btn-sm btn-primary"
+									type="submit">查询</button>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="ibox">
+						<div class="ibox-content">
+							<table datatable="ed" dt-options="dtOptions"
+								dt-instance="dtInstance" dt-columns="dtColumns"
+								dt-column-defs="dtColumnDefs" class="table table-hover">
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button ng-click="cancel()" class="btn btn-warning">取消</button>
+			<button ng-disabled="myForm.$invalid" ng-click="sure()"
+				class="btn btn-primary">确认</button>
+		</div>
+	</div>

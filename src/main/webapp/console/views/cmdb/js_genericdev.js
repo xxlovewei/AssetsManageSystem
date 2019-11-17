@@ -195,7 +195,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	            },
 	            {
 	            	extend:'csv',
-	                text: 'Excel',
+	                text: 'Excel(当前页)',
 	                exportOptions: {
 	                	columns: ':visible',
 	                	trim:true,
@@ -206,7 +206,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	            },
 	            {
 	            	extend:'print',
-	                text: '打印',
+	                text: '打印(当前页)',
 	                exportOptions: {
 	                	 columns: ':visible',
 	                	 stripHtml: false,

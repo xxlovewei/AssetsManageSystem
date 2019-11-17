@@ -259,20 +259,40 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 			return;
 		}
-
+		 
+		
 		$confirm({
 			text : '是否删除?'
 		}).then(function() {
-			$http.post($rootScope.project + "/api/sysDict/deleteById.do", {
+			
+			$http.post($rootScope.project + "/api/sysDict/selectById.do", {
 				id : id
 			}).success(function(res) {
 				if (res.success) {
-					flush();
+					
+					if(res.data.dictLevel=="system"){
+						notify({
+							message : "类型为系统类型,不允许删除"
+						});
+					}else{
+						$http.post($rootScope.project + "/api/sysDict/deleteById.do", {
+							id : id
+						}).success(function(res) {
+							if (res.success) {
+								flush();
+							}
+							notify({
+								message : res.message
+							});
+						})
+					}
+				
 				}
-				notify({
-					message : res.message
-				});
+				
 			})
+			
+			
+			
 		});
 
 	}

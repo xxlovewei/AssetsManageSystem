@@ -155,6 +155,26 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	})
 	
+	 
+	$stateProvider.state('zcmgr', {
+		abstract : true,
+		url : "/zcmgr",
+		templateUrl : "views/common/content.html?v="+version
+	}).state('zcmgr.zctz', {
+		url : "/zcmgr_zctz",
+		data: { pageTitle: '资产台账'},
+		templateUrl : "views/cmdb/devsearch.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/devsearch.js?v=' + version ]
+				} ]);
+			}
+		}
+	})
+	
+	
 	
 	// cmdb
 	$stateProvider.state('cf', {

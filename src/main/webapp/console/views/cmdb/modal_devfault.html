@@ -24,7 +24,9 @@
 							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
 							placeholder="请输入内容" name="name" ng-disabled="true"
 							ng-model="item.uuid">
+							<button style ="margin-top:3px;" ng-click="selectzc()" class="btn btn-primary">选择报修资产</button>
 					</div>
+				
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><span
@@ -61,15 +63,15 @@
 					<div class="col-sm-10">
 						<input type="text"
 							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							placeholder="请输入维护人员" name="url" ng-model="data.processuser">
+							placeholder="请输入维护人员" name="url" ng-model="data.f_processuser">
 					</div>
-				</div>	
+				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">维护时间:</label>
 					<div class="col-sm-10">
 						<input type="text"
 							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							placeholder="请输入维护时间" name="url" ng-model="data.processtime">
+							placeholder="请输入维护时间" name="url" ng-model="data.f_processtime">
 					</div>
 				</div>
 				<div class="form-group">
@@ -78,7 +80,7 @@
 					<div class="col-sm-10">
 						<input type="text" required ng-maxlength="100"
 							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							placeholder="请输入原因" name="url" ng-model="data.reason">
+							placeholder="请输入原因" name="url" ng-model="data.f_reason">
 						<div class="text-danger"
 							ng-if="myForm.url.$dirty && myForm.url.$invalid">
 							<span ng-if="myForm.url.$error.required"> 输入不能为空 </span> <span
@@ -90,7 +92,7 @@
 					<label class="col-sm-2 control-label">备注:</label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control " placeholder="请输入备注"
-							name="url" ng-model="data.mark">
+							name="url" ng-model="data.f_mark">
 					</div>
 				</div>
 				<div class="form-group">
