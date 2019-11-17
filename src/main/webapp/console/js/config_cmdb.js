@@ -136,6 +136,25 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	});
 	
 	
+	// cmdb
+	$stateProvider.state('bjmgr', {
+		abstract : true,
+		url : "/bjmgr",
+		templateUrl : "views/common/content.html?v="+version
+	}).state('bjmgr.bjpj', {
+		url : "/bjmgr_bjpj",
+		data: { pageTitle: 'IT备件配件',classid:'bjpj',input_type:"devbjpj"},
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
+				} ]);
+			}
+		}
+	})
+	
 	
 	// cmdb
 	$stateProvider.state('cf', {
@@ -216,7 +235,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('cf.safety', {
 		url : "/cf_safety?psBtns",
-		data: { pageTitle: '安全设备',classid:'safety'},
+		data: { pageTitle: '安全设备',classid:'safety',input_type:'devsafety' },
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -242,18 +261,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	.state('cf.switch', {
 		url : "/cf_switch?psBtns",
 		data: { pageTitle: '交换机',classid:"switch"},
-		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
-				} ]);
-			}
-		}
-	}).state('cf.bjpj', {
-		url : "/cf_bjpj?psBtns",
-		data: { pageTitle: 'IT备件配件',classid:'bjpj',input_type:"devbjpj"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {

@@ -144,8 +144,7 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		"item_update" : false,
 		"item_remove" : false
 	};
-	 
- 
+
 	privCrudCompute($scope.crud, $rootScope.curMemuBtns);
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
@@ -335,6 +334,8 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.dtItemColumns = [
 			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('code').withTitle('编码').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('sort').withTitle('排序').withOption(
 					'sDefaultContent', ''),

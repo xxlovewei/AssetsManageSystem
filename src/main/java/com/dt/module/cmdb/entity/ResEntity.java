@@ -20,7 +20,7 @@ public class ResEntity implements java.io.Serializable {
 	@Excel(name = "大类(必需)", width = 15)
 	private String classname;
 
-	@Excel(name = "小类(不支持)", width = 15)
+	@Excel(name = "小类", width = 15)
 	private String typestr;
 
 	@Excel(name = "资产名称(不支持)", width = 15)

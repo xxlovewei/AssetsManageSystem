@@ -31,6 +31,9 @@ function modalimpordocCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.downdict = function() {
 		$window.open($rootScope.project + "/api/base/res/exportDictItems.do");
 	}
+	$scope.downTpl = function() {		
+		$window.open($rootScope.project + "/api/base/res/exportAllRes.do?loc=-1");
+	}
 
 }
 

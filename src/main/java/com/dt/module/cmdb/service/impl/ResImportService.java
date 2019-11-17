@@ -110,7 +110,7 @@ public class ResImportService extends BaseService {
 		// 大类为空,则失败
 		if ("devclass".equals(dict)) {
 			if (ToolUtil.isEmpty(name)) {
-				return R.FAILURE("大类不允许为空");
+				return R.FAILURE("大类不允许为空或该行为空");
 			}
 		}
 		// 其他为空，判断为成功
@@ -122,7 +122,21 @@ public class ResImportService extends BaseService {
 		if (rs == null) {
 			return R.FAILURE("无法匹配数据字典项目:Dict:" + dict + ",value:" + name);
 		}
-		return R.SUCCESS_OPER(rs.getString("dict_item_id"));
+		return R.SUCCESS_OPER(rs.toJsonObject());
+	}
+
+	// 检查数据字典,小类
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkDictItemSub'+#dict+'_'+#name+'_'+#dl")
+	public R checkDictItemSub(String dict, String name, String dl) {
+
+		Rcd rs = db.uniqueRecord(
+				"select * from sys_dict_item  where dict_id in (" + dict + ") and dr='0' and name=? and code=?", name,
+				dl);
+		if (rs == null) {
+			return R.FAILURE("无法匹配数据字典项目:Dict:" + dict + ",value:" + name);
+		}
+ 
+		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
 
 	public R checkResEntity(ResEntity re, String type) {
@@ -185,12 +199,24 @@ public class ResImportService extends BaseService {
 		if (envR.isFailed()) {
 			return R.FAILURE(envR.getMessage());
 		}
-		
-		R zcwbcomouteR= checkDictItem("zcwbcomoute", re.getWb_autostr());
+
+		R zcwbcomouteR = checkDictItem("zcwbcomoute", re.getWb_autostr());
 		if (zcwbcomouteR.isFailed()) {
 			return R.FAILURE(zcwbcomouteR.getMessage());
 		}
 
+		// 处理小类
+		String typestr = null;
+		if (ToolUtil.isNotEmpty(re.getTypestr())) {
+			// 支持的小类类型:网点、服务器、电脑、安全设备,IT备件
+			R r = checkDictItemSub("'devsafety','devdotequipment','devservertype','devcompute','devbjpj'", re.getTypestr(),
+					classR.queryDataToJSONObject().getString("dict_item_id"));
+			if (r.isFailed()) {
+				return R.FAILURE(r.getMessage());
+			} else {
+				typestr = r.queryDataToJSONObject().getString("dict_item_id");
+			}
+		}
 
 		if (type.equals("insert")) {
 			Insert me = new Insert("res");
@@ -201,7 +227,7 @@ public class ResImportService extends BaseService {
 			me.setIf("create_by", this.getUserId());
 			me.setIf("update_time", nowtime);
 			me.setIf("update_by", this.getUserId());
-			/////////////// 开始处理////////////
+			/////////////// 开始处理///////////
 			me.setIf("fs1", re.getFs1());
 			me.setIf("fs2", re.getFs2());
 			me.setIf("fs20", re.getFs20());
@@ -214,19 +240,19 @@ public class ResImportService extends BaseService {
 			me.setIf("buy_price", re.getBuy_price());
 			me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
 			me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
- 
+
 			// 数据字典匹配
-			me.setIf("class_id", classR.getData());
-			me.setIf("rack", rackR.getData());
-			me.setIf("brand", brandR.getData());
-			me.setIf("recycle", recycleR.getData());
-			me.setIf("wb", wbR.getData());
-			me.setIf("risk", riskR.getData());
-			me.setIf("loc", locR.getData());
-			me.setIf("env", envR.getData());
-			me.setIf("wb_auto", zcwbcomouteR.getData());
-		 
-		 
+			me.setIf("type", typestr);
+			me.setIf("class_id", classR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("rack", rackR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("brand", brandR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("recycle", recycleR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("wb", wbR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("risk", riskR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("loc", locR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("env", envR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("wb_auto", zcwbcomouteR.queryDataToJSONObject().getString("dict_item_id"));
+
 			// 处理资产编号,必需不存在
 			if (ToolUtil.isEmpty(re.getUuid())) {
 				// 插入时候，无编号自动生产
@@ -259,18 +285,18 @@ public class ResImportService extends BaseService {
 			me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
 			me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
 
-			// 数据字典
-			me.setIf("class_id", classR.getData());
+			// 数据字典匹配
+			me.setIf("type", typestr);
+			me.setIf("class_id", classR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("rack", rackR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("brand", brandR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("recycle", recycleR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("wb", wbR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("risk", riskR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("loc", locR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("env", envR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("wb_auto", zcwbcomouteR.queryDataToJSONObject().getString("dict_item_id"));
 
-			me.setIf("rack", rackR.getData());
-			me.setIf("brand", brandR.getData());
-			me.setIf("recycle", recycleR.getData());
-			me.setIf("wb", wbR.getData());
-			me.setIf("risk", riskR.getData());
-			me.setIf("loc", locR.getData());
-			me.setIf("env", envR.getData());
-			me.setIf("wb_auto", zcwbcomouteR.getData());
-			
 			// 处理资产编号,必需一条
 			if (uuidR == 1) {
 				me.set("uuid", re.getUuid());

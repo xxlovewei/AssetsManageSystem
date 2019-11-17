@@ -61,7 +61,7 @@ public class ResImportResult {
 				String msg = faileentity.get(i).getProcessmsg();
 				String uuid = faileentity.get(i).getUuid();
 				String sn = faileentity.get(i).getSn();
-				obj.put("ct", "原因:" + msg + ",编号:" + uuid + ",SN:" + sn + ",Index:" + (i + 1));
+				obj.put("ct", "原因:" + msg + ",编号:" + uuid + ",SN:" + sn );
 				arr.add(obj);
 			}
 		}
