@@ -369,13 +369,24 @@ function loadOpt(modal_meta, gdicts) {
 	var item = modal_meta.meta.item;
 	console.log("LoadOpt,Item:",item);
 
-	// 脱保
-	modal_meta.meta.tbSel = modal_meta.meta.tbOpt[0];
-	if (angular.isDefined(item.wb_auto)) {
-		if (item.wb_auto == "0") {
-			modal_meta.meta.tbSel = modal_meta.meta.tbOpt[1];
+ 
+	// 品牌
+	modal_meta.meta.tbOpt = gdicts.zcwbcomoute;
+	if (modal_meta.meta.tbOpt.length > 0) {
+		if (angular.isDefined(item) && angular.isDefined(item.wb_auto)) {
+			for (var i = 0; i < gdicts.zcwbcomoute.length; i++) {
+			 
+				if (modal_meta.meta.tbOpt[i].dict_item_id == item.wb_auto) {
+					modal_meta.meta.tbSel = modal_meta.meta.tbOpt[i];
+				}
+			}
+		} else {
+			if (gdicts.zcwbcomoute.length > 0) {
+				//modal_meta.meta.tbOpt = gdicts.zcwbcomoute[];
+			}
 		}
 	}
+	
 	// 品牌
 	modal_meta.meta.pinpOpt = gdicts.devbrand;
 	if (modal_meta.meta.pinpOpt.length > 0) {

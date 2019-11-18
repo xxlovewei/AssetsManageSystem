@@ -94,8 +94,15 @@
 	
 	$scope.iftbComputeOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
 	$scope.iftbComputeSel=$scope.iftbComputeOpt[0];
-	$scope.tbOpt=[{id:"1",name:"自动"},{id:"0",name:"手动"}]
-	$scope.tbSel=$scope.tbOpt[0];
+	$scope.tbOpt=[];
+	$scope.tbSel="";
+	if(angular.isDefined(tgdict.zcwbcomoute)){
+		$scope.tbOpt=tgdict.zcwbcomoute;
+		if(tgdict.zcwbcomoute.length>0){
+			$scope.tbSel=tgdict.zcwbcomoute[0];
+		}
+	}
+	 
 	
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
@@ -128,7 +135,7 @@
 		$scope.item.wbout_date_f = $scope.date.wboutdate2.format('YYYY-MM-DD');
 		
 		$scope.item.iftbComputeSel=$scope.iftbComputeSel.id;
-		$scope.item.tbSel=$scope.tbSel.id;
+		$scope.item.tbSel=$scope.tbSel.dict_item_id;
 		
 		$scope.item.iflocSel=$scope.iflocSel.id;
 		$scope.item.locSel=$scope.locSel.dict_item_id;
@@ -429,7 +436,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	var gdicts = {};
-	var dicts = "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack,zcother";
+	var dicts = "zcwbcomoute,devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack,zcother";
 	
 	// 判断输入框
 	if (angular.isDefined($state.router.globals.current.data.input_type)) {
@@ -756,6 +763,30 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							items.push( {
 								type : "select",
 								disabled : "false",
+								label : "资产状态",
+								need : false,
+								disable_search : "true",
+								dataOpt : "recycelOpt",
+								dataSel : "recycelSel"
+							});
+
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "number",
+								required : false,
+								maxlength : "50",
+								placeholder : "",
+								label : "资产数量",
+								need : false,
+								name : 'zc_cnt',
+								ng_model : "zc_cnt"
+							});
+							
+						
+							items.push( {
+								type : "select",
+								disabled : "false",
 								label : "资产品牌",
 								need : false,
 								disable_search : "true",
@@ -809,16 +840,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataSel : "wbSel"
 							});
 							}
-							
-							items.push( {
-								type : "select",
-								disabled : "false",
-								label : "资产状态",
-								need : false,
-								disable_search : "true",
-								dataOpt : "recycelOpt",
-								dataSel : "recycelSel"
-							});
+						
 							
 							items.push( {
 								type : "select",
@@ -967,20 +989,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								ng_model : "fs20"
 							});
 					
-							items.push({
-								type : "input",
-								disabled : "false",
-								sub_type : "number",
-								required : false,
-								maxlength : "50",
-								placeholder : "",
-								label : "资产数量",
-								need : false,
-								name : 'zc_cnt',
-								ng_model : "zc_cnt"
-							});
-							
-						
 							
 							items.push({
 								type : "input",
@@ -1038,13 +1046,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								wbOpt : [],
 								wbSel : "",
 								envOpt : [],
-								tbOpt : [ {
-									id : "wbcompute_1",
-									name : "自动计算"
-								}, {
-									id : "wbcompute_0",
-									name : "手动"
-								} ],
+								tbOpt : [],
 								tbSel : "",
 								envSel : "",
 								jgOpt : [],
@@ -1102,13 +1104,18 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									if(angular.isDefined( modal_meta.meta.jgSel.dict_item_id)){
 										modal_meta.meta.item.rack =modal_meta.meta.jgSel.dict_item_id ;
 									}
+									
+
+									if(angular.isDefined( modal_meta.meta.tbSel.dict_item_id)){
+										modal_meta.meta.item.wb_auto =modal_meta.meta.tbSel.dict_item_id ;
+									}
 							
 								
 									modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
 											.format('YYYY-MM-DD');
 									modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
 											.format('YYYY-MM-DD');
-									modal_meta.meta.item.wb_auto = modal_meta.meta.tbSel.id;
+								 
 									console.log('sure set', modal_meta.meta)
 
 									// 动态参数

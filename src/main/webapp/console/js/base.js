@@ -171,6 +171,11 @@ function privCrudCompute(curd, pbtns) {
 				continue;
 			}
 			
+			if (pbtns_arr[i].p == "fix") {
+				curd.fix = true;
+				continue;
+			}
+			
 		}
 	}
 

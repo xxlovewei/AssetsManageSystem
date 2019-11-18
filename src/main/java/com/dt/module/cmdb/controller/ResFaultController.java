@@ -35,7 +35,7 @@ public class ResFaultController extends BaseController {
 	public R queryAllResFault(String search) {
 
 		String sql = "select a.id f_id, (select count(1) from res_fault_file where faultid=a.id) file_cnt,"
-				+ ResExtService.resSqlbody + " t.*,a.*\n"
+				+ ResExtService.resSqlbody + " t.*,DATE_FORMAT(a.create_time,'%Y-%m-%d %T') f_create_time ,a.*\n"
 				+ " from res_fault a,res t where a.f_res_id=t.id and a.dr='0' and t.dr='0' order by a.create_time desc";
 
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());

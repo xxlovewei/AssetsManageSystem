@@ -334,6 +334,8 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('file_cnt').withTitle('文件数').withOption(
 					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('f_create_time').withTitle('报修录入时间')
+					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('classname').withTitle('资产大类')
@@ -390,34 +392,30 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					id : "btn",
 					label : "",
 					type : "btn",
-					show : true,
+					show : false,
+					priv:"select",
 					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
 				},
-				// {
-				// id : "btn",
-				// label : "",
-				// type : "btn",
-				// show : true,
-				// template : ' <button ng-click="detail()" class="btn btn-sm
-				// btn-primary" type="submit">详情</button>'
-				// },
 				{
 					id : "btn",
 					label : "",
 					type : "btn",
-					show : true,
+					show : false,
+					priv:"remove",
 					template : ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit"> 删除</button>'
 				},
 				{
 					id : "btn2",
 					label : "",
 					type : "btn",
-					show : true,
+					show : false,
+					priv:"fix",
 					template : ' <button ng-click="fault()" class="btn btn-sm btn-primary" type="submit">申请报修</button>'
 				} ]
 	}
 	$scope.meta = meta;
-
+ 
+	privNormalCompute($scope.meta.tools, $rootScope.curMemuBtns);
 	function flush() {
 		var ps = {}
 
