@@ -113,7 +113,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 									name : 'frapontillo.bootstrap-duallistbox',
 									files : [ 'vendor/bootstrap-duallistbox/dist/bootstrap-duallistbox.min.css', 'vendor/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.min.js','plugin/dualListbox/angular-bootstrap-duallistbox.js?v=' + version ]
 								}, {
-									serie : true,
 									files : [ 'views/system/user/user_setting.js?v=' + version ]
 								} ]);
 					}
@@ -133,9 +132,15 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ 
                     {
+                    	serie: true,
                         name: 'treeGrid',
-                        files: ['plugin/treegrid/tree-grid-directive.js','plugin/treegrid/treeGrid.css',  'views/system/menu/menu.js?v=' + version]
-                    } ]);
+                        insertBefore: '#loadBefore',
+                        files: ['plugin/treegrid/tree-grid-directive.js','plugin/treegrid/treeGrid.css']
+                    },
+                    {
+                        files: ['views/system/menu/menu.js?v=' + version]
+                    }
+                    ]);
 			}
 		}
 	}).state('module.rootmenu', {

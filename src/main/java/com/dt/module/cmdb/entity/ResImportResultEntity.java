@@ -1,4 +1,4 @@
-package com.dt.module.cmdb.service;
+package com.dt.module.cmdb.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
 import com.alibaba.fastjson.JSONArray;
-import com.dt.module.cmdb.entity.ResEntity;
 
 import net.sf.json.JSONObject;
 
@@ -15,7 +14,7 @@ import net.sf.json.JSONObject;
  * @date: Nov 3, 2019 9:22:54 AM
  * @Description: TODO
  */
-public class ResImportResult {
+public class ResImportResultEntity {
 
 	public List<String> success_cmds = new ArrayList<String>();
 

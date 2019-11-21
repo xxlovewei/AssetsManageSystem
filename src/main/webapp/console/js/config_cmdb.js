@@ -101,7 +101,28 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('cmdbresp.bashboard', {
+		url : "/cmdbresp_bashboard?psBtns",
+		data: { pageTitle: '展示面板'},
+		templateUrl : "views/cmdb/rep/dashboard.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([
+					  {
+                          serie: true,
+                          name: 'angular-flot',
+                          files: [ 'plugin/flot/jquery.flot.js', 'plugin/flot/jquery.flot.time.js', 'plugin/flot/jquery.flot.tooltip.min.js', 'plugin/flot/jquery.flot.spline.js', 'plugin/flot/jquery.flot.resize.js', 'plugin/flot/jquery.flot.pie.js', 'plugin/flot/curvedLines.js', 'plugin/flot/angular-flot.js', ]
+                      },
+					{
+					serie : true,
+					files : [ 'views/cmdb/rep/dashboard.js?v=' + version ]
+				} ]);
+			}
+		}
 	});
+	
+	
+	
 	
 	// cmdb
 	$stateProvider.state('xt', {
@@ -382,7 +403,7 @@ function loadOpt(modal_meta, gdicts) {
 			}
 		} else {
 			if (gdicts.zcwbcomoute.length > 0) {
-				//modal_meta.meta.tbOpt = gdicts.zcwbcomoute[];
+				// modal_meta.meta.tbOpt = gdicts.zcwbcomoute[];
 			}
 		}
 	}

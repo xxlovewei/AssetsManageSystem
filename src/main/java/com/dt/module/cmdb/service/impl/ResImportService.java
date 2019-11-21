@@ -19,7 +19,7 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.cmdb.entity.ResEntity;
-import com.dt.module.cmdb.service.ResImportResult;
+import com.dt.module.cmdb.entity.ResImportResultEntity;
 
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
@@ -139,13 +139,14 @@ public class ResImportService extends BaseService {
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
 
-	public R checkResEntity(ResEntity re, String type) {
+	public R checkResEntity(ResEntity re, String type,String importlabel) {
 		Date date = new Date(); // 获取一个Date对象
 		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
 		String nowtime = simpleDateFormat.format(date);
 		String sql = "";
 		int uuidR = checkUUid(re.getUuid());
 
+		
 		R buypriceR = checkBuyPrice(re.getBuy_price());
 		if (buypriceR.isFailed()) {
 			return R.FAILURE(buypriceR.getMessage());
@@ -220,6 +221,7 @@ public class ResImportService extends BaseService {
 
 		if (type.equals("insert")) {
 			Insert me = new Insert("res");
+			me.set("importlabel", importlabel);
 			me.set("id", db.getUUID());
 			me.set("dr", "0");
 			me.setIf("changestate", "updated");
@@ -268,6 +270,7 @@ public class ResImportService extends BaseService {
 			sql = me.getSQL();
 		} else if (type.equals("update")) {
 			Update me = new Update("res");
+			me.set("importlabel", importlabel);
 			me.setIf("changestate", "updated");
 			me.setIf("update_time", nowtime);
 			me.setIf("update_by", this.getUserId());
@@ -309,10 +312,11 @@ public class ResImportService extends BaseService {
 		return R.SUCCESS_OPER(sql);
 	}
 
-	private ResImportResult checkResEntitys(List<ResEntity> result, String type) {
-		ResImportResult cres = new ResImportResult();
+	private ResImportResultEntity checkResEntitys(List<ResEntity> result, String type) {
+		String importlabel=ToolUtil.getUUID();
+		ResImportResultEntity cres = new ResImportResultEntity();
 		for (int i = 0; i < result.size(); i++) {
-			R r = checkResEntity(result.get(i), type);
+			R r = checkResEntity(result.get(i), type,importlabel);
 			if (r.isSuccess()) {
 				cres.addSuccess(r.getData().toString());
 			} else {
@@ -324,7 +328,7 @@ public class ResImportService extends BaseService {
 	}
 
 	public R executeEntitysImort(List<ResEntity> resultdata, String type) {
-		ResImportResult result = checkResEntitys(resultdata, type);
+		ResImportResultEntity result = checkResEntitys(resultdata, type);
 		result.printResult();
 		if (!result.is_success_all) {
 			return R.FAILURE("操作失败", result.covertJSONObjectResult());
