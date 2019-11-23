@@ -46,8 +46,9 @@ public class ResExtExportController extends BaseController {
 	public void exportDictItems(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException {
 
-		RcdSet rs = db.query(
-				"select b.name,a.name item_name from sys_dict_item a ,sys_dict b where  a.dict_id=b.dict_id and a.dr='0' and b.dr='0' order by a.dict_id");
+		RcdSet rs = db.query("select b.name,a.name item_name from sys_dict_item a ,sys_dict b\n"
+				+ "where  a.dict_id=b.dict_id and a.dr='0' and b.dr='0'\n" + "union all\n"
+				+ "select '资产类型明细' name, route_name item_name from ct_category where root='3'\n" + "order by 1,2");
 
 		List<DictItemEntity> data_excel = new ArrayList<DictItemEntity>();
 		for (int i = 0; i < rs.size(); i++) {
