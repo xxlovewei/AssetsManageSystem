@@ -235,7 +235,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html?v="+version
 	}).state('cf.server', {
 		url : "/cf_server?psBtns",
-		data: { pageTitle: '服务器',classid:'50'},
+		data: { pageTitle: '服务器',classid:'50',subclass:"Y"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -245,31 +245,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	}).state('cf.firewall', {
-		url : "/cf_firewall?psBtns",
-		data: { pageTitle: '防火墙',classid:'53'},
-		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
-				} ]);
-			}
-		}
-	}).state('cf.bf', {
-		url : "/cf_bf?psBtns",
-		data: { pageTitle: '波分设备',classid:'60'},
-		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
-				} ]);
-			}
-		}
-	})
+	}) 
 	.state('cf.lightsw', {
 		url : "/cf_lightsw?psBtns",
 		data: { pageTitle: '光纤交换机',classid:'52'},
@@ -283,34 +259,9 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	})
-	.state('cf.bfdev', {
-		url : "/cf_bfdev?psBtns",
-		data: { pageTitle: '波分设备',classid:'60'},
-		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
-				} ]);
-			}
-		}
-	})
 	.state('cf.outlets', {
 		url : "/cf_outlets?psBtns",
 		data: { pageTitle: '网点设备',classid:"55",subclass:"Y"},
-		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
-		resolve : {
-			loadPlugin : function($ocLazyLoad) {
-				return $ocLazyLoad.load([ {
-					serie : true,
-					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
-				} ]);
-			}
-		}
-	}).state('cf.route', {
-		url : "/cf_route?psBtns",
-		data: { pageTitle: '路由设备',classid:'56'},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -360,6 +311,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}).state('cf.zcotherhard', {
 		url : "/cf_zcotherhard?psBtns",
 		data: { pageTitle: '其他资产',classid:"71",subclass:"Y"},
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('cf.network', {
+		url : "/cf_network?psBtns",
+		data: { pageTitle: '网络设备',classid:"116",subclass:"Y"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
