@@ -164,6 +164,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
  
 	var pbtns=$rootScope.curMemuBtns;
 	 
+	console.log(1111,pbtns)
 	var gclass_id = $state.router.globals.current.data.classid;
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
 			.withPaginationType('full_numbers').withDisplayLength(100)

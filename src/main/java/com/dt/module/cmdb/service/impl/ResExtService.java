@@ -50,7 +50,6 @@ public class ResExtService extends BaseService {
 			+ "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
 			+ "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
 
-	
 	public R queryResAllGetData(String id, String wb, String env, String recycle, String loc, String search) {
 		String sql = "select ";
 		sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  ";
@@ -76,13 +75,15 @@ public class ResExtService extends BaseService {
 		}
 
 		if (ToolUtil.isNotEmpty(search)) {
-			sql = sql + " and  (rack like '%"+search+"%' or fs1 like '%" + search + "%' or mark like '%" + search + "%' or uuid like '%" + search
-					+ "%' or model like '%" + search + "%'  or  sn like '%" + search + "%' )";
+			sql = sql + " and  (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
+					+ "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
+					+ "%' )";
 		}
-		sql=sql+" order by loc,rack ";
+		sql = sql + " order by loc,rack ";
 		RcdSet rs2 = db.query(sql);
 		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
 	}
+
 //	
 //	public R queryResAllByClassGetDataWithoutAttr(String id, String wb, String env, String recycle, String loc, String search) {
 //		String sql = "select " + resSqlbody + " t.* from res t where dr=0  ";
@@ -164,8 +165,9 @@ public class ResExtService extends BaseService {
 		}
 
 		if (ToolUtil.isNotEmpty(search)) {
-			sql = sql + " and  (rack like '%"+search+"%' or fs1 like '%" + search + "%' or mark like '%" + search + "%' or uuid like '%" + search
-					+ "%' or model like '%" + search + "%'  or  sn like '%" + search + "%' )";
+			sql = sql + " and  (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
+					+ "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
+					+ "%' )";
 		}
 
 		sql = sql + " order by update_time desc,loc,rack,frame ";
@@ -318,7 +320,7 @@ public class ResExtService extends BaseService {
 			Insert me = new Insert("res");
 			id = db.getUUID();
 			me.set("id", id);
-			String uuid = createUuid();
+			String uuid = createUuid("ZC");
 			if (ToolUtil.isEmpty(uuid)) {
 				return R.FAILURE("未产生有效编号,请重试!");
 			}
@@ -365,8 +367,7 @@ public class ResExtService extends BaseService {
 			me.setIf("wbout_date",
 					ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 01:00:00");
 			ins.set("oper_type", "入库");
-			
-			
+
 			me.setIf("fs1", ps.getString("fs1"));
 			me.setIf("fs2", ps.getString("fs2"));
 			me.setIf("fs3", ps.getString("fs3"));
@@ -431,7 +432,6 @@ public class ResExtService extends BaseService {
 				ins.set("oper_type", "更新");
 			}
 
-			
 			me.setIf("fs1", ps.getString("fs1"));
 			me.setIf("fs2", ps.getString("fs2"));
 			me.setIf("fs3", ps.getString("fs3"));
@@ -462,7 +462,6 @@ public class ResExtService extends BaseService {
 		del.set("dr", "1");
 		del.where().and("res_id=?", id);
 		db.execute(del);
-
 		if (ToolUtil.isNotEmpty(attrvals)) {
 			JSONArray valsarr = JSONArray.parseArray(attrvals);
 			for (int i = 0; i < valsarr.size(); i++) {
@@ -479,23 +478,55 @@ public class ResExtService extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 
-	public String createUuid() {
-
-		int cnt = 30;
+	public String createUuid(String type) {
+		int cnt = 5;
 		String id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
 		int i = 0;
-		for (i = 0; i < cnt; i++) {
-			Rcd rs = db.uniqueRecord("select * from res where uuid=?", id);
-			if (rs == null) {
-				break;
+		if (type.equals("ZC")) {
+			for (i = 0; i < cnt; i++) {
+				Rcd rs = db.uniqueRecord("select * from res where uuid=?", id);
+				if (rs == null) {
+					break;
+				} else {
+					id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
+				}
+			}
+			if (i > cnt - 1) {
+				return "";
 			} else {
-				id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
+				return "ZC" + id;
+			}
+		} else if (type.equals("BX")) {
+			for (i = 0; i < cnt; i++) {
+				Rcd rs = db.uniqueRecord("select * from res_fault where f_uuid=?", id);
+				if (rs == null) {
+					break;
+				} else {
+					id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
+				}
+			}
+			if (i > cnt - 1) {
+				return "";
+			} else {
+				return "BX" + id;
+			}
+		} else if (type.equals("LY") || type.equals("JY")) {
+			for (i = 0; i < cnt; i++) {
+				Rcd rs = db.uniqueRecord("select * from res_action where uuid=?", id);
+				if (rs == null) {
+					break;
+				} else {
+					id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
+				}
+			}
+			if (i > cnt - 1) {
+				return "";
+			} else {
+				return type + id;
 			}
 		}
-		if (i > cnt - 1) {
-			return "";
-		} else {
-			return id;
-		}
+
+		return "";
+
 	}
 }

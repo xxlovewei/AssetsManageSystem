@@ -1,9 +1,9 @@
 var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
 		'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree',
 		'ngSanitize', 'cgNotify', 'angular-confirm', 'datatables',
-		'datatables.select', 'datatables.fixedcolumns', 'datatables.buttons','datatables.colvis',
-		'localytics.directives', 'swxLocalStorage', 'angular-loading-bar',
-		'ng.ueditor', 'datePicker' ])
+		'datatables.select', 'datatables.fixedcolumns', 'datatables.buttons',
+		'datatables.colvis', 'localytics.directives', 'swxLocalStorage',
+		'angular-loading-bar', 'ng.ueditor', 'datePicker' ])
 var $injector = angular.injector();
 function getContextPath() {
 	var pathName = document.location.pathname;
@@ -26,7 +26,19 @@ app.factory('sessionInjector', [
 				if (angular.isDefined(tokenstr) && tokenstr.length > 5) {
 					config.headers['dt-token'] = tokenstr;
 				}
+//				console.log(config.url);
+				// 禁止HTML缓存		
+				if (config.url.indexOf('.html') > -1
+						&& config.url.indexOf('views') > -1) {
+					config.url += "?auto_v=" + version;
+				}
+				// 禁止JS缓存
+				if (config.url.indexOf('.js') > -1
+						&& config.url.indexOf('views') > -1) {
+					config.url += "?auto_v=" + version;
+				}
 				return config;
+
 			}
 			sessionInjector.response = function(responseObject) {
 				// 输出调试信息
@@ -62,6 +74,7 @@ app.factory('sessionInjector', [
 			};
 			return sessionInjector;
 		} ]);
+
 function config_main(cfpLoadingBarProvider, $locationProvider,
 		$controllerProvider, $compileProvider, $stateProvider, $filterProvider,
 		$provide, $urlRouterProvider, $ocLazyLoadProvider, IdleProvider,
@@ -384,7 +397,7 @@ function initDT(DTDefaultOptions) {
 	DTDefaultOptions.setOption('responsive', true);
 	DTDefaultOptions.setOption('bFilter', false);
 	DTDefaultOptions.setOption('serverSide', false);
- 
+
 }
 
 app.run(initDT);

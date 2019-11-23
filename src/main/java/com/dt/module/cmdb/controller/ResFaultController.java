@@ -74,7 +74,7 @@ public class ResFaultController extends BaseController {
 		String uid = db.getUUID();
 		ins.set("id", uid);
 		ins.set("f_res_id", f_res_id);
-		ins.set("f_uuid", resExtService.createUuid());
+		ins.set("f_uuid", resExtService.createUuid("BX"));
 		ins.setIf("f_mark", f_mark);
 		ins.setIf("f_reason", f_reason);
 		ins.setIf("f_oper_user", this.getUserId());
