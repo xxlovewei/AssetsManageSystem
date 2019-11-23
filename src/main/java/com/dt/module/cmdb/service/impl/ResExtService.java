@@ -27,8 +27,8 @@ import com.dt.core.tool.util.ToolUtil;
 @Service
 public class ResExtService extends BaseService {
 
-	public static String resSqlbody = " (select name from sys_dict_item where dr='0' and dict_item_id=t.type ) typestr,"
-			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.loc ) locstr,"
+	public static String normalClassSql = " t.dr='0' and t.root='3' and t.route not like '46%' and t.node_level>1 ";
+	public static String resSqlbody = " (select name from sys_dict_item where  dr='0' and dict_item_id=t.loc ) locstr,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.recycle ) recyclestr,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.env  ) envstr,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.risk  ) riskstr,"
@@ -43,19 +43,20 @@ public class ResExtService extends BaseService {
 			+ " (select route_name from hrm_org_part where node_id=t.mgr_part_id  ) mgr_part_fullname,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.wb  ) wbstr,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.rack  ) rackstr,"
-			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.class_id  ) classname,"
+			+ " (select name from ct_category where  dr='0' and id=t.class_id  ) classname,"
+			+ " (select route_name from ct_category where  dr='0' and id=t.class_id  ) classfullname,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.type  ) typename,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.wb_auto  ) wb_autostr,"
 			+ "  date_format(wbout_date,'%Y-%m-%d')  wbout_datestr,"
 			+ "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
 			+ "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
 
-	public R queryResAllGetData(String id, String wb, String env, String recycle, String loc, String search) {
+	public R queryResAllGetData(String class_id, String wb, String env, String recycle, String loc, String search) {
 		String sql = "select ";
 		sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  ";
 
-		if (ToolUtil.isNotEmpty(id) && !"all".equals(id)) {
-			sql = sql + " and class_id='" + id + "'";
+		if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
+			sql = sql + " and class_id='" + class_id + "'";
 		}
 
 		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
@@ -84,42 +85,13 @@ public class ResExtService extends BaseService {
 		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
 	}
 
-//	
-//	public R queryResAllByClassGetDataWithoutAttr(String id, String wb, String env, String recycle, String loc, String search) {
-//		String sql = "select " + resSqlbody + " t.* from res t where dr=0  ";
-//
-//		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
-//			sql = sql + " and loc='" + loc + "'";
-//		}
-//
-//		if (ToolUtil.isNotEmpty(env) && !"all".equals(env)) {
-//			sql = sql + " and env='" + env + "'";
-//		}
-//
-//		if (ToolUtil.isNotEmpty(wb) && !"all".equals(wb)) {
-//			sql = sql + " and wb='" + wb + "'";
-//		}
-//
-//		if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
-//			sql = sql + " and recycle='" + recycle + "'";
-//		}
-//
-//		if (ToolUtil.isNotEmpty(search)) {
-//			sql = sql + " and  (uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
-//					+ "%' )";
-//		}
-//		RcdSet rs2 = db.query(sql);
-//		sql = sql + " order by loc,rack ";
-//		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
-//		
-//
-//	}
 	// 根据ClassId获取数据
-	public R queryResAllByClassGetData(String id, String wb, String env, String recycle, String loc, String search) {
+	public R queryResAllByClassGetData(String class_id, String wb, String env, String recycle, String loc,
+			String search) {
 
 		// 获取属性数据
 		String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
-		RcdSet attrs_rs = db.query(attrsql, id);
+		RcdSet attrs_rs = db.query(attrsql, class_id);
 		String sql = "select";
 		for (int i = 0; i < attrs_rs.size(); i++) {
 			// 拼接sql
@@ -138,12 +110,12 @@ public class ResExtService extends BaseService {
 		}
 		sql = sql + resSqlbody + " t.* from res t where dr=0  ";
 
-		if (ToolUtil.isNotEmpty(id) && !"all".equals(id)) {
-			if (id.equals("zcotherhard")) {
-				sql = sql
-						+ " and class_id in (select dict_item_id  from sys_dict_item where dict_id='devclass' and code<>'menu' and dr='0')";
+		if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
+			if (class_id.equals("normalclass")) {
+				sql = sql + " and class_id in (select id from ct_category t where " + ResExtService.normalClassSql+" )";
 			} else {
-				sql = sql + " and class_id='" + id + "'";
+				sql = sql + " and class_id in (select id from ct_category  where dr='0' and ( id='" + class_id
+						+ "' or parent_id='" + class_id + "')) ";
 			}
 
 		}
@@ -296,20 +268,19 @@ public class ResExtService extends BaseService {
 		Date date = new Date(); // 获取一个Date对象
 		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
 		String nowtime = simpleDateFormat.format(date);
-		// addResCustom
 
-		String id = ps.getString("id");
 		String sql = "";
-		String recycle = ps.getString("recycle");
 		Insert ins = new Insert("res_history");
+		String recycle = ps.getString("recycle");
+		String id = ps.getString("id");
 
-		// 计算资产名称，默认将class_name填写资产名称
-		String zcname = ps.getString("name");
-		if (ToolUtil.isEmpty(ps.getString("name")) && ToolUtil.isNotEmpty(ps.getString("class_id"))) {
-			Rcd rs = db.uniqueRecord(" select * from sys_dict_item where dict_id='devclass' and dict_item_id=?",
-					ps.getString("class_id"));
-			if (rs != null) {
-				zcname = rs.getString("name");
+		String class_id = ps.getString("class_id");
+		if (ToolUtil.isEmpty(class_id)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		} else {
+			Rcd rs = db.uniqueRecord("select * from ct_category where dr='0' and id=?", class_id);
+			if (rs == null) {
+				return R.FAILURE("资产别名称编码不存在,Code:" + class_id);
 			}
 		}
 
@@ -326,7 +297,6 @@ public class ResExtService extends BaseService {
 			}
 			me.set("uuid", uuid);
 			me.setIf("sn", ps.getString("sn"));
-			me.setIf("name", zcname);
 			me.setIf("mark", ps.getString("mark"));
 			me.setIf("maintain_userid", ps.getString("maintain_userid"));
 			me.setIf("headuserid", ps.getString("headuserid"));
@@ -334,11 +304,8 @@ public class ResExtService extends BaseService {
 			me.setIf("loc", ps.getString("loc"));
 			me.setIf("locshow", ps.getString("locshow"));
 			me.set("dr", "0");
-			// 大类：服务器，存储
-			me.set("class_id", ps.getString("class_id"));
-			// 小类：x86，小机
+			me.set("class_id", class_id);
 			me.setIf("type", ps.getString("type"));
-			// 资产类型：电子设备，其他
 			me.setIf("zc_category", ps.getString("zc_category"));
 			me.setIf("status", ps.getString("status"));
 			me.setIf("env", ps.getString("env"));
@@ -381,7 +348,6 @@ public class ResExtService extends BaseService {
 		} else {
 			Update me = new Update("res");
 			me.setIf("sn", ps.getString("sn"));
-			me.setIf("name", zcname);
 			me.setIf("mark", ps.getString("mark"));
 			me.setIf("maintain_userid", ps.getString("maintain_userid"));
 			me.setIf("headuserid", ps.getString("headuserid"));
@@ -389,7 +355,7 @@ public class ResExtService extends BaseService {
 			me.setIf("loc", ps.getString("loc"));
 			me.setIf("locshow", ps.getString("locshow"));
 			me.set("dr", "0");
-			me.set("class_id", ps.getString("class_id"));
+			me.set("class_id", class_id);
 			me.setIf("status", ps.getString("status"));
 			me.setIf("env", ps.getString("env"));
 			me.setIf("risk", ps.getString("risk"));

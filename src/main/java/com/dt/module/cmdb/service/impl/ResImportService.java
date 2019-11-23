@@ -125,28 +125,47 @@ public class ResImportService extends BaseService {
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
 
-	// 检查数据字典,小类
-	@Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkDictItemSub'+#dict+'_'+#name+'_'+#dl")
-	public R checkDictItemSub(String dict, String name, String dl) {
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkDictItem'+#name")
+	public R checkZCClass(String name) {
+		// 大类为空,则失败
 
-		Rcd rs = db.uniqueRecord(
-				"select * from sys_dict_item  where dict_id in (" + dict + ") and dr='0' and name=? and code=?", name,
-				dl);
-		if (rs == null) {
-			return R.FAILURE("无法匹配数据字典项目:Dict:" + dict + ",value:" + name);
+		if (ToolUtil.isEmpty(name)) {
+			return R.FAILURE("大类不允许为空或该行为空");
 		}
- 
+
+		// 其他为空，判断为成功
+		if (ToolUtil.isEmpty(name)) {
+			return R.SUCCESS_OPER("0");
+		}
+		Rcd rs = db.uniqueRecord("select * from ct_category  where dr='0' and route_name=?", name);
+		if (rs == null) {
+			return R.FAILURE("无法匹配大类," + name);
+		}
+
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
 
-	public R checkResEntity(ResEntity re, String type,String importlabel) {
+//	// 检查数据字典,小类
+//	@Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkDictItemSub'+#dict+'_'+#name+'_'+#dl")
+//	public R checkDictItemSub(String dict, String name, String dl) {
+//
+//		Rcd rs = db.uniqueRecord(
+//				"select * from sys_dict_item  where dict_id in (" + dict + ") and dr='0' and name=? and code=?", name,
+//				dl);
+//		if (rs == null) {
+//			return R.FAILURE("无法匹配数据字典项目:Dict:" + dict + ",value:" + name);
+//		}
+// 
+//		return R.SUCCESS_OPER(rs.toJsonObject());
+//	}
+
+	public R checkResEntity(ResEntity re, String type, String importlabel) {
 		Date date = new Date(); // 获取一个Date对象
 		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
 		String nowtime = simpleDateFormat.format(date);
 		String sql = "";
 		int uuidR = checkUUid(re.getUuid());
 
-		
 		R buypriceR = checkBuyPrice(re.getBuy_price());
 		if (buypriceR.isFailed()) {
 			return R.FAILURE(buypriceR.getMessage());
@@ -162,7 +181,7 @@ public class ResImportService extends BaseService {
 		}
 
 		// 数据字典选项
-		R classR = checkDictItem("devclass", re.getClassname());
+		R classR = checkZCClass(re.getClassfullname());
 		if (classR.isFailed()) {
 			return R.FAILURE(classR.getMessage());
 		}
@@ -206,18 +225,18 @@ public class ResImportService extends BaseService {
 			return R.FAILURE(zcwbcomouteR.getMessage());
 		}
 
-		// 处理小类
-		String typestr = null;
-		if (ToolUtil.isNotEmpty(re.getTypestr())) {
-			// 支持的小类类型:网点、服务器、电脑、安全设备,IT备件
-			R r = checkDictItemSub("'devsafety','devdotequipment','devservertype','devcompute','devbjpj'", re.getTypestr(),
-					classR.queryDataToJSONObject().getString("dict_item_id"));
-			if (r.isFailed()) {
-				return R.FAILURE(r.getMessage());
-			} else {
-				typestr = r.queryDataToJSONObject().getString("dict_item_id");
-			}
-		}
+//		// 处理小类
+//		String typestr = null;
+//		if (ToolUtil.isNotEmpty(re.getTypestr())) {
+//			// 支持的小类类型:网点、服务器、电脑、安全设备,IT备件
+//			R r = checkDictItemSub("'devsafety','devdotequipment','devservertype','devcompute','devbjpj'", re.getTypestr(),
+//					classR.queryDataToJSONObject().getString("dict_item_id"));
+//			if (r.isFailed()) {
+//				return R.FAILURE(r.getMessage());
+//			} else {
+//				typestr = r.queryDataToJSONObject().getString("dict_item_id");
+//			}
+//		}
 
 		if (type.equals("insert")) {
 			Insert me = new Insert("res");
@@ -244,8 +263,8 @@ public class ResImportService extends BaseService {
 			me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
 
 			// 数据字典匹配
-			me.setIf("type", typestr);
-			me.setIf("class_id", classR.queryDataToJSONObject().getString("dict_item_id"));
+//			me.setIf("type", typestr);
+			me.setIf("class_id", classR.queryDataToJSONObject().getString("id"));
 			me.setIf("rack", rackR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("brand", brandR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("recycle", recycleR.queryDataToJSONObject().getString("dict_item_id"));
@@ -289,8 +308,8 @@ public class ResImportService extends BaseService {
 			me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
 
 			// 数据字典匹配
-			me.setIf("type", typestr);
-			me.setIf("class_id", classR.queryDataToJSONObject().getString("dict_item_id"));
+//			me.setIf("type", typestr);
+			me.setIf("class_id", classR.queryDataToJSONObject().getString("id"));
 			me.setIf("rack", rackR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("brand", brandR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("recycle", recycleR.queryDataToJSONObject().getString("dict_item_id"));
@@ -313,10 +332,10 @@ public class ResImportService extends BaseService {
 	}
 
 	private ResImportResultEntity checkResEntitys(List<ResEntity> result, String type) {
-		String importlabel=ToolUtil.getUUID();
+		String importlabel = ToolUtil.getUUID();
 		ResImportResultEntity cres = new ResImportResultEntity();
 		for (int i = 0; i < result.size(); i++) {
-			R r = checkResEntity(result.get(i), type,importlabel);
+			R r = checkResEntity(result.get(i), type, importlabel);
 			if (r.isSuccess()) {
 				cres.addSuccess(r.getData().toString());
 			} else {

@@ -63,10 +63,9 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			}),
 			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
 					'sDefaultContent', '').withOption("width", '30'),
-			DTColumnBuilder.newColumn('classname').withTitle('类型').withOption(
+			DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
 					'sDefaultContent', '').withOption("width", '30'),
-			DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
-					'sDefaultContent', '').withOption("width", '30'),
+
 			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(

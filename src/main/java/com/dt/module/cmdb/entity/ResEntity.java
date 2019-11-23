@@ -17,11 +17,14 @@ public class ResEntity implements java.io.Serializable {
 	@Excel(name = "资产编号", width = 16)
 	private String uuid;
 
-	@Excel(name = "大类(必需)", width = 15)
+	@Excel(name = "类型", width = 15)
 	private String classname;
 
-	@Excel(name = "小类", width = 15)
-	private String typestr;
+	@Excel(name = "类型明细(必需)", width = 20)
+	private String classfullname;
+	
+//	@Excel(name = "小类", width = 15)
+//	private String typestr;
 
 	@Excel(name = "资产名称(不支持)", width = 15)
 	private String name;
@@ -168,19 +171,19 @@ public class ResEntity implements java.io.Serializable {
 		this.uuid = uuid;
 	}
 
-	/**
-	 * @return the typestr
-	 */
-	public String getTypestr() {
-		return typestr;
-	}
-
-	/**
-	 * @param typestr the typestr to set
-	 */
-	public void setTypestr(String typestr) {
-		this.typestr = typestr;
-	}
+//	/**
+//	 * @return the typestr
+//	 */
+//	public String getTypestr() {
+//		return typestr;
+//	}
+//
+//	/**
+//	 * @param typestr the typestr to set
+//	 */
+//	public void setTypestr(String typestr) {
+//		this.typestr = typestr;
+//	}
 
 	/**
 	 * @return the brandstr
@@ -487,8 +490,9 @@ public class ResEntity implements java.io.Serializable {
 
 		this.uuid = obj.getString("uuid");
 		this.classname = obj.getString("classname");
+		this.classfullname = obj.getString("classfullname");
 		this.wbout_datestr = obj.getString("wbout_datestr");
-		this.typestr = obj.getString("typestr");
+//		this.typestr = obj.getString("typestr");
 		this.brandstr = obj.getString("brandstr");
 		this.model = obj.getString("model");
 		this.confdesc = obj.getString("confdesc");
@@ -516,6 +520,21 @@ public class ResEntity implements java.io.Serializable {
 		this.net_worth = obj.getString("net_worth");
 		this.wb_autostr = obj.getString("wb_autostr");
 
+	}
+
+
+	/**
+	 * @return the classfullname
+	 */
+	public String getClassfullname() {
+		return classfullname;
+	}
+
+	/**
+	 * @param classfullname the classfullname to set
+	 */
+	public void setClassfullname(String classfullname) {
+		this.classfullname = classfullname;
 	}
 
 	/**

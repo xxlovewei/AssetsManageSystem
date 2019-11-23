@@ -146,12 +146,11 @@ public class ResExtController extends BaseController {
 		return R.SUCCESS_OPER();
 	}
 
-
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_ALLOW)
 	@RequestMapping(value = "/res/queryDictFast.do")
 	@Transactional
-	public R queryDictFast(String dicts, String parts, String partusers) {
+	public R queryDictFast(String dicts, String parts, String partusers, String subclass, String normalclass) {
 
 		JSONObject res = new JSONObject();
 		String[] dict_arr = dicts.split(",");
@@ -166,10 +165,22 @@ public class ResExtController extends BaseController {
 			res.put(dict_arr[i], ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
 		}
 
+		if (ToolUtil.isNotEmpty(subclass)) {
+			RcdSet partrs = db.query(
+					"select id dict_item_id,name from ct_category  where dr='0' and parent_id=? order by od", subclass);
+			res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+		}
+
+		if (ToolUtil.isNotEmpty(normalclass)) {
+			RcdSet partrs = db.query("select id dict_item_id,route_name name , name sname from ct_category t where  "
+					+ ResExtService.normalClassSql + " order by route");
+			res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+		}
+
 		// 所有部门
 		if (ToolUtil.isNotEmpty(parts)) {
 			RcdSet partrs = db
-					.query("select node_id  partid ,route_name name from hrm_org_part  where org_id=1 order by route");
+					.query("select node_id  partid ,route_name name from hrm_org_part where org_id=1 order by route");
 			res.put("parts", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
 		}
 
@@ -205,20 +216,20 @@ public class ResExtController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_USER)
 	@RequestMapping(value = "/res/queryResAllByClass.do")
-	public R queryResAllByClass(String id, String wb, String env, String recycle, String loc, String search) {
+	public R queryResAllByClass(String class_id, String wb, String env, String recycle, String loc, String search) {
 
-		if (ToolUtil.isEmpty(id)) {
+		if (ToolUtil.isEmpty(class_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
-		return resExtService.queryResAllByClassGetData(id, wb, env, recycle, loc, search);
+		return resExtService.queryResAllByClassGetData(class_id, wb, env, recycle, loc, search);
 	}
 
 	@ResponseBody
 	@Acl(info = "查询Res", value = Acl.ACL_USER)
 	@RequestMapping(value = "/res/queryResAll.do")
-	public R queryResAll(String id, String wb, String env, String recycle, String loc, String search) {
+	public R queryResAll(String class_id, String wb, String env, String recycle, String loc, String search) {
 
-		return resExtService.queryResAllGetData(id, wb, env, recycle, loc, search);
+		return resExtService.queryResAllGetData(class_id, wb, env, recycle, loc, search);
 
 	}
 

@@ -1,6 +1,5 @@
 package com.dt.module.base.service.impl;
 
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,43 +35,6 @@ public class MenuService extends BaseService {
 		}
 		return TYPE_DIR;
 	}
-
-	
-
-	/**
-	 * @Description:按照前端js要求直接生成树的json格式,不再使用
-	 */
-//	public R queryMenuNodesTree(String menu_id) {
-//		JSONArray r = new JSONArray();
-//		String basesql = "select * from sys_menus_node where menu_id=? and parent_id=? and dr='0' and type <> 'btn' order by sort";
-//		RcdSet first_rs = db.query(basesql, menu_id, 0);
-//		for (int i = 0; i < first_rs.size(); i++) {
-//			JSONObject first_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(first_rs.getRcd(i).toJsonObject());
-//			String first_key = first_rs.getRcd(i).getString("keyvalue");
-//			first_obj.put("state", first_key);
-//			RcdSet second_rs = db.query(basesql, menu_id, first_rs.getRcd(i).getString("node_id"));
-//			JSONArray second_arr = new JSONArray();
-//			for (int j = 0; j < second_rs.size(); j++) {
-//				JSONObject second_obj = ConvertUtil.OtherJSONObjectToFastJSONObject(second_rs.getRcd(i).toJsonObject());
-//				String second_key = second_rs.getRcd(j).getString("keyvalue");
-//				second_obj.put("state", first_key + "." + second_key);
-//				RcdSet third_rs = db.query(basesql, menu_id, second_rs.getRcd(j).getString("node_id"));
-//				second_obj.put("children_cnt", third_rs.size());
-//				// 处理三层
-//				JSONArray third_arr = ConvertUtil.OtherJSONObjectToFastJSONArray(third_rs.toJsonArrayWithJsonObject());
-//				for (int f = 0; f < third_arr.size(); f++) {
-//					third_arr.getJSONObject(f).put("state",
-//							first_key + "." + second_key + "." + third_arr.getJSONObject(f).getString("keyvalue"));
-//				}
-//				second_obj.put("children", third_arr);
-//				second_arr.add(second_obj);
-//			}
-//			first_obj.put("children_cnt", second_rs.size());
-//			first_obj.put("children", second_arr);
-//			r.add(first_obj);
-//		}
-//		return R.SUCCESS_OPER(r);
-//	}
 
 	/**
 	 * @Description:查询菜单一个节点的数据
@@ -112,7 +74,7 @@ public class MenuService extends BaseService {
 			ins.set("route", old_route + "-" + node_id);
 		}
 		ins.set("menu_id", menu_id);
-		ins.setIf("sort",  ps.getString("sort"));
+		ins.setIf("sort", ps.getString("sort"));
 		// ins.set("NODE_ID", node_id);
 		ins.set("node_name", node_name);
 		// ins.set("PARENT_ID", old_node_id);
@@ -188,9 +150,7 @@ public class MenuService extends BaseService {
 		if (ToolUtil.isEmpty(rs)) {
 			return;
 		}
-		if (rs.getString("node_name").equals("node_name")) {
-			return;
-		}
+		 
 		String ids = rs.getString("route");
 		JSONArray arr = ConvertUtil.toJSONArrayFromString(ids, "id", "-");
 		String route_name = "";
@@ -204,8 +164,7 @@ public class MenuService extends BaseService {
 		me.set("route_name", route_name);
 		me.where().and("node_id=?", node_id);
 		db.execute(me);
-		RcdSet rds = db.query("select node_id,node_name from sys_menus_node where dr='0' and parent_id=?",
-				node_id);
+		RcdSet rds = db.query("select node_id,node_name from sys_menus_node where dr='0' and parent_id=?", node_id);
 		for (int j = 0; j < rds.size(); j++) {
 			// 递归调用
 			updateRouteName(rds.getRcd(j).getString("node_id"), rds.getRcd(j).getString("node_name"));
@@ -216,9 +175,8 @@ public class MenuService extends BaseService {
 	 * @Description:获取节点下一个序列号，sys_menus_node表全局唯一
 	 */
 	public String getNextNodeId() {
-		return db
-				.uniqueRecord(
-						"select case when max(node_id) is null then 50 else max(node_id)+1 end value from sys_menus_node ")
+		return db.uniqueRecord(
+				"select case when max(node_id) is null then 50 else max(node_id)+1 end value from sys_menus_node ")
 				.getString("value");
 	}
 

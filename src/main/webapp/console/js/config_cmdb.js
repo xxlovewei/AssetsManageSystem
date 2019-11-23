@@ -124,6 +124,25 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	
 	
 	
+	$stateProvider.state('cmsetting', {
+		abstract : true,
+		url : "/cmsetting",
+		templateUrl : "views/common/content.html?v="+version
+	}).state('cmsetting.zccat', {
+		url : "/cmsetting_zccat?psBtns",
+		data: { pageTitle: '资产分类'},
+		templateUrl : "views/cmdb/zccategory.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/zccategory.js?v=' + version ]
+				} ]);
+			}
+		}
+	})
+	
+	
 	// cmdb
 	$stateProvider.state('xt', {
 		abstract : true,
@@ -193,6 +212,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('zcmgr.zcdj', {
+		url : "/zcmgr_zcdj",
+		data: { pageTitle: '资产登记'},
+		templateUrl : "views/cmdb/zcdj.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/zcdj.js?v=' + version ]
+				} ]);
+			}
+		}
 	})
 	
 	
@@ -204,7 +235,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html?v="+version
 	}).state('cf.server', {
 		url : "/cf_server?psBtns",
-		data: { pageTitle: '服务器',classid:'server',input_type:"devservertype"},
+		data: { pageTitle: '服务器',classid:'50'},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -216,7 +247,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('cf.firewall', {
 		url : "/cf_firewall?psBtns",
-		data: { pageTitle: '防火墙',classid:'firewall'},
+		data: { pageTitle: '防火墙',classid:'53'},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -226,9 +257,22 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	}).state('cf.lightsw', {
+	}).state('cf.bf', {
+		url : "/cf_bf?psBtns",
+		data: { pageTitle: '波分设备',classid:'60'},
+		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/js_genericdev.js?v=' + version ]
+				} ]);
+			}
+		}
+	})
+	.state('cf.lightsw', {
 		url : "/cf_lightsw?psBtns",
-		data: { pageTitle: '光交',classid:'lightsw'},
+		data: { pageTitle: '光纤交换机',classid:'52'},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -238,9 +282,10 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	}).state('cf.compute', {
-		url : "/cf_compute?psBtns",
-		data: { pageTitle: 'PC电脑',classid:'pc',input_type:"devcompute"},
+	})
+	.state('cf.bfdev', {
+		url : "/cf_bfdev?psBtns",
+		data: { pageTitle: '波分设备',classid:'60'},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -250,9 +295,10 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	}).state('cf.outlets', {
+	})
+	.state('cf.outlets', {
 		url : "/cf_outlets?psBtns",
-		data: { pageTitle: '网点设备',classid:"pointdev",input_type:"devdotequipment"},
+		data: { pageTitle: '网点设备',classid:"55",subclass:"Y"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -264,7 +310,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('cf.route', {
 		url : "/cf_route?psBtns",
-		data: { pageTitle: '路由设备',classid:'route'},
+		data: { pageTitle: '路由设备',classid:'56'},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -276,7 +322,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('cf.safety', {
 		url : "/cf_safety?psBtns",
-		data: { pageTitle: '安全设备',classid:'safety',input_type:'devsafety' },
+		data: { pageTitle: '安全设备',classid:'54',subclass:"Y"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -288,7 +334,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('cf.storage', {
 		url : "/cf_storage?psBtns",
-		data: { pageTitle: '存储设备',classid:'storage'},
+		data: { pageTitle: '存储设备',classid:'57'},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -301,7 +347,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	})
 	.state('cf.switch', {
 		url : "/cf_switch?psBtns",
-		data: { pageTitle: '交换机',classid:"switch"},
+		data: { pageTitle: '交换机',classid:"51"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -313,7 +359,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('cf.zcotherhard', {
 		url : "/cf_zcotherhard?psBtns",
-		data: { pageTitle: '其他资产',classid:"zcotherhard"},
+		data: { pageTitle: '其他资产',classid:"71",subclass:"Y"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -391,9 +437,10 @@ function loadOpt(modal_meta, gdicts) {
 	console.log("LoadOpt,Item:",item);
 
  
-	// 品牌
+	// 维保自定技术
 	modal_meta.meta.tbOpt = gdicts.zcwbcomoute;
-	if (modal_meta.meta.tbOpt.length > 0) {
+ 
+	if (angular.isDefined( gdicts.zcwbcomoute  )  && modal_meta.meta.tbOpt.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.wb_auto)) {
 			for (var i = 0; i < gdicts.zcwbcomoute.length; i++) {
 			 
@@ -410,7 +457,7 @@ function loadOpt(modal_meta, gdicts) {
 	
 	// 品牌
 	modal_meta.meta.pinpOpt = gdicts.devbrand;
-	if (modal_meta.meta.pinpOpt.length > 0) {
+	if (angular.isDefined( gdicts.devbrand )   && modal_meta.meta.pinpOpt.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.brand)) {
 			for (var i = 0; i < gdicts.devbrand.length; i++) {
 			 
@@ -426,7 +473,7 @@ function loadOpt(modal_meta, gdicts) {
 
 	// 部门
 	modal_meta.meta.partOpt = gdicts.parts;
-	if (gdicts.parts.length > 0) {
+	if (angular.isDefined( gdicts.parts )  &&gdicts.parts.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.part_id)) {
 			for (var i = 0; i < gdicts.parts.length; i++) {
 				if (gdicts.parts[i].partid == item.part_id) {
@@ -442,7 +489,7 @@ function loadOpt(modal_meta, gdicts) {
 
 	// 使用人
 	modal_meta.meta.usedunameOpt = gdicts.partusers;
-	if (gdicts.partusers.length > 0) {
+	if (angular.isDefined( gdicts.partusers )    && gdicts.partusers.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.used_userid)) {
 			for (var i = 0; i < gdicts.partusers.length; i++) {
 				if (gdicts.partusers[i].user_id == item.used_userid) {
@@ -458,7 +505,7 @@ function loadOpt(modal_meta, gdicts) {
 
 	// 风险等级
 	modal_meta.meta.riskOpt = gdicts.devrisk;
-	if (gdicts.devrisk.length > 0) {
+	if (angular.isDefined( gdicts.devrisk) && gdicts.devrisk.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.risk)) {
 			for (var i = 0; i < gdicts.devrisk.length; i++) {
 				if (gdicts.devrisk[i].dict_item_id == item.risk) {
@@ -474,7 +521,7 @@ function loadOpt(modal_meta, gdicts) {
 
 	// 环境
 	modal_meta.meta.envOpt = gdicts.devenv;
-	if (gdicts.devenv.length > 0) {
+	if (angular.isDefined( gdicts.devenv)   &&  gdicts.devenv.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.env)) {
 			for (var i = 0; i < gdicts.devenv.length; i++) {
 				if (gdicts.devenv[i].dict_item_id == item.env) {
@@ -490,7 +537,7 @@ function loadOpt(modal_meta, gdicts) {
 
 	// 状态
 	modal_meta.meta.recycelOpt = gdicts.devrecycle;
-	if (gdicts.devrecycle.length > 0) {
+	if (angular.isDefined( gdicts.devrecycle)     && gdicts.devrecycle.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.recycle)) {
 			for (var i = 0; i < gdicts.devrecycle.length; i++) {
 				if (gdicts.devrecycle[i].dict_item_id == item.recycle) {
@@ -506,7 +553,7 @@ function loadOpt(modal_meta, gdicts) {
 
 	// 维保
 	modal_meta.meta.wbOpt = gdicts.devwb;
-	if (gdicts.devwb.length > 0) {
+	if (angular.isDefined( gdicts.devwb)   && gdicts.devwb.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.wb)) {
 			for (var i = 0; i < gdicts.devwb.length; i++) {
 				if (gdicts.devwb[i].dict_item_id == item.wb) {
@@ -522,7 +569,7 @@ function loadOpt(modal_meta, gdicts) {
 
 	// 位置
 	modal_meta.meta.locOpt = gdicts.devdc;
-	if (gdicts.devdc.length > 0) {
+	if (angular.isDefined( gdicts.devdc)   && gdicts.devdc.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.loc)) {
 			for (var i = 0; i < gdicts.devdc.length; i++) {
 				if (gdicts.devdc[i].dict_item_id == item.loc) {
@@ -538,7 +585,7 @@ function loadOpt(modal_meta, gdicts) {
 
 	// 小类
 	modal_meta.meta.typeOpt = gdicts.stype;
-	if (gdicts.stype.length > 0) {
+	if (angular.isDefined( gdicts.stype)   && gdicts.stype.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.type)) {
 			for (var i = 0; i < gdicts.stype.length; i++) {
 				if (gdicts.stype[i].dict_item_id == item.type) {
@@ -554,7 +601,7 @@ function loadOpt(modal_meta, gdicts) {
 
 	// 大类
 	modal_meta.meta.classOpt = gdicts.btype;
-	if (gdicts.btype.length > 0) {
+	if (angular.isDefined( gdicts.btype)    &&  gdicts.btype.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.class_id)) {
 			for (var i = 0; i < gdicts.btype.length; i++) {
 				if (gdicts.btype[i].dict_item_id == item.class_id) {
@@ -570,7 +617,7 @@ function loadOpt(modal_meta, gdicts) {
 	
 	// 机柜
 	modal_meta.meta.jgOpt = gdicts.devrack;
-	if (gdicts.devrack.length > 0) {
+	if (angular.isDefined( gdicts.devrack)    && gdicts.devrack.length > 0) {
 		if (angular.isDefined(item) && angular.isDefined(item.rack)) {
 			for (var i = 0; i < gdicts.devrack.length; i++) {
 				if (gdicts.devrack[i].dict_item_id == item.rack) {

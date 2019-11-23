@@ -58,6 +58,61 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		}
 	});
 
+	// 内容管理
+	$stateProvider.state('ct', {
+		abstract : true,
+		templateUrl : "views/common/content.html?v="+version,
+	}).state('ct.catesetting', {
+		url : "/catesetting?psBtns",
+		data: { pageTitle: '类目设置'},
+		templateUrl : "views/content/ctCategory.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/content/ctCategory.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('ct.publishnews', {
+		url : "/publishnews?psBtns",
+		data: { pageTitle: '发布信息'},
+		templateUrl : "views/content/newsPublish.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/content/newsPublish.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('ct.news_mgr', {
+		url : "/newMgr?psBtns",
+		data: { pageTitle: '新闻管理'},
+		template:'<div ng-controller="ctNewsMgrCtl" >'+buildSimpleToolTableTpl()+'</div>',
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([  {
+					serie : true,
+					files : [ 'views/content/newsMgr.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('ct.company_profile', {
+		url : "/company_profile?psBtns",
+		data: { pageTitle: '公司简介'},
+		templateUrl : "views/content/company.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/content/company.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
+
+	
 	// 用户管理
 	$stateProvider.state('user', {
 		abstract : true,

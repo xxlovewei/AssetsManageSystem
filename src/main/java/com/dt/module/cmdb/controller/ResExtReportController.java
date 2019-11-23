@@ -31,9 +31,11 @@ public class ResExtReportController extends BaseController {
 		JSONObject res = new JSONObject();
 
 		String sum = db.uniqueRecord("select round(sum(buy_price)/10000,1) v from res where dr='0'").getString("v");
-		res.put("total_sum", sum);
+		res.put("total_sum", sum == null ? "0" : sum);
+
 		String cnt = db.uniqueRecord("select count(1) v from res where dr='0'").getString("v");
 		res.put("total_count", cnt);
+
 		String sql = "  select " + ResExtService.resSqlbody
 				+ " t.* from res t where dr='0' and  wbout_date<now() limit 10";
 		RcdSet rs = db.query(sql);
@@ -44,9 +46,8 @@ public class ResExtReportController extends BaseController {
 		RcdSet rs2 = db.query(sql2);
 		res.put("res_fault", ConvertUtil.OtherJSONObjectToFastJSONArray(rs2.toJsonArrayWithJsonObject()));
 
-		//
 		String sql3 = "\n" + "select\n" + "  b.name,\n" + "    class_id,\n" + "    count(1) cnt\n"
-				+ "  from res t,sys_dict_item b\n" + "  where t.dr = '0' and b.dr='0' and t.class_id=b.dict_item_id\n"
+				+ "  from res t,ct_category b\n" + "  where t.dr = '0' and b.dr='0' and t.class_id=b.id\n"
 				+ "  group by b.name ,class_id\n";
 
 		RcdSet s3 = db.query(sql3);

@@ -21,6 +21,8 @@ import com.dt.core.tool.util.ToolUtil;
  */
 @Service
 public class ContentCategoryService extends BaseService {
+	private String LEVEL_SPLIT = "/";
+
 	/**
 	 * @Description: 删除节点
 	 */
@@ -128,10 +130,40 @@ public class ContentCategoryService extends BaseService {
 		ups.setIf("mpic", ps.getString("mpic"));
 		ups.setIf("mark", ps.getString("mark"));
 		ups.setIf("od", ps.getString("od"));
+		ups.setIf("code", ps.getString("code"));
 		ups.setIf("isaction", ps.getString("isaction"));
 		ups.where().and("id=?", id);
 		db.execute(ups);
+
+		updateRouteName(id, name);
 		return R.SUCCESS_OPER();
+	}
+
+	private void updateRouteName(String id, String name) {
+		Rcd rs = db.uniqueRecord("select * from ct_category where dr='0' and id=?", id);
+		// 判断如果一致则不需要更新routename
+		if (ToolUtil.isEmpty(rs)) {
+			return;
+		}
+		 
+		String ids = rs.getString("route");
+		JSONArray arr = ConvertUtil.toJSONArrayFromString(ids, "id", "-");
+		String route_name = "";
+		for (int i = 0; i < arr.size(); i++) {
+			route_name = route_name + LEVEL_SPLIT
+					+ db.uniqueRecord("select name from ct_category where dr='0' and id=?",
+							arr.getJSONObject(i).getString("id")).getString("name");
+		}
+		route_name = route_name.replaceFirst(LEVEL_SPLIT, "");
+		Update me = new Update("ct_category");
+		me.set("route_name", route_name);
+		me.where().and("id=?", id);
+		db.execute(me);
+		RcdSet rds = db.query("select id,name from ct_category where dr='0' and parent_id=?", id);
+		for (int j = 0; j < rds.size(); j++) {
+			// 递归调用
+			updateRouteName(rds.getRcd(j).getString("id"), rds.getRcd(j).getString("name"));
+		}
 	}
 
 	/**
@@ -166,12 +198,15 @@ public class ContentCategoryService extends BaseService {
 		}
 		me.set("id", id);
 		me.set("dr", "0");
+		me.setIf("code", ps.getString("code"));
 		me.setIf("mark", ps.getString("mark"));
 		me.setIf("mpic", ps.getString("mpic"));
 		me.setIf("name", ps.getString("name", "idle"));
 		me.setIf("isaction", ps.getString("isaction"));
 		me.setIf("od", ConvertUtil.toInt(ps.getString("od"), 99));
 		db.execute(me);
+		
+		updateRouteName(id, ps.getString("name", "idle"));
 		return queryCategoryById(id);
 	}
 }

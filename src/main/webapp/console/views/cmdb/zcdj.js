@@ -1,170 +1,9 @@
- function modalresBatchUpdateCtl($timeout, $localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, meta, $http, $rootScope,  
-		$compile) {
-	console.log("window in ",meta);
-	var tgdict=meta.gdicts;
-	$scope.item={};
-	$scope.item.ids=meta.selrows;
-	$scope.date = {
-			buytime2 : moment().subtract(15, "days"),
-			wboutdate2 : moment().add(1, 'days')
-		}
-	$scope.ifrecycleOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifrecycleSel=$scope.ifrecycleOpt[0];
-	$scope.recycleOpt=[];
-	$scope.recycleSel="";
-	if(angular.isDefined(tgdict.devrecycle)){
-		$scope.recycleOpt=tgdict.devrecycle;
-		if(tgdict.devrecycle.length>0){
-			$scope.recycleSel=tgdict.devrecycle[0];
-		}
-	}
-	
-	$scope.ifriskOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifriskSel=$scope.ifriskOpt[0];
-	$scope.riskOpt=[];
-	$scope.riskSel="";
-	if(angular.isDefined(tgdict.devrisk)){
-		$scope.riskOpt=tgdict.devrisk;
-		if(tgdict.devrisk.length>0){
-			$scope.riskSel=tgdict.devrisk[0];
-		}
-	}
-	
-	$scope.ifenvOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifenvSel=$scope.ifenvOpt[0];
-	$scope.envOpt=[];
-	$scope.envSel="";
-	if(angular.isDefined(tgdict.devenv)){
-		$scope.envOpt=tgdict.devenv;
-		if(tgdict.devenv.length>0){
-			$scope.envSel=tgdict.devenv[0];
-		}
-	}
-	
-	$scope.ifwbOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifwbSel=$scope.ifwbOpt[0];
-	$scope.wbOpt=[];
-	$scope.wbSel="";
-	if(angular.isDefined(tgdict.devwb)){
-		$scope.wbOpt=tgdict.devwb;
-		if(tgdict.devwb.length>0){
-			$scope.wbSel=tgdict.devwb[0];
-		}
-	}
-	
-	$scope.ifusedPartOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifusedPartSel=$scope.ifusedPartOpt[0];
-	$scope.partOpt=[];
-	$scope.partSel="";
-	if(angular.isDefined(tgdict.parts)){
-		$scope.partOpt=tgdict.parts;
-		if(tgdict.parts.length>0){
-			$scope.partSel=tgdict.parts[0];
-		}
-	}
 
-	$scope.ifusedUserOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifusedUserSel=$scope.ifusedUserOpt[0];
-	$scope.usedunameOpt=[];
-	$scope.usedunameSel="";
-	if(angular.isDefined(tgdict.partusers)){
-		$scope.usedunameOpt=tgdict.partusers;
-		if(tgdict.partusers.length>0){
-			$scope.usedunameSel=tgdict.partusers[0];
-		}
-	}
-	
-	$scope.iflocOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.iflocSel=$scope.iflocOpt[0];
-	$scope.locOpt=[];
-	$scope.locSel="";
-	if(angular.isDefined(tgdict.devdc)){
-		$scope.locOpt=tgdict.devdc;
-		if(tgdict.devdc.length>0){
-			$scope.locSel=tgdict.devdc[0];
-		}
-	}
-	
-	$scope.ifbuyOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifbuySel=$scope.ifbuyOpt[0];
-	
-	$scope.ifTbOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifTbSel=$scope.ifTbOpt[0];
-	
-	$scope.iftbComputeOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.iftbComputeSel=$scope.iftbComputeOpt[0];
-	$scope.tbOpt=[];
-	$scope.tbSel="";
-	if(angular.isDefined(tgdict.zcwbcomoute)){
-		$scope.tbOpt=tgdict.zcwbcomoute;
-		if(tgdict.zcwbcomoute.length>0){
-			$scope.tbSel=tgdict.zcwbcomoute[0];
-		}
-	}
-	 
-	
-	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
-	};
-
-	$scope.sure = function() {
-		 
-		$scope.item.ifrecycleSel=$scope.ifrecycleSel.id;
-		$scope.item.recycleSel=$scope.recycleSel.dict_item_id;
-		
-		$scope.item.ifriskSel=$scope.ifriskSel.id;
-		$scope.item.riskSel=$scope.riskSel.dict_item_id;
-		
-		$scope.item.ifenvSel=$scope.ifenvSel.id;
-		$scope.item.envSel=$scope.envSel.dict_item_id;
-
-		$scope.item.ifwbSel=$scope.ifwbSel.id;
-		$scope.item.wbSel=$scope.wbSel.dict_item_id;
-		
-		$scope.item.ifusedPartSel=$scope.ifusedPartSel.id;
-		$scope.item.partSel=$scope.partSel.partid;
-		
-		$scope.item.ifusedUserSel=$scope.ifusedUserSel.id;
-		$scope.item.usedunameSel=$scope.usedunameSel.user_id;
-		
-		$scope.item.ifbuySel=$scope.ifbuySel.id;
-		$scope.item.buy_time_f = $scope.date.buytime2.format('YYYY-MM-DD');
-		
-		$scope.item.ifTbSel=$scope.ifTbSel.id;
-		$scope.item.wbout_date_f = $scope.date.wboutdate2.format('YYYY-MM-DD');
-		
-		$scope.item.iftbComputeSel=$scope.iftbComputeSel.id;
-		$scope.item.tbSel=$scope.tbSel.dict_item_id;
-		
-		$scope.item.iflocSel=$scope.iflocSel.id;
-		$scope.item.locSel=$scope.locSel.dict_item_id;
-		
-		$http
-		.post(
-				$rootScope.project
-						+ "/api/base/res/batchUpdateRes.do",
-						$scope.item)
-		.success(function(res) {
-			if (res.success) {
-				$uibModalInstance.close('OK');
-			} else {
-				notify({
-					message : res.message
-				});
-			}
-		});
- 
-	}
-}
-
-
-function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify,$scope, $http, $rootScope, $uibModal, $window,$state) {
- 
-	var pbtns=$rootScope.curMemuBtns;
 
-	var gclass_id = $state.router.globals.current.data.classid;
+	var pbtns=$rootScope.curMemuBtns;
+	var gclass_id='normalclass';
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
 			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
@@ -260,30 +99,19 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			 'sDefaultContent', '').withOption('width', '30'));		
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
 			 'sDefaultContent', '').withOption('width', '30'));		
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
-			 'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));		
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));	
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
 			 'sDefaultContent', ''));	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
 			 'sDefaultContent', ''));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('机柜').withOption(
-			 'sDefaultContent', '').renderWith(renderJg));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
-			 'sDefaultContent', ''));	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 			 'sDefaultContent', ''));	
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
-			 .withOption('sDefaultContent', '').renderWith(renderReview));	
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
 			 .withOption('sDefaultContent', ''));	
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
+			 'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
 			 .withOption('sDefaultContent', ''));			
-	$scope.dtColumns.push(   DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
-			 .withOption('sDefaultContent', ''));		
+	
 
 	$scope.query = function() {
 		flush();
@@ -319,15 +147,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "btn2",
 					label : "",
 					type : "btn",
-					show:false,
-					priv:"item_update",
-					template : ' <button ng-click="batchupate()" class="btn btn-sm btn-primary" type="submit">批量更新</button>'
-				},
-
-				{
-					id : "btn2",
-					label : "",
-					type : "btn",
 					show:true,
 					template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
 				},
@@ -350,22 +169,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		tools : [ {
 			id : "select",
 			label : "位置",
-			type : "select",
-			disablesearch : true,
-			show:true,
-			dataOpt : [],
-			dataSel : ""
-		}, {
-			id : "select",
-			label : "环境",
-			type : "select",
-			disablesearch : true,
-			show:true,
-			dataOpt : [],
-			dataSel : ""
-		}, {
-			id : "select",
-			label : "维保",
 			type : "select",
 			disablesearch : true,
 			show:true,
@@ -396,10 +199,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		var ps = {}
 		ps.class_id = gclass_id;
 		ps.loc = $scope.meta.tools[0].dataSel.dict_item_id;
-		ps.env = $scope.meta.tools[1].dataSel.dict_item_id;
-		ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
-		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
-		ps.search = $scope.meta.tools[4].ct;
+		ps.recycle = $scope.meta.tools[1].dataSel.dict_item_id;
+		ps.search = $scope.meta.tools[2].ct;
 		$http.post($rootScope.project + "/api/base/res/queryResAllByClass.do", ps)
 				.success(function(res) {
 					if (res.success) {
@@ -417,10 +218,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		var ps = {}
 		ps.id = gclass_id;
 		ps.loc = $scope.meta.tools[0].dataSel.dict_item_id;
-		ps.env = $scope.meta.tools[1].dataSel.dict_item_id;
-		ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
-		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
-		ps.search = $scope.meta.tools[4].ct;
+		ps.recycle = $scope.meta.tools[1].dataSel.dict_item_id;
+		ps.search = $scope.meta.tools[2].ct;
 		$window.open($rootScope.project
 				+ "/api/base/res/exportServerData.do?id=" + ps.id + "&loc="
 				+ ps.loc + "&env=" + ps.env + "&wb=" + ps.wb + "&recycle="
@@ -428,7 +227,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	var gdicts = {};
-	var dicts = "zcwbcomoute,devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack";
+	var dicts = "zcwbcomoute,devbrand,devrecycle,devwb,devdc";
 	
 	// 判断输入框
 	var subclass="N";
@@ -440,18 +239,14 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				dicts : dicts,
 				parts : "Y",
 				partusers : "Y",
-				subclass:subclass
+				normalclass:"Y",
 			})
 			.success(
 					function(res) {
 						if (res.success) {
 							gdicts = res.data;
-							// 资产大类
-							if (!angular
-									.isDefined($state.router.globals.current.data.subclass)) {
-								gdicts.btype = [];
-							}else{
-							} 
+							
+					
  						
 							// 未使用
 							gdicts.stype = [];
@@ -477,26 +272,13 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							$scope.meta.tools[0].dataOpt = tloc;
 							$scope.meta.tools[0].dataSel = tloc[0];
 							
-							tenv.unshift({
-								dict_item_id : "all",
-								name : "全部"
-							});
-							$scope.meta.tools[1].dataOpt = tenv;
-							$scope.meta.tools[1].dataSel = tenv[0];
-							
-							twb.unshift({
-								dict_item_id : "all",
-								name : "全部"
-							});
-							$scope.meta.tools[2].dataOpt = twb;
-							$scope.meta.tools[2].dataSel = twb[0];
-							
+						
 							trecycle.unshift({
 								dict_item_id : "all",
 								name : "全部"
 							});
-							$scope.meta.tools[3].dataOpt = trecycle;
-							$scope.meta.tools[3].dataSel = trecycle[0];
+							$scope.meta.tools[1].dataOpt = trecycle;
+							$scope.meta.tools[1].dataSel = trecycle[0];
 							flush();
 						} else {
 							notify({
@@ -684,19 +466,17 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								ng_model : "uuid"
 							});
 							
-							// 资产大类
-							if (angular
-									.isDefined($state.router.globals.current.data.subclass) || $state.router.globals.current.data.classid == "zcotherhard"  ) {
-								items.push({
+						 
+							items.push({
 									type : "select",
 									disabled : "true",
 									label : "资产类型",
 									need : false,
-									disable_search : "true",
+									disable_search : "false",
 									dataOpt : "classOpt",
 									dataSel : "classSel"
 								});
-							}  
+						
  					 
 							items.push({
 								type : "input",
@@ -755,26 +535,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disable_search : "true",
 								dataOpt : "pinpOpt",
 								dataSel : "pinpSel"
-							});
-							items.push( {
-								type : "select",
-								disabled : "false",
-								label : "风险等级",
-								need : false,
-								disable_search : "true",
-								dataOpt : "riskOpt",
-								dataSel : "riskSel"
-							});
-						 
-								items.push( {
-									type : "select",
-									disabled : "false",
-									label : "运行环境",
-									need : false,
-									disable_search : "true",
-									dataOpt : "envOpt",
-									dataSel : "envSel"
-								});
+							}); 
 						 
 							items.push( {
 								type : "select",
@@ -802,9 +563,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataOpt : "wbOpt",
 								dataSel : "wbSel"
 							});
-						 
-						
-							
+
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -815,42 +574,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataSel : "locSel"
 							});
 						 
-							items.push({
-								type : "select",
-								disabled : "false",
-								label : "机柜编号",
-								need : false,
-								disable_search : "true",
-								dataOpt : "jgOpt",
-								dataSel : "jgSel"
-							});
-							 
 						 
-							items.push({
-								type : "input",
-								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入机架编号",
-								label : "机架编号",
-								need : false,
-								name : 'frame',
-								ng_model : "frame"
-							});
-						 
-							items.push({
-								type : "input",
-								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入详细位置",
-								label : "详细位置",
-								need : false,
-								name : 'locdtl',
-								ng_model : "locdtl"
-							});
 							items.push({
 								type : "datetime",
 								disabled : "false",
@@ -1019,15 +743,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								items : items,
 								sure : function(modalInstance, modal_meta) {
 									console.log('sure set', modal_meta.meta)
- 
-									
-									if(angular
-											.isDefined($state.router.globals.current.data.subclass)){
-										
-										modal_meta.meta.item.class_id = modal_meta.meta.classSel.dict_item_id;
-									}else{
-										modal_meta.meta.item.class_id = gclass_id;
-									}
+  
+									modal_meta.meta.item.class_id = modal_meta.meta.classSel.dict_item_id;
 									
 									if(angular.isDefined(modal_meta.meta.typeSel.dict_item_id)){
 										modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
@@ -1040,10 +757,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									if(angular.isDefined( modal_meta.meta.usedunameSel.user_id)){
 										modal_meta.meta.item.used_userid = modal_meta.meta.usedunameSel.user_id;
 									}
-								
-									if(angular.isDefined( modal_meta.meta.envSel.dict_item_id)){
-										modal_meta.meta.item.env = modal_meta.meta.envSel.dict_item_id;
-									}
+								 
 									
 									if(angular.isDefined( modal_meta.meta.recycelSel.dict_item_id)){
 										modal_meta.meta.item.recycle = modal_meta.meta.recycelSel.dict_item_id;
@@ -1062,14 +776,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 										modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
 									}
 
-									if(angular.isDefined( modal_meta.meta.riskSel.dict_item_id)){
-										modal_meta.meta.item.risk = modal_meta.meta.riskSel.dict_item_id;
-									}
-									
-									if(angular.isDefined( modal_meta.meta.jgSel.dict_item_id)){
-										modal_meta.meta.item.rack =modal_meta.meta.jgSel.dict_item_id ;
-									}
-									
+								 
 
 									if(angular.isDefined( modal_meta.meta.tbSel.dict_item_id)){
 										modal_meta.meta.item.wb_auto =modal_meta.meta.tbSel.dict_item_id ;
@@ -1199,4 +906,4 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 };
 
-app.register.controller('genericdevCtl', genericdevCtl);
+app.register.controller('genericzcdjCtl',genericzcdjCtl);

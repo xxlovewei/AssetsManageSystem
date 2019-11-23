@@ -183,11 +183,9 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('classname').withTitle('资产大类')
+			DTColumnBuilder.newColumn('classname').withTitle('资产类型')
 					.withOption('sDefaultContent', '')
 					.withOption("width", '30'),
-			DTColumnBuilder.newColumn('typestr').withTitle('资产小类').withOption(
-					'sDefaultContent', '').withOption("width", '30'),
 			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
