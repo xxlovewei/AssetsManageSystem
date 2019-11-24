@@ -164,7 +164,101 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
  
 	var pbtns=$rootScope.curMemuBtns;
 
-	var gclass_id = $state.router.globals.current.data.classid;
+	var gclass_id ="";
+	var gdicts = {};
+	$http.post($rootScope.project + "/api/sysParams/selectById.do", {id: $state.router.globals.current.data.classid})
+	.success(function(res) {
+		if (res.success) {
+			if(!angular.isDefined(res.data)){
+				notify({
+					message : "未成功获取大类编码,请先设置参数"
+				});
+			}
+			gclass_id=res.data.value;
+			var dicts = "zcwbcomoute,devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack";
+			// 判断输入框
+			var subclass="N";
+			if (angular.isDefined($state.router.globals.current.data.subclass)) {
+				subclass=gclass_id;
+			}
+			
+			$http
+					.post($rootScope.project + "/api/base/res/queryDictFast.do", {
+						dicts : dicts,
+						parts : "Y",
+						partusers : "Y",
+						subclass:subclass
+					})
+					.success(
+							function(res) {
+								if (res.success) {
+									gdicts = res.data;
+									// 资产大类
+									if (!angular
+											.isDefined($state.router.globals.current.data.subclass)) {
+										gdicts.btype = [];
+									}else{
+									} 
+		 						
+									// 未使用
+									gdicts.stype = [];
+									
+									// 填充行数据
+									var tenv = [];
+									angular.copy(gdicts.devenv, tenv);
+									var twb = [];
+									angular.copy(gdicts.devwb, twb);
+									var tloc = [];
+									angular.copy(gdicts.devdc, tloc);
+									var trecycle = [];
+									angular.copy(gdicts.devrecycle, trecycle);
+									var parts = [];
+									angular.copy(gdicts.parts, parts);
+									var partusers = [];
+									angular.copy(gdicts.partusers, partusers);
+									
+									tloc.unshift({
+										dict_item_id : "all",
+										name : "全部"
+									});
+									$scope.meta.tools[0].dataOpt = tloc;
+									$scope.meta.tools[0].dataSel = tloc[0];
+									
+									tenv.unshift({
+										dict_item_id : "all",
+										name : "全部"
+									});
+									$scope.meta.tools[1].dataOpt = tenv;
+									$scope.meta.tools[1].dataSel = tenv[0];
+									
+									twb.unshift({
+										dict_item_id : "all",
+										name : "全部"
+									});
+									$scope.meta.tools[2].dataOpt = twb;
+									$scope.meta.tools[2].dataSel = twb[0];
+									
+									trecycle.unshift({
+										dict_item_id : "all",
+										name : "全部"
+									});
+									$scope.meta.tools[3].dataOpt = trecycle;
+									$scope.meta.tools[3].dataSel = trecycle[0];
+									flush();
+								} else {
+									notify({
+										message : res.message
+									});
+								}
+							})
+			
+		} else {
+			notify({
+				message : res.message
+			});
+		}
+	})
+	
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
 			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
@@ -427,83 +521,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				+ ps.recycle + "&search=" + ps.search);
 	}
 
-	var gdicts = {};
-	var dicts = "zcwbcomoute,devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack";
-	
-	// 判断输入框
-	var subclass="N";
-	if (angular.isDefined($state.router.globals.current.data.subclass)) {
-		subclass=gclass_id;
-	}
-	$http
-			.post($rootScope.project + "/api/base/res/queryDictFast.do", {
-				dicts : dicts,
-				parts : "Y",
-				partusers : "Y",
-				subclass:subclass
-			})
-			.success(
-					function(res) {
-						if (res.success) {
-							gdicts = res.data;
-							// 资产大类
-							if (!angular
-									.isDefined($state.router.globals.current.data.subclass)) {
-								gdicts.btype = [];
-							}else{
-							} 
- 						
-							// 未使用
-							gdicts.stype = [];
-							
-							// 填充行数据
-							var tenv = [];
-							angular.copy(gdicts.devenv, tenv);
-							var twb = [];
-							angular.copy(gdicts.devwb, twb);
-							var tloc = [];
-							angular.copy(gdicts.devdc, tloc);
-							var trecycle = [];
-							angular.copy(gdicts.devrecycle, trecycle);
-							var parts = [];
-							angular.copy(gdicts.parts, parts);
-							var partusers = [];
-							angular.copy(gdicts.partusers, partusers);
-							
-							tloc.unshift({
-								dict_item_id : "all",
-								name : "全部"
-							});
-							$scope.meta.tools[0].dataOpt = tloc;
-							$scope.meta.tools[0].dataSel = tloc[0];
-							
-							tenv.unshift({
-								dict_item_id : "all",
-								name : "全部"
-							});
-							$scope.meta.tools[1].dataOpt = tenv;
-							$scope.meta.tools[1].dataSel = tenv[0];
-							
-							twb.unshift({
-								dict_item_id : "all",
-								name : "全部"
-							});
-							$scope.meta.tools[2].dataOpt = twb;
-							$scope.meta.tools[2].dataSel = twb[0];
-							
-							trecycle.unshift({
-								dict_item_id : "all",
-								name : "全部"
-							});
-							$scope.meta.tools[3].dataOpt = trecycle;
-							$scope.meta.tools[3].dataSel = trecycle[0];
-							flush();
-						} else {
-							notify({
-								message : res.message
-							});
-						}
-					})
 					
 					
 					

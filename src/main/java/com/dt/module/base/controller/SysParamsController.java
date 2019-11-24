@@ -38,7 +38,7 @@ public class SysParamsController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
+	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
 		return R.SUCCESS_OPER(SysParamsServiceImpl.getById(id));

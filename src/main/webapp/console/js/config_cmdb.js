@@ -235,7 +235,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		templateUrl : "views/common/content.html?v="+version
 	}).state('cf.server', {
 		url : "/cf_server?psBtns",
-		data: { pageTitle: '服务器',classid:'50',subclass:"Y"},
+		data: { pageTitle: '服务器',classid:'zc_server',subclass:"Y"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -248,7 +248,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	}) 
 	.state('cf.lightsw', {
 		url : "/cf_lightsw?psBtns",
-		data: { pageTitle: '光纤交换机',classid:'52'},
+		data: { pageTitle: '光纤交换机',classid:'zc_lsw'},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -261,7 +261,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	})
 	.state('cf.outlets', {
 		url : "/cf_outlets?psBtns",
-		data: { pageTitle: '网点设备',classid:"55",subclass:"Y"},
+		data: { pageTitle: '网点设备',classid:"zc_website",subclass:"Y"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -273,7 +273,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('cf.safety', {
 		url : "/cf_safety?psBtns",
-		data: { pageTitle: '安全设备',classid:'54',subclass:"Y"},
+		data: { pageTitle: '安全设备',classid:'zc_safety',subclass:"Y"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -285,7 +285,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('cf.storage', {
 		url : "/cf_storage?psBtns",
-		data: { pageTitle: '存储设备',classid:'57'},
+		data: { pageTitle: '存储设备',classid:'zc_storage'},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -310,7 +310,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('cf.zcotherhard', {
 		url : "/cf_zcotherhard?psBtns",
-		data: { pageTitle: '其他资产',classid:"71",subclass:"Y"},
+		data: { pageTitle: '其他资产',classid:"zc_other",subclass:"Y"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
@@ -322,7 +322,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('cf.network', {
 		url : "/cf_network?psBtns",
-		data: { pageTitle: '网络设备',classid:"116",subclass:"Y"},
+		data: { pageTitle: '网络设备',classid:"zc_network",subclass:"Y"},
 		templateUrl : "views/cmdb/html_genericdev.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
