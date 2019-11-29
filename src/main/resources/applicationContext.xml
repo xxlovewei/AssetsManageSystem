@@ -41,9 +41,15 @@
 		p:cacheManager-ref="ehCacheManager">
 	</bean>
 
+
+	<!-- 扫描impl,R实现需要 -->
+	<context:component-scan
+		base-package="com.dt.module.flow.base" />
+
 	<!-- 流程配置 -->
-	<!-- <bean id="FlowProcessEventHandler" class="com.dt.module.flow.base.FlowProcessEventHandler"> 
-		</bean> -->
+	<bean id="FlowProcessEventHandler"
+		class="com.dt.module.flow.base.FlowProcessEventHandler">
+	</bean>
 
 
 	<context:annotation-config />

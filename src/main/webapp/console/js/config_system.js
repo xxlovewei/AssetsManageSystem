@@ -1,6 +1,6 @@
 function config_system($stateProvider, $ocLazyLoadProvider) {
 	$ocLazyLoadProvider.config({
-		debug : false
+		debug : true
 	});
 	console.log("App System config");
 	// 个人设置
@@ -186,12 +186,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ 
-                    {
-                    	serie: true,
-                        name: 'treeGrid',
-                        insertBefore: '#loadBefore',
-                        files: ['plugin/treegrid/tree-grid-directive.js','plugin/treegrid/treeGrid.css']
-                    },
                     {
                         files: ['views/system/menu/menu.js?v=' + version]
                     }
@@ -426,12 +420,12 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('flow.designer', {
 		url : "/flow_designer?psBtns",
 		data: { pageTitle: '流程设计'},
-		templateUrl : "views/system/flow/designer.html?v="+version,
+		templateUrl : "views/flow/designer.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/flow/designer.js?v=' + version ]
+					files : [ 'views/flow/designer.js?v=' + version ]
 				} ]);
 			}
 		}

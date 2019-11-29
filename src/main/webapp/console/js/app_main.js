@@ -3,7 +3,7 @@ var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
 		'ngSanitize', 'cgNotify', 'angular-confirm', 'datatables',
 		'datatables.select', 'datatables.fixedcolumns', 'datatables.buttons',
 		'datatables.colvis', 'localytics.directives', 'swxLocalStorage',
-		'angular-loading-bar', 'ng.ueditor', 'datePicker' ])
+		'angular-loading-bar', 'ng.ueditor', 'datePicker' ,'treeGrid'])
 var $injector = angular.injector();
 function getContextPath() {
 	var pathName = document.location.pathname;
@@ -97,7 +97,7 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 	KeepaliveProvider.interval(2);
 	$urlRouterProvider.otherwise("/login");
 	$ocLazyLoadProvider.config({
-		debug : false
+		debug : true
 	});
 	$httpProvider.defaults.headers.post['Cache-Control'] = 'no-cache';
 	$httpProvider.defaults.headers.post['Pragma'] = 'no-cache';

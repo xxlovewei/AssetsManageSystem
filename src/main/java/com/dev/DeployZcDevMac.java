@@ -24,7 +24,7 @@ public class DeployZcDevMac {
 		String dir = "/opt/tomcat/tomcat_shopuat/webapps";
 		String filename = "dt";
 		String rfile = dir + "/" + filename + ".war";
-		String fstr = "/opt/" + filename + ".war";
+		String fstr = "/Users/algernonking/" + filename + ".war";
 
 		SftpClient sftp = new SftpClient();
 		Machine m = new Machine("localhost", "39.105.191.22", "root", "qwIMs@j*7arv", 12500);

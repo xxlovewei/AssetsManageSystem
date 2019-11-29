@@ -8,16 +8,12 @@
 //angular.isString()	如果引用的是字符串返回 true
 //angular.isUndefined()	如果引用的未定义返回 true
 //angular.equals()
-
 function getTree(data, primaryIdName, parentIdName) {
 	if (!data || data.length == 0 || !primaryIdName || !parentIdName)
 		return [];
-
 	var tree = [], rootIds = [], item = data[0], primaryKey = item[primaryIdName], treeObjs = {}, parentId, parent, len = data.length, i = 0;
-
 	while (i < len) {
 		item = data[i++];
-
 		primaryKey = item[primaryIdName];
 		treeObjs[primaryKey] = item;
 		parentId = item[parentIdName];
@@ -34,12 +30,9 @@ function getTree(data, primaryIdName, parentIdName) {
 			rootIds.push(primaryKey);
 		}
 	}
-
 	for (var i = 0; i < rootIds.length; i++) {
 		tree.push(treeObjs[rootIds[i]]);
 	}
-	;
-
 	return tree;
 }
 
@@ -259,7 +252,6 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 	}
 
 	$timeout(function() {
-
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
 			var adom = modal[i].getElementsByClassName('chosen-container');
@@ -271,7 +263,6 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 	}, 200);
 
 	$scope.sure = function() {
-
 		var ps = $scope.item;
 		// ps.is_action = $scope.actionSel.id;
 		ps.is_action = "Y";
@@ -325,26 +316,10 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 
 }
 
-function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
+function sysmenuCtl($compile,$timeout,$confirm, $log, notify, $scope, $http, $rootScope,
 		$uibModal) {
 	$scope.topMenuOpt = []
 	$scope.topMenuSel = "";
-
-	$scope.tree_expand_level = 3;
-	$http.post($rootScope.project + "/api/sysMenus/selectList.do", {}).success(
-			function(res) {
-				if (res.success) {
-					$scope.topMenuOpt = res.data;
-					if (res.data.length > 0) {
-						$scope.topMenuSel = res.data[0];
-						flush();
-					}
-				} else {
-					notify({
-						message : res.message
-					});
-				}
-			})
 
 	$scope.crud = {
 		"root_insert" : false,
@@ -377,9 +352,12 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 	acthtml = acthtml + " </div>";
 
-	var tree;
-	var myTreeData = [];
-	$scope.my_tree = tree = {};
+
+//	$scope.my_tree = {};
+	
+	
+	$scope.tree_expand_level = 3;
+	$scope.tree_data = [];
 	$scope.expanding_property = {
 		field : "node_name",
 		displayName : "名称",
@@ -387,6 +365,10 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 		filterable : true,
 		cellTemplate : "<i>{{row.branch[expandingProperty.field]}}</i>"
 	};
+//
+//	$timeout(function() {
+	 
+
 
 	$scope.col_defs = [
 			{
@@ -446,6 +428,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 					},
 					add : function(data) { // this works too:
 						// $scope.someMethod;
+						console.log($scope.my_tree);
 						var ps = data;
 						ps.actiontype = "add";
 						var modalInstance = $uibModal
@@ -566,9 +549,8 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 					}
 				}
 			} ];
-	$scope.tree_data = [];
-	var rawTreeData = [];
-	var myTreeData = [];
+
+//	}, 2);
 	function flush() {
 		$http.post(
 				$rootScope.project
@@ -577,14 +559,11 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 					menu_id : $scope.topMenuSel.menuId
 				}).success(function(res) {
 			if (res.success) {
+				var rawTreeData = [];
+				var myTreeData = [];
 				rawTreeData = res.data
 				myTreeData = getTree(rawTreeData, 'node_id', 'parent_id');
 				$scope.tree_data = myTreeData;
-				setTimeout(function() {
-					$log.log($scope.my_tree)
-					// ???为什么无效
-					$scope.my_tree.expand_all();
-				}, 8500)
 
 			}
 		})
@@ -600,6 +579,7 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	}
 
 	$scope.addMasterNode = function() {
+		console.log($scope.my_tree);
 		var ps = {};
 		ps.actiontype = "addmaster";
 		var modalInstance = $uibModal.open({
@@ -629,6 +609,22 @@ function sysmenuCtl($confirm, $log, notify, $scope, $http, $rootScope,
 		console.log('you clicked on', branch)
 	}
 
+	console.log('1111', $scope.my_tree)
+
+	$http.post($rootScope.project + "/api/sysMenus/selectList.do", {}).success(
+			function(res) {
+				if (res.success) {
+					$scope.topMenuOpt = res.data;
+					if (res.data.length > 0) {
+						$scope.topMenuSel = res.data[0];
+						flush();
+					}
+				} else {
+					notify({
+						message : res.message
+					});
+				}
+			})
 };
 
 app.register.controller('sysmenuCtl', sysmenuCtl);

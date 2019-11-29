@@ -37,6 +37,7 @@ import com.dt.module.cmdb.service.impl.ResExtService;
 @RequestMapping("/api/base")
 public class ResExtController extends BaseController {
 
+	
 	@Autowired
 	ResExtService resExtService;
 

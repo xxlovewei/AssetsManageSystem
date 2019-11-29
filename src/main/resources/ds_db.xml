@@ -102,13 +102,14 @@
 		<qualifier value="transactionManager"></qualifier>
 	</bean>
 	<!-- 使用注释事务 -->
-	<tx:annotation-driven transaction-manager="transactionManager"
-		proxy-target-class="true" />
+	<tx:annotation-driven
+		transaction-manager="transactionManager" proxy-target-class="true" />
 
 	<!-- do开头方法传播机制是required，其它的是supports -->
 	<!-- 默认情况下如果抛出了RuntimeException 或者Rrror 对象就会回滚事务。 （注意： 这里注意一下，在tx:method中配置了rollback_for 
 		中配置的Exception 这个是运行时的异常才会回滚不然其他异常是不会回滚的！） -->
-	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+	<tx:advice id="transactionAdvice"
+		transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="*" read-only="false"
 				propagation="REQUIRED" />
@@ -123,9 +124,8 @@
 			advice-ref="transactionAdvice" />
 	</aop:config>
 
- 
- 
-<!--   	<bean id="sessionFactory"
+
+	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="db" />
 		<property name="packagesToScan">
@@ -140,7 +140,7 @@
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
-	</bean>   
-  -->
+	</bean>
+
 
 </beans>

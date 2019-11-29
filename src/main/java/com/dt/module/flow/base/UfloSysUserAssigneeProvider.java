@@ -20,7 +20,7 @@ import com.bstek.uflo.process.assign.impl.AbstractAssigneeProvider;
  
 @Component
 public class UfloSysUserAssigneeProvider extends AbstractAssigneeProvider{
-	@Resource(name="sysUserService")
+	//@Resource(name="sysUserService")
 //	private SysUserService sysUserService;
 	private boolean disabledSysUserAssigneeProvider=false;
 	/**

@@ -27,6 +27,13 @@ import com.dt.core.tool.util.ToolUtil;
 @Service
 public class ResExtService extends BaseService {
 
+	// 入库，转移，领用，借用，闲置
+	public static String STATUS_RK = "rk";
+	public static String STATUS_ZY = "zy";
+	public static String STATUS_LY = "ly";
+	public static String STATUS_JY = "jy";
+	public static String STATUS_XZ = "xz";
+
 	public static String normalClassSql = " t.dr='0' and t.root='3' and t.route not like '46%' and t.node_level>1 ";
 	public static String resSqlbody = " (select name from sys_dict_item where  dr='0' and dict_item_id=t.loc ) locstr,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.recycle ) recyclestr,"
@@ -112,7 +119,8 @@ public class ResExtService extends BaseService {
 
 		if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
 			if (class_id.equals("normalclass")) {
-				sql = sql + " and class_id in (select id from ct_category t where " + ResExtService.normalClassSql+" )";
+				sql = sql + " and class_id in (select id from ct_category t where " + ResExtService.normalClassSql
+						+ " )";
 			} else {
 				sql = sql + " and class_id in (select id from ct_category  where dr='0' and ( id='" + class_id
 						+ "' or parent_id='" + class_id + "')) ";
