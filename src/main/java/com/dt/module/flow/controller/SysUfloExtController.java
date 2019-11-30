@@ -59,12 +59,6 @@ public class SysUfloExtController extends BaseController {
 	private HistoryService historyService;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-//		ProcessService
-//		StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
-//		startProcessInfo.setBusinessId("12");
-//		Map<String,Object> map = new HashMap<String, Object>();
-//		map.put("approveUser","superman");
 
 	}
 

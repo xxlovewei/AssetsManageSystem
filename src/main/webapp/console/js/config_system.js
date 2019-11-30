@@ -429,7 +429,47 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	});
+	}).state('flow.pgroup', {
+		url : "/flow_pgroup?psBtns",
+		data: { pageTitle: '流程分组'},
+		template:'<div ng-controller="sysFlowGroupCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/flow/flowgroup.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('flow.processmatch', {
+		url : "/flow_processmatch?psBtns",
+		data: { pageTitle: '流程分配'},
+		template:'<div ng-controller="sysFlowMatchCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/flow/flowmatch.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('flow.flowquery', {
+		url : "/flow_flowquery?psBtns",
+		data: { pageTitle: '流程监测'},
+		templateUrl : "views/flow/processmonitor.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/flow/processmonitor.js?v=' + version ]
+				} ]);
+			}
+		}
+	})
+	
+	
+	
+	;
 
 }
  

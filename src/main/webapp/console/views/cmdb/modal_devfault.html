@@ -78,11 +78,11 @@
 					<div class="col-sm-10">
 						<input type="text" required ng-maxlength="100"
 							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							placeholder="请输入原因" name="url" ng-model="data.f_reason">
+							placeholder="请输入原因" name="f_reason" ng-model="data.f_reason">
 						<div class="text-danger"
-							ng-if="myForm.url.$dirty && myForm.url.$invalid">
-							<span ng-if="myForm.url.$error.required"> 输入不能为空 </span> <span
-								ng-show="myForm.url.$error.maxlength">不能超过100个字符 </span>
+							ng-if="myForm.f_reason.$dirty && myForm.f_reason.$invalid">
+							<span ng-if="myForm.f_reason.$error.required"> 输入不能为空 </span> <span
+								ng-show="myForm.f_reason.$error.maxlength">不能超过100个字符 </span>
 						</div>
 					</div>
 				</div>

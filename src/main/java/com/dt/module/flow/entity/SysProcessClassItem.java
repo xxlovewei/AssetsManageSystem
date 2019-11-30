@@ -24,6 +24,8 @@ public class SysProcessClassItem extends BaseModel<SysProcessClassItem> {
 
     @TableId("id")
     private String id;
+    @TableField("cid")
+    private String cid;
     @TableField("name")
     private String name;
     @TableField("mark")
@@ -38,6 +40,14 @@ public class SysProcessClassItem extends BaseModel<SysProcessClassItem> {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 
     public String getName() {
@@ -73,6 +83,7 @@ public class SysProcessClassItem extends BaseModel<SysProcessClassItem> {
     public String toString() {
         return "SysProcessClassItem{" +
         "id=" + id +
+        ", cid=" + cid +
         ", name=" + name +
         ", mark=" + mark +
         ", tpl=" + tpl +

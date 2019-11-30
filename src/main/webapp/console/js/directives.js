@@ -1207,7 +1207,9 @@ function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 	$scope.sure = function() {
 		var id = getSelectRow();
-		$uibModalInstance.close(id);
+		if(angular.isDefined(id)){
+			$uibModalInstance.close(id);
+		}
 
 	}
 

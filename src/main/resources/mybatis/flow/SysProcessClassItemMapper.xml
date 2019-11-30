@@ -10,6 +10,7 @@
     <result column="create_time" property="createTime" />
     <result column="update_by" property="updateBy" />
     <result column="update_time" property="updateTime" />
+        <result column="cid" property="cid" />
         <result column="name" property="name" />
         <result column="mark" property="mark" />
         <result column="tpl" property="tpl" />
