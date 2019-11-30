@@ -1,9 +1,9 @@
-package ${package.Controller};
+package com.dt.module.flow.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import ${package.Entity}.${entity};
-import ${package.Service}.${table.serviceName};
+import com.dt.module.flow.entity.SysUfloTpl;
+import com.dt.module.flow.service.ISysUfloTplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -18,84 +18,66 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.springframework.web.bind.annotation.RequestParam;
-#if(${restControllerStyle})
-import org.springframework.web.bind.annotation.RestController;
-#else
 import org.springframework.stereotype.Controller;
-#end
-#if(${superControllerClassPackage})
-import ${superControllerClassPackage};
-#end
+import com.dt.core.common.base.BaseController;
 
 /**
  * <p>
- * $!{table.comment} 前端控制器
+ *  前端控制器
  * </p>
  *
- * @author ${author}
- * @since ${date}
+ * @author algernonking
+ * @since 2019-11-30
  */
-#if(${restControllerStyle})
-@RestController
-#else
 @Controller
-#end
-@RequestMapping("/api#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
-#if(${kotlin})
-class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
-
-#else
-#if(${superControllerClass})
-public class ${table.controllerName} extends ${superControllerClass} {
-#else
-public class ${table.controllerName} {
-#end
+@RequestMapping("/api/flow/sysUfloTpl")
+public class SysUfloTplController extends BaseController {
 
 
 	@Autowired
-	${table.serviceName} ${table.serviceImplName};
+	ISysUfloTplService SysUfloTplServiceImpl;
 
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.removeById(id));
+		return R.SUCCESS_OPER(SysUfloTplServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.getById(id));
+		return R.SUCCESS_OPER(SysUfloTplServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
-	public R insert(${entity} entity) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.save(entity));
+	public R insert(SysUfloTpl entity) {
+		return R.SUCCESS_OPER(SysUfloTplServiceImpl.save(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
 	@RequestMapping(value = "/updateById.do")
-	public R updateById(${entity} entity) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.updateById(entity));
+	public R updateById(SysUfloTpl entity) {
+		return R.SUCCESS_OPER(SysUfloTplServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(${entity} entity) {
-		return R.SUCCESS_OPER(${table.serviceImplName}.saveOrUpdate(entity));
+	public R insertOrUpdate(SysUfloTpl entity) {
+		return R.SUCCESS_OPER(SysUfloTplServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(${table.serviceImplName}.list(null));
+		return R.SUCCESS_OPER(SysUfloTplServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -108,9 +90,9 @@ public class ${table.controllerName} {
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<${entity}> ew = new QueryWrapper<${entity}>();
+		QueryWrapper<SysUfloTpl> ew = new QueryWrapper<SysUfloTpl>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<${entity}> pdata = ${table.serviceImplName}.page(new Page<${entity}>(pageindex, pagesize), ew);
+		IPage<SysUfloTpl> pdata = SysUfloTplServiceImpl.page(new Page<SysUfloTpl>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
@@ -121,4 +103,3 @@ public class ${table.controllerName} {
 
 }
 
-#end

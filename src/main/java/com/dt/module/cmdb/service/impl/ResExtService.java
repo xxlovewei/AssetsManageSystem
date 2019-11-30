@@ -58,62 +58,65 @@ public class ResExtService extends BaseService {
 			+ "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
 			+ "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
 
-	public R queryResAllGetData(String class_id, String wb, String env, String recycle, String loc, String search) {
-		String sql = "select ";
-		sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  ";
-
-		if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
-			sql = sql + " and class_id='" + class_id + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
-			sql = sql + " and loc='" + loc + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(env) && !"all".equals(env)) {
-			sql = sql + " and env='" + env + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(wb) && !"all".equals(wb)) {
-			sql = sql + " and wb='" + wb + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
-			sql = sql + " and recycle='" + recycle + "'";
-		}
-
-		if (ToolUtil.isNotEmpty(search)) {
-			sql = sql + " and  (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
-					+ "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
-					+ "%' )";
-		}
-		sql = sql + " order by loc,rack ";
-		RcdSet rs2 = db.query(sql);
-		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
-	}
+//	public R queryResAllGetData2(String class_id, String wb, String env, String recycle, String loc, String search) {
+//		String sql = "select ";
+//		sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  ";
+//
+//		if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
+//			sql = sql + " and class_id='" + class_id + "'";
+//		}
+//
+//		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
+//			sql = sql + " and loc='" + loc + "'";
+//		}
+//
+//		if (ToolUtil.isNotEmpty(env) && !"all".equals(env)) {
+//			sql = sql + " and env='" + env + "'";
+//		}
+//
+//		if (ToolUtil.isNotEmpty(wb) && !"all".equals(wb)) {
+//			sql = sql + " and wb='" + wb + "'";
+//		}
+//
+//		if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
+//			sql = sql + " and recycle='" + recycle + "'";
+//		}
+//
+//		if (ToolUtil.isNotEmpty(search)) {
+//			sql = sql + " and  (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
+//					+ "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
+//					+ "%' )";
+//		}
+//		sql = sql + " order by loc,rack ";
+//		RcdSet rs2 = db.query(sql);
+//		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
+//	}
 
 	// 根据ClassId获取数据
-	public R queryResAllByClassGetData(String class_id, String wb, String env, String recycle, String loc,
+	public R queryResAllGetData(String class_id, String wb, String env, String recycle, String loc,
 			String search) {
 
 		// 获取属性数据
 		String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
 		RcdSet attrs_rs = db.query(attrsql, class_id);
 		String sql = "select";
-		for (int i = 0; i < attrs_rs.size(); i++) {
-			// 拼接sql
-			String valsql = "";
-			if (attrs_rs.getRcd(i).getString("attr_type").equals("number")) {
-				// "to_number(attr_value)";
-				valsql = " cast( attr_value as SIGNED INTEGER)";
-			} else if (attrs_rs.getRcd(i).getString("attr_type").equals("string_arr")) {
-				valsql = "attr_value";
-			} else {
-				valsql = "attr_value";
+		if (attrs_rs != null) {
+			for (int i = 0; i < attrs_rs.size(); i++) {
+				// 拼接sql
+				String valsql = "";
+				if (attrs_rs.getRcd(i).getString("attr_type").equals("number")) {
+					// "to_number(attr_value)";
+					valsql = " cast( attr_value as SIGNED INTEGER)";
+				} else if (attrs_rs.getRcd(i).getString("attr_type").equals("string_arr")) {
+					valsql = "attr_value";
+				} else {
+					valsql = "attr_value";
+				}
+				sql = sql + " (select " + valsql
+						+ " from res_attr_value i where i.dr=0 and i.res_id=t.id and i.attr_id='"
+						+ attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
+						+ "\",  ";
 			}
-			sql = sql + " (select " + valsql + " from res_attr_value i where i.dr=0 and i.res_id=t.id and i.attr_id='"
-					+ attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
-					+ "\",  ";
 		}
 		sql = sql + resSqlbody + " t.* from res t where dr=0  ";
 

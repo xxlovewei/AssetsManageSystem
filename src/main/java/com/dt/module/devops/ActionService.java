@@ -1,4 +1,4 @@
-package com.dt.devops;
+package com.dt.module.devops;
 
 import com.dt.module.om.term.entity.Machine;
 import com.dt.module.om.term.websocket.SftpClient;

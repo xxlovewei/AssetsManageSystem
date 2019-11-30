@@ -222,7 +222,7 @@ public class ResExtController extends BaseController {
 		if (ToolUtil.isEmpty(class_id)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
 		}
-		return resExtService.queryResAllByClassGetData(class_id, wb, env, recycle, loc, search);
+		return resExtService.queryResAllGetData(class_id, wb, env, recycle, loc, search);
 	}
 
 	@ResponseBody

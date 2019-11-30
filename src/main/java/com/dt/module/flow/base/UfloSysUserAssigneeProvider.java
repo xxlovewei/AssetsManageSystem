@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.Resource;
- 
 import org.springframework.stereotype.Component;
 
 import com.bstek.uflo.env.Context;

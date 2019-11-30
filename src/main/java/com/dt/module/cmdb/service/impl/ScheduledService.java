@@ -15,7 +15,7 @@ import com.dt.core.common.base.BaseService;
  * @Description: TODO
  */
 @Service
-public class CmdbJobService extends BaseService {
+public class ScheduledService extends BaseService {
 	@Scheduled(cron = "0 */30 * * * ? ")
 	public void checkWbAuto() {
 		Date date = new Date(); // 获取一个Date对象

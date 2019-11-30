@@ -47,9 +47,11 @@
 		base-package="com.dt.module.flow.base" />
 
 	<!-- 流程配置 -->
-	<bean id="FlowProcessEventHandler"
+<!-- 	<bean id="FlowProcessEventHandler"
 		class="com.dt.module.flow.base.FlowProcessEventHandler">
-	</bean>
+	</bean> -->
+
+
 
 
 	<context:annotation-config />
