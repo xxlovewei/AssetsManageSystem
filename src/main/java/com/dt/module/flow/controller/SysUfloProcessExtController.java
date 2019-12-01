@@ -1,14 +1,9 @@
 package com.dt.module.flow.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -22,6 +17,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bstek.uflo.diagram.TaskInfo;
 import com.bstek.uflo.model.HistoryTask;
+import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.model.task.Task;
 import com.bstek.uflo.model.task.TaskState;
 import com.bstek.uflo.query.HistoryTaskQuery;
@@ -37,7 +33,12 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
+import com.dt.module.flow.entity.SysProcessData;
+import com.dt.module.flow.service.ISysProcessClassItemService;
+import com.dt.module.flow.service.ISysProcessDataService;
+import com.dt.module.flow.service.impl.SysUfloProcessService;
 
 /**
  * @author: algernonking
@@ -47,7 +48,7 @@ import com.dt.core.tool.util.support.HttpKit;
 
 @Controller
 @RequestMapping("/api")
-public class SysUfloExtController extends BaseController {
+public class SysUfloProcessExtController extends BaseController {
 
 	@Autowired
 	private ProcessService processService;
@@ -57,6 +58,12 @@ public class SysUfloExtController extends BaseController {
 
 	@Autowired
 	private HistoryService historyService;
+
+	@Autowired
+	ISysProcessClassItemService SysProcessClassItemServiceImpl;
+
+	@Autowired
+	ISysProcessDataService SysProcessDataServiceImpl;
 
 	public static void main(String[] args) {
 
@@ -80,6 +87,31 @@ public class SysUfloExtController extends BaseController {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@RequestMapping("/flow/startProcess.do")
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	public R startProcess(String key, String type) {
+		if (ToolUtil.isOneEmpty(key, type)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		String busid = ToolUtil.getUUID();
+		StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
+		startProcessInfo.setCompleteStartTask(true);
+		ProcessInstance inst = processService.startProcessByKey(key, startProcessInfo);
+		SysProcessData pd = new SysProcessData();
+		pd.setBusid(busid);
+		pd.setProcesskey(key);
+		pd.setPtype(type);
+		pd.setPstatus(SysUfloProcessService.P_TYPE_RUNNING);
+		pd.setProcessInstanceId(inst.getId() + "");
+		pd.setPstartuserid(this.getUserId());
+		pd.setDmessage(ps.getString("dmessage", ""));
+		pd.setDmark(ps.getString("dmark", ""));
+		SysProcessDataServiceImpl.save(pd);
+		return R.SUCCESS_OPER();
 	}
 
 	@RequestMapping("/flow/computeTask.do")

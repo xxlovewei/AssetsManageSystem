@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2019-11-30
+ * @since 2019-12-01
  */
  
 @TableName("sys_process_data")
@@ -25,8 +25,26 @@ public class SysProcessData extends BaseModel<SysProcessData> {
 
     @TableId("id")
     private String id;
-    @TableField("defid")
-    private String defid;
+    @TableField("busid")
+    private String busid;
+    @TableField("pstartuserid")
+    private String pstartuserid;
+    @TableField("processkey")
+    private String processkey;
+    @TableField("processname")
+    private String processname;
+    @TableField("processversion")
+    private String processversion;
+    @TableField("processInstanceId")
+    private String processInstanceId;
+    @TableField("pstatus")
+    private String pstatus;
+    @TableField("ptype")
+    private String ptype;
+    @TableField("pattach")
+    private String pattach;
+    @TableField("pdefid")
+    private String pdefid;
     @TableField("dname")
     private String dname;
     @TableField("dmark")
@@ -105,12 +123,84 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         this.id = id;
     }
 
-    public String getDefid() {
-        return defid;
+    public String getBusid() {
+        return busid;
     }
 
-    public void setDefid(String defid) {
-        this.defid = defid;
+    public void setBusid(String busid) {
+        this.busid = busid;
+    }
+
+    public String getPstartuserid() {
+        return pstartuserid;
+    }
+
+    public void setPstartuserid(String pstartuserid) {
+        this.pstartuserid = pstartuserid;
+    }
+
+    public String getProcesskey() {
+        return processkey;
+    }
+
+    public void setProcesskey(String processkey) {
+        this.processkey = processkey;
+    }
+
+    public String getProcessname() {
+        return processname;
+    }
+
+    public void setProcessname(String processname) {
+        this.processname = processname;
+    }
+
+    public String getProcessversion() {
+        return processversion;
+    }
+
+    public void setProcessversion(String processversion) {
+        this.processversion = processversion;
+    }
+
+    public String getProcessInstanceId() {
+        return processInstanceId;
+    }
+
+    public void setProcessInstanceId(String processInstanceId) {
+        this.processInstanceId = processInstanceId;
+    }
+
+    public String getPstatus() {
+        return pstatus;
+    }
+
+    public void setPstatus(String pstatus) {
+        this.pstatus = pstatus;
+    }
+
+    public String getPtype() {
+        return ptype;
+    }
+
+    public void setPtype(String ptype) {
+        this.ptype = ptype;
+    }
+
+    public String getPattach() {
+        return pattach;
+    }
+
+    public void setPattach(String pattach) {
+        this.pattach = pattach;
+    }
+
+    public String getPdefid() {
+        return pdefid;
+    }
+
+    public void setPdefid(String pdefid) {
+        this.pdefid = pdefid;
     }
 
     public String getDname() {
@@ -394,7 +484,16 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     public String toString() {
         return "SysProcessData{" +
         "id=" + id +
-        ", defid=" + defid +
+        ", busid=" + busid +
+        ", pstartuserid=" + pstartuserid +
+        ", processkey=" + processkey +
+        ", processname=" + processname +
+        ", processversion=" + processversion +
+        ", processInstanceId=" + processInstanceId +
+        ", pstatus=" + pstatus +
+        ", ptype=" + ptype +
+        ", pattach=" + pattach +
+        ", pdefid=" + pdefid +
         ", dname=" + dname +
         ", dmark=" + dmark +
         ", dmessage=" + dmessage +

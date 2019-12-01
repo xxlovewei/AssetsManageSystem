@@ -277,7 +277,7 @@ public class ResImportService extends BaseService {
 			// 处理资产编号,必需不存在
 			if (ToolUtil.isEmpty(re.getUuid())) {
 				// 插入时候，无编号自动生产
-				me.setIf("uuid", resExtService.createUuid("ZC"));
+				me.setIf("uuid", resExtService.createUuid(ResExtService.UUID_ZC));
 			} else {
 				// 如果有编号,如果编号重复不可插入,否则按照指定编号插入
 				if (uuidR > 0) {

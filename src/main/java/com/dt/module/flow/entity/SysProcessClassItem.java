@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2019-11-30
+ * @since 2019-12-01
  */
  
 @TableName("sys_process_class_item")
@@ -30,8 +30,10 @@ public class SysProcessClassItem extends BaseModel<SysProcessClassItem> {
     private String name;
     @TableField("mark")
     private String mark;
-    @TableField("tpl")
-    private String tpl;
+    @TableField("processname")
+    private String processname;
+    @TableField("processkey")
+    private String processkey;
 
 
     public String getId() {
@@ -66,12 +68,20 @@ public class SysProcessClassItem extends BaseModel<SysProcessClassItem> {
         this.mark = mark;
     }
 
-    public String getTpl() {
-        return tpl;
+    public String getProcessname() {
+        return processname;
     }
 
-    public void setTpl(String tpl) {
-        this.tpl = tpl;
+    public void setProcessname(String processname) {
+        this.processname = processname;
+    }
+
+    public String getProcesskey() {
+        return processkey;
+    }
+
+    public void setProcesskey(String processkey) {
+        this.processkey = processkey;
     }
 
     @Override
@@ -86,7 +96,8 @@ public class SysProcessClassItem extends BaseModel<SysProcessClassItem> {
         ", cid=" + cid +
         ", name=" + name +
         ", mark=" + mark +
-        ", tpl=" + tpl +
+        ", processname=" + processname +
+        ", processkey=" + processkey +
         "}";
     }
 }

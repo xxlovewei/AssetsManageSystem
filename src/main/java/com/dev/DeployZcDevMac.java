@@ -25,9 +25,11 @@ public class DeployZcDevMac {
 		String filename = "dt";
 		String rfile = dir + "/" + filename + ".war";
 		String fstr = "/Users/algernonking/" + filename + ".war";
+		
+		String pwd="111111";
 
 		SftpClient sftp = new SftpClient();
-		Machine m = new Machine("localhost", "39.105.191.22", "root", "qwIMs@j*7arv", 12500);
+		Machine m = new Machine("localhost", "39.105.191.22", "root", pwd, 12500);
 		sftp.connect(m, "upload");
 		sftp.changeDirectory("/tmp");
 		File f = new File(fstr);
@@ -38,7 +40,7 @@ public class DeployZcDevMac {
 			e.printStackTrace();
 		}
 
-		RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root", "qwIMs@j*7arv", 12500);
+		RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root",pwd, 12500);
 	//	executor.exec("/usr/bin/cp " + rfile + " /tmp/shop." + filename + ".bak --backup").print();
 
 		// 停应用

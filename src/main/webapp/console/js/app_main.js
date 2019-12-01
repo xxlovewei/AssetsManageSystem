@@ -384,7 +384,8 @@ function initDT(DTDefaultOptions) {
 
 	console.log(DTDefaultOptions);
 	DTDefaultOptions.setLanguage(lng);
-	DTDefaultOptions.setDOM('frtlip');
+//	DTDefaultOptions.setDOM('frtlip');
+	DTDefaultOptions.setDOM('frtilp');
 	DTDefaultOptions.setDisplayLength(50);
 	DTDefaultOptions.setOption('sPaginationType', 'full_numbers');
 	DTDefaultOptions.setOption('ordering', false);

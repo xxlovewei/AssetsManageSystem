@@ -39,6 +39,9 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
 			resolve : { // 调用控制器与modal控制器中传递值
 				id : function() {
 					return ""
+				},
+				type : function() {
+					return "one"
 				}
 			}
 		});

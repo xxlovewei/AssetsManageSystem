@@ -28,12 +28,20 @@ import com.dt.core.tool.util.ToolUtil;
 public class ResExtService extends BaseService {
 
 	// 入库，转移，领用，借用，闲置
-	public static String STATUS_RK = "rk";
-	public static String STATUS_ZY = "zy";
-	public static String STATUS_LY = "ly";
-	public static String STATUS_JY = "jy";
-	public static String STATUS_XZ = "xz";
+//	public static String STATUS_RK = "rk";
+//	public static String STATUS_ZY = "zy";
+//	public static String STATUS_LY = "ly";
+//	public static String STATUS_JY = "jy";
+//	public static String STATUS_XZ = "xz";
 
+	public static String UUID_ZC="ZC";
+	public static String UUID_LY="LY";
+	public static String UUID_JY="JY";
+	public static String UUID_BF="BF";
+	public static String UUID_BX="BX";
+	
+	
+	
 	public static String normalClassSql = " t.dr='0' and t.root='3' and t.route not like '46%' and t.node_level>1 ";
 	public static String resSqlbody = " (select name from sys_dict_item where  dr='0' and dict_item_id=t.loc ) locstr,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.recycle ) recyclestr,"
@@ -57,40 +65,7 @@ public class ResExtService extends BaseService {
 			+ "  date_format(wbout_date,'%Y-%m-%d')  wbout_datestr,"
 			+ "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
 			+ "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
-
-//	public R queryResAllGetData2(String class_id, String wb, String env, String recycle, String loc, String search) {
-//		String sql = "select ";
-//		sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  ";
-//
-//		if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
-//			sql = sql + " and class_id='" + class_id + "'";
-//		}
-//
-//		if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
-//			sql = sql + " and loc='" + loc + "'";
-//		}
-//
-//		if (ToolUtil.isNotEmpty(env) && !"all".equals(env)) {
-//			sql = sql + " and env='" + env + "'";
-//		}
-//
-//		if (ToolUtil.isNotEmpty(wb) && !"all".equals(wb)) {
-//			sql = sql + " and wb='" + wb + "'";
-//		}
-//
-//		if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
-//			sql = sql + " and recycle='" + recycle + "'";
-//		}
-//
-//		if (ToolUtil.isNotEmpty(search)) {
-//			sql = sql + " and  (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
-//					+ "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
-//					+ "%' )";
-//		}
-//		sql = sql + " order by loc,rack ";
-//		RcdSet rs2 = db.query(sql);
-//		return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
-//	}
+ 
 
 	// 根据ClassId获取数据
 	public R queryResAllGetData(String class_id, String wb, String env, String recycle, String loc,
@@ -302,7 +277,7 @@ public class ResExtService extends BaseService {
 			Insert me = new Insert("res");
 			id = db.getUUID();
 			me.set("id", id);
-			String uuid = createUuid("ZC");
+			String uuid = createUuid(ResExtService.UUID_ZC);
 			if (ToolUtil.isEmpty(uuid)) {
 				return R.FAILURE("未产生有效编号,请重试!");
 			}
@@ -459,7 +434,7 @@ public class ResExtService extends BaseService {
 		int cnt = 5;
 		String id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
 		int i = 0;
-		if (type.equals("ZC")) {
+		if (type.equals(ResExtService.UUID_ZC)) {
 			for (i = 0; i < cnt; i++) {
 				Rcd rs = db.uniqueRecord("select * from res where uuid=?", id);
 				if (rs == null) {
@@ -471,9 +446,9 @@ public class ResExtService extends BaseService {
 			if (i > cnt - 1) {
 				return "";
 			} else {
-				return "ZC" + id;
+				return type + id;
 			}
-		} else if (type.equals("BX")) {
+		} else if (type.equals(ResExtService.UUID_BX)) {
 			for (i = 0; i < cnt; i++) {
 				Rcd rs = db.uniqueRecord("select * from res_fault where f_uuid=?", id);
 				if (rs == null) {
@@ -485,9 +460,9 @@ public class ResExtService extends BaseService {
 			if (i > cnt - 1) {
 				return "";
 			} else {
-				return "BX" + id;
+				return type + id;
 			}
-		} else if (type.equals("LY") || type.equals("JY")) {
+		} else if (type.equals(ResExtService.UUID_LY) || type.equals(ResExtService.UUID_JY)) {
 			for (i = 0; i < cnt; i++) {
 				Rcd rs = db.uniqueRecord("select * from res_action where uuid=?", id);
 				if (rs == null) {

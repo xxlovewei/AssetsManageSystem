@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author algernonking
- * @since 2019-11-30
+ * @since 2019-12-01
  */
 @Service
 public class SysProcessClassItemServiceImpl extends ServiceImpl<SysProcessClassItemMapper, SysProcessClassItem> implements ISysProcessClassItemService {

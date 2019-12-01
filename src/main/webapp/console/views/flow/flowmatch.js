@@ -1,3 +1,14 @@
+function modalreviewProcessCtl(meta, $rootScope, $window, $scope,$uibModalInstance ) {
+
+	var url = $rootScope.project + "uflo/diagram?processKey=" + meta;
+	console.log(url);
+	$scope.url = url;
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+}
+
 function modalFlowListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, $http, $rootScope, DTOptionsBuilder,
 		DTColumnBuilder, $compile) {
@@ -166,8 +177,8 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 
 		modalInstance.result.then(function(result) {
 			$log.log("result", result);
-			$scope.data.tpl = result.id;
-
+			$scope.data.processname = result.name;
+			$scope.data.processkey = result.key;
 		}, function(reason) {
 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
 			$log.log("reason", reason)
@@ -176,7 +187,7 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 	}
 
 	$scope.sure = function() {
-		if (!angular.isDefined($scope.data.tpl)) {
+		if (!angular.isDefined($scope.data.processkey)) {
 			alert("请选择流程");
 			return;
 		}
@@ -195,8 +206,9 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 	}
 
 }
-function sysFlowMatchCtl($window,$stateParams, DTOptionsBuilder, DTColumnBuilder,
-		$compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
+		DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http,
+		$rootScope, $uibModal) {
 	$scope.meta = {
 		tools : [
 				{
@@ -267,7 +279,7 @@ function sysFlowMatchCtl($window,$stateParams, DTOptionsBuilder, DTColumnBuilder
 			acthtml = acthtml + " <button ng-click=\"row_del('" + full.id
 					+ "')\" class=\"btn-white btn btn-xs\">删除</button>";
 		}
-		acthtml = acthtml + " <button ng-click=\"review('" + full.tpl
+		acthtml = acthtml + " <button ng-click=\"review('" + full.processkey
 				+ "')\" class=\"btn-white btn btn-xs\">流程预览</button> ";
 		acthtml = acthtml + "</div>";
 		return acthtml;
@@ -283,8 +295,8 @@ function sysFlowMatchCtl($window,$stateParams, DTOptionsBuilder, DTColumnBuilder
 	$scope.dtColumns = [
 			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('tpl').withTitle('流程编号').withOption(
-					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('processkey').withTitle('流程编号')
+					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
@@ -311,10 +323,28 @@ function sysFlowMatchCtl($window,$stateParams, DTOptionsBuilder, DTColumnBuilder
 		flush();
 	}
 
-	$scope.review=function(id){
- 
-		$window.open("/dt/uflo/diagram?processId=1201", "newwindow");
-	 
+	$scope.review = function(id) {
+
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/flow/modal_reviewProcess.html',
+			controller : modalreviewProcessCtl,
+			size : 'blg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				meta : function() {
+					return id;
+				}
+			}
+		});
+
+		modalInstance.result.then(function(result) {
+			$log.log("result", result);
+
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
+
 	}
 	$scope.row_del = function(id) {
 		$confirm({

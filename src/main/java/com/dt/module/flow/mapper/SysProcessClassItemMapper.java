@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author algernonking
- * @since 2019-11-30
+ * @since 2019-12-01
  */
 public interface SysProcessClassItemMapper extends BaseMapper<SysProcessClassItem> {
 

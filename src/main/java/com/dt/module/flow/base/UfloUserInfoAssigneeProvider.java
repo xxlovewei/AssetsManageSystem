@@ -88,7 +88,7 @@ public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
 		IPage<SysUserInfo> pdata = SysUserInfoServiceImpl.page(new Page<SysUserInfo>(pageindex, pagesize));
 		List<Entity> entitys = new ArrayList<Entity>();
 		for (SysUserInfo userinfo : pdata.getRecords()) {
-			entitys.add(new Entity(userinfo.getUserId(), userinfo.getUserName()));
+			entitys.add(new Entity(userinfo.getUserId(), userinfo.getName()));
 		}
 		pageQuery.setResult(entitys);
 		pageQuery.setRecordCount(entitys.size());

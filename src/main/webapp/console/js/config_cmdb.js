@@ -224,7 +224,21 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('zcmgr.zclygh', {
+		url : "/zcmgr_zclygh",
+		data: { pageTitle: '资产领用归还'},
+		templateUrl : "views/cmdb/zclygh.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/zclygh.js?v=' + version ]
+				} ]);
+			}
+		}
 	})
+	
+	
 	
 	
 	

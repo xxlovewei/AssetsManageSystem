@@ -1057,9 +1057,12 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 
 function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, id, $http, $rootScope, DTOptionsBuilder,
+		$uibModalInstance, $scope, id, type,$http, $rootScope, DTOptionsBuilder,
 		DTColumnBuilder, $compile) {
-
+	// type:one|many
+	if(!angular.isDefined(type)){
+		type="many"
+	}
 	$scope.search = "";
 	// 分类
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
@@ -1125,8 +1128,6 @@ function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
 					'sDefaultContent', '').withOption("width", '30'),
 			DTColumnBuilder.newColumn('classname').withTitle('类型').withOption(
 					'sDefaultContent', '').withOption("width", '30'),
-			DTColumnBuilder.newColumn('typestr').withTitle('小类').withOption(
-					'sDefaultContent', '').withOption("width", '30'),
 			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
 					'sDefaultContent', '').withOption('width', '30'),
 			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
@@ -1185,32 +1186,67 @@ function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$uibModalInstance.dismiss('cancel');
 	};
 
-	function getSelectRow() {
+// function getSelectRow() {
+// var data = $scope.dtInstance.DataTable.rows({
+// selected : true
+// })[0];
+// if (data.length == 0) {
+// notify({
+// message : "请至少选择一项"
+// });
+// return;
+// } else if (data.length > 1) {
+// notify({
+// message : "请最多选择一项"
+// });
+// return;
+// } else {
+// console.log("sel:", data);
+// return $scope.dtOptions.aaData[data[0]];
+// }
+// }
+
+	$scope.sure = function() {
+		
 		var data = $scope.dtInstance.DataTable.rows({
 			selected : true
 		})[0];
+
 		if (data.length == 0) {
 			notify({
 				message : "请至少选择一项"
 			});
 			return;
-		} else if (data.length > 1) {
-			notify({
-				message : "请最多选择一项"
-			});
-			return;
-		} else {
-			console.log("sel:", data);
-			return $scope.dtOptions.aaData[data[0]];
+		}  
+		
+		if(type=="one"){
+			if(data.length>1){
+				notify({
+					message : "请最多选择一项"
+				});
+			}
+			var item=$scope.dtOptions.aaData[data[0]];
+			if(angular.isDefined(item)){
+				$uibModalInstance.close(item);
+			}
+			return ;
 		}
-	}
-
-	$scope.sure = function() {
-		var id = getSelectRow();
-		if(angular.isDefined(id)){
-			$uibModalInstance.close(id);
+		
+		if(type=="many"){
+			var res=[];
+			for(var i=0;i<data.length;i++){
+				var item=$scope.dtOptions.aaData[data[i]];
+				res.push(item);
+			}
+			if(angular.isDefined(res)){
+				$uibModalInstance.close(res);
+			}
+			return ;
 		}
-
+ 
 	}
 
 }
+
+
+ 

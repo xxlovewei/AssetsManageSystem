@@ -10,7 +10,16 @@
     <result column="create_time" property="createTime" />
     <result column="update_by" property="updateBy" />
     <result column="update_time" property="updateTime" />
-        <result column="defid" property="defid" />
+        <result column="busid" property="busid" />
+        <result column="pstartuserid" property="pstartuserid" />
+        <result column="processkey" property="processkey" />
+        <result column="processname" property="processname" />
+        <result column="processversion" property="processversion" />
+        <result column="processInstanceId" property="processInstanceId" />
+        <result column="pstatus" property="pstatus" />
+        <result column="ptype" property="ptype" />
+        <result column="pattach" property="pattach" />
+        <result column="pdefid" property="pdefid" />
         <result column="dname" property="dname" />
         <result column="dmark" property="dmark" />
         <result column="dmessage" property="dmessage" />
