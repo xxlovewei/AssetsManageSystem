@@ -48,6 +48,10 @@ public class ResAction extends BaseModel<ResAction> {
     private String operusername;
     @TableField("backtimestr")
     private String backtimestr;
+    @TableField("tplinstid")
+    private String tplinstid;
+    @TableField("spmethod")
+    private String spmethod;
 
 
     public String getId() {
@@ -146,6 +150,22 @@ public class ResAction extends BaseModel<ResAction> {
         this.backtimestr = backtimestr;
     }
 
+    public String getTplinstid() {
+        return tplinstid;
+    }
+
+    public void setTplinstid(String tplinstid) {
+        this.tplinstid = tplinstid;
+    }
+
+    public String getSpmethod() {
+        return spmethod;
+    }
+
+    public void setSpmethod(String spmethod) {
+        this.spmethod = spmethod;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -166,6 +186,8 @@ public class ResAction extends BaseModel<ResAction> {
         ", total=" + total +
         ", operusername=" + operusername +
         ", backtimestr=" + backtimestr +
+        ", tplinstid=" + tplinstid +
+        ", spmethod=" + spmethod +
         "}";
     }
 }

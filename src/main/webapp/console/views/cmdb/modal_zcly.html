@@ -19,20 +19,19 @@
 					<form class="form-horizontal m-t-md " name="myForm" novalidate
 						action="">
 
-
-
-
 						<div class="form-group">
 							<label class="col-sm-2 control-label"><span
 								class="text-danger">*</span>领用人:</label>
 							<div class="col-sm-10">
 								<input type="text" required ng-maxlength="500"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入原因" name="actusername" ng-model="data.actusername">
+									placeholder="请输入原因" name="actusername"
+									ng-model="data.actusername">
 								<div class="text-danger"
 									ng-if="myForm.actusername$dirty && myForm.actusername.$invalid">
-									<span ng-if="myForm.actusername.$error.required"> 输入不能为空 </span> <span
-										ng-show="myForm.actusername.$error.maxlength">不能超过500个字符 </span>
+									<span ng-if="myForm.actusername.$error.required"> 输入不能为空
+									</span> <span ng-show="myForm.actusername.$error.maxlength">不能超过500个字符
+									</span>
 								</div>
 							</div>
 						</div>
@@ -59,20 +58,23 @@
 								</div>
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span
+								class="text-danger">*</span>资产列表:</label>
+							<div class="col-sm-10">
+								<a href="javascript:void()" style="margin-top: 3px;"
+									ng-click="selectzc()" class="btn btn-primary">选择资产</a>
+								<table datatable="ed" dt-options="dtOptions"
+									dt-instance="dtInstance" dt-columns="dtColumns"
+									dt-column-defs="dtColumnDefs" class="table table-hover">
+								</table>
+							</div>
+						</div>
+
+
 					</form>
 				</div>
-				<div class="row">
-					<div class="col-lg-12">
-						<a href="javascript:void()" style="margin-top: 3px;"
-							ng-click="selectzc()" class="btn btn-primary">选择资产</a>
-					</div>
-					<div class="col-lg-12">
-						<table datatable="ed" dt-options="dtOptions"
-							dt-instance="dtInstance" dt-columns="dtColumns"
-							dt-column-defs="dtColumnDefs" class="table table-hover">
-						</table>
-					</div>
-				</div>
+
 			</div>
 			<div class="modal-footer">
 				<button ng-click="cancel()" class="btn btn-warning">取消</button>

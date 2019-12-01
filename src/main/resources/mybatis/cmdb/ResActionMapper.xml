@@ -21,6 +21,8 @@
         <result column="total" property="total" />
         <result column="operusername" property="operusername" />
         <result column="backtimestr" property="backtimestr" />
+        <result column="tplinstid" property="tplinstid" />
+        <result column="spmethod" property="spmethod" />
     </resultMap>
 
 </mapper>

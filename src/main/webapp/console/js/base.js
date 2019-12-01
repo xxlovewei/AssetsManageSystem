@@ -177,6 +177,19 @@ function privCrudCompute(curd, pbtns) {
 				curd.cpwd = true;
 				continue;
 			}
+			if (pbtns_arr[i].p == "act1") {
+				curd.act1 = true;
+				continue;
+			}
+
+			if (pbtns_arr[i].p == "act2") {
+				curd.act2 = true;
+				continue;
+			}
+			if (pbtns_arr[i].p == "act3") {
+				curd.act3 = true;
+				continue;
+			}
 
 			if (pbtns_arr[i].p == "fix") {
 				curd.fix = true;

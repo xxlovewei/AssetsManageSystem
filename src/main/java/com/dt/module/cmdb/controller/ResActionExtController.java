@@ -5,13 +5,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.bstek.uflo.model.ProcessInstance;
+import com.bstek.uflo.service.HistoryService;
+import com.bstek.uflo.service.ProcessService;
+import com.bstek.uflo.service.StartProcessInfo;
+import com.bstek.uflo.service.TaskService;
+import com.bstek.uflo.utils.EnvironmentUtils;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.RcdSet;
+import com.dt.core.dao.sql.Update;
+import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.cmdb.entity.ResAction;
 import com.dt.module.cmdb.entity.ResActionItem;
@@ -19,6 +32,10 @@ import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.service.IResActionService;
 import com.dt.module.cmdb.service.impl.ResActionService;
 import com.dt.module.cmdb.service.impl.ResExtService;
+import com.dt.module.flow.entity.SysProcessData;
+import com.dt.module.flow.service.ISysProcessClassItemService;
+import com.dt.module.flow.service.ISysProcessDataService;
+import com.dt.module.flow.service.impl.SysUfloProcessService;
 
 import java.util.ArrayList;
 
@@ -48,11 +65,26 @@ public class ResActionExtController extends BaseController {
 	@Autowired
 	ISysUserInfoService SysUserInfoServiceImpl;
 
+	@Autowired
+	private ProcessService processService;
+
+	@Autowired
+	private TaskService taskService;
+
+	@Autowired
+	private HistoryService historyService;
+
+	@Autowired
+	ISysProcessClassItemService SysProcessClassItemServiceImpl;
+
+	@Autowired
+	ISysProcessDataService SysProcessDataServiceImpl;
+
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
 	public R insert(ResAction entity, String items) {
-		System.out.println(entity.toString());
+
 		String uuid = resExtService.createUuid(entity.getType());
 		entity.setUuid(uuid);
 		entity.setSpstatus(ResActionService.ACT_STATUS_SFA);
@@ -85,6 +117,22 @@ public class ResActionExtController extends BaseController {
 		return R.SUCCESS_OPER(ResActionServiceImpl.list(ew));
 	}
 
+	@ResponseBody
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectById.do")
+	public R selectById(String id) {
+
+		ResAction r = ResActionServiceImpl.getById(id);
+		String uuid = r.getUuid();
+		JSONObject res = JSONObject.parseObject(JSON.toJSONString(r, SerializerFeature.WriteDateUseDateFormat,
+				SerializerFeature.DisableCircularReferenceDetect));
+		String sql = "select " + ResExtService.resSqlbody
+				+ " t.*,a.backtime,a.status actitemstatus from res_action_item a,res t where a.resid=t.id and a.dr='0' and actuuid=?";
+		RcdSet rs = db.query(sql, uuid);
+		res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
+		return R.SUCCESS_OPER(res);
+	}
+
 	// 不用许编辑资产，只能编辑备注，原因
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_USER)
@@ -113,6 +161,49 @@ public class ResActionExtController extends BaseController {
 			} else {
 				return R.FAILURE("当前状态不允许删除");
 			}
+		}
+
+		return R.SUCCESS_OPER();
+	}
+
+	@ResponseBody
+	@Acl(info = "发起流程", value = Acl.ACL_USER)
+	@RequestMapping(value = "/startProcess.do")
+	public R startProcess(String spmethod, String processkey) {
+		String busid = ToolUtil.getUUID();
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+
+		if ("1".equals(spmethod)) {
+			// 需要审批
+			StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
+			startProcessInfo.setCompleteStartTask(true);
+			ProcessInstance inst = processService.startProcessByKey(processkey, startProcessInfo);
+
+			// 插入流程数据
+			SysProcessData pd = new SysProcessData();
+			pd.setBusid(busid);
+			pd.setProcesskey(processkey);
+			pd.setPtype(ps.getString("type"));
+			pd.setPstatus(SysUfloProcessService.P_TYPE_RUNNING);
+			pd.setProcessInstanceId(inst.getId() + "");
+			pd.setPstartuserid(this.getUserId());
+			SysProcessDataServiceImpl.save(pd);
+
+			Update me = new Update("res_action");
+			me.set("spmethod", spmethod);
+			me.set("tplinstid", inst.getId() + "");
+			me.set("spstatus", ResActionService.ACT_STATUS_INREVIEW);
+			me.where().and("id=?", ps.getString("id"));
+			db.execute(me);
+
+			// 更新资产单据表
+		} else {
+			// 不需要审批
+			Update me = new Update("res_action");
+			me.set("spmethod", spmethod);
+			me.set("spstatus", ResActionService.ACT_STATUS_APPROVALSUCCESS);
+			me.where().and("id=?", ps.getString("id"));
+			db.execute(me);
 		}
 
 		return R.SUCCESS_OPER();
