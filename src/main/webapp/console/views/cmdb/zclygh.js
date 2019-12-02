@@ -74,6 +74,8 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('state').withTitle('状态').withOption(
 					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('opinion').withTitle('审批意见').withOption(
+					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('endDate').withTitle('结束时间').withOption(
 					'sDefaultContent', ''), ]
 
@@ -197,8 +199,7 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 		meta.processkey = $scope.tplSel.processkey;
 		meta.spmethod = $scope.spSel.id;
-		$http.post(
-				$rootScope.project + "/api/cmdb/resActionExt/startProcess.do",
+		$http.post($rootScope.project + "/api/cmdb/flow/zc/startProcess.do",
 				meta).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close("OK");

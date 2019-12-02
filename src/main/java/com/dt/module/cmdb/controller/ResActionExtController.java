@@ -166,47 +166,5 @@ public class ResActionExtController extends BaseController {
 		return R.SUCCESS_OPER();
 	}
 
-	@ResponseBody
-	@Acl(info = "发起流程", value = Acl.ACL_USER)
-	@RequestMapping(value = "/startProcess.do")
-	public R startProcess(String spmethod, String processkey) {
-		String busid = ToolUtil.getUUID();
-		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-
-		if ("1".equals(spmethod)) {
-			// 需要审批
-			StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
-			startProcessInfo.setCompleteStartTask(true);
-			ProcessInstance inst = processService.startProcessByKey(processkey, startProcessInfo);
-
-			// 插入流程数据
-			SysProcessData pd = new SysProcessData();
-			pd.setBusid(busid);
-			pd.setProcesskey(processkey);
-			pd.setPtype(ps.getString("type"));
-			pd.setPstatus(SysUfloProcessService.P_TYPE_RUNNING);
-			pd.setProcessInstanceId(inst.getId() + "");
-			pd.setPstartuserid(this.getUserId());
-			SysProcessDataServiceImpl.save(pd);
-
-			Update me = new Update("res_action");
-			me.set("spmethod", spmethod);
-			me.set("tplinstid", inst.getId() + "");
-			me.set("spstatus", ResActionService.ACT_STATUS_INREVIEW);
-			me.where().and("id=?", ps.getString("id"));
-			db.execute(me);
-
-			// 更新资产单据表
-		} else {
-			// 不需要审批
-			Update me = new Update("res_action");
-			me.set("spmethod", spmethod);
-			me.set("spstatus", ResActionService.ACT_STATUS_APPROVALSUCCESS);
-			me.where().and("id=?", ps.getString("id"));
-			db.execute(me);
-		}
-
-		return R.SUCCESS_OPER();
-	}
 
 }
