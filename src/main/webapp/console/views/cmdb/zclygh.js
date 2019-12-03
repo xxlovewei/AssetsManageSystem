@@ -7,12 +7,12 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	};
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withPaginationType('full_numbers').withDisplayLength(100)
-			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", false).withOption('scrollY', '300px')
-			.withOption('scrollX', true).withOption('bAutoWidth', true)
-			.withOption('scrollCollapse', true).withOption('paging', true)
-			.withFixedColumns({
+			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
+					50).withOption("ordering", false).withOption("responsive",
+					false).withOption("searching", false).withOption('scrollY',
+					'300px').withOption('scrollX', true).withOption(
+					'bAutoWidth', true).withOption('scrollCollapse', true)
+			.withOption('paging', false).withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
@@ -52,12 +52,12 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtOptions.aaData = [];
 
 	$scope.dtOptions2 = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withPaginationType('full_numbers').withDisplayLength(100)
-			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", false).withOption('scrollY', '300px')
-			.withOption('scrollX', true).withOption('bAutoWidth', true)
-			.withOption('scrollCollapse', true).withOption('paging', true)
-			.withFixedColumns({
+			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
+					50).withOption("ordering", false).withOption("responsive",
+					false).withOption("searching", false).withOption('scrollY',
+					'300px').withOption('scrollX', true).withOption(
+					'bAutoWidth', true).withOption('scrollCollapse', true)
+			.withOption('paging', false).withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
@@ -67,17 +67,16 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 				$compile(angular.element(row).contents())($scope);
 			});
 	$scope.dtColumns2 = [
-
-			DTColumnBuilder.newColumn('createDate').withTitle('创建时间')
-					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('assigneename').withTitle('审批人').withOption(
+					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('taskName').withTitle('任务名称').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('state').withTitle('状态').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('opinion').withTitle('审批意见').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('endDate').withTitle('结束时间').withOption(
-					'sDefaultContent', ''), ]
+			DTColumnBuilder.newColumn('endDate').withTitle('审批时间').withOption(
+					'sDefaultContent', '') ]
 
 	$scope.dtOptions2.aaData = [];
 
@@ -90,22 +89,20 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			.success(
 					function(res) {
 						if (res.success) {
-							console.log(res);
 							$scope.data = res.data;
 							$scope.dtOptions.aaData = res.data.items;
-							if (angular.isDefined(res.data.spmethod)
-									&& res.data.spmethod == "1") {
+							if (angular.isDefined(res.data.dmethod)
+									&& res.data.dmethod == "1") {
 								var url = $rootScope.project
 										+ "uflo/diagram?processInstanceId="
-										+ res.data.tplinstid;
+										+ res.data.processInstanceId;
 								$scope.url = url;
-
 								$http
 										.post(
 												$rootScope.project
 														+ "/api/flow/loadProcessInstanceData.do",
 												{
-													processInstanceId : res.data.tplinstid
+													processInstanceId : res.data.processInstanceId
 												})
 										.success(
 												function(res) {
@@ -120,23 +117,23 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 							}
 							var html = "未知"
-							if (angular.isDefined(res.data.spstatus)) {
-								if (res.data.spstatus == "submitforapproval") {
+							if (angular.isDefined(res.data.pstatusdtl)) {
+								if (res.data.pstatusdtl == "submitforapproval") {
 									html = "待送审"
-								} else if (res.data.spstatus == "inreview") {
+								} else if (res.data.pstatusdtl == "inreview") {
 									html = "审批中"
-								} else if (res.data.spstatus == "approvalsuccess") {
+								} else if (res.data.pstatusdtl == "approvalsuccess") {
 									html = "审批通过"
-								} else if (res.data.spstatus == "approvalfailed") {
+								} else if (res.data.pstatusdtl == "approvalfailed") {
 									html = "审批不通过"
 								}
 							}
 							$scope.data.spstatusstr = html;
-							if (angular.isDefined(res.data.spmethod)) {
-								if (res.data.spmethod == "1") {
-									$scope.data.spmethodstr = "需要审批"
+							if (angular.isDefined(res.data.dmethod)) {
+								if (res.data.dmethod == "1") {
+									$scope.data.dmethodstr = "需要审批"
 								} else {
-									$scope.data.spmethodstr = "无需审批"
+									$scope.data.dmethodstr = "无需审批"
 								}
 							}
 
@@ -224,12 +221,12 @@ function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	var acttype = 'LY';
 	$scope.data = {};
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withPaginationType('full_numbers').withDisplayLength(100)
-			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", true).withOption('scrollY', '200px')
-			.withOption('scrollX', true).withOption('bAutoWidth', true)
-			.withOption('scrollCollapse', true).withOption('paging', true)
-			.withFixedColumns({
+			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
+					50).withOption("ordering", false).withOption("responsive",
+					false).withOption("searching", false).withOption('scrollY',
+					'300px').withOption('scrollX', true).withOption(
+					'bAutoWidth', true).withOption('scrollCollapse', true)
+			.withOption('paging', false).withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
@@ -296,7 +293,7 @@ function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.sure = function() {
 
-		$scope.data.type = acttype;
+		$scope.data.ptype = acttype;
 
 		if ($scope.dtOptions.aaData.length == 0) {
 			alert("请先选择资产");
@@ -431,22 +428,23 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 					function() {
 						return ""
 					}));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('编号')
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('duuid').withTitle('编号')
 			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('spstatus').withTitle('状态')
-			.withOption('sDefaultContent', '').renderWith(renderStatus));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('actusername').withTitle(
-			'领用人').withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('operusername').withTitle(
-			'操作人').withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('backtimestr').withTitle(
-			'退回时间').withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('ct').withTitle('原因')
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('pstatusdtl').withTitle(
+			'状态').withOption('sDefaultContent', '').renderWith(renderStatus));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('领用人')
 			.withOption('sDefaultContent', ''));
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
-	// .withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('total').withTitle('总数量')
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('df2').withTitle('退回时间')
 			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('dct').withTitle('描述')
+			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('dtotal').withTitle('总数量')
+			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('df10').withTitle('操作人')
+			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('createTime').withTitle(
+			'创建时间').withOption('sDefaultContent', ''));
+
 	// $scope.dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('审批流程')
 	// .withOption('sDefaultContent', '').renderWith(renderSpReview));
 	$scope.query = function() {

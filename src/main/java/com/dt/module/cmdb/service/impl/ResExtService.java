@@ -34,14 +34,12 @@ public class ResExtService extends BaseService {
 //	public static String STATUS_JY = "jy";
 //	public static String STATUS_XZ = "xz";
 
-	public static String UUID_ZC="ZC";
-	public static String UUID_LY="LY";
-	public static String UUID_JY="JY";
-	public static String UUID_BF="BF";
-	public static String UUID_BX="BX";
-	
-	
-	
+	public static String UUID_ZC = "ZC";
+	public static String UUID_LY = "LY";
+	public static String UUID_JY = "JY";
+	public static String UUID_BF = "BF";
+	public static String UUID_BX = "BX";
+
 	public static String normalClassSql = " t.dr='0' and t.root='3' and t.route not like '46%' and t.node_level>1 ";
 	public static String resSqlbody = " (select name from sys_dict_item where  dr='0' and dict_item_id=t.loc ) locstr,"
 			+ " (select name from sys_dict_item where  dr='0' and dict_item_id=t.recycle ) recyclestr,"
@@ -65,11 +63,9 @@ public class ResExtService extends BaseService {
 			+ "  date_format(wbout_date,'%Y-%m-%d')  wbout_datestr,"
 			+ "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
 			+ "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
- 
 
 	// 根据ClassId获取数据
-	public R queryResAllGetData(String class_id, String wb, String env, String recycle, String loc,
-			String search) {
+	public R queryResAllGetData(String class_id, String wb, String env, String recycle, String loc, String search) {
 
 		// 获取属性数据
 		String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
@@ -450,7 +446,7 @@ public class ResExtService extends BaseService {
 			}
 		} else if (type.equals(ResExtService.UUID_BX)) {
 			for (i = 0; i < cnt; i++) {
-				Rcd rs = db.uniqueRecord("select * from res_fault where f_uuid=?", id);
+				Rcd rs = db.uniqueRecord("select * from sys_process_data where duuid=?", id);
 				if (rs == null) {
 					break;
 				} else {
@@ -464,7 +460,7 @@ public class ResExtService extends BaseService {
 			}
 		} else if (type.equals(ResExtService.UUID_LY) || type.equals(ResExtService.UUID_JY)) {
 			for (i = 0; i < cnt; i++) {
-				Rcd rs = db.uniqueRecord("select * from res_action where uuid=?", id);
+				Rcd rs = db.uniqueRecord("select * from sys_process_data where duuid=?", id);
 				if (rs == null) {
 					break;
 				} else {

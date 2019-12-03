@@ -9,8 +9,6 @@ import com.bstek.uflo.env.Context;
 import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.process.handler.NodeEventHandler;
 import com.bstek.uflo.process.node.Node;
-import com.dt.module.cmdb.entity.ResAction;
-import com.dt.module.cmdb.service.IResActionService;
 import com.dt.module.cmdb.service.impl.ResActionService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;
@@ -29,9 +27,6 @@ public class UfloNodeEndEventHandler implements NodeEventHandler {
 	@Autowired
 	ISysProcessDataService SysProcessDataServiceImpl;
 
-	@Autowired
-	IResActionService ResActionServiceImpl;
-
 	@Override
 	public void enter(Node node, ProcessInstance processInstance, Context context) {
 		// TODO Auto-generated method stub
@@ -45,11 +40,10 @@ public class UfloNodeEndEventHandler implements NodeEventHandler {
 		String busid = processInstance.getBusinessId();
 
 		if (busid != null && !busid.equals("")) {
-			//更新流程总表
+			// 更新流程总表
 			UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
 			uw.eq("busid", busid);
 			uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
-			SysProcessDataServiceImpl.update(uw);
 
 			QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
 			qw.eq("busid", busid);
@@ -58,12 +52,11 @@ public class UfloNodeEndEventHandler implements NodeEventHandler {
 			// 流程类型处理
 			if (pdtype != null) {
 				if (pdtype.equals("LY") || pdtype.equals("JY") || pdtype.equals("ZY")) {
-					UpdateWrapper<ResAction> uw2 = new UpdateWrapper<ResAction>();
-					uw2.set("spstatus", ResActionService.ACT_STATUS_APPROVALSUCCESS);
-					uw2.eq("tplinstid", sd.getProcessInstanceId());
-					ResActionServiceImpl.update(uw2);
+					uw.set("pstatusdtl", ResActionService.ACT_STATUS_APPROVALSUCCESS);
 				}
 			}
+
+			SysProcessDataServiceImpl.update(uw);
 		}
 
 	}

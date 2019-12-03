@@ -14,7 +14,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.bstek.uflo.diagram.TaskInfo;
 import com.bstek.uflo.model.HistoryTask;
 import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.model.task.Task;
@@ -34,11 +33,12 @@ import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
+import com.dt.module.base.entity.SysUserInfo;
+import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.flow.entity.SysProcessData;
+import com.dt.module.flow.entity.TaskInfo;
 import com.dt.module.flow.service.ISysProcessClassItemService;
 import com.dt.module.flow.service.ISysProcessDataService;
-
- 
 
 /**
  * @author: algernonking
@@ -67,12 +67,14 @@ public class SysUfloProcessService extends BaseService {
 	@Autowired
 	ISysProcessDataService SysProcessDataServiceImpl;
 
+	@Autowired
+	ISysUserInfoService SysUserInfoServiceImpl;
+
 	public R loadProcessInstanceData(String processInstanceId) {
 		TaskQuery query = taskService.createTaskQuery();
 		long processInstanceIdl = ConvertUtil.toLong(processInstanceId);
 		query.rootProcessInstanceId(processInstanceIdl);
 		// query.nodeName(node.getName());
-
 		query.addTaskState(TaskState.Created);
 		query.addTaskState(TaskState.InProgress);
 		query.addTaskState(TaskState.Ready);
@@ -80,7 +82,6 @@ public class SysUfloProcessService extends BaseService {
 		query.addTaskState(TaskState.Reserved);
 		List<Task> tasks = query.list();
 		List<TaskInfo> taskinfo = buildTaskInfos(tasks);
-
 		HistoryTaskQuery historyTaskQuery = historyService.createHistoryTaskQuery();
 		historyTaskQuery.rootProcessInstanceId(processInstanceIdl);
 		List<HistoryTask> historyTasks = historyTaskQuery.list();
@@ -116,6 +117,13 @@ public class SysUfloProcessService extends BaseService {
 			info.setTaskName(task.getTaskName());
 			info.setType(task.getType());
 			info.setUrl(task.getUrl());
+			String assignee = info.getAssignee();
+			if (assignee != null) {
+				SysUserInfo u = SysUserInfoServiceImpl.getById(assignee);
+				if (u != null) {
+					info.setAssigneename(u.getName());
+				}
+			}
 			infos.add(info);
 		}
 		return infos;
@@ -123,19 +131,11 @@ public class SysUfloProcessService extends BaseService {
 
 	public R computeTask(String variables, String taskId, String opinion) {
 
-		JSONObject res = new JSONObject();
-		String instid = getProcessInstanceFromTaskId(taskId);
 		TaskOpinion op = new TaskOpinion(opinion);
 		long taskId_l = ConvertUtil.toLong(taskId);
-		Map<String, Object> variableMaps = buildVariables(variables);
 		taskService.start(taskId_l);
-		if (variableMaps != null) {
-			taskService.complete(taskId_l, variableMaps, op);
-		} else {
-			taskService.complete(taskId_l, op);
-		} 
-		res.put("processinstance_id", instid);
-		return R.SUCCESS_OPER(res);
+		taskService.complete(taskId_l, op);
+		return R.SUCCESS_OPER();
 	}
 
 	public boolean ifFinishProcessInstance(String instanceid) {
@@ -228,6 +228,13 @@ public class SysUfloProcessService extends BaseService {
 			info.setTaskId(task.getId());
 			info.setType(task.getType());
 			info.setUrl(task.getUrl());
+			String assignee = task.getAssignee();
+			if (assignee != null) {
+				SysUserInfo u = SysUserInfoServiceImpl.getById(assignee);
+				if (u != null) {
+					info.setAssigneename(u.getName());
+				}
+			}
 			infos.add(info);
 		}
 		return infos;

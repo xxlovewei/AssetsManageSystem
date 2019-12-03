@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
@@ -14,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2019-12-01
+ * @since 2019-12-03
  */
  
 @TableName("sys_process_data")
@@ -27,8 +28,12 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     private String id;
     @TableField("busid")
     private String busid;
+    @TableField("ptitle")
+    private String ptitle;
     @TableField("pstartuserid")
     private String pstartuserid;
+    @TableField("pstartusername")
+    private String pstartusername;
     @TableField("processkey")
     private String processkey;
     @TableField("processname")
@@ -39,12 +44,16 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     private String processInstanceId;
     @TableField("pstatus")
     private String pstatus;
+    @TableField("pstatusdtl")
+    private String pstatusdtl;
     @TableField("ptype")
     private String ptype;
-    @TableField("pattach")
-    private String pattach;
-    @TableField("pdefid")
-    private String pdefid;
+    @TableField("duuid")
+    private String duuid;
+    @TableField("dtitle")
+    private String dtitle;
+    @TableField("dct")
+    private String dct;
     @TableField("dname")
     private String dname;
     @TableField("dmark")
@@ -63,8 +72,6 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     private String daddr;
     @TableField("dcontact")
     private String dcontact;
-    @TableField("dtitle")
-    private String dtitle;
     @TableField("dpic")
     private String dpic;
     @TableField("dfile")
@@ -73,6 +80,10 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     private String duser;
     @TableField("dresult")
     private String dresult;
+    @TableField("dtotal")
+    private BigDecimal dtotal;
+    @TableField("dbacktime")
+    private Date dbacktime;
     @TableField("df1")
     private String df1;
     @TableField("df2")
@@ -113,6 +124,8 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     private BigDecimal dn9;
     @TableField("dn10")
     private BigDecimal dn10;
+    @TableField("dmethod")
+    private String dmethod;
 
 
     public String getId() {
@@ -131,12 +144,28 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         this.busid = busid;
     }
 
+    public String getPtitle() {
+        return ptitle;
+    }
+
+    public void setPtitle(String ptitle) {
+        this.ptitle = ptitle;
+    }
+
     public String getPstartuserid() {
         return pstartuserid;
     }
 
     public void setPstartuserid(String pstartuserid) {
         this.pstartuserid = pstartuserid;
+    }
+
+    public String getPstartusername() {
+        return pstartusername;
+    }
+
+    public void setPstartusername(String pstartusername) {
+        this.pstartusername = pstartusername;
     }
 
     public String getProcesskey() {
@@ -179,6 +208,14 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         this.pstatus = pstatus;
     }
 
+    public String getPstatusdtl() {
+        return pstatusdtl;
+    }
+
+    public void setPstatusdtl(String pstatusdtl) {
+        this.pstatusdtl = pstatusdtl;
+    }
+
     public String getPtype() {
         return ptype;
     }
@@ -187,20 +224,28 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         this.ptype = ptype;
     }
 
-    public String getPattach() {
-        return pattach;
+    public String getDuuid() {
+        return duuid;
     }
 
-    public void setPattach(String pattach) {
-        this.pattach = pattach;
+    public void setDuuid(String duuid) {
+        this.duuid = duuid;
     }
 
-    public String getPdefid() {
-        return pdefid;
+    public String getDtitle() {
+        return dtitle;
     }
 
-    public void setPdefid(String pdefid) {
-        this.pdefid = pdefid;
+    public void setDtitle(String dtitle) {
+        this.dtitle = dtitle;
+    }
+
+    public String getDct() {
+        return dct;
+    }
+
+    public void setDct(String dct) {
+        this.dct = dct;
     }
 
     public String getDname() {
@@ -275,14 +320,6 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         this.dcontact = dcontact;
     }
 
-    public String getDtitle() {
-        return dtitle;
-    }
-
-    public void setDtitle(String dtitle) {
-        this.dtitle = dtitle;
-    }
-
     public String getDpic() {
         return dpic;
     }
@@ -313,6 +350,22 @@ public class SysProcessData extends BaseModel<SysProcessData> {
 
     public void setDresult(String dresult) {
         this.dresult = dresult;
+    }
+
+    public BigDecimal getDtotal() {
+        return dtotal;
+    }
+
+    public void setDtotal(BigDecimal dtotal) {
+        this.dtotal = dtotal;
+    }
+
+    public Date getDbacktime() {
+        return dbacktime;
+    }
+
+    public void setDbacktime(Date dbacktime) {
+        this.dbacktime = dbacktime;
     }
 
     public String getDf1() {
@@ -475,6 +528,14 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         this.dn10 = dn10;
     }
 
+    public String getDmethod() {
+        return dmethod;
+    }
+
+    public void setDmethod(String dmethod) {
+        this.dmethod = dmethod;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -485,15 +546,19 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         return "SysProcessData{" +
         "id=" + id +
         ", busid=" + busid +
+        ", ptitle=" + ptitle +
         ", pstartuserid=" + pstartuserid +
+        ", pstartusername=" + pstartusername +
         ", processkey=" + processkey +
         ", processname=" + processname +
         ", processversion=" + processversion +
         ", processInstanceId=" + processInstanceId +
         ", pstatus=" + pstatus +
+        ", pstatusdtl=" + pstatusdtl +
         ", ptype=" + ptype +
-        ", pattach=" + pattach +
-        ", pdefid=" + pdefid +
+        ", duuid=" + duuid +
+        ", dtitle=" + dtitle +
+        ", dct=" + dct +
         ", dname=" + dname +
         ", dmark=" + dmark +
         ", dmessage=" + dmessage +
@@ -503,11 +568,12 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         ", dpwd=" + dpwd +
         ", daddr=" + daddr +
         ", dcontact=" + dcontact +
-        ", dtitle=" + dtitle +
         ", dpic=" + dpic +
         ", dfile=" + dfile +
         ", duser=" + duser +
         ", dresult=" + dresult +
+        ", dtotal=" + dtotal +
+        ", dbacktime=" + dbacktime +
         ", df1=" + df1 +
         ", df2=" + df2 +
         ", df3=" + df3 +
@@ -528,6 +594,7 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         ", dn8=" + dn8 +
         ", dn9=" + dn9 +
         ", dn10=" + dn10 +
+        ", dmethod=" + dmethod +
         "}";
     }
 }

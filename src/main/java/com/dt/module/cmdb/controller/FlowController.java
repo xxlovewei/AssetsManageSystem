@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.service.HistoryService;
 import com.bstek.uflo.service.ProcessService;
@@ -15,13 +15,11 @@ import com.bstek.uflo.utils.EnvironmentUtils;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.cmdb.service.IResActionItemService;
-import com.dt.module.cmdb.service.IResActionService;
 import com.dt.module.cmdb.service.impl.ResActionService;
 import com.dt.module.cmdb.service.impl.ResExtService;
 import com.dt.module.flow.entity.SysProcessData;
@@ -40,9 +38,6 @@ public class FlowController extends BaseController {
 
 	@Autowired
 	SysUfloProcessService sysUfloProcessService;
-
-	@Autowired
-	IResActionService ResActionServiceImpl;
 
 	@Autowired
 	IResActionItemService ResActionItemServiceImpl;
@@ -74,42 +69,40 @@ public class FlowController extends BaseController {
 	public R startProcess(String spmethod, String processkey) {
 		String busid = ToolUtil.getUUID();
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-
+		UpdateWrapper<SysProcessData> up = new UpdateWrapper<SysProcessData>();
+		SysProcessData sd = SysProcessDataServiceImpl.getById(ps.getString("id"));
+		if (sd == null) {
+			return R.FAILURE("不存在流程数据");
+		}
 		if ("1".equals(spmethod)) {
 			// 需要审批
+			if (sd.getProcessInstanceId() != null) {
+				return R.FAILURE("已有流程,无法重复提交");
+			}
+
 			StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
 			startProcessInfo.setCompleteStartTask(true);
 			startProcessInfo.setBusinessId(busid);
-			startProcessInfo.setSubject("资产流程");
+			startProcessInfo.setTag(sd.getPtype());
+			startProcessInfo.setSubject(sd.getDtitle());
 			startProcessInfo.setCompleteStartTaskOpinion("发起流程");
 			ProcessInstance inst = processService.startProcessByKey(processkey, startProcessInfo);
 			// 插入流程数据
-			SysProcessData pd = new SysProcessData();
-			pd.setBusid(busid);
-			pd.setProcesskey(processkey);
-			pd.setPtype(ps.getString("type"));
-			pd.setPstatus(SysUfloProcessService.P_TYPE_RUNNING);
-			pd.setProcessInstanceId(inst.getId() + "");
-			pd.setPstartuserid(this.getUserId());
-			SysProcessDataServiceImpl.save(pd);
+			up.set("busid", busid);
+			up.set("processkey", processkey);
+			up.set("ptitle", sd.getDtitle());
+			up.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
+			up.set("pstatusdtl", ResActionService.ACT_STATUS_INREVIEW);
+			up.set("processInstanceId", inst.getId() + "");
+			up.set("pstartuserid", getUserId());
+			up.set("pstartusername", SysUserInfoServiceImpl.getById(this.getUserId()).getName());
 
-			Update me = new Update("res_action");
-			me.set("spmethod", spmethod);
-			me.set("tplinstid", inst.getId() + "");
-			me.set("spstatus", ResActionService.ACT_STATUS_INREVIEW);
-			me.where().and("id=?", ps.getString("id"));
-			db.execute(me);
-
-			// 更新资产单据表
 		} else {
-			// 不需要审批
-			Update me = new Update("res_action");
-			me.set("spmethod", spmethod);
-			me.set("spstatus", ResActionService.ACT_STATUS_APPROVALSUCCESS);
-			me.where().and("id=?", ps.getString("id"));
-			db.execute(me);
+			up.set("pstatusdtl", ResActionService.ACT_STATUS_APPROVALSUCCESS);
 		}
-
+		up.set(spmethod != null, "dmethod", spmethod);
+		up.eq("id", ps.getString("id"));
+		SysProcessDataServiceImpl.update(up);
 		return R.SUCCESS_OPER();
 	}
 

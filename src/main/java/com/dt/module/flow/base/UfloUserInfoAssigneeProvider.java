@@ -81,6 +81,7 @@ public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
 	 */
 	@Override
 	public void queryEntities(PageQuery<Entity> pageQuery, String parentId) {
+
 		int index = pageQuery.getPageIndex();
 		int size = pageQuery.getPageSize();
 		int pagesize = size;
@@ -116,22 +117,12 @@ public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
 	 */
 	@Override
 	public Collection<String> getUsers(String entityId, Context context, ProcessInstance processInstance) {
+		// 当前指定用户,必需为userId
 		List<String> users = new ArrayList<String>();
 		users.add(entityId);
 		return users;
 	}
 
-	/*
-	 * (non Javadoc)
-	 * 
-	 * @Title: disable
-	 * 
-	 * @Description: TODO
-	 * 
-	 * @return
-	 * 
-	 * @see com.bstek.uflo.process.assign.AssigneeProvider#disable()
-	 */
 	@Override
 	public boolean disable() {
 		// TODO Auto-generated method stub
