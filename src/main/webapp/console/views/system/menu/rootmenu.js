@@ -77,7 +77,7 @@ function sysRootMenugCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "1",
 					label : "查询",
 					type : "btn",
-					show : false,
+					hide : false,
 					priv : 'select',
 					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
 				}, {

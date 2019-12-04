@@ -1,12 +1,30 @@
 package com.dt.module.cmdb.controller;
 
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.bstek.uflo.console.handler.impl.PageData;
+import com.bstek.uflo.model.HistoryTask;
 import com.bstek.uflo.model.ProcessInstance;
+import com.bstek.uflo.model.task.Task;
+import com.bstek.uflo.model.task.TaskState;
+import com.bstek.uflo.query.HistoryTaskQuery;
+import com.bstek.uflo.query.TaskQuery;
 import com.bstek.uflo.service.HistoryService;
 import com.bstek.uflo.service.ProcessService;
 import com.bstek.uflo.service.StartProcessInfo;
@@ -62,6 +80,54 @@ public class FlowController extends BaseController {
 
 	@Autowired
 	ISysProcessDataService SysProcessDataServiceImpl;
+
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	@RequestMapping(value = "/zc/myProcessTodo.do")
+	public R loadTodo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String loginUsername = EnvironmentUtils.getEnvironment().getLoginUser();
+		String taskName = req.getParameter("taskName");
+		int pageSize = Integer.valueOf(req.getParameter("pageSize"));
+		int pageIndex = Integer.valueOf(req.getParameter("pageIndex"));
+		int firstResult = (pageIndex - 1) * pageSize;
+		TaskQuery query = taskService.createTaskQuery();
+		query.addTaskState(TaskState.Created);
+		query.addTaskState(TaskState.InProgress);
+		query.addTaskState(TaskState.Ready);
+		query.addTaskState(TaskState.Suspended);
+		query.addTaskState(TaskState.Reserved);
+		query.addAssignee(loginUsername).addOrderDesc("createDate").page(firstResult, pageSize);
+		if (StringUtils.isNotBlank(taskName)) {
+			query.nameLike("%" + taskName + "%");
+		}
+		List<Task> tasks = query.list();
+		return R.SUCCESS_OPER(JSONArray.parseArray(JSON.toJSONString(tasks, SerializerFeature.WriteDateUseDateFormat,
+				SerializerFeature.DisableCircularReferenceDetect)));
+	}
+
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	@RequestMapping(value = "/zc/myProcessloadHistory.do")
+	public R loadHistory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String loginUsername = EnvironmentUtils.getEnvironment().getLoginUser();
+		int pageSize = Integer.valueOf(req.getParameter("pageSize"));
+		int pageIndex = Integer.valueOf(req.getParameter("pageIndex"));
+		String taskName = req.getParameter("taskName");
+		int firstResult = (pageIndex - 1) * pageSize;
+		HistoryTaskQuery query = historyService.createHistoryTaskQuery();
+		if (StringUtils.isNotBlank(taskName)) {
+			query.nameLike("%" + taskName + "%");
+		}
+		query.assignee(loginUsername).addOrderDesc("endDate").page(firstResult, pageSize);
+		int total = query.count();
+		List<HistoryTask> tasks = query.list();
+		JSONObject retrunObject = new JSONObject();
+		retrunObject.put("iTotalRecords", total);
+		retrunObject.put("iTotalDisplayRecords", total);
+		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(tasks, SerializerFeature.WriteDateUseDateFormat,
+				SerializerFeature.DisableCircularReferenceDetect)));
+		return R.clearAttachDirect(retrunObject);
+	}
 
 	@ResponseBody
 	@Acl(info = "发起流程", value = Acl.ACL_USER)

@@ -143,6 +143,36 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	})
 	
 	
+	$stateProvider.state('myprocess', {
+		abstract : true,
+		url : "/myprocess",
+		templateUrl : "views/common/content.html?v="+version
+	}).state('myprocess.waittask', {
+		url : "/myprocess_waittask?psBtns",
+		data: { pageTitle: '我的待处理任务'},
+		templateUrl : "views/cmdb/flow/todo.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/flow/todo.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('myprocess.taskfinish', {
+		url : "/myprocess_taskfinish?psBtns",
+		data: { pageTitle: '已处理任务'},
+		templateUrl : "views/cmdb/flow/processfinish.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/flow/processfinish.js?v=' + version ]
+				} ]);
+			}
+		}
+	})
+	;
 	// cmdb
 	$stateProvider.state('xt', {
 		abstract : true,
@@ -609,4 +639,223 @@ function loadOpt(modal_meta, gdicts) {
 	}
 
 	
+}
+
+
+
+function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,pagetype,task,
+		$uibModalInstance) {
+
+	console.log(meta,task);
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+	
+	$scope.ctl={};
+	$scope.ctl.dtitle=false;
+	$scope.ctl.dct=false;
+	$scope.ctl.df1=false;
+	$scope.ctl.df2=false;
+	$scope.ctl.pagespbtnhide=true;
+	$scope.spsuggest="";
+	$scope.pagetype=pagetype;
+	if($scope.pagetype=="sp"){
+		$scope.ctl.pagespbtnhide=false;
+	}
+	 
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
+			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
+					50).withOption("ordering", false).withOption("responsive",
+					false).withOption("searching", false).withOption('scrollY',
+					'300px').withOption('scrollX', true).withOption(
+					'bAutoWidth', true).withOption('scrollCollapse', true)
+			.withOption('paging', false).withFixedColumns({
+				leftColumns : 0,
+				rightColumns : 0
+			}).withOption('bStateSave', true).withOption('bProcessing', false)
+			.withOption('bFilter', false).withOption('bInfo', false)
+			.withOption('serverSide', false).withOption('aaData',
+					$scope.tabdata).withOption('createdRow', function(row) {
+				$compile(angular.element(row).contents())($scope);
+			});
+	$scope.dtColumns = [
+
+			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
+					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('classname').withTitle('类型').withOption(
+					'sDefaultContent', '').withOption("width", '30'),
+			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
+					'sDefaultContent', '').withOption('width', '50')
+					.renderWith(renderName),
+			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('part_name').withTitle('部门').withOption(
+					'sDefaultContent', '').withOption('width', '30'),
+			DTColumnBuilder.newColumn('used_username').withTitle('使用人')
+					.withOption('sDefaultContent', '')
+					.withOption('width', '30'),
+			DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态')
+					.withOption('sDefaultContent', '')
+					.withOption('width', '30'),
+			DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
+					.withOption('sDefaultContent', '') ]
+
+	$scope.dtOptions.aaData = [];
+
+	$scope.dtOptions2 = DTOptionsBuilder.fromFnPromise().withDataProp('data')
+			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
+					50).withOption("ordering", false).withOption("responsive",
+					false).withOption("searching", false).withOption('scrollY',
+					'300px').withOption('scrollX', true).withOption(
+					'bAutoWidth', true).withOption('scrollCollapse', true)
+			.withOption('paging', false).withFixedColumns({
+				leftColumns : 0,
+				rightColumns : 0
+			}).withOption('bStateSave', true).withOption('bProcessing', false)
+			.withOption('bFilter', false).withOption('bInfo', false)
+			.withOption('serverSide', false).withOption('aaData',
+					$scope.tabdata).withOption('createdRow', function(row) {
+				$compile(angular.element(row).contents())($scope);
+			});
+	$scope.dtColumns2 = [
+			DTColumnBuilder.newColumn('assigneename').withTitle('审批人').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('taskName').withTitle('任务名称').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('state').withTitle('状态').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('opinion').withTitle('审批意见').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('endDate').withTitle('审批时间').withOption(
+					'sDefaultContent', '') ]
+
+	$scope.dtOptions2.aaData = [];
+
+	$scope.url = "";
+	
+	// 显示审批页面
+	$http
+			.post($rootScope.project + "/api/cmdb/resActionExt/selectById.do",
+					{
+						id : meta.id
+					})
+			.success(
+					function(res) {
+						if (res.success) {
+							$scope.data = res.data;
+							$scope.ctl.dtitle=true;
+							$scope.ctl.dct=true;
+							$scope.ctl.df1=true;
+							$scope.ctl.df2=true;
+							
+							
+							$scope.dtOptions.aaData = res.data.items;
+							if (angular.isDefined(res.data.dmethod)
+									&& res.data.dmethod == "1") {
+								var url = $rootScope.project
+										+ "uflo/diagram?processInstanceId="
+										+ res.data.processInstanceId;
+								$scope.url = url;
+								$http
+										.post(
+												$rootScope.project
+														+ "/api/flow/loadProcessInstanceData.do",
+												{
+													processInstanceId : res.data.processInstanceId
+												})
+										.success(
+												function(res) {
+													if (res.success) {
+														$scope.dtOptions2.aaData = res.data;
+													} else {
+														notify({
+															message : res.message
+														});
+													}
+												})
+
+							}
+							var html = "未知"
+							if (angular.isDefined(res.data.pstatusdtl)) {
+								if (res.data.pstatusdtl == "submitforapproval") {
+									html = "待送审"
+								} else if (res.data.pstatusdtl == "inreview") {
+									html = "审批中"
+								} else if (res.data.pstatusdtl == "approvalsuccess") {
+									html = "审批通过"
+								} else if (res.data.pstatusdtl == "approvalfailed") {
+									html = "审批不通过"
+								}
+							}
+							$scope.data.spstatusstr = html;
+							if (angular.isDefined(res.data.dmethod)) {
+								if (res.data.dmethod == "1") {
+									$scope.data.dmethodstr = "需要审批"
+								} else {
+									$scope.data.dmethodstr = "无需审批"
+								}
+							}
+
+						} else {
+							notify({
+								message : res.message
+							});
+						}
+					})
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+	
+	
+	$scope.agreen=function(){
+		if($scope.spsuggest.length==0){
+			notify({
+				message :"请输入审批意见"
+			});
+			return;
+		}
+		if($scope.spsuggest.length>248){
+			notify({
+				message :"已超过248,请缩减字数。"
+			});
+			return;
+		}
+		$http
+		.post($rootScope.project + "/api/cmdb/flow/zc/computeTask.do",
+				{taskId:task.id,opinion:$scope.spsuggest}).success(function(res) {
+			if (res.success) {
+				$uibModalInstance.close('OK');
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
+ 
+	}
+	
+	$scope.refuse=function(){
+		if($scope.spsuggest.length==0){
+			notify({
+				message :"请输入审批意见"
+			});
+			return;
+		}
+		if($scope.spsuggest.length>248){
+			notify({
+				message :"已超过248,请缩减字数。"
+			});
+			return;
+		}
+		
+	}
+
 }

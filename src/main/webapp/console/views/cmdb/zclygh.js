@@ -1,154 +1,3 @@
-function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
-		$uibModalInstance) {
-
-	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
-	};
-
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
-					50).withOption("ordering", false).withOption("responsive",
-					false).withOption("searching", false).withOption('scrollY',
-					'300px').withOption('scrollX', true).withOption(
-					'bAutoWidth', true).withOption('scrollCollapse', true)
-			.withOption('paging', false).withFixedColumns({
-				leftColumns : 0,
-				rightColumns : 0
-			}).withOption('bStateSave', true).withOption('bProcessing', false)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
-				$compile(angular.element(row).contents())($scope);
-			});
-	$scope.dtColumns = [
-
-			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
-					'sDefaultContent', '').withOption("width", '30'),
-			DTColumnBuilder.newColumn('classname').withTitle('类型').withOption(
-					'sDefaultContent', '').withOption("width", '30'),
-			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
-					'sDefaultContent', '').withOption('width', '50')
-					.renderWith(renderName),
-			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('part_name').withTitle('部门').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('used_username').withTitle('使用人')
-					.withOption('sDefaultContent', '')
-					.withOption('width', '30'),
-			DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态')
-					.withOption('sDefaultContent', '')
-					.withOption('width', '30'),
-			DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-					.withOption('sDefaultContent', '') ]
-
-	$scope.dtOptions.aaData = [];
-
-	$scope.dtOptions2 = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
-					50).withOption("ordering", false).withOption("responsive",
-					false).withOption("searching", false).withOption('scrollY',
-					'300px').withOption('scrollX', true).withOption(
-					'bAutoWidth', true).withOption('scrollCollapse', true)
-			.withOption('paging', false).withFixedColumns({
-				leftColumns : 0,
-				rightColumns : 0
-			}).withOption('bStateSave', true).withOption('bProcessing', false)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
-				$compile(angular.element(row).contents())($scope);
-			});
-	$scope.dtColumns2 = [
-			DTColumnBuilder.newColumn('assigneename').withTitle('审批人').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('taskName').withTitle('任务名称').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('state').withTitle('状态').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('opinion').withTitle('审批意见').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('endDate').withTitle('审批时间').withOption(
-					'sDefaultContent', '') ]
-
-	$scope.dtOptions2.aaData = [];
-
-	$scope.url = "";
-	$http
-			.post($rootScope.project + "/api/cmdb/resActionExt/selectById.do",
-					{
-						id : meta.id
-					})
-			.success(
-					function(res) {
-						if (res.success) {
-							$scope.data = res.data;
-							$scope.dtOptions.aaData = res.data.items;
-							if (angular.isDefined(res.data.dmethod)
-									&& res.data.dmethod == "1") {
-								var url = $rootScope.project
-										+ "uflo/diagram?processInstanceId="
-										+ res.data.processInstanceId;
-								$scope.url = url;
-								$http
-										.post(
-												$rootScope.project
-														+ "/api/flow/loadProcessInstanceData.do",
-												{
-													processInstanceId : res.data.processInstanceId
-												})
-										.success(
-												function(res) {
-													if (res.success) {
-														$scope.dtOptions2.aaData = res.data;
-													} else {
-														notify({
-															message : res.message
-														});
-													}
-												})
-
-							}
-							var html = "未知"
-							if (angular.isDefined(res.data.pstatusdtl)) {
-								if (res.data.pstatusdtl == "submitforapproval") {
-									html = "待送审"
-								} else if (res.data.pstatusdtl == "inreview") {
-									html = "审批中"
-								} else if (res.data.pstatusdtl == "approvalsuccess") {
-									html = "审批通过"
-								} else if (res.data.pstatusdtl == "approvalfailed") {
-									html = "审批不通过"
-								}
-							}
-							$scope.data.spstatusstr = html;
-							if (angular.isDefined(res.data.dmethod)) {
-								if (res.data.dmethod == "1") {
-									$scope.data.dmethodstr = "需要审批"
-								} else {
-									$scope.data.dmethodstr = "无需审批"
-								}
-							}
-
-						} else {
-							notify({
-								message : res.message
-							});
-						}
-					})
-
-	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
-	};
-
-}
 
 function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
@@ -567,12 +416,18 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		ps.id = id;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
-			templateUrl : 'views/cmdb/modal_zcActionLyDtl.html',
+			templateUrl : 'views/cmdb/modal_zcActionDtl.html',
 			controller : modalzcActionDtlCtl,
 			size : 'blg',
 			resolve : { // 调用控制器与modal控制器中传递值
 				meta : function() {
 					return ps;
+				},
+				pagetype : function() {
+					return "query";
+				},
+				task : function() {
+					return "";
 				}
 			}
 		});
