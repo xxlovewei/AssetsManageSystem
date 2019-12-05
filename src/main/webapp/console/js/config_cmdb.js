@@ -171,6 +171,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('myprocess.myprocess', {
+		url : "/myprocess_myprocess?psBtns",
+		data: { pageTitle: '我的流程'},
+		templateUrl : "views/cmdb/flow/myprocess.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/flow/myprocess.js?v=' + version ]
+				} ]);
+			}
+		}
 	})
 	;
 	// cmdb

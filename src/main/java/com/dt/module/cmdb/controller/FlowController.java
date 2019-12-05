@@ -158,13 +158,13 @@ public class FlowController extends BaseController {
 			up.set("processkey", processkey);
 			up.set("ptitle", sd.getDtitle());
 			up.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
-			up.set("pstatusdtl", ResActionService.ACT_STATUS_INREVIEW);
+			up.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
 			up.set("processInstanceId", inst.getId() + "");
 			up.set("pstartuserid", getUserId());
 			up.set("pstartusername", SysUserInfoServiceImpl.getById(this.getUserId()).getName());
 
 		} else {
-			up.set("pstatusdtl", ResActionService.ACT_STATUS_APPROVALSUCCESS);
+			up.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
 		}
 		up.set(spmethod != null, "dmethod", spmethod);
 		up.eq("id", ps.getString("id"));

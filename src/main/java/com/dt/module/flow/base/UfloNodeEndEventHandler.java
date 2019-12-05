@@ -54,7 +54,7 @@ public class UfloNodeEndEventHandler implements NodeEventHandler {
 				// 流程类型处理
 				if (pdtype != null) {
 					if (pdtype.equals("LY") || pdtype.equals("JY") || pdtype.equals("ZY")) {
-						uw.set("pstatusdtl", ResActionService.ACT_STATUS_APPROVALSUCCESS);
+						uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
 					}
 				}
 				SysProcessDataServiceImpl.update(uw);

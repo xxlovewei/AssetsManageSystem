@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.bstek.uflo.command.impl.jump.JumpNode;
@@ -30,14 +29,12 @@ import com.bstek.uflo.service.TaskService;
 import com.bstek.uflo.utils.EnvironmentUtils;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
-import com.dt.core.dao.Rcd;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.ISysUserInfoService;
-import com.dt.module.cmdb.service.impl.ResActionService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.entity.TaskInfo;
 import com.dt.module.flow.service.ISysProcessClassItemService;
@@ -55,6 +52,12 @@ public class SysUfloProcessService extends BaseService {
 	public static String P_TYPE_CANCEL = "cancel";
 	public static String P_TYPE_FINISH = "finish";
 
+	public static String P_STATUS_SFA = "submitforapproval";
+	public static String P_STATUS_INREVIEW = "inreview";
+	public static String P_STATUS_APPROVALSUCCESS = "success";
+	public static String P_STATUS_APPROVALFAILED = "failed";
+	public static String P_STATUS_CANCEL = "cancel";
+	
 	@Autowired
 	private ProcessService processService;
 
@@ -131,8 +134,6 @@ public class SysUfloProcessService extends BaseService {
 		}
 		return infos;
 	}
-
- 
 
 	public R cancelTask(String taskId, String opinion) {
 		TaskOpinion op = new TaskOpinion(opinion);
@@ -228,8 +229,8 @@ public class SysUfloProcessService extends BaseService {
 	public R refuseTask(String taskId, String opinion) {
 		TaskOpinion op = new TaskOpinion(opinion);
 		long taskId_l = ConvertUtil.toLong(taskId);
-		Task tsk=taskService.getTask(taskId_l);
-	
+		Task tsk = taskService.getTask(taskId_l);
+
 		String instid = tsk.getProcessInstanceId() + "";
 		List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
 		if (nodes.size() == 0) {
@@ -244,7 +245,7 @@ public class SysUfloProcessService extends BaseService {
 		UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
 		uw.eq("processInstanceId", instid);
 		uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
-		uw.set("pstatusdtl", ResActionService.ACT_STATUS_APPROVALFAILED);
+		uw.set("pstatusdtl", P_STATUS_APPROVALFAILED);
 		SysProcessDataServiceImpl.update(uw);
 		return R.SUCCESS_OPER();
 	}

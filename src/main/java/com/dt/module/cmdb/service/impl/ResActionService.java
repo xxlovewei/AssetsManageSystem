@@ -9,11 +9,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ResActionService {
- 
 
-	public static String ACT_STATUS_SFA = "submitforapproval";
-	public static String ACT_STATUS_INREVIEW = "inreview";
-	public static String ACT_STATUS_APPROVALSUCCESS = "approvalsuccess";
-	public static String ACT_STATUS_APPROVALFAILED = "approvalfailed";
 
 }

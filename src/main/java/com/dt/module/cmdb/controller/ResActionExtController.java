@@ -75,7 +75,7 @@ public class ResActionExtController extends BaseController {
 	public R insert(SysProcessData entity, String items) {
 		String uuid = resExtService.createUuid(entity.getPtype());
 		entity.setDuuid(uuid);
-		entity.setPstatusdtl(ResActionService.ACT_STATUS_SFA);
+		entity.setPstatusdtl(SysUfloProcessService.P_STATUS_SFA);
 		entity.setDf10(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
 		JSONArray items_arr = JSONArray.parseArray(items);
 		List<ResActionItem> entityList = new ArrayList<ResActionItem>();
@@ -144,7 +144,7 @@ public class ResActionExtController extends BaseController {
 		if (r.getPstatusdtl() == null) {
 			SysProcessDataServiceImpl.removeById(id);
 		} else {
-			if (ResActionService.ACT_STATUS_SFA.equals(r.getPstatusdtl())) {
+			if (SysUfloProcessService.P_STATUS_SFA.equals(r.getPstatusdtl())) {
 				SysProcessDataServiceImpl.removeById(id);
 			} else {
 				return R.FAILURE("当前状态不允许删除");

@@ -1,5 +1,5 @@
-function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
+function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+		$log, notify, $scope, $http, $rootScope, $uibModal, $window) {
 
 	$scope.meta = {
 		tablehide : false,
@@ -21,7 +21,6 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					show : true,
 				} ]
 	}
-	privNormalCompute($scope.meta.tools, $rootScope.curMemuBtns);
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(50)
@@ -63,11 +62,6 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	}
 
-	function renderJg(data, type, full) {
-		var html = full.rackstr + "-" + full.frame;
-		return html;
-	}
-
 	$scope.selectCheckBoxAll = function(selected) {
 
 		if (selected) {
@@ -77,6 +71,42 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 	}
 
+	function renderStatusDtl(data, type, full) {
+		var html = data;
+		if (angular.isDefined(data)) {
+			if (data == "submitforapproval") {
+				html = "待送审";
+			} else if (data == "inreview") {
+				html = "审批中"
+			} else if (data == "approvalsuccess") {
+				html = "审批成功"
+			} else if (data == "approvalfailed") {
+				html = "审批失败"
+			} else if (data == "cancel") {
+				html = "取消审批"
+			}
+		}
+		return html;
+	}
+
+	function renderType(data, type, full) {
+		var html = data;
+		if (angular.isDefined(data)) {
+			if (data == "LY") {
+				html = "领用流程";
+			} else if (data == "JY") {
+				html = "借用流程"
+			} else if (data == "BX") {
+				html = "报销流程"
+			} else if (data == "ZY") {
+				html = "转移流程"
+			} else if (data == "WX") {
+				html = "维修流程"
+			}
+		}
+		return html;
+	}
+
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 
 	$scope.dtColumns = [
@@ -84,22 +114,20 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					'select-checkbox checkbox_center').renderWith(function() {
 				return ""
 			}),
-			DTColumnBuilder.newColumn('rootProcessInstanceId').withTitle('流程编号').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('subject').withTitle('标题').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('opinion').withTitle('处理意见').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('state').withTitle('任务状态').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('nodeName').withTitle('任务名称').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('description').withTitle('任务描述')
+			DTColumnBuilder.newColumn('processInstanceId').withTitle('流程编号')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('createDate').withTitle('发起时间')
-					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('endDate').withTitle('处理时间').withOption(
-					'sDefaultContent', '') ]
+			DTColumnBuilder.newColumn('duuid').withTitle('单据号').withOption(
+					'sDefaultContent', ''),
+			// DTColumnBuilder.newColumn('pstatus').withTitle('状态').withOption(
+			// 'sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('pstatusdtl').withTitle('状态').withOption(
+					'sDefaultContent', '').renderWith(renderStatusDtl),
+			DTColumnBuilder.newColumn('ptitle').withTitle('标题').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('ptype').withTitle('类型').withOption(
+					'sDefaultContent', '').renderWith(renderType),
+			DTColumnBuilder.newColumn('createTime').withTitle('发起时间')
+					.withOption('sDefaultContent', '') ]
 
 	$scope.query = function() {
 		flush();
@@ -107,14 +135,10 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flush() {
 		var ps = {}
-		ps.search = "";
-		ps.pageSize = 1000;
-		ps.pageIndex = 1;
-		$http
-				.post(
-						$rootScope.project
-								+ "/api/cmdb/flow/zc/myProcessloadHistory.do",
-						ps).success(function(res) {
+		$http.post(
+				$rootScope.project
+						+ "/api/flow/sysProcessDataExt/selectListByMy.do", ps)
+				.success(function(res) {
 					$scope.dtOptions.aaData = res.data
 				})
 	}
@@ -166,15 +190,15 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.oper = function() {
 		var item = getSelectRow();
-
-		if (angular.isDefined(item) && angular.isDefined(item.businessId)) {
+		console.log(item);
+		if (angular.isDefined(item) ) {
 
 			$http
 					.post(
 							$rootScope.project
 									+ "/api/flow/sysProcessDataExt/selectByBusinessId.do",
 							{
-								businessid : item.businessId
+								businessid : item.busid
 							})
 					.success(
 							function(res) {
@@ -222,4 +246,4 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 };
 
-app.register.controller('myProcessfinishCtl', myProcessfinishCtl);
+app.register.controller('myProcessCtl', myProcessCtl);

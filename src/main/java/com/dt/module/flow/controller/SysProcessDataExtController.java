@@ -44,4 +44,13 @@ public class SysProcessDataExtController extends BaseController {
 		return R.SUCCESS_OPER(SysProcessDataServiceImpl.getOne(qw));
 	}
 
+	@ResponseBody
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectListByMy.do")
+	public R selectList() {
+		QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
+		qw.eq("pstartuserid", this.getUserId());
+		return R.SUCCESS_OPER(SysProcessDataServiceImpl.list(qw));
+	}
+
 }
