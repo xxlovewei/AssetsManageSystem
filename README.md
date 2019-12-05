@@ -61,7 +61,7 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1117/211538_1e78d9a4_448530.jpeg "33.jpg")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124530_b7e7847b_448530.jpeg "4.jpg")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124540_62166efa_448530.jpeg "5.jpg")
-
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1205/213815_ad2975a7_448530.png "lc.png")
 ## 后期开发计划
 - 添加资产自定义属性功能
 - 添加工单流程,自定义审批流程
