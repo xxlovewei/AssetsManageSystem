@@ -281,11 +281,11 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('pstatusdtl').withTitle(
 			'状态').withOption('sDefaultContent', '').renderWith(renderStatus));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('dtitle').withTitle('标题')
+			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('领用人')
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('df2').withTitle('退回时间')
-			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('dct').withTitle('描述')
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('dtotal').withTitle('总数量')
 			.withOption('sDefaultContent', ''));

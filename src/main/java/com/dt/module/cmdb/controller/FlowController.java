@@ -177,7 +177,15 @@ public class FlowController extends BaseController {
 	@Acl(info = "", value = Acl.ACL_USER)
 	public R computeTask(String variables, String taskId, String opinion) {
 		R r = sysUfloProcessService.computeTask(variables, taskId, opinion);
-
+		 
+		return r;
+	}
+	@RequestMapping("/zc/refuseTask.do")
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	public R refuseTask( String taskId, String opinion) {
+		R r = sysUfloProcessService.refuseTask( taskId, opinion);
+		 
 		return r;
 	}
 }

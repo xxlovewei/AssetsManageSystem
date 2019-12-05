@@ -733,7 +733,7 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('opinion').withTitle('审批意见').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('endDate').withTitle('审批时间').withOption(
+			DTColumnBuilder.newColumn('endDate').withTitle('处理时间').withOption(
 					'sDefaultContent', '') ]
 
 	$scope.dtOptions2.aaData = [];
@@ -855,6 +855,17 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 			return;
 		}
+		$http
+		.post($rootScope.project + "/api/cmdb/flow/zc/refuseTask.do",
+				{taskId:task.id,opinion:$scope.spsuggest}).success(function(res) {
+			if (res.success) {
+				$uibModalInstance.close('OK');
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
 		
 	}
 

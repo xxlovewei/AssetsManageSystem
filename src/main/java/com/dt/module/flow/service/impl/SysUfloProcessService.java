@@ -14,6 +14,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.bstek.uflo.command.impl.jump.JumpNode;
 import com.bstek.uflo.model.HistoryTask;
 import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.model.task.Task;
@@ -35,6 +37,7 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.ISysUserInfoService;
+import com.dt.module.cmdb.service.impl.ResActionService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.entity.TaskInfo;
 import com.dt.module.flow.service.ISysProcessClassItemService;
@@ -129,34 +132,7 @@ public class SysUfloProcessService extends BaseService {
 		return infos;
 	}
 
-	public R computeTask(String variables, String taskId, String opinion) {
-
-		TaskOpinion op = new TaskOpinion(opinion);
-		long taskId_l = ConvertUtil.toLong(taskId);
-		taskService.start(taskId_l);
-		taskService.complete(taskId_l, op);
-		return R.SUCCESS_OPER();
-	}
-
-	public boolean ifFinishProcessInstance(String instanceid) {
-
-		Rcd rs = db.uniqueRecord("select * from uflo_his_process_instance where PROCESS_INSTANCE_ID_=?", instanceid);
-		if (rs == null) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	// 运行中的实例
-	public String getProcessInstanceFromTaskId(String taskId) {
-		String pid = "";
-		Rcd rs = db.uniqueRecord("select * from uflo_task where id_=?", taskId);
-		if (rs != null) {
-			pid = rs.getString("PROCESS_INSTANCE_ID_");
-		}
-		return pid;
-	}
+ 
 
 	public R cancelTask(String taskId, String opinion) {
 		TaskOpinion op = new TaskOpinion(opinion);
@@ -238,6 +214,39 @@ public class SysUfloProcessService extends BaseService {
 			infos.add(info);
 		}
 		return infos;
+	}
+
+	public R computeTask(String variables, String taskId, String opinion) {
+
+		TaskOpinion op = new TaskOpinion(opinion);
+		long taskId_l = ConvertUtil.toLong(taskId);
+		taskService.start(taskId_l);
+		taskService.complete(taskId_l, op);
+		return R.SUCCESS_OPER();
+	}
+
+	public R refuseTask(String taskId, String opinion) {
+		TaskOpinion op = new TaskOpinion(opinion);
+		long taskId_l = ConvertUtil.toLong(taskId);
+		Task tsk=taskService.getTask(taskId_l);
+		 
+		String instid = tsk.getProcessInstanceId() + "";
+		List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
+		if (nodes.size() == 0) {
+			return R.FAILURE("无法跳转至结束流程");
+		}
+		JumpNode jn = nodes.get(nodes.size() - 1);
+		if (jn.isTask()) {
+			return R.FAILURE("获取的最后一个节点不是结束流程");
+		}
+		taskService.forward(taskId_l, jn.getName(), op);
+		// 更新状态
+		UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+		uw.eq("processInstanceId", instid);
+		uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
+		uw.set("pstatusdtl", ResActionService.ACT_STATUS_APPROVALFAILED);
+		SysProcessDataServiceImpl.update(uw);
+		return R.SUCCESS_OPER();
 	}
 
 }

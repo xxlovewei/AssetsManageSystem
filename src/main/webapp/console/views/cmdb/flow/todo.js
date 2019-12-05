@@ -86,13 +86,15 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			}),
 			DTColumnBuilder.newColumn('id').withTitle('任务编号').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('nodeName').withTitle('任务名称').withOption(
-					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('subject').withTitle('标题').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('state').withTitle('任务状态').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('createDate').withTitle('创建时间')
+			DTColumnBuilder.newColumn('nodeName').withTitle('任务名称').withOption(
+					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('description').withTitle('任务描述')
+					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('createDate').withTitle('发起时间')
 					.withOption('sDefaultContent', '') ]
 
 	$scope.query = function() {
@@ -100,7 +102,7 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 
 	function flush() {
-		console.log('111111')
+
 		var ps = {}
 		ps.search = "";
 		ps.pageSize = 1000;
@@ -165,7 +167,7 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.oper = function() {
 		var item = getSelectRow();
 
-		if (angular.isDefined(item)) {
+		if (angular.isDefined(item) && angular.isDefined(item.businessId)) {
 			$http
 					.post(
 							$rootScope.project
@@ -177,6 +179,7 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 							function(res) {
 								if (res.success) {
 									// 资产领用
+
 									var modalInstance = $uibModal
 											.open({
 												backdrop : true,
@@ -213,6 +216,10 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 									});
 								}
 							})
+		} else {
+			notify({
+				message : "该流程不存在"
+			});
 		}
 
 	}

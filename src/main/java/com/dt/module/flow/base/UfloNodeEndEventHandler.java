@@ -40,23 +40,26 @@ public class UfloNodeEndEventHandler implements NodeEventHandler {
 		String busid = processInstance.getBusinessId();
 
 		if (busid != null && !busid.equals("")) {
-			// 更新流程总表
-			UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-			uw.eq("busid", busid);
-			uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
-
 			QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
 			qw.eq("busid", busid);
 			SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
 			String pdtype = sd.getPtype();
-			// 流程类型处理
-			if (pdtype != null) {
-				if (pdtype.equals("LY") || pdtype.equals("JY") || pdtype.equals("ZY")) {
-					uw.set("pstatusdtl", ResActionService.ACT_STATUS_APPROVALSUCCESS);
+			if (SysUfloProcessService.P_TYPE_FINISH.equals(pdtype)) {
+				// 流程已经处理过不需要处理
+			} else {
+				// 更新流程总表
+				UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+				uw.eq("busid", busid);
+				uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
+				// 流程类型处理
+				if (pdtype != null) {
+					if (pdtype.equals("LY") || pdtype.equals("JY") || pdtype.equals("ZY")) {
+						uw.set("pstatusdtl", ResActionService.ACT_STATUS_APPROVALSUCCESS);
+					}
 				}
+				SysProcessDataServiceImpl.update(uw);
 			}
 
-			SysProcessDataServiceImpl.update(uw);
 		}
 
 	}
