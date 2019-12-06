@@ -1,4 +1,3 @@
-
 function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
 		$uibModalInstance) {
@@ -65,9 +64,16 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 }
 function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
-		$uibModalInstance) {
+		$uibModalInstance, $state,meta) {
 
-	var acttype = 'LY';
+	
+	$scope.actmsg = "操作";
+	if (meta.acttype == "LY") {
+		$scope.actmsg  = "领用人";
+	} else if (meta.acttype == "JY") {
+		$scope.actmsg = "借用人";
+	}
+	
 	$scope.data = {};
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
@@ -142,7 +148,7 @@ function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.sure = function() {
 
-		$scope.data.ptype = acttype;
+		$scope.data.ptype = meta.acttype;
 
 		if ($scope.dtOptions.aaData.length == 0) {
 			alert("请先选择资产");
@@ -168,11 +174,11 @@ function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	};
 }
 
-function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
-		notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
+function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+		$log, notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
 
 	var pbtns = $rootScope.curMemuBtns;
-
+	var acttype = $state.router.globals.current.data.actiontype;
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withDOM('frtlip').withPaginationType('full_numbers')
 			.withDisplayLength(100).withOption("ordering", false).withOption(
@@ -247,20 +253,25 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 	}
 
 	function renderStatus(data, type, full) {
-		var html = "未知"
+		var html = data;
 		if (angular.isDefined(data)) {
 			if (data == "submitforapproval") {
-				return "待送审"
+				html = "待送审";
 			} else if (data == "inreview") {
-				return "审批中"
-			} else if (data == "approvalsuccess") {
-				return "审批通过"
-			} else if (data == "approvalfailed") {
-				return "审批不通过"
+				html = "审批中"
+			} else if (data == "success") {
+				html = "审批成功"
+			} else if (data == "failed") {
+				html = "审批失败"
+			} else if (data == "cancel") {
+				html = "审批取消"
 			}
 		}
 		return html;
 	}
+	
+	 
+	
 	function renderSpReview(data, type, full) {
 		var html = "";
 		if (angular.isDefined(full.spmethod) && full.spmethod == "1"
@@ -283,10 +294,16 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			'状态').withOption('sDefaultContent', '').renderWith(renderStatus));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('dtitle').withTitle('标题')
 			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('领用人')
-			.withOption('sDefaultContent', ''));
+	if (acttype == "LY") {
+		$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('领用人')
+				.withOption('sDefaultContent', ''));
+	} else if (acttype == "JY") {
+		$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('借用人')
+				.withOption('sDefaultContent', ''));
+	}
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('df2').withTitle('退回时间')
 			.withOption('sDefaultContent', ''));
+
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('dtotal').withTitle('总数量')
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('df10').withTitle('操作人')
@@ -298,6 +315,13 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 	// .withOption('sDefaultContent', '').renderWith(renderSpReview));
 	$scope.query = function() {
 		flush();
+	}
+
+	var actbtn = "操作";
+	if (acttype == "LY") {
+		actbtn = "领用";
+	} else if (acttype == "JY") {
+		actbtn = "借用";
 	}
 
 	var meta = {
@@ -316,7 +340,8 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 					type : "btn",
 					show : false,
 					priv : "insert",
-					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">领用</button>'
+					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">'
+							+ actbtn + '</button>'
 				},
 				{
 					id : "btn2",
@@ -366,7 +391,7 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		var ps = {}
 
 		ps.search = $scope.meta.tools[0].ct;
-		ps.type = 'LY';
+		ps.type =acttype;
 		$http.post($rootScope.project + "/api/cmdb/resActionExt/selectList.do",
 				ps).success(function(res) {
 			if (res.success) {
@@ -414,6 +439,7 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		}
 		var ps = {};
 		ps.id = id;
+		ps.acttype=acttype;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/cmdb/modal_zcActionDtl.html',
@@ -495,6 +521,7 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 	$scope.save = function(id) {
 		var ps = {};
 		ps.id = id;
+		ps.acttype=acttype;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/cmdb/modal_zcly.html',
@@ -523,7 +550,7 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 
 		var item = getSelectRow();
 		if (angular.isDefined(item)) {
-			item.tplid = "ly";
+			item.tplid = acttype;
 			var modalInstance = $uibModal.open({
 				backdrop : true,
 				templateUrl : 'views/cmdb/modal_chosenProcess.html',
@@ -554,4 +581,4 @@ function zclyghCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 
 };
 
-app.register.controller('zclyghCtl', zclyghCtl);
+app.register.controller('zcactionCtl', zcactionCtl);

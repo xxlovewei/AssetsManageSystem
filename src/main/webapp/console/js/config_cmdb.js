@@ -268,13 +268,25 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('zcmgr.zclygh', {
 		url : "/zcmgr_zclygh",
-		data: { pageTitle: '资产领用归还'},
-		templateUrl : "views/cmdb/zclygh.html?v="+version,
+		data: { pageTitle: '资产领用归还',actiontype:"LY"},
+		templateUrl : "views/cmdb/zcaction.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/cmdb/zclygh.js?v=' + version ]
+					files : [ 'views/cmdb/zcaction.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('zcmgr.jygh', {
+		url : "/zcmgr_jygh",
+		data: { pageTitle: '资产借用归还',actiontype:"JY"},
+		templateUrl : "views/cmdb/zcaction.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/zcaction.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -660,6 +672,15 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$uibModalInstance) {
 
 	console.log(meta,task);
+
+	$scope.actmsg = "操作";
+	if (meta.acttype == "LY") {
+		$scope.actmsg  = "领用人";
+	} else if (meta.acttype == "JY") {
+		$scope.actmsg = "借用人";
+	}
+	
+	
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
@@ -800,10 +821,12 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 									html = "待送审"
 								} else if (res.data.pstatusdtl == "inreview") {
 									html = "审批中"
-								} else if (res.data.pstatusdtl == "approvalsuccess") {
+								} else if (res.data.pstatusdtl == "success") {
 									html = "审批通过"
-								} else if (res.data.pstatusdtl == "approvalfailed") {
-									html = "审批不通过"
+								} else if (res.data.pstatusdtl == "failed") {
+									html = "审批失败"
+								} else if (res.data.pstatusdtl == "cancel") {
+									html = "审批取消"
 								}
 							}
 							$scope.data.spstatusstr = html;

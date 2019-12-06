@@ -226,11 +226,11 @@ public class SysUfloProcessService extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 
+	//
 	public R refuseTask(String taskId, String opinion) {
 		TaskOpinion op = new TaskOpinion(opinion);
 		long taskId_l = ConvertUtil.toLong(taskId);
 		Task tsk = taskService.getTask(taskId_l);
-
 		String instid = tsk.getProcessInstanceId() + "";
 		List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
 		if (nodes.size() == 0) {

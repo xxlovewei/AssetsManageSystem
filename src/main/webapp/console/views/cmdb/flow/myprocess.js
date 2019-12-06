@@ -78,12 +78,12 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				html = "待送审";
 			} else if (data == "inreview") {
 				html = "审批中"
-			} else if (data == "approvalsuccess") {
+			} else if (data == "success") {
 				html = "审批成功"
-			} else if (data == "approvalfailed") {
+			} else if (data == "failed") {
 				html = "审批失败"
 			} else if (data == "cancel") {
-				html = "取消审批"
+				html = "审批取消"
 			}
 		}
 		return html;
@@ -93,15 +93,15 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		var html = data;
 		if (angular.isDefined(data)) {
 			if (data == "LY") {
-				html = "领用流程";
+				html = "资产领用流程";
 			} else if (data == "JY") {
-				html = "借用流程"
+				html = "资产借用流程"
 			} else if (data == "BX") {
-				html = "报销流程"
+				html = "资产报销流程"
 			} else if (data == "ZY") {
-				html = "转移流程"
+				html = "资产转移流程"
 			} else if (data == "WX") {
-				html = "维修流程"
+				html = "资产维修流程"
 			}
 		}
 		return html;

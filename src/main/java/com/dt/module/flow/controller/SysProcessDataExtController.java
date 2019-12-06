@@ -50,6 +50,7 @@ public class SysProcessDataExtController extends BaseController {
 	public R selectList() {
 		QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
 		qw.eq("pstartuserid", this.getUserId());
+		qw.orderByDesc("create_time");
 		return R.SUCCESS_OPER(SysProcessDataServiceImpl.list(qw));
 	}
 

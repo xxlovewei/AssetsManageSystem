@@ -91,8 +91,9 @@ public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
 		for (SysUserInfo userinfo : pdata.getRecords()) {
 			entitys.add(new Entity(userinfo.getUserId(), userinfo.getName()));
 		}
+		
 		pageQuery.setResult(entitys);
-		pageQuery.setRecordCount(entitys.size());
+		pageQuery.setRecordCount(SysUserInfoServiceImpl.count());
 
 	}
 
