@@ -4,6 +4,28 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 		debug : true
 	});
 	
+	
+	$stateProvider.state('zcindex', {
+		url : "/zcindex",
+		templateUrl : "views/cmdb/zcindex.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([
+					 {
+                         serie: true,
+                         name: 'angular-flot',
+                         files: [ 'plugin/flot/jquery.flot.js', 'plugin/flot/jquery.flot.time.js', 'plugin/flot/jquery.flot.tooltip.min.js', 'plugin/flot/jquery.flot.spline.js', 'plugin/flot/jquery.flot.resize.js', 'plugin/flot/jquery.flot.pie.js', 'plugin/flot/curvedLines.js', 'plugin/flot/angular-flot.js', ]
+                     },
+                     {
+					serie : true,
+					files : [ 'views/cmdb/zcindex.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
+	
+	
+	
 	// cmdb
 	$stateProvider.state('maintain', {
 		abstract : true,
