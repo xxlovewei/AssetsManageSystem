@@ -290,6 +290,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('zcmgr.zczy', {
+		url : "/zcmgr_zczy",
+		data: { pageTitle: '我的资产转移',actiontype:"ZY"},
+		templateUrl : "views/cmdb/zcaction.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/zcaction.js?v=' + version ]
+				} ]);
+			}
+		}
 	})
 	
 	

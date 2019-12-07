@@ -35,8 +35,10 @@ public class ResExtService extends BaseService {
 //	public static String STATUS_XZ = "xz";
 
 	public static String UUID_ZC = "ZC";
+
 	public static String UUID_LY = "LY";
 	public static String UUID_JY = "JY";
+	public static String UUID_ZY = "ZY";
 	public static String UUID_BF = "BF";
 	public static String UUID_BX = "BX";
 
@@ -458,7 +460,8 @@ public class ResExtService extends BaseService {
 			} else {
 				return type + id;
 			}
-		} else if (type.equals(ResExtService.UUID_LY) || type.equals(ResExtService.UUID_JY)) {
+		} else if (type.equals(ResExtService.UUID_LY) || type.equals(ResExtService.UUID_JY)
+				|| type.equals(ResExtService.UUID_ZY)) {
 			for (i = 0; i < cnt; i++) {
 				Rcd rs = db.uniqueRecord("select * from sys_process_data where duuid=?", id);
 				if (rs == null) {

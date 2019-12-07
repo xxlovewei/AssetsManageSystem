@@ -64,16 +64,17 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 }
 function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
-		$uibModalInstance, $state,meta) {
+		$uibModalInstance, $state, meta) {
 
-	
 	$scope.actmsg = "操作";
 	if (meta.acttype == "LY") {
-		$scope.actmsg  = "领用人";
+		$scope.actmsg = "领用人";
 	} else if (meta.acttype == "JY") {
 		$scope.actmsg = "借用人";
+	} else if (meta.acttype == "ZY") {
+		$scope.actmsg = "转移人";
 	}
-	
+
 	$scope.data = {};
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
@@ -269,9 +270,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 		return html;
 	}
-	
-	 
-	
+
 	function renderSpReview(data, type, full) {
 		var html = "";
 		if (angular.isDefined(full.spmethod) && full.spmethod == "1"
@@ -300,6 +299,9 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	} else if (acttype == "JY") {
 		$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('借用人')
 				.withOption('sDefaultContent', ''));
+	} else if (acttype == "ZY") {
+		$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('转移人')
+				.withOption('sDefaultContent', ''));
 	}
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('df2').withTitle('退回时间')
 			.withOption('sDefaultContent', ''));
@@ -322,6 +324,8 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		actbtn = "领用";
 	} else if (acttype == "JY") {
 		actbtn = "借用";
+	}else if (acttype == "ZY") {
+		actbtn = "转移";
 	}
 
 	var meta = {
@@ -391,7 +395,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		var ps = {}
 
 		ps.search = $scope.meta.tools[0].ct;
-		ps.type =acttype;
+		ps.type = acttype;
 		$http.post($rootScope.project + "/api/cmdb/resActionExt/selectList.do",
 				ps).success(function(res) {
 			if (res.success) {
@@ -439,7 +443,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 		var ps = {};
 		ps.id = id;
-		ps.acttype=acttype;
+		ps.acttype = acttype;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/cmdb/modal_zcActionDtl.html',
@@ -521,7 +525,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.save = function(id) {
 		var ps = {};
 		ps.id = id;
-		ps.acttype=acttype;
+		ps.acttype = acttype;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/cmdb/modal_zcly.html',
