@@ -690,6 +690,8 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$scope.actmsg  = "领用人";
 	} else if (meta.acttype == "JY") {
 		$scope.actmsg = "借用人";
+	}else if (meta.acttype == "ZY") {
+		actbtn = "转移人";
 	}
 	
 	
