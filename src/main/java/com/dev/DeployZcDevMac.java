@@ -26,7 +26,7 @@ public class DeployZcDevMac {
 		String rfile = dir + "/" + filename + ".war";
 		String fstr = "/Users/algernonking/" + filename + ".war";
 		
-		String pwd="11";
+		String pwd="";
 
 		SftpClient sftp = new SftpClient();
 		Machine m = new Machine("localhost", "39.105.191.22", "root", pwd, 12500);
