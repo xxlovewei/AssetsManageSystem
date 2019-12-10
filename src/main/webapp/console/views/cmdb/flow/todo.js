@@ -217,9 +217,9 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 								}
 							})
 		} else {
-			notify({
-				message : "该流程不存在"
-			});
+//			notify({
+//				message : "该流程不存在"
+//			});
 		}
 
 	}
