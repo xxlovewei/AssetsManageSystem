@@ -5,7 +5,7 @@
 - 账户:user1 密码:123456
 - 账户:user2 密码:123456
 - 账户:user3 密码:123456
-
+- 系统包含admin 管理用户
 
 ## 所用框架
 - MyBatis-Plus 3.0.7
@@ -25,7 +25,7 @@
 ### 步骤一
 - 准备环境
 ```
-- 中间件:Tomcat 8 以上
+- 中间件:Tomcat 9 以上
 - 数据库:Mysql 5.7
 ```
 
@@ -38,12 +38,13 @@
 ```
 
 ### 步骤三
-- 发布应用,注意:最新版本的war包已经发布,请直接下载,不需要下载源代码进行编译。
+- 发布应用,注意:最新版本的war包已经发布,请直接下载（右上角发版中）,不需要下载源代码进行编译。
 ```
-- 部署到Tomcat目录的webapps下,修改配置文件(webapps/dt/WEB-INF/classes)中数据库的连接信息
-- jdbc.url=jdbc:mysql://ip:port/dt?useUnicode=true&characterEncoding=utf8&useSSL=false
+- 将war包部署到Tomcat目录的webapps下后，修改配置文件(webapps/dt/WEB-INF/classes)中数据库的数据库配置文件config.properties
+- jdbc.url=jdbc:mysql://127.0.0.1:3306/dt?useUnicode=true&characterEncoding=utf8&useSSL=false
 - jdbc.username=root
 - jdbc.password=root_pwd
+- 修改成你所在的环境配置
 ```
 
 ### 步骤四
@@ -67,6 +68,4 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1205/213815_ad2975a7_448530.png "lc.png")
 ## 后期开发计划
 - 添加资产自定义属性功能
-- 添加工单流程,自定义审批流程
 - 丰富资产报表
-- 添加领用，资产转移等功能

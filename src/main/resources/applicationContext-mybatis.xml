@@ -26,6 +26,7 @@
 		class="com.dt.core.mybatis.MetaObjectHandlerConfig" />
 	<bean id="logicSqlInjector"
 		class="com.baomidou.mybatisplus.extension.injector.LogicSqlInjector" />
+		
 	<bean id="id_type"
 		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
 		<property name="staticField"
