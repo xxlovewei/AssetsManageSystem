@@ -1,3 +1,15 @@
 process_id 模版ID
 流程实例ID
 任务ID
+
+truncate table sys_session;
+truncate table sys_log_access;
+truncate table sys_log_login;
+truncate table ct_content;
+truncate table ct_class;
+truncate table ct_uri;
+truncate table sys_banner;
+truncate table sys_banner_item;
+truncate table sys_notice;
+
+
