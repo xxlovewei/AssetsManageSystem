@@ -707,7 +707,7 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	console.log(meta,task);
 
-	$scope.actmsg = "操作";
+	$scope.actmsg = "操作人";
 	if (meta.acttype == "LY") {
 		$scope.actmsg  = "领用人";
 	} else if (meta.acttype == "JY") {
@@ -778,37 +778,9 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.dtOptions.aaData = [];
 
-	$scope.dtOptions2 = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
-					50).withOption("ordering", false).withOption("responsive",
-					false).withOption("searching", false).withOption('scrollY',
-					'300px').withOption('scrollX', true).withOption(
-					'bAutoWidth', true).withOption('scrollCollapse', true)
-			.withOption('paging', false).withFixedColumns({
-				leftColumns : 0,
-				rightColumns : 0
-			}).withOption('bStateSave', true).withOption('bProcessing', false)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
-				$compile(angular.element(row).contents())($scope);
-			});
-	$scope.dtColumns2 = [
-			DTColumnBuilder.newColumn('assigneename').withTitle('审批人').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('taskName').withTitle('任务名称').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('state').withTitle('状态').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('opinion').withTitle('审批意见').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('endDate').withTitle('处理时间').withOption(
-					'sDefaultContent', '') ]
-
-	$scope.dtOptions2.aaData = [];
-
+ 
 	$scope.url = "";
-	
+	$scope.spsugguest=[];
 	// 显示审批页面
 	$http
 			.post($rootScope.project + "/api/cmdb/resActionExt/selectById.do",
@@ -842,7 +814,8 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 										.success(
 												function(res) {
 													if (res.success) {
-														$scope.dtOptions2.aaData = res.data;
+													
+														$scope.spsugguest=res.data;
 													} else {
 														notify({
 															message : res.message
@@ -888,10 +861,7 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	
 	$scope.agreen=function(){
 		if($scope.spsuggest.length==0){
-			notify({
-				message :"请输入审批意见"
-			});
-			return;
+			$scope.spsuggest="同意";
 		}
 		if($scope.spsuggest.length>248){
 			notify({
@@ -915,10 +885,11 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	
 	$scope.refuse=function(){
 		if($scope.spsuggest.length==0){
-			notify({
-				message :"请输入审批意见"
-			});
-			return;
+			$scope.spsuggest="拒绝";
+// notify({
+// message :"请输入审批意见"
+// });
+// return;
 		}
 		if($scope.spsuggest.length>248){
 			notify({

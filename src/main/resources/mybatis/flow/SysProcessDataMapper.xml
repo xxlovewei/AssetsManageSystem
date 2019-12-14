@@ -60,6 +60,10 @@
         <result column="dn9" property="dn9" />
         <result column="dn10" property="dn10" />
         <result column="dmethod" property="dmethod" />
+        <result column="psubtype" property="psubtype" />
+        <result column="pendtime" property="pendtime" />
+        <result column="dlevel" property="dlevel" />
+        <result column="ddict" property="ddict" />
     </resultMap>
 
 </mapper>

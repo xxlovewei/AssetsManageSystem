@@ -37,9 +37,9 @@
 							<label class="col-sm-2 control-label"><span
 								class="text-danger">*</span>描述:</label>
 							<div class="col-sm-10">
-								<input type="text" required ng-maxlength="500"
+								<textarea type="text" required ng-maxlength="500"
 									class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-									placeholder="请输入描述" name="ct" ng-model="data.dct">
+									placeholder="请输入描述" name="ct" ng-model="data.dct"></textarea>
 								<div class="text-danger"
 									ng-if="myForm.dct.$dirty && myForm.dct.$invalid">
 									<span ng-if="myForm.dct.$error.required"> 输入不能为空 </span> <span

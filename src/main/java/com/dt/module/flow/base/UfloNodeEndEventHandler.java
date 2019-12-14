@@ -1,5 +1,9 @@
 package com.dt.module.flow.base;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +43,10 @@ public class UfloNodeEndEventHandler implements NodeEventHandler {
 
 		String busid = processInstance.getBusinessId();
 
+		Date date = new Date(); // 获取一个Date对象
+		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+		String nowtime = simpleDateFormat.format(date);
+		
 		if (busid != null && !busid.equals("")) {
 			QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
 			qw.eq("busid", busid);
@@ -49,8 +57,10 @@ public class UfloNodeEndEventHandler implements NodeEventHandler {
 			} else {
 				// 更新流程总表
 				UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+				
 				uw.eq("busid", busid);
 				uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
+				uw.set("pendtime", nowtime);
 				// 流程类型处理
 				if (pdtype != null) {
 					if (pdtype.equals("LY") || pdtype.equals("JY") || pdtype.equals("ZY")) {

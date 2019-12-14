@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2019-12-03
+ * @since 2019-12-14
  */
  
 @TableName("sys_process_data")
@@ -126,6 +126,14 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     private BigDecimal dn10;
     @TableField("dmethod")
     private String dmethod;
+    @TableField("psubtype")
+    private String psubtype;
+    @TableField("pendtime")
+    private Date pendtime;
+    @TableField("dlevel")
+    private String dlevel;
+    @TableField("ddict")
+    private String ddict;
 
 
     public String getId() {
@@ -536,6 +544,38 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         this.dmethod = dmethod;
     }
 
+    public String getPsubtype() {
+        return psubtype;
+    }
+
+    public void setPsubtype(String psubtype) {
+        this.psubtype = psubtype;
+    }
+
+    public Date getPendtime() {
+        return pendtime;
+    }
+
+    public void setPendtime(Date pendtime) {
+        this.pendtime = pendtime;
+    }
+
+    public String getDlevel() {
+        return dlevel;
+    }
+
+    public void setDlevel(String dlevel) {
+        this.dlevel = dlevel;
+    }
+
+    public String getDdict() {
+        return ddict;
+    }
+
+    public void setDdict(String ddict) {
+        this.ddict = ddict;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -595,6 +635,10 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         ", dn9=" + dn9 +
         ", dn10=" + dn10 +
         ", dmethod=" + dmethod +
+        ", psubtype=" + psubtype +
+        ", pendtime=" + pendtime +
+        ", dlevel=" + dlevel +
+        ", ddict=" + ddict +
         "}";
     }
 }

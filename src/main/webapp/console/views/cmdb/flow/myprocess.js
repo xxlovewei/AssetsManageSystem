@@ -118,8 +118,6 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('duuid').withTitle('单据号').withOption(
 					'sDefaultContent', ''),
-			// DTColumnBuilder.newColumn('pstatus').withTitle('状态').withOption(
-			// 'sDefaultContent', '').renderWith(renderStatus),
 			DTColumnBuilder.newColumn('pstatusdtl').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatusDtl),
 			DTColumnBuilder.newColumn('ptitle').withTitle('标题').withOption(
@@ -127,7 +125,9 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			DTColumnBuilder.newColumn('ptype').withTitle('类型').withOption(
 					'sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('createTime').withTitle('发起时间')
-					.withOption('sDefaultContent', '') ]
+					.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('pendtime').withTitle('结束时间').withOption(
+					'sDefaultContent', '') ]
 
 	$scope.query = function() {
 		flush();
@@ -191,7 +191,7 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.oper = function() {
 		var item = getSelectRow();
 		console.log(item);
-		if (angular.isDefined(item) ) {
+		if (angular.isDefined(item)) {
 
 			$http
 					.post(
@@ -238,9 +238,9 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								}
 							})
 		} else {
-//			notify({
-//				message : "该流程不存在"
-//			});
+			// notify({
+			// message : "该流程不存在"
+			// });
 		}
 	}
 
