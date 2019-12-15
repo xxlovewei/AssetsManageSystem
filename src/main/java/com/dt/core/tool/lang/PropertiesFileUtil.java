@@ -77,11 +77,7 @@ public class PropertiesFileUtil {
             }
             return false;
         }catch (MissingResourceException e) {
-            
-        	
-        	
-        	
-        	
+       
         	return false;
         }
     }

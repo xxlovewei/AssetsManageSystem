@@ -2,6 +2,11 @@ package com.dev;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+
 import com.dt.module.om.term.entity.Machine;
 import com.dt.module.om.term.websocket.SftpClient;
 import com.dt.module.om.util.RemoteShellExecutor;
@@ -19,14 +24,23 @@ public class DeployZcDevMac {
 	 * @param args
 	 * @return: void
 	 */
+
 	public static void main(String[] args) {
+
 		String tomcatOnlyPort = "3037";
 		String dir = "/opt/tomcat/tomcat_shopuat/webapps";
 		String filename = "dt";
 		String rfile = dir + "/" + filename + ".war";
 		String fstr = "/Users/algernonking/" + filename + ".war";
-		
-		String pwd="";
+		PropertiesUtil p;
+		String pwd = "";
+		try {
+			p = new PropertiesUtil("/opt/autologin/conf.properties");
+			pwd = p.readValue("zc.rootpwd");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		SftpClient sftp = new SftpClient();
 		Machine m = new Machine("localhost", "39.105.191.22", "root", pwd, 12500);
@@ -40,8 +54,9 @@ public class DeployZcDevMac {
 			e.printStackTrace();
 		}
 
-		RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root",pwd, 12500);
-	//	executor.exec("/usr/bin/cp " + rfile + " /tmp/shop." + filename + ".bak --backup").print();
+		RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root", pwd, 12500);
+		// executor.exec("/usr/bin/cp " + rfile + " /tmp/shop." + filename + ".bak
+		// --backup").print();
 
 		// 停应用
 		executor.exec("/usr/sbin/lsof -i:" + tomcatOnlyPort + " |awk '{print $2}' |grep -v PID|xargs kill -9 {} ")
