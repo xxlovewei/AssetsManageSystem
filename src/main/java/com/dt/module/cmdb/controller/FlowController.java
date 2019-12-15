@@ -176,15 +176,15 @@ public class FlowController extends BaseController {
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_USER)
 	public R queryTask(String taskId) {
-		 
+		sysUfloProcessService.queryTask(taskId);
 		return R.SUCCESS_OPER();
 	}
 
-	@RequestMapping("/zc/computeTask.do")
+	@RequestMapping("/zc/completeTask.do")
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_USER)
 	public R computeTask(String variables, String taskId, String opinion) {
-		R r = sysUfloProcessService.computeTask(variables, taskId, opinion);
+		R r = sysUfloProcessService.completeTask(variables, taskId, opinion);
 		return r;
 	}
 

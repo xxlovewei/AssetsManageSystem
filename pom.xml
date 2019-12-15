@@ -39,7 +39,7 @@
 			<artifactId>uflo-console</artifactId>
 			<version>2.1.5</version>
 		</dependency>
-
+	 
 
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 
@@ -374,5 +374,5 @@
 			<version>1.2</version>
 		</dependency>
 	</dependencies>
- 
+
 </project>

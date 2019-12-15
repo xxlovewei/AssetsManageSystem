@@ -153,6 +153,7 @@ public class SysUfloProcessService extends BaseService {
 		startProcessInfo.setBusinessId(busid);
 		startProcessInfo.setCompleteStartTask(true);
 		ProcessInstance inst = processService.startProcessByKey(key, startProcessInfo);
+
 		SysProcessData pd = new SysProcessData();
 		pd.setBusid(busid);
 		pd.setProcesskey(key);
@@ -217,7 +218,15 @@ public class SysUfloProcessService extends BaseService {
 		return infos;
 	}
 
-	public R computeTask(String variables, String taskId, String opinion) {
+	public R queryTask(String taskId) {
+		long taskId_l = ConvertUtil.toLong(taskId);
+		String a=taskService.getUserData(taskService.getTask(taskId_l), "catid");
+		String b=taskService.getUserData(taskService.getTask(taskId_l), "catname");
+		System.out.println(a+b);
+		return R.SUCCESS_OPER();
+	}
+	
+	public R completeTask(String variables, String taskId, String opinion) {
 
 		TaskOpinion op = new TaskOpinion(opinion);
 		long taskId_l = ConvertUtil.toLong(taskId);
