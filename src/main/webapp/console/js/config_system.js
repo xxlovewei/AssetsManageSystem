@@ -444,7 +444,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('flow.processmatch', {
 		url : "/flow_processmatch?psBtns",
 		data: { pageTitle: '流程分配'},
-		template:'<div ng-controller="sysFlowMatchCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		templateUrl : "views/flow/flowmatch.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {

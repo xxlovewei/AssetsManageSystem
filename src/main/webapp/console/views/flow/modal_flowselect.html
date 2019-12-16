@@ -1,0 +1,52 @@
+<style>
+@media ( min-width : 992px) {
+	.modal-blg {
+		width: 95%;
+	}
+}
+</style>
+<div class="modal-content">
+	<div class="modal-header">
+		<button ng-click="cancel()" type="button" class="close">
+			<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+		</button>
+		<h4 class="modal-title">选择流程</h4>
+	</div>
+	<div class="modal-body">
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="ibox">
+						<div class="ibox-content" style="min-height: 250px;">
+							<div js-tree="treeConfig" ng-model="treeData" tree="treeInstance"
+								tree-events="ready:readyCB;create_node:createNodeCB"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8">
+					<div class="ibox">
+						<div class="ibox-title">
+							<div class="ibox-tools" style="text-align: left !important">
+								<a href="" ng-click="preview()" class="btn btn-primary btn-xs">流程预览</a>
+							</div>
+						</div>
+						<div class="ibox-content" style="padding-bottom: 50px">
+							<table datatable="ed" dt-options="dtOptions"
+								dt-instance="dtInstance" dt-columns="dtColumns"
+								dt-column-defs="dtColumnDefs" class="table table-hover">
+							</table>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer" style="text-align: center">
+			<button ng-click="sure()" class="btn btn-primary">提交</button>
+		</div>
+	</div>
+</div>
+
+
+
+

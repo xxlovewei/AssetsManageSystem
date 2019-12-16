@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2019-11-30
+ * @since 2019-12-16
  */
  
 @TableName("sys_process_def")
@@ -28,6 +28,18 @@ public class SysProcessDef extends BaseModel<SysProcessDef> {
     private String name;
     @TableField("mark")
     private String mark;
+    @TableField("status")
+    private String status;
+    @TableField("ptplid")
+    private String ptplid;
+    @TableField("form")
+    private String form;
+    @TableField("ptplname")
+    private String ptplname;
+    @TableField("owner")
+    private String owner;
+    @TableField("ptplkey")
+    private String ptplkey;
 
 
     public String getId() {
@@ -54,6 +66,54 @@ public class SysProcessDef extends BaseModel<SysProcessDef> {
         this.mark = mark;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPtplid() {
+        return ptplid;
+    }
+
+    public void setPtplid(String ptplid) {
+        this.ptplid = ptplid;
+    }
+
+    public String getForm() {
+        return form;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
+    }
+
+    public String getPtplname() {
+        return ptplname;
+    }
+
+    public void setPtplname(String ptplname) {
+        this.ptplname = ptplname;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getPtplkey() {
+        return ptplkey;
+    }
+
+    public void setPtplkey(String ptplkey) {
+        this.ptplkey = ptplkey;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -65,6 +125,12 @@ public class SysProcessDef extends BaseModel<SysProcessDef> {
         "id=" + id +
         ", name=" + name +
         ", mark=" + mark +
+        ", status=" + status +
+        ", ptplid=" + ptplid +
+        ", form=" + form +
+        ", ptplname=" + ptplname +
+        ", owner=" + owner +
+        ", ptplkey=" + ptplkey +
         "}";
     }
 }

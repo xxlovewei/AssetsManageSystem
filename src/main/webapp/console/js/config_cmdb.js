@@ -699,6 +699,14 @@ function loadOpt(modal_meta, gdicts) {
 	
 }
 
+function modalreviewProcessCtl(meta, $rootScope, $window, $scope,
+		$uibModalInstance) {
+	var url = $rootScope.project + "uflo/diagram?processKey=" + meta.pk;
+	$scope.url = url;
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+}
 
 
 function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,

@@ -12,6 +12,12 @@
     <result column="update_time" property="updateTime" />
         <result column="name" property="name" />
         <result column="mark" property="mark" />
+        <result column="status" property="status" />
+        <result column="ptplid" property="ptplid" />
+        <result column="form" property="form" />
+        <result column="ptplname" property="ptplname" />
+        <result column="owner" property="owner" />
+        <result column="ptplkey" property="ptplkey" />
     </resultMap>
 
 </mapper>
