@@ -25,6 +25,25 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	});
 	
 	
+	// 流程管理
+	$stateProvider.state('zcprocess', {
+		abstract : true,
+		url : "/zcprocess",
+		templateUrl : "views/common/content.html?v="+version
+	}).state('zcprocess.allprocess', {
+		url : "/zcprocess_allprocess?psBtns",
+		data: { pageTitle: '所有流程'},
+		templateUrl : "views/cmdb/flow/allprocess.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/cmdb/flow/allprocess.js?v=' + version ]
+				} ]);
+			}
+		}
+	})
+	
 	
 	// cmdb
 	$stateProvider.state('maintain', {
@@ -730,10 +749,10 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	};
 	
 	$scope.ctl={};
-	$scope.ctl.dtitle=false;
-	$scope.ctl.dct=false;
-	$scope.ctl.df1=false;
-	$scope.ctl.df2=false;
+	$scope.ctl.dtitle=true;
+	$scope.ctl.dct=true;
+	$scope.ctl.df1=true;
+	$scope.ctl.df2=true;
 	$scope.ctl.pagespbtnhide=true;
 	$scope.spsuggest="";
 	$scope.pagetype=pagetype;
@@ -799,12 +818,14 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					function(res) {
 						if (res.success) {
 							$scope.data = res.data;
-							$scope.ctl.dtitle=true;
-							$scope.ctl.dct=true;
-							$scope.ctl.df1=true;
-							$scope.ctl.df2=true;
-							
-							
+		 	
+							if($scope.data.pstatus=="rollback"){
+								$scope.ctl.dtitle=false;
+								$scope.ctl.dct=false;
+								$scope.ctl.df1=false;
+								$scope.ctl.df2=false;
+							}
+
 							$scope.dtOptions.aaData = res.data.items;
 							if (angular.isDefined(res.data.dmethod)
 									&& res.data.dmethod == "1") {
@@ -844,6 +865,8 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 									html = "审批失败"
 								} else if (res.data.pstatusdtl == "cancel") {
 									html = "审批取消"
+								}else if (res.data.pstatusdtl == "rollback") {
+									html = "审批退回"
 								}
 							}
 							$scope.data.spstatusstr = html;
@@ -878,7 +901,7 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			return;
 		}
 		$http
-		.post($rootScope.project + "/api/cmdb/flow/zc/computeTask.do",
+		.post($rootScope.project + "/api/cmdb/flow/zc/completeTask.do",
 				{taskId:task.id,opinion:$scope.spsuggest}).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close('OK');
@@ -891,13 +914,9 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
  
 	}
 	
-	$scope.refuse=function(){
+	$scope.rollback=function(){
 		if($scope.spsuggest.length==0){
-			$scope.spsuggest="拒绝";
-// notify({
-// message :"请输入审批意见"
-// });
-// return;
+			$scope.spsuggest="退回";
 		}
 		if($scope.spsuggest.length>248){
 			notify({
@@ -906,7 +925,31 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			return;
 		}
 		$http
-		.post($rootScope.project + "/api/cmdb/flow/zc/refuseTask.do",
+		.post($rootScope.project + "/api/cmdb/flow/zc/rollback.do",
+				{taskId:task.id,opinion:$scope.spsuggest}).success(function(res) {
+			if (res.success) {
+				$uibModalInstance.close('OK');
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
+	}
+	
+	$scope.refuse=function(){
+		if($scope.spsuggest.length==0){
+			$scope.spsuggest="拒绝";
+		}
+		if($scope.spsuggest.length>248){
+			notify({
+				message :"已超过248,请缩减字数。"
+			});
+			return;
+		}
+		
+		$http
+		.post($rootScope.project + "/api/cmdb/flow/zc/completeTask.do",
 				{taskId:task.id,opinion:$scope.spsuggest}).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close('OK');
@@ -917,6 +960,31 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			}
 		})
 		
+	}
+	
+	$scope.submit=function(){
+		if($scope.spsuggest.length==0){
+			$scope.spsuggest="重新提交审批";
+		}
+		if($scope.spsuggest.length>248){
+			notify({
+				message :"已超过248,请缩减字数。"
+			});
+			return;
+		}
+		$scope.data.taskId=task.id;
+		$scope.data.opinion=$scope.spsuggest;
+		$http
+		.post($rootScope.project + "/api/cmdb/flow/zc/completeStartTask.do",
+				$scope.data).success(function(res) {
+			if (res.success) {
+				$uibModalInstance.close('OK');
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
 	}
 
 }

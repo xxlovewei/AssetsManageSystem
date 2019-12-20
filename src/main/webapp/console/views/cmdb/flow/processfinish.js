@@ -5,6 +5,20 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		tablehide : false,
 		tools : [
 				{
+					id : "2",
+					label : "开始时间",
+					type : "datetime",
+					time : moment().subtract(30, "days"),
+					show : true,
+				},
+				{
+					id : "2",
+					label : "结束时间",
+					type : "datetime",
+					time : moment().add(5, "days"),
+					show : true,
+				},
+				{
 					id : "1",
 					label : "查询",
 					type : "btn",
@@ -84,8 +98,8 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					'select-checkbox checkbox_center').renderWith(function() {
 				return ""
 			}),
-			DTColumnBuilder.newColumn('rootProcessInstanceId').withTitle('流程编号').withOption(
-					'sDefaultContent', ''),
+			//			DTColumnBuilder.newColumn('rootProcessInstanceId').withTitle('流程编号').withOption(
+			//					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('subject').withTitle('标题').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('opinion').withTitle('处理意见').withOption(
@@ -107,14 +121,24 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flush() {
 		var ps = {}
+
+		if ($scope.meta.tools[1].time - $scope.meta.tools[0].time >= 0) {
+		} else {
+			notify({
+				message : "请选择正确的时间范围"
+			});
+			return;
+		}
+		ps.sdate = $scope.meta.tools[0].time.format('YYYY-MM-DD');
+		ps.edate = $scope.meta.tools[1].time.format('YYYY-MM-DD');
+
 		ps.search = "";
 		ps.pageSize = 1000;
 		ps.pageIndex = 1;
-		$http
-				.post(
-						$rootScope.project
-								+ "/api/cmdb/flow/zc/myProcessloadHistory.do",
-						ps).success(function(res) {
+		$http.post(
+				$rootScope.project
+						+ "/api/cmdb/flow/zc/myProcessloadHistory.do", ps)
+				.success(function(res) {
 					$scope.dtOptions.aaData = res.data
 				})
 	}
@@ -214,9 +238,9 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 								}
 							})
 		} else {
-//			notify({
-//				message : "该流程不存在"
-//			});
+			//			notify({
+			//				message : "该流程不存在"
+			//			});
 		}
 	}
 

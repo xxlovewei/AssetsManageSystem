@@ -1,6 +1,9 @@
 package com.dt.module.cmdb.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -18,7 +21,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.bstek.uflo.console.handler.impl.PageData;
 import com.bstek.uflo.model.HistoryTask;
 import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.model.task.Task;
@@ -34,11 +36,11 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.cmdb.service.IResActionItemService;
-import com.dt.module.cmdb.service.impl.ResActionService;
 import com.dt.module.cmdb.service.impl.ResExtService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessClassItemService;
@@ -96,6 +98,7 @@ public class FlowController extends BaseController {
 		query.addTaskState(TaskState.Ready);
 		query.addTaskState(TaskState.Suspended);
 		query.addTaskState(TaskState.Reserved);
+
 		query.addAssignee(loginUsername).addOrderDesc("createDate").page(firstResult, pageSize);
 		if (StringUtils.isNotBlank(taskName)) {
 			query.nameLike("%" + taskName + "%");
@@ -108,7 +111,8 @@ public class FlowController extends BaseController {
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_USER)
 	@RequestMapping(value = "/zc/myProcessloadHistory.do")
-	public R loadHistory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public R loadHistory(HttpServletRequest req, HttpServletResponse resp, String sdate, String edate)
+			throws ServletException, IOException, ParseException {
 		String loginUsername = EnvironmentUtils.getEnvironment().getLoginUser();
 		int pageSize = Integer.valueOf(req.getParameter("pageSize"));
 		int pageIndex = Integer.valueOf(req.getParameter("pageIndex"));
@@ -119,6 +123,17 @@ public class FlowController extends BaseController {
 			query.nameLike("%" + taskName + "%");
 		}
 		query.assignee(loginUsername).addOrderDesc("endDate").page(firstResult, pageSize);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		if (ToolUtil.isNotEmpty(sdate)) {
+			Date ssdate = format.parse(sdate);
+			query.createDateGreaterThenOrEquals(ssdate);
+		}
+
+		if (ToolUtil.isNotEmpty(edate)) {
+			Date eedate = format.parse(edate);
+			query.createDateLessThenOrEquals(eedate);
+		}
+
 		int total = query.count();
 		List<HistoryTask> tasks = query.list();
 		JSONObject retrunObject = new JSONObject();
@@ -183,7 +198,7 @@ public class FlowController extends BaseController {
 	@RequestMapping("/zc/completeTask.do")
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_USER)
-	public R computeTask(String variables, String taskId, String opinion) {
+	public R completeTask(String variables, String taskId, String opinion) {
 		R r = sysUfloProcessService.completeTask(variables, taskId, opinion);
 		return r;
 	}
@@ -193,7 +208,80 @@ public class FlowController extends BaseController {
 	@Acl(info = "", value = Acl.ACL_USER)
 	public R refuseTask(String taskId, String opinion) {
 		R r = sysUfloProcessService.refuseTask(taskId, opinion);
-
 		return r;
 	}
+
+	@RequestMapping("/zc/refuseTask2.do")
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	public R refuseTask2(String taskId, String opinion) {
+		R r = sysUfloProcessService.refuseTask(taskId, opinion);
+		return r;
+	}
+
+	@RequestMapping("/zc/getAvaliableForwardTaskNodes.do")
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	public R getAvaliableForwardTaskNodes(String taskId) {
+		R r = sysUfloProcessService.getAvaliableForwardTaskNodes(taskId);
+		return r;
+	}
+
+	@RequestMapping("/zc/getAvaliableRollbackTaskNodes.do")
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	public R getAvaliableRollbackTaskNodes(String taskId) {
+		R r = sysUfloProcessService.getAvaliableRollbackTaskNodes(taskId);
+		return r;
+	}
+
+	@RequestMapping("/zc/rollback.do")
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	public R rollback(String taskId, String opinion) {
+		R r = sysUfloProcessService.forwardStart(taskId, opinion);
+		return r;
+	}
+
+	@RequestMapping("/zc/withdraw.do")
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	public R withdraw(String taskId, String opinion) {
+		R r = sysUfloProcessService.withdraw(taskId, opinion);
+		return r;
+	}
+
+	@RequestMapping("/zc/forward.do")
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	public R forward(String taskId, String target, String opinion) {
+		R r = sysUfloProcessService.forward(taskId, target, opinion);
+		return r;
+	}
+
+	@RequestMapping("/zc/completeStartTask.do")
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	public R completeStartTask(String taskId) {
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		long taskId_l = ConvertUtil.toLong(taskId);
+		// 修改流程标记
+		Task tsk = taskService.getTask(taskId_l);
+		String instid = tsk.getProcessInstanceId() + "";
+
+		// 更新状态
+		UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+		uw.eq("processInstanceId", instid);
+		uw.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
+		uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
+		uw.set("ptitle", ps.getString("dtitle", " "));
+		uw.set("dtitle", ps.getString("dtitle", " "));
+		uw.set("df1", ps.getString("df1", " "));
+		uw.set("df2", ps.getString("df2", " "));
+		uw.set("dct", ps.getString("dct", " "));
+		SysProcessDataServiceImpl.update(uw);
+		R r = sysUfloProcessService.completeTask(null, taskId, ps.getString("opinion"));
+		return r;
+	}
+
 }

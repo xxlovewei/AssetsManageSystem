@@ -1,4 +1,4 @@
-function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal, $window) {
 
 	$scope.meta = {
@@ -27,7 +27,7 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
 				},
 				{
-					id : "1",
+					id : "2",
 					priv : "act1",
 					label : "详情",
 					type : "btn",
@@ -98,7 +98,7 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				html = "审批失败"
 			} else if (data == "cancel") {
 				html = "审批取消"
-			}else if (data == "rollback") {
+			} else if (data == "rollback") {
 				html = "审批退回"
 			}
 		}
@@ -130,8 +130,8 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					'select-checkbox checkbox_center').renderWith(function() {
 				return ""
 			}),
-//			DTColumnBuilder.newColumn('processInstanceId').withTitle('流程编号')
-//					.withOption('sDefaultContent', ''),
+			// DTColumnBuilder.newColumn('processInstanceId').withTitle('流程编号')
+			// .withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('duuid').withTitle('单据号').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('pstatusdtl').withTitle('状态').withOption(
@@ -150,8 +150,8 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	function flush() {
-		var ps = {}
-		 
+
+		var ps = {};
 
 		if ($scope.meta.tools[1].time - $scope.meta.tools[0].time >= 0) {
 		} else {
@@ -162,11 +162,10 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 		ps.sdate = $scope.meta.tools[0].time.format('YYYY-MM-DD');
 		ps.edate = $scope.meta.tools[1].time.format('YYYY-MM-DD');
-
-		
+		ps.type=angular.toJson(["LY"]);
 		$http.post(
 				$rootScope.project
-						+ "/api/flow/sysProcessDataExt/selectListByMy.do", ps)
+						+ "/api/flow/sysProcessDataExt/selectList.do", ps)
 				.success(function(res) {
 					$scope.dtOptions.aaData = res.data
 				})
@@ -275,4 +274,4 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 };
 
-app.register.controller('myProcessCtl', myProcessCtl);
+app.register.controller('allProcessCtl', allProcessCtl);

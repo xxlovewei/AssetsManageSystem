@@ -51,13 +51,15 @@ public class SysUfloProcessService extends BaseService {
 	public static String P_TYPE_RUNNING = "running";
 	public static String P_TYPE_CANCEL = "cancel";
 	public static String P_TYPE_FINISH = "finish";
+	public static String P_TYPE_ROLLBACK = "rollback";
 
 	public static String P_STATUS_SFA = "submitforapproval";
 	public static String P_STATUS_INREVIEW = "inreview";
 	public static String P_STATUS_APPROVALSUCCESS = "success";
 	public static String P_STATUS_APPROVALFAILED = "failed";
+	public static String P_STATUS_ROLLBACK = "rollback";
 	public static String P_STATUS_CANCEL = "cancel";
-	
+
 	@Autowired
 	private ProcessService processService;
 
@@ -152,6 +154,7 @@ public class SysUfloProcessService extends BaseService {
 		StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
 		startProcessInfo.setBusinessId(busid);
 		startProcessInfo.setCompleteStartTask(true);
+		
 		ProcessInstance inst = processService.startProcessByKey(key, startProcessInfo);
 
 		SysProcessData pd = new SysProcessData();
@@ -220,27 +223,117 @@ public class SysUfloProcessService extends BaseService {
 
 	public R queryTask(String taskId) {
 		long taskId_l = ConvertUtil.toLong(taskId);
-		String a=taskService.getUserData(taskService.getTask(taskId_l), "catid");
-		String b=taskService.getUserData(taskService.getTask(taskId_l), "catname");
-		System.out.println(a+b);
+		String a = taskService.getUserData(taskService.getTask(taskId_l), "catid");
+		String b = taskService.getUserData(taskService.getTask(taskId_l), "catname");
+		System.out.println(a + b);
 		return R.SUCCESS_OPER();
 	}
-	
+
+	// 同意任务
 	public R completeTask(String variables, String taskId, String opinion) {
+		// 修改流程标记
 
 		TaskOpinion op = new TaskOpinion(opinion);
 		long taskId_l = ConvertUtil.toLong(taskId);
+		Task tsk = taskService.getTask(taskId_l);
+
+		String instid = tsk.getProcessInstanceId() + "";
+
 		taskService.start(taskId_l);
 		taskService.complete(taskId_l, op);
+
+		UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+		uw.eq("processInstanceId", instid);
+		uw.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
+		uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
+		SysProcessDataServiceImpl.update(uw);
+
 		return R.SUCCESS_OPER();
 	}
 
-	//
+	public R getAvaliableForwardTaskNodes(String taskId) {
+		long taskId_l = ConvertUtil.toLong(taskId);
+		List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
+		return R.SUCCESS_OPER(nodes);
+	}
+
+	public R getAvaliableRollbackTaskNodes(String taskId) {
+		long taskId_l = ConvertUtil.toLong(taskId);
+		List<JumpNode> nodes = taskService.getAvaliableRollbackTaskNodes(taskId_l);
+		return R.SUCCESS_OPER(nodes);
+	}
+
+	public R rollback(String taskId, String targetNodeName, String opinion) {
+		TaskOpinion op = new TaskOpinion(opinion);
+		long taskId_l = ConvertUtil.toLong(taskId);
+		taskService.rollback(taskId_l, targetNodeName, null, op);
+		return R.SUCCESS_OPER();
+	}
+
+	public R withdraw(String taskId, String opinion) {
+		TaskOpinion op = new TaskOpinion(opinion);
+		long taskId_l = ConvertUtil.toLong(taskId);
+		taskService.withdraw(taskId_l, null, op);
+		return R.SUCCESS_OPER();
+	}
+
+	public R forward(String taskId, String targetNodeName, String opinion) {
+		TaskOpinion op = new TaskOpinion(opinion);
+		long taskId_l = ConvertUtil.toLong(taskId);
+		taskService.forward(taskId_l, targetNodeName, null, op);
+		return R.SUCCESS_OPER();
+	}
+
+	// 流程退回，退回到流程开始位置
+	public R forwardStart(String taskId, String opinion) {
+		TaskOpinion op = new TaskOpinion(opinion);
+		long taskId_l = ConvertUtil.toLong(taskId);
+		List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
+		JumpNode startNode = null;
+		for (int i = 0; i < nodes.size(); i++) {
+			JumpNode r = nodes.get(i);
+			if (r.isTask() && r.getLevel() == 1) {
+				if (r.getName() != null) {
+					if (r.getName().startsWith("开始") || r.getName().startsWith("流程开始")
+							|| r.getName().startsWith("发起开始")) {
+						startNode = r;
+						break;
+					}
+				}
+				if (r.getLabel() != null) {
+					if (r.getLabel().startsWith("开始") || r.getLabel().startsWith("流程开始")
+							|| r.getLabel().startsWith("发起开始")) {
+						startNode = r;
+						break;
+					}
+				}
+			}
+		}
+		if (startNode == null) {
+			return R.FAILURE("未找到开始节点,请按要求配置流程开始名称");
+		}
+		taskService.forward(taskId_l, startNode.getName(), null, op);
+
+		// 修改流程标记
+		Task tsk = taskService.getTask(taskId_l);
+		String instid = tsk.getProcessInstanceId() + "";
+
+		// 更新状态
+		UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+		uw.eq("processInstanceId", instid);
+		uw.set("pstatus", SysUfloProcessService.P_TYPE_ROLLBACK);
+		uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_ROLLBACK);
+		SysProcessDataServiceImpl.update(uw);
+		return R.SUCCESS_OPER();
+	}
+
+	// 拒绝，结束整个流程
 	public R refuseTask(String taskId, String opinion) {
 		TaskOpinion op = new TaskOpinion(opinion);
 		long taskId_l = ConvertUtil.toLong(taskId);
 		Task tsk = taskService.getTask(taskId_l);
 		String instid = tsk.getProcessInstanceId() + "";
+
 		List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
 		if (nodes.size() == 0) {
 			return R.FAILURE("无法跳转至结束流程");
