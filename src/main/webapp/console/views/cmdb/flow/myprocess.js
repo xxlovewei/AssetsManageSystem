@@ -89,17 +89,20 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		var html = data;
 		if (angular.isDefined(data)) {
 			if (data == "submitforapproval") {
-				html = "待送审";
+				html = "<span style='color:#33FFFF; font-weight:bold'>待送审</span>";
 			} else if (data == "inreview") {
-				html = "审批中"
+				html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
 			} else if (data == "success") {
-				html = "审批成功"
+				html = "<span style='color:green; font-weight:bold'>审批成功</span>";
 			} else if (data == "failed") {
-				html = "审批失败"
+
+				html = "<span style='color:red;font-weight:bold'>审批失败</span>";
 			} else if (data == "cancel") {
-				html = "审批取消"
-			}else if (data == "rollback") {
-				html = "审批退回"
+				html = "<span style='color:red;font-weight:bold'>审批取消</span>"
+			} else if (data == "rollback") {
+				html = "<span style='color:red;font-weight:bold'>审批退回</span>";
+			}else{
+				html=data;
 			}
 		}
 		return html;
@@ -130,8 +133,8 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					'select-checkbox checkbox_center').renderWith(function() {
 				return ""
 			}),
-//			DTColumnBuilder.newColumn('processInstanceId').withTitle('流程编号')
-//					.withOption('sDefaultContent', ''),
+			//			DTColumnBuilder.newColumn('processInstanceId').withTitle('流程编号')
+			//					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('duuid').withTitle('单据号').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('pstatusdtl').withTitle('状态').withOption(
@@ -151,7 +154,6 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	function flush() {
 		var ps = {}
-		 
 
 		if ($scope.meta.tools[1].time - $scope.meta.tools[0].time >= 0) {
 		} else {
@@ -163,7 +165,6 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		ps.sdate = $scope.meta.tools[0].time.format('YYYY-MM-DD');
 		ps.edate = $scope.meta.tools[1].time.format('YYYY-MM-DD');
 
-		
 		$http.post(
 				$rootScope.project
 						+ "/api/flow/sysProcessDataExt/selectListByMy.do", ps)

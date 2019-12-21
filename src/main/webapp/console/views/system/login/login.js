@@ -6,39 +6,14 @@ function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService,
 	$scope.user = {
 		user : "",
 		pwd : "",
-		type : "empl"
+		type : "username"
 	};
 
 	$scope.typecheck=function(v){
 		$scope.user.type=v;
 	}
 	$scope.login = function(e) {
-//		if (e == "A") {
-//			$scope.user = {
-//				user : "admin",
-//				pwd : "admin",
-//				type : "username"
-//			};
-//		} else if (e == "D") {
-//			$scope.user = {
-//				user : "dev",
-//				pwd : "12",
-//				type : "username"
-//			};
-//		} else if (e == "N") {
-//			$scope.user = {
-//				user : "juck",
-//				pwd : "0",
-//				type : "username"
-//			};
-//		} else if (e == "S") {
-//			$scope.user = {
-//				user : "sys",
-//				pwd : "0",
-//				type : "username"
-//			};
-//		}
-
+ 
 		var luserid = $localStorage.get("app_cur_userid");
 		var lsystemid = $localStorage.get("dt_cur_systemId");
 		userService.login($scope.user)

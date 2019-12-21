@@ -100,6 +100,8 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			}),
 			//			DTColumnBuilder.newColumn('rootProcessInstanceId').withTitle('流程编号').withOption(
 			//					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('id').withTitle('任务编号').withOption(
+					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('subject').withTitle('标题').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('opinion').withTitle('处理意见').withOption(

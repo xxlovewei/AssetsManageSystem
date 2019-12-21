@@ -1,6 +1,8 @@
 package com.dt.module.cmdb.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,6 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
 @RequestMapping("/api/cmdb/resActionExt")
 public class ResActionExtController extends BaseController {
 
- 
 	@Autowired
 	IResActionItemService ResActionItemServiceImpl;
 
@@ -95,12 +96,21 @@ public class ResActionExtController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
-	public R selectList(String type) {
+	public R selectList(String type, String sdate, String edate) {
 
 		QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
 		if (ToolUtil.isNotEmpty(type)) {
 			ew.and(i -> i.eq("ptype", type));
 		}
+
+		if (ToolUtil.isNotEmpty(sdate)) {
+			ew.ge("create_time", sdate);
+		}
+
+		if (ToolUtil.isNotEmpty(edate)) {
+			ew.le("create_time", edate);
+		}
+
 		ew.orderByDesc("create_time");
 		return R.SUCCESS_OPER(SysProcessDataServiceImpl.list(ew));
 	}

@@ -1,6 +1,9 @@
 package com.dt.module.flow.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +16,17 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.bstek.uflo.command.impl.jump.JumpNode;
 import com.bstek.uflo.model.HistoryTask;
+import com.bstek.uflo.model.ProcessDefinition;
 import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.model.task.Task;
 import com.bstek.uflo.model.task.TaskState;
+import com.bstek.uflo.process.flow.SequenceFlowImpl;
+import com.bstek.uflo.process.node.Node;
+import com.bstek.uflo.process.node.StartNode;
 import com.bstek.uflo.query.HistoryTaskQuery;
 import com.bstek.uflo.query.TaskQuery;
 import com.bstek.uflo.service.HistoryService;
@@ -154,7 +162,7 @@ public class SysUfloProcessService extends BaseService {
 		StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
 		startProcessInfo.setBusinessId(busid);
 		startProcessInfo.setCompleteStartTask(true);
-		
+
 		ProcessInstance inst = processService.startProcessByKey(key, startProcessInfo);
 
 		SysProcessData pd = new SysProcessData();
@@ -236,18 +244,41 @@ public class SysUfloProcessService extends BaseService {
 		TaskOpinion op = new TaskOpinion(opinion);
 		long taskId_l = ConvertUtil.toLong(taskId);
 		Task tsk = taskService.getTask(taskId_l);
-
 		String instid = tsk.getProcessInstanceId() + "";
-
 		taskService.start(taskId_l);
 		taskService.complete(taskId_l, op);
-
 		UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
 		uw.eq("processInstanceId", instid);
 		uw.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
 		uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
+		// 判断下一个是不是终点
+		ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
+		Node node = process.getNode(tsk.getNodeName());
+		List<SequenceFlowImpl> flows = node.getSequenceFlows();
+		if (flows.size() > 0) {
+			SequenceFlowImpl flowimpl = flows.get(0);
+			String toNode = flowimpl.getToNode();
+			if (toNode != null) {
+				if (toNode.startsWith("结束") || toNode.startsWith("流程结束")) {
+					QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
+					qw.eq("busid", tsk.getBusinessId());
+					SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
+					String pdtype = sd.getPtype();
+					Date date = new Date(); // 获取一个Date对象
+					DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+					String nowtime = simpleDateFormat.format(date);
+					uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
+					uw.set("pendtime", nowtime);
+					// 流程类型处理
+					if (pdtype != null) {
+						if (pdtype.equals("LY") || pdtype.equals("JY") || pdtype.equals("ZY")) {
+							uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
+						}
+					}
+				}
+			}
+		}
 		SysProcessDataServiceImpl.update(uw);
-
 		return R.SUCCESS_OPER();
 	}
 
@@ -288,42 +319,39 @@ public class SysUfloProcessService extends BaseService {
 	public R forwardStart(String taskId, String opinion) {
 		TaskOpinion op = new TaskOpinion(opinion);
 		long taskId_l = ConvertUtil.toLong(taskId);
-		List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
-		JumpNode startNode = null;
-		for (int i = 0; i < nodes.size(); i++) {
-			JumpNode r = nodes.get(i);
-			if (r.isTask() && r.getLevel() == 1) {
-				if (r.getName() != null) {
-					if (r.getName().startsWith("开始") || r.getName().startsWith("流程开始")
-							|| r.getName().startsWith("发起开始")) {
-						startNode = r;
-						break;
-					}
-				}
-				if (r.getLabel() != null) {
-					if (r.getLabel().startsWith("开始") || r.getLabel().startsWith("流程开始")
-							|| r.getLabel().startsWith("发起开始")) {
-						startNode = r;
-						break;
-					}
-				}
-			}
-		}
-		if (startNode == null) {
-			return R.FAILURE("未找到开始节点,请按要求配置流程开始名称");
-		}
-		taskService.forward(taskId_l, startNode.getName(), null, op);
-
-		// 修改流程标记
 		Task tsk = taskService.getTask(taskId_l);
-		String instid = tsk.getProcessInstanceId() + "";
 
+		ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
+		taskService.forward(taskId_l, process.getStartNode().getName(), null, op);
+		// 修改流程标记
+		String instid = tsk.getProcessInstanceId() + "";
 		// 更新状态
 		UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
 		uw.eq("processInstanceId", instid);
 		uw.set("pstatus", SysUfloProcessService.P_TYPE_ROLLBACK);
 		uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_ROLLBACK);
 		SysProcessDataServiceImpl.update(uw);
+		return R.SUCCESS_OPER();
+	}
+
+	public R queryTaskNodeDtl(String taskId) {
+		long taskId_l = ConvertUtil.toLong(taskId);
+		Task tsk = taskService.getTask(taskId_l);
+		ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
+
+		System.out.println(process.getStartNode().getName());
+		System.out.println(process.getStartNode().getType());
+		System.out.println(process.getStartNode().getTaskName());
+		Node node = process.getNode(tsk.getNodeName());
+
+		List<SequenceFlowImpl> flows = node.getSequenceFlows();
+		if (flows.size() > 0) {
+			SequenceFlowImpl flowimpl = flows.get(0);
+			System.out.print(flowimpl);
+		}
+
+		System.out.print(node.getClass());
+		node.getSequenceFlows();
 		return R.SUCCESS_OPER();
 	}
 

@@ -258,6 +258,14 @@ public class FlowController extends BaseController {
 		R r = sysUfloProcessService.forward(taskId, target, opinion);
 		return r;
 	}
+	
+	@RequestMapping("/zc/queryTaskNodeDtl.do")
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	public R queryTaskNodeDtl(String taskId) {
+		R r = sysUfloProcessService.queryTaskNodeDtl(taskId);
+		return r;
+	}
 
 	@RequestMapping("/zc/completeStartTask.do")
 	@ResponseBody

@@ -209,11 +209,11 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}
-	
-	$scope.preview=function(){
-		
+
+	$scope.preview = function() {
+
 		var selrow = getSelectRow();
-		if (angular.isDefined(selrow)) {	
+		if (angular.isDefined(selrow)) {
 			var ps = {};
 			ps.pk = selrow.ptplkey;
 			var modalInstance = $uibModal.open({
@@ -235,9 +235,9 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 
 		}
-		
+
 	}
-	
+
 	$scope.sure = function() {
 		var selrow = getSelectRow();
 
@@ -409,7 +409,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withDOM('frtlip').withPaginationType('full_numbers')
 			.withDisplayLength(100).withOption("ordering", false).withOption(
-					"responsive", false).withOption("searching", false)
+					"responsive", false).withOption("searching", true)
 			.withOption('scrollY', '600px').withOption('scrollX', true)
 			.withOption('bAutoWidth', true).withOption('scrollCollapse', true)
 			.withOption('paging', true).withFixedColumns({
@@ -481,19 +481,26 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	function renderStatus(data, type, full) {
 		var html = data;
+
 		if (angular.isDefined(data)) {
 			if (data == "submitforapproval") {
-				html = "待送审";
+				html = "<span style='color:#33FFFF; font-weight:bold'>待送审</span>";
 			} else if (data == "inreview") {
-				html = "审批中"
+				html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
 			} else if (data == "success") {
-				html = "审批成功"
+				html = "<span style='color:green; font-weight:bold'>审批成功</span>";
 			} else if (data == "failed") {
-				html = "审批失败"
+
+				html = "<span style='color:red;font-weight:bold'>审批失败</span>";
 			} else if (data == "cancel") {
-				html = "审批取消"
+				html = "<span style='color:red;font-weight:bold'>审批取消</span>"
+			} else if (data == "rollback") {
+				html = "<span style='color:red;font-weight:bold'>审批退回</span>";
+			} else {
+				html = data;
 			}
 		}
+
 		return html;
 	}
 
@@ -581,14 +588,14 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					priv : "act1",
 					template : ' <button ng-click="ss()" class="btn btn-sm  btn-primary" type="submit">送审</button>'
 				},
-				{
-					id : "btn2",
-					label : "",
-					type : "btn",
-					show : false,
-					priv : "act2",
-					template : ' <button ng-click="back()" class="btn btn-sm  btn-primary" type="submit">归还</button>'
-				},
+//				{
+//					id : "btn2",
+//					label : "",
+//					type : "btn",
+//					show : false,
+//					priv : "act2",
+//					template : ' <button ng-click="back()" class="btn btn-sm  btn-primary" type="submit">归还</button>'
+//				},
 				{
 					id : "btn2",
 					label : "",
@@ -605,6 +612,18 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					template : ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
 				} ],
 		tools : [ {
+			id : "2",
+			label : "开始时间",
+			type : "datetime",
+			time : moment().subtract(60, "days"),
+			show : true,
+		}, {
+			id : "2",
+			label : "结束时间",
+			type : "datetime",
+			time : moment().add(1, "days"),
+			show : true,
+		}, {
 			id : "input",
 			show : true,
 			label : "内容",
@@ -620,6 +639,15 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	function flush() {
 		var ps = {}
 
+		if ($scope.meta.tools[1].time - $scope.meta.tools[0].time >= 0) {
+		} else {
+			notify({
+				message : "请选择正确的时间范围"
+			});
+			return;
+		}
+		ps.sdate = $scope.meta.tools[0].time.format('YYYY-MM-DD');
+		ps.edate = $scope.meta.tools[1].time.format('YYYY-MM-DD');
 		ps.search = $scope.meta.tools[0].ct;
 		ps.type = acttype;
 		$http.post($rootScope.project + "/api/cmdb/resActionExt/selectList.do",
