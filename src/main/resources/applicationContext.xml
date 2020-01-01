@@ -47,9 +47,8 @@
 		base-package="com.dt.module.flow.base" />
 
 	<!-- 流程配置 -->
-<!-- 	<bean id="FlowProcessEventHandler"
-		class="com.dt.module.flow.base.FlowProcessEventHandler">
-	</bean> -->
+	<!-- <bean id="FlowProcessEventHandler" class="com.dt.module.flow.base.FlowProcessEventHandler"> 
+		</bean> -->
 
 
 
@@ -132,6 +131,7 @@
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
+	<!-- 设置动作启用定时任务 -->
 	<task:annotation-driven />
 </beans>
  
