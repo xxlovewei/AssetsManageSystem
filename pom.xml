@@ -2,15 +2,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>com.dt</groupId>
 	<artifactId>dt</artifactId>
 	<version>1.0.0</version>
 	<packaging>war</packaging>
-
 	<name>dt</name>
 	<url></url>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>5.0.7.RELEASE</spring.version>
@@ -40,9 +37,7 @@
 			<version>2.1.5</version>
 		</dependency>
 
-
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
-
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus</artifactId>
@@ -55,7 +50,6 @@
 			<version>3.0.7.1</version>
 		</dependency>
 
-
 		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -63,14 +57,11 @@
 			<version>1.2</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.5.10</version>
 		</dependency>
-
-
 
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
@@ -78,7 +69,6 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.7</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
@@ -90,16 +80,13 @@
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-xstream</artifactId>
 			<version>2.21.0</version>
-
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.jvnet.hudson</groupId>
 			<artifactId>ganymed-ssh-2</artifactId>
 			<version>build260</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.jodd</groupId>
@@ -120,15 +107,12 @@
 			<version>3.8.6</version>
 		</dependency>
 
-
 		<!-- https://mvnrepository.com/artifact/cn.songxinqiang/com.baidu.ueditor -->
 		<dependency>
 			<groupId>cn.songxinqiang</groupId>
 			<artifactId>com.baidu.ueditor</artifactId>
 			<version>1.1.2-offical</version>
 		</dependency>
-
-
 
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -142,7 +126,6 @@
 			<artifactId>commons-logging</artifactId>
 			<version>1.2</version>
 		</dependency>
-
 
 		<!-- https://mvnrepository.com/artifact/cn.afterturn/easypoi-base -->
 		<dependency>
@@ -164,15 +147,11 @@
 			<version>20160212</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>2.3.0</version>
-
 		</dependency>
-
-
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -180,8 +159,7 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId> 
-			<version>4.12</version> <scope>test</scope> </dependency> -->
+
 		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -245,11 +223,8 @@
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
 			<version>2.6.11</version>
-
 		</dependency>
 
-
-		<!-- mysql -->
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -269,7 +244,6 @@
 			<artifactId>druid</artifactId>
 			<version>1.1.21</version>
 		</dependency>
-
 
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 		<dependency>
@@ -317,15 +291,6 @@
 			<version>1.18</version>
 		</dependency>
 
-		<!-- Hibernate Validator -->
-		<!-- <dependency> <groupId>javax.persistence</groupId> <artifactId>persistence-api</artifactId> 
-			<version>1.0.2</version> </dependency> <dependency> <groupId>javax.validation</groupId> 
-			<artifactId>validation-api</artifactId> <version>1.1.0.Final</version> </dependency> -->
-		<!-- fluent-validator -->
-		<!-- <dependency> <groupId>com.baidu.unbiz</groupId> <artifactId>fluent-validator</artifactId> 
-			<version>1.0.6</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
-			<artifactId>slf4j-api</artifactId> </exclusion> </exclusions> </dependency> -->
-
 		<!-- json -->
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
@@ -333,34 +298,39 @@
 			<version>2.4</version>
 			<classifier>jdk15</classifier>
 		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<version>2.9.6</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.6</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.9.6</version>
 		</dependency>
+
 		<!-- java mail -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
 		</dependency>
-		<!-- httpclient -->
+
 		<!-- aspectj -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.8.8</version>
 		</dependency>
+
 		<!-- servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -368,12 +338,14 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
 	</dependencies>
+
 	<profiles>
 		<profile>
 			<id>jdk-1.8</id>
