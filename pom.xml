@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.dt</groupId>
-	<artifactId>dw</artifactId>
+	<artifactId>dt</artifactId>
 	<version>1.0.0</version>
 	<packaging>war</packaging>
 
-	<name>dw</name>
+	<name>dt</name>
 	<url></url>
 
 	<properties>
@@ -16,7 +16,7 @@
 		<spring.version>5.0.7.RELEASE</spring.version>
 		<ehcache.version>2.10.0</ehcache.version>
 		<!-- 暂时无法升级到1.4.2 -->
-		<shiro.version>1.4.1</shiro.version>
+		<shiro.version>1.4.2</shiro.version>
 		<slf4j.version>1.7.25</slf4j.version>
 	</properties>
 
@@ -39,7 +39,7 @@
 			<artifactId>uflo-console</artifactId>
 			<version>2.1.5</version>
 		</dependency>
-	 
+
 
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 
@@ -374,5 +374,19 @@
 			<version>1.2</version>
 		</dependency>
 	</dependencies>
-
+	<profiles>
+		<profile>
+			<id>jdk-1.8</id>
+			<!-- 另外一种激活方式 -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<jdk>1.8</jdk>
+			</activation>
+			<properties>
+				<maven.compiler.source>1.8</maven.compiler.source>
+				<maven.compiler.target>1.8</maven.compiler.target>
+				<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+			</properties>
+		</profile>
+	</profiles>
 </project>
