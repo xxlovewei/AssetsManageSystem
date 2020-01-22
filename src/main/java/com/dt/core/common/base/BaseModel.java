@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
-
 @SuppressWarnings("rawtypes")
 public class BaseModel<T> extends Model implements Serializable {
 
@@ -96,21 +95,10 @@ public class BaseModel<T> extends Model implements Serializable {
 		this.updateBy = updateBy;
 	}
 
-	/*
-	 * (non Javadoc)
-	 * 
-	 * @Title: pkVal
-	 * 
-	 * @Description: TODO
-	 * 
-	 * @return
-	 * 
-	 * @see com.baomidou.mybatisplus.extension.activerecord.Model#pkVal()
-	 */
 	@Override
 	protected Serializable pkVal() {
 		// TODO Auto-generated method stub
-	   return this.pkVal();
+		return this.pkVal();
 	}
 
 }

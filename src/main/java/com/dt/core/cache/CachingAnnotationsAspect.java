@@ -78,8 +78,6 @@ public class CachingAnnotationsAspect {
 	private String parseKey(String key, Method method, Object[] args) {
 
 		// 获取被拦截方法参数名列表(使用Spring支持类库)
-		// root.method.name
-
 		LocalVariableTableParameterNameDiscoverer u = new LocalVariableTableParameterNameDiscoverer();
 		String[] paraNameArr = u.getParameterNames(method);
 

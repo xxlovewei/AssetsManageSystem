@@ -38,7 +38,6 @@ public class CustomizedEhCacheCache implements Cache {
 	// 格式cacahename#5#2
 	// #expiredtime 0注解层面上永未不过期(具体还要看其他配置),当有值是,优先级最高
 	// #refreshtime 0离快过期时刷新数据
-
 	// expiredtime = -1 可能来自注定刷新需要设置
 	// expiredtime=-2 则设置cache不需要设置
 	private int expiredtime = -1;

@@ -45,6 +45,7 @@
 		class="org.apache.shiro.web.servlet.SimpleCookie">
 		<constructor-arg value="rememberMe" />
 		<property name="name" value="RM_SESSIONID" />
+		
 		<property name="httpOnly" value="true" />
 		<property name="maxAge" value="2592000" /><!-- 30天 -->
 	</bean>

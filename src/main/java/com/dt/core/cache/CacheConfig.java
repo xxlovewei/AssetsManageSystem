@@ -8,14 +8,16 @@ package com.dt.core.cache;
 public class CacheConfig {
 
 	// 刷新数据建议设置长些,短的话主动刷新轮不上
+
 	// 2小时
 	public static final String CACHE_PUBLIC = "public";
 
 	public static final String CACHE_PUBLIC_45_10 = "public#45#10";
-	
+
 	public static final String CACHE_PUBLIC_80_10 = "public#80#10";
 	// 非常频繁
 	public static final String CACHE_PUBLIC_5_2 = "public#5#2";
+
 	public static final String CACHE_PUBLIC_1d_1h = "public#86400#3600";
 	// 非常频繁
 	public static final String CACHE_PUBLIC_2h_20min = "public#7200#1200";
@@ -26,9 +28,11 @@ public class CacheConfig {
 
 	// 用户数据
 	public static final String CACHE_USER = "user";
+
 	public static final String CACHE_USER_180_60 = "user#180#60";
 
 	public static final String CACHE_WX_CONF = "wxconf";
+
 	public static final String CACHE_WX_CONF_300_180 = "wxconf#300#180";
 
 }

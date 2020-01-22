@@ -14,11 +14,10 @@ import com.dt.core.tool.util.support.HttpKit;
  * @Description: TODO
  */
 @Component
-public class MetaObjectHandlerConfig  implements MetaObjectHandler {
+public class MetaObjectHandlerConfig implements MetaObjectHandler {
 
 	@Override
 	public void insertFill(MetaObject metaObject) {
-		
 		String user_id = HttpKit.getRequest().getSession().getAttribute("user_id") == null ? "null"
 				: HttpKit.getRequest().getSession().getAttribute("user_id").toString();
 		setFieldValByName("createTime", new Date(), metaObject);
