@@ -26,14 +26,14 @@ public class OpsNode extends BaseModel<OpsNode> {
     private String id;
     @TableField("name")
     private String name;
-    @TableField("risk")
-    private String risk;
-    @TableField("grade")
-    private String grade;
+    @TableField("runenv")
+    private String runenv;
+    @TableField("syslevel")
+    private String syslevel;
     @TableField("leader")
     private String leader;
-    @TableField("bustype")
-    private String bustype;
+    @TableField("busitype")
+    private String busitype;
     @TableField("loc")
     private String loc;
     @TableField("ip")
@@ -50,10 +50,10 @@ public class OpsNode extends BaseModel<OpsNode> {
     private String middlewarestr;
     @TableField("db")
     private String db;
-    @TableField("dbstr")
-    private String dbstr;
-    @TableField("envstr")
-    private String envstr;
+    @TableField("dbdtl")
+    private String dbdtl;
+    @TableField("execenv")
+    private String execenv;
     @TableField("monitor")
     private String monitor;
     @TableField("pwdstrategy")
@@ -80,20 +80,20 @@ public class OpsNode extends BaseModel<OpsNode> {
         this.name = name;
     }
 
-    public String getRisk() {
-        return risk;
+    public String getRunenv() {
+        return runenv;
     }
 
-    public void setRisk(String risk) {
-        this.risk = risk;
+    public void setRunenv(String runenv) {
+        this.runenv = runenv;
     }
 
-    public String getGrade() {
-        return grade;
+    public String getSyslevel() {
+        return syslevel;
     }
 
-    public void setGrade(String grade) {
-        this.grade = grade;
+    public void setSyslevel(String syslevel) {
+        this.syslevel = syslevel;
     }
 
     public String getLeader() {
@@ -104,12 +104,12 @@ public class OpsNode extends BaseModel<OpsNode> {
         this.leader = leader;
     }
 
-    public String getBustype() {
-        return bustype;
+    public String getBusitype() {
+        return busitype;
     }
 
-    public void setBustype(String bustype) {
-        this.bustype = bustype;
+    public void setBusitype(String busitype) {
+        this.busitype = busitype;
     }
 
     public String getLoc() {
@@ -176,20 +176,20 @@ public class OpsNode extends BaseModel<OpsNode> {
         this.db = db;
     }
 
-    public String getDbstr() {
-        return dbstr;
+    public String getDbdtl() {
+        return dbdtl;
     }
 
-    public void setDbstr(String dbstr) {
-        this.dbstr = dbstr;
+    public void setDbdtl(String dbdtl) {
+        this.dbdtl = dbdtl;
     }
 
-    public String getEnvstr() {
-        return envstr;
+    public String getExecenv() {
+        return execenv;
     }
 
-    public void setEnvstr(String envstr) {
-        this.envstr = envstr;
+    public void setExecenv(String execenv) {
+        this.execenv = execenv;
     }
 
     public String getMonitor() {
@@ -234,10 +234,10 @@ public class OpsNode extends BaseModel<OpsNode> {
         return "OpsNode{" +
         "id=" + id +
         ", name=" + name +
-        ", risk=" + risk +
-        ", grade=" + grade +
+        ", runenv=" + runenv +
+        ", syslevel=" + syslevel +
         ", leader=" + leader +
-        ", bustype=" + bustype +
+        ", busitype=" + busitype +
         ", loc=" + loc +
         ", ip=" + ip +
         ", os=" + os +
@@ -246,8 +246,8 @@ public class OpsNode extends BaseModel<OpsNode> {
         ", middleware=" + middleware +
         ", middlewarestr=" + middlewarestr +
         ", db=" + db +
-        ", dbstr=" + dbstr +
-        ", envstr=" + envstr +
+        ", dbdtl=" + dbdtl +
+        ", execenv=" + execenv +
         ", monitor=" + monitor +
         ", pwdstrategy=" + pwdstrategy +
         ", pwdmark=" + pwdmark +

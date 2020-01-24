@@ -302,6 +302,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 				formhtml = formhtml + tmp_tpl;
 			} else if (obj.type == "select") {
 				var uid = getUuid()
+				console.log('##############');
 				select_ids.push(uid);
 				tmp_tpl = tmp_tpl + " <div class=\"form-group\">";
 				tmp_tpl = tmp_tpl + "<label class=\"col-sm-2 control-label\">"
@@ -311,6 +312,28 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 						+ "	<select class=\"dt_select\" width=\"100\" id=\""
 						+ uid
 						+ "\"   chosen disable-search=\""
+						+ obj.disable_search
+						+ "\" class=\"chosen-select\" no-results-text=\"'没有找到相应条目'\" ng-model=\"meta."
+						+ obj.dataSel
+						+ "\"  data-placeholder-text-single=\"'请选择...'\" ng-options=\"item.name for item in meta."
+						+ obj.dataOpt + "\"> ";
+				tmp_tpl = tmp_tpl + "		<option value=\"\"></option> ";
+				tmp_tpl = tmp_tpl + "	</select> ";
+				tmp_tpl = tmp_tpl + "</div> ";
+				tmp_tpl = tmp_tpl + "</div> ";
+				formhtml = formhtml + tmp_tpl;
+			} else if (obj.type == "selectmultiple") {
+				var uid = getUuid()
+				select_ids.push(uid);
+				console.log('##############');
+				tmp_tpl = tmp_tpl + " <div class=\"form-group\">";
+				tmp_tpl = tmp_tpl + "<label class=\"col-sm-2 control-label\">"
+						+ need_col + obj.label + ":</label> ";
+				tmp_tpl = tmp_tpl + "<div class=\"col-sm-10\"> ";
+				tmp_tpl = tmp_tpl
+						+ "	<select class=\"dt_select\" width=\"100\" id=\""
+						+ uid
+						+ "\"   multiple chosen   disable-search=\""
 						+ obj.disable_search
 						+ "\" class=\"chosen-select\" no-results-text=\"'没有找到相应条目'\" ng-model=\"meta."
 						+ obj.dataSel

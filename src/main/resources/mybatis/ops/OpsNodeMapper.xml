@@ -11,10 +11,10 @@
     <result column="create_time" property="createTime" />
     <result column="update_time" property="updateTime" />
         <result column="name" property="name" />
-        <result column="risk" property="risk" />
-        <result column="grade" property="grade" />
+        <result column="runenv" property="runenv" />
+        <result column="syslevel" property="syslevel" />
         <result column="leader" property="leader" />
-        <result column="bustype" property="bustype" />
+        <result column="busitype" property="busitype" />
         <result column="loc" property="loc" />
         <result column="ip" property="ip" />
         <result column="os" property="os" />
@@ -23,8 +23,8 @@
         <result column="middleware" property="middleware" />
         <result column="middlewarestr" property="middlewarestr" />
         <result column="db" property="db" />
-        <result column="dbstr" property="dbstr" />
-        <result column="envstr" property="envstr" />
+        <result column="dbdtl" property="dbdtl" />
+        <result column="execenv" property="execenv" />
         <result column="monitor" property="monitor" />
         <result column="pwdstrategy" property="pwdstrategy" />
         <result column="pwdmark" property="pwdmark" />
