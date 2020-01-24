@@ -3,7 +3,7 @@ var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
 		'ngSanitize', 'cgNotify', 'angular-confirm', 'datatables',
 		'datatables.select', 'datatables.fixedcolumns', 'datatables.buttons',
 		'datatables.colvis', 'localytics.directives', 'swxLocalStorage',
-		'angular-loading-bar', 'ng.ueditor', 'datePicker' ,'treeGrid'])
+		'angular-loading-bar', 'ng.ueditor', 'datePicker', 'treeGrid' ])
 var $injector = angular.injector();
 function getContextPath() {
 	var pathName = document.location.pathname;
@@ -26,8 +26,8 @@ app.factory('sessionInjector', [
 				if (angular.isDefined(tokenstr) && tokenstr.length > 5) {
 					config.headers['dt-token'] = tokenstr;
 				}
-//				console.log(config.url);
-				// 禁止HTML缓存		
+				// console.log(config.url);
+				// 禁止HTML缓存
 				if (config.url.indexOf('.html') > -1
 						&& config.url.indexOf('views') > -1) {
 					config.url += "?auto_v=" + version;
@@ -352,6 +352,10 @@ app.config(config_cmdb).run(function() {
 	console.log("App cmdb run");
 });
 
+app.config(config_ops).run(function() {
+	console.log("App ops run");
+});
+
 app.config(config_system).run(function() {
 	console.log("App System run");
 });
@@ -384,7 +388,7 @@ function initDT(DTDefaultOptions) {
 
 	console.log(DTDefaultOptions);
 	DTDefaultOptions.setLanguage(lng);
-//	DTDefaultOptions.setDOM('frtlip');
+	// DTDefaultOptions.setDOM('frtlip');
 	DTDefaultOptions.setDOM('frtilp');
 	DTDefaultOptions.setDisplayLength(50);
 	DTDefaultOptions.setOption('sPaginationType', 'full_numbers');

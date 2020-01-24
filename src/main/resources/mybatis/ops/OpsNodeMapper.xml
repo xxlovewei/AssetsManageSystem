@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dt.module.ops.mapper.OpsNodeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dt.module.ops.entity.OpsNode">
+        <id column="id" property="id" />
+    <result column="dr" property="dr" />
+    <result column="create_by" property="createBy" />
+    <result column="update_by" property="updateBy" />
+    <result column="create_time" property="createTime" />
+    <result column="update_time" property="updateTime" />
+        <result column="name" property="name" />
+        <result column="risk" property="risk" />
+        <result column="grade" property="grade" />
+        <result column="leader" property="leader" />
+        <result column="bustype" property="bustype" />
+        <result column="loc" property="loc" />
+        <result column="ip" property="ip" />
+        <result column="os" property="os" />
+        <result column="osdtl" property="osdtl" />
+        <result column="nodebackup" property="nodebackup" />
+        <result column="middleware" property="middleware" />
+        <result column="middlewarestr" property="middlewarestr" />
+        <result column="db" property="db" />
+        <result column="dbstr" property="dbstr" />
+        <result column="envstr" property="envstr" />
+        <result column="monitor" property="monitor" />
+        <result column="pwdstrategy" property="pwdstrategy" />
+        <result column="pwdmark" property="pwdmark" />
+        <result column="mark" property="mark" />
+    </resultMap>
+
+</mapper>
