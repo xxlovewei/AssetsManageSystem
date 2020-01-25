@@ -1,12 +1,35 @@
 package com.dt.module.ops.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-/** 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONArray;
+import com.dt.core.cache.CacheConfig;
+import com.dt.core.common.base.BaseService;
+import com.dt.core.common.base.R;
+import com.dt.core.dao.Rcd;
+import com.dt.core.dao.RcdSet;
+import com.dt.core.dao.sql.Insert;
+import com.dt.core.dao.sql.Update;
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.cmdb.entity.ResImportResultEntity;
+import com.dt.module.ops.entity.OpsNodeEntity;
+import com.dt.module.ops.entity.OpsNodeImportResultEntity;
+
+/**
  * @author: algernonking
- * @date: Jan 24, 2020 2:02:52 PM 
- * @Description: TODO 
+ * @date: Jan 24, 2020 2:02:52 PM
+ * @Description: TODO
  */
-public class OpsNodeExtServiceImpl {
+
+@Service
+public class OpsNodeExtServiceImpl extends BaseService {
 
 	public static String sql = "select\n"
 			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.runenv and dict_id = 'sysenv' )   sysenvstr,\n"
@@ -21,5 +44,238 @@ public class OpsNodeExtServiceImpl {
 			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.monitor and dict_id = 'sysmonitor' ) sysmonitorstr,\n"
 			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.pwdstrategy and dict_id = 'syspwdstrategy' ) syspwdstrategystr,\n"
 			+ "t.*\n" + "from ops_node t where dr=0 ";
-}
 
+	public R selecList(String search) {
+		String sql = OpsNodeExtServiceImpl.sql;
+		if (ToolUtil.isNotEmpty(search)) {
+			sql = sql + " and (name like '%" + search + "%' or ip like '%" + search + "%' or leader like '%" + search
+					+ "%' or mark like '%" + search + "%')";
+		}
+		sql = sql + " order by name";
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+	}
+
+	public R validMiddlewareData() {
+		String sql = "select t.*,\n" + "(length(middleware)-length(replace(middleware, ',','')) ) +1 cnt\n"
+				+ "from ops_node t where dr='0' and middleware<>'[]'";
+		RcdSet rs = db.query(sql);
+		List<String> sqls = new ArrayList<String>();
+		sqls.add("delete from ops_node_item where type='middleware'");
+		for (int i = 0; i < rs.size(); i++) {
+			JSONArray e = JSONArray.parseArray(rs.getRcd(i).getString("middleware"));
+			if (e.size() > 0) {
+				for (int j = 0; j < e.size(); j++) {
+					Insert me = new Insert("ops_node_item");
+					me.set("id", db.getUUID());
+					me.set("dr", 0);
+					me.setIf("nid", rs.getRcd(i).getString("id"));
+					me.set("type", "middleware");
+					me.setIf("value", e.getString(j));
+					sqls.add(me.getSQL());
+				}
+			}
+		}
+		db.executeStringList(sqls);
+		return R.SUCCESS_OPER();
+	}
+
+	public R executeEntitysImport(List<OpsNodeEntity> resultdata) {
+		OpsNodeImportResultEntity result = checkOpsNodeEntitys(resultdata);
+		result.printResult();
+		if (!result.is_success_all) {
+			return R.FAILURE("操作失败", result.covertJSONObjectResult());
+		}
+		db.executeStringList(result.success_cmds);
+		return R.SUCCESS_OPER();
+
+	}
+
+	private OpsNodeImportResultEntity checkOpsNodeEntitys(List<OpsNodeEntity> result) {
+		OpsNodeImportResultEntity cres = new OpsNodeImportResultEntity();
+		String importlabel = ToolUtil.getUUID();
+		for (int i = 0; i < result.size(); i++) {
+			R r = checkOpsNodeEntity(result.get(i),importlabel);
+			if (r.isSuccess()) {
+				cres.addSuccess(r.getData().toString());
+			} else {
+				cres.addFailed(result.get(i));
+			}
+		}
+		return cres;
+	}
+
+	// 检查数据字典
+	@Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkDictItem'+#dict+'_'+#name")
+	public R checkDictItem(String dict, String name) {
+
+		// 其他为空，判断为成功
+		if (ToolUtil.isEmpty(name)) {
+			return R.SUCCESS_OPER("");
+		}
+		Rcd rs = db.uniqueRecord("select dict_item_id from dt.sys_dict_item where dr='0' and dict_id=? and name=?",
+				dict, name);
+		if (rs == null) {
+			System.out.println("无法匹配数据字典项目:Dict:" + dict + ",value:" + name);
+			return R.FAILURE("无法匹配数据字典项目:Dict:" + dict + ",value:" + name);
+		}
+		return R.SUCCESS_OPER(rs.toJsonObject());
+	}
+
+	public R checkOpsNodeEntity(OpsNodeEntity re,String importlabel) {
+	
+		Date date = new Date(); // 获取一个Date对象
+		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+		String nowtime = simpleDateFormat.format(date);
+		String sql = "";
+		String type = "insert";
+		if (ToolUtil.isNotEmpty(re.getId())) {
+			type = "update";
+		} else {
+			type = "insert";
+		}
+
+		// 检查数据字典
+		R runenvR = checkDictItem("sysenv", re.getSysenvstr());
+		if (runenvR.isFailed()) {
+			return R.FAILURE(runenvR.getMessage());
+		}
+
+		R syslevelR = checkDictItem("syslevel", re.getSyslevelstr());
+		if (syslevelR.isFailed()) {
+			return R.FAILURE(syslevelR.getMessage());
+		}
+
+		R busitypeR = checkDictItem("systype", re.getSystypestr());
+		if (busitypeR.isFailed()) {
+			return R.FAILURE(busitypeR.getMessage());
+		}
+
+		R locR = checkDictItem("sysloc", re.getSyslocstr());
+		if (locR.isFailed()) {
+			return R.FAILURE(locR.getMessage());
+		}
+
+		R osR = checkDictItem("sysos", re.getSysosstr());
+		if (osR.isFailed()) {
+			return R.FAILURE(osR.getMessage());
+		}
+
+		R osdtlR = checkDictItem("sysosdtl", re.getSysosdtlstr());
+		if (osdtlR.isFailed()) {
+			return R.FAILURE(osdtlR.getMessage());
+		}
+
+		R dbR = checkDictItem("sysdb", re.getSysdbstr());
+		if (dbR.isFailed()) {
+			return R.FAILURE(dbR.getMessage());
+		}
+
+		R dbdtlR = checkDictItem("sysdbdtl", re.getSysdbdtlstr());
+		if (dbdtlR.isFailed()) {
+			return R.FAILURE(dbdtlR.getMessage());
+		}
+
+		R execenvR = checkDictItem("sysexecenv", re.getSysexecenvstr());
+		if (dbdtlR.isFailed()) {
+			return R.FAILURE(execenvR.getMessage());
+		}
+
+		R monitorR = checkDictItem("sysmonitor", re.getSysmonitorstr());
+		if (monitorR.isFailed()) {
+			return R.FAILURE(monitorR.getMessage());
+		}
+
+		R pwdstrategyR = checkDictItem("syspwdstrategy", re.getSyspwdstrategystr());
+		if (pwdstrategyR.isFailed()) {
+			return R.FAILURE(pwdstrategyR.getMessage());
+		}
+
+		// 中间价
+		String mid = re.getMiddlewarestr();
+		JSONArray mid_ids = new JSONArray();
+		String mid_str = "";
+		if (ToolUtil.isNotEmpty(mid)) {
+			String[] mid_arr = mid.split(",");
+			for (int i = 0; i < mid_arr.length; i++) {
+				R r = checkDictItem("sysmid", mid_arr[i]);
+				if (r.isFailed()) {
+					return R.FAILURE(r.getMessage());
+				}
+				if (i == 0) {
+					mid_str = mid_str + mid_arr[i];
+				} else {
+					mid_str = mid_str + "," + mid_arr[i];
+				}
+				mid_ids.add(r.queryDataToJSONObject().getString("dict_item_id"));
+
+			}
+		}
+
+		if (type.equals("insert")) {
+			Insert me = new Insert("ops_node");
+			me.set("importlabel", importlabel);
+			me.set("id", db.getUUID());
+			me.set("dr", "0");
+			me.setIf("create_time", nowtime);
+			me.setIf("create_by", this.getUserId());
+			me.setIf("update_time", nowtime);
+			me.setIf("update_by", this.getUserId());
+			/////////////// 开始处理///////////
+			me.setIf("name", re.getName());
+			me.setIf("ip", re.getIp());
+			me.setIf("mark", re.getMark());
+			me.setIf("leader", re.getLeader());
+			me.setIf("pwdmark", re.getPwdmark());
+
+			// 数据字典匹配
+			me.setIf("runenv", runenvR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("syslevel", syslevelR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("busitype", busitypeR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("loc", locR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("os", osR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("osdtl", osdtlR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("db", dbR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("dbdtl", dbdtlR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("execenv", execenvR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("monitor", monitorR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("pwdstrategy", pwdstrategyR.queryDataToJSONObject().getString("dict_item_id"));
+
+			me.setIf("middleware", mid_ids.toJSONString());
+			me.setIf("middlewarestr", mid_str);
+			sql = me.getSQL();
+		} else if (type.equals("update")) {
+			Update me = new Update("ops_node");
+			me.set("importlabel", importlabel);
+
+			me.set("dr", "0");
+			me.setIf("update_time", nowtime);
+			me.setIf("update_by", this.getUserId());
+			/////////////// 开始处理////////////
+			me.setIf("name", re.getName());
+			me.setIf("ip", re.getIp());
+			me.setIf("mark", re.getMark());
+			me.setIf("leader", re.getLeader());
+			me.setIf("pwdmark", re.getPwdmark());
+
+			// 数据字典匹配
+			me.setIf("runenv", runenvR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("syslevel", syslevelR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("busitype", busitypeR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("loc", locR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("os", osR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("osdtl", osdtlR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("db", dbR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("dbdtl", dbdtlR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("execenv", execenvR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("monitor", monitorR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("pwdstrategy", pwdstrategyR.queryDataToJSONObject().getString("dict_item_id"));
+
+			me.setIf("middleware", mid_ids.toJSONString());
+			me.setIf("middlewarestr", mid_str);
+			me.where().and("id=?", re.getId());
+			sql = me.getSQL();
+		}
+		return R.SUCCESS_OPER(sql);
+	}
+
+}

@@ -52,7 +52,7 @@ public class ResImportService extends BaseService {
 			params.setStartSheetIndex(0);
 			List<ResEntity> result = ExcelImportUtil.importExcel(new File("/Users/algernonking/Downloads/file.xls"),
 					ResEntity.class, params);
-			executeEntitysImort(result, "update");
+ 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,7 +68,7 @@ public class ResImportService extends BaseService {
 			params.setTitleRows(0);
 			params.setStartSheetIndex(0);
 			List<ResEntity> result = ExcelImportUtil.importExcel(new File(file), ResEntity.class, params);
-			r = executeEntitysImort(result, type);
+			r = executeEntitysImport(result, type);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return R.FAILURE("导入数据异常");
@@ -346,7 +346,7 @@ public class ResImportService extends BaseService {
 		return cres;
 	}
 
-	public R executeEntitysImort(List<ResEntity> resultdata, String type) {
+	public R executeEntitysImport(List<ResEntity> resultdata, String type) {
 		ResImportResultEntity result = checkResEntitys(resultdata, type);
 		result.printResult();
 		if (!result.is_success_all) {

@@ -107,6 +107,8 @@ function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			notify({
 				message : "请选择文件"
 			});
+			$scope.okbtnstatus = false;
+			return ;
 		}
 		$timeout(function() {
 			$http.post($rootScope.project + "/api/base/res/importResData.do", {

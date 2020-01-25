@@ -29,6 +29,7 @@
         <result column="pwdstrategy" property="pwdstrategy" />
         <result column="pwdmark" property="pwdmark" />
         <result column="mark" property="mark" />
+        <result column="importlabel" property="importlabel" />
     </resultMap>
 
 </mapper>

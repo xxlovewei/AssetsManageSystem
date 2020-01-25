@@ -1,3 +1,25 @@
+function modalimportdataHostFailCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+		$confirm, $log, notify, $scope, meta, $http, $rootScope, $uibModal,
+		$uibModalInstance) {
+
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
+			'bAutoWidth', false).withOption('createdRow', function(row) {
+		// Recompiling so we can bind Angular,directive to the
+		$compile(angular.element(row).contents())($scope);
+	});
+	$scope.dtInstance = {}
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+	$scope.dtColumns = [ DTColumnBuilder.newColumn('ct').withTitle('失败列表')
+			.withOption('sDefaultContent', '') ]
+
+	$scope.dtOptions.aaData = meta.failed_data;
+
+}
+
 function loadOptHost(modal_meta, gdicts) {
 
 	console.log(modal_meta);
@@ -170,6 +192,90 @@ function loadOptHost(modal_meta, gdicts) {
 
 }
 
+function modalimportHostCtl($log,$uibModalInstance,notify, $scope, $http, $rootScope, $uibModal, $window, $timeout,meta){
+
+	$scope.dzconfig = {
+		url : 'fileupload.do',
+		maxFilesize : 10000,
+		paramName : "file",
+		maxThumbnailFilesize : 2,
+		// 一个请求上传多个文件
+		uploadMultiple : true,
+		// 当多文件上传,需要设置parallelUploads>=maxFiles
+		parallelUploads : 1,
+		maxFiles : 1,
+		dictDefaultMessage : "点击上传需要上传的文件",
+		acceptedFiles : ".xlsx,.xls",
+		// 添加上传取消和删除预览图片的链接，默认不添加
+		addRemoveLinks : true,
+		// 关闭自动上传功能，默认会true会自动上传
+		// 也就是添加一张图片向服务器发送一次请求
+		autoProcessQueue : false,
+		init : function() {
+			$scope.myDropzone = this; // closure
+		}
+	};
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+	
+	$scope.ok = function() {
+
+		$scope.okbtnstatus = true;
+		var id = getUuid();
+		console.log("开始上传文件" + id);
+		if ($scope.myDropzone.files.length > 0) {
+			$scope.myDropzone.options.url = $rootScope.project
+					+ '/api/file/fileupload.do?uuid=' + id
+					+ '&bus=file&interval=10000&bus=file';
+			$scope.myDropzone.uploadFile($scope.myDropzone.files[0])
+		} else {
+			notify({
+				message : "请选择文件"
+			});
+			$scope.okbtnstatus = false;
+			return ;
+		}
+		
+		$timeout(function() {
+			$http.post($rootScope.project + "/api/ops/opsNode/Ext/selectListImport.do", {
+				id : id
+			}).success(function(res) {
+				$scope.okbtnstatus = false;
+				if (res.success) {
+					$scope.myDropzone.removeAllFiles(true);
+					notify({
+						message : "操作成功！"
+					});
+					$uibModalInstance.close('OK');
+				} else {
+
+					var modalInstance = $uibModal.open({
+						backdrop : true,
+						templateUrl : 'views/cmdb/modal_importFail.html',
+						controller : modalimportdataHostFailCtl,
+						size : 'blg',
+						resolve : { // 调用控制器与modal控制器中传递值
+							meta : function() {
+								return res.data;
+							}
+						}
+					});
+					$scope.myDropzone.removeAllFiles(true);
+					modalInstance.result.then(function(result) {
+					}, function(reason) {
+						// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+						 
+					});
+
+				}
+			})
+		}, 3000);
+
+	}
+	
+}
+
 function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
 
@@ -293,8 +399,8 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			'监控部署').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('syspwdstrategystr')
 			.withTitle('改密策略').withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('pwdmark')
-			.withTitle('改密备注').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('leader')
+			.withTitle('负责人').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('syslevelstr').withTitle(
 			'风险等级').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
@@ -353,6 +459,14 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					show : false,
 					priv : "exportfile",
 					template : ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">全部导出(Excel)</button>'
+				},
+				{
+					id : "btn4",
+					label : "",
+					type : "btn",
+					show : false,
+					priv : "importfile",
+					template : ' <button ng-click="importfile()" class="btn btn-sm btn-primary" type="submit">导入数据</button>'
 				} ],
 		tools : [ {
 			id : "input",
@@ -385,16 +499,9 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.filedown = function() {
 		var ps = {}
-		ps.id = gclass_id;
-		ps.loc = $scope.meta.tools[0].dataSel.dict_item_id;
-		ps.env = $scope.meta.tools[1].dataSel.dict_item_id;
-		ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
-		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
-		ps.search = $scope.meta.tools[4].ct;
+		ps.search = $scope.meta.tools[0].ct;
 		$window.open($rootScope.project
-				+ "/api/base/res/exportServerData.do?id=" + ps.id + "&loc="
-				+ ps.loc + "&env=" + ps.env + "&wb=" + ps.wb + "&recycle="
-				+ ps.recycle + "&search=" + ps.search);
+				+ "/api/ops/opsNode/Ext/selectListExport.do?search=" + ps.search);
 	}
 
 	function getSelectRows() {
@@ -844,6 +951,27 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 	}
+	
+	$scope.importfile=function(){
+		
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/ops/modal_importfile.html',
+			controller : modalimportHostCtl,
+			size : 'blg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				meta : function() {
+					return ""
+				}
+			}
+		});
+		modalInstance.result.then(function(result) {
+			flush();
+		}, function(reason) {
+			$log.log("reason", reason)
+		});
+	}
+	
 };
 
 app.register.controller('syshostmgrCtl', syshostmgrCtl);

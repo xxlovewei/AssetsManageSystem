@@ -88,12 +88,10 @@ public class ResExtReportController extends BaseController {
 			meta.add(i);
 			meta.add(s3.getRcd(i).getString("name"));
 			meta_arr.add(meta);
-
 			JSONArray data = new JSONArray();
 			data.add(i);
 			data.add(s3.getRcd(i).getInteger("cnt"));
 			data_arr.add(data);
-
 		}
 
 		res.put("chart_meta", meta_arr);

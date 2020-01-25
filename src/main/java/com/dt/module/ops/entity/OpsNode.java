@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-01-24
+ * @since 2020-01-25
  */
  
 @TableName("ops_node")
@@ -62,6 +62,8 @@ public class OpsNode extends BaseModel<OpsNode> {
     private String pwdmark;
     @TableField("mark")
     private String mark;
+    @TableField("importlabel")
+    private String importlabel;
 
 
     public String getId() {
@@ -224,6 +226,14 @@ public class OpsNode extends BaseModel<OpsNode> {
         this.mark = mark;
     }
 
+    public String getImportlabel() {
+        return importlabel;
+    }
+
+    public void setImportlabel(String importlabel) {
+        this.importlabel = importlabel;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -252,6 +262,7 @@ public class OpsNode extends BaseModel<OpsNode> {
         ", pwdstrategy=" + pwdstrategy +
         ", pwdmark=" + pwdmark +
         ", mark=" + mark +
+        ", importlabel=" + importlabel +
         "}";
     }
 }
