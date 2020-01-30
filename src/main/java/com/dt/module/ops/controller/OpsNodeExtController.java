@@ -31,6 +31,7 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.controller.FileUpDownController;
 import com.dt.module.ops.entity.OpsNode;
+import com.dt.module.ops.entity.OpsNodeDBEntity;
 import com.dt.module.ops.entity.OpsNodeEntity;
 import com.dt.module.ops.service.IOpsNodeService;
 import com.dt.module.ops.service.impl.OpsNodeExtServiceImpl;
@@ -114,6 +115,8 @@ public class OpsNodeExtController extends BaseController {
 		JSONObject res = new JSONObject();
 
 		String sql = "select\n" + "  (select count(1) from ops_node where dr='0') oscnt,\n"
+				+ "  (select count(1) from ops_node_item a,ops_node b where b.dr='0' and a.dr='0' and a.nid=b.id and a.type='dbinstance')  dbinstancecnt, "
+				+ "  (select sum(cnt) from (select count(cnt) cnt from (select distinct ip ,count(1) cnt from  ops_node  where dr='0' group by ip) t where cnt>1 union all select count(1) cnt from ops_node where ip is null)end) exceptioncnt ,"
 				+ "  (select count(1) from ops_node a,sys_dict_item b where a.dr='0' and a.db=b.dict_item_id and b.dict_id='sysdb' and b.dr='0') dbcnt,\n"
 				+ "  (select count(1) from ops_node a,sys_dict_item b where a.dr='0' and a.monitor=b.dict_item_id and b.dict_id='sysmonitor' and b.dr='0' and b.name='监控中') monitorcnt,\n"
 				+ "  (select sum((length(middleware)-length(replace(middleware, ',','')) ) +1)  cnt  from ops_node where middleware<>'[]' and dr='0') midcnt\n";
@@ -160,8 +163,7 @@ public class OpsNodeExtController extends BaseController {
 		res.put("db_chart_data", db_data_arr);
 
 		// 中间件
-		String midsql = "select b.code name ,count(1) cnt from ops_node_item a,sys_dict_item b where a.value=b.dict_item_id and a.dr='0' group by code\n"
-				+ "order by 2 desc";
+		String midsql = "select b.code name ,count(1) cnt from ops_node c ,ops_node_item a,sys_dict_item b where c.dr='0' and  c.id=a.nid and a.value=b.dict_item_id and a.dr='0' group by code order by 2 desc";
 		JSONArray mid_meta_arr = new JSONArray();
 		JSONArray mid_data_arr = new JSONArray();
 		RcdSet mid_rs = db.query(midsql);
@@ -205,6 +207,7 @@ public class OpsNodeExtController extends BaseController {
 		return r;
 	}
 
+	
 	@ResponseBody
 	@Acl(info = " ", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectListExport.do")
@@ -230,7 +233,7 @@ public class OpsNodeExtController extends BaseController {
 		workbook = ExcelExportUtil.exportExcel(parms, OpsNodeEntity.class, data_excel);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/x-download");
-		String filedisplay = "file.xls";
+		String filedisplay = "node.xls";
 		filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
 		response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
 		try {
@@ -242,5 +245,64 @@ public class OpsNodeExtController extends BaseController {
 		}
 
 	}
+	
+	@ResponseBody
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectDBListSimple.do")
+	public R selectDBListSimple() {
+		String sql="select concat(dbtype,\"_\",name,\"_\",\"(\",cnt,\")\") dbname,id from (\n" + 
+				"select name,id,\n" + 
+				"  (select name from sys_dict_item where dict_item_id=db) dbtype,\n" + 
+				"  (select count(1) from ops_node_item where nid=t.id and type='dbinstance') cnt\n" + 
+				"from ops_node t where dr='0' and db is not null) end order by 1";
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+	}
+	
+	@ResponseBody
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectDBList.do")
+	public R selectDBList(String dbinstid,String nodeid) {
+		 
+		return opsNodeExtServiceImpl.selectDBList(dbinstid, nodeid);
+	}
+	
+	@ResponseBody
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectDBListExport.do")
+	public void selectDBListExport(HttpServletRequest request, HttpServletResponse response)
+			throws UnsupportedEncodingException {
+		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+
+		R res= opsNodeExtServiceImpl.selectDBList(null, null);
+
+		JSONArray data = res.queryDataToJSONArray();
+		List<OpsNodeDBEntity> data_excel = new ArrayList<OpsNodeDBEntity>();
+		for (int i = 0; i < data.size(); i++) {
+			OpsNodeDBEntity entity = new OpsNodeDBEntity();
+			entity.fullEntity(data.getJSONObject(i));
+			data_excel.add(entity);
+		}
+
+		ExportParams parms = new ExportParams();
+		parms.setSheetName("数据");
+		parms.setHeaderHeight(1000);
+
+		Workbook workbook;
+		workbook = ExcelExportUtil.exportExcel(parms, OpsNodeDBEntity.class, data_excel);
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/x-download");
+		String filedisplay = "db.xls";
+		filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+		response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
+		try {
+			OutputStream out = response.getOutputStream();
+			workbook.write(out);
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+ 
 
 }

@@ -1,6 +1,6 @@
-function modalimportdataHostFailCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, meta, $http, $rootScope, $uibModal,
-		$uibModalInstance) {
+function modalimportdataHostFailCtl(DTOptionsBuilder, DTColumnBuilder,
+		$compile, $confirm, $log, notify, $scope, meta, $http, $rootScope,
+		$uibModal, $uibModalInstance) {
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
 			'bAutoWidth', false).withOption('createdRow', function(row) {
@@ -192,7 +192,8 @@ function loadOptHost(modal_meta, gdicts) {
 
 }
 
-function modalimportHostCtl($log,$uibModalInstance,notify, $scope, $http, $rootScope, $uibModal, $window, $timeout,meta){
+function modalimportHostCtl($log, $uibModalInstance, notify, $scope, $http,
+		$rootScope, $uibModal, $window, $timeout, meta) {
 
 	$scope.dzconfig = {
 		url : 'fileupload.do',
@@ -218,7 +219,7 @@ function modalimportHostCtl($log,$uibModalInstance,notify, $scope, $http, $rootS
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
-	
+
 	$scope.ok = function() {
 
 		$scope.okbtnstatus = true;
@@ -234,13 +235,15 @@ function modalimportHostCtl($log,$uibModalInstance,notify, $scope, $http, $rootS
 				message : "请选择文件"
 			});
 			$scope.okbtnstatus = false;
-			return ;
+			return;
 		}
-		
+
 		$timeout(function() {
-			$http.post($rootScope.project + "/api/ops/opsNode/Ext/selectListImport.do", {
-				id : id
-			}).success(function(res) {
+			$http.post(
+					$rootScope.project
+							+ "/api/ops/opsNode/Ext/selectListImport.do", {
+						id : id
+					}).success(function(res) {
 				$scope.okbtnstatus = false;
 				if (res.success) {
 					$scope.myDropzone.removeAllFiles(true);
@@ -265,7 +268,7 @@ function modalimportHostCtl($log,$uibModalInstance,notify, $scope, $http, $rootS
 					modalInstance.result.then(function(result) {
 					}, function(reason) {
 						// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-						 
+
 					});
 
 				}
@@ -273,7 +276,7 @@ function modalimportHostCtl($log,$uibModalInstance,notify, $scope, $http, $rootS
 		}, 3000);
 
 	}
-	
+
 }
 
 function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
@@ -387,22 +390,26 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			'系统类型').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('syslocstr')
 			.withTitle('位置').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('sysmonitorstr').withTitle(
+			'监控部署').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('sysosdtlstr').withTitle(
 			'操作系统').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('sysdbdtlstr').withTitle(
 			'数据库').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('middlewarestr').withTitle(
 			'中间件').withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('sysexecenvstr').withTitle(
-			'执行环境').withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('sysmonitorstr').withTitle(
-			'监控部署').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('syspwdstrategystr')
 			.withTitle('改密策略').withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('leader')
-			.withTitle('负责人').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('leader').withTitle('负责人')
+			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('nodebackup').withTitle(
+			'节点备份').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('sysexecenvstr').withTitle(
+			'执行环境').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('syslevelstr').withTitle(
 			'风险等级').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('sysenvstr').withTitle(
+			'运行环境').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
 			.withOption('sDefaultContent', ''));
 
@@ -501,7 +508,8 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		var ps = {}
 		ps.search = $scope.meta.tools[0].ct;
 		$window.open($rootScope.project
-				+ "/api/ops/opsNode/Ext/selectListExport.do?search=" + ps.search);
+				+ "/api/ops/opsNode/Ext/selectListExport.do?search="
+				+ ps.search);
 	}
 
 	function getSelectRows() {
@@ -790,6 +798,19 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			required : false,
 			maxlength : "500",
 			placeholder : "请输入内容",
+			label : "节点备份",
+			need : false,
+			name : 'nodebackup',
+			ng_model : "nodebackup"
+		});
+
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "500",
+			placeholder : "请输入内容",
 			label : "备注",
 			need : false,
 			name : 'mark',
@@ -802,7 +823,8 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			pwdmark : "",
 			leader : "",
 			ip : "",
-			name : ""
+			name : "",
+			nodebackup : ""
 		};
 		// type 1 更新
 		if (type == 1) {
@@ -951,9 +973,9 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 	}
-	
-	$scope.importfile=function(){
-		
+
+	$scope.importfile = function() {
+
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/ops/modal_importfile.html',
@@ -971,7 +993,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			$log.log("reason", reason)
 		});
 	}
-	
+
 };
 
 app.register.controller('syshostmgrCtl', syshostmgrCtl);

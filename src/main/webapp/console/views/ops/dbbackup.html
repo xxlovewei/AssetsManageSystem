@@ -1,0 +1,31 @@
+<div ng-controller="opsdbbackupCtl">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div ng-include="'views/Template/simpleTool.html'"></div>
+		<div class="row">
+			<div class="col-lg-3" style="padding-right: 0px">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<table datatable="ed" dt-options="dtOptions"
+							dt-instance="dtInstance" dt-columns="dtColumns"
+							dt-column-defs="dtColumnDefs" class="table table-hover">
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<table datatable="ed2" dt-options="dtItemOptions"
+							dt-instance="dtItemInstance" dt-columns="dtItemColumns"
+							dt-column-defs="dtItemColumnDefs" class="table table-hover">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+

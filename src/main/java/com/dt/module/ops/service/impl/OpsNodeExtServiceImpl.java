@@ -54,6 +54,8 @@ public class OpsNodeExtServiceImpl extends BaseService {
 		sql = sql + " order by name";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
+	
+	
 
 	public R validMiddlewareData() {
 		String sql = "select t.*,\n" + "(length(middleware)-length(replace(middleware, ',','')) ) +1 cnt\n"
@@ -226,6 +228,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("mark", re.getMark());
 			me.setIf("leader", re.getLeader());
 			me.setIf("pwdmark", re.getPwdmark());
+			me.setIf("nodebackup", re.getNodebackup());
 
 			// 数据字典匹配
 			me.setIf("runenv", runenvR.queryDataToJSONObject().getString("dict_item_id"));
@@ -256,7 +259,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("mark", re.getMark());
 			me.setIf("leader", re.getLeader());
 			me.setIf("pwdmark", re.getPwdmark());
-
+			me.setIf("nodebackup", re.getNodebackup());
 			// 数据字典匹配
 			me.setIf("runenv", runenvR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("syslevel", syslevelR.queryDataToJSONObject().getString("dict_item_id"));
@@ -277,5 +280,28 @@ public class OpsNodeExtServiceImpl extends BaseService {
 		}
 		return R.SUCCESS_OPER(sql);
 	}
+	
+	public R selectDBList(String dbinstid,String nodeid) {
+		String sql="select\n" + 
+				"  (select name from sys_dict_item where dr='0' and dict_item_id=b.db and dict_id = 'sysdb' ) sysdbstr,\n" + 
+				"	(select name from sys_dict_item where dr='0' and dict_item_id=b.dbdtl and dict_id = 'sysdbdtl' ) sysdbdtlstr,\n" + 
+				"  (select name from sys_dict_item where dr='0' and dict_item_id=a.archtype and dict_id = 'dbbkarchtype' ) dbbkarchtypestr,\n" + 
+				"  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkmethod and dict_id = 'dbbkmethod' ) dbbkmethodstr,\n" + 
+				"  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkstatus and dict_id = 'dbbkstatus' ) dbbkstatusstr,\n" + 
+				"  (select name from sys_dict_item where dr='0' and dict_item_id=a.bktype and dict_id = 'dbbktype' ) dbbktypestr,\n" + 
+				"  a.*,b.name xtname,b.ip,b.db ,b.dbdtl from  ops_node_item a, ops_node b where a.nid=b.id\n" + 
+				"and a.dr='0' and b.dr='0' and a.type='dbinstance'\n";
+			
+		if(ToolUtil.isNotEmpty(dbinstid)) {
+			 sql=sql+" and a.id='"+dbinstid+"' ";
+		}
+		if(ToolUtil.isNotEmpty(nodeid)) {
+			 sql=sql+" and b.id='"+nodeid+"' ";
+		}
+		
+		sql=sql+" order by db,ip";
+		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+	}
+
 
 }

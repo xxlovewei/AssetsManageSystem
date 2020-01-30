@@ -31,11 +31,24 @@ function config_ops($stateProvider, $ocLazyLoadProvider) {
 					 {
                          serie: true,
                          name: 'angular-flot',
-                         files: [ 'plugin/flot/jquery.flot.js', 'plugin/flot/jquery.flot.time.js', 'plugin/flot/jquery.flot.tooltip.min.js', 'plugin/flot/jquery.flot.spline.js', 'plugin/flot/jquery.flot.resize.js', 'plugin/flot/jquery.flot.pie.js', 'plugin/flot/curvedLines.js', 'plugin/flot/angular-flot.js', ]
+                         files: [ 'plugin/flot/jquery.flot.js', 'plugin/flot/jquery.flot.time.js', 'plugin/flot/jquery.flot.tooltip.min.js', 'plugin/flot/jquery.flot.spline.js', 'plugin/flot/jquery.flot.resize.js', 'plugin/flot/jquery.flot.pie.js', 'plugin/flot/curvedLines.js', 'plugin/flot/angular-flot.js','plugin/flot/jquery.flot.barnumbers.js' ]
                      },
 					{
 					serie : true,
 					files : [ 'views/ops/xttj.js?v=' + version ]
+				} ]);
+			}
+		}
+	}).state('infosys.dbbackup', {
+		url : "infosys_dbbackup",
+		data: { pageTitle: '数据库备份'},
+		templateUrl : "views/ops/dbbackup.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ 
+					{
+					serie : true,
+					files : [ 'views/ops/dbbackup.js?v=' + version ]
 				} ]);
 			}
 		}

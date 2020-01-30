@@ -62,6 +62,25 @@ public class OpsNodeEntity {
 	private String pwdmark;
 	@Excel(name = "负责人", width = 15)
 	private String leader;
+	
+	@Excel(name = "节点备份", width = 35)
+	private String nodebackup;
+	
+	
+	/**
+	 * @return the nodebackup
+	 */
+	public String getNodebackup() {
+		return nodebackup;
+	}
+
+	/**
+	 * @param nodebackup the nodebackup to set
+	 */
+	public void setNodebackup(String nodebackup) {
+		this.nodebackup = nodebackup;
+	}
+
 	@Excel(name = "风险等级", width = 15)
 	private String syslevelstr;
 	@Excel(name = "运行环境", width = 15)
@@ -326,5 +345,6 @@ public class OpsNodeEntity {
 		this.syslevelstr = obj.getString("syslevelstr");
 		this.sysenvstr = obj.getString("sysenvstr");
 		this.mark = obj.getString("mark");
+		this.nodebackup=obj.getString("nodebackup");
 	}
 }

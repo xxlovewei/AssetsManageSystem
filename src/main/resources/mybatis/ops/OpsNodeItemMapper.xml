@@ -14,6 +14,14 @@
         <result column="item" property="item" />
         <result column="value" property="value" />
         <result column="type" property="type" />
+        <result column="dbinstance" property="dbinstance" />
+        <result column="archtype" property="archtype" />
+        <result column="bkstrategy" property="bkstrategy" />
+        <result column="bktype" property="bktype" />
+        <result column="bkkeep" property="bkkeep" />
+        <result column="bkstatus" property="bkstatus" />
+        <result column="mark" property="mark" />
+        <result column="bkmethod" property="bkmethod" />
     </resultMap>
 
 </mapper>

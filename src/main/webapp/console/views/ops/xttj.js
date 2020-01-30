@@ -44,6 +44,10 @@ function opsxttjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									}, {
 										opacity : 0.8
 									} ]
+								},
+								align:"center",
+								numbers:{
+									show:true
 								}
 							}
 						},
@@ -69,7 +73,7 @@ function opsxttjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							ticks : ticks
 						},
 						legend : {
-							show : false
+							show : true
 						},
 						tooltip : true,
 						tooltipOpts : {
@@ -91,6 +95,10 @@ function opsxttjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									}, {
 										opacity : 0.8
 									} ]
+								},
+								align:"center",
+								numbers:{
+									show:true
 								}
 							}
 						},
@@ -116,7 +124,7 @@ function opsxttjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							ticks : db_ticks
 						},
 						legend : {
-							show : false
+							show : true
 						},
 						tooltip : true,
 						tooltipOpts : {
@@ -132,12 +140,17 @@ function opsxttjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								show : true,
 								barWidth : 0.6,
 								fill : true,
+								
 								fillColor : {
 									colors : [ {
 										opacity : 0.8
 									}, {
 										opacity : 0.8
 									} ]
+								},
+								align:"center",
+								numbers:{
+									show:true
 								}
 							}
 						},
@@ -163,7 +176,7 @@ function opsxttjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							ticks : mid_ticks
 						},
 						legend : {
-							show : false
+							show : true
 						},
 						tooltip : true,
 						tooltipOpts : {
