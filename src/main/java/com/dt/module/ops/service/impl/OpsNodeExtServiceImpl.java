@@ -19,6 +19,8 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.cmdb.entity.ResImportResultEntity;
+import com.dt.module.ops.entity.OpsNodeDBEntity;
+import com.dt.module.ops.entity.OpsNodeDBImportResultEntity;
 import com.dt.module.ops.entity.OpsNodeEntity;
 import com.dt.module.ops.entity.OpsNodeImportResultEntity;
 
@@ -54,8 +56,6 @@ public class OpsNodeExtServiceImpl extends BaseService {
 		sql = sql + " order by name";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
-	
-	
 
 	public R validMiddlewareData() {
 		String sql = "select t.*,\n" + "(length(middleware)-length(replace(middleware, ',','')) ) +1 cnt\n"
@@ -96,7 +96,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 		OpsNodeImportResultEntity cres = new OpsNodeImportResultEntity();
 		String importlabel = ToolUtil.getUUID();
 		for (int i = 0; i < result.size(); i++) {
-			R r = checkOpsNodeEntity(result.get(i),importlabel);
+			R r = checkOpsNodeEntity(result.get(i), importlabel);
 			if (r.isSuccess()) {
 				cres.addSuccess(r.getData().toString());
 			} else {
@@ -123,8 +123,8 @@ public class OpsNodeExtServiceImpl extends BaseService {
 		return R.SUCCESS_OPER(rs.toJsonObject());
 	}
 
-	public R checkOpsNodeEntity(OpsNodeEntity re,String importlabel) {
-	
+	public R checkOpsNodeEntity(OpsNodeEntity re, String importlabel) {
+
 		Date date = new Date(); // 获取一个Date对象
 		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
 		String nowtime = simpleDateFormat.format(date);
@@ -280,52 +280,127 @@ public class OpsNodeExtServiceImpl extends BaseService {
 		}
 		return R.SUCCESS_OPER(sql);
 	}
-	
-	public R selectDBList(String dbinstid,String nodeid) {
-		String sql="select\n" + 
-				"  (select name from sys_dict_item where dr='0' and dict_item_id=b.db and dict_id = 'sysdb' ) sysdbstr,\n" + 
-				"	(select name from sys_dict_item where dr='0' and dict_item_id=b.dbdtl and dict_id = 'sysdbdtl' ) sysdbdtlstr,\n" + 
-				"  (select name from sys_dict_item where dr='0' and dict_item_id=a.archtype and dict_id = 'dbbkarchtype' ) dbbkarchtypestr,\n" + 
-				"  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkmethod and dict_id = 'dbbkmethod' ) dbbkmethodstr,\n" + 
-				"  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkstatus and dict_id = 'dbbkstatus' ) dbbkstatusstr,\n" + 
-				"  (select name from sys_dict_item where dr='0' and dict_item_id=a.bktype and dict_id = 'dbbktype' ) dbbktypestr,\n" + 
-				"  a.*,b.name xtname,b.ip,b.db ,b.dbdtl from  ops_node_item a, ops_node b where a.nid=b.id\n" + 
-				"and a.dr='0' and b.dr='0' and a.type='dbinstance'\n";
-			
-		if(ToolUtil.isNotEmpty(dbinstid)) {
-			 sql=sql+" and a.id='"+dbinstid+"' ";
+
+	public R selectDBList(String dbinstid, String nodeid) {
+		String sql = "select\n"
+				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=b.db and dict_id = 'sysdb' ) sysdbstr,\n"
+				+ "	(select name from sys_dict_item where dr='0' and dict_item_id=b.dbdtl and dict_id = 'sysdbdtl' ) sysdbdtlstr,\n"
+				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=a.archtype and dict_id = 'dbbkarchtype' ) dbbkarchtypestr,\n"
+				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkmethod and dict_id = 'dbbkmethod' ) dbbkmethodstr,\n"
+				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkstatus and dict_id = 'dbbkstatus' ) dbbkstatusstr,\n"
+				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bktype and dict_id = 'dbbktype' ) dbbktypestr,\n"
+				+ "  a.*,b.name xtname,b.ip,b.db ,b.dbdtl from  ops_node_item a, ops_node b where a.nid=b.id\n"
+				+ "and a.dr='0' and b.dr='0' and a.type='dbinstance'\n";
+
+		if (ToolUtil.isNotEmpty(dbinstid)) {
+			sql = sql + " and a.id='" + dbinstid + "' ";
 		}
-		if(ToolUtil.isNotEmpty(nodeid)) {
-			 sql=sql+" and b.id='"+nodeid+"' ";
+		if (ToolUtil.isNotEmpty(nodeid)) {
+			sql = sql + " and b.id='" + nodeid + "' ";
 		}
-		
-		sql=sql+" order by db,ip";
+
+		sql = sql + " order by db,ip";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
 	/////////
-	
-	
-	
-//	public R executeOpsNodeDBEntitysImport(List<OpsNodeDBEntity> resultdata) {
-//		OpsNodeImportResultEntity result = checkOpsNodeEntitys(resultdata);
-//		result.printResult();
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		if (!result.is_success_all) {
-//			return R.FAILURE("操作失败", result.covertJSONObjectResult());
-//		}
-//		db.executeStringList(result.success_cmds);
-//		return R.SUCCESS_OPER();
-//
-//	}
 
+	public R executeOpsNodeDBEntitysImport(List<OpsNodeDBEntity> resultdata) {
+		OpsNodeDBImportResultEntity result = checkOpsNodeDBEntitys(resultdata);
+		result.printResult();
+		if (!result.is_success_all) {
+			return R.FAILURE("操作失败", result.covertJSONObjectResult());
+		}
+		db.executeStringList(result.success_cmds);
+		return R.SUCCESS_OPER();
+
+	}
+
+	private OpsNodeDBImportResultEntity checkOpsNodeDBEntitys(List<OpsNodeDBEntity> result) {
+		OpsNodeDBImportResultEntity cres = new OpsNodeDBImportResultEntity();
+		String importlabel = ToolUtil.getUUID();
+		for (int i = 0; i < result.size(); i++) {
+			R r = checkOpsNodeDBEntity(result.get(i), importlabel);
+			if (r.isSuccess()) {
+				cres.addSuccess(r.getData().toString());
+			} else {
+				cres.addFailed(result.get(i));
+			}
+		}
+		return cres;
+	}
+
+	public R checkOpsNodeDBEntity(OpsNodeDBEntity re, String importlabel) {
+
+		String id = re.getId();
+		String sql = "";
+
+		R archtypeR = checkDictItem("dbbkarchtype", re.getDbbkarchtypestr());
+		if (archtypeR.isFailed()) {
+			return R.FAILURE(archtypeR.getMessage());
+		}
+
+		R bktypeR = checkDictItem("dbbktype", re.getDbbktypestr());
+		if (bktypeR.isFailed()) {
+			return R.FAILURE(bktypeR.getMessage());
+		}
+
+		R bkstatusR = checkDictItem("dbbkstatus", re.getDbbkstatusstr());
+		if (bkstatusR.isFailed()) {
+			return R.FAILURE(bkstatusR.getMessage());
+		}
+
+		R bkmethodR = checkDictItem("dbbkmethod", re.getDbbkmethodstr());
+		if (archtypeR.isFailed()) {
+			return R.FAILURE(bkmethodR.getMessage());
+		}
+
+		if (ToolUtil.isEmpty(id)) {
+			// 新增
+			Insert me = new Insert("ops_node_item");
+			me.set("id", db.getUUID());
+			me.set("type", "dbinstance");
+			me.setIf("mark", re.getMark());
+			me.setIf("bkstrategy", re.getBkstrategy());
+			me.setIf("bkkeep", re.getBkkeep());
+			me.setIf("dbinstance", re.getDbinstance());
+			me.set("dr", "0");
+			// 获取nid
+			if (ToolUtil.isOneEmpty(re.getIp(), re.getXtname())) {
+				return R.FAILURE("不存在该值,名称:" + re.getXtname() + ",IP:" + re.getIp());
+			}
+
+			RcdSet rs = db.query("select * from ops_node where dr='0' and ip=? and name=?", re.getIp(), re.getXtname());
+			if (rs.size() == 1) {
+				me.setIf("nid", rs.getRcd(0).getString("id"));
+			} else {
+				return R.FAILURE("不存在该值,名称:" + re.getXtname() + ",IP:" + re.getIp());
+			}
+		
+
+			me.setIf("archtype", archtypeR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("bktype", bktypeR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("bkstatus", bkstatusR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("bkmethod", bkmethodR.queryDataToJSONObject().getString("dict_item_id"));
+
+			sql = me.getSQL();
+
+		} else {
+			Update me = new Update("ops_node_item");
+		 
+		 
+			me.setIf("mark", re.getMark());
+			me.setIf("bkstrategy", re.getBkstrategy());
+			me.setIf("bkkeep", re.getBkkeep());
+			me.setIf("dbinstance", re.getDbinstance());
+			me.setIf("archtype", archtypeR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("bktype", bktypeR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("bkstatus", bkstatusR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("bkmethod", bkmethodR.queryDataToJSONObject().getString("dict_item_id"));
+			me.where().and("id=?", re.getId());
+			sql = me.getSQL();
+		}
+
+		return R.SUCCESS_OPER(sql);
+	}
 }

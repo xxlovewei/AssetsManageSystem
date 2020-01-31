@@ -29,6 +29,7 @@ public class CacheableEntity {
 	private int expiredtime = -1;
 
 	/**
+	 * 
 	 * @return the expiredtime
 	 */
 	public int getExpiredtime() {
