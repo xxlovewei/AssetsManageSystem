@@ -198,7 +198,7 @@ public class OpsNodeExtController extends BaseController {
 			params.setTitleRows(0);
 			params.setStartSheetIndex(0);
 			List<OpsNodeEntity> result = ExcelImportUtil.importExcel(new File(filePath), OpsNodeEntity.class, params);
-			r = opsNodeExtServiceImpl.executeEntitysImport(result);
+			r = opsNodeExtServiceImpl.executeOpsNodeEntitysImport(result);
 			opsNodeExtServiceImpl.validMiddlewareData();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -264,6 +264,31 @@ public class OpsNodeExtController extends BaseController {
 	public R selectDBList(String dbinstid,String nodeid) {
 		 
 		return opsNodeExtServiceImpl.selectDBList(dbinstid, nodeid);
+	}
+	
+	
+	@ResponseBody
+	@Acl(info = " ", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectListDBImport.do")
+	public R selectListDBImport(String id, HttpServletRequest request, HttpServletResponse response) {
+		String sql = "select * from sys_files where id=?";
+		Rcd set = db.uniqueRecord(sql, id);
+		String fileurl = set.getString("path");
+		String filePath = FileUpDownController.getWebRootDir() + ".." + File.separatorChar + fileurl;
+		R r = new R();
+		try {
+			ImportParams params = new ImportParams();
+			params.setHeadRows(1);
+			params.setTitleRows(0);
+			params.setStartSheetIndex(0);
+			List<OpsNodeEntity> result = ExcelImportUtil.importExcel(new File(filePath), OpsNodeEntity.class, params);
+			r = opsNodeExtServiceImpl.executeOpsNodeEntitysImport(result);
+			opsNodeExtServiceImpl.validMiddlewareData();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return R.FAILURE("导入数据异常");
+		}
+		return r;
 	}
 	
 	@ResponseBody

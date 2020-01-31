@@ -1,45 +1,56 @@
 function dbinstanceSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, meta, $http, $rootScope) {
-
+		$uibModalInstance, $scope, meta, $http, $rootScope, dicts) {
+	console.log(meta);
 	$scope.item = {};
-	// 
-	// if (angular.isDefined(id)) {
-	// // 加载数据
-	// $http.post($rootScope.project + "/api/sysDict/selectById.do", {
-	// id : id
-	// }).success(function(res) {
-	// if (res.success) {
-	// $scope.item = res.data
-	// // STATUS
-	// if ($scope.item.status == "Y") {
-	// $scope.statusSel = $scope.statusOpt[0];
-	// } else if ($scope.item.status == "N") {
-	// $scope.statusSel = $scope.statusOpt[1];
-	// }
-	// // DICT_LEVEL
-	// if ($scope.item.dictLevel == "system") {
-	// $scope.typeSel = $scope.typeOpt[0];
-	// } else if ($scope.item.dictLevel == "biz") {
-	// $scope.typeSel = $scope.typeOpt[1];
-	// }
-	// } else {
-	// notify({
-	// message : res.message
-	// });
-	// }
-	// })
-	// }
-
+	$scope.item = meta
+	$scope.bktypeOpt = dicts.dbbktype;
+	$scope.bktypeSel = "";
+	if (angular.isDefined($scope.item.bktype)) {
+		for (var i = 0; i < $scope.bktypeOpt.length; i++) {
+			if ($scope.item.bktype == $scope.bktypeOpt[i].dict_item_id) {
+				$scope.bktypeSel = $scope.bktypeOpt[i];
+				break;
+			}
+		}
+	}
+	$scope.bkstatusOpt = dicts.dbbkstatus;
+	$scope.bkstatusSel = "";
+	if (angular.isDefined($scope.item.bkstatus)) {
+		for (var i = 0; i < $scope.bkstatusOpt.length; i++) {
+			if ($scope.item.bkstatus == $scope.bkstatusOpt[i].dict_item_id) {
+				$scope.bkstatusSel = $scope.bkstatusOpt[i];
+				break;
+			}
+		}
+	}
+	$scope.archtypeOpt = dicts.dbbkarchtype;
+	$scope.archtypeSel = "";
+	if (angular.isDefined($scope.item.archtype)) {
+		for (var i = 0; i < $scope.archtypeOpt.length; i++) {
+			if ($scope.item.archtype == $scope.archtypeOpt[i].dict_item_id) {
+				$scope.archtypeSel = $scope.archtypeOpt[i];
+				break;
+			}
+		}
+	}
+	$scope.bkmethodOpt = dicts.dbbkmethod;
+	$scope.bkmethodSel = "";
+	if (angular.isDefined($scope.item.bkmethod)) {
+		for (var i = 0; i < $scope.bkmethodOpt.length; i++) {
+			if ($scope.item.bkmethod == $scope.bkmethodOpt[i].dict_item_id) {
+				$scope.bkmethodSel = $scope.bkmethodOpt[i];
+				break;
+			}
+		}
+	}
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
 
 	$timeout(function() {
-
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
 			var adom = modal[i].getElementsByClassName('chosen-container');
-
 			for (var j = 0; j < adom.length; j++) {
 				adom[i].style.width = "100%";
 			}
@@ -48,6 +59,24 @@ function dbinstanceSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 	$scope.sure = function() {
 
+		console.log($scope.item);
+		$scope.item.bkmethod = $scope.bkmethodSel.dict_item_id;
+		$scope.item.archtype = $scope.archtypeSel.dict_item_id;
+		$scope.item.bkstatus = $scope.bkstatusSel.dict_item_id;
+		$scope.item.bktype = $scope.bktypeSel.dict_item_id;
+		$scope.item.type = "dbinstance";
+
+		$http.post(
+				$rootScope.project + "/api/ops/opsNodeItem/insertOrUpdate.do",
+				$scope.item).success(function(res) {
+			if (res.success) {
+				$uibModalInstance.close("OK");
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
 	};
 
 }
@@ -56,17 +85,31 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal, $stateParams,
 		$window) {
 
-	var pbtns = $rootScope.curMemuBtns;
+	var dicts = "dbbktype,dbbkstatus,dbbkmethod,dbbkarchtype";
+	var gdicts = {};
+	$http.post($rootScope.project + "/api/base/res/queryDictFast.do", {
+		dicts : dicts
+	}).success(function(res) {
+		if (res.success) {
+			gdicts = res.data;
+		} else {
+			notify({
+				message : res.message
+			});
+		}
+	})
 
+	var pbtns = $rootScope.curMemuBtns;
 	var meta = {
 		tablehide : false,
-		toolsbtn : [
+		toolsbtn : [],
+		tools : [
 				{
 					id : "btn",
 					label : "",
 					type : "btn",
 					show : true,
-					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
+					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询全部实例</button>'
 				},
 				{
 					id : "btn2",
@@ -74,7 +117,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					type : "btn",
 					show : false,
 					priv : "insert",
-					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">新增</button>'
+					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">新增实例</button>'
 				},
 				{
 					id : "btn2",
@@ -82,7 +125,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					type : "btn",
 					show : false,
 					priv : "update",
-					template : ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新</button>'
+					template : ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新实例</button>'
 				},
 
 				{
@@ -91,7 +134,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					type : "btn",
 					show : false,
 					priv : "remove",
-					template : ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
+					template : ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除实例</button>'
 				},
 				{
 					id : "btn3",
@@ -108,19 +151,11 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					show : false,
 					priv : "importfile",
 					template : ' <button ng-click="importfile()" class="btn btn-sm btn-primary" type="submit">导入数据</button>'
-				} ],
-		tools : [ {
-			id : "input",
-			show : true,
-			label : "内容",
-			placeholder : "输入型号、编号、序列号",
-			type : "input",
-			ct : ""
-		} ]
+				} ]
 	};
 
 	$scope.meta = meta;
-	privNormalCompute($scope.meta.toolsbtn, pbtns);
+	privNormalCompute($scope.meta.tools, pbtns);
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(100)
@@ -180,46 +215,6 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 	flush();
 
-	function save(id) {
-
-		var modalInstance = $uibModal.open({
-			backdrop : true,
-			templateUrl : 'views/system/dict/modal_dictSave.html',
-			controller : dictSaveCtl,
-			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
-				id : function() {
-					return id;
-				}
-			}
-		});
-
-		modalInstance.result.then(function(result) {
-			$log.log("result", result);
-			if (result == "OK") {
-				flush();
-			}
-		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-			$log.log("reason", reason)
-		});
-	}
-	$scope.add = function() {
-		// save()
-	}
-
-	// $scope.update = function() {
-	// var id = getSelectId();
-	// if (angular.isDefined(id)) {
-	//
-	// } else {
-	// notify({
-	// message : "请选择一行"
-	// });
-	// }
-	//
-	// }
-
 	function getSelectId() {
 		var data = $scope.dtInstance.DataTable.rows({
 			selected : true
@@ -235,48 +230,61 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	/** ********************子表******************* */
 
 	$scope.dtItemOptions = DTOptionsBuilder.fromFnPromise()
-			.withDataProp('data').withPaginationType('full_numbers')
-			.withDisplayLength(100).withOption("ordering", false).withOption(
-					"responsive", false).withOption("searching", false)
-			.withOption('scrollY', '600px').withOption('scrollX', true)
-			.withOption('bAutoWidth', true).withOption('scrollCollapse', true)
-			.withOption('paging', false).withFixedColumns({
+			.withDataProp('data').withDOM('frtlip').withPaginationType(
+					'full_numbers').withDisplayLength(100).withOption(
+					"ordering", false).withOption("responsive", false)
+			.withOption("searching", true).withOption('scrollY', '600px')
+			.withOption('scrollX', true).withOption('bAutoWidth', true)
+			.withOption('scrollCollapse', true).withOption('paging', false)
+			.withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('createdRow',
-					function(row) {
-						// Recompiling so we can bind Angular,directive to the
-						$compile(angular.element(row).contents())($scope);
-					});
+			.withOption('serverSide', false).withOption('aaData',
+					$scope.tabdata).withOption('createdRow', function(row) {
+				$compile(angular.element(row).contents())($scope);
+			}).withOption(
+					'headerCallback',
+					function(header) {
+						if ((!angular.isDefined($scope.headerCompiled))
+								|| $scope.headerCompiled) {
+							$scope.headerCompiled = true;
+							$compile(angular.element(header).contents())
+									($scope);
+						}
+					}).withOption("select", {
+				style : 'multi',
+				selector : 'td:first-child'
+			});
 	$scope.dtItemInstance = {}
 
-	function renderAction(data, type, full) {
-		var acthtml = " <div class=\"btn-group\"> ";
-		console.log($scope.crud.item_update);
-		if ($scope.crud.item_update) {
-			acthtml = acthtml + " <button ng-click=\"row_update('"
-					+ full.dictItemId
-					+ "')\" class=\"btn-white btn btn-xs\">更新</button>   ";
+	$scope.selectCheckBoxAll = function(selected) {
+		if (selected) {
+			$scope.dtInstance.DataTable.rows().select();
+			console.log($scope.dtInstance.DataTable)
+			console.log($scope.dtInstance);
+		} else {
+			$scope.dtInstance.DataTable.rows().deselect();
+			console.log($scope.dtInstance.DataTable)
+			console.log($scope.dtInstance);
 		}
-		if ($scope.crud.item_remove) {
-			acthtml = acthtml + " <button ng-click=\"row_dtl('"
-					+ full.dictItemId
-					+ "')\" class=\"btn-white btn btn-xs\">删除</button> ";
-		}
-		acthtml = acthtml + "</div>"
-		return acthtml;
 	}
 
+	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
+
 	$scope.dtItemColumns = [
+			DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
+					'select-checkbox checkbox_center').renderWith(function() {
+				return ""
+			}),
 			DTColumnBuilder.newColumn('xtname').withTitle('系统').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('sysdbdtlstr').withTitle('数据库')
+			DTColumnBuilder.newColumn('dbinstance').withTitle('数据库实例')
 					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('dbinstance').withTitle('数据库名称')
+			DTColumnBuilder.newColumn('sysdbdtlstr').withTitle('数据库版本')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('dbbkstatusstr').withTitle('当前状况')
 					.withOption('sDefaultContent', ''),
@@ -294,6 +302,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					'sDefaultContent', '') ]
 	function flushSubtab(id) {
 		console.log(id);
+
 		var ps = {
 			nodeid : id
 		};
@@ -322,6 +331,27 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		})
 
 	}
+
+	function getSelectRowSubTab() {
+		var data = $scope.dtItemInstance.DataTable.rows({
+			selected : true
+		})[0];
+		if (data.length == 0) {
+			notify({
+				message : "请至少选择一项"
+			});
+			return;
+		} else if (data.length > 1) {
+			notify({
+				message : "请最多选择一项"
+			});
+			return;
+		} else {
+			console.log("sel:", data);
+			return $scope.dtItemOptions.aaData[data[0]];
+		}
+	}
+
 	$scope.query = function() {
 		$http.post($rootScope.project + "/api/ops/opsNode/Ext/selectDBList.do",
 				{}).success(function(res) {
@@ -343,9 +373,11 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 		var ps = {};
 		if (type == "1") {
-			// 更新
-			// ps.id=
-
+			var node = getSelectRowSubTab();
+			if (!angular.isDefined(node)) {
+				return;
+			}
+			ps = node;
 		} else {
 			var node = getSelectId();
 			if (!angular.isDefined(node)) {
@@ -354,10 +386,11 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				});
 				return;
 			}
-
 			console.log(node);
-			ps.nodeid = node.id;
+			ps.xtname = node.dbname;
+			ps.nid = node.id;
 		}
+
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/ops/modal_dbinstanceSave.html',
@@ -366,6 +399,9 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			resolve : { // 调用控制器与modal控制器中传递值
 				meta : function() {
 					return ps;
+				},
+				dicts : function() {
+					return gdicts;
 				}
 			}
 		});
@@ -379,21 +415,29 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			$log.log("reason", reason)
 		});
 	}
-	$scope.row_dtl = function(id) {
+	$scope.del = function() {
+		var node = getSelectRowSubTab();
+		if (!angular.isDefined(node)) {
+			return;
+		}
+
 		$confirm({
 			text : '是否删除?'
-		}).then(function() {
-			$http.post($rootScope.project + "/api/sysDictItem/deleteById.do", {
-				id : id
-			}).success(function(res) {
-				if (res.success) {
-					flushSubtab();
-				}
-				notify({
-					message : res.message
+		}).then(
+				function() {
+					$http.post(
+							$rootScope.project
+									+ "/api/ops/opsNodeItem/deleteById.do", {
+								id : node.id
+							}).success(function(res) {
+						if (res.success) {
+							flushSubtab();
+						}
+						notify({
+							message : res.message
+						});
+					})
 				});
-			})
-		});
 
 	}
 

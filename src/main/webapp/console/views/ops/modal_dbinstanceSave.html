@@ -1,4 +1,4 @@
- 
+
 <div class="modal-content">
 	<div class="modal-header">
 		<button ng-click="cancel()" type="button" class="close">
@@ -13,49 +13,112 @@
 				action="">
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><span
-						class="text-danger">*</span>名称:</label>
+						class="text-danger">*</span>系统名称:</label>
+					<div class="col-sm-10">
+						<input type="text" ng-disabled="true"
+							class="form-control ng-pristine
+							placeholder="
+							请输入内容" name="name" ng-model="item.xtname">
+
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><span
+						class="text-danger">*</span>数据库实例名称:</label>
 					<div class="col-sm-10">
 						<input type="text" required ng-maxlength="30"
 							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							placeholder="请输入内容" name="name" ng-model="item.name">
+							placeholder="请输入内容" name="dbinstance" ng-model="item.dbinstance">
 						<div class="text-danger"
-							ng-if="myForm.name.$dirty && myForm.name.$invalid">
-							<span ng-if="myForm.name.$error.required"> 输入不能为空 </span> <span
-								ng-show="myForm.name.$error.maxlength">不能超过30个字符 </span>
+							ng-if="myForm.dbinstance.$dirty && myForm.dbinstance.$invalid">
+							<span ng-if="myForm.dbinstance.$error.required"> 输入不能为空 </span> <span
+								ng-show="myForm.dbinstance.$error.maxlength">不能超过30个字符 </span>
 						</div>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><span
-						class="text-danger">*</span>编码:</label>
+						class="text-danger">*</span>备份策略:</label>
 					<div class="col-sm-10">
-						<input type="text" required ng-maxlength="30"
+						<input type="text" string-to-number ng-maxlength="200" required
 							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							placeholder="请输入内容" name="code" ng-model="item.code">
+							placeholder="请输入内容" name="bkstrategy" ng-model="item.bkstrategy">
 						<div class="text-danger"
-							ng-if="myForm.code.$dirty && myForm.code.$invalid">
-							<span ng-if="myForm.code.$error.required"> 输入不能为空 </span> <span
-								ng-show="myForm.code.$error.maxlength">不能超过30个字符 </span>
+							ng-if="myForm.bkstrategy.$dirty && myForm.bkstrategy.$invalid">
+							<span ng-if="myForm.bkstrategy.$error.required"> 输入不能为空 </span> <span
+								ng-show="myForm.bkstrategy.$error.maxlength">不能超过200个字符 </span>
 						</div>
+
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><span
-						class="text-danger">*</span>排序:</label>
+						class="text-danger">*</span>保留策略:</label>
 					<div class="col-sm-10">
-						<input type="number"  string-to-number ng-maxlength="200" required
+						<input type="text" string-to-number ng-maxlength="200" required
 							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							placeholder="请输入内容" name="sort" ng-model="item.sort">
+							placeholder="请输入内容" name="bkkeep" ng-model="item.bkkeep">
 						<div class="text-danger"
-							ng-if="myForm.sort.$dirty && myForm.sort.$invalid">
-							<span ng-if="myForm.sort.$error.required"> 输入不能为空 </span> <span
-								ng-show="myForm.sort.$error.maxlength">不能超过200个字符 </span>
+							ng-if="myForm.bkkeep.$dirty && myForm.bkkeep.$invalid">
+							<span ng-if="myForm.bkkeep.$error.required"> 输入不能为空 </span> <span
+								ng-show="myForm.bkkeep.$error.maxlength">不能超过200个字符 </span>
 						</div>
-
 					</div>
 				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">备份类型:</label>
+					<div class="col-sm-10">
+						<select chosen disable-search="true" class="chosen-select"
+							no-results-text="'没有找到相应条目'" ng-model="bktypeSel"
+							data-placeholder-text-single="'请选择...'"
+							ng-options="item.name for item in bktypeOpt">
+							<option value=""></option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">备份方式:</label>
+					<div class="col-sm-10">
+						<select chosen disable-search="true" class="chosen-select"
+							no-results-text="'没有找到相应条目'" ng-model="bkmethodSel"
+							data-placeholder-text-single="'请选择...'"
+							ng-options="item.name for item in bkmethodOpt">
+							<option value=""></option>
+						</select>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">日志类型:</label>
+					<div class="col-sm-10">
+						<select chosen disable-search="true" class="chosen-select"
+							no-results-text="'没有找到相应条目'" ng-model="archtypeSel"
+							data-placeholder-text-single="'请选择...'"
+							ng-options="item.name for item in archtypeOpt">
+							<option value=""></option>
+						</select>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">备份现状:</label>
+					<div class="col-sm-10">
+						<select chosen disable-search="true" class="chosen-select"
+							no-results-text="'没有找到相应条目'" ng-model="bkstatusSel"
+							data-placeholder-text-single="'请选择...'"
+							ng-options="item.name for item in bkstatusOpt">
+							<option value=""></option>
+						</select>
+					</div>
+				</div>
+
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">备注:</label>

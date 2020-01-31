@@ -81,7 +81,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 
-	public R executeEntitysImport(List<OpsNodeEntity> resultdata) {
+	public R executeOpsNodeEntitysImport(List<OpsNodeEntity> resultdata) {
 		OpsNodeImportResultEntity result = checkOpsNodeEntitys(resultdata);
 		result.printResult();
 		if (!result.is_success_all) {
@@ -303,5 +303,29 @@ public class OpsNodeExtServiceImpl extends BaseService {
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
+	/////////
+	
+	
+	
+//	public R executeOpsNodeDBEntitysImport(List<OpsNodeDBEntity> resultdata) {
+//		OpsNodeImportResultEntity result = checkOpsNodeEntitys(resultdata);
+//		result.printResult();
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		if (!result.is_success_all) {
+//			return R.FAILURE("操作失败", result.covertJSONObjectResult());
+//		}
+//		db.executeStringList(result.success_cmds);
+//		return R.SUCCESS_OPER();
+//
+//	}
 
 }
