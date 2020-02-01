@@ -199,7 +199,7 @@ public class OpsNodeExtController extends BaseController {
 			params.setStartSheetIndex(0);
 			List<OpsNodeEntity> result = ExcelImportUtil.importExcel(new File(filePath), OpsNodeEntity.class, params);
 			r = opsNodeExtServiceImpl.executeOpsNodeEntitysImport(result);
-			opsNodeExtServiceImpl.validMiddlewareData();
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 			return R.FAILURE("导入数据异常");

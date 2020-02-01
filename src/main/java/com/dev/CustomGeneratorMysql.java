@@ -50,9 +50,9 @@ public class CustomGeneratorMysql {
 	public static void main(String[] args) throws InterruptedException {
 
 		// GlobalConfig g = new GlobalConfig();
-
+ 
 		AutoGenerator mpg = new AutoGenerator();
-		String dir = "/Users/algernonking/git/zc/src/main";
+		String dir = "/Users/algernonking/git/zcdevmgr/src/main";
 		// 全局配置
 		GlobalConfig gc = new GlobalConfig();
 

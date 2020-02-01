@@ -407,6 +407,8 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('bkkeep').withTitle('保留策略').withOption(
 					'sDefaultContent', ''),
+			DTColumnBuilder.newColumn('dsize').withTitle('备份大小').withOption(
+					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', '') ]
 	function flushSubtab(id) {
@@ -556,8 +558,8 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$window.open($rootScope.project
 				+ "/api/ops/opsNode/Ext/selectDBListExport.do");
 	}
-	
-	$scope.importfile=function(){
+
+	$scope.importfile = function() {
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/ops/modal_importfile.html',
@@ -574,7 +576,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}, function(reason) {
 			$log.log("reason", reason)
 		});
-	
+
 	}
 
 };

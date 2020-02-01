@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-01-30
+ * @since 2020-02-01
  */
  
 @TableName("ops_node_item")
@@ -48,6 +48,8 @@ public class OpsNodeItem extends BaseModel<OpsNodeItem> {
     private String mark;
     @TableField("bkmethod")
     private String bkmethod;
+    @TableField("dsize")
+    private String dsize;
 
 
     public String getId() {
@@ -154,6 +156,14 @@ public class OpsNodeItem extends BaseModel<OpsNodeItem> {
         this.bkmethod = bkmethod;
     }
 
+    public String getDsize() {
+        return dsize;
+    }
+
+    public void setDsize(String dsize) {
+        this.dsize = dsize;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -175,6 +185,7 @@ public class OpsNodeItem extends BaseModel<OpsNodeItem> {
         ", bkstatus=" + bkstatus +
         ", mark=" + mark +
         ", bkmethod=" + bkmethod +
+        ", dsize=" + dsize +
         "}";
     }
 }

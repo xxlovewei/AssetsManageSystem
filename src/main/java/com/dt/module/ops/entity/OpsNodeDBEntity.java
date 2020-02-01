@@ -21,13 +21,13 @@ public class OpsNodeDBEntity {
 	@Excel(name = "编号", width = 30)
 	private String id;
 
-	@Excel(name = "系统", width = 20)
+	@Excel(name = "系统", width = 25)
 	private String xtname;
 	
 	@Excel(name = "IP", width = 15)
 	private String ip;
 
-	@Excel(name = "数据库类型", width = 15)
+	@Excel(name = "数据库类型", width = 20)
 	private String sysdbdtlstr;
 
 	@Excel(name = "数据库名称", width = 15)
@@ -48,13 +48,33 @@ public class OpsNodeDBEntity {
 	@Excel(name = "日志模式", width = 15)
 	private String dbbkarchtypestr;
 
+	@Excel(name = "备份大小", width = 15)
+	private String dsize;
+	
+
+
 	@Excel(name = "当前状况", width = 15)
 	private String dbbkstatusstr;
 	
-	@Excel(name = "备注", width = 15)
+	@Excel(name = "备注", width = 30)
 	private String mark;
 
 	
+
+	/**
+	 * @return the dsize
+	 */
+	public String getDsize() {
+		return dsize;
+	}
+
+
+	/**
+	 * @param dsize the dsize to set
+	 */
+	public void setDsize(String dsize) {
+		this.dsize = dsize;
+	}
 	/**
 	 * @return the id
 	 */
@@ -259,6 +279,7 @@ public class OpsNodeDBEntity {
 		this.dbbkarchtypestr = obj.getString("dbbkarchtypestr");
 		this.bkstrategy = obj.getString("bkstrategy");
 		this.bkkeep = obj.getString("bkkeep");
+		this.dsize = obj.getString("dsize");
 		this.mark = obj.getString("mark");
 
 	}

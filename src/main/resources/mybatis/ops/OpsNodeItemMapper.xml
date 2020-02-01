@@ -22,6 +22,7 @@
         <result column="bkstatus" property="bkstatus" />
         <result column="mark" property="mark" />
         <result column="bkmethod" property="bkmethod" />
+        <result column="dsize" property="dsize" />
     </resultMap>
 
 </mapper>

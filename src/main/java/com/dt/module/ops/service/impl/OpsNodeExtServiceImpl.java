@@ -88,6 +88,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			return R.FAILURE("操作失败", result.covertJSONObjectResult());
 		}
 		db.executeStringList(result.success_cmds);
+		validMiddlewareData();
 		return R.SUCCESS_OPER();
 
 	}
@@ -304,7 +305,6 @@ public class OpsNodeExtServiceImpl extends BaseService {
 	}
 
 	/////////
-
 	public R executeOpsNodeDBEntitysImport(List<OpsNodeDBEntity> resultdata) {
 		OpsNodeDBImportResultEntity result = checkOpsNodeDBEntitys(resultdata);
 		result.printResult();
@@ -365,6 +365,9 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("bkkeep", re.getBkkeep());
 			me.setIf("dbinstance", re.getDbinstance());
 			me.set("dr", "0");
+			me.set("value", importlabel);
+			me.setIf("dsize", re.getDsize());
+
 			// 获取nid
 			if (ToolUtil.isOneEmpty(re.getIp(), re.getXtname())) {
 				return R.FAILURE("不存在该值,名称:" + re.getXtname() + ",IP:" + re.getIp());
@@ -376,7 +379,6 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			} else {
 				return R.FAILURE("不存在该值,名称:" + re.getXtname() + ",IP:" + re.getIp());
 			}
-		
 
 			me.setIf("archtype", archtypeR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("bktype", bktypeR.queryDataToJSONObject().getString("dict_item_id"));
@@ -387,8 +389,8 @@ public class OpsNodeExtServiceImpl extends BaseService {
 
 		} else {
 			Update me = new Update("ops_node_item");
-		 
-		 
+			me.set("value", importlabel);
+			me.setIf("dsize", re.getDsize());
 			me.setIf("mark", re.getMark());
 			me.setIf("bkstrategy", re.getBkstrategy());
 			me.setIf("bkkeep", re.getBkkeep());
