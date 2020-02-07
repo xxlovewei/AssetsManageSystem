@@ -381,5 +381,7 @@ public class OpsNodeEntity {
 		this.sysenvstr = obj.getString("sysenvstr");
 		this.mark = obj.getString("mark");
 		this.nodebackup=obj.getString("nodebackup");
+		this.label2=obj.getString("label2");
+		this.label1=obj.getString("label1");
 	}
 }
