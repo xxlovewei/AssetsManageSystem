@@ -30,6 +30,12 @@
         <result column="pwdmark" property="pwdmark" />
         <result column="mark" property="mark" />
         <result column="importlabel" property="importlabel" />
+        <result column="label1" property="label1" />
+        <result column="label2" property="label2" />
+        <result column="label3" property="label3" />
+        <result column="label4" property="label4" />
+        <result column="label5" property="label5" />
+        <result column="label6" property="label6" />
     </resultMap>
 
 </mapper>

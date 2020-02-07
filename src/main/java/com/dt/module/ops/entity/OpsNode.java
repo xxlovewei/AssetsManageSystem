@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-01-30
+ * @since 2020-02-07
  */
  
 @TableName("ops_node")
@@ -64,6 +64,18 @@ public class OpsNode extends BaseModel<OpsNode> {
     private String mark;
     @TableField("importlabel")
     private String importlabel;
+    @TableField("label1")
+    private String label1;
+    @TableField("label2")
+    private String label2;
+    @TableField("label3")
+    private String label3;
+    @TableField("label4")
+    private String label4;
+    @TableField("label5")
+    private String label5;
+    @TableField("label6")
+    private String label6;
 
 
     public String getId() {
@@ -234,6 +246,54 @@ public class OpsNode extends BaseModel<OpsNode> {
         this.importlabel = importlabel;
     }
 
+    public String getLabel1() {
+        return label1;
+    }
+
+    public void setLabel1(String label1) {
+        this.label1 = label1;
+    }
+
+    public String getLabel2() {
+        return label2;
+    }
+
+    public void setLabel2(String label2) {
+        this.label2 = label2;
+    }
+
+    public String getLabel3() {
+        return label3;
+    }
+
+    public void setLabel3(String label3) {
+        this.label3 = label3;
+    }
+
+    public String getLabel4() {
+        return label4;
+    }
+
+    public void setLabel4(String label4) {
+        this.label4 = label4;
+    }
+
+    public String getLabel5() {
+        return label5;
+    }
+
+    public void setLabel5(String label5) {
+        this.label5 = label5;
+    }
+
+    public String getLabel6() {
+        return label6;
+    }
+
+    public void setLabel6(String label6) {
+        this.label6 = label6;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -263,6 +323,12 @@ public class OpsNode extends BaseModel<OpsNode> {
         ", pwdmark=" + pwdmark +
         ", mark=" + mark +
         ", importlabel=" + importlabel +
+        ", label1=" + label1 +
+        ", label2=" + label2 +
+        ", label3=" + label3 +
+        ", label4=" + label4 +
+        ", label5=" + label5 +
+        ", label6=" + label6 +
         "}";
     }
 }

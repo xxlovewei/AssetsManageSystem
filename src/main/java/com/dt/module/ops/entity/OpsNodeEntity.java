@@ -67,6 +67,41 @@ public class OpsNodeEntity {
 	private String nodebackup;
 	
 	
+	@Excel(name = "标签1", width = 15)
+	private String label1;
+	
+	@Excel(name = "标签2", width = 15)
+	private String label2;
+	
+	
+	/**
+	 * @return the label1
+	 */
+	public String getLabel1() {
+		return label1;
+	}
+
+	/**
+	 * @param label1 the label1 to set
+	 */
+	public void setLabel1(String label1) {
+		this.label1 = label1;
+	}
+
+	/**
+	 * @return the label2
+	 */
+	public String getLabel2() {
+		return label2;
+	}
+
+	/**
+	 * @param label2 the label2 to set
+	 */
+	public void setLabel2(String label2) {
+		this.label2 = label2;
+	}
+
 	/**
 	 * @return the nodebackup
 	 */

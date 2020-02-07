@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author algernonking
- * @since 2020-01-30
+ * @since 2020-02-07
  */
 public interface OpsNodeMapper extends BaseMapper<OpsNode> {
 

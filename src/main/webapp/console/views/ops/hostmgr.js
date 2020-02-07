@@ -410,6 +410,8 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			'风险等级').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('sysenvstr').withTitle(
 			'运行环境').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('label1').withTitle('标签1')
+			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
 			.withOption('sDefaultContent', ''));
 
@@ -817,6 +819,32 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			ng_model : "mark"
 		});
 
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "500",
+			placeholder : "请输入内容",
+			label : "标签1",
+			need : false,
+			name : 'label1',
+			ng_model : "label1"
+		});
+
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "500",
+			placeholder : "请输入内容",
+			label : "标签2",
+			need : false,
+			name : 'label2',
+			ng_model : "label2"
+		});
+
 		var id;
 		var itemvalue = {
 			mark : "",
@@ -824,7 +852,9 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			leader : "",
 			ip : "",
 			name : "",
-			nodebackup : ""
+			nodebackup : "",
+			label1 : "",
+			label2 : ""
 		};
 		// type 1 更新
 		if (type == 1) {

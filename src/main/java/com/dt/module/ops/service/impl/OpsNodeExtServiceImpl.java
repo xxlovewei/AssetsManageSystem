@@ -231,6 +231,9 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("pwdmark", re.getPwdmark());
 			me.setIf("nodebackup", re.getNodebackup());
 
+			me.setIf("label1", re.getLabel1());
+			me.setIf("label2", re.getLabel2());
+		 
 			// 数据字典匹配
 			me.setIf("runenv", runenvR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("syslevel", syslevelR.queryDataToJSONObject().getString("dict_item_id"));
@@ -261,6 +264,9 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("leader", re.getLeader());
 			me.setIf("pwdmark", re.getPwdmark());
 			me.setIf("nodebackup", re.getNodebackup());
+
+			me.setIf("label1", re.getLabel1());
+			me.setIf("label2", re.getLabel2());
 			// 数据字典匹配
 			me.setIf("runenv", runenvR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("syslevel", syslevelR.queryDataToJSONObject().getString("dict_item_id"));
