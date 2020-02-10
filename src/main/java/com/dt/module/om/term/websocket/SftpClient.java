@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -209,6 +210,20 @@ public class SftpClient {
 			count += len;
 		}
 		return new ByteArrayInputStream(baos.toByteArray());
+	}
+
+	public void downloadFile(String fileName, String dest) throws IOException {
+		InputStream input = downloadFile(fileName);
+		int index;
+		byte[] bytes = new byte[1024];
+		FileOutputStream downloadFile = new FileOutputStream(dest);
+		while ((index = input.read(bytes)) != -1) {
+			downloadFile.write(bytes, 0, index);
+			downloadFile.flush();
+		}
+		input.close();
+		downloadFile.close();
+
 	}
 
 	public void deleteFile(String fileName) throws IOException {

@@ -92,6 +92,20 @@ function loadOptHost(modal_meta, gdicts) {
 	}
 
 	// 数据库
+	if (angular.isDefined(gdicts.sysstatus) && gdicts.sysstatus.length > 0) {
+		modal_meta.meta.statusOpt = gdicts.sysstatus;
+		if (angular.isDefined(item) && angular.isDefined(item.status)) {
+			for (var i = 0; i < modal_meta.meta.statusOpt.length; i++) {
+				if (modal_meta.meta.statusOpt[i].dict_item_id == item.status) {
+					modal_meta.meta.statusSel = modal_meta.meta.statusOpt[i];
+				}
+			}
+		} else {
+		}
+	}
+	
+	
+	// 数据库
 	if (angular.isDefined(gdicts.sysdb) && gdicts.sysdb.length > 0) {
 		modal_meta.meta.dbOpt = gdicts.sysdb;
 		if (angular.isDefined(item) && angular.isDefined(item.db)) {
@@ -103,6 +117,7 @@ function loadOptHost(modal_meta, gdicts) {
 		} else {
 		}
 	}
+	
 
 	// 数据库详细
 	if (angular.isDefined(gdicts.sysdbdtl) && gdicts.sysdbdtl.length > 0) {
@@ -286,7 +301,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	var gdicts = {};
 
-	var dicts = "sysdb,sysdbdtl,sysenv,sysexecenv,syslevel,sysloc,sysmid,sysmonitor,sysos,sysosdtl,syspwdstrategy,systype";
+	var dicts = "sysstatus,sysdb,sysdbdtl,sysenv,sysexecenv,syslevel,sysloc,sysmid,sysmonitor,sysos,sysosdtl,syspwdstrategy,systype";
 
 	$http.post($rootScope.project + "/api/base/res/queryDictFast.do", {
 		dicts : dicts
@@ -410,6 +425,8 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			'风险等级').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('sysenvstr').withTitle(
 			'运行环境').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('statusstr')
+			.withTitle('状态').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('label1').withTitle('标签1')
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
@@ -651,12 +668,23 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		items.push({
 			type : "select",
 			disabled : "false",
+			label : "状态",
+			need : true,
+			disable_search : "true",
+			dataOpt : "statusOpt",
+			dataSel : "statusSel"
+		});
+		
+		items.push({
+			type : "select",
+			disabled : "false",
 			label : "运行环境",
 			need : true,
 			disable_search : "true",
 			dataOpt : "runenvOpt",
 			dataSel : "runenvSel"
 		});
+		
 		items.push({
 			type : "select",
 			disabled : "false",
@@ -902,6 +930,10 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			sure : function(modalInstance, modal_meta) {
 				console.log('sure set', modal_meta.meta)
 
+				if (angular.isDefined(modal_meta.meta.statusSel.dict_item_id)) {
+					modal_meta.meta.item.status = modal_meta.meta.statusSel.dict_item_id
+				}
+				
 				if (angular.isDefined(modal_meta.meta.runenvSel.dict_item_id)) {
 					modal_meta.meta.item.runenv = modal_meta.meta.runenvSel.dict_item_id
 				}

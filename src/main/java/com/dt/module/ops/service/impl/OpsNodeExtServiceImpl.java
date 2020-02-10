@@ -44,6 +44,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.dbdtl and dict_id = 'sysdbdtl' ) sysdbdtlstr,\n"
 			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.execenv and dict_id = 'sysexecenv' ) sysexecenvstr,\n"
 			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.monitor and dict_id = 'sysmonitor' ) sysmonitorstr,\n"
+			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.status and dict_id = 'sysstatus' ) statusstr,\n"
 			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.pwdstrategy and dict_id = 'syspwdstrategy' ) syspwdstrategystr,\n"
 			+ "t.*\n" + "from ops_node t where dr=0 ";
 
@@ -192,6 +193,11 @@ public class OpsNodeExtServiceImpl extends BaseService {
 		if (pwdstrategyR.isFailed()) {
 			return R.FAILURE(pwdstrategyR.getMessage());
 		}
+		R statusR = checkDictItem("sysstatus", re.getStatusstr());
+		if (statusR.isFailed()) {
+			return R.FAILURE(statusR.getMessage());
+		}
+
 
 		// 中间价
 		String mid = re.getMiddlewarestr();
@@ -233,7 +239,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 
 			me.setIf("label1", re.getLabel1());
 			me.setIf("label2", re.getLabel2());
-		 
+
 			// 数据字典匹配
 			me.setIf("runenv", runenvR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("syslevel", syslevelR.queryDataToJSONObject().getString("dict_item_id"));
@@ -246,6 +252,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("execenv", execenvR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("monitor", monitorR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("pwdstrategy", pwdstrategyR.queryDataToJSONObject().getString("dict_item_id"));
+			me.setIf("status", statusR.queryDataToJSONObject().getString("dict_item_id"));
 
 			me.setIf("middleware", mid_ids.toJSONString());
 			me.setIf("middlewarestr", mid_str);
@@ -279,7 +286,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("execenv", execenvR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("monitor", monitorR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("pwdstrategy", pwdstrategyR.queryDataToJSONObject().getString("dict_item_id"));
-
+			me.setIf("status", statusR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("middleware", mid_ids.toJSONString());
 			me.setIf("middlewarestr", mid_str);
 			me.where().and("id=?", re.getId());

@@ -19,7 +19,7 @@ public class OpsNodeEntity {
 	private static final long serialVersionUID = 1L;
 	@Excel(name = "编号", width = 30)
 	private String id;
-	
+
 	/**
 	 * @return the id
 	 */
@@ -34,7 +34,7 @@ public class OpsNodeEntity {
 		this.id = id;
 	}
 
-	@Excel(name = "名称",width = 30)
+	@Excel(name = "名称", width = 30)
 	private String name;
 	@Excel(name = "IP", width = 15)
 	private String ip;
@@ -62,18 +62,33 @@ public class OpsNodeEntity {
 	private String pwdmark;
 	@Excel(name = "负责人", width = 15)
 	private String leader;
-	
+
 	@Excel(name = "节点备份", width = 35)
 	private String nodebackup;
-	
-	
+
+	@Excel(name = "状态", width = 15)
+	private String statusstr;
+
 	@Excel(name = "标签1", width = 15)
 	private String label1;
-	
+
 	@Excel(name = "标签2", width = 15)
 	private String label2;
-	
-	
+
+	/**
+	 * @return the status
+	 */
+	public String getStatusstr() {
+		return statusstr;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatusstr(String status) {
+		this.statusstr = status;
+	}
+
 	/**
 	 * @return the label1
 	 */
@@ -380,8 +395,9 @@ public class OpsNodeEntity {
 		this.syslevelstr = obj.getString("syslevelstr");
 		this.sysenvstr = obj.getString("sysenvstr");
 		this.mark = obj.getString("mark");
-		this.nodebackup=obj.getString("nodebackup");
-		this.label2=obj.getString("label2");
-		this.label1=obj.getString("label1");
+		this.nodebackup = obj.getString("nodebackup");
+		this.label2 = obj.getString("label2");
+		this.label1 = obj.getString("label1");
+		this.statusstr = obj.getString("statusstr");
 	}
 }
