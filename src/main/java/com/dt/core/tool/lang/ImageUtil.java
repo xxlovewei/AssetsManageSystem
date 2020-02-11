@@ -104,7 +104,7 @@ public class ImageUtil {
 				return (BufferedImage) img;
 			}
 			if (img instanceof CharSequence) {
-				return ImageIO.read(FilesUtils.checkFile(img.toString()));
+				return ImageIO.read(new File(img.toString()));
 			}
 			if (img instanceof File)
 				return ImageIO.read((File) img);

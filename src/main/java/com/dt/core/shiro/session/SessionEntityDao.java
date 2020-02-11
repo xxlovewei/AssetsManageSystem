@@ -1,9 +1,14 @@
 package com.dt.core.shiro.session;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.ValidatingSession;
@@ -14,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.dao.Rcd;
-import com.dt.core.tool.util.SerializableUtils;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.ISysSessionService;
 import com.dt.module.db.DB;
@@ -26,6 +30,27 @@ import com.dt.module.db.DB;
  */
 public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 
+	
+	public static String serialize(Session session) {
+		try {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(bos);
+			oos.writeObject(session);
+			return Base64.encodeToString(bos.toByteArray());
+		} catch (Exception e) {
+			throw new RuntimeException("serialize session error", e);
+		}
+	}
+
+	public static Session deserialize(String sessionStr) {
+		try {
+			ByteArrayInputStream bis = new ByteArrayInputStream(Base64.decode(sessionStr));
+			ObjectInputStream ois = new ObjectInputStream(bis);
+			return (Session) ois.readObject();
+		} catch (Exception e) {
+			throw new RuntimeException("deserialize session error", e);
+		}
+	}
 	@Autowired
 	ISysSessionService SysSessionService;
 	private static Logger _log = LoggerFactory.getLogger(SessionEntityDao.class);
@@ -36,7 +61,7 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 		Serializable cookie = super.create(session);
 		// 新建一个entity保存到数据库
 		SimpleSessionEntity entity = new SimpleSessionEntity();
-		entity.setSession(SerializableUtils.serialize(session));
+		entity.setSession(serialize(session));
 		entity.setCookie(cookie.toString());
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = formatter.format(session.getStartTimestamp());
@@ -60,7 +85,7 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 		entity.setId(session.getId().toString());
 		entity.setCookie(session.getId().toString());
 		entity.setIp(session.getHost());
-		entity.setSession(SerializableUtils.serialize(session));
+		entity.setSession(serialize(session));
 		entity.update(entity);
 
 	}
@@ -79,7 +104,7 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 			if (entity != null) {
 				try {
 					String msg = "session:" + sessionId + "找到";
-					session = SerializableUtils.deserialize(entity.getSession());
+					session = deserialize(entity.getSession());
 					if (isExpire(session)) {
 						msg = msg + ",已过期";
 						// 后期可以判断只对app进行过期处理

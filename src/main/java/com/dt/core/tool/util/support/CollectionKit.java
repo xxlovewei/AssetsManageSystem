@@ -81,68 +81,7 @@ public class CollectionKit {
 		return sb.toString();
 	}
 
-	/**
-	 * 将多个集合排序并显示不同的段落（分页）
-	 * 
-	 * @param pageNo
-	 *            页码
-	 * @param numPerPage
-	 *            每页的条目数
-	 * @param comparator
-	 *            比较器
-	 * @param colls
-	 *            集合数组
-	 * @return 分页后的段落内容
-	 */
-	@SafeVarargs
-	public static <T> List<T> sortPageAll(int pageNo, int numPerPage, Comparator<T> comparator,
-			Collection<T>... colls) {
-		final List<T> result = new ArrayList<T>();
-		for (Collection<T> coll : colls) {
-			result.addAll(coll);
-		}
-
-		Collections.sort(result, comparator);
-
-		// 第一页且数目少于第一页显示的数目
-		if (pageNo <= 1 && result.size() <= numPerPage) {
-			return result;
-		}
-
-		final int[] startEnd = PageKit.transToStartEnd(pageNo, numPerPage);
-		return result.subList(startEnd[0], startEnd[1]);
-	}
-
-	/**
-	 * 将多个集合排序并显示不同的段落（分页）
-	 * 
-	 * @param pageNo
-	 *            页码
-	 * @param numPerPage
-	 *            每页的条目数
-	 * @param comparator
-	 *            比较器
-	 * @param colls
-	 *            集合数组
-	 * @return 分业后的段落内容
-	 */
-	// @SafeVarargs
-	// public static <T> List<T> sortPageAll2(int pageNo, int numPerPage,
-	// Comparator<T> comparator, Collection<T>... colls) {
-	// BoundedPriorityQueue<T> queue = new BoundedPriorityQueue<T>(pageNo *
-	// numPerPage);
-	// for (Collection<T> coll : colls) {
-	// queue.addAll(coll);
-	// }
-	//
-	// //第一页且数目少于第一页显示的数目
-	// if(pageNo <=1 && queue.size() <= numPerPage) {
-	// return queue.toList();
-	// }
-	//
-	// final int[] startEnd = PageKit.transToStartEnd(pageNo, numPerPage);
-	// return queue.toList().subList(startEnd[0], startEnd[1]);
-	// }
+ 
 
 	/**
 	 * 将Set排序（根据Entry的值）

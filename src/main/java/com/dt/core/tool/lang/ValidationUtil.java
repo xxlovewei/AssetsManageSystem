@@ -144,21 +144,7 @@ public class ValidationUtil {
 		return b;
 	}
 
-	public static boolean isNumber(String str) {
-		return NumberUtil.isNumber(str);
-	}
 
-	public static boolean isDouble(String str) {
-		return NumberUtil.isDouble(str);
-	}
-
-	public static boolean isInteger(String str) {
-		return NumberUtil.isInteger(str);
-	}
-
-	public static boolean isLong(String str) {
-		return NumberUtil.isLong(str);
-	}
 
 	// public static boolean isInetAddressValid(String data) {
 	// if (data == null) {

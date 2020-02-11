@@ -7,7 +7,6 @@ import java.util.LinkedHashSet;
 import java.util.Locale;
 
 import com.dt.core.tool.date.DateTime;
-import com.dt.core.tool.util.exception.ToolBoxException;
 
 
 /**
@@ -279,8 +278,9 @@ public class DateTimeKit {
 		try {
 			return new DateTime(simpleDateFormat.parse(dateStr));
 		} catch (Exception e) {
-			throw new ToolBoxException(StrKit.format("Parse [{}] with format [{}] error!", dateStr, simpleDateFormat.toPattern()), e);
+		//	throw new ToolBoxException(StrKit.format("Parse [{}] with format [{}] error!", dateStr, simpleDateFormat.toPattern()), e);
 		}
+		return null;
 	}
 
 	/**
@@ -353,11 +353,12 @@ public class DateTimeKit {
 				return parse(dateStr, NORM_DATETIME_MS_PATTERN);
 			}
 		} catch (Exception e) {
-			throw new ToolBoxException(StrKit.format("Parse [{}] with format normal error!", dateStr));
+		//	throw new ToolBoxException(StrKit.format("Parse [{}] with format normal error!", dateStr));
 		}
+		return null;
 
 		// 没有更多匹配的时间格式
-		throw new ToolBoxException(StrKit.format(" [{}] format is not fit for date pattern!", dateStr));
+	//	throw new ToolBoxException(StrKit.format(" [{}] format is not fit for date pattern!", dateStr));
 	}
 	// ------------------------------------ Parse end ----------------------------------------------
 
@@ -582,7 +583,7 @@ public class DateTimeKit {
 		cal.setTime(dateToCompare);
 
 		if (cal.before(birthDay)) {
-			throw new IllegalArgumentException(StrKit.format("Birthday is after date {}!", formatDate(dateToCompare)));
+			//throw new IllegalArgumentException(StrKit.format("Birthday is after date {}!", formatDate(dateToCompare)));
 		}
 
 		int year = cal.get(Calendar.YEAR);

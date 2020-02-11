@@ -3,7 +3,6 @@ package com.dt.core.tool.util;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.nio.charset.Charset;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Set;
@@ -16,7 +15,6 @@ import com.dt.core.tool.enums.BasicType;
 import com.dt.core.tool.util.exception.ToolBoxException;
 import com.dt.core.tool.util.support.CollectionKit;
 import com.dt.core.tool.util.support.DateTimeKit;
-import com.dt.core.tool.util.support.HexKit;
 import com.dt.core.tool.util.support.StrKit;
 
 public class ConvertUtil {
@@ -965,49 +963,7 @@ public class ConvertUtil {
 		String returnString = new String(c);
 		return returnString;
 	}
-
-	// --------------------------------------------------------------------- hex
-	/**
-	 * 字符串转换成十六进制字符串
-	 * 
-	 * @param str 待转换的ASCII字符串
-	 * @return 16进制字符串
-	 */
-	public static String toHex(String str) {
-		return HexKit.encodeHexStr(str.getBytes());
-	}
-
-	/**
-	 * byte数组转16进制串
-	 * 
-	 * @param bytes 被转换的byte数组
-	 * @return 转换后的值
-	 */
-	public static String toHex(byte[] bytes) {
-		return HexKit.encodeHexStr(bytes);
-	}
-
-	/**
-	 * Hex字符串转换为Byte值
-	 * 
-	 * @param src Byte字符串，每个Byte之间没有分隔符
-	 * @return byte[]
-	 */
-	public static byte[] hexToBytes(String src) {
-		return HexKit.decodeHex(src.toCharArray());
-	}
-
-	/**
-	 * 十六进制转换字符串
-	 * 
-	 * @param hexStr  Byte字符串(Byte之间无分隔符 如:[616C6B])
-	 * @param charset 编码 {@link Charset}
-	 * @return 对应的字符串
-	 */
-	public static String hexStrToStr(String hexStr, Charset charset) {
-		return HexKit.decodeHexStr(hexStr, charset);
-	}
-
+  
 	/**
 	 * String的字符串转换成unicode的String
 	 * 

@@ -15,19 +15,15 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import com.dt.core.tool.lang.PropertiesFileUtil;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.core.tool.util.support.StrKit;
 
- 
 public class BaseController extends BaseSC {
 
 	@InitBinder
-	public void initBinder(WebDataBinder binder){
+	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new DateEditor());
 	}
 
-		
 	/**
 	 * 统一异常处理
 	 * 
@@ -73,7 +69,7 @@ public class BaseController extends BaseSC {
 
 	private Boolean isReturnJSON(HttpServletRequest httpRequest) {
 		Boolean res = false;
-		if (HttpKit.isAjax(httpRequest) || StrKit.endWith(httpRequest.getRequestURL() + "", ".do", true)) {
+		if (HttpKit.isAjax(httpRequest) || (httpRequest.getRequestURL() + "").endsWith("do")) {
 			res = true;
 		}
 		return res;
@@ -102,8 +98,6 @@ public class BaseController extends BaseSC {
 	protected void setAttr(String name, Object value) {
 		HttpKit.getRequest().setAttribute(name, value);
 	}
-
-	
 
 	protected Integer getSystemInvokCount() {
 		return (Integer) this.getHttpServletRequest().getServletContext().getAttribute("systemCount");
@@ -147,8 +141,8 @@ public class BaseController extends BaseSC {
 	 * @param path
 	 * @return
 	 */
-	public static String thymeleaf(String path) {
-		String folder = PropertiesFileUtil.getInstance().get("app.name");
-		return "/".concat(folder).concat(path).concat(".html");
-	}
+//	public static String thymeleaf(String path) {
+//	//	String folder = PropertiesFileUtil.getInstance().get("app.name");
+//	//	return "/".concat(folder).concat(path).concat(".html");
+//	}
 }

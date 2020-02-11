@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.dt.core.tool.enums.OsType;
-import com.dt.core.tool.util.support.StrKit;
+
+import cn.hutool.core.util.IdUtil;
 
 /**
  * 高频方法集合类
@@ -31,15 +31,12 @@ public class ToolUtil {
 	/*
 	 * 均衡的随机从[mix,max]中获取数据
 	 */
-	public static int rand(int mix, int max) {
-		return RandomUtil.rand(mix, max);
-	}
+//	public static int rand(int mix, int max) {
+//		return RandomUtil.rand(mix, max);
+//	}
 
 	public static String getUUID() {
-		UUID uuid = UUID.randomUUID();
-		String str = uuid.toString();
-		str = str.replaceAll("-", "");
-		return str;
+		return IdUtil.simpleUUID();
 	}
 
 	public static void printRequestMap(HttpServletRequest request) {
@@ -186,10 +183,8 @@ public class ToolUtil {
 	 * 相同的条件有两个，满足其一即可：<br>
 	 * 1. obj1 == null && obj2 == null; 2. obj1.equals(obj2)
 	 * 
-	 * @param obj1
-	 *            对象1
-	 * @param obj2
-	 *            对象2
+	 * @param obj1 对象1
+	 * @param obj2 对象2
 	 * @return 是否相等
 	 */
 	public static boolean equals(Object obj1, Object obj2) {
@@ -199,8 +194,7 @@ public class ToolUtil {
 	/**
 	 * 计算对象长度，如果是字符串调用其length函数，集合类调用其size函数，数组调用其length属性，其他可遍历对象遍历计算长度
 	 * 
-	 * @param obj
-	 *            被计算长度的对象
+	 * @param obj 被计算长度的对象
 	 * @return 长度
 	 */
 	public static int length(Object obj) {
@@ -244,10 +238,8 @@ public class ToolUtil {
 	/**
 	 * 对象中是否包含元素
 	 * 
-	 * @param obj
-	 *            对象
-	 * @param element
-	 *            元素
+	 * @param obj     对象
+	 * @param element 元素
 	 * @return 是否包含
 	 */
 	public static boolean contains(Object obj, Object element) {
@@ -301,8 +293,7 @@ public class ToolUtil {
 	/**
 	 * 对象是否不为空(新增)
 	 * 
-	 * @param obj
-	 *            String,List,Map,Object[],int[],long[]
+	 * @param obj String,List,Map,Object[],int[],long[]
 	 * @return
 	 */
 	public static boolean isNotEmpty(Object o) {
@@ -312,8 +303,7 @@ public class ToolUtil {
 	/**
 	 * 对象是否为空
 	 * 
-	 * @param obj
-	 *            String,List,Map,Object[],int[],long[]
+	 * @param obj String,List,Map,Object[],int[],long[]
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
@@ -356,8 +346,7 @@ public class ToolUtil {
 	/**
 	 * 对象组中是否存在 Empty Object
 	 * 
-	 * @param os
-	 *            对象组
+	 * @param os 对象组
 	 * @return
 	 */
 	public static boolean isOneEmpty(Object... os) {
@@ -410,32 +399,6 @@ public class ToolUtil {
 			return defaultValue;
 		}
 		return str;
-	}
-
-	/**
-	 * 格式化文本
-	 * 
-	 * @param template
-	 *            文本模板，被替换的部分用 {} 表示
-	 * @param values
-	 *            参数值
-	 * @return 格式化后的文本
-	 */
-	public static String format(String template, Object... values) {
-		return StrKit.format(template, values);
-	}
-
-	/**
-	 * 格式化文本
-	 * 
-	 * @param template
-	 *            文本模板，被替换的部分用 {key} 表示
-	 * @param map
-	 *            参数值对
-	 * @return 格式化后的文本
-	 */
-	public static String format(String template, Map<?, ?> map) {
-		return StrKit.format(template, map);
 	}
 
 	/**
@@ -530,12 +493,9 @@ public class ToolUtil {
 	/**
 	 * 获取map中第一个数据值
 	 * 
-	 * @param <K>
-	 *            Key的类型
-	 * @param <V>
-	 *            Value的类型
-	 * @param map
-	 *            数据源
+	 * @param <K> Key的类型
+	 * @param <V> Value的类型
+	 * @param map 数据源
 	 * @return 返回的值
 	 */
 	public static <K, V> V getFirstOrNull(Map<K, V> map) {
@@ -576,10 +536,8 @@ public class ToolUtil {
 	/**
 	 * 去掉指定后缀
 	 * 
-	 * @param str
-	 *            字符串
-	 * @param suffix
-	 *            后缀
+	 * @param str    字符串
+	 * @param suffix 后缀
 	 * @return 切掉后的字符串，若后缀不是 suffix， 返回原字符串
 	 */
 	public static String removeSuffix(String str, String suffix) {
@@ -590,35 +548,6 @@ public class ToolUtil {
 			return str.substring(0, str.length() - suffix.length());
 		}
 		return str;
-	}
-
-	/**
-	 * 当前时间
-	 * 
-	 * @author stylefeng
-	 * @Date 2017/5/7 21:56
-	 */
-	// public static String currentTime(){
-	// return DateUtil.getTime();
-	// }
-	/**
-	 * 首字母大写
-	 * 
-	 * @author stylefeng
-	 * @Date 2017/5/7 22:01
-	 */
-	public static String firstLetterToUpper(String val) {
-		return StrKit.firstCharToUpperCase(val);
-	}
-
-	/**
-	 * 首字母小写
-	 * 
-	 * @author stylefeng
-	 * @Date 2017/5/7 22:02
-	 */
-	public static String firstLetterToLower(String val) {
-		return StrKit.firstCharToLowerCase(val);
 	}
 
 	/**
@@ -645,9 +574,8 @@ public class ToolUtil {
 	public static String getTempPath() {
 		return System.getProperty("java.io.tmpdir");
 	}
-	
+
 	public static void main(String[] args) {
-		System.out.println(RandomUtil.createRandomWithLength(5));
-		System.out.println(RandomUtil.createRandomFromString("adfasdfasdf", 2));
+	
 	}
 }
