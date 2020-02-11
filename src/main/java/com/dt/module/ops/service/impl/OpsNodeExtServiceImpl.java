@@ -18,7 +18,6 @@ import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.cmdb.entity.ResImportResultEntity;
 import com.dt.module.ops.entity.OpsNodeDBEntity;
 import com.dt.module.ops.entity.OpsNodeDBImportResultEntity;
 import com.dt.module.ops.entity.OpsNodeEntity;

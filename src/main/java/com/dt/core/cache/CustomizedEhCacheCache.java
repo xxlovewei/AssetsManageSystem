@@ -18,9 +18,6 @@ package com.dt.core.cache;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
@@ -28,6 +25,10 @@ import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.util.Assert;
 
 import com.dt.core.tool.lang.SpringContextUtil;
+
+import net.sf.ehcache.Ehcache;
+import net.sf.ehcache.Element;
+import net.sf.ehcache.Status;
 
 public class CustomizedEhCacheCache implements Cache {
 
@@ -209,7 +210,7 @@ public class CustomizedEhCacheCache implements Cache {
 		if (element == null) {
 			return null;
 		}
-		logger.info("@From mem " + cache.getName() + ":" + element.getKey());
+		logger.info("@From mem " + cache.getName() + ":" + element.getObjectKey());
 		Long expired = (element.getExpirationTime() - System.currentTimeMillis()) / 1000;
 		// 判断是否要刷新
 		if (refreshtime > 0 && expired != null && expired > 0 && expired <= refreshtime) {
@@ -217,9 +218,9 @@ public class CustomizedEhCacheCache implements Cache {
 				@Override
 				public void run() {
 					// 重新加载数据
-					logger.info("refresh " + cache.getName() + ",key:" + element.getKey());
+					logger.info("refresh " + cache.getName() + ",key:" + element.getObjectKey());
 					CustomizedEhCacheCache.this.getCacheSupport().refreshCacheByKey(cache.getName(),
-							element.getKey().toString());
+							element.getObjectKey().toString());
 				}
 			});
 		}

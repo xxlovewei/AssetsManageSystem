@@ -7,10 +7,10 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-@SuppressWarnings("restriction")
 public class DesUtil {
 
 	private final static String ENCODING = "UTF-8";

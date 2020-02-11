@@ -12,7 +12,7 @@ import javax.crypto.spec.DESedeKeySpec;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-@SuppressWarnings({ "deprecation", "restriction" })
+@SuppressWarnings({ "deprecation"})
 public class EndecryptUtil {
 
 	public final static String MD5(String pwd) {

@@ -26,7 +26,6 @@ import com.bstek.uflo.model.task.Task;
 import com.bstek.uflo.model.task.TaskState;
 import com.bstek.uflo.process.flow.SequenceFlowImpl;
 import com.bstek.uflo.process.node.Node;
-import com.bstek.uflo.process.node.StartNode;
 import com.bstek.uflo.query.HistoryTaskQuery;
 import com.bstek.uflo.query.TaskQuery;
 import com.bstek.uflo.service.HistoryService;
@@ -178,7 +177,7 @@ public class SysUfloProcessService extends BaseService {
 		return R.SUCCESS_OPER();
 	}
 
-	private Map<String, Object> buildVariables(String variables) {
+	public  Map<String, Object> buildVariables(String variables) {
 		if (StringUtils.isBlank(variables)) {
 			return null;
 		}

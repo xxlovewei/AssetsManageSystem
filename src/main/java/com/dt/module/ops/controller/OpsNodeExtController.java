@@ -295,7 +295,7 @@ public class OpsNodeExtController extends BaseController {
 	@RequestMapping(value = "/selectDBListExport.do")
 	public void selectDBListExport(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException {
-		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+	//	TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 
 		R res= opsNodeExtServiceImpl.selectDBList(null, null);
 

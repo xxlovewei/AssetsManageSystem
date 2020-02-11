@@ -1,8 +1,6 @@
 package com.dt.module.cmdb.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +13,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.bstek.uflo.service.HistoryService;
-import com.bstek.uflo.service.ProcessService;
-import com.bstek.uflo.service.TaskService;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
@@ -27,7 +22,6 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.cmdb.entity.ResActionItem;
 import com.dt.module.cmdb.service.IResActionItemService;
-import com.dt.module.cmdb.service.impl.ResActionService;
 import com.dt.module.cmdb.service.impl.ResExtService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessClassItemService;
@@ -55,14 +49,14 @@ public class ResActionExtController extends BaseController {
 	@Autowired
 	ISysUserInfoService SysUserInfoServiceImpl;
 
-	@Autowired
-	private ProcessService processService;
-
-	@Autowired
-	private TaskService taskService;
-
-	@Autowired
-	private HistoryService historyService;
+//	@Autowired
+//	private ProcessService processService;
+//
+//	@Autowired
+//	private TaskService taskService;
+//
+//	@Autowired
+//	private HistoryService historyService;
 
 	@Autowired
 	ISysProcessClassItemService SysProcessClassItemServiceImpl;

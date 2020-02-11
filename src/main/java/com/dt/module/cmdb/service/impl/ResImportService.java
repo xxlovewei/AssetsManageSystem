@@ -43,21 +43,21 @@ public class ResImportService extends BaseService {
 
 	}
 
-	public R demoRun() {
-		try {
-			ImportParams params = new ImportParams();
-
-			params.setHeadRows(1);
-			params.setTitleRows(0);
-			params.setStartSheetIndex(0);
-			List<ResEntity> result = ExcelImportUtil.importExcel(new File("/Users/algernonking/Downloads/file.xls"),
-					ResEntity.class, params);
- 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return R.SUCCESS_OPER();
-	}
+//	public R demoRun() {
+//		try {
+//			ImportParams params = new ImportParams();
+//
+//			params.setHeadRows(1);
+//			params.setTitleRows(0);
+//			params.setStartSheetIndex(0);
+//			List<ResEntity> result = ExcelImportUtil.importExcel(new File("/Users/algernonking/Downloads/file.xls"),
+//					ResEntity.class, params);
+// 
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return R.SUCCESS_OPER();
+//	}
 
 	public R importResNormal(String file, String type) {
 		R r = R.SUCCESS_OPER();
