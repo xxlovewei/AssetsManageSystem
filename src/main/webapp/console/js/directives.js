@@ -378,7 +378,6 @@ function dropZone() {
 			// scope.dzconfig.maxFiles = 1;
 			// }
 			// drop files here to uploads
-			console.log(scope.dzconfig);
 			if (typeof (scope.dzconfig.dictDefaultMessage) == "undefined") {
 				scope.dzconfig.dictDefaultMessage = "点击上传文件";
 			}
@@ -1200,7 +1199,6 @@ function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
 // });
 // return;
 // } else {
-// console.log("sel:", data);
 // return $scope.dtOptions.aaData[data[0]];
 // }
 // }

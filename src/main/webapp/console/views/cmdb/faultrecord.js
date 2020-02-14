@@ -74,22 +74,17 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
 			var id = getUuid();
 			// 判断,已经上传的不在上传
 			if (typeof ($scope.myDropzone.files[i].uuid) == "undefined") {
-				console.log("开始上传文件" + id);
 				$scope.myDropzone.options.url = $rootScope.project
 						+ '/api/file/fileupload.do?uuid=' + id
 						+ '&bus=file&interval=10000&bus=file';
 				$scope.myDropzone.uploadFile($scope.myDropzone.files[i])
 			} else {
-				// 已经上传
-				console.log("已经上传" + id);
 				id = $scope.myDropzone.files[i].uuid;
 			}
 			file = file + id + "#";
 		}
 
 		$scope.item.files = file;
-
-		console.log($scope.item.files);
 		$scope.data.f_res_id = $scope.item.id;
 		$scope.data.files = $scope.item.files;
 		$http.post($rootScope.project + "/api/base/res/savefault.do",
@@ -263,11 +258,8 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
  
 	privNormalCompute($scope.meta.tools, $rootScope.curMemuBtns);
 	function flush() {
-		var ps = {}
-
+		var ps = {};
 		ps.search = $scope.meta.tools[0].ct;
-		console.log($scope.meta.tools[0].ct)
-
 		$http
 				.post($rootScope.project + "/api/base/res/queryAllResFault.do",
 						ps).success(function(res) {
@@ -312,7 +304,6 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}

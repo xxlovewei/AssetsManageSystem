@@ -14,7 +14,7 @@ function msgsettingsaveCtl($timeout,notify, $log, $uibModal, $uibModalInstance, 
 			}];
 
 	$scope.classSel = $scope.classOpt[0];
-	console.log("window in:" + id);
+ 
 	$scope.msgtypeOpt = [{
 				id : "6",
 				name : "图文消息"
@@ -55,7 +55,7 @@ function msgsettingsaveCtl($timeout,notify, $log, $uibModal, $uibModalInstance, 
 
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
-			console.log(modal[i]);
+		 
 			var adom = modal[i].getElementsByClassName('chosen-container');
 		
 			for (var j = 0; j < adom.length; j++) {

@@ -97,7 +97,6 @@ function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 		$scope.okbtnstatus = true;
 		var id = getUuid();
-		console.log("开始上传文件" + id);
 		if ($scope.myDropzone.files.length > 0) {
 			$scope.myDropzone.options.url = $rootScope.project
 					+ '/api/file/fileupload.do?uuid=' + id

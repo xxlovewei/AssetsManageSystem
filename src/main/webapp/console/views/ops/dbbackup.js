@@ -52,7 +52,7 @@ function modalimportDBCtl($log, $uibModalInstance, notify, $scope, $http,
 
 		$scope.okbtnstatus = true;
 		var id = getUuid();
-		console.log("开始上传文件" + id);
+	 
 		if ($scope.myDropzone.files.length > 0) {
 			$scope.myDropzone.options.url = $rootScope.project
 					+ '/api/file/fileupload.do?uuid=' + id
@@ -109,7 +109,7 @@ function modalimportDBCtl($log, $uibModalInstance, notify, $scope, $http,
 
 function dbinstanceSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, meta, $http, $rootScope, dicts) {
-	console.log(meta);
+ 
 	$scope.item = {};
 	$scope.item = meta
 	$scope.bktypeOpt = dicts.dbbktype;
@@ -167,8 +167,7 @@ function dbinstanceSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 	}, 200);
 
 	$scope.sure = function() {
-
-		console.log($scope.item);
+ 
 		$scope.item.bkmethod = $scope.bkmethodSel.dict_item_id;
 		$scope.item.archtype = $scope.archtypeSel.dict_item_id;
 		$scope.item.bkstatus = $scope.bkstatusSel.dict_item_id;
@@ -371,12 +370,10 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+		 
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+		 
 		}
 	}
 
@@ -412,7 +409,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 					'sDefaultContent', '') ]
 	function flushSubtab(id) {
-		console.log(id);
+		 
 
 		var ps = {
 			nodeid : id
@@ -458,7 +455,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
+		 
 			return $scope.dtItemOptions.aaData[data[0]];
 		}
 	}
@@ -497,7 +494,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				});
 				return;
 			}
-			console.log(node);
+		 
 			ps.xtname = node.dbname;
 			ps.nid = node.id;
 		}

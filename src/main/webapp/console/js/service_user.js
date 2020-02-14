@@ -150,9 +150,7 @@ app.service('userService', function($http, $q, $log, $rootScope, $localStorage) 
 				deferred.resolve(res);
 			});
 			return deferred.promise;
-			
 //			if(!angular.isDefined($rootScope.project )){
-//				console.log("not defined")
 //				var deferred = $q.defer();
 //				$http.post( "../api/system/queryContextPath.do", {}).success(function(res) {
 //					if(res.success){

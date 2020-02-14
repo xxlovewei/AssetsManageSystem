@@ -12,7 +12,6 @@ function cmdbDataExportCtl($log, notify, $scope, $http, $rootScope,$window) {
 		if (res.success) {
 			var gdicts = res.data;
 			$scope.locOpt = gdicts.devdc;
-			console.log($scope.locOpt);
 			if ($scope.locOpt.length > 0) {
 				$scope.locSel = $scope.locOpt[0];
 			}

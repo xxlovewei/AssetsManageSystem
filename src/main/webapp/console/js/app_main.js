@@ -26,7 +26,6 @@ app.factory('sessionInjector', [
 				if (angular.isDefined(tokenstr) && tokenstr.length > 5) {
 					config.headers['dt-token'] = tokenstr;
 				}
-				// console.log(config.url);
 				// 禁止HTML缓存
 				if (config.url.indexOf('.html') > -1
 						&& config.url.indexOf('views') > -1) {
@@ -385,7 +384,6 @@ function initDT(DTDefaultOptions) {
 			sortDescending : ": 以降序排列此列"
 		}
 	};
-	console.log(DTDefaultOptions);
 	DTDefaultOptions.setLanguage(lng);
 	// DTDefaultOptions.setDOM('frtlip');
 	DTDefaultOptions.setDOM('frtilp');

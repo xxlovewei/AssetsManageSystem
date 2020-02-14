@@ -238,8 +238,7 @@ function privNormalCompute(meta, pbtns) {
 	if (angular.isDefined(pbtns_arr) && pbtns_arr.length > 0) {
 		for (var i = 0; i < meta.length; i++) {
 			for (var j = 0; j < pbtns_arr.length; j++) {
-				if (
-						meta[i].priv == pbtns_arr[j].p) {
+				if (meta[i].priv == pbtns_arr[j].p) {
 					meta[i].show = true;
 				}
 			}
@@ -328,7 +327,6 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 				formhtml = formhtml + tmp_tpl;
 			} else if (obj.type == "select") {
 				var uid = getUuid()
-				console.log('##############');
 				select_ids.push(uid);
 				tmp_tpl = tmp_tpl + " <div class=\"form-group\">";
 				tmp_tpl = tmp_tpl + "<label class=\"col-sm-2 control-label\">"
@@ -351,7 +349,6 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 			} else if (obj.type == "selectmultiple") {
 				var uid = getUuid()
 				select_ids.push(uid);
-				console.log('##############');
 				tmp_tpl = tmp_tpl + " <div class=\"form-group\">";
 				tmp_tpl = tmp_tpl + "<label class=\"col-sm-2 control-label\">"
 						+ need_col + obj.label + ":</label> ";

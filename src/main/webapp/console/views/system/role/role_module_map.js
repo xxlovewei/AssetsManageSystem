@@ -130,10 +130,10 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,$
 						// first before after last
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
-						console.log(obj);
+					 
 						inst.create_node(obj, {}, "last", function(new_node) {
 							try {
-								console.log("new_node", new_node);
+							 
 								inst.edit(new_node);
 							} catch (ex) {
 								alert(ex);
@@ -149,8 +149,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,$
 						return "新建巡逻点";
 					},
 					"action" : function(data) {
-						console.log($scope.tree);
-						console.log('new', data);
+						 
 					}
 
 				},
@@ -176,7 +175,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,$
 	};
 
 	$scope.ignoreModelChanges = function(t) {
-		console.log('change', t);
+		 
 	}
 	$scope.ignoreModelChanges = function() {
 	}
@@ -208,9 +207,7 @@ function sysRoleModuleMapCtl($confirm, $log, notify, $scope, $http, $rootScope,$
 
 	$scope.submit = function() {
 		$log.info("提交");
-		console.log($scope.treeInstance);
-		console.log(angular.toJson($scope.tree.get_selected()));
-
+		 
 		$http.post($rootScope.project + "/api/menu/treeNodeRoleMap.do", {
 			role_id : role_id,
 			menu_id : $scope.topMenuSel.menuId,

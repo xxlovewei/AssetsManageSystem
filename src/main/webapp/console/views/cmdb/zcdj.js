@@ -35,7 +35,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	                extend: 'colvis',
 	                text: '显示隐藏列',
 	                fnLabel: function ( dt, idx, title ) {
-	                	console.log(dt,idx,title);
+	                	 
 	                    return (idx+1)+': '+title;
 	                } 
 	            },
@@ -65,18 +65,16 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	        ]);
 
 	function stateChange(iColumn, bVisible) {
-        console.log('The column', iColumn, ' has changed its status to', bVisible);
+      
     }
 	$scope.dtInstance = {}
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
-			console.log($scope.dtInstance.DataTable)
-				console.log($scope.dtInstance);
+		 
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+			 
 		}
 	}
 
@@ -305,7 +303,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			return;
 		} else {
 			var res = [];
-			console.log("sel:", data);
+		 
 			for (var i = 0; i < data.length; i++) {
 				res.push($scope.dtOptions.aaData[data[i]].id)
 			}
@@ -347,7 +345,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.del = function() {
 		var selrows=getSelectRows();
-		console.log(selrows);
+	 
 		if (angular.isDefined(selrows)) {
 			$confirm({
 				text : '是否删除?'
@@ -419,7 +417,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
+		 
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}
@@ -443,7 +441,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				})
 				.success(
 						function(res) {
-							console.log(res.data);
+					 
 							if (!res.success) {
 								notify({
 									message : res.message
@@ -742,7 +740,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								riskSel : "",
 								items : items,
 								sure : function(modalInstance, modal_meta) {
-									console.log('sure set', modal_meta.meta)
+								 
   
 									modal_meta.meta.item.class_id = modal_meta.meta.classSel.dict_item_id;
 									
@@ -788,7 +786,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
 											.format('YYYY-MM-DD');
 								 
-									console.log('sure set', modal_meta.meta)
+								 
 
 									// 动态参数
 									if (angular.isDefined(modal_meta.meta.attr)
@@ -800,7 +798,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									}
 									modal_meta.meta.item.attrvals = angular
 											.toJson(modal_meta.meta.attr);
-									console.log("par:", modal_meta.meta.item);
+									 
 									$http
 											.post(
 													$rootScope.project
@@ -878,7 +876,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 							}
 
-							console.log(meta);
+						 
 							// 打开静态框
 							var modalInstance = $uibModal
 									.open({

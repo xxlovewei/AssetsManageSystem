@@ -1,4 +1,4 @@
-function sysFlowGroupCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
+function formSettingCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 		$compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 	$scope.meta = {
 		tools : [
@@ -28,12 +28,44 @@ function sysFlowGroupCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 	};
 	privCrudCompute(crud, $rootScope.curMemuBtns);
 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
-			'responsive', false).withOption('createdRow', function(row) {
-		// Recompiling so we can bind Angular,directive to the
-		$compile(angular.element(row).contents())($scope);
-	});
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
+			.withDOM('frtlip').withPaginationType('full_numbers')
+			.withDisplayLength(100).withOption("ordering", false).withOption(
+					"responsive", false).withOption("searching", false)
+			.withOption('paging', false).withFixedColumns({
+				leftColumns : 0,
+				rightColumns : 0
+			}).withOption('bStateSave', true).withOption('bProcessing', false)
+			.withOption('bFilter', false).withOption('bInfo', false)
+			.withOption('serverSide', false).withOption('aaData',
+					$scope.tabdata).withOption('createdRow', function(row) {
+				$compile(angular.element(row).contents())($scope);
+			}).withOption(
+					'headerCallback',
+					function(header) {
+						if ((!angular.isDefined($scope.headerCompiled))
+								|| $scope.headerCompiled) {
+							$scope.headerCompiled = true;
+							$compile(angular.element(header).contents())
+									($scope);
+						}
+					}).withOption("select", {
+				style : 'multi',
+				selector : 'td:first-child'
+			});
+	
+	
 	$scope.dtInstance = {}
+	$scope.selectCheckBoxAll = function(selected) {
+		if (selected) {
+			$scope.dtInstance.DataTable.rows().select();
+			 
+		} else {
+			$scope.dtInstance.DataTable.rows().deselect();
+			 
+		}
+	}
+
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
 		if (crud.update) {
@@ -54,8 +86,12 @@ function sysFlowGroupCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 		}
 		return res;
 	}
-
+	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 	$scope.dtColumns = [
+			DTColumnBuilder.newColumn(null).withTitle(ckHtml).withOption("width", '13').withClass(
+					'select-checkbox checkbox_center').renderWith(function() {
+				return ""
+			}),
 			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
@@ -208,4 +244,4 @@ function sysFlowGroupCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 	}
 };
 
-app.register.controller('sysFlowGroupCtl', sysFlowGroupCtl);
+app.register.controller('formSettingCtl', formSettingCtl);

@@ -11,8 +11,7 @@ function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal,
 						if (res.success) {
 							$scope.userRoles = res.data;
 							// 如果只有一个用户,则加载他的权限信息
-							console.log("user cnt"
-									+ angular.fromJson(userIds).length);
+						 
 							if (angular.fromJson(userIds).length == 1) {
 								$http
 										.post(
@@ -135,7 +134,7 @@ function userSaveFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
-			console.log(modal[i]);
+		 
 			var adom = modal[i].getElementsByClassName('chosen-container');
 
 			for (var j = 0; j < adom.length; j++) {
@@ -229,7 +228,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	var tabdata = [];
 	function callback(json) {
 		tabdata = json.data;
-		console.log("#####", json);
+	 
 
 	}
 
@@ -285,11 +284,11 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			DTColumnBuilder.newColumn('userId').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderStatus) ]
 
-	console.log($scope.dtColumns);
+ 
 
 	function flush() {
 
-		console.log('f');
+		 
 		var url = "";
 		if (angular.isDefined($scope.ct)) {
 			url = $rootScope.project
@@ -334,7 +333,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			// alert($scope.dtOptions.aaData[data[i]].USER_NO)
 			userids.push(d[data[i]].userId);
 		}
-		console.log(angular.toJson(userids))
+		 
 		$confirm({
 			text : '是否删除选中的用户?'
 		}).then(
@@ -359,7 +358,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		var data = $scope.dtInstance.DataTable.rows({
 			selected : true
 		})[0];
-		console.log(data);
+	 
 
 		if (data.length == 0) {
 			notify({
@@ -399,7 +398,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		var data = $scope.dtInstance.DataTable.rows({
 			selected : true
 		})[0];
-		console.log(data);
+	 
 
 		if (data.length == 0) {
 			notify({

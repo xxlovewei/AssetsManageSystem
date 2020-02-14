@@ -98,7 +98,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 						// first before after last
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
-						console.log("cur:obj", obj);
+					 
 						$http.post($rootScope.project + "/api/hrm/orgNodeSave.do",
 								{
 									node_type : obj.type,
@@ -113,7 +113,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 									text : "新节点",
 									parent : obj.id
 								}, "last", function(new_node) {
-									console.log("new_node is:", new_node);
+								 
 								});
 							} else {
 								notify({
@@ -181,7 +181,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 				var snodes = $scope.tree.get_selected();
 				if (snodes.length == 1) {
 					var node = snodes[0];
-					console.log("select node:", node);
+				 
 					$http.post($rootScope.project + "/api/hrm/orgNodeQuery.do", {
 						node_id : node
 					}).success(function(res) {

@@ -80,8 +80,7 @@ etime : moment().add(1, 'days')
 
 	$scope.test = function() {
 		$log.info("测试");
-		console.log($scope.treeData);
-		console.log($scope.tree.get_selected());
+	 
 
 	}
 	$scope.readyCB = function() {
@@ -89,7 +88,7 @@ etime : moment().add(1, 'days')
 	}
 
 	$scope.createCB = function(e, item) {
-		console.log('createCB');
+		 
 	};
 
 	$scope.query = function treeInstance() {

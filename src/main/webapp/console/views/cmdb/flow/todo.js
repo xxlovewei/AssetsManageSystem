@@ -135,7 +135,6 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}
@@ -156,7 +155,6 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			return;
 		} else {
 			var res = [];
-			console.log("sel:", data);
 			for (var i = 0; i < data.length; i++) {
 				res.push($scope.dtOptions.aaData[data[i]].id)
 			}

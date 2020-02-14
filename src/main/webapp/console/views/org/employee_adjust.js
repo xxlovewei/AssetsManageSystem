@@ -91,7 +91,7 @@ function orgEmpSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
-			console.log(modal[i]);
+		 
 			var adom = modal[i].getElementsByClassName('chosen-container');
 			for (var j = 0; j < adom.length; j++) {
 				adom[i].style.width = "100%";

@@ -205,7 +205,7 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
+		 
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}
@@ -226,7 +226,7 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			return;
 		} else {
 			var res = [];
-			console.log("sel:", data);
+ 
 			for (var i = 0; i < data.length; i++) {
 				res.push($scope.dtOptions.aaData[data[i]].id)
 			}
@@ -238,7 +238,7 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		var ids = getSelectRows();
 		if (angular.isDefined(ids)) {
 			var ps = {};
-			console.log(ids);
+		 
 			ps.ids = ids;
 
 			$confirm({

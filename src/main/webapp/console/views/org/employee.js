@@ -1,5 +1,5 @@
 function hrmEmployeeSaveCtl($log, $http, $rootScope, $scope, $uibModalInstance, data, notify) {
-	console.log("window in:", data);
+	 
 	$scope.item = data;
 
 	$scope.sure = function() {
@@ -159,7 +159,7 @@ function hrmOrgEmployeeCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 		var snodes = $scope.tree.get_selected();
 		if (snodes.length == 1) {
 			var node = snodes[0];
-			console.log("select node:", node);
+		 
 
 		}
 		$http.post($rootScope.project + "/api/hrm/queryEmplByOrg.do", {
@@ -178,9 +178,7 @@ function hrmOrgEmployeeCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 	}
 	$scope.test = function() {
 		$log.info("测试");
-		console.log($scope.treeData);
-		console.log($scope.tree.get_selected());
-
+		 
 	}
 	$scope.readyCB = function() {
 
@@ -189,7 +187,7 @@ function hrmOrgEmployeeCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confir
 		$scope.tree.open_all();
 		// 响应节点变化
 		$scope.treeInstance.on("changed.jstree", function(e, data) {
-			console.log(data);
+		 
 			if (data.action == "select_node") {
 				// 加载数据
 				flushEmployee();

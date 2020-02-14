@@ -17,7 +17,7 @@ function getTree(data, primaryIdName, parentIdName) {
 		primaryKey = item[primaryIdName];
 		treeObjs[primaryKey] = item;
 		parentId = item[parentIdName];
-		// console.log(parentId);
+ 
 		if (parentId) {
 			parent = treeObjs[parentId];
 
@@ -69,12 +69,10 @@ function menuBtnaddSaveCtl($localStorage, notify, $log, $uibModal, $compile,
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+		 
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+		 
 		}
 	}
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
@@ -179,7 +177,7 @@ function menuBtnaddSaveCtl($localStorage, notify, $log, $uibModal, $compile,
 			return;
 		} else {
 			var res = [];
-			console.log("sel:", data);
+		 
 			for (var i = 0; i < data.length; i++) {
 				res.push($scope.dtOptions.aaData[data[i]])
 			}
@@ -618,7 +616,7 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 					},
 					add : function(data) { // this works too:
 						// $scope.someMethod;
-						console.log($scope.my_tree);
+					 
 						var ps = data;
 						ps.actiontype = "add";
 						var modalInstance = $uibModal
@@ -802,7 +800,7 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 	}
 
 	$scope.addMasterNode = function() {
-		console.log($scope.my_tree);
+		 
 		var ps = {};
 		ps.actiontype = "addmaster";
 		var modalInstance = $uibModal.open({
@@ -829,10 +827,10 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 	}
 
 	$scope.my_tree_handler = function(branch) {
-		console.log('you clicked on', branch)
+		 
 	}
 
-	console.log('1111', $scope.my_tree)
+	 
 
 	$http.post($rootScope.project + "/api/sysMenus/selectList.do", {}).success(
 			function(res) {

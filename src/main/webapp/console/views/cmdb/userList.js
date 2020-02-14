@@ -78,7 +78,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 				},
 				init : function(modal_meta) {
-					console.log(modal_meta.meta);
+				 
  
 				}
 			}
@@ -159,7 +159,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 			},
 			init : function(modal_meta) {
-				console.log(modal_meta.meta);
+			 
 				if (angular.isDefined(modal_meta.meta.id)) {
 					$http
 							.post(
@@ -301,7 +301,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 		act : "update"
 	});
 	t.list = u;
-	console.log(t);
+ 
 	var p = {};
 	p.data = angular.toJson(t);
 
@@ -592,7 +592,7 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
 
 			},
 			init : function(modal_meta) {
-				console.log(modal_meta.meta);
+				 
 				modal_meta.meta.statusSel = modal_meta.meta.statusOpt[0];
 				modal_meta.meta.typeSel = modal_meta.meta.typeOpt[0];
 				if (angular.isDefined(modal_meta.meta.vid)

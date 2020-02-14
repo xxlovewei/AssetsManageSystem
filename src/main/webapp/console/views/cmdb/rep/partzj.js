@@ -1,8 +1,6 @@
 function modalpartzcCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
 		DTColumnBuilder, $compile) {
-	console.log(meta);
-
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(50)
 			.withOption("ordering", false).withOption("responsive", false)

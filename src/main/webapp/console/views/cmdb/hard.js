@@ -170,7 +170,6 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						+ "/api/sysDictItem/selectDictItemByDict.do ", {
 					dictId : "sys_device_pinp"
 				}).success(function(res) {
-			console.log(res);
 			modal_meta.meta.pinpOpt = res.data;
 
 			if (res.data.length > 0) {
@@ -194,7 +193,6 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		// dictId : "1079009262096052225"
 		// }).success(
 		// function(res) {
-		// console.log(res);
 		// modal_meta.meta.headuserOpt = res.data;
 		// if (res.data.length > 0) {
 		//
@@ -267,7 +265,6 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						+ "/api/sysDictItem/selectDictItemByDict.do ", {
 					dictId : "sys_device_status"
 				}).success(function(res) {
-			console.log(res);
 			modal_meta.meta.statusOpt= res.data;
 			if (res.data.length > 0) {
 				if (angular.isDefined(item) && angular.isDefined(item.status)) {
@@ -291,7 +288,6 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						+ "/api/sysDictItem/selectDictItemByDict.do ", {
 					dictId : "sys_device_wbstatus"
 				}).success(function(res) {
-			console.log(res);
 			modal_meta.meta.maintenanceOpt = res.data;
 			if (res.data.length > 0) {
 				if (angular.isDefined(item) && angular.isDefined(item.maintenance)) {
@@ -340,10 +336,8 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.save = function(id) {
 
 		var class_id = "";
-		console.log($scope.meta.tools[1].dataSel);
 		if (!angular.isDefined(id)) {
 			// 获取class_id
-			console.log($scope.meta.tools[1].dataSel);
 			if (angular.isDefined($scope.meta.tools[1].dataSel)
 					&& $scope.meta.tools[1].dataSel != null
 					&& angular.isDefined($scope.meta.tools[1].dataSel.class_id)) {
@@ -361,7 +355,6 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				})
 				.success(
 						function(res) {
-							console.log(res.data);
 							if (!res.success) {
 								notify({
 									message : res.message
@@ -486,10 +479,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									modal_meta.meta.item.status = modal_meta.meta.statusSel.dictItemId;
 									modal_meta.meta.item.pinp = modal_meta.meta.pinpSel.dictItemId;
 									modal_meta.meta.item.maintenance=modal_meta.meta.maintenanceSel.dictItemId;
-									
-									console.log('aa',modal_meta.meta)
 									// 动态参数
-									console.log(modal_meta.meta.attr)
 									if (angular.isDefined(modal_meta.meta.attr)
 											&& modal_meta.meta.attr.length > 0) {
 										for (var j = 0; j < modal_meta.meta.attr.length; j++) {
@@ -499,7 +489,6 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									}
 									modal_meta.meta.item.attrvals = angular
 											.toJson(modal_meta.meta.attr);
-									console.log(modal_meta.meta);
 									$http
 											.post(
 													$rootScope.project
@@ -578,7 +567,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 							}
 
-							console.log(meta);
+				
 							// 打开静态框
 							var modalInstance = $uibModal
 									.open({

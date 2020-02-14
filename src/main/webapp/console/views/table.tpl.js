@@ -1,3 +1,29 @@
+//无分页，字段数少，自动宽度
+$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
+		.withDOM('frtlip').withPaginationType('full_numbers')
+		.withDisplayLength(100).withOption("ordering", false).withOption(
+				"responsive", false).withOption("searching", false).withOption(
+				'paging', false).withFixedColumns({
+			leftColumns : 0,
+			rightColumns : 0
+		}).withOption('bStateSave', true).withOption('bProcessing', false)
+		.withOption('bFilter', false).withOption('bInfo', false).withOption(
+				'serverSide', false).withOption('aaData', $scope.tabdata)
+		.withOption('createdRow', function(row) {
+			$compile(angular.element(row).contents())($scope);
+		}).withOption(
+				'headerCallback',
+				function(header) {
+					if ((!angular.isDefined($scope.headerCompiled))
+							|| $scope.headerCompiled) {
+						$scope.headerCompiled = true;
+						$compile(angular.element(header).contents())($scope);
+					}
+				}).withOption("select", {
+			style : 'multi',
+			selector : 'td:first-child'
+		});
+// 有分页，字段数多，控制字段长度
 $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 		.withDOM('frtlip').withPaginationType('full_numbers')
 		.withDisplayLength(100).withOption("ordering", false).withOption(
@@ -27,7 +53,7 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			extend : 'colvis',
 			text : '显示隐藏列',
 			fnLabel : function(dt, idx, title) {
-				console.log(dt, idx, title);
+			 
 				return (idx + 1) + ': ' + title;
 			}
 		}, {
@@ -56,12 +82,8 @@ $scope.dtInstance = {}
 $scope.selectCheckBoxAll = function(selected) {
 	if (selected) {
 		$scope.dtInstance.DataTable.rows().select();
-		console.log($scope.dtInstance.DataTable)
-		console.log($scope.dtInstance);
 	} else {
 		$scope.dtInstance.DataTable.rows().deselect();
-		console.log($scope.dtInstance.DataTable)
-		console.log($scope.dtInstance);
 	}
 }
 
@@ -75,6 +97,12 @@ $scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号'
 		.withOption('sDefaultContent', '').withOption("width", '30'));
 $scope.dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型')
 		.withOption('sDefaultContent', '').withOption("width", '30'));
+
+$scope.dtColumns = [
+		DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
+				'sDefaultContent', ''),
+		DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+				'sDefaultContent', '') ]
 
 $scope.query = function() {
 	flush();

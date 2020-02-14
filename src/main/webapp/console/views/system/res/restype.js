@@ -136,7 +136,7 @@ function resTypeCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 			},
 			init : function(modal_meta) {
-				console.log(modal_meta.meta);
+			 
 				modal_meta.meta.typeSel = modal_meta.meta.typeOpt[0];
 
 				if (angular.isDefined(modal_meta.meta.classId)) {

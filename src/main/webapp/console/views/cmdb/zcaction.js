@@ -31,19 +31,16 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 
 	function stateChange(iColumn, bVisible) {
-		console.log('The column', iColumn, ' has changed its status to',
-				bVisible);
+		 
 	}
 	$scope.dtInstance = {}
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+			 
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+			 
 		}
 	}
 
@@ -144,8 +141,7 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.test = function() {
 		$log.info("测试");
-		console.log($scope.treeData);
-		console.log($scope.tree.get_selected());
+	 
 	}
 
 	$scope.curSelNode = "";
@@ -156,14 +152,14 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$scope.tree.open_all();
 		// 响应节点变化
 		$scope.treeInstance.on("changed.jstree", function(e, data) {
-			console.log(data);
+			 
 			if (data.action == "select_node") {
 				// 加载数据
 				var snodes = $scope.tree.get_selected();
 				if (snodes.length == 1) {
 					var node = snodes[0];
 					$scope.curSelNode = node;
-					console.log("select node:", node);
+				 
 					flush();
 				}
 			}
@@ -205,7 +201,7 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
+		 
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}
@@ -242,7 +238,7 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		var selrow = getSelectRow();
 
 		if (angular.isDefined(selrow)) {
-			console.log(selrow);
+	 
 			meta.processkey = selrow.ptplkey;
 			if (!angular.isDefined(selrow.ptplkey)) {
 				notify({
@@ -364,7 +360,7 @@ function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 
 		modalInstance.result.then(function(result) {
-			console.log(result);
+		 
 			$scope.dtOptions.aaData = result;
 		}, function(reason) {
 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
@@ -436,7 +432,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				extend : 'colvis',
 				text : '显示隐藏列',
 				fnLabel : function(dt, idx, title) {
-					console.log(dt, idx, title);
+				 
 					return (idx + 1) + ': ' + title;
 				}
 			}, {
@@ -463,19 +459,16 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			} ]);
 
 	function stateChange(iColumn, bVisible) {
-		console.log('The column', iColumn, ' has changed its status to',
-				bVisible);
+		 
 	}
 	$scope.dtInstance = {}
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+		 
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+		 
 		}
 	}
 
@@ -679,7 +672,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			return;
 		} else {
 			var res = [];
-			console.log("sel:", data);
+			 
 			for (var i = 0; i < data.length; i++) {
 				res.push($scope.dtOptions.aaData[data[i]].id)
 			}
@@ -742,7 +735,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
+		 
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}

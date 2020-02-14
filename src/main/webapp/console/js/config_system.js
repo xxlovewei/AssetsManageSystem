@@ -412,6 +412,26 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
+	
+	// 表单管理
+	$stateProvider.state('formmgr', {
+		abstract : true,
+		url : "/formmgr",
+		templateUrl : "views/common/content.html?v="+version
+	}).state('formmgr.setting', {
+		url : "/formmgr_setting",
+		data: { pageTitle: '表单设置'},
+		template:'<div ng-controller="formSettingCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system/form/setting.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
+	
 	// flow
 	$stateProvider.state('flow', {
 		abstract : true,

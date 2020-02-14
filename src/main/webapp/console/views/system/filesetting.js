@@ -3,7 +3,7 @@
 function sysfileConfCtl( DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,$stateParams) {
 
-	console.log($stateParams);
+	 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
 		// Recompiling so we can bind Angular,directive to the
 		$compile(angular.element(row).contents())($scope);

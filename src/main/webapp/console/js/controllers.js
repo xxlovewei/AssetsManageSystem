@@ -9,7 +9,6 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
 		$scope.cur_skin = "default";
 	}
 	$scope.change_theme = function(theme) {
-		console.log("change theme");
 		$scope.cur_skin = theme;
 		$localStorage.put("cur_theme", theme);
 	}

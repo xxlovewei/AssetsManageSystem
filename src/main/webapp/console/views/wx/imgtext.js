@@ -20,7 +20,7 @@ String.prototype.startWith = function(s) {
 function msgtextsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
 		$http, $rootScope, group_id) {
 
-	console.log("window in:" + id);
+	 
 
 	$scope.dtldzconfig = {
 		url : 'fileupload.do',
@@ -56,7 +56,7 @@ function msgtextsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
 
 				// 处理调整图片
 				var pic = res.data.imgurl;
-				console.log(pic.startWith("http"));
+				 
 				if (pic.startWith("http")) {
 				} else {
 					setTimeout(function() {
@@ -122,7 +122,7 @@ function msgtextsaveCtl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
 
 		}
 		$scope.item.imgurl = picid;
-		console.log("pic_id:" + picid);
+	 
 
 	}
 

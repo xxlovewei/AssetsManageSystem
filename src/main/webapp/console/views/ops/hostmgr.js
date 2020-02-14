@@ -22,9 +22,9 @@ function modalimportdataHostFailCtl(DTOptionsBuilder, DTColumnBuilder,
 
 function loadOptHost(modal_meta, gdicts) {
 
-	console.log(modal_meta);
+	 
 	var item = modal_meta.meta.item;
-	console.log("LoadOpt,Item:", item, gdicts);
+ 
 
 	// 运行环境
 	if (angular.isDefined(gdicts.sysenv) && gdicts.sysenv.length > 0) {
@@ -239,7 +239,7 @@ function modalimportHostCtl($log, $uibModalInstance, notify, $scope, $http,
 
 		$scope.okbtnstatus = true;
 		var id = getUuid();
-		console.log("开始上传文件" + id);
+	 
 		if ($scope.myDropzone.files.length > 0) {
 			$scope.myDropzone.options.url = $rootScope.project
 					+ '/api/file/fileupload.do?uuid=' + id
@@ -347,7 +347,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				extend : 'colvis',
 				text : '显示隐藏列',
 				fnLabel : function(dt, idx, title) {
-					console.log(dt, idx, title);
+				 
 					return (idx + 1) + ': ' + title;
 				}
 			}, {
@@ -374,19 +374,16 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			} ]);
 
 	function stateChange(iColumn, bVisible) {
-		console.log('The column', iColumn, ' has changed its status to',
-				bVisible);
+	 
 	}
 	$scope.dtInstance = {}
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+			 
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+			 
 		}
 	}
 
@@ -547,7 +544,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			return;
 		} else {
 			var res = [];
-			console.log("sel:", data);
+			 
 			for (var i = 0; i < data.length; i++) {
 				res.push($scope.dtOptions.aaData[data[i]].id)
 			}
@@ -557,7 +554,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.del = function() {
 		var selrow = getSelectRow();
-		console.log(selrow);
+ 
 		if (angular.isDefined(selrow)) {
 			$confirm({
 				text : '是否删除?'
@@ -629,7 +626,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
+		 
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}
@@ -887,7 +884,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		// type 1 更新
 		if (type == 1) {
 			var selrow = getSelectRow();
-			console.log('selrow', selrow);
+		 
 			itemvalue = selrow;
 			if (angular.isDefined(selrow)) {
 				id = selrow.id;
@@ -928,7 +925,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			syslevelSel : "",
 			items : items,
 			sure : function(modalInstance, modal_meta) {
-				console.log('sure set', modal_meta.meta)
+			 
 
 				if (angular.isDefined(modal_meta.meta.statusSel.dict_item_id)) {
 					modal_meta.meta.item.status = modal_meta.meta.statusSel.dict_item_id
@@ -1000,7 +997,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						});
 					}
 				});
-				console.log('sure set', modal_meta.meta)
+			 
 			},
 			init : function(modal_meta) {
 				var gdicts2 = {};
@@ -1010,7 +1007,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}
 		}
 
-		console.log(meta);
+	 
 		// 打开静态框
 		var modalInstance = $uibModal.open({
 			backdrop : true,

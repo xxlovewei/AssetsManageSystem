@@ -33,7 +33,6 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	                extend: 'colvis',
 	                text: '显示隐藏列',
 	                fnLabel: function ( dt, idx, title ) {
-	                	console.log(dt,idx,title);
 	                    return (idx+1)+': '+title;
 	                } 
 	            },
@@ -84,10 +83,8 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
-			console.log($scope.dtInstance.DataTable)
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
-			console.log($scope.dtInstance.DataTable)
 		}
 	}
 
@@ -339,7 +336,6 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}

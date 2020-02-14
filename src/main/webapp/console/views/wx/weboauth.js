@@ -1,7 +1,7 @@
 function saveweboauthCtl($timeout,notify, $log, $uibModal, $uibModalInstance, $scope,
 		id, $http, $rootScope) {
 
-	console.log("window in:" + id);
+ 
 
 	$scope.loginOpt = [ {
 		id : "0",
@@ -34,7 +34,7 @@ function saveweboauthCtl($timeout,notify, $log, $uibModal, $uibModalInstance, $s
 
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
-			console.log(modal[i]);
+		 
 			var adom = modal[i].getElementsByClassName('chosen-container');
 			 
 			for (var j = 0; j < adom.length; j++) {

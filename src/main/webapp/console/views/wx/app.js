@@ -1,7 +1,7 @@
 function wxappsavectl(notify, $log, $uibModal, $uibModalInstance, $scope, id,
 		$http, $rootScope) {
 
-	console.log("window in:" + id);
+ 
 
 	$scope.item = {};
 	if (angular.isDefined(id)) {

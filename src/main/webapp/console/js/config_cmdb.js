@@ -728,9 +728,7 @@ function modalreviewProcessCtl(meta, $rootScope, $window, $scope,
 function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,pagetype,task,
 		$uibModalInstance) {
-
-	console.log(meta,task);
-
+ 
 	$scope.actmsg = "操作人";
 	if (meta.acttype == "LY") {
 		$scope.actmsg  = "领用人";

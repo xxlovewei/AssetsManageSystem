@@ -113,7 +113,7 @@ function cmdbCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 										type : "node"
 
 									}, "last", function(new_node) {
-										console.log("new_node is:", new_node);
+								 
 									});
 								}, 300);
 
@@ -145,8 +145,7 @@ function cmdbCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 						$log.info("删除节点");
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
-
-						console.log(obj);
+ 
 
 						$http
 								.post(
@@ -218,8 +217,7 @@ function cmdbCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.test = function() {
 		$log.info("测试");
-		console.log($scope.treeData);
-		console.log($scope.tree.get_selected());
+	 
 
 	}
 	$scope.readyCB = function() {
@@ -229,13 +227,13 @@ function cmdbCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$scope.tree.open_all();
 		// 响应节点变化
 		$scope.treeInstance.on("changed.jstree", function(e, data) {
-			console.log(data);
+		 
 			if (data.action == "select_node") {
 				// 加载数据
 				var snodes = $scope.tree.get_selected();
 				if (snodes.length == 1) {
 					var node = snodes[0];
-					console.log("select node:", node);
+				 
 					$http.post(
 							$rootScope.project
 									+ "/api/ctCategroy/queryCategoryById.do", {
@@ -264,12 +262,12 @@ function cmdbCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	}
 	$scope.cc = function() {
-		console.log('cc')
+	 
 
 	}
 
 	$scope.createCB = function(e, item) {
-		console.log('createCB');
+	 
 	};
 
 	function flushTree(id) {

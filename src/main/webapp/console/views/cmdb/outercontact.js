@@ -93,7 +93,7 @@ function cmdbouterContactListCtl($sce, DTOptionsBuilder, DTColumnBuilder,
 
 			},
 			init : function(modal_meta) {
-				console.log(modal_meta.meta);
+		 
 				if (angular.isDefined(modal_meta.meta.id)) {
 					$http
 							.post(
@@ -454,7 +454,7 @@ function cmdbouterContactListCtl($sce, DTOptionsBuilder, DTColumnBuilder,
 
 			},
 			init : function(modal_meta) {
-				console.log(modal_meta.meta);
+			 
 				modal_meta.meta.statusSel = modal_meta.meta.statusOpt[0];
 
 				if (angular.isDefined(modal_meta.meta.vid)

@@ -116,7 +116,7 @@ function cmdbsystemListCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	});
 
 	function loadOpt(modal_meta) {
-		console.log("meta", modal_meta.meta.id)
+	 
 		var item = modal_meta.meta.item;
 		modal_meta.meta.mainlevelOpt = mainlevelOpt;
 

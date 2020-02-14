@@ -111,7 +111,7 @@ function modalFlowListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
+			 
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}
@@ -230,19 +230,16 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 			});
 
 	function stateChange(iColumn, bVisible) {
-		console.log('The column', iColumn, ' has changed its status to',
-				bVisible);
+		  
 	}
 	$scope.dtInstance = {}
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+			 
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
-			console.log($scope.dtInstance.DataTable)
-			console.log($scope.dtInstance);
+		 
 		}
 	}
 
@@ -343,8 +340,7 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 
 	$scope.test = function() {
 		$log.info("测试");
-		console.log($scope.treeData);
-		console.log($scope.tree.get_selected());
+		 
 	}
 
 	$scope.curSelNode = "";
@@ -355,24 +351,24 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 		$scope.tree.open_all();
 		// 响应节点变化
 		$scope.treeInstance.on("changed.jstree", function(e, data) {
-			console.log(data);
+		 
 			if (data.action == "select_node") {
 				// 加载数据
 				var snodes = $scope.tree.get_selected();
 				if (snodes.length == 1) {
 					var node = snodes[0];
 					$scope.curSelNode = node;
-					console.log("select node:", node);
+					 
 					flush();
 				}
 			}
 		});
 	}
 	$scope.cc = function() {
-		console.log('cc')
+	 
 	}
 	$scope.createCB = function(e, item) {
-		console.log('createCB');
+		 
 	};
 	function flushTree(id) {
 		$http
@@ -476,7 +472,7 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
+		 
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}

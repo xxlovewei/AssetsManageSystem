@@ -192,7 +192,6 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			});
 			return;
 		} else {
-			console.log("sel:", data);
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}
@@ -213,7 +212,6 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			return;
 		} else {
 			var res = [];
-			console.log("sel:", data);
 			for (var i = 0; i < data.length; i++) {
 				res.push($scope.dtOptions.aaData[data[i]].id)
 			}
@@ -223,9 +221,7 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.oper = function() {
 		var item = getSelectRow();
-		console.log(item);
 		if (angular.isDefined(item)) {
-
 			$http
 					.post(
 							$rootScope.project
