@@ -4,6 +4,7 @@
 
 $(document).ready(
 		function() {
+		
 
 			// Full height of sidebar
 			function fix_height() {

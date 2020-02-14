@@ -421,7 +421,8 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 	}).state('formmgr.setting', {
 		url : "/formmgr_setting",
 		data: { pageTitle: '表单设置'},
-		template:'<div ng-controller="formSettingCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+	//	template:'<div ng-controller="formSettingCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+		templateUrl : "views/system/form/setting.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
