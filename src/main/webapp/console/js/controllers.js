@@ -144,4 +144,4 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
 		$scope.dt_systems = dt_systems;
 	}
 };
-angular.module('inspinia').controller('MainCtrl', MainCtrl);
+angular.module('app').controller('MainCtrl', MainCtrl);

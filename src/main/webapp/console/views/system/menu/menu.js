@@ -36,6 +36,195 @@ function getTree(data, primaryIdName, parentIdName) {
 	return tree;
 }
 
+function menuBtnaddSaveCtl($localStorage, notify, $log, $uibModal, $compile,
+		$uibModalInstance, $scope, data, $http, $rootScope, DTOptionsBuilder,
+		DTColumnBuilder) {
+
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
+			.withDOM('frtlip').withPaginationType('full_numbers')
+			.withDisplayLength(100).withOption("ordering", false).withOption(
+					"responsive", false).withOption("searching", false)
+			.withOption('bAutoWidth', true).withOption('scrollCollapse', false)
+			.withOption('paging', false).withFixedColumns({
+				leftColumns : 0,
+				rightColumns : 0
+			}).withOption('bStateSave', true).withOption('bProcessing', false)
+			.withOption('bFilter', false).withOption('bInfo', false)
+			.withOption('serverSide', false).withOption('createdRow',
+					function(row) {
+						$compile(angular.element(row).contents())($scope);
+					}).withOption(
+					'headerCallback',
+					function(header) {
+						if ((!angular.isDefined($scope.headerCompiled))
+								|| $scope.headerCompiled) {
+							$scope.headerCompiled = true;
+							$compile(angular.element(header).contents())
+									($scope);
+						}
+					}).withOption("select", {
+				style : 'multi',
+				selector : 'td:first-child'
+			});
+	$scope.selectCheckBoxAll = function(selected) {
+		if (selected) {
+			$scope.dtInstance.DataTable.rows().select();
+			console.log($scope.dtInstance.DataTable)
+			console.log($scope.dtInstance);
+		} else {
+			$scope.dtInstance.DataTable.rows().deselect();
+			console.log($scope.dtInstance.DataTable)
+			console.log($scope.dtInstance);
+		}
+	}
+	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
+	$scope.dtColumns = [];
+	$scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml)
+			.withClass('select-checkbox checkbox_center').renderWith(
+					function() {
+						return ""
+					}));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('编号')
+			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
+			.withOption('sDefaultContent', ''));
+	$scope.dtInstance = {}
+	$scope.dtOptions.aaData = [ {
+		id : "search",
+		name : "搜索"
+	}, {
+		id : "select",
+		name : "查询"
+	}, {
+		id : "insert",
+		name : "新增"
+	}, {
+		id : "update",
+		name : "更新"
+	}, {
+		id : "remove",
+		name : "删除"
+	}, {
+		id : "item_select",
+		name : "项目查询"
+	}, {
+		id : "item_insert",
+		name : "项目新增"
+	}, {
+		id : "item_update",
+		name : "项目更新"
+	}, {
+		id : "item_remove",
+		name : "项目删除"
+	}, {
+		id : "cancel",
+		name : "取消"
+	}, {
+		id : "save",
+		name : "保存"
+	}, {
+		id : "submit",
+		name : "提交"
+	}, {
+		id : "exportfile",
+		name : "导出"
+	}, {
+		id : "importfile",
+		name : "导入"
+	}, {
+		id : "uploadfile",
+		name : "上传"
+	}, {
+		id : "downfile",
+		name : "下载"
+	}, {
+		id : "act1",
+		name : "动作1"
+	}, {
+		id : "act2",
+		name : "动作2"
+	}, {
+		id : "act3",
+		name : "动作3"
+	}, {
+		id : "act4",
+		name : "动作4"
+	}, {
+		id : "act5",
+		name : "动作5"
+	}, {
+		id : "act6",
+		name : "动作6"
+	}, {
+		id : "act7",
+		name : "动作7"
+	}, {
+		id : "act8",
+		name : "动作8"
+	} ]
+
+	function getSelectRows() {
+		var data = $scope.dtInstance.DataTable.rows({
+			selected : true
+		})[0];
+		if (data.length == 0) {
+			notify({
+				message : "请至少选择一项"
+			});
+			return;
+		} else if (data.length > 1000) {
+			notify({
+				message : "不允许超过1000个"
+			});
+			return;
+		} else {
+			var res = [];
+			console.log("sel:", data);
+			for (var i = 0; i < data.length; i++) {
+				res.push($scope.dtOptions.aaData[data[i]])
+			}
+			return res;
+		}
+	}
+
+	$scope.sure = function() {
+		var selrows = getSelectRows();
+		if (!angular.isDefined(selrows)) {
+			return;
+		}
+		$scope.ps = {};
+		ps = angular.copy(data)
+		ps.node_name = "";
+		ps.keyvalue = "";
+		ps.mark = "";
+		ps.logo = "";
+		ps.sort = 0;
+		ps.module_id = "";
+		ps.menu_level = "";
+		ps.is_action = "Y";
+		ps.is_g_show = "Y"
+		ps.type = "btn";
+		ps.old_node_id = ps.node_id;
+		ps.old_route = ps.route;
+		ps.is_action = "Y";
+		ps.btns = angular.toJson(selrows);
+		$http.post($rootScope.project + "/api/menu/BatchAddNodeBtn.do", ps)
+				.success(function(res) {
+					if (res.success) {
+						$localStorage.remove("dt_sys_menu");
+						$uibModalInstance.close("OK");
+					}
+					notify({
+						message : res.message
+					});
+				})
+
+	};
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+}
 function menuModuleCtl($localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, data, $http, $rootScope) {
 	$scope.item = {}
@@ -316,8 +505,8 @@ function menuModifyCtl($localStorage, notify, $log, $uibModal,
 
 }
 
-function sysmenuCtl($compile,$timeout,$confirm, $log, notify, $scope, $http, $rootScope,
-		$uibModal) {
+function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
+		$rootScope, $uibModal) {
 	$scope.topMenuOpt = []
 	$scope.topMenuSel = "";
 
@@ -347,15 +536,18 @@ function sysmenuCtl($compile,$timeout,$confirm, $log, notify, $scope, $http, $ro
 	}
 	if ($scope.crud.priv) {
 		acthtml = acthtml
-				+ " <button ng-click=\"cellTemplateScope.acl(row.branch)\" class=\"btn-white  btn btn-xs\">权限</button>";
+				+ " <button ng-click=\"cellTemplateScope.acl(row.branch)\" class=\"btn-white btn btn-xs\">权限</button>";
 	}
+
+	// if ($scope.act1) {
+	acthtml = acthtml
+			+ " <button ng-click=\"cellTemplateScope.batchadd(row.branch)\" class=\"btn-white btn btn-xs\">批量按钮</button>";
+	// }
 
 	acthtml = acthtml + " </div>";
 
+	// $scope.my_tree = {};
 
-//	$scope.my_tree = {};
-	
-	
 	$scope.tree_expand_level = 3;
 	$scope.tree_data = [];
 	$scope.expanding_property = {
@@ -365,10 +557,8 @@ function sysmenuCtl($compile,$timeout,$confirm, $log, notify, $scope, $http, $ro
 		filterable : true,
 		cellTemplate : "<i>{{row.branch[expandingProperty.field]}}</i>"
 	};
-//
-//	$timeout(function() {
-	 
-
+	//
+	// $timeout(function() {
 
 	$scope.col_defs = [
 			{
@@ -519,6 +709,39 @@ function sysmenuCtl($compile,$timeout,$confirm, $log, notify, $scope, $http, $ro
 						});
 
 					},
+					batchadd : function(data) {
+						if (data.type == "menu") {
+							var ps = data;
+							var modalInstance = $uibModal
+									.open({
+										backdrop : true,
+										templateUrl : 'views/system/menu/modal_btnsadd.html',
+										controller : menuBtnaddSaveCtl,
+										size : 'lg',
+										resolve : { // 调用控制器与modal控制器中传递值
+											data : function() {
+												return ps;
+											}
+										}
+									});
+
+							modalInstance.result.then(function(result) {
+								$log.log("result", result);
+								if (result == "OK") {
+									flush();
+								}
+							}, function(reason) {
+								// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+								$log.log("reason", reason)
+							});
+
+						} else {
+							notify({
+								message : "仅支持菜单选项"
+							});
+						}
+
+					},
 					edit : function(data) { // this works too:
 						// $scope.someMethod;
 						var ps = data;
@@ -550,7 +773,7 @@ function sysmenuCtl($compile,$timeout,$confirm, $log, notify, $scope, $http, $ro
 				}
 			} ];
 
-//	}, 2);
+	// }, 2);
 	function flush() {
 		$http.post(
 				$rootScope.project

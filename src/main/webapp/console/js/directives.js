@@ -1,8 +1,7 @@
 
 
 /**
- * INSPINIA - Responsive Admin Theme
- * 
+ *  * 
  * Main directives.js file Define directives for used plugin
  * 
  * 
@@ -642,7 +641,7 @@ function passwordMeter() {
 		}
 	}
 };
-angular.module('inspinia').directive('compile', function($compile) {
+angular.module('app').directive('compile', function($compile) {
 	return function(scope, element, attrs) {
 		scope.$watch(function(scope) {
 			return scope.$eval(attrs.compile);
@@ -657,7 +656,7 @@ angular.module('inspinia').directive('compile', function($compile) {
  * 
  * Pass all functions into module
  */
-angular.module('inspinia').directive('pageTitle', pageTitle).directive(
+angular.module('app').directive('pageTitle', pageTitle).directive(
 		'sideNavigation', sideNavigation).directive('iboxTools', iboxTools)
 		.directive('minimalizaSidebar', minimalizaSidebar).directive(
 				'vectorMap', vectorMap).directive('sparkline', sparkline)
@@ -676,7 +675,7 @@ angular.module('inspinia').directive('pageTitle', pageTitle).directive(
 
 
 
-angular.module('inspinia').directive("bnDocumentClick",
+angular.module('app').directive("bnDocumentClick",
 		function($document, $parse) {
 			// 将Angular的上下文链接到DOM事件
 			var linkFunction = function($scope, $element, $attributes) {

@@ -55,10 +55,15 @@ public class MenuService extends BaseService {
 		String mark = ps.getString("mark");
 		String logo = ps.getString("logo");
 		String keyvalue = ps.getString("keyvalue");
+
 		String node_id = getNextNodeId();
 		Insert ins = new Insert("sys_menus_node");
 		String type = ps.getString("actiontype", "add");
 		String nodeid = getNextNodeId();
+		if (ToolUtil.isOneEmpty(keyvalue)) {
+			return R.FAILURE_REQ_PARAM_ERROR();
+		}
+
 		if (type.equals("addmaster")) {
 			// 增加第一个节点
 			if (ToolUtil.isEmpty(menu_id)) {
@@ -68,6 +73,12 @@ public class MenuService extends BaseService {
 			ins.set("parent_id", "0");
 			ins.set("route", nodeid);
 		} else {
+			Rcd kvrs = db.uniqueRecord(
+					"select * from sys_menus_node where dr='0' and parent_id in (select node_id from sys_menus_node where route=?) and keyvalue=?",
+					old_route, keyvalue);
+			if (kvrs != null) {
+				return R.SUCCESS_OPER("已经存在");
+			}
 			nodeid = node_id;
 			ins.set("node_id", node_id);
 			ins.set("parent_id", old_node_id);
@@ -150,7 +161,7 @@ public class MenuService extends BaseService {
 		if (ToolUtil.isEmpty(rs)) {
 			return;
 		}
-		 
+
 		String ids = rs.getString("route");
 		JSONArray arr = ConvertUtil.toJSONArrayFromString(ids, "id", "-");
 		String route_name = "";

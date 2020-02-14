@@ -1,7 +1,5 @@
 /**
- * INSPINIA - Responsive Admin Theme 2.7.1
- * 
- * Custom scripts
+ * INSPINIA - Responsive Admin Theme 2.7.1 Custom scripts
  */
 
 $(document).ready(
@@ -117,6 +115,10 @@ function privCrudCompute(curd, pbtns) {
 	var pbtns_arr = angular.fromJson(pbtns);
 	if (angular.isDefined(pbtns_arr) && pbtns_arr.length > 0) {
 		for (var i = 0; i < pbtns_arr.length; i++) {
+			if (pbtns_arr[i].p == "search") {
+				curd.search = true;
+				continue;
+			}
 			if (pbtns_arr[i].p == "root_insert") {
 				curd.root_insert = true;
 				continue;
@@ -137,22 +139,6 @@ function privCrudCompute(curd, pbtns) {
 				curd.insert = true;
 				continue;
 			}
-			if (pbtns_arr[i].p == "submit") {
-				curd.submit = true;
-				continue;
-			}
-			if (pbtns_arr[i].p == "exportfile") {
-				curd.exportfile = true;
-				continue;
-			}
-			if (pbtns_arr[i].p == "importfile") {
-				curd.importfile = true;
-				continue;
-			}
-			if (pbtns_arr[i].p == "uploadfile") {
-				curd.uploadfile = true;
-				continue;
-			}
 			if (pbtns_arr[i].p == "item_insert") {
 				curd.item_insert = true;
 				continue;
@@ -169,8 +155,42 @@ function privCrudCompute(curd, pbtns) {
 				curd.item_remove = true;
 				continue;
 			}
+			if (pbtns_arr[i].p == "cancel") {
+				curd.cancel = true;
+				continue;
+			}
+			if (pbtns_arr[i].p == "submit") {
+				curd.submit = true;
+				continue;
+			}
+			if (pbtns_arr[i].p == "save") {
+				curd.save = true;
+				continue;
+			}
+			if (pbtns_arr[i].p == "exportfile") {
+				curd.exportfile = true;
+				continue;
+			}
+			if (pbtns_arr[i].p == "importfile") {
+				curd.importfile = true;
+				continue;
+			}
+
+			if (pbtns_arr[i].p == "uploadfile") {
+				curd.uploadfile = true;
+				continue;
+			}
+			if (pbtns_arr[i].p == "downfile") {
+				curd.downfile = true;
+				continue;
+			}
+			// 授权
 			if (pbtns_arr[i].p == "priv") {
 				curd.priv = true;
+				continue;
+			}
+			if (pbtns_arr[i].p == "fix") {
+				curd.fix = true;
 				continue;
 			}
 			if (pbtns_arr[i].p == "cpwd") {
@@ -181,7 +201,6 @@ function privCrudCompute(curd, pbtns) {
 				curd.act1 = true;
 				continue;
 			}
-
 			if (pbtns_arr[i].p == "act2") {
 				curd.act2 = true;
 				continue;
@@ -190,12 +209,18 @@ function privCrudCompute(curd, pbtns) {
 				curd.act3 = true;
 				continue;
 			}
-
-			if (pbtns_arr[i].p == "fix") {
-				curd.fix = true;
+			if (pbtns_arr[i].p == "act4") {
+				curd.act4 = true;
 				continue;
 			}
-
+			if (pbtns_arr[i].p == "act5") {
+				curd.act5 = true;
+				continue;
+			}
+			if (pbtns_arr[i].p == "act6") {
+				curd.act6 = true;
+				continue;
+			}
 		}
 	}
 
@@ -213,7 +238,8 @@ function privNormalCompute(meta, pbtns) {
 	if (angular.isDefined(pbtns_arr) && pbtns_arr.length > 0) {
 		for (var i = 0; i < meta.length; i++) {
 			for (var j = 0; j < pbtns_arr.length; j++) {
-				if (meta[i].priv == pbtns_arr[j].p) {
+				if (
+						meta[i].priv == pbtns_arr[j].p) {
 					meta[i].show = true;
 				}
 			}

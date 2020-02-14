@@ -1,9 +1,9 @@
-var app = angular.module('inspinia', [ 'ui.router', 'oc.lazyLoad',
-		'ui.bootstrap', 'pascalprecht.translate', 'ngIdle', 'ngJsTree',
-		'ngSanitize', 'cgNotify', 'angular-confirm', 'datatables',
-		'datatables.select', 'datatables.fixedcolumns', 'datatables.buttons',
-		'datatables.colvis', 'localytics.directives', 'swxLocalStorage',
-		'angular-loading-bar', 'ng.ueditor', 'datePicker', 'treeGrid' ])
+var app = angular.module('app', [ 'ui.router', 'oc.lazyLoad', 'ui.bootstrap',
+		'pascalprecht.translate', 'ngIdle', 'ngJsTree', 'ngSanitize',
+		'cgNotify', 'angular-confirm', 'datatables', 'datatables.select',
+		'datatables.fixedcolumns', 'datatables.buttons', 'datatables.colvis',
+		'localytics.directives', 'swxLocalStorage', 'angular-loading-bar',
+		'ng.ueditor', 'datePicker', 'treeGrid' ])
 var $injector = angular.injector();
 function getContextPath() {
 	var pathName = document.location.pathname;
@@ -385,7 +385,6 @@ function initDT(DTDefaultOptions) {
 			sortDescending : ": 以降序排列此列"
 		}
 	};
-
 	console.log(DTDefaultOptions);
 	DTDefaultOptions.setLanguage(lng);
 	// DTDefaultOptions.setDOM('frtlip');
@@ -402,11 +401,8 @@ function initDT(DTDefaultOptions) {
 	DTDefaultOptions.setOption('responsive', true);
 	DTDefaultOptions.setOption('bFilter', false);
 	DTDefaultOptions.setOption('serverSide', false);
-
 }
-
 app.run(initDT);
-
 // before loading
 $("#beforePage").removeClass("preloader");
 $("#beforePage").addClass("preloader-hidden");

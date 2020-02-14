@@ -3,8 +3,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 	$ocLazyLoadProvider.config({
 		debug : true
 	});
-	
-	
 	$stateProvider.state('zcindex', {
 		url : "/zcindex",
 		templateUrl : "views/cmdb/zcindex.html?v="+version,
@@ -23,8 +21,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 			}
 		}
 	});
-	
-	
+		
 	// 流程管理
 	$stateProvider.state('zcprocess', {
 		abstract : true,

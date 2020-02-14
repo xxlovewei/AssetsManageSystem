@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
@@ -48,6 +49,23 @@ public class MenuController extends BaseController {
 	@Acl(info = "删除菜单", value = Acl.ACL_DENY)
 	public R deleteNode(String node_id) {
 		return menuService.deleteNode(node_id);
+	}
+
+	@RequestMapping(value = "/menu/BatchAddNodeBtn.do")
+	@ResponseBody
+	@Acl(info = "批量增加节点", value = Acl.ACL_DENY)
+	public R BatchaddNodeBtn() {
+		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+		String btns = ps.getString("btns", "");
+		JSONArray btns_arr = JSONArray.parseArray(btns);
+		if (ToolUtil.isNotEmpty(btns_arr) && btns_arr.size() > 0) {
+			for (int i = 0; i < btns_arr.size(); i++) {
+				ps.put("node_name", btns_arr.getJSONObject(i).getString("name"));
+				ps.put("keyvalue", btns_arr.getJSONObject(i).getString("id"));
+				menuService.addNode(ps);
+			}
+		}
+		return R.SUCCESS_OPER();
 	}
 
 	@RequestMapping(value = "/menu/addNode.do")
