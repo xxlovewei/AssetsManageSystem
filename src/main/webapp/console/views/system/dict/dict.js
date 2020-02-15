@@ -104,7 +104,7 @@ function dictItemSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 		var modal = document.getElementsByClassName('modal-body');
 		for (var i = 0; i < modal.length; i++) {
-		 
+
 			var adom = modal[i].getElementsByClassName('chosen-container');
 			for (var j = 0; j < adom.length; j++) {
 				adom[i].style.width = "100%";
@@ -148,20 +148,22 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	privCrudCompute($scope.crud, $rootScope.curMemuBtns);
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
-			'full_numbers').withDisplayLength(25).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", false)
-			.withOption("paging", false).withOption('bStateSave', true)
-			.withOption('bProcessing', true).withOption('bFilter', false)
-			.withOption('bInfo', false).withOption('serverSide', false)
-			.withOption('bAutoWidth', false).withOption('rowCallback',
-					rowCallback).withOption('createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			}).withOption("select", {
+			'full_numbers').withDisplayLength(100)
+			.withOption("ordering", false).withOption("responsive", false)
+			.withOption("searching", false).withOption("paging", false)
+			.withFixedColumns({
+				leftColumns : 0,
+				rightColumns : 0
+			}).withOption('bStateSave', true).withOption('bProcessing', false)
+			.withOption('bFilter', false).withOption('bInfo', false)
+			.withOption('serverSide', false).withOption('bAutoWidth', true)
+			.withOption('rowCallback', rowCallback).withOption('createdRow',
+					function(row) {
+						// Recompiling so we can bind Angular,directive to the
+						$compile(angular.element(row).contents())($scope);
+					}).withOption("select", {
 				style : 'single'
 			});
-
-	$scope.dtInstance = {}
 
 	function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 		// Unbind first in order to avoid any duplicate handler
@@ -206,7 +208,7 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').renderWith(renderMType),
 			DTColumnBuilder.newColumn('status').withTitle('状态').withOption(
 					'sDefaultContent', '').renderWith(renderMStatus) ]
-
+	$scope.dtInstance = {}
 	function flush() {
 		var ps = {};
 		$http.post($rootScope.project + "/api/sysDict/selectList.do", ps)
@@ -259,41 +261,53 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 			return;
 		}
-		 
-		
+
 		$confirm({
 			text : '是否删除?'
-		}).then(function() {
-			
-			$http.post($rootScope.project + "/api/sysDict/selectById.do", {
-				id : id
-			}).success(function(res) {
-				if (res.success) {
-					
-					if(res.data.dictLevel=="system"){
-						notify({
-							message : "类型为系统类型,不允许删除"
+		})
+				.then(
+						function() {
+
+							$http
+									.post(
+											$rootScope.project
+													+ "/api/sysDict/selectById.do",
+											{
+												id : id
+											})
+									.success(
+											function(res) {
+												if (res.success) {
+
+													if (res.data.dictLevel == "system") {
+														notify({
+															message : "类型为系统类型,不允许删除"
+														});
+													} else {
+														$http
+																.post(
+																		$rootScope.project
+																				+ "/api/sysDict/deleteById.do",
+																		{
+																			id : id
+																		})
+																.success(
+																		function(
+																				res) {
+																			if (res.success) {
+																				flush();
+																			}
+																			notify({
+																				message : res.message
+																			});
+																		})
+													}
+
+												}
+
+											})
+
 						});
-					}else{
-						$http.post($rootScope.project + "/api/sysDict/deleteById.do", {
-							id : id
-						}).success(function(res) {
-							if (res.success) {
-								flush();
-							}
-							notify({
-								message : res.message
-							});
-						})
-					}
-				
-				}
-				
-			})
-			
-			
-			
-		});
 
 	}
 	$scope.update = function() {
@@ -337,7 +351,7 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";
-	 
+
 		if ($scope.crud.item_update) {
 			acthtml = acthtml + " <button ng-click=\"row_update('"
 					+ full.dictItemId
@@ -363,7 +377,7 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					'sDefaultContent', '').renderWith(renderAction) ]
 
 	function flushSubtab(id) {
-	 
+
 		var ps = {
 			dictId : id
 		};
