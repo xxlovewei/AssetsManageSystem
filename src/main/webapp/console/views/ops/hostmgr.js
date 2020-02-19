@@ -321,7 +321,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withDOM('frtlip').withPaginationType('full_numbers')
 			.withDisplayLength(100).withOption("ordering", false).withOption(
 					"responsive", false).withOption("searching", true)
-			.withOption('scrollY', '600px').withOption('scrollX', true)
+			.withOption('scrollY', '400px').withOption('scrollX', true)
 			.withOption('bAutoWidth', true).withOption('scrollCollapse', true)
 			.withOption('paging', true).withFixedColumns({
 				leftColumns : 0,

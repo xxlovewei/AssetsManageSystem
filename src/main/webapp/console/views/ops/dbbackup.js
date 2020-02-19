@@ -52,7 +52,7 @@ function modalimportDBCtl($log, $uibModalInstance, notify, $scope, $http,
 
 		$scope.okbtnstatus = true;
 		var id = getUuid();
-	 
+
 		if ($scope.myDropzone.files.length > 0) {
 			$scope.myDropzone.options.url = $rootScope.project
 					+ '/api/file/fileupload.do?uuid=' + id
@@ -109,7 +109,7 @@ function modalimportDBCtl($log, $uibModalInstance, notify, $scope, $http,
 
 function dbinstanceSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, meta, $http, $rootScope, dicts) {
- 
+
 	$scope.item = {};
 	$scope.item = meta
 	$scope.bktypeOpt = dicts.dbbktype;
@@ -167,7 +167,7 @@ function dbinstanceSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 	}, 200);
 
 	$scope.sure = function() {
- 
+
 		$scope.item.bkmethod = $scope.bkmethodSel.dict_item_id;
 		$scope.item.archtype = $scope.archtypeSel.dict_item_id;
 		$scope.item.bkstatus = $scope.bkstatusSel.dict_item_id;
@@ -268,24 +268,20 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", false)
-			.withOption('scrollX', true).withOption('bAutoWidth', true)
-			.withOption('scrollCollapse', true).withOption('paging', false)
-			.withFixedColumns({
-				leftColumns : 0,
-				rightColumns : 0
-			}).withOption('bStateSave', true).withOption('bProcessing', false)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('rowCallback',
-					rowCallback).withOption('createdRow', function(row) {
-				// Recompiling so we can bind Angular,directive to the
-				$compile(angular.element(row).contents())($scope);
-			}).withOption("select", {
+			.withOption("searching", false).withOption('scrollX', true)
+			.withOption('bAutoWidth', false).withOption('scrollCollapse', true)
+			.withOption('paging', false).withOption('bStateSave', false)
+			.withOption('bProcessing', false).withOption('bFilter', false)
+			.withOption('bInfo', false).withOption('serverSide', false)
+			.withOption('rowCallback', rowCallback).withOption('createdRow',
+					function(row) {
+						// Recompiling so we can bind Angular,directive to the
+						$compile(angular.element(row).contents())($scope);
+					}).withOption("select", {
 				style : 'single'
 			});
 
 	$scope.dtInstance = {}
-
 	function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 		// Unbind first in order to avoid any duplicate handler
 		// (see https://github.com/l-lin/angular-datatables/issues/87)
@@ -341,18 +337,15 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withDataProp('data').withDOM('frtlip').withPaginationType(
 					'full_numbers').withDisplayLength(100).withOption(
 					"ordering", false).withOption("responsive", false)
-			.withOption("searching", true).withOption('scrollY', '600px')
-			.withOption('scrollX', true).withOption('bAutoWidth', true)
+			.withOption("searching", false).withOption('scrollY', '400px')
+			.withOption('scrollX', true).withOption('bAutoWidth', false)
 			.withOption('scrollCollapse', true).withOption('paging', false)
-			.withFixedColumns({
-				leftColumns : 0,
-				rightColumns : 0
-			}).withOption('bStateSave', true).withOption('bProcessing', false)
+			.withOption('bStateSave', false).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
-				$compile(angular.element(row).contents())($scope);
-			}).withOption(
+			.withOption('serverSide', false).withOption('createdRow',
+					function(row) {
+						$compile(angular.element(row).contents())($scope);
+					}).withOption(
 					'headerCallback',
 					function(header) {
 						if ((!angular.isDefined($scope.headerCompiled))
@@ -369,48 +362,69 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
-			$scope.dtInstance.DataTable.rows().select();
-		 
+			$scope.dtItemInstance.DataTable.rows().select();
+
 		} else {
-			$scope.dtInstance.DataTable.rows().deselect();
-		 
+			$scope.dtItemInstance.DataTable.rows().deselect();
+
 		}
 	}
 
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 
+	function ColWidthRender(data, type, full) {
+		// return "<span style=\"white-space:normal;word-break:break-all;\">"
+		// + data + "</span>";
+		return data;
+	}
+
+	function ColWidthHHRender(data, type, full) {
+		return "<span style=\"white-space:normal!important;word-break:break-all!important;\">"
+				+ data + "</span>";
+
+	}
+
 	$scope.dtItemColumns = [
 			DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
 					'select-checkbox checkbox_center').renderWith(function() {
 				return ""
-			}),
+			}).withOption('width', '5px'),
 			DTColumnBuilder.newColumn('xtname').withTitle('系统').withOption(
-					'sDefaultContent', ''),
+					'sDefaultContent', '').withOption('width', '30px')
+					.renderWith(ColWidthRender),
 			DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
-					'sDefaultContent', ''),
+					'sDefaultContent', '').renderWith(ColWidthRender),
 			DTColumnBuilder.newColumn('dbinstance').withTitle('数据库实例')
-					.withOption('sDefaultContent', ''),
+					.withOption('sDefaultContent', '').withOption('width',
+							'5px').renderWith(ColWidthRender),
 			DTColumnBuilder.newColumn('sysdbdtlstr').withTitle('数据库版本')
-					.withOption('sDefaultContent', ''),
+					.withOption('sDefaultContent', '').withOption('width',
+							'20px').renderWith(ColWidthRender),
 			DTColumnBuilder.newColumn('dbbkstatusstr').withTitle('当前状况')
-					.withOption('sDefaultContent', ''),
+					.withOption('sDefaultContent', '').withOption('width',
+							'10px').renderWith(ColWidthRender),
 			DTColumnBuilder.newColumn('dbbktypestr').withTitle('备份类型')
-					.withOption('sDefaultContent', ''),
+					.withOption('sDefaultContent', '').withOption('width',
+							'10px').renderWith(ColWidthRender),
 			DTColumnBuilder.newColumn('dbbkmethodstr').withTitle('备份方式')
-					.withOption('sDefaultContent', ''),
+					.withOption('sDefaultContent', '').withOption('width',
+							'10px').renderWith(ColWidthRender),
 			DTColumnBuilder.newColumn('dbbkarchtypestr').withTitle('日志模式')
-					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('bkstrategy').withTitle('备份策略')
-					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('bkkeep').withTitle('保留策略').withOption(
-					'sDefaultContent', ''),
+					.withOption('sDefaultContent', '').withOption('width',
+							'50px').renderWith(ColWidthRender),
 			DTColumnBuilder.newColumn('dsize').withTitle('备份大小').withOption(
-					'sDefaultContent', ''),
+					'sDefaultContent', '').withOption('width', '10px')
+					.renderWith(ColWidthRender),
+			DTColumnBuilder.newColumn('bkkeep').withTitle('保留策略').withOption(
+					'sDefaultContent', '').withOption('width', '20px')
+					.renderWith(ColWidthHHRender),
+			DTColumnBuilder.newColumn('bkstrategy').withTitle('备份策略')
+					.withOption('sDefaultContent', '').withOption('width',
+							'50px').renderWith(ColWidthHHRender),
 			DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
-					'sDefaultContent', '') ]
+					'sDefaultContent', '').withOption('width', '60px')
+					.renderWith(ColWidthHHRender) ]
 	function flushSubtab(id) {
-		 
-
 		var ps = {
 			nodeid : id
 		};
@@ -455,7 +469,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			});
 			return;
 		} else {
-		 
+
 			return $scope.dtItemOptions.aaData[data[0]];
 		}
 	}
@@ -494,7 +508,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				});
 				return;
 			}
-		 
+
 			ps.xtname = node.dbname;
 			ps.nid = node.id;
 		}
@@ -569,7 +583,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}
 		});
 		modalInstance.result.then(function(result) {
-			//flush();
+			// flush();
 		}, function(reason) {
 			$log.log("reason", reason)
 		});

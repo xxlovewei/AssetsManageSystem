@@ -8,8 +8,7 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			rightColumns : 0
 		}).withOption('bStateSave', true).withOption('bProcessing', false)
 		.withOption('bFilter', false).withOption('bInfo', false).withOption(
-				'serverSide', false).withOption('aaData', $scope.tabdata)
-		.withOption('createdRow', function(row) {
+				'serverSide', false).withOption('createdRow', function(row) {
 			$compile(angular.element(row).contents())($scope);
 		}).withOption(
 				'headerCallback',
@@ -24,6 +23,15 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			selector : 'td:first-child'
 		});
 // 有分页，字段数多，控制字段长度
+
+//分页相关
+//bProcessing当serverSide为true时使用
+//bStateSave分页刷新后 固定在当前页
+//bInfo 分页的页数等信息
+
+
+//responsive 自动换行，不建议使用
+//关闭后，表格将不会自动计算表格大小，在浏览器大化小化的时候会挤在一坨
 $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 		.withDOM('frtlip').withPaginationType('full_numbers')
 		.withDisplayLength(100).withOption("ordering", false).withOption(
@@ -34,9 +42,8 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			leftColumns : 0,
 			rightColumns : 0
 		}).withOption('bStateSave', true).withOption('bProcessing', false)
-		.withOption('bFilter', false).withOption('bInfo', false).withOption(
-				'serverSide', false).withOption('aaData', $scope.tabdata)
-		.withOption('createdRow', function(row) {
+		.withOption('bFilter', true).withOption('bInfo', false).withOption(
+				'serverSide', false).withOption('createdRow', function(row) {
 			$compile(angular.element(row).contents())($scope);
 		}).withOption(
 				'headerCallback',
@@ -53,7 +60,7 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			extend : 'colvis',
 			text : '显示隐藏列',
 			fnLabel : function(dt, idx, title) {
-			 
+
 				return (idx + 1) + ': ' + title;
 			}
 		}, {
