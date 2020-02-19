@@ -13,8 +13,9 @@
 	height: 100vh;
 	flex-flow: row nowrap;
 	/* 	add by lank */
-	overflow: hidden;
-	text-overflow: ellipsis;
+	/* 	overflow: hidden; */
+	/* 	text-overflow: ellipsis;
+	 flex-shrink: 1; */
 }
 
 /* left */
@@ -150,6 +151,6 @@
 	order: 1;
 	height: 100%;
 	padding-left: 20px;
-	/* 	overflow-y: auto; */
+	overflow-y: auto;
 	flex: 1 1 auto;
 }
