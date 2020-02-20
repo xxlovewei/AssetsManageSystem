@@ -381,7 +381,6 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	function ColWidthHHRender(data, type, full) {
 		return "<span style=\"white-space:normal!important;word-break:break-all!important;\">"
 				+ data + "</span>";
-
 	}
 
 	$scope.dtItemColumns = [
@@ -393,7 +392,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					'sDefaultContent', '').withOption('width', '30px')
 					.renderWith(ColWidthRender),
 			DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
-					'sDefaultContent', '').renderWith(ColWidthRender),
+					'sDefaultContent', '').withOption('width', '5px'),
 			DTColumnBuilder.newColumn('dbinstance').withTitle('数据库实例')
 					.withOption('sDefaultContent', '').withOption('width',
 							'5px').renderWith(ColWidthRender),
