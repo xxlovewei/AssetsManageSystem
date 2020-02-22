@@ -337,7 +337,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withDataProp('data').withDOM('frtlip').withPaginationType(
 					'full_numbers').withDisplayLength(100).withOption(
 					"ordering", false).withOption("responsive", false)
-			.withOption("searching", false).withOption('scrollY', '400px')
+			.withOption("searching", true).withOption('scrollY', '400px')
 			.withOption('scrollX', true).withOption('bAutoWidth', false)
 			.withOption('scrollCollapse', true).withOption('paging', false)
 			.withOption('bStateSave', false).withOption('bProcessing', false)

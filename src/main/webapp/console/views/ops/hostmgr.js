@@ -969,8 +969,8 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					modal_meta.meta.item.syslevel = modal_meta.meta.syslevelSel.dict_item_id
 				}
 
-				if (angular.isDefined(modal_meta.meta.midSel)
-						&& modal_meta.meta.midSel.length > 0) {
+				
+				if (angular.isDefined(modal_meta.meta.midSel)) {
 					var name = ""
 					var ids = [];
 					for (var i = 0; i < modal_meta.meta.midSel.length; i++) {
