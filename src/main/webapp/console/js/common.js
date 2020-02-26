@@ -6,7 +6,6 @@ $("#flagcb").click(function() {
 		$("#leftcb").removeClass("gByVX");
 		$("#leftcb").addClass("FnqzS");
 	}
-
 	if ($("#flagcb2").hasClass("fa-angle-double-right")) {
 		$("#flagcb2").removeClass("fa-angle-double-right");
 		$("#flagcb2").addClass("fa-angle-double-left");
