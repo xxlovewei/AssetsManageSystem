@@ -391,6 +391,9 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			DTColumnBuilder.newColumn('xtname').withTitle('系统').withOption(
 					'sDefaultContent', '').withOption('width', '30px')
 					.renderWith(ColWidthRender),
+			DTColumnBuilder.newColumn('nodebackupstr').withTitle('节点备份类型').withOption(
+					'sDefaultContent', '').withOption('width', '30px')
+					.renderWith(ColWidthRender),
 			DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
 					'sDefaultContent', '').withOption('width', '5px'),
 			DTColumnBuilder.newColumn('dbinstance').withTitle('数据库实例')

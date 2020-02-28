@@ -185,6 +185,20 @@ function loadOptHost(modal_meta, gdicts) {
 		}
 	}
 
+	// 节点备份
+	if (angular.isDefined(gdicts.nodebak) && gdicts.nodebak.length > 0) {
+		modal_meta.meta.nodebakOpt = gdicts.nodebak;
+		if (angular.isDefined(item) && angular.isDefined(item.nodebackup)) {
+			for (var i = 0; i < modal_meta.meta.nodebakOpt.length; i++) {
+				if (modal_meta.meta.nodebakOpt[i].dict_item_id == item.nodebackup) {
+					modal_meta.meta.nodebakSel = modal_meta.meta.nodebakOpt[i];
+				}
+			}
+		} else {
+		}
+	}
+	
+	
 	// 中间价
 	if (angular.isDefined(gdicts.sysmid) && gdicts.sysmid.length > 0) {
 		modal_meta.meta.midOpt = gdicts.sysmid;
@@ -301,7 +315,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	var gdicts = {};
 
-	var dicts = "sysstatus,sysdb,sysdbdtl,sysenv,sysexecenv,syslevel,sysloc,sysmid,sysmonitor,sysos,sysosdtl,syspwdstrategy,systype";
+	var dicts = "nodebak,sysstatus,sysdb,sysdbdtl,sysenv,sysexecenv,syslevel,sysloc,sysmid,sysmonitor,sysos,sysosdtl,syspwdstrategy,systype";
 
 	$http.post($rootScope.project + "/api/base/res/queryDictFast.do", {
 		dicts : dicts
@@ -414,8 +428,8 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withTitle('改密策略').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('leader').withTitle('负责人')
 			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('nodebackup').withTitle(
-			'节点备份').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('nodebackupstr').withTitle(
+			'节点备份类型').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('sysexecenvstr').withTitle(
 			'执行环境').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('syslevelstr').withTitle(
@@ -662,6 +676,18 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			ng_model : "ip"
 		});
 
+		
+		items.push({
+			type : "select",
+			disabled : "false",
+			label : "节点备份类型",
+			need : true,
+			disable_search : "true",
+			dataOpt : "nodebakOpt",
+			dataSel : "nodebakSel"
+		});
+		
+		
 		items.push({
 			type : "select",
 			disabled : "false",
@@ -967,6 +993,10 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 				if (angular.isDefined(modal_meta.meta.syslevelSel.dict_item_id)) {
 					modal_meta.meta.item.syslevel = modal_meta.meta.syslevelSel.dict_item_id
+				}
+				
+				if (angular.isDefined(modal_meta.meta.nodebakSel.dict_item_id)) {
+					modal_meta.meta.item.nodebackup = modal_meta.meta.nodebakSel.dict_item_id
 				}
 
 				

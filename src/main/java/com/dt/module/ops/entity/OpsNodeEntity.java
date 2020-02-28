@@ -20,20 +20,6 @@ public class OpsNodeEntity {
 	@Excel(name = "编号", width = 30)
 	private String id;
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	@Excel(name = "名称", width = 30)
 	private String name;
 	@Excel(name = "IP", width = 15)
@@ -42,6 +28,7 @@ public class OpsNodeEntity {
 	private String systypestr;
 	@Excel(name = "位置", width = 15)
 	private String syslocstr;
+
 	@Excel(name = "操作系统", width = 15)
 	private String sysosstr;
 	@Excel(name = "操作系统详情", width = 30)
@@ -63,8 +50,8 @@ public class OpsNodeEntity {
 	@Excel(name = "负责人", width = 15)
 	private String leader;
 
-	@Excel(name = "节点备份", width = 35)
-	private String nodebackup;
+	@Excel(name = "节点备份类型", width = 18)
+	private String nodebackupstr;
 
 	@Excel(name = "状态", width = 15)
 	private String statusstr;
@@ -117,20 +104,6 @@ public class OpsNodeEntity {
 		this.label2 = label2;
 	}
 
-	/**
-	 * @return the nodebackup
-	 */
-	public String getNodebackup() {
-		return nodebackup;
-	}
-
-	/**
-	 * @param nodebackup the nodebackup to set
-	 */
-	public void setNodebackup(String nodebackup) {
-		this.nodebackup = nodebackup;
-	}
-
 	@Excel(name = "风险等级", width = 15)
 	private String syslevelstr;
 	@Excel(name = "运行环境", width = 15)
@@ -143,6 +116,20 @@ public class OpsNodeEntity {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	/**
@@ -376,7 +363,22 @@ public class OpsNodeEntity {
 		this.mark = mark;
 	}
 
+	/**
+	 * @return the nodebackupstr
+	 */
+	public String getNodebackupstr() {
+		return nodebackupstr;
+	}
+
+	/**
+	 * @param nodebackupstr the nodebackupstr to set
+	 */
+	public void setNodebackupstr(String nodebackupstr) {
+		this.nodebackupstr = nodebackupstr;
+	}
+
 	public void fullEntity(JSONObject obj) {
+		this.nodebackupstr = obj.getString("nodebackupstr");
 		this.name = obj.getString("name");
 		this.id = obj.getString("id");
 		this.ip = obj.getString("ip");
@@ -395,7 +397,6 @@ public class OpsNodeEntity {
 		this.syslevelstr = obj.getString("syslevelstr");
 		this.sysenvstr = obj.getString("sysenvstr");
 		this.mark = obj.getString("mark");
-		this.nodebackup = obj.getString("nodebackup");
 		this.label2 = obj.getString("label2");
 		this.label1 = obj.getString("label1");
 		this.statusstr = obj.getString("statusstr");

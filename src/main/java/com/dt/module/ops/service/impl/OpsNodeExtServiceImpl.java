@@ -33,6 +33,7 @@ import com.dt.module.ops.entity.OpsNodeImportResultEntity;
 public class OpsNodeExtServiceImpl extends BaseService {
 
 	public static String sql = "select\n"
+			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.nodebackup and dict_id = 'nodebak' )   nodebackupstr,\n"
 			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.runenv and dict_id = 'sysenv' )   sysenvstr,\n"
 			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.syslevel and dict_id = 'syslevel' ) syslevelstr,\n"
 			+ "(select name from sys_dict_item where dr='0' and dict_item_id=t.busitype and dict_id = 'systype' ) systypestr,\n"
@@ -197,6 +198,10 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			return R.FAILURE(statusR.getMessage());
 		}
 
+		R nodebackupR = checkDictItem("nodebak", re.getNodebackupstr());
+		if (nodebackupR.isFailed()) {
+			return R.FAILURE(nodebackupR.getMessage());
+		}
 
 		// 中间价
 		String mid = re.getMiddlewarestr();
@@ -234,12 +239,14 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("mark", re.getMark());
 			me.setIf("leader", re.getLeader());
 			me.setIf("pwdmark", re.getPwdmark());
-			me.setIf("nodebackup", re.getNodebackup());
+			// me.setIf("nodebackup", re.getNodebackup());
 
 			me.setIf("label1", re.getLabel1());
 			me.setIf("label2", re.getLabel2());
 
 			// 数据字典匹配
+			me.setIf("nodebackup", nodebackupR.queryDataToJSONObject().getString("dict_item_id"));
+
 			me.setIf("runenv", runenvR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("syslevel", syslevelR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("busitype", busitypeR.queryDataToJSONObject().getString("dict_item_id"));
@@ -269,11 +276,12 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("mark", re.getMark());
 			me.setIf("leader", re.getLeader());
 			me.setIf("pwdmark", re.getPwdmark());
-			me.setIf("nodebackup", re.getNodebackup());
+			// me.setIf("nodebackup", re.getNodebackup());
 
 			me.setIf("label1", re.getLabel1());
 			me.setIf("label2", re.getLabel2());
 			// 数据字典匹配
+			me.setIf("nodebackup", nodebackupR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("runenv", runenvR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("syslevel", syslevelR.queryDataToJSONObject().getString("dict_item_id"));
 			me.setIf("busitype", busitypeR.queryDataToJSONObject().getString("dict_item_id"));
@@ -297,6 +305,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 	public R selectDBList(String dbinstid, String nodeid) {
 		String sql = "select\n"
 				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=b.db and dict_id = 'sysdb' ) sysdbstr,\n"
+				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=b.db and dict_id = 'nodebak' ) nodebackupstr,\n"
 				+ "	(select name from sys_dict_item where dr='0' and dict_item_id=b.dbdtl and dict_id = 'sysdbdtl' ) sysdbdtlstr,\n"
 				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=a.archtype and dict_id = 'dbbkarchtype' ) dbbkarchtypestr,\n"
 				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkmethod and dict_id = 'dbbkmethod' ) dbbkmethodstr,\n"

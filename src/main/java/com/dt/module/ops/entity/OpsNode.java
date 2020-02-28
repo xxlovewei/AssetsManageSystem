@@ -35,7 +35,7 @@ public class OpsNode extends BaseModel<OpsNode> {
     @TableField("busitype")
     private String busitype;
     @TableField("loc")
-    private String loc;
+    private String loc;  
     @TableField("ip")
     private String ip;
     @TableField("os")

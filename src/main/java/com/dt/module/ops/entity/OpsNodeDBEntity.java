@@ -24,6 +24,11 @@ public class OpsNodeDBEntity {
 	@Excel(name = "系统", width = 25)
 	private String xtname;
 	
+	
+	@Excel(name = "节点备份类型", width = 18)
+	private String nodebackupstr;
+
+
 	@Excel(name = "IP", width = 15)
 	private String ip;
 
@@ -267,8 +272,27 @@ public class OpsNodeDBEntity {
 	}
 
 
+	
+	/**
+	 * @return the nodebackupstr
+	 */
+	public String getNodebackupstr() {
+		return nodebackupstr;
+	}
+
+
+	/**
+	 * @param nodebackupstr the nodebackupstr to set
+	 */
+	public void setNodebackupstr(String nodebackupstr) {
+		this.nodebackupstr = nodebackupstr;
+	}
+
+	
+	
 	public void fullEntity(JSONObject obj) {
 		this.id = obj.getString("id");
+		this.nodebackupstr= obj.getString("nodebackupstr");
 		this.xtname = obj.getString("xtname");
 		this.ip = obj.getString("ip");
 		this.sysdbdtlstr = obj.getString("sysdbdtlstr");
