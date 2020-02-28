@@ -305,7 +305,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 	public R selectDBList(String dbinstid, String nodeid) {
 		String sql = "select\n"
 				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=b.db and dict_id = 'sysdb' ) sysdbstr,\n"
-				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=b.db and dict_id = 'nodebak' ) nodebackupstr,\n"
+				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=b.nodebackup and dict_id = 'nodebak' ) nodebackupstr,\n"
 				+ "	(select name from sys_dict_item where dr='0' and dict_item_id=b.dbdtl and dict_id = 'sysdbdtl' ) sysdbdtlstr,\n"
 				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=a.archtype and dict_id = 'dbbkarchtype' ) dbbkarchtypestr,\n"
 				+ "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkmethod and dict_id = 'dbbkmethod' ) dbbkmethodstr,\n"
