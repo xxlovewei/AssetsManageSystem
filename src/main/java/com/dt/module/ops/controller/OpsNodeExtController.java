@@ -24,7 +24,9 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
+import com.dt.core.dao.sql.Delete;
 import com.dt.core.dao.sql.Insert;
+import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
@@ -68,6 +70,7 @@ public class OpsNodeExtController extends BaseController {
 		String tid = db.getUUID();
 		entity.setImportlabel(tid);
 		OpsNodeServiceImpl.saveOrUpdate(entity);
+
 		if (ToolUtil.isNotEmpty(entity.getMiddleware())) {
 			JSONArray mid_arr = JSONArray.parseArray(entity.getMiddleware());
 			if (mid_arr.size() > 0) {
@@ -90,6 +93,10 @@ public class OpsNodeExtController extends BaseController {
 					me.set("type", "middleware");
 					me.setIf("value", mid_arr.getString(i));
 					sqls.add(me.getSQL());
+				}
+			} else {
+				if (!ToolUtil.isEmpty(entity.getId())) {
+					sqls.add("delete from ops_node_item where type='middleware' and nid='" + entity.getId() + "' ");
 				}
 			}
 
@@ -199,7 +206,7 @@ public class OpsNodeExtController extends BaseController {
 			params.setStartSheetIndex(0);
 			List<OpsNodeEntity> result = ExcelImportUtil.importExcel(new File(filePath), OpsNodeEntity.class, params);
 			r = opsNodeExtServiceImpl.executeOpsNodeEntitysImport(result);
-		
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return R.FAILURE("导入数据异常");
@@ -207,7 +214,6 @@ public class OpsNodeExtController extends BaseController {
 		return r;
 	}
 
-	
 	@ResponseBody
 	@Acl(info = " ", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectListExport.do")
@@ -245,28 +251,26 @@ public class OpsNodeExtController extends BaseController {
 		}
 
 	}
-	
+
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectDBListSimple.do")
 	public R selectDBListSimple() {
-		String sql="select concat(dbtype,\"_\",name,\"_\",\"(\",cnt,\")\") dbname,id from (\n" + 
-				"select name,id,\n" + 
-				"  (select name from sys_dict_item where dict_item_id=db) dbtype,\n" + 
-				"  (select count(1) from ops_node_item where nid=t.id and type='dbinstance') cnt\n" + 
-				"from ops_node t where dr='0' and db is not null) end order by 1";
+		String sql = "select concat(dbtype,\"_\",name,\"_\",\"(\",cnt,\")\") dbname,id from (\n" + "select name,id,\n"
+				+ "  (select name from sys_dict_item where dict_item_id=db) dbtype,\n"
+				+ "  (select count(1) from ops_node_item where nid=t.id and type='dbinstance') cnt\n"
+				+ "from ops_node t where dr='0' and db is not null) end order by 1";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
-	
+
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectDBList.do")
-	public R selectDBList(String dbinstid,String nodeid) {
-		 
+	public R selectDBList(String dbinstid, String nodeid) {
+
 		return opsNodeExtServiceImpl.selectDBList(dbinstid, nodeid);
 	}
-	
-	
+
 	@ResponseBody
 	@Acl(info = " ", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectListDBImport.do")
@@ -281,7 +285,8 @@ public class OpsNodeExtController extends BaseController {
 			params.setHeadRows(1);
 			params.setTitleRows(0);
 			params.setStartSheetIndex(0);
-			List<OpsNodeDBEntity> result = ExcelImportUtil.importExcel(new File(filePath), OpsNodeDBEntity.class, params);
+			List<OpsNodeDBEntity> result = ExcelImportUtil.importExcel(new File(filePath), OpsNodeDBEntity.class,
+					params);
 			r = opsNodeExtServiceImpl.executeOpsNodeDBEntitysImport(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -289,15 +294,16 @@ public class OpsNodeExtController extends BaseController {
 		}
 		return r;
 	}
-	
+
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectDBListExport.do")
 	public void selectDBListExport(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException {
-	//	TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+		// TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>)
+		// HttpKit.getRequestParameters();
 
-		R res= opsNodeExtServiceImpl.selectDBList(null, null);
+		R res = opsNodeExtServiceImpl.selectDBList(null, null);
 
 		JSONArray data = res.queryDataToJSONArray();
 		List<OpsNodeDBEntity> data_excel = new ArrayList<OpsNodeDBEntity>();
@@ -327,6 +333,5 @@ public class OpsNodeExtController extends BaseController {
 		}
 
 	}
- 
 
 }
