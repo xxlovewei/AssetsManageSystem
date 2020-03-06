@@ -52,6 +52,19 @@ function config_ops($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('infosys.infosys', {
+		url : "infosys_infosys",
+		data: { pageTitle: '信息系统'},
+		templateUrl : "views/ops/infosys.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ 
+					{
+					serie : true,
+					files : [ 'views/ops/infosys.js?v=' + version ]
+				} ]);
+			}
+		}
 	})
 
 }

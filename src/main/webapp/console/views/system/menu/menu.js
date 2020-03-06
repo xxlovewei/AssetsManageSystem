@@ -514,6 +514,7 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 		"insert" : false,
 		"remove" : false,
 		"priv" : false,
+		"act1" : false,
 	};
 
 	privCrudCompute($scope.crud, $rootScope.curMemuBtns);
@@ -537,7 +538,7 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 				+ " <button ng-click=\"cellTemplateScope.acl(row.branch)\" class=\"btn-white btn btn-xs\">权限</button>";
 	}
 
-	if ($scope.act1) {
+	if ($scope.crud.act1) {
 		acthtml = acthtml
 				+ " <button ng-click=\"cellTemplateScope.batchadd(row.branch)\" class=\"btn-white btn btn-xs\">批量按钮</button>";
 	}
