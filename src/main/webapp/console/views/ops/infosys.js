@@ -183,6 +183,16 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.push(DTColumnBuilder.newColumn('opsmethodstr').withTitle('运维模式')
 					.withOption('sDefaultContent', '')
 					.withOption("width", '30'));
+	
+
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('sameplacebkmethod')
+			.withTitle('同城备份').withOption('sDefaultContent', '').withOption(
+					"width", '30'));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('diffplacebkmethod')
+			.withTitle('异地备份').withOption('sDefaultContent', '').withOption(
+					"width", '30'));
+
+	
 	$scope.dtColumns
 			.push(DTColumnBuilder.newColumn('tcontact').withTitle('技术联系')
 					.withOption('sDefaultContent', '')
@@ -198,13 +208,6 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.push(DTColumnBuilder.newColumn('lastdrilldate').withTitle('最近演练')
 					.withOption('sDefaultContent', '')
 					.withOption("width", '30'));
-
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('sameplacebkmethod')
-			.withTitle('同城备份').withOption('sDefaultContent', '').withOption(
-					"width", '30'));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('diffplacebkmethod')
-			.withTitle('异地备份').withOption('sDefaultContent', '').withOption(
-					"width", '30'));
 
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('bkmethod').withTitle('备份')
 			.withOption('sDefaultContent', '').withOption("width", '30'));
@@ -592,6 +595,31 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			required : false,
 			maxlength : "500",
 			placeholder : "请输入内容",
+			label : "同城",
+			need : false,
+			name : 'sameplacebkmethod',
+			ng_model : "sameplacebkmethod"
+		});
+
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "500",
+			placeholder : "请输入内容",
+			label : "异地",
+			need : false,
+			name : 'diffplacebkmethod',
+			ng_model : "diffplacebkmethod"
+		});
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "500",
+			placeholder : "请输入内容",
 			label : "操作系统",
 			need : false,
 			name : 'os',
@@ -676,31 +704,6 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			ng_model : "lastdrilldate"
 		});
 
-		items.push({
-			type : "input",
-			disabled : "false",
-			sub_type : "text",
-			required : false,
-			maxlength : "500",
-			placeholder : "请输入内容",
-			label : "同城",
-			need : false,
-			name : 'sameplacebkmethod',
-			ng_model : "sameplacebkmethod"
-		});
-
-		items.push({
-			type : "input",
-			disabled : "false",
-			sub_type : "text",
-			required : false,
-			maxlength : "500",
-			placeholder : "请输入内容",
-			label : "异地",
-			need : false,
-			name : 'diffplacebkmethod',
-			ng_model : "diffplacebkmethod"
-		});
 
 		items.push({
 			type : "input",
