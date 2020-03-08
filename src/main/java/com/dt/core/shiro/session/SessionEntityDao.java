@@ -78,7 +78,7 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 		super.update(session);
 		// 如果会话过期,停止 没必要再更新了
 		if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
-			_log.info("会话无效,不更新存储");
+			_log.info("会话失效,可能已过期,不需要更新");
 			return;
 		}
 		SimpleSessionEntity entity = new SimpleSessionEntity();

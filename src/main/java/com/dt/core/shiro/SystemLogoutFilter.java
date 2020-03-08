@@ -54,9 +54,9 @@ public class SystemLogoutFilter extends LogoutFilter {
 		}
 
 		if (isReturnJSON(httpRequest)) {
-			httpResponse.setStatus(299);
+			httpResponse.setStatus(200);
 			httpResponse.setHeader("content-type", "text/html;charset=UTF-8");
-			httpResponse.getWriter().print(R.FAILURE_NOT_LOGIN().asJsonStr());
+			httpResponse.getWriter().print(R.SUCCESS_OPER().asJsonStr());
 			httpResponse.getWriter().flush();
 			httpResponse.getWriter().close();
 		} else {

@@ -52,7 +52,7 @@ app.factory('sessionInjector', [
 				// 未登录
 				if (responseObject.status == "299") {
 					var state = $injector.get('$state');
-					state.go("login");
+					//		state.go("login");
 				} else if (responseObject.status == "298") {
 					// 未授权
 				}
@@ -141,6 +141,8 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
 		transclude : true,
 		templateUrl : "views/system/login/login.html?v=" + version,
 		params : {
+			msg:null,
+			from:null,
 			to : null,
 			psBtns : "[]"
 		},
@@ -201,14 +203,26 @@ app
 										to : '**'
 									},
 									function(trans) {
+										console.log("onBefore", trans);
+										var from_arr = trans._treeChanges.from;
+										var from = null;
+										if (from_arr.length > 0) {
+											from = from_arr[from_arr.length - 1].state.name;
+										}
+										var to_arr = trans._treeChanges.to;
+										var to = null;
+										if (to_arr.length > 0) {
+											to = to_arr[to_arr.length - 1].state.name;
+										}
+										console.log('onBefore|from:' + from
+												+ ',to:' + to);
 
-										console.log("trans to:",
-												trans._targetState);
+										// 处理按钮权限
 										if (angular
 												.isDefined(trans._targetState._options.custom.btns)) {
 											// 如果不是空的,直接放到$rootScope中
 											console
-													.log("pbtns trans exists,put btns into rootScope")
+													.log("onBefore｜pbtns trans exists,put btns into rootScope")
 											$rootScope.curMemuBtns = trans._targetState._options.custom.btns;
 											$localStorage
 													.put(
@@ -217,14 +231,14 @@ app
 															trans._targetState._options.custom.btns);
 										} else {
 											console
-													.log("pbtns trans not exists,get from localstorage")
+													.log("onBefore｜pbtns trans not exists,get from localstorage")
 											var v = $localStorage
 													.get("curMemuBtns_"
 															+ trans._targetState._definition.name);
 											$rootScope.curMemuBtns = v;
 											if (angular.isDefined(v)) {
 												console
-														.log("pbtns trans get from localstorage,success")
+														.log("onBefore｜pbtns trans get from localstorage,success")
 											}
 
 										}
@@ -237,6 +251,9 @@ app
 										to : '**'
 									},
 									function(trans) {
+
+										console.log("onSuccess", trans);
+
 										// 删除html缓存
 										var $state = trans.router.stateService;
 										if (angular
@@ -246,15 +263,18 @@ app
 												&& angular
 														.isDefined($state.router.globals.current.templateUrl)) {
 											console
-													.log("Remove|"
+													.log("onSuccess|Remove"
 															+ $state.router.globals.current.templateUrl);
 											$templateCache
 													.remove($state.router.globals.current.templateUrl)
 										}
-
-										// 处理from
+										// 处理按钮权限
 										var from_arr = trans._treeChanges.from;
 										var from = null;
+										if (from_arr.length > 0) {
+											from = from_arr[from_arr.length - 1].state.name;
+										}
+
 										var pbtns = "";
 										if (from_arr.length > 0) {
 											from = from_arr[from_arr.length - 1].state.name;
@@ -263,42 +283,55 @@ app
 												pbtns = from_arr[from_arr.length - 1].paramValues.psBtns;
 											}
 										}
-										$log.warn("from:", from);
 
-										console.log("Action LoginCheck");
+										var to_arr = trans._treeChanges.to;
+										var to = null;
+										if (to_arr.length > 0) {
+											to = to_arr[to_arr.length - 1].state.name;
+										}
+										console.log('onSuccess|from:' + from
+												+ ',to:' + to);
+
+										// 判断
 										var userService = trans.injector().get(
 												'userService');
-										userService
-												.checkLogin()
-												.then(
-														function(result) {
-															$log
-																	.warn(
-																			"check login result,from:"
-																					+ from
-																					+ ",result:",
-																			result)
+										if (angular.isDefined(from)
+												&& from != ""
+												&& from != "login") {
 
-															if (!result.success) {
-																if (from != "login") {
-																	$state
-																			.go(
-																					"login",
-																					{
-																						to : from,
-																						psBtns : pbtns
-																					});
-																} else {
-																}
-															}
-														},
-														function(error) {
-															alert('系统错误');
-															event
-																	.preventDefault();
-														}, function(progress) {
-														})
-										// }
+											if (to != "login") {
+
+												userService
+														.checkLogin()
+														.then(
+																function(result) {
+																	if (!result.success) {
+
+																		console
+																				.log('onSuccess|Jump to login'
+																						+ to
+																						+ 'a');
+																		$state
+																				.go(
+																						"login",
+																						{
+																							from : from,
+																							to : to,
+																							msg : "会话超时,请重新登陆!"
+																						});
+																	}
+																},
+																function(error) {
+																	alert('系统错误');
+																	event
+																			.preventDefault();
+																},
+																function(
+																		progress) {
+																})
+
+											}
+										}
 
 									});
 
@@ -385,7 +418,6 @@ function initDT(DTDefaultOptions) {
 		}
 	};
 	DTDefaultOptions.setLanguage(lng);
-	// DTDefaultOptions.setDOM('frtlip');
 	DTDefaultOptions.setDOM('frtilp');
 	DTDefaultOptions.setDisplayLength(50);
 	DTDefaultOptions.setOption('sPaginationType', 'full_numbers');
