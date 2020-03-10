@@ -1,11 +1,11 @@
 package com.dt.module.ops.entity;
 
 import java.io.Serializable;
-
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -13,7 +13,7 @@ import com.dt.core.common.base.BaseModel;
  * </p>
  *
  * @author algernonking
- * @since 2020-02-10
+ * @since 2020-03-10
  */
  
 @TableName("ops_node")
@@ -35,7 +35,7 @@ public class OpsNode extends BaseModel<OpsNode> {
     @TableField("busitype")
     private String busitype;
     @TableField("loc")
-    private String loc;  
+    private String loc;
     @TableField("ip")
     private String ip;
     @TableField("os")
@@ -76,9 +76,22 @@ public class OpsNode extends BaseModel<OpsNode> {
     private String label5;
     @TableField("label6")
     private String label6;
-    
     @TableField("status")
     private String status;
+    @TableField("userdb")
+    private String userdb;
+    @TableField("userapp")
+    private String userapp;
+    @TableField("userother")
+    private String userother;
+    @TableField("useradmin")
+    private String useradmin;
+    @TableField("usernologin")
+    private String usernologin;
+    @TableField("userops")
+    private String userops;
+    @TableField("usermid")
+    private String usermid;
 
 
     public String getId() {
@@ -305,6 +318,62 @@ public class OpsNode extends BaseModel<OpsNode> {
         this.status = status;
     }
 
+    public String getUserdb() {
+        return userdb;
+    }
+
+    public void setUserdb(String userdb) {
+        this.userdb = userdb;
+    }
+
+    public String getUserapp() {
+        return userapp;
+    }
+
+    public void setUserapp(String userapp) {
+        this.userapp = userapp;
+    }
+
+    public String getUserother() {
+        return userother;
+    }
+
+    public void setUserother(String userother) {
+        this.userother = userother;
+    }
+
+    public String getUseradmin() {
+        return useradmin;
+    }
+
+    public void setUseradmin(String useradmin) {
+        this.useradmin = useradmin;
+    }
+
+    public String getUsernologin() {
+        return usernologin;
+    }
+
+    public void setUsernologin(String usernologin) {
+        this.usernologin = usernologin;
+    }
+
+    public String getUserops() {
+        return userops;
+    }
+
+    public void setUserops(String userops) {
+        this.userops = userops;
+    }
+
+    public String getUsermid() {
+        return usermid;
+    }
+
+    public void setUsermid(String usermid) {
+        this.usermid = usermid;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -341,6 +410,13 @@ public class OpsNode extends BaseModel<OpsNode> {
         ", label5=" + label5 +
         ", label6=" + label6 +
         ", status=" + status +
+        ", userdb=" + userdb +
+        ", userapp=" + userapp +
+        ", userother=" + userother +
+        ", useradmin=" + useradmin +
+        ", usernologin=" + usernologin +
+        ", userops=" + userops +
+        ", usermid=" + usermid +
         "}";
     }
 }

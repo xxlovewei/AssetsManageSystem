@@ -55,7 +55,33 @@ public class OpsNodeEntity {
 
 	@Excel(name = "状态", width = 15)
 	private String statusstr;
+	
 
+	@Excel(name = "管理员用户", width = 20)
+	private String useradmin;
+	
+	@Excel(name = "数据库用户", width = 20)
+	private String userdb;
+	
+
+	@Excel(name = "应用用户", width = 20)
+	private String userapp;
+	
+
+	@Excel(name = "中间件用户", width = 20)
+	private String usermid;
+	
+	
+	@Excel(name = "运维用户", width = 15)
+	private String userops;
+
+
+	@Excel(name = "其他用户", width = 15)
+	private String userother;
+	@Excel(name = "Nologin用户", width = 15)
+	
+	private String usernologin;
+	
 	@Excel(name = "标签1", width = 15)
 	private String label1;
 
@@ -377,6 +403,106 @@ public class OpsNodeEntity {
 		this.nodebackupstr = nodebackupstr;
 	}
 
+
+	/**
+	 * @return the useradmin
+	 */
+	public String getUseradmin() {
+		return useradmin;
+	}
+
+	/**
+	 * @param useradmin the useradmin to set
+	 */
+	public void setUseradmin(String useradmin) {
+		this.useradmin = useradmin;
+	}
+
+	/**
+	 * @return the userdb
+	 */
+	public String getUserdb() {
+		return userdb;
+	}
+
+	/**
+	 * @param userdb the userdb to set
+	 */
+	public void setUserdb(String userdb) {
+		this.userdb = userdb;
+	}
+
+	/**
+	 * @return the userapp
+	 */
+	public String getUserapp() {
+		return userapp;
+	}
+
+	/**
+	 * @param userapp the userapp to set
+	 */
+	public void setUserapp(String userapp) {
+		this.userapp = userapp;
+	}
+
+	/**
+	 * @return the usermid
+	 */
+	public String getUsermid() {
+		return usermid;
+	}
+
+	/**
+	 * @param usermid the usermid to set
+	 */
+	public void setUsermid(String usermid) {
+		this.usermid = usermid;
+	}
+
+	/**
+	 * @return the userops
+	 */
+	public String getUserops() {
+		return userops;
+	}
+
+	/**
+	 * @param userops the userops to set
+	 */
+	public void setUserops(String userops) {
+		this.userops = userops;
+	}
+
+	/**
+	 * @return the userother
+	 */
+	public String getUserother() {
+		return userother;
+	}
+
+	/**
+	 * @param userother the userother to set
+	 */
+	public void setUserother(String userother) {
+		this.userother = userother;
+	}
+
+	/**
+	 * @return the usernologin
+	 */
+	public String getUsernologin() {
+		return usernologin;
+	}
+
+	/**
+	 * @param usernologin the usernologin to set
+	 */
+	public void setUsernologin(String usernologin) {
+		this.usernologin = usernologin;
+	}
+	
+	
 	public void fullEntity(JSONObject obj) {
 		this.nodebackupstr = obj.getString("nodebackupstr");
 		this.name = obj.getString("name");
@@ -400,5 +526,16 @@ public class OpsNodeEntity {
 		this.label2 = obj.getString("label2");
 		this.label1 = obj.getString("label1");
 		this.statusstr = obj.getString("statusstr");
+		
+		this.useradmin=obj.getString("useradmin");
+		this.userdb=obj.getString("userdb");
+		this.userother=obj.getString("userother");
+		this.usernologin=obj.getString("usernologin");
+		this.userops=obj.getString("userops");
+		this.usermid=obj.getString("usermid");
+		this.userapp=obj.getString("userapp");
+		
+		
+		
 	}
 }

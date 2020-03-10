@@ -37,6 +37,13 @@
         <result column="label5" property="label5" />
         <result column="label6" property="label6" />
         <result column="status" property="status" />
+        <result column="userdb" property="userdb" />
+        <result column="userapp" property="userapp" />
+        <result column="userother" property="userother" />
+        <result column="useradmin" property="useradmin" />
+        <result column="usernologin" property="usernologin" />
+        <result column="userops" property="userops" />
+        <result column="usermid" property="usermid" />
     </resultMap>
 
 </mapper>

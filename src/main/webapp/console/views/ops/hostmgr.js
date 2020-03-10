@@ -443,6 +443,21 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
 			.withOption('sDefaultContent', ''));
 
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('useradmin').withTitle('系统用户')
+			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('userops').withTitle('运维用户')
+			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('userapp').withTitle('应用用户')
+			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('userdb').withTitle('数据库用户')
+			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('usermid').withTitle('中间件用户')
+			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('userother').withTitle('其他用户')
+			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('usernologin').withTitle('未登陆用户')
+			.withOption('sDefaultContent', ''));
+	
 	$scope.query = function() {
 		flush();
 	}
@@ -740,7 +755,110 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			name : 'leader',
 			ng_model : "leader"
 		});
+		
+		
 
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "1000",
+			placeholder : "管理员用户",
+			label : "管理员用户",
+			need : false,
+			name : 'useradmin',
+			ng_model : "useradmin"
+		});
+		
+		
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "1000",
+			placeholder : "应用用户",
+			label : "应用用户",
+			need : false,
+			name : 'userapp',
+			ng_model : "userapp"
+		});
+		
+		
+		
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "1000",
+			placeholder : "数据库用户",
+			label : "数据库用户",
+			need : false,
+			name : 'userdb',
+			ng_model : "userdb"
+		});
+		
+		
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "1000",
+			placeholder : "中间件用户",
+			label : "中间件用户",
+			need : false,
+			name : 'usermid',
+			ng_model : "usermid"
+		});
+		
+		
+		
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "1000",
+			placeholder : "运维用户",
+			label : "运维用户",
+			need : false,
+			name : 'userops',
+			ng_model : "userops"
+		});
+		
+		
+		
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "1000",
+			placeholder : "其他用户",
+			label : "其他用户",
+			need : false,
+			name : 'userother',
+			ng_model : "userother"
+		});
+		
+		
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "1000",
+			placeholder : "未登陆用户",
+			label : "未登陆用户",
+			need : false,
+			name : 'usernologin',
+			ng_model : "usernologin"
+		});
+		
+		
 		items.push({
 			type : "select",
 			disabled : "false",
@@ -910,8 +1028,9 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		// type 1 更新
 		if (type == 1) {
 			var selrow = getSelectRow();
-		 
-			itemvalue = selrow;
+			var itemvalue={};
+			
+			angular.copy(selrow,itemvalue);
 			if (angular.isDefined(selrow)) {
 				id = selrow.id;
 			} else {
