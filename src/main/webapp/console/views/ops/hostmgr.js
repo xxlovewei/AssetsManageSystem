@@ -22,9 +22,7 @@ function modalimportdataHostFailCtl(DTOptionsBuilder, DTColumnBuilder,
 
 function loadOptHost(modal_meta, gdicts) {
 
-	 
 	var item = modal_meta.meta.item;
- 
 
 	// 运行环境
 	if (angular.isDefined(gdicts.sysenv) && gdicts.sysenv.length > 0) {
@@ -103,8 +101,7 @@ function loadOptHost(modal_meta, gdicts) {
 		} else {
 		}
 	}
-	
-	
+
 	// 数据库
 	if (angular.isDefined(gdicts.sysdb) && gdicts.sysdb.length > 0) {
 		modal_meta.meta.dbOpt = gdicts.sysdb;
@@ -117,7 +114,6 @@ function loadOptHost(modal_meta, gdicts) {
 		} else {
 		}
 	}
-	
 
 	// 数据库详细
 	if (angular.isDefined(gdicts.sysdbdtl) && gdicts.sysdbdtl.length > 0) {
@@ -197,8 +193,7 @@ function loadOptHost(modal_meta, gdicts) {
 		} else {
 		}
 	}
-	
-	
+
 	// 中间价
 	if (angular.isDefined(gdicts.sysmid) && gdicts.sysmid.length > 0) {
 		modal_meta.meta.midOpt = gdicts.sysmid;
@@ -253,7 +248,7 @@ function modalimportHostCtl($log, $uibModalInstance, notify, $scope, $http,
 
 		$scope.okbtnstatus = true;
 		var id = getUuid();
-	 
+
 		if ($scope.myDropzone.files.length > 0) {
 			$scope.myDropzone.options.url = $rootScope.project
 					+ '/api/file/fileupload.do?uuid=' + id
@@ -361,7 +356,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				extend : 'colvis',
 				text : '显示隐藏列',
 				fnLabel : function(dt, idx, title) {
-				 
+
 					return (idx + 1) + ': ' + title;
 				}
 			}, {
@@ -388,16 +383,16 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			} ]);
 
 	function stateChange(iColumn, bVisible) {
-	 
+
 	}
 	$scope.dtInstance = {}
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
-			 
+
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
-			 
+
 		}
 	}
 
@@ -443,21 +438,23 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
 			.withOption('sDefaultContent', ''));
 
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('useradmin').withTitle('系统用户')
-			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('userops').withTitle('运维用户')
-			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('userapp').withTitle('应用用户')
-			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('userdb').withTitle('数据库用户')
-			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('usermid').withTitle('中间件用户')
-			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('userother').withTitle('其他用户')
-			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('usernologin').withTitle('未登陆用户')
-			.withOption('sDefaultContent', ''));
-	
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('useradmin').withTitle(
+			'系统用户').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('userops')
+			.withTitle('运维用户').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('userapp')
+			.withTitle('应用用户').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('userdb')
+			.withTitle('数据库安装用户').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('userdbused')
+			.withTitle('数据库使用用户').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('usermid').withTitle(
+			'中间件用户').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('userother').withTitle(
+			'其他用户').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('usernologin').withTitle(
+			'未登陆用户').withOption('sDefaultContent', ''));
+
 	$scope.query = function() {
 		flush();
 	}
@@ -573,7 +570,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			return;
 		} else {
 			var res = [];
-			 
+
 			for (var i = 0; i < data.length; i++) {
 				res.push($scope.dtOptions.aaData[data[i]].id)
 			}
@@ -583,7 +580,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.del = function() {
 		var selrow = getSelectRow();
- 
+
 		if (angular.isDefined(selrow)) {
 			$confirm({
 				text : '是否删除?'
@@ -655,7 +652,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			});
 			return;
 		} else {
-		 
+
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}
@@ -691,18 +688,15 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			ng_model : "ip"
 		});
 
-		
 		items.push({
 			type : "select",
 			disabled : "false",
-			label : "节点备份类型",
-			need : true,
+			label : "风险等级",
+			need : false,
 			disable_search : "true",
-			dataOpt : "nodebakOpt",
-			dataSel : "nodebakSel"
+			dataOpt : "syslevelOpt",
+			dataSel : "syslevelSel"
 		});
-		
-		
 		items.push({
 			type : "select",
 			disabled : "false",
@@ -712,7 +706,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			dataOpt : "statusOpt",
 			dataSel : "statusSel"
 		});
-		
+
 		items.push({
 			type : "select",
 			disabled : "false",
@@ -722,7 +716,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			dataOpt : "runenvOpt",
 			dataSel : "runenvSel"
 		});
-		
+
 		items.push({
 			type : "select",
 			disabled : "false",
@@ -744,6 +738,28 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 		items.push({
+			type : "select",
+			disabled : "false",
+			label : "节点备份类型",
+			need : true,
+			disable_search : "true",
+			dataOpt : "nodebakOpt",
+			dataSel : "nodebakSel"
+		});
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "500",
+			placeholder : "请输入内容",
+			label : "节点备份",
+			need : false,
+			name : 'nodebackup',
+			ng_model : "nodebackup"
+		});
+
+		items.push({
 			type : "input",
 			disabled : "false",
 			sub_type : "text",
@@ -755,8 +771,10 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			name : 'leader',
 			ng_model : "leader"
 		});
-		
-		
+
+		items.push({
+			type : "dashed"
+		});
 
 		items.push({
 			type : "input",
@@ -764,14 +782,13 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			sub_type : "text",
 			required : false,
 			maxlength : "1000",
-			placeholder : "管理员用户",
-			label : "管理员用户",
+			placeholder : "超级用户",
+			label : "超级用户",
 			need : false,
 			name : 'useradmin',
 			ng_model : "useradmin"
 		});
-		
-		
+
 		items.push({
 			type : "input",
 			disabled : "false",
@@ -784,23 +801,33 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			name : 'userapp',
 			ng_model : "userapp"
 		});
-		
-		
-		
+
 		items.push({
 			type : "input",
 			disabled : "false",
 			sub_type : "text",
 			required : false,
 			maxlength : "1000",
-			placeholder : "数据库用户",
-			label : "数据库用户",
+			placeholder : "数据库安装用户",
+			label : "数据库安装用户",
 			need : false,
 			name : 'userdb',
 			ng_model : "userdb"
 		});
-		
-		
+
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "1000",
+			placeholder : "数据库使用用户",
+			label : "数据库使用用户",
+			need : false,
+			name : 'userdbused',
+			ng_model : "userdbused"
+		});
+
 		items.push({
 			type : "input",
 			disabled : "false",
@@ -813,9 +840,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			name : 'usermid',
 			ng_model : "usermid"
 		});
-		
-		
-		
+
 		items.push({
 			type : "input",
 			disabled : "false",
@@ -828,9 +853,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			name : 'userops',
 			ng_model : "userops"
 		});
-		
-		
-		
+
 		items.push({
 			type : "input",
 			disabled : "false",
@@ -843,8 +866,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			name : 'userother',
 			ng_model : "userother"
 		});
-		
-		
+
 		items.push({
 			type : "input",
 			disabled : "false",
@@ -852,13 +874,15 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			required : false,
 			maxlength : "1000",
 			placeholder : "未登陆用户",
-			label : "未登陆用户",
+			label : "不可登陆用户",
 			need : false,
 			name : 'usernologin',
 			ng_model : "usernologin"
 		});
-		
-		
+		items.push({
+			type : "dashed"
+		});
+
 		items.push({
 			type : "select",
 			disabled : "false",
@@ -920,13 +944,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 		items.push({
-			type : "select",
-			disabled : "false",
-			label : "监控",
-			need : true,
-			disable_search : "true",
-			dataOpt : "monitorOpt",
-			dataSel : "monitorSel"
+			type : "dashed"
 		});
 
 		items.push({
@@ -953,26 +971,17 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 		items.push({
-			type : "select",
-			disabled : "false",
-			label : "系统等级",
-			need : false,
-			disable_search : "true",
-			dataOpt : "syslevelOpt",
-			dataSel : "syslevelSel"
+			type : "dashed"
 		});
 
 		items.push({
-			type : "input",
+			type : "select",
 			disabled : "false",
-			sub_type : "text",
-			required : false,
-			maxlength : "500",
-			placeholder : "请输入内容",
-			label : "节点备份",
-			need : false,
-			name : 'nodebackup',
-			ng_model : "nodebackup"
+			label : "监控",
+			need : true,
+			disable_search : "true",
+			dataOpt : "monitorOpt",
+			dataSel : "monitorSel"
 		});
 
 		items.push({
@@ -1028,9 +1037,9 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		// type 1 更新
 		if (type == 1) {
 			var selrow = getSelectRow();
-			var itemvalue={};
-			
-			angular.copy(selrow,itemvalue);
+			var itemvalue = {};
+
+			angular.copy(selrow, itemvalue);
 			if (angular.isDefined(selrow)) {
 				id = selrow.id;
 			} else {
@@ -1070,12 +1079,11 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			syslevelSel : "",
 			items : items,
 			sure : function(modalInstance, modal_meta) {
-			 
 
 				if (angular.isDefined(modal_meta.meta.statusSel.dict_item_id)) {
 					modal_meta.meta.item.status = modal_meta.meta.statusSel.dict_item_id
 				}
-				
+
 				if (angular.isDefined(modal_meta.meta.runenvSel.dict_item_id)) {
 					modal_meta.meta.item.runenv = modal_meta.meta.runenvSel.dict_item_id
 				}
@@ -1113,12 +1121,11 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				if (angular.isDefined(modal_meta.meta.syslevelSel.dict_item_id)) {
 					modal_meta.meta.item.syslevel = modal_meta.meta.syslevelSel.dict_item_id
 				}
-				
+
 				if (angular.isDefined(modal_meta.meta.nodebakSel.dict_item_id)) {
 					modal_meta.meta.item.nodebackup = modal_meta.meta.nodebakSel.dict_item_id
 				}
 
-				
 				if (angular.isDefined(modal_meta.meta.midSel)) {
 					var name = ""
 					var ids = [];
@@ -1146,7 +1153,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						});
 					}
 				});
-			 
+
 			},
 			init : function(modal_meta) {
 				var gdicts2 = {};
@@ -1156,7 +1163,6 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}
 		}
 
-	 
 		// 打开静态框
 		var modalInstance = $uibModal.open({
 			backdrop : true,

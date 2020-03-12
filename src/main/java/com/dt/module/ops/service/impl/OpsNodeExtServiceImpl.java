@@ -251,6 +251,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("usernologin", re.getUsernologin());
 			me.setIf("userops", re.getUserops());
 			me.setIf("usermid", re.getUsermid());
+			me.setIf("userdbused", re.getUserdb());
 
 			// 数据字典匹配
 			me.setIf("nodebackup", nodebackupR.queryDataToJSONObject().getString("dict_item_id"));
@@ -295,6 +296,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("usernologin", re.getUsernologin());
 			me.setIf("userops", re.getUserops());
 			me.setIf("usermid", re.getUsermid());
+			me.setIf("userdbused", re.getUserdb());
 			
 			// 数据字典匹配
 			me.setIf("nodebackup", nodebackupR.queryDataToJSONObject().getString("dict_item_id"));

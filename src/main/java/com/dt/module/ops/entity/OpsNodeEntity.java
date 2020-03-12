@@ -57,12 +57,16 @@ public class OpsNodeEntity {
 	private String statusstr;
 	
 
-	@Excel(name = "管理员用户", width = 20)
+	@Excel(name = "超级用户", width = 20)
 	private String useradmin;
 	
-	@Excel(name = "数据库用户", width = 20)
+	@Excel(name = "数据库安装用户", width = 20)
 	private String userdb;
-	
+
+	@Excel(name = "数据库使用用户", width = 20)
+	private String userdbused;
+
+
 
 	@Excel(name = "应用用户", width = 20)
 	private String userapp;
@@ -78,6 +82,7 @@ public class OpsNodeEntity {
 
 	@Excel(name = "其他用户", width = 15)
 	private String userother;
+	
 	@Excel(name = "Nologin用户", width = 15)
 	
 	private String usernologin;
@@ -503,6 +508,20 @@ public class OpsNodeEntity {
 	}
 	
 	
+	
+	/**
+	 * @return the userdbused
+	 */
+	public String getUserdbused() {
+		return userdbused;
+	}
+
+	/**
+	 * @param userdbused the userdbused to set
+	 */
+	public void setUserdbused(String userdbused) {
+		this.userdbused = userdbused;
+	}
 	public void fullEntity(JSONObject obj) {
 		this.nodebackupstr = obj.getString("nodebackupstr");
 		this.name = obj.getString("name");
@@ -534,7 +553,7 @@ public class OpsNodeEntity {
 		this.userops=obj.getString("userops");
 		this.usermid=obj.getString("usermid");
 		this.userapp=obj.getString("userapp");
-		
+		this.userdbused=obj.getString("userdbused");
 		
 		
 	}

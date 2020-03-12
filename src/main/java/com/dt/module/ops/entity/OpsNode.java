@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-03-10
+ * @since 2020-03-12
  */
  
 @TableName("ops_node")
@@ -92,6 +92,8 @@ public class OpsNode extends BaseModel<OpsNode> {
     private String userops;
     @TableField("usermid")
     private String usermid;
+    @TableField("userdbused")
+    private String userdbused;
 
 
     public String getId() {
@@ -374,6 +376,14 @@ public class OpsNode extends BaseModel<OpsNode> {
         this.usermid = usermid;
     }
 
+    public String getUserdbused() {
+        return userdbused;
+    }
+
+    public void setUserdbused(String userdbused) {
+        this.userdbused = userdbused;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -417,6 +427,7 @@ public class OpsNode extends BaseModel<OpsNode> {
         ", usernologin=" + usernologin +
         ", userops=" + userops +
         ", usermid=" + usermid +
+        ", userdbused=" + userdbused +
         "}";
     }
 }

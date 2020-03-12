@@ -44,6 +44,7 @@
         <result column="usernologin" property="usernologin" />
         <result column="userops" property="userops" />
         <result column="usermid" property="usermid" />
+        <result column="userdbused" property="userdbused" />
     </resultMap>
 
 </mapper>
