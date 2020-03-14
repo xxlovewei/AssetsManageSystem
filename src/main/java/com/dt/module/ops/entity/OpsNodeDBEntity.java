@@ -70,7 +70,7 @@ public class OpsNodeDBEntity {
 	 * @return the dsize
 	 */
 	public String getDsize() {
-		return dsize;
+		return dsize==null?"":dsize;
 	}
 
 
@@ -100,7 +100,7 @@ public class OpsNodeDBEntity {
 	 * @return the xtname
 	 */
 	public String getXtname() {
-		return xtname;
+		return xtname==null?"":xtname;
 	}
 
 
@@ -116,7 +116,7 @@ public class OpsNodeDBEntity {
 	 * @return the ip
 	 */
 	public String getIp() {
-		return ip;
+		return ip==null?"":ip;
 	}
 
 
@@ -148,7 +148,7 @@ public class OpsNodeDBEntity {
 	 * @return the dbinstance
 	 */
 	public String getDbinstance() {
-		return dbinstance;
+		return dbinstance==null?"":dbinstance;
 	}
 
 
@@ -164,7 +164,8 @@ public class OpsNodeDBEntity {
 	 * @return the bkstrategy
 	 */
 	public String getBkstrategy() {
-		return bkstrategy;
+	 
+		return bkstrategy==null?"":bkstrategy;
 	}
 
 
@@ -180,7 +181,7 @@ public class OpsNodeDBEntity {
 	 * @return the bkkeep
 	 */
 	public String getBkkeep() {
-		return bkkeep;
+		return bkkeep==null?"":bkkeep;
 	}
 
 
@@ -260,7 +261,7 @@ public class OpsNodeDBEntity {
 	 * @return the mark
 	 */
 	public String getMark() {
-		return mark;
+		return mark==null?"":mark;
 	}
 
 

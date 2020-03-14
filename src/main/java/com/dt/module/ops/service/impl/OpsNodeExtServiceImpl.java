@@ -245,13 +245,15 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("label2", re.getLabel2());
 			
 			me.setIf("userdb", re.getUserdb());
+			me.setIf("userdbused", re.getUserdbused());
 			me.setIf("userapp", re.getUserapp());
 			me.setIf("userother", re.getUserops());
 			me.setIf("useradmin", re.getUseradmin());
 			me.setIf("usernologin", re.getUsernologin());
 			me.setIf("userops", re.getUserops());
 			me.setIf("usermid", re.getUsermid());
-			me.setIf("userdbused", re.getUserdb());
+			me.setIf("nodebackupdtl", re.getNodebackupdtl());
+	
 
 			// 数据字典匹配
 			me.setIf("nodebackup", nodebackupR.queryDataToJSONObject().getString("dict_item_id"));
@@ -289,14 +291,16 @@ public class OpsNodeExtServiceImpl extends BaseService {
 
 			me.setIf("label1", re.getLabel1());
 			me.setIf("label2", re.getLabel2());
-			me.setIf("userdb", re.getUserdb());
+		
 			me.setIf("userapp", re.getUserapp());
 			me.setIf("userother", re.getUserops());
 			me.setIf("useradmin", re.getUseradmin());
 			me.setIf("usernologin", re.getUsernologin());
 			me.setIf("userops", re.getUserops());
 			me.setIf("usermid", re.getUsermid());
-			me.setIf("userdbused", re.getUserdb());
+			me.setIf("userdb", re.getUserdb());
+			me.setIf("userdbused", re.getUserdbused());
+			me.setIf("nodebackupdtl", re.getNodebackupdtl());
 			
 			// 数据字典匹配
 			me.setIf("nodebackup", nodebackupR.queryDataToJSONObject().getString("dict_item_id"));

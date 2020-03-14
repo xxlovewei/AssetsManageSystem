@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author algernonking
- * @since 2020-03-12
+ * @since 2020-03-14
  */
 public interface IOpsNodeService extends IService<OpsNode> {
 

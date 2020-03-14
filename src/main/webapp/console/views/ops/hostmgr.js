@@ -425,6 +425,8 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('nodebackupstr').withTitle(
 			'节点备份类型').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('nodebackupdtl').withTitle(
+			'节点备份详情').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('sysexecenvstr').withTitle(
 			'执行环境').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('syslevelstr').withTitle(
@@ -444,10 +446,10 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withTitle('运维用户').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('userapp')
 			.withTitle('应用用户').withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('userdb')
-			.withTitle('数据库安装用户').withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('userdbused')
-			.withTitle('数据库使用用户').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('userdb').withTitle(
+			'数据库安装用户').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('userdbused').withTitle(
+			'数据库使用用户').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('usermid').withTitle(
 			'中间件用户').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('userother').withTitle(
@@ -755,8 +757,8 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			placeholder : "请输入内容",
 			label : "节点备份",
 			need : false,
-			name : 'nodebackup',
-			ng_model : "nodebackup"
+			name : 'nodebackupdtl',
+			ng_model : "nodebackupdtl"
 		});
 
 		items.push({

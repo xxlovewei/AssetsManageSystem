@@ -45,6 +45,7 @@
         <result column="userops" property="userops" />
         <result column="usermid" property="usermid" />
         <result column="userdbused" property="userdbused" />
+        <result column="nodebackupdtl" property="nodebackupdtl" />
     </resultMap>
 
 </mapper>

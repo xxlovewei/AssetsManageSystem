@@ -52,41 +52,39 @@ public class OpsNodeEntity {
 
 	@Excel(name = "节点备份类型", width = 18)
 	private String nodebackupstr;
+	@Excel(name = "节点备份详情", width = 20)
+	private String nodebackupdtl;
+
+
 
 	@Excel(name = "状态", width = 15)
 	private String statusstr;
-	
 
 	@Excel(name = "超级用户", width = 20)
 	private String useradmin;
-	
+
 	@Excel(name = "数据库安装用户", width = 20)
 	private String userdb;
 
 	@Excel(name = "数据库使用用户", width = 20)
 	private String userdbused;
 
-
-
 	@Excel(name = "应用用户", width = 20)
 	private String userapp;
-	
 
 	@Excel(name = "中间件用户", width = 20)
 	private String usermid;
-	
-	
+
 	@Excel(name = "运维用户", width = 15)
 	private String userops;
 
-
 	@Excel(name = "其他用户", width = 15)
 	private String userother;
-	
+
 	@Excel(name = "Nologin用户", width = 15)
-	
+
 	private String usernologin;
-	
+
 	@Excel(name = "标签1", width = 15)
 	private String label1;
 
@@ -111,7 +109,7 @@ public class OpsNodeEntity {
 	 * @return the label1
 	 */
 	public String getLabel1() {
-		return label1;
+		return label1==null?"":label1;
 	}
 
 	/**
@@ -125,7 +123,7 @@ public class OpsNodeEntity {
 	 * @return the label2
 	 */
 	public String getLabel2() {
-		return label2;
+		return label2==null?"":label2;
 	}
 
 	/**
@@ -146,7 +144,7 @@ public class OpsNodeEntity {
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return name==null?"":name;
 	}
 
 	/**
@@ -174,7 +172,7 @@ public class OpsNodeEntity {
 	 * @return the ip
 	 */
 	public String getIp() {
-		return ip;
+		return ip == null ? "" : ip;
 	}
 
 	/**
@@ -328,7 +326,7 @@ public class OpsNodeEntity {
 	 * @return the pwdmark
 	 */
 	public String getPwdmark() {
-		return pwdmark;
+		return pwdmark==null?"":pwdmark;
 	}
 
 	/**
@@ -342,7 +340,7 @@ public class OpsNodeEntity {
 	 * @return the leader
 	 */
 	public String getLeader() {
-		return leader;
+		return leader==null?"":leader;
 	}
 
 	/**
@@ -384,7 +382,7 @@ public class OpsNodeEntity {
 	 * @return the mark
 	 */
 	public String getMark() {
-		return mark;
+		return mark==null?"":mark;
 	}
 
 	/**
@@ -408,12 +406,11 @@ public class OpsNodeEntity {
 		this.nodebackupstr = nodebackupstr;
 	}
 
-
 	/**
 	 * @return the useradmin
 	 */
 	public String getUseradmin() {
-		return useradmin;
+		return useradmin==null?"":useradmin;
 	}
 
 	/**
@@ -427,7 +424,7 @@ public class OpsNodeEntity {
 	 * @return the userdb
 	 */
 	public String getUserdb() {
-		return userdb;
+		return userdb==null?"":userdb;
 	}
 
 	/**
@@ -441,7 +438,7 @@ public class OpsNodeEntity {
 	 * @return the userapp
 	 */
 	public String getUserapp() {
-		return userapp;
+		return userapp==null?"":userapp;
 	}
 
 	/**
@@ -455,7 +452,7 @@ public class OpsNodeEntity {
 	 * @return the usermid
 	 */
 	public String getUsermid() {
-		return usermid;
+		return usermid==null?"":usermid;
 	}
 
 	/**
@@ -469,7 +466,7 @@ public class OpsNodeEntity {
 	 * @return the userops
 	 */
 	public String getUserops() {
-		return userops;
+		return userops==null?"":userops;
 	}
 
 	/**
@@ -483,7 +480,7 @@ public class OpsNodeEntity {
 	 * @return the userother
 	 */
 	public String getUserother() {
-		return userother;
+		return userother==null?"":userother;
 	}
 
 	/**
@@ -493,11 +490,29 @@ public class OpsNodeEntity {
 		this.userother = userother;
 	}
 
+
+	/**
+	 * @return the nodebackupdtl
+	 */
+	public String getNodebackupdtl() {
+		return nodebackupdtl==null?"":usernologin;
+	}
+
+	/**
+	 * @param nodebackupdtl the nodebackupdtl to set
+	 */
+	public void setNodebackupdtl(String nodebackupdtl) {
+		this.nodebackupdtl = nodebackupdtl;
+	
+		
+	}
+	
+	
 	/**
 	 * @return the usernologin
 	 */
 	public String getUsernologin() {
-		return usernologin;
+		return usernologin==null?"":usernologin;
 	}
 
 	/**
@@ -506,9 +521,7 @@ public class OpsNodeEntity {
 	public void setUsernologin(String usernologin) {
 		this.usernologin = usernologin;
 	}
-	
-	
-	
+
 	/**
 	 * @return the userdbused
 	 */
@@ -522,6 +535,7 @@ public class OpsNodeEntity {
 	public void setUserdbused(String userdbused) {
 		this.userdbused = userdbused;
 	}
+
 	public void fullEntity(JSONObject obj) {
 		this.nodebackupstr = obj.getString("nodebackupstr");
 		this.name = obj.getString("name");
@@ -545,16 +559,16 @@ public class OpsNodeEntity {
 		this.label2 = obj.getString("label2");
 		this.label1 = obj.getString("label1");
 		this.statusstr = obj.getString("statusstr");
-		
-		this.useradmin=obj.getString("useradmin");
-		this.userdb=obj.getString("userdb");
-		this.userother=obj.getString("userother");
-		this.usernologin=obj.getString("usernologin");
-		this.userops=obj.getString("userops");
-		this.usermid=obj.getString("usermid");
-		this.userapp=obj.getString("userapp");
-		this.userdbused=obj.getString("userdbused");
-		
-		
+		this.nodebackupdtl = obj.getString("nodebackupdtl");
+
+		this.useradmin = obj.getString("useradmin");
+		this.userdb = obj.getString("userdb");
+		this.userother = obj.getString("userother");
+		this.usernologin = obj.getString("usernologin");
+		this.userops = obj.getString("userops");
+		this.usermid = obj.getString("usermid");
+		this.userapp = obj.getString("userapp");
+		this.userdbused = obj.getString("userdbused");
+
 	}
 }
