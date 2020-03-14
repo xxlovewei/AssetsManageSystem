@@ -247,7 +247,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("userdb", re.getUserdb());
 			me.setIf("userdbused", re.getUserdbused());
 			me.setIf("userapp", re.getUserapp());
-			me.setIf("userother", re.getUserops());
+			me.setIf("userother", re.getUserother());
 			me.setIf("useradmin", re.getUseradmin());
 			me.setIf("usernologin", re.getUsernologin());
 			me.setIf("userops", re.getUserops());
@@ -293,7 +293,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 			me.setIf("label2", re.getLabel2());
 		
 			me.setIf("userapp", re.getUserapp());
-			me.setIf("userother", re.getUserops());
+			me.setIf("userother", re.getUserother());
 			me.setIf("useradmin", re.getUseradmin());
 			me.setIf("usernologin", re.getUsernologin());
 			me.setIf("userops", re.getUserops());

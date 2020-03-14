@@ -526,7 +526,8 @@ public class OpsNodeEntity {
 	 * @return the userdbused
 	 */
 	public String getUserdbused() {
-		return userdbused;
+		return userdbused==null?"":userdbused;
+ 
 	}
 
 	/**
