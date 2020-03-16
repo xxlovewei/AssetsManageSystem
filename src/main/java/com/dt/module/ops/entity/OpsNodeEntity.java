@@ -495,7 +495,7 @@ public class OpsNodeEntity {
 	 * @return the nodebackupdtl
 	 */
 	public String getNodebackupdtl() {
-		return nodebackupdtl==null?"":usernologin;
+		return nodebackupdtl==null?"":nodebackupdtl;
 	}
 
 	/**
