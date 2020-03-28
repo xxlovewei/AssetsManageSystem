@@ -422,12 +422,12 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		url : "/formmgr_setting",
 		data: { pageTitle: '表单设置'},
 	//	template:'<div ng-controller="formSettingCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
-		templateUrl : "views/system/form/setting.html?v="+version,
+		templateUrl : "views/system/form/formsetting.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
 				return $ocLazyLoad.load([ {
 					serie : true,
-					files : [ 'views/system/form/setting.js?v=' + version ]
+					files : [ 'views/system/form/formsetting.js?v=' + version ]
 				} ]);
 			}
 		}
@@ -464,7 +464,7 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		}
 	}).state('flow.processmatch', {
 		url : "/flow_processmatch?psBtns",
-		data: { pageTitle: '流程分配'},
+		data: { pageTitle: '流程设置'},
 		templateUrl : "views/flow/flowmatch.html?v="+version,
 		resolve : {
 			loadPlugin : function($ocLazyLoad) {
