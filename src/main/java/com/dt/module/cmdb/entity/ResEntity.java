@@ -86,6 +86,24 @@ public class ResEntity implements java.io.Serializable {
 	@Excel(name = "配置描述", width = 30)
 	private String confdesc;
 
+	@Excel(name = "ip", width = 20)
+	private String ip;
+
+	
+	/**
+	 * @return the ip
+	 */
+	public String getIp() {
+		return ip;
+	}
+
+	/**
+	 * @param ip the ip to set
+	 */
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
 	@Excel(name = "备注", width = 20)
 	private String mark;
 
@@ -506,7 +524,7 @@ public class ResEntity implements java.io.Serializable {
 		this.frame = obj.getString("frame");
 		this.buy_timestr = obj.getString("buy_timestr");
 		this.mark = obj.getString("mark");
-
+		this.ip= obj.getString("ip");
 		this.buy_price = obj.getString("buy_price");
 		this.name = obj.getString("name");
 		this.part_fullname = obj.getString("part_fullname");

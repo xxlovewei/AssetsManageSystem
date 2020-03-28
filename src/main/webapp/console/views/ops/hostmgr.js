@@ -1042,7 +1042,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			var itemvalue = {};
 
 			angular.copy(selrow, itemvalue);
-			if (angular.isDefined(selrow)) {
+			if (angular.isDefined(selrow) && angular.isDefined(selrow.id)) {
 				id = selrow.id;
 			} else {
 				return;

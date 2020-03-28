@@ -251,6 +251,7 @@ public class ResImportService extends BaseService {
 			/////////////// 开始处理///////////
 			me.setIf("fs1", re.getFs1());
 			me.setIf("fs2", re.getFs2());
+			me.setIf("ip", re.getIp());
 			me.setIf("fs20", re.getFs20());
 			me.setIf("frame", re.getFrame());
 			me.setIf("model", re.getModel());
@@ -295,6 +296,7 @@ public class ResImportService extends BaseService {
 			me.setIf("update_by", this.getUserId());
 			/////////////// 开始处理////////////
 			me.setIf("fs1", re.getFs1());
+			me.setIf("ip", re.getIp());
 			me.setIf("fs2", re.getFs2());
 			me.setIf("fs20", re.getFs20());
 			me.setIf("frame", re.getFrame());

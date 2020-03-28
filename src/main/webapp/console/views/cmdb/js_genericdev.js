@@ -348,6 +348,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
 			 'sDefaultContent', '').withOption('width', '50')
 			 .renderWith(renderName));		
+	
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
+			 'sDefaultContent', '').withOption('width', '50')
+			);	
+
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
 			 'sDefaultContent', '').withOption('width', '30'));		
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
@@ -738,6 +743,20 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								ng_model : "sn"
 							});		
 							
+
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "请输入内容",
+								label : "IP",
+								need : false,
+								name : 'ip',
+								ng_model : "ip"
+							});
+							
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -968,12 +987,13 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							});
 					
 							
+							
 							items.push({
 								type : "input",
 								disabled : "false",
 								sub_type : "text",
 								required : false,
-								maxlength : "50",
+								maxlength : "500",
 								placeholder : "请输入备注",
 								label : "备注",
 								need : false,
@@ -981,6 +1001,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								ng_model : "mark"
 							});
 						 
+					
 
 							var bt = moment().subtract(1, "days");
 							var tbtime = moment();

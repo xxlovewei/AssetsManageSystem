@@ -763,21 +763,19 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			pwdmark : "",
 			leader : "",
 			ip : "",
-		
 			nodebackup : "",
 			label1 : "",
 			label2 : "",
-		
-			
-				name : ""
+			name : ""
 		};
 		// type 1 更新
 		if (type == 1) {
 			var selrow = getSelectRow();
-
-			itemvalue = selrow;
-			if (angular.isDefined(selrow)) {
-				id = selrow.id;
+		
+			angular.copy(selrow, itemvalue);
+	
+			if (angular.isDefined(itemvalue) &&angular.isDefined(itemvalue.id)) {
+				id = itemvalue.id;
 			} else {
 				return;
 			}
