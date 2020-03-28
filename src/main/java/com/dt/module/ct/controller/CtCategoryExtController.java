@@ -27,61 +27,28 @@ import com.dt.core.common.base.BaseController;
  * </p>
  *
  * @author algernonking
- * @since 2020-03-28
+ * @since 2018-07-30
  */
 @Controller
-@RequestMapping("/api/ct/ctCategory")
-public class CtCategoryController extends BaseController {
+@RequestMapping("/api/ctCategory/Ext")
+public class CtCategoryExtController extends BaseController {
 
 
 	@Autowired
 	ICtCategoryService CtCategoryServiceImpl;
 
-
-	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
-	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.removeById(id));
-	}
-
-	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectById.do")
-	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.getById(id));
-	}
-
-	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insert.do")
-	public R insert(CtCategory entity) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.save(entity));
-	}
-
-	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
-	@RequestMapping(value = "/updateById.do")
-	public R updateById(CtCategory entity) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.updateById(entity));
-	}
-
-	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(CtCategory entity) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.saveOrUpdate(entity));
-	}
-
+ 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList() {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.list(null));
+	@RequestMapping(value = "/selectListByRoot.do")
+	public R selectList(String root) {
+		QueryWrapper<CtCategory> ew = new QueryWrapper<CtCategory>();
+		ew.and(i -> i.eq("root", root)).orderByAsc("route_name");
+		return R.SUCCESS_OPER(CtCategoryServiceImpl.list(ew));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
+	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
 	@RequestMapping(value = "/selectPage.do")
 	public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
@@ -92,6 +59,7 @@ public class CtCategoryController extends BaseController {
 		int pageindex = respar.getIntValue("pageindex");
 		QueryWrapper<CtCategory> ew = new QueryWrapper<CtCategory>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
+		 
 		IPage<CtCategory> pdata = CtCategoryServiceImpl.page(new Page<CtCategory>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());

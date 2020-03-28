@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-30
+ * @since 2020-03-28
  */
 public interface ICtCategoryService extends IService<CtCategory> {
 

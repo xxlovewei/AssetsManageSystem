@@ -1,6 +1,5 @@
 package com.dt.module.form.controller;
 
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.dt.module.form.entity.SysForm;
 import com.dt.module.form.service.ISysFormService;
@@ -23,7 +22,7 @@ import com.dt.core.common.base.BaseController;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -33,10 +32,9 @@ import com.dt.core.common.base.BaseController;
 @RequestMapping("/api/form/sysForm/Ext")
 public class SysFormExtController extends BaseController {
 
-
 	@Autowired
 	ISysFormService SysFormServiceImpl;
-	
+
 	@ResponseBody
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
@@ -45,8 +43,13 @@ public class SysFormExtController extends BaseController {
 		return R.SUCCESS_OPER(SysFormServiceImpl.saveOrUpdate(entity));
 	}
 
-	 
-
+	@ResponseBody
+	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectByOwner.do")
+	public R selectByOwner(String owner) {
+		QueryWrapper<SysForm> ew = new QueryWrapper<SysForm>();
+		ew.and(i -> i.eq("owner", owner)).orderByDesc("create_time");
+		return R.SUCCESS_OPER(SysFormServiceImpl.list(ew));
+	}
 
 }
-

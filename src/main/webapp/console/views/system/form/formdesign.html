@@ -42,9 +42,9 @@
 
 	 
 	var getpar=getArgs();
-	var url = window.location.host; 
-	console.log(url);
- 	 Vue.http.get('http://'+url+'/dt/api/form/sysForm//selectById.do?id='+getpar.id).then(function(res){
+	var gurl = window.location.host; 
+	console.log(gurl);
+ 	 Vue.http.get('http://'+gurl+'/dt/api/form/sysForm//selectById.do?id='+getpar.id).then(function(res){
          console.log(res.body.data);   
          let jsonData = {"list":[],"config":{"layout":"horizontal","labelCol":{"span":4},"wrapperCol":{"span":18},"hideRequiredMark":false,"customStyle":""}}
   		var ct2=decodeURI(res.body.data.ct);
@@ -79,7 +79,7 @@
          		  var url=""
          		  
          			 this.$http({
-         			    url: 'http://'+url+"/dt/api/form/sysForm/insertOrUpdate.do",
+         			    url: 'http://'+gurl+"/dt/api/form/sysForm/insertOrUpdate.do",
          			    headers: {
          			        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
          			    },

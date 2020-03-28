@@ -1,6 +1,6 @@
-package com.dt.module.ct.mapper;
+package com.dt.module.form.mapper;
 
-import com.dt.module.ct.entity.CtCategory;
+import com.dt.module.form.entity.SysFormItem;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author algernonking
  * @since 2020-03-28
  */
-public interface CtCategoryMapper extends BaseMapper<CtCategory> {
+public interface SysFormItemMapper extends BaseMapper<SysFormItem> {
 
 }

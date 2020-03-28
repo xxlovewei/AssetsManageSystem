@@ -1,4 +1,130 @@
+function modalFormListSelCtl($timeout, $localStorage, notify, $log, $uibModal,$window,
+		$uibModalInstance, $scope, $http, $rootScope, DTOptionsBuilder,
+		DTColumnBuilder, $compile, data) {
+	console.log(data)
+	$scope.typeOpt = data.formType;
+	$scope.typeSel = "";
+	if ($scope.typeOpt.length > 0) {
+		$scope.typeSel = $scope.typeOpt[0];
+	}
 
+	// 分类
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
+			.withPaginationType('full_numbers').withDisplayLength(100)
+			.withOption("ordering", false).withOption("responsive", false)
+			.withOption("searching", true).withOption('scrollY', '200px')
+			.withOption('scrollX', true).withOption('bAutoWidth', true)
+			.withOption('scrollCollapse', true).withOption('paging', true)
+			.withOption('bStateSave', true).withOption('bProcessing', false)
+			.withOption('bFilter', false).withOption('bInfo', false)
+			.withOption('serverSide', false).withOption('aaData',
+					$scope.tabdata).withOption('createdRow', function(row) {
+				$compile(angular.element(row).contents())($scope);
+			}).withOption(
+					'headerCallback',
+					function(header) {
+						if ((!angular.isDefined($scope.headerCompiled))
+								|| $scope.headerCompiled) {
+							$scope.headerCompiled = true;
+							$compile(angular.element(header).contents())
+									($scope);
+						}
+					}).withOption("select", {
+				style : 'multi',
+				selector : 'td:first-child'
+			})
+
+	$scope.dtInstance = {}
+
+	function renderAction(data, type, full) {
+
+		var html = "";
+		return html;
+
+	}
+
+	$scope.selectCheckBoxAll = function(selected) {
+
+		if (selected) {
+			$scope.dtInstance.DataTable.rows().select();
+		} else {
+			$scope.dtInstance.DataTable.rows().deselect();
+		}
+	}
+
+	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
+
+	$scope.dtColumns = [
+			DTColumnBuilder.newColumn(null).withTitle("").withClass(
+					'select-checkbox checkbox_center').renderWith(function() {
+				return ""
+			}),
+			DTColumnBuilder.newColumn('id').withTitle('编号').withOption(
+					'sDefaultContent', '').withOption("width", '30'),
+
+			DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
+					'sDefaultContent', '').withOption("width", '30')
+
+	]
+
+	function flush() {
+		var ps = {};
+		ps.owner = $scope.typeSel.id;
+		$http.post(
+				$rootScope.project + "/api/form/sysForm/Ext/selectByOwner.do",
+				ps).success(function(res) {
+			$scope.dtOptions.aaData = res.data;
+
+		})
+	}
+	$scope.query = function() {
+		flush()
+	}
+	flush();
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+	function getSelectRow() {
+		var data = $scope.dtInstance.DataTable.rows({
+			selected : true
+		})[0];
+		if (data.length == 0) {
+			notify({
+				message : "请至少选择一项"
+			});
+			return;
+		} else if (data.length > 1) {
+			notify({
+				message : "请最多选择一项"
+			});
+			return;
+		} else {
+
+			return $scope.dtOptions.aaData[data[0]];
+		}
+	}
+
+	$scope.review = function() {
+		var obj = getSelectRow();
+	 
+		if (angular.isDefined(obj)) {
+			$window.open($rootScope.project
+					+ "/console/views/system/form/formdesign.html?id="
+					+ obj.id)
+		}
+
+	}
+
+	$scope.sure = function() {
+		var obj = getSelectRow();
+		if (angular.isDefined(obj)) {
+			$uibModalInstance.close(obj);
+		}
+
+	}
+}
 function modalFlowListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$uibModalInstance, $scope, $http, $rootScope, DTOptionsBuilder,
 		DTColumnBuilder, $compile) {
@@ -78,9 +204,6 @@ function modalFlowListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
 	function flush() {
 		var ps = {}
 
-		ps.pageIndex = 1;
-		ps.pageSize = 1000;
-
 		$http.post($rootScope.project + "uflo/central/loadProcess", ps)
 				.success(function(res) {
 					$scope.dtOptions.aaData = res.result;
@@ -111,7 +234,7 @@ function modalFlowListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
 			});
 			return;
 		} else {
-			 
+
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}
@@ -130,9 +253,31 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 
 	$scope.data = {};
 
+	$scope.statusOpt = [ {
+		id : "normal",
+		name : "正常"
+	}, {
+		id : "stop",
+		name : "停用"
+	} ];
+	$scope.statusSel = $scope.statusOpt[0];
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
+
+	var formtype = [];
+	$http.post($rootScope.project + "/api/ctCategory/Ext/selectListByRoot.do",
+			{
+				root : "6"
+			}).success(function(res) {
+		if (res.success) {
+			formtype = res.data;
+		} else {
+			notify({
+				message : res.message
+			});
+		}
+	});
 
 	if (angular.isDefined(meta.id)) {
 
@@ -142,6 +287,13 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 				}).success(function(res) {
 			if (res.success) {
 				$scope.data = res.data
+
+				if ($scope.data.status == "normal") {
+					$scope.statusSel = $scope.statusOpt[0];
+				}
+				if ($scope.data.status == "stop") {
+					$scope.statusSel = $scope.statusOpt[1];
+				}
 			} else {
 				notify({
 					message : res.message
@@ -174,12 +326,37 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 		});
 
 	}
+	$scope.selectform = function() {
+
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/flow/modal_formSelect.html',
+			controller : modalFormListSelCtl,
+			size : 'lg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				data : {
+					formType : formtype
+				}
+			}
+		});
+
+		modalInstance.result.then(function(result) {
+			$log.log("result", result);
+			$scope.data.form = result.id;
+		 
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
+
+	}
 
 	$scope.sure = function() {
 		if (!angular.isDefined($scope.data.ptplkey)) {
 			alert("请选择流程");
 			return;
 		}
+		$scope.data.status = $scope.statusSel.id;
 		$scope.data.owner = meta.node;
 		$http.post(
 				$rootScope.project
@@ -230,19 +407,30 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 			});
 
 	function stateChange(iColumn, bVisible) {
-		  
+
 	}
 	$scope.dtInstance = {}
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
-			 
+
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
-		 
+
 		}
 	}
 
+	function renderStatus(data, type, full) {
+		var res = "";
+		if (data == "normal") {
+			res = "正常";
+		} else if (data == "stop") {
+			res = "停用";
+		} else {
+			res = data;
+		}
+		return res;
+	}
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 	$scope.dtColumns = [];
 	$scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml)
@@ -253,17 +441,16 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
 			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('ptplkey').withTitle('模版')
+
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('状态')
+			.withOption('sDefaultContent', '').renderWith(renderStatus)),
+			$scope.dtColumns.push(DTColumnBuilder.newColumn('ptplkey')
+					.withTitle('流程模版').withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('form').withTitle('表单')
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
 			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('form').withTitle('表单')
-			.withOption('sDefaultContent', ''));
 
-	
-	
-	
-	
 	$scope.catRootOpt = [];
 	$scope.catRootSel = "";
 	$scope.item = {};
@@ -344,7 +531,7 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 
 	$scope.test = function() {
 		$log.info("测试");
-		 
+
 	}
 
 	$scope.curSelNode = "";
@@ -355,24 +542,24 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 		$scope.tree.open_all();
 		// 响应节点变化
 		$scope.treeInstance.on("changed.jstree", function(e, data) {
-		 
+
 			if (data.action == "select_node") {
 				// 加载数据
 				var snodes = $scope.tree.get_selected();
 				if (snodes.length == 1) {
 					var node = snodes[0];
 					$scope.curSelNode = node;
-					 
+
 					flush();
 				}
 			}
 		});
 	}
 	$scope.cc = function() {
-	 
+
 	}
 	$scope.createCB = function(e, item) {
-		 
+
 	};
 	function flushTree(id) {
 		$http
@@ -476,14 +663,31 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 			});
 			return;
 		} else {
-		 
+
 			return $scope.dtOptions.aaData[data[0]];
 		}
 	}
 
+	
+	$scope.formreview=function(){
+		var selrow = getSelectRow();
+		if (angular.isDefined(selrow)) {
+			
+			if(angular.isDefined(selrow.form)){
+				$window.open($rootScope.project
+						+ "/console/views/system/form/formdesign.html?id="
+						+ selrow.form);
+			}else{
+				notify({
+					message : "请先设置表单"
+				});
+			}
+			
+		}
+	}
 	$scope.preview = function() {
 		var selrow = getSelectRow();
-		if (angular.isDefined(selrow)) {	
+		if (angular.isDefined(selrow)) {
 			var ps = {};
 			ps.pk = selrow.ptplkey;
 			var modalInstance = $uibModal.open({

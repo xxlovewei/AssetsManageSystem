@@ -1,11 +1,11 @@
 package com.dt.module.ct.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.annotation.TableId;
-
 import java.io.Serializable;
-
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.math.BigDecimal;
+import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
@@ -14,48 +14,61 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-30
+ * @since 2020-03-28
  */
-@TableName("CT_CATEGORY")
+ 
+@TableName("ct_category")
+ 
 public class CtCategory extends BaseModel<CtCategory> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId("ID")
-    private String id;
-    @TableField("ROOT")
-    private String root;
-    @TableField("NAME")
+    /**
+     * 主键
+     */
+    @TableId("id")
+    private BigDecimal id;
+    @TableField("root")
+    private BigDecimal root;
+    @TableField("name")
     private String name;
-    @TableField("MPIC")
+    @TableField("mpic")
     private String mpic;
-    @TableField("PARENT_ID")
-    private String parentId;
-    @TableField("ROUTE")
+    @TableField("parent_id")
+    private BigDecimal parentId;
+    @TableField("route")
     private String route;
-    @TableField("MARK")
+    @TableField("mark")
     private String mark;
-    @TableField("NODE_LEVEL")
-    private String nodeLevel;
-    @TableField("OD")
-    private String od;
-    @TableField("ISACTION")
+    @TableField("node_level")
+    private BigDecimal nodeLevel;
+    @TableField("od")
+    private BigDecimal od;
+    @TableField("isaction")
     private String isaction;
+    @TableField("route_name")
+    private String routeName;
+    @TableField("code")
+    private String code;
+    @TableField("type")
+    private String type;
+    @TableField("action")
+    private String action;
 
 
-    public String getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
-    public String getRoot() {
+    public BigDecimal getRoot() {
         return root;
     }
 
-    public void setRoot(String root) {
+    public void setRoot(BigDecimal root) {
         this.root = root;
     }
 
@@ -75,11 +88,11 @@ public class CtCategory extends BaseModel<CtCategory> {
         this.mpic = mpic;
     }
 
-    public String getParentId() {
+    public BigDecimal getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(BigDecimal parentId) {
         this.parentId = parentId;
     }
 
@@ -99,19 +112,19 @@ public class CtCategory extends BaseModel<CtCategory> {
         this.mark = mark;
     }
 
-    public String getNodeLevel() {
+    public BigDecimal getNodeLevel() {
         return nodeLevel;
     }
 
-    public void setNodeLevel(String nodeLevel) {
+    public void setNodeLevel(BigDecimal nodeLevel) {
         this.nodeLevel = nodeLevel;
     }
 
-    public String getOd() {
+    public BigDecimal getOd() {
         return od;
     }
 
-    public void setOd(String od) {
+    public void setOd(BigDecimal od) {
         this.od = od;
     }
 
@@ -123,6 +136,38 @@ public class CtCategory extends BaseModel<CtCategory> {
         this.isaction = isaction;
     }
 
+    public String getRouteName() {
+        return routeName;
+    }
+
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -131,7 +176,7 @@ public class CtCategory extends BaseModel<CtCategory> {
     @Override
     public String toString() {
         return "CtCategory{" +
-        ", id=" + id +
+        "id=" + id +
         ", root=" + root +
         ", name=" + name +
         ", mpic=" + mpic +
@@ -141,6 +186,10 @@ public class CtCategory extends BaseModel<CtCategory> {
         ", nodeLevel=" + nodeLevel +
         ", od=" + od +
         ", isaction=" + isaction +
+        ", routeName=" + routeName +
+        ", code=" + code +
+        ", type=" + type +
+        ", action=" + action +
         "}";
     }
 }

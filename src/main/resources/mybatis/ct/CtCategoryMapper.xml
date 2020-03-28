@@ -4,21 +4,25 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.dt.module.ct.entity.CtCategory">
-        <id column="ID" property="id" />
-    <result column="DR" property="dr" />
-    <result column="CREATE_BY" property="createBy" />
-    <result column="CREATE_TIME" property="createTime" />
-    <result column="UPDATE_BY" property="updateBy" />
-    <result column="UPDATE_TIME" property="updateTime" />
-        <result column="ROOT" property="root" />
-        <result column="NAME" property="name" />
-        <result column="MPIC" property="mpic" />
-        <result column="PARENT_ID" property="parentId" />
-        <result column="ROUTE" property="route" />
-        <result column="MARK" property="mark" />
-        <result column="NODE_LEVEL" property="nodeLevel" />
-        <result column="OD" property="od" />
-        <result column="ISACTION" property="isaction" />
+        <id column="id" property="id" />
+    <result column="dr" property="dr" />
+    <result column="create_by" property="createBy" />
+    <result column="create_time" property="createTime" />
+    <result column="update_by" property="updateBy" />
+    <result column="update_time" property="updateTime" />
+        <result column="root" property="root" />
+        <result column="name" property="name" />
+        <result column="mpic" property="mpic" />
+        <result column="parent_id" property="parentId" />
+        <result column="route" property="route" />
+        <result column="mark" property="mark" />
+        <result column="node_level" property="nodeLevel" />
+        <result column="od" property="od" />
+        <result column="isaction" property="isaction" />
+        <result column="route_name" property="routeName" />
+        <result column="code" property="code" />
+        <result column="type" property="type" />
+        <result column="action" property="action" />
     </resultMap>
 
 </mapper>

@@ -1,9 +1,9 @@
-package com.dt.module.ct.controller;
+package com.dt.module.form.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.dt.module.ct.entity.CtCategory;
-import com.dt.module.ct.service.ICtCategoryService;
+import com.dt.module.form.entity.SysFormItem;
+import com.dt.module.form.service.ISysFormItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -30,54 +30,54 @@ import com.dt.core.common.base.BaseController;
  * @since 2020-03-28
  */
 @Controller
-@RequestMapping("/api/ct/ctCategory")
-public class CtCategoryController extends BaseController {
+@RequestMapping("/api/form/sysFormItem")
+public class SysFormItemController extends BaseController {
 
 
 	@Autowired
-	ICtCategoryService CtCategoryServiceImpl;
+	ISysFormItemService SysFormItemServiceImpl;
 
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.removeById(id));
+		return R.SUCCESS_OPER(SysFormItemServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.getById(id));
+		return R.SUCCESS_OPER(SysFormItemServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
-	public R insert(CtCategory entity) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.save(entity));
+	public R insert(SysFormItem entity) {
+		return R.SUCCESS_OPER(SysFormItemServiceImpl.save(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
 	@RequestMapping(value = "/updateById.do")
-	public R updateById(CtCategory entity) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.updateById(entity));
+	public R updateById(SysFormItem entity) {
+		return R.SUCCESS_OPER(SysFormItemServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(CtCategory entity) {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.saveOrUpdate(entity));
+	public R insertOrUpdate(SysFormItem entity) {
+		return R.SUCCESS_OPER(SysFormItemServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.list(null));
+		return R.SUCCESS_OPER(SysFormItemServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -90,9 +90,9 @@ public class CtCategoryController extends BaseController {
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<CtCategory> ew = new QueryWrapper<CtCategory>();
+		QueryWrapper<SysFormItem> ew = new QueryWrapper<SysFormItem>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<CtCategory> pdata = CtCategoryServiceImpl.page(new Page<CtCategory>(pageindex, pagesize), ew);
+		IPage<SysFormItem> pdata = SysFormItemServiceImpl.page(new Page<SysFormItem>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
