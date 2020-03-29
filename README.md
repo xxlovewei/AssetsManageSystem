@@ -9,14 +9,17 @@
 - 系统包含admin 管理用户
 
 ## 所用框架
-- MyBatis-Plus 3.0.7
+- MyBatis-Plus 3.0.7.1
 - MyBatis 3.4.6
 - Spring 5.0.7
-- Fastjson 1.2.61
-- Shiro 1.4.1
-- Druid 1.1.15
-- Easypoi 4.1.2
+- Fastjson 1.2.62
+- Shiro 1.4.2
+- Druid 1.1.21
+- Easypoi 4.1.3
 - quartz 2.3.0
+- UFLO 2.1.5(流程引擎)
+- k-form-design 3.x(表单)
+- angular 1.x
 
 ## 联系方式
 - Mail:maillank@qq.com
