@@ -304,8 +304,15 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	}).state('zcmgr.zclygh', {
-		url : "/zcmgr_zclygh",
+	});
+	
+	
+	$stateProvider.state('zcchange', {
+		abstract : true,
+		url : "/zcchange",
+		templateUrl : "views/common/content.html?v="+version
+	}).state('zcchange.lygh', {
+		url : "zcchange_lygh",
 		data: { pageTitle: '资产领用归还',actiontype:"LY"},
 		templateUrl : "views/cmdb/zcaction.html?v="+version,
 		resolve : {
@@ -316,8 +323,8 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	}).state('zcmgr.jygh', {
-		url : "/zcmgr_jygh",
+	}).state('zcchange.jygh', {
+		url : "/zcchange_jygh",
 		data: { pageTitle: '资产借用归还',actiontype:"JY"},
 		templateUrl : "views/cmdb/zcaction.html?v="+version,
 		resolve : {
@@ -328,8 +335,8 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	}).state('zcmgr.zczy', {
-		url : "/zcmgr_zczy",
+	}).state('zcchange.zczy', {
+		url : "/zcchange_zczy",
 		data: { pageTitle: '我的资产转移',actiontype:"ZY"},
 		templateUrl : "views/cmdb/zcaction.html?v="+version,
 		resolve : {

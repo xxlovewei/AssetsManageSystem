@@ -32,6 +32,8 @@ public class SysFormItem extends BaseModel<SysFormItem> {
     private String ctvalue;
     @TableField("processid")
     private String processid;
+    @TableField("type")
+    private String type;
 
 
     public String getId() {
@@ -74,6 +76,14 @@ public class SysFormItem extends BaseModel<SysFormItem> {
         this.processid = processid;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -87,6 +97,7 @@ public class SysFormItem extends BaseModel<SysFormItem> {
         ", ct=" + ct +
         ", ctvalue=" + ctvalue +
         ", processid=" + processid +
+        ", type=" + type +
         "}";
     }
 }

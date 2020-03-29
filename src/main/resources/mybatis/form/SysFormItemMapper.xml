@@ -14,6 +14,7 @@
         <result column="ct" property="ct" />
         <result column="ctvalue" property="ctvalue" />
         <result column="processid" property="processid" />
+        <result column="type" property="type" />
     </resultMap>
 
 </mapper>

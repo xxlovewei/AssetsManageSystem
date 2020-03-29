@@ -43,7 +43,7 @@ public class DeployZcDevMac {
 		}
 
 		SftpClient sftp = new SftpClient();
-		Machine m = new Machine("localhost", "39.105.191.22", "root", pwd, 12500);
+		Machine m = new Machine("localhost", "127.0.0.1", "root", pwd, 9022);
 		sftp.connect(m, "upload");
 		sftp.changeDirectory("/tmp");
 		File f = new File(fstr);
@@ -54,7 +54,7 @@ public class DeployZcDevMac {
 			e.printStackTrace();
 		}
 
-		RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root", pwd, 12500);
+		RemoteShellExecutor executor = new RemoteShellExecutor("127.0.0.1", "root", pwd, 9022);
 		// executor.exec("/usr/bin/cp " + rfile + " /tmp/shop." + filename + ".bak
 		// --backup").print();
 

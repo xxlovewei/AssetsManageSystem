@@ -18,6 +18,7 @@
         <result column="ptplname" property="ptplname" />
         <result column="owner" property="owner" />
         <result column="ptplkey" property="ptplkey" />
+        <result column="type" property="type" />
     </resultMap>
 
 </mapper>

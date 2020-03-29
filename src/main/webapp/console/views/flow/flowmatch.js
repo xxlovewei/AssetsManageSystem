@@ -1,6 +1,6 @@
-function modalFormListSelCtl($timeout, $localStorage, notify, $log, $uibModal,$window,
-		$uibModalInstance, $scope, $http, $rootScope, DTOptionsBuilder,
-		DTColumnBuilder, $compile, data) {
+function modalFormListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
+		$window, $uibModalInstance, $scope, $http, $rootScope,
+		DTOptionsBuilder, DTColumnBuilder, $compile, data) {
 	console.log(data)
 	$scope.typeOpt = data.formType;
 	$scope.typeSel = "";
@@ -108,11 +108,12 @@ function modalFormListSelCtl($timeout, $localStorage, notify, $log, $uibModal,$w
 
 	$scope.review = function() {
 		var obj = getSelectRow();
-	 
+
 		if (angular.isDefined(obj)) {
-			$window.open($rootScope.project
-					+ "/console/views/system/form/formdesign.html?id="
-					+ obj.id)
+			$window
+					.open($rootScope.project
+							+ "/console/views/system/form/formdesign.html?id="
+							+ obj.id)
 		}
 
 	}
@@ -261,6 +262,16 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 		name : "停用"
 	} ];
 	$scope.statusSel = $scope.statusOpt[0];
+
+	$scope.catOpt = [ {
+		id : "form",
+		name : "表单模式"
+	}, {
+		id : "withoutform",
+		name : "无表单"
+	} ];
+	$scope.catSel = $scope.catOpt[0];
+
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
@@ -294,6 +305,18 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 				if ($scope.data.status == "stop") {
 					$scope.statusSel = $scope.statusOpt[1];
 				}
+				
+				if ($scope.data.type == "form") {
+					$scope.catSel = $scope.catOpt[0];
+				}
+				if ($scope.data.type == "withoutform") {
+					$scope.catSel = $scope.catOpt[1];
+				}
+				
+				
+				
+			 
+				
 			} else {
 				notify({
 					message : res.message
@@ -343,7 +366,7 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 		modalInstance.result.then(function(result) {
 			$log.log("result", result);
 			$scope.data.form = result.id;
-		 
+
 		}, function(reason) {
 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
 			$log.log("reason", reason)
@@ -357,6 +380,7 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 			return;
 		}
 		$scope.data.status = $scope.statusSel.id;
+		$scope.data.type = $scope.catSel.id;
 		$scope.data.owner = meta.node;
 		$http.post(
 				$rootScope.project
@@ -431,6 +455,17 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 		}
 		return res;
 	}
+	function renderType(data, type, full) {
+		var res = "";
+		if (data == "form") {
+			res = "表单模式";
+		} else if (data == "withoutform") {
+			res = "无表单模式";
+		} else {
+			res = data;
+		}
+		return res;
+	}
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 	$scope.dtColumns = [];
 	$scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml)
@@ -441,7 +476,8 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
 			.withOption('sDefaultContent', ''));
-
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('type').withTitle('类型')
+			.withOption('sDefaultContent', '').renderWith(renderType)),
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('状态')
 			.withOption('sDefaultContent', '').renderWith(renderStatus)),
 			$scope.dtColumns.push(DTColumnBuilder.newColumn('ptplkey')
@@ -668,21 +704,20 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 		}
 	}
 
-	
-	$scope.formreview=function(){
+	$scope.formreview = function() {
 		var selrow = getSelectRow();
 		if (angular.isDefined(selrow)) {
-			
-			if(angular.isDefined(selrow.form)){
+
+			if (angular.isDefined(selrow.form)) {
 				$window.open($rootScope.project
 						+ "/console/views/system/form/formdesign.html?id="
 						+ selrow.form);
-			}else{
+			} else {
 				notify({
 					message : "请先设置表单"
 				});
 			}
-			
+
 		}
 	}
 	$scope.preview = function() {

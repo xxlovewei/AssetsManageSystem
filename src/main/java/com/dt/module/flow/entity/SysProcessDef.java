@@ -1,11 +1,11 @@
 package com.dt.module.flow.entity;
 
 import java.io.Serializable;
-
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -13,7 +13,7 @@ import com.dt.core.common.base.BaseModel;
  * </p>
  *
  * @author algernonking
- * @since 2019-12-16
+ * @since 2020-03-29
  */
  
 @TableName("sys_process_def")
@@ -28,6 +28,9 @@ public class SysProcessDef extends BaseModel<SysProcessDef> {
     private String name;
     @TableField("mark")
     private String mark;
+    /**
+     * stop,normal
+     */
     @TableField("status")
     private String status;
     @TableField("ptplid")
@@ -40,6 +43,8 @@ public class SysProcessDef extends BaseModel<SysProcessDef> {
     private String owner;
     @TableField("ptplkey")
     private String ptplkey;
+    @TableField("type")
+    private String type;
 
 
     public String getId() {
@@ -114,6 +119,14 @@ public class SysProcessDef extends BaseModel<SysProcessDef> {
         this.ptplkey = ptplkey;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -131,6 +144,7 @@ public class SysProcessDef extends BaseModel<SysProcessDef> {
         ", ptplname=" + ptplname +
         ", owner=" + owner +
         ", ptplkey=" + ptplkey +
+        ", type=" + type +
         "}";
     }
 }

@@ -44,6 +44,30 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 	}
 
+
+	function renderStatus(data, type, full) {
+		var res = "";
+		if (data == "normal") {
+			res = "正常";
+		} else if (data == "stop") {
+			res = "停用";
+		} else {
+			res = data;
+		}
+		return res;
+	}
+	function renderType(data, type, full) {
+		var res = "";
+		if (data == "form") {
+			res = "表单模式";
+		} else if (data == "withoutform") {
+			res = "无表单模式";
+		} else {
+			res = data;
+		}
+		return res;
+	}
+	
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 	$scope.dtColumns = [];
 	$scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml)
@@ -51,11 +75,15 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					function() {
 						return ""
 					}));
-
+	
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
 			.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('ptplkey').withTitle('模版')
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('ptplkey').withTitle('模版名称')
 			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('type').withTitle('类型')
+			.withOption('sDefaultContent', '').renderWith(renderType));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('状态')
+			.withOption('sDefaultContent', '').renderWith(renderStatus));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('form').withTitle('表单')
@@ -273,7 +301,16 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					owner : $scope.curSelNode
 				}).success(function(res) {
 			if (res.success) {
-				$scope.dtOptions.aaData = res.data;
+				var r=[];
+				for(var i=0;i<res.data.length;i++){
+					
+					if(angular.isDefined(res.data[i].type)&&angular.isDefined(res.data[i].status)   ){
+						if(res.data[i].status=="normal"){
+							r.push(res.data[i]);
+						}
+					}
+				}
+				$scope.dtOptions.aaData =r;
 			} else {
 				notify({
 					message : res.message
@@ -655,6 +692,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		})
 
 	}
+	flush();
 
 	function getSelectRows() {
 		var data = $scope.dtInstance.DataTable.rows({
