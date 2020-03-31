@@ -1,6 +1,7 @@
 package com.dt.module.base.bus_enum;
 
 import java.io.Serializable;
+
 import com.baomidou.mybatisplus.core.enums.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 

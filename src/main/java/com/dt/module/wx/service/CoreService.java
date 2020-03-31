@@ -5,24 +5,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import com.dt.module.wx.msg.resp.Article;
-import com.dt.module.wx.msg.resp.NewsMessage;
-import com.dt.module.wx.msg.resp.TextMessage;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+
 import com.dt.core.common.base.BaseService;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
+import com.dt.module.wx.msg.resp.Article;
+import com.dt.module.wx.msg.resp.NewsMessage;
+import com.dt.module.wx.msg.resp.TextMessage;
 import com.dt.module.wx.util.MessageUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 

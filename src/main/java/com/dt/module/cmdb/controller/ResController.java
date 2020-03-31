@@ -27,7 +27,7 @@ import com.dt.core.common.base.BaseController;
  * </p>
  *
  * @author algernonking
- * @since 2019-11-13
+ * @since 2020-03-31
  */
 @Controller
 @RequestMapping("/api/cmdb/res")
@@ -39,49 +39,49 @@ public class ResController extends BaseController {
 
 
 	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
+	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
 		return R.SUCCESS_OPER(ResServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
+	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
 		return R.SUCCESS_OPER(ResServiceImpl.getById(id));
 	}
 
 	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_DENY)
+	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
 	public R insert(Res entity) {
 		return R.SUCCESS_OPER(ResServiceImpl.save(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_DENY)
+	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
 	@RequestMapping(value = "/updateById.do")
 	public R updateById(Res entity) {
 		return R.SUCCESS_OPER(ResServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
+	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
 	public R insertOrUpdate(Res entity) {
 		return R.SUCCESS_OPER(ResServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
 		return R.SUCCESS_OPER(ResServiceImpl.list(null));
 	}
 
 	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
+	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectPage.do")
 	public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);

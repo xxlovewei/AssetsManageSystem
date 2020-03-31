@@ -1,13 +1,13 @@
 package com.dt.module.cmdb.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.math.BigDecimal;
 import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import com.dt.core.common.base.BaseModel;
  * </p>
  *
  * @author algernonking
- * @since 2019-11-13
+ * @since 2020-03-31
  */
  
 @TableName("res")
@@ -207,6 +207,9 @@ public class Res extends BaseModel<Res> {
      */
     @TableField("buy_time")
     private Date buyTime;
+    /**
+     * 报废时间
+     */
     @TableField("offline_time")
     private Date offlineTime;
     @TableField("online_time")
@@ -267,7 +270,7 @@ public class Res extends BaseModel<Res> {
     @TableField("review_date")
     private Date reviewDate;
     /**
-     * 采购价
+     * 采购单价
      */
     @TableField("buy_price")
     private BigDecimal buyPrice;
@@ -311,8 +314,28 @@ public class Res extends BaseModel<Res> {
      */
     @TableField("wbout_date")
     private Date wboutDate;
+    /**
+     * 资产数量
+     */
     @TableField("zc_cnt")
     private BigDecimal zcCnt;
+    /**
+     * 国际大类
+     */
+    @TableField("gj_dl")
+    private String gjDl;
+    /**
+     * 国际小类
+     */
+    @TableField("gj_xl")
+    private String gjXl;
+    /**
+     * 批量导入标记
+     */
+    @TableField("importlabel")
+    private String importlabel;
+    @TableField("attach")
+    private String attach;
 
 
     public String getId() {
@@ -1003,6 +1026,38 @@ public class Res extends BaseModel<Res> {
         this.zcCnt = zcCnt;
     }
 
+    public String getGjDl() {
+        return gjDl;
+    }
+
+    public void setGjDl(String gjDl) {
+        this.gjDl = gjDl;
+    }
+
+    public String getGjXl() {
+        return gjXl;
+    }
+
+    public void setGjXl(String gjXl) {
+        this.gjXl = gjXl;
+    }
+
+    public String getImportlabel() {
+        return importlabel;
+    }
+
+    public void setImportlabel(String importlabel) {
+        this.importlabel = importlabel;
+    }
+
+    public String getAttach() {
+        return attach;
+    }
+
+    public void setAttach(String attach) {
+        this.attach = attach;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -1097,6 +1152,10 @@ public class Res extends BaseModel<Res> {
         ", wbAuto=" + wbAuto +
         ", wboutDate=" + wboutDate +
         ", zcCnt=" + zcCnt +
+        ", gjDl=" + gjDl +
+        ", gjXl=" + gjXl +
+        ", importlabel=" + importlabel +
+        ", attach=" + attach +
         "}";
     }
 }

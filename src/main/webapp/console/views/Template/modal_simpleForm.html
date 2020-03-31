@@ -6,6 +6,9 @@
 	}
 }
 </style>
+
+ 
+
 <div class="modal-content">
 	<div class="modal-header">
 		<button ng-click="cancel()" class="close">
@@ -15,12 +18,14 @@
 	</div>
 	<div class="modal-body">
 		<div class="wrapper wrapper-content animated fadeInRight">
-			<form class="form-horizontal m-t-md" name="myForm" novalidate compile="template"
-				action="">
-			</form>
+
+			<form id="formct" class="form-horizontal m-t-md" name="myForm" novalidate
+				compile="template" action=""></form>
+	 
 		</div>
 	</div>
-	<div class="modal-footer" ng-hide="meta.footer_hide" style="text-align: center">
+	<div class="modal-footer" ng-hide="meta.footer_hide"
+		style="text-align: center">
 		<button ng-click="cancel()" class="btn btn-warning">取消</button>
 		<button ng-disabled="myForm.$invalid" ng-click="sure()"
 			class="btn btn-primary">确认</button>

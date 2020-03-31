@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.dt.core.dao.SpringMySQLDao;
-
 import com.dt.core.tool.lang.SpringContextUtil;
 
 @Component

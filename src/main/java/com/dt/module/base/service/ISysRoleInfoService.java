@@ -1,7 +1,7 @@
 package com.dt.module.base.service;
 
-import com.dt.module.base.entity.SysRoleInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.dt.module.base.entity.SysRoleInfo;
 
 /**
  * <p>

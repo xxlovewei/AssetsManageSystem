@@ -19,8 +19,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.StreamUtils;
 
-import com.dt.core.common.base.ReqData;
 import com.dt.core.common.base.R;
+import com.dt.core.common.base.ReqData;
 
 public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverter<Object> {
 	// 当返回是json是,自动转换成

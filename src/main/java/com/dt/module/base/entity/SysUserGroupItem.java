@@ -1,12 +1,11 @@
 package com.dt.module.base.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.annotation.TableId;
-
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>

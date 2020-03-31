@@ -1,7 +1,7 @@
 package com.dt.module.ct.service;
 
-import com.dt.module.ct.entity.CtClass;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.dt.module.ct.entity.CtClass;
 
 /**
  * <p>

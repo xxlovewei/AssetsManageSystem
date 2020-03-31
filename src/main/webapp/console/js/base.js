@@ -4,7 +4,6 @@
 
 $(document).ready(
 		function() {
-		
 
 			// Full height of sidebar
 			function fix_height() {
@@ -273,8 +272,9 @@ function dt_renderMapSimple(data, type, full, map) {
 /** ******************************modal 模版************************* */
 // 支持:输入框,文本框,单选,日期控件
 function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, meta, $http, $rootScope) {
+		$uibModalInstance, $scope, meta, $http, $rootScope, $compile) {
 	$scope.meta = meta;
+
 	$log.log($scope.meta);
 	var formhtml = "";
 	var items = meta.items;
@@ -284,10 +284,12 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 		for (var i = 0; i < items.length; i++) {
 			var tmp_tpl = "";
 			var obj = items[i];
+
 			var need_col = "";
 			if (obj.need) {
 				need_col = "<span class=\"text-danger\">*</span>";
 			}
+
 			if (obj.type == "input") {
 				var required_col = "";
 				if (obj.required) {
@@ -427,10 +429,28 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 				tmp_tpl = tmp_tpl + "</div>";
 				tmp_tpl = tmp_tpl + "</div>";
 				formhtml = formhtml + tmp_tpl;
-			} else if (obj.type == "pic") {
+			} else if (obj.type == "picupload") {
 				tmp_tpl = tmp_tpl + "<div class=\"form-group\"> ";
 				tmp_tpl = tmp_tpl + "	<label class=\"col-sm-2 control-label\">"
-						+ need_col + obj.label + "</label> ";
+						+ need_col + obj.label + ":</label> ";
+				tmp_tpl = tmp_tpl + "	<div class=\"col-sm-10\"> ";
+				tmp_tpl = tmp_tpl
+						+ "		<div class=\"dropzone\" drop-zone dzconfig=\"meta."
+						+ obj.conf
+						+ "\" dzeventHandlers=\"dtldzevent\" enctype=\"multipart/form-data\"> ";
+				tmp_tpl = tmp_tpl
+						+ "			<div id=\"dropzone\" class=\"fallback\"> ";
+				tmp_tpl = tmp_tpl
+						+ "				<input name=\"file\" type=\"file\" multiple=\"\" /> ";
+				tmp_tpl = tmp_tpl + "			</div> ";
+				tmp_tpl = tmp_tpl + "		</div> ";
+				tmp_tpl = tmp_tpl + "	</div> ";
+				tmp_tpl = tmp_tpl + "</div>";
+				formhtml = formhtml + tmp_tpl;
+			} else if (obj.type == "fileupload") {
+				tmp_tpl = tmp_tpl + "<div class=\"form-group\"> ";
+				tmp_tpl = tmp_tpl + "	<label class=\"col-sm-2 control-label\">"
+						+ need_col + obj.label + ":</label> ";
 				tmp_tpl = tmp_tpl + "	<div class=\"col-sm-10\"> ";
 				tmp_tpl = tmp_tpl
 						+ "		<div class=\"dropzone\" drop-zone dzconfig=\"meta."
@@ -449,20 +469,28 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 		}
 
 	}
-	$scope.template = formhtml;
+	// $scope.template = formhtml;
+	$timeout(function() {
+		var tplhtml = $compile(formhtml);
+		var $dom = tplhtml($scope);
+		var ct = document.getElementById('formct');
+		angular.element(ct).append($dom);
+	}, 200);
 	$scope.sure = function() {
+
 		meta.sure($uibModalInstance, $scope);
 	};
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
+
 	$timeout(
 			function() {
 				// 设置select全宽度
 				for (var i = 0; i < select_ids.length; i++) {
 					document.getElementById(select_ids[i] + "_chosen").style.width = "100%";
 				}
-			}, 200);
+			}, 250);
 
 	$log.log("form init");
 	if (typeof ($scope.meta.init) != "undefined") {

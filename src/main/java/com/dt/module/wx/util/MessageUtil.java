@@ -2,7 +2,6 @@ package com.dt.module.wx.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,12 +14,6 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.core.util.QuickWriter;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
-import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
-import com.thoughtworks.xstream.io.xml.XppDriver;
-
 import com.dt.module.wx.msg.resp.Article;
 import com.dt.module.wx.msg.resp.ImageMessage;
 import com.dt.module.wx.msg.resp.MusicMessage;
@@ -28,6 +21,11 @@ import com.dt.module.wx.msg.resp.NewsMessage;
 import com.dt.module.wx.msg.resp.TextMessage;
 import com.dt.module.wx.msg.resp.VideoMessage;
 import com.dt.module.wx.msg.resp.VoiceMessage;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.core.util.QuickWriter;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 
 /**
  * 消息工具类

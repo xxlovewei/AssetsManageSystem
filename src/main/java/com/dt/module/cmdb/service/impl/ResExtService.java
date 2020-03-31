@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
@@ -280,6 +282,7 @@ public class ResExtService extends BaseService {
 				return R.FAILURE("未产生有效编号,请重试!");
 			}
 			me.set("uuid", uuid);
+		
 			me.setIf("sn", ps.getString("sn"));
 			me.setIf("mark", ps.getString("mark"));
 			me.setIf("maintain_userid", ps.getString("maintain_userid"));
@@ -318,7 +321,7 @@ public class ResExtService extends BaseService {
 			me.setIf("wbout_date",
 					ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 01:00:00");
 			ins.set("oper_type", "入库");
-
+		
 			me.setIf("fs1", ps.getString("fs1"));
 			me.setIf("fs2", ps.getString("fs2"));
 			me.setIf("fs3", ps.getString("fs3"));
@@ -328,6 +331,9 @@ public class ResExtService extends BaseService {
 			me.setIf("fs7", ps.getString("fs7"));
 			me.setIf("fs20", ps.getString("fs20"));
 			me.setIf("zc_cnt", ps.getString("zc_cnt"));
+			
+			me.setIf("img", ps.getString("img"));
+			me.setIf("attach", ps.getString("attach"));
 			sql = me.getSQL();
 		} else {
 			Update me = new Update("res");
@@ -392,9 +398,14 @@ public class ResExtService extends BaseService {
 			me.setIf("fs20", ps.getString("fs20"));
 			me.setIf("zc_cnt", ps.getString("zc_cnt"));
 			me.where().and("id=?", id);
+			
+			me.setIf("img", ps.getString("img"));
+			me.setIf("attach", ps.getString("attach"));
+			
 			sql = me.getSQL();
 
 		}
+		
 
 		db.execute(sql);
 

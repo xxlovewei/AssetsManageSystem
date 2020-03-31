@@ -1,32 +1,22 @@
-function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
-		notify, $scope, $http, $rootScope, $uibModal) {
+function demoCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
+		notify, $scope, $http, $rootScope, $uibModal,$timeout) {
 	$scope.btn_query = function() {
 	 
 
 		$scope.text = $scope.text + "a";
 	}
-
-	$scope.btn_add = function() {
-
-		var meta = {};
-		meta = {
-			footer_hide : false,
-			title : "测试",
-			item : {
-				addr : "金"
-			},
-			dtldzconfig : {
+	 $scope.dzconfig = {
 				url : 'fileupload.do',
 				maxFilesize : 10000,
 				paramName : "file",
-				maxThumbnailFilesize : 1,
+				maxThumbnailFilesize : 5,
 				// 一个请求上传多个文件
 				uploadMultiple : true,
 				// 当多文件上传,需要设置parallelUploads>=maxFiles
-				parallelUploads : 1,
-				maxFiles : 1,
-				dictDefaultMessage : "点击上传图片",
-				acceptedFiles : "image/jpeg,image/png,image/gif",
+				parallelUploads : 5,
+				maxFiles : 5,
+				dictDefaultMessage : "点击上传附件",
+				acceptedFiles : "image/jpeg,image/png,image/gif,.xls,.zip,.rar,.doc,.pdf,.docx,.txt,.xlsx",
 				// 添加上传取消和删除预览图片的链接，默认不添加
 				addRemoveLinks : true,
 				// 关闭自动上传功能，默认会true会自动上传
@@ -35,7 +25,54 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 				init : function() {
 					$scope.myDropzone = this; // closure
 				}
+			};
+	 
+	var  html="<div class=\"form-group\">\n" + 
+	"								<label class=\"col-sm-2 control-label\">附件</label>\n" + 
+	"								<div class=\"col-sm-10\">\n" + 
+	"									<div class=\"dropzone\" drop-zone dzconfig=\"dzconfig\"\n" + 
+	"										dzeventHandlers=\"dtldzevent\" enctype=\"multipart/form-data\">\n" + 
+	"										<div id=\"dropzone\" class=\"fallback\">\n" + 
+	"											<input name=\"file\" type=\"file\" multiple=\"\" />\n" + 
+	"										</div>\n" + 
+	"									</div>\n" + 
+	"								</div>"	;
+	
+	   var html2 = $compile(html);
+	  var $dom = html2($scope); 
+	  angular.element(cc).append($dom);
+//	   console.log('cccc');
+//	   console.log($dom);
+       // 添加到文档中
+	   
+// 
+//	 var scope = angular.element(sidebar).scope();
+//	 console.log("ffffffffff",scope);
+//	 $dom=$complite(html)
+	
+	   //$dom.appendTo('body');            
+	
+	//$scope.template = html2;
+	 $timeout(function(){
+		
+     },3000);
+	
+	
+	
+
+	$scope.btn_add = function() {
+		console.log($scope.myDropzone);
+		
+		return 
+
+		var meta = {};
+		meta = {
+			footer_hide : false,
+			title : "测试",
+			item : {
+				addr : "金"
 			},
+			
 			stime : moment().subtract(15, "days"),
 			statusOpt : [ {
 				id : 1,
@@ -123,6 +160,7 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 				console.log($scope);
 				console.log(modal_meta.meta.stime.format('YYYY-MM-DD'));
 				var picid = getUuid();
+				console.log("####",$scope.myDropzone);
 				$scope.myDropzone.options.url = $rootScope.project
 						+ '/api/file/fileupload.do?bus=prodimgs&uuid=' + picid
 						+ '&type=image&interval=10000';
@@ -132,6 +170,8 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			},
 			init : function(modal_meta) {
 				console.log("INIT");
+			
+				
 				$http.post($rootScope.project + "/api/user/queryGroup.do", {})
 						.success(function(res) {
 							console.log(res);
@@ -409,4 +449,4 @@ function prodCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 	}
 
 };
-app.register.controller('prodCtl', prodCtl);
+app.register.controller('demoCtl', demoCtl);

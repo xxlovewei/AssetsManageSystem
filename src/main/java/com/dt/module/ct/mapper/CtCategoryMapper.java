@@ -1,7 +1,7 @@
 package com.dt.module.ct.mapper;
 
-import com.dt.module.ct.entity.CtCategory;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dt.module.ct.entity.CtCategory;
 
 /**
  * <p>

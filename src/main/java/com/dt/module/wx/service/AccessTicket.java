@@ -13,6 +13,7 @@ public class AccessTicket {
 	private String ticket;
 
 	public String getTicket() {
+		
 		return ticket;
 	}
 

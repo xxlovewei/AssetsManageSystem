@@ -1,7 +1,7 @@
 package com.dt.module.flow.mapper;
 
-import com.dt.module.flow.entity.SysUfloTpl;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dt.module.flow.entity.SysUfloTpl;
 
 /**
  * <p>

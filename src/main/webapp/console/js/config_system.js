@@ -110,6 +110,18 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
+	}).state('ct.demo', {
+		url : "/ct_demo?psBtns",
+		data: { pageTitle: 'DEMO'},
+		templateUrl : "views/system//base/demo.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/system//base/demo.js?v=' + version ]
+				} ]);
+			}
+		}
 	});
 
 	

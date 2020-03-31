@@ -95,6 +95,10 @@
         <result column="wb_auto" property="wbAuto" />
         <result column="wbout_date" property="wboutDate" />
         <result column="zc_cnt" property="zcCnt" />
+        <result column="gj_dl" property="gjDl" />
+        <result column="gj_xl" property="gjXl" />
+        <result column="importlabel" property="importlabel" />
+        <result column="attach" property="attach" />
     </resultMap>
 
 </mapper>

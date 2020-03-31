@@ -1,7 +1,7 @@
 package com.dt.module.base.mapper;
 
-import com.dt.module.base.entity.SysLogAccess;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dt.module.base.entity.SysLogAccess;
 
 /**
  * <p>

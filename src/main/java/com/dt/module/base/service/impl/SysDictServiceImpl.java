@@ -1,10 +1,11 @@
 package com.dt.module.base.service.impl;
 
+import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dt.module.base.entity.SysDict;
 import com.dt.module.base.mapper.SysDictMapper;
 import com.dt.module.base.service.ISysDictService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>

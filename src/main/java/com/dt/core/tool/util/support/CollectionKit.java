@@ -13,12 +13,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.dt.core.tool.util.exception.ToolBoxException;
-
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
+
+import com.dt.core.tool.util.exception.ToolBoxException;
 
 /**
  * 集合相关工具类，包括数组
