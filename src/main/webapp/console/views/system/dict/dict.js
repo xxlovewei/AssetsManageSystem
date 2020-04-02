@@ -211,7 +211,7 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtInstance = {}
 	function flush() {
 		var ps = {};
-		$http.post($rootScope.project + "/api/sysDict/selectList.do", ps)
+		$http.post($rootScope.project + "/api/sysDict/Ext/selectList.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
