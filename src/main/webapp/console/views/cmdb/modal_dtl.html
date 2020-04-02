@@ -35,8 +35,8 @@
 								<div class="form-group">
 									<label class="col-sm-4 control-label">其他编号</label>
 									<div class="col-sm-8">
-										<input ng-disabled="true" ng-model="item.fs20"
-											type="text" class="form-control">
+										<input ng-disabled="true" ng-model="item.fs20" type="text"
+											class="form-control">
 									</div>
 								</div>
 							</form>
@@ -54,7 +54,7 @@
 								</div>
 							</form>
 						</div>
-						
+
 					</div>
 
 
@@ -207,8 +207,8 @@
 								<div class="form-group">
 									<label class="col-sm-4 control-label">标签1</label>
 									<div class="col-sm-8">
-										<input ng-disabled="true" ng-model="item.fs1"
-											type="text" class="form-control">
+										<input ng-disabled="true" ng-model="item.fs1" type="text"
+											class="form-control">
 									</div>
 								</div>
 							</form>
@@ -219,8 +219,8 @@
 								<div class="form-group">
 									<label class="col-sm-4 control-label">标签2</label>
 									<div class="col-sm-8">
-										<input ng-disabled="true" ng-model="item.fs2"
-											type="text" class="form-control">
+										<input ng-disabled="true" ng-model="item.fs2" type="text"
+											class="form-control">
 									</div>
 								</div>
 							</form>
@@ -411,6 +411,33 @@
 									<div class="col-sm-11">
 										<input ng-disabled="true" ng-model="item.mark" type="text"
 											class="form-control">
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label class="col-sm-1 control-label">图片</label>
+									<div ng-show="item.img" class="col-sm-11">
+									<img ng-src="../api/file/imagedown.do?id={{item.img}}"></img>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label class="col-sm-1 control-label">附件</label>
+									<div ng-show="item.attach" class="col-sm-11">
+									 		<span><a href="../api/file/filedown.do?id={{item.attach}}">附件下载</a></span>
 									</div>
 								</div>
 							</form>
