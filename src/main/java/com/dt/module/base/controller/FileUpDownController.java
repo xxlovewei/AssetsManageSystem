@@ -305,15 +305,7 @@ public class FileUpDownController extends BaseController {
 		File thumbFile = new File(thumbFilePath);
 		if (thumbFile.exists())
 			return thumbFile;
-		// if (origWidth <= 0 || origHeigh <= 0) {
-		//
-		// JSONObject info = new JSONObject();
-		// info.put("width", srcImage.getWidth());
-		// info.put("height", srcImage.getHeight());
-		//
-		// // DB.instance().execute("update sys_file set infos=? where
-		// // id=?",info.toJSONString(),id);
-		// }
+	 
 		if (srcImage == null)
 			srcImage = ImageIO.read(srcFile);
 		BufferedImage thumbImage = sis.scaleAndCrop(srcImage);

@@ -23,12 +23,7 @@ public class ClearSessionJob implements Job {
 	@Override
 	public void execute(JobExecutionContext jc) throws JobExecutionException {
 		_log.info("session clear start.");
-		List<String> sqls = new ArrayList<String>();
-		// 删除所有user_id为空的
-		//sqls.add("delete from sys_session where user_id is null");
-		// 删除90天为访问的类型为web
-		//sqls.add("delete from sys_session where client='web' and lastaccess<"+ DbUtil.getDbDayBeforeString(DB.instance().getDBType(), "90"));
-		DB.instance().executeStringList(sqls);
+
 		JobService.me().finishedJobUpdate(jc);
 		_log.info("session clear end.");
 	}

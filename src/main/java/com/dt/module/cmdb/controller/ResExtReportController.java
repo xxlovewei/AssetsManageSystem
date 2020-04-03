@@ -114,18 +114,17 @@ public class ResExtReportController extends BaseController {
 		res.put("total_count", cnt);
 
 		String sql = "  select " + ResExtService.resSqlbody
-				+ " t.* from res t where dr='0' and  wbout_date<now() limit 10";
+				+ " t.* from res t where dr='0' and wbout_date<now() limit 10";
 		RcdSet rs = db.query(sql);
 		res.put("res_tb_notice", ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
 
 		String sql2 = "select " + ResExtService.resSqlbody
-				+ " t.* ,a.f_reason ,a.f_processtime  from res_fault a,res t where a.f_res_id=t.id and a.dr='0' and t.dr='0' limit 10";
+				+ " t.* ,a.f_reason ,a.f_processtime from res_fault a,res t where a.f_res_id=t.id and a.dr='0' and t.dr='0' limit 10";
 		RcdSet rs2 = db.query(sql2);
 		res.put("res_fault", ConvertUtil.OtherJSONObjectToFastJSONArray(rs2.toJsonArrayWithJsonObject()));
 
-		String sql3 = "\n" + "select\n" + "  b.name,\n" + "    class_id,\n" + "    count(1) cnt\n"
-				+ "  from res t,ct_category b\n" + "  where t.dr = '0' and b.dr='0' and t.class_id=b.id\n"
-				+ "  group by b.name ,class_id\n";
+		String sql3 = " select b.name,class_id,count(1) cnt from res t,ct_category b "
+				+ "  where t.dr = '0' and b.dr='0' and t.class_id=b.id group by b.name ,class_id";
 
 		RcdSet s3 = db.query(sql3);
 		JSONArray meta_arr = new JSONArray();
@@ -154,12 +153,12 @@ public class ResExtReportController extends BaseController {
 	@RequestMapping(value = "/queryZcTjByOrg.do")
 	@Transactional
 	public R queryZcTjByOrg(String search) {
-		String sql = "select node_id part_id,route_name part_fullname,\n"
-				+ "  case when b.cnt is null then 0 else b.cnt end zc_cnt from hrm_org_part a left join\n"
-				+ "  ( select part_id,count(1) cnt from res where dr='0' group by part_id) b\n"
-				+ "  on a.node_id=b.part_id and  a.org_id='1'\n" + "union all\n"
-				+ "select '-1' part_id,'未设置组织' part_fullname ,count(1) zc_cnt from res where part_id not in (select node_id from hrm_org_part where org_id='1')\n"
-				+ "or part_id is null\n";
+		String sql = "select node_id part_id,route_name part_fullname, "
+				+ "  case when b.cnt is null then 0 else b.cnt end zc_cnt from hrm_org_part a left join "
+				+ "  ( select part_id,count(1) cnt from res where dr='0' group by part_id) b "
+				+ "  on a.node_id=b.part_id and a.org_id='1' union all "
+				+ "select '-1' part_id,'未设置组织' part_fullname ,count(1) zc_cnt from res where part_id not in (select node_id from hrm_org_part where org_id='1') "
+				+ "or part_id is null ";
 		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 	}
 
@@ -169,7 +168,7 @@ public class ResExtReportController extends BaseController {
 	@Transactional
 	public R queryZcTjByOrgId(String part_id) {
 
-		String sql = "select  " + ResExtService.resSqlbody + " t.* from res t where dr='0'";
+		String sql = "select " + ResExtService.resSqlbody + " t.* from res t where dr='0'";
 		if ("-1".equals(part_id)) {
 			sql = sql + " and part_id not in (select node_id from hrm_org_part where org_id='1') or part_id is null";
 

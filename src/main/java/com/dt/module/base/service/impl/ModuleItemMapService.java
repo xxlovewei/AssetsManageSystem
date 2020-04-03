@@ -75,7 +75,7 @@ public class ModuleItemMapService extends BaseService {
 				"then '权限认证' "+
 				"else '未知' end ctacltext "+
 				"from sys_modules_item a left join sys_api b on a.ct = b.ct "+
-				"where module_id = '"+module_id+"' "+
+				"where module_id = ? "+
 				"union all select "+
 				"'N'           selected, "+
 				"''            module_item_id, "+
@@ -98,8 +98,8 @@ public class ModuleItemMapService extends BaseService {
 				"from sys_api b "+
 				"where ctacl not in ('"+Acl.ACL_ALLOW+"') and ct not in (select ct "+
 				"from sys_modules_item "+
-				"where module_id = '"+module_id+"') "+
+				"where module_id = ?) "+
 				"order by status, ctacl desc, url) endtab order by selected desc,url";
-		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(db.query(sql,module_id,module_id).toJsonArrayWithJsonObject());
 	}
 }

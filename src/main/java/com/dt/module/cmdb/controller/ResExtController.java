@@ -41,24 +41,7 @@ public class ResExtController extends BaseController {
 	@Autowired
 	ResExtService resExtService;
 
-//	@Autowired
-//	IResAttrValuesService ResAttrValuesServiceImpl;
-
-//	@Autowired
-//	IResAttrValueService ResAttrValueServiceImpl;
-//
-//	@Autowired
-//	IResService ResServiceImpl;
-
-//	@ResponseBody
-//	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-//	@RequestMapping(value = "/res/selectListResExd.do")
-//	public R selectList(String classId) {
-//		QueryWrapper<Res> ew = new QueryWrapper<Res>();
-//		ew.and(i -> i.eq("class_id", classId));
-//		return R.SUCCESS_OPER(ResServiceImpl.list(ew));
-//	}
-
+ 
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_USER)
 	@RequestMapping(value = "/res/batchWork.do")
