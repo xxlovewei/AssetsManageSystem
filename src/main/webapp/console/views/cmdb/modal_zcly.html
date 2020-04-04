@@ -5,6 +5,12 @@
 	}
 }
 </style>
+
+
+<link rel="stylesheet" href="./plugin/form/k-form-design.css">
+
+
+
 <div class="modal-content">
 	<div class="modal-header">
 		<button ng-click="cancel()" type="button" class="close">
@@ -13,9 +19,16 @@
 		<h4 class="modal-title">资产查询</h4>
 	</div>
 	<div class="modal-body">
+
+
 		<div class="wrapper wrapper-content animated fadeInRight">
 			<div class="row">
 				<div class="wrapper wrapper-content animated fadeInRight">
+
+					<div class="app">
+						<k-form-build ref="KFB" @submit="handleSubmit" :value="jsonData"></k-form-build>
+						<!-- <button @click="getData">提交</button> -->
+					</div>
 					<form class="form-horizontal m-t-md " name="myForm" novalidate
 						action="">
 
@@ -85,9 +98,20 @@
 				</div>
 
 			</div>
-			<div class="modal-footer" style ="text-align:center">
+			<div class="modal-footer" style="text-align: center">
 				<button ng-click="cancel()" class="btn btn-warning">取消</button>
 				<button ng-disabled="myForm.$invalid" ng-click="sure()"
 					class="btn btn-primary">确认</button>
 			</div>
 		</div>
+	</div>
+</div>
+<script src="./plugin/form/vue.min.js"></script>
+<script src="./plugin/form/k-form-design.umd.min.js"></script>
+<script>
+   
+    window.setTimeout(function () {
+    	
+    }, 1000);
+    
+  </script>

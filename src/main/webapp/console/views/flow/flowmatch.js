@@ -204,7 +204,8 @@ function modalFlowListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 	function flush() {
 		var ps = {}
-
+		ps.pageIndex=1;
+		ps.pageSize=100;
 		$http.post($rootScope.project + "uflo/central/loadProcess", ps)
 				.success(function(res) {
 					$scope.dtOptions.aaData = res.result;

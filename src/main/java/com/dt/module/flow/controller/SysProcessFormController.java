@@ -1,26 +1,25 @@
 package com.dt.module.flow.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.dt.module.flow.entity.SysProcessForm;
+import com.dt.module.flow.service.ISysProcessFormService;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.dt.core.annotion.Acl;
+import com.dt.core.common.base.R;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
+import com.dt.core.tool.util.DbUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.dt.core.tool.util.ToolUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.dt.core.annotion.Acl;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.stereotype.Controller;
 import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.R;
-import com.dt.core.tool.util.DbUtil;
-import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.flow.entity.SysProcessClassItem;
-import com.dt.module.flow.service.ISysProcessClassItemService;
 
 /**
  * <p>
@@ -28,57 +27,57 @@ import com.dt.module.flow.service.ISysProcessClassItemService;
  * </p>
  *
  * @author algernonking
- * @since 2019-12-01
+ * @since 2020-04-04
  */
 @Controller
-@RequestMapping("/api/flow/sysProcessClassItem")
-public class SysProcessClassItemController extends BaseController {
+@RequestMapping("/api/flow/sysProcessForm")
+public class SysProcessFormController extends BaseController {
 
 
 	@Autowired
-	ISysProcessClassItemService SysProcessClassItemServiceImpl;
+	ISysProcessFormService SysProcessFormServiceImpl;
 
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysProcessClassItemServiceImpl.removeById(id));
+		return R.SUCCESS_OPER(SysProcessFormServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysProcessClassItemServiceImpl.getById(id));
+		return R.SUCCESS_OPER(SysProcessFormServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
-	public R insert(SysProcessClassItem entity) {
-		return R.SUCCESS_OPER(SysProcessClassItemServiceImpl.save(entity));
+	public R insert(SysProcessForm entity) {
+		return R.SUCCESS_OPER(SysProcessFormServiceImpl.save(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
 	@RequestMapping(value = "/updateById.do")
-	public R updateById(SysProcessClassItem entity) {
-		return R.SUCCESS_OPER(SysProcessClassItemServiceImpl.updateById(entity));
+	public R updateById(SysProcessForm entity) {
+		return R.SUCCESS_OPER(SysProcessFormServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(SysProcessClassItem entity) {
-		return R.SUCCESS_OPER(SysProcessClassItemServiceImpl.saveOrUpdate(entity));
+	public R insertOrUpdate(SysProcessForm entity) {
+		return R.SUCCESS_OPER(SysProcessFormServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysProcessClassItemServiceImpl.list(null));
+		return R.SUCCESS_OPER(SysProcessFormServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -91,9 +90,9 @@ public class SysProcessClassItemController extends BaseController {
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<SysProcessClassItem> ew = new QueryWrapper<SysProcessClassItem>();
+		QueryWrapper<SysProcessForm> ew = new QueryWrapper<SysProcessForm>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysProcessClassItem> pdata = SysProcessClassItemServiceImpl.page(new Page<SysProcessClassItem>(pageindex, pagesize), ew);
+		IPage<SysProcessForm> pdata = SysProcessFormServiceImpl.page(new Page<SysProcessForm>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

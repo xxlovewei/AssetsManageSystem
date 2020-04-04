@@ -1,7 +1,7 @@
 package com.dt.module.flow.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dt.module.flow.entity.SysProcessData;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.dt.module.flow.entity.SysProcessData;
  * </p>
  *
  * @author algernonking
- * @since 2019-12-14
+ * @since 2020-04-04
  */
 public interface SysProcessDataMapper extends BaseMapper<SysProcessData> {
 

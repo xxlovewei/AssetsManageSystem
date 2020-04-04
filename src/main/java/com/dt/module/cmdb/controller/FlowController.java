@@ -43,7 +43,6 @@ import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.service.impl.ResExtService;
 import com.dt.module.flow.entity.SysProcessData;
-import com.dt.module.flow.service.ISysProcessClassItemService;
 import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
 
@@ -77,8 +76,7 @@ public class FlowController extends BaseController {
 	@Autowired
 	private HistoryService historyService;
 
-	@Autowired
-	ISysProcessClassItemService SysProcessClassItemServiceImpl;
+ 
 
 	@Autowired
 	ISysProcessDataService SysProcessDataServiceImpl;
@@ -165,13 +163,13 @@ public class FlowController extends BaseController {
 			startProcessInfo.setCompleteStartTask(true);
 			startProcessInfo.setBusinessId(busid);
 			startProcessInfo.setTag(sd.getPtype());
-			startProcessInfo.setSubject(sd.getDtitle());
+		//	startProcessInfo.setSubject(sd.getDtitle());
 			startProcessInfo.setCompleteStartTaskOpinion("发起流程");
 			ProcessInstance inst = processService.startProcessByKey(processkey, startProcessInfo);
 			// 插入流程数据
 			up.set("busid", busid);
 			up.set("processkey", processkey);
-			up.set("ptitle", sd.getDtitle());
+		//	up.set("ptitle", sd.getDtitle());
 			up.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
 			up.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
 			up.set("processInstanceId", inst.getId() + "");

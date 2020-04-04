@@ -1,7 +1,7 @@
 package com.dt.module.flow.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.dt.module.flow.entity.SysProcessData;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.dt.module.flow.entity.SysProcessData;
  * </p>
  *
  * @author algernonking
- * @since 2019-12-14
+ * @since 2020-04-04
  */
 public interface ISysProcessDataService extends IService<SysProcessData> {
 

@@ -1,7 +1,7 @@
 package com.dt.module.flow.mapper;
 
+import com.dt.module.flow.entity.SysProcessForm;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.dt.module.flow.entity.SysProcessClassItem;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.dt.module.flow.entity.SysProcessClassItem;
  * </p>
  *
  * @author algernonking
- * @since 2019-12-01
+ * @since 2020-04-04
  */
-public interface SysProcessClassItemMapper extends BaseMapper<SysProcessClassItem> {
+public interface SysProcessFormMapper extends BaseMapper<SysProcessForm> {
 
 }

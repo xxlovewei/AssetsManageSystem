@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.module.flow.service.ISysProcessClassItemService;
 import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
 
@@ -22,8 +21,7 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
 @RequestMapping("/api")
 public class SysUfloProcessExtController extends BaseController {
 
-	@Autowired
-	ISysProcessClassItemService SysProcessClassItemServiceImpl;
+ 
 
 	@Autowired
 	ISysProcessDataService SysProcessDataServiceImpl;

@@ -1,7 +1,7 @@
 package com.dt.module.flow.service;
 
+import com.dt.module.flow.entity.SysProcessForm;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dt.module.flow.entity.SysProcessClass;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.dt.module.flow.entity.SysProcessClass;
  * </p>
  *
  * @author algernonking
- * @since 2019-11-30
+ * @since 2020-04-04
  */
-public interface ISysProcessClassService extends IService<SysProcessClass> {
+public interface ISysProcessFormService extends IService<SysProcessForm> {
 
 }

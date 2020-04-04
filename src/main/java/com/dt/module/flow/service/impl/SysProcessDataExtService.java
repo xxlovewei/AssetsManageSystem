@@ -35,9 +35,9 @@ public class SysProcessDataExtService extends BaseService {
 		if (ToolUtil.isEmpty(id)) {
 			id = ToolUtil.getUUID();
 		}
-		entity.setDmessage(ps.getString("dmessage", ""));
-		entity.setDmark(ps.getString("dmark", ""));
-		entity.setDname(ps.getString("dname", ""));
+	//	entity.setDmessage(ps.getString("dmessage", ""));
+	//	entity.setDmark(ps.getString("dmark", ""));
+	//	entity.setDname(ps.getString("dname", ""));
 		SysProcessDataServiceImpl.saveOrUpdate(entity);
 		return R.SUCCESS_OPER(id);
 	}

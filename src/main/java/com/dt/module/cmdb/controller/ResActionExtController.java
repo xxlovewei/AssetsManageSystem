@@ -16,15 +16,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.core.dao.RcdSet;
-import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.cmdb.entity.ResActionItem;
 import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.service.impl.ResExtService;
 import com.dt.module.flow.entity.SysProcessData;
-import com.dt.module.flow.service.ISysProcessClassItemService;
 import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
 
@@ -58,8 +55,7 @@ public class ResActionExtController extends BaseController {
 //	@Autowired
 //	private HistoryService historyService;
 
-	@Autowired
-	ISysProcessClassItemService SysProcessClassItemServiceImpl;
+ 
 
 	@Autowired
 	ISysProcessDataService SysProcessDataServiceImpl;
@@ -69,9 +65,9 @@ public class ResActionExtController extends BaseController {
 	@RequestMapping(value = "/insert.do")
 	public R insert(SysProcessData entity, String items) {
 		String uuid = resExtService.createUuid(entity.getPtype());
-		entity.setDuuid(uuid);
+		//entity.setDuuid(uuid);
 		entity.setPstatusdtl(SysUfloProcessService.P_STATUS_SFA);
-		entity.setDf10(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
+	//	entity.setDf10(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
 		JSONArray items_arr = JSONArray.parseArray(items);
 		List<ResActionItem> entityList = new ArrayList<ResActionItem>();
 		for (int i = 0; i < items_arr.size(); i++) {
@@ -81,7 +77,7 @@ public class ResActionExtController extends BaseController {
 			e.setStatus("out");
 			entityList.add(e);
 		}
-		entity.setDtotal(ConvertUtil.toBigDecimal(entityList.size()));
+		//entity.setDtotal(ConvertUtil.toBigDecimal(entityList.size()));
 		ResActionItemServiceImpl.saveBatch(entityList);
 		SysProcessDataServiceImpl.save(entity);
 		return R.SUCCESS_OPER();
@@ -115,13 +111,13 @@ public class ResActionExtController extends BaseController {
 	public R selectById(String id) {
 
 		SysProcessData r = SysProcessDataServiceImpl.getById(id);
-		String uuid = r.getDuuid();
+		//String uuid = r.getDuuid();
 		JSONObject res = JSONObject.parseObject(JSON.toJSONString(r, SerializerFeature.WriteDateUseDateFormat,
 				SerializerFeature.DisableCircularReferenceDetect));
 		String sql = "select " + ResExtService.resSqlbody
 				+ " t.*,a.backtime,a.status actitemstatus from res_action_item a,res t where a.resid=t.id and a.dr='0' and actuuid=?";
-		RcdSet rs = db.query(sql, uuid);
-		res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
+	//	RcdSet rs = db.query(sql, uuid);
+	//	res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
 		return R.SUCCESS_OPER(res);
 	}
 

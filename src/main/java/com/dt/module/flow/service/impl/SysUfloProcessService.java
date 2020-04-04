@@ -44,7 +44,6 @@ import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.entity.TaskInfo;
-import com.dt.module.flow.service.ISysProcessClassItemService;
 import com.dt.module.flow.service.ISysProcessDataService;
 
 /**
@@ -55,6 +54,8 @@ import com.dt.module.flow.service.ISysProcessDataService;
 
 @Service
 public class SysUfloProcessService extends BaseService {
+	
+	
 	public static String P_TYPE_RUNNING = "running";
 	public static String P_TYPE_CANCEL = "cancel";
 	public static String P_TYPE_FINISH = "finish";
@@ -76,8 +77,7 @@ public class SysUfloProcessService extends BaseService {
 	@Autowired
 	private HistoryService historyService;
 
-	@Autowired
-	ISysProcessClassItemService SysProcessClassItemServiceImpl;
+//	 
 
 	@Autowired
 	ISysProcessDataService SysProcessDataServiceImpl;
@@ -171,8 +171,8 @@ public class SysUfloProcessService extends BaseService {
 		pd.setPstatus(SysUfloProcessService.P_TYPE_RUNNING);
 		pd.setProcessInstanceId(inst.getId() + "");
 		pd.setPstartuserid(this.getUserId());
-		pd.setDmessage(ps.getString("dmessage", ""));
-		pd.setDmark(ps.getString("dmark", ""));
+	//	pd.setDmessage(ps.getString("dmessage", ""));
+	//	pd.setDmark(ps.getString("dmark", ""));
 		SysProcessDataServiceImpl.save(pd);
 		return R.SUCCESS_OPER();
 	}

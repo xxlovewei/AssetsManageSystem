@@ -1,7 +1,7 @@
 package com.dt.module.flow.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dt.module.flow.entity.SysProcessDef;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.dt.module.flow.entity.SysProcessDef;
  * </p>
  *
  * @author algernonking
- * @since 2020-03-29
+ * @since 2020-04-04
  */
 public interface SysProcessDefMapper extends BaseMapper<SysProcessDef> {
 

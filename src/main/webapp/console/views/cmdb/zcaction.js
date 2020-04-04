@@ -322,7 +322,7 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 }
 function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,$timeout,
 		$uibModalInstance, $state, meta) {
 
 	$scope.actmsg = "操作";
@@ -428,9 +428,49 @@ function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		})
 
 	}
+	
+	console.log('11111111')
+	 let vm ;
+	  $timeout(function(){
+		  let jsonData  = {"list":[{"type":"grid","label":"栅格布局","columns":[{"span":12,"list":[{"type":"input","label":"输入框","icon":"icon-write","options":{"type":"text","width":"100%","defaultValue":"","placeholder":"请输入","clearable":false,"maxLength":null,"disabled":false},"model":"input_1585925771170","key":"input_1585925771170","rules":[{"required":false,"message":"必填项"}]}]},{"span":12,"list":[{"type":"input","label":"输入框","icon":"icon-write","options":{"type":"text","width":"100%","defaultValue":"","placeholder":"请输入","clearable":false,"maxLength":null,"disabled":false},"model":"input_1585925772691","key":"input_1585925772691","rules":[{"required":false,"message":"必填项"}]}]}],"options":{"gutter":0},"key":"grid_1585925769152"},{"type":"input","label":"输入框","options":{"type":"text","width":"100%","defaultValue":"","placeholder":"请输入","clearable":false,"maxLength":null,"disabled":false},"model":"input_1585925776396","key":"input_1585925776396","rules":[{"required":false,"message":"必填项"}]}],"config":{"layout":"horizontal","labelCol":{"span":4},"wrapperCol":{"span":18},"hideRequiredMark":false,"customStyle":""}}
+		  ;
+		  vm = new Vue({
+		     el: '.app',
+		     data: {
+		       jsonData
+		     },
+		     methods: {
+		       handleSubmit(p) {
+		         // 通过表单提交按钮触发，获取promise对象
+		         p().then(res => {
+		           // 获取数据成功
+		           alert(JSON.stringify(res))
+		         })
+		           .catch(err => {
+		             console.log(err, '校验失败')
+		           })
+		       },
+		       getData() {
+		         // 通过函数获取数据
+		         this.$refs.KFB.getData().then(res => {
+		           // 获取数据成功
+		           alert(JSON.stringify(res))
+		         })
+		           .catch(err => {
+		             console.log(err, '校验失败')
+		           })
+		       }
+		     }
+		   })
+                },1000)
+	
 
 	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
+		  // 通过函数获取数据
+	         vm.$refs.KFB.getData().then(res => {
+	           // 获取数据成功
+	           alert(JSON.stringify(res))
+	         })
 	};
 }
 
