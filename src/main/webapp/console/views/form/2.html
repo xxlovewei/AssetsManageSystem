@@ -4,8 +4,7 @@
 <head>
 <title>表单设计器kcz</title>
 <meta charset="UTF-8">
-<link rel="stylesheet"
-	href="http://unpkg.com/k-form-design/lib/k-form-design.css">
+<link rel="stylesheet" href="http://unpkg.com/k-form-design/lib/k-form-design.css">
 </head>
 
 <body>
@@ -14,12 +13,11 @@
 		<k-form-build ref="KFB" @submit="handleSubmit" :value="jsonData"
 			:data="dynamicData"></k-form-build>
 		<button @click="getData">提交</button>
-	 
+
 	</div>
 	<script src="http://cdn.kcz66.com/vue.min.js"></script>
-	<script
-		src="http://unpkg.com/k-form-design/lib/k-form-design.umd.min.js"></script>
-	<script>
+	  <script src="http://unpkg.com/k-form-design/lib/k-form-design.umd.min.js"></script>
+ <script>
     let jsonData = {"list":[{"type":"input","label":"输入框","options":{"type":"text","width":"100%","defaultValue":"","placeholder":"请输入","clearable":false,"maxLength":null,"disabled":false},"model":"input_1585372521401","key":"input_1585372521401","rules":[{"required":false,"message":"必填项"}]},{"type":"select","label":"下拉选择器","options":{"width":"100%","multiple":false,"disabled":false,"clearable":false,"placeholder":"请选择","options":[{"value":"1","label":"下拉框1"},{"value":"2","label":"下拉框2"}],"filterable":false,"defaultValue":"1"},"model":"select_1585372710325","key":"select_1585372710325","rules":[{"required":false,"message":"必填项"}]},{"type":"input","label":"输入框","options":{"type":"text","width":"100%","defaultValue":"","placeholder":"请输入","clearable":false,"maxLength":null,"disabled":false},"model":"input_1585372714507","key":"input_1585372714507","rules":[{"required":false,"message":"必填项"}]}],"config":{"layout":"horizontal","labelCol":{"span":4},"wrapperCol":{"span":18},"hideRequiredMark":false,"customStyle":""}}
     let dynamicData={"input_1585372521401":"asadfasdf","select_1585372710325":"2","input_1585372714507":"1asdfasdf"};
     let vm = new Vue({
@@ -29,7 +27,9 @@
         values:dynamicData,
       },
       methods: {
-    
+    	  handleSave(values){
+   		 alert(111);
+   	   },
         handleSubmit(p) {
           // 通过表单提交按钮触发，获取promise对象
           p().then(res => {

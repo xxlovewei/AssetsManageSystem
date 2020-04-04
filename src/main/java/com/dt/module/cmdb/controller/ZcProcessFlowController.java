@@ -44,6 +44,7 @@ import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.service.impl.ResExtService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;
+import com.dt.module.flow.service.ISysProcessSettingService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
 
 /**
@@ -53,7 +54,7 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
  */
 @Controller
 @RequestMapping("/api/cmdb/flow")
-public class FlowController extends BaseController {
+public class ZcProcessFlowController extends BaseController {
 
 	@Autowired
 	SysUfloProcessService sysUfloProcessService;
@@ -101,6 +102,7 @@ public class FlowController extends BaseController {
 		if (StringUtils.isNotBlank(taskName)) {
 			query.nameLike("%" + taskName + "%");
 		}
+		
 		List<Task> tasks = query.list();
 		return R.SUCCESS_OPER(JSONArray.parseArray(JSON.toJSONString(tasks, SerializerFeature.WriteDateUseDateFormat,
 				SerializerFeature.DisableCircularReferenceDetect)));
@@ -141,11 +143,17 @@ public class FlowController extends BaseController {
 				SerializerFeature.DisableCircularReferenceDetect)));
 		return R.clearAttachDirect(retrunObject);
 	}
+	
+	@Autowired
+	ISysProcessSettingService SysProcessSettingServiceImpl;
 
 	@ResponseBody
 	@Acl(info = "发起流程", value = Acl.ACL_USER)
 	@RequestMapping(value = "/zc/startProcess.do")
-	public R startProcess(String spmethod, String processkey) {
+	public R startProcess(String spmethod, String processkey,String jsonvalue,String type) {
+		
+
+	
 		String busid = ToolUtil.getUUID();
 		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 		UpdateWrapper<SysProcessData> up = new UpdateWrapper<SysProcessData>();

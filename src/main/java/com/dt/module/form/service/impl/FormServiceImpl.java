@@ -9,6 +9,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
+import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.ToolUtil;
 
 /**
@@ -83,9 +84,7 @@ public class FormServiceImpl extends BaseService {
 		JSONObject e17 = new JSONObject();
 		e17.put("col", "dfile");
 		cols.add(e17);
-		JSONObject e18 = new JSONObject();
-		e18.put("col", "djson");
-		cols.add(e18);
+	 
 		JSONObject e19 = new JSONObject();
 		e19.put("col", "dlevel");
 		cols.add(e19);
@@ -180,17 +179,17 @@ public class FormServiceImpl extends BaseService {
 	}
 
 	// type ,insert,update
-	public R parseFromJsonToSqlTpl(String json, String opertype, String process_data_id, String primary_value) {
-		if (ToolUtil.isOneEmpty(json, opertype)) {
+	public R parseFromJsonToSqlTpl(String json_data,String json_value, String opertype, String process_data_id, String primary_value) {
+		if (ToolUtil.isOneEmpty(json_data,json_value, opertype)) {
 			return R.FAILURE();
 		}
 		// select COLUMN_NAME col from information_schema.COLUMNS where table_name =
 		// 'sys_process_data' and COLUMN_NAME like 'd%';
-		json = "{\n" + "	\"asdf\": \"asdf\",\n" + "	\"dpic1\": \"saf\",\n"
+		json_value = "{\n" + "	\"asdf\": \"asdf\",\n" + "	\"dpic1\": \"saf\",\n"
 				+ "	\"textarea_1585926392110\": \"asdf\",\n" + "	\"asfs\": \"asdf\",\n" + "	\"fasdfsa\": \"asdf\"\n"
 				+ "}";
 		HashMap<String, String> metacols = parseFromJsonMetaCol();
-		JSONObject e = JSONObject.parseObject(json);
+		JSONObject e = JSONObject.parseObject(json_value);
 		Iterator<String> keys = e.keySet().iterator();// jsonObject.keys();
 		HashMap<String, String> map = new HashMap<String, String>();
 		while (keys.hasNext()) {
@@ -200,14 +199,7 @@ public class FormServiceImpl extends BaseService {
 		Iterator<String> keySetIterator = map.keySet().iterator();
 		Insert ins = new Insert("sys_process_form");
 		Update ups = new Update("sys_process_form");
-		if (opertype.equals(OPER_TYPE_INSERT)) {
-			ins.setIf("djson", json);
-			ins.setIf("processdataid", process_data_id);
-		} else if (opertype.equals(OPER_TYPE_UPDATE)) {
-			ups.setIf("djson", json);
-		} else {
-			return R.FAILURE();
-		}
+
 		while (keySetIterator.hasNext()) {
 			String key = keySetIterator.next();
 			String v = map.get(key);
@@ -221,10 +213,17 @@ public class FormServiceImpl extends BaseService {
 		}
 		String ressql = "";
 		if (opertype.equals(OPER_TYPE_UPDATE)) {
-			ups.where().andIf("did=?", primary_value);
+			ups.setIf("fdata", json_value);
+			ups.where().andIf("fid=?", primary_value);
 			ressql = ups.getSQL();
+			
 		} else if (opertype.equals(OPER_TYPE_INSERT)) {
-			ressql = ins.getSQL();
+			
+			ins.setIf("ftpldatamd5", MD5Util.encrypt(json_data));
+			ins.setIf("ftpldata", json_data);
+			ins.setIf("fdata", json_value);
+			ins.setIf("processdataid", process_data_id);
+			ressql = ins.getSQL(); 
 		}
 		return R.SUCCESS_OPER(ressql);
 	}
@@ -232,7 +231,7 @@ public class FormServiceImpl extends BaseService {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		FormServiceImpl a = new FormServiceImpl();
-		System.out.println(a.parseFromJsonToSqlTpl("m", "insert", "process", "###3"));
+		System.out.println(a.parseFromJsonToSqlTpl("asdfsadf","adfsadfasdf", "insert", "process", "###3"));
 //		for(int i=0;i<50;i++) {
 //			System.out.println("JSONObject e"+i+" = new JSONObject();e"+i+".put(\"col\", \"dattach1\");	cols.add(e"+i+");");
 //		}

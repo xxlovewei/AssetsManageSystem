@@ -10,11 +10,15 @@
 
 <body>
 	<div id="app">
-		<k-form-design ref="KFB" title="表单设计器" @save="handleSave"></k-form-design>
+		<k-form-design toolbarsTop :value="jsonData": ref="KFB" title="表单设计器"
+			@save="handleSave"></k-form-design>jkj
 	</div>
 	<script src="../../../plugin/form/vue.min.js"></script>
-	<script
-		src="../../../plugin/form/k-form-design.umd.min.js"></script>
+<!-- 	<script src="../../../plugin/form/k-form-design.umd.min.js"></script> -->
+ 	<script
+		src="http://unpkg.com/k-form-design/lib/k-form-design.umd.min.js"></script>  
+
+
 	<script src="../../../plugin/form/vue-resource.min.js"></script>
 	<script>
 	
@@ -45,33 +49,36 @@
 	var gurl = window.location.host; 
 	console.log(gurl);
  	 Vue.http.get('http://'+gurl+'/dt/api/form/sysForm//selectById.do?id='+getpar.id).then(function(res){
-         console.log(res.body.data);   
-         let jsonData = {"list":[],"config":{"layout":"horizontal","labelCol":{"span":4},"wrapperCol":{"span":18},"hideRequiredMark":false,"customStyle":""}}
-  		var ct2=decodeURI(res.body.data.ct);
-         console.log("ct2",ct2);
-         var jsonData2={};
-         if (typeof (ct2) == 'undefined' ||ct2== undefined||ct2== 'undefined'){
-        	 jsonData2=jsonData;
-         }else{
-        	 jsonData2=JSON.parse(ct2); 
-         }
+        let jsonData = {"list":[],"config":{"layout":"horizontal","labelCol":{"span":4},"wrapperCol":{"span":18},"hideRequiredMark":false,"customStyle":""}}
+  	   	var ct2=decodeURI(res.body.data.ct);
+        var jsonData2={};
+        if (typeof (ct2) == 'undefined' ||ct2== undefined||ct2== 'undefined'){
+        	 
+        }else{
+        	jsonData=JSON.parse(ct2); 
+        }
       
-         console.log(jsonData2);
+         var defaultValue={};
+         console.log("jsondata",jsonData);
          //jsonData2=jsonData;
          let vm = new Vue({
            el: '#app',
            data: {
-             jsonData
+        	   jsonData :jsonData
+            // defaultValue
            },
            mounted () {
         	   this.init()
         	  },
            methods: {
+        	   handleSave(values){
+        		   
+        	   },
         	   init(){
-        			 this.$refs.KFB.handleSetData(jsonData2);
+        	 	// this.$refs.KFB.handleSetData(jsonData);
                },
          	  importData(){
-         		 this.$refs.KFB.handleSetData(jsonData);
+         		// this.$refs.KFB.handleSetData(jsonData);
          	  },
          	  handleSave(val){
                   var valstr=JSON.stringify(val);
