@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/Project.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Project_war_exploded.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/web/WEB-INF/web.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dev/Demo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dev/Demo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/velocity.log" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1a663rH7pljgCyNPihS2BFruoBP" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="compactDirectories" value="true" />
+    <option name="flattenModules" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.31" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment />
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="_dt" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="50193" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="" />
+      <created>1586043499076</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586043499076</updated>
+      <workItem from="1586043501163" duration="47000" />
+      <workItem from="1586043552673" duration="1036000" />
+      <workItem from="1586044607727" duration="917000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_TABS">
+      <set>
+        <option value="1" />
+      </set>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="250" y="57" key="#Project_Structure" timestamp="1586044328869">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state x="250" y="57" key="#Project_Structure/38.23.1242.777@38.23.1242.777" timestamp="1586044328869" />
+    <state x="249" y="56" key="#Tomcat_Server" timestamp="1586043900091">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state x="249" y="56" key="#Tomcat_Server/38.23.1242.777@38.23.1242.777" timestamp="1586043900091" />
+    <state x="114" y="53" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586043910679">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state x="114" y="53" key="#com.intellij.execution.impl.EditConfigurationsDialog/38.23.1242.777@38.23.1242.777" timestamp="1586043910679" />
+    <state x="283" y="87" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1586044362869">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state x="283" y="87" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/38.23.1242.777@38.23.1242.777" timestamp="1586044362869" />
+    <state x="414" y="343" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath" timestamp="1586044798590">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state x="414" y="343" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath/38.23.1242.777@38.23.1242.777" timestamp="1586044798590" />
+    <state x="416" y="325" key="#com.intellij.javaee.module.view.web.EditWebRootDialog" timestamp="1586044764103">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state x="416" y="325" key="#com.intellij.javaee.module.view.web.EditWebRootDialog/38.23.1242.777@38.23.1242.777" timestamp="1586044764103" />
+    <state width="1180" height="207" key="GridCell.Tab.0.bottom" timestamp="1586045570087">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state width="1180" height="207" key="GridCell.Tab.0.bottom/38.23.1242.777@38.23.1242.777" timestamp="1586045570087" />
+    <state width="1180" height="207" key="GridCell.Tab.0.center" timestamp="1586045570086">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state width="1180" height="207" key="GridCell.Tab.0.center/38.23.1242.777@38.23.1242.777" timestamp="1586045570086" />
+    <state width="1180" height="207" key="GridCell.Tab.0.left" timestamp="1586045570085">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state width="1180" height="207" key="GridCell.Tab.0.left/38.23.1242.777@38.23.1242.777" timestamp="1586045570085" />
+    <state width="1180" height="207" key="GridCell.Tab.0.right" timestamp="1586045570087">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state width="1180" height="207" key="GridCell.Tab.0.right/38.23.1242.777@38.23.1242.777" timestamp="1586045570087" />
+    <state x="497" y="109" key="RollbackChangesDialog" timestamp="1586045601431">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state x="497" y="109" key="RollbackChangesDialog/38.23.1242.777@38.23.1242.777" timestamp="1586045601431" />
+    <state x="47" y="23" width="1159" height="777" key="SettingsEditor" timestamp="1586045460076">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state x="47" y="23" width="1159" height="777" key="SettingsEditor/38.23.1242.777@38.23.1242.777" timestamp="1586045460076" />
+    <state x="271" y="131" key="Vcs.Push.Dialog.v2" timestamp="1586045535885">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state x="271" y="131" key="Vcs.Push.Dialog.v2/38.23.1242.777@38.23.1242.777" timestamp="1586045535885" />
+    <state x="263" y="23" key="new project wizard" timestamp="1586044440069">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state x="263" y="23" key="new project wizard/38.23.1242.777@38.23.1242.777" timestamp="1586044440069" />
+    <state x="315" y="186" key="run.anything.popup" timestamp="1586044944592">
+      <screen x="38" y="23" width="1242" height="777" />
+    </state>
+    <state x="315" y="186" key="run.anything.popup/38.23.1242.777@38.23.1242.777" timestamp="1586044944592" />
+  </component>
+</project>
