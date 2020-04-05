@@ -27,50 +27,50 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
 @Component
 public class UfloNodeEndEventHandler implements NodeEventHandler {
 
-	@Autowired
-	ISysProcessDataService SysProcessDataServiceImpl;
+    @Autowired
+    ISysProcessDataService SysProcessDataServiceImpl;
 
-	@Override
-	public void enter(Node node, ProcessInstance processInstance, Context context) {
-		// TODO Auto-generated method stub
+    @Override
+    public void enter(Node node, ProcessInstance processInstance, Context context) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void leave(Node node, ProcessInstance processInstance, Context context) {
-		// TODO Auto-generated method stub
+    @Override
+    public void leave(Node node, ProcessInstance processInstance, Context context) {
+        // TODO Auto-generated method stub
 
-		String busid = processInstance.getBusinessId();
+        String busid = processInstance.getBusinessId();
 
-		Date date = new Date(); // 获取一个Date对象
-		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
-		String nowtime = simpleDateFormat.format(date);
-		
-		if (busid != null && !busid.equals("")) {
-			QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
-			qw.eq("busid", busid);
-			SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
-			String pdtype = sd.getPtype();
-			if (SysUfloProcessService.P_TYPE_FINISH.equals(pdtype)) {
-				// 流程已经处理过不需要处理
-			} else {
-				// 更新流程总表
-				UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-				
-				uw.eq("busid", busid);
-				uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
-				uw.set("pendtime", nowtime);
-				// 流程类型处理
-				if (pdtype != null) {
-					if (pdtype.equals("LY") || pdtype.equals("JY") || pdtype.equals("ZY")) {
-						uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
-					}
-				}
-				SysProcessDataServiceImpl.update(uw);
-			}
+        Date date = new Date(); // 获取一个Date对象
+        DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+        String nowtime = simpleDateFormat.format(date);
 
-		}
+        if (busid != null && !busid.equals("")) {
+            QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
+            qw.eq("busid", busid);
+            SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
+            String pdtype = sd.getPtype();
+            if (SysUfloProcessService.P_TYPE_FINISH.equals(pdtype)) {
+                // 流程已经处理过不需要处理
+            } else {
+                // 更新流程总表
+                UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
 
-	}
+                uw.eq("busid", busid);
+                uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
+                uw.set("pendtime", nowtime);
+                // 流程类型处理
+                if (pdtype != null) {
+                    if (pdtype.equals("LY") || pdtype.equals("JY") || pdtype.equals("ZY")) {
+                        uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
+                    }
+                }
+                SysProcessDataServiceImpl.update(uw);
+            }
+
+        }
+
+    }
 
 }

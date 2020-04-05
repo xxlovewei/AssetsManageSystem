@@ -14,6 +14,6 @@ import com.dt.module.base.entity.SysMenusNode;
  */
 public interface ISysMenusNodeService extends IService<SysMenusNode> {
 
-	R queryMenuNodesForStageSetting(String menu_id);
+    R queryMenuNodesForStageSetting(String menu_id);
 
 }

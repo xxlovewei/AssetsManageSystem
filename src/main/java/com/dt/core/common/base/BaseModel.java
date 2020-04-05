@@ -11,94 +11,94 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 @SuppressWarnings("rawtypes")
 public class BaseModel<T> extends Model implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@TableField(value = "DR", fill = FieldFill.INSERT)
-	@TableLogic
-	private String dr;
-	@TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
-	private Date createTime;
-	@TableField(value = "CREATE_BY", fill = FieldFill.INSERT)
-	private String createBy;
-	@TableField(value = "UPDATE_TIME", fill = FieldFill.INSERT_UPDATE)
-	private Date updateTime;
-	@TableField(value = "UPDATE_BY", fill = FieldFill.INSERT_UPDATE)
-	private String updateBy;
+    @TableField(value = "DR", fill = FieldFill.INSERT)
+    @TableLogic
+    private String dr;
+    @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
+    private Date createTime;
+    @TableField(value = "CREATE_BY", fill = FieldFill.INSERT)
+    private String createBy;
+    @TableField(value = "UPDATE_TIME", fill = FieldFill.INSERT_UPDATE)
+    private Date updateTime;
+    @TableField(value = "UPDATE_BY", fill = FieldFill.INSERT_UPDATE)
+    private String updateBy;
 
-	/**
-	 * @return the dr
-	 */
-	public String getDr() {
-		return dr;
-	}
+    /**
+     * @return the dr
+     */
+    public String getDr() {
+        return dr;
+    }
 
-	/**
-	 * @param dr the dr to set
-	 */
-	public void setDr(String dr) {
-		this.dr = dr;
-	}
+    /**
+     * @param dr the dr to set
+     */
+    public void setDr(String dr) {
+        this.dr = dr;
+    }
 
-	/**
-	 * @return the createTime
-	 */
-	public Date getCreateTime() {
-		return createTime;
-	}
+    /**
+     * @return the createTime
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-	/**
-	 * @param createTime the createTime to set
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    /**
+     * @param createTime the createTime to set
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-	/**
-	 * @return the createBy
-	 */
-	public String getCreateBy() {
-		return createBy;
-	}
+    /**
+     * @return the createBy
+     */
+    public String getCreateBy() {
+        return createBy;
+    }
 
-	/**
-	 * @param createBy the createBy to set
-	 */
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy;
-	}
+    /**
+     * @param createBy the createBy to set
+     */
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
 
-	/**
-	 * @return the updateTime
-	 */
-	public Date getUpdateTime() {
-		return updateTime;
-	}
+    /**
+     * @return the updateTime
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
 
-	/**
-	 * @param updateTime the updateTime to set
-	 */
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
+    /**
+     * @param updateTime the updateTime to set
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
-	/**
-	 * @return the updateBy
-	 */
-	public String getUpdateBy() {
-		return updateBy;
-	}
+    /**
+     * @return the updateBy
+     */
+    public String getUpdateBy() {
+        return updateBy;
+    }
 
-	/**
-	 * @param updateBy the updateBy to set
-	 */
-	public void setUpdateBy(String updateBy) {
-		this.updateBy = updateBy;
-	}
+    /**
+     * @param updateBy the updateBy to set
+     */
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
 
-	@Override
-	protected Serializable pkVal() {
-		// TODO Auto-generated method stub
-		return this.pkVal();
-	}
+    @Override
+    protected Serializable pkVal() {
+        // TODO Auto-generated method stub
+        return this.pkVal();
+    }
 
 }

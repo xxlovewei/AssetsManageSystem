@@ -21,52 +21,51 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
 @RequestMapping("/api")
 public class SysUfloProcessExtController extends BaseController {
 
- 
 
-	@Autowired
-	ISysProcessDataService SysProcessDataServiceImpl;
+    @Autowired
+    ISysProcessDataService SysProcessDataServiceImpl;
 
-	@Autowired
-	SysUfloProcessService sysUfloProcessService;
+    @Autowired
+    SysUfloProcessService sysUfloProcessService;
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-	}
+    }
 
-	@RequestMapping("/flow/startProcess.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R startProcess(String key, String type) {
-		return sysUfloProcessService.startProcess(key, type);
-	}
+    @RequestMapping("/flow/startProcess.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R startProcess(String key, String type) {
+        return sysUfloProcessService.startProcess(key, type);
+    }
 
-	@RequestMapping("/flow/completeTask.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R computeTask(String variables, String taskId, String opinion) {
-		return sysUfloProcessService.completeTask(variables, taskId, opinion);
-	}
+    @RequestMapping("/flow/completeTask.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R computeTask(String variables, String taskId, String opinion) {
+        return sysUfloProcessService.completeTask(variables, taskId, opinion);
+    }
 
-	@RequestMapping("/flow/cancelTask.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R computeTask(String taskId, String opinion) {
-		return sysUfloProcessService.cancelTask(taskId, opinion);
-	}
+    @RequestMapping("/flow/cancelTask.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R computeTask(String taskId, String opinion) {
+        return sysUfloProcessService.cancelTask(taskId, opinion);
+    }
 
-	@RequestMapping("/flow/loadProcessInstanceData.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R loadProcessInstanceData(String processInstanceId) {
-		return sysUfloProcessService.loadProcessInstanceData(processInstanceId);
-	}
+    @RequestMapping("/flow/loadProcessInstanceData.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R loadProcessInstanceData(String processInstanceId) {
+        return sysUfloProcessService.loadProcessInstanceData(processInstanceId);
+    }
 
-	@RequestMapping("/flow/query.do")
-	@ResponseBody
-	@Acl(info = "添加人员")
-	public R flowquery(String id) {
+    @RequestMapping("/flow/query.do")
+    @ResponseBody
+    @Acl(info = "添加人员")
+    public R flowquery(String id) {
 
-		return R.SUCCESS_OPER();
-	}
+        return R.SUCCESS_OPER();
+    }
 
 }

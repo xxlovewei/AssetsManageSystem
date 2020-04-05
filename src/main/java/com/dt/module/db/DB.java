@@ -15,17 +15,17 @@ import com.dt.core.tool.lang.SpringContextUtil;
 @Component
 @Scope(BeanDefinition.SCOPE_SINGLETON)
 public class DB extends SpringMySQLDao {
-	private static Logger _log = LoggerFactory.getLogger(DB.class);
+    private static Logger _log = LoggerFactory.getLogger(DB.class);
 
-	public static DB instance() {
-		return SpringContextUtil.getBean(DB.class);
-	}
+    public static DB instance() {
+        return SpringContextUtil.getBean(DB.class);
+    }
 
-	private String dbname = "db";
+    private String dbname = "db";
 
-	@Resource(name = "db")
-	public void setDataSource(DataSource dataSource) {
-		_log.info(getDBType() + " " + dbname + " setDataSource");
-		super.setDataSource(dataSource);
-	}
+    @Resource(name = "db")
+    public void setDataSource(DataSource dataSource) {
+        _log.info(getDBType() + " " + dbname + " setDataSource");
+        super.setDataSource(dataSource);
+    }
 }

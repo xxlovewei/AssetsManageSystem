@@ -8,7 +8,7 @@ import com.dt.core.common.base.BaseController;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -18,7 +18,6 @@ import com.dt.core.common.base.BaseController;
 @RequestMapping("/api/sysUserRole")
 public class SysUserRoleController extends BaseController {
 
- 
 
 }
 

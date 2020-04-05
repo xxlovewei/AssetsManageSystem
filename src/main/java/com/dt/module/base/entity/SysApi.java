@@ -10,7 +10,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -111,14 +111,14 @@ public class SysApi extends BaseModel<SysApi> {
     @Override
     public String toString() {
         return "SysApi{" +
-        ", id=" + id +
-        ", ct=" + ct +
-        ", ctacl=" + ctacl +
-        ", apitype=" + apitype +
-        ", rectime=" + rectime +
-        ", mark=" + mark +
-        ", info=" + info +
-        ", type=" + type +
-        "}";
+                ", id=" + id +
+                ", ct=" + ct +
+                ", ctacl=" + ctacl +
+                ", apitype=" + apitype +
+                ", rectime=" + rectime +
+                ", mark=" + mark +
+                ", info=" + info +
+                ", type=" + type +
+                "}";
     }
 }

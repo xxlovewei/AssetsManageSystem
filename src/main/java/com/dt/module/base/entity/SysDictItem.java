@@ -9,7 +9,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -32,7 +32,6 @@ public class SysDictItem extends BaseModel<SysDictItem> {
     private String mark;
     @TableField("CODE")
     private String code;
- 
 
 
     public String getDictId() {
@@ -83,9 +82,6 @@ public class SysDictItem extends BaseModel<SysDictItem> {
         this.code = code;
     }
 
-   
-
-   
 
     @Override
     protected Serializable pkVal() {
@@ -95,12 +91,12 @@ public class SysDictItem extends BaseModel<SysDictItem> {
     @Override
     public String toString() {
         return "SysDictItem{" +
-        ", dictId=" + dictId +
-        ", dictItemId=" + dictItemId +
-        ", name=" + name +
-        ", sort=" + sort +
-        ", mark=" + mark +
-        ", code=" + code +
-        "}";
+                ", dictId=" + dictId +
+                ", dictItemId=" + dictItemId +
+                ", name=" + name +
+                ", sort=" + sort +
+                ", mark=" + mark +
+                ", code=" + code +
+                "}";
     }
 }

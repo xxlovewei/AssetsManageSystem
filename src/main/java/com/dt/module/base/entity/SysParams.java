@@ -9,7 +9,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -28,10 +28,10 @@ public class SysParams extends BaseModel<SysParams> {
     private String value;
     @TableField("TYPE")
     private String type;
- 
+
     @TableField("MARK")
     private String mark;
-   
+
 
     public String getId() {
         return id;
@@ -65,7 +65,6 @@ public class SysParams extends BaseModel<SysParams> {
         this.type = type;
     }
 
-   
 
     public String getMark() {
         return mark;
@@ -75,7 +74,7 @@ public class SysParams extends BaseModel<SysParams> {
         this.mark = mark;
     }
 
-    
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -84,11 +83,11 @@ public class SysParams extends BaseModel<SysParams> {
     @Override
     public String toString() {
         return "SysParams{" +
-        ", id=" + id +
-        ", name=" + name +
-        ", value=" + value +
-        ", type=" + type +
-        ", mark=" + mark +
-        "}";
+                ", id=" + id +
+                ", name=" + name +
+                ", value=" + value +
+                ", type=" + type +
+                ", mark=" + mark +
+                "}";
     }
 }

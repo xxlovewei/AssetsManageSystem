@@ -9,7 +9,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -218,23 +218,23 @@ public class SysMenusNode extends BaseModel<SysMenusNode> {
     @Override
     public String toString() {
         return "SysMenusNode{" +
-        ", nodeId=" + nodeId +
-        ", nodeName=" + nodeName +
-        ", parentId=" + parentId +
-        ", moduleId=" + moduleId +
-        ", menuId=" + menuId +
-        ", mark=" + mark +
-        ", logo=" + logo +
-        ", menuLevel=" + menuLevel +
-        ", orgId=" + orgId +
-        ", sort=" + sort +
-        ", keyvalue=" + keyvalue +
-        ", route=" + route +
-        ", isAction=" + isAction +
-        ", deleted=" + deleted +
-        ", isGShow=" + isGShow +
-        ", type=" + type +
-        ", routeName=" + routeName +
-        "}";
+                ", nodeId=" + nodeId +
+                ", nodeName=" + nodeName +
+                ", parentId=" + parentId +
+                ", moduleId=" + moduleId +
+                ", menuId=" + menuId +
+                ", mark=" + mark +
+                ", logo=" + logo +
+                ", menuLevel=" + menuLevel +
+                ", orgId=" + orgId +
+                ", sort=" + sort +
+                ", keyvalue=" + keyvalue +
+                ", route=" + route +
+                ", isAction=" + isAction +
+                ", deleted=" + deleted +
+                ", isGShow=" + isGShow +
+                ", type=" + type +
+                ", routeName=" + routeName +
+                "}";
     }
 }

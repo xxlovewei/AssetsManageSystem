@@ -9,15 +9,15 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-03-06
  */
- 
+
 @TableName("ops_node_infosys")
- 
+
 public class OpsNodeInfosys extends BaseModel<OpsNodeInfosys> {
 
     private static final long serialVersionUID = 1L;
@@ -322,35 +322,35 @@ public class OpsNodeInfosys extends BaseModel<OpsNodeInfosys> {
     @Override
     public String toString() {
         return "OpsNodeInfosys{" +
-        "id=" + id +
-        ", name=" + name +
-        ", about=" + about +
-        ", status=" + status +
-        ", ifmain=" + ifmain +
-        ", opsmethod=" + opsmethod +
-        ", devmethod=" + devmethod +
-        ", tcontact=" + tcontact +
-        ", bcontact=" + bcontact +
-        ", bpart=" + bpart +
-        ", lastdrilldate=" + lastdrilldate +
-        ", ondatestr=" + ondatestr +
-        ", downdatestr=" + downdatestr +
-        ", os=" + os +
-        ", db=" + db +
-        ", app=" + app +
-        ", grade=" + grade +
-        ", rto=" + rto +
-        ", rpo=" + rpo +
-        ", Hardware=" + Hardware +
-        ", bkmethod=" + bkmethod +
-        ", sameplacebkmethod=" + sameplacebkmethod +
-        ", diffplacebkmethod=" + diffplacebkmethod +
-        ", type=" + type +
-        ", label1=" + label1 +
-        ", label2=" + label2 +
-        ", label3=" + label3 +
-        ", label4=" + label4 +
-        ", mark=" + mark +
-        "}";
+                "id=" + id +
+                ", name=" + name +
+                ", about=" + about +
+                ", status=" + status +
+                ", ifmain=" + ifmain +
+                ", opsmethod=" + opsmethod +
+                ", devmethod=" + devmethod +
+                ", tcontact=" + tcontact +
+                ", bcontact=" + bcontact +
+                ", bpart=" + bpart +
+                ", lastdrilldate=" + lastdrilldate +
+                ", ondatestr=" + ondatestr +
+                ", downdatestr=" + downdatestr +
+                ", os=" + os +
+                ", db=" + db +
+                ", app=" + app +
+                ", grade=" + grade +
+                ", rto=" + rto +
+                ", rpo=" + rpo +
+                ", Hardware=" + Hardware +
+                ", bkmethod=" + bkmethod +
+                ", sameplacebkmethod=" + sameplacebkmethod +
+                ", diffplacebkmethod=" + diffplacebkmethod +
+                ", type=" + type +
+                ", label1=" + label1 +
+                ", label2=" + label2 +
+                ", label3=" + label3 +
+                ", label4=" + label4 +
+                ", mark=" + mark +
+                "}";
     }
 }

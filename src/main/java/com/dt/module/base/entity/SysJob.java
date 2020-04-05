@@ -10,7 +10,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -151,18 +151,18 @@ public class SysJob extends BaseModel<SysJob> {
     @Override
     public String toString() {
         return "SysJob{" +
-        ", seq=" + seq +
-        ", node=" + node +
-        ", jobname=" + jobname +
-        ", jobgroup=" + jobgroup +
-        ", jobclassname=" + jobclassname +
-        ", jobcron=" + jobcron +
-        ", jobtype=" + jobtype +
-        ", jobenable=" + jobenable +
-        ", mark=" + mark +
-        ", recdate=" + recdate +
-        ", lastRun=" + lastRun +
-        ", inited=" + inited +
-        "}";
+                ", seq=" + seq +
+                ", node=" + node +
+                ", jobname=" + jobname +
+                ", jobgroup=" + jobgroup +
+                ", jobclassname=" + jobclassname +
+                ", jobcron=" + jobcron +
+                ", jobtype=" + jobtype +
+                ", jobenable=" + jobenable +
+                ", mark=" + mark +
+                ", recdate=" + recdate +
+                ", lastRun=" + lastRun +
+                ", inited=" + inited +
+                "}";
     }
 }

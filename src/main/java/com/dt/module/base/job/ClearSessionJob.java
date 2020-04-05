@@ -18,13 +18,13 @@ import com.dt.module.db.DB;
  * @Description: TODO
  */
 public class ClearSessionJob implements Job {
-	private static Logger _log = LoggerFactory.getLogger(ClearSessionJob.class);
+    private static Logger _log = LoggerFactory.getLogger(ClearSessionJob.class);
 
-	@Override
-	public void execute(JobExecutionContext jc) throws JobExecutionException {
-		_log.info("session clear start.");
+    @Override
+    public void execute(JobExecutionContext jc) throws JobExecutionException {
+        _log.info("session clear start.");
 
-		JobService.me().finishedJobUpdate(jc);
-		_log.info("session clear end.");
-	}
+        JobService.me().finishedJobUpdate(jc);
+        _log.info("session clear end.");
+    }
 }

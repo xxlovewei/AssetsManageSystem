@@ -6,9 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -69,10 +70,10 @@ public class SysQudShengf extends BaseModel<SysQudShengf> {
     @Override
     public String toString() {
         return "SysQudShengf{" +
-        ", id=" + id +
-        ", mingc=" + mingc +
-        ", jianc=" + jianc +
-        ", guobm=" + guobm +
-        "}";
+                ", id=" + id +
+                ", mingc=" + mingc +
+                ", jianc=" + jianc +
+                ", guobm=" + guobm +
+                "}";
     }
 }

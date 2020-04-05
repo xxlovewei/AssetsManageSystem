@@ -5,7 +5,7 @@ import com.dt.module.base.entity.SysRoleInfo;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author algernonking
@@ -13,5 +13,5 @@ import com.dt.module.base.entity.SysRoleInfo;
  */
 public interface SysRoleInfoMapper extends BaseMapper<SysRoleInfo> {
 
-	Integer isUsed(String id);
+    Integer isUsed(String id);
 }

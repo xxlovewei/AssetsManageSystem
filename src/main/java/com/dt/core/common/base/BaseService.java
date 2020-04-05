@@ -13,30 +13,30 @@ import com.dt.core.tool.util.support.HttpKit;
  */
 public class BaseService extends BaseSC {
 
-	//private static Logger _log = LoggerFactory.getLogger(BaseService.class);
+    //private static Logger _log = LoggerFactory.getLogger(BaseService.class);
 
-	protected HttpServletRequest getHttpServletRequest() {
-		return HttpKit.getRequest();
-	}
+    protected HttpServletRequest getHttpServletRequest() {
+        return HttpKit.getRequest();
+    }
 
-	protected HttpServletResponse getHttpServletResponse() {
-		return HttpKit.getResponse();
-	}
+    protected HttpServletResponse getHttpServletResponse() {
+        return HttpKit.getResponse();
+    }
 
-	protected HttpSession getSession() {
-		return HttpKit.getRequest().getSession();
-	}
+    protected HttpSession getSession() {
+        return HttpKit.getRequest().getSession();
+    }
 
-	protected HttpSession getSession(Boolean flag) {
-		return HttpKit.getRequest().getSession(flag);
-	}
+    protected HttpSession getSession(Boolean flag) {
+        return HttpKit.getRequest().getSession(flag);
+    }
 
-	protected String getPara(String name) {
-		return HttpKit.getRequest().getParameter(name);
-	}
+    protected String getPara(String name) {
+        return HttpKit.getRequest().getParameter(name);
+    }
 
-	protected void setAttr(String name, Object value) {
-		HttpKit.getRequest().setAttribute(name, value);
-	}
+    protected void setAttr(String name, Object value) {
+        HttpKit.getRequest().setAttribute(name, value);
+    }
 
 }

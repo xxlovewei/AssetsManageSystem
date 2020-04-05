@@ -38,125 +38,125 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 @RequestMapping("/api/base/res")
 public class ResExtExportController extends BaseController {
 
-	@Autowired
-	ResExtService resExtService;
+    @Autowired
+    ResExtService resExtService;
 
-	@RequestMapping("/exportDictItems.do")
-	@Acl(value = Acl.ACL_USER)
-	public void exportDictItems(HttpServletRequest request, HttpServletResponse response)
-			throws UnsupportedEncodingException {
+    @RequestMapping("/exportDictItems.do")
+    @Acl(value = Acl.ACL_USER)
+    public void exportDictItems(HttpServletRequest request, HttpServletResponse response)
+            throws UnsupportedEncodingException {
 
-		RcdSet rs = db.query("select b.name,a.name item_name from sys_dict_item a ,sys_dict b "
-				+ " where a.dict_id=b.dict_id and a.dr='0' and b.dr='0' union all "
-				+ " select '资产类型明细' name, route_name item_name from ct_category where root='3' order by 1,2");
+        RcdSet rs = db.query("select b.name,a.name item_name from sys_dict_item a ,sys_dict b "
+                + " where a.dict_id=b.dict_id and a.dr='0' and b.dr='0' union all "
+                + " select '资产类型明细' name, route_name item_name from ct_category where root='3' order by 1,2");
 
-		List<DictItemEntity> data_excel = new ArrayList<DictItemEntity>();
-		for (int i = 0; i < rs.size(); i++) {
-			DictItemEntity entity = new DictItemEntity();
-			entity.fullResEntity(ConvertUtil.OtherJSONObjectToFastJSONObject(rs.getRcd(i).toJsonObject()));
-			data_excel.add(entity);
-		}
+        List<DictItemEntity> data_excel = new ArrayList<DictItemEntity>();
+        for (int i = 0; i < rs.size(); i++) {
+            DictItemEntity entity = new DictItemEntity();
+            entity.fullResEntity(ConvertUtil.OtherJSONObjectToFastJSONObject(rs.getRcd(i).toJsonObject()));
+            data_excel.add(entity);
+        }
 
-		ExportParams parms = new ExportParams();
-		parms.setSheetName("数据字典项");
-		parms.setHeaderHeight(1000);
+        ExportParams parms = new ExportParams();
+        parms.setSheetName("数据字典项");
+        parms.setHeaderHeight(1000);
 
-		Workbook workbook;
-		workbook = ExcelExportUtil.exportExcel(parms, DictItemEntity.class, data_excel);
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("application/x-download");
-		String filedisplay = "dictItem.xls";
-		filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
-		response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
-		try {
-			OutputStream out = response.getOutputStream();
-			workbook.write(out);
-			out.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        Workbook workbook;
+        workbook = ExcelExportUtil.exportExcel(parms, DictItemEntity.class, data_excel);
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/x-download");
+        String filedisplay = "dictItem.xls";
+        filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+        response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
+        try {
+            OutputStream out = response.getOutputStream();
+            workbook.write(out);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
-	@RequestMapping("/exportAllRes.do")
-	@Acl(value = Acl.ACL_USER)
-	public void exportAllRes(HttpServletRequest request, HttpServletResponse response)
-			throws UnsupportedEncodingException {
+    @RequestMapping("/exportAllRes.do")
+    @Acl(value = Acl.ACL_USER)
+    public void exportAllRes(HttpServletRequest request, HttpServletResponse response)
+            throws UnsupportedEncodingException {
 
-		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 
-		R res = resExtService.queryResAllGetData(ps.getString("id"), ps.getString("wb"), ps.getString("env"),
-				ps.getString("recycle"), ps.getString("loc"), ps.getString("search"));
+        R res = resExtService.queryResAllGetData(ps.getString("id"), ps.getString("wb"), ps.getString("env"),
+                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"));
 
-		JSONArray data = res.queryDataToJSONArray();
-		List<ResEntity> data_excel = new ArrayList<ResEntity>();
-		for (int i = 0; i < data.size(); i++) {
-			ResEntity entity = new ResEntity();
-			entity.fullResEntity(data.getJSONObject(i));
-			data_excel.add(entity);
-		}
+        JSONArray data = res.queryDataToJSONArray();
+        List<ResEntity> data_excel = new ArrayList<ResEntity>();
+        for (int i = 0; i < data.size(); i++) {
+            ResEntity entity = new ResEntity();
+            entity.fullResEntity(data.getJSONObject(i));
+            data_excel.add(entity);
+        }
 
-		ExportParams parms = new ExportParams();
-		parms.setSheetName("数据");
-		parms.setHeaderHeight(1000);
+        ExportParams parms = new ExportParams();
+        parms.setSheetName("数据");
+        parms.setHeaderHeight(1000);
 
-		Workbook workbook;
-		workbook = ExcelExportUtil.exportExcel(parms, ResEntity.class, data_excel);
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("application/x-download");
-		String filedisplay = "file.xls";
-		filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
-		response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
-		try {
-			OutputStream out = response.getOutputStream();
-			workbook.write(out);
-			out.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        Workbook workbook;
+        workbook = ExcelExportUtil.exportExcel(parms, ResEntity.class, data_excel);
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/x-download");
+        String filedisplay = "file.xls";
+        filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+        response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
+        try {
+            OutputStream out = response.getOutputStream();
+            workbook.write(out);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
-	@RequestMapping("/exportServerData.do")
-	@Acl(value = Acl.ACL_USER)
-	public void exportServerData(HttpServletRequest request, HttpServletResponse response)
-			throws UnsupportedEncodingException {
+    @RequestMapping("/exportServerData.do")
+    @Acl(value = Acl.ACL_USER)
+    public void exportServerData(HttpServletRequest request, HttpServletResponse response)
+            throws UnsupportedEncodingException {
 
-		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 
-		R res = resExtService.queryResAllGetData(ps.getString("id"), ps.getString("wb"), ps.getString("env"),
-				ps.getString("recycle"), ps.getString("loc"), ps.getString("search"));
+        R res = resExtService.queryResAllGetData(ps.getString("id"), ps.getString("wb"), ps.getString("env"),
+                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"));
 
-		JSONArray data = res.queryDataToJSONArray();
-		List<ResEntity> data_excel = new ArrayList<ResEntity>();
-		for (int i = 0; i < data.size(); i++) {
-			ResEntity entity = new ResEntity();
-			entity.fullResEntity(data.getJSONObject(i));
-			data_excel.add(entity);
-		}
+        JSONArray data = res.queryDataToJSONArray();
+        List<ResEntity> data_excel = new ArrayList<ResEntity>();
+        for (int i = 0; i < data.size(); i++) {
+            ResEntity entity = new ResEntity();
+            entity.fullResEntity(data.getJSONObject(i));
+            data_excel.add(entity);
+        }
 
-		ExportParams parms = new ExportParams();
-		parms.setSheetName("数据");
-		parms.setHeaderHeight(1000);
+        ExportParams parms = new ExportParams();
+        parms.setSheetName("数据");
+        parms.setHeaderHeight(1000);
 
-		Workbook workbook;
-		workbook = ExcelExportUtil.exportExcel(parms, ResEntity.class, data_excel);
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("application/x-download");
-		String filedisplay = "file.xls";
-		filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
-		response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
-		try {
-			OutputStream out = response.getOutputStream();
-			workbook.write(out);
-			out.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        Workbook workbook;
+        workbook = ExcelExportUtil.exportExcel(parms, ResEntity.class, data_excel);
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/x-download");
+        String filedisplay = "file.xls";
+        filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+        response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
+        try {
+            OutputStream out = response.getOutputStream();
+            workbook.write(out);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
 }

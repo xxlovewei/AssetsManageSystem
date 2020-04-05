@@ -30,140 +30,141 @@ import com.dt.module.db.DB;
  */
 public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 
-	
-	public static String serialize(Session session) {
-		try {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			oos.writeObject(session);
-			return Base64.encodeToString(bos.toByteArray());
-		} catch (Exception e) {
-			throw new RuntimeException("serialize session error", e);
-		}
-	}
 
-	public static Session deserialize(String sessionStr) {
-		try {
-			ByteArrayInputStream bis = new ByteArrayInputStream(Base64.decode(sessionStr));
-			ObjectInputStream ois = new ObjectInputStream(bis);
-			return (Session) ois.readObject();
-		} catch (Exception e) {
-			throw new RuntimeException("deserialize session error", e);
-		}
-	}
-	@Autowired
-	ISysSessionService SysSessionService;
-	private static Logger _log = LoggerFactory.getLogger(SessionEntityDao.class);
+    public static String serialize(Session session) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(session);
+            return Base64.encodeToString(bos.toByteArray());
+        } catch (Exception e) {
+            throw new RuntimeException("serialize session error", e);
+        }
+    }
 
-	@Override
-	public Serializable create(Session session) {
-		// 先保存到缓存中
-		Serializable cookie = super.create(session);
-		// 新建一个entity保存到数据库
-		SimpleSessionEntity entity = new SimpleSessionEntity();
-		entity.setSession(serialize(session));
-		entity.setCookie(cookie.toString());
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String dateString = formatter.format(session.getStartTimestamp());
-		entity.setStart_time(dateString);
-		entity.setIp(session.getHost());
-		entity.setToken(cookie.toString());
-		entity.save();
-		_log.info("create session:" + cookie);
-		return cookie;
-	}
+    public static Session deserialize(String sessionStr) {
+        try {
+            ByteArrayInputStream bis = new ByteArrayInputStream(Base64.decode(sessionStr));
+            ObjectInputStream ois = new ObjectInputStream(bis);
+            return (Session) ois.readObject();
+        } catch (Exception e) {
+            throw new RuntimeException("deserialize session error", e);
+        }
+    }
 
-	@Override
-	public void update(Session session) throws UnknownSessionException {
-		super.update(session);
-		// 如果会话过期,停止 没必要再更新了
-		if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
-			_log.info("会话失效,可能已过期,不需要更新");
-			return;
-		}
-		SimpleSessionEntity entity = new SimpleSessionEntity();
-		entity.setId(session.getId().toString());
-		entity.setCookie(session.getId().toString());
-		entity.setIp(session.getHost());
-		entity.setSession(serialize(session));
-		entity.update(entity);
+    @Autowired
+    ISysSessionService SysSessionService;
+    private static Logger _log = LoggerFactory.getLogger(SessionEntityDao.class);
 
-	}
+    @Override
+    public Serializable create(Session session) {
+        // 先保存到缓存中
+        Serializable cookie = super.create(session);
+        // 新建一个entity保存到数据库
+        SimpleSessionEntity entity = new SimpleSessionEntity();
+        entity.setSession(serialize(session));
+        entity.setCookie(cookie.toString());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(session.getStartTimestamp());
+        entity.setStart_time(dateString);
+        entity.setIp(session.getHost());
+        entity.setToken(cookie.toString());
+        entity.save();
+        _log.info("create session:" + cookie);
+        return cookie;
+    }
 
-	@Override
-	public Session readSession(Serializable sessionId) throws UnknownSessionException {
-		Session session = null;
-		try {
-			session = super.readSession(sessionId);
-		} catch (Exception e) {
-		}
-		// 如果session已经被删除，则从数据库中查询session
-		if (session == null) {
-			_log.info("session:" + sessionId + "尝试恢复session");
-			SimpleSessionEntity entity = getEntity(sessionId);
-			if (entity != null) {
-				try {
-					String msg = "session:" + sessionId + "找到";
-					session = deserialize(entity.getSession());
-					if (isExpire(session)) {
-						msg = msg + ",已过期";
-						// 后期可以判断只对app进行过期处理
-						session.touch();
-					} else {
-						msg = msg + ",未过期";
-					}
-					_log.info(msg);
-					return session;
-				} catch (Exception e) {
-					_log.info("无法初始化,sessionId:" + sessionId);
-				}
-			} else {
-				_log.info("session:" + sessionId + "未找到保存的session");
-			}
-		}
-		return session;
-	}
+    @Override
+    public void update(Session session) throws UnknownSessionException {
+        super.update(session);
+        // 如果会话过期,停止 没必要再更新了
+        if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
+            _log.info("会话失效,可能已过期,不需要更新");
+            return;
+        }
+        SimpleSessionEntity entity = new SimpleSessionEntity();
+        entity.setId(session.getId().toString());
+        entity.setCookie(session.getId().toString());
+        entity.setIp(session.getHost());
+        entity.setSession(serialize(session));
+        entity.update(entity);
 
-	private boolean isExpire(Session session) {
-		long timeout = session.getTimeout();
-		long lastTime = session.getLastAccessTime().getTime();
-		long current = new Date().getTime();
-		if ((lastTime + timeout) > current) {
-			return false;
-		}
-		return true;
-	}
+    }
 
-	@Override
-	public void delete(Session session) {
-		super.delete(session);
-		_log.info("delete session,sessionId:" + session.getId());
-		ThreadTaskHelper.run(new Runnable() {
-			@Override
-			public void run() {
-				DB.instance().execute("update sys_session set dr=1 where cookie=? ", session.getId().toString());
-			}
-		});
+    @Override
+    public Session readSession(Serializable sessionId) throws UnknownSessionException {
+        Session session = null;
+        try {
+            session = super.readSession(sessionId);
+        } catch (Exception e) {
+        }
+        // 如果session已经被删除，则从数据库中查询session
+        if (session == null) {
+            _log.info("session:" + sessionId + "尝试恢复session");
+            SimpleSessionEntity entity = getEntity(sessionId);
+            if (entity != null) {
+                try {
+                    String msg = "session:" + sessionId + "找到";
+                    session = deserialize(entity.getSession());
+                    if (isExpire(session)) {
+                        msg = msg + ",已过期";
+                        // 后期可以判断只对app进行过期处理
+                        session.touch();
+                    } else {
+                        msg = msg + ",未过期";
+                    }
+                    _log.info(msg);
+                    return session;
+                } catch (Exception e) {
+                    _log.info("无法初始化,sessionId:" + sessionId);
+                }
+            } else {
+                _log.info("session:" + sessionId + "未找到保存的session");
+            }
+        }
+        return session;
+    }
 
-	}
+    private boolean isExpire(Session session) {
+        long timeout = session.getTimeout();
+        long lastTime = session.getLastAccessTime().getTime();
+        long current = new Date().getTime();
+        if ((lastTime + timeout) > current) {
+            return false;
+        }
+        return true;
+    }
 
-	private SimpleSessionEntity getEntity(Serializable sessionId) {
+    @Override
+    public void delete(Session session) {
+        super.delete(session);
+        _log.info("delete session,sessionId:" + session.getId());
+        ThreadTaskHelper.run(new Runnable() {
+            @Override
+            public void run() {
+                DB.instance().execute("update sys_session set dr=1 where cookie=? ", session.getId().toString());
+            }
+        });
 
-		String sql = "select * from sys_session where dr=0 and cookie=?";
-		if (ToolUtil.isEmpty(sessionId)) {
-			return null;
-		}
-		Rcd rs = DB.instance().uniqueRecord(sql, sessionId);
-		if (ToolUtil.isNotEmpty(rs)) {
-			SimpleSessionEntity res = new SimpleSessionEntity();
-			res.setCookie(rs.getString("cookie"));
-			res.setSession(rs.getString("dtsession"));
-			res.setId(rs.getString("id"));
-			res.setUser_id(rs.getString("user_id"));
-			res.setClient(rs.getString("client"));
-			return res;
-		} else {
-			return null;
-		}
-	}
+    }
+
+    private SimpleSessionEntity getEntity(Serializable sessionId) {
+
+        String sql = "select * from sys_session where dr=0 and cookie=?";
+        if (ToolUtil.isEmpty(sessionId)) {
+            return null;
+        }
+        Rcd rs = DB.instance().uniqueRecord(sql, sessionId);
+        if (ToolUtil.isNotEmpty(rs)) {
+            SimpleSessionEntity res = new SimpleSessionEntity();
+            res.setCookie(rs.getString("cookie"));
+            res.setSession(rs.getString("dtsession"));
+            res.setId(rs.getString("id"));
+            res.setUser_id(rs.getString("user_id"));
+            res.setClient(rs.getString("client"));
+            return res;
+        } else {
+            return null;
+        }
+    }
 }

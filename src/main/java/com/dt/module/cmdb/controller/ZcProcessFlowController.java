@@ -56,246 +56,244 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
 @RequestMapping("/api/cmdb/flow")
 public class ZcProcessFlowController extends BaseController {
 
-	@Autowired
-	SysUfloProcessService sysUfloProcessService;
+    @Autowired
+    SysUfloProcessService sysUfloProcessService;
 
-	@Autowired
-	IResActionItemService ResActionItemServiceImpl;
+    @Autowired
+    IResActionItemService ResActionItemServiceImpl;
 
-	@Autowired
-	ResExtService resExtService;
+    @Autowired
+    ResExtService resExtService;
 
-	@Autowired
-	ISysUserInfoService SysUserInfoServiceImpl;
+    @Autowired
+    ISysUserInfoService SysUserInfoServiceImpl;
 
-	@Autowired
-	private ProcessService processService;
+    @Autowired
+    private ProcessService processService;
 
-	@Autowired
-	private TaskService taskService;
+    @Autowired
+    private TaskService taskService;
 
-	@Autowired
-	private HistoryService historyService;
+    @Autowired
+    private HistoryService historyService;
 
- 
 
-	@Autowired
-	ISysProcessDataService SysProcessDataServiceImpl;
+    @Autowired
+    ISysProcessDataService SysProcessDataServiceImpl;
 
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	@RequestMapping(value = "/zc/myProcessTodo.do")
-	public R loadTodo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String loginUsername = EnvironmentUtils.getEnvironment().getLoginUser();
-		String taskName = req.getParameter("taskName");
-		int pageSize = Integer.valueOf(req.getParameter("pageSize"));
-		int pageIndex = Integer.valueOf(req.getParameter("pageIndex"));
-		int firstResult = (pageIndex - 1) * pageSize;
-		TaskQuery query = taskService.createTaskQuery();
-		query.addTaskState(TaskState.Created);
-		query.addTaskState(TaskState.InProgress);
-		query.addTaskState(TaskState.Ready);
-		query.addTaskState(TaskState.Suspended);
-		query.addTaskState(TaskState.Reserved);
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/zc/myProcessTodo.do")
+    public R loadTodo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String loginUsername = EnvironmentUtils.getEnvironment().getLoginUser();
+        String taskName = req.getParameter("taskName");
+        int pageSize = Integer.valueOf(req.getParameter("pageSize"));
+        int pageIndex = Integer.valueOf(req.getParameter("pageIndex"));
+        int firstResult = (pageIndex - 1) * pageSize;
+        TaskQuery query = taskService.createTaskQuery();
+        query.addTaskState(TaskState.Created);
+        query.addTaskState(TaskState.InProgress);
+        query.addTaskState(TaskState.Ready);
+        query.addTaskState(TaskState.Suspended);
+        query.addTaskState(TaskState.Reserved);
 
-		query.addAssignee(loginUsername).addOrderDesc("createDate").page(firstResult, pageSize);
-		if (StringUtils.isNotBlank(taskName)) {
-			query.nameLike("%" + taskName + "%");
-		}
-		
-		List<Task> tasks = query.list();
-		return R.SUCCESS_OPER(JSONArray.parseArray(JSON.toJSONString(tasks, SerializerFeature.WriteDateUseDateFormat,
-				SerializerFeature.DisableCircularReferenceDetect)));
-	}
+        query.addAssignee(loginUsername).addOrderDesc("createDate").page(firstResult, pageSize);
+        if (StringUtils.isNotBlank(taskName)) {
+            query.nameLike("%" + taskName + "%");
+        }
 
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	@RequestMapping(value = "/zc/myProcessloadHistory.do")
-	public R loadHistory(HttpServletRequest req, HttpServletResponse resp, String sdate, String edate)
-			throws ServletException, IOException, ParseException {
-		String loginUsername = EnvironmentUtils.getEnvironment().getLoginUser();
-		int pageSize = Integer.valueOf(req.getParameter("pageSize"));
-		int pageIndex = Integer.valueOf(req.getParameter("pageIndex"));
-		String taskName = req.getParameter("taskName");
-		int firstResult = (pageIndex - 1) * pageSize;
-		HistoryTaskQuery query = historyService.createHistoryTaskQuery();
-		if (StringUtils.isNotBlank(taskName)) {
-			query.nameLike("%" + taskName + "%");
-		}
-		query.assignee(loginUsername).addOrderDesc("endDate").page(firstResult, pageSize);
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		if (ToolUtil.isNotEmpty(sdate)) {
-			Date ssdate = format.parse(sdate);
-			query.createDateGreaterThenOrEquals(ssdate);
-		}
+        List<Task> tasks = query.list();
+        return R.SUCCESS_OPER(JSONArray.parseArray(JSON.toJSONString(tasks, SerializerFeature.WriteDateUseDateFormat,
+                SerializerFeature.DisableCircularReferenceDetect)));
+    }
 
-		if (ToolUtil.isNotEmpty(edate)) {
-			Date eedate = format.parse(edate);
-			query.createDateLessThenOrEquals(eedate);
-		}
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/zc/myProcessloadHistory.do")
+    public R loadHistory(HttpServletRequest req, HttpServletResponse resp, String sdate, String edate)
+            throws ServletException, IOException, ParseException {
+        String loginUsername = EnvironmentUtils.getEnvironment().getLoginUser();
+        int pageSize = Integer.valueOf(req.getParameter("pageSize"));
+        int pageIndex = Integer.valueOf(req.getParameter("pageIndex"));
+        String taskName = req.getParameter("taskName");
+        int firstResult = (pageIndex - 1) * pageSize;
+        HistoryTaskQuery query = historyService.createHistoryTaskQuery();
+        if (StringUtils.isNotBlank(taskName)) {
+            query.nameLike("%" + taskName + "%");
+        }
+        query.assignee(loginUsername).addOrderDesc("endDate").page(firstResult, pageSize);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if (ToolUtil.isNotEmpty(sdate)) {
+            Date ssdate = format.parse(sdate);
+            query.createDateGreaterThenOrEquals(ssdate);
+        }
 
-		int total = query.count();
-		List<HistoryTask> tasks = query.list();
-		JSONObject retrunObject = new JSONObject();
-		retrunObject.put("iTotalRecords", total);
-		retrunObject.put("iTotalDisplayRecords", total);
-		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(tasks, SerializerFeature.WriteDateUseDateFormat,
-				SerializerFeature.DisableCircularReferenceDetect)));
-		return R.clearAttachDirect(retrunObject);
-	}
-	
-	@Autowired
-	ISysProcessSettingService SysProcessSettingServiceImpl;
+        if (ToolUtil.isNotEmpty(edate)) {
+            Date eedate = format.parse(edate);
+            query.createDateLessThenOrEquals(eedate);
+        }
 
-	@ResponseBody
-	@Acl(info = "发起流程", value = Acl.ACL_USER)
-	@RequestMapping(value = "/zc/startProcess.do")
-	public R startProcess(String spmethod, String processkey,String jsonvalue,String type) {
-		
+        int total = query.count();
+        List<HistoryTask> tasks = query.list();
+        JSONObject retrunObject = new JSONObject();
+        retrunObject.put("iTotalRecords", total);
+        retrunObject.put("iTotalDisplayRecords", total);
+        retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(tasks, SerializerFeature.WriteDateUseDateFormat,
+                SerializerFeature.DisableCircularReferenceDetect)));
+        return R.clearAttachDirect(retrunObject);
+    }
 
-	
-		String busid = ToolUtil.getUUID();
-		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		UpdateWrapper<SysProcessData> up = new UpdateWrapper<SysProcessData>();
-		SysProcessData sd = SysProcessDataServiceImpl.getById(ps.getString("id"));
-		if (sd == null) {
-			return R.FAILURE("不存在流程数据");
-		}
-		if ("1".equals(spmethod)) {
-			// 需要审批
-			if (sd.getProcessInstanceId() != null) {
-				return R.FAILURE("已有流程,无法重复提交");
-			}
+    @Autowired
+    ISysProcessSettingService SysProcessSettingServiceImpl;
 
-			StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
-			startProcessInfo.setCompleteStartTask(true);
-			startProcessInfo.setBusinessId(busid);
-			startProcessInfo.setTag(sd.getPtype());
-		//	startProcessInfo.setSubject(sd.getDtitle());
-			startProcessInfo.setCompleteStartTaskOpinion("发起流程");
-			ProcessInstance inst = processService.startProcessByKey(processkey, startProcessInfo);
-			// 插入流程数据
-			up.set("busid", busid);
-			up.set("processkey", processkey);
-		//	up.set("ptitle", sd.getDtitle());
-			up.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
-			up.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
-			up.set("processInstanceId", inst.getId() + "");
-			up.set("pstartuserid", getUserId());
-			up.set("pstartusername", SysUserInfoServiceImpl.getById(this.getUserId()).getName());
+    @ResponseBody
+    @Acl(info = "发起流程", value = Acl.ACL_USER)
+    @RequestMapping(value = "/zc/startProcess.do")
+    public R startProcess(String spmethod, String processkey, String jsonvalue, String type) {
 
-		} else {
-			up.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
-		}
-		up.set(spmethod != null, "dmethod", spmethod);
-		up.eq("id", ps.getString("id"));
-		SysProcessDataServiceImpl.update(up);
-		return R.SUCCESS_OPER();
-	}
 
-	@RequestMapping("/zc/queryTask.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R queryTask(String taskId) {
-		sysUfloProcessService.queryTask(taskId);
-		return R.SUCCESS_OPER();
-	}
+        String busid = ToolUtil.getUUID();
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+        UpdateWrapper<SysProcessData> up = new UpdateWrapper<SysProcessData>();
+        SysProcessData sd = SysProcessDataServiceImpl.getById(ps.getString("id"));
+        if (sd == null) {
+            return R.FAILURE("不存在流程数据");
+        }
+        if ("1".equals(spmethod)) {
+            // 需要审批
+            if (sd.getProcessInstanceId() != null) {
+                return R.FAILURE("已有流程,无法重复提交");
+            }
 
-	@RequestMapping("/zc/completeTask.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R completeTask(String variables, String taskId, String opinion) {
-		R r = sysUfloProcessService.completeTask(variables, taskId, opinion);
-		return r;
-	}
+            StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
+            startProcessInfo.setCompleteStartTask(true);
+            startProcessInfo.setBusinessId(busid);
+            startProcessInfo.setTag(sd.getPtype());
+            //	startProcessInfo.setSubject(sd.getDtitle());
+            startProcessInfo.setCompleteStartTaskOpinion("发起流程");
+            ProcessInstance inst = processService.startProcessByKey(processkey, startProcessInfo);
+            // 插入流程数据
+            up.set("busid", busid);
+            up.set("processkey", processkey);
+            //	up.set("ptitle", sd.getDtitle());
+            up.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
+            up.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
+            up.set("processInstanceId", inst.getId() + "");
+            up.set("pstartuserid", getUserId());
+            up.set("pstartusername", SysUserInfoServiceImpl.getById(this.getUserId()).getName());
 
-	@RequestMapping("/zc/refuseTask.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R refuseTask(String taskId, String opinion) {
-		R r = sysUfloProcessService.refuseTask(taskId, opinion);
-		return r;
-	}
+        } else {
+            up.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
+        }
+        up.set(spmethod != null, "dmethod", spmethod);
+        up.eq("id", ps.getString("id"));
+        SysProcessDataServiceImpl.update(up);
+        return R.SUCCESS_OPER();
+    }
 
-	@RequestMapping("/zc/refuseTask2.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R refuseTask2(String taskId, String opinion) {
-		R r = sysUfloProcessService.refuseTask(taskId, opinion);
-		return r;
-	}
+    @RequestMapping("/zc/queryTask.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R queryTask(String taskId) {
+        sysUfloProcessService.queryTask(taskId);
+        return R.SUCCESS_OPER();
+    }
 
-	@RequestMapping("/zc/getAvaliableForwardTaskNodes.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R getAvaliableForwardTaskNodes(String taskId) {
-		R r = sysUfloProcessService.getAvaliableForwardTaskNodes(taskId);
-		return r;
-	}
+    @RequestMapping("/zc/completeTask.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R completeTask(String variables, String taskId, String opinion) {
+        R r = sysUfloProcessService.completeTask(variables, taskId, opinion);
+        return r;
+    }
 
-	@RequestMapping("/zc/getAvaliableRollbackTaskNodes.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R getAvaliableRollbackTaskNodes(String taskId) {
-		R r = sysUfloProcessService.getAvaliableRollbackTaskNodes(taskId);
-		return r;
-	}
+    @RequestMapping("/zc/refuseTask.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R refuseTask(String taskId, String opinion) {
+        R r = sysUfloProcessService.refuseTask(taskId, opinion);
+        return r;
+    }
 
-	@RequestMapping("/zc/rollback.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R rollback(String taskId, String opinion) {
-		R r = sysUfloProcessService.forwardStart(taskId, opinion);
-		return r;
-	}
+    @RequestMapping("/zc/refuseTask2.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R refuseTask2(String taskId, String opinion) {
+        R r = sysUfloProcessService.refuseTask(taskId, opinion);
+        return r;
+    }
 
-	@RequestMapping("/zc/withdraw.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R withdraw(String taskId, String opinion) {
-		R r = sysUfloProcessService.withdraw(taskId, opinion);
-		return r;
-	}
+    @RequestMapping("/zc/getAvaliableForwardTaskNodes.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R getAvaliableForwardTaskNodes(String taskId) {
+        R r = sysUfloProcessService.getAvaliableForwardTaskNodes(taskId);
+        return r;
+    }
 
-	@RequestMapping("/zc/forward.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R forward(String taskId, String target, String opinion) {
-		R r = sysUfloProcessService.forward(taskId, target, opinion);
-		return r;
-	}
-	
-	@RequestMapping("/zc/queryTaskNodeDtl.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R queryTaskNodeDtl(String taskId) {
-		R r = sysUfloProcessService.queryTaskNodeDtl(taskId);
-		return r;
-	}
+    @RequestMapping("/zc/getAvaliableRollbackTaskNodes.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R getAvaliableRollbackTaskNodes(String taskId) {
+        R r = sysUfloProcessService.getAvaliableRollbackTaskNodes(taskId);
+        return r;
+    }
 
-	@RequestMapping("/zc/completeStartTask.do")
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	public R completeStartTask(String taskId) {
-		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		long taskId_l = ConvertUtil.toLong(taskId);
-		// 修改流程标记
-		Task tsk = taskService.getTask(taskId_l);
-		String instid = tsk.getProcessInstanceId() + "";
+    @RequestMapping("/zc/rollback.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R rollback(String taskId, String opinion) {
+        R r = sysUfloProcessService.forwardStart(taskId, opinion);
+        return r;
+    }
 
-		// 更新状态
-		UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-		uw.eq("processInstanceId", instid);
-		uw.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
-		uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
-		uw.set("ptitle", ps.getString("dtitle", " "));
-		uw.set("dtitle", ps.getString("dtitle", " "));
-		uw.set("df1", ps.getString("df1", " "));
-		uw.set("df2", ps.getString("df2", " "));
-		uw.set("dct", ps.getString("dct", " "));
-		SysProcessDataServiceImpl.update(uw);
-		R r = sysUfloProcessService.completeTask(null, taskId, ps.getString("opinion"));
-		return r;
-	}
+    @RequestMapping("/zc/withdraw.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R withdraw(String taskId, String opinion) {
+        R r = sysUfloProcessService.withdraw(taskId, opinion);
+        return r;
+    }
+
+    @RequestMapping("/zc/forward.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R forward(String taskId, String target, String opinion) {
+        R r = sysUfloProcessService.forward(taskId, target, opinion);
+        return r;
+    }
+
+    @RequestMapping("/zc/queryTaskNodeDtl.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R queryTaskNodeDtl(String taskId) {
+        R r = sysUfloProcessService.queryTaskNodeDtl(taskId);
+        return r;
+    }
+
+    @RequestMapping("/zc/completeStartTask.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R completeStartTask(String taskId) {
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+        long taskId_l = ConvertUtil.toLong(taskId);
+        // 修改流程标记
+        Task tsk = taskService.getTask(taskId_l);
+        String instid = tsk.getProcessInstanceId() + "";
+
+        // 更新状态
+        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+        uw.eq("processInstanceId", instid);
+        uw.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
+        uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
+        uw.set("ptitle", ps.getString("dtitle", " "));
+        uw.set("dtitle", ps.getString("dtitle", " "));
+        uw.set("df1", ps.getString("df1", " "));
+        uw.set("df2", ps.getString("df2", " "));
+        uw.set("dct", ps.getString("dct", " "));
+        SysProcessDataServiceImpl.update(uw);
+        R r = sysUfloProcessService.completeTask(null, taskId, ps.getString("opinion"));
+        return r;
+    }
 
 }

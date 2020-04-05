@@ -7,9 +7,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -180,21 +181,21 @@ public class SysQudChengs extends BaseModel<SysQudChengs> {
     @Override
     public String toString() {
         return "SysQudChengs{" +
-        ", id=" + id +
-        ", mingc=" + mingc +
-        ", jib=" + jib +
-        ", shengfId=" + shengfId +
-        ", youb=" + youb +
-        ", quh=" + quh +
-        ", chengsidTq=" + chengsidTq +
-        ", jianc=" + jianc +
-        ", guobm=" + guobm +
-        ", renksl=" + renksl +
-        ", renjsr=" + renjsr +
-        ", renjxszc=" + renjxszc +
-        ", renjfzzc=" + renjfzzc +
-        ", xiugr=" + xiugr +
-        ", xiugrq=" + xiugrq +
-        "}";
+                ", id=" + id +
+                ", mingc=" + mingc +
+                ", jib=" + jib +
+                ", shengfId=" + shengfId +
+                ", youb=" + youb +
+                ", quh=" + quh +
+                ", chengsidTq=" + chengsidTq +
+                ", jianc=" + jianc +
+                ", guobm=" + guobm +
+                ", renksl=" + renksl +
+                ", renjsr=" + renjsr +
+                ", renjxszc=" + renjxszc +
+                ", renjfzzc=" + renjfzzc +
+                ", xiugr=" + xiugr +
+                ", xiugrq=" + xiugrq +
+                "}";
     }
 }

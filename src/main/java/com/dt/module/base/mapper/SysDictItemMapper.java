@@ -7,7 +7,7 @@ import com.dt.module.base.entity.SysDictItem;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author algernonking
@@ -15,6 +15,6 @@ import com.dt.module.base.entity.SysDictItem;
  */
 public interface SysDictItemMapper extends BaseMapper<SysDictItem> {
 
-	List<SysDictItem> selectDictItemByDict(String dictId);
-	
+    List<SysDictItem> selectDictItemByDict(String dictId);
+
 }

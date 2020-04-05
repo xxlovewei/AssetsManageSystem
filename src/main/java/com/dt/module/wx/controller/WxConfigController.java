@@ -24,7 +24,7 @@ import com.dt.module.wx.service.WxService;
 @PropertySource(value = "classpath:config.properties")
 public class WxConfigController extends BaseController {
 
-    
+
     @Autowired
     private WxConfigService wxConfigService;
 

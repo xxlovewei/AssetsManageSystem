@@ -19,29 +19,29 @@ import com.bstek.uflo.process.node.TaskNode;
 @Component
 public class UfloAssignmentHandler implements AssignmentHandler {
 
-	/*
-	 * (non Javadoc)
-	 * 
-	 * @Title: handle
-	 * 
-	 * @Description: TODO
-	 * 
-	 * @param taskNode
-	 * 
-	 * @param processInstance
-	 * 
-	 * @param context
-	 * 
-	 * @return
-	 * 
-	 * @see com.bstek.uflo.process.handler.AssignmentHandler#handle(com.bstek.uflo.
-	 * process.node.TaskNode, com.bstek.uflo.model.ProcessInstance,
-	 * com.bstek.uflo.env.Context)
-	 */
-	@Override
-	public Collection<String> handle(TaskNode taskNode, ProcessInstance processInstance, Context context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /*
+     * (non Javadoc)
+     *
+     * @Title: handle
+     *
+     * @Description: TODO
+     *
+     * @param taskNode
+     *
+     * @param processInstance
+     *
+     * @param context
+     *
+     * @return
+     *
+     * @see com.bstek.uflo.process.handler.AssignmentHandler#handle(com.bstek.uflo.
+     * process.node.TaskNode, com.bstek.uflo.model.ProcessInstance,
+     * com.bstek.uflo.env.Context)
+     */
+    @Override
+    public Collection<String> handle(TaskNode taskNode, ProcessInstance processInstance, Context context) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

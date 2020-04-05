@@ -15,150 +15,157 @@ import ch.ethz.ssh2.StreamGobbler;
 
 public class RemoteShellExecutor {
 
-	private Connection conn;
-	/** 远程机器IP */
-	private String ip;
-	/** 用户名 */
-	private String osUsername;
-	/** 密码 */
-	private String password;
-	private String charset = Charset.defaultCharset().toString();
+    private Connection conn;
+    /**
+     * 远程机器IP
+     */
+    private String ip;
+    /**
+     * 用户名
+     */
+    private String osUsername;
+    /**
+     * 密码
+     */
+    private String password;
+    private String charset = Charset.defaultCharset().toString();
 
-	private int port = 22;
-	private static final int TIME_OUT = 1000 * 5 * 60;
+    private int port = 22;
+    private static final int TIME_OUT = 1000 * 5 * 60;
 
-	private Session session;
+    private Session session;
 
-	// private static Logger _log =
-	// LoggerFactory.getLogger(RemoteShellExecutor.class);
-	/**
-	 * 构造函数
-	 * 
-	 * @param ip
-	 * @param usr
-	 * @param pasword
-	 */
-	public RemoteShellExecutor(String ip, String usr, String pasword) {
-		this.ip = ip;
-		this.osUsername = usr;
-		this.password = pasword;
-	}
+    // private static Logger _log =
+    // LoggerFactory.getLogger(RemoteShellExecutor.class);
 
-	public RemoteShellExecutor(String ip, String usr, String pasword, int port) {
-		this.ip = ip;
-		this.osUsername = usr;
-		this.password = pasword;
-		this.port = port;
-	}
+    /**
+     * 构造函数
+     *
+     * @param ip
+     * @param usr
+     * @param pasword
+     */
+    public RemoteShellExecutor(String ip, String usr, String pasword) {
+        this.ip = ip;
+        this.osUsername = usr;
+        this.password = pasword;
+    }
 
-	/**
-	 * 登录
-	 * 
-	 * @return
-	 * @throws IOException
-	 */
-	private boolean login() throws IOException {
+    public RemoteShellExecutor(String ip, String usr, String pasword, int port) {
+        this.ip = ip;
+        this.osUsername = usr;
+        this.password = pasword;
+        this.port = port;
+    }
 
-		conn = new Connection(ip, port);
-		conn.connect();
-		return conn.authenticateWithPassword(osUsername, password);
-	}
+    /**
+     * 登录
+     *
+     * @return
+     * @throws IOException
+     */
+    private boolean login() throws IOException {
 
-	/**
-	 * 执行脚本
-	 * 
-	 * @param cmds
-	 * @return
-	 * @throws Exception
-	 */
-	public RemoteShellResult exec(List<String> cmds) throws Exception {
-		String cmdstr = "";
-		for (int i = 0; i < cmds.size(); i++) {
-			cmdstr += cmds.get(i) + ";";
-		}
-		return exec(cmdstr);
+        conn = new Connection(ip, port);
+        conn.connect();
+        return conn.authenticateWithPassword(osUsername, password);
+    }
 
-	}
+    /**
+     * 执行脚本
+     *
+     * @param cmds
+     * @return
+     * @throws Exception
+     */
+    public RemoteShellResult exec(List<String> cmds) throws Exception {
+        String cmdstr = "";
+        for (int i = 0; i < cmds.size(); i++) {
+            cmdstr += cmds.get(i) + ";";
+        }
+        return exec(cmdstr);
 
-	public RemoteShellResult exec(String cmds) {
-		InputStream stdOut = null;
-		InputStream stdErr = null;
-		String outStr = "";
-		String outErr = "";
-		StringBuffer result = new StringBuffer("");
-		int ret = -1;
-		try {
-			if (login()) {
-				// Open a new {@link Session} on this connection
-				session = conn.openSession();
+    }
 
-				session.requestPTY("vt100", 80, 24, 640, 480, null);
+    public RemoteShellResult exec(String cmds) {
+        InputStream stdOut = null;
+        InputStream stdErr = null;
+        String outStr = "";
+        String outErr = "";
+        StringBuffer result = new StringBuffer("");
+        int ret = -1;
+        try {
+            if (login()) {
+                // Open a new {@link Session} on this connection
+                session = conn.openSession();
 
-				session.execCommand(cmds);
+                session.requestPTY("vt100", 80, 24, 640, 480, null);
 
-				stdOut = new StreamGobbler(session.getStdout());
-				outStr = processStream(stdOut, charset);
+                session.execCommand(cmds);
 
-				stdErr = new StreamGobbler(session.getStderr());
-				outErr = processStream(stdErr, charset);
+                stdOut = new StreamGobbler(session.getStdout());
+                outStr = processStream(stdOut, charset);
 
-				session.waitForCondition(ChannelCondition.EXIT_STATUS, TIME_OUT);
+                stdErr = new StreamGobbler(session.getStderr());
+                outErr = processStream(stdErr, charset);
 
-				result.append(outStr);
-				result.append(outErr);
-				ret = session.getExitStatus();
-			} else {
-				ret = -101;
-				result.append("登录远程机器失败" + ip);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			ret = -102;
-			result.append("执行异常IO" + e.getMessage());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			ret = -103;
-			result.append("执行异常" + e.getMessage());
-		} finally {
-			if (conn != null) {
-				conn.close();
-			}
-			IOUtils.closeQuietly(stdOut);
-			IOUtils.closeQuietly(stdErr);
-		}
-		return RemoteShellResult.setData(ret, result);
-	}
+                session.waitForCondition(ChannelCondition.EXIT_STATUS, TIME_OUT);
 
-	/**
-	 * @param in
-	 * @param charset
-	 * @return
-	 * @throws IOException
-	 * @throws UnsupportedEncodingException
-	 */
-	private String processStream(InputStream in, String charset) throws Exception {
+                result.append(outStr);
+                result.append(outErr);
+                ret = session.getExitStatus();
+            } else {
+                ret = -101;
+                result.append("登录远程机器失败" + ip);
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            ret = -102;
+            result.append("执行异常IO" + e.getMessage());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            ret = -103;
+            result.append("执行异常" + e.getMessage());
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+            IOUtils.closeQuietly(stdOut);
+            IOUtils.closeQuietly(stdErr);
+        }
+        return RemoteShellResult.setData(ret, result);
+    }
 
-		byte[] buf = new byte[1024];
-		StringBuilder sb = new StringBuilder();
-		while (in.read(buf) != -1) {
-			sb.append(new String(buf, charset));
-		}
-		return sb.toString();
+    /**
+     * @param in
+     * @param charset
+     * @return
+     * @throws IOException
+     * @throws UnsupportedEncodingException
+     */
+    private String processStream(InputStream in, String charset) throws Exception {
 
-	}
+        byte[] buf = new byte[1024];
+        StringBuilder sb = new StringBuilder();
+        while (in.read(buf) != -1) {
+            sb.append(new String(buf, charset));
+        }
+        return sb.toString();
 
-	public static void main(String args[]) throws Exception {
-		// RemoteShellExecutor executor = new
-		// RemoteShellExecutor("121.43.168.125",
-		// "root", "IBG1uFcrs", 60613);
-		// RemoteShellExecutor executor = new
-		// RemoteShellExecutor("121.43.168.125",
-		// "oracle", "oracle1234", 60613);
-		RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
-		executor.exec(" nohup sh /opt/tomcat/apache-tomcat-8.0.45/bin/startup.sh ;sleep 1 &").print();
-		executor.exec("ifconfig").print();
+    }
 
-	}
+    public static void main(String args[]) throws Exception {
+        // RemoteShellExecutor executor = new
+        // RemoteShellExecutor("121.43.168.125",
+        // "root", "IBG1uFcrs", 60613);
+        // RemoteShellExecutor executor = new
+        // RemoteShellExecutor("121.43.168.125",
+        // "oracle", "oracle1234", 60613);
+        RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
+        executor.exec(" nohup sh /opt/tomcat/apache-tomcat-8.0.45/bin/startup.sh ;sleep 1 &").print();
+        executor.exec("ifconfig").print();
+
+    }
 }

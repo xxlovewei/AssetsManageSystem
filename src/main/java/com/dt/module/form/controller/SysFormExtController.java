@@ -24,24 +24,24 @@ import com.dt.module.form.service.ISysFormService;
 @RequestMapping("/api/form/sysForm/Ext")
 public class SysFormExtController extends BaseController {
 
-	@Autowired
-	ISysFormService SysFormServiceImpl;
+    @Autowired
+    ISysFormService SysFormServiceImpl;
 
-	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(SysForm entity) {
-		System.out.print(entity.getCt());
-		return R.SUCCESS_OPER(SysFormServiceImpl.saveOrUpdate(entity));
-	}
+    @ResponseBody
+    @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insertOrUpdate.do")
+    public R insertOrUpdate(SysForm entity) {
+        System.out.print(entity.getCt());
+        return R.SUCCESS_OPER(SysFormServiceImpl.saveOrUpdate(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectByOwner.do")
-	public R selectByOwner(String owner) {
-		QueryWrapper<SysForm> ew = new QueryWrapper<SysForm>();
-		ew.and(i -> i.eq("owner", owner)).orderByDesc("create_time");
-		return R.SUCCESS_OPER(SysFormServiceImpl.list(ew));
-	}
+    @ResponseBody
+    @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectByOwner.do")
+    public R selectByOwner(String owner) {
+        QueryWrapper<SysForm> ew = new QueryWrapper<SysForm>();
+        ew.and(i -> i.eq("owner", owner)).orderByDesc("create_time");
+        return R.SUCCESS_OPER(SysFormServiceImpl.list(ew));
+    }
 
 }

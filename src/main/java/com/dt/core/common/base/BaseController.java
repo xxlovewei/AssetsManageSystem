@@ -19,128 +19,128 @@ import com.dt.core.tool.util.support.HttpKit;
 
 public class BaseController extends BaseSC {
 
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(Date.class, new DateEditor());
-	}
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class, new DateEditor());
+    }
 
-	/**
-	 * 统一异常处理
-	 * 
-	 * @param request
-	 * @param response
-	 * @param exception
-	 */
-	@ExceptionHandler
-	public String exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception exception) {
-		String msg = ExceptionUtils.getRootCauseMessage(exception) == null ? ""
-				: ExceptionUtils.getRootCauseMessage(exception);
-		exception.printStackTrace();
-		// System.out.println();
-		request.setAttribute("ex", exception);
-		if (null != request.getHeader("X-Requested-With")
-				&& "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
-			request.setAttribute("requestHeader", "ajax");
-		}
+    /**
+     * 统一异常处理
+     *
+     * @param request
+     * @param response
+     * @param exception
+     */
+    @ExceptionHandler
+    public String exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception exception) {
+        String msg = ExceptionUtils.getRootCauseMessage(exception) == null ? ""
+                : ExceptionUtils.getRootCauseMessage(exception);
+        exception.printStackTrace();
+        // System.out.println();
+        request.setAttribute("ex", exception);
+        if (null != request.getHeader("X-Requested-With")
+                && "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
+            request.setAttribute("requestHeader", "ajax");
+        }
 
-		if (isReturnJSON(request)) {
-			try {
-				response.setCharacterEncoding("UTF-8");
-				response.setHeader("content-type", "text/html;charset=UTF-8");
-				response.getWriter().print(R.FAILURE(msg));
-				response.getWriter().flush();
-				response.getWriter().close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
-		// shiro没有权限异常
-		if (exception instanceof UnauthorizedException) {
-			return "/403.jsp";
-		}
-		// shiro会话已过期异常
-		if (exception instanceof InvalidSessionException) {
-			return "/error.jsp";
-		}
-		return "/error.jsp";
-	}
+        if (isReturnJSON(request)) {
+            try {
+                response.setCharacterEncoding("UTF-8");
+                response.setHeader("content-type", "text/html;charset=UTF-8");
+                response.getWriter().print(R.FAILURE(msg));
+                response.getWriter().flush();
+                response.getWriter().close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return null;
+        }
+        // shiro没有权限异常
+        if (exception instanceof UnauthorizedException) {
+            return "/403.jsp";
+        }
+        // shiro会话已过期异常
+        if (exception instanceof InvalidSessionException) {
+            return "/error.jsp";
+        }
+        return "/error.jsp";
+    }
 
-	private Boolean isReturnJSON(HttpServletRequest httpRequest) {
-		Boolean res = false;
-		if (HttpKit.isAjax(httpRequest) || (httpRequest.getRequestURL() + "").endsWith("do")) {
-			res = true;
-		}
-		return res;
-	}
+    private Boolean isReturnJSON(HttpServletRequest httpRequest) {
+        Boolean res = false;
+        if (HttpKit.isAjax(httpRequest) || (httpRequest.getRequestURL() + "").endsWith("do")) {
+            res = true;
+        }
+        return res;
+    }
 
-	protected HttpServletRequest getHttpServletRequest() {
-		return HttpKit.getRequest();
-	}
+    protected HttpServletRequest getHttpServletRequest() {
+        return HttpKit.getRequest();
+    }
 
-	protected HttpServletResponse getHttpServletResponse() {
-		return HttpKit.getResponse();
-	}
+    protected HttpServletResponse getHttpServletResponse() {
+        return HttpKit.getResponse();
+    }
 
-	protected HttpSession getSession() {
-		return HttpKit.getRequest().getSession();
-	}
+    protected HttpSession getSession() {
+        return HttpKit.getRequest().getSession();
+    }
 
-	protected HttpSession getSession(Boolean flag) {
-		return HttpKit.getRequest().getSession(flag);
-	}
+    protected HttpSession getSession(Boolean flag) {
+        return HttpKit.getRequest().getSession(flag);
+    }
 
-	protected String getPara(String name) {
-		return HttpKit.getRequest().getParameter(name);
-	}
+    protected String getPara(String name) {
+        return HttpKit.getRequest().getParameter(name);
+    }
 
-	protected void setAttr(String name, Object value) {
-		HttpKit.getRequest().setAttribute(name, value);
-	}
+    protected void setAttr(String name, Object value) {
+        HttpKit.getRequest().setAttribute(name, value);
+    }
 
-	protected Integer getSystemInvokCount() {
-		return (Integer) this.getHttpServletRequest().getServletContext().getAttribute("systemCount");
-	}
+    protected Integer getSystemInvokCount() {
+        return (Integer) this.getHttpServletRequest().getServletContext().getAttribute("systemCount");
+    }
 
-	/**
-	 * 删除cookie
-	 */
-	protected void deleteCookieByName(String cookieName) {
-		Cookie[] cookies = this.getHttpServletRequest().getCookies();
-		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals(cookieName)) {
-				Cookie temp = new Cookie(cookie.getName(), "");
-				temp.setMaxAge(0);
-				this.getHttpServletResponse().addCookie(temp);
-			}
-		}
-	}
+    /**
+     * 删除cookie
+     */
+    protected void deleteCookieByName(String cookieName) {
+        Cookie[] cookies = this.getHttpServletRequest().getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(cookieName)) {
+                Cookie temp = new Cookie(cookie.getName(), "");
+                temp.setMaxAge(0);
+                this.getHttpServletResponse().addCookie(temp);
+            }
+        }
+    }
 
-	public String warpObject(Object o) {
-		if (o instanceof R) {
-			return ((R) o).asJsonStr();
-		} else {
-			return o.toString();
-		}
-	}
+    public String warpObject(Object o) {
+        if (o instanceof R) {
+            return ((R) o).asJsonStr();
+        } else {
+            return o.toString();
+        }
+    }
 
-	/**
-	 * 返回jsp视图
-	 * 
-	 * @param path
-	 * @return
-	 */
-	public static String jsp(String path) {
-		return path.concat("");
-	}
+    /**
+     * 返回jsp视图
+     *
+     * @param path
+     * @return
+     */
+    public static String jsp(String path) {
+        return path.concat("");
+    }
 
-	/**
-	 * 返回thymeleaf视图
-	 * 
-	 * @param path
-	 * @return
-	 */
+    /**
+     * 返回thymeleaf视图
+     *
+     * @param path
+     * @return
+     */
 //	public static String thymeleaf(String path) {
 //	//	String folder = PropertiesFileUtil.getInstance().get("app.name");
 //	//	return "/".concat(folder).concat(path).concat(".html");

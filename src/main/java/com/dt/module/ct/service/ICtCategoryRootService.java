@@ -5,7 +5,7 @@ import com.dt.module.ct.entity.CtCategoryRoot;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author algernonking

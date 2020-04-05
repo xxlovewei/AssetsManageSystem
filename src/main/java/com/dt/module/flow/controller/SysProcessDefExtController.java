@@ -24,18 +24,18 @@ import com.dt.module.flow.service.ISysProcessDefService;
 @RequestMapping("/api/flow/sysProcessDef/Ext")
 public class SysProcessDefExtController extends BaseController {
 
-	@Autowired
-	ISysProcessDefService SysProcessDefServiceImpl;
+    @Autowired
+    ISysProcessDefService SysProcessDefServiceImpl;
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList(String owner) {
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList(String owner) {
 
-		QueryWrapper<SysProcessDef> ew = new QueryWrapper<SysProcessDef>();
-		ew.eq("owner", owner);
-		return R.SUCCESS_OPER(SysProcessDefServiceImpl.list(ew));
+        QueryWrapper<SysProcessDef> ew = new QueryWrapper<SysProcessDef>();
+        ew.eq("owner", owner);
+        return R.SUCCESS_OPER(SysProcessDefServiceImpl.list(ew));
 
-	}
+    }
 
 }

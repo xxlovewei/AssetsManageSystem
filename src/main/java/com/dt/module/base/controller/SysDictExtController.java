@@ -33,17 +33,17 @@ import com.dt.module.base.service.ISysDictService;
 @RequestMapping("/api/sysDict/Ext")
 public class SysDictExtController extends BaseController {
 
-	@Autowired
-	ISysDictService SysDictServiceImpl;
- 
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList() {
-		QueryWrapper<SysDict> ew = new QueryWrapper<SysDict>();
-		ew.orderByDesc("name");
-		return R.SUCCESS_OPER(SysDictServiceImpl.list(ew));
-	}
- 
+    @Autowired
+    ISysDictService SysDictServiceImpl;
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList() {
+        QueryWrapper<SysDict> ew = new QueryWrapper<SysDict>();
+        ew.orderByDesc("name");
+        return R.SUCCESS_OPER(SysDictServiceImpl.list(ew));
+    }
+
 
 }

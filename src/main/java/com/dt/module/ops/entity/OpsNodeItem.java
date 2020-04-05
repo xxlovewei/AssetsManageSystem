@@ -9,15 +9,15 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-02-01
  */
- 
+
 @TableName("ops_node_item")
- 
+
 public class OpsNodeItem extends BaseModel<OpsNodeItem> {
 
     private static final long serialVersionUID = 1L;
@@ -172,20 +172,20 @@ public class OpsNodeItem extends BaseModel<OpsNodeItem> {
     @Override
     public String toString() {
         return "OpsNodeItem{" +
-        "id=" + id +
-        ", nid=" + nid +
-        ", item=" + item +
-        ", value=" + value +
-        ", type=" + type +
-        ", dbinstance=" + dbinstance +
-        ", archtype=" + archtype +
-        ", bkstrategy=" + bkstrategy +
-        ", bktype=" + bktype +
-        ", bkkeep=" + bkkeep +
-        ", bkstatus=" + bkstatus +
-        ", mark=" + mark +
-        ", bkmethod=" + bkmethod +
-        ", dsize=" + dsize +
-        "}";
+                "id=" + id +
+                ", nid=" + nid +
+                ", item=" + item +
+                ", value=" + value +
+                ", type=" + type +
+                ", dbinstance=" + dbinstance +
+                ", archtype=" + archtype +
+                ", bkstrategy=" + bkstrategy +
+                ", bktype=" + bktype +
+                ", bkkeep=" + bkkeep +
+                ", bkstatus=" + bkstatus +
+                ", mark=" + mark +
+                ", bkmethod=" + bkmethod +
+                ", dsize=" + dsize +
+                "}";
     }
 }

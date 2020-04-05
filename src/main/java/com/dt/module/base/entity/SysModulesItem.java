@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -80,11 +80,11 @@ public class SysModulesItem extends Model<SysModulesItem> {
     @Override
     public String toString() {
         return "SysModulesItem{" +
-        ", moduleItemId=" + moduleItemId +
-        ", moduleId=" + moduleId +
-        ", ct=" + ct +
-        ", status=" + status +
-        ", type=" + type +
-        "}";
+                ", moduleItemId=" + moduleItemId +
+                ", moduleId=" + moduleId +
+                ", ct=" + ct +
+                ", status=" + status +
+                ", type=" + type +
+                "}";
     }
 }

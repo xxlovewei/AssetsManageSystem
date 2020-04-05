@@ -12,17 +12,17 @@ import com.dt.core.tool.util.ToolUtil;
  */
 public class BaseCommon {
 
-	public static boolean isSuperAdmin(String id) {
-		return ToolUtil.isNotEmpty(id) && id.equals(getSuperAdmin()) ? true : false;
-	}
+    public static boolean isSuperAdmin(String id) {
+        return ToolUtil.isNotEmpty(id) && id.equals(getSuperAdmin()) ? true : false;
+    }
 
-	public static String getSuperAdmin() {
-		return ToolUtil.isEmpty(BaseConstants.superadmin) ? MD5Util.encrypt(new Date().getTime() + "")
-				: BaseConstants.superadmin;
-	}
+    public static String getSuperAdmin() {
+        return ToolUtil.isEmpty(BaseConstants.superadmin) ? MD5Util.encrypt(new Date().getTime() + "")
+                : BaseConstants.superadmin;
+    }
 
-	public static void print(String value) {
-		System.out.println(value);
-	}
+    public static void print(String value) {
+        System.out.println(value);
+    }
 
 }

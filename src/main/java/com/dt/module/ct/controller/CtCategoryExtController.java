@@ -24,7 +24,7 @@ import com.dt.module.ct.service.ICtCategoryService;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -35,39 +35,39 @@ import com.dt.module.ct.service.ICtCategoryService;
 public class CtCategoryExtController extends BaseController {
 
 
-	@Autowired
-	ICtCategoryService CtCategoryServiceImpl;
+    @Autowired
+    ICtCategoryService CtCategoryServiceImpl;
 
- 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectListByRoot.do")
-	public R selectList(String root) {
-		QueryWrapper<CtCategory> ew = new QueryWrapper<CtCategory>();
-		ew.and(i -> i.eq("root", root)).orderByAsc("route_name");
-		return R.SUCCESS_OPER(CtCategoryServiceImpl.list(ew));
-	}
 
-	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/selectPage.do")
-	public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex) {
-		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
-		if (ToolUtil.isEmpty(respar)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		int pagesize = respar.getIntValue("pagesize");
-		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<CtCategory> ew = new QueryWrapper<CtCategory>();
-		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		 
-		IPage<CtCategory> pdata = CtCategoryServiceImpl.page(new Page<CtCategory>(pageindex, pagesize), ew);
-		JSONObject retrunObject = new JSONObject();
-		retrunObject.put("iTotalRecords", pdata.getTotal());
-		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
-		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(),SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
-		return R.clearAttachDirect(retrunObject);
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectListByRoot.do")
+    public R selectList(String root) {
+        QueryWrapper<CtCategory> ew = new QueryWrapper<CtCategory>();
+        ew.and(i -> i.eq("root", root)).orderByAsc("route_name");
+        return R.SUCCESS_OPER(CtCategoryServiceImpl.list(ew));
+    }
+
+    @ResponseBody
+    @Acl(info = "查询所有,有分页", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/selectPage.do")
+    public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize, @RequestParam(value = "pageIndex", required = true, defaultValue = "1") String pageIndex) {
+        JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
+        if (ToolUtil.isEmpty(respar)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        int pagesize = respar.getIntValue("pagesize");
+        int pageindex = respar.getIntValue("pageindex");
+        QueryWrapper<CtCategory> ew = new QueryWrapper<CtCategory>();
+        //ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
+
+        IPage<CtCategory> pdata = CtCategoryServiceImpl.page(new Page<CtCategory>(pageindex, pagesize), ew);
+        JSONObject retrunObject = new JSONObject();
+        retrunObject.put("iTotalRecords", pdata.getTotal());
+        retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
+        retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(), SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
+        return R.clearAttachDirect(retrunObject);
+    }
 
 
 }

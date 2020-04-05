@@ -5,6 +5,6 @@ package com.dt.core.cache;
  */
 public interface InvocationRegistry {
 
-	void registerInvocation(CachedInvocation invocatio);
+    void registerInvocation(CachedInvocation invocatio);
 
 }

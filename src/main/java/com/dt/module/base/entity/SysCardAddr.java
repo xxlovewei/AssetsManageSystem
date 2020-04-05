@@ -9,7 +9,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -150,18 +150,18 @@ public class SysCardAddr extends BaseModel<SysCardAddr> {
     @Override
     public String toString() {
         return "SysCardAddr{" +
-        ", id=" + id +
-        ", shengf=" + shengf +
-        ", chengs=" + chengs +
-        ", qux=" + qux +
-        ", shengfmc=" + shengfmc +
-        ", chengsmc=" + chengsmc +
-        ", quxmc=" + quxmc +
-        ", userId=" + userId +
-        ", cardNo=" + cardNo +
-        ", cardBank=" + cardBank +
-        ", cardPart=" + cardPart +
-        ", cardName=" + cardName +
-        "}";
+                ", id=" + id +
+                ", shengf=" + shengf +
+                ", chengs=" + chengs +
+                ", qux=" + qux +
+                ", shengfmc=" + shengfmc +
+                ", chengsmc=" + chengsmc +
+                ", quxmc=" + quxmc +
+                ", userId=" + userId +
+                ", cardNo=" + cardNo +
+                ", cardBank=" + cardBank +
+                ", cardPart=" + cardPart +
+                ", cardName=" + cardName +
+                "}";
     }
 }

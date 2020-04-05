@@ -9,7 +9,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -93,12 +93,12 @@ public class CtCategoryRoot extends BaseModel<CtCategoryRoot> {
     @Override
     public String toString() {
         return "CtCategoryRoot{" +
-        ", id=" + id +
-        ", name=" + name +
-        ", type=" + type +
-        ", mark=" + mark +
-        ", od=" + od +
-        ", interType=" + interType +
-        "}";
+                ", id=" + id +
+                ", name=" + name +
+                ", type=" + type +
+                ", mark=" + mark +
+                ", od=" + od +
+                ", interType=" + interType +
+                "}";
     }
 }

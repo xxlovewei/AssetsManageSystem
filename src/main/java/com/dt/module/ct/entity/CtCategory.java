@@ -10,15 +10,15 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-03-28
  */
- 
+
 @TableName("ct_category")
- 
+
 public class CtCategory extends BaseModel<CtCategory> {
 
     private static final long serialVersionUID = 1L;
@@ -176,20 +176,20 @@ public class CtCategory extends BaseModel<CtCategory> {
     @Override
     public String toString() {
         return "CtCategory{" +
-        "id=" + id +
-        ", root=" + root +
-        ", name=" + name +
-        ", mpic=" + mpic +
-        ", parentId=" + parentId +
-        ", route=" + route +
-        ", mark=" + mark +
-        ", nodeLevel=" + nodeLevel +
-        ", od=" + od +
-        ", isaction=" + isaction +
-        ", routeName=" + routeName +
-        ", code=" + code +
-        ", type=" + type +
-        ", action=" + action +
-        "}";
+                "id=" + id +
+                ", root=" + root +
+                ", name=" + name +
+                ", mpic=" + mpic +
+                ", parentId=" + parentId +
+                ", route=" + route +
+                ", mark=" + mark +
+                ", nodeLevel=" + nodeLevel +
+                ", od=" + od +
+                ", isaction=" + isaction +
+                ", routeName=" + routeName +
+                ", code=" + code +
+                ", type=" + type +
+                ", action=" + action +
+                "}";
     }
 }

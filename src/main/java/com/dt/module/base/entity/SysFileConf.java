@@ -9,7 +9,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -28,7 +28,7 @@ public class SysFileConf extends BaseModel<SysFileConf> {
     private String path;
     @TableField("IS_USED")
     private String isUsed;
- 
+
 
     public String getId() {
         return id;
@@ -62,7 +62,7 @@ public class SysFileConf extends BaseModel<SysFileConf> {
         this.isUsed = isUsed;
     }
 
-    
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -71,10 +71,10 @@ public class SysFileConf extends BaseModel<SysFileConf> {
     @Override
     public String toString() {
         return "SysFileConf{" +
-        ", id=" + id +
-        ", name=" + name +
-        ", path=" + path +
-        ", isUsed=" + isUsed +
-        "}";
+                ", id=" + id +
+                ", name=" + name +
+                ", path=" + path +
+                ", isUsed=" + isUsed +
+                "}";
     }
 }

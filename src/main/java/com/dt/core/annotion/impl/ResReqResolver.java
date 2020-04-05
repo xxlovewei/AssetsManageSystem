@@ -17,36 +17,36 @@ import com.dt.core.annotion.Req;
 import com.dt.core.annotion.Res;
 
 public class ResReqResolver extends AbstractMessageConverterMethodProcessor {
-	public ResReqResolver(List<HttpMessageConverter<?>> converters) {
-		super(converters);
-	}
+    public ResReqResolver(List<HttpMessageConverter<?>> converters) {
+        super(converters);
+    }
 
-	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.hasParameterAnnotation(Req.class);
-	}
+    public boolean supportsParameter(MethodParameter parameter) {
+        return parameter.hasParameterAnnotation(Req.class);
+    }
 
-	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		Object arg = readWithMessageConverters(webRequest, parameter, parameter.getGenericParameterType());
-		String name = Conventions.getVariableNameForParameter(parameter);
-		WebDataBinder binder = binderFactory.createBinder(webRequest, arg, name);
-		if (arg != null) {
-			validateIfApplicable(binder, parameter);
-			if (binder.getBindingResult().hasErrors() && isBindExceptionRequired(binder, parameter)) {
-				throw new MethodArgumentNotValidException(parameter, binder.getBindingResult());
-			}
-		}
-		mavContainer.addAttribute(BindingResult.MODEL_KEY_PREFIX + name, binder.getBindingResult());
-		return arg;
-	}
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+        Object arg = readWithMessageConverters(webRequest, parameter, parameter.getGenericParameterType());
+        String name = Conventions.getVariableNameForParameter(parameter);
+        WebDataBinder binder = binderFactory.createBinder(webRequest, arg, name);
+        if (arg != null) {
+            validateIfApplicable(binder, parameter);
+            if (binder.getBindingResult().hasErrors() && isBindExceptionRequired(binder, parameter)) {
+                throw new MethodArgumentNotValidException(parameter, binder.getBindingResult());
+            }
+        }
+        mavContainer.addAttribute(BindingResult.MODEL_KEY_PREFIX + name, binder.getBindingResult());
+        return arg;
+    }
 
-	public boolean supportsReturnType(MethodParameter returnType) {
-		return returnType.getMethodAnnotation(Res.class) != null;
-	}
+    public boolean supportsReturnType(MethodParameter returnType) {
+        return returnType.getMethodAnnotation(Res.class) != null;
+    }
 
-	public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest) throws Exception {
-		mavContainer.setRequestHandled(true);
-		writeWithMessageConverters(returnValue, returnType, webRequest);
-	}
+    public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest) throws Exception {
+        mavContainer.setRequestHandled(true);
+        writeWithMessageConverters(returnValue, returnType, webRequest);
+    }
 }

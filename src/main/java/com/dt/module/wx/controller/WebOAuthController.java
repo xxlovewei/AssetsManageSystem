@@ -33,126 +33,126 @@ import com.dt.module.wx.util.AdvancedUtil;
 @RequestMapping("/api")
 public class WebOAuthController extends BaseController {
 
-	@Value("${wx.appId}")
-	public String appIdconf;
+    @Value("${wx.appId}")
+    public String appIdconf;
 
-	@Value("${wx.secret}")
-	public String secretconf;
+    @Value("${wx.secret}")
+    public String secretconf;
 
-	@Autowired
-	WxService wxService;
+    @Autowired
+    WxService wxService;
 
-	@Autowired
-	WebOAuthService webOAuthService;
+    @Autowired
+    WebOAuthService webOAuthService;
 
-	private static Logger _log = LoggerFactory.getLogger(WebOAuthController.class);
+    private static Logger _log = LoggerFactory.getLogger(WebOAuthController.class);
 
-	public WeixinOauth2Token getOauth2AccessToken(String code) {
-		if (ToolUtil.isOneEmpty(appIdconf, secretconf)) {
-			return null;
-		}
-		return AdvancedUtil.getOauth2AccessToken(appIdconf, secretconf, code);
+    public WeixinOauth2Token getOauth2AccessToken(String code) {
+        if (ToolUtil.isOneEmpty(appIdconf, secretconf)) {
+            return null;
+        }
+        return AdvancedUtil.getOauth2AccessToken(appIdconf, secretconf, code);
 
-	}
+    }
 
-	@ResponseBody
-	@Acl(info = "网页授权跳转", value = Acl.ACL_USER)
-	@RequestMapping(value = "/wx/test222.do")
-	public String test(HttpServletResponse response) {
-		return "ok";
-	}
+    @ResponseBody
+    @Acl(info = "网页授权跳转", value = Acl.ACL_USER)
+    @RequestMapping(value = "/wx/test222.do")
+    public String test(HttpServletResponse response) {
+        return "ok";
+    }
 
-	@Acl(info = "网页授权跳转", value = Acl.ACL_ALLOW)
-	@RequestMapping(value = "/wx/webOauth2.do")
-	public void webOauth2(String code, String state, HttpServletResponse response) {
+    @Acl(info = "网页授权跳转", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/wx/webOauth2.do")
+    public void webOauth2(String code, String state, HttpServletResponse response) {
 
-		if (ToolUtil.isOneEmpty(code, state)) {
-			try {
-				response.getWriter().print(R.FAILURE("parameter is incorrect"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return;
-		}
-		// 获取跳转等基本信息
-		JSONObject br = wxService.baseWebOauth2Process(state);
-		String url = br.getString("url") == null ? "blank" : br.getString("url");
-		_log.info("Go to url:" + url);
+        if (ToolUtil.isOneEmpty(code, state)) {
+            try {
+                response.getWriter().print(R.FAILURE("parameter is incorrect"));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return;
+        }
+        // 获取跳转等基本信息
+        JSONObject br = wxService.baseWebOauth2Process(state);
+        String url = br.getString("url") == null ? "blank" : br.getString("url");
+        _log.info("Go to url:" + url);
 
-		// 获取open_id
-		String open_id = "";
-		try {
-			// session中存在
-			open_id = (String) HttpKit.getRequest().getSession().getAttribute("open_id");
-		} catch (ClassCastException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// 微信中获取open_id
-		if (ToolUtil.isEmpty(open_id)) {
-			WeixinOauth2Token r = getOauth2AccessToken(code);
-			if (ToolUtil.isNotEmpty(r)) {
-				open_id = r.getOpenId();
-				HttpKit.getRequest().getSession().setAttribute("open_id", open_id);
-			}
-		}
+        // 获取open_id
+        String open_id = "";
+        try {
+            // session中存在
+            open_id = (String) HttpKit.getRequest().getSession().getAttribute("open_id");
+        } catch (ClassCastException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        // 微信中获取open_id
+        if (ToolUtil.isEmpty(open_id)) {
+            WeixinOauth2Token r = getOauth2AccessToken(code);
+            if (ToolUtil.isNotEmpty(r)) {
+                open_id = r.getOpenId();
+                HttpKit.getRequest().getSession().setAttribute("open_id", open_id);
+            }
+        }
 
-		// 处理登录
-		R iflogin = wxService.baseToLogin(open_id, br.getString("login"));
-		if (iflogin.isFailed()) {
-			_log.info("Login failed,msg:" + iflogin.getMessage());
-		}
+        // 处理登录
+        R iflogin = wxService.baseToLogin(open_id, br.getString("login"));
+        if (iflogin.isFailed()) {
+            _log.info("Login failed,msg:" + iflogin.getMessage());
+        }
 
-		// 设置session的user 和open_id
-		String user_id = iflogin.queryDataToJSONObject().getString("user_id");
-		_log.info("put user_id into session,user_id:" + user_id);
-		super.getSession().setAttribute("user_id", user_id);
-		super.getSession().setAttribute("sessionFlag", true);
+        // 设置session的user 和open_id
+        String user_id = iflogin.queryDataToJSONObject().getString("user_id");
+        _log.info("put user_id into session,user_id:" + user_id);
+        super.getSession().setAttribute("user_id", user_id);
+        super.getSession().setAttribute("sessionFlag", true);
 
-		
-		//跳转
-		try {
-			_log.info("user_id:" + user_id + ",sendRedirect:" + url);
-			response.sendRedirect(url);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
-	@ResponseBody
-	@Acl(info = "查询WebOAuth", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/wx/queryWebOAuth.do")
-	public R queryWebOAuth() {
-		return webOAuthService.queryWebOAuth();
-	}
+        //跳转
+        try {
+            _log.info("user_id:" + user_id + ",sendRedirect:" + url);
+            response.sendRedirect(url);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-	@ResponseBody
-	@Acl(info = "删除WebOAuth", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/wx/delWebOAuth.do")
-	public R delWebOAuth(String id) {
-		return webOAuthService.delWebOAuth(id);
-	}
+    @ResponseBody
+    @Acl(info = "查询WebOAuth", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/wx/queryWebOAuth.do")
+    public R queryWebOAuth() {
+        return webOAuthService.queryWebOAuth();
+    }
 
-	@ResponseBody
-	@Acl(info = "根据Id查询WebOAuth", value = Acl.ACL_ALLOW)
-	@RequestMapping(value = "/wx/queryWebOAuthById.do")
-	public R queryWebOAuthById(String id) {
-		return webOAuthService.queryWebOAuthById(id);
-	}
+    @ResponseBody
+    @Acl(info = "删除WebOAuth", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/wx/delWebOAuth.do")
+    public R delWebOAuth(String id) {
+        return webOAuthService.delWebOAuth(id);
+    }
 
-	@ResponseBody
-	@Acl(info = "保存WebOAuth", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/wx/saveWebOAuth.do")
-	public R saveWebOAuth() {
-		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		String id = ps.getString("id");
-		if (ToolUtil.isEmpty(id)) {
-			return webOAuthService.addWebOAuth(ps);
-		} else {
-			return webOAuthService.updateWebOAuth(ps);
-		}
-	}
+    @ResponseBody
+    @Acl(info = "根据Id查询WebOAuth", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/wx/queryWebOAuthById.do")
+    public R queryWebOAuthById(String id) {
+        return webOAuthService.queryWebOAuthById(id);
+    }
+
+    @ResponseBody
+    @Acl(info = "保存WebOAuth", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/wx/saveWebOAuth.do")
+    public R saveWebOAuth() {
+        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+        String id = ps.getString("id");
+        if (ToolUtil.isEmpty(id)) {
+            return webOAuthService.addWebOAuth(ps);
+        } else {
+            return webOAuthService.updateWebOAuth(ps);
+        }
+    }
 
 }

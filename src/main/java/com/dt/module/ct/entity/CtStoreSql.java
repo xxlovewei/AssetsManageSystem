@@ -6,9 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -162,19 +163,19 @@ public class CtStoreSql extends BaseModel<CtStoreSql> {
     @Override
     public String toString() {
         return "CtStoreSql{" +
-        ", storeId=" + storeId +
-        ", name=" + name +
-        ", catId=" + catId +
-        ", uri=" + uri +
-        ", uriParameter=" + uriParameter +
-        ", userId=" + userId +
-        ", sql=" + sql +
-        ", dbId=" + dbId +
-        ", acl=" + acl +
-        ", mark=" + mark +
-        ", returnType=" + returnType +
-        ", isUsed=" + isUsed +
-        ", aliasId=" + aliasId +
-        "}";
+                ", storeId=" + storeId +
+                ", name=" + name +
+                ", catId=" + catId +
+                ", uri=" + uri +
+                ", uriParameter=" + uriParameter +
+                ", userId=" + userId +
+                ", sql=" + sql +
+                ", dbId=" + dbId +
+                ", acl=" + acl +
+                ", mark=" + mark +
+                ", returnType=" + returnType +
+                ", isUsed=" + isUsed +
+                ", aliasId=" + aliasId +
+                "}";
     }
 }

@@ -54,329 +54,329 @@ import com.dt.module.flow.service.ISysProcessDataService;
 
 @Service
 public class SysUfloProcessService extends BaseService {
-	
-	
-	public static String P_TYPE_RUNNING = "running";
-	public static String P_TYPE_CANCEL = "cancel";
-	public static String P_TYPE_FINISH = "finish";
-	public static String P_TYPE_ROLLBACK = "rollback";
 
-	public static String P_STATUS_SFA = "submitforapproval";
-	public static String P_STATUS_INREVIEW = "inreview";
-	public static String P_STATUS_APPROVALSUCCESS = "success";
-	public static String P_STATUS_APPROVALFAILED = "failed";
-	public static String P_STATUS_ROLLBACK = "rollback";
-	public static String P_STATUS_CANCEL = "cancel";
 
-	@Autowired
-	private ProcessService processService;
+    public static String P_TYPE_RUNNING = "running";
+    public static String P_TYPE_CANCEL = "cancel";
+    public static String P_TYPE_FINISH = "finish";
+    public static String P_TYPE_ROLLBACK = "rollback";
 
-	@Autowired
-	private TaskService taskService;
+    public static String P_STATUS_SFA = "submitforapproval";
+    public static String P_STATUS_INREVIEW = "inreview";
+    public static String P_STATUS_APPROVALSUCCESS = "success";
+    public static String P_STATUS_APPROVALFAILED = "failed";
+    public static String P_STATUS_ROLLBACK = "rollback";
+    public static String P_STATUS_CANCEL = "cancel";
 
-	@Autowired
-	private HistoryService historyService;
+    @Autowired
+    private ProcessService processService;
+
+    @Autowired
+    private TaskService taskService;
+
+    @Autowired
+    private HistoryService historyService;
 
 //	 
 
-	@Autowired
-	ISysProcessDataService SysProcessDataServiceImpl;
+    @Autowired
+    ISysProcessDataService SysProcessDataServiceImpl;
 
-	@Autowired
-	ISysUserInfoService SysUserInfoServiceImpl;
+    @Autowired
+    ISysUserInfoService SysUserInfoServiceImpl;
 
-	public R loadProcessInstanceData(String processInstanceId) {
-		TaskQuery query = taskService.createTaskQuery();
-		long processInstanceIdl = ConvertUtil.toLong(processInstanceId);
-		query.rootProcessInstanceId(processInstanceIdl);
-		// query.nodeName(node.getName());
-		query.addTaskState(TaskState.Created);
-		query.addTaskState(TaskState.InProgress);
-		query.addTaskState(TaskState.Ready);
-		query.addTaskState(TaskState.Suspended);
-		query.addTaskState(TaskState.Reserved);
-		List<Task> tasks = query.list();
-		List<TaskInfo> taskinfo = buildTaskInfos(tasks);
-		HistoryTaskQuery historyTaskQuery = historyService.createHistoryTaskQuery();
-		historyTaskQuery.rootProcessInstanceId(processInstanceIdl);
-		List<HistoryTask> historyTasks = historyTaskQuery.list();
-		List<TaskInfo> histaskinfo = buildHistoryTaskInfos(historyTasks);
-		JSONArray data = new JSONArray();
-		if (taskinfo.size() > 0) {
-			data = JSONArray.parseArray(JSON.toJSONString(taskinfo, SerializerFeature.WriteDateUseDateFormat,
-					SerializerFeature.DisableCircularReferenceDetect));
-		}
-		if (histaskinfo.size() > 0) {
-			data = JSONArray.parseArray(JSON.toJSONString(histaskinfo, SerializerFeature.WriteDateUseDateFormat,
-					SerializerFeature.DisableCircularReferenceDetect));
-		}
+    public R loadProcessInstanceData(String processInstanceId) {
+        TaskQuery query = taskService.createTaskQuery();
+        long processInstanceIdl = ConvertUtil.toLong(processInstanceId);
+        query.rootProcessInstanceId(processInstanceIdl);
+        // query.nodeName(node.getName());
+        query.addTaskState(TaskState.Created);
+        query.addTaskState(TaskState.InProgress);
+        query.addTaskState(TaskState.Ready);
+        query.addTaskState(TaskState.Suspended);
+        query.addTaskState(TaskState.Reserved);
+        List<Task> tasks = query.list();
+        List<TaskInfo> taskinfo = buildTaskInfos(tasks);
+        HistoryTaskQuery historyTaskQuery = historyService.createHistoryTaskQuery();
+        historyTaskQuery.rootProcessInstanceId(processInstanceIdl);
+        List<HistoryTask> historyTasks = historyTaskQuery.list();
+        List<TaskInfo> histaskinfo = buildHistoryTaskInfos(historyTasks);
+        JSONArray data = new JSONArray();
+        if (taskinfo.size() > 0) {
+            data = JSONArray.parseArray(JSON.toJSONString(taskinfo, SerializerFeature.WriteDateUseDateFormat,
+                    SerializerFeature.DisableCircularReferenceDetect));
+        }
+        if (histaskinfo.size() > 0) {
+            data = JSONArray.parseArray(JSON.toJSONString(histaskinfo, SerializerFeature.WriteDateUseDateFormat,
+                    SerializerFeature.DisableCircularReferenceDetect));
+        }
 
-		return R.SUCCESS_OPER(data);
-	}
+        return R.SUCCESS_OPER(data);
+    }
 
-	private List<TaskInfo> buildTaskInfos(List<Task> tasks) {
-		List<TaskInfo> infos = new ArrayList<TaskInfo>();
-		for (Task task : tasks) {
-			TaskInfo info = new TaskInfo();
-			info.setAssignee(task.getAssignee());
-			info.setBusinessId(task.getBusinessId());
-			info.setCreateDate(task.getCreateDate());
-			info.setDescription(task.getDescription());
-			info.setDuedate(task.getDuedate());
-			info.setOpinion(task.getOpinion());
-			info.setOwner(task.getOwner());
-			info.setProcessId(task.getProcessId());
-			info.setProcessInstanceId(task.getProcessInstanceId());
-			info.setState(task.getState());
-			info.setTaskId(task.getId());
-			info.setTaskName(task.getTaskName());
-			info.setType(task.getType());
-			info.setUrl(task.getUrl());
-			String assignee = info.getAssignee();
-			if (assignee != null) {
-				SysUserInfo u = SysUserInfoServiceImpl.getById(assignee);
-				if (u != null) {
-					info.setAssigneename(u.getName());
-				}
-			}
-			infos.add(info);
-		}
-		return infos;
-	}
+    private List<TaskInfo> buildTaskInfos(List<Task> tasks) {
+        List<TaskInfo> infos = new ArrayList<TaskInfo>();
+        for (Task task : tasks) {
+            TaskInfo info = new TaskInfo();
+            info.setAssignee(task.getAssignee());
+            info.setBusinessId(task.getBusinessId());
+            info.setCreateDate(task.getCreateDate());
+            info.setDescription(task.getDescription());
+            info.setDuedate(task.getDuedate());
+            info.setOpinion(task.getOpinion());
+            info.setOwner(task.getOwner());
+            info.setProcessId(task.getProcessId());
+            info.setProcessInstanceId(task.getProcessInstanceId());
+            info.setState(task.getState());
+            info.setTaskId(task.getId());
+            info.setTaskName(task.getTaskName());
+            info.setType(task.getType());
+            info.setUrl(task.getUrl());
+            String assignee = info.getAssignee();
+            if (assignee != null) {
+                SysUserInfo u = SysUserInfoServiceImpl.getById(assignee);
+                if (u != null) {
+                    info.setAssigneename(u.getName());
+                }
+            }
+            infos.add(info);
+        }
+        return infos;
+    }
 
-	public R cancelTask(String taskId, String opinion) {
-		TaskOpinion op = new TaskOpinion(opinion);
-		long taskId_l = ConvertUtil.toLong(taskId);
-		taskService.cancelTask(taskId_l, op);
-		return R.SUCCESS_OPER();
-	}
+    public R cancelTask(String taskId, String opinion) {
+        TaskOpinion op = new TaskOpinion(opinion);
+        long taskId_l = ConvertUtil.toLong(taskId);
+        taskService.cancelTask(taskId_l, op);
+        return R.SUCCESS_OPER();
+    }
 
-	public R startProcess(String key, String type) {
-		if (ToolUtil.isOneEmpty(key, type)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
+    public R startProcess(String key, String type) {
+        if (ToolUtil.isOneEmpty(key, type)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
 
-		TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-		String busid = ToolUtil.getUUID();
-		StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
-		startProcessInfo.setBusinessId(busid);
-		startProcessInfo.setCompleteStartTask(true);
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+        String busid = ToolUtil.getUUID();
+        StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
+        startProcessInfo.setBusinessId(busid);
+        startProcessInfo.setCompleteStartTask(true);
 
-		ProcessInstance inst = processService.startProcessByKey(key, startProcessInfo);
+        ProcessInstance inst = processService.startProcessByKey(key, startProcessInfo);
 
-		SysProcessData pd = new SysProcessData();
-		pd.setBusid(busid);
-		pd.setProcesskey(key);
-		pd.setPtype(type);
-		pd.setPstatus(SysUfloProcessService.P_TYPE_RUNNING);
-		pd.setProcessInstanceId(inst.getId() + "");
-		pd.setPstartuserid(this.getUserId());
-	//	pd.setDmessage(ps.getString("dmessage", ""));
-	//	pd.setDmark(ps.getString("dmark", ""));
-		SysProcessDataServiceImpl.save(pd);
-		return R.SUCCESS_OPER();
-	}
+        SysProcessData pd = new SysProcessData();
+        pd.setBusid(busid);
+        pd.setProcesskey(key);
+        pd.setPtype(type);
+        pd.setPstatus(SysUfloProcessService.P_TYPE_RUNNING);
+        pd.setProcessInstanceId(inst.getId() + "");
+        pd.setPstartuserid(this.getUserId());
+        //	pd.setDmessage(ps.getString("dmessage", ""));
+        //	pd.setDmark(ps.getString("dmark", ""));
+        SysProcessDataServiceImpl.save(pd);
+        return R.SUCCESS_OPER();
+    }
 
-	public  Map<String, Object> buildVariables(String variables) {
-		if (StringUtils.isBlank(variables)) {
-			return null;
-		}
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			@SuppressWarnings("unchecked")
-			List<Map<String, Object>> list = mapper.readValue(variables, ArrayList.class);
-			Map<String, Object> map = new HashMap<String, Object>();
-			for (Map<String, Object> m : list) {
-				String key = m.get("key").toString();
-				Object value = m.get("value");
-				map.put(key, value);
-			}
-			return map;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+    public Map<String, Object> buildVariables(String variables) {
+        if (StringUtils.isBlank(variables)) {
+            return null;
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> list = mapper.readValue(variables, ArrayList.class);
+            Map<String, Object> map = new HashMap<String, Object>();
+            for (Map<String, Object> m : list) {
+                String key = m.get("key").toString();
+                Object value = m.get("value");
+                map.put(key, value);
+            }
+            return map;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	private List<TaskInfo> buildHistoryTaskInfos(List<HistoryTask> tasks) {
-		List<TaskInfo> infos = new ArrayList<TaskInfo>();
-		for (HistoryTask task : tasks) {
-			TaskInfo info = new TaskInfo();
-			info.setAssignee(task.getAssignee());
-			info.setBusinessId(task.getBusinessId());
-			info.setCreateDate(task.getCreateDate());
-			info.setDescription(task.getDescription());
-			info.setDuedate(task.getDuedate());
-			info.setEndDate(task.getEndDate());
-			info.setOpinion(task.getOpinion());
-			info.setOwner(task.getOwner());
-			info.setProcessId(task.getProcessId());
-			info.setProcessInstanceId(task.getProcessInstanceId());
-			info.setState(task.getState());
-			info.setTaskName(task.getTaskName());
-			info.setTaskId(task.getId());
-			info.setType(task.getType());
-			info.setUrl(task.getUrl());
-			String assignee = task.getAssignee();
-			if (assignee != null) {
-				SysUserInfo u = SysUserInfoServiceImpl.getById(assignee);
-				if (u != null) {
-					info.setAssigneename(u.getName());
-				}
-			}
-			infos.add(info);
-		}
-		return infos;
-	}
+    private List<TaskInfo> buildHistoryTaskInfos(List<HistoryTask> tasks) {
+        List<TaskInfo> infos = new ArrayList<TaskInfo>();
+        for (HistoryTask task : tasks) {
+            TaskInfo info = new TaskInfo();
+            info.setAssignee(task.getAssignee());
+            info.setBusinessId(task.getBusinessId());
+            info.setCreateDate(task.getCreateDate());
+            info.setDescription(task.getDescription());
+            info.setDuedate(task.getDuedate());
+            info.setEndDate(task.getEndDate());
+            info.setOpinion(task.getOpinion());
+            info.setOwner(task.getOwner());
+            info.setProcessId(task.getProcessId());
+            info.setProcessInstanceId(task.getProcessInstanceId());
+            info.setState(task.getState());
+            info.setTaskName(task.getTaskName());
+            info.setTaskId(task.getId());
+            info.setType(task.getType());
+            info.setUrl(task.getUrl());
+            String assignee = task.getAssignee();
+            if (assignee != null) {
+                SysUserInfo u = SysUserInfoServiceImpl.getById(assignee);
+                if (u != null) {
+                    info.setAssigneename(u.getName());
+                }
+            }
+            infos.add(info);
+        }
+        return infos;
+    }
 
-	public R queryTask(String taskId) {
-		long taskId_l = ConvertUtil.toLong(taskId);
-		String a = taskService.getUserData(taskService.getTask(taskId_l), "catid");
-		String b = taskService.getUserData(taskService.getTask(taskId_l), "catname");
-		System.out.println(a + b);
-		return R.SUCCESS_OPER();
-	}
+    public R queryTask(String taskId) {
+        long taskId_l = ConvertUtil.toLong(taskId);
+        String a = taskService.getUserData(taskService.getTask(taskId_l), "catid");
+        String b = taskService.getUserData(taskService.getTask(taskId_l), "catname");
+        System.out.println(a + b);
+        return R.SUCCESS_OPER();
+    }
 
-	// 同意任务
-	public R completeTask(String variables, String taskId, String opinion) {
-		// 修改流程标记
+    // 同意任务
+    public R completeTask(String variables, String taskId, String opinion) {
+        // 修改流程标记
 
-		TaskOpinion op = new TaskOpinion(opinion);
-		long taskId_l = ConvertUtil.toLong(taskId);
-		Task tsk = taskService.getTask(taskId_l);
-		String instid = tsk.getProcessInstanceId() + "";
-		taskService.start(taskId_l);
-		taskService.complete(taskId_l, op);
-		UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-		uw.eq("processInstanceId", instid);
-		uw.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
-		uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
-		// 判断下一个是不是终点
-		ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
-		Node node = process.getNode(tsk.getNodeName());
-		List<SequenceFlowImpl> flows = node.getSequenceFlows();
-		if (flows.size() > 0) {
-			SequenceFlowImpl flowimpl = flows.get(0);
-			String toNode = flowimpl.getToNode();
-			if (toNode != null) {
-				if (toNode.startsWith("结束") || toNode.startsWith("流程结束")) {
-					QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
-					qw.eq("busid", tsk.getBusinessId());
-					SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
-					String pdtype = sd.getPtype();
-					Date date = new Date(); // 获取一个Date对象
-					DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
-					String nowtime = simpleDateFormat.format(date);
-					uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
-					uw.set("pendtime", nowtime);
-					// 流程类型处理
-					if (pdtype != null) {
-						if (pdtype.equals("LY") || pdtype.equals("JY") || pdtype.equals("ZY")) {
-							uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
-						}
-					}
-				}
-			}
-		}
-		SysProcessDataServiceImpl.update(uw);
-		return R.SUCCESS_OPER();
-	}
+        TaskOpinion op = new TaskOpinion(opinion);
+        long taskId_l = ConvertUtil.toLong(taskId);
+        Task tsk = taskService.getTask(taskId_l);
+        String instid = tsk.getProcessInstanceId() + "";
+        taskService.start(taskId_l);
+        taskService.complete(taskId_l, op);
+        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+        uw.eq("processInstanceId", instid);
+        uw.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
+        uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
+        // 判断下一个是不是终点
+        ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
+        Node node = process.getNode(tsk.getNodeName());
+        List<SequenceFlowImpl> flows = node.getSequenceFlows();
+        if (flows.size() > 0) {
+            SequenceFlowImpl flowimpl = flows.get(0);
+            String toNode = flowimpl.getToNode();
+            if (toNode != null) {
+                if (toNode.startsWith("结束") || toNode.startsWith("流程结束")) {
+                    QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
+                    qw.eq("busid", tsk.getBusinessId());
+                    SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
+                    String pdtype = sd.getPtype();
+                    Date date = new Date(); // 获取一个Date对象
+                    DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+                    String nowtime = simpleDateFormat.format(date);
+                    uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
+                    uw.set("pendtime", nowtime);
+                    // 流程类型处理
+                    if (pdtype != null) {
+                        if (pdtype.equals("LY") || pdtype.equals("JY") || pdtype.equals("ZY")) {
+                            uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
+                        }
+                    }
+                }
+            }
+        }
+        SysProcessDataServiceImpl.update(uw);
+        return R.SUCCESS_OPER();
+    }
 
-	public R getAvaliableForwardTaskNodes(String taskId) {
-		long taskId_l = ConvertUtil.toLong(taskId);
-		List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
-		return R.SUCCESS_OPER(nodes);
-	}
+    public R getAvaliableForwardTaskNodes(String taskId) {
+        long taskId_l = ConvertUtil.toLong(taskId);
+        List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
+        return R.SUCCESS_OPER(nodes);
+    }
 
-	public R getAvaliableRollbackTaskNodes(String taskId) {
-		long taskId_l = ConvertUtil.toLong(taskId);
-		List<JumpNode> nodes = taskService.getAvaliableRollbackTaskNodes(taskId_l);
-		return R.SUCCESS_OPER(nodes);
-	}
+    public R getAvaliableRollbackTaskNodes(String taskId) {
+        long taskId_l = ConvertUtil.toLong(taskId);
+        List<JumpNode> nodes = taskService.getAvaliableRollbackTaskNodes(taskId_l);
+        return R.SUCCESS_OPER(nodes);
+    }
 
-	public R rollback(String taskId, String targetNodeName, String opinion) {
-		TaskOpinion op = new TaskOpinion(opinion);
-		long taskId_l = ConvertUtil.toLong(taskId);
-		taskService.rollback(taskId_l, targetNodeName, null, op);
-		return R.SUCCESS_OPER();
-	}
+    public R rollback(String taskId, String targetNodeName, String opinion) {
+        TaskOpinion op = new TaskOpinion(opinion);
+        long taskId_l = ConvertUtil.toLong(taskId);
+        taskService.rollback(taskId_l, targetNodeName, null, op);
+        return R.SUCCESS_OPER();
+    }
 
-	public R withdraw(String taskId, String opinion) {
-		TaskOpinion op = new TaskOpinion(opinion);
-		long taskId_l = ConvertUtil.toLong(taskId);
-		taskService.withdraw(taskId_l, null, op);
-		return R.SUCCESS_OPER();
-	}
+    public R withdraw(String taskId, String opinion) {
+        TaskOpinion op = new TaskOpinion(opinion);
+        long taskId_l = ConvertUtil.toLong(taskId);
+        taskService.withdraw(taskId_l, null, op);
+        return R.SUCCESS_OPER();
+    }
 
-	public R forward(String taskId, String targetNodeName, String opinion) {
-		TaskOpinion op = new TaskOpinion(opinion);
-		long taskId_l = ConvertUtil.toLong(taskId);
-		taskService.forward(taskId_l, targetNodeName, null, op);
-		return R.SUCCESS_OPER();
-	}
+    public R forward(String taskId, String targetNodeName, String opinion) {
+        TaskOpinion op = new TaskOpinion(opinion);
+        long taskId_l = ConvertUtil.toLong(taskId);
+        taskService.forward(taskId_l, targetNodeName, null, op);
+        return R.SUCCESS_OPER();
+    }
 
-	// 流程退回，退回到流程开始位置
-	public R forwardStart(String taskId, String opinion) {
-		TaskOpinion op = new TaskOpinion(opinion);
-		long taskId_l = ConvertUtil.toLong(taskId);
-		Task tsk = taskService.getTask(taskId_l);
+    // 流程退回，退回到流程开始位置
+    public R forwardStart(String taskId, String opinion) {
+        TaskOpinion op = new TaskOpinion(opinion);
+        long taskId_l = ConvertUtil.toLong(taskId);
+        Task tsk = taskService.getTask(taskId_l);
 
-		ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
-		taskService.forward(taskId_l, process.getStartNode().getName(), null, op);
-		// 修改流程标记
-		String instid = tsk.getProcessInstanceId() + "";
-		// 更新状态
-		UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-		uw.eq("processInstanceId", instid);
-		uw.set("pstatus", SysUfloProcessService.P_TYPE_ROLLBACK);
-		uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_ROLLBACK);
-		SysProcessDataServiceImpl.update(uw);
-		return R.SUCCESS_OPER();
-	}
+        ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
+        taskService.forward(taskId_l, process.getStartNode().getName(), null, op);
+        // 修改流程标记
+        String instid = tsk.getProcessInstanceId() + "";
+        // 更新状态
+        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+        uw.eq("processInstanceId", instid);
+        uw.set("pstatus", SysUfloProcessService.P_TYPE_ROLLBACK);
+        uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_ROLLBACK);
+        SysProcessDataServiceImpl.update(uw);
+        return R.SUCCESS_OPER();
+    }
 
-	public R queryTaskNodeDtl(String taskId) {
-		long taskId_l = ConvertUtil.toLong(taskId);
-		Task tsk = taskService.getTask(taskId_l);
-		ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
+    public R queryTaskNodeDtl(String taskId) {
+        long taskId_l = ConvertUtil.toLong(taskId);
+        Task tsk = taskService.getTask(taskId_l);
+        ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
 
-		System.out.println(process.getStartNode().getName());
-		System.out.println(process.getStartNode().getType());
-		System.out.println(process.getStartNode().getTaskName());
-		Node node = process.getNode(tsk.getNodeName());
+        System.out.println(process.getStartNode().getName());
+        System.out.println(process.getStartNode().getType());
+        System.out.println(process.getStartNode().getTaskName());
+        Node node = process.getNode(tsk.getNodeName());
 
-		List<SequenceFlowImpl> flows = node.getSequenceFlows();
-		if (flows.size() > 0) {
-			SequenceFlowImpl flowimpl = flows.get(0);
-			System.out.print(flowimpl);
-		}
+        List<SequenceFlowImpl> flows = node.getSequenceFlows();
+        if (flows.size() > 0) {
+            SequenceFlowImpl flowimpl = flows.get(0);
+            System.out.print(flowimpl);
+        }
 
-		System.out.print(node.getClass());
-		node.getSequenceFlows();
-		return R.SUCCESS_OPER();
-	}
+        System.out.print(node.getClass());
+        node.getSequenceFlows();
+        return R.SUCCESS_OPER();
+    }
 
-	// 拒绝，结束整个流程
-	public R refuseTask(String taskId, String opinion) {
-		TaskOpinion op = new TaskOpinion(opinion);
-		long taskId_l = ConvertUtil.toLong(taskId);
-		Task tsk = taskService.getTask(taskId_l);
-		String instid = tsk.getProcessInstanceId() + "";
+    // 拒绝，结束整个流程
+    public R refuseTask(String taskId, String opinion) {
+        TaskOpinion op = new TaskOpinion(opinion);
+        long taskId_l = ConvertUtil.toLong(taskId);
+        Task tsk = taskService.getTask(taskId_l);
+        String instid = tsk.getProcessInstanceId() + "";
 
-		List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
-		if (nodes.size() == 0) {
-			return R.FAILURE("无法跳转至结束流程");
-		}
-		JumpNode jn = nodes.get(nodes.size() - 1);
-		if (jn.isTask()) {
-			return R.FAILURE("获取的最后一个节点不是结束流程");
-		}
-		taskService.forward(taskId_l, jn.getName(), op);
-		// 更新状态
-		UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-		uw.eq("processInstanceId", instid);
-		uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
-		uw.set("pstatusdtl", P_STATUS_APPROVALFAILED);
-		SysProcessDataServiceImpl.update(uw);
-		return R.SUCCESS_OPER();
-	}
+        List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
+        if (nodes.size() == 0) {
+            return R.FAILURE("无法跳转至结束流程");
+        }
+        JumpNode jn = nodes.get(nodes.size() - 1);
+        if (jn.isTask()) {
+            return R.FAILURE("获取的最后一个节点不是结束流程");
+        }
+        taskService.forward(taskId_l, jn.getName(), op);
+        // 更新状态
+        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+        uw.eq("processInstanceId", instid);
+        uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
+        uw.set("pstatusdtl", P_STATUS_APPROVALFAILED);
+        SysProcessDataServiceImpl.update(uw);
+        return R.SUCCESS_OPER();
+    }
 
 }

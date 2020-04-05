@@ -10,7 +10,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -151,18 +151,18 @@ public class SysSession extends BaseModel<SysSession> {
     @Override
     public String toString() {
         return "SysSession{" +
-        ", token=" + token +
-        ", lastaccess=" + lastaccess +
-        ", expire=" + expire +
-        ", cookie=" + cookie +
-        ", dtsession=" + dtsession +
-        ", id=" + id +
-        ", userId=" + userId +
-        ", startTime=" + startTime +
-        ", loginTime=" + loginTime +
-        ", ip=" + ip +
-        ", agent=" + agent +
-        ", client=" + client +
-        "}";
+                ", token=" + token +
+                ", lastaccess=" + lastaccess +
+                ", expire=" + expire +
+                ", cookie=" + cookie +
+                ", dtsession=" + dtsession +
+                ", id=" + id +
+                ", userId=" + userId +
+                ", startTime=" + startTime +
+                ", loginTime=" + loginTime +
+                ", ip=" + ip +
+                ", agent=" + agent +
+                ", client=" + client +
+                "}";
     }
 }

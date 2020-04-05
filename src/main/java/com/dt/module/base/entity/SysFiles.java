@@ -10,7 +10,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -111,14 +111,14 @@ public class SysFiles extends BaseModel<SysFiles> {
     @Override
     public String toString() {
         return "SysFiles{" +
-        ", id=" + id +
-        ", path=" + path +
-        ", type=" + type +
-        ", bus=" + bus +
-        ", mark=" + mark +
-        ", filename=" + filename +
-        ", cdate=" + cdate +
-        ", colA=" + colA +
-        "}";
+                ", id=" + id +
+                ", path=" + path +
+                ", type=" + type +
+                ", bus=" + bus +
+                ", mark=" + mark +
+                ", filename=" + filename +
+                ", cdate=" + cdate +
+                ", colA=" + colA +
+                "}";
     }
 }

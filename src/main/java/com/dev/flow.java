@@ -7,14 +7,14 @@ package com.dev;
  */
 public class flow {
 
-	/**
-	 * @Title: main
-	 * @Description: TODO
-	 * @param args
-	 * @return: void
-	 */
-	public static void main(String[] args) {
- 
-	}
+    /**
+     * @param args
+     * @Title: main
+     * @Description: TODO
+     * @return: void
+     */
+    public static void main(String[] args) {
+
+    }
 
 }

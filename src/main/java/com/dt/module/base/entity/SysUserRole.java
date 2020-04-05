@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -60,9 +60,9 @@ public class SysUserRole extends Model<SysUserRole> {
     @Override
     public String toString() {
         return "SysUserRole{" +
-        ", id=" + id +
-        ", userId=" + userId +
-        ", roleId=" + roleId +
-        "}";
+                ", id=" + id +
+                ", userId=" + userId +
+                ", roleId=" + roleId +
+                "}";
     }
 }

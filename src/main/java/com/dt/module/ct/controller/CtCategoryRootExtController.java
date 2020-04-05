@@ -29,27 +29,27 @@ import com.dt.module.ct.service.ICtCategoryRootService;
 @RequestMapping("/api/ctCategoryRoot/Ext")
 public class CtCategoryRootExtController extends BaseController {
 
-	@Autowired
-	ICtCategoryRootService CtCategoryRootServiceImpl;
+    @Autowired
+    ICtCategoryRootService CtCategoryRootServiceImpl;
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList(String ids) {
-		QueryWrapper<CtCategoryRoot> ew = null;
-		Collection<String> cols = new ArrayList<String>();
-		if (ToolUtil.isEmpty(ids)) {
-		} else {
-			JSONArray ids_arr = JSONArray.parseArray(ids);
-			if (ids_arr != null && ids_arr.size() > 0) {
-				for (int i = 0; i < ids_arr.size(); i++) {
-					cols.add(ids_arr.getString(i));
-				}
-				ew = new QueryWrapper<CtCategoryRoot>();
-				ew.in("id", cols);
-			}
-		}
-		return R.SUCCESS_OPER(CtCategoryRootServiceImpl.list(ew));
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList(String ids) {
+        QueryWrapper<CtCategoryRoot> ew = null;
+        Collection<String> cols = new ArrayList<String>();
+        if (ToolUtil.isEmpty(ids)) {
+        } else {
+            JSONArray ids_arr = JSONArray.parseArray(ids);
+            if (ids_arr != null && ids_arr.size() > 0) {
+                for (int i = 0; i < ids_arr.size(); i++) {
+                    cols.add(ids_arr.getString(i));
+                }
+                ew = new QueryWrapper<CtCategoryRoot>();
+                ew.in("id", cols);
+            }
+        }
+        return R.SUCCESS_OPER(CtCategoryRootServiceImpl.list(ew));
+    }
 
 }

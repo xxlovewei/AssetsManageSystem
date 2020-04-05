@@ -20,29 +20,29 @@ import com.dt.module.base.entity.UserShiro;
  */
 public interface ISysUserInfoService extends IService<SysUserInfo> {
 
-	List<SysMenus> listMyMenus(String user_id);
+    List<SysMenus> listMyMenus(String user_id);
 
-	JSONArray listMyMenusById(String user_id, String menu_id);
+    JSONArray listMyMenusById(String user_id, String menu_id);
 
-	R saveDefMenus(String user_id, String id);
+    R saveDefMenus(String user_id, String id);
 
-	R selectByOpenId(String open_id);
+    R selectByOpenId(String open_id);
 
-	R modifyPassword(String user_id, String pwd);
+    R modifyPassword(String user_id, String pwd);
 
-	R addUser(SysUserInfo user);
+    R addUser(SysUserInfo user);
 
-	List<HashMap<String, Object>> listUserRoles(String user_id);
+    List<HashMap<String, Object>> listUserRoles(String user_id);
 
-	UserShiro listUserForShiro(String user_id);
+    UserShiro listUserForShiro(String user_id);
 
-	R queryUserIdByUserName(String user_id);
-	
-	R queryReceivingaddr(String user_id);
-	
-	R deleteReceivingaddr(String user_id,String id);
- 
-	SysUserInfo selectOneByEmpl(String empl);
+    R queryUserIdByUserName(String user_id);
 
-	R changeUserPwdForce(String user_id, String pwd1, String pwd2);
+    R queryReceivingaddr(String user_id);
+
+    R deleteReceivingaddr(String user_id, String id);
+
+    SysUserInfo selectOneByEmpl(String empl);
+
+    R changeUserPwdForce(String user_id, String pwd1, String pwd2);
 }

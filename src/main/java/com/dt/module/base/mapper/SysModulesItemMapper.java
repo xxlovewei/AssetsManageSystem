@@ -5,7 +5,7 @@ import com.dt.module.base.entity.SysModulesItem;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author algernonking

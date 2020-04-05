@@ -14,18 +14,18 @@ import com.dt.module.db.DB;
  * @Description: TODO
  */
 public class BaseSC {
-	@Autowired
-	public DB db = null;
+    @Autowired
+    public DB db = null;
 
-	public String getUserId() {
-		String user_id = (String) HttpKit.getRequest().getSession().getAttribute("user_id");
-		if (ToolUtil.isEmpty(user_id)) {
-			ShiroUser shiroUser = ShiroKit.getUser();
-			if (shiroUser != null) {
-				HttpKit.getRequest().getSession().setAttribute("user_id", shiroUser.getId());
-				return shiroUser.getId();
-			}
-		}
-		return user_id;
-	}
+    public String getUserId() {
+        String user_id = (String) HttpKit.getRequest().getSession().getAttribute("user_id");
+        if (ToolUtil.isEmpty(user_id)) {
+            ShiroUser shiroUser = ShiroKit.getUser();
+            if (shiroUser != null) {
+                HttpKit.getRequest().getSession().setAttribute("user_id", shiroUser.getId());
+                return shiroUser.getId();
+            }
+        }
+        return user_id;
+    }
 }

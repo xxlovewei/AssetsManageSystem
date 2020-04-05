@@ -8,54 +8,53 @@ import java.util.Arrays;
  */
 public final class CachedInvocation {
 
-	private Object key;
-	private final Object targetBean;
-	private final Method targetMethod;
-	private Object[] arguments;
+    private Object key;
+    private final Object targetBean;
+    private final Method targetMethod;
+    private Object[] arguments;
 
-	private CacheableEntity cacheableEntity;
+    private CacheableEntity cacheableEntity;
 
-	/**
-	 * @return the cacheableEntity
-	 */
-	public CacheableEntity getcacheableEntity() {
-		return cacheableEntity;
-	}
+    /**
+     * @return the cacheableEntity
+     */
+    public CacheableEntity getcacheableEntity() {
+        return cacheableEntity;
+    }
 
-	/**
-	 * @param cacheableEntity
-	 *            the cacheableEntity to set
-	 */
-	public void setCacheableEntity(CacheableEntity cacheableEntity) {
-		this.cacheableEntity = cacheableEntity;
-	}
+    /**
+     * @param cacheableEntity the cacheableEntity to set
+     */
+    public void setCacheableEntity(CacheableEntity cacheableEntity) {
+        this.cacheableEntity = cacheableEntity;
+    }
 
-	public CachedInvocation(Object key, Object targetBean, Method targetMethod, Object[] arguments,
-			CacheableEntity cacheableEntity) {
+    public CachedInvocation(Object key, Object targetBean, Method targetMethod, Object[] arguments,
+                            CacheableEntity cacheableEntity) {
 
-		this.cacheableEntity = cacheableEntity;
-		this.key = key;
-		this.targetBean = targetBean;
-		this.targetMethod = targetMethod;
-		if (arguments != null && arguments.length != 0) {
-			this.arguments = Arrays.copyOf(arguments, arguments.length);
-		}
-	}
+        this.cacheableEntity = cacheableEntity;
+        this.key = key;
+        this.targetBean = targetBean;
+        this.targetMethod = targetMethod;
+        if (arguments != null && arguments.length != 0) {
+            this.arguments = Arrays.copyOf(arguments, arguments.length);
+        }
+    }
 
-	public Object[] getArguments() {
-		return arguments;
-	}
+    public Object[] getArguments() {
+        return arguments;
+    }
 
-	public Object getTargetBean() {
-		return targetBean;
-	}
+    public Object getTargetBean() {
+        return targetBean;
+    }
 
-	public Method getTargetMethod() {
-		return targetMethod;
-	}
+    public Method getTargetMethod() {
+        return targetMethod;
+    }
 
-	public Object getKey() {
-		return key;
-	}
+    public Object getKey() {
+        return key;
+    }
 
 }

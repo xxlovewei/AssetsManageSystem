@@ -7,66 +7,63 @@ package com.dt.core.cache;
  */
 public class CacheableEntity {
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
 
-	public String getKey() {
-		return key;
-	}
+    public String getKey() {
+        return key;
+    }
 
-	public void setKey(String key) {
-		this.key = key;
-	}
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-	private String value = "";
-	private String key = "";
+    private String value = "";
+    private String key = "";
 
-	private int expiredtime = -1;
+    private int expiredtime = -1;
 
-	/**
-	 * 
-	 * @return the expiredtime
-	 */
-	public int getExpiredtime() {
-		return expiredtime;
-	}
+    /**
+     * @return the expiredtime
+     */
+    public int getExpiredtime() {
+        return expiredtime;
+    }
 
-	/**
-	 * @param expiredtime
-	 *            the expiredtime to set
-	 */
-	public void setExpiredtime(int expiredtime) {
-		this.expiredtime = expiredtime;
-	}
+    /**
+     * @param expiredtime the expiredtime to set
+     */
+    public void setExpiredtime(int expiredtime) {
+        this.expiredtime = expiredtime;
+    }
 
-	/**
-	 * @return the refreshtime
-	 */
-	public int getRefreshtime() {
-		return refreshtime;
-	}
+    /**
+     * @return the refreshtime
+     */
+    public int getRefreshtime() {
+        return refreshtime;
+    }
 
-	/**
-	 * @param refreshtime
-	 *            the refreshtime to set
-	 */
-	public void setRefreshtime(int refreshtime) {
-		this.refreshtime = refreshtime;
-	}
+    /**
+     * @param refreshtime the refreshtime to set
+     */
+    public void setRefreshtime(int refreshtime) {
+        this.refreshtime = refreshtime;
+    }
 
-	private int refreshtime = -1;
+    private int refreshtime = -1;
 
-	public CacheableEntity(String value_in, String key_in) {
-		value = value_in;
-		key = key_in;
-	}
+    public CacheableEntity(String value_in, String key_in) {
+        value = value_in;
+        key = key_in;
+    }
 
-	public String toString() {
-		return "value:" + value + ",key:" + key + ",refreshtime:" + refreshtime + ",expiredtime:" + expiredtime;
-	}
+    public String toString() {
+        return "value:" + value + ",key:" + key + ",refreshtime:" + refreshtime + ",expiredtime:" + expiredtime;
+    }
 }

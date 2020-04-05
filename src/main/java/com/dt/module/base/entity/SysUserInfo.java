@@ -10,7 +10,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -96,8 +96,8 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
      */
     @TableField("SEX")
     private String sex;
-    
-    
+
+
     /**
      * 头像
      */
@@ -106,7 +106,7 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
     /**
      * 创建时间
      */
- 
+
     @TableField("CREATE_IP")
     private String createIp;
     @TableField("LAST_LOGIN_TIME")
@@ -175,8 +175,8 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
      */
     @TableField("DRIVER_CARD")
     private String driverCard;
-    /** 
     /**
+     * /**
      * 民族
      */
     @TableField("NATION")
@@ -200,7 +200,6 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
      */
     @TableField("SHORTMOBILE")
     private String shortmobile;
-  
 
 
     public String getUserId() {
@@ -370,7 +369,7 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
     public void setSex(String sex) {
         this.sex = sex;
     }
- 
+
     public String getPhoto() {
         return photo;
     }
@@ -378,7 +377,7 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
- 
+
 
     public String getCreateIp() {
         return createIp;
@@ -508,7 +507,6 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
         this.driverCard = driverCard;
     }
 
-  
 
     public String getNation() {
         return nation;
@@ -557,7 +555,7 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
     public void setShortmobile(String shortmobile) {
         this.shortmobile = shortmobile;
     }
- 
+
 
     @Override
     protected Serializable pkVal() {
@@ -567,50 +565,50 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
     @Override
     public String toString() {
         return "SysUserInfo{" +
-        ", userId=" + userId +
-        ", emplId=" + emplId +
-        ", userName=" + userName +
-        ", userType=" + userType +
-        ", nickname=" + nickname +
-        ", name=" + name +
-        ", pwd=" + pwd +
-        ", status=" + status +
-        ", orgId=" + orgId +
-        ", locked=" + locked +
-        ", token=" + token +
-        ", tel=" + tel +
-        ", qq=" + qq +
-        ", mail=" + mail +
-        ", profile=" + profile +
-        ", mark=" + mark +
-        ", homeaddrDef=" + homeaddrDef +
-        ", receaddrDef=" + receaddrDef +
-        ", birth=" + birth +
-        ", weixin=" + weixin +
-        ", sex=" + sex +
-        ", photo=" + photo +
-        ", createIp=" + createIp +
-        ", lastLoginTime=" + lastLoginTime +
-        ", lastLoginIp=" + lastLoginIp +
-        ", systemId=" + systemId +
-        ", openId=" + openId +
-        ", score=" + score +
-        ", shopId=" + shopId +
-        ", avatarurl=" + avatarurl +
-        ", balance=" + balance +
-        ", card=" + card +
-        ", amount=" + amount +
-        ", famount=" + famount +
-        ", tixamount=" + tixamount +
-        ", creditScore=" + creditScore +
-        ", identityCard=" + identityCard +
-        ", driverCard=" + driverCard +
-        ", nation=" + nation +
-        ", nativePlace=" + nativePlace +
-        ", selfEvaluate=" + selfEvaluate +
-        ", aliPayUsername=" + aliPayUsername +
-        ", aliPayAccount=" + aliPayAccount +
-        ", shortmobile=" + shortmobile +
-        "}";
+                ", userId=" + userId +
+                ", emplId=" + emplId +
+                ", userName=" + userName +
+                ", userType=" + userType +
+                ", nickname=" + nickname +
+                ", name=" + name +
+                ", pwd=" + pwd +
+                ", status=" + status +
+                ", orgId=" + orgId +
+                ", locked=" + locked +
+                ", token=" + token +
+                ", tel=" + tel +
+                ", qq=" + qq +
+                ", mail=" + mail +
+                ", profile=" + profile +
+                ", mark=" + mark +
+                ", homeaddrDef=" + homeaddrDef +
+                ", receaddrDef=" + receaddrDef +
+                ", birth=" + birth +
+                ", weixin=" + weixin +
+                ", sex=" + sex +
+                ", photo=" + photo +
+                ", createIp=" + createIp +
+                ", lastLoginTime=" + lastLoginTime +
+                ", lastLoginIp=" + lastLoginIp +
+                ", systemId=" + systemId +
+                ", openId=" + openId +
+                ", score=" + score +
+                ", shopId=" + shopId +
+                ", avatarurl=" + avatarurl +
+                ", balance=" + balance +
+                ", card=" + card +
+                ", amount=" + amount +
+                ", famount=" + famount +
+                ", tixamount=" + tixamount +
+                ", creditScore=" + creditScore +
+                ", identityCard=" + identityCard +
+                ", driverCard=" + driverCard +
+                ", nation=" + nation +
+                ", nativePlace=" + nativePlace +
+                ", selfEvaluate=" + selfEvaluate +
+                ", aliPayUsername=" + aliPayUsername +
+                ", aliPayAccount=" + aliPayAccount +
+                ", shortmobile=" + shortmobile +
+                "}";
     }
 }

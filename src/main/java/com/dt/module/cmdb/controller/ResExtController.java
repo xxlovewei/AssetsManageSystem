@@ -37,286 +37,286 @@ import com.dt.module.cmdb.service.impl.ResExtService;
 @RequestMapping("/api/base")
 public class ResExtController extends BaseController {
 
-	
-	@Autowired
-	ResExtService resExtService;
 
- 
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/batchWork.do")
-	public R batchWork(String sql) {
-		if (ToolUtil.isEmpty(sql)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		db.execute(sql);
-		return R.SUCCESS_OPER();
-	}
+    @Autowired
+    ResExtService resExtService;
 
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/deleteByIds.do")
-	public R deleteByIds(String ids) {
-		if (ToolUtil.isEmpty(ids)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		Date date = new Date(); // 获取一个Date对象
-		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
-		String nowtime = simpleDateFormat.format(date);
-		JSONArray ids_arr = JSONArray.parseArray(ids);
-		if (ids_arr.size() > 10000) {
-			return R.FAILURE("不得超过1000个");
-		}
-		ArrayList<SQL> sqls = new ArrayList<SQL>();
-		for (int i = 0; i < ids_arr.size(); i++) {
-			String id = ids_arr.getString(i);
-			Update me = new Update("res");
-			me.set("dr", "1");
-			me.setIf("update_time", nowtime);
-			me.setIf("update_by", this.getUserId());
-			me.where().and("id=?", id);
-			sqls.add(me);
-		}
-		db.executeSQLList(sqls);
-		return R.SUCCESS_OPER();
-	}
 
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/needreview.do")
-	@Transactional
-	public R needreview(String search) {
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/batchWork.do")
+    public R batchWork(String sql) {
+        if (ToolUtil.isEmpty(sql)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        db.execute(sql);
+        return R.SUCCESS_OPER();
+    }
 
-		// reviewed(已复核),insert(待核(录入)),updated(待核(已更新))
-		String sql = "select ";
-		sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  and changestate<>'reviewed'";
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/deleteByIds.do")
+    public R deleteByIds(String ids) {
+        if (ToolUtil.isEmpty(ids)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        Date date = new Date(); // 获取一个Date对象
+        DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+        String nowtime = simpleDateFormat.format(date);
+        JSONArray ids_arr = JSONArray.parseArray(ids);
+        if (ids_arr.size() > 10000) {
+            return R.FAILURE("不得超过1000个");
+        }
+        ArrayList<SQL> sqls = new ArrayList<SQL>();
+        for (int i = 0; i < ids_arr.size(); i++) {
+            String id = ids_arr.getString(i);
+            Update me = new Update("res");
+            me.set("dr", "1");
+            me.setIf("update_time", nowtime);
+            me.setIf("update_by", this.getUserId());
+            me.where().and("id=?", id);
+            sqls.add(me);
+        }
+        db.executeSQLList(sqls);
+        return R.SUCCESS_OPER();
+    }
 
-		if (ToolUtil.isNotEmpty(search)) {
-			sql = sql + " and  (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
-					+ "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
-					+ "%' )";
-		}
-		return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
-	}
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/needreview.do")
+    @Transactional
+    public R needreview(String search) {
 
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/review.do")
-	@Transactional
-	public R review(String ids) {
-		Date date = new Date(); // 获取一个Date对象
-		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
-		String nowtime = simpleDateFormat.format(date);
-		List<SQL> sqls = new ArrayList<SQL>();
-		JSONArray ids_arr = JSONArray.parseArray(ids);
+        // reviewed(已复核),insert(待核(录入)),updated(待核(已更新))
+        String sql = "select ";
+        sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  and changestate<>'reviewed'";
 
-		for (int i = 0; i < ids_arr.size(); i++) {
-			Update me = new Update("res");
-			me.set("changestate", "reviewed");
-			me.setIf("review_userid", this.getUserId());
-			me.setIf("review_date", nowtime);
-			me.where().and("id=?", ids_arr.getString(i));
-			sqls.add(me);
+        if (ToolUtil.isNotEmpty(search)) {
+            sql = sql + " and  (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
+                    + "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
+                    + "%' )";
+        }
+        return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+    }
 
-			Insert ins = new Insert("res_history");
-			ins.set("oper_type", "复核操作");
-			ins.set("id", db.getUUID());
-			ins.set("res_id", ids_arr.getString(i));
-			ins.set("oper_time", nowtime);
-			ins.set("oper_user", this.getUserId());
-			sqls.add(ins);
-		}
-		db.executeSQLList(sqls);
-		return R.SUCCESS_OPER();
-	}
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/review.do")
+    @Transactional
+    public R review(String ids) {
+        Date date = new Date(); // 获取一个Date对象
+        DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+        String nowtime = simpleDateFormat.format(date);
+        List<SQL> sqls = new ArrayList<SQL>();
+        JSONArray ids_arr = JSONArray.parseArray(ids);
 
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_ALLOW)
-	@RequestMapping(value = "/res/queryDictFast.do")
-	@Transactional
-	public R queryDictFast(String dicts, String parts, String partusers, String subclass, String normalclass) {
+        for (int i = 0; i < ids_arr.size(); i++) {
+            Update me = new Update("res");
+            me.set("changestate", "reviewed");
+            me.setIf("review_userid", this.getUserId());
+            me.setIf("review_date", nowtime);
+            me.where().and("id=?", ids_arr.getString(i));
+            sqls.add(me);
 
-		JSONObject res = new JSONObject();
-		String[] dict_arr = dicts.split(",");
-		for (int i = 0; i < dict_arr.length; i++) {
-			String sql = "select * from sys_dict_item where dict_id=? and dr='0' order by sort";
-			String cls = dict_arr[i];
-			if ("zcother".equals(dict_arr[i].toString())) {
-				sql = "select * from sys_dict_item where dict_id=? and dr='0' and code<>'menu' order by sort";
-				cls = "devclass";
-			}
-			RcdSet rs = db.query(sql, cls);
-			res.put(dict_arr[i], ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
-		}
+            Insert ins = new Insert("res_history");
+            ins.set("oper_type", "复核操作");
+            ins.set("id", db.getUUID());
+            ins.set("res_id", ids_arr.getString(i));
+            ins.set("oper_time", nowtime);
+            ins.set("oper_user", this.getUserId());
+            sqls.add(ins);
+        }
+        db.executeSQLList(sqls);
+        return R.SUCCESS_OPER();
+    }
 
-		if (ToolUtil.isNotEmpty(subclass)) {
-			RcdSet partrs = db.query(
-					"select id dict_item_id,name from ct_category  where dr='0' and parent_id=? order by od", subclass);
-			res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
-		}
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/res/queryDictFast.do")
+    @Transactional
+    public R queryDictFast(String dicts, String parts, String partusers, String subclass, String normalclass) {
 
-		if (ToolUtil.isNotEmpty(normalclass)) {
-			RcdSet partrs = db.query("select id dict_item_id,route_name name , name sname from ct_category t where  "
-					+ ResExtService.normalClassSql + " order by route");
-			res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
-		}
+        JSONObject res = new JSONObject();
+        String[] dict_arr = dicts.split(",");
+        for (int i = 0; i < dict_arr.length; i++) {
+            String sql = "select * from sys_dict_item where dict_id=? and dr='0' order by sort";
+            String cls = dict_arr[i];
+            if ("zcother".equals(dict_arr[i].toString())) {
+                sql = "select * from sys_dict_item where dict_id=? and dr='0' and code<>'menu' order by sort";
+                cls = "devclass";
+            }
+            RcdSet rs = db.query(sql, cls);
+            res.put(dict_arr[i], ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
+        }
 
-		// 所有部门
-		if (ToolUtil.isNotEmpty(parts)) {
-			RcdSet partrs = db
-					.query("select node_id  partid ,route_name name from hrm_org_part where org_id=1 order by route");
-			res.put("parts", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
-		}
+        if (ToolUtil.isNotEmpty(subclass)) {
+            RcdSet partrs = db.query(
+                    "select id dict_item_id,name from ct_category  where dr='0' and parent_id=? order by od", subclass);
+            res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+        }
 
-		// 所有用户
-		if (ToolUtil.isNotEmpty(partusers)) {
-			RcdSet partuserrs = db
-					.query("select  a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n"
-							+ "  a.empl_id=b.empl_id and a.dr='0' and b.dr='0'  and c.node_id=b.node_id");
-			res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
-		}
+        if (ToolUtil.isNotEmpty(normalclass)) {
+            RcdSet partrs = db.query("select id dict_item_id,route_name name , name sname from ct_category t where  "
+                    + ResExtService.normalClassSql + " order by route");
+            res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+        }
 
-		return R.SUCCESS_OPER(res);
-	}
+        // 所有部门
+        if (ToolUtil.isNotEmpty(parts)) {
+            RcdSet partrs = db
+                    .query("select node_id  partid ,route_name name from hrm_org_part where org_id=1 order by route");
+            res.put("parts", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+        }
 
-	@ResponseBody
-	@Acl(info = "批量新增Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/batchUpdateRes.do")
-	@Transactional
-	public R batchUpdateRes() {
-		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		return resExtService.batchUpdateRes(ps);
-	}
+        // 所有用户
+        if (ToolUtil.isNotEmpty(partusers)) {
+            RcdSet partuserrs = db
+                    .query("select  a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n"
+                            + "  a.empl_id=b.empl_id and a.dr='0' and b.dr='0'  and c.node_id=b.node_id");
+            res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
+        }
 
-	@ResponseBody
-	@Acl(info = "新增Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/addResCustom.do")
-	@Transactional
-	public R addResCustom() {
-		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-		return resExtService.addRes(ps);
-	}
+        return R.SUCCESS_OPER(res);
+    }
 
-	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/queryResAllByClass.do")
-	public R queryResAllByClass(String class_id, String wb, String env, String recycle, String loc, String search) {
+    @ResponseBody
+    @Acl(info = "批量新增Res", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/batchUpdateRes.do")
+    @Transactional
+    public R batchUpdateRes() {
+        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+        return resExtService.batchUpdateRes(ps);
+    }
 
-		if (ToolUtil.isEmpty(class_id)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		return resExtService.queryResAllGetData(class_id, wb, env, recycle, loc, search);
-	}
+    @ResponseBody
+    @Acl(info = "新增Res", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/addResCustom.do")
+    @Transactional
+    public R addResCustom() {
+        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+        return resExtService.addRes(ps);
+    }
 
-	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/queryResAll.do")
-	public R queryResAll(String class_id, String wb, String env, String recycle, String loc, String search) {
+    @ResponseBody
+    @Acl(info = "查询Res", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/queryResAllByClass.do")
+    public R queryResAllByClass(String class_id, String wb, String env, String recycle, String loc, String search) {
 
-		return resExtService.queryResAllGetData(class_id, wb, env, recycle, loc, search);
+        if (ToolUtil.isEmpty(class_id)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        return resExtService.queryResAllGetData(class_id, wb, env, recycle, loc, search);
+    }
 
-	}
+    @ResponseBody
+    @Acl(info = "查询Res", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/queryResAll.do")
+    public R queryResAll(String class_id, String wb, String env, String recycle, String loc, String search) {
 
-	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/queryResFaultById.do")
-	public R queryResFaultById(String id) {
+        return resExtService.queryResAllGetData(class_id, wb, env, recycle, loc, search);
 
-		JSONObject res = new JSONObject();
-		Rcd rs = db.uniqueRecord("select * from res_fault where id=?", id);
-		if (rs != null) {
-			res = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
-			// 获取attatch
-			RcdSet rrs = db.query("select * from res_fault_file where faultid=?", id);
-			res.put("attachdata", ConvertUtil.OtherJSONObjectToFastJSONArray(rrs.toJsonArrayWithJsonObject()));
-		}
+    }
 
-		return R.SUCCESS_OPER(res);
-	}
+    @ResponseBody
+    @Acl(info = "查询Res", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/queryResFaultById.do")
+    public R queryResFaultById(String id) {
 
-	@ResponseBody
-	@Acl(info = "查询Res", value = Acl.ACL_USER)
-	@RequestMapping(value = "/res/queryResAllById.do")
-	public R queryResAllById(String id, String classId) {
+        JSONObject res = new JSONObject();
+        Rcd rs = db.uniqueRecord("select * from res_fault where id=?", id);
+        if (rs != null) {
+            res = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
+            // 获取attatch
+            RcdSet rrs = db.query("select * from res_fault_file where faultid=?", id);
+            res.put("attachdata", ConvertUtil.OtherJSONObjectToFastJSONArray(rrs.toJsonArrayWithJsonObject()));
+        }
 
-		JSONObject data = new JSONObject();
+        return R.SUCCESS_OPER(res);
+    }
+
+    @ResponseBody
+    @Acl(info = "查询Res", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/queryResAllById.do")
+    public R queryResAllById(String id, String classId) {
+
+        JSONObject data = new JSONObject();
 //
 //		if (ToolUtil.isEmpty(id)) {
 //			return R.FAILURE_REQ_PARAM_ERROR();
 //		}
 
-		String class_id = "";
-		Rcd rs = db.uniqueRecord("select * from res t where dr=0 and id=?", id);
-		if (rs != null) {
-			class_id = rs.getString("class_id");
-		} else {
-			class_id = classId;
-		}
+        String class_id = "";
+        Rcd rs = db.uniqueRecord("select * from res t where dr=0 and id=?", id);
+        if (rs != null) {
+            class_id = rs.getString("class_id");
+        } else {
+            class_id = classId;
+        }
 
-		// 获取class_id
-		if (ToolUtil.isEmpty(class_id)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
+        // 获取class_id
+        if (ToolUtil.isEmpty(class_id)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
 
-		// 获取属性数据
-		RcdSet attrs = null;
-		String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
-		attrs = db.query(attrsql, class_id);
-		data.put("attr", ConvertUtil.OtherJSONObjectToFastJSONArray(attrs.toJsonArrayWithJsonObject()));
+        // 获取属性数据
+        RcdSet attrs = null;
+        String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
+        attrs = db.query(attrsql, class_id);
+        data.put("attr", ConvertUtil.OtherJSONObjectToFastJSONArray(attrs.toJsonArrayWithJsonObject()));
 
-		// 获取res数据
-		if (ToolUtil.isNotEmpty(id)) {
-			String sql = "select";
-			RcdSet attrs_rs = db.query(attrsql, class_id);
+        // 获取res数据
+        if (ToolUtil.isNotEmpty(id)) {
+            String sql = "select";
+            RcdSet attrs_rs = db.query(attrsql, class_id);
 
-			// 如果包含一对多，则将一对多保存至dataarr
-			JSONArray kvdataarr = new JSONArray();
-			for (int i = 0; i < attrs_rs.size(); i++) {
-				// 拼接sql
-				String valsql = "";
-				if (attrs_rs.getRcd(i).getString("attr_type").equals("number")) {
-					// "to_number(attr_value)";
-					valsql = " cast( attr_value as SIGNED INTEGER)";
-				} else if (attrs_rs.getRcd(i).getString("attr_type").equals("string_arr")) {
-					kvdataarr.add(attrs_rs.getRcd(i).getString("attr_code"));
-					valsql = "attr_value";
-				} else {
-					valsql = "attr_value";
-				}
+            // 如果包含一对多，则将一对多保存至dataarr
+            JSONArray kvdataarr = new JSONArray();
+            for (int i = 0; i < attrs_rs.size(); i++) {
+                // 拼接sql
+                String valsql = "";
+                if (attrs_rs.getRcd(i).getString("attr_type").equals("number")) {
+                    // "to_number(attr_value)";
+                    valsql = " cast( attr_value as SIGNED INTEGER)";
+                } else if (attrs_rs.getRcd(i).getString("attr_type").equals("string_arr")) {
+                    kvdataarr.add(attrs_rs.getRcd(i).getString("attr_code"));
+                    valsql = "attr_value";
+                } else {
+                    valsql = "attr_value";
+                }
 
-				sql = sql + " (select " + valsql
-						+ " from res_attr_value i where i.dr=0 and i.res_id=t.id and i.attr_id='"
-						+ attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
-						+ "\",  ";
-			}
-			sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  and id=?";
+                sql = sql + " (select " + valsql
+                        + " from res_attr_value i where i.dr=0 and i.res_id=t.id and i.attr_id='"
+                        + attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
+                        + "\",  ";
+            }
+            sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  and id=?";
 
-			Rcd rs2 = db.uniqueRecord(sql, id);
-			if (rs2 != null) {
-				data.put("data", ConvertUtil.OtherJSONObjectToFastJSONObject(rs2.toJsonObject()));
-				// 获取kv一对多数据
-				for (int i = 0; i < kvdataarr.size(); i++) {
-					RcdSet trs = db.query("select * from res_attr_value where res_id=? and  attr_value_id=?", id,
-							rs2.getString(kvdataarr.getString(i)));
-					data.put(kvdataarr.getString(i),
-							ConvertUtil.OtherJSONObjectToFastJSONArray(trs.toJsonArrayWithJsonObject()));
-				}
-			}
-		}
-		// 获取更新记录
-		RcdSet urs = db.query(
-				"select a.*,b.name from res_history a ,sys_user_info b where res_id=? and a.oper_user=b.user_id order by oper_time desc limit 100",
-				id);
-		data.put("updatadata", ConvertUtil.OtherJSONObjectToFastJSONArray(urs.toJsonArrayWithJsonObject()));
+            Rcd rs2 = db.uniqueRecord(sql, id);
+            if (rs2 != null) {
+                data.put("data", ConvertUtil.OtherJSONObjectToFastJSONObject(rs2.toJsonObject()));
+                // 获取kv一对多数据
+                for (int i = 0; i < kvdataarr.size(); i++) {
+                    RcdSet trs = db.query("select * from res_attr_value where res_id=? and  attr_value_id=?", id,
+                            rs2.getString(kvdataarr.getString(i)));
+                    data.put(kvdataarr.getString(i),
+                            ConvertUtil.OtherJSONObjectToFastJSONArray(trs.toJsonArrayWithJsonObject()));
+                }
+            }
+        }
+        // 获取更新记录
+        RcdSet urs = db.query(
+                "select a.*,b.name from res_history a ,sys_user_info b where res_id=? and a.oper_user=b.user_id order by oper_time desc limit 100",
+                id);
+        data.put("updatadata", ConvertUtil.OtherJSONObjectToFastJSONArray(urs.toJsonArrayWithJsonObject()));
 
-		// 获取故障登记表
-		RcdSet grs = db.query(
-				"select a.*,b.name, (select count(1) from res_fault_file where a.id=faultid) attach_cnt from res_fault a ,sys_user_info b where a.f_res_id=? and a.f_oper_user=b.user_id order by f_oper_time desc limit 100",
-				id);
-		data.put("faultdata", ConvertUtil.OtherJSONObjectToFastJSONArray(grs.toJsonArrayWithJsonObject()));
+        // 获取故障登记表
+        RcdSet grs = db.query(
+                "select a.*,b.name, (select count(1) from res_fault_file where a.id=faultid) attach_cnt from res_fault a ,sys_user_info b where a.f_res_id=? and a.f_oper_user=b.user_id order by f_oper_time desc limit 100",
+                id);
+        data.put("faultdata", ConvertUtil.OtherJSONObjectToFastJSONArray(grs.toJsonArrayWithJsonObject()));
 
-		return R.SUCCESS_OPER(data);
-	}
+        return R.SUCCESS_OPER(data);
+    }
 
 //	@ResponseBody
 //	@Acl(info = "查询Res", value = Acl.ACL_USER)
@@ -429,7 +429,7 @@ public class ResExtController extends BaseController {
 //		return R.SUCCESS_OPER();
 //	}
 
-	// root,inter,db,app,yw,unknow
+    // root,inter,db,app,yw,unknow
 //	public String autoChosenUserType(String user) {
 //
 //		if (ToolUtil.isEmpty(user)) {

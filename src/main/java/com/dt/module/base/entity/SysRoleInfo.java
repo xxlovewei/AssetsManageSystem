@@ -9,7 +9,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -26,12 +26,11 @@ public class SysRoleInfo extends BaseModel<SysRoleInfo> {
     private String roleName;
     @TableField("ORG_ID")
     private String orgId;
-   
+
     @TableField("IS_ACTION")
     private String isAction;
     @TableField("REMARK")
     private String remark;
-    
 
 
     public String getRoleId() {
@@ -58,7 +57,6 @@ public class SysRoleInfo extends BaseModel<SysRoleInfo> {
         this.orgId = orgId;
     }
 
-   
 
     public String getIsAction() {
         return isAction;
@@ -76,7 +74,7 @@ public class SysRoleInfo extends BaseModel<SysRoleInfo> {
         this.remark = remark;
     }
 
-   
+
     @Override
     protected Serializable pkVal() {
         return this.roleId;
@@ -85,11 +83,11 @@ public class SysRoleInfo extends BaseModel<SysRoleInfo> {
     @Override
     public String toString() {
         return "SysRoleInfo{" +
-        ", roleId=" + roleId +
-        ", roleName=" + roleName +
-        ", orgId=" + orgId +
-        ", isAction=" + isAction +
-        ", remark=" + remark +
-        "}";
+                ", roleId=" + roleId +
+                ", roleName=" + roleName +
+                ", orgId=" + orgId +
+                ", isAction=" + isAction +
+                ", remark=" + remark +
+                "}";
     }
 }

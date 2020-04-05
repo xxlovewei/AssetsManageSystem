@@ -10,15 +10,15 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2019-04-04
  */
- 
+
 @TableName("res_class_attrs")
- 
+
 public class ResClassAttrs extends BaseModel<ResClassAttrs> {
 
     private static final long serialVersionUID = 1L;
@@ -93,12 +93,12 @@ public class ResClassAttrs extends BaseModel<ResClassAttrs> {
     @Override
     public String toString() {
         return "ResClassAttrs{" +
-        "attrId=" + attrId +
-        ", attrName=" + attrName +
-        ", attrType=" + attrType +
-        ", sort=" + sort +
-        ", attrCode=" + attrCode +
-        ", classId=" + classId +
-        "}";
+                "attrId=" + attrId +
+                ", attrName=" + attrName +
+                ", attrType=" + attrType +
+                ", sort=" + sort +
+                ", attrCode=" + attrCode +
+                ", classId=" + classId +
+                "}";
     }
 }

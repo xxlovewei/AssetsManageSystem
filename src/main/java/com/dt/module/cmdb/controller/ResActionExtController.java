@@ -37,14 +37,14 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
 @RequestMapping("/api/cmdb/resActionExt")
 public class ResActionExtController extends BaseController {
 
-	@Autowired
-	IResActionItemService ResActionItemServiceImpl;
+    @Autowired
+    IResActionItemService ResActionItemServiceImpl;
 
-	@Autowired
-	ResExtService resExtService;
+    @Autowired
+    ResExtService resExtService;
 
-	@Autowired
-	ISysUserInfoService SysUserInfoServiceImpl;
+    @Autowired
+    ISysUserInfoService SysUserInfoServiceImpl;
 
 //	@Autowired
 //	private ProcessService processService;
@@ -55,73 +55,72 @@ public class ResActionExtController extends BaseController {
 //	@Autowired
 //	private HistoryService historyService;
 
- 
 
-	@Autowired
-	ISysProcessDataService SysProcessDataServiceImpl;
+    @Autowired
+    ISysProcessDataService SysProcessDataServiceImpl;
 
-	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insert.do")
-	public R insert(SysProcessData entity, String items) {
-		String uuid = resExtService.createUuid(entity.getPtype());
-		//entity.setDuuid(uuid);
-		entity.setPstatusdtl(SysUfloProcessService.P_STATUS_SFA);
-	//	entity.setDf10(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
-		JSONArray items_arr = JSONArray.parseArray(items);
-		List<ResActionItem> entityList = new ArrayList<ResActionItem>();
-		for (int i = 0; i < items_arr.size(); i++) {
-			ResActionItem e = new ResActionItem();
-			e.setActuuid(uuid);
-			e.setResid(items_arr.getJSONObject(i).getString("id"));
-			e.setStatus("out");
-			entityList.add(e);
-		}
-		//entity.setDtotal(ConvertUtil.toBigDecimal(entityList.size()));
-		ResActionItemServiceImpl.saveBatch(entityList);
-		SysProcessDataServiceImpl.save(entity);
-		return R.SUCCESS_OPER();
-	}
+    @ResponseBody
+    @Acl(info = "插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insert.do")
+    public R insert(SysProcessData entity, String items) {
+        String uuid = resExtService.createUuid(entity.getPtype());
+        //entity.setDuuid(uuid);
+        entity.setPstatusdtl(SysUfloProcessService.P_STATUS_SFA);
+        //	entity.setDf10(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
+        JSONArray items_arr = JSONArray.parseArray(items);
+        List<ResActionItem> entityList = new ArrayList<ResActionItem>();
+        for (int i = 0; i < items_arr.size(); i++) {
+            ResActionItem e = new ResActionItem();
+            e.setActuuid(uuid);
+            e.setResid(items_arr.getJSONObject(i).getString("id"));
+            e.setStatus("out");
+            entityList.add(e);
+        }
+        //entity.setDtotal(ConvertUtil.toBigDecimal(entityList.size()));
+        ResActionItemServiceImpl.saveBatch(entityList);
+        SysProcessDataServiceImpl.save(entity);
+        return R.SUCCESS_OPER();
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList(String type, String sdate, String edate) {
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList(String type, String sdate, String edate) {
 
-		QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
-		if (ToolUtil.isNotEmpty(type)) {
-			ew.and(i -> i.eq("ptype", type));
-		}
+        QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
+        if (ToolUtil.isNotEmpty(type)) {
+            ew.and(i -> i.eq("ptype", type));
+        }
 
-		if (ToolUtil.isNotEmpty(sdate)) {
-			ew.ge("create_time", sdate);
-		}
+        if (ToolUtil.isNotEmpty(sdate)) {
+            ew.ge("create_time", sdate);
+        }
 
-		if (ToolUtil.isNotEmpty(edate)) {
-			ew.le("create_time", edate);
-		}
+        if (ToolUtil.isNotEmpty(edate)) {
+            ew.le("create_time", edate);
+        }
 
-		ew.orderByDesc("create_time");
-		return R.SUCCESS_OPER(SysProcessDataServiceImpl.list(ew));
-	}
+        ew.orderByDesc("create_time");
+        return R.SUCCESS_OPER(SysProcessDataServiceImpl.list(ew));
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectById.do")
-	public R selectById(String id) {
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectById.do")
+    public R selectById(String id) {
 
-		SysProcessData r = SysProcessDataServiceImpl.getById(id);
-		//String uuid = r.getDuuid();
-		JSONObject res = JSONObject.parseObject(JSON.toJSONString(r, SerializerFeature.WriteDateUseDateFormat,
-				SerializerFeature.DisableCircularReferenceDetect));
-		String sql = "select " + ResExtService.resSqlbody
-				+ " t.*,a.backtime,a.status actitemstatus from res_action_item a,res t where a.resid=t.id and a.dr='0' and actuuid=?";
-	//	RcdSet rs = db.query(sql, uuid);
-	//	res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
-		return R.SUCCESS_OPER(res);
-	}
+        SysProcessData r = SysProcessDataServiceImpl.getById(id);
+        //String uuid = r.getDuuid();
+        JSONObject res = JSONObject.parseObject(JSON.toJSONString(r, SerializerFeature.WriteDateUseDateFormat,
+                SerializerFeature.DisableCircularReferenceDetect));
+        String sql = "select " + ResExtService.resSqlbody
+                + " t.*,a.backtime,a.status actitemstatus from res_action_item a,res t where a.resid=t.id and a.dr='0' and actuuid=?";
+        //	RcdSet rs = db.query(sql, uuid);
+        //	res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
+        return R.SUCCESS_OPER(res);
+    }
 
-	// 不用许编辑资产，只能编辑备注，原因
+    // 不用许编辑资产，只能编辑备注，原因
 //	@ResponseBody
 //	@Acl(info = "插入", value = Acl.ACL_USER)
 //	@RequestMapping(value = "/save.do")
@@ -135,23 +134,23 @@ public class ResActionExtController extends BaseController {
 //		return R.SUCCESS_OPER();
 //	}
 
-	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/removeById.do")
-	public R removeById(String id) {
-		SysProcessData r = SysProcessDataServiceImpl.getById(id);
+    @ResponseBody
+    @Acl(info = "插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/removeById.do")
+    public R removeById(String id) {
+        SysProcessData r = SysProcessDataServiceImpl.getById(id);
 
-		if (r.getPstatusdtl() == null) {
-			SysProcessDataServiceImpl.removeById(id);
-		} else {
-			if (SysUfloProcessService.P_STATUS_SFA.equals(r.getPstatusdtl())) {
-				SysProcessDataServiceImpl.removeById(id);
-			} else {
-				return R.FAILURE("当前状态不允许删除");
-			}
-		}
+        if (r.getPstatusdtl() == null) {
+            SysProcessDataServiceImpl.removeById(id);
+        } else {
+            if (SysUfloProcessService.P_STATUS_SFA.equals(r.getPstatusdtl())) {
+                SysProcessDataServiceImpl.removeById(id);
+            } else {
+                return R.FAILURE("当前状态不允许删除");
+            }
+        }
 
-		return R.SUCCESS_OPER();
-	}
+        return R.SUCCESS_OPER();
+    }
 
 }

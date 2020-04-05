@@ -24,69 +24,69 @@ import com.dt.module.db.DB;
 
 @Service
 public class ShiroServiceImpl implements IShiro {
-	@Autowired
-	DB db;
-	
-	@Autowired
-	ISysRoleInfoService SysRoleInfoServiceImpl;
-	
-	@Autowired
-	ISysModulesItemService SysModulesItemServiceImpl;
+    @Autowired
+    DB db;
 
-	public static IShiro me() {
-		return SpringContextUtil.getBean(IShiro.class);
-	}
+    @Autowired
+    ISysRoleInfoService SysRoleInfoServiceImpl;
 
-	@Override
-	public UserShiro user(String account) {
-		return new UserShiro();
-	}
+    @Autowired
+    ISysModulesItemService SysModulesItemServiceImpl;
 
-	@Override
-	public ShiroUser shiroUser(UserShiro user) {
-		ShiroUser shiroUser = new ShiroUser();
-		shiroUser.setId(user.getUserId()); // 账号id
-		shiroUser.setAccount(user.getAccount());// 账号
-		shiroUser.setName(user.getName());
-		List<String> roleList = new ArrayList<String>();
-		List<String> roleNameList = new ArrayList<String>();
-		// 角色集合
-		HashMap<String, String> rmap = user.getRolsSet();
-		Iterator<?> iter = rmap.entrySet().iterator();
-		while (iter.hasNext()) {
-			@SuppressWarnings("rawtypes")
-			Map.Entry entry = (Map.Entry) iter.next();
-			Object key = entry.getKey();
-			Object val = entry.getValue();
-			roleList.add((String) key);
-			roleNameList.add((String) val);
-		}
-		shiroUser.setRoleList(roleList);
-		shiroUser.setRoleNames(roleNameList);
-		return shiroUser;
-	}
+    public static IShiro me() {
+        return SpringContextUtil.getBean(IShiro.class);
+    }
 
-	@Override
-	public List<SysModulesItem> findPermissionsByRoleId(String roleId) {
-		QueryWrapper<SysModulesItem> wrapper=new QueryWrapper<SysModulesItem>();
-		return SysModulesItemServiceImpl.list(wrapper);
-	 
-	}
+    @Override
+    public UserShiro user(String account) {
+        return new UserShiro();
+    }
 
-	@Override
-	public String findRoleNameByRoleId(String roleId) {
-		
-		return SysRoleInfoServiceImpl.getById(roleId).getRoleName();
-	}
+    @Override
+    public ShiroUser shiroUser(UserShiro user) {
+        ShiroUser shiroUser = new ShiroUser();
+        shiroUser.setId(user.getUserId()); // 账号id
+        shiroUser.setAccount(user.getAccount());// 账号
+        shiroUser.setName(user.getName());
+        List<String> roleList = new ArrayList<String>();
+        List<String> roleNameList = new ArrayList<String>();
+        // 角色集合
+        HashMap<String, String> rmap = user.getRolsSet();
+        Iterator<?> iter = rmap.entrySet().iterator();
+        while (iter.hasNext()) {
+            @SuppressWarnings("rawtypes")
+            Map.Entry entry = (Map.Entry) iter.next();
+            Object key = entry.getKey();
+            Object val = entry.getValue();
+            roleList.add((String) key);
+            roleNameList.add((String) val);
+        }
+        shiroUser.setRoleList(roleList);
+        shiroUser.setRoleNames(roleNameList);
+        return shiroUser;
+    }
 
-	@Override
-	public SimpleAuthenticationInfo info(ShiroUser shiroUser, UserShiro user, String realmName) {
-		String credentials = user.getPassword();
-		// 密码加盐处理
-		String source = user.getSalt();
-		ByteSource credentialsSalt = new Md5Hash(source);
+    @Override
+    public List<SysModulesItem> findPermissionsByRoleId(String roleId) {
+        QueryWrapper<SysModulesItem> wrapper = new QueryWrapper<SysModulesItem>();
+        return SysModulesItemServiceImpl.list(wrapper);
 
-		// 参数:用户名,数据库中密码,username+sale,realmName
-		return new SimpleAuthenticationInfo(shiroUser, credentials, credentialsSalt, realmName);
-	}
+    }
+
+    @Override
+    public String findRoleNameByRoleId(String roleId) {
+
+        return SysRoleInfoServiceImpl.getById(roleId).getRoleName();
+    }
+
+    @Override
+    public SimpleAuthenticationInfo info(ShiroUser shiroUser, UserShiro user, String realmName) {
+        String credentials = user.getPassword();
+        // 密码加盐处理
+        String source = user.getSalt();
+        ByteSource credentialsSalt = new Md5Hash(source);
+
+        // 参数:用户名,数据库中密码,username+sale,realmName
+        return new SimpleAuthenticationInfo(shiroUser, credentials, credentialsSalt, realmName);
+    }
 }

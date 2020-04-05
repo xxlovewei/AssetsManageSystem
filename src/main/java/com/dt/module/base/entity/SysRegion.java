@@ -6,9 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -89,12 +90,12 @@ public class SysRegion extends BaseModel<SysRegion> {
     @Override
     public String toString() {
         return "SysRegion{" +
-        ", id=" + id +
-        ", code=" + code +
-        ", name=" + name +
-        ", parentid=" + parentid +
-        ", firstLetter=" + firstLetter +
-        ", lev=" + lev +
-        "}";
+                ", id=" + id +
+                ", code=" + code +
+                ", name=" + name +
+                ", parentid=" + parentid +
+                ", firstLetter=" + firstLetter +
+                ", lev=" + lev +
+                "}";
     }
 }

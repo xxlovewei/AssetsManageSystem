@@ -17,13 +17,13 @@ import com.dt.module.db.DB;
  * @Description: TODO
  */
 public class BackupModuleJob implements Job {
-	@Override
-	public void execute(JobExecutionContext jc) throws JobExecutionException {
+    @Override
+    public void execute(JobExecutionContext jc) throws JobExecutionException {
 
-		String sql = "insert into sys_modules_item_history select t.*,"
-				+ DbUtil.getDbDateString(DB.instance().getDBType()) + ",'" + MD5Util.encrypt(new Date().getTime() + "")
-				+ "' from sys_modules_item t";
-		DB.instance().execute(sql);
-		JobService.me().finishedJobUpdate(jc);
-	}
+        String sql = "insert into sys_modules_item_history select t.*,"
+                + DbUtil.getDbDateString(DB.instance().getDBType()) + ",'" + MD5Util.encrypt(new Date().getTime() + "")
+                + "' from sys_modules_item t";
+        DB.instance().execute(sql);
+        JobService.me().finishedJobUpdate(jc);
+    }
 }

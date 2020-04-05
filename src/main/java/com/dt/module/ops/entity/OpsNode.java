@@ -9,15 +9,15 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-03-14
  */
- 
+
 @TableName("ops_node")
- 
+
 public class OpsNode extends BaseModel<OpsNode> {
 
     private static final long serialVersionUID = 1L;
@@ -402,43 +402,43 @@ public class OpsNode extends BaseModel<OpsNode> {
     @Override
     public String toString() {
         return "OpsNode{" +
-        "id=" + id +
-        ", name=" + name +
-        ", runenv=" + runenv +
-        ", syslevel=" + syslevel +
-        ", leader=" + leader +
-        ", busitype=" + busitype +
-        ", loc=" + loc +
-        ", ip=" + ip +
-        ", os=" + os +
-        ", osdtl=" + osdtl +
-        ", nodebackup=" + nodebackup +
-        ", middleware=" + middleware +
-        ", middlewarestr=" + middlewarestr +
-        ", db=" + db +
-        ", dbdtl=" + dbdtl +
-        ", execenv=" + execenv +
-        ", monitor=" + monitor +
-        ", pwdstrategy=" + pwdstrategy +
-        ", pwdmark=" + pwdmark +
-        ", mark=" + mark +
-        ", importlabel=" + importlabel +
-        ", label1=" + label1 +
-        ", label2=" + label2 +
-        ", label3=" + label3 +
-        ", label4=" + label4 +
-        ", label5=" + label5 +
-        ", label6=" + label6 +
-        ", status=" + status +
-        ", userdb=" + userdb +
-        ", userapp=" + userapp +
-        ", userother=" + userother +
-        ", useradmin=" + useradmin +
-        ", usernologin=" + usernologin +
-        ", userops=" + userops +
-        ", usermid=" + usermid +
-        ", userdbused=" + userdbused +
-        ", nodebackupdtl=" + nodebackupdtl +
-        "}";
+                "id=" + id +
+                ", name=" + name +
+                ", runenv=" + runenv +
+                ", syslevel=" + syslevel +
+                ", leader=" + leader +
+                ", busitype=" + busitype +
+                ", loc=" + loc +
+                ", ip=" + ip +
+                ", os=" + os +
+                ", osdtl=" + osdtl +
+                ", nodebackup=" + nodebackup +
+                ", middleware=" + middleware +
+                ", middlewarestr=" + middlewarestr +
+                ", db=" + db +
+                ", dbdtl=" + dbdtl +
+                ", execenv=" + execenv +
+                ", monitor=" + monitor +
+                ", pwdstrategy=" + pwdstrategy +
+                ", pwdmark=" + pwdmark +
+                ", mark=" + mark +
+                ", importlabel=" + importlabel +
+                ", label1=" + label1 +
+                ", label2=" + label2 +
+                ", label3=" + label3 +
+                ", label4=" + label4 +
+                ", label5=" + label5 +
+                ", label6=" + label6 +
+                ", status=" + status +
+                ", userdb=" + userdb +
+                ", userapp=" + userapp +
+                ", userother=" + userother +
+                ", useradmin=" + useradmin +
+                ", usernologin=" + usernologin +
+                ", userops=" + userops +
+                ", usermid=" + usermid +
+                ", userdbused=" + userdbused +
+                ", nodebackupdtl=" + nodebackupdtl +
+                "}";
     }
 }

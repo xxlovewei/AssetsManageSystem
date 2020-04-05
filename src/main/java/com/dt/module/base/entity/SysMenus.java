@@ -9,7 +9,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -118,13 +118,13 @@ public class SysMenus extends BaseModel<SysMenus> {
     @Override
     public String toString() {
         return "SysMenus{" +
-        ", menuId=" + menuId +
-        ", name=" + name +
-        ", mark=" + mark +
-        ", sort=" + sort +
-        ", orgId=" + orgId +
-        ", type=" + type +
-        ", used=" + used +
-        "}";
+                ", menuId=" + menuId +
+                ", name=" + name +
+                ", mark=" + mark +
+                ", sort=" + sort +
+                ", orgId=" + orgId +
+                ", type=" + type +
+                ", used=" + used +
+                "}";
     }
 }

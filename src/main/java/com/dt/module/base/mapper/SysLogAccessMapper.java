@@ -5,12 +5,12 @@ import com.dt.module.base.entity.SysLogAccess;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author algernonking
  * @since 2018-07-23
  */
 public interface SysLogAccessMapper extends BaseMapper<SysLogAccess> {
-	
+
 }

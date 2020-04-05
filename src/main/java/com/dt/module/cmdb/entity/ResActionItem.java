@@ -10,15 +10,15 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2019-12-01
  */
- 
+
 @TableName("res_action_item")
- 
+
 public class ResActionItem extends BaseModel<ResActionItem> {
 
     private static final long serialVersionUID = 1L;
@@ -83,11 +83,11 @@ public class ResActionItem extends BaseModel<ResActionItem> {
     @Override
     public String toString() {
         return "ResActionItem{" +
-        "id=" + id +
-        ", actuuid=" + actuuid +
-        ", status=" + status +
-        ", backtime=" + backtime +
-        ", resid=" + resid +
-        "}";
+                "id=" + id +
+                ", actuuid=" + actuuid +
+                ", status=" + status +
+                ", backtime=" + backtime +
+                ", resid=" + resid +
+                "}";
     }
 }

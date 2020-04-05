@@ -19,44 +19,44 @@ import com.dt.module.base.service.impl.CacheService;
 @Controller
 @RequestMapping("/api/sysApi")
 public class CacheController {
-	@Autowired
-	CacheService cacheService;
+    @Autowired
+    CacheService cacheService;
 
-	@Autowired
-	private CacheSupportImpl cacheSupportImpl;
+    @Autowired
+    private CacheSupportImpl cacheSupportImpl;
 
-	@RequestMapping(value = "/system/queryCacheName.do")
-	@ResponseBody
-	@Acl(info = "查询CacheName", value = Acl.ACL_DENY)
-	public R queryCustomizedEhCacheCacheManagerCaches() {
-		return cacheService.queryCacheCacheManagerCaches();
-	}
+    @RequestMapping(value = "/system/queryCacheName.do")
+    @ResponseBody
+    @Acl(info = "查询CacheName", value = Acl.ACL_DENY)
+    public R queryCustomizedEhCacheCacheManagerCaches() {
+        return cacheService.queryCacheCacheManagerCaches();
+    }
 
-	@RequestMapping(value = "/system/queryCacheKeys.do")
-	@ResponseBody
-	@Acl(info = "查询CacheName", value = Acl.ACL_DENY)
-	public R queryCacheKeys(String cache) {
-		return cacheService.queryCustomizedEhCacheCacheManagerCacheKeys(cache);
-	}
+    @RequestMapping(value = "/system/queryCacheKeys.do")
+    @ResponseBody
+    @Acl(info = "查询CacheName", value = Acl.ACL_DENY)
+    public R queryCacheKeys(String cache) {
+        return cacheService.queryCustomizedEhCacheCacheManagerCacheKeys(cache);
+    }
 
-	@RequestMapping(value = "/system/removeCacheKey.do")
-	@ResponseBody
-	@Acl(info = "删除CacheKey", value = Acl.ACL_DENY)
-	public R removeCacheKey(String cache, String key) {
-		return cacheService.removeCacheKey(cache, key);
-	}
+    @RequestMapping(value = "/system/removeCacheKey.do")
+    @ResponseBody
+    @Acl(info = "删除CacheKey", value = Acl.ACL_DENY)
+    public R removeCacheKey(String cache, String key) {
+        return cacheService.removeCacheKey(cache, key);
+    }
 
-	@RequestMapping(value = "/system/refreshCache.do")
-	@ResponseBody
-	@Acl(info = "删除CacheKey", value = Acl.ACL_DENY)
-	public R refreshCache(String key, String cache) {
-		ThreadTaskHelper.run(new Runnable() {
-			@Override
-			public void run() {
-				cacheSupportImpl.refreshCacheByKey(cache, key);
-			}
-		});
-		return R.SUCCESS_OPER();
-	}
+    @RequestMapping(value = "/system/refreshCache.do")
+    @ResponseBody
+    @Acl(info = "删除CacheKey", value = Acl.ACL_DENY)
+    public R refreshCache(String key, String cache) {
+        ThreadTaskHelper.run(new Runnable() {
+            @Override
+            public void run() {
+                cacheSupportImpl.refreshCacheByKey(cache, key);
+            }
+        });
+        return R.SUCCESS_OPER();
+    }
 
 }

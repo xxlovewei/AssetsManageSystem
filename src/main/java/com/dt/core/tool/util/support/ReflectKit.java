@@ -1,8 +1,6 @@
 package com.dt.core.tool.util.support;
 
 
- 
-
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -16,7 +14,6 @@ import java.util.Map;
 
 import com.dt.core.tool.util.exception.ToolBoxException;
 
- 
 
 //import com.jfinal.ext.kit.ToolBoxException;
 
@@ -26,7 +23,7 @@ import com.dt.core.tool.util.exception.ToolBoxException;
  * An example of using <code>Reflect</code> is <code><pre>
  * // Static import all reflection methods to decrease verbosity
  * import static org.joor.Reflect.*;
- * 
+ *
  * // Wrap an Object / Class / class name with the on() method:
  * on("java.lang.String")
  * // Invoke constructors using the create() method:
@@ -34,7 +31,7 @@ import com.dt.core.tool.util.exception.ToolBoxException;
  * // Invoke methods using the call() method:
  * .call("toString")
  * // Retrieve the wrapped object
- * 
+ *
  * @author Lukas Eder
  */
 public class ReflectKit {
@@ -47,12 +44,10 @@ public class ReflectKit {
      * Wrap a class name.
      * <p>
      * This is the same as calling <code>on(Class.forName(name))</code>
-     * 
-     * @param name
-     *            A fully qualified class name
+     *
+     * @param name A fully qualified class name
      * @return A wrapped class object, to be used for further reflection.
-     * @throws ToolBoxException
-     *             If any reflection exception occurred.
+     * @throws ToolBoxException If any reflection exception occurred.
      * @see #on(Class)
      */
     public static ReflectKit on(String name) throws ToolBoxException {
@@ -64,9 +59,8 @@ public class ReflectKit {
      * <p>
      * Use this when you want to access static fields and methods on a {@link Class} object, or as a basis for
      * constructing objects of that class using {@link #create(Object...)}
-     * 
-     * @param clazz
-     *            The class to be wrapped
+     *
+     * @param clazz The class to be wrapped
      * @return A wrapped class object, to be used for further reflection.
      */
     public static ReflectKit on(Class<?> clazz) {
@@ -77,9 +71,8 @@ public class ReflectKit {
      * Wrap an object.
      * <p>
      * Use this when you want to access instance fields and methods on any {@link Object}
-     * 
-     * @param object
-     *            The object to be wrapped
+     *
+     * @param object The object to be wrapped
      * @return A wrapped object, to be used for further reflection.
      */
     public static ReflectKit on(Object object) {
@@ -88,9 +81,8 @@ public class ReflectKit {
 
     /**
      * Conveniently render an {@link AccessibleObject} accessible
-     * 
-     * @param accessible
-     *            The object to render accessible
+     *
+     * @param accessible The object to render accessible
      * @return The argument object rendered accessible
      */
     public static <T extends AccessibleObject> T accessible(T accessible) {
@@ -140,9 +132,8 @@ public class ReflectKit {
 
     /**
      * Get the wrapped object
-     * 
-     * @param <T>
-     *            A convenience generic parameter for automatic unsafe casting
+     *
+     * @param <T> A convenience generic parameter for automatic unsafe casting
      */
     @SuppressWarnings("unchecked")
     public <T> T get() {
@@ -155,14 +146,11 @@ public class ReflectKit {
      * This is roughly equivalent to {@link Field#set(Object, Object)}. If the wrapped object is a {@link Class}, then
      * this will set a value to a static member field. If the wrapped object is any other {@link Object}, then this will
      * set a value to an instance member field.
-     * 
-     * @param name
-     *            The field name
-     * @param value
-     *            The new field value
+     *
+     * @param name  The field name
+     * @param value The new field value
      * @return The same wrapped object, to be used for further reflection.
-     * @throws ToolBoxException
-     *             If any reflection exception occurred.
+     * @throws ToolBoxException If any reflection exception occurred.
      */
     public ReflectKit set(String name, Object value) throws ToolBoxException {
         try {
@@ -191,27 +179,24 @@ public class ReflectKit {
      * value from an instance member field.
      * <p>
      * If you want to "navigate" to a wrapped version of the field, use {@link #field(String)} instead.
-     * 
-     * @param name
-     *            The field name
+     *
+     * @param name The field name
      * @return The field value
-     * @throws ToolBoxException
-     *             If any reflection exception occurred.
+     * @throws ToolBoxException If any reflection exception occurred.
      * @see #field(String)
      */
     public <T> T get(String name) throws ToolBoxException {
-        return field(name).<T> get();
+        return field(name).<T>get();
     }
 
     /**
-     * 
      * TODO:(简单描述方法作用). <br/>
-     * 
-     * @author kid create 2013-8-29
+     *
      * @param clazz
      * @param name
      * @return
      * @throws NoSuchFieldException
+     * @author kid create 2013-8-29
      */
     public Field getDeclaredField(Class<?> clazz, String name) throws NoSuchFieldException {
         Field field = null;
@@ -236,12 +221,10 @@ public class ReflectKit {
      * This is roughly equivalent to {@link Field#get(Object)}. If the wrapped object is a {@link Class}, then this will
      * wrap a static member field. If the wrapped object is any other {@link Object}, then this wrap an instance member
      * field.
-     * 
-     * @param name
-     *            The field name
+     *
+     * @param name The field name
      * @return The wrapped field
-     * @throws ToolBoxException
-     *             If any reflection exception occurred.
+     * @throws ToolBoxException If any reflection exception occurred.
      */
     public ReflectKit field(String name) throws ToolBoxException {
         try {
@@ -270,7 +253,7 @@ public class ReflectKit {
      * on(object).field("myField");
      * on(object).fields().get("myField");
      * </pre></code>
-     * 
+     *
      * @return A map containing field names and wrapped values.
      */
     public Map<String, ReflectKit> fields() {
@@ -290,13 +273,11 @@ public class ReflectKit {
      * Call a method by its name.
      * <p>
      * This is a convenience method for calling <code>call(name, new Object[0])</code>
-     * 
-     * @param name
-     *            The method name
+     *
+     * @param name The method name
      * @return The wrapped method result or the same wrapped object if the method returns <code>void</code>, to be used
-     *         for further reflection.
-     * @throws ToolBoxException
-     *             If any reflection exception occurred.
+     * for further reflection.
+     * @throws ToolBoxException If any reflection exception occurred.
      * @see #call(String, Object...)
      */
     public ReflectKit call(String name) throws ToolBoxException {
@@ -329,15 +310,12 @@ public class ReflectKit {
      * <li>public method with similar signature in class hierarchy</li>
      * <li>non-public method with similar signature on declaring class</li>
      * </ol>
-     * 
-     * @param name
-     *            The method name
-     * @param args
-     *            The method arguments
+     *
+     * @param name The method name
+     * @param args The method arguments
      * @return The wrapped method result or the same wrapped object if the method returns <code>void</code>, to be used
-     *         for further reflection.
-     * @throws ToolBoxException
-     *             If any reflection exception occurred.
+     * for further reflection.
+     * @throws ToolBoxException If any reflection exception occurred.
      */
     public ReflectKit call(String name, Object... args) throws ToolBoxException {
         Class<?>[] types = types(args);
@@ -416,7 +394,7 @@ public class ReflectKit {
      * an exactly matching signature.
      */
     private boolean isSimilarSignature(Method possiblyMatchingMethod, String desiredMethodName,
-            Class<?>[] desiredParamTypes) {
+                                       Class<?>[] desiredParamTypes) {
         return possiblyMatchingMethod.getName().equals(desiredMethodName)
                 && match(possiblyMatchingMethod.getParameterTypes(), desiredParamTypes);
     }
@@ -425,10 +403,9 @@ public class ReflectKit {
      * Call a constructor.
      * <p>
      * This is a convenience method for calling <code>create(new Object[0])</code>
-     * 
+     *
      * @return The wrapped new object, to be used for further reflection.
-     * @throws ToolBoxException
-     *             If any reflection exception occurred.
+     * @throws ToolBoxException If any reflection exception occurred.
      * @see #create(Object...)
      */
     public ReflectKit create() throws ToolBoxException {
@@ -453,12 +430,10 @@ public class ReflectKit {
      * public C(Number param1, Object param2);
      * public C(int param1, Object param2);
      * </pre></code>
-     * 
-     * @param args
-     *            The constructor arguments
+     *
+     * @param args The constructor arguments
      * @return The wrapped new object, to be used for further reflection.
-     * @throws ToolBoxException
-     *             If any reflection exception occurred.
+     * @throws ToolBoxException If any reflection exception occurred.
      */
     public ReflectKit create(Object... args) throws ToolBoxException {
         Class<?>[] types = types(args);
@@ -485,16 +460,15 @@ public class ReflectKit {
 
     /**
      * Create a proxy for the wrapped object allowing to typesafely invoke methods on it using a custom interface
-     * 
-     * @param proxyType
-     *            The interface type that is implemented by the proxy
+     *
+     * @param proxyType The interface type that is implemented by the proxy
      * @return A proxy for the wrapped object
      */
     @SuppressWarnings("unchecked")
     public <P> P as(Class<P> proxyType) {
         final boolean isMap = (object instanceof Map);
         final InvocationHandler handler = new InvocationHandler() {
-          
+
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 String name = method.getName();
@@ -525,7 +499,7 @@ public class ReflectKit {
             }
         };
 
-        return (P) Proxy.newProxyInstance(proxyType.getClassLoader(), new Class[] { proxyType }, handler);
+        return (P) Proxy.newProxyInstance(proxyType.getClassLoader(), new Class[]{proxyType}, handler);
     }
 
     /**
@@ -638,7 +612,7 @@ public class ReflectKit {
 
     /**
      * Get an array of types for an array of objects
-     * 
+     *
      * @see Object#getClass()
      */
     private static Class<?>[] types(Object... values) {
@@ -658,7 +632,7 @@ public class ReflectKit {
 
     /**
      * Load a class
-     * 
+     *
      * @see Class#forName(String)
      */
     private static Class<?> forName(String name) throws ToolBoxException {
@@ -671,7 +645,7 @@ public class ReflectKit {
 
     /**
      * Get the type of the wrapped object.
-     * 
+     *
      * @see Object#getClass()
      */
     public Class<?> type() {

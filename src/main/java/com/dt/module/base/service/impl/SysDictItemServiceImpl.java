@@ -11,7 +11,7 @@ import com.dt.module.base.service.ISysDictItemService;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author algernonking
@@ -20,17 +20,17 @@ import com.dt.module.base.service.ISysDictItemService;
 @Service
 public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDictItem> implements ISysDictItemService {
 
-	/* (non Javadoc) 
-	 * @Title: selectDictItemByDict
-	 * @Description: TODO
-	 * @param dictId
-	 * @return 
-	 * @see com.dt.module.base.service.ISysDictItemService#selectDictItemByDict(java.lang.String) 
-	 */
-	@Override
-	public List<SysDictItem> selectDictItemByDict(String dictId) {
-		// TODO Auto-generated method stub
-		return this.baseMapper.selectDictItemByDict(dictId);
-	}
+    /* (non Javadoc)
+     * @Title: selectDictItemByDict
+     * @Description: TODO
+     * @param dictId
+     * @return
+     * @see com.dt.module.base.service.ISysDictItemService#selectDictItemByDict(java.lang.String)
+     */
+    @Override
+    public List<SysDictItem> selectDictItemByDict(String dictId) {
+        // TODO Auto-generated method stub
+        return this.baseMapper.selectDictItemByDict(dictId);
+    }
 
 }

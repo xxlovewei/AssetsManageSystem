@@ -14,13 +14,13 @@ import com.dt.module.base.service.impl.CacheService;
  * @Description: TODO
  */
 public class CacheRefreshJob implements Job {
-	private static Logger _log = LoggerFactory.getLogger(CacheRefreshJob.class);
+    private static Logger _log = LoggerFactory.getLogger(CacheRefreshJob.class);
 
-	@Override
-	public void execute(JobExecutionContext jc) throws JobExecutionException {
-		_log.info("session clear start.");
-		CacheService.me().refreshCaches();
-		_log.info("session clear end.");
-	}
+    @Override
+    public void execute(JobExecutionContext jc) throws JobExecutionException {
+        _log.info("session clear start.");
+        CacheService.me().refreshCaches();
+        _log.info("session clear end.");
+    }
 
 }

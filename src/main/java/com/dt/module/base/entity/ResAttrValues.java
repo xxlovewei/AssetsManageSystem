@@ -9,15 +9,15 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2019-04-10
  */
- 
+
 @TableName("res_attr_values")
- 
+
 public class ResAttrValues extends BaseModel<ResAttrValues> {
 
     private static final long serialVersionUID = 1L;
@@ -142,17 +142,17 @@ public class ResAttrValues extends BaseModel<ResAttrValues> {
     @Override
     public String toString() {
         return "ResAttrValues{" +
-        "id=" + id +
-        ", attrValue=" + attrValue +
-        ", attrValueId=" + attrValueId +
-        ", name=" + name +
-        ", mark=" + mark +
-        ", resId=" + resId +
-        ", attrId=" + attrId +
-        ", status=" + status +
-        ", type=" + type +
-        ", pwd=" + pwd +
-        ", contact=" + contact +
-        "}";
+                "id=" + id +
+                ", attrValue=" + attrValue +
+                ", attrValueId=" + attrValueId +
+                ", name=" + name +
+                ", mark=" + mark +
+                ", resId=" + resId +
+                ", attrId=" + attrId +
+                ", status=" + status +
+                ", type=" + type +
+                ", pwd=" + pwd +
+                ", contact=" + contact +
+                "}";
     }
 }

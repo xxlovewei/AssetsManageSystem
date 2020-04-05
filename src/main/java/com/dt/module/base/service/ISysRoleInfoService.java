@@ -5,12 +5,12 @@ import com.dt.module.base.entity.SysRoleInfo;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author algernonking
  * @since 2018-07-24
  */
 public interface ISysRoleInfoService extends IService<SysRoleInfo> {
-	Integer isUsed(String id);
+    Integer isUsed(String id);
 }

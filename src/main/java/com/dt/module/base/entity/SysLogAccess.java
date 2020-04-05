@@ -10,7 +10,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -41,27 +41,27 @@ public class SysLogAccess extends BaseModel<SysLogAccess> {
     private String methodType;
     @TableField("INFO")
     private String info;
- 
 
-    @TableField(exist=false)
+
+    @TableField(exist = false)
     private String userName;
-    
-    
+
+
     /**
-	 * @return the userName
-	 */
-	public String getUserName() {
-		return userName;
-	}
+     * @return the userName
+     */
+    public String getUserName() {
+        return userName;
+    }
 
-	/**
-	 * @param userName the userName to set
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    /**
+     * @param userName the userName to set
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public String getId() {
+    public String getId() {
         return id;
     }
 
@@ -141,7 +141,6 @@ public class SysLogAccess extends BaseModel<SysLogAccess> {
         this.info = info;
     }
 
-    
 
     @Override
     protected Serializable pkVal() {
@@ -151,16 +150,16 @@ public class SysLogAccess extends BaseModel<SysLogAccess> {
     @Override
     public String toString() {
         return "SysLogAccess{" +
-        ", id=" + id +
-        ", userId=" + userId +
-        ", ip=" + ip +
-        ", rtime=" + rtime +
-        ", type=" + type +
-        ", url=" + url +
-        ", postorget=" + postorget +
-        ", remark=" + remark +
-        ", methodType=" + methodType +
-        ", info=" + info +
-        "}";
+                ", id=" + id +
+                ", userId=" + userId +
+                ", ip=" + ip +
+                ", rtime=" + rtime +
+                ", type=" + type +
+                ", url=" + url +
+                ", postorget=" + postorget +
+                ", remark=" + remark +
+                ", methodType=" + methodType +
+                ", info=" + info +
+                "}";
     }
 }

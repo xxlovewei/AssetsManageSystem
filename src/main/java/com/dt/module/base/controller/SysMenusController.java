@@ -15,7 +15,7 @@ import com.dt.module.base.service.ISysMenusService;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -26,54 +26,53 @@ import com.dt.module.base.service.ISysMenusService;
 public class SysMenusController extends BaseController {
 
 
-	@Autowired
-	ISysMenusService SysMenusServiceImpl;
+    @Autowired
+    ISysMenusService SysMenusServiceImpl;
 
 
-	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		 
-		return R.SUCCESS_OPER(SysMenusServiceImpl.removeById(id));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id删除", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/deleteById.do")
+    public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
 
-	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/selectById.do")
-	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysMenusServiceImpl.getById(id));
-	}
+        return R.SUCCESS_OPER(SysMenusServiceImpl.removeById(id));
+    }
 
-	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/insert.do")
-	public R insert(SysMenus entity) {
-		return R.SUCCESS_OPER(SysMenusServiceImpl.save(entity));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id查询", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/selectById.do")
+    public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+        return R.SUCCESS_OPER(SysMenusServiceImpl.getById(id));
+    }
 
-	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/updateById.do")
-	public R updateById(SysMenus entity) {
-		return R.SUCCESS_OPER(SysMenusServiceImpl.updateById(entity));
-	}
+    @ResponseBody
+    @Acl(info = "插入", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/insert.do")
+    public R insert(SysMenus entity) {
+        return R.SUCCESS_OPER(SysMenusServiceImpl.save(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(SysMenus entity) {
-		return R.SUCCESS_OPER(SysMenusServiceImpl.saveOrUpdate(entity));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id更新", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/updateById.do")
+    public R updateById(SysMenus entity) {
+        return R.SUCCESS_OPER(SysMenusServiceImpl.updateById(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList() {
-		return R.SUCCESS_OPER(SysMenusServiceImpl.list(null));
-	}
+    @ResponseBody
+    @Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/insertOrUpdate.do")
+    public R insertOrUpdate(SysMenus entity) {
+        return R.SUCCESS_OPER(SysMenusServiceImpl.saveOrUpdate(entity));
+    }
 
- 
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList() {
+        return R.SUCCESS_OPER(SysMenusServiceImpl.list(null));
+    }
+
 
 }
 

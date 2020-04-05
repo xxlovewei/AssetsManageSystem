@@ -40,55 +40,55 @@ import com.dt.module.db.DB;
 @Service
 public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> implements ISysApiService {
 
-	private static Logger _log = LoggerFactory.getLogger(SysApiServiceImpl.class);
+    private static Logger _log = LoggerFactory.getLogger(SysApiServiceImpl.class);
 
-	public static SysApiServiceImpl me() {
-		return SpringContextUtil.getBean(SysApiServiceImpl.class);
-	}
+    public static SysApiServiceImpl me() {
+        return SpringContextUtil.getBean(SysApiServiceImpl.class);
+    }
 
-	@Autowired
-	DB db;
+    @Autowired
+    DB db;
 
-	public R updateApi() {
-		List<SQL> sqls = new ArrayList<SQL>();
-		WebApplicationContext wc = (WebApplicationContext) SpringContextUtil.getApplicationContext();
-		RequestMappingHandlerMapping bean = wc.getBean(RequestMappingHandlerMapping.class);
-		Map<RequestMappingInfo, HandlerMethod> handlerMethods = bean.getHandlerMethods();
-		for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
-			RequestMappingInfo rmi = entry.getKey();
-			PatternsRequestCondition pc = rmi.getPatternsCondition();
-			Set<String> pSet = pc.getPatterns();
-			HandlerMethod hm = entry.getValue();
-			Acl am = ((HandlerMethod) hm).getMethodAnnotation(Acl.class);
-			if (ToolUtil.isNotEmpty(am)) {
-				String aclvalue = am.value();
-				String aclinfo = am.info();
-				String type = am.type();
-				Iterator<String> it = pSet.iterator();
-				while (it.hasNext()) {
-					String str = it.next();
-					Insert me = new Insert("sys_api");
-					me.set("id", db.getUUID());
-					me.setIf("ct", str);
-					me.setIf("ctacl", aclvalue);
-					me.setIf("apitype", "url");
-					me.setIf("info", aclinfo);
-					me.setIf("type", type);
-					me.setSE("rectime", DbUtil.getDbDateString(db.getDBType()));
-					// _log.info(str + "," + aclvalue + "," + me.getSQL());
-					sqls.add(me);
-				}
-			}
+    public R updateApi() {
+        List<SQL> sqls = new ArrayList<SQL>();
+        WebApplicationContext wc = (WebApplicationContext) SpringContextUtil.getApplicationContext();
+        RequestMappingHandlerMapping bean = wc.getBean(RequestMappingHandlerMapping.class);
+        Map<RequestMappingInfo, HandlerMethod> handlerMethods = bean.getHandlerMethods();
+        for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
+            RequestMappingInfo rmi = entry.getKey();
+            PatternsRequestCondition pc = rmi.getPatternsCondition();
+            Set<String> pSet = pc.getPatterns();
+            HandlerMethod hm = entry.getValue();
+            Acl am = ((HandlerMethod) hm).getMethodAnnotation(Acl.class);
+            if (ToolUtil.isNotEmpty(am)) {
+                String aclvalue = am.value();
+                String aclinfo = am.info();
+                String type = am.type();
+                Iterator<String> it = pSet.iterator();
+                while (it.hasNext()) {
+                    String str = it.next();
+                    Insert me = new Insert("sys_api");
+                    me.set("id", db.getUUID());
+                    me.setIf("ct", str);
+                    me.setIf("ctacl", aclvalue);
+                    me.setIf("apitype", "url");
+                    me.setIf("info", aclinfo);
+                    me.setIf("type", type);
+                    me.setSE("rectime", DbUtil.getDbDateString(db.getDBType()));
+                    // _log.info(str + "," + aclvalue + "," + me.getSQL());
+                    sqls.add(me);
+                }
+            }
 
-		}
-		if (sqls.size() > 0) {
-			_log.info("Save collect Api.");
-			db.tabTruncate("sys_api");
-			db.executeSQLList(sqls);
-		} else {
-			_log.info("Save collect Api failed.");
-		}
-		return R.SUCCESS_OPER();
-	}
+        }
+        if (sqls.size() > 0) {
+            _log.info("Save collect Api.");
+            db.tabTruncate("sys_api");
+            db.executeSQLList(sqls);
+        } else {
+            _log.info("Save collect Api failed.");
+        }
+        return R.SUCCESS_OPER();
+    }
 
 }

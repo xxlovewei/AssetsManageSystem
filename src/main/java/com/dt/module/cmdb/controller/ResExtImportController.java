@@ -28,23 +28,23 @@ import com.dt.module.cmdb.service.impl.ResImportService;
 @RequestMapping("/api/base/res")
 public class ResExtImportController extends BaseController {
 
-	@Autowired
-	ResExtService resExtService;
+    @Autowired
+    ResExtService resExtService;
 
-	@Autowired
-	ResImportService resImportService;
+    @Autowired
+    ResImportService resImportService;
 
-	@RequestMapping("/importResData.do")
-	@Acl(value = Acl.ACL_USER)
-	@ResponseBody
-	public R importResData(String type, String id, HttpServletRequest request, HttpServletResponse response)
-			throws UnsupportedEncodingException {
-		String sql = "select * from sys_files where id=?";
-		Rcd set = db.uniqueRecord(sql, id);
-		String fileurl = set.getString("path");
-		String filePath = FileUpDownController.getWebRootDir() + ".." + File.separatorChar + fileurl;
-		return resImportService.importResNormal(filePath, type);
+    @RequestMapping("/importResData.do")
+    @Acl(value = Acl.ACL_USER)
+    @ResponseBody
+    public R importResData(String type, String id, HttpServletRequest request, HttpServletResponse response)
+            throws UnsupportedEncodingException {
+        String sql = "select * from sys_files where id=?";
+        Rcd set = db.uniqueRecord(sql, id);
+        String fileurl = set.getString("path");
+        String filePath = FileUpDownController.getWebRootDir() + ".." + File.separatorChar + fileurl;
+        return resImportService.importResNormal(filePath, type);
 
-	}
+    }
 
 }

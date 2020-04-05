@@ -9,14 +9,14 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2018-07-24
  */
 @TableName("SYS_DICT")
-public class SysDict extends BaseModel<SysDict>  {
+public class SysDict extends BaseModel<SysDict> {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,10 +28,9 @@ public class SysDict extends BaseModel<SysDict>  {
     private String dictLevel;
     @TableField("STATUS")
     private String status;
- 
+
     @TableField("MARK")
     private String mark;
-
 
 
     public String getDictId() {
@@ -66,7 +65,6 @@ public class SysDict extends BaseModel<SysDict>  {
         this.status = status;
     }
 
-   
 
     public String getMark() {
         return mark;
@@ -76,7 +74,6 @@ public class SysDict extends BaseModel<SysDict>  {
         this.mark = mark;
     }
 
-    
 
     @Override
     protected Serializable pkVal() {
@@ -86,11 +83,11 @@ public class SysDict extends BaseModel<SysDict>  {
     @Override
     public String toString() {
         return "SysDict{" +
-        ", dictId=" + dictId +
-        ", name=" + name +
-        ", dictLevel=" + dictLevel +
-        ", status=" + status +
-        ", mark=" + mark +
-        "}";
+                ", dictId=" + dictId +
+                ", name=" + name +
+                ", dictLevel=" + dictLevel +
+                ", status=" + status +
+                ", mark=" + mark +
+                "}";
     }
 }

@@ -1,24 +1,27 @@
 package com.dt.module.flow.entity;
 
 import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-04
  */
- 
+
 @TableName("sys_process_data")
- 
+
 public class SysProcessData extends BaseModel<SysProcessData> {
 
     private static final long serialVersionUID = 1L;
@@ -192,21 +195,21 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     @Override
     public String toString() {
         return "SysProcessData{" +
-        "id=" + id +
-        ", busid=" + busid +
-        ", tabtype=" + tabtype +
-        ", processkey=" + processkey +
-        ", processname=" + processname +
-        ", processversion=" + processversion +
-        ", processInstanceId=" + processInstanceId +
-        ", ptitle=" + ptitle +
-        ", ptype=" + ptype +
-        ", psubtype=" + psubtype +
-        ", pstatus=" + pstatus +
-        ", pstatusdtl=" + pstatusdtl +
-        ", pstartuserid=" + pstartuserid +
-        ", pstartusername=" + pstartusername +
-        ", pendtime=" + pendtime +
-        "}";
+                "id=" + id +
+                ", busid=" + busid +
+                ", tabtype=" + tabtype +
+                ", processkey=" + processkey +
+                ", processname=" + processname +
+                ", processversion=" + processversion +
+                ", processInstanceId=" + processInstanceId +
+                ", ptitle=" + ptitle +
+                ", ptype=" + ptype +
+                ", psubtype=" + psubtype +
+                ", pstatus=" + pstatus +
+                ", pstatusdtl=" + pstatusdtl +
+                ", pstartuserid=" + pstartuserid +
+                ", pstartusername=" + pstartusername +
+                ", pendtime=" + pendtime +
+                "}";
     }
 }

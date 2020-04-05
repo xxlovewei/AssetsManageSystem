@@ -5,7 +5,7 @@ import com.dt.module.ct.entity.CtClass;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author algernonking

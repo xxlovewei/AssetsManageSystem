@@ -9,15 +9,15 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2019-11-30
  */
- 
+
 @TableName("sys_uflo_tpl")
- 
+
 public class SysUfloTpl extends BaseModel<SysUfloTpl> {
 
     private static final long serialVersionUID = 1L;
@@ -62,9 +62,9 @@ public class SysUfloTpl extends BaseModel<SysUfloTpl> {
     @Override
     public String toString() {
         return "SysUfloTpl{" +
-        "id=" + id +
-        ", filename=" + filename +
-        ", content=" + content +
-        "}";
+                "id=" + id +
+                ", filename=" + filename +
+                ", content=" + content +
+                "}";
     }
 }

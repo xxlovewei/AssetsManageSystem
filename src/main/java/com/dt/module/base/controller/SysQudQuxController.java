@@ -24,7 +24,7 @@ import com.dt.module.base.service.ISysQudQuxService;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -35,73 +35,73 @@ import com.dt.module.base.service.ISysQudQuxService;
 public class SysQudQuxController extends BaseController {
 
 
-	@Autowired
-	ISysQudQuxService SysQudQuxServiceImpl;
+    @Autowired
+    ISysQudQuxService SysQudQuxServiceImpl;
 
 
-	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysQudQuxServiceImpl.removeById(id));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id删除", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/deleteById.do")
+    public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+        return R.SUCCESS_OPER(SysQudQuxServiceImpl.removeById(id));
+    }
 
-	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/selectById.do")
-	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "")String id) {
-		return R.SUCCESS_OPER(SysQudQuxServiceImpl.getById(id));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id查询", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/selectById.do")
+    public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+        return R.SUCCESS_OPER(SysQudQuxServiceImpl.getById(id));
+    }
 
-	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/insert.do")
-	public R insert(SysQudQux entity) {
-		return R.SUCCESS_OPER(SysQudQuxServiceImpl.save(entity));
-	}
+    @ResponseBody
+    @Acl(info = "插入", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/insert.do")
+    public R insert(SysQudQux entity) {
+        return R.SUCCESS_OPER(SysQudQuxServiceImpl.save(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/updateById.do")
-	public R updateById(SysQudQux entity) {
-		return R.SUCCESS_OPER(SysQudQuxServiceImpl.updateById(entity));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id更新", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/updateById.do")
+    public R updateById(SysQudQux entity) {
+        return R.SUCCESS_OPER(SysQudQuxServiceImpl.updateById(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
-	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(SysQudQux entity) {
-		return R.SUCCESS_OPER(SysQudQuxServiceImpl.saveOrUpdate(entity));
-	}
+    @ResponseBody
+    @Acl(info = "存在则更新,否则插入", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/insertOrUpdate.do")
+    public R insertOrUpdate(SysQudQux entity) {
+        return R.SUCCESS_OPER(SysQudQuxServiceImpl.saveOrUpdate(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_ALLOW)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList() {
-		return R.SUCCESS_OPER(SysQudQuxServiceImpl.list(null));
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList() {
+        return R.SUCCESS_OPER(SysQudQuxServiceImpl.list(null));
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_ALLOW)
-	@RequestMapping(value = "/selectPage.do")
-	public R selectPage(String start, String length,
-			@RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize,
-			@RequestParam(value = "pageIndex", required = true, defaultValue = "1") String pageIndex) {
-		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
-		if (ToolUtil.isEmpty(respar)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		int pagesize = respar.getIntValue("pagesize");
-		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<SysQudQux> ew = new QueryWrapper<SysQudQux>();
-		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysQudQux> pdata = SysQudQuxServiceImpl.page(new Page<SysQudQux>(pageindex, pagesize), ew);
-		JSONObject retrunObject = new JSONObject();
-		retrunObject.put("iTotalRecords", pdata.getTotal());
-		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
-		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(),SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
-		return R.clearAttachDirect(retrunObject);
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,有分页", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/selectPage.do")
+    public R selectPage(String start, String length,
+                        @RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize,
+                        @RequestParam(value = "pageIndex", required = true, defaultValue = "1") String pageIndex) {
+        JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
+        if (ToolUtil.isEmpty(respar)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        int pagesize = respar.getIntValue("pagesize");
+        int pageindex = respar.getIntValue("pageindex");
+        QueryWrapper<SysQudQux> ew = new QueryWrapper<SysQudQux>();
+        //ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
+        IPage<SysQudQux> pdata = SysQudQuxServiceImpl.page(new Page<SysQudQux>(pageindex, pagesize), ew);
+        JSONObject retrunObject = new JSONObject();
+        retrunObject.put("iTotalRecords", pdata.getTotal());
+        retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
+        retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(), SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
+        return R.clearAttachDirect(retrunObject);
+    }
 
 
 }

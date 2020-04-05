@@ -6,9 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -259,29 +260,29 @@ public class CtContent extends BaseModel<CtContent> {
     @Override
     public String toString() {
         return "CtContent{" +
-        ", id=" + id +
-        ", catId=" + catId +
-        ", digest=" + digest +
-        ", title=" + title +
-        ", profile=" + profile +
-        ", urltype=" + urltype +
-        ", url=" + url +
-        ", type=" + type +
-        ", mpic=" + mpic +
-        ", mpicLoc=" + mpicLoc +
-        ", content=" + content +
-        ", hits=" + hits +
-        ", author=" + author +
-        ", sort=" + sort +
-        ", display=" + display +
-        ", tag=" + tag +
-        ", mark=" + mark +
-        ", userId=" + userId +
-        ", colA=" + colA +
-        ", colB=" + colB +
-        ", colC=" + colC +
-        ", colD=" + colD +
-        ", colE=" + colE +
-        "}";
+                ", id=" + id +
+                ", catId=" + catId +
+                ", digest=" + digest +
+                ", title=" + title +
+                ", profile=" + profile +
+                ", urltype=" + urltype +
+                ", url=" + url +
+                ", type=" + type +
+                ", mpic=" + mpic +
+                ", mpicLoc=" + mpicLoc +
+                ", content=" + content +
+                ", hits=" + hits +
+                ", author=" + author +
+                ", sort=" + sort +
+                ", display=" + display +
+                ", tag=" + tag +
+                ", mark=" + mark +
+                ", userId=" + userId +
+                ", colA=" + colA +
+                ", colB=" + colB +
+                ", colC=" + colC +
+                ", colD=" + colD +
+                ", colE=" + colE +
+                "}";
     }
 }

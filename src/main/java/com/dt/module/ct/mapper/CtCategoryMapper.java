@@ -5,7 +5,7 @@ import com.dt.module.ct.entity.CtCategory;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author algernonking

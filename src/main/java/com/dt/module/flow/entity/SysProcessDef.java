@@ -1,6 +1,7 @@
 package com.dt.module.flow.entity;
 
 import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -9,15 +10,15 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-04
  */
- 
+
 @TableName("sys_process_def")
- 
+
 public class SysProcessDef extends BaseModel<SysProcessDef> {
 
     private static final long serialVersionUID = 1L;
@@ -135,16 +136,16 @@ public class SysProcessDef extends BaseModel<SysProcessDef> {
     @Override
     public String toString() {
         return "SysProcessDef{" +
-        "id=" + id +
-        ", name=" + name +
-        ", mark=" + mark +
-        ", status=" + status +
-        ", ptplid=" + ptplid +
-        ", form=" + form +
-        ", ptplname=" + ptplname +
-        ", owner=" + owner +
-        ", ptplkey=" + ptplkey +
-        ", type=" + type +
-        "}";
+                "id=" + id +
+                ", name=" + name +
+                ", mark=" + mark +
+                ", status=" + status +
+                ", ptplid=" + ptplid +
+                ", form=" + form +
+                ", ptplname=" + ptplname +
+                ", owner=" + owner +
+                ", ptplkey=" + ptplkey +
+                ", type=" + type +
+                "}";
     }
 }

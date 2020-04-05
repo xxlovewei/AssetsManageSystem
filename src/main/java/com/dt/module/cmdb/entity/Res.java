@@ -1,25 +1,30 @@
 package com.dt.module.cmdb.entity;
 
 import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.math.BigDecimal;
+
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-03-31
  */
- 
+
 @TableName("res")
- 
+
 public class Res extends BaseModel<Res> {
 
     private static final long serialVersionUID = 1L;
@@ -50,7 +55,7 @@ public class Res extends BaseModel<Res> {
     @TableField("name")
     private String name;
     /**
-     *  资产描述
+     * 资产描述
      */
     @TableField("res_desc")
     private String resDesc;
@@ -1066,96 +1071,96 @@ public class Res extends BaseModel<Res> {
     @Override
     public String toString() {
         return "Res{" +
-        "id=" + id +
-        ", uuid=" + uuid +
-        ", classId=" + classId +
-        ", sn=" + sn +
-        ", name=" + name +
-        ", resDesc=" + resDesc +
-        ", maintainUserid=" + maintainUserid +
-        ", headuserid=" + headuserid +
-        ", brand=" + brand +
-        ", loc=" + loc +
-        ", locshow=" + locshow +
-        ", fs1=" + fs1 +
-        ", fs2=" + fs2 +
-        ", fs3=" + fs3 +
-        ", fs4=" + fs4 +
-        ", fs5=" + fs5 +
-        ", fs6=" + fs6 +
-        ", fs7=" + fs7 +
-        ", fs8=" + fs8 +
-        ", fs9=" + fs9 +
-        ", fs10=" + fs10 +
-        ", fs11=" + fs11 +
-        ", fs12=" + fs12 +
-        ", fs13=" + fs13 +
-        ", fs14=" + fs14 +
-        ", fs15=" + fs15 +
-        ", fs16=" + fs16 +
-        ", fs17=" + fs17 +
-        ", fs18=" + fs18 +
-        ", fs19=" + fs19 +
-        ", fs20=" + fs20 +
-        ", fi1=" + fi1 +
-        ", fi2=" + fi2 +
-        ", fi3=" + fi3 +
-        ", fi4=" + fi4 +
-        ", fi5=" + fi5 +
-        ", fi6=" + fi6 +
-        ", fi7=" + fi7 +
-        ", fi8=" + fi8 +
-        ", fi9=" + fi9 +
-        ", fi10=" + fi10 +
-        ", fi11=" + fi11 +
-        ", fi12=" + fi12 +
-        ", fi13=" + fi13 +
-        ", fi14=" + fi14 +
-        ", fi15=" + fi15 +
-        ", fi16=" + fi16 +
-        ", fi17=" + fi17 +
-        ", fi18=" + fi18 +
-        ", fi19=" + fi19 +
-        ", fi20=" + fi20 +
-        ", fd1=" + fd1 +
-        ", fd2=" + fd2 +
-        ", fd3=" + fd3 +
-        ", status=" + status +
-        ", env=" + env +
-        ", risk=" + risk +
-        ", version=" + version +
-        ", img=" + img +
-        ", supplier=" + supplier +
-        ", mark=" + mark +
-        ", recycle=" + recycle +
-        ", buyTime=" + buyTime +
-        ", offlineTime=" + offlineTime +
-        ", onlineTime=" + onlineTime +
-        ", ip=" + ip +
-        ", rwm=" + rwm +
-        ", model=" + model +
-        ", type=" + type +
-        ", frame=" + frame +
-        ", confdesc=" + confdesc +
-        ", wb=" + wb +
-        ", rack=" + rack +
-        ", changestate=" + changestate +
-        ", reviewUserid=" + reviewUserid +
-        ", reviewDate=" + reviewDate +
-        ", buyPrice=" + buyPrice +
-        ", partId=" + partId +
-        ", usedUserid=" + usedUserid +
-        ", mgrPartId=" + mgrPartId +
-        ", netWorth=" + netWorth +
-        ", zcCategory=" + zcCategory +
-        ", locdtl=" + locdtl +
-        ", wbAuto=" + wbAuto +
-        ", wboutDate=" + wboutDate +
-        ", zcCnt=" + zcCnt +
-        ", gjDl=" + gjDl +
-        ", gjXl=" + gjXl +
-        ", importlabel=" + importlabel +
-        ", attach=" + attach +
-        "}";
+                "id=" + id +
+                ", uuid=" + uuid +
+                ", classId=" + classId +
+                ", sn=" + sn +
+                ", name=" + name +
+                ", resDesc=" + resDesc +
+                ", maintainUserid=" + maintainUserid +
+                ", headuserid=" + headuserid +
+                ", brand=" + brand +
+                ", loc=" + loc +
+                ", locshow=" + locshow +
+                ", fs1=" + fs1 +
+                ", fs2=" + fs2 +
+                ", fs3=" + fs3 +
+                ", fs4=" + fs4 +
+                ", fs5=" + fs5 +
+                ", fs6=" + fs6 +
+                ", fs7=" + fs7 +
+                ", fs8=" + fs8 +
+                ", fs9=" + fs9 +
+                ", fs10=" + fs10 +
+                ", fs11=" + fs11 +
+                ", fs12=" + fs12 +
+                ", fs13=" + fs13 +
+                ", fs14=" + fs14 +
+                ", fs15=" + fs15 +
+                ", fs16=" + fs16 +
+                ", fs17=" + fs17 +
+                ", fs18=" + fs18 +
+                ", fs19=" + fs19 +
+                ", fs20=" + fs20 +
+                ", fi1=" + fi1 +
+                ", fi2=" + fi2 +
+                ", fi3=" + fi3 +
+                ", fi4=" + fi4 +
+                ", fi5=" + fi5 +
+                ", fi6=" + fi6 +
+                ", fi7=" + fi7 +
+                ", fi8=" + fi8 +
+                ", fi9=" + fi9 +
+                ", fi10=" + fi10 +
+                ", fi11=" + fi11 +
+                ", fi12=" + fi12 +
+                ", fi13=" + fi13 +
+                ", fi14=" + fi14 +
+                ", fi15=" + fi15 +
+                ", fi16=" + fi16 +
+                ", fi17=" + fi17 +
+                ", fi18=" + fi18 +
+                ", fi19=" + fi19 +
+                ", fi20=" + fi20 +
+                ", fd1=" + fd1 +
+                ", fd2=" + fd2 +
+                ", fd3=" + fd3 +
+                ", status=" + status +
+                ", env=" + env +
+                ", risk=" + risk +
+                ", version=" + version +
+                ", img=" + img +
+                ", supplier=" + supplier +
+                ", mark=" + mark +
+                ", recycle=" + recycle +
+                ", buyTime=" + buyTime +
+                ", offlineTime=" + offlineTime +
+                ", onlineTime=" + onlineTime +
+                ", ip=" + ip +
+                ", rwm=" + rwm +
+                ", model=" + model +
+                ", type=" + type +
+                ", frame=" + frame +
+                ", confdesc=" + confdesc +
+                ", wb=" + wb +
+                ", rack=" + rack +
+                ", changestate=" + changestate +
+                ", reviewUserid=" + reviewUserid +
+                ", reviewDate=" + reviewDate +
+                ", buyPrice=" + buyPrice +
+                ", partId=" + partId +
+                ", usedUserid=" + usedUserid +
+                ", mgrPartId=" + mgrPartId +
+                ", netWorth=" + netWorth +
+                ", zcCategory=" + zcCategory +
+                ", locdtl=" + locdtl +
+                ", wbAuto=" + wbAuto +
+                ", wboutDate=" + wboutDate +
+                ", zcCnt=" + zcCnt +
+                ", gjDl=" + gjDl +
+                ", gjXl=" + gjXl +
+                ", importlabel=" + importlabel +
+                ", attach=" + attach +
+                "}";
     }
 }

@@ -32,75 +32,74 @@ import net.sf.ehcache.Status;
 
 public class CustomizedEhCacheCache implements Cache {
 
-	private static final Logger logger = LoggerFactory.getLogger(CustomizedEhCacheCache.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomizedEhCacheCache.class);
 
-	private final Ehcache cache;
+    private final Ehcache cache;
 
-	// 格式cacahename#5#2
-	// #expiredtime 0注解层面上永未不过期(具体还要看其他配置),当有值是,优先级最高
-	// #refreshtime 0离快过期时刷新数据
-	// expiredtime = -1 可能来自注定刷新需要设置
-	// expiredtime=-2 则设置cache不需要设置
-	private int expiredtime = -1;
-	private int refreshtime = -1;
+    // 格式cacahename#5#2
+    // #expiredtime 0注解层面上永未不过期(具体还要看其他配置),当有值是,优先级最高
+    // #refreshtime 0离快过期时刷新数据
+    // expiredtime = -1 可能来自注定刷新需要设置
+    // expiredtime=-2 则设置cache不需要设置
+    private int expiredtime = -1;
+    private int refreshtime = -1;
 
-	private CacheSupport getCacheSupport() {
+    private CacheSupport getCacheSupport() {
 
-		return SpringContextUtil.getBean(CacheSupport.class);
+        return SpringContextUtil.getBean(CacheSupport.class);
 
-	}
+    }
 
-	/**
-	 * Create an {@link CustomizedEhCacheCache} instance.
-	 * 
-	 * @param ehcache
-	 *            backing Ehcache instance
-	 */
-	public CustomizedEhCacheCache(Ehcache ehcache) {
+    /**
+     * Create an {@link CustomizedEhCacheCache} instance.
+     *
+     * @param ehcache backing Ehcache instance
+     */
+    public CustomizedEhCacheCache(Ehcache ehcache) {
 
-		Assert.notNull(ehcache, "Ehcache must not be null");
-		Status status = ehcache.getStatus();
-		Assert.isTrue(Status.STATUS_ALIVE.equals(status),
-				"An 'alive' Ehcache is required - current cache is " + status.toString());
-		this.cache = ehcache;
-	}
+        Assert.notNull(ehcache, "Ehcache must not be null");
+        Status status = ehcache.getStatus();
+        Assert.isTrue(Status.STATUS_ALIVE.equals(status),
+                "An 'alive' Ehcache is required - current cache is " + status.toString());
+        this.cache = ehcache;
+    }
 
-	public CustomizedEhCacheCache(Ehcache ehcache, int et, int rt) {
-		expiredtime = et;
-		refreshtime = rt;
-		Assert.notNull(ehcache, "Ehcache must not be null");
-		Status status = ehcache.getStatus();
-		Assert.isTrue(Status.STATUS_ALIVE.equals(status),
-				"An 'alive' Ehcache is required - current cache is " + status.toString());
-		this.cache = ehcache;
+    public CustomizedEhCacheCache(Ehcache ehcache, int et, int rt) {
+        expiredtime = et;
+        refreshtime = rt;
+        Assert.notNull(ehcache, "Ehcache must not be null");
+        Status status = ehcache.getStatus();
+        Assert.isTrue(Status.STATUS_ALIVE.equals(status),
+                "An 'alive' Ehcache is required - current cache is " + status.toString());
+        this.cache = ehcache;
 
-	}
+    }
 
-	public Element getKey(String key) {
-		return this.cache.get(key);
-	}
+    public Element getKey(String key) {
+        return this.cache.get(key);
+    }
 
-	@Override
-	public final String getName() {
-		return this.cache.getName();
-	}
+    @Override
+    public final String getName() {
+        return this.cache.getName();
+    }
 
-	public List<?> getAllKeys() {
-		return this.cache.getKeys();
-	}
+    public List<?> getAllKeys() {
+        return this.cache.getKeys();
+    }
 
-	@Override
-	public final Ehcache getNativeCache() {
-		return this.cache;
+    @Override
+    public final Ehcache getNativeCache() {
+        return this.cache;
 
-	}
+    }
 
-	@Override
-	public ValueWrapper get(Object key) {
-		Element element = lookup(key);
-		return toValueWrapper(element);
+    @Override
+    public ValueWrapper get(Object key) {
+        Element element = lookup(key);
+        return toValueWrapper(element);
 
-	}
+    }
 
 //	@SuppressWarnings("unchecked")
 //	public <T> T get(Object key, Callable<T> valueLoader) {
@@ -134,112 +133,112 @@ public class CustomizedEhCacheCache implements Cache {
 //		return value;
 //	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T get(Object key, Class<T> type) {
-		Element element = this.cache.get(key);
-		Object value = (element != null ? element.getObjectValue() : null);
-		if (value != null && type != null && !type.isInstance(value)) {
-			throw new IllegalStateException("Cached value is not of required type [" + type.getName() + "]: " + value);
-		}
-		return (T) value;
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T get(Object key, Class<T> type) {
+        Element element = this.cache.get(key);
+        Object value = (element != null ? element.getObjectValue() : null);
+        if (value != null && type != null && !type.isInstance(value)) {
+            throw new IllegalStateException("Cached value is not of required type [" + type.getName() + "]: " + value);
+        }
+        return (T) value;
+    }
 
-	public void put(Element e) {
+    public void put(Element e) {
 
-		this.cache.put(e);
+        this.cache.put(e);
 
-	}
+    }
 
-	@Override
-	public void put(Object key, Object value) {
-		Element e = new Element(key, value);
-		if (expiredtime > 0) {
-			// 注解中有设置
-			e.setTimeToLive(expiredtime);
-		} else if (expiredtime == -2) {
-			// 注解中没有设置,引用原来cache的
-		} else {
-			// expiredtime=-1,正常情况下可能来自主动刷新需要获取ttl
-			Element ce = this.cache.get(key);
-			if (ce != null) {
-				// 如果没有找到cache
-				e.setTimeToLive(ce.getTimeToLive());
-			} else {
-				logger.info("Can't cache it,no key. cache:" + this.cache.getName() + ",key:" + key + ",expiredtime:"
-						+ expiredtime);
-				return;
-			}
-		}
-		this.cache.put(e);
+    @Override
+    public void put(Object key, Object value) {
+        Element e = new Element(key, value);
+        if (expiredtime > 0) {
+            // 注解中有设置
+            e.setTimeToLive(expiredtime);
+        } else if (expiredtime == -2) {
+            // 注解中没有设置,引用原来cache的
+        } else {
+            // expiredtime=-1,正常情况下可能来自主动刷新需要获取ttl
+            Element ce = this.cache.get(key);
+            if (ce != null) {
+                // 如果没有找到cache
+                e.setTimeToLive(ce.getTimeToLive());
+            } else {
+                logger.info("Can't cache it,no key. cache:" + this.cache.getName() + ",key:" + key + ",expiredtime:"
+                        + expiredtime);
+                return;
+            }
+        }
+        this.cache.put(e);
 
-	}
+    }
 
-	@Override
-	public ValueWrapper putIfAbsent(Object key, Object value) {
-		Element existingElement = this.cache.putIfAbsent(new Element(key, value));
-		return toValueWrapper(existingElement);
-	}
+    @Override
+    public ValueWrapper putIfAbsent(Object key, Object value) {
+        Element existingElement = this.cache.putIfAbsent(new Element(key, value));
+        return toValueWrapper(existingElement);
+    }
 
-	@Override
-	public void evict(Object key) {
-		this.cache.remove(key);
-		ThreadTaskHelper.run(new Runnable() {
-			@Override
-			public void run() {
-				removeCacheByKey(key.toString());
-			}
-		});
+    @Override
+    public void evict(Object key) {
+        this.cache.remove(key);
+        ThreadTaskHelper.run(new Runnable() {
+            @Override
+            public void run() {
+                removeCacheByKey(key.toString());
+            }
+        });
 
-	}
+    }
 
-	@Override
-	public void clear() {
-		this.cache.removeAll();
-	}
+    @Override
+    public void clear() {
+        this.cache.removeAll();
+    }
 
-	private void removeCacheByKey(String key) {
-		CustomizedEhCacheCache.this.getCacheSupport().removeCacheByKey(this.cache.getName(), key);
-	}
+    private void removeCacheByKey(String key) {
+        CustomizedEhCacheCache.this.getCacheSupport().removeCacheByKey(this.cache.getName(), key);
+    }
 
-	private Element lookup(Object key) {
-		return this.cache.get(key);
-	}
+    private Element lookup(Object key) {
+        return this.cache.get(key);
+    }
 
-	private ValueWrapper toValueWrapper(Element element) {
-		if (element == null) {
-			return null;
-		}
-		logger.info("@From mem " + cache.getName() + ":" + element.getObjectKey());
-		Long expired = (element.getExpirationTime() - System.currentTimeMillis()) / 1000;
-		// 判断是否要刷新
-		if (refreshtime > 0 && expired != null && expired > 0 && expired <= refreshtime) {
-			ThreadTaskHelper.run(new Runnable() {
-				@Override
-				public void run() {
-					// 重新加载数据
-					logger.info("refresh " + cache.getName() + ",key:" + element.getObjectKey());
-					CustomizedEhCacheCache.this.getCacheSupport().refreshCacheByKey(cache.getName(),
-							element.getObjectKey().toString());
-				}
-			});
-		}
+    private ValueWrapper toValueWrapper(Element element) {
+        if (element == null) {
+            return null;
+        }
+        logger.info("@From mem " + cache.getName() + ":" + element.getObjectKey());
+        Long expired = (element.getExpirationTime() - System.currentTimeMillis()) / 1000;
+        // 判断是否要刷新
+        if (refreshtime > 0 && expired != null && expired > 0 && expired <= refreshtime) {
+            ThreadTaskHelper.run(new Runnable() {
+                @Override
+                public void run() {
+                    // 重新加载数据
+                    logger.info("refresh " + cache.getName() + ",key:" + element.getObjectKey());
+                    CustomizedEhCacheCache.this.getCacheSupport().refreshCacheByKey(cache.getName(),
+                            element.getObjectKey().toString());
+                }
+            });
+        }
 
-		return new SimpleValueWrapper(element.getObjectValue());
-	}
+        return new SimpleValueWrapper(element.getObjectValue());
+    }
 
-	/* (non Javadoc) 
-	 * @Title: get
-	 * @Description: TODO
-	 * @param key
-	 * @param valueLoader
-	 * @return 
-	 * @see org.springframework.cache.Cache#get(java.lang.Object, java.util.concurrent.Callable) 
-	 */
-	@Override
-	public <T> T get(Object key, Callable<T> valueLoader) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non Javadoc)
+     * @Title: get
+     * @Description: TODO
+     * @param key
+     * @param valueLoader
+     * @return
+     * @see org.springframework.cache.Cache#get(java.lang.Object, java.util.concurrent.Callable)
+     */
+    @Override
+    public <T> T get(Object key, Callable<T> valueLoader) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

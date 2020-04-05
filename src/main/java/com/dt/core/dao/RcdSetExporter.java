@@ -15,167 +15,167 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 public class RcdSetExporter {
-	private static final String ENCODING = "UTF-8";
-	private static final String ROWS_TAG = "rows";
-	private static final String ROW_TAG = "row";
-	private static final String TOTAL_TAG = "totals";
-	private static final String INDEX_TAG = "__i__";
+    private static final String ENCODING = "UTF-8";
+    private static final String ROWS_TAG = "rows";
+    private static final String ROW_TAG = "row";
+    private static final String TOTAL_TAG = "totals";
+    private static final String INDEX_TAG = "__i__";
 
-	private RcdSet set = null;
+    private RcdSet set = null;
 
-	public RcdSetExporter(RcdSet set) {
-		/*
-		 * if (ENCODING == null) { ENCODING = ((AppContext)
-		 * SpringUtil.getSringContext().getBean(
-		 * BeanNames.AppContext)).getCharacterEncoding(); }
-		 */
-		this.set = set;
-	}
+    public RcdSetExporter(RcdSet set) {
+        /*
+         * if (ENCODING == null) { ENCODING = ((AppContext)
+         * SpringUtil.getSringContext().getBean(
+         * BeanNames.AppContext)).getCharacterEncoding(); }
+         */
+        this.set = set;
+    }
 
-	public String asExtGridXMLString() {
-		return asExtGridXML().asXML();
-	}
+    public String asExtGridXMLString() {
+        return asExtGridXML().asXML();
+    }
 
-	public String asExtGridXMLString(boolean withIndex) {
-		return asExtGridXML(withIndex).asXML();
-	}
+    public String asExtGridXMLString(boolean withIndex) {
+        return asExtGridXML(withIndex).asXML();
+    }
 
-	public Document asExtGridXML() {
-		return asExtGridXML(-1);
-	}
+    public Document asExtGridXML() {
+        return asExtGridXML(-1);
+    }
 
-	public Document asExtGridXML(boolean withIndex) {
-		return asExtGridXML(withIndex ? 1 : -1);
-	}
+    public Document asExtGridXML(boolean withIndex) {
+        return asExtGridXML(withIndex ? 1 : -1);
+    }
 
-	public String asExtGridXMLString(int beginIndex) {
-		return asExtGridXML(beginIndex).asXML();
-	}
+    public String asExtGridXMLString(int beginIndex) {
+        return asExtGridXML(beginIndex).asXML();
+    }
 
-	public Document asExtGridXML(int beginIndex) {
-		boolean idxFlag = beginIndex > -1;
+    public Document asExtGridXML(int beginIndex) {
+        boolean idxFlag = beginIndex > -1;
 
-		Document document = DocumentHelper.createDocument();
-		document.setXMLEncoding(ENCODING);
-		Element root = document.addElement(ROWS_TAG);
-		Element totals = root.addElement(TOTAL_TAG);
+        Document document = DocumentHelper.createDocument();
+        document.setXMLEncoding(ENCODING);
+        Element root = document.addElement(ROWS_TAG);
+        Element totals = root.addElement(TOTAL_TAG);
 
-		int total = set.getTotalRowCount();
+        int total = set.getTotalRowCount();
 
-		if (total == -1)
-			total = set.size();
+        if (total == -1)
+            total = set.size();
 
-		totals.addCDATA(total + "");
+        totals.addCDATA(total + "");
 
-		String[] names = set.getMetaData().getColumnLabels();
+        String[] names = set.getMetaData().getColumnLabels();
 
-		// System.out.println(set.getMetaData().asExtJsStoreColumnJsonArray()
-		// .toString());
+        // System.out.println(set.getMetaData().asExtJsStoreColumnJsonArray()
+        // .toString());
 
-		for (Rcd r : set) {
-			Element row = root.addElement(ROW_TAG);
+        for (Rcd r : set) {
+            Element row = root.addElement(ROW_TAG);
 
-			if (idxFlag) {
-				Element cell = row.addElement(INDEX_TAG);
-				cell.addCDATA(beginIndex + "");
-				beginIndex++;
-			}
+            if (idxFlag) {
+                Element cell = row.addElement(INDEX_TAG);
+                cell.addCDATA(beginIndex + "");
+                beginIndex++;
+            }
 
-			for (String name : names) {
-				Object value = r.getValue(name);
-				if (value == null)
-					value = "";
-				Element cell = row.addElement(name.toUpperCase());
-				cell.addCDATA(value.toString());
-			}
-		}
+            for (String name : names) {
+                Object value = r.getValue(name);
+                if (value == null)
+                    value = "";
+                Element cell = row.addElement(name.toUpperCase());
+                cell.addCDATA(value.toString());
+            }
+        }
 
-		return document;
-	}
+        return document;
+    }
 
-	public Document asXML(String rootNodeName, String rowNodeName) {
+    public Document asXML(String rootNodeName, String rowNodeName) {
 
-		Document document = DocumentHelper.createDocument();
-		document.setXMLEncoding(ENCODING);
-		Element root = document.addElement(rootNodeName);
-		String[] names = set.getMetaData().getColumnLabels();
-		for (Rcd r : set) {
-			Element row = root.addElement(ROW_TAG);
-			for (String name : names) {
-				Object value = r.getValue(name);
-				if (value == null)
-					value = "";
-				Element cell = row.addElement(name.toUpperCase());
-				cell.addCDATA(value.toString());
-			}
-		}
-		return document;
-	}
+        Document document = DocumentHelper.createDocument();
+        document.setXMLEncoding(ENCODING);
+        Element root = document.addElement(rootNodeName);
+        String[] names = set.getMetaData().getColumnLabels();
+        for (Rcd r : set) {
+            Element row = root.addElement(ROW_TAG);
+            for (String name : names) {
+                Object value = r.getValue(name);
+                if (value == null)
+                    value = "";
+                Element cell = row.addElement(name.toUpperCase());
+                cell.addCDATA(value.toString());
+            }
+        }
+        return document;
+    }
 
-	public Document asXML() {
-		return asXML("data", "row");
-	}
+    public Document asXML() {
+        return asXML("data", "row");
+    }
 
-	public HSSFWorkbook asExcel(String sheetName, HashMap<String, String> columnsMap, boolean notIncludeMap) {
-		HSSFWorkbook wb = new HSSFWorkbook();
-		HSSFSheet sheet = wb.createSheet(sheetName);
+    public HSSFWorkbook asExcel(String sheetName, HashMap<String, String> columnsMap, boolean notIncludeMap) {
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet(sheetName);
 
-		HSSFRow headRow = sheet.createRow(0);
-		String[] colNames = this.set.getMetaData().getColumnLabels();
-		int col = 0;
-		for (short i = 0; i < colNames.length; i++) {
-			HSSFCell cell = headRow.createCell(col);
-			String text = colNames[i];
+        HSSFRow headRow = sheet.createRow(0);
+        String[] colNames = this.set.getMetaData().getColumnLabels();
+        int col = 0;
+        for (short i = 0; i < colNames.length; i++) {
+            HSSFCell cell = headRow.createCell(col);
+            String text = colNames[i];
 
-			if (notIncludeMap && columnsMap.get(text) == null) {
-				continue;
-			}
+            if (notIncludeMap && columnsMap.get(text) == null) {
+                continue;
+            }
 
-			if (columnsMap.get(text) != null) {
-				text = columnsMap.get(text);
-			}
-			cell.setCellValue(new HSSFRichTextString(text));
-			col++;
-		}
+            if (columnsMap.get(text) != null) {
+                text = columnsMap.get(text);
+            }
+            cell.setCellValue(new HSSFRichTextString(text));
+            col++;
+        }
 
-		short rowIdx = 1;
-		for (Rcd r : set) {
-			col = 0;
-			HSSFRow row = sheet.createRow(rowIdx);
-			for (short i = 0; i < colNames.length; i++) {
-				if (notIncludeMap && columnsMap.get(colNames[i]) == null) {
-					continue;
-				}
+        short rowIdx = 1;
+        for (Rcd r : set) {
+            col = 0;
+            HSSFRow row = sheet.createRow(rowIdx);
+            for (short i = 0; i < colNames.length; i++) {
+                if (notIncludeMap && columnsMap.get(colNames[i]) == null) {
+                    continue;
+                }
 
-				HSSFCell cell = row.createCell(col);
-				setExcelCellValue(wb, r.getValue(colNames[i]), cell);
-				col++;
-			}
-			rowIdx++;
-		}
+                HSSFCell cell = row.createCell(col);
+                setExcelCellValue(wb, r.getValue(colNames[i]), cell);
+                col++;
+            }
+            rowIdx++;
+        }
 
-		return wb;
-	}
+        return wb;
+    }
 
-	public HSSFWorkbook asExcel(String sheetName, String... columnsMap) {
+    public HSSFWorkbook asExcel(String sheetName, String... columnsMap) {
 
-		HashMap<String, String> colMap = new HashMap<String, String>();
-		for (int i = 0; i < columnsMap.length; i++) {
-			String key = columnsMap[i];
-			i++;
-			String value = null;
-			if (i < columnsMap.length) {
-				value = columnsMap[i];
-			}
-			colMap.put(key, value);
-		}
-		return asExcel(sheetName, colMap, false);
+        HashMap<String, String> colMap = new HashMap<String, String>();
+        for (int i = 0; i < columnsMap.length; i++) {
+            String key = columnsMap[i];
+            i++;
+            String value = null;
+            if (i < columnsMap.length) {
+                value = columnsMap[i];
+            }
+            colMap.put(key, value);
+        }
+        return asExcel(sheetName, colMap, false);
 
-	}
+    }
 
-	private void setExcelCellValue(HSSFWorkbook wb, Object value, HSSFCell cell) {
-		if (value == null)
-			return;
+    private void setExcelCellValue(HSSFWorkbook wb, Object value, HSSFCell cell) {
+        if (value == null)
+            return;
 //		Class cls = value.getClass();
 //		if (cls.equals(Boolean.class)) {
 //			cell.setCellType(HSSFCell.CELL_TYPE_BOOLEAN);
@@ -225,23 +225,23 @@ public class RcdSetExporter {
 //		} else {
 //			cell.setCellValue(new HSSFRichTextString(value.toString()));
 //		}
-	}
+    }
 
-	public void asExcel(HttpServletResponse response, String fileName, String sheetName,
-			HashMap<String, String> fieldMap) {
-		try {
+    public void asExcel(HttpServletResponse response, String fileName, String sheetName,
+                        HashMap<String, String> fieldMap) {
+        try {
 
-			HSSFWorkbook wb = asExcel(sheetName, fieldMap, false);
-			response.setCharacterEncoding("GBK");
-			response.setContentType("application/x-msdownload;charset=GB2312");
-			response.setHeader("Content-Disposition",
-					"attachment;filename=" + new String(fileName.getBytes("GBK"), "iso8859-1") + ".xls");
-			wb.write(response.getOutputStream());
-			response.getOutputStream().flush();
-			response.getOutputStream().close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+            HSSFWorkbook wb = asExcel(sheetName, fieldMap, false);
+            response.setCharacterEncoding("GBK");
+            response.setContentType("application/x-msdownload;charset=GB2312");
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + new String(fileName.getBytes("GBK"), "iso8859-1") + ".xls");
+            wb.write(response.getOutputStream());
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -24,7 +24,7 @@ import com.dt.module.form.service.ISysFormService;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -35,71 +35,71 @@ import com.dt.module.form.service.ISysFormService;
 public class SysFormController extends BaseController {
 
 
-	@Autowired
-	ISysFormService SysFormServiceImpl;
+    @Autowired
+    ISysFormService SysFormServiceImpl;
 
 
-	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
-	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysFormServiceImpl.removeById(id));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id删除", value = Acl.ACL_USER)
+    @RequestMapping(value = "/deleteById.do")
+    public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+        return R.SUCCESS_OPER(SysFormServiceImpl.removeById(id));
+    }
 
-	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectById.do")
-	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysFormServiceImpl.getById(id));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id查询", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectById.do")
+    public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+        return R.SUCCESS_OPER(SysFormServiceImpl.getById(id));
+    }
 
-	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insert.do")
-	public R insert(SysForm entity) {
-		return R.SUCCESS_OPER(SysFormServiceImpl.save(entity));
-	}
+    @ResponseBody
+    @Acl(info = "插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insert.do")
+    public R insert(SysForm entity) {
+        return R.SUCCESS_OPER(SysFormServiceImpl.save(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
-	@RequestMapping(value = "/updateById.do")
-	public R updateById(SysForm entity) {
-		return R.SUCCESS_OPER(SysFormServiceImpl.updateById(entity));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id更新", value = Acl.ACL_USER)
+    @RequestMapping(value = "/updateById.do")
+    public R updateById(SysForm entity) {
+        return R.SUCCESS_OPER(SysFormServiceImpl.updateById(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(SysForm entity) {
-		return R.SUCCESS_OPER(SysFormServiceImpl.saveOrUpdate(entity));
-	}
+    @ResponseBody
+    @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insertOrUpdate.do")
+    public R insertOrUpdate(SysForm entity) {
+        return R.SUCCESS_OPER(SysFormServiceImpl.saveOrUpdate(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList() {
-		return R.SUCCESS_OPER(SysFormServiceImpl.list(null));
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList() {
+        return R.SUCCESS_OPER(SysFormServiceImpl.list(null));
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectPage.do")
-	public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex) {
-		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
-		if (ToolUtil.isEmpty(respar)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		int pagesize = respar.getIntValue("pagesize");
-		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<SysForm> ew = new QueryWrapper<SysForm>();
-		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysForm> pdata = SysFormServiceImpl.page(new Page<SysForm>(pageindex, pagesize), ew);
-		JSONObject retrunObject = new JSONObject();
-		retrunObject.put("iTotalRecords", pdata.getTotal());
-		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
-		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(),SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
-		return R.clearAttachDirect(retrunObject);
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectPage.do")
+    public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize, @RequestParam(value = "pageIndex", required = true, defaultValue = "1") String pageIndex) {
+        JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
+        if (ToolUtil.isEmpty(respar)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        int pagesize = respar.getIntValue("pagesize");
+        int pageindex = respar.getIntValue("pageindex");
+        QueryWrapper<SysForm> ew = new QueryWrapper<SysForm>();
+        //ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
+        IPage<SysForm> pdata = SysFormServiceImpl.page(new Page<SysForm>(pageindex, pagesize), ew);
+        JSONObject retrunObject = new JSONObject();
+        retrunObject.put("iTotalRecords", pdata.getTotal());
+        retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
+        retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(), SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
+        return R.clearAttachDirect(retrunObject);
+    }
 
 
 }

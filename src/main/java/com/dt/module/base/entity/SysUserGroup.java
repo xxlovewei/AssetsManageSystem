@@ -9,7 +9,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -70,10 +70,10 @@ public class SysUserGroup extends BaseModel<SysUserGroup> {
     @Override
     public String toString() {
         return "SysUserGroup{" +
-        ", groupId=" + groupId +
-        ", name=" + name +
-        ", sort=" + sort +
-        ", mark=" + mark +
-        "}";
+                ", groupId=" + groupId +
+                ", name=" + name +
+                ", sort=" + sort +
+                ", mark=" + mark +
+                "}";
     }
 }

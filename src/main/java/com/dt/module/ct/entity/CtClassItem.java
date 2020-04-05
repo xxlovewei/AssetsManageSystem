@@ -6,9 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -169,20 +170,20 @@ public class CtClassItem extends BaseModel<CtClassItem> {
     @Override
     public String toString() {
         return "CtClassItem{" +
-        ", id=" + id +
-        ", classId=" + classId +
-        ", isUsed=" + isUsed +
-        ", value=" + value +
-        ", od=" + od +
-        ", picId=" + picId +
-        ", mark=" + mark +
-        ", status=" + status +
-        ", colA=" + colA +
-        ", colB=" + colB +
-        ", colC=" + colC +
-        ", colD=" + colD +
-        ", colE=" + colE +
-        ", name=" + name +
-        "}";
+                ", id=" + id +
+                ", classId=" + classId +
+                ", isUsed=" + isUsed +
+                ", value=" + value +
+                ", od=" + od +
+                ", picId=" + picId +
+                ", mark=" + mark +
+                ", status=" + status +
+                ", colA=" + colA +
+                ", colB=" + colB +
+                ", colC=" + colC +
+                ", colD=" + colD +
+                ", colE=" + colE +
+                ", name=" + name +
+                "}";
     }
 }

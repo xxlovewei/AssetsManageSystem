@@ -18,7 +18,7 @@ import com.dt.module.base.service.ISysRoleInfoService;
 @Service
 public class SysRoleInfoServiceImpl extends ServiceImpl<SysRoleInfoMapper, SysRoleInfo> implements ISysRoleInfoService {
 
-	public Integer isUsed(String id) {
-		return this.baseMapper.isUsed(id);
-	}
+    public Integer isUsed(String id) {
+        return this.baseMapper.isUsed(id);
+    }
 }

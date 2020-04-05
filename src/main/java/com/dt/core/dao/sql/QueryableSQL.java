@@ -6,16 +6,16 @@ import java.util.Date;
 import com.dt.core.dao.Rcd;
 
 public interface QueryableSQL {
-	public Rcd record();
+    public Rcd record();
 
-	public Integer intValue();
+    public Integer intValue();
 
-	public String stringValue();
+    public String stringValue();
 
-	public Long longValue();
+    public Long longValue();
 
-	public Date dateValue();
+    public Date dateValue();
 
-	public BigDecimal decimalValue();
+    public BigDecimal decimalValue();
 
 }

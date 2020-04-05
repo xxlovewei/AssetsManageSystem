@@ -22,54 +22,49 @@ import com.dt.core.tool.util.support.StrKit;
  * @Description: TODO
  */
 public class SystemLogoutFilter extends LogoutFilter {
-	private static final Logger log = LoggerFactory.getLogger(SystemLogoutFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(SystemLogoutFilter.class);
 
-	/**
-	 * @Title:SystemLogoutFilter
-	 * @Description:TODO
-	 * @param logoutSuccessHandler
-	 * @param handlers
-	 */
-	@Override
-	protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
-		Subject subject = getSubject(request, response);
-		String redirectUrl = getRedirectUrl(request, response, subject);
-		log.info("sessionId:" + subject.getSession().getId() + " to logout");
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		ShiroUser shiroUser = ShiroKit.getUser();
-		try {
-			if (shiroUser != null) {
-				// ShiroAuthorizationHelper.showCache();
-				ShiroAuthorizationHelper.clearAuthorizationInfo(ShiroKit.getSubject().getPrincipals());
-				ShiroAuthorizationHelper.clearAuthenticationInfo(shiroUser.id);
-				ShiroAuthorizationHelper.clearSession(shiroUser.id);
-			}
-			subject.logout();
 
-			// ShiroAuthorizationHelper.showCache();
+    @Override
+    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        Subject subject = getSubject(request, response);
+        String redirectUrl = getRedirectUrl(request, response, subject);
+        log.info("sessionId:" + subject.getSession().getId() + " to logout");
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        ShiroUser shiroUser = ShiroKit.getUser();
+        try {
+            if (shiroUser != null) {
+                // ShiroAuthorizationHelper.showCache();
+                ShiroAuthorizationHelper.clearAuthorizationInfo(ShiroKit.getSubject().getPrincipals());
+                ShiroAuthorizationHelper.clearAuthenticationInfo(shiroUser.id);
+                ShiroAuthorizationHelper.clearSession(shiroUser.id);
+            }
+            subject.logout();
 
-		} catch (SessionException ise) {
-			log.debug("Encountered session exception during logout.  This can generally safely be ignored.", ise);
-		}
+            // ShiroAuthorizationHelper.showCache();
 
-		if (isReturnJSON(httpRequest)) {
-			httpResponse.setStatus(200);
-			httpResponse.setHeader("content-type", "text/html;charset=UTF-8");
-			httpResponse.getWriter().print(R.SUCCESS_OPER().asJsonStr());
-			httpResponse.getWriter().flush();
-			httpResponse.getWriter().close();
-		} else {
-			issueRedirect(request, response, redirectUrl);
-		}
-		return false;
-	}
+        } catch (SessionException ise) {
+            log.debug("Encountered session exception during logout.  This can generally safely be ignored.", ise);
+        }
 
-	private Boolean isReturnJSON(HttpServletRequest httpRequest) {
-		Boolean res = false;
-		if (HttpKit.isAjax(httpRequest) || StrKit.endWith(httpRequest.getRequestURL() + "", ".do", true)) {
-			res = true;
-		}
-		return res;
-	}
+        if (isReturnJSON(httpRequest)) {
+            httpResponse.setStatus(200);
+            httpResponse.setHeader("content-type", "text/html;charset=UTF-8");
+            httpResponse.getWriter().print(R.SUCCESS_OPER().asJsonStr());
+            httpResponse.getWriter().flush();
+            httpResponse.getWriter().close();
+        } else {
+            issueRedirect(request, response, redirectUrl);
+        }
+        return false;
+    }
+
+    private Boolean isReturnJSON(HttpServletRequest httpRequest) {
+        Boolean res = false;
+        if (HttpKit.isAjax(httpRequest) || StrKit.endWith(httpRequest.getRequestURL() + "", ".do", true)) {
+            res = true;
+        }
+        return res;
+    }
 }

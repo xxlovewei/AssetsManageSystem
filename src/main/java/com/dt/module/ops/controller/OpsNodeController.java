@@ -24,7 +24,7 @@ import com.dt.module.ops.service.IOpsNodeService;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -35,71 +35,71 @@ import com.dt.module.ops.service.IOpsNodeService;
 public class OpsNodeController extends BaseController {
 
 
-	@Autowired
-	IOpsNodeService OpsNodeServiceImpl;
+    @Autowired
+    IOpsNodeService OpsNodeServiceImpl;
 
 
-	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
-	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(OpsNodeServiceImpl.removeById(id));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id删除", value = Acl.ACL_USER)
+    @RequestMapping(value = "/deleteById.do")
+    public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+        return R.SUCCESS_OPER(OpsNodeServiceImpl.removeById(id));
+    }
 
-	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectById.do")
-	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(OpsNodeServiceImpl.getById(id));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id查询", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectById.do")
+    public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+        return R.SUCCESS_OPER(OpsNodeServiceImpl.getById(id));
+    }
 
-	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insert.do")
-	public R insert(OpsNode entity) {
-		return R.SUCCESS_OPER(OpsNodeServiceImpl.save(entity));
-	}
+    @ResponseBody
+    @Acl(info = "插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insert.do")
+    public R insert(OpsNode entity) {
+        return R.SUCCESS_OPER(OpsNodeServiceImpl.save(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
-	@RequestMapping(value = "/updateById.do")
-	public R updateById(OpsNode entity) {
-		return R.SUCCESS_OPER(OpsNodeServiceImpl.updateById(entity));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id更新", value = Acl.ACL_USER)
+    @RequestMapping(value = "/updateById.do")
+    public R updateById(OpsNode entity) {
+        return R.SUCCESS_OPER(OpsNodeServiceImpl.updateById(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(OpsNode entity) {
-		return R.SUCCESS_OPER(OpsNodeServiceImpl.saveOrUpdate(entity));
-	}
+    @ResponseBody
+    @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insertOrUpdate.do")
+    public R insertOrUpdate(OpsNode entity) {
+        return R.SUCCESS_OPER(OpsNodeServiceImpl.saveOrUpdate(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList() {
-		return R.SUCCESS_OPER(OpsNodeServiceImpl.list(null));
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList() {
+        return R.SUCCESS_OPER(OpsNodeServiceImpl.list(null));
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectPage.do")
-	public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex) {
-		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
-		if (ToolUtil.isEmpty(respar)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		int pagesize = respar.getIntValue("pagesize");
-		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<OpsNode> ew = new QueryWrapper<OpsNode>();
-		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<OpsNode> pdata = OpsNodeServiceImpl.page(new Page<OpsNode>(pageindex, pagesize), ew);
-		JSONObject retrunObject = new JSONObject();
-		retrunObject.put("iTotalRecords", pdata.getTotal());
-		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
-		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(),SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
-		return R.clearAttachDirect(retrunObject);
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectPage.do")
+    public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize, @RequestParam(value = "pageIndex", required = true, defaultValue = "1") String pageIndex) {
+        JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
+        if (ToolUtil.isEmpty(respar)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        int pagesize = respar.getIntValue("pagesize");
+        int pageindex = respar.getIntValue("pageindex");
+        QueryWrapper<OpsNode> ew = new QueryWrapper<OpsNode>();
+        //ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
+        IPage<OpsNode> pdata = OpsNodeServiceImpl.page(new Page<OpsNode>(pageindex, pagesize), ew);
+        JSONObject retrunObject = new JSONObject();
+        retrunObject.put("iTotalRecords", pdata.getTotal());
+        retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
+        retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(), SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
+        return R.clearAttachDirect(retrunObject);
+    }
 
 
 }

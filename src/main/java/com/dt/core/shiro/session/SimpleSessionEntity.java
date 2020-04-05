@@ -14,135 +14,130 @@ import com.dt.module.db.DB;
  * @Description: TODO
  */
 public class SimpleSessionEntity {
-	private String id;
-	private String user_id;
-	private String cookie;
-	private String session;
-	private String start_time;
-	private String client;
-	private String ip;
-	private String token;
+    private String id;
+    private String user_id;
+    private String cookie;
+    private String session;
+    private String start_time;
+    private String client;
+    private String ip;
+    private String token;
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public Serializable entity() {
-		return session;
-	}
+    public Serializable entity() {
+        return session;
+    }
 
-	public void setSession(String session) {
-		this.session = session;
-	}
+    public void setSession(String session) {
+        this.session = session;
+    }
 
-	public String getCookie() {
-		return cookie;
-	}
+    public String getCookie() {
+        return cookie;
+    }
 
-	public void setCookie(String cookie) {
-		this.cookie = cookie;
-	}
+    public void setCookie(String cookie) {
+        this.cookie = cookie;
+    }
 
-	public String getSession() {
-		return session;
-	}
+    public String getSession() {
+        return session;
+    }
 
-	public void save() {
-		Insert me = new Insert("sys_session");
-		me.set("id", MD5Util.encrypt(cookie + start_time));
-		me.set("cookie", cookie);
-		me.set("dr",0);
-		me.set("dtsession", session + "");
-		me.setIf("start_time", start_time);
-		me.setIf("token", token);
-		me.setIf("ip", ip);
-		DB.instance().execute(me);
-	}
+    public void save() {
+        Insert me = new Insert("sys_session");
+        me.set("id", MD5Util.encrypt(cookie + start_time));
+        me.set("cookie", cookie);
+        me.set("dr", 0);
+        me.set("dtsession", session + "");
+        me.setIf("start_time", start_time);
+        me.setIf("token", token);
+        me.setIf("ip", ip);
+        DB.instance().execute(me);
+    }
 
-	public void update(SimpleSessionEntity entity) {
-		Update me = new Update("sys_session");
-		me.set("dtsession", entity.session + "");
-		me.setSE("lastaccess", DbUtil.getDbDateString(DB.instance().getDBType()));
-		me.where().and("cookie=?", entity.cookie);
-		DB.instance().execute(me);
-	}
+    public void update(SimpleSessionEntity entity) {
+        Update me = new Update("sys_session");
+        me.set("dtsession", entity.session + "");
+        me.setSE("lastaccess", DbUtil.getDbDateString(DB.instance().getDBType()));
+        me.where().and("cookie=?", entity.cookie);
+        DB.instance().execute(me);
+    }
 
-	/**
-	 * @return the start_time
-	 */
-	public String getStart_time() {
-		return start_time;
-	}
+    /**
+     * @return the start_time
+     */
+    public String getStart_time() {
+        return start_time;
+    }
 
-	/**
-	 * @param start_time
-	 *            the start_time to set
-	 */
-	public void setStart_time(String start_time) {
-		this.start_time = start_time;
-	}
+    /**
+     * @param start_time the start_time to set
+     */
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
+    }
 
-	/**
-	 * @return the user_id
-	 */
-	public String getUser_id() {
-		return user_id;
-	}
+    /**
+     * @return the user_id
+     */
+    public String getUser_id() {
+        return user_id;
+    }
 
-	/**
-	 * @param user_id
-	 *            the user_id to set
-	 */
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
+    /**
+     * @param user_id the user_id to set
+     */
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
 
-	/**
-	 * @return the client
-	 */
-	public String getClient() {
-		return client;
-	}
+    /**
+     * @return the client
+     */
+    public String getClient() {
+        return client;
+    }
 
-	/**
-	 * @param client
-	 *            the client to set
-	 */
-	public void setClient(String client) {
-		this.client = client;
-	}
+    /**
+     * @param client the client to set
+     */
+    public void setClient(String client) {
+        this.client = client;
+    }
 
-	/**
-	 * @return the ip
-	 */
-	public String getIp() {
-		return ip;
-	}
+    /**
+     * @return the ip
+     */
+    public String getIp() {
+        return ip;
+    }
 
-	/**
-	 * @param ip
-	 *            the ip to set
-	 */
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
+    /**
+     * @param ip the ip to set
+     */
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
-	/**
-	 * @return the token
-	 */
-	public String getToken() {
-		return token;
-	}
+    /**
+     * @return the token
+     */
+    public String getToken() {
+        return token;
+    }
 
-	/**
-	 * @param token
-	 *            the token to set
-	 */
-	public void setToken(String token) {
-		this.token = token;
-	}
+    /**
+     * @param token the token to set
+     */
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

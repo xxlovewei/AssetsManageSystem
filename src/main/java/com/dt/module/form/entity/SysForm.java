@@ -9,15 +9,15 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-03-28
  */
- 
+
 @TableName("sys_form")
- 
+
 public class SysForm extends BaseModel<SysForm> {
 
     private static final long serialVersionUID = 1L;
@@ -92,12 +92,12 @@ public class SysForm extends BaseModel<SysForm> {
     @Override
     public String toString() {
         return "SysForm{" +
-        "id=" + id +
-        ", name=" + name +
-        ", mark=" + mark +
-        ", type=" + type +
-        ", owner=" + owner +
-        ", ct=" + ct +
-        "}";
+                "id=" + id +
+                ", name=" + name +
+                ", mark=" + mark +
+                ", type=" + type +
+                ", owner=" + owner +
+                ", ct=" + ct +
+                "}";
     }
 }

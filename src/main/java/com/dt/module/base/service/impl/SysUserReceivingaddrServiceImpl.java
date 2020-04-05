@@ -9,7 +9,7 @@ import com.dt.module.base.service.ISysUserReceivingaddrService;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author algernonking
@@ -18,6 +18,5 @@ import com.dt.module.base.service.ISysUserReceivingaddrService;
 @Service
 public class SysUserReceivingaddrServiceImpl extends ServiceImpl<SysUserReceivingaddrMapper, SysUserReceivingaddr> implements ISysUserReceivingaddrService {
 
-	
-	
+
 }

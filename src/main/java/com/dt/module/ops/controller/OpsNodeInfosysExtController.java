@@ -32,7 +32,7 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -43,67 +43,64 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 public class OpsNodeInfosysExtController extends BaseController {
 
 
-	@Autowired
-	IOpsNodeInfosysService OpsNodeInfosysServiceImpl;
-	
-	@Autowired
-	OpsNodeInfosysExtServiceImpl opsNodeInfosysExtServiceImpl;
- 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList() {
-		return opsNodeInfosysExtServiceImpl.selecList("");
-	}
- 
-	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(OpsNodeInfosys entity) {
-		return R.SUCCESS_OPER(OpsNodeInfosysServiceImpl.saveOrUpdate(entity));
-	}
+    @Autowired
+    IOpsNodeInfosysService OpsNodeInfosysServiceImpl;
 
-	 
-	@ResponseBody
-	@Acl(info = " ", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectListExport.do")
-	public void selectListExport(HttpServletRequest request, HttpServletResponse response)
-			throws UnsupportedEncodingException {
-		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+    @Autowired
+    OpsNodeInfosysExtServiceImpl opsNodeInfosysExtServiceImpl;
 
-		R res = opsNodeInfosysExtServiceImpl.selecList(ps.getString("search"));
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList() {
+        return opsNodeInfosysExtServiceImpl.selecList("");
+    }
 
-		JSONArray data = res.queryDataToJSONArray();
-		List<OpsNodeInfosysEntity> data_excel = new ArrayList<OpsNodeInfosysEntity>();
-		for (int i = 0; i < data.size(); i++) {
-			OpsNodeInfosysEntity entity = new OpsNodeInfosysEntity();
-			entity.fullEntity(data.getJSONObject(i));
-			data_excel.add(entity);
-		}
-
-		ExportParams parms = new ExportParams();
-		parms.setSheetName("数据");
-		parms.setHeaderHeight(1000);
-
-		Workbook workbook;
-		workbook = ExcelExportUtil.exportExcel(parms, OpsNodeInfosysEntity.class, data_excel);
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("application/x-download");
-		String filedisplay = "sysinfo.xls";
-		filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
-		response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
-		try {
-			OutputStream out = response.getOutputStream();
-			workbook.write(out);
-			out.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+    @ResponseBody
+    @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insertOrUpdate.do")
+    public R insertOrUpdate(OpsNodeInfosys entity) {
+        return R.SUCCESS_OPER(OpsNodeInfosysServiceImpl.saveOrUpdate(entity));
+    }
 
 
-	 
+    @ResponseBody
+    @Acl(info = " ", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectListExport.do")
+    public void selectListExport(HttpServletRequest request, HttpServletResponse response)
+            throws UnsupportedEncodingException {
+        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+
+        R res = opsNodeInfosysExtServiceImpl.selecList(ps.getString("search"));
+
+        JSONArray data = res.queryDataToJSONArray();
+        List<OpsNodeInfosysEntity> data_excel = new ArrayList<OpsNodeInfosysEntity>();
+        for (int i = 0; i < data.size(); i++) {
+            OpsNodeInfosysEntity entity = new OpsNodeInfosysEntity();
+            entity.fullEntity(data.getJSONObject(i));
+            data_excel.add(entity);
+        }
+
+        ExportParams parms = new ExportParams();
+        parms.setSheetName("数据");
+        parms.setHeaderHeight(1000);
+
+        Workbook workbook;
+        workbook = ExcelExportUtil.exportExcel(parms, OpsNodeInfosysEntity.class, data_excel);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/x-download");
+        String filedisplay = "sysinfo.xls";
+        filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+        response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
+        try {
+            OutputStream out = response.getOutputStream();
+            workbook.write(out);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 }

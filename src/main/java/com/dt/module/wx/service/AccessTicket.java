@@ -9,54 +9,54 @@ import com.alibaba.fastjson.JSONObject;
  */
 
 public class AccessTicket {
-	// 获取到的凭证
-	private String ticket;
+    // 获取到的凭证
+    private String ticket;
 
-	public String getTicket() {
-		
-		return ticket;
-	}
+    public String getTicket() {
 
-	public void setTicket(String ticket) {
-		this.ticket = ticket;
-	}
+        return ticket;
+    }
 
-	public int getExpiresIn() {
-		return expiresIn;
-	}
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
+    }
 
-	public void setExpiresIn(int expiresIn) {
-		this.expiresIn = expiresIn;
-	}
+    public int getExpiresIn() {
+        return expiresIn;
+    }
 
-	public long getCtime() {
-		return ctime;
-	}
+    public void setExpiresIn(int expiresIn) {
+        this.expiresIn = expiresIn;
+    }
 
-	public void setCtime(long ctime) {
-		this.ctime = ctime;
-	}
+    public long getCtime() {
+        return ctime;
+    }
 
-	// 凭证有效时间，单位：秒
-	private int expiresIn;
+    public void setCtime(long ctime) {
+        this.ctime = ctime;
+    }
 
-	private long ctime;
+    // 凭证有效时间，单位：秒
+    private int expiresIn;
 
-	@Override
-	public String toString() {
-		JSONObject e = new JSONObject();
-		e.put("ticket", ticket);
-		e.put("expiresIn", expiresIn);
-		e.put("ctime", ctime);
-		return e.toJSONString();
-	}
+    private long ctime;
 
-	public JSONObject toJsonObject() {
-		JSONObject e = new JSONObject();
-		e.put("ticket", ticket);
-		e.put("expiresIn", expiresIn);
-		e.put("ctime", ctime);
-		return e;
-	}
+    @Override
+    public String toString() {
+        JSONObject e = new JSONObject();
+        e.put("ticket", ticket);
+        e.put("expiresIn", expiresIn);
+        e.put("ctime", ctime);
+        return e.toJSONString();
+    }
+
+    public JSONObject toJsonObject() {
+        JSONObject e = new JSONObject();
+        e.put("ticket", ticket);
+        e.put("expiresIn", expiresIn);
+        e.put("ctime", ctime);
+        return e;
+    }
 
 }

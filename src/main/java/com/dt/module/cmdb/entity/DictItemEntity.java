@@ -13,46 +13,46 @@ import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
 @ExcelTarget("DictItemEntity")
 public class DictItemEntity implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
- 
-	@Excel(name = "名称", width = 20)
-	private String name;
 
-	@Excel(name = "选项", width = 20)
-	private String item_name;
+    @Excel(name = "名称", width = 20)
+    private String name;
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+    @Excel(name = "选项", width = 20)
+    private String item_name;
 
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @return the item_name
-	 */
-	public String getItem_name() {
-		return item_name;
-	}
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	/**
-	 * @param item_name the item_name to set
-	 */
-	public void setItem_name(String item_name) {
-		this.item_name = item_name;
-	}
+    /**
+     * @return the item_name
+     */
+    public String getItem_name() {
+        return item_name;
+    }
 
-	public void fullResEntity(JSONObject obj) {
+    /**
+     * @param item_name the item_name to set
+     */
+    public void setItem_name(String item_name) {
+        this.item_name = item_name;
+    }
 
-		this.name = obj.getString("name");
-		this.item_name = obj.getString("item_name");
-	}
+    public void fullResEntity(JSONObject obj) {
+
+        this.name = obj.getString("name");
+        this.item_name = obj.getString("item_name");
+    }
 }

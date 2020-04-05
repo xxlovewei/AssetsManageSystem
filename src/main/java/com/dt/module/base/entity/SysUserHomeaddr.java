@@ -9,7 +9,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -120,15 +120,15 @@ public class SysUserHomeaddr extends BaseModel<SysUserHomeaddr> {
     @Override
     public String toString() {
         return "SysUserHomeaddr{" +
-        ", id=" + id +
-        ", userId=" + userId +
-        ", provinceid=" + provinceid +
-        ", provincename=" + provincename +
-        ", cityid=" + cityid +
-        ", cityname=" + cityname +
-        ", areaid=" + areaid +
-        ", areaname=" + areaname +
-        ", ct=" + ct +
-        "}";
+                ", id=" + id +
+                ", userId=" + userId +
+                ", provinceid=" + provinceid +
+                ", provincename=" + provincename +
+                ", cityid=" + cityid +
+                ", cityname=" + cityname +
+                ", areaid=" + areaid +
+                ", areaname=" + areaname +
+                ", ct=" + ct +
+                "}";
     }
 }

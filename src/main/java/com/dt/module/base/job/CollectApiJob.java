@@ -26,58 +26,58 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.impl.JobService;
 import com.dt.module.db.DB;
 
-/** 
+/**
  * @author: algernonking
- * @date: 2017年11月9日 下午2:34:37 
- * @Description: TODO 
+ * @date: 2017年11月9日 下午2:34:37
+ * @Description: TODO
  */
 public class CollectApiJob implements Job {
-	private static Logger _log = LoggerFactory.getLogger(CollectApiJob.class);
+    private static Logger _log = LoggerFactory.getLogger(CollectApiJob.class);
 
-	@Override
-	public void execute(JobExecutionContext jc) throws JobExecutionException {
-		_log.info("collect urls start.");
-		List<SQL> sqls = new ArrayList<SQL>();
-		WebApplicationContext wc = (WebApplicationContext) SpringContextUtil.getApplicationContext();
-		RequestMappingHandlerMapping bean = wc.getBean(RequestMappingHandlerMapping.class);
-		Map<RequestMappingInfo, HandlerMethod> handlerMethods = bean.getHandlerMethods();
-		for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
-			RequestMappingInfo rmi = entry.getKey();
-			PatternsRequestCondition pc = rmi.getPatternsCondition();
-			Set<String> pSet = pc.getPatterns();
-			HandlerMethod hm = entry.getValue();
-			Acl am = ((HandlerMethod) hm).getMethodAnnotation(Acl.class);
-			if (ToolUtil.isNotEmpty(am)) {
-				String aclvalue = am.value();
-				String aclinfo = am.info();
-				String type = am.type();
-				Iterator<String> it = pSet.iterator();
-				while (it.hasNext()) {
-					String str = it.next();
-					Insert me = new Insert("sys_api");
-					me.set("id", DB.instance().getUUID());
-					me.setIf("ct", str);
-					me.setIf("dr", "0");
-					me.setIf("ctacl", aclvalue);
-					me.setIf("apitype", "url");
-					me.setIf("info", aclinfo);
-					me.setIf("type", type);
-					me.setSE("rectime", DbUtil.getDbDateString(DB.instance().getDBType()));
-					_log.info(str + "," + aclvalue + "," + me.getSQL());
-					sqls.add(me);
-				}
-			}
+    @Override
+    public void execute(JobExecutionContext jc) throws JobExecutionException {
+        _log.info("collect urls start.");
+        List<SQL> sqls = new ArrayList<SQL>();
+        WebApplicationContext wc = (WebApplicationContext) SpringContextUtil.getApplicationContext();
+        RequestMappingHandlerMapping bean = wc.getBean(RequestMappingHandlerMapping.class);
+        Map<RequestMappingInfo, HandlerMethod> handlerMethods = bean.getHandlerMethods();
+        for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
+            RequestMappingInfo rmi = entry.getKey();
+            PatternsRequestCondition pc = rmi.getPatternsCondition();
+            Set<String> pSet = pc.getPatterns();
+            HandlerMethod hm = entry.getValue();
+            Acl am = ((HandlerMethod) hm).getMethodAnnotation(Acl.class);
+            if (ToolUtil.isNotEmpty(am)) {
+                String aclvalue = am.value();
+                String aclinfo = am.info();
+                String type = am.type();
+                Iterator<String> it = pSet.iterator();
+                while (it.hasNext()) {
+                    String str = it.next();
+                    Insert me = new Insert("sys_api");
+                    me.set("id", DB.instance().getUUID());
+                    me.setIf("ct", str);
+                    me.setIf("dr", "0");
+                    me.setIf("ctacl", aclvalue);
+                    me.setIf("apitype", "url");
+                    me.setIf("info", aclinfo);
+                    me.setIf("type", type);
+                    me.setSE("rectime", DbUtil.getDbDateString(DB.instance().getDBType()));
+                    _log.info(str + "," + aclvalue + "," + me.getSQL());
+                    sqls.add(me);
+                }
+            }
 
-		}
-		if (sqls.size() > 0) {
-			_log.info("Save collect Api.");
-			DB.instance().tabTruncate("sys_api");
-			DB.instance().executeSQLList(sqls);
-		} else {
-			_log.info("Save collect Api failed.");
-		}
-		JobService.me().finishedJobUpdate(jc);
-	}
+        }
+        if (sqls.size() > 0) {
+            _log.info("Save collect Api.");
+            DB.instance().tabTruncate("sys_api");
+            DB.instance().executeSQLList(sqls);
+        } else {
+            _log.info("Save collect Api failed.");
+        }
+        JobService.me().finishedJobUpdate(jc);
+    }
 }
 
 

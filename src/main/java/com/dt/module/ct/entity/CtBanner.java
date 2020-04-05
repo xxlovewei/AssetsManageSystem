@@ -9,7 +9,7 @@ import com.dt.core.common.base.BaseModel;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
@@ -70,10 +70,10 @@ public class CtBanner extends BaseModel<CtBanner> {
     @Override
     public String toString() {
         return "CtBanner{" +
-        ", bannerId=" + bannerId +
-        ", name=" + name +
-        ", type=" + type +
-        ", isUsed=" + isUsed +
-        "}";
+                ", bannerId=" + bannerId +
+                ", name=" + name +
+                ", type=" + type +
+                ", isUsed=" + isUsed +
+                "}";
     }
 }

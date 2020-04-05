@@ -1,24 +1,29 @@
 package com.dt.module.flow.entity;
 
 import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.math.BigDecimal;
+
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-04
  */
- 
+
 @TableName("sys_process_form")
- 
+
 public class SysProcessForm extends BaseModel<SysProcessForm> {
 
     private static final long serialVersionUID = 1L;
@@ -622,58 +627,58 @@ public class SysProcessForm extends BaseModel<SysProcessForm> {
     @Override
     public String toString() {
         return "SysProcessForm{" +
-        "did=" + did +
-        ", processdataid=" + processdataid +
-        ", duuid=" + duuid +
-        ", dtitle=" + dtitle +
-        ", dct=" + dct +
-        ", durl=" + durl +
-        ", dname=" + dname +
-        ", dmark=" + dmark +
-        ", dmessage=" + dmessage +
-        ", dsex=" + dsex +
-        ", dstatus=" + dstatus +
-        ", dtype=" + dtype +
-        ", dsubtype=" + dsubtype +
-        ", dpwd=" + dpwd +
-        ", daddr=" + daddr +
-        ", dcontact=" + dcontact +
-        ", dpic1=" + dpic1 +
-        ", dpic2=" + dpic2 +
-        ", dpic3=" + dpic3 +
-        ", duser=" + duser +
-        ", dresult=" + dresult +
-        ", dtotal=" + dtotal +
-        ", dbacktime=" + dbacktime +
-        ", dlevel=" + dlevel +
-        ", dmethod=" + dmethod +
-        ", dfile=" + dfile +
-        ", ddict=" + ddict +
-        ", dattach1=" + dattach1 +
-        ", dattach2=" + dattach2 +
-        ", dattach3=" + dattach3 +
-        ", djson=" + djson +
-        ", dcard=" + dcard +
-        ", df1=" + df1 +
-        ", df2=" + df2 +
-        ", df3=" + df3 +
-        ", df4=" + df4 +
-        ", df5=" + df5 +
-        ", df6=" + df6 +
-        ", df7=" + df7 +
-        ", df8=" + df8 +
-        ", df9=" + df9 +
-        ", df10=" + df10 +
-        ", dn1=" + dn1 +
-        ", dn2=" + dn2 +
-        ", dn3=" + dn3 +
-        ", dn4=" + dn4 +
-        ", dn5=" + dn5 +
-        ", dn6=" + dn6 +
-        ", dn7=" + dn7 +
-        ", dn8=" + dn8 +
-        ", dn9=" + dn9 +
-        ", dn10=" + dn10 +
-        "}";
+                "did=" + did +
+                ", processdataid=" + processdataid +
+                ", duuid=" + duuid +
+                ", dtitle=" + dtitle +
+                ", dct=" + dct +
+                ", durl=" + durl +
+                ", dname=" + dname +
+                ", dmark=" + dmark +
+                ", dmessage=" + dmessage +
+                ", dsex=" + dsex +
+                ", dstatus=" + dstatus +
+                ", dtype=" + dtype +
+                ", dsubtype=" + dsubtype +
+                ", dpwd=" + dpwd +
+                ", daddr=" + daddr +
+                ", dcontact=" + dcontact +
+                ", dpic1=" + dpic1 +
+                ", dpic2=" + dpic2 +
+                ", dpic3=" + dpic3 +
+                ", duser=" + duser +
+                ", dresult=" + dresult +
+                ", dtotal=" + dtotal +
+                ", dbacktime=" + dbacktime +
+                ", dlevel=" + dlevel +
+                ", dmethod=" + dmethod +
+                ", dfile=" + dfile +
+                ", ddict=" + ddict +
+                ", dattach1=" + dattach1 +
+                ", dattach2=" + dattach2 +
+                ", dattach3=" + dattach3 +
+                ", djson=" + djson +
+                ", dcard=" + dcard +
+                ", df1=" + df1 +
+                ", df2=" + df2 +
+                ", df3=" + df3 +
+                ", df4=" + df4 +
+                ", df5=" + df5 +
+                ", df6=" + df6 +
+                ", df7=" + df7 +
+                ", df8=" + df8 +
+                ", df9=" + df9 +
+                ", df10=" + df10 +
+                ", dn1=" + dn1 +
+                ", dn2=" + dn2 +
+                ", dn3=" + dn3 +
+                ", dn4=" + dn4 +
+                ", dn5=" + dn5 +
+                ", dn6=" + dn6 +
+                ", dn7=" + dn7 +
+                ", dn8=" + dn8 +
+                ", dn9=" + dn9 +
+                ", dn10=" + dn10 +
+                "}";
     }
 }
