@@ -412,11 +412,11 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="347" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/38.23.1242.777@38.23.1242.777" timestamp="1586053580477" />
-    <state x="235" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1586264502511">
+    <state x="235" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1586264560433">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="233" y="23" width="833" height="777" key="CommitChangelistDialog2/38.23.1242.777@38.23.1242.777" timestamp="1586054107747" />
-    <state x="235" y="23" width="833" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1586264502511" />
+    <state x="235" y="23" width="833" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1586264560433" />
     <state x="426" y="153" key="FileChooserDialogImpl" timestamp="1586047650768">
       <screen x="38" y="23" width="1242" height="777" />
     </state>
@@ -535,10 +535,11 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="292" y="312" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/38.23.1242.777@38.23.1242.777" timestamp="1586047810538" />
-    <state x="523" y="152" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog" timestamp="1586054123144">
-      <screen x="38" y="23" width="1242" height="777" />
+    <state x="524" y="152" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog" timestamp="1586264555242">
+      <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="523" y="152" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog/38.23.1242.777@38.23.1242.777" timestamp="1586054123144" />
+    <state x="524" y="152" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog/40.23.1240.777@40.23.1240.777" timestamp="1586264555242" />
     <state x="127" y="23" width="683" height="729" key="find.popup" timestamp="1586240046112">
       <screen x="38" y="23" width="1242" height="777" />
     </state>
