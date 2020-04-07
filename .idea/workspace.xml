@@ -7,31 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Project_war.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysProcessSettingExtController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionSP.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Project_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Project_war_exploded.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dev/CustomGeneratorMysql.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dev/CustomGeneratorMysql.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/inter/IShiro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/inter/IShiro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysProcessDataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysProcessDataController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysProcessSettingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysProcessSettingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessSetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessDataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessDataMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessSettingMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessSettingMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessDataService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessDataService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessSettingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessSettingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysProcessDataServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysProcessDataServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysProcessSettingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysProcessSettingServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/flow/SysProcessDataMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/flow/SysProcessDataMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/base.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/plugin/form/k-form-design.umd.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/plugin/form/k-form-design.umd.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcly.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcAction.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcaction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/form/2.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/form/2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/form/design.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/form/design.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/formdesign.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/formdesign.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -312,7 +288,7 @@
       <workItem from="1586141025238" duration="140000" />
       <workItem from="1586153224968" duration="4000" />
       <workItem from="1586153374041" duration="12000" />
-      <workItem from="1586224218776" duration="16957000" />
+      <workItem from="1586224218776" duration="17358000" />
     </task>
     <task id="LOCAL-00001" summary="12">
       <created>1586045638557</created>
@@ -328,7 +304,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586054110112</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="upate">
+      <created>1586264127255</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1586264127255</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -429,10 +412,11 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="347" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/38.23.1242.777@38.23.1242.777" timestamp="1586053580477" />
-    <state x="233" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1586054107747">
-      <screen x="38" y="23" width="1242" height="777" />
+    <state x="235" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1586264502511">
+      <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="233" y="23" width="833" height="777" key="CommitChangelistDialog2/38.23.1242.777@38.23.1242.777" timestamp="1586054107747" />
+    <state x="235" y="23" width="833" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1586264502511" />
     <state x="426" y="153" key="FileChooserDialogImpl" timestamp="1586047650768">
       <screen x="38" y="23" width="1242" height="777" />
     </state>
@@ -529,10 +513,11 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="510" y="287" key="VCS.EditChangelistDialog/38.23.1242.777@38.23.1242.777" timestamp="1586054753811" />
-    <state x="271" y="131" key="Vcs.Push.Dialog.v2" timestamp="1586054668236">
-      <screen x="38" y="23" width="1242" height="777" />
+    <state x="273" y="131" key="Vcs.Push.Dialog.v2" timestamp="1586264335844">
+      <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="271" y="131" key="Vcs.Push.Dialog.v2/38.23.1242.777@38.23.1242.777" timestamp="1586054668236" />
+    <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1586264335844" />
     <state x="483" y="236" width="467" height="334" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog" timestamp="1586263929731">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
