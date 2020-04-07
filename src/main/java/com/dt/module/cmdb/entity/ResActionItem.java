@@ -1,4 +1,4 @@
-package com.dt.module.zc.entity;
+package com.dt.module.cmdb.entity;
 
 import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -25,14 +25,16 @@ public class ResActionItem extends BaseModel<ResActionItem> {
 
     @TableId("id")
     private String id;
-    @TableField("actuuid")
-    private String actuuid;
+    @TableField("busuuid")
+    private String busuuid;
     @TableField("status")
     private String status;
     @TableField("backtime")
     private Date backtime;
     @TableField("resid")
     private String resid;
+    @TableField("backtimestr")
+    private String backtimestr;
 
 
     public String getId() {
@@ -43,12 +45,12 @@ public class ResActionItem extends BaseModel<ResActionItem> {
         this.id = id;
     }
 
-    public String getActuuid() {
-        return actuuid;
+    public String getBusuuid() {
+        return busuuid;
     }
 
-    public void setActuuid(String actuuid) {
-        this.actuuid = actuuid;
+    public void setBusuuid(String busuuid) {
+        this.busuuid = busuuid;
     }
 
     public String getStatus() {
@@ -75,6 +77,14 @@ public class ResActionItem extends BaseModel<ResActionItem> {
         this.resid = resid;
     }
 
+    public String getBacktimestr() {
+        return backtimestr;
+    }
+
+    public void setBacktimestr(String backtimestr) {
+        this.backtimestr = backtimestr;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -84,10 +94,11 @@ public class ResActionItem extends BaseModel<ResActionItem> {
     public String toString() {
         return "ResActionItem{" +
         "id=" + id +
-        ", actuuid=" + actuuid +
+        ", busuuid=" + busuuid +
         ", status=" + status +
         ", backtime=" + backtime +
         ", resid=" + resid +
+        ", backtimestr=" + backtimestr +
         "}";
     }
 }

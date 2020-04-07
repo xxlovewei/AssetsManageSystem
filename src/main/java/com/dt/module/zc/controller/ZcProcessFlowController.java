@@ -1,4 +1,4 @@
-package com.dt.module.cmdb.controller;
+package com.dt.module.zc.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -52,14 +52,13 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
  * @Description: TODO
  */
 @Controller
-@RequestMapping("/api/cmdb/flow")
+@RequestMapping("/api/zc/flow")
 public class ZcProcessFlowController extends BaseController {
 
     @Autowired
     SysUfloProcessService sysUfloProcessService;
 
-    @Autowired
-    IResActionItemService ResActionItemServiceImpl;
+
 
     @Autowired
     ResExtService resExtService;
@@ -82,7 +81,7 @@ public class ZcProcessFlowController extends BaseController {
 
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
-    @RequestMapping(value = "/zc/myProcessTodo.do")
+    @RequestMapping(value = "/myProcessTodo.do")
     public R loadTodo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String loginUsername = EnvironmentUtils.getEnvironment().getLoginUser();
         String taskName = req.getParameter("taskName");
@@ -108,7 +107,7 @@ public class ZcProcessFlowController extends BaseController {
 
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
-    @RequestMapping(value = "/zc/myProcessloadHistory.do")
+    @RequestMapping(value = "/myProcessloadHistory.do")
     public R loadHistory(HttpServletRequest req, HttpServletResponse resp, String sdate, String edate)
             throws ServletException, IOException, ParseException {
         String loginUsername = EnvironmentUtils.getEnvironment().getLoginUser();
@@ -147,7 +146,7 @@ public class ZcProcessFlowController extends BaseController {
 
     @ResponseBody
     @Acl(info = "发起流程", value = Acl.ACL_USER)
-    @RequestMapping(value = "/zc/startProcess.do")
+    @RequestMapping(value = "/startProcess.do")
     public R startProcess(String spmethod, String processkey, String jsonvalue, String type) {
 
 
@@ -163,7 +162,6 @@ public class ZcProcessFlowController extends BaseController {
             if (sd.getProcessInstanceId() != null) {
                 return R.FAILURE("已有流程,无法重复提交");
             }
-
             StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
             startProcessInfo.setCompleteStartTask(true);
             startProcessInfo.setBusinessId(busid);
@@ -175,12 +173,11 @@ public class ZcProcessFlowController extends BaseController {
             up.set("busid", busid);
             up.set("processkey", processkey);
             //	up.set("ptitle", sd.getDtitle());
-            up.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
+            up.set("pstatus", SysUfloProcessService.P_STATUS_RUNNING);
             up.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
             up.set("processInstanceId", inst.getId() + "");
             up.set("pstartuserid", getUserId());
             up.set("pstartusername", SysUserInfoServiceImpl.getById(this.getUserId()).getName());
-
         } else {
             up.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
         }
@@ -190,7 +187,7 @@ public class ZcProcessFlowController extends BaseController {
         return R.SUCCESS_OPER();
     }
 
-    @RequestMapping("/zc/queryTask.do")
+    @RequestMapping("/queryTask.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R queryTask(String taskId) {
@@ -198,7 +195,7 @@ public class ZcProcessFlowController extends BaseController {
         return R.SUCCESS_OPER();
     }
 
-    @RequestMapping("/zc/completeTask.do")
+    @RequestMapping("/completeTask.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R completeTask(String variables, String taskId, String opinion) {
@@ -206,7 +203,7 @@ public class ZcProcessFlowController extends BaseController {
         return r;
     }
 
-    @RequestMapping("/zc/refuseTask.do")
+    @RequestMapping("/refuseTask.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R refuseTask(String taskId, String opinion) {
@@ -214,7 +211,7 @@ public class ZcProcessFlowController extends BaseController {
         return r;
     }
 
-    @RequestMapping("/zc/refuseTask2.do")
+    @RequestMapping("/refuseTask2.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R refuseTask2(String taskId, String opinion) {
@@ -222,7 +219,7 @@ public class ZcProcessFlowController extends BaseController {
         return r;
     }
 
-    @RequestMapping("/zc/getAvaliableForwardTaskNodes.do")
+    @RequestMapping("/getAvaliableForwardTaskNodes.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R getAvaliableForwardTaskNodes(String taskId) {
@@ -230,7 +227,7 @@ public class ZcProcessFlowController extends BaseController {
         return r;
     }
 
-    @RequestMapping("/zc/getAvaliableRollbackTaskNodes.do")
+    @RequestMapping("/getAvaliableRollbackTaskNodes.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R getAvaliableRollbackTaskNodes(String taskId) {
@@ -238,7 +235,7 @@ public class ZcProcessFlowController extends BaseController {
         return r;
     }
 
-    @RequestMapping("/zc/rollback.do")
+    @RequestMapping("/rollback.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R rollback(String taskId, String opinion) {
@@ -246,7 +243,7 @@ public class ZcProcessFlowController extends BaseController {
         return r;
     }
 
-    @RequestMapping("/zc/withdraw.do")
+    @RequestMapping("/withdraw.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R withdraw(String taskId, String opinion) {
@@ -254,7 +251,7 @@ public class ZcProcessFlowController extends BaseController {
         return r;
     }
 
-    @RequestMapping("/zc/forward.do")
+    @RequestMapping("/forward.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R forward(String taskId, String target, String opinion) {
@@ -262,7 +259,7 @@ public class ZcProcessFlowController extends BaseController {
         return r;
     }
 
-    @RequestMapping("/zc/queryTaskNodeDtl.do")
+    @RequestMapping("/queryTaskNodeDtl.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R queryTaskNodeDtl(String taskId) {
@@ -270,7 +267,7 @@ public class ZcProcessFlowController extends BaseController {
         return r;
     }
 
-    @RequestMapping("/zc/completeStartTask.do")
+    @RequestMapping("/completeStartTask.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R completeStartTask(String taskId) {
@@ -283,7 +280,7 @@ public class ZcProcessFlowController extends BaseController {
         // 更新状态
         UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
         uw.eq("processInstanceId", instid);
-        uw.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
+        uw.set("pstatus", SysUfloProcessService.P_STATUS_RUNNING);
         uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
         uw.set("ptitle", ps.getString("dtitle", " "));
         uw.set("dtitle", ps.getString("dtitle", " "));

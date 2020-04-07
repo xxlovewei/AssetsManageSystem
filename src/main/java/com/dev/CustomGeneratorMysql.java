@@ -123,7 +123,7 @@ public class CustomGeneratorMysql {
         mpg.setStrategy(strategy);
 
         // 包配置
-        String busRoute = "zc";
+        String busRoute = "cmdb";
         PackageConfig pc = new PackageConfig();
         pc.setParent("com.dt.module");
         pc.setModuleName(busRoute);

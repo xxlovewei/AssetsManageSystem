@@ -56,15 +56,18 @@ import com.dt.module.flow.service.ISysProcessDataService;
 public class SysUfloProcessService extends BaseService {
 
 
-    public static String P_TYPE_RUNNING = "running";
-    public static String P_TYPE_CANCEL = "cancel";
-    public static String P_TYPE_FINISH = "finish";
-    public static String P_TYPE_ROLLBACK = "rollback";
+    public static String P_TYPE_FLOW = "flow";
+    public static String P_TYPE_FORM = "form";
+//    public static String P_TYPE_CANCEL = "cancel";
+//    public static String P_TYPE_FINISH = "finish";
+//    public static String P_TYPE_ROLLBACK = "rollback";
 
     public static String P_STATUS_SFA = "submitforapproval";
     public static String P_STATUS_INREVIEW = "inreview";
     public static String P_STATUS_APPROVALSUCCESS = "success";
     public static String P_STATUS_APPROVALFAILED = "failed";
+    public static String P_STATUS_RUNNING = "running";
+    public static String P_STATUS_FINISH= "finish";
     public static String P_STATUS_ROLLBACK = "rollback";
     public static String P_STATUS_CANCEL = "cancel";
 
@@ -168,7 +171,7 @@ public class SysUfloProcessService extends BaseService {
         pd.setBusid(busid);
         pd.setProcesskey(key);
         pd.setPtype(type);
-        pd.setPstatus(SysUfloProcessService.P_TYPE_RUNNING);
+        pd.setPstatus(SysUfloProcessService.P_STATUS_RUNNING);
         pd.setProcessInstanceId(inst.getId() + "");
         pd.setPstartuserid(this.getUserId());
         //	pd.setDmessage(ps.getString("dmessage", ""));
@@ -248,7 +251,7 @@ public class SysUfloProcessService extends BaseService {
         taskService.complete(taskId_l, op);
         UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
         uw.eq("processInstanceId", instid);
-        uw.set("pstatus", SysUfloProcessService.P_TYPE_RUNNING);
+        uw.set("pstatus", SysUfloProcessService.P_STATUS_RUNNING);
         uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
         // 判断下一个是不是终点
         ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
@@ -266,7 +269,7 @@ public class SysUfloProcessService extends BaseService {
                     Date date = new Date(); // 获取一个Date对象
                     DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
                     String nowtime = simpleDateFormat.format(date);
-                    uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
+                    uw.set("pstatus", SysUfloProcessService.P_STATUS_FINISH);
                     uw.set("pendtime", nowtime);
                     // 流程类型处理
                     if (pdtype != null) {
@@ -327,7 +330,7 @@ public class SysUfloProcessService extends BaseService {
         // 更新状态
         UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
         uw.eq("processInstanceId", instid);
-        uw.set("pstatus", SysUfloProcessService.P_TYPE_ROLLBACK);
+        uw.set("pstatus", SysUfloProcessService.P_STATUS_ROLLBACK);
         uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_ROLLBACK);
         SysProcessDataServiceImpl.update(uw);
         return R.SUCCESS_OPER();
@@ -373,7 +376,7 @@ public class SysUfloProcessService extends BaseService {
         // 更新状态
         UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
         uw.eq("processInstanceId", instid);
-        uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
+        uw.set("pstatus", SysUfloProcessService.P_STATUS_FINISH);
         uw.set("pstatusdtl", P_STATUS_APPROVALFAILED);
         SysProcessDataServiceImpl.update(uw);
         return R.SUCCESS_OPER();

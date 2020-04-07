@@ -51,14 +51,14 @@ public class UfloNodeEndEventHandler implements NodeEventHandler {
             qw.eq("busid", busid);
             SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
             String pdtype = sd.getPtype();
-            if (SysUfloProcessService.P_TYPE_FINISH.equals(pdtype)) {
+            if (SysUfloProcessService.P_STATUS_FINISH.equals(pdtype)) {
                 // 流程已经处理过不需要处理
             } else {
                 // 更新流程总表
                 UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
 
                 uw.eq("busid", busid);
-                uw.set("pstatus", SysUfloProcessService.P_TYPE_FINISH);
+                uw.set("pstatus", SysUfloProcessService.P_STATUS_FINISH);
                 uw.set("pendtime", nowtime);
                 // 流程类型处理
                 if (pdtype != null) {

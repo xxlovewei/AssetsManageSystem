@@ -36,23 +36,10 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
 public class ResActionExtController extends BaseController {
 
     @Autowired
-    IResActionItemService ResActionItemServiceImpl;
-
-    @Autowired
     ResExtService resExtService;
 
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;
-
-//	@Autowired
-//	private ProcessService processService;
-//
-//	@Autowired
-//	private TaskService taskService;
-//
-//	@Autowired
-//	private HistoryService historyService;
-
 
     @Autowired
     ISysProcessDataService SysProcessDataServiceImpl;
@@ -61,22 +48,7 @@ public class ResActionExtController extends BaseController {
     @Acl(info = "插入", value = Acl.ACL_USER)
     @RequestMapping(value = "/insert.do")
     public R insert(SysProcessData entity, String items) {
-        String uuid = resExtService.createUuid(entity.getPtype());
-        //entity.setDuuid(uuid);
-        entity.setPstatusdtl(SysUfloProcessService.P_STATUS_SFA);
-        //	entity.setDf10(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
-        JSONArray items_arr = JSONArray.parseArray(items);
-        List<ResActionItem> entityList = new ArrayList<ResActionItem>();
-        for (int i = 0; i < items_arr.size(); i++) {
-            ResActionItem e = new ResActionItem();
-            e.setActuuid(uuid);
-            e.setResid(items_arr.getJSONObject(i).getString("id"));
-            e.setStatus("out");
-            entityList.add(e);
-        }
-        //entity.setDtotal(ConvertUtil.toBigDecimal(entityList.size()));
-        ResActionItemServiceImpl.saveBatch(entityList);
-        SysProcessDataServiceImpl.save(entity);
+
         return R.SUCCESS_OPER();
     }
 

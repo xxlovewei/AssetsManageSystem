@@ -459,7 +459,7 @@ public class ResExtService extends BaseService {
             }
         } else if (type.equals(ResExtService.UUID_BX)) {
             for (i = 0; i < cnt; i++) {
-                Rcd rs = db.uniqueRecord("select * from sys_process_data where duuid=?", id);
+                Rcd rs = db.uniqueRecord("select * from res_action_item where busuuid=?", id);
                 if (rs == null) {
                     break;
                 } else {
@@ -474,7 +474,7 @@ public class ResExtService extends BaseService {
         } else if (type.equals(ResExtService.UUID_LY) || type.equals(ResExtService.UUID_JY)
                 || type.equals(ResExtService.UUID_ZY)) {
             for (i = 0; i < cnt; i++) {
-                Rcd rs = db.uniqueRecord("select * from sys_process_data where duuid=?", id);
+                Rcd rs = db.uniqueRecord("select * from res_action_item where busuuid=?", id);
                 if (rs == null) {
                     break;
                 } else {

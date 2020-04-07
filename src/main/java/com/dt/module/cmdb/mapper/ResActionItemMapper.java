@@ -1,6 +1,6 @@
-package com.dt.module.zc.mapper;
+package com.dt.module.cmdb.mapper;
 
-import com.dt.module.zc.entity.ResActionItem;
+import com.dt.module.cmdb.entity.ResActionItem;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

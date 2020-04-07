@@ -1,6 +1,6 @@
-package com.dt.module.zc.service;
+package com.dt.module.cmdb.service;
 
-import com.dt.module.zc.entity.ResActionItem;
+import com.dt.module.cmdb.entity.ResActionItem;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
