@@ -11,7 +11,7 @@
     <result column="update_by" property="updateBy" />
     <result column="update_time" property="updateTime" />
         <result column="busid" property="busid" />
-        <result column="tabtype" property="tabtype" />
+        <result column="bustype" property="bustype" />
         <result column="processkey" property="processkey" />
         <result column="processname" property="processname" />
         <result column="processversion" property="processversion" />

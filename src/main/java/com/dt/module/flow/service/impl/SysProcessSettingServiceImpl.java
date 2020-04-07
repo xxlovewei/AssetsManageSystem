@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * 服务实现类
+ *  服务实现类
  * </p>
  *
  * @author algernonking
- * @since 2020-04-04
+ * @since 2020-04-07
  */
 @Service
 public class SysProcessSettingServiceImpl extends ServiceImpl<SysProcessSettingMapper, SysProcessSetting> implements ISysProcessSettingService {

@@ -1,6 +1,13 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="Project:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/Project_war_exploded</output-path>
+    <output-path>$PROJECT_DIR$/target/dt-1.0.0</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>Project</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -135,7 +142,9 @@
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
         </element>
       </element>
-      <element id="library" level="project" name="lib" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/dt-1.0.0/META-INF/MANIFEST.MF" />
+      </element>
       <element id="javaee-facet-resources" facet="Project/web/Web" />
     </root>
   </artifact>

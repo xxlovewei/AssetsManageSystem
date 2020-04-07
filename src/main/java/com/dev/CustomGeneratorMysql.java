@@ -52,7 +52,8 @@ public class CustomGeneratorMysql {
         // GlobalConfig g = new GlobalConfig();
 
         AutoGenerator mpg = new AutoGenerator();
-        String dir = "/Users/algernonking/git/zcdevmgr/src/main";
+       // String dir = "/Users/algernonking/git/zcdevmgr/src/main";
+        String dir="/Users/algernonking/Project/src/main";
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
 
@@ -112,7 +113,7 @@ public class CustomGeneratorMysql {
         // "","sys_qud_qux"
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
-        strategy.setInclude(new String[]{"sys_process_setting"}); // 需要生成的表
+        strategy.setInclude(new String[]{"res_action_item"}); // 需要生成的表
         // strategy.setInclude(scanner("表名"));
 
         strategy.setTableFillList(tableFillList);
@@ -122,7 +123,7 @@ public class CustomGeneratorMysql {
         mpg.setStrategy(strategy);
 
         // 包配置
-        String busRoute = "flow";
+        String busRoute = "zc";
         PackageConfig pc = new PackageConfig();
         pc.setParent("com.dt.module");
         pc.setModuleName(busRoute);

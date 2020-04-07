@@ -476,8 +476,8 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 		var ct = document.getElementById('formct');
 		angular.element(ct).append($dom);
 	}, 200);
-	$scope.sure = function() {
 
+	$scope.sure = function() {
 		meta.sure($uibModalInstance, $scope);
 	};
 	$scope.cancel = function() {

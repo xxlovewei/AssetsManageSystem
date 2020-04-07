@@ -1,27 +1,24 @@
 package com.dt.module.flow.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author algernonking
- * @since 2020-04-04
+ * @since 2020-04-07
  */
-
+ 
 @TableName("sys_process_data")
-
+ 
 public class SysProcessData extends BaseModel<SysProcessData> {
 
     private static final long serialVersionUID = 1L;
@@ -30,8 +27,11 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     private String id;
     @TableField("busid")
     private String busid;
-    @TableField("tabtype")
-    private String tabtype;
+    /**
+     * process,form
+     */
+    @TableField("bustype")
+    private String bustype;
     @TableField("processkey")
     private String processkey;
     @TableField("processname")
@@ -45,10 +45,16 @@ public class SysProcessData extends BaseModel<SysProcessData> {
      */
     @TableField("ptitle")
     private String ptitle;
+    /**
+     * LY,JY...
+     */
     @TableField("ptype")
     private String ptype;
     @TableField("psubtype")
     private String psubtype;
+    /**
+     * 流程状态是否结算
+     */
     @TableField("pstatus")
     private String pstatus;
     @TableField("pstatusdtl")
@@ -83,12 +89,12 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         this.busid = busid;
     }
 
-    public String getTabtype() {
-        return tabtype;
+    public String getBustype() {
+        return bustype;
     }
 
-    public void setTabtype(String tabtype) {
-        this.tabtype = tabtype;
+    public void setBustype(String bustype) {
+        this.bustype = bustype;
     }
 
     public String getProcesskey() {
@@ -195,21 +201,21 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     @Override
     public String toString() {
         return "SysProcessData{" +
-                "id=" + id +
-                ", busid=" + busid +
-                ", tabtype=" + tabtype +
-                ", processkey=" + processkey +
-                ", processname=" + processname +
-                ", processversion=" + processversion +
-                ", processInstanceId=" + processInstanceId +
-                ", ptitle=" + ptitle +
-                ", ptype=" + ptype +
-                ", psubtype=" + psubtype +
-                ", pstatus=" + pstatus +
-                ", pstatusdtl=" + pstatusdtl +
-                ", pstartuserid=" + pstartuserid +
-                ", pstartusername=" + pstartusername +
-                ", pendtime=" + pendtime +
-                "}";
+        "id=" + id +
+        ", busid=" + busid +
+        ", bustype=" + bustype +
+        ", processkey=" + processkey +
+        ", processname=" + processname +
+        ", processversion=" + processversion +
+        ", processInstanceId=" + processInstanceId +
+        ", ptitle=" + ptitle +
+        ", ptype=" + ptype +
+        ", psubtype=" + psubtype +
+        ", pstatus=" + pstatus +
+        ", pstatusdtl=" + pstatusdtl +
+        ", pstartuserid=" + pstartuserid +
+        ", pstartusername=" + pstartusername +
+        ", pendtime=" + pendtime +
+        "}";
     }
 }

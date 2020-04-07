@@ -35,7 +35,7 @@ public interface IShiro {
      *
      * @param roleId 角色id
      */
-    List<SysModulesItem> findPermissionsByRoleId(String roleId);
+    List< SysModulesItem> findPermissionsByRoleId(String roleId);
 
     /**
      * 根据角色id获取角色名称

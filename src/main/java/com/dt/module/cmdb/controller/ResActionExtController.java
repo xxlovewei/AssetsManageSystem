@@ -18,8 +18,6 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.ISysUserInfoService;
-import com.dt.module.cmdb.entity.ResActionItem;
-import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.service.impl.ResExtService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;

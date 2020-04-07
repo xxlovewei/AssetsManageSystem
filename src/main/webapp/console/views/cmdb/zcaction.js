@@ -321,18 +321,52 @@ function chosenProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 
 }
-function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,$timeout,
 		$uibModalInstance, $state, meta) {
-
-	$scope.actmsg = "操作";
-	if (meta.acttype == "LY") {
-		$scope.actmsg = "领用人";
-	} else if (meta.acttype == "JY") {
-		$scope.actmsg = "借用人";
-	} else if (meta.acttype == "ZY") {
-		$scope.actmsg = "转移人";
-	}
+	console.log(meta);
+	$scope.actmsg =meta.actmsg;
+	let vm;
+	$timeout(function(){
+		var jd=decodeURI(meta.flowform.formct);
+		let jsonData  =angular.fromJson(jd);
+		console.log(jsonData);
+		vm = new Vue({
+			el: '#app',
+			data: {
+				jsonData
+			},
+			mounted () {
+				this.init()
+			},
+			methods: {
+				init(){
+					console.log(this);
+					console.log(this.jsonData);
+				},
+				handleSubmit(p) {
+					// 通过表单提交按钮触发，获取promise对象
+					p().then(res => {
+						// 获取数据成功
+						alert(JSON.stringify(res))
+					})
+						.catch(err => {
+							console.log(err, '校验失败')
+						})
+				},
+				getData() {
+					// 通过函数获取数据
+					this.$refs.kfb.getData().then(res => {
+						// 获取数据成功
+						alert(JSON.stringify(res))
+					})
+						.catch(err => {
+							console.log(err, '校验失败')
+						})
+				}
+			}
+		})
+	},1000)
 
 	$scope.data = {};
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
@@ -403,17 +437,13 @@ function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
 			$log.log("reason", reason)
 		});
-
 	}
 
 	$scope.sure = function() {
-
 		$scope.data.ptype = meta.acttype;
-
 		if ($scope.dtOptions.aaData.length == 0) {
 			alert("请先选择资产");
 			return;
-
 		}
 		$scope.data.items = angular.toJson($scope.dtOptions.aaData);
 		$http.post($rootScope.project + "/api/cmdb/resActionExt/insert.do",
@@ -426,51 +456,16 @@ function modalzclySaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 				});
 			}
 		})
-
 	}
-	
-	console.log('11111111')
-	 let vm ;
-	  $timeout(function(){
-		  let jsonData  = {"list":[{"type":"grid","label":"栅格布局","columns":[{"span":12,"list":[{"type":"input","label":"输入框","icon":"icon-write","options":{"type":"text","width":"100%","defaultValue":"","placeholder":"请输入","clearable":false,"maxLength":null,"disabled":false},"model":"input_1585925771170","key":"input_1585925771170","rules":[{"required":false,"message":"必填项"}]}]},{"span":12,"list":[{"type":"input","label":"输入框","icon":"icon-write","options":{"type":"text","width":"100%","defaultValue":"","placeholder":"请输入","clearable":false,"maxLength":null,"disabled":false},"model":"input_1585925772691","key":"input_1585925772691","rules":[{"required":false,"message":"必填项"}]}]}],"options":{"gutter":0},"key":"grid_1585925769152"},{"type":"input","label":"输入框","options":{"type":"text","width":"100%","defaultValue":"","placeholder":"请输入","clearable":false,"maxLength":null,"disabled":false},"model":"input_1585925776396","key":"input_1585925776396","rules":[{"required":false,"message":"必填项"}]}],"config":{"layout":"horizontal","labelCol":{"span":4},"wrapperCol":{"span":18},"hideRequiredMark":false,"customStyle":""}}
-		  ;
-		  vm = new Vue({
-		     el: '.app',
-		     data: {
-		       jsonData
-		     },
-		     methods: {
-		       handleSubmit(p) {
-		         // 通过表单提交按钮触发，获取promise对象
-		         p().then(res => {
-		           // 获取数据成功
-		           alert(JSON.stringify(res))
-		         })
-		           .catch(err => {
-		             console.log(err, '校验失败')
-		           })
-		       },
-		       getData() {
-		         // 通过函数获取数据
-		         this.$refs.KFB.getData().then(res => {
-		           // 获取数据成功
-		           alert(JSON.stringify(res))
-		         })
-		           .catch(err => {
-		             console.log(err, '校验失败')
-		           })
-		       }
-		     }
-		   })
-                },1000)
-	
 
 	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
 		  // 通过函数获取数据
-	         vm.$refs.KFB.getData().then(res => {
-	           // 获取数据成功
-	           alert(JSON.stringify(res))
-	         })
+
+	         // vm.$refs.KFB.getData().then(res => {
+	         //   // 获取数据成功
+	         //   alert(JSON.stringify(res))
+	         // })
 	};
 }
 
@@ -560,7 +555,6 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			} else if (data == "success") {
 				html = "<span style='color:green; font-weight:bold'>审批成功</span>";
 			} else if (data == "failed") {
-
 				html = "<span style='color:red;font-weight:bold'>审批失败</span>";
 			} else if (data == "cancel") {
 				html = "<span style='color:red;font-weight:bold'>审批取消</span>"
@@ -851,27 +845,47 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		var ps = {};
 		ps.id = id;
 		ps.acttype = acttype;
-		var modalInstance = $uibModal.open({
-			backdrop : true,
-			templateUrl : 'views/cmdb/modal_zcly.html',
-			controller : modalzclySaveCtl,
-			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
-				meta : function() {
-					return ps;
-				}
-			}
-		});
+		if (ps.acttype == "LY") {
+			ps.actmsg = "领用人";
+			ps.actcode="process_zcly";
+		} else if (ps.acttype == "JY") {
+			ps.actmsg = "借用人";
+		} else if (ps.acttype == "ZY") {
+			ps.actmsg = "转移人";
+		}
 
-		modalInstance.result.then(function(result) {
-			$log.log("result", result);
-			if (result == "OK") {
-				flush();
+		$http.post($rootScope.project + "/api/flow/sysProcessSetting/ext/selectByCode.do",
+			{code:ps.actcode}).success(function(res) {
+			if (res.success) {
+			 	ps.flowform=res.data;
+				var modalInstance = $uibModal.open({
+					backdrop : true,
+					templateUrl : 'views/cmdb/modal_zcAction.html',
+					controller : modalzcActionSaveCtl,
+					size : 'blg',
+					resolve : { // 调用控制器与modal控制器中传递值
+						meta : function() {
+							return ps;
+						}
+					}
+				});
+				modalInstance.result.then(function(result) {
+					$log.log("result", result);
+					if (result == "OK") {
+						flush();
+					}
+				}, function(reason) {
+					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+					$log.log("reason", reason)
+				});
+			} else {
+				notify({
+					message : res.message
+				});
 			}
-		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-			$log.log("reason", reason)
-		});
+		})
+
+
 
 	}
 
