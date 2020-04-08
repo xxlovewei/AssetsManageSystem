@@ -7,21 +7,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/mysql.dt.20200408200005.sql.tar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysql.dt.20200329110409.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloNodeEndEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloNodeEndEventHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysUfloProcessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysUfloProcessService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/form/service/impl/FormServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/form/service/impl/FormServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/allprocess.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/allprocess.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/myprocess.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/myprocess.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/processfinish.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/processfinish.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/todo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/todo.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionDtl.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionDtl.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionSP.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionSP.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcaction.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/formdesign.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/formdesign.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +117,7 @@
       <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.dt [install]">
+  <component name="RunManager" selected="JavaScript Debug.modal_zcActionDtl.do">
     <configuration name="CustomGeneratorMysql" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.dev.CustomGeneratorMysql" />
       <module name="Project" />
@@ -140,6 +131,9 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="modal_zcActionDtl.do" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/dt/console/views/cmdb/modal_zcActionDtl.do">
+      <method v="2" />
     </configuration>
     <configuration name="dt [install]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
       <MavenSettings>
@@ -288,9 +282,11 @@
       <item itemvalue="Application.FormServiceImpl" />
       <item itemvalue="Tomcat Server.Tomcat 9.0.31" />
       <item itemvalue="Maven.dt [install]" />
+      <item itemvalue="JavaScript Debug.modal_zcActionDtl.do" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.modal_zcActionDtl.do" />
         <item itemvalue="Maven.dt [install]" />
         <item itemvalue="Application.CustomGeneratorMysql" />
         <item itemvalue="Application.FormServiceImpl" />
@@ -339,7 +335,7 @@
       <workItem from="1586153374041" duration="12000" />
       <workItem from="1586224218776" duration="24347000" />
       <workItem from="1586305907368" duration="15136000" />
-      <workItem from="1586326848775" duration="14143000" />
+      <workItem from="1586326848775" duration="15887000" />
     </task>
     <task id="LOCAL-00001" summary="12">
       <created>1586045638557</created>
@@ -397,7 +393,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586336294835</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="upate">
+      <created>1586349446901</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1586349446901</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -510,11 +513,11 @@
     </state>
     <state x="347" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/38.23.1242.777@38.23.1242.777" timestamp="1586053580477" />
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1586307931186" />
-    <state x="235" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1586336293846">
+    <state x="235" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1586349446007">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="233" y="23" width="833" height="777" key="CommitChangelistDialog2/38.23.1242.777@38.23.1242.777" timestamp="1586054107747" />
-    <state x="235" y="23" width="833" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1586336293846" />
+    <state x="235" y="23" width="833" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1586349446007" />
     <state x="407" y="90" width="1231" height="614" key="DiffContextDialog" timestamp="1586345443345">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
@@ -523,26 +526,26 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="426" y="153" key="FileChooserDialogImpl/38.23.1242.777@38.23.1242.777" timestamp="1586047650768" />
-    <state width="1198" height="2" key="GridCell.Tab.0.bottom" timestamp="1586349046683">
+    <state width="1198" height="310" key="GridCell.Tab.0.bottom" timestamp="1586351233545">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state width="1281" height="255" key="GridCell.Tab.0.bottom/38.23.1242.777@38.23.1242.777" timestamp="1586237145378" />
-    <state width="1198" height="2" key="GridCell.Tab.0.bottom/40.23.1240.777@40.23.1240.777" timestamp="1586349046683" />
-    <state width="1198" height="2" key="GridCell.Tab.0.center" timestamp="1586349046666">
+    <state width="1198" height="310" key="GridCell.Tab.0.bottom/40.23.1240.777@40.23.1240.777" timestamp="1586351233545" />
+    <state width="1198" height="310" key="GridCell.Tab.0.center" timestamp="1586351233544">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state width="1281" height="255" key="GridCell.Tab.0.center/38.23.1242.777@38.23.1242.777" timestamp="1586237145377" />
-    <state width="1198" height="2" key="GridCell.Tab.0.center/40.23.1240.777@40.23.1240.777" timestamp="1586349046666" />
-    <state width="1198" height="2" key="GridCell.Tab.0.left" timestamp="1586349046663">
+    <state width="1198" height="310" key="GridCell.Tab.0.center/40.23.1240.777@40.23.1240.777" timestamp="1586351233544" />
+    <state width="1198" height="310" key="GridCell.Tab.0.left" timestamp="1586351233543">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state width="1281" height="255" key="GridCell.Tab.0.left/38.23.1242.777@38.23.1242.777" timestamp="1586237145376" />
-    <state width="1198" height="2" key="GridCell.Tab.0.left/40.23.1240.777@40.23.1240.777" timestamp="1586349046663" />
-    <state width="1198" height="2" key="GridCell.Tab.0.right" timestamp="1586349046670">
+    <state width="1198" height="310" key="GridCell.Tab.0.left/40.23.1240.777@40.23.1240.777" timestamp="1586351233543" />
+    <state width="1198" height="310" key="GridCell.Tab.0.right" timestamp="1586351233544">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state width="1281" height="255" key="GridCell.Tab.0.right/38.23.1242.777@38.23.1242.777" timestamp="1586237145377" />
-    <state width="1198" height="2" key="GridCell.Tab.0.right/40.23.1240.777@40.23.1240.777" timestamp="1586349046670" />
+    <state width="1198" height="310" key="GridCell.Tab.0.right/40.23.1240.777@40.23.1240.777" timestamp="1586351233544" />
     <state width="1198" height="2" key="GridCell.Tab.1.bottom" timestamp="1586349046687">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
@@ -615,11 +618,11 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="510" y="287" key="VCS.EditChangelistDialog/38.23.1242.777@38.23.1242.777" timestamp="1586054753811" />
-    <state x="273" y="131" key="Vcs.Push.Dialog.v2" timestamp="1586336315459">
+    <state x="273" y="131" key="Vcs.Push.Dialog.v2" timestamp="1586349458652">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="271" y="131" key="Vcs.Push.Dialog.v2/38.23.1242.777@38.23.1242.777" timestamp="1586054668236" />
-    <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1586336315459" />
+    <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1586349458652" />
     <state x="420" y="213" key="com.intellij.database.dbimport.ImportUtil.MyDialog" timestamp="1586335320101">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
@@ -671,10 +674,10 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="351" y="76" key="scopes/38.23.1242.777@38.23.1242.777" timestamp="1586053557896" />
-    <state x="261" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1586348832415">
+    <state x="261" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1586350750789">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
-    <state x="261" y="124" width="670" height="676" key="search.everywhere.popup/40.23.1240.777@40.23.1240.777" timestamp="1586348832415" />
+    <state x="261" y="124" width="670" height="676" key="search.everywhere.popup/40.23.1240.777@40.23.1240.777" timestamp="1586350750789" />
     <state x="402" y="329" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1586054830569">
       <screen x="38" y="23" width="1242" height="777" />
     </state>

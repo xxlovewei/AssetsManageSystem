@@ -845,14 +845,16 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 						if (res.success) {
 							$scope.data = res.data;
 							$scope.dtOptions.aaData = res.data.items;
-							 $http
-								.post(
+
+							if(angular.isDefined(res.data.processInstanceId) &&res.data.processInstanceId!=""){
+								$http
+									.post(
 										$rootScope.project
-												+ "/api/flow/loadProcessInstanceData.do",
+										+ "/api/flow/loadProcessInstanceData.do",
 										{
 											processInstanceId : res.data.processInstanceId
 										})
-								.success(
+									.success(
 										function(res) {
 											if (res.success) {
 												$scope.spsugguest=res.data;
@@ -862,6 +864,13 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 												});
 											}
 										})
+								$scope.url= $rootScope.project
+									+ "uflo/diagram?processInstanceId="
+									+ res.data.processInstanceId;
+							}
+
+
+
 							var dynamicData=res.data.formdata;
 							let vm;
 							$timeout(function(){
@@ -891,43 +900,8 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 								})
 							},1000)
 
-							$scope.url= $rootScope.project
-								+ "uflo/diagram?processInstanceId="
-								+ res.data.processInstanceId;
-							//$scope.url = url;
-							//
-							//
-							// if($scope.data.pstatus=="rollback"){
-							// 	$scope.ctl.dtitle=false;
-							// 	$scope.ctl.dct=false;
-							// 	$scope.ctl.df1=false;
-							// 	$scope.ctl.df2=false;
-							// }
 
-						//	var html = "未知"
-							// if (angular.isDefined(res.data.pstatusdtl)) {
-							// 	if (res.data.pstatusdtl == "submitforapproval") {
-							// 		html = "待送审"
-							// 	} else if (res.data.pstatusdtl == "inreview") {
-							// 		html = "审批中"
-							// 	} else if (res.data.pstatusdtl == "success") {
-							// 		html = "审批通过"
-							// 	} else if (res.data.pstatusdtl == "failed") {
-							// 		html = "审批失败"
-							// 	} else if (res.data.pstatusdtl == "cancel") {
-							// 		html = "审批取消"
-							// 	}else if (res.data.pstatusdtl == "rollback") {
-							// 		html = "审批退回"
-							// 	}
-							// }
-						//	$scope.data.spstatusstr = html;
-							// if (angular.isDefined(res.data.dmethod)) {
-							// 	if (res.data.dmethod == "1") {
-							// 		$scope.data.dmethodstr = "需要审批"
-							// 	} else {
-							// 		$scope.data.dmethodstr = "无需审批"
-							// 	}
-							// }
+
 
 						} else {
 							notify({
