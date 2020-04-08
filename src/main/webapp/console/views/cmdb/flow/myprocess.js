@@ -85,42 +85,42 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 	}
 
-	function renderStatusDtl(data, type, full) {
-		var html = data;
-		if (angular.isDefined(data)) {
-			if (data == "submitforapproval") {
-				html = "<span style='color:#33FFFF; font-weight:bold'>待送审</span>";
-			} else if (data == "inreview") {
-				html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
-			} else if (data == "success") {
-				html = "<span style='color:green; font-weight:bold'>审批成功</span>";
-			} else if (data == "failed") {
-
-				html = "<span style='color:red;font-weight:bold'>审批失败</span>";
-			} else if (data == "cancel") {
-				html = "<span style='color:red;font-weight:bold'>审批取消</span>"
-			} else if (data == "rollback") {
-				html = "<span style='color:red;font-weight:bold'>审批退回</span>";
-			}else{
-				html=data;
-			}
-		}
-		return html;
-	}
+	// function renderStatusDtl(data, type, full) {
+	// 	var html = data;
+	// 	if (angular.isDefined(data)) {
+	// 		if (data == "submitforapproval") {
+	// 			html = "<span style='color:#33FFFF; font-weight:bold'>待送审</span>";
+	// 		} else if (data == "inreview") {
+	// 			html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
+	// 		} else if (data == "success") {
+	// 			html = "<span style='color:green; font-weight:bold'>审批成功</span>";
+	// 		} else if (data == "failed") {
+	//
+	// 			html = "<span style='color:red;font-weight:bold'>审批失败</span>";
+	// 		} else if (data == "cancel") {
+	// 			html = "<span style='color:red;font-weight:bold'>审批取消</span>"
+	// 		} else if (data == "rollback") {
+	// 			html = "<span style='color:red;font-weight:bold'>审批退回</span>";
+	// 		}else{
+	// 			html=data;
+	// 		}
+	// 	}
+	// 	return html;
+	// }
 
 	function renderType(data, type, full) {
 		var html = data;
 		if (angular.isDefined(data)) {
 			if (data == "LY") {
-				html = "资产领用流程";
+				html = "资产领用";
 			} else if (data == "JY") {
-				html = "资产借用流程"
+				html = "资产借用"
 			} else if (data == "BX") {
-				html = "资产报销流程"
+				html = "资产报销"
 			} else if (data == "ZY") {
-				html = "资产转移流程"
+				html = "资产转移"
 			} else if (data == "WX") {
-				html = "资产维修流程"
+				html = "资产维修"
 			}
 		}
 		return html;
@@ -135,13 +135,13 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}),
 			//			DTColumnBuilder.newColumn('processInstanceId').withTitle('流程编号')
 			//					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('duuid').withTitle('单据号').withOption(
+			DTColumnBuilder.newColumn('busid').withTitle('单据号').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('pstatusdtl').withTitle('状态').withOption(
-					'sDefaultContent', '').renderWith(renderStatusDtl),
+			DTColumnBuilder.newColumn('pstatus').withTitle('状态').withOption(
+					'sDefaultContent', '').renderWith(renderZCSPStatus),
 			DTColumnBuilder.newColumn('ptitle').withTitle('标题').withOption(
 					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('ptype').withTitle('类型').withOption(
+			DTColumnBuilder.newColumn('bustype').withTitle('类型').withOption(
 					'sDefaultContent', '').renderWith(renderType),
 			DTColumnBuilder.newColumn('createTime').withTitle('发起时间')
 					.withOption('sDefaultContent', ''),

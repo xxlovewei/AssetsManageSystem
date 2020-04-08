@@ -732,6 +732,33 @@ function modalreviewProcessCtl(meta, $rootScope, $window, $scope,
 }
 
 
+function renderZCSPStatus(data, type, full) {
+	var html = data;
+	if (angular.isDefined(data)) {
+		if (data == "submitforapproval") {
+			html = "<span style='color:#33FFFF; font-weight:bold'>待送审</span>";
+		} else if (data == "inreview") {
+			html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
+		} else if (data == "running") {
+			html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
+		} else if (data == "success") {
+			html = "<span style='color:green; font-weight:bold'>审批成功</span>";
+		} else if (data == "failed") {
+			html = "<span style='color:red;font-weight:bold'>审批失败</span>";
+		} else if (data == "cancel") {
+			html = "<span style='color:red;font-weight:bold'>审批取消</span>"
+		} else if (data == "rollback") {
+			html = "<span style='color:red;font-weight:bold'>审批退回</span>";
+		} else if (data == "finish") {
+			html = "<span style='color:red;font-weight:bold'>流程结束</span>";
+		} else {
+			html = data;
+		}
+	}
+	return html;
+}
+
+
 function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,pagetype,task,
 		$uibModalInstance) {
@@ -749,13 +776,13 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
+
+	$scope.url = "";
+	$scope.spsugguest=[];
 	$scope.ctl={};
-	$scope.ctl.dtitle=true;
-	$scope.ctl.dct=true;
-	$scope.ctl.df1=true;
-	$scope.ctl.df2=true;
 	$scope.ctl.pagespbtnhide=true;
 	$scope.spsuggest="";
+	//页面是否审批类型打开
 	$scope.pagetype=pagetype;
 	if($scope.pagetype=="sp"){
 		$scope.ctl.pagespbtnhide=false;
@@ -801,13 +828,12 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
 					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-					.withOption('sDefaultContent', '') ]
+					.withOption('sDefaultContent', '')
+
+	]
 
 	$scope.dtOptions.aaData = [];
 
- 
-	$scope.url = "";
-	$scope.spsugguest=[];
 	// 显示审批页面
 	$http
 			.post($rootScope.project + "/api/zc/selectBillById.do",
@@ -819,7 +845,24 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 						if (res.success) {
 							$scope.data = res.data;
 							$scope.dtOptions.aaData = res.data.items;
-
+							 $http
+								.post(
+										$rootScope.project
+												+ "/api/flow/loadProcessInstanceData.do",
+										{
+											processInstanceId : res.data.processInstanceId
+										})
+								.success(
+										function(res) {
+											if (res.success) {
+												$scope.spsugguest=res.data;
+											} else {
+												notify({
+													message : res.message
+												});
+											}
+										})
+							var dynamicData=res.data.formdata;
 							let vm;
 							$timeout(function(){
 								var jd=decodeURI(res.data.formconf);
@@ -828,7 +871,8 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 								vm = new Vue({
 									el: '#app',
 									data: {
-										jsonData
+										jsonData,
+										dynamicData
 									},
 									mounted () {
 										this.init()
@@ -847,12 +891,10 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 								})
 							},1000)
 
-
-
-							var url = $rootScope.project
+							$scope.url= $rootScope.project
 								+ "uflo/diagram?processInstanceId="
 								+ res.data.processInstanceId;
-							$scope.url = url;
+							//$scope.url = url;
 							//
 							//
 							// if($scope.data.pstatus=="rollback"){
@@ -862,54 +904,30 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 							// 	$scope.ctl.df2=false;
 							// }
 
-
-							// if (angular.isDefined(res.data.dmethod)
-							// 		&& res.data.dmethod == "1") {
-							//
-							// 	// $http
-								// 		.post(
-								// 				$rootScope.project
-								// 						+ "/api/flow/loadProcessInstanceData.do",
-								// 				{
-								// 					processInstanceId : res.data.processInstanceId
-								// 				})
-								// 		.success(
-								// 				function(res) {
-								// 					if (res.success) {
-								//
-								// 						$scope.spsugguest=res.data;
-								// 					} else {
-								// 						notify({
-								// 							message : res.message
-								// 						});
-								// 					}
-								// 				})
-
-						//	}
-							var html = "未知"
-							if (angular.isDefined(res.data.pstatusdtl)) {
-								if (res.data.pstatusdtl == "submitforapproval") {
-									html = "待送审"
-								} else if (res.data.pstatusdtl == "inreview") {
-									html = "审批中"
-								} else if (res.data.pstatusdtl == "success") {
-									html = "审批通过"
-								} else if (res.data.pstatusdtl == "failed") {
-									html = "审批失败"
-								} else if (res.data.pstatusdtl == "cancel") {
-									html = "审批取消"
-								}else if (res.data.pstatusdtl == "rollback") {
-									html = "审批退回"
-								}
-							}
-							$scope.data.spstatusstr = html;
-							if (angular.isDefined(res.data.dmethod)) {
-								if (res.data.dmethod == "1") {
-									$scope.data.dmethodstr = "需要审批"
-								} else {
-									$scope.data.dmethodstr = "无需审批"
-								}
-							}
+						//	var html = "未知"
+							// if (angular.isDefined(res.data.pstatusdtl)) {
+							// 	if (res.data.pstatusdtl == "submitforapproval") {
+							// 		html = "待送审"
+							// 	} else if (res.data.pstatusdtl == "inreview") {
+							// 		html = "审批中"
+							// 	} else if (res.data.pstatusdtl == "success") {
+							// 		html = "审批通过"
+							// 	} else if (res.data.pstatusdtl == "failed") {
+							// 		html = "审批失败"
+							// 	} else if (res.data.pstatusdtl == "cancel") {
+							// 		html = "审批取消"
+							// 	}else if (res.data.pstatusdtl == "rollback") {
+							// 		html = "审批退回"
+							// 	}
+							// }
+						//	$scope.data.spstatusstr = html;
+							// if (angular.isDefined(res.data.dmethod)) {
+							// 	if (res.data.dmethod == "1") {
+							// 		$scope.data.dmethodstr = "需要审批"
+							// 	} else {
+							// 		$scope.data.dmethodstr = "无需审批"
+							// 	}
+							// }
 
 						} else {
 							notify({
@@ -934,7 +952,7 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 			return;
 		}
 		$http
-		.post($rootScope.project + "/api/cmdb/flow/zc/completeTask.do",
+		.post($rootScope.project + "/api/zc/flow/completeTask.do",
 				{taskId:task.id,opinion:$scope.spsuggest}).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close('OK');
@@ -958,7 +976,7 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 			return;
 		}
 		$http
-		.post($rootScope.project + "/api/cmdb/flow/zc/rollback.do",
+		.post($rootScope.project + "/api/zc/flow/rollback.do",
 				{taskId:task.id,opinion:$scope.spsuggest}).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close('OK');
@@ -982,7 +1000,7 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 		}
 		
 		$http
-		.post($rootScope.project + "/api/cmdb/flow/zc/completeTask.do",
+		.post($rootScope.project + "/api/zc/flow/refuseTask.do",
 				{taskId:task.id,opinion:$scope.spsuggest}).success(function(res) {
 			if (res.success) {
 				$uibModalInstance.close('OK');

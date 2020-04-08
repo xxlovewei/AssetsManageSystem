@@ -71,7 +71,7 @@ public class ZcController extends BaseController {
 
         SysProcessData sd=SysProcessDataServiceImpl.getById(id);
         JSONObject res=JSONObject.fromObject(sd);
-        String sql= "select "+ ResExtService.resSqlbody+" '' end from res t,res_action_item item where t.id=item.resid and item.busuuid=?";
+        String sql= "select "+ ResExtService.resSqlbody+" t.* from res t,res_action_item item where t.id=item.resid and item.busuuid=?";
         System.out.println(sd.getFormid());
         SysProcessForm form=SysProcessFormServiceImpl.getById(sd.getFormid());
         res.put("formdata",form.getFdata());

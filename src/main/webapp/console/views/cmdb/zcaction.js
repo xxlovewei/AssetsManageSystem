@@ -83,21 +83,36 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	console.log(meta);
 	$scope.actmsg =meta.actmsg;
 	$scope.data = {};
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
-					50).withOption("ordering", false).withOption("responsive",
-					false).withOption("searching", false).withOption('scrollY',
-					'300px').withOption('scrollX', true).withOption(
-					'bAutoWidth', true).withOption('scrollCollapse', true)
-			.withOption('paging', false).withFixedColumns({
-				leftColumns : 0,
-				rightColumns : 0
-			}).withOption('bStateSave', true).withOption('bProcessing', false)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
-				$compile(angular.element(row).contents())($scope);
-			});
+	$scope.dtOptions=DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
+		.withPaginationType('full_numbers').withDisplayLength(100)
+		.withOption("ordering", false).withOption("responsive", false)
+		.withOption("searching", true).withOption('scrollY', '600px')
+		.withOption('scrollX', true).withOption('bAutoWidth', true)
+		.withOption('scrollCollapse', true).withOption('paging', false)
+		.withFixedColumns({
+			leftColumns : 0,
+			rightColumns : 0
+		}).withOption('bStateSave', true).withOption('bProcessing', false)
+		.withOption('bFilter', false).withOption('bInfo', false)
+		.withOption('serverSide', false).withOption('aaData',
+		$scope.tabdata).withOption('createdRow', function(row) {
+		$compile(angular.element(row).contents())($scope);
+	})
+	// $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
+	// 		.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
+	// 				50).withOption("ordering", false).withOption("responsive",
+	// 				false).withOption("searching", false).withOption('scrollY',
+	// 				'300px').withOption('scrollX', true).withOption(
+	// 				'bAutoWidth', true).withOption('scrollCollapse', true)
+	// 		.withOption('paging', false).withFixedColumns({
+	// 			leftColumns : 0,
+	// 			rightColumns : 0
+	// 		}).withOption('bStateSave', true).withOption('bProcessing', false)
+	// 		.withOption('bFilter', false).withOption('bInfo', false)
+	// 		.withOption('serverSide', false).withOption('aaData',
+	// 				$scope.tabdata).withOption('createdRow', function(row) {
+	// 			$compile(angular.element(row).contents())($scope);
+	// 		});
 	$scope.dtColumns = [
 
 			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
@@ -248,32 +263,6 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 	}
 
-	function renderStatus(data, type, full) {
-		var html = data;
-
-		if (angular.isDefined(data)) {
-			if (data == "submitforapproval") {
-				html = "<span style='color:#33FFFF; font-weight:bold'>待送审</span>";
-			} else if (data == "inreview") {
-				html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
-			} else if (data == "success") {
-				html = "<span style='color:green; font-weight:bold'>审批成功</span>";
-			}else if (data == "running") {
-				html = "<span style='color:green; font-weight:bold'>审批中</span>";
-			} else if (data == "failed") {
-				html = "<span style='color:red;font-weight:bold'>审批失败</span>";
-			} else if (data == "cancel") {
-				html = "<span style='color:red;font-weight:bold'>审批取消</span>"
-			} else if (data == "rollback") {
-				html = "<span style='color:red;font-weight:bold'>审批退回</span>";
-			} else {
-				html = data;
-			}
-		}
-
-		return html;
-	}
-
 	function renderSpReview(data, type, full) {
 		var html = "";
 		if (angular.isDefined(full.spmethod) && full.spmethod == "1"
@@ -293,7 +282,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('busid').withTitle('编号')
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('pstatus').withTitle(
-			'状态').withOption('sDefaultContent', '').renderWith(renderStatus));
+			'状态').withOption('sDefaultContent', '').renderWith(renderZCSPStatus));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('ptitle').withTitle('标题')
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('pstartusername').withTitle('流程发起人')
@@ -605,7 +594,18 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}
 			$http.post($rootScope.project + "/api/flow/sysProcessSetting/ext/selectByCode.do",
 				{code:item.flowcode}).success(function(res) {
+				if(!res.success){
+					notify({
+						message : "未定义流程"
+					});
+					return ;
+				}
 				item.flowform=res.data;
+				if(!angular.isDefined(res.data.processdefid)){
+					notify({
+						message : "未定义流程"
+					});
+				}
 				item.processdefid=res.data.processdefid;
 				item.pk=res.data.processKey;
 				var modalInstance = $uibModal.open({

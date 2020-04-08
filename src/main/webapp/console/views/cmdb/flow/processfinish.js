@@ -139,7 +139,7 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		ps.pageIndex = 1;
 		$http.post(
 				$rootScope.project
-						+ "/api/cmdb/flow/zc/myProcessloadHistory.do", ps)
+						+ "/api/zc/flow/myProcessloadHistory.do", ps)
 				.success(function(res) {
 					$scope.dtOptions.aaData = res.data
 				})

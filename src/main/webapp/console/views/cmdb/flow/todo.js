@@ -107,7 +107,7 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		ps.search = "";
 		ps.pageSize = 1000;
 		ps.pageIndex = 1;
-		$http.post($rootScope.project + "/api/cmdb/flow/zc/myProcessTodo.do",
+		$http.post($rootScope.project + "/api/zc/flow/myProcessTodo.do",
 				ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;

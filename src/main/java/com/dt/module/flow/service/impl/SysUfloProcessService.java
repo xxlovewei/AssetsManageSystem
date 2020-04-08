@@ -261,19 +261,19 @@ public class SysUfloProcessService extends BaseService {
             SequenceFlowImpl flowimpl = flows.get(0);
             String toNode = flowimpl.getToNode();
             if (toNode != null) {
-                if (toNode.startsWith("结束") || toNode.startsWith("流程结束")) {
+                if (toNode.startsWith("结束") || toNode.startsWith("流程结束")||toNode.toLowerCase().startsWith("end")) {
                     QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
                     qw.eq("busid", tsk.getBusinessId());
                     SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
-                    String pdtype = sd.getPtype();
+                    String busType =sd.getBustype();
                     Date date = new Date(); // 获取一个Date对象
                     DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
                     String nowtime = simpleDateFormat.format(date);
                     uw.set("pstatus", SysUfloProcessService.P_STATUS_FINISH);
                     uw.set("pendtime", nowtime);
                     // 流程类型处理
-                    if (pdtype != null) {
-                        if (pdtype.equals("LY") || pdtype.equals("JY") || pdtype.equals("ZY")) {
+                    if (busType != null) {
+                        if (busType.equals("LY") || busType.equals("JY") || busType.equals("ZY")) {
                             uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
                         }
                     }

@@ -232,7 +232,7 @@ public class FormServiceImpl extends BaseService {
         }
         JSONObject res=new JSONObject();
         res.put("out",ressql);
-        res.put("fid",fid);
+        res.put("id",fid);
         return R.SUCCESS_OPER(res);
     }
 
