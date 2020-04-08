@@ -1,9 +1,9 @@
-package com.dt.module.zc.controller;
+package com.dt.module.cmdb.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.dt.module.zc.entity.ResActionItem;
-import com.dt.module.zc.service.IResActionItemService;
+import com.dt.module.cmdb.entity.ResActionItem;
+import com.dt.module.cmdb.service.IResActionItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -30,7 +30,7 @@ import com.dt.core.common.base.BaseController;
  * @since 2020-04-07
  */
 @Controller
-@RequestMapping("/api/zc/resActionItem")
+@RequestMapping("/api/cmdb/resActionItem")
 public class ResActionItemController extends BaseController {
 
 

@@ -1,8 +1,8 @@
-package com.dt.module.zc.service.impl;
+package com.dt.module.cmdb.service.impl;
 
-import com.dt.module.zc.entity.ResActionItem;
-import com.dt.module.zc.mapper.ResActionItemMapper;
-import com.dt.module.zc.service.IResActionItemService;
+import com.dt.module.cmdb.entity.ResActionItem;
+import com.dt.module.cmdb.mapper.ResActionItemMapper;
+import com.dt.module.cmdb.service.IResActionItemService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

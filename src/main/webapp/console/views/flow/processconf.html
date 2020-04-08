@@ -1,0 +1,36 @@
+<div ng-controller="processConfCtl">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <form role="form" class="form-inline">
+                            <button ng-click="query()" class="btn btn-sm btn-primary"
+                                    type="submit">查询</button>
+                            <button ng-click="add()" class="btn btn-sm btn-primary"
+                                    type="submit">新增</button>
+                            <button ng-click="remove()" class="btn btn-sm btn-primary"
+                                    type="submit">删除</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <table datatable="ed" dt-options="dtOptions"
+                               dt-instance="dtInstance" dt-columns="dtColumns"
+                               dt-column-defs="dtColumnDefs" class="table table-hover"></table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -5,10 +5,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.module.cmdb.service.impl.ResExtService;
 import com.dt.module.flow.entity.SysProcessData;
+import com.dt.module.flow.entity.SysProcessForm;
 import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
+import com.dt.module.flow.service.impl.SysProcessFormServiceImpl;
+import com.dt.module.flow.service.ISysProcessFormService;
+import com.dt.module.form.entity.SysForm;
+import com.dt.module.form.service.ISysFormService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +35,14 @@ import com.dt.module.base.service.ISysUserInfoService;
 @Controller
 @RequestMapping("/api/zc")
 public class ZcController extends BaseController {
+    @Autowired
+    ISysProcessFormService SysProcessFormServiceImpl;
 
     @Autowired
     ISysProcessDataService SysProcessDataServiceImpl;
+
+    @Autowired
+    ISysFormService SysFormServiceImpl;
 
     @Autowired
     IResActionItemService ResActionItemServiceImpl;
@@ -47,7 +59,25 @@ public class ZcController extends BaseController {
     public R selectListBills(String bustype) {
         QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
         ew.and(i -> i.eq("bustype",bustype));
+        ew.orderByDesc("create_time");
         return R.SUCCESS_OPER(  SysProcessDataServiceImpl.list(ew));
+    }
+
+
+    @ResponseBody
+    @Acl(info = "查询单据", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectBillById.do")
+    public R selectBillById(String id) {
+
+        SysProcessData sd=SysProcessDataServiceImpl.getById(id);
+        JSONObject res=JSONObject.fromObject(sd);
+        String sql= "select "+ ResExtService.resSqlbody+" '' end from res t,res_action_item item where t.id=item.resid and item.busuuid=?";
+        System.out.println(sd.getFormid());
+        SysProcessForm form=SysProcessFormServiceImpl.getById(sd.getFormid());
+        res.put("formdata",form.getFdata());
+        res.put("formconf",form.getFtpldata());
+        res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql,sd.getBusid()).toJsonArrayWithJsonObject()));
+        return R.SUCCESS_OPER(res);
     }
 
     @ResponseBody
@@ -57,8 +87,9 @@ public class ZcController extends BaseController {
         String uuid = resExtService.createUuid(entity.getBustype());
         entity.setBusid(uuid);
         entity.setPstatus(SysUfloProcessService.P_STATUS_SFA);
-        entity.setPstartuserid(this.getUserId());
-        entity.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
+
+      //  entity.setPstartuserid(this.getUserId());
+      //  entity.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
         entity.setPtype(SysUfloProcessService.P_TYPE_FLOW);
         JSONArray items_arr = JSONArray.parseArray(items);
         List<ResActionItem> entityList = new ArrayList<ResActionItem>();

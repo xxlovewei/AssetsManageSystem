@@ -13,6 +13,7 @@
         <result column="name" property="name" />
         <result column="code" property="code" />
         <result column="processdefid" property="processdefid" />
+        <result column="mark" property="mark" />
     </resultMap>
 
 </mapper>

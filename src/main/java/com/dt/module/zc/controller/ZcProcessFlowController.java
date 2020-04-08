@@ -5,17 +5,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+import com.dt.module.flow.service.ISysProcessFormService;
+import com.dt.module.form.service.ISysFormService;
+import com.dt.module.form.service.impl.FormServiceImpl;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.dt.module.flow.entity.SysProcessDef;
+import com.dt.module.flow.service.ISysProcessDefService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -45,7 +47,8 @@ import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.flow.service.ISysProcessSettingService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
-
+import com.dt.module.flow.entity.SysProcessForm;
+import com.dt.module.form.entity.SysForm;
 /**
  * @author: algernonking
  * @date: Dec 2, 2019 2:31:20 PM
@@ -58,7 +61,8 @@ public class ZcProcessFlowController extends BaseController {
     @Autowired
     SysUfloProcessService sysUfloProcessService;
 
-
+    @Autowired
+    FormServiceImpl formServiceImpl;
 
     @Autowired
     ResExtService resExtService;
@@ -74,6 +78,9 @@ public class ZcProcessFlowController extends BaseController {
 
     @Autowired
     private HistoryService historyService;
+
+    @Autowired
+    ISysProcessDefService SysProcessDefServiceImpl;
 
 
     @Autowired
@@ -144,46 +151,46 @@ public class ZcProcessFlowController extends BaseController {
     @Autowired
     ISysProcessSettingService SysProcessSettingServiceImpl;
 
+    @Autowired
+    ISysFormService SysFormServiceImpl;
+
     @ResponseBody
     @Acl(info = "发起流程", value = Acl.ACL_USER)
     @RequestMapping(value = "/startProcess.do")
-    public R startProcess(String spmethod, String processkey, String jsonvalue, String type) {
-
-
-        String busid = ToolUtil.getUUID();
+    public R startProcess(String ifsp , String id , String jsonvalue,String processdefid) {
+        //flowtype 1 ,0(不需要流程)
+        SysProcessDef pdef=SysProcessDefServiceImpl.getById(processdefid);
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        UpdateWrapper<SysProcessData> up = new UpdateWrapper<SysProcessData>();
-        SysProcessData sd = SysProcessDataServiceImpl.getById(ps.getString("id"));
-        if (sd == null) {
+        SysProcessData pd= SysProcessDataServiceImpl.getById(ps.getString("id"));
+        SysForm  sf=SysFormServiceImpl.getById(pdef.getForm());
+        if (pd == null) {
             return R.FAILURE("不存在流程数据");
         }
-        if ("1".equals(spmethod)) {
+        JSONObject jsonvalueobj=JSONObject.parseObject(jsonvalue);
+        R r= formServiceImpl.parseFromJsonToSqlTpl(sf.getCt(),jsonvalue,FormServiceImpl.OPER_TYPE_INSERT,id,"");
+        JSONObject fr=r.queryDataToJSONObject();
+        db.execute(fr.getString("out"));
+        if ("1".equals(ifsp)) {
             // 需要审批
-            if (sd.getProcessInstanceId() != null) {
-                return R.FAILURE("已有流程,无法重复提交");
-            }
             StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
             startProcessInfo.setCompleteStartTask(true);
-            startProcessInfo.setBusinessId(busid);
-            startProcessInfo.setTag(sd.getPtype());
-            //	startProcessInfo.setSubject(sd.getDtitle());
+            startProcessInfo.setBusinessId(pd.getBusid());
+            //startProcessInfo.setTag(sd.getPtype());
+            startProcessInfo.setSubject(jsonvalueobj.getString("dtitle")==null?"":jsonvalueobj.getString("dtitle"));
             startProcessInfo.setCompleteStartTaskOpinion("发起流程");
-            ProcessInstance inst = processService.startProcessByKey(processkey, startProcessInfo);
+            ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
             // 插入流程数据
-            up.set("busid", busid);
-            up.set("processkey", processkey);
-            //	up.set("ptitle", sd.getDtitle());
-            up.set("pstatus", SysUfloProcessService.P_STATUS_RUNNING);
-            up.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
-            up.set("processInstanceId", inst.getId() + "");
-            up.set("pstartuserid", getUserId());
-            up.set("pstartusername", SysUserInfoServiceImpl.getById(this.getUserId()).getName());
-        } else {
-            up.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
+            pd.setPstatus(SysUfloProcessService.P_STATUS_RUNNING);
+            pd.setPstartuserid(this.getUserId());
+            pd.setFormid(fr.getString("id"));
+            pd.setPtitle(jsonvalueobj.getString("dtitle")==null?"":jsonvalueobj.getString("dtitle"));
+            pd.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
+            pd.setProcesskey(pdef.getPtplkey());
+            pd.setProcessInstanceId( inst.getId()+"");
+        } else if("0".equals(ifsp)) {
+            pd.setPstatus(SysUfloProcessService.P_STATUS_FINISH);
         }
-        up.set(spmethod != null, "dmethod", spmethod);
-        up.eq("id", ps.getString("id"));
-        SysProcessDataServiceImpl.update(up);
+        SysProcessDataServiceImpl.saveOrUpdate(pd);
         return R.SUCCESS_OPER();
     }
 

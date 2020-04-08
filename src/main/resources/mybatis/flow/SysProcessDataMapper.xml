@@ -24,6 +24,7 @@
         <result column="pstartuserid" property="pstartuserid" />
         <result column="pstartusername" property="pstartusername" />
         <result column="pendtime" property="pendtime" />
+        <result column="formid" property="formid" />
     </resultMap>
 
 </mapper>

@@ -4,12 +4,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.dt.module.flow.entity.SysProcessForm">
+        <id column="id" property="id" />
     <result column="dr" property="dr" />
     <result column="create_by" property="createBy" />
     <result column="create_time" property="createTime" />
     <result column="update_by" property="updateBy" />
     <result column="update_time" property="updateTime" />
-        <result column="did" property="did" />
+        <result column="fdata" property="fdata" />
+        <result column="ftpldata" property="ftpldata" />
         <result column="processdataid" property="processdataid" />
         <result column="duuid" property="duuid" />
         <result column="dtitle" property="dtitle" />
@@ -39,7 +41,6 @@
         <result column="dattach1" property="dattach1" />
         <result column="dattach2" property="dattach2" />
         <result column="dattach3" property="dattach3" />
-        <result column="djson" property="djson" />
         <result column="dcard" property="dcard" />
         <result column="df1" property="df1" />
         <result column="df2" property="df2" />
@@ -61,6 +62,7 @@
         <result column="dn8" property="dn8" />
         <result column="dn9" property="dn9" />
         <result column="dn10" property="dn10" />
+        <result column="ftpldatamd5" property="ftpldatamd5" />
     </resultMap>
 
 </mapper>

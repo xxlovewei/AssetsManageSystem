@@ -732,10 +732,12 @@ function modalreviewProcessCtl(meta, $rootScope, $window, $scope,
 }
 
 
-function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,pagetype,task,
 		$uibModalInstance) {
- 
+	console.log(meta);
+	console.log(task);
+	console.log(pagetype);
 	$scope.actmsg = "操作人";
 	if (meta.acttype == "LY") {
 		$scope.actmsg  = "领用人";
@@ -744,12 +746,9 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	}else if (meta.acttype == "ZY") {
 		actbtn = "转移人";
 	}
-	
-	
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
-	
 	$scope.ctl={};
 	$scope.ctl.dtitle=true;
 	$scope.ctl.dct=true;
@@ -761,7 +760,7 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	if($scope.pagetype=="sp"){
 		$scope.ctl.pagespbtnhide=false;
 	}
-	 
+
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
 					50).withOption("ordering", false).withOption("responsive",
@@ -778,7 +777,6 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 				$compile(angular.element(row).contents())($scope);
 			});
 	$scope.dtColumns = [
-
 			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
 					'sDefaultContent', '').withOption("width", '30'),
 			DTColumnBuilder.newColumn('classname').withTitle('类型').withOption(
@@ -812,7 +810,7 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.spsugguest=[];
 	// 显示审批页面
 	$http
-			.post($rootScope.project + "/api/cmdb/resActionExt/selectById.do",
+			.post($rootScope.project + "/api/zc/selectBillById.do",
 					{
 						id : meta.id
 					})
@@ -820,41 +818,74 @@ function modalzcActionDtlCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					function(res) {
 						if (res.success) {
 							$scope.data = res.data;
-		 	
-							if($scope.data.pstatus=="rollback"){
-								$scope.ctl.dtitle=false;
-								$scope.ctl.dct=false;
-								$scope.ctl.df1=false;
-								$scope.ctl.df2=false;
-							}
-
 							$scope.dtOptions.aaData = res.data.items;
-							if (angular.isDefined(res.data.dmethod)
-									&& res.data.dmethod == "1") {
-								var url = $rootScope.project
-										+ "uflo/diagram?processInstanceId="
-										+ res.data.processInstanceId;
-								$scope.url = url;
-								$http
-										.post(
-												$rootScope.project
-														+ "/api/flow/loadProcessInstanceData.do",
-												{
-													processInstanceId : res.data.processInstanceId
-												})
-										.success(
-												function(res) {
-													if (res.success) {
-													
-														$scope.spsugguest=res.data;
-													} else {
-														notify({
-															message : res.message
-														});
-													}
-												})
 
-							}
+							let vm;
+							$timeout(function(){
+								var jd=decodeURI(res.data.formconf);
+								let jsonData  =angular.fromJson(jd);
+								console.log(jsonData);
+								vm = new Vue({
+									el: '#app',
+									data: {
+										jsonData
+									},
+									mounted () {
+										this.init()
+									},
+									methods: {
+										init(){
+											this.$refs.kfb.setData(res.data.formdata);
+										},
+										handleSubmit(p) {
+
+										},
+										getData() {
+
+										}
+									}
+								})
+							},1000)
+
+
+
+							var url = $rootScope.project
+								+ "uflo/diagram?processInstanceId="
+								+ res.data.processInstanceId;
+							$scope.url = url;
+							//
+							//
+							// if($scope.data.pstatus=="rollback"){
+							// 	$scope.ctl.dtitle=false;
+							// 	$scope.ctl.dct=false;
+							// 	$scope.ctl.df1=false;
+							// 	$scope.ctl.df2=false;
+							// }
+
+
+							// if (angular.isDefined(res.data.dmethod)
+							// 		&& res.data.dmethod == "1") {
+							//
+							// 	// $http
+								// 		.post(
+								// 				$rootScope.project
+								// 						+ "/api/flow/loadProcessInstanceData.do",
+								// 				{
+								// 					processInstanceId : res.data.processInstanceId
+								// 				})
+								// 		.success(
+								// 				function(res) {
+								// 					if (res.success) {
+								//
+								// 						$scope.spsugguest=res.data;
+								// 					} else {
+								// 						notify({
+								// 							message : res.message
+								// 						});
+								// 					}
+								// 				})
+
+						//	}
 							var html = "未知"
 							if (angular.isDefined(res.data.pstatusdtl)) {
 								if (res.data.pstatusdtl == "submitforapproval") {

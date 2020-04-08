@@ -180,15 +180,15 @@ public class FormServiceImpl extends BaseService {
     }
 
     // type ,insert,update
-    public R parseFromJsonToSqlTpl(String json_data, String json_value, String opertype, String process_data_id, String primary_value) {
-        if (ToolUtil.isOneEmpty(json_data, json_value, opertype)) {
+    public R parseFromJsonToSqlTpl(String json_tpl, String json_value, String opertype, String process_data_id, String primary_value) {
+        if (ToolUtil.isOneEmpty(json_tpl, json_value, opertype)) {
             return R.FAILURE();
         }
         // select COLUMN_NAME col from information_schema.COLUMNS where table_name =
-        // 'sys_process_data' and COLUMN_NAME like 'd%';
-        json_value = "{\n" + "	\"asdf\": \"asdf\",\n" + "	\"dpic1\": \"saf\",\n"
-                + "	\"textarea_1585926392110\": \"asdf\",\n" + "	\"asfs\": \"asdf\",\n" + "	\"fasdfsa\": \"asdf\"\n"
-                + "}";
+//        // 'sys_process_data' and COLUMN_NAME like 'd%';
+//        json_value = "{\n" + "	\"asdf\": \"asdf\",\n" + "	\"dpic1\": \"saf\",\n"
+//                + "	\"textarea_1585926392110\": \"asdf\",\n" + "	\"asfs\": \"asdf\",\n" + "	\"fasdfsa\": \"asdf\"\n"
+//                + "}";
         HashMap<String, String> metacols = parseFromJsonMetaCol();
         JSONObject e = JSONObject.parseObject(json_value);
         Iterator<String> keys = e.keySet().iterator();// jsonObject.keys();
@@ -213,20 +213,27 @@ public class FormServiceImpl extends BaseService {
             }
         }
         String ressql = "";
+        String fid="";
         if (opertype.equals(OPER_TYPE_UPDATE)) {
+            fid=primary_value;
             ups.setIf("fdata", json_value);
-            ups.where().andIf("fid=?", primary_value);
+            ups.where().andIf("id=?", primary_value);
             ressql = ups.getSQL();
 
         } else if (opertype.equals(OPER_TYPE_INSERT)) {
-
-            ins.setIf("ftpldatamd5", MD5Util.encrypt(json_data));
-            ins.setIf("ftpldata", json_data);
+            fid=db.getUUID();
+            ins.set("id",fid);
+            ins.setIf("ftpldatamd5", MD5Util.encrypt(json_tpl));
+            ins.setIf("ftpldata", json_tpl);
             ins.setIf("fdata", json_value);
+            ins.setIf("dr", "0");
             ins.setIf("processdataid", process_data_id);
             ressql = ins.getSQL();
         }
-        return R.SUCCESS_OPER(ressql);
+        JSONObject res=new JSONObject();
+        res.put("out",ressql);
+        res.put("fid",fid);
+        return R.SUCCESS_OPER(res);
     }
 
     public static void main(String[] args) {

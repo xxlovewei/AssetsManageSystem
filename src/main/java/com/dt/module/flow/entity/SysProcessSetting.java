@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-07
+ * @since 2020-04-08
  */
  
 @TableName("sys_process_setting")
@@ -30,6 +30,8 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
     private String code;
     @TableField("processdefid")
     private String processdefid;
+    @TableField("mark")
+    private String mark;
 
 
     public String getId() {
@@ -64,6 +66,14 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
         this.processdefid = processdefid;
     }
 
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -76,6 +86,7 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
         ", name=" + name +
         ", code=" + code +
         ", processdefid=" + processdefid +
+        ", mark=" + mark +
         "}";
     }
 }

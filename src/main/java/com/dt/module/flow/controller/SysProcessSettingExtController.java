@@ -64,9 +64,12 @@ public class SysProcessSettingExtController extends BaseController {
 		}
 		SysForm form=SysFormServiceImpl.getById(def.getForm());
 		JSONObject res=new JSONObject();
+		res.put("processdefid",setting.getProcessdefid());
 		res.put("code",code);
 		res.put("formct",form.getCt());
 		res.put("process",def.getPtplid());
+		res.put("processKey",def.getPtplkey());
+
 		return R.SUCCESS_OPER(res);
 	}
 

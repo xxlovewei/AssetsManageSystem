@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-07
+ * @since 2020-04-08
  */
  
 @TableName("sys_process_data")
@@ -54,9 +54,16 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     private String psubtype;
     /**
      * 流程状态是否结算
+waiting 等待送审
+inreview  审批中
+finish 审批?
      */
     @TableField("pstatus")
     private String pstatus;
+    /**
+     * success 成功
+failed 失败
+     */
     @TableField("pstatusdtl")
     private String pstatusdtl;
     /**
@@ -71,6 +78,8 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     private String pstartusername;
     @TableField("pendtime")
     private Date pendtime;
+    @TableField("formid")
+    private String formid;
 
 
     public String getId() {
@@ -193,6 +202,14 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         this.pendtime = pendtime;
     }
 
+    public String getFormid() {
+        return formid;
+    }
+
+    public void setFormid(String formid) {
+        this.formid = formid;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -216,6 +233,7 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         ", pstartuserid=" + pstartuserid +
         ", pstartusername=" + pstartusername +
         ", pendtime=" + pendtime +
+        ", formid=" + formid +
         "}";
     }
 }

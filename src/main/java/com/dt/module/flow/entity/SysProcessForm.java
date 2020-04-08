@@ -1,35 +1,35 @@
 package com.dt.module.flow.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.math.BigDecimal;
-
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.util.Date;
-
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author algernonking
- * @since 2020-04-04
+ * @since 2020-04-08
  */
-
+ 
 @TableName("sys_process_form")
-
+ 
 public class SysProcessForm extends BaseModel<SysProcessForm> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("did")
-    private String did;
+    @TableId("id")
+    private String id;
+    @TableField("fdata")
+    private String fdata;
+    @TableField("ftpldata")
+    private String ftpldata;
     @TableField("processdataid")
     private String processdataid;
     @TableField("duuid")
@@ -152,11 +152,6 @@ public class SysProcessForm extends BaseModel<SysProcessForm> {
     @TableField("dattach3")
     private String dattach3;
     /**
-     * json
-     */
-    @TableField("djson")
-    private String djson;
-    /**
      * card
      */
     @TableField("dcard")
@@ -201,14 +196,32 @@ public class SysProcessForm extends BaseModel<SysProcessForm> {
     private BigDecimal dn9;
     @TableField("dn10")
     private BigDecimal dn10;
+    @TableField("ftpldatamd5")
+    private String ftpldatamd5;
 
 
-    public String getDid() {
-        return did;
+    public String getId() {
+        return id;
     }
 
-    public void setDid(String did) {
-        this.did = did;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFdata() {
+        return fdata;
+    }
+
+    public void setFdata(String fdata) {
+        this.fdata = fdata;
+    }
+
+    public String getFtpldata() {
+        return ftpldata;
+    }
+
+    public void setFtpldata(String ftpldata) {
+        this.ftpldata = ftpldata;
     }
 
     public String getProcessdataid() {
@@ -443,14 +456,6 @@ public class SysProcessForm extends BaseModel<SysProcessForm> {
         this.dattach3 = dattach3;
     }
 
-    public String getDjson() {
-        return djson;
-    }
-
-    public void setDjson(String djson) {
-        this.djson = djson;
-    }
-
     public String getDcard() {
         return dcard;
     }
@@ -619,66 +624,76 @@ public class SysProcessForm extends BaseModel<SysProcessForm> {
         this.dn10 = dn10;
     }
 
+    public String getFtpldatamd5() {
+        return ftpldatamd5;
+    }
+
+    public void setFtpldatamd5(String ftpldatamd5) {
+        this.ftpldatamd5 = ftpldatamd5;
+    }
+
     @Override
     protected Serializable pkVal() {
-        return null;
+        return this.id;
     }
 
     @Override
     public String toString() {
         return "SysProcessForm{" +
-                "did=" + did +
-                ", processdataid=" + processdataid +
-                ", duuid=" + duuid +
-                ", dtitle=" + dtitle +
-                ", dct=" + dct +
-                ", durl=" + durl +
-                ", dname=" + dname +
-                ", dmark=" + dmark +
-                ", dmessage=" + dmessage +
-                ", dsex=" + dsex +
-                ", dstatus=" + dstatus +
-                ", dtype=" + dtype +
-                ", dsubtype=" + dsubtype +
-                ", dpwd=" + dpwd +
-                ", daddr=" + daddr +
-                ", dcontact=" + dcontact +
-                ", dpic1=" + dpic1 +
-                ", dpic2=" + dpic2 +
-                ", dpic3=" + dpic3 +
-                ", duser=" + duser +
-                ", dresult=" + dresult +
-                ", dtotal=" + dtotal +
-                ", dbacktime=" + dbacktime +
-                ", dlevel=" + dlevel +
-                ", dmethod=" + dmethod +
-                ", dfile=" + dfile +
-                ", ddict=" + ddict +
-                ", dattach1=" + dattach1 +
-                ", dattach2=" + dattach2 +
-                ", dattach3=" + dattach3 +
-                ", djson=" + djson +
-                ", dcard=" + dcard +
-                ", df1=" + df1 +
-                ", df2=" + df2 +
-                ", df3=" + df3 +
-                ", df4=" + df4 +
-                ", df5=" + df5 +
-                ", df6=" + df6 +
-                ", df7=" + df7 +
-                ", df8=" + df8 +
-                ", df9=" + df9 +
-                ", df10=" + df10 +
-                ", dn1=" + dn1 +
-                ", dn2=" + dn2 +
-                ", dn3=" + dn3 +
-                ", dn4=" + dn4 +
-                ", dn5=" + dn5 +
-                ", dn6=" + dn6 +
-                ", dn7=" + dn7 +
-                ", dn8=" + dn8 +
-                ", dn9=" + dn9 +
-                ", dn10=" + dn10 +
-                "}";
+        "id=" + id +
+        ", fdata=" + fdata +
+        ", ftpldata=" + ftpldata +
+        ", processdataid=" + processdataid +
+        ", duuid=" + duuid +
+        ", dtitle=" + dtitle +
+        ", dct=" + dct +
+        ", durl=" + durl +
+        ", dname=" + dname +
+        ", dmark=" + dmark +
+        ", dmessage=" + dmessage +
+        ", dsex=" + dsex +
+        ", dstatus=" + dstatus +
+        ", dtype=" + dtype +
+        ", dsubtype=" + dsubtype +
+        ", dpwd=" + dpwd +
+        ", daddr=" + daddr +
+        ", dcontact=" + dcontact +
+        ", dpic1=" + dpic1 +
+        ", dpic2=" + dpic2 +
+        ", dpic3=" + dpic3 +
+        ", duser=" + duser +
+        ", dresult=" + dresult +
+        ", dtotal=" + dtotal +
+        ", dbacktime=" + dbacktime +
+        ", dlevel=" + dlevel +
+        ", dmethod=" + dmethod +
+        ", dfile=" + dfile +
+        ", ddict=" + ddict +
+        ", dattach1=" + dattach1 +
+        ", dattach2=" + dattach2 +
+        ", dattach3=" + dattach3 +
+        ", dcard=" + dcard +
+        ", df1=" + df1 +
+        ", df2=" + df2 +
+        ", df3=" + df3 +
+        ", df4=" + df4 +
+        ", df5=" + df5 +
+        ", df6=" + df6 +
+        ", df7=" + df7 +
+        ", df8=" + df8 +
+        ", df9=" + df9 +
+        ", df10=" + df10 +
+        ", dn1=" + dn1 +
+        ", dn2=" + dn2 +
+        ", dn3=" + dn3 +
+        ", dn4=" + dn4 +
+        ", dn5=" + dn5 +
+        ", dn6=" + dn6 +
+        ", dn7=" + dn7 +
+        ", dn8=" + dn8 +
+        ", dn9=" + dn9 +
+        ", dn10=" + dn10 +
+        ", ftpldatamd5=" + ftpldatamd5 +
+        "}";
     }
 }

@@ -325,8 +325,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
 			$scope.dtInstance.DataTable.rows().select();
- 
-	 
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
 		 
@@ -675,7 +673,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				})
 				.success(
 						function(res) {
-					 
 							if (!res.success) {
 								notify({
 									message : res.message
@@ -683,7 +680,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								return;
 							}
 							var meta = {};
-
 							var items = [ ]; 
 							items.push({
 								type : "input",

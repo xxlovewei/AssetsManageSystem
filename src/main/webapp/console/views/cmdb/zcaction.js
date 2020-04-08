@@ -1,6 +1,9 @@
 function modalzcActionSPCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
 		$uibModalInstance, $window, $stateParams,$timeout) {
+		console.log(meta);
+		var url = $rootScope.project + "uflo/diagram?processKey=" + meta.pk;
+		$scope.url = url;
 		let vm;
 		$timeout(function(){
 			var jd=decodeURI(meta.flowform.formct);
@@ -43,323 +46,35 @@ function modalzcActionSPCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			})
 		},1000)
 
-	// $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-	// 		.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
-	// 				50).withOption("ordering", false).withOption("responsive",
-	// 				false).withOption("searching", false).withOption('scrollY',
-	// 				'300px').withOption('scrollX', true).withOption(
-	// 				'bAutoWidth', true).withOption('scrollCollapse', true)
-	// 		.withOption('paging', false).withFixedColumns({
-	// 			leftColumns : 0,
-	// 			rightColumns : 0
-	// 		}).withOption('bStateSave', true).withOption('bProcessing', false)
-	// 		.withOption('bFilter', false).withOption('bInfo', false)
-	// 		.withOption('serverSide', false).withOption('aaData',
-	// 				$scope.tabdata).withOption('createdRow', function(row) {
-	// 			$compile(angular.element(row).contents())($scope);
-	// 		}).withOption(
-	// 				'headerCallback',
-	// 				function(header) {
-	// 					if ((!angular.isDefined($scope.headerCompiled))
-	// 							|| $scope.headerCompiled) {
-	// 						$scope.headerCompiled = true;
-	// 						$compile(angular.element(header).contents())
-	// 								($scope);
-	// 					}
-	// 				}).withOption("select", {
-	// 			style : 'multi',
-	// 			selector : 'td:first-child'
-	// 		});
-	//
-	// function stateChange(iColumn, bVisible) {
-	//
-	// }
-	// $scope.dtInstance = {}
-	// $scope.selectCheckBoxAll = function(selected) {
-	// 	if (selected) {
-	// 		$scope.dtInstance.DataTable.rows().select();
-	//
-	// 	} else {
-	// 		$scope.dtInstance.DataTable.rows().deselect();
-	//
-	// 	}
-	// }
-	//
-	//
-	// function renderStatus(data, type, full) {
-	// 	var res = "";
-	// 	if (data == "normal") {
-	// 		res = "正常";
-	// 	} else if (data == "stop") {
-	// 		res = "停用";
-	// 	} else {
-	// 		res = data;
-	// 	}
-	// 	return res;
-	// }
-	// function renderType(data, type, full) {
-	// 	var res = "";
-	// 	if (data == "form") {
-	// 		res = "表单模式";
-	// 	} else if (data == "withoutform") {
-	// 		res = "无表单模式";
-	// 	} else {
-	// 		res = data;
-	// 	}
-	// 	return res;
-	// }
-	//
-	// var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
-	// $scope.dtColumns = [];
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml)
-	// 		.withClass('select-checkbox checkbox_center').renderWith(
-	// 				function() {
-	// 					return ""
-	// 				}));
-	//
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
-	// 		.withOption('sDefaultContent', ''));
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn('ptplkey').withTitle('模版名称')
-	// 		.withOption('sDefaultContent', ''));
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn('type').withTitle('类型')
-	// 		.withOption('sDefaultContent', '').renderWith(renderType));
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('状态')
-	// 		.withOption('sDefaultContent', '').renderWith(renderStatus));
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
-	// 		.withOption('sDefaultContent', ''));
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn('form').withTitle('表单')
-	// 		.withOption('sDefaultContent', ''));
-	//
-	// $scope.catRootOpt = [];
-	// $scope.catRootSel = "";
-	// $scope.item = {};
-	// var ps = {};
-	// ps.ids = angular.toJson([ 5 ]);
-	// $http
-	// 		.post($rootScope.project + "/api/ctCategoryRoot/Ext/selectList.do",
-	// 				ps).success(function(res) {
-	// 			if (res.success) {
-	// 				$scope.catRootOpt = res.data;
-	// 				if ($scope.catRootOpt.length > 0) {
-	// 					$scope.catRootSel = $scope.catRootOpt[0];
-	// 					flushTree($scope.catRootSel.id)
-	// 				}
-	// 			} else {
-	// 				notify({
-	// 					message : res.message
-	// 				});
-	// 			}
-	// 		});
-	// // 树配置
-	// $scope.treeConfig = {
-	// 	core : {
-	// 		multiple : false,
-	// 		animation : true,
-	// 		error : function(error) {
-	// 			$log.error('treeCtrl: error from js tree - '
-	// 					+ angular.toJson(error));
-	// 		},
-	// 		check_callback : true,
-	// 		worker : true
-	// 	},
-	// 	loading : "加载中……",
-	// 	ui : {
-	// 		theme_name : "classic" // 设置皮肤样式
-	// 	},
-	// 	rules : {
-	// 		type_attr : "rel", // 设置节点类型
-	// 		valid_children : "root" // 只有root节点才能作为顶级结点
-	// 	},
-	// 	callback : {
-	// 		onopen : function(node, tree_obj) {
-	// 			return true;
-	// 		}
-	// 	},
-	// 	types : {
-	// 		"default" : {
-	// 			icon : 'glyphicon glyphicon-th'
-	// 		},
-	// 		root : {
-	// 			icon : 'glyphicon glyphicon-home'
-	// 		},
-	// 		"node" : {
-	// 			"icon" : "glyphicon glyphicon-tag"
-	// 		},
-	// 		"category" : {
-	// 			"icon" : "glyphicon glyphicon-equalizer"
-	// 		}
-	// 	},
-	// 	version : 1,
-	// 	plugins : [ 'themes', 'types', 'contextmenu', 'changed' ],
-	// 	contextmenu : {
-	// 		items : {}
-	// 	}
-	// }
-	//
-	// $scope.addNewNode = function() {
-	// 	$scope.treeData.push({
-	// 		id : (newId++).toString(),
-	// 		parent : $scope.newNode.parent,
-	// 		text : $scope.newNode.text
-	// 	});
-	// };
-	//
-	// $scope.modelChanges = function(t) {
-	// 	return true;
-	// }
-	//
-	// $scope.test = function() {
-	// 	$log.info("测试");
-	//
-	// }
-	//
-	// $scope.curSelNode = "";
-	// $scope.readyCB = function() {
-	//
-	// 	$scope.tree = $scope.treeInstance.jstree(true)
-	// 	// 展开所有节点
-	// 	$scope.tree.open_all();
-	// 	// 响应节点变化
-	// 	$scope.treeInstance.on("changed.jstree", function(e, data) {
-	//
-	// 		if (data.action == "select_node") {
-	// 			// 加载数据
-	// 			var snodes = $scope.tree.get_selected();
-	// 			if (snodes.length == 1) {
-	// 				var node = snodes[0];
-	// 				$scope.curSelNode = node;
-	//
-	// 				flush();
-	// 			}
-	// 		}
-	// 	});
-	// }
-	// function flushTree(id) {
-	// 	$http
-	// 			.post(
-	// 					$rootScope.project
-	// 							+ "/api/ctCategroy/queryCategoryTreeList.do", {
-	// 						root : id
-	// 					}).success(function(res) {
-	// 				if (res.success) {
-	// 					$scope.ignoreChanges = true;
-	// 					$scope.treeData = angular.copy(res.data);
-	// 					$scope.treeConfig.version++;
-	// 				} else {
-	// 					notify({
-	// 						message : res.message
-	// 					});
-	// 				}
-	// 			});
-	//
-	// }
-	//
-	// flushTree(5);
-	// function getSelectRow() {
-	// 	var data = $scope.dtInstance.DataTable.rows({
-	// 		selected : true
-	// 	})[0];
-	// 	if (data.length == 0) {
-	// 		notify({
-	// 			message : "请至少选择一项"
-	// 		});
-	// 		return;
-	// 	} else if (data.length > 1) {
-	// 		notify({
-	// 			message : "请最多选择一项"
-	// 		});
-	// 		return;
-	// 	} else {
-	//
-	// 		return $scope.dtOptions.aaData[data[0]];
-	// 	}
-	// }
-	//
-	// $scope.preview = function() {
-	//
-	// 	var selrow = getSelectRow();
-	// 	if (angular.isDefined(selrow)) {
-	// 		var ps = {};
-	// 		ps.pk = selrow.ptplkey;
-	// 		var modalInstance = $uibModal.open({
-	// 			backdrop : true,
-	// 			templateUrl : 'views/flow/modal_reviewProcess.html',
-	// 			controller : modalreviewProcessCtl,
-	// 			size : 'lg',
-	// 			resolve : { // 调用控制器与modal控制器中传递值
-	// 				meta : function() {
-	// 					return ps;
-	// 				}
-	// 			}
-	// 		});
-	//
-	// 		modalInstance.result.then(function(result) {
-	// 		}, function(reason) {
-	// 			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-	// 			$log.log("reason", reason)
-	// 		});
-	//
-	// 	}
-	//
-	// }
-	//
-	// $scope.sure = function() {
-	// 	var selrow = getSelectRow();
-	//
-	// 	if (angular.isDefined(selrow)) {
-	//
-	// 		meta.processkey = selrow.ptplkey;
-	// 		if (!angular.isDefined(selrow.ptplkey)) {
-	// 			notify({
-	// 				message : "未设置模版"
-	// 			});
-	// 			return "";
-	// 		}
-	// 		meta.spmethod = "1";
-	// 		$http.post(
-	// 				$rootScope.project + "/api/cmdb/flow/zc/startProcess.do",
-	// 				meta).success(function(res) {
-	// 			if (res.success) {
-	// 				$uibModalInstance.close("OK");
-	// 			} else {
-	// 				notify({
-	// 					message : res.message
-	// 				});
-	// 			}
-	// 		})
-	// 	}
-	//
-	// }
-	//
-	// $scope.cancel = function() {
-	// 	$uibModalInstance.dismiss('cancel');
-	// };
-	//
-	// function flush() {
-	// 	$http.post(
-	// 			$rootScope.project
-	// 					+ "/api/flow/sysProcessDef/Ext/selectList.do", {
-	// 				owner : $scope.curSelNode
-	// 			}).success(function(res) {
-	// 		if (res.success) {
-	// 			var r=[];
-	// 			for(var i=0;i<res.data.length;i++){
-	//
-	// 				if(angular.isDefined(res.data[i].type)&&angular.isDefined(res.data[i].status)   ){
-	// 					if(res.data[i].status=="normal"){
-	// 						r.push(res.data[i]);
-	// 					}
-	// 				}
-	// 			}
-	// 			$scope.dtOptions.aaData =r;
-	// 		} else {
-	// 			notify({
-	// 				message : res.message
-	// 			});
-	// 		}
-	// 	});
-	//
-	// }
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+	$scope.sure = function() {
+						vm.$refs.kfb.getData().then(res => {
+							// 获取数据成功
+							meta.jsonvalue=JSON.stringify(res);
+							meta.ifsp=1;
+							$http.post($rootScope.project + "/api/zc/flow/startProcess.do",
+									meta).success(function(res) {
+									if (res.success) {
+										$uibModalInstance.close("OK");
+									} else {
+										notify({
+											message : res.message
+										});
+									}
+								})
+
+						})
+							.catch(err => {
+								console.log(err, '校验失败')
+							})
+
+		//
+	}
+
+
 
 }
 function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
@@ -367,48 +82,6 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$uibModalInstance, $state, meta) {
 	console.log(meta);
 	$scope.actmsg =meta.actmsg;
-	// let vm;
-	// $timeout(function(){
-	// 	var jd=decodeURI(meta.flowform.formct);
-	// 	let jsonData  =angular.fromJson(jd);
-	// 	console.log(jsonData);
-	// 	vm = new Vue({
-	// 		el: '#app',
-	// 		data: {
-	// 			jsonData
-	// 		},
-	// 		mounted () {
-	// 			this.init()
-	// 		},
-	// 		methods: {
-	// 			init(){
-	// 				console.log(this);
-	// 				console.log(this.jsonData);
-	// 			},
-	// 			handleSubmit(p) {
-	// 				// 通过表单提交按钮触发，获取promise对象
-	// 				p().then(res => {
-	// 					// 获取数据成功
-	// 					alert(JSON.stringify(res))
-	// 				})
-	// 					.catch(err => {
-	// 						console.log(err, '校验失败')
-	// 					})
-	// 			},
-	// 			getData() {
-	// 				// 通过函数获取数据
-	// 				this.$refs.kfb.getData().then(res => {
-	// 					// 获取数据成功
-	// 					alert(JSON.stringify(res))
-	// 				})
-	// 					.catch(err => {
-	// 						console.log(err, '校验失败')
-	// 					})
-	// 			}
-	// 		}
-	// 	})
-	// },1000)
-
 	$scope.data = {};
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
@@ -477,7 +150,7 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 	}
 	$scope.sure = function() {
-		$scope.data.bustype = meta.acttype;
+		$scope.data.bustype = meta.flowtype;
 		if ($scope.dtOptions.aaData.length == 0) {
 			alert("请先选择资产");
 			return;
@@ -504,7 +177,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
 
 	var pbtns = $rootScope.curMemuBtns;
-	var acttype = $state.router.globals.current.data.actiontype;
+	var flowtype = $state.router.globals.current.data.actiontype;
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withDOM('frtlip').withPaginationType('full_numbers')
 			.withDisplayLength(100).withOption("ordering", false).withOption(
@@ -585,6 +258,8 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
 			} else if (data == "success") {
 				html = "<span style='color:green; font-weight:bold'>审批成功</span>";
+			}else if (data == "running") {
+				html = "<span style='color:green; font-weight:bold'>审批中</span>";
 			} else if (data == "failed") {
 				html = "<span style='color:red;font-weight:bold'>审批失败</span>";
 			} else if (data == "cancel") {
@@ -619,8 +294,10 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('pstatus').withTitle(
 			'状态').withOption('sDefaultContent', '').renderWith(renderStatus));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('dtitle').withTitle('标题')
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('ptitle').withTitle('标题')
 			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('pstartusername').withTitle('流程发起人')
+		.withOption('sDefaultContent', ''));
 	// if (acttype == "LY") {
 	// 	$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('领用人')
 	// 			.withOption('sDefaultContent', ''));
@@ -648,11 +325,11 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	var actbtn = "操作";
-	if (acttype == "LY") {
+	if (flowtype == "LY") {
 		actbtn = "领用";
-	} else if (acttype == "JY") {
+	} else if (flowtype == "JY") {
 		actbtn = "借用";
-	} else if (acttype == "ZY") {
+	} else if (flowtype == "ZY") {
 		actbtn = "转移";
 	}
 
@@ -733,7 +410,6 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	function flush() {
 		var ps = {}
-
 		if ($scope.meta.tools[1].time - $scope.meta.tools[0].time >= 0) {
 		} else {
 			notify({
@@ -744,7 +420,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		ps.sdate = $scope.meta.tools[0].time.format('YYYY-MM-DD');
 		ps.edate = $scope.meta.tools[1].time.format('YYYY-MM-DD');
 		ps.search = $scope.meta.tools[0].ct;
-		ps.bustype = acttype;
+		ps.bustype = flowtype;
 		$http.post($rootScope.project + "/api/zc/selectListBills.do",
 				ps).success(function(res) {
 			if (res.success) {
@@ -755,8 +431,8 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				});
 			}
 		})
-
 	}
+
 	flush();
 
 	function getSelectRows() {
@@ -793,7 +469,9 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 		var ps = {};
 		ps.id = id;
-		ps.acttype = acttype;
+		ps.flowtype = flowtype;
+
+
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/cmdb/modal_zcActionDtl.html',
@@ -875,65 +553,61 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.save = function(id) {
 		var ps = {};
 		ps.id = id;
-		ps.acttype = acttype;
-		if (ps.acttype == "LY") {
+		ps.flowtype = flowtype;
+		if (ps.flowtype == "LY") {
 			ps.actmsg = "领用人";
-			ps.actcode="process_zcly";
-		} else if (ps.acttype == "JY") {
+		} else if (ps.flowtype == "JY") {
 			ps.actmsg = "借用人";
-		} else if (ps.acttype == "ZY") {
+		} else if (ps.flowtype == "ZY") {
 			ps.actmsg = "转移人";
 		}
-
-		$http.post($rootScope.project + "/api/flow/sysProcessSetting/ext/selectByCode.do",
-			{code:ps.actcode}).success(function(res) {
-			if (res.success) {
-			 	ps.flowform=res.data;
-				var modalInstance = $uibModal.open({
-					backdrop : true,
-					templateUrl : 'views/cmdb/modal_zcAction.html',
-					controller : modalzcActionSaveCtl,
-					size : 'blg',
-					resolve : { // 调用控制器与modal控制器中传递值
-						meta : function() {
-							return ps;
-						}
-					}
-				});
-				modalInstance.result.then(function(result) {
-					$log.log("result", result);
-					if (result == "OK") {
-						flush();
-					}
-				}, function(reason) {
-					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-					$log.log("reason", reason)
-				});
-			} else {
-				notify({
-					message : res.message
-				});
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/cmdb/modal_zcAction.html',
+			controller : modalzcActionSaveCtl,
+			size : 'blg',
+			resolve : { // 调用控制器与modal控制器中传递值
+				meta : function() {
+					return ps;
+				}
 			}
-		})
+		});
+		modalInstance.result.then(function(result) {
+			$log.log("result", result);
+			if (result == "OK") {
+				flush();
+			}
+		}, function(reason) {
+			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+			$log.log("reason", reason)
+		});
 
 
 
 	}
 
 	$scope.ss = function() {
-
 		var item = getSelectRow();
-
 		if (angular.isDefined(item)) {
-			item.acttype = acttype;
-			if (item.acttype == "LY") {
-				item.actcode="process_zcly";
-			} else if (item.acttype == "JY") {
-			} else if (item.acttype == "ZY") {
+			item.flowtype = flowtype;
+			if( item.pstatus!="submitforapproval"){
+				notify({
+					message : "该状态不允许送审"
+				});
+				return;
+			}
+			if (item.flowtype == "LY") {
+				item.flowcode="process_zcly";
+			} else if (item.flowtype == "JY") {
+				item.flowcode="process_zcjy";
+			} else if (item.flowtype == "ZY") {
+				item.flowcode="process_zczy";
 			}
 			$http.post($rootScope.project + "/api/flow/sysProcessSetting/ext/selectByCode.do",
-				{code:item.actcode}).success(function(res) {
+				{code:item.flowcode}).success(function(res) {
 				item.flowform=res.data;
+				item.processdefid=res.data.processdefid;
+				item.pk=res.data.processKey;
 				var modalInstance = $uibModal.open({
 					backdrop : true,
 					templateUrl : 'views/cmdb/modal_zcActionSP.html',
@@ -955,12 +629,9 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					$log.log("reason", reason)
 				});
 			});
-
 		}
 	}
-
 	$scope.back = function() {
-
 	}
 
 };

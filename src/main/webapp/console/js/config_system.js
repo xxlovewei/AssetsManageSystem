@@ -498,11 +498,19 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 				} ]);
 			}
 		}
-	})
-	
-	
-	
-	;
+	}).state('flow.processconf', {
+		url : "/processconf?psBtns",
+		data: { pageTitle: '流程配置'},
+		templateUrl : "views/flow/processconf.html?v="+version,
+		resolve : {
+			loadPlugin : function($ocLazyLoad) {
+				return $ocLazyLoad.load([ {
+					serie : true,
+					files : [ 'views/flow/processconf.js?v=' + version ]
+				} ]);
+			}
+		}
+	});
 
 }
  
