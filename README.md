@@ -1,10 +1,10 @@
 
 ## 测试Demo
 - http://39.105.191.22:3037/dt/console
-- 账户:guest 密码:1
-- 账户:user1 密码:123456
-- 账户:user2 密码:123456
-- 账户:user3 密码:123456
+- 账户:guest 密码:oracle
+- 账户:user1 密码:oracle
+- 账户:user2 密码:oracle
+- 账户:user3 密码:oracle
 - admin oracle
 - 系统包含admin 管理用户
 
@@ -38,6 +38,7 @@
 ```
 - SQL>CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
 - SQL>set names utf8;
+- SQL>use dt;
 - SQL>source db.sql
 ```
 
@@ -45,7 +46,7 @@
 - 发布应用,注意:最新版本的war包已经发布,请直接下载（右上角发版中）,不需要下载源代码进行编译。
 ```
 - 将war包部署到Tomcat目录的webapps下后，修改配置文件(webapps/dt/WEB-INF/classes)中数据库的数据库配置文件config.properties
-- jdbc.url=jdbc:mysql://127.0.0.1:3306/dt?useUnicode=true&characterEncoding=utf8&useSSL=false
+- jdbc.url=jdbc:mysql://127.0.0.1:3306/dt?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
 - jdbc.username=root
 - jdbc.password=root_pwd
 - 修改成你所在的环境配置
