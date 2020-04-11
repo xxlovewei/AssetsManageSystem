@@ -25,11 +25,6 @@
 				</div>
 				<div class="col-lg-8">
 					<div class="ibox">
-						<div class="ibox-title">
-							<div class="ibox-tools" style="text-align: left !important">
-								<a href="" ng-click="preview()" class="btn btn-primary btn-xs">流程预览</a>
-							</div>
-						</div>
 						<div class="ibox-content" style="padding-bottom: 50px">
 							<table datatable="ed" dt-options="dtOptions"
 								dt-instance="dtInstance" dt-columns="dtColumns"
@@ -42,7 +37,9 @@
 			</div>
 		</div>
 		<div class="modal-footer" style="text-align: center">
-			<button ng-click="sure()" class="btn btn-primary">提交</button>
+			<button ng-click="cancel()" class="btn btn-warning">取消</button>
+			<button ng-disabled="myForm.$invalid" ng-click="sure()"
+					class="btn btn-primary">确认</button>
 		</div>
 	</div>
 </div>

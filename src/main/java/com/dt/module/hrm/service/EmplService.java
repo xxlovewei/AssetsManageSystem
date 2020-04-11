@@ -20,7 +20,7 @@ import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.bus_enum.userTypeEnum;
+import com.dt.module.base.busenum.userTypeEnum;
 import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.impl.SysUserInfoServiceImpl;
 

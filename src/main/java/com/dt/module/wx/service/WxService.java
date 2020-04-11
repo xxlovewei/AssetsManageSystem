@@ -48,7 +48,7 @@ import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.bus_enum.userTypeEnum;
+import com.dt.module.base.busenum.userTypeEnum;
 import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.wx.pojo.WeixinUserInfo;

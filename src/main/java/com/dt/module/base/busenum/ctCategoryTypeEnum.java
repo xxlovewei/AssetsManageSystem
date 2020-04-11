@@ -1,17 +1,17 @@
-package com.dt.module.base.bus_enum;
+package com.dt.module.base.busenum;
 
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.core.enums.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ctCtTypeEnum implements IEnum<Serializable> {
-    NEWS("news", "新闻"), DOC("doc", "文档"), COMPANY("company", "公司");
+public enum ctCategoryTypeEnum implements IEnum<Serializable> {
+    SYSTEM("sys", "系统"), EMPL("empl", "组织"), CRM("crm", "会员粉丝"), WX("wx", "微信用户");
 
     private String code;
     private String desc;
 
-    ctCtTypeEnum(final String code, final String desc) {
+    ctCategoryTypeEnum(final String code, final String desc) {
         this.code = code;
         this.desc = desc;
     }

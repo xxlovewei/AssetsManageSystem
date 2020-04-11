@@ -89,7 +89,7 @@ public class CustomGeneratorMysql {
         });
 
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/dt?useUnicode=true&characterEncoding=utf8&useSSL=false");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/dt2?useUnicode=true&characterEncoding=utf8&useSSL=false");
         dsc.setUsername("root");
         dsc.setPassword("root_pwd");
         mpg.setDataSource(dsc);

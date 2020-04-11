@@ -24,14 +24,31 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
 
     @TableId("id")
     private String id;
+    /**
+     * 流程名称
+     */
     @TableField("name")
     private String name;
+    /**
+     * 流程编码
+     */
     @TableField("code")
     private String code;
+    /**
+     * 流程定义ID
+     */
     @TableField("processdefid")
     private String processdefid;
+    /**
+     * 备注
+     */
     @TableField("mark")
     private String mark;
+    /**
+     * 流程类型 system|user
+     */
+    @TableField("type")
+    private String type;
 
 
     public String getId() {
@@ -74,6 +91,14 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
         this.mark = mark;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -87,6 +112,7 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
         ", code=" + code +
         ", processdefid=" + processdefid +
         ", mark=" + mark +
+        ", type=" + type +
         "}";
     }
 }

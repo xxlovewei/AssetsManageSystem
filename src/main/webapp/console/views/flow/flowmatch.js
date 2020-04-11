@@ -311,11 +311,7 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 				if ($scope.data.type == "withoutform") {
 					$scope.catSel = $scope.catOpt[1];
 				}
-				
-				
-				
-			 
-				
+
 			} else {
 				notify({
 					message : res.message
@@ -402,31 +398,31 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 		$rootScope, $uibModal) {
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
-					50).withOption("ordering", false).withOption("responsive",
-					false).withOption("searching", false).withOption('scrollY',
-					300).withOption('scrollX', true).withOption(
-					'bAutoWidth', true).withOption('scrollCollapse', true)
-			.withOption('paging', false).withFixedColumns({
-				leftColumns : 0,
-				rightColumns : 0
-			}).withOption('bStateSave', true).withOption('bProcessing', false)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('createdRow', function(row) {
-				$compile(angular.element(row).contents())($scope);
-			}).withOption(
-					'headerCallback',
-					function(header) {
-						if ((!angular.isDefined($scope.headerCompiled))
-								|| $scope.headerCompiled) {
-							$scope.headerCompiled = true;
-							$compile(angular.element(header).contents())
-									($scope);
-						}
-					}).withOption("select", {
-				style : 'multi',
-				selector : 'td:first-child'
-			});
+		.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
+			50).withOption("ordering", false).withOption("responsive",
+			false).withOption("searching", false).withOption('scrollY',
+			300).withOption('scrollX', true).withOption(
+			'bAutoWidth', true).withOption('scrollCollapse', true)
+		.withOption('paging', false).withFixedColumns({
+			leftColumns : 0,
+			rightColumns : 0
+		}).withOption('bStateSave', true).withOption('bProcessing', false)
+		.withOption('bFilter', false).withOption('bInfo', false)
+		.withOption('serverSide', false).withOption('createdRow', function(row) {
+			$compile(angular.element(row).contents())($scope);
+		}).withOption(
+			'headerCallback',
+			function(header) {
+				if ((!angular.isDefined($scope.headerCompiled))
+					|| $scope.headerCompiled) {
+					$scope.headerCompiled = true;
+					$compile(angular.element(header).contents())
+					($scope);
+				}
+			}).withOption("select", {
+			style : 'multi',
+			selector : 'td:first-child'
+		});
 
 	function stateChange(iColumn, bVisible) {
 
@@ -467,24 +463,24 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 	$scope.dtColumns = [];
 	$scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml)
-			.withClass('select-checkbox checkbox_center').renderWith(
-					function() {
-						return ""
-					}));
+		.withClass('select-checkbox checkbox_center').renderWith(
+			function() {
+				return ""
+			}));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('ID')
 		.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
-			.withOption('sDefaultContent', ''));
+		.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('type').withTitle('类型')
-			.withOption('sDefaultContent', '').renderWith(renderType)),
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('状态')
+		.withOption('sDefaultContent', '').renderWith(renderType)),
+		$scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('状态')
 			.withOption('sDefaultContent', '').renderWith(renderStatus)),
-			$scope.dtColumns.push(DTColumnBuilder.newColumn('ptplkey')
-					.withTitle('流程模版').withOption('sDefaultContent', ''));
+		$scope.dtColumns.push(DTColumnBuilder.newColumn('ptplkey')
+			.withTitle('流程模版').withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('form').withTitle('表单')
-			.withOption('sDefaultContent', ''));
+		.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
-			.withOption('sDefaultContent', ''));
+		.withOption('sDefaultContent', ''));
 
 	$scope.catRootOpt = [];
 	$scope.catRootSel = "";
@@ -492,20 +488,20 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 	var ps = {};
 	ps.ids = angular.toJson([ 5 ]);
 	$http
-			.post($rootScope.project + "/api/ctCategoryRoot/ext/selectList.do",
-					ps).success(function(res) {
-				if (res.success) {
-					$scope.catRootOpt = res.data;
-					if ($scope.catRootOpt.length > 0) {
-						$scope.catRootSel = $scope.catRootOpt[0];
-						flushTree($scope.catRootSel.id)
-					}
-				} else {
-					notify({
-						message : res.message
-					});
-				}
+		.post($rootScope.project + "/api/ctCategoryRoot/ext/selectList.do",
+			ps).success(function(res) {
+		if (res.success) {
+			$scope.catRootOpt = res.data;
+			if ($scope.catRootOpt.length > 0) {
+				$scope.catRootSel = $scope.catRootOpt[0];
+				flushTree($scope.catRootSel.id)
+			}
+		} else {
+			notify({
+				message : res.message
 			});
+		}
+	});
 	// 树配置
 	$scope.treeConfig = {
 		core : {
@@ -513,7 +509,7 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 			animation : true,
 			error : function(error) {
 				$log.error('treeCtrl: error from js tree - '
-						+ angular.toJson(error));
+					+ angular.toJson(error));
 			},
 			check_callback : true,
 			worker : true
@@ -598,21 +594,21 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 	};
 	function flushTree(id) {
 		$http
-				.post(
-						$rootScope.project
-								+ "/api/ctCategroy/queryCategoryTreeList.do", {
-							root : id
-						}).success(function(res) {
-					if (res.success) {
-						$scope.ignoreChanges = true;
-						$scope.treeData = angular.copy(res.data);
-						$scope.treeConfig.version++;
-					} else {
-						notify({
-							message : res.message
-						});
-					}
+			.post(
+				$rootScope.project
+				+ "/api/ctCategroy/queryCategoryTreeList.do", {
+					root : id
+				}).success(function(res) {
+			if (res.success) {
+				$scope.ignoreChanges = true;
+				$scope.treeData = angular.copy(res.data);
+				$scope.treeConfig.version++;
+			} else {
+				notify({
+					message : res.message
 				});
+			}
+		});
 
 	}
 	$scope.query = function() {
@@ -706,7 +702,6 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 	$scope.formreview = function() {
 		var selrow = getSelectRow();
 		if (angular.isDefined(selrow)) {
-
 			if (angular.isDefined(selrow.form)) {
 				$window.open($rootScope.project
 						+ "/console/views/system/form/formdesign.html?id="
