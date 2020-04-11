@@ -86,7 +86,7 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtOptions=DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
 		.withPaginationType('full_numbers').withDisplayLength(100)
 		.withOption("ordering", false).withOption("responsive", false)
-		.withOption("searching", true).withOption('scrollY', '600px')
+		.withOption("searching", true).withOption('scrollY', 600)
 		.withOption('scrollX', true).withOption('bAutoWidth', true)
 		.withOption('scrollCollapse', true).withOption('paging', false)
 		.withFixedColumns({
@@ -94,25 +94,10 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			rightColumns : 0
 		}).withOption('bStateSave', true).withOption('bProcessing', false)
 		.withOption('bFilter', false).withOption('bInfo', false)
-		.withOption('serverSide', false).withOption('aaData',
-		$scope.tabdata).withOption('createdRow', function(row) {
+		.withOption('serverSide', false).withOption('createdRow', function(row) {
 		$compile(angular.element(row).contents())($scope);
 	})
-	// $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-	// 		.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
-	// 				50).withOption("ordering", false).withOption("responsive",
-	// 				false).withOption("searching", false).withOption('scrollY',
-	// 				'300px').withOption('scrollX', true).withOption(
-	// 				'bAutoWidth', true).withOption('scrollCollapse', true)
-	// 		.withOption('paging', false).withFixedColumns({
-	// 			leftColumns : 0,
-	// 			rightColumns : 0
-	// 		}).withOption('bStateSave', true).withOption('bProcessing', false)
-	// 		.withOption('bFilter', false).withOption('bInfo', false)
-	// 		.withOption('serverSide', false).withOption('aaData',
-	// 				$scope.tabdata).withOption('createdRow', function(row) {
-	// 			$compile(angular.element(row).contents())($scope);
-	// 		});
+
 	$scope.dtColumns = [
 
 			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
@@ -148,7 +133,7 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			templateUrl : 'views/cmdb/modal_devfault_zclist.html',
 			controller : modal_faultZcListCtl,
 			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				id : function() {
 					return ""
 				},
@@ -160,7 +145,7 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		modalInstance.result.then(function(result) {
 			$scope.dtOptions.aaData = result;
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 	}
@@ -197,15 +182,14 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withDOM('frtlip').withPaginationType('full_numbers')
 			.withDisplayLength(100).withOption("ordering", false).withOption(
 					"responsive", false).withOption("searching", true)
-			.withOption('scrollY', '600px').withOption('scrollX', true)
+			.withOption('scrollY', 600).withOption('scrollX', true)
 			.withOption('bAutoWidth', true).withOption('scrollCollapse', true)
 			.withOption('paging', true).withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
 					'headerCallback',
@@ -466,7 +450,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			templateUrl : 'views/cmdb/modal_zcActionDtl.html',
 			controller : modalzcActionDtlCtl,
 			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return ps;
 				},
@@ -480,11 +464,11 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -555,19 +539,19 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			templateUrl : 'views/cmdb/modal_zcAction.html',
 			controller : modalzcActionSaveCtl,
 			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return ps;
 				}
 			}
 		});
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -613,19 +597,19 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					templateUrl : 'views/cmdb/modal_zcActionSP.html',
 					controller : modalzcActionSPCtl,
 					size : 'blg',
-					resolve : { // 调用控制器与modal控制器中传递值
+					resolve : {
 						meta : function() {
 							return item;
 						}
 					}
 				});
 				modalInstance.result.then(function(result) {
-					$log.log("result", result);
+
 					if (result == "OK") {
 						flush();
 					}
 				}, function(reason) {
-					// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 					$log.log("reason", reason)
 				});
 			});

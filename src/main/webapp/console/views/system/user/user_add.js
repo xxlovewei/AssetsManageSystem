@@ -16,6 +16,7 @@ function sysUserAddCtl($confirm, $log, notify, $scope, $http, $rootScope) {
 
 	$scope.reset = function() {
 		$scope.item = {};
+		$scope.item.userType="system";
 		$scope.item.name = "";
 		$scope.userStatusSel = $scope.userStatusOpt[0];
 	}

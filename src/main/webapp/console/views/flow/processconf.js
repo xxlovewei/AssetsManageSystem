@@ -17,7 +17,7 @@ function processConfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
         .withOption("ordering", false).withOption("responsive", false)
-        .withOption("searching", true).withOption('scrollY', '600px')
+        .withOption("searching", true).withOption('scrollY', 600)
         .withOption('scrollX', true).withOption('bAutoWidth', true)
         .withOption('scrollCollapse', true).withOption('paging', true)
         .withFixedColumns({
@@ -25,8 +25,7 @@ function processConfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             rightColumns : 0
         }).withOption('bStateSave', true).withOption('bProcessing', false)
         .withOption('bFilter', false).withOption('bInfo', false)
-        .withOption('serverSide', false).withOption('aaData',
-            $scope.tabdata).withOption('createdRow', function(row) {
+        .withOption('serverSide', false).withOption('createdRow', function(row) {
             $compile(angular.element(row).contents())($scope);
         }).withOption(
             'headerCallback',
@@ -56,8 +55,8 @@ function processConfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     function renderType(data, type, full) {
         if (data == "system") {
             return "系统";
-        } else if (data == "empl") {
-            return "员工";
+        } else if (data == "user") {
+            return "用户";
         } else {
             return data;
         }
@@ -69,10 +68,14 @@ function processConfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'select-checkbox checkbox_center').renderWith(function() {
             return ""
         }),
+        DTColumnBuilder.newColumn('id').withTitle('流程ID').withOption(
+            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('name').withTitle('流程名称').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('code').withTitle('编码').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('type').withTitle('类型').withOption(
+            'sDefaultContent', '').renderWith(renderType),
         DTColumnBuilder.newColumn('processdefid').withTitle('配置').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
@@ -141,9 +144,36 @@ function processConfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.query = function() {
         flush();
     }
-    $scope.add = function() {
-       alert("开发中");
+    function save(id){
+
+        var ps={};
+        ps.id=id;
+        var modalInstance = $uibModal.open({
+            backdrop : true,
+            templateUrl : 'views/flow/modal_flowlist.html',
+            controller : modalFlowListSelCtl,
+            size : 'lg',
+            resolve : {
+
+            }
+        });
+
+        modalInstance.result.then(function(result) {
+            if (result == "OK") {
+                flush();
+            }
+        }, function(reason) {
+
+            $log.log("reason", reason)
+        });
     }
+    $scope.add = function() {
+        save();
+    }
+    $scope.edit = function() {
+        save(id);
+    }
+
     flush();
 };
 

@@ -185,7 +185,7 @@ function demoCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			templateUrl : 'views/Template/modal_simpleForm.html',
 			controller : modal_simpleFormCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return meta;
 				}
@@ -193,13 +193,13 @@ function demoCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 
 			if (result == "OK") {
 
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -285,7 +285,7 @@ function demoCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 	$scope.meta = meta;
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('scrollY',
-			'300px').withOption('scrollX', true).withOption('bAutoWidth', true)
+			500).withOption('scrollX', true).withOption('bAutoWidth', true)
 			.withOption('responsive', false).withOption('scrollCollapse', true)
 			.withOption('paging', true).withFixedColumns({
 				leftColumns : 0,
@@ -387,19 +387,9 @@ function demoCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		});
 
 		$scope.dtOptions.aaData = d;
-		// $http.post($rootScope.project + "/api/role/roleQuery.do",
-		// ps).success(
-		// function(res) {
-		// if (res.success) {
-		// $scope.dtOptions.aaData = res.data;
-		// } else {
-		// notify({
-		// message : res.message
-		// });
-		// }
-		// })
+
 	}
-	//flush();
+
 
 	$scope.row_detail = function(id) {
 
@@ -430,7 +420,7 @@ function demoCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			templateUrl : 'views/system/role/modal_role_save.html',
 			controller : roleSaveCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				id : function() {
 					return id;
 				}
@@ -438,12 +428,12 @@ function demoCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 	}

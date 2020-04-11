@@ -50,16 +50,15 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
 					50).withOption("ordering", false).withOption("responsive",
-					false).withOption("searching", false).withOption('scrollY',
-					'300px').withOption('scrollX', true).withOption(
+					false).withOption("searching", true).withOption('scrollY',
+					300).withOption('scrollX', true).withOption(
 					'bAutoWidth', true).withOption('scrollCollapse', true)
 			.withOption('paging', false).withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
 					'headerCallback',
@@ -97,6 +96,8 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
 						return ""
 					}));
 
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('编号')
+		.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
@@ -110,7 +111,7 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
 	var ps = {};
 	ps.ids = angular.toJson([ 6 ]);
 	$http
-			.post($rootScope.project + "/api/ctCategoryRoot/Ext/selectList.do",
+			.post($rootScope.project + "/api/ctCategoryRoot/ext/selectList.do",
 					ps).success(function(res) {
 				if (res.success) {
 					$scope.catRootOpt = res.data;
@@ -265,7 +266,7 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
 			templateUrl : 'views/system/form/form_formsave.html',
 			controller : modalformsaveCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return p;
 				}
@@ -273,15 +274,19 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
+	}
+
+	$scope.itemquery=function(){
+		flush();
 	}
 
 	function flush() {
@@ -327,25 +332,6 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
 					+ "/console/views/system/form/formdesign.html?id="
 					+ selrow.id)
 
-			//			var ps = {};
-			//			ps.pk = selrow.ptplkey;
-			//			var modalInstance = $uibModal.open({
-			//				backdrop : true,
-			//				templateUrl : 'views/flow/modal_reviewProcess.html',
-			//				controller : modalreviewProcessCtl,
-			//				size : 'lg',
-			//				resolve : { // 调用控制器与modal控制器中传递值
-			//					meta : function() {
-			//						return ps;
-			//					}
-			//				}
-			//			});
-			//
-			//			modalInstance.result.then(function(result) {
-			//			}, function(reason) {
-			//				// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
-			//				$log.log("reason", reason)
-			//			});
 
 		}
 	}

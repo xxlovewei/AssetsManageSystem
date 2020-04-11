@@ -3,7 +3,7 @@ function opsxttjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.item = {};
 
-	$http.post($rootScope.project + "/api/ops/opsNode/Ext/dashboard.do", {})
+	$http.post($rootScope.project + "/api/ops/opsNode/ext/dashboard.do", {})
 			.success(function(res) {
 				if (res.success) {
 

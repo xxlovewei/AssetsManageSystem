@@ -3,11 +3,54 @@ function sysOnlineSessionCtl( DTOptionsBuilder, DTColumnBuilder,
 
 	$scope.meta ={
 	tools : [  ]
-} 
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function(row) {
-		// Recompiling so we can bind Angular,directive to the
-		$compile(angular.element(row).contents())($scope);
-	});
+}
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
+		.withPaginationType('full_numbers').withDisplayLength(100)
+		.withOption("ordering", false).withOption("responsive", false)
+		.withOption("searching", true).withOption('scrollY', 600)
+		.withOption('scrollX', true).withOption('bAutoWidth', true)
+		.withOption('scrollCollapse', true).withOption('paging', true)
+		.withFixedColumns({
+			leftColumns : 0,
+			rightColumns : 0
+		}).withOption('bStateSave', true).withOption('bProcessing', false)
+		.withOption('bFilter', false).withOption('bInfo', false)
+		.withOption('serverSide', false).withOption('createdRow', function(row) {
+			$compile(angular.element(row).contents())($scope);
+		}).withOption(
+			'headerCallback',
+			function(header) {
+				if ((!angular.isDefined($scope.headerCompiled))
+					|| $scope.headerCompiled) {
+					$scope.headerCompiled = true;
+					$compile(angular.element(header).contents())
+					($scope);
+				}
+			});
+
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
+		.withPaginationType('full_numbers').withDisplayLength(100)
+		.withOption("ordering", false).withOption("responsive", false)
+		.withOption("searching", true).withOption('scrollY', 600)
+		.withOption('scrollX', true).withOption('bAutoWidth', true)
+		.withOption('scrollCollapse', true).withOption('paging', true)
+		.withFixedColumns({
+			leftColumns : 0,
+			rightColumns : 0
+		}).withOption('bStateSave', true).withOption('bProcessing', false)
+		.withOption('bFilter', false).withOption('bInfo', false)
+		.withOption('serverSide', false).withOption('createdRow', function(row) {
+			$compile(angular.element(row).contents())($scope);
+		}).withOption(
+			'headerCallback',
+			function(header) {
+				if ((!angular.isDefined($scope.headerCompiled))
+					|| $scope.headerCompiled) {
+					$scope.headerCompiled = true;
+					$compile(angular.element(header).contents())
+					($scope);
+				}
+			});
 	$scope.dtInstance = {}
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\"> ";

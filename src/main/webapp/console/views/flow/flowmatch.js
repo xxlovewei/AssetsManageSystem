@@ -12,13 +12,12 @@ function modalFormListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", true).withOption('scrollY', '200px')
+			.withOption("searching", true).withOption('scrollY', 200)
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
 			.withOption('scrollCollapse', true).withOption('paging', true)
 			.withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
 					'headerCallback',
@@ -71,7 +70,7 @@ function modalFormListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
 		var ps = {};
 		ps.owner = $scope.typeSel.id;
 		$http.post(
-				$rootScope.project + "/api/form/sysForm/Ext/selectByOwner.do",
+				$rootScope.project + "/api/form/sysForm/ext/selectByOwner.do",
 				ps).success(function(res) {
 			$scope.dtOptions.aaData = res.data;
 
@@ -134,7 +133,7 @@ function modalFlowListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", true).withOption('scrollY', '200px')
+			.withOption("searching", true).withOption('scrollY', 200)
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
 			.withOption('scrollCollapse', true).withOption('paging', true)
 			.withFixedColumns({
@@ -142,8 +141,7 @@ function modalFlowListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
 					'headerCallback',
@@ -278,7 +276,7 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 	};
 
 	var formtype = [];
-	$http.post($rootScope.project + "/api/ctCategory/Ext/selectListByRoot.do",
+	$http.post($rootScope.project + "/api/ctCategory/ext/selectListByRoot.do",
 			{
 				root : "6"
 			}).success(function(res) {
@@ -335,17 +333,17 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 			templateUrl : 'views/flow/modal_flowlist.html',
 			controller : modalFlowListSelCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 
 			}
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			$scope.data.ptplname = result.name;
 			$scope.data.ptplkey = result.key;
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -357,7 +355,7 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 			templateUrl : 'views/flow/modal_formSelect.html',
 			controller : modalFormListSelCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				data : {
 					formType : formtype
 				}
@@ -365,11 +363,11 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			$scope.data.form = result.id;
 
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -407,15 +405,14 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
 					50).withOption("ordering", false).withOption("responsive",
 					false).withOption("searching", false).withOption('scrollY',
-					'300px').withOption('scrollX', true).withOption(
+					300).withOption('scrollX', true).withOption(
 					'bAutoWidth', true).withOption('scrollCollapse', true)
 			.withOption('paging', false).withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
 					'headerCallback',
@@ -474,7 +471,8 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 					function() {
 						return ""
 					}));
-
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('ID')
+		.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('type').withTitle('类型')
@@ -494,7 +492,7 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 	var ps = {};
 	ps.ids = angular.toJson([ 5 ]);
 	$http
-			.post($rootScope.project + "/api/ctCategoryRoot/Ext/selectList.do",
+			.post($rootScope.project + "/api/ctCategoryRoot/ext/selectList.do",
 					ps).success(function(res) {
 				if (res.success) {
 					$scope.catRootOpt = res.data;
@@ -649,7 +647,7 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 			templateUrl : 'views/flow/modal_flowmatchsave.html',
 			controller : modalflowmatchsaveCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return p;
 				}
@@ -657,12 +655,12 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -671,7 +669,7 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 	function flush() {
 		$http.post(
 				$rootScope.project
-						+ "/api/flow/sysProcessDef/Ext/selectList.do", {
+						+ "/api/flow/sysProcessDef/ext/selectList.do", {
 					owner : $scope.curSelNode
 				}).success(function(res) {
 			if (res.success) {
@@ -731,7 +729,7 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 				templateUrl : 'views/flow/modal_reviewProcess.html',
 				controller : modalreviewProcessCtl,
 				size : 'lg',
-				resolve : { // 调用控制器与modal控制器中传递值
+				resolve : {
 					meta : function() {
 						return ps;
 					}
@@ -740,11 +738,14 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
 
 			modalInstance.result.then(function(result) {
 			}, function(reason) {
-				// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 				$log.log("reason", reason)
 			});
 
 		}
+	}
+	$scope.itemquery=function(){
+		flush();
 	}
 
 	$scope.rowdel = function() {

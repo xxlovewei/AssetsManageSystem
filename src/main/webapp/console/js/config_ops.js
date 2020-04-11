@@ -4,7 +4,6 @@ function config_ops($stateProvider, $ocLazyLoadProvider) {
 		debug : true
 	});
 
-	// 管理
 	$stateProvider.state('infosys', {
 		abstract : true,
 		url : "/infosys",

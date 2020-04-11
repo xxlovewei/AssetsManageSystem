@@ -63,7 +63,7 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	var pbtns = $rootScope.curMemuBtns;
 
-	console.log(pbtns);
+
 	var gdicts = {};
 
 	var dicts = "sysinfodev,sysinfograde,sysinfoops,sysinfotype";
@@ -86,15 +86,14 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withDOM('frtlip').withPaginationType('full_numbers')
 			.withDisplayLength(100).withOption("ordering", false).withOption(
 					"responsive", false).withOption("searching", true)
-			.withOption('scrollY', '400px').withOption('scrollX', true)
+			.withOption('scrollY', 400).withOption('scrollX', true)
 			.withOption('bAutoWidth', true).withOption('scrollCollapse', true)
 			.withOption('paging', true).withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
 					'headerCallback',
@@ -308,7 +307,7 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	};
 
 	$scope.meta = meta;
-	console.log('1111111',pbtns)
+
 	privNormalCompute($scope.meta.toolsbtn, pbtns);
 
 	function flush() {
@@ -400,7 +399,7 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			templateUrl : 'views/cmdb/modal_dtl.html',
 			controller : modalcmdbdtlCtl,
 			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return ps;
 				}
@@ -408,11 +407,11 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -847,20 +846,20 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			templateUrl : 'views/Template/modal_simpleForm.html',
 			controller : modal_simpleFormCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return meta;
 				}
 			}
 		});
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 
 			if (result == "OK") {
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 

@@ -15,7 +15,7 @@ function cmdbCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.item = {};
 	var ps={};
 	ps.ids=angular.toJson([3]);
-	$http.post($rootScope.project + "/api/ctCategoryRoot/Ext/selectList.do", ps)
+	$http.post($rootScope.project + "/api/ctCategoryRoot/ext/selectList.do", ps)
 			.success(function(res) {
 				if (res.success) {
 					$scope.catRootOpt = res.data;

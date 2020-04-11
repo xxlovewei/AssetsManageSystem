@@ -3,6 +3,7 @@ package com.dt.module.form.service.impl;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.dt.module.db.DB;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -28,6 +29,19 @@ public class FormServiceImpl extends BaseService {
 
     public static String OPER_TYPE_UPDATE = "update";
 
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        FormServiceImpl a = new FormServiceImpl();
+
+
+        //System.out.println(a.parseFromJsonToSqlTpl("asdfsadf", "adfsadfasdf", "insert", "process", "###3"));
+
+    }
+
+
+    private void parseFromJsonMetaColDB() {
+        System.out.println(db.query("select COLUMN_NAME col from information_schema.COLUMNS where table_name ='sys_process_form' and COLUMN_NAME like 'd%' and COLUMN_NAME<>'dr'"));
+    }
     private HashMap<String, String> parseFromJsonMetaCol() {
         HashMap<String, String> map = new HashMap<String, String>();
         JSONArray cols = new JSONArray();
@@ -184,11 +198,8 @@ public class FormServiceImpl extends BaseService {
         if (ToolUtil.isOneEmpty(json_tpl, json_value, opertype)) {
             return R.FAILURE();
         }
-        // select COLUMN_NAME col from information_schema.COLUMNS where table_name =
-//        // 'sys_process_data' and COLUMN_NAME like 'd%';
-//        json_value = "{\n" + "	\"asdf\": \"asdf\",\n" + "	\"dpic1\": \"saf\",\n"
-//                + "	\"textarea_1585926392110\": \"asdf\",\n" + "	\"asfs\": \"asdf\",\n" + "	\"fasdfsa\": \"asdf\"\n"
-//                + "}";
+        parseFromJsonMetaColDB();
+
         HashMap<String, String> metacols = parseFromJsonMetaCol();
         JSONObject e = JSONObject.parseObject(json_value);
         Iterator<String> keys = e.keySet().iterator();// jsonObject.keys();
@@ -200,7 +211,6 @@ public class FormServiceImpl extends BaseService {
         Iterator<String> keySetIterator = map.keySet().iterator();
         Insert ins = new Insert("sys_process_form");
         Update ups = new Update("sys_process_form");
-
         while (keySetIterator.hasNext()) {
             String key = keySetIterator.next();
             String v = map.get(key);
@@ -236,13 +246,5 @@ public class FormServiceImpl extends BaseService {
         return R.SUCCESS_OPER(res);
     }
 
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-        FormServiceImpl a = new FormServiceImpl();
-
-
-        System.out.println(a.parseFromJsonToSqlTpl("asdfsadf", "adfsadfasdf", "insert", "process", "###3"));
-
-    }
 
 }

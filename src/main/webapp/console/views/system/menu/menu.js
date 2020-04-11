@@ -260,7 +260,6 @@ function menuAclCtl($timeout, DTOptionsBuilder, DTColumnBuilder, notify, $log,
 			.withOption('bInfo', false)
 			.withOption('serverSide', false)
 			.withOption('bAutoWidth', false)
-			.withOption('aaData', $scope.tabdata)
 			.withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
@@ -598,7 +597,7 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 									templateUrl : 'views/system/menu/modal_menu_module.html',
 									controller : menuModuleCtl,
 									size : 'lg',
-									resolve : { // 调用控制器与modal控制器中传递值
+									resolve : {
 										data : function() {
 											return ps;
 										}
@@ -606,12 +605,12 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 								});
 
 						modalInstance.result.then(function(result) {
-							$log.log("result", result);
+
 							if (result == "OK") {
 								// flush();
 							}
 						}, function(reason) {
-							// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 							$log.log("reason", reason)
 						});
 					},
@@ -626,7 +625,7 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 									templateUrl : 'views/system/menu/modal_menu_save.html',
 									controller : menuModifyCtl,
 									size : 'lg',
-									resolve : { // 调用控制器与modal控制器中传递值
+									resolve : {
 										data : function() {
 											return ps;
 										}
@@ -634,12 +633,12 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 								});
 
 						modalInstance.result.then(function(result) {
-							$log.log("result", result);
+
 							if (result == "OK") {
 								flush();
 							}
 						}, function(reason) {
-							// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 							$log.log("reason", reason)
 						});
 					},
@@ -690,7 +689,7 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 									templateUrl : 'views/system/menu/modal_menu_acl.html',
 									controller : menuAclCtl,
 									size : 'lg',
-									resolve : { // 调用控制器与modal控制器中传递值
+									resolve : {
 										data : function() {
 											return ps;
 										}
@@ -698,12 +697,12 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 								});
 
 						modalInstance.result.then(function(result) {
-							$log.log("result", result);
+
 							if (result == "OK") {
 
 							}
 						}, function(reason) {
-							// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 							$log.log("reason", reason)
 						});
 
@@ -717,7 +716,7 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 										templateUrl : 'views/system/menu/modal_btnsadd.html',
 										controller : menuBtnaddSaveCtl,
 										size : 'lg',
-										resolve : { // 调用控制器与modal控制器中传递值
+										resolve : {
 											data : function() {
 												return ps;
 											}
@@ -725,12 +724,12 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 									});
 
 							modalInstance.result.then(function(result) {
-								$log.log("result", result);
+
 								if (result == "OK") {
 									flush();
 								}
 							}, function(reason) {
-								// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 								$log.log("reason", reason)
 							});
 
@@ -751,7 +750,7 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 									templateUrl : 'views/system/menu/modal_menu_save.html',
 									controller : menuModifyCtl,
 									size : 'lg',
-									resolve : { // 调用控制器与modal控制器中传递值
+									resolve : {
 										data : function() {
 											return ps;
 										}
@@ -759,12 +758,12 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 								});
 
 						modalInstance.result.then(function(result) {
-							$log.log("result", result);
+
 							if (result == "OK") {
 								flush();
 							}
 						}, function(reason) {
-							// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 							$log.log("reason", reason)
 						});
 
@@ -809,7 +808,7 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 			templateUrl : 'views/system/menu/modal_menu_save.html',
 			controller : menuModifyCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				data : function() {
 					return ps;
 				}
@@ -817,12 +816,12 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 	}

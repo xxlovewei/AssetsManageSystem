@@ -197,8 +197,7 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 			.withOption("paging", false).withOption('bStateSave', true)
 			.withOption('bProcessing', true).withOption('bFilter', false)
 			.withOption('bInfo', false).withOption('serverSide', false)
-			.withOption('bAutoWidth', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('bAutoWidth', false).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			});
@@ -285,7 +284,7 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 			templateUrl : 'views/org/modal_employee_save.html',
 			controller : orgEmpSaveCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				id : function() {
 					return id;
 				},
@@ -301,7 +300,7 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 	}

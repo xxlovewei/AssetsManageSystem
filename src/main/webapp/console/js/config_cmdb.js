@@ -792,15 +792,14 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 			.withDOM('frtlip').withPaginationType('simple').withDisplayLength(
 					50).withOption("ordering", false).withOption("responsive",
 					false).withOption("searching", false).withOption('scrollY',
-					'300px').withOption('scrollX', true).withOption(
+					300).withOption('scrollX', true).withOption(
 					'bAutoWidth', true).withOption('scrollCollapse', true)
 			.withOption('paging', false).withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				$compile(angular.element(row).contents())($scope);
 			});
 	$scope.dtColumns = [
@@ -865,7 +864,7 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 											}
 										})
 								$scope.url= $rootScope.project
-									+ "uflo/diagram?processInstanceId="
+									+ "/uflo/diagram?processInstanceId="
 									+ res.data.processInstanceId;
 							}
 
@@ -876,7 +875,7 @@ function modalzcActionDtlCtl($timeout,DTOptionsBuilder, DTColumnBuilder, $compil
 							$timeout(function(){
 								var jd=decodeURI(res.data.formconf);
 								let jsonData  =angular.fromJson(jd);
-								console.log(jsonData);
+
 								vm = new Vue({
 									el: '#app',
 									data: {

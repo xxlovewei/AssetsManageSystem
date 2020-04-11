@@ -338,7 +338,7 @@ app
 					$rootScope.$state = $state;
 					var ct = getContextPath();
 					$rootScope.project = ct + "/";
-					$log.info('$rootScope.project:' + $rootScope.project);
+					$log.info('app project:' + $rootScope.project);
 					$rootScope.version = version;
 					$rootScope.$on('IdleStart', function() {
 						$log.warn('IdleStart');
@@ -419,19 +419,87 @@ function initDT(DTDefaultOptions) {
 	};
 	DTDefaultOptions.setLanguage(lng);
 	DTDefaultOptions.setDOM('frtilp');
-	DTDefaultOptions.setDisplayLength(50);
+	DTDefaultOptions.setDisplayLength(100);
+	//详细分页组，可以支持直接跳转到某页
 	DTDefaultOptions.setOption('sPaginationType', 'full_numbers');
+	//列是否支持排序
 	DTDefaultOptions.setOption('ordering', false);
-	DTDefaultOptions.setOption('searching', false);
+	//是否显示搜索框
+	DTDefaultOptions.setOption('searching', true);
+	//是否支持分页
 	DTDefaultOptions.setOption('paging', true);
-	DTDefaultOptions.setOption('bStateSave', false);
+	//是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态
+	DTDefaultOptions.setOption('bStateSave', true);
+	//DataTables载入数据时，是否显示‘进度’提示
 	DTDefaultOptions.setOption('bProcessing', true);
+	//是否显示页脚信息，DataTables插件左下角显示记录数
 	DTDefaultOptions.setOption('bInfo', false);
-	DTDefaultOptions.setOption('bAutoWidth', false);
-	DTDefaultOptions.setOption('responsive', true);
+	//列宽度
+	DTDefaultOptions.setOption('bAutoWidth', true);
+	//是否自动宽度使用
+	DTDefaultOptions.setOption('responsive', false);
+	//是否启动过滤、搜索功能
 	DTDefaultOptions.setOption('bFilter', false);
+	//是否启动服务器端数据导入
 	DTDefaultOptions.setOption('serverSide', false);
+
 }
+
+// $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
+// 	.withDOM('frtlip').withPaginationType('full_numbers')
+// 	.withDisplayLength(100).withOption("ordering", false).withOption(
+// 		"responsive", false).withOption("searching", true)
+// 	.withOption('scrollY', 500).withOption('scrollX', true)
+// 	.withOption('bAutoWidth', true).withOption('scrollCollapse', true)
+// 	.withOption('paging', true).withFixedColumns({
+// 		leftColumns : 0,
+// 		rightColumns : 0
+// 	}).withOption('bStateSave', true).withOption('bProcessing', true)
+// 	.withOption('bFilter', false).withOption('bInfo', false)
+// 	.withOption('serverSide', false).withOption('createdRow', function(row) {
+// 		$compile(angular.element(row).contents())($scope);
+// 	}).withOption(
+// 		'headerCallback',
+// 		function(header) {
+// 			if ((!angular.isDefined($scope.headerCompiled))
+// 				|| $scope.headerCompiled) {
+// 				$scope.headerCompiled = true;
+// 				$compile(angular.element(header).contents())
+// 				($scope);
+// 			}
+// 		}).withOption("select", {
+// 		style : 'multi',
+// 		selector : 'td:first-child'
+// 	}).withButtons([ {
+// 		extend : 'colvis',
+// 		text : '显示隐藏列',
+// 		fnLabel : function(dt, idx, title) {
+//
+// 			return (idx + 1) + ': ' + title;
+// 		}
+// 	}, {
+// 		extend : 'csv',
+// 		text : 'Excel(当前页)',
+// 		exportOptions : {
+// 			columns : ':visible',
+// 			trim : true,
+// 			modifier : {
+// 				page : 'current'
+// 			}
+// 		}
+// 	}, {
+// 		extend : 'print',
+// 		text : '打印(当前页)',
+// 		exportOptions : {
+// 			columns : ':visible',
+// 			stripHtml : false,
+// 			columns : ':visible',
+// 			modifier : {
+// 				page : 'current'
+// 			}
+// 		}
+// 	} ]);
+
 app.run(initDT);
 // before loading
 $("#beforePage").removeClass("preloader");

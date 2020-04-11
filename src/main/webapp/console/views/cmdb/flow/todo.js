@@ -26,7 +26,7 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(50)
 			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", true).withOption('scrollY', '600px')
+			.withOption("searching", true).withOption('scrollY', 600)
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
 			.withOption('scrollCollapse', true).withOption('paging', true)
 			.withFixedColumns({
@@ -34,8 +34,7 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
@@ -184,7 +183,7 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 												templateUrl : 'views/cmdb/modal_zcActionDtl.html',
 												controller : modalzcActionDtlCtl,
 												size : 'blg',
-												resolve : { // 调用控制器与modal控制器中传递值
+												resolve : {
 													meta : function() {
 														return res.data;
 													},
@@ -198,7 +197,6 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 											});
 
 									modalInstance.result.then(function(result) {
-										$log.log("result", result);
 										if (result == "OK") {
 											flush();
 										}

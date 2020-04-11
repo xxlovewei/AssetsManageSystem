@@ -31,7 +31,7 @@ import com.dt.module.ct.service.ICtCategoryService;
  * @since 2018-07-30
  */
 @Controller
-@RequestMapping("/api/ctCategory/Ext")
+@RequestMapping("/api/ctCategory/ext")
 public class CtCategoryExtController extends BaseController {
 
 

@@ -102,7 +102,6 @@ public class ZcController extends BaseController {
             entityList.add(e);
         }
         //entity.setDtotal(ConvertUtil.toBigDecimal(entityList.size()));
-       System.out.println(entity);
         ResActionItemServiceImpl.saveBatch(entityList);
         SysProcessDataServiceImpl.save(entity);
         return R.SUCCESS_OPER();

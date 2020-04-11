@@ -36,7 +36,7 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
 			templateUrl : 'views/cmdb/modal_devfault_zclist.html',
 			controller : modal_faultZcListCtl,
 			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				id : function() {
 					return ""
 				},
@@ -49,7 +49,7 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
 		modalInstance.result.then(function(result) {
 			$scope.item = result;
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -111,7 +111,7 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", true).withOption('scrollY', '600px')
+			.withOption("searching", true).withOption('scrollY', 600)
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
 			.withOption('scrollCollapse', true).withOption('paging', true)
 			.withFixedColumns({
@@ -119,8 +119,7 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
 					'headerCallback',
@@ -323,19 +322,18 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			templateUrl : 'views/cmdb/modal_dtl.html',
 			controller : modalcmdbdtlCtl,
 			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return ps;
 				}
 			}
 		});
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
-			if (result == "OK") {
 
+			if (result == "OK") {
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -381,7 +379,7 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			templateUrl : 'views/cmdb/modal_devfault.html',
 			controller : modaldevfaultCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return "";
 				}
@@ -389,10 +387,9 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
 			flush();
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 

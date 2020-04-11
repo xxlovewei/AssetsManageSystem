@@ -69,7 +69,7 @@ function modalimportDBCtl($log, $uibModalInstance, notify, $scope, $http,
 		$timeout(function() {
 			$http.post(
 					$rootScope.project
-							+ "/api/ops/opsNode/Ext/selectListDBImport.do", {
+							+ "/api/ops/opsNode/ext/selectListDBImport.do", {
 						id : id
 					}).success(function(res) {
 				$scope.okbtnstatus = false;
@@ -86,7 +86,7 @@ function modalimportDBCtl($log, $uibModalInstance, notify, $scope, $http,
 						templateUrl : 'views/cmdb/modal_importFail.html',
 						controller : modalimportdataDBFailCtl,
 						size : 'blg',
-						resolve : { // 调用控制器与modal控制器中传递值
+						resolve : {
 							meta : function() {
 								return res.data;
 							}
@@ -95,7 +95,7 @@ function modalimportDBCtl($log, $uibModalInstance, notify, $scope, $http,
 					$scope.myDropzone.removeAllFiles(true);
 					modalInstance.result.then(function(result) {
 					}, function(reason) {
-						// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 
 					});
 
@@ -305,7 +305,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		var ps = {};
 		$http.post(
 				$rootScope.project
-						+ "/api/ops/opsNode/Ext/selectDBListSimple.do", ps)
+						+ "/api/ops/opsNode/ext/selectDBListSimple.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
@@ -337,7 +337,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withDataProp('data').withDOM('frtlip').withPaginationType(
 					'full_numbers').withDisplayLength(100).withOption(
 					"ordering", false).withOption("responsive", false)
-			.withOption("searching", true).withOption('scrollY', '400px')
+			.withOption("searching", true).withOption('scrollY', 400)
 			.withOption('scrollX', true).withOption('bAutoWidth', false)
 			.withOption('scrollCollapse', true).withOption('paging', false)
 			.withOption('bStateSave', false).withOption('bProcessing', false)
@@ -443,7 +443,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			return;
 		}
 
-		$http.post($rootScope.project + "/api/ops/opsNode/Ext/selectDBList.do",
+		$http.post($rootScope.project + "/api/ops/opsNode/ext/selectDBList.do",
 				ps).success(function(res) {
 			if (res.success) {
 				$scope.dtItemOptions.aaData = res.data;
@@ -477,7 +477,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	$scope.query = function() {
-		$http.post($rootScope.project + "/api/ops/opsNode/Ext/selectDBList.do",
+		$http.post($rootScope.project + "/api/ops/opsNode/ext/selectDBList.do",
 				{}).success(function(res) {
 			if (res.success) {
 				$scope.dtItemOptions.aaData = res.data;
@@ -520,7 +520,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			templateUrl : 'views/ops/modal_dbinstanceSave.html',
 			controller : dbinstanceSaveCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return ps;
 				},
@@ -530,12 +530,12 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}
 		});
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 				flushSubtab();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 	}
@@ -569,7 +569,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		var ps = {}
 
 		$window.open($rootScope.project
-				+ "/api/ops/opsNode/Ext/selectDBListExport.do");
+				+ "/api/ops/opsNode/ext/selectDBListExport.do");
 	}
 
 	$scope.importfile = function() {
@@ -578,7 +578,7 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			templateUrl : 'views/ops/modal_importfile.html',
 			controller : modalimportDBCtl,
 			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return ""
 				}

@@ -30,7 +30,7 @@ import com.dt.module.base.service.ISysDictService;
  * @since 2018-07-24
  */
 @Controller
-@RequestMapping("/api/sysDict/Ext")
+@RequestMapping("/api/sysDict/ext")
 public class SysDictExtController extends BaseController {
 
     @Autowired

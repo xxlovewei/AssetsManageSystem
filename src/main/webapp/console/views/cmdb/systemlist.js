@@ -238,7 +238,7 @@ function cmdbsystemListCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			templateUrl : 'views/Template/modal_simpleForm.html',
 			controller : modal_simpleFormCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return meta;
 				}
@@ -246,13 +246,12 @@ function cmdbsystemListCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
 
 			if (result == "OK") {
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 

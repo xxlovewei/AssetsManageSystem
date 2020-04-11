@@ -202,7 +202,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			.withOption('bStateSave', true).withOption('bProcessing', true)
 			.withOption('bFilter', false).withOption('bInfo', false)
 			.withOption('serverSide', true).withOption('bAutoWidth', false)
-			.withOption('aaData', $scope.tabdata).withOption(
+			.withOption(
 					'headerCallback',
 					function(header) {
 						if ((!angular.isDefined($scope.headerCompiled))
@@ -378,7 +378,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			templateUrl : 'views/system/user/modal_user_pwd.html',
 			controller : userPwdFormCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				id : function() {
 					return d[data[0]].userId;
 				}
@@ -387,7 +387,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 		modalInstance.result.then(function(result) {
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 		
@@ -419,7 +419,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			templateUrl : 'views/system/user/modal_user_save.html',
 			controller : userSaveFormCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				id : function() {
 					return d[data[0]].userId;
 				}
@@ -427,13 +427,13 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -465,7 +465,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			templateUrl : 'views/system/user/modal_user_role_save.html',
 			controller : userRoleAdjustFormCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				userIds : function() {
 					return angular.toJson(userids);
 				}
@@ -473,13 +473,13 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -500,7 +500,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			templateUrl : 'views/system/role/modal_role_save.html',
 			controller : roleSaveCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				id : function() {
 					return id;
 				}
@@ -508,12 +508,12 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 

@@ -21,7 +21,7 @@ import com.dt.module.flow.service.ISysProcessDefService;
  * @since 2019-12-16
  */
 @Controller
-@RequestMapping("/api/flow/sysProcessDef/Ext")
+@RequestMapping("/api/flow/sysProcessDef/ext")
 public class SysProcessDefExtController extends BaseController {
 
     @Autowired

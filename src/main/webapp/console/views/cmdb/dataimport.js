@@ -78,7 +78,7 @@ function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			templateUrl : 'views/cmdb/modal_importdoc.html',
 			controller : modalimpordocCtl,
 			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return ""
 				}
@@ -87,7 +87,7 @@ function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$scope.myDropzone.removeAllFiles(true);
 		modalInstance.result.then(function(result) {
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -127,7 +127,7 @@ function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						templateUrl : 'views/cmdb/modal_importFail.html',
 						controller : modalimportdataFailCtl,
 						size : 'blg',
-						resolve : { // 调用控制器与modal控制器中传递值
+						resolve : {
 							meta : function() {
 								return res.data;
 							}
@@ -136,7 +136,7 @@ function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					$scope.myDropzone.removeAllFiles(true);
 					modalInstance.result.then(function(result) {
 					}, function(reason) {
-						// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 						$log.log("reason", reason)
 					});
 

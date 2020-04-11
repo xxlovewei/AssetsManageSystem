@@ -58,7 +58,7 @@ function sysModuleCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType('full_numbers').withDisplayLength(25).withOption("ordering", false).withOption("responsive", true)
 			.withOption("searching", false).withOption("paging", false).withOption('bStateSave', true).withOption('bProcessing', true).withOption('bFilter', false).withOption(
-					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('aaData', $scope.tabdata).withOption('createdRow', function(row) {
+					'bInfo', false).withOption('serverSide', false).withOption('bAutoWidth', false).withOption('createdRow', function(row) {
 				// Recompiling so we can bind Angular,directive to the
 				$compile(angular.element(row).contents())($scope);
 			});
@@ -120,7 +120,7 @@ function sysModuleCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 			templateUrl : 'views/system/module/modal_module_save.html',
 			controller : moduleSaveCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				id : function() {
 					return id;
 				}
@@ -128,13 +128,13 @@ function sysModuleCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 	}

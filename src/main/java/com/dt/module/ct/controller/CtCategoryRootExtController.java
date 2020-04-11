@@ -26,7 +26,7 @@ import com.dt.module.ct.service.ICtCategoryRootService;
  * @since 2018-07-30
  */
 @Controller
-@RequestMapping("/api/ctCategoryRoot/Ext")
+@RequestMapping("/api/ctCategoryRoot/ext")
 public class CtCategoryRootExtController extends BaseController {
 
     @Autowired

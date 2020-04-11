@@ -7,7 +7,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
 			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", false).withOption('scrollY', '600px')
+			.withOption("searching", false).withOption('scrollY', 600)
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
 			.withOption('scrollCollapse', true).withOption('paging', true)
 			.withFixedColumns({
@@ -15,8 +15,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
 					'headerCallback',
@@ -322,7 +321,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				templateUrl : 'views/cmdb/modal_batchUpdateRes.html',
 				controller : modalresBatchUpdateCtl,
 				size : 'blg',
-				resolve : { // 调用控制器与modal控制器中传递值
+				resolve : {
 					meta : function() {
 						return ps;
 					}
@@ -330,14 +329,14 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			});
 
 			modalInstance.result.then(function(result) {
-				$log.log("result", result);
+
 				if (result == "OK") {
 					flush();
 				}
 		 
  
 			}, function(reason) {
-				// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 				$log.log("reason", reason)
 			}); 
 		}
@@ -384,7 +383,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			templateUrl : 'views/cmdb/modal_dtl.html',
 			controller : modalcmdbdtlCtl,
 			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return ps;
 				}
@@ -392,11 +391,11 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -884,20 +883,19 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 										templateUrl : 'views/Template/modal_simpleForm.html',
 										controller : modal_simpleFormCtl,
 										size : 'lg',
-										resolve : { // 调用控制器与modal控制器中传递值
+										resolve : {
 											meta : function() {
 												return meta;
 											}
 										}
 									});
 							modalInstance.result.then(function(result) {
-								$log.log("result", result);
 
 								if (result == "OK") {
 									flush();
 								}
 							}, function(reason) {
-								// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 								$log.log("reason", reason)
 							});
 						})

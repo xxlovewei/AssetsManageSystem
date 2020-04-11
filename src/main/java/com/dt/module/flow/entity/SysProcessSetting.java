@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-08
+ * @since 2020-04-11
  */
  
 @TableName("sys_process_setting")

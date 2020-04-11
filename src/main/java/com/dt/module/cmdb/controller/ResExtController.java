@@ -90,7 +90,6 @@ public class ResExtController extends BaseController {
         // reviewed(已复核),insert(待核(录入)),updated(待核(已更新))
         String sql = "select ";
         sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  and changestate<>'reviewed'";
-
         if (ToolUtil.isNotEmpty(search)) {
             sql = sql + " and  (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
                     + "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search

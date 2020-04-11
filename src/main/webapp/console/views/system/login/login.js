@@ -1,6 +1,6 @@
 function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService,
 		$state, $localStorage, notify, $stateParams) {
-	console.log("lognin",$stateParams);
+
 	var to = $stateParams.to;
 	var from = $stateParams.from;
 	var msg = $stateParams.msg;

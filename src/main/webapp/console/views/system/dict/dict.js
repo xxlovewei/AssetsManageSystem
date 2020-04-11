@@ -211,7 +211,7 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtInstance = {}
 	function flush() {
 		var ps = {};
-		$http.post($rootScope.project + "/api/sysDict/Ext/selectList.do", ps)
+		$http.post($rootScope.project + "/api/sysDict/ext/selectList.do", ps)
 				.success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;
@@ -232,7 +232,7 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			templateUrl : 'views/system/dict/modal_dictSave.html',
 			controller : dictSaveCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				id : function() {
 					return id;
 				}
@@ -240,12 +240,12 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 	}
@@ -430,19 +430,19 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			templateUrl : 'views/system/dict/modal_dictItemSave.html',
 			controller : dictItemSaveCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				data : function() {
 					return ps;
 				}
 			}
 		});
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 				flushSubtab();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 	}

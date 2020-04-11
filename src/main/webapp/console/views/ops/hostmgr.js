@@ -265,7 +265,7 @@ function modalimportHostCtl($log, $uibModalInstance, notify, $scope, $http,
 		$timeout(function() {
 			$http.post(
 					$rootScope.project
-							+ "/api/ops/opsNode/Ext/selectListImport.do", {
+							+ "/api/ops/opsNode/ext/selectListImport.do", {
 						id : id
 					}).success(function(res) {
 				$scope.okbtnstatus = false;
@@ -282,7 +282,7 @@ function modalimportHostCtl($log, $uibModalInstance, notify, $scope, $http,
 						templateUrl : 'views/cmdb/modal_importFail.html',
 						controller : modalimportdataHostFailCtl,
 						size : 'blg',
-						resolve : { // 调用控制器与modal控制器中传递值
+						resolve : {
 							meta : function() {
 								return res.data;
 							}
@@ -291,7 +291,7 @@ function modalimportHostCtl($log, $uibModalInstance, notify, $scope, $http,
 					$scope.myDropzone.removeAllFiles(true);
 					modalInstance.result.then(function(result) {
 					}, function(reason) {
-						// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 
 					});
 
@@ -330,15 +330,14 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withDOM('frtlip').withPaginationType('full_numbers')
 			.withDisplayLength(100).withOption("ordering", false).withOption(
 					"responsive", false).withOption("searching", true)
-			.withOption('scrollY', '400px').withOption('scrollX', true)
+			.withOption('scrollY', 500).withOption('scrollX', true)
 			.withOption('bAutoWidth', true).withOption('scrollCollapse', true)
 			.withOption('paging', true).withFixedColumns({
 				leftColumns : 0,
 				rightColumns : 0
-			}).withOption('bStateSave', true).withOption('bProcessing', false)
+			}).withOption('bStateSave', true).withOption('bProcessing', true)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
 					'headerCallback',
@@ -535,7 +534,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	function flush() {
 		var ps = {}
 		ps.search = $scope.meta.tools[0].ct;
-		$http.post($rootScope.project + "/api/ops/opsNode/Ext/selectList.do",
+		$http.post($rootScope.project + "/api/ops/opsNode/ext/selectList.do",
 				ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
@@ -552,7 +551,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		var ps = {}
 		ps.search = $scope.meta.tools[0].ct;
 		$window.open($rootScope.project
-				+ "/api/ops/opsNode/Ext/selectListExport.do?search="
+				+ "/api/ops/opsNode/ext/selectListExport.do?search="
 				+ ps.search);
 	}
 
@@ -621,7 +620,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			templateUrl : 'views/cmdb/modal_dtl.html',
 			controller : modalcmdbdtlCtl,
 			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return ps;
 				}
@@ -629,11 +628,11 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 			if (result == "OK") {
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -1145,7 +1144,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				}
 				$http.post(
 						$rootScope.project
-								+ "/api/ops/opsNode/Ext//insertOrUpdate.do",
+								+ "/api/ops/opsNode/ext/insertOrUpdate.do",
 						modal_meta.meta.item).success(function(res) {
 					if (res.success) {
 						modalInstance.close("OK");
@@ -1171,20 +1170,20 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			templateUrl : 'views/Template/modal_simpleForm.html',
 			controller : modal_simpleFormCtl,
 			size : 'lg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return meta;
 				}
 			}
 		});
 		modalInstance.result.then(function(result) {
-			$log.log("result", result);
+
 
 			if (result == "OK") {
 				flush();
 			}
 		}, function(reason) {
-			// 点击空白区域，总会输出backdrop click，点击取消，则会cancel
+
 			$log.log("reason", reason)
 		});
 
@@ -1197,7 +1196,7 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			templateUrl : 'views/ops/modal_importfile.html',
 			controller : modalimportHostCtl,
 			size : 'blg',
-			resolve : { // 调用控制器与modal控制器中传递值
+			resolve : {
 				meta : function() {
 					return ""
 				}

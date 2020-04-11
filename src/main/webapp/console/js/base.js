@@ -492,7 +492,6 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 				}
 			}, 250);
 
-	$log.log("form init");
 	if (typeof ($scope.meta.init) != "undefined") {
 		$scope.meta.init($scope);
 	}

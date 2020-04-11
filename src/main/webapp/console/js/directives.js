@@ -388,15 +388,12 @@ function dropZone() {
 			scope.dzconfig.dictRemoveFileConfirmation = null
 			scope.dzconfig.dictMaxFilesExceeded = "超过最大文件限制"
 
-			console.log("##############################",scope);
 			var dzeventhandlers = {
 					 'addedfile': function(file) {
 						  console.log("ADDFILE",file);
-						  console.log("this",this);
 					      console.log(scope);
 		                  scope.file = file;
 		                    if (this.files[1]!=null) {
-		                    	console.log("remove")
 		                        this.removeFile(this.files[0]);
 		                    }
 		                    scope.$apply(function() {
@@ -645,7 +642,7 @@ angular.module('app').directive('compile', function($compile) {
 		scope.$watch(function(scope) {
 			return scope.$eval(attrs.compile);
 		}, function(value) {
-			console.log(value);
+
 			element.html(value);
 			$compile(element.contents())(scope);
 		});
@@ -1067,7 +1064,7 @@ function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", true).withOption('scrollY', '200px')
+			.withOption("searching", true).withOption('scrollY', 200)
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
 			.withOption('scrollCollapse', true).withOption('paging', true)
 			.withFixedColumns({
@@ -1075,8 +1072,7 @@ function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
 				rightColumns : 0
 			}).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('aaData',
-					$scope.tabdata).withOption('createdRow', function(row) {
+			.withOption('serverSide', false).withOption('createdRow', function(row) {
 				$compile(angular.element(row).contents())($scope);
 			}).withOption(
 					'headerCallback',

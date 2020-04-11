@@ -21,7 +21,7 @@ import com.dt.module.form.service.ISysFormService;
  * @since 2020-03-28
  */
 @Controller
-@RequestMapping("/api/form/sysForm/Ext")
+@RequestMapping("/api/form/sysForm/ext")
 public class SysFormExtController extends BaseController {
 
     @Autowired

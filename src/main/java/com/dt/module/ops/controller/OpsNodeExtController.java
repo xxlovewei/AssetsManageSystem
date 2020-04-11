@@ -50,7 +50,7 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
  * @since 2020-01-24
  */
 @Controller
-@RequestMapping("/api/ops/opsNode/Ext")
+@RequestMapping("/api/ops/opsNode/ext")
 public class OpsNodeExtController extends BaseController {
 
     @Autowired

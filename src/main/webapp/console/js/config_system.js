@@ -3,7 +3,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
 		debug : true
 	});
 	console.log("App System config");
-	// 个人设置
 	$stateProvider.state('me', {
 		abstract : true,
 		url : "/me",

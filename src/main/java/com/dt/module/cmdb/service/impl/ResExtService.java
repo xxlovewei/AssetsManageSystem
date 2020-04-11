@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
@@ -29,6 +30,9 @@ import com.dt.core.tool.util.ToolUtil;
 @Service
 public class ResExtService extends BaseService {
 
+
+
+    @Autowired
     // 入库，转移，领用，借用，闲置
 //	public static String STATUS_RK = "rk";
 //	public static String STATUS_ZY = "zy";
