@@ -67,7 +67,7 @@ public class SysUfloProcessService extends BaseService {
     public static String P_STATUS_APPROVALSUCCESS = "success";
     public static String P_STATUS_APPROVALFAILED = "failed";
     public static String P_STATUS_RUNNING = "running";
-    public static String P_STATUS_FINISH= "finish";
+    public static String P_STATUS_FINISH = "finish";
     public static String P_STATUS_ROLLBACK = "rollback";
     public static String P_STATUS_CANCEL = "cancel";
 
@@ -261,11 +261,11 @@ public class SysUfloProcessService extends BaseService {
             SequenceFlowImpl flowimpl = flows.get(0);
             String toNode = flowimpl.getToNode();
             if (toNode != null) {
-                if (toNode.startsWith("结束") || toNode.startsWith("流程结束")||toNode.toLowerCase().startsWith("end")) {
+                if (toNode.startsWith("结束") || toNode.startsWith("流程结束") || toNode.toLowerCase().startsWith("end")) {
                     QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
                     qw.eq("busid", tsk.getBusinessId());
                     SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
-                    String busType =sd.getBustype();
+                    String busType = sd.getBustype();
                     Date date = new Date(); // 获取一个Date对象
                     DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
                     String nowtime = simpleDateFormat.format(date);

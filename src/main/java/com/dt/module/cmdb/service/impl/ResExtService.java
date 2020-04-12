@@ -31,7 +31,6 @@ import com.dt.core.tool.util.ToolUtil;
 public class ResExtService extends BaseService {
 
 
-
     @Autowired
     // 入库，转移，领用，借用，闲置
 //	public static String STATUS_RK = "rk";

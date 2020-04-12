@@ -5,11 +5,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import com.dt.module.form.service.ISysFormService;
 import com.dt.module.form.service.impl.FormServiceImpl;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.dt.module.flow.entity.SysProcessDef;
 import com.dt.module.flow.service.ISysProcessDefService;
 import org.apache.commons.lang.StringUtils;
@@ -48,6 +51,7 @@ import com.dt.module.flow.service.ISysProcessSettingService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
 import com.dt.module.flow.entity.SysProcessForm;
 import com.dt.module.form.entity.SysForm;
+
 /**
  * @author: algernonking
  * @date: Dec 2, 2019 2:31:20 PM
@@ -156,18 +160,18 @@ public class ZcProcessFlowController extends BaseController {
     @ResponseBody
     @Acl(info = "发起流程", value = Acl.ACL_USER)
     @RequestMapping(value = "/startProcess.do")
-    public R startProcess(String ifsp , String id , String jsonvalue,String processdefid) {
+    public R startProcess(String ifsp, String id, String jsonvalue, String processdefid) {
         //flowtype 1 ,0(不需要流程)
-        SysProcessDef pdef=SysProcessDefServiceImpl.getById(processdefid);
+        SysProcessDef pdef = SysProcessDefServiceImpl.getById(processdefid);
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        SysProcessData pd= SysProcessDataServiceImpl.getById(ps.getString("id"));
-        SysForm  sf=SysFormServiceImpl.getById(pdef.getForm());
+        SysProcessData pd = SysProcessDataServiceImpl.getById(ps.getString("id"));
+        SysForm sf = SysFormServiceImpl.getById(pdef.getForm());
         if (pd == null) {
             return R.FAILURE("不存在流程数据");
         }
-        JSONObject jsonvalueobj=JSONObject.parseObject(jsonvalue);
-        R r= formServiceImpl.parseFromJsonToSqlTpl(sf.getCt(),jsonvalue,FormServiceImpl.OPER_TYPE_INSERT,id,"");
-        JSONObject fr=r.queryDataToJSONObject();
+        JSONObject jsonvalueobj = JSONObject.parseObject(jsonvalue);
+        R r = formServiceImpl.parseFromJsonToSqlTpl(sf.getCt(), jsonvalue, FormServiceImpl.OPER_TYPE_INSERT, id, "");
+        JSONObject fr = r.queryDataToJSONObject();
         db.execute(fr.getString("out"));
         if ("1".equals(ifsp)) {
             // 需要审批
@@ -175,18 +179,18 @@ public class ZcProcessFlowController extends BaseController {
             startProcessInfo.setCompleteStartTask(true);
             startProcessInfo.setBusinessId(pd.getBusid());
             //startProcessInfo.setTag(sd.getPtype());
-            startProcessInfo.setSubject(jsonvalueobj.getString("dtitle")==null?"":jsonvalueobj.getString("dtitle"));
+            startProcessInfo.setSubject(jsonvalueobj.getString("dtitle") == null ? "" : jsonvalueobj.getString("dtitle"));
             startProcessInfo.setCompleteStartTaskOpinion("发起流程");
             ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
             // 插入流程数据
             pd.setPstatus(SysUfloProcessService.P_STATUS_RUNNING);
             pd.setPstartuserid(this.getUserId());
             pd.setFormid(fr.getString("id"));
-            pd.setPtitle(jsonvalueobj.getString("dtitle")==null?"":jsonvalueobj.getString("dtitle"));
+            pd.setPtitle(jsonvalueobj.getString("dtitle") == null ? "" : jsonvalueobj.getString("dtitle"));
             pd.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
             pd.setProcesskey(pdef.getPtplkey());
-            pd.setProcessInstanceId( inst.getId()+"");
-        } else if("0".equals(ifsp)) {
+            pd.setProcessInstanceId(inst.getId() + "");
+        } else if ("0".equals(ifsp)) {
             pd.setPstatus(SysUfloProcessService.P_STATUS_FINISH);
         }
         SysProcessDataServiceImpl.saveOrUpdate(pd);

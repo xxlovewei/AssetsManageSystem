@@ -6,6 +6,8 @@ import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dt.module.base.entity.SysFiles;
+import com.dt.module.base.service.ISysFilesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,9 @@ public class ResExtImportController extends BaseController {
     ResExtService resExtService;
 
     @Autowired
+    ISysFilesService SysFilesServiceImpl;
+
+    @Autowired
     ResImportService resImportService;
 
     @RequestMapping("/importResData.do")
@@ -39,9 +44,8 @@ public class ResExtImportController extends BaseController {
     @ResponseBody
     public R importResData(String type, String id, HttpServletRequest request, HttpServletResponse response)
             throws UnsupportedEncodingException {
-        String sql = "select * from sys_files where id=?";
-        Rcd set = db.uniqueRecord(sql, id);
-        String fileurl = set.getString("path");
+        SysFiles fileobj = SysFilesServiceImpl.getById(id);
+        String fileurl = fileobj.getPath();
         String filePath = FileUpDownController.getWebRootDir() + ".." + File.separatorChar + fileurl;
         return resImportService.importResNormal(filePath, type);
 

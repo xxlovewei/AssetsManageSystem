@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.entity.ResActionItem;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import com.dt.module.base.service.impl.SysUserInfoServiceImpl;
 import com.dt.module.base.service.ISysUserInfoService;
 
@@ -58,9 +60,9 @@ public class ZcController extends BaseController {
     @RequestMapping(value = "/selectListBills.do")
     public R selectListBills(String bustype) {
         QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
-        ew.and(i -> i.eq("bustype",bustype));
+        ew.and(i -> i.eq("bustype", bustype));
         ew.orderByDesc("create_time");
-        return R.SUCCESS_OPER(  SysProcessDataServiceImpl.list(ew));
+        return R.SUCCESS_OPER(SysProcessDataServiceImpl.list(ew));
     }
 
 
@@ -69,12 +71,12 @@ public class ZcController extends BaseController {
     @RequestMapping(value = "/selectBillById.do")
     public R selectBillById(String id) {
 
-        SysProcessData sd=SysProcessDataServiceImpl.getById(id);
-        JSONObject res=JSONObject.fromObject(sd);
-        String sql= "select "+ ResExtService.resSqlbody+" t.* from res t,res_action_item item where t.id=item.resid and item.busuuid=?";
-        res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql,sd.getBusid()).toJsonArrayWithJsonObject()));
-        SysProcessForm form=SysProcessFormServiceImpl.getById(sd.getFormid());
-        if(form!=null) {
+        SysProcessData sd = SysProcessDataServiceImpl.getById(id);
+        JSONObject res = JSONObject.fromObject(sd);
+        String sql = "select " + ResExtService.resSqlbody + " t.* from res t,res_action_item item where t.id=item.resid and item.busuuid=?";
+        res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, sd.getBusid()).toJsonArrayWithJsonObject()));
+        SysProcessForm form = SysProcessFormServiceImpl.getById(sd.getFormid());
+        if (form != null) {
             res.put("formdata", form.getFdata());
             res.put("formconf", form.getFtpldata());
         }
@@ -89,8 +91,8 @@ public class ZcController extends BaseController {
         entity.setBusid(uuid);
         entity.setPstatus(SysUfloProcessService.P_STATUS_SFA);
 
-      //  entity.setPstartuserid(this.getUserId());
-      //  entity.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
+        //  entity.setPstartuserid(this.getUserId());
+        //  entity.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
         entity.setPtype(SysUfloProcessService.P_TYPE_FLOW);
         JSONArray items_arr = JSONArray.parseArray(items);
         List<ResActionItem> entityList = new ArrayList<ResActionItem>();
@@ -106,8 +108,6 @@ public class ZcController extends BaseController {
         SysProcessDataServiceImpl.save(entity);
         return R.SUCCESS_OPER();
     }
-
-
 
 
 }

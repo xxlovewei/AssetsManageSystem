@@ -2,10 +2,11 @@ package com.dt.module.base.entity;
 
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -13,21 +14,41 @@ import com.dt.core.common.base.BaseModel;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-24
+ * @since 2020-04-11
  */
-@TableName("SYS_FILE_CONF")
+
+@TableName("sys_file_conf")
+
 public class SysFileConf extends BaseModel<SysFileConf> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId("ID")
+    @TableId("id")
     private String id;
-    @TableField("NAME")
+    /**
+     * 名称
+     */
+    @TableField("name")
     private String name;
-    @TableField("PATH")
+    /**
+     * 系统路径
+     */
+    @TableField("path")
     private String path;
-    @TableField("IS_USED")
+    /**
+     * 是否使用中
+     */
+    @TableField("is_used")
     private String isUsed;
+    @TableField("limit_str")
+    private String limitStr;
+    @TableField("type")
+    private String type;
+    /**
+     * 保留文件名称
+     */
+    @TableField("keepname")
+    private String keepname;
 
 
     public String getId() {
@@ -62,6 +83,29 @@ public class SysFileConf extends BaseModel<SysFileConf> {
         this.isUsed = isUsed;
     }
 
+    public String getLimitStr() {
+        return limitStr;
+    }
+
+    public void setLimitStr(String limitStr) {
+        this.limitStr = limitStr;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getKeepname() {
+        return keepname;
+    }
+
+    public void setKeepname(String keepname) {
+        this.keepname = keepname;
+    }
 
     @Override
     protected Serializable pkVal() {
@@ -71,10 +115,13 @@ public class SysFileConf extends BaseModel<SysFileConf> {
     @Override
     public String toString() {
         return "SysFileConf{" +
-                ", id=" + id +
+                "id=" + id +
                 ", name=" + name +
                 ", path=" + path +
                 ", isUsed=" + isUsed +
+                ", limitStr=" + limitStr +
+                ", type=" + type +
+                ", keepname=" + keepname +
                 "}";
     }
 }

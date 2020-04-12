@@ -23,7 +23,7 @@ import com.dt.core.common.base.BaseController;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -34,71 +34,71 @@ import com.dt.core.common.base.BaseController;
 public class SysProcessSettingController extends BaseController {
 
 
-	@Autowired
-	ISysProcessSettingService SysProcessSettingServiceImpl;
+    @Autowired
+    ISysProcessSettingService SysProcessSettingServiceImpl;
 
 
-	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
-	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysProcessSettingServiceImpl.removeById(id));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id删除", value = Acl.ACL_USER)
+    @RequestMapping(value = "/deleteById.do")
+    public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+        return R.SUCCESS_OPER(SysProcessSettingServiceImpl.removeById(id));
+    }
 
-	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectById.do")
-	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysProcessSettingServiceImpl.getById(id));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id查询", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectById.do")
+    public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+        return R.SUCCESS_OPER(SysProcessSettingServiceImpl.getById(id));
+    }
 
-	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insert.do")
-	public R insert(SysProcessSetting entity) {
-		return R.SUCCESS_OPER(SysProcessSettingServiceImpl.save(entity));
-	}
+    @ResponseBody
+    @Acl(info = "插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insert.do")
+    public R insert(SysProcessSetting entity) {
+        return R.SUCCESS_OPER(SysProcessSettingServiceImpl.save(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
-	@RequestMapping(value = "/updateById.do")
-	public R updateById(SysProcessSetting entity) {
-		return R.SUCCESS_OPER(SysProcessSettingServiceImpl.updateById(entity));
-	}
+    @ResponseBody
+    @Acl(info = "根据Id更新", value = Acl.ACL_USER)
+    @RequestMapping(value = "/updateById.do")
+    public R updateById(SysProcessSetting entity) {
+        return R.SUCCESS_OPER(SysProcessSettingServiceImpl.updateById(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(SysProcessSetting entity) {
-		return R.SUCCESS_OPER(SysProcessSettingServiceImpl.saveOrUpdate(entity));
-	}
+    @ResponseBody
+    @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insertOrUpdate.do")
+    public R insertOrUpdate(SysProcessSetting entity) {
+        return R.SUCCESS_OPER(SysProcessSettingServiceImpl.saveOrUpdate(entity));
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList() {
-		return R.SUCCESS_OPER(SysProcessSettingServiceImpl.list(null));
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList() {
+        return R.SUCCESS_OPER(SysProcessSettingServiceImpl.list(null));
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectPage.do")
-	public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex) {
-		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
-		if (ToolUtil.isEmpty(respar)) {
-			return R.FAILURE_REQ_PARAM_ERROR();
-		}
-		int pagesize = respar.getIntValue("pagesize");
-		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<SysProcessSetting> ew = new QueryWrapper<SysProcessSetting>();
-		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysProcessSetting> pdata = SysProcessSettingServiceImpl.page(new Page<SysProcessSetting>(pageindex, pagesize), ew);
-		JSONObject retrunObject = new JSONObject();
-		retrunObject.put("iTotalRecords", pdata.getTotal());
-		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
-		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(),SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
-		return R.clearAttachDirect(retrunObject);
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectPage.do")
+    public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize, @RequestParam(value = "pageIndex", required = true, defaultValue = "1") String pageIndex) {
+        JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
+        if (ToolUtil.isEmpty(respar)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        int pagesize = respar.getIntValue("pagesize");
+        int pageindex = respar.getIntValue("pageindex");
+        QueryWrapper<SysProcessSetting> ew = new QueryWrapper<SysProcessSetting>();
+        //ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
+        IPage<SysProcessSetting> pdata = SysProcessSettingServiceImpl.page(new Page<SysProcessSetting>(pageindex, pagesize), ew);
+        JSONObject retrunObject = new JSONObject();
+        retrunObject.put("iTotalRecords", pdata.getTotal());
+        retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
+        retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(), SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
+        return R.clearAttachDirect(retrunObject);
+    }
 
 
 }

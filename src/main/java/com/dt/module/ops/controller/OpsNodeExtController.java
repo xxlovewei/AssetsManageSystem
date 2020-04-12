@@ -10,6 +10,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dt.module.base.entity.SysFiles;
+import com.dt.module.base.service.ISysFilesService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,6 +57,10 @@ public class OpsNodeExtController extends BaseController {
 
     @Autowired
     IOpsNodeService OpsNodeServiceImpl;
+
+    @Autowired
+    ISysFilesService SysFilesServiceImpl;
+
 
     @Autowired
     OpsNodeExtServiceImpl opsNodeExtServiceImpl;
@@ -191,10 +197,11 @@ public class OpsNodeExtController extends BaseController {
     @ResponseBody
     @Acl(info = " ", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectListImport.do")
+
     public R selectListImport(String id, HttpServletRequest request, HttpServletResponse response) {
-        String sql = "select * from sys_files where id=?";
-        Rcd set = db.uniqueRecord(sql, id);
-        String fileurl = set.getString("path");
+        SysFiles fileobj = SysFilesServiceImpl.getById(id);
+
+        String fileurl = fileobj.getPath();
         String filePath = FileUpDownController.getWebRootDir() + ".." + File.separatorChar + fileurl;
         R r = new R();
         try {
@@ -273,9 +280,8 @@ public class OpsNodeExtController extends BaseController {
     @Acl(info = " ", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectListDBImport.do")
     public R selectListDBImport(String id, HttpServletRequest request, HttpServletResponse response) {
-        String sql = "select * from sys_files where id=?";
-        Rcd set = db.uniqueRecord(sql, id);
-        String fileurl = set.getString("path");
+        SysFiles fileobj = SysFilesServiceImpl.getById(id);
+        String fileurl = fileobj.getPath();
         String filePath = FileUpDownController.getWebRootDir() + ".." + File.separatorChar + fileurl;
         R r = new R();
         try {

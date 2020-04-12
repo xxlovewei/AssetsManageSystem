@@ -129,11 +129,11 @@ function sysRoleSettingCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 
 	$scope.dtColumns = [
 			DTColumnBuilder.newColumn('roleName').withTitle('名称').withOption(
-					'sDefaultContent', '').withOption('width', '80'),
-			DTColumnBuilder.newColumn('remark').withTitle('备注').withOption(
-					'sDefaultContent', '').withOption('width', '180'),
+					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('isAction').withTitle('状态').withOption(
-					'sDefaultContent', '').renderWith(renderStatus),
+			'sDefaultContent', '').renderWith(renderStatus),
+			DTColumnBuilder.newColumn('remark').withTitle('备注').withOption(
+					'sDefaultContent', ''),
 			DTColumnBuilder.newColumn('roleId').withTitle('操作').withOption(
 					'sDefaultContent', '').renderWith(renderAction) ]
 
@@ -154,9 +154,7 @@ function sysRoleSettingCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 	$scope.btn_query = function() {
 		flush();
 	}
-	$scope.row_detail = function(id) {
 
-	}
 	$scope.row_del = function(id) {
 		$confirm({
 			text : '是否删除功能?'

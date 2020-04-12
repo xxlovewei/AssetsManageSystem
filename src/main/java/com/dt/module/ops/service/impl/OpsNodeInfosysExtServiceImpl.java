@@ -22,7 +22,7 @@ public class OpsNodeInfosysExtServiceImpl extends BaseService {
             + "(select name from sys_dict_item where dr='0' and dict_item_id=t.opsmethod and dict_id = 'sysinfoops' )   opsmethodstr,\n"
             + "(select name from sys_dict_item where dr='0' and dict_item_id=t.devmethod and dict_id = 'sysinfodev' ) devmethodstr,\n"
             + "(select name from sys_dict_item where dr='0' and dict_item_id=t.grade and dict_id = 'sysinfograde' ) gradestr,\n"
-            + "t.*\n" + "from ops_node_infosys t where dr=0 ";
+            + "t.* from ops_node_infosys t where dr=0 ";
 
 
     public R selecList(String search) {

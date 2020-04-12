@@ -13,8 +13,13 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dt.module.base.entity.SysFileConf;
+import com.dt.module.base.entity.SysFiles;
+import com.dt.module.base.service.ISysFileConfService;
+import com.dt.module.base.service.ISysFilesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +39,13 @@ import com.dt.core.tool.util.ToolUtil;
 @RequestMapping("/api/file")
 public class FileUpDownController extends BaseController {
 
+
+    @Autowired
+    ISysFileConfService SysFileConfServiceImpl;
+
+
+    @Autowired
+    ISysFilesService SysFilesServiceImpl;
     private static Logger _log = LoggerFactory.getLogger(FileUpDownController.class);
 
     // curl http://127.0.01:8080/dt/api/file/fileupload.do?uuid=image_111&bus=news
@@ -53,18 +65,19 @@ public class FileUpDownController extends BaseController {
             uuid = db.getUUID();
         }
 
-        Rcd fileinfo = db.uniqueRecord("select * from sys_file_conf where id=? ", bus);
-        if (fileinfo == null) {
+        SysFileConf sfcobj = SysFileConfServiceImpl.getById(bus);
+
+        if (sfcobj == null) {
             return R.FAILURE("数据库并未配置");
         }
-        if (!"Y".equals(fileinfo.getString("is_used"))) {
+        if (!"Y".equals(sfcobj.getIsUsed())) {
             return R.FAILURE("该上传配置选型未启用");
         }
-        String limit = fileinfo.getString("limit_str") == null ? "*" : fileinfo.getString("limit_str").trim();
-        String type = fileinfo.getString("type") == null ? "unknow" : fileinfo.getString("type");
-        String keepname = fileinfo.getString("keepname") == null ? "0" : fileinfo.getString("keepname");
+        String limit = sfcobj.getLimitStr() == null ? "*" : sfcobj.getLimitStr().trim();
+        String type = sfcobj.getType() == null ? "unknow" : sfcobj.getType();
+        String keepname = sfcobj.getKeepname() == null ? "0" : sfcobj.getKeepname();
         // 从数据库中获取
-        String bus_path = fileinfo.getString("path");
+        String bus_path = sfcobj.getPath();
         String end_path = "";
         File f = null;
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -122,9 +135,10 @@ public class FileUpDownController extends BaseController {
         ins.set("id", uuid);
         ins.set("path", end_path);
         ins.set("type", type);
+        ins.set("dr", "0");
         ins.setIf("filename", curFilename);
         ins.setIf("filename_o", OriginalFilename);
-        ins.setSE("cdate", DbUtil.getDbDateString(db.getDBType()));
+        ins.setSE("create_time", DbUtil.getDbDateString(db.getDBType()));
         ins.set("bus", bus);
         db.execute(ins);
         return R.SUCCESS_OPER();
@@ -146,10 +160,11 @@ public class FileUpDownController extends BaseController {
     @RequestMapping("/filedown.do")
     @Acl(value = Acl.ACL_ALLOW, info = "下载")
     public void filedown(String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String sql = "select * from sys_files where id=?";
-        Rcd set = db.uniqueRecord(sql, id);
-        String fileurl = set.getString("path");
-        String filename = ToolUtil.isEmpty(set.getString("filename_o")) ? "unknow.file" : set.getString("filename_o");
+
+
+        SysFiles fileobj = SysFilesServiceImpl.getById(id);
+        String fileurl = fileobj.getPath();
+        String filename = ToolUtil.isEmpty(fileobj.getFilenameO()) ? "unknow.file" : fileobj.getFilenameO();
         String filePath = getWebRootDir() + ".." + File.separatorChar + fileurl;
         File file = new File(filePath);
         System.out.println(file.getName());
@@ -205,17 +220,16 @@ public class FileUpDownController extends BaseController {
             id = "none";
         }
         // id = "F607ABCD1F4583F41EE166A501572FF6";
-        String sql = "select * from sys_files where id=?";
-        Rcd set = db.uniqueRecord(sql, id);
+        SysFiles fileobj = SysFilesServiceImpl.getById(id);
         File file = null;
         String filePath = "";
         String ct = "";
         try {
-            String type = set.getString("type");
+            String type = fileobj.getType();
             if ("image".equals(type)) {
                 ct = "image/jpeg";
             }
-            String fileurl = set.getString("path");
+            String fileurl = fileobj.getPath();
             filePath = getWebRootDir() + ".." + File.separatorChar + fileurl;
             _log.info("filePath" + filePath);
             String heightStr = request.getParameter("height");

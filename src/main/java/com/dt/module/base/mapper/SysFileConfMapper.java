@@ -1,7 +1,7 @@
 package com.dt.module.base.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dt.module.base.entity.SysFileConf;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.dt.module.base.entity.SysFileConf;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-24
+ * @since 2020-04-11
  */
 public interface SysFileConfMapper extends BaseMapper<SysFileConf> {
 

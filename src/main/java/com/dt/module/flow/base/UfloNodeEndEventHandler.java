@@ -51,7 +51,7 @@ public class UfloNodeEndEventHandler implements NodeEventHandler {
             qw.eq("busid", busid);
             SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
             String bustype = sd.getBustype();
-            String status=sd.getPstatus();
+            String status = sd.getPstatus();
             if (SysUfloProcessService.P_STATUS_FINISH.equals(status)) {
                 // 流程已经处理过不需要处理
             } else {
@@ -66,7 +66,7 @@ public class UfloNodeEndEventHandler implements NodeEventHandler {
                         uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
                     }
                 }
-              System.out.println("#####adfasdfasdfjlasdfasdljfsadjlkf\n"+uw);
+                System.out.println("#####adfasdfasdfjlasdfasdljfsadjlkf\n" + uw);
                 SysProcessDataServiceImpl.update(uw);
             }
 

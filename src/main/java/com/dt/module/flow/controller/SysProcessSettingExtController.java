@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -38,41 +38,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SysProcessSettingExtController extends BaseController {
 
 
-	@Autowired
-	ISysProcessSettingService SysProcessSettingServiceImpl;
+    @Autowired
+    ISysProcessSettingService SysProcessSettingServiceImpl;
 
-	@Autowired
-	ISysFormService SysFormServiceImpl;
+    @Autowired
+    ISysFormService SysFormServiceImpl;
 
-	@Autowired
-	ISysProcessDefService SysProcessDefServiceImpl;
+    @Autowired
+    ISysProcessDefService SysProcessDefServiceImpl;
 
-	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectByCode.do")
-	public R selectById(@RequestParam(value = "code", required = true, defaultValue = "") String code) {
+    @ResponseBody
+    @Acl(info = "根据Id查询", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectByCode.do")
+    public R selectById(@RequestParam(value = "code", required = true, defaultValue = "") String code) {
 
-		QueryWrapper<SysProcessSetting> ew = new QueryWrapper<SysProcessSetting>();
-		ew.and(i -> i.eq("code", code));
-		SysProcessSetting setting=SysProcessSettingServiceImpl.getOne(ew);
-		if(setting==null){
-			return R.FAILURE_NO_DATA();
-		}
-		SysProcessDef def= SysProcessDefServiceImpl.getById(setting.getProcessdefid());
-		if(def==null){
-			return R.FAILURE_NO_DATA();
-		}
-		SysForm form=SysFormServiceImpl.getById(def.getForm());
-		JSONObject res=new JSONObject();
-		res.put("processdefid",setting.getProcessdefid());
-		res.put("code",code);
-		res.put("formct",form.getCt());
-		res.put("process",def.getPtplid());
-		res.put("processKey",def.getPtplkey());
+        QueryWrapper<SysProcessSetting> ew = new QueryWrapper<SysProcessSetting>();
+        ew.and(i -> i.eq("code", code));
+        SysProcessSetting setting = SysProcessSettingServiceImpl.getOne(ew);
+        if (setting == null) {
+            return R.FAILURE_NO_DATA();
+        }
+        SysProcessDef def = SysProcessDefServiceImpl.getById(setting.getProcessdefid());
+        if (def == null) {
+            return R.FAILURE_NO_DATA();
+        }
+        SysForm form = SysFormServiceImpl.getById(def.getForm());
+        JSONObject res = new JSONObject();
+        res.put("processdefid", setting.getProcessdefid());
+        res.put("code", code);
+        res.put("formct", form.getCt());
+        res.put("process", def.getPtplid());
+        res.put("processKey", def.getPtplkey());
 
-		return R.SUCCESS_OPER(res);
-	}
-
+        return R.SUCCESS_OPER(res);
+    }
 
 
 }

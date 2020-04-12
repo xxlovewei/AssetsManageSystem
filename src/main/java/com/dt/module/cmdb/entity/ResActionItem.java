@@ -1,24 +1,27 @@
 package com.dt.module.cmdb.entity;
 
 import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-07
  */
- 
+
 @TableName("res_action_item")
- 
+
 public class ResActionItem extends BaseModel<ResActionItem> {
 
     private static final long serialVersionUID = 1L;
@@ -93,12 +96,12 @@ public class ResActionItem extends BaseModel<ResActionItem> {
     @Override
     public String toString() {
         return "ResActionItem{" +
-        "id=" + id +
-        ", busuuid=" + busuuid +
-        ", status=" + status +
-        ", backtime=" + backtime +
-        ", resid=" + resid +
-        ", backtimestr=" + backtimestr +
-        "}";
+                "id=" + id +
+                ", busuuid=" + busuuid +
+                ", status=" + status +
+                ", backtime=" + backtime +
+                ", resid=" + resid +
+                ", backtimestr=" + backtimestr +
+                "}";
     }
 }

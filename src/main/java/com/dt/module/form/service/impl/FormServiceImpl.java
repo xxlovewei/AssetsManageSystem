@@ -42,12 +42,13 @@ public class FormServiceImpl extends BaseService {
     private void parseFromJsonMetaColDB() {
         System.out.println(db.query("select COLUMN_NAME col from information_schema.COLUMNS where table_name ='sys_process_form' and COLUMN_NAME like 'd%' and COLUMN_NAME<>'dr'").toJsonArrayWithJsonObject());
     }
+
     private HashMap<String, String> parseFromJsonMetaCol() {
         HashMap<String, String> map = new HashMap<String, String>();
         JSONArray cols = new JSONArray();
 
-        String s="[{\"col\":\"duuid\"},{\"col\":\"dtitle\"},{\"col\":\"dct\"},{\"col\":\"durl\"},{\"col\":\"dname\"},{\"col\":\"dmark\"},{\"col\":\"dmessage\"},{\"col\":\"dsex\"},{\"col\":\"dstatus\"},{\"col\":\"dtype\"},{\"col\":\"dsubtype\"},{\"col\":\"dpwd\"},{\"col\":\"daddr\"},{\"col\":\"dcontact\"},{\"col\":\"dpic1\"},{\"col\":\"dpic2\"},{\"col\":\"dpic3\"},{\"col\":\"duser\"},{\"col\":\"dresult\"},{\"col\":\"dtotal\"},{\"col\":\"dbacktime\"},{\"col\":\"dlevel\"},{\"col\":\"dmethod\"},{\"col\":\"dfile\"},{\"col\":\"ddict\"},{\"col\":\"dattach1\"},{\"col\":\"dattach2\"},{\"col\":\"dattach3\"},{\"col\":\"dcard\"},{\"col\":\"df1\"},{\"col\":\"df2\"},{\"col\":\"df3\"},{\"col\":\"df4\"},{\"col\":\"df5\"},{\"col\":\"df6\"},{\"col\":\"df7\"},{\"col\":\"df8\"},{\"col\":\"df9\"},{\"col\":\"df10\"},{\"col\":\"dn1\"},{\"col\":\"dn2\"},{\"col\":\"dn3\"},{\"col\":\"dn4\"},{\"col\":\"dn5\"},{\"col\":\"dn6\"},{\"col\":\"dn7\"},{\"col\":\"dn8\"},{\"col\":\"dn9\"},{\"col\":\"dn10\"},{\"col\":\"duuid\"},{\"col\":\"dtitle\"},{\"col\":\"dprofile\"},{\"col\":\"dct\"},{\"col\":\"dlevel\"},{\"col\":\"dcat\"},{\"col\":\"durl\"},{\"col\":\"dname\"},{\"col\":\"dmark\"},{\"col\":\"dmessage\"},{\"col\":\"dstatus\"},{\"col\":\"dtype\"},{\"col\":\"dsubtype\"},{\"col\":\"dpwd\"},{\"col\":\"dpic1\"},{\"col\":\"dpic2\"},{\"col\":\"dpic3\"},{\"col\":\"duser\"},{\"col\":\"dresult\"},{\"col\":\"dtotal\"},{\"col\":\"dbacktime\"},{\"col\":\"dmethod\"},{\"col\":\"dfile\"},{\"col\":\"ddict\"},{\"col\":\"dattach1\"},{\"col\":\"dattach2\"},{\"col\":\"dattach3\"},{\"col\":\"dcard\"},{\"col\":\"dcode\"},{\"col\":\"dxm\"},{\"col\":\"dsex\"},{\"col\":\"daddr\"},{\"col\":\"dcontact\"},{\"col\":\"dmail\"},{\"col\":\"dqq\"},{\"col\":\"dhtml\"},{\"col\":\"ddate1\"},{\"col\":\"ddate2\"},{\"col\":\"ddate3\"},{\"col\":\"df1\"},{\"col\":\"df2\"},{\"col\":\"df3\"},{\"col\":\"df4\"},{\"col\":\"df5\"},{\"col\":\"df6\"},{\"col\":\"df7\"},{\"col\":\"df8\"},{\"col\":\"df9\"},{\"col\":\"df10\"},{\"col\":\"dn1\"},{\"col\":\"dn2\"},{\"col\":\"dn3\"},{\"col\":\"dn4\"},{\"col\":\"dn5\"},{\"col\":\"dn6\"},{\"col\":\"dn7\"},{\"col\":\"dn8\"},{\"col\":\"dn9\"},{\"col\":\"dn10\"}]\n";
-        cols=JSONArray.parseArray(s);
+        String s = "[{\"col\":\"duuid\"},{\"col\":\"dtitle\"},{\"col\":\"dct\"},{\"col\":\"durl\"},{\"col\":\"dname\"},{\"col\":\"dmark\"},{\"col\":\"dmessage\"},{\"col\":\"dsex\"},{\"col\":\"dstatus\"},{\"col\":\"dtype\"},{\"col\":\"dsubtype\"},{\"col\":\"dpwd\"},{\"col\":\"daddr\"},{\"col\":\"dcontact\"},{\"col\":\"dpic1\"},{\"col\":\"dpic2\"},{\"col\":\"dpic3\"},{\"col\":\"duser\"},{\"col\":\"dresult\"},{\"col\":\"dtotal\"},{\"col\":\"dbacktime\"},{\"col\":\"dlevel\"},{\"col\":\"dmethod\"},{\"col\":\"dfile\"},{\"col\":\"ddict\"},{\"col\":\"dattach1\"},{\"col\":\"dattach2\"},{\"col\":\"dattach3\"},{\"col\":\"dcard\"},{\"col\":\"df1\"},{\"col\":\"df2\"},{\"col\":\"df3\"},{\"col\":\"df4\"},{\"col\":\"df5\"},{\"col\":\"df6\"},{\"col\":\"df7\"},{\"col\":\"df8\"},{\"col\":\"df9\"},{\"col\":\"df10\"},{\"col\":\"dn1\"},{\"col\":\"dn2\"},{\"col\":\"dn3\"},{\"col\":\"dn4\"},{\"col\":\"dn5\"},{\"col\":\"dn6\"},{\"col\":\"dn7\"},{\"col\":\"dn8\"},{\"col\":\"dn9\"},{\"col\":\"dn10\"},{\"col\":\"duuid\"},{\"col\":\"dtitle\"},{\"col\":\"dprofile\"},{\"col\":\"dct\"},{\"col\":\"dlevel\"},{\"col\":\"dcat\"},{\"col\":\"durl\"},{\"col\":\"dname\"},{\"col\":\"dmark\"},{\"col\":\"dmessage\"},{\"col\":\"dstatus\"},{\"col\":\"dtype\"},{\"col\":\"dsubtype\"},{\"col\":\"dpwd\"},{\"col\":\"dpic1\"},{\"col\":\"dpic2\"},{\"col\":\"dpic3\"},{\"col\":\"duser\"},{\"col\":\"dresult\"},{\"col\":\"dtotal\"},{\"col\":\"dbacktime\"},{\"col\":\"dmethod\"},{\"col\":\"dfile\"},{\"col\":\"ddict\"},{\"col\":\"dattach1\"},{\"col\":\"dattach2\"},{\"col\":\"dattach3\"},{\"col\":\"dcard\"},{\"col\":\"dcode\"},{\"col\":\"dxm\"},{\"col\":\"dsex\"},{\"col\":\"daddr\"},{\"col\":\"dcontact\"},{\"col\":\"dmail\"},{\"col\":\"dqq\"},{\"col\":\"dhtml\"},{\"col\":\"ddate1\"},{\"col\":\"ddate2\"},{\"col\":\"ddate3\"},{\"col\":\"df1\"},{\"col\":\"df2\"},{\"col\":\"df3\"},{\"col\":\"df4\"},{\"col\":\"df5\"},{\"col\":\"df6\"},{\"col\":\"df7\"},{\"col\":\"df8\"},{\"col\":\"df9\"},{\"col\":\"df10\"},{\"col\":\"dn1\"},{\"col\":\"dn2\"},{\"col\":\"dn3\"},{\"col\":\"dn4\"},{\"col\":\"dn5\"},{\"col\":\"dn6\"},{\"col\":\"dn7\"},{\"col\":\"dn8\"},{\"col\":\"dn9\"},{\"col\":\"dn10\"}]\n";
+        cols = JSONArray.parseArray(s);
         for (int i = 0; i < cols.size(); i++) {
             map.put(cols.getJSONObject(i).getString("col"), cols.getJSONObject(i).getString("col"));
         }
@@ -59,7 +60,7 @@ public class FormServiceImpl extends BaseService {
         if (ToolUtil.isOneEmpty(json_tpl, json_value, opertype)) {
             return R.FAILURE();
         }
-     //   parseFromJsonMetaColDB();
+        //   parseFromJsonMetaColDB();
         HashMap<String, String> metacols = parseFromJsonMetaCol();
         JSONObject e = JSONObject.parseObject(json_value);
         Iterator<String> keys = e.keySet().iterator();// jsonObject.keys();
@@ -83,16 +84,16 @@ public class FormServiceImpl extends BaseService {
             }
         }
         String ressql = "";
-        String fid="";
+        String fid = "";
         if (opertype.equals(OPER_TYPE_UPDATE)) {
-            fid=primary_value;
+            fid = primary_value;
             ups.setIf("fdata", json_value);
             ups.where().andIf("id=?", primary_value);
             ressql = ups.getSQL();
 
         } else if (opertype.equals(OPER_TYPE_INSERT)) {
-            fid=db.getUUID();
-            ins.set("id",fid);
+            fid = db.getUUID();
+            ins.set("id", fid);
             ins.setIf("ftpldatamd5", MD5Util.encrypt(json_tpl));
             ins.setIf("ftpldata", json_tpl);
             ins.setIf("fdata", json_value);
@@ -100,9 +101,9 @@ public class FormServiceImpl extends BaseService {
             ins.setIf("processdataid", process_data_id);
             ressql = ins.getSQL();
         }
-        JSONObject res=new JSONObject();
-        res.put("out",ressql);
-        res.put("id",fid);
+        JSONObject res = new JSONObject();
+        res.put("out", ressql);
+        res.put("id", fid);
         return R.SUCCESS_OPER(res);
     }
 

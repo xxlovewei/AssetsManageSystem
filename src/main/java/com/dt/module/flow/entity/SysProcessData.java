@@ -1,24 +1,27 @@
 package com.dt.module.flow.entity;
 
 import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-08
  */
- 
+
 @TableName("sys_process_data")
- 
+
 public class SysProcessData extends BaseModel<SysProcessData> {
 
     private static final long serialVersionUID = 1L;
@@ -54,15 +57,15 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     private String psubtype;
     /**
      * 流程状态是否结算
-waiting 等待送审
-inreview  审批中
-finish 审批?
+     * waiting 等待送审
+     * inreview  审批中
+     * finish 审批?
      */
     @TableField("pstatus")
     private String pstatus;
     /**
      * success 成功
-failed 失败
+     * failed 失败
      */
     @TableField("pstatusdtl")
     private String pstatusdtl;
@@ -218,22 +221,22 @@ failed 失败
     @Override
     public String toString() {
         return "SysProcessData{" +
-        "id=" + id +
-        ", busid=" + busid +
-        ", bustype=" + bustype +
-        ", processkey=" + processkey +
-        ", processname=" + processname +
-        ", processversion=" + processversion +
-        ", processInstanceId=" + processInstanceId +
-        ", ptitle=" + ptitle +
-        ", ptype=" + ptype +
-        ", psubtype=" + psubtype +
-        ", pstatus=" + pstatus +
-        ", pstatusdtl=" + pstatusdtl +
-        ", pstartuserid=" + pstartuserid +
-        ", pstartusername=" + pstartusername +
-        ", pendtime=" + pendtime +
-        ", formid=" + formid +
-        "}";
+                "id=" + id +
+                ", busid=" + busid +
+                ", bustype=" + bustype +
+                ", processkey=" + processkey +
+                ", processname=" + processname +
+                ", processversion=" + processversion +
+                ", processInstanceId=" + processInstanceId +
+                ", ptitle=" + ptitle +
+                ", ptype=" + ptype +
+                ", psubtype=" + psubtype +
+                ", pstatus=" + pstatus +
+                ", pstatusdtl=" + pstatusdtl +
+                ", pstartuserid=" + pstartuserid +
+                ", pstartusername=" + pstartusername +
+                ", pendtime=" + pendtime +
+                ", formid=" + formid +
+                "}";
     }
 }

@@ -1,12 +1,12 @@
 package com.dt.module.base.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -14,29 +14,44 @@ import com.dt.core.common.base.BaseModel;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-27
+ * @since 2020-04-11
  */
-@TableName("SYS_FILES")
+
+@TableName("sys_files")
+
 public class SysFiles extends BaseModel<SysFiles> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId("ID")
+    @TableId("id")
     private String id;
-    @TableField("PATH")
+    /**
+     * 文件路径
+     */
+    @TableField("path")
     private String path;
-    @TableField("TYPE")
+    /**
+     * 文件类型
+     */
+    @TableField("type")
     private String type;
-    @TableField("BUS")
+    @TableField("bus")
     private String bus;
-    @TableField("MARK")
+    /**
+     * 备注
+     */
+    @TableField("mark")
     private String mark;
-    @TableField("FILENAME")
+    /**
+     * 文件名
+     */
+    @TableField("filename")
     private String filename;
-    @TableField("CDATE")
-    private Date cdate;
-    @TableField("COL_A")
-    private String colA;
+    /**
+     * 原文件名
+     */
+    @TableField("filename_o")
+    private String filenameO;
 
 
     public String getId() {
@@ -87,20 +102,12 @@ public class SysFiles extends BaseModel<SysFiles> {
         this.filename = filename;
     }
 
-    public Date getCdate() {
-        return cdate;
+    public String getFilenameO() {
+        return filenameO;
     }
 
-    public void setCdate(Date cdate) {
-        this.cdate = cdate;
-    }
-
-    public String getColA() {
-        return colA;
-    }
-
-    public void setColA(String colA) {
-        this.colA = colA;
+    public void setFilenameO(String filenameO) {
+        this.filenameO = filenameO;
     }
 
     @Override
@@ -111,14 +118,13 @@ public class SysFiles extends BaseModel<SysFiles> {
     @Override
     public String toString() {
         return "SysFiles{" +
-                ", id=" + id +
+                "id=" + id +
                 ", path=" + path +
                 ", type=" + type +
                 ", bus=" + bus +
                 ", mark=" + mark +
                 ", filename=" + filename +
-                ", cdate=" + cdate +
-                ", colA=" + colA +
+                ", filenameO=" + filenameO +
                 "}";
     }
 }

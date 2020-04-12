@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConv
 import com.dt.core.annotion.Req;
 import com.dt.core.annotion.Res;
 
-public class  ResReqResolver extends AbstractMessageConverterMethodProcessor {
+public class ResReqResolver extends AbstractMessageConverterMethodProcessor {
     public ResReqResolver(List<HttpMessageConverter<?>> converters) {
         super(converters);
     }

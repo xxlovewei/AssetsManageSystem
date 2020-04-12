@@ -12,7 +12,6 @@
 <configuration>
     <!--
      | 全局配置设置
-     |
      | 可配置选项                   默认值,     描述
      |
      | aggressiveLazyLoading       true,     当设置为‘true’的时候，懒加载的对象可能被任何懒属性全部加载。否则，每个属性都按需加载。
@@ -33,9 +32,5 @@
         <setting name="defaultExecutorType" value="REUSE"/>
         <setting name="defaultStatementTimeout" value="25000"/>
         <setting name="logImpl" value="STDOUT_LOGGING" />
-         
-  		 
     </settings>
-      
-
 </configuration>

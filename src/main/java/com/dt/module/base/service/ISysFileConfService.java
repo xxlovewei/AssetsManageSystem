@@ -1,7 +1,7 @@
 package com.dt.module.base.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.dt.module.base.entity.SysFileConf;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.dt.module.base.entity.SysFileConf;
  * </p>
  *
  * @author algernonking
- * @since 2018-07-24
+ * @since 2020-04-11
  */
 public interface ISysFileConfService extends IService<SysFileConf> {
 
