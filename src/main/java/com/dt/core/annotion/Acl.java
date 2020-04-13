@@ -24,7 +24,7 @@ public @interface Acl {
     public static String ACL_DENY = "deny";
     // 未使用
     public static String TYPE_API = "api";
-    // 页面
+    // 页面FF
     public static String TYPE_VIEW = "view";
 
     String type() default TYPE_API;
