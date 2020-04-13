@@ -113,7 +113,8 @@ public class CustomGeneratorMysql {
         // "","sys_qud_qux"
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
-        strategy.setInclude(new String[]{"ct_class"}); // 需要生成的表
+        String busRoute = "hrm";
+        strategy.setInclude(new String[]{"hrm_org_part"}); // 需要生成的表
         // strategy.setInclude(scanner("表名"));
 
         strategy.setTableFillList(tableFillList);
@@ -123,7 +124,7 @@ public class CustomGeneratorMysql {
         mpg.setStrategy(strategy);
 
         // 包配置
-        String busRoute = "ct";
+
         PackageConfig pc = new PackageConfig();
         pc.setParent("com.dt.module");
         pc.setModuleName(busRoute);

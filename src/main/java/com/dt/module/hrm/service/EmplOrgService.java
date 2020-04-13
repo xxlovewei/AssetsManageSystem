@@ -31,7 +31,7 @@ public class EmplOrgService extends BaseService {
      * @Description:查询所有组织信息
      */
     public R queryEmplOrg() {
-        return R.SUCCESS_OPER(db.query("select * from hrm_org_info").toJsonArrayWithJsonObject());
+        return R.SUCCESS_OPER(db.query("select * from hrm_org_info where dr='0'").toJsonArrayWithJsonObject());
     }
 
     /**
@@ -57,7 +57,7 @@ public class EmplOrgService extends BaseService {
         } else {
             cur_node_id = idrs.getString("value");
         }
-        Rcd verifyrs = db.uniqueRecord("select * from hrm_org_part where node_id=?", parent_id);
+        Rcd verifyrs = db.uniqueRecord("select * from hrm_org_part where dr='0' and  node_id=?", parent_id);
         Insert ins = new Insert("hrm_org_part");
         ins.set("org_id", org_id);
         // 判断是否是第一个节点
@@ -73,7 +73,6 @@ public class EmplOrgService extends BaseService {
         updateRouteName(cur_node_id, node_name);
         JSONObject ro = new JSONObject();
         ro.put("ID", cur_node_id);
-
         return R.SUCCESS_OPER(ro);
     }
 
@@ -102,7 +101,7 @@ public class EmplOrgService extends BaseService {
      */
 
     private void updateRouteName(String node_id, String node_name) {
-        Rcd rs = db.uniqueRecord("select * from hrm_org_part where node_id=?", node_id);
+        Rcd rs = db.uniqueRecord("select * from hrm_org_part where dr='0' and node_id=?", node_id);
         // 判断如果一致则不需要更新routename
         if (ToolUtil.isEmpty(rs)) {
             return;
@@ -115,7 +114,7 @@ public class EmplOrgService extends BaseService {
         String route_name = "";
         for (int i = 0; i < arr.size(); i++) {
             route_name = route_name + LEVEL_SPLIT
-                    + db.uniqueRecord("select node_name from hrm_org_part where node_id=?",
+                    + db.uniqueRecord("select node_name from hrm_org_part where  dr='0' and node_id=?",
                     arr.getJSONObject(i).getString("id")).getString("node_name");
         }
         route_name = route_name.replaceFirst(LEVEL_SPLIT, "");
@@ -123,7 +122,7 @@ public class EmplOrgService extends BaseService {
         me.set("route_name", route_name);
         me.where().and("node_id=?", node_id);
         db.execute(me);
-        RcdSet rds = db.query("select node_id,node_name from hrm_org_part where parent_id=?", node_id);
+        RcdSet rds = db.query("select node_id,node_name from hrm_org_part where  dr='0' and  parent_id=?", node_id);
         for (int j = 0; j < rds.size(); j++) {
             // 递归调用
             updateRouteName(rds.getRcd(j).getString("node_id"), rds.getRcd(j).getString("node_name"));
@@ -139,13 +138,13 @@ public class EmplOrgService extends BaseService {
             return R.FAILURE("无节点,请选择节点");
         }
         // 检查是否有下一级节点
-        if (db.uniqueRecord("select count(1) v from hrm_org_part where parent_id=? ", node_id).getInteger("v") > 0) {
+        if (db.uniqueRecord("select count(1) v from hrm_org_part where  dr='0' and  parent_id=? ", node_id).getInteger("v") > 0) {
             return R.FAILURE("请先删除子节点");
         }
         // 检查节点是否有人员信息,如果有人,在判断是否需要删除
-        if (db.uniqueRecord("select count(1) v from hrm_org_employee where node_id=? ", node_id).getInteger("v") > 0) {
+        if (db.uniqueRecord("select count(1) v from hrm_org_employee where   dr='0' and node_id=? ", node_id).getInteger("v") > 0) {
             if (db.uniqueRecord(
-                    "select count(1) v from sys_user_info a,hrm_org_employee b where a.empl_id=b.empl_id and a.dr='0' and b.node_id=?",
+                    "select count(1) v from sys_user_info a,hrm_org_employee b where a.empl_id=b.empl_id and  b.dr='0' and  a.dr='0' and b.node_id=?",
                     node_id).getInteger("v") > 0) {
                 return R.FAILURE("请先删除人员信息");
             }
@@ -180,7 +179,7 @@ public class EmplOrgService extends BaseService {
      * @Description:横行显示组织信息,类似A->B->C-D
      */
     public R queryEmplOrgLevelList() {
-        return R.SUCCESS_OPER(db.query("select node_id,route_name routename ,route from hrm_org_part order by route")
+        return R.SUCCESS_OPER(db.query("select node_id,route_name routename ,route from hrm_org_part where dr='0' order by route")
                 .toJsonArrayWithJsonObject());
     }
 
@@ -192,7 +191,7 @@ public class EmplOrgService extends BaseService {
         if (ToolUtil.isEmpty(org_id)) {
             return R.FAILURE("根节点不存在");
         }
-        Rcd rootrs = db.uniqueRecord("select * from hrm_org_info where org_id=?", org_id);
+        Rcd rootrs = db.uniqueRecord("select * from hrm_org_info where dr='0' and org_id=?", org_id);
         String rootname = ToolUtil.isEmpty(rootrs.getString("org_name")) ? "组织树" : rootrs.getString("org_name");
         JSONArray res = new JSONArray();
         JSONObject root = new JSONObject();
@@ -201,7 +200,7 @@ public class EmplOrgService extends BaseService {
         root.put("text", rootname);
         root.put("type", "root");
         res.add(root);
-        String sql = "select * from hrm_org_part where org_id='" + org_id + "' ";
+        String sql = "select * from hrm_org_part where dr='0' and org_id='" + org_id + "' ";
         RcdSet rs = db.query(sql);
         JSONObject e = new JSONObject();
         for (int i = 0; i < rs.size(); i++) {
