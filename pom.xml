@@ -10,7 +10,7 @@
 	<url></url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>5.0.7.RELEASE</spring.version>
+		<spring.version>5.0.16.RELEASE</spring.version>
 		<ehcache.version>2.10.0</ehcache.version>
 		<!-- 暂时无法升级到1.4.2 -->
 		<shiro.version>1.4.2</shiro.version>
@@ -18,14 +18,12 @@
 	</properties>
 
 	<dependencies>
-	
- 
-	
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
 			<version>5.1.2</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -244,13 +242,13 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.62</version>
+			<version>1.2.68</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>1.1.21</version>
+			<version>1.1.22</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
