@@ -6,7 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
+    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="常规更新">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -349,7 +350,7 @@
       <workItem from="1586478306881" duration="1008000" />
       <workItem from="1586496160403" duration="1995000" />
       <workItem from="1586507426721" duration="28323000" />
-      <workItem from="1586689531759" duration="10078000" />
+      <workItem from="1586689531759" duration="10222000" />
     </task>
     <task id="LOCAL-00001" summary="12">
       <created>1586045638557</created>
@@ -470,7 +471,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586764928744</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="常规更新">
+      <created>1586776622719</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1586776622719</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -589,11 +597,11 @@
     </state>
     <state x="347" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/38.23.1242.777@38.23.1242.777" timestamp="1586053580477" />
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1586608077562" />
-    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2" timestamp="1586764928367">
+    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2" timestamp="1586776684285">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="233" y="23" width="833" height="777" key="CommitChangelistDialog2/38.23.1242.777@38.23.1242.777" timestamp="1586054107747" />
-    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1586764928367" />
+    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1586776684285" />
     <state x="49" y="90" width="1231" height="614" key="DiffContextDialog" timestamp="1586597506625">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
