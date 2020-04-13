@@ -6,9 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="常规更新">
+    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/settings的副本.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +57,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/com/dt/core/shiro/inter/IShiro.java" root0="SKIP_INSPECTION" />
@@ -356,7 +357,7 @@
       <workItem from="1586507426721" duration="28323000" />
       <workItem from="1586689531759" duration="11246000" />
       <workItem from="1586777814078" duration="124000" />
-      <workItem from="1586779280332" duration="495000" />
+      <workItem from="1586779280332" duration="755000" />
     </task>
     <task id="LOCAL-00001" summary="12">
       <created>1586045638557</created>
@@ -512,7 +513,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586777831013</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="常规更新">
+      <created>1586779847740</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1586779847740</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -588,11 +596,11 @@
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="260" y="87" key="#Notifications/40.23.1240.777@40.23.1240.777" timestamp="1586693226738" />
-    <state x="219" y="88" key="#Project_Structure" timestamp="1586777683217">
+    <state x="219" y="88" key="#Project_Structure" timestamp="1586780774537">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="217" y="88" key="#Project_Structure/38.23.1242.777@38.23.1242.777" timestamp="1586224240790" />
-    <state x="219" y="88" key="#Project_Structure/40.23.1240.777@40.23.1240.777" timestamp="1586777683217" />
+    <state x="219" y="88" key="#Project_Structure/40.23.1240.777@40.23.1240.777" timestamp="1586780774537" />
     <state x="249" y="56" key="#Tomcat_Server" timestamp="1586043900091">
       <screen x="38" y="23" width="1242" height="777" />
     </state>
@@ -631,11 +639,11 @@
     </state>
     <state x="347" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/38.23.1242.777@38.23.1242.777" timestamp="1586053580477" />
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1586608077562" />
-    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2" timestamp="1586779558651">
+    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2" timestamp="1586779847109">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="233" y="23" width="833" height="777" key="CommitChangelistDialog2/38.23.1242.777@38.23.1242.777" timestamp="1586054107747" />
-    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1586779558651" />
+    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1586779847109" />
     <state x="49" y="90" width="1231" height="614" key="DiffContextDialog" timestamp="1586597506625">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
@@ -737,11 +745,11 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="510" y="287" key="VCS.EditChangelistDialog/38.23.1242.777@38.23.1242.777" timestamp="1586054753811" />
-    <state x="273" y="131" key="Vcs.Push.Dialog.v2" timestamp="1586777847513">
+    <state x="273" y="131" key="Vcs.Push.Dialog.v2" timestamp="1586779875217">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="271" y="131" key="Vcs.Push.Dialog.v2/38.23.1242.777@38.23.1242.777" timestamp="1586054668236" />
-    <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1586777847513" />
+    <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1586779875217" />
     <state x="420" y="213" key="com.intellij.database.dbimport.ImportUtil.MyDialog" timestamp="1586335320101">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
@@ -776,10 +784,10 @@
     </state>
     <state x="523" y="152" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog/38.23.1242.777@38.23.1242.777" timestamp="1586054123144" />
     <state x="524" y="152" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog/40.23.1240.777@40.23.1240.777" timestamp="1586264555242" />
-    <state x="445" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1586777837286">
+    <state x="445" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1586779853190">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
-    <state x="445" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/40.23.1240.777@40.23.1240.777" timestamp="1586777837286" />
+    <state x="445" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/40.23.1240.777@40.23.1240.777" timestamp="1586779853190" />
     <state x="389" y="178" key="extract.method.dialog" timestamp="1586738572362">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
