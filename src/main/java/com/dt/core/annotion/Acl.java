@@ -1,10 +1,6 @@
 package com.dt.core.annotion;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * @author: algernonking
@@ -22,9 +18,9 @@ public @interface Acl {
     public static String ACL_USER = "user";
     // 登录后并且需要赋权才能访问
     public static String ACL_DENY = "deny";
-    // 未使用
+    // 接口-未使用
     public static String TYPE_API = "api";
-    // 页面FF
+    // 页面-未使用
     public static String TYPE_VIEW = "view";
 
     String type() default TYPE_API;

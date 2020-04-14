@@ -135,14 +135,4 @@ public class BaseController extends BaseSC {
         return path.concat("");
     }
 
-    /**
-     * 返回thymeleaf视图
-     *
-     * @param path
-     * @return
-     */
-//	public static String thymeleaf(String path) {
-//	//	String folder = PropertiesFileUtil.getInstance().get("app.name");
-//	//	return "/".concat(folder).concat(path).concat(".html");
-//	}
 }

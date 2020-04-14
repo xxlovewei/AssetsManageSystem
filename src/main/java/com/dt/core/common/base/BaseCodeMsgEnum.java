@@ -13,7 +13,9 @@ public enum BaseCodeMsgEnum {
     /**
      * BaseResult 返回
      */
-    SUCCESS_DEF_MSG(0, "成功"), SUCCESS_OPER_MSG(0, "操作成功"), SUCCESS_SAVE_MSG(0, "保存成功"),
+    SUCCESS_DEF_MSG(0, "成功"),
+    SUCCESS_OPER_MSG(0, "操作成功"),
+    SUCCESS_SAVE_MSG(0, "保存成功"),
 
     FAILED_DEF_MSG(1, "失败"),
     FAILED_OPER_MSG(2, "操作失败"),

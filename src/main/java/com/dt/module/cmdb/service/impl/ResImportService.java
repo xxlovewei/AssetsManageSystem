@@ -43,21 +43,7 @@ public class ResImportService extends BaseService {
 
     }
 
-//	public R demoRun() {
-//		try {
-//			ImportParams params = new ImportParams();
-//
-//			params.setHeadRows(1);
-//			params.setTitleRows(0);
-//			params.setStartSheetIndex(0);
-//			List<ResEntity> result = ExcelImportUtil.importExcel(new File("/Users/algernonking/Downloads/file.xls"),
-//					ResEntity.class, params);
-// 
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return R.SUCCESS_OPER();
-//	}
+
 
     public R importResNormal(String file, String type) {
         R r = R.SUCCESS_OPER();
@@ -99,7 +85,7 @@ public class ResImportService extends BaseService {
         return R.SUCCESS();
     }
 
-    // 检查资产编号
+    // 检查资产编号数量
     public int checkUUid(String uuid) {
         return db.uniqueRecord("select count(1) cnt from res where dr='0' and uuid=?", uuid).getInteger("cnt");
     }
@@ -117,7 +103,7 @@ public class ResImportService extends BaseService {
         if (ToolUtil.isEmpty(name)) {
             return R.SUCCESS_OPER("0");
         }
-        Rcd rs = db.uniqueRecord("select dict_item_id from dt.sys_dict_item where  dr='0' and dict_id=? and name=?",
+        Rcd rs = db.uniqueRecord("select dict_item_id from dt.sys_dict_item where dr='0' and dict_id=? and name=?",
                 dict, name);
         if (rs == null) {
             return R.FAILURE("无法匹配数据字典项目:Dict:" + dict + ",value:" + name);
@@ -145,19 +131,6 @@ public class ResImportService extends BaseService {
         return R.SUCCESS_OPER(rs.toJsonObject());
     }
 
-//	// 检查数据字典,小类
-//	@Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkDictItemSub'+#dict+'_'+#name+'_'+#dl")
-//	public R checkDictItemSub(String dict, String name, String dl) {
-//
-//		Rcd rs = db.uniqueRecord(
-//				"select * from sys_dict_item  where dict_id in (" + dict + ") and dr='0' and name=? and code=?", name,
-//				dl);
-//		if (rs == null) {
-//			return R.FAILURE("无法匹配数据字典项目:Dict:" + dict + ",value:" + name);
-//		}
-// 
-//		return R.SUCCESS_OPER(rs.toJsonObject());
-//	}
 
     public R checkResEntity(ResEntity re, String type, String importlabel) {
         Date date = new Date(); // 获取一个Date对象

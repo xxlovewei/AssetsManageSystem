@@ -1,5 +1,4 @@
+/.idea
 /target/
-out
-.idea
-.gitignore
+/out
 /README.md

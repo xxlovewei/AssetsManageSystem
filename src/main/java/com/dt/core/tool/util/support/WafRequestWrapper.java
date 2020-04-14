@@ -67,16 +67,15 @@ public class WafRequestWrapper extends HttpServletRequestWrapper {
     }
 
     @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public Map getParameterMap() {
+    public Map<String, String[]> getParameterMap() {
         Map<String, String[]> primary = super.getParameterMap();
         Map<String, String[]> result = new HashMap<String, String[]>(primary.size());
         for (Map.Entry<String, String[]> entry : primary.entrySet()) {
             result.put(entry.getKey(), filterEntryString(entry.getValue()));
         }
         return result;
-
     }
+
 
     protected String[] filterEntryString(String[] rawValue) {
         for (int i = 0; i < rawValue.length; i++) {

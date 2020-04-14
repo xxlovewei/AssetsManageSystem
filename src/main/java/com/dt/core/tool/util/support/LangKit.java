@@ -339,22 +339,6 @@ public class LangKit {
         return sb;
     }
 
-    /**
-     * 将一个或者多个数组填入一个集合。
-     *
-     * @param <C>   集合类型
-     * @param <T>   数组元素类型
-     * @param coll  集合
-     * @param objss 数组 （数目可变）
-     * @return 集合对象
-     */
-    public static <C extends Collection<T>, T> C fill(C coll, @SuppressWarnings("unchecked") T[]... objss) {
-        for (T[] objs : objss)
-            for (T obj : objs)
-                coll.add(obj);
-        return coll;
-    }
-
 
     public static <T> List<T> array2list(T[] array) {
         if (null == array)

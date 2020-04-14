@@ -8,6 +8,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.dt.module.cmdb.entity.Res;
+import com.dt.module.cmdb.entity.ResActionItem;
+import com.dt.module.cmdb.service.IResActionItemService;
+import com.dt.module.cmdb.service.IResService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +35,13 @@ import com.dt.core.tool.util.ToolUtil;
 @Service
 public class ResExtService extends BaseService {
 
+
+
+    @Autowired
+    IResService ResServiceImpl;
+
+    @Autowired
+    IResActionItemService ResActionItemServiceImpl;
 
     @Autowired
     // 入库，转移，领用，借用，闲置
@@ -442,17 +454,24 @@ public class ResExtService extends BaseService {
         return R.SUCCESS_OPER();
     }
 
+    private String createUuid5(){
+        return  UUID.randomUUID().toString().substring(9, 23).toUpperCase();
+    }
+
     public String createUuid(String type) {
         int cnt = 5;
-        String id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
+        String id = createUuid5();
         int i = 0;
         if (type.equals(ResExtService.UUID_ZC)) {
-            for (i = 0; i < cnt; i++) {
-                Rcd rs = db.uniqueRecord("select * from res where uuid=?", id);
+            for (i = 0; i< cnt; i++) {
+                QueryWrapper<Res> ew = new QueryWrapper<Res>();
+                String finalId = id;
+                ew.and(j -> j.eq("uuid", finalId));
+                Res rs=ResServiceImpl.getOne(ew);
                 if (rs == null) {
                     break;
                 } else {
-                    id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
+                    id = createUuid5();
                 }
             }
             if (i > cnt - 1) {
@@ -462,11 +481,14 @@ public class ResExtService extends BaseService {
             }
         } else if (type.equals(ResExtService.UUID_BX)) {
             for (i = 0; i < cnt; i++) {
-                Rcd rs = db.uniqueRecord("select * from res_action_item where busuuid=?", id);
+                QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
+                String finalId = id;
+                ew.and(j -> j.eq("busuuid", finalId));
+                ResActionItem rs=ResActionItemServiceImpl.getOne(ew);
                 if (rs == null) {
                     break;
                 } else {
-                    id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
+                    id = createUuid5();
                 }
             }
             if (i > cnt - 1) {
@@ -477,11 +499,14 @@ public class ResExtService extends BaseService {
         } else if (type.equals(ResExtService.UUID_LY) || type.equals(ResExtService.UUID_JY)
                 || type.equals(ResExtService.UUID_ZY)) {
             for (i = 0; i < cnt; i++) {
-                Rcd rs = db.uniqueRecord("select * from res_action_item where busuuid=?", id);
+                QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
+                String finalId = id;
+                ew.and(j -> j.eq("busuuid", finalId));
+                ResActionItem rs=ResActionItemServiceImpl.getOne(ew);
                 if (rs == null) {
                     break;
                 } else {
-                    id = UUID.randomUUID().toString().substring(9, 23).toUpperCase();
+                    id = createUuid5();
                 }
             }
             if (i > cnt - 1) {
