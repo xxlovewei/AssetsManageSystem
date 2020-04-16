@@ -858,8 +858,9 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                                         });
                                     }
                                 })
+
                         $scope.url = $rootScope.project
-                            + "/uflo/diagram?processInstanceId="
+                            + "uflo/diagram?processInstanceId="
                             + res.data.processInstanceId;
                     }
 

@@ -12,4 +12,10 @@ truncate table sys_banner;
 truncate table sys_banner_item;
 truncate table sys_notice;
 
+5688c9c215a0
+docker ps -a
+docker exec -it 20f750b8c954 /bin/bash
+
+
+
 

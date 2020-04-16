@@ -36,6 +36,7 @@
 ### 步骤二
 - 初始化sql
 ```
+- 要求Mysql lower_case_table_names=1
 - SQL>CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
 - SQL>set names utf8;
 - SQL>use dt;
