@@ -62,14 +62,28 @@ public class SysUfloProcessService extends BaseService {
 //    public static String P_TYPE_FINISH = "finish";
 //    public static String P_TYPE_ROLLBACK = "rollback";
 
+    //等待送审
     public static String P_STATUS_SFA = "submitforapproval";
     public static String P_STATUS_INREVIEW = "inreview";
     public static String P_STATUS_APPROVALSUCCESS = "success";
     public static String P_STATUS_APPROVALFAILED = "failed";
+    public static String P_STATUS_FINISH_WITHOUTFLOW = "finishwithoutflow";
+
+
     public static String P_STATUS_RUNNING = "running";
     public static String P_STATUS_FINISH = "finish";
     public static String P_STATUS_ROLLBACK = "rollback";
     public static String P_STATUS_CANCEL = "cancel";
+
+
+    public static String P_DTL_STATUS_SFA="submitforapproval";
+    public static String P_DTL_STATUS_INREVIEW="inreview";
+    public static String P_DTL_STATUS_SUCCESS="success";
+    public static String P_DTL_STATUS_FAILED="failed";
+    public static String P_DTL_STATUS_FINISH_WITHOUTFLOW="withoutflow";
+
+
+
 
     @Autowired
     private ProcessService processService;

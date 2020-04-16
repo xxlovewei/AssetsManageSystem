@@ -59,7 +59,10 @@ public class ResExtService extends BaseService {
     public static String UUID_BF = "BF";
     public static String UUID_BX = "BX";
 
-    public static String normalClassSql = " t.dr='0' and t.root='3' and t.route not like '46%' and t.node_level>1 ";
+
+    public String getmulticlassSql(){
+        return "";
+    }
     public static String resSqlbody = " (select name from sys_dict_item where  dr='0' and dict_item_id=t.loc ) locstr,"
             + " (select name from sys_dict_item where  dr='0' and dict_item_id=t.recycle ) recyclestr,"
             + " (select name from sys_dict_item where  dr='0' and dict_item_id=t.env  ) envstr,"
@@ -76,6 +79,7 @@ public class ResExtService extends BaseService {
             + " (select name from sys_dict_item where  dr='0' and dict_item_id=t.wb  ) wbstr,"
             + " (select name from sys_dict_item where  dr='0' and dict_item_id=t.rack  ) rackstr,"
             + " (select name from ct_category where  dr='0' and id=t.class_id  ) classname,"
+            + " (select a.name from ct_category_root a,ct_category b  where a.id=b.root  and b.id=t.class_id) classrootname,"
             + " (select route_name from ct_category where  dr='0' and id=t.class_id  ) classfullname,"
             + " (select name from sys_dict_item where  dr='0' and dict_item_id=t.type  ) typename,"
             + " (select name from sys_dict_item where  dr='0' and dict_item_id=t.wb_auto  ) wb_autostr,"
@@ -83,8 +87,8 @@ public class ResExtService extends BaseService {
             + "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
             + "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
 
-    // 根据ClassId获取数据
-    public R queryResAllGetData(String class_id, String wb, String env, String recycle, String loc, String search) {
+    // 根据ClassId获取数据,优先判断multiclassroot,在获取class_id
+    public R queryResAllGetData(String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
 
         // 获取属性数据
         String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
@@ -110,16 +114,30 @@ public class ResExtService extends BaseService {
         }
         sql = sql + resSqlbody + " t.* from res t where dr=0  ";
 
-        if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
-            if (class_id.equals("normalclass")) {
-                sql = sql + " and class_id in (select id from ct_category t where " + ResExtService.normalClassSql
-                        + " )";
-            } else {
-                sql = sql + " and class_id in (select id from ct_category  where dr='0' and ( id='" + class_id
-                        + "' or parent_id='" + class_id + "')) ";
-            }
-
+        if(ToolUtil.isNotEmpty(classroot)){
+            //获取多个类型
+            String subsql=" t.dr='0' and t.root='"+classroot+"' and t.route not like '46%' and t.node_level>1 ";
+            sql = sql + " and class_id in (select id from ct_category t where " +subsql+")";
         }
+
+        if(ToolUtil.isNotEmpty(class_id)&& !"all".equals(class_id)){
+            sql = sql + " and class_id in (select id from ct_category  where dr='0' and ( id='" + class_id
+                    + "' or parent_id='" + class_id + "')) ";
+        }
+
+//
+//        if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
+//            if (class_id.equals("multiclass")) {
+//                //获取多个类型
+//                String subsql=" t.dr='0' and t.root='3' and t.route not like '46%' and t.node_level>1 ";
+//                sql = sql + " and class_id in (select id from ct_category t where " +subsql+")";
+//            } else {
+//                //获取一个类型
+//                sql = sql + " and class_id in (select id from ct_category  where dr='0' and ( id='" + class_id
+//                        + "' or parent_id='" + class_id + "')) ";
+//            }
+//
+//        }
 
         if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
             sql = sql + " and loc='" + loc + "'";
@@ -270,12 +288,14 @@ public class ResExtService extends BaseService {
         DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
         String nowtime = simpleDateFormat.format(date);
 
-        String sql = "";
-        Insert ins = new Insert("res_history");
         String recycle = ps.getString("recycle");
         String id = ps.getString("id");
-
         String class_id = ps.getString("class_id");
+
+        String sql = "";
+        Insert ins = new Insert("res_history");
+
+        //判断资产编码是否正确
         if (ToolUtil.isEmpty(class_id)) {
             return R.FAILURE_REQ_PARAM_ERROR();
         } else {
@@ -289,15 +309,22 @@ public class ResExtService extends BaseService {
         String wbcompute = computeWb(ps.getString("wb"), ps.getString("wb_auto"), ps.getString("wbout_date_f"));
 
         if (ToolUtil.isEmpty(id)) {
+            ins.set("oper_type", "入库");
+
             Insert me = new Insert("res");
             id = db.getUUID();
             me.set("id", id);
             String uuid = createUuid(ResExtService.UUID_ZC);
             if (ToolUtil.isEmpty(uuid)) {
-                return R.FAILURE("未产生有效编号,请重试!");
+                return R.FAILURE("未生产有效编号,请稍后重新重试!");
             }
             me.set("uuid", uuid);
-
+            me.set("dr", "0");
+            me.setIf("update_time", nowtime);
+            me.setIf("update_by", this.getUserId());
+            me.setIf("create_time", nowtime);
+            me.setIf("create_by", this.getUserId());
+            me.setIf("class_id", class_id);
             me.setIf("sn", ps.getString("sn"));
             me.setIf("mark", ps.getString("mark"));
             me.setIf("maintain_userid", ps.getString("maintain_userid"));
@@ -305,8 +332,6 @@ public class ResExtService extends BaseService {
             me.setIf("rank", ps.getString("rank"));
             me.setIf("loc", ps.getString("loc"));
             me.setIf("locshow", ps.getString("locshow"));
-            me.set("dr", "0");
-            me.set("class_id", class_id);
             me.setIf("type", ps.getString("type"));
             me.setIf("zc_category", ps.getString("zc_category"));
             me.setIf("status", ps.getString("status"));
@@ -320,12 +345,8 @@ public class ResExtService extends BaseService {
             me.setIf("confdesc", ps.getString("confdesc"));
             me.setIf("rack", ps.getString("rack"));
             me.setIf("model", ps.getString("model"));
-            me.setIf("update_time", nowtime);
-            me.setIf("update_by", this.getUserId());
             me.setIf("buy_time", ps.getString("buy_time_f") == null ? null : ps.getString("buy_time_f") + " 01:00:00");
             me.setIf("changestate", "insert");
-            me.setIf("create_time", nowtime);
-            me.setIf("create_by", this.getUserId());
             me.setIf("net_worth", ps.getString("net_worth", "0"));
             me.setIf("buy_price", ps.getString("buy_price", "0"));
             me.setIf("part_id", "none".equals(ps.getString("part_id")) ? 0 : ps.getString("part_id"));
@@ -335,7 +356,6 @@ public class ResExtService extends BaseService {
             me.setIf("wb_auto", ps.getString("wb_auto"));
             me.setIf("wbout_date",
                     ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 01:00:00");
-            ins.set("oper_type", "入库");
 
             me.setIf("fs1", ps.getString("fs1"));
             me.setIf("fs2", ps.getString("fs2"));
@@ -346,12 +366,12 @@ public class ResExtService extends BaseService {
             me.setIf("fs7", ps.getString("fs7"));
             me.setIf("fs20", ps.getString("fs20"));
             me.setIf("zc_cnt", ps.getString("zc_cnt"));
-
             me.setIf("img", ps.getString("img"));
             me.setIf("attach", ps.getString("attach"));
             sql = me.getSQL();
         } else {
             Update me = new Update("res");
+            me.set("class_id", class_id);
             me.setIf("sn", ps.getString("sn"));
             me.setIf("mark", ps.getString("mark"));
             me.setIf("maintain_userid", ps.getString("maintain_userid"));
@@ -359,8 +379,6 @@ public class ResExtService extends BaseService {
             me.setIf("rank", ps.getString("rank"));
             me.setIf("loc", ps.getString("loc"));
             me.setIf("locshow", ps.getString("locshow"));
-            me.set("dr", "0");
-            me.set("class_id", class_id);
             me.setIf("status", ps.getString("status"));
             me.setIf("env", ps.getString("env"));
             me.setIf("risk", ps.getString("risk"));
@@ -385,10 +403,23 @@ public class ResExtService extends BaseService {
             me.setIf("wb_auto", ps.getString("wb_auto"));
             me.setIf("wbout_date",
                     ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 01:00:00");
+            me.setIf("fs1", ps.getString("fs1"));
+            me.setIf("fs2", ps.getString("fs2"));
+            me.setIf("fs3", ps.getString("fs3"));
+            me.setIf("fs4", ps.getString("fs4"));
+            me.setIf("fs5", ps.getString("fs5"));
+            me.setIf("fs6", ps.getString("fs6"));
+            me.setIf("fs7", ps.getString("fs7"));
+            me.setIf("fs20", ps.getString("fs20"));
+            me.setIf("zc_cnt", ps.getString("zc_cnt"));
+            me.setIf("img", ps.getString("img"));
+            me.setIf("attach", ps.getString("attach"));
+            me.where().and("id=?", id);
+            sql = me.getSQL();
 
             Rcd source_recycle_rs = db.uniqueRecord(" select recycle from res where id=?", id);
             if (ToolUtil.isNotEmpty(recycle) && source_recycle_rs != null) {
-                // 获取当前的recycel
+                // 获取当前的recycle
                 String source_recycle = source_recycle_rs.getString("recycle");
                 if (source_recycle == null || source_recycle.equals(recycle)) {
                     ins.set("oper_type", "更新");
@@ -403,21 +434,6 @@ public class ResExtService extends BaseService {
                 ins.set("oper_type", "更新");
             }
 
-            me.setIf("fs1", ps.getString("fs1"));
-            me.setIf("fs2", ps.getString("fs2"));
-            me.setIf("fs3", ps.getString("fs3"));
-            me.setIf("fs4", ps.getString("fs4"));
-            me.setIf("fs5", ps.getString("fs5"));
-            me.setIf("fs6", ps.getString("fs6"));
-            me.setIf("fs7", ps.getString("fs7"));
-            me.setIf("fs20", ps.getString("fs20"));
-            me.setIf("zc_cnt", ps.getString("zc_cnt"));
-            me.where().and("id=?", id);
-
-            me.setIf("img", ps.getString("img"));
-            me.setIf("attach", ps.getString("attach"));
-
-            sql = me.getSQL();
 
         }
 

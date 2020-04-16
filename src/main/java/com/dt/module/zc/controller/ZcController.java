@@ -89,8 +89,13 @@ public class ZcController extends BaseController {
     public R insertBill(SysProcessData entity, String items) {
         String uuid = resExtService.createUuid(entity.getBustype());
         entity.setBusid(uuid);
-        entity.setPstatus(SysUfloProcessService.P_STATUS_SFA);
 
+        if("0".equals(entity.getIfsp())){
+            entity.setPstatus(SysUfloProcessService.P_STATUS_FINISH);
+            entity.setPstatusdtl(SysUfloProcessService.P_DTL_STATUS_FINISH_WITHOUTFLOW);
+        }else{
+            entity.setPstatus(SysUfloProcessService.P_STATUS_SFA);
+        }
         //  entity.setPstartuserid(this.getUserId());
         //  entity.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
         entity.setPtype(SysUfloProcessService.P_TYPE_FLOW);

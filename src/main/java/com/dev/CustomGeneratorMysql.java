@@ -89,13 +89,12 @@ public class CustomGeneratorMysql {
         });
 
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/dt2?useUnicode=true&characterEncoding=utf8&useSSL=false");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/dt?useUnicode=true&characterEncoding=utf8&useSSL=false");
         dsc.setUsername("root");
         dsc.setPassword("root_pwd");
         mpg.setDataSource(dsc);
 
         // 策略配置
-        // 公共字段
         List<TableFill> tableFillList = new ArrayList<>();
         tableFillList.add(new TableFill("dr", FieldFill.INSERT));
         tableFillList.add(new TableFill("create_by", FieldFill.INSERT));
@@ -113,8 +112,8 @@ public class CustomGeneratorMysql {
         // "","sys_qud_qux"
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
-        String busRoute = "hrm";
-        strategy.setInclude(new String[]{"hrm_org_part"}); // 需要生成的表
+        String busRoute = "cmdb";
+        strategy.setInclude(new String[]{"res_history"}); // 需要生成的表
         // strategy.setInclude(scanner("表名"));
 
         strategy.setTableFillList(tableFillList);

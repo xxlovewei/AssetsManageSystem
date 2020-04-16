@@ -1,46 +1,58 @@
 package com.dt.module.flow.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author algernonking
- * @since 2020-04-08
+ * @since 2020-04-16
  */
-
+ 
 @TableName("sys_process_data")
-
+ 
 public class SysProcessData extends BaseModel<SysProcessData> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId("id")
     private String id;
+    /**
+     * 业务id
+     */
     @TableField("busid")
     private String busid;
     /**
-     * process,form
+     * 业务类型 flow,form
      */
     @TableField("bustype")
     private String bustype;
+    /**
+     * 流程Key
+     */
     @TableField("processkey")
     private String processkey;
+    /**
+     * 流程名称
+     */
     @TableField("processname")
     private String processname;
+    /**
+     * 流程版本
+     */
     @TableField("processversion")
     private String processversion;
+    /**
+     * 流程实例化后的ID
+     */
     @TableField("processInstanceId")
     private String processInstanceId;
     /**
@@ -49,28 +61,31 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     @TableField("ptitle")
     private String ptitle;
     /**
-     * LY,JY...
+     * 流程类型(LY,JY...)
      */
     @TableField("ptype")
     private String ptype;
+    /**
+     * 流程子类型
+     */
     @TableField("psubtype")
     private String psubtype;
     /**
-     * 流程状态是否结算
-     * waiting 等待送审
-     * inreview  审批中
-     * finish 审批?
+     * 
+waiting 
+inreview  
+finish ?
      */
     @TableField("pstatus")
     private String pstatus;
     /**
-     * success 成功
-     * failed 失败
+     * success 
+failed 
      */
     @TableField("pstatusdtl")
     private String pstatusdtl;
     /**
-     * 流程发起人
+     * 流程发起人用户ID
      */
     @TableField("pstartuserid")
     private String pstartuserid;
@@ -79,10 +94,18 @@ public class SysProcessData extends BaseModel<SysProcessData> {
      */
     @TableField("pstartusername")
     private String pstartusername;
+    /**
+     * 流程结束时间
+     */
     @TableField("pendtime")
     private Date pendtime;
+    /**
+     * 流程调用的表单ID
+     */
     @TableField("formid")
     private String formid;
+    @TableField("ifsp")
+    private String ifsp;
 
 
     public String getId() {
@@ -213,6 +236,14 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         this.formid = formid;
     }
 
+    public String getIfsp() {
+        return ifsp;
+    }
+
+    public void setIfsp(String ifsp) {
+        this.ifsp = ifsp;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -221,22 +252,23 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     @Override
     public String toString() {
         return "SysProcessData{" +
-                "id=" + id +
-                ", busid=" + busid +
-                ", bustype=" + bustype +
-                ", processkey=" + processkey +
-                ", processname=" + processname +
-                ", processversion=" + processversion +
-                ", processInstanceId=" + processInstanceId +
-                ", ptitle=" + ptitle +
-                ", ptype=" + ptype +
-                ", psubtype=" + psubtype +
-                ", pstatus=" + pstatus +
-                ", pstatusdtl=" + pstatusdtl +
-                ", pstartuserid=" + pstartuserid +
-                ", pstartusername=" + pstartusername +
-                ", pendtime=" + pendtime +
-                ", formid=" + formid +
-                "}";
+        "id=" + id +
+        ", busid=" + busid +
+        ", bustype=" + bustype +
+        ", processkey=" + processkey +
+        ", processname=" + processname +
+        ", processversion=" + processversion +
+        ", processInstanceId=" + processInstanceId +
+        ", ptitle=" + ptitle +
+        ", ptype=" + ptype +
+        ", psubtype=" + psubtype +
+        ", pstatus=" + pstatus +
+        ", pstatusdtl=" + pstatusdtl +
+        ", pstartuserid=" + pstartuserid +
+        ", pstartusername=" + pstartusername +
+        ", pendtime=" + pendtime +
+        ", formid=" + formid +
+        ", ifsp=" + ifsp +
+        "}";
     }
 }

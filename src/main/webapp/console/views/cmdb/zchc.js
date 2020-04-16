@@ -1,266 +1,13 @@
- function modalresBatchUpdateCtl($timeout, $localStorage, notify, $log, $uibModal,
-		$uibModalInstance, $scope, meta, $http, $rootScope,  
-		$compile) {
-	var tgdict=meta.gdicts;
-	$scope.item={};
-	$scope.item.ids=meta.selrows;
-	$scope.date = {
-			buytime2 : moment().subtract(15, "days"),
-			wboutdate2 : moment().add(1, 'days')
-		}
-	$scope.ifrecycleOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifrecycleSel=$scope.ifrecycleOpt[0];
-	$scope.recycleOpt=[];
-	$scope.recycleSel="";
-	if(angular.isDefined(tgdict.devrecycle)){
-		$scope.recycleOpt=tgdict.devrecycle;
-		if(tgdict.devrecycle.length>0){
-			$scope.recycleSel=tgdict.devrecycle[0];
-		}
-	}
-	
-	$scope.ifriskOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifriskSel=$scope.ifriskOpt[0];
-	$scope.riskOpt=[];
-	$scope.riskSel="";
-	if(angular.isDefined(tgdict.devrisk)){
-		$scope.riskOpt=tgdict.devrisk;
-		if(tgdict.devrisk.length>0){
-			$scope.riskSel=tgdict.devrisk[0];
-		}
-	}
-	
-	$scope.ifenvOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifenvSel=$scope.ifenvOpt[0];
-	$scope.envOpt=[];
-	$scope.envSel="";
-	if(angular.isDefined(tgdict.devenv)){
-		$scope.envOpt=tgdict.devenv;
-		if(tgdict.devenv.length>0){
-			$scope.envSel=tgdict.devenv[0];
-		}
-	}
-	
-	$scope.ifwbOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifwbSel=$scope.ifwbOpt[0];
-	$scope.wbOpt=[];
-	$scope.wbSel="";
-	if(angular.isDefined(tgdict.devwb)){
-		$scope.wbOpt=tgdict.devwb;
-		if(tgdict.devwb.length>0){
-			$scope.wbSel=tgdict.devwb[0];
-		}
-	}
-	
-	$scope.ifusedPartOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifusedPartSel=$scope.ifusedPartOpt[0];
-	$scope.partOpt=[];
-	$scope.partSel="";
-	if(angular.isDefined(tgdict.parts)){
-		$scope.partOpt=tgdict.parts;
-		if(tgdict.parts.length>0){
-			$scope.partSel=tgdict.parts[0];
-		}
-	}
 
-	$scope.ifusedUserOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifusedUserSel=$scope.ifusedUserOpt[0];
-	$scope.usedunameOpt=[];
-	$scope.usedunameSel="";
-	if(angular.isDefined(tgdict.partusers)){
-		$scope.usedunameOpt=tgdict.partusers;
-		if(tgdict.partusers.length>0){
-			$scope.usedunameSel=tgdict.partusers[0];
-		}
-	}
-	
-	$scope.iflocOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.iflocSel=$scope.iflocOpt[0];
-	$scope.locOpt=[];
-	$scope.locSel="";
-	if(angular.isDefined(tgdict.devdc)){
-		$scope.locOpt=tgdict.devdc;
-		if(tgdict.devdc.length>0){
-			$scope.locSel=tgdict.devdc[0];
-		}
-	}
-	
-	$scope.ifbuyOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifbuySel=$scope.ifbuyOpt[0];
-	
-	$scope.ifTbOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.ifTbSel=$scope.ifTbOpt[0];
-	
-	$scope.iftbComputeOpt=[{id:"N",name:"不更"},{id:"Y",name:"更新"}];
-	$scope.iftbComputeSel=$scope.iftbComputeOpt[0];
-	$scope.tbOpt=[];
-	$scope.tbSel="";
-	if(angular.isDefined(tgdict.zcwbcomoute)){
-		$scope.tbOpt=tgdict.zcwbcomoute;
-		if(tgdict.zcwbcomoute.length>0){
-			$scope.tbSel=tgdict.zcwbcomoute[0];
-		}
-	}
-	 
-	
-	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
-	};
+function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+		$log, notify,$scope, $http, $rootScope, $uibModal, $window,$state) {
 
-	$scope.sure = function() {
-		 
-		$scope.item.ifrecycleSel=$scope.ifrecycleSel.id;
-		$scope.item.recycleSel=$scope.recycleSel.dict_item_id;
-		
-		$scope.item.ifriskSel=$scope.ifriskSel.id;
-		$scope.item.riskSel=$scope.riskSel.dict_item_id;
-		
-		$scope.item.ifenvSel=$scope.ifenvSel.id;
-		$scope.item.envSel=$scope.envSel.dict_item_id;
-
-		$scope.item.ifwbSel=$scope.ifwbSel.id;
-		$scope.item.wbSel=$scope.wbSel.dict_item_id;
-		
-		$scope.item.ifusedPartSel=$scope.ifusedPartSel.id;
-		$scope.item.partSel=$scope.partSel.partid;
-		
-		$scope.item.ifusedUserSel=$scope.ifusedUserSel.id;
-		$scope.item.usedunameSel=$scope.usedunameSel.user_id;
-		
-		$scope.item.ifbuySel=$scope.ifbuySel.id;
-		$scope.item.buy_time_f = $scope.date.buytime2.format('YYYY-MM-DD');
-		
-		$scope.item.ifTbSel=$scope.ifTbSel.id;
-		$scope.item.wbout_date_f = $scope.date.wboutdate2.format('YYYY-MM-DD');
-		
-		$scope.item.iftbComputeSel=$scope.iftbComputeSel.id;
-		$scope.item.tbSel=$scope.tbSel.dict_item_id;
-		
-		$scope.item.iflocSel=$scope.iflocSel.id;
-		$scope.item.locSel=$scope.locSel.dict_item_id;
-		
-		$http
-		.post(
-				$rootScope.project
-						+ "/api/base/res/batchUpdateRes.do",
-						$scope.item)
-		.success(function(res) {
-			if (res.success) {
-				$uibModalInstance.close('OK');
-			} else {
-				notify({
-					message : res.message
-				});
-			}
-		});
- 
-	}
-}
-
-
-function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
-		$log, notify,$scope, $http, $rootScope, $uibModal, $window,$state,$timeout) {
- 
 	var pbtns=$rootScope.curMemuBtns;
-
-	var gclass_id ="";
-	var gdicts = {};
-	$http.post($rootScope.project + "/api/sysParams/selectById.do", {id: $state.router.globals.current.data.classid})
-	.success(function(res) {
-		if (res.success) {
-			if(!angular.isDefined(res.data)){
-				notify({
-					message : "未成功获取大类编码,请先设置参数"
-				});
-			}
-			gclass_id=res.data.value;
-			var dicts = "zcwbcomoute,devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack";
-			// 判断输入框
-			var subclass="N";
-			if (angular.isDefined($state.router.globals.current.data.subclass)) {
-				subclass=gclass_id;
-			}
-			
-			$http
-					.post($rootScope.project + "/api/base/res/queryDictFast.do", {
-						dicts : dicts,
-						parts : "Y",
-						partusers : "Y",
-						subclass:subclass
-					})
-					.success(
-							function(res) {
-								if (res.success) {
-									gdicts = res.data;
-									// 资产大类
-									if (!angular
-											.isDefined($state.router.globals.current.data.subclass)) {
-										gdicts.btype = [];
-									}else{
-									}
-									// 未使用
-									gdicts.stype = [];
-									
-									// 填充行数据
-									var tenv = [];
-									angular.copy(gdicts.devenv, tenv);
-									var twb = [];
-									angular.copy(gdicts.devwb, twb);
-									var tloc = [];
-									angular.copy(gdicts.devdc, tloc);
-									var trecycle = [];
-									angular.copy(gdicts.devrecycle, trecycle);
-									var parts = [];
-									angular.copy(gdicts.parts, parts);
-									var partusers = [];
-									angular.copy(gdicts.partusers, partusers);
-									
-									tloc.unshift({
-										dict_item_id : "all",
-										name : "全部"
-									});
-									$scope.meta.tools[0].dataOpt = tloc;
-									$scope.meta.tools[0].dataSel = tloc[0];
-									
-									tenv.unshift({
-										dict_item_id : "all",
-										name : "全部"
-									});
-									$scope.meta.tools[1].dataOpt = tenv;
-									$scope.meta.tools[1].dataSel = tenv[0];
-									
-									twb.unshift({
-										dict_item_id : "all",
-										name : "全部"
-									});
-									$scope.meta.tools[2].dataOpt = twb;
-									$scope.meta.tools[2].dataSel = twb[0];
-									
-									trecycle.unshift({
-										dict_item_id : "all",
-										name : "全部"
-									});
-									$scope.meta.tools[3].dataOpt = trecycle;
-									$scope.meta.tools[3].dataSel = trecycle[0];
-									flush();
-								} else {
-									notify({
-										message : res.message
-									});
-								}
-							})
-			
-		} else {
-			notify({
-				message : res.message
-			});
-		}
-	})
-	
+	var gclassroot='7';
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
 			.withPaginationType('full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", true).withOption('scrollY', 600)
+			.withOption("searching", false).withOption('scrollY', 600)
 			.withOption('scrollX', true).withOption('bAutoWidth', true)
 			.withOption('scrollCollapse', true).withOption('paging', true)
 			.withFixedColumns({
@@ -287,7 +34,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	                extend: 'colvis',
 	                text: '显示隐藏列',
 	                fnLabel: function ( dt, idx, title ) {
-	      
+	                	 
 	                    return (idx+1)+': '+title;
 	                } 
 	            },
@@ -317,7 +64,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	        ]);
 
 	function stateChange(iColumn, bVisible) {
-        
+      
     }
 	$scope.dtInstance = {}
 	$scope.selectCheckBoxAll = function(selected) {
@@ -325,7 +72,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			$scope.dtInstance.DataTable.rows().select();
 		} else {
 			$scope.dtInstance.DataTable.rows().deselect();
-		 
+			 
 		}
 	}
 
@@ -337,8 +84,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
 			'sDefaultContent', '').withOption("width", '30'));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
-		'sDefaultContent', '').withOption("width", '30'));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
 				 'sDefaultContent', '').withOption("width", '30'));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
@@ -346,38 +91,23 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
 			 'sDefaultContent', '').withOption('width', '50')
 			 .renderWith(renderName));		
-	
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
-			 'sDefaultContent', '').withOption('width', '50')
-			);
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
 			 'sDefaultContent', '').withOption('width', '30'));		
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
 			 'sDefaultContent', '').withOption('width', '30'));		
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
-			 'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));		
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));	
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
 			 'sDefaultContent', ''));	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
 			 'sDefaultContent', ''));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('机柜').withOption(
-			 'sDefaultContent', '').renderWith(renderJg));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
-			 'sDefaultContent', ''));	
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
 			 'sDefaultContent', ''));	
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
-			 .withOption('sDefaultContent', '').renderWith(renderReview));	
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
 			 .withOption('sDefaultContent', ''));	
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
+			 'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
 			 .withOption('sDefaultContent', ''));			
-	$scope.dtColumns.push(   DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
-			 .withOption('sDefaultContent', ''));		
+	
 
 	$scope.query = function() {
 		flush();
@@ -413,15 +143,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "btn2",
 					label : "",
 					type : "btn",
-					show:false,
-					priv:"item_update",
-					template : ' <button ng-click="batchupate()" class="btn btn-sm btn-primary" type="submit">批量更新</button>'
-				},
-
-				{
-					id : "btn2",
-					label : "",
-					type : "btn",
 					show:true,
 					template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
 				},
@@ -451,30 +172,20 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			dataSel : ""
 		}, {
 			id : "select",
-			label : "环境",
-			type : "select",
-			disablesearch : true,
-			show:true,
-			dataOpt : [],
-			dataSel : ""
-		}, {
-			id : "select",
-			label : "维保",
-			type : "select",
-			disablesearch : true,
-			show:true,
-			dataOpt : [],
-			dataSel : ""
-		}, {
-			id : "select",
 			label : "状态",
 			type : "select",
 			disablesearch : true,
 			show:true,
 			dataOpt : [],
 			dataSel : ""
-		}
-		]
+		}, {
+			id : "input",
+			show:true,
+			label : "内容",
+			placeholder : "输入型号、编号、序列号",
+			type : "input",
+			ct : ""
+		} ]
 	};
  
 	$scope.meta=meta;
@@ -482,12 +193,10 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	function flush() {
 		var ps = {}
-		ps.class_id = gclass_id;
+		ps.classroot =gclassroot;
 		ps.loc = $scope.meta.tools[0].dataSel.dict_item_id;
-		ps.env = $scope.meta.tools[1].dataSel.dict_item_id;
-		ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
-		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
-		// ps.search = $scope.meta.tools[4].ct;
+		ps.recycle = $scope.meta.tools[1].dataSel.dict_item_id;
+		ps.search = $scope.meta.tools[2].ct;
 		$http.post($rootScope.project + "/api/base/res/queryResAllByClass.do", ps)
 				.success(function(res) {
 					if (res.success) {
@@ -503,18 +212,81 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.filedown = function() {
 		var ps = {}
-		ps.id = gclass_id;
+		ps.classroot =gclassroot;
 		ps.loc = $scope.meta.tools[0].dataSel.dict_item_id;
-		ps.env = $scope.meta.tools[1].dataSel.dict_item_id;
-		ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
-		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
-		ps.search = $scope.meta.tools[4].ct;
+		ps.recycle = $scope.meta.tools[1].dataSel.dict_item_id;
+		ps.search = $scope.meta.tools[2].ct;
 		$window.open($rootScope.project
 				+ "/api/base/res/exportServerData.do?id=" + ps.id + "&loc="
 				+ ps.loc + "&env=" + ps.env + "&wb=" + ps.wb + "&recycle="
 				+ ps.recycle + "&search=" + ps.search);
 	}
 
+	var gdicts = {};
+	//
+	var dicts = "zcwbcomoute,devbrand,devwb,zchcloc,zchcstatus,zcbjloc,zcbjstatus";
+	
+
+	$http
+			.post($rootScope.project + "/api/base/res/queryDictFast.do", {
+				dicts : dicts,
+				parts : "Y",
+				partusers : "Y",
+				classroot:gclassroot
+			})
+			.success(
+					function(res) {
+						if (res.success) {
+							console.log(res.data.btype);
+							gdicts = res.data;
+
+							var btype = [];
+							angular.copy(gdicts.btype, btype);
+							// 填充行数据
+							var tenv = [];
+							angular.copy(gdicts.devenv, tenv);
+							var twb = [];
+
+
+
+							var tloc = [];
+							var tloc2 = [];
+							angular.copy(gdicts.zchcloc, tloc2);
+							angular.copy(tloc2, tloc);
+							gdicts.devdc=tloc2;
+
+							var trecycle = [];
+							var trecycle2=[];
+							angular.copy(gdicts.zchcstatus, trecycle2);
+							angular.copy(trecycle2, trecycle);
+							gdicts.devrecycle=trecycle2;
+
+							var parts = [];
+							angular.copy(gdicts.parts, parts);
+							var partusers = [];
+							angular.copy(gdicts.partusers, partusers);
+
+
+							tloc.unshift({
+								dict_item_id : "all",
+								name : "全部"
+							});
+							$scope.meta.tools[0].dataOpt = tloc;
+							$scope.meta.tools[0].dataSel = tloc[0];
+
+							trecycle.unshift({
+								dict_item_id : "all",
+								name : "全部"
+							});
+							$scope.meta.tools[1].dataOpt = trecycle;
+							$scope.meta.tools[1].dataSel = trecycle[0];
+							flush();
+						} else {
+							notify({
+								message : res.message
+							});
+						}
+					})
 					
 					
 					
@@ -667,11 +439,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 		$http
 				.post($rootScope.project + "/api/base/res/queryResAllById.do", {
-					id : id,
-					classId : gclass_id
+					id : id
 				})
 				.success(
 						function(res) {
+					 
 							if (!res.success) {
 								notify({
 									message : res.message
@@ -679,6 +451,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								return;
 							}
 							var meta = {};
+
 							var items = [ ]; 
 							items.push({
 								type : "input",
@@ -693,19 +466,17 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								ng_model : "uuid"
 							});
 							
-							// 资产大类
-							if (angular
-									.isDefined($state.router.globals.current.data.subclass) || $state.router.globals.current.data.classid == "zcotherhard"  ) {
-								items.push({
+						 
+							items.push({
 									type : "select",
 									disabled : "true",
 									label : "资产类型",
 									need : false,
-									disable_search : "true",
+									disable_search : "false",
 									dataOpt : "classOpt",
 									dataSel : "classSel"
 								});
-							}  
+						
  					 
 							items.push({
 								type : "input",
@@ -731,20 +502,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								name : 'sn',
 								ng_model : "sn"
 							});		
-							
-
-							items.push({
-								type : "input",
-								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入内容",
-								label : "IP",
-								need : false,
-								name : 'ip',
-								ng_model : "ip"
-							});
 							
 							items.push( {
 								type : "select",
@@ -778,26 +535,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disable_search : "true",
 								dataOpt : "pinpOpt",
 								dataSel : "pinpSel"
-							});
-							items.push( {
-								type : "select",
-								disabled : "false",
-								label : "风险等级",
-								need : false,
-								disable_search : "true",
-								dataOpt : "riskOpt",
-								dataSel : "riskSel"
-							});
-						 
-								items.push( {
-									type : "select",
-									disabled : "false",
-									label : "运行环境",
-									need : false,
-									disable_search : "true",
-									dataOpt : "envOpt",
-									dataSel : "envSel"
-								});
+							}); 
 						 
 							items.push( {
 								type : "select",
@@ -825,9 +563,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataOpt : "wbOpt",
 								dataSel : "wbSel"
 							});
-						 
-						
-							
+
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -838,42 +574,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataSel : "locSel"
 							});
 						 
-							items.push({
-								type : "select",
-								disabled : "false",
-								label : "机柜编号",
-								need : false,
-								disable_search : "true",
-								dataOpt : "jgOpt",
-								dataSel : "jgSel"
-							});
-							 
 						 
-							items.push({
-								type : "input",
-								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入机架编号",
-								label : "机架编号",
-								need : false,
-								name : 'frame',
-								ng_model : "frame"
-							});
-						 
-							items.push({
-								type : "input",
-								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入详细位置",
-								label : "详细位置",
-								need : false,
-								name : 'locdtl',
-								ng_model : "locdtl"
-							});
 							items.push({
 								type : "datetime",
 								disabled : "false",
@@ -942,7 +643,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								sub_type : "text",
 								required : false,
 								maxlength : "50",
-								placeholder : "请输入标签1",
+								placeholder : "请输入标签",
 								label : "标签1",
 								need : false,
 								name : 'fs1',
@@ -976,40 +677,20 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							});
 					
 							
-							
 							items.push({
 								type : "input",
 								disabled : "false",
 								sub_type : "text",
 								required : false,
-								maxlength : "500",
+								maxlength : "50",
 								placeholder : "请输入备注",
 								label : "备注",
 								need : false,
 								name : 'mark',
 								ng_model : "mark"
 							});
-
-							items.push({
-								type : "picupload",
-								disabled : "false", 
-								required : false,
-								label : "图片",
-								need : false,
-								conf:"picconfig"
-							});
-							items.push({
-								type : "fileupload",
-								disabled : "false", 
-								required : false,
-								label : "附件",
-								need : false,
-								conf:"attachconfig"
-							});
 						 
-					
-					 
-							
+
 							var bt = moment().subtract(1, "days");
 							var tbtime = moment();
 
@@ -1027,7 +708,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							}
 
 							meta = {
-								class_id : gclass_id,
+								classroot:gclassroot,
 								footer_hide : false,
 								title : "资产-"+$state.router.globals.current.data.pageTitle,
 								item : {},
@@ -1059,93 +740,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								jgSel : "",
 								riskOpt : [],
 								riskSel : "",
-								picconfig : {
-									url : 'fileupload.do',
-									maxFilesize : 10000,
-									paramName : "file",
-									maxThumbnailFilesize : 6,
-									// 一个请求上传多个文件
-									uploadMultiple : true,
-									// 当多文件上传,需要设置parallelUploads>=maxFiles
-									parallelUploads : 6,
-									maxFiles : 6,
-									dictDefaultMessage : "点击上传图片",
-									acceptedFiles : "image/jpeg,image/png,image/gif",
-									// 添加上传取消和删除预览图片的链接，默认不添加
-									addRemoveLinks : true,
-									// 关闭自动上传功能，默认会true会自动上传
-									// 也就是添加一张图片向服务器发送一次请求
-									autoProcessQueue : false,
-									init : function() {
-										$scope.myDropzonepic = this; 
-									}
-								},
-								attachconfig:{
-									url : 'fileupload.do',
-									maxFilesize : 10000,
-									paramName : "file",
-									maxThumbnailFilesize : 1,
-									// 一个请求上传多个文件
-									uploadMultiple : true,
-									// 当多文件上传,需要设置parallelUploads>=maxFiles
-									parallelUploads : 1,
-									maxFiles : 1,
-									dictDefaultMessage : "点击上传附件",
-									acceptedFiles : "image/jpeg,image/png,image/gif",
-									// 添加上传取消和删除预览图片的链接，默认不添加
-									addRemoveLinks : true,
-									// 关闭自动上传功能，默认会true会自动上传
-									// 也就是添加一张图片向服务器发送一次请求
-									autoProcessQueue : false,
-									init : function() {
-										$scope.myDropzonefile = this; 
-									}
-								},
 								items : items,
 								sure : function(modalInstance, modal_meta) {
-									
-									console.log("pic",$scope.myDropzonepic);
-									// 只允许传一张图片
-									modal_meta.meta.item.img="";
-									if($scope.myDropzonepic.files.length>0&&$scope.myDropzonepic.files.length==1){
-										 var id = getUuid();
-										  if (typeof ($scope.myDropzonepic.files[0].uuid) == "undefined") {
-											  // 需要上传
-								                $scope.myDropzonepic.options.url = $rootScope.project
-								                        + '/api/file/fileupload.do?uuid=' + id
-								                        + '&bus=file&interval=10000&bus=file';
-								                $scope.myDropzonepic.uploadFile($scope.myDropzonepic.files[0])
-								            } else {
-								                id = $scope.myDropzonepic.files[0].uuid;
-								            } 
-								           modal_meta.meta.item.img=id;
-									}
-									
-									// 只允许传一张附件
-									modal_meta.meta.item.attach="";
-									if($scope.myDropzonefile.files.length>0&&$scope.myDropzonefile.files.length==1){
-										 var id = getUuid();
-										  if (typeof ($scope.myDropzonefile.files[0].uuid) == "undefined") {
-											  // 需要上传
-								                $scope.myDropzonefile.options.url = $rootScope.project
-								                        + '/api/file/fileupload.do?uuid=' + id
-								                        + '&bus=file&interval=10000&bus=file';
-								                $scope.myDropzonefile.uploadFile($scope.myDropzonefile.files[0])
-								            } else {
-								                id = $scope.myDropzonefile.files[0].uuid;
-								            } 
-								           modal_meta.meta.item.attach=id;
-									}
-
-									 
-									
-									if(angular
-											.isDefined($state.router.globals.current.data.subclass)){
-										
-										modal_meta.meta.item.class_id = modal_meta.meta.classSel.dict_item_id;
-									}else{
-										modal_meta.meta.item.class_id = gclass_id;
-									}
+								 
+  
+									modal_meta.meta.item.class_id = modal_meta.meta.classSel.dict_item_id;
 									
 									if(angular.isDefined(modal_meta.meta.typeSel.dict_item_id)){
 										modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
@@ -1158,10 +757,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									if(angular.isDefined( modal_meta.meta.usedunameSel.user_id)){
 										modal_meta.meta.item.used_userid = modal_meta.meta.usedunameSel.user_id;
 									}
-								
-									if(angular.isDefined( modal_meta.meta.envSel.dict_item_id)){
-										modal_meta.meta.item.env = modal_meta.meta.envSel.dict_item_id;
-									}
+								 
 									
 									if(angular.isDefined( modal_meta.meta.recycelSel.dict_item_id)){
 										modal_meta.meta.item.recycle = modal_meta.meta.recycelSel.dict_item_id;
@@ -1180,14 +776,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 										modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
 									}
 
-									if(angular.isDefined( modal_meta.meta.riskSel.dict_item_id)){
-										modal_meta.meta.item.risk = modal_meta.meta.riskSel.dict_item_id;
-									}
-									
-									if(angular.isDefined( modal_meta.meta.jgSel.dict_item_id)){
-										modal_meta.meta.item.rack =modal_meta.meta.jgSel.dict_item_id ;
-									}
-									
+								 
 
 									if(angular.isDefined( modal_meta.meta.tbSel.dict_item_id)){
 										modal_meta.meta.item.wb_auto =modal_meta.meta.tbSel.dict_item_id ;
@@ -1211,7 +800,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									}
 									modal_meta.meta.item.attrvals = angular
 											.toJson(modal_meta.meta.attr);
-								 
+									 
 									$http
 											.post(
 													$rootScope.project
@@ -1232,61 +821,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									var tt = {};
 									angular.copy(gdicts, tt)
 									loadOpt(modal_meta, tt);
-									 
-									var iid=modal_meta.meta.item.img;
-									if(angular.isDefined(iid)&&iid.length>0){
-										$timeout(function() {
-											var mockFile = {
-												name : "主图",
-												uuid : iid,
-												href : $rootScope.project
-														+ "/api/file/imagedown.do?id="
-														+iid,
-												url : $rootScope.project
-														+ "/api/file/imagedown.do?id="
-														+ iid,
-												status : "success",
-												accepted : true,
-												type : 'image/png'
-											};
-											$scope.myDropzonepic.emit("addedfile", mockFile);
-											$scope.myDropzonepic.files.push(mockFile);
-											// manually
-											$scope.myDropzonepic.createThumbnailFromUrl(
-													mockFile, $rootScope.project
-															+ "/api/file/imagedown.do?id="
-															+ iid);
-											$scope.myDropzonepic.emit("complete", mockFile); 
-										}, 300);	
-									}
-									
-									var iidf=modal_meta.meta.item.attach;
-									if(angular.isDefined(iidf)&&iidf.length>0){
-									$timeout(function() {
-											var mockFile = {
-												name : "主图",
-												uuid : iidf,
-												href : $rootScope.project
-														+ "/api/file/imagedown.do?id="
-														+iidf,
-												url : $rootScope.project
-														+ "/api/file/imagedown.do?id="
-														+ iidf,
-												status : "success",
-												accepted : true,
-												type : 'image/png'
-											};
-											$scope.myDropzonefile.emit("addedfile", mockFile);
-											$scope.myDropzonefile.files.push(mockFile);
-											// manually
-											$scope.myDropzonefile.createThumbnailFromUrl(
-													mockFile, $rootScope.project
-															+ "/api/file/imagedown.do?id="
-															+ iidf);
-											$scope.myDropzonefile.emit("complete", mockFile); 
-										}, 300);
-										}
- 
 
 								}
 							}
@@ -1343,14 +877,13 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								}
 
 							}
- 
+
+						 
 							// 打开静态框
 							var modalInstance = $uibModal
 									.open({
 										backdrop : true,
 										templateUrl : 'views/Template/modal_simpleForm.html',
-									// templateUrl :
-									// 'views/cmdb/modal_test.html',
 										controller : modal_simpleFormCtl,
 										size : 'lg',
 										resolve : {
@@ -1372,4 +905,4 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 };
 
-app.register.controller('genericdevCtl', genericdevCtl);
+app.register.controller('zcHcCtl',zcHcCtl);

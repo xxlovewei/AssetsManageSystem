@@ -1,6 +1,7 @@
 function cmdbCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $timeout) {
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $timeout,$state) {
 
+	console.log('11',$state.router.globals.current.data)
 	$scope.actionOpt = [ {
 		id : "Y",
 		name : "有效"
@@ -14,7 +15,9 @@ function cmdbCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.catRootSel = "";
 	$scope.item = {};
 	var ps={};
-	ps.ids=angular.toJson([3]);
+	var parm=[];
+	parm.push($state.router.globals.current.data.code);
+	ps.ids=angular.toJson(parm);
 	$http.post($rootScope.project + "/api/ctCategoryRoot/ext/selectList.do", ps)
 			.success(function(res) {
 				if (res.success) {

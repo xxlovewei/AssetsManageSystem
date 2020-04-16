@@ -166,7 +166,31 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         templateUrl: "views/common/content.html?v=" + version
     }).state('cmsetting.zccat', {
         url: "/cmsetting_zccat?psBtns",
-        data: {pageTitle: '资产分类'},
+        data: {pageTitle: '资产分类', code:"3"},
+        templateUrl: "views/cmdb/zccategory.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/zccategory.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('cmsetting.hccat', {
+        url: "/cmsetting_hccat?psBtns",
+        data: {pageTitle: '耗材分类', code:"7"},
+        templateUrl: "views/cmdb/zccategory.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/zccategory.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('cmsetting.bjcat', {
+        url: "/cmsetting_bjcat?psBtns",
+        data: {pageTitle: '备件分类', code:"8"},
         templateUrl: "views/cmdb/zccategory.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
@@ -254,24 +278,47 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         });
 
 
-    // cmdb
+    // 备件管理
     $stateProvider.state('bjmgr', {
         abstract: true,
         url: "/bjmgr",
         templateUrl: "views/common/content.html?v=" + version
     }).state('bjmgr.bjpj', {
         url: "/bjmgr_bjpj",
-        data: {pageTitle: 'IT备件配件', classid: 'bjpj', input_type: "devbjpj"},
-        templateUrl: "views/cmdb/html_genericdev.html?v=" + version,
+        data: {pageTitle: '备件配件'},
+        templateUrl: "views/cmdb/zcbj.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/js_genericdev.js?v=' + version]
+                    files: ['views/cmdb/zcbj.js?v=' + version]
                 }]);
             }
         }
-    })
+    });
+
+    // 耗材管理
+    $stateProvider.state('hcmgr', {
+        abstract: true,
+        url: "/hcmgr",
+        templateUrl: "views/common/content.html?v=" + version
+    }).state('hcmgr.hc', {
+        url: "/hcmgr_hc",
+        data: {pageTitle: '耗材'},
+        templateUrl: "views/cmdb/zchc.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/zchc.js?v=' + version]
+                }]);
+            }
+        }
+    });
+
+
+
+
 
 
     $stateProvider.state('zcmgr', {
@@ -757,6 +804,8 @@ function renderZCSPStatus(data, type, full) {
 function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compile,
                              $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta, pagetype, task,
                              $uibModalInstance) {
+    $scope.hidectl={"flowform":true,"flowchart":true,"flowsuggestlist":true,"flowsuggest":true};
+
     console.log(meta);
     console.log(task);
     console.log(pagetype);
@@ -839,7 +888,11 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                 if (res.success) {
                     $scope.data = res.data;
                     $scope.dtOptions.aaData = res.data.items;
+                    if(res.data.ifsp=="1"){
+                        $scope.hidectl={"flowform":false,"flowchart":false,"flowsuggestlist":false,"flowsuggest":false};
+                    }
 
+                    //获取审批
                     if (angular.isDefined(res.data.processInstanceId) && res.data.processInstanceId != "") {
                         $http
                             .post(
@@ -858,7 +911,7 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                                         });
                                     }
                                 })
-
+                        //获取审批
                         $scope.url = $rootScope.project
                             + "uflo/diagram?processInstanceId="
                             + res.data.processInstanceId;
@@ -869,29 +922,33 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                     let vm;
                     $timeout(function () {
                         var jd = decodeURI(res.data.formconf);
-                        let jsonData = angular.fromJson(jd);
-
-                        vm = new Vue({
-                            el: '#app',
-                            data: {
-                                jsonData,
-                                dynamicData
-                            },
-                            mounted() {
-                                this.init()
-                            },
-                            methods: {
-                                init() {
-                                    this.$refs.kfb.setData(res.data.formdata);
+                        if(angular.isDefined(jd)&&jd!="undefined"&&jd!=""){
+                            let jsonData = angular.fromJson(jd);
+                            vm = new Vue({
+                                el: '#app',
+                                data: {
+                                    jsonData,
+                                    dynamicData
                                 },
-                                handleSubmit(p) {
-
+                                mounted() {
+                                    this.init()
                                 },
-                                getData() {
+                                methods: {
+                                    init() {
+                                        this.$refs.kfb.setData(res.data.formdata);
+                                    },
+                                    handleSubmit(p) {
 
+                                    },
+                                    getData() {
+
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        }
+
+
+
                     }, 1000)
 
 

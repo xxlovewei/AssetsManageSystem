@@ -5,11 +5,11 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.dt.module.flow.entity.SysProcessData">
         <id column="id" property="id" />
-    <result column="dr" property="dr" />
     <result column="create_by" property="createBy" />
     <result column="create_time" property="createTime" />
     <result column="update_by" property="updateBy" />
     <result column="update_time" property="updateTime" />
+    <result column="dr" property="dr" />
         <result column="busid" property="busid" />
         <result column="bustype" property="bustype" />
         <result column="processkey" property="processkey" />
@@ -25,6 +25,7 @@
         <result column="pstartusername" property="pstartusername" />
         <result column="pendtime" property="pendtime" />
         <result column="formid" property="formid" />
+        <result column="ifsp" property="ifsp" />
     </resultMap>
 
 </mapper>

@@ -133,7 +133,7 @@ public class ResExtController extends BaseController {
     @Acl(info = "", value = Acl.ACL_ALLOW)
     @RequestMapping(value = "/res/queryDictFast.do")
     @Transactional
-    public R queryDictFast(String dicts, String parts, String partusers, String subclass, String normalclass) {
+    public R queryDictFast(String dicts, String parts, String partusers, String subclass, String classroot) {
 
         JSONObject res = new JSONObject();
         String[] dict_arr = dicts.split(",");
@@ -154,16 +154,17 @@ public class ResExtController extends BaseController {
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
-        if (ToolUtil.isNotEmpty(normalclass)) {
+        if (ToolUtil.isNotEmpty(classroot)) {
+            String subsql=" t.dr='0' and t.root='"+classroot+"' and t.route not like '46%' and t.node_level>1 ";
             RcdSet partrs = db.query("select id dict_item_id,route_name name , name sname from ct_category t where  "
-                    + ResExtService.normalClassSql + " order by route");
+                    +subsql + " order by route");
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
         // 所有部门
         if (ToolUtil.isNotEmpty(parts)) {
             RcdSet partrs = db
-                    .query("select node_id  partid ,route_name name from hrm_org_part where org_id=1 order by route");
+                    .query("select node_id partid ,route_name name from hrm_org_part where org_id=1 order by route");
             res.put("parts", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
@@ -174,7 +175,7 @@ public class ResExtController extends BaseController {
                             + "  a.empl_id=b.empl_id and a.dr='0' and b.dr='0'  and c.node_id=b.node_id");
             res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
         }
-
+        System.out.println(res.toJSONString());
         return R.SUCCESS_OPER(res);
     }
 
@@ -199,20 +200,18 @@ public class ResExtController extends BaseController {
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryResAllByClass.do")
-    public R queryResAllByClass(String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryResAllByClass(String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
 
-        if (ToolUtil.isEmpty(class_id)) {
-            return R.FAILURE_REQ_PARAM_ERROR();
-        }
-        return resExtService.queryResAllGetData(class_id, wb, env, recycle, loc, search);
+
+        return resExtService.queryResAllGetData(classroot,class_id, wb, env, recycle, loc, search);
     }
 
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryResAll.do")
-    public R queryResAll(String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryResAll(String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
 
-        return resExtService.queryResAllGetData(class_id, wb, env, recycle, loc, search);
+        return resExtService.queryResAllGetData(classroot,class_id, wb, env, recycle, loc, search);
 
     }
 
@@ -236,7 +235,7 @@ public class ResExtController extends BaseController {
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryResAllById.do")
-    public R queryResAllById(String id, String classId) {
+    public R queryResAllById(String id) {
 
         JSONObject data = new JSONObject();
 //
@@ -248,14 +247,16 @@ public class ResExtController extends BaseController {
         Rcd rs = db.uniqueRecord("select * from res t where dr=0 and id=?", id);
         if (rs != null) {
             class_id = rs.getString("class_id");
-        } else {
-            class_id = classId;
         }
 
-        // 获取class_id
-        if (ToolUtil.isEmpty(class_id)) {
-            return R.FAILURE_REQ_PARAM_ERROR();
-        }
+//        else {
+//            class_id = classId;
+//        }
+//
+//        // 获取class_id
+//        if (ToolUtil.isEmpty(class_id)) {
+//            return R.FAILURE_REQ_PARAM_ERROR();
+//        }
 
         // 获取属性数据
         RcdSet attrs = null;

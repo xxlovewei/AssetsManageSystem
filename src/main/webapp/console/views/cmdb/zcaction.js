@@ -2,6 +2,9 @@ function modalzcActionSPCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
 		$uibModalInstance, $window, $stateParams,$timeout) {
 		console.log(meta);
+
+
+
 		var url = $rootScope.project + "uflo/diagram?processKey=" + meta.pk;
 		$scope.url = url;
 		let vm;
@@ -83,6 +86,9 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	console.log(meta);
 	$scope.actmsg =meta.actmsg;
 	$scope.data = {};
+	$scope.spOpt=[{id:"1",name:"需要审批"},{id:"0",name:"不需要审批"}];
+	$scope.spSel=$scope.spOpt[0];
+
 	$scope.dtOptions=DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
 		.withPaginationType('full_numbers').withDisplayLength(100)
 		.withOption("ordering", false).withOption("responsive", false)
@@ -155,6 +161,8 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			alert("请先选择资产");
 			return;
 		}
+
+		$scope.data.ifsp=$scope.spSel.id;
 		$scope.data.items = angular.toJson($scope.dtOptions.aaData);
 		$http.post($rootScope.project + "/api/zc/insertBill.do",
 				$scope.data).success(function(res) {
@@ -255,6 +263,18 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 		return html;
 	}
+	function renderSp(data, type, full) {
+		if (data == "1") {
+			return "需要";
+		} else if (data == "0") {
+			return "不需要";
+		} else {
+			return data;
+
+		}
+	}
+
+
 
 	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 	$scope.dtColumns = [];
@@ -271,6 +291,9 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('pstartusername').withTitle('流程发起人')
 		.withOption('sDefaultContent', ''));
+
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('ifsp').withTitle('需要审批')
+		.withOption('sDefaultContent', '').renderWith(renderSp));
 	// if (acttype == "LY") {
 	// 	$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('领用人')
 	// 			.withOption('sDefaultContent', ''));
@@ -569,6 +592,14 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				});
 				return;
 			}
+			if( item.ifsp!="1"){
+				notify({
+					message : "该状态不允许送审"
+				});
+				return;
+			}
+
+
 			if (item.flowtype == "LY") {
 				item.flowcode="process_zcly";
 			} else if (item.flowtype == "JY") {

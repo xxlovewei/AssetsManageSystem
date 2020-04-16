@@ -1,9 +1,9 @@
-package com.dt.module.flow.controller;
+package com.dt.module.cmdb.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.dt.module.flow.entity.SysProcessData;
-import com.dt.module.flow.service.ISysProcessDataService;
+import com.dt.module.cmdb.entity.ResHistory;
+import com.dt.module.cmdb.service.IResHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -30,54 +30,54 @@ import com.dt.core.common.base.BaseController;
  * @since 2020-04-16
  */
 @Controller
-@RequestMapping("/api/flow/sysProcessData")
-public class SysProcessDataController extends BaseController {
+@RequestMapping("/api/cmdb/resHistory")
+public class ResHistoryController extends BaseController {
 
 
 	@Autowired
-	ISysProcessDataService SysProcessDataServiceImpl;
+	IResHistoryService ResHistoryServiceImpl;
 
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysProcessDataServiceImpl.removeById(id));
+		return R.SUCCESS_OPER(ResHistoryServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(SysProcessDataServiceImpl.getById(id));
+		return R.SUCCESS_OPER(ResHistoryServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
-	public R insert(SysProcessData entity) {
-		return R.SUCCESS_OPER(SysProcessDataServiceImpl.save(entity));
+	public R insert(ResHistory entity) {
+		return R.SUCCESS_OPER(ResHistoryServiceImpl.save(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
 	@RequestMapping(value = "/updateById.do")
-	public R updateById(SysProcessData entity) {
-		return R.SUCCESS_OPER(SysProcessDataServiceImpl.updateById(entity));
+	public R updateById(ResHistory entity) {
+		return R.SUCCESS_OPER(ResHistoryServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(SysProcessData entity) {
-		return R.SUCCESS_OPER(SysProcessDataServiceImpl.saveOrUpdate(entity));
+	public R insertOrUpdate(ResHistory entity) {
+		return R.SUCCESS_OPER(ResHistoryServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(SysProcessDataServiceImpl.list(null));
+		return R.SUCCESS_OPER(ResHistoryServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -90,9 +90,9 @@ public class SysProcessDataController extends BaseController {
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
+		QueryWrapper<ResHistory> ew = new QueryWrapper<ResHistory>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<SysProcessData> pdata = SysProcessDataServiceImpl.page(new Page<SysProcessData>(pageindex, pagesize), ew);
+		IPage<ResHistory> pdata = ResHistoryServiceImpl.page(new Page<ResHistory>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
