@@ -77,37 +77,8 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 	}
 
-	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 	$scope.dtColumns = [];
-	$scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
-	'select-checkbox checkbox_center').renderWith(function() {
-		return ""
-	}));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
-			'sDefaultContent', '').withOption("width", '30'));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
-				 'sDefaultContent', '').withOption("width", '30'));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));			 
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
-			 'sDefaultContent', '').withOption('width', '50')
-			 .renderWith(renderName));		
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));		
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));		
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
-			 'sDefaultContent', ''));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
-			 'sDefaultContent', ''));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
-			 'sDefaultContent', ''));	
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-			 .withOption('sDefaultContent', ''));	
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
-			 'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
-			 .withOption('sDefaultContent', ''));			
+	$scope.dtColumns=zcBaseColsCreate(DTColumnBuilder,'withselect');
 	
 
 	$scope.query = function() {
@@ -165,7 +136,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				} ],
 		tools : [ {
 			id : "select",
-			label : "位置",
+			label : "区域",
 			type : "select",
 			disablesearch : true,
 			show:true,
@@ -564,7 +535,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							items.push( {
 								type : "select",
 								disabled : "false",
-								label : "资产位置",
+								label : "区域",
 								need : false,
 								disable_search : "true",
 								dataOpt : "locOpt",

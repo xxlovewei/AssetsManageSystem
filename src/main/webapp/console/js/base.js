@@ -372,7 +372,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                 tmp_tpl = tmp_tpl + "</div> ";
                 formhtml = formhtml + tmp_tpl;
             } else if (obj.type == "dashed") {
-                formhtml = formhtml + "<div class=\"hr-line-dashed\"></div>";
+                formhtml = formhtml + "<div  style='color:red' class=\"hr-line-dashed\"></div>";
             } else if (obj.type == "textarea") {
                 var required_col = "";
                 if (obj.required) {

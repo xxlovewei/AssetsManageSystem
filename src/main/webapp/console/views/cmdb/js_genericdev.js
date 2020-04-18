@@ -329,55 +329,15 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 	}
 
-	var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
 	$scope.dtColumns = [];
-	$scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
-	'select-checkbox checkbox_center').renderWith(function() {
-		return ""
-	}));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
-			'sDefaultContent', '').withOption("width", '30'));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
-		'sDefaultContent', '').withOption("width", '30'));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
-				 'sDefaultContent', '').withOption("width", '30'));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));			 
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
-			 'sDefaultContent', '').withOption('width', '50')
-			 .renderWith(renderName));		
-	
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
-			 'sDefaultContent', '').withOption('width', '50')
-			);
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));		
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));		
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
-			 'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));		
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));	
+	$scope.dtColumns=zcBaseColsCreate(DTColumnBuilder,'withselect');
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
-			 'sDefaultContent', '').withOption('width', '30'));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
-			 'sDefaultContent', ''));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
-			 'sDefaultContent', ''));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('机柜').withOption(
-			 'sDefaultContent', '').renderWith(renderJg));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
-			 'sDefaultContent', ''));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
-			 'sDefaultContent', ''));	
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
-			 .withOption('sDefaultContent', '').renderWith(renderReview));	
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-			 .withOption('sDefaultContent', ''));	
-	$scope.dtColumns.push(  DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
-			 .withOption('sDefaultContent', ''));			
-	$scope.dtColumns.push(   DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
-			 .withOption('sDefaultContent', ''));		
+		'sDefaultContent', '').withOption('width', '30'));
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
+		'sDefaultContent', '').withOption('width', '30'));
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
+		'sDefaultContent', '').withOption('width', '50')
+	);
 
 	$scope.query = function() {
 		flush();
@@ -443,7 +403,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				} ],
 		tools : [ {
 			id : "select",
-			label : "位置",
+			label : "区域",
 			type : "select",
 			disablesearch : true,
 			show:true,
@@ -705,8 +665,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									dataOpt : "classOpt",
 									dataSel : "classSel"
 								});
-							}  
- 					 
+							}
+
 							items.push({
 								type : "input",
 								disabled : "false",
@@ -730,8 +690,18 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								need : false,
 								name : 'sn',
 								ng_model : "sn"
-							});		
-							
+							});
+
+
+							items.push( {
+								type : "select",
+								disabled : "false",
+								label : "资产品牌",
+								need : false,
+								disable_search : "true",
+								dataOpt : "pinpOpt",
+								dataSel : "pinpSel"
+							});
 
 							items.push({
 								type : "input",
@@ -739,13 +709,14 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								sub_type : "text",
 								required : false,
 								maxlength : "50",
-								placeholder : "请输入内容",
-								label : "IP",
+								placeholder : "",
+								label : "其他资产编号",
 								need : false,
-								name : 'ip',
-								ng_model : "ip"
+								name : 'fs20',
+								ng_model : "fs20"
 							});
-							
+
+
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -769,16 +740,87 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								ng_model : "zc_cnt"
 							});
 							
-						
-							items.push( {
+
+							items.push({
 								type : "select",
 								disabled : "false",
-								label : "资产品牌",
+								label : "使用人",
 								need : false,
-								disable_search : "true",
-								dataOpt : "pinpOpt",
-								dataSel : "pinpSel"
+								disable_search : "false",
+								dataOpt : "usedunameOpt",
+								dataSel : "usedunameSel"
 							});
+
+							items.push({
+								type : "select",
+								disabled : "false",
+								label : "使用部门",
+								need : false,
+								disable_search : "false",
+								dataOpt : "partOpt",
+								dataSel : "partSel"
+							});
+
+							items.push( {
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "请输入配置描述",
+								label : "配置描述",
+								need : false,
+								name : 'confdesc',
+								ng_model : "confdesc"
+							});
+
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "500",
+								placeholder : "请输入备注",
+								label : "备注",
+								need : false,
+								name : 'mark',
+								ng_model : "mark"
+							});
+
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "请输入标签1",
+								label : "标签1",
+								need : false,
+								name : 'fs1',
+								ng_model : "fs1"
+							});
+
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "请输入标签",
+								label : "标签2",
+								need : false,
+								name : 'fs2',
+								ng_model : "fs2"
+							});
+
+
+
+							items.push({
+								type : "dashed",
+								name : 'model'
+							});
+
+
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -788,56 +830,45 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataOpt : "riskOpt",
 								dataSel : "riskSel"
 							});
-						 
-								items.push( {
-									type : "select",
-									disabled : "false",
-									label : "运行环境",
-									need : false,
-									disable_search : "true",
-									dataOpt : "envOpt",
-									dataSel : "envSel"
-								});
-						 
+
 							items.push( {
 								type : "select",
 								disabled : "false",
-								label : "脱保计算",
+								label : "运行环境",
 								need : false,
 								disable_search : "true",
-								dataOpt : "tbOpt",
-								dataSel : "tbSel"
+								dataOpt : "envOpt",
+								dataSel : "envSel"
 							});
-							items.push( {
-								type : "datetime",
+							items.push({
+								type : "input",
 								disabled : "false",
-								label : "脱保时间",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "请输入内容",
+								label : "IP",
 								need : false,
-								ng_model : "wboutdate"
+								name : 'ip',
+								ng_model : "ip"
 							});
-						 
+
+
+							items.push({
+								type : "dashed",
+								name : 'model'
+							});
+
 							items.push( {
 								type : "select",
 								disabled : "false",
-								label : "维保状态",
-								false : true,
-								disable_search : "true",
-								dataOpt : "wbOpt",
-								dataSel : "wbSel"
-							});
-						 
-						
-							
-							items.push( {
-								type : "select",
-								disabled : "false",
-								label : "资产位置",
+								label : "区域",
 								need : false,
 								disable_search : "true",
 								dataOpt : "locOpt",
 								dataSel : "locSel"
 							});
-						 
+
 							items.push({
 								type : "select",
 								disabled : "false",
@@ -847,8 +878,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataOpt : "jgOpt",
 								dataSel : "jgSel"
 							});
-							 
-						 
+
+
 							items.push({
 								type : "input",
 								disabled : "false",
@@ -861,7 +892,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								name : 'frame',
 								ng_model : "frame"
 							});
-						 
+
 							items.push({
 								type : "input",
 								disabled : "false",
@@ -874,6 +905,12 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								name : 'locdtl',
 								ng_model : "locdtl"
 							});
+
+							items.push({
+								type : "dashed",
+								name : 'model'
+							});
+
 							items.push({
 								type : "datetime",
 								disabled : "false",
@@ -905,89 +942,43 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								name : 'net_worth',
 								ng_model : "net_worth"
 							});
+
+
 							items.push({
-								type : "select",
-								disabled : "false",
-								label : "使用部门",
-								need : false,
-								disable_search : "false",
-								dataOpt : "partOpt",
-								dataSel : "partSel"
-							});
-							items.push({
-								type : "select",
-								disabled : "false",
-								label : "使用人",
-								need : false,
-								disable_search : "false",
-								dataOpt : "usedunameOpt",
-								dataSel : "usedunameSel"
+								type : "dashed",
+								name : 'model'
 							});
 							items.push( {
-								type : "input",
+								type : "select",
 								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入配置描述",
-								label : "配置描述",
+								label : "脱保计算",
 								need : false,
-								name : 'confdesc',
-								ng_model : "confdesc"
+								disable_search : "true",
+								dataOpt : "tbOpt",
+								dataSel : "tbSel"
 							});
-							
-							items.push({
-								type : "input",
+							items.push( {
+								type : "datetime",
 								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入标签1",
-								label : "标签1",
+								label : "脱保时间",
 								need : false,
-								name : 'fs1',
-								ng_model : "fs1"
+								ng_model : "wboutdate"
 							});
-							
-							items.push({
-								type : "input",
+
+							items.push( {
+								type : "select",
 								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入标签",
-								label : "标签2",
-								need : false,
-								name : 'fs2',
-								ng_model : "fs2"
+								label : "维保状态",
+								false : true,
+								disable_search : "true",
+								dataOpt : "wbOpt",
+								dataSel : "wbSel"
 							});
-							
+
+
 							items.push({
-								type : "input",
-								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "",
-								label : "其他资产编号",
-								need : false,
-								name : 'fs20',
-								ng_model : "fs20"
-							});
-					
-							
-							
-							items.push({
-								type : "input",
-								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "500",
-								placeholder : "请输入备注",
-								label : "备注",
-								need : false,
-								name : 'mark',
-								ng_model : "mark"
+								type : "dashed",
+								name : 'model'
 							});
 
 							items.push({

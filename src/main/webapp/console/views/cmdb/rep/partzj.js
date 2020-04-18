@@ -38,34 +38,8 @@ function modalpartzcCtl($timeout, $localStorage, notify, $log, $uibModal,
 			return "未复核"
 		}
 	}
-	$scope.dtColumns = [
-			DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
-					'sDefaultContent', '').withOption("width", '30'),
-			DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
-					'sDefaultContent', '').withOption('width', '50'),
-			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
-					'sDefaultContent', '').withOption('width', '50')
-					.renderWith(renderName),
-			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('recyclestr').withTitle('状态').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('wbstr').withTitle('维保').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-					.withOption('sDefaultContent', ''),
-			DTColumnBuilder.newColumn('changestate').withTitle('复核状态')
-					.withOption('sDefaultContent', '').renderWith(renderReview), ];
+	$scope.dtColumns = [];
+	$scope.dtColumns=zcBaseColsCreate(DTColumnBuilder,'withoutselect');
 
 	var ps = {}
 	ps.part_id = meta.part_id;

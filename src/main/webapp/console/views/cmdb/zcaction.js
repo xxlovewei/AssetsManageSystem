@@ -104,33 +104,9 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$compile(angular.element(row).contents())($scope);
 	})
 
-	$scope.dtColumns = [
 
-			DTColumnBuilder.newColumn('uuid').withTitle('编号').withOption(
-					'sDefaultContent', '').withOption("width", '30'),
-			DTColumnBuilder.newColumn('classname').withTitle('类型').withOption(
-					'sDefaultContent', '').withOption("width", '30'),
-			DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('name').withTitle('型号').withOption(
-					'sDefaultContent', '').withOption('width', '50')
-					.renderWith(renderName),
-			DTColumnBuilder.newColumn('locstr').withTitle('位置').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('part_name').withTitle('部门').withOption(
-					'sDefaultContent', '').withOption('width', '30'),
-			DTColumnBuilder.newColumn('used_username').withTitle('使用人')
-					.withOption('sDefaultContent', '')
-					.withOption('width', '30'),
-			DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态')
-					.withOption('sDefaultContent', '')
-					.withOption('width', '30'),
-			DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
-					'sDefaultContent', ''),
-			DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-					.withOption('sDefaultContent', '') ]
+	$scope.dtColumns = [];
+	$scope.dtColumns=zcBaseColsCreate(DTColumnBuilder,'withoutselect');
 
 	$scope.dtOptions.aaData = [];
 	$scope.selectzc = function() {
