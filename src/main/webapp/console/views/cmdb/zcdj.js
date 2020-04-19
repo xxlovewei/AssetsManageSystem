@@ -195,7 +195,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	var gdicts = {};
-	var dicts = "zcwbcomoute,devbrand,devrecycle,devwb,devdc";
+	var dicts = "zcwbcomoute,devbrand,devrecycle,devwb,devdc,zcsource,zcwbsupper,zcsupper";
 	
 	// 判断输入框
 	var subclass="N";
@@ -437,7 +437,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						 
 							items.push({
 									type : "select",
-									disabled : "true",
+								disabled : "false",
 									label : "资产类型",
 									need : false,
 									disable_search : "false",
@@ -493,7 +493,24 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								name : 'zc_cnt',
 								ng_model : "zc_cnt"
 							});
-							
+							items.push( {
+								type : "select",
+								disabled : "false",
+								label : "资产来源",
+								need : false,
+								disable_search : "true",
+								dataOpt : "zcsourceOpt",
+								dataSel : "zcsourceSel"
+							});
+							items.push( {
+								type : "select",
+								disabled : "false",
+								label : "供应商",
+								need : false,
+								disable_search : "true",
+								dataOpt : "zcsupperOpt",
+								dataSel : "zcsupperSel"
+							});
 						
 							items.push( {
 								type : "select",
@@ -643,8 +660,21 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								name : 'fs20',
 								ng_model : "fs20"
 							});
-					
-							
+
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "100",
+								placeholder : "请输入内容",
+								label : "维保说明",
+								need : false,
+								name : 'wbct',
+								ng_model : "wbct"
+							});
+
+
 							items.push({
 								type : "input",
 								disabled : "false",
@@ -749,8 +779,20 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									if(angular.isDefined( modal_meta.meta.tbSel.dict_item_id)){
 										modal_meta.meta.item.wb_auto =modal_meta.meta.tbSel.dict_item_id ;
 									}
-							
-								
+
+									if(angular.isDefined( modal_meta.meta.zcwbsupperSel.dict_item_id)){
+										modal_meta.meta.item.wbsupplier =modal_meta.meta.zcwbsupperSel.dict_item_id ;
+									}
+
+									if(angular.isDefined( modal_meta.meta.zcsourceSel.dict_item_id)){
+										modal_meta.meta.item.zcsource =modal_meta.meta.zcsourceSel.dict_item_id ;
+									}
+
+									if(angular.isDefined( modal_meta.meta.zcsupperSel.dict_item_id)){
+										modal_meta.meta.item.supplier =modal_meta.meta.zcsupperSel.dict_item_id ;
+									}
+
+
 									modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
 											.format('YYYY-MM-DD');
 									modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate

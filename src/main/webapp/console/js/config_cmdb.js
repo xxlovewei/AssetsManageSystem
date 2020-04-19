@@ -634,6 +634,10 @@ function zcBaseColsCreate(DTColumnBuilder,selectype){
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
         'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('zcsourcestr').withTitle('资产来源').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('资产供应商').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push( DTColumnBuilder.newColumn('model').withTitle('型号').withOption(
@@ -660,6 +664,8 @@ function zcBaseColsCreate(DTColumnBuilder,selectype){
         .withOption('sDefaultContent', ''));
     dtColumns.push( DTColumnBuilder.newColumn('net_worth').withTitle('资产净值')
         .withOption('sDefaultContent', ''));
+    dtColumns.push( DTColumnBuilder.newColumn('wbsupplierstr').withTitle('维保供应商').withOption(
+        'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push( DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));
     dtColumns.push(  DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
@@ -891,6 +897,53 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
+    //供应商
+    modal_meta.meta.zcsupperOpt = gdicts.zcsupper;
+    if (angular.isDefined(gdicts.zcsupper) && gdicts.zcsupper.length > 0) {
+        if (angular.isDefined(item) && angular.isDefined(item.supplier)) {
+            for (var i = 0; i < gdicts.zcsupper.length; i++) {
+                if (gdicts.zcsupper[i].dict_item_id == item.supplier) {
+                    modal_meta.meta.zcsupperSel = gdicts.zcsupper[i];
+                }
+            }
+        } else {
+            if (gdicts.zcsupper.length > 0) {
+                modal_meta.meta.zcsupperSel = gdicts.zcsupper[0];
+            }
+        }
+    }
+
+    //资产来源
+    modal_meta.meta.zcsourceOpt = gdicts.zcsource;
+    if (angular.isDefined(gdicts.zcsource) && gdicts.zcsource.length > 0) {
+        if (angular.isDefined(item) && angular.isDefined(item.zcsource)) {
+            for (var i = 0; i < gdicts.zcsource.length; i++) {
+                if (gdicts.zcsource[i].dict_item_id == item.zcsource) {
+                    modal_meta.meta.zcsourceSel = gdicts.zcsource[i];
+                }
+            }
+        } else {
+            if (gdicts.zcsource.length > 0) {
+                modal_meta.meta.zcsourceSel = gdicts.zcsource[0];
+            }
+        }
+    }
+    //维保供应商
+    modal_meta.meta.zcwbsupperOpt = gdicts.zcwbsupper;
+    if (angular.isDefined(gdicts.zcwbsupper) && gdicts.zcwbsupper.length > 0) {
+        if (angular.isDefined(item) && angular.isDefined(item.wbsupplier)) {
+            for (var i = 0; i < gdicts.zcwbsupper.length; i++) {
+                if (gdicts.zcwbsupper[i].dict_item_id == item.wbsupplier) {
+                    modal_meta.meta.zcwbsupperSel = gdicts.zcwbsupper[i];
+                }
+            }
+        } else {
+            if (gdicts.zcwbsupper.length > 0) {
+                modal_meta.meta.zcwbsupperSel = gdicts.zcwbsupper[0];
+            }
+        }
+    }
+
 
     // 机柜
     modal_meta.meta.jgOpt = gdicts.devrack;

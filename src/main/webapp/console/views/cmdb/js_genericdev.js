@@ -174,7 +174,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				});
 			}
 			gclass_id=res.data.value;
-			var dicts = "zcwbcomoute,devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack";
+			var dicts = "zcwbcomoute,devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack,zcsource,zcwbsupper,zcsupper";
 			// 判断输入框
 			var subclass="N";
 			if (angular.isDefined($state.router.globals.current.data.subclass)) {
@@ -658,7 +658,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									.isDefined($state.router.globals.current.data.subclass) || $state.router.globals.current.data.classid == "zcotherhard"  ) {
 								items.push({
 									type : "select",
-									disabled : "true",
+									disabled : "false",
 									label : "资产类型",
 									need : false,
 									disable_search : "true",
@@ -691,8 +691,25 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								name : 'sn',
 								ng_model : "sn"
 							});
+							items.push( {
+								type : "select",
+								disabled : "false",
+								label : "资产来源",
+								need : false,
+								disable_search : "true",
+								dataOpt : "zcsourceOpt",
+								dataSel : "zcsourceSel"
+							});
 
-
+							items.push( {
+								type : "select",
+								disabled : "false",
+								label : "供应商",
+								need : false,
+								disable_search : "true",
+								dataOpt : "zcsupperOpt",
+								dataSel : "zcsupperSel"
+							});
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -948,6 +965,17 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								type : "dashed",
 								name : 'model'
 							});
+
+							items.push( {
+								type : "select",
+								disabled : "false",
+								label : "维保供应商",
+								need : false,
+								disable_search : "true",
+								dataOpt : "zcwbsupperOpt",
+								dataSel : "zcwbsupperSel"
+							});
+
 							items.push( {
 								type : "select",
 								disabled : "false",
@@ -974,6 +1002,19 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataOpt : "wbOpt",
 								dataSel : "wbSel"
 							});
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "text",
+								required : false,
+								maxlength : "100",
+								placeholder : "请输入内容",
+								label : "维保说明",
+								need : false,
+								name : 'wbct',
+								ng_model : "wbct"
+							});
+
 
 
 							items.push({
@@ -1189,8 +1230,21 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									if(angular.isDefined( modal_meta.meta.tbSel.dict_item_id)){
 										modal_meta.meta.item.wb_auto =modal_meta.meta.tbSel.dict_item_id ;
 									}
-							
-								
+
+
+									if(angular.isDefined( modal_meta.meta.zcwbsupperSel.dict_item_id)){
+										modal_meta.meta.item.wbsupplier =modal_meta.meta.zcwbsupperSel.dict_item_id ;
+									}
+
+									if(angular.isDefined( modal_meta.meta.zcsourceSel.dict_item_id)){
+										modal_meta.meta.item.zcsource =modal_meta.meta.zcsourceSel.dict_item_id ;
+									}
+
+									if(angular.isDefined( modal_meta.meta.zcsupperSel.dict_item_id)){
+										modal_meta.meta.item.supplier =modal_meta.meta.zcsupperSel.dict_item_id ;
+									}
+
+
 									modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
 											.format('YYYY-MM-DD');
 									modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate

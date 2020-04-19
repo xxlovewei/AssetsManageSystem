@@ -63,7 +63,6 @@
         <result column="fd1" property="fd1" />
         <result column="fd2" property="fd2" />
         <result column="fd3" property="fd3" />
-        <result column="status" property="status" />
         <result column="env" property="env" />
         <result column="risk" property="risk" />
         <result column="version" property="version" />
@@ -71,6 +70,7 @@
         <result column="supplier" property="supplier" />
         <result column="mark" property="mark" />
         <result column="recycle" property="recycle" />
+        <result column="prerecycle" property="prerecycle" />
         <result column="buy_time" property="buyTime" />
         <result column="offline_time" property="offlineTime" />
         <result column="online_time" property="onlineTime" />
@@ -92,13 +92,18 @@
         <result column="net_worth" property="netWorth" />
         <result column="zc_category" property="zcCategory" />
         <result column="locdtl" property="locdtl" />
-        <result column="wb_auto" property="wbAuto" />
-        <result column="wbout_date" property="wboutDate" />
         <result column="zc_cnt" property="zcCnt" />
         <result column="gj_dl" property="gjDl" />
         <result column="gj_xl" property="gjXl" />
         <result column="importlabel" property="importlabel" />
         <result column="attach" property="attach" />
+        <result column="actionstatus" property="actionstatus" />
+        <result column="zcsource" property="zcsource" />
+        <result column="wb_auto" property="wbAuto" />
+        <result column="wbout_date" property="wboutDate" />
+        <result column="wbsupplier" property="wbsupplier" />
+        <result column="wbct" property="wbct" />
+        <result column="status" property="status" />
     </resultMap>
 
 </mapper>

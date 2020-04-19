@@ -337,7 +337,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + need_col + obj.label + ":</label> ";
                 tmp_tpl = tmp_tpl + "<div class=\"col-sm-10\"> ";
                 tmp_tpl = tmp_tpl
-                    + "	<select class=\"dt_select\" width=\"100\" id=\""
+                    + "	<select   ng-disabled=\""+obj.disabled+"\" class=\"dt_select\" width=\"100\" id=\""
                     + uid
                     + "\"   chosen disable-search=\""
                     + obj.disable_search
@@ -358,7 +358,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + need_col + obj.label + ":</label> ";
                 tmp_tpl = tmp_tpl + "<div class=\"col-sm-10\"> ";
                 tmp_tpl = tmp_tpl
-                    + "	<select class=\"dt_select\" width=\"100\" id=\""
+                    + "	<select   ng-disabled=\""+obj.disabled+"\"  class=\"dt_select\" width=\"100\" id=\""
                     + uid
                     + "\"   multiple chosen   disable-search=\""
                     + obj.disable_search
