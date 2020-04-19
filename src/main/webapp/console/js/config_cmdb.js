@@ -3,6 +3,8 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
         debug: true
     });
+
+    // template: '<div ng-controller="cmdbrepPartZcCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
     $stateProvider.state('zcindex', {
         url: "/zcindex",
         templateUrl: "views/cmdb/zcindex.html?v=" + version,
@@ -123,7 +125,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/rep/partzj.js?v=' + version]
+                    files: ['views/cmdb/rep/partzc.js?v=' + version]
                 }]);
             }
         }
@@ -527,6 +529,88 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         }
     })
 
+    $stateProvider.state('report', {
+        abstract: true,
+        url: "/report",
+        templateUrl: "views/common/content.html?v=" + version
+    }).state('report.departsummary', {
+        url: "/report_departsummary",
+        data: {pageTitle: '部门资产汇总'},
+        template: '<div ng-controller="cmdbrepPartZcCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/rep/partzc.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('report.Taxonomy', {
+        url: "/report_Taxonomy",
+        data: {pageTitle: '分类使用汇总表'},
+        template: '<div ng-controller="catusedreportCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/rep/catused.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('report.cleaninglist', {
+        url: "/report_cleaninglist",
+        data: {pageTitle: '清理清单'},
+        templateUrl: "views/cmdb/rep/cleaninglist.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/rep/cleaninglist.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('report.catreport', {
+        url: "/report_catreport",
+        data: {pageTitle: '资产分类汇总表'},
+        template: '<div ng-controller="catreportCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/rep/catreport.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('report.employeezc', {
+        url: "/report_employeezc",
+        data: {pageTitle: '员工资产汇总表'},
+        // templateUrl: "views/cmdb/rep/catreport.html?v=" + version,
+        template: '<div ng-controller="employeezcCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/rep/employeezc.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('report.wbexpire', {
+        url: "/report_wbexpire",
+        data: {pageTitle: '维保到期统计表'},
+        // templateUrl: "views/cmdb/rep/catreport.html?v=" + version,
+        template: '<div ng-controller="wbexpireCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/rep/wbexpire.js?v=' + version]
+                }]);
+            }
+        }
+    });
+
+
 
 }
 
@@ -630,7 +714,7 @@ function loadOpt(modal_meta, gdicts) {
     console.log("LoadOpt,Item:", item);
 
 
-    // 维保自定技术
+    // 维保
     modal_meta.meta.tbOpt = gdicts.zcwbcomoute;
 
     if (angular.isDefined(gdicts.zcwbcomoute) && modal_meta.meta.tbOpt.length > 0) {

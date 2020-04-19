@@ -721,7 +721,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								type : "select",
 								disabled : "false",
 								label : "资产状态",
-								need : false,
+								need : true,
 								disable_search : "true",
 								dataOpt : "recycelOpt",
 								dataSel : "recycelSel"
@@ -1156,7 +1156,13 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									
 									if(angular.isDefined( modal_meta.meta.recycelSel.dict_item_id)){
 										modal_meta.meta.item.recycle = modal_meta.meta.recycelSel.dict_item_id;
+									}else{
+										notify({
+											message : "请选择资产状态"
+										});
+										return;
 									}
+
 									
 									
 									if(angular.isDefined(modal_meta.meta.pinpSel.dict_item_id)){

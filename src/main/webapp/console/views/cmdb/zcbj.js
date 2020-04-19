@@ -505,7 +505,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						type : "select",
 						disabled : "false",
 						label : "资产状态",
-						need : false,
+						need : true,
 						disable_search : "true",
 						dataOpt : "recycelOpt",
 						dataSel : "recycelSel"

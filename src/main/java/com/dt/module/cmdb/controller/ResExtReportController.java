@@ -148,35 +148,7 @@ public class ResExtReportController extends BaseController {
         return R.SUCCESS_OPER(res);
     }
 
-    @ResponseBody
-    @Acl(info = "", value = Acl.ACL_ALLOW)
-    @RequestMapping(value = "/queryZcTjByOrg.do")
-    @Transactional
-    public R queryZcTjByOrg(String search) {
-        String sql = "select node_id part_id,route_name part_fullname, "
-                + "  case when b.cnt is null then 0 else b.cnt end zc_cnt from hrm_org_part a left join "
-                + "  ( select part_id,count(1) cnt from res where dr='0' group by part_id) b "
-                + "  on a.node_id=b.part_id and a.org_id='1' union all "
-                + "select '-1' part_id,'未设置组织' part_fullname ,count(1) zc_cnt from res where part_id not in (select node_id from hrm_org_part where org_id='1') "
-                + "or part_id is null ";
-        return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
-    }
 
-    @ResponseBody
-    @Acl(info = "", value = Acl.ACL_ALLOW)
-    @RequestMapping(value = "/queryZcTjByOrgId.do")
-    @Transactional
-    public R queryZcTjByOrgId(String part_id) {
 
-        String sql = "select " + ResExtService.resSqlbody + " t.* from res t where dr='0'";
-        if ("-1".equals(part_id)) {
-            sql = sql + " and part_id not in (select node_id from hrm_org_part where org_id='1') or part_id is null";
-
-        } else {
-            sql = sql + " and part_id='" + part_id + "'";
-        }
-        sql = sql + " order by class_id";
-        return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
-    }
 
 }

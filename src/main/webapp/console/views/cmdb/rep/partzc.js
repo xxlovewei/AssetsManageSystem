@@ -19,32 +19,14 @@ function modalpartzcCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 	$scope.dtInstance = {}
 
-	function renderJg(data, type, full) {
-		var html = full.rackstr + "-" + full.frame;
-		return html;
-	}
 
-	function renderName(data, type, full) {
-
-		var html = full.model;
-		return html;
-
-	}
-
-	function renderReview(data, type, full) {
-		if (data == "reviewed") {
-			return "已复核"
-		} else {
-			return "未复核"
-		}
-	}
 	$scope.dtColumns = [];
 	$scope.dtColumns=zcBaseColsCreate(DTColumnBuilder,'withoutselect');
 
 	var ps = {}
 	ps.part_id = meta.part_id;
 	$http
-			.post($rootScope.project + "/api/base/res/rep/queryZcTjByOrgId.do",
+			.post($rootScope.project + "/api/zc/report/queryPartUsedByPart.do",
 					ps).success(function(res) {
 				if (res.success) {
 					$scope.dtOptions.aaData = res.data;
@@ -66,7 +48,7 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(50)
 			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", false).withOption('bAutoWidth', false)
+			.withOption("searching", true).withOption('bAutoWidth', false)
 			.withOption('paging', true).withOption('bStateSave', true)
 			.withOption('bProcessing', false).withOption('bFilter', false)
 			.withOption('bInfo', false).withOption('serverSide', false)
@@ -86,7 +68,9 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 
 	$scope.dtColumns = [
-			DTColumnBuilder.newColumn('part_fullname').withTitle('使用部门')
+			DTColumnBuilder.newColumn('part_name').withTitle('使用部门')
+			.withOption('sDefaultContent', ''),
+			DTColumnBuilder.newColumn('part_fullname').withTitle('使用部门路径')
 					.withOption('sDefaultContent', ''),
 			DTColumnBuilder.newColumn('zc_cnt').withTitle('数量').withOption(
 					'sDefaultContent', ''),
@@ -100,21 +84,53 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	var meta = {
 		tablehide : false,
 		toolsbtn : [],
-		tools : [
-				 
-				{
-					id : "btn",
-					show : true,
-					label : "",
-					type : "btn",
-					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
-				} ]
+		tools : [{
+			id : "select",
+			label : "类目",
+			type : "select",
+			disablesearch : true,
+			dataOpt : [],
+			dataSel : "",
+			show:true,
+		},
+		{
+			id : "btn",
+			show : true,
+			label : "",
+			type : "btn",
+			template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
+		} ]
 	}
+
+
 	$scope.meta = meta;
- 
+
+	$http.post($rootScope.project + "/api/zc/selectZcCats.do",
+		{}).success(function(res) {
+		if (res.success) {
+
+			var temp=res.data;
+			temp.unshift({
+				id : "all",
+				name : "全部"
+			});
+
+			$scope.meta.tools[0].dataOpt=temp;
+			$scope.meta.tools[0].dataSel=temp[0];
+		} else {
+			notify({
+				message : res.message
+			});
+		}
+	})
+
+
 	function flush() {
 		var ps = {}
-		$http.post($rootScope.project + "/api/base/res/rep/queryZcTjByOrg.do",
+		if($scope.meta.tools[0].dataSel.id!="all") {
+			ps.catid = $scope.meta.tools[0].dataSel.id;
+		}
+		$http.post($rootScope.project + "/api/zc/report/queryPartUsedReport.do",
 				ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
@@ -134,7 +150,7 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		ps.part_id = id;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
-			templateUrl : 'views/cmdb/rep/modal_partzc.html',
+			templateUrl : 'views/cmdb/rep/modal_zcreportlist.html',
 			controller : modalpartzcCtl,
 			size : 'blg',
 			resolve : {

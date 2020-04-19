@@ -7,6 +7,8 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.module.cmdb.service.impl.ResExtService;
+import com.dt.module.ct.entity.CtCategoryRoot;
+import com.dt.module.ct.service.ICtCategoryRootService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.entity.SysProcessForm;
 import com.dt.module.flow.service.ISysProcessDataService;
@@ -37,6 +39,8 @@ import com.dt.module.base.service.ISysUserInfoService;
 @Controller
 @RequestMapping("/api/zc")
 public class ZcController extends BaseController {
+
+
     @Autowired
     ISysProcessFormService SysProcessFormServiceImpl;
 
@@ -54,6 +58,20 @@ public class ZcController extends BaseController {
 
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;
+
+
+    @Autowired
+    ICtCategoryRootService CtCategoryRootServiceImpl;
+
+
+    @ResponseBody
+    @Acl(info = "获取后台类目", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectZcCats.do")
+    public R selectZcCats() {
+        QueryWrapper<CtCategoryRoot> ew = new QueryWrapper<CtCategoryRoot>();
+        ew.in("id",'8','3','7');
+        return R.SUCCESS_OPER(CtCategoryRootServiceImpl.list(ew));
+    }
 
     @ResponseBody
     @Acl(info = "查询单据", value = Acl.ACL_USER)
