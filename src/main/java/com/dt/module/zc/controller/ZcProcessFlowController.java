@@ -44,12 +44,11 @@ import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.ISysUserInfoService;
-import com.dt.module.cmdb.service.impl.ResExtService;
+import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.flow.service.ISysProcessSettingService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
-import com.dt.module.flow.entity.SysProcessForm;
 import com.dt.module.form.entity.SysForm;
 
 /**
@@ -68,7 +67,7 @@ public class ZcProcessFlowController extends BaseController {
     FormServiceImpl formServiceImpl;
 
     @Autowired
-    ResExtService resExtService;
+    ZcCommonService resExtService;
 
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;

@@ -112,7 +112,7 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.selectzc = function() {
 		var modalInstance = $uibModal.open({
 			backdrop : true,
-			templateUrl : 'views/cmdb/modal_devfault_zclist.html',
+			templateUrl : 'views/cmdb/modal_common_zclist.html',
 			controller : modal_faultZcListCtl,
 			size : 'blg',
 			resolve : {
@@ -121,6 +121,9 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 				},
 				type : function() {
 					return "many"
+				},
+				datatype:function(){
+					return meta.flowtype
 				}
 			}
 		});

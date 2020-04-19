@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dt.module.zc.service.impl.ZcService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,7 @@ import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.cmdb.entity.DictItemEntity;
 import com.dt.module.cmdb.entity.ResEntity;
-import com.dt.module.cmdb.service.impl.ResExtService;
+import com.dt.module.zc.service.impl.ZcCommonService;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
@@ -39,7 +40,7 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 public class ResExtExportController extends BaseController {
 
     @Autowired
-    ResExtService resExtService;
+    ZcService zcService;
 
     @RequestMapping("/exportDictItems.do")
     @Acl(value = Acl.ACL_USER)
@@ -85,7 +86,7 @@ public class ResExtExportController extends BaseController {
             throws UnsupportedEncodingException {
 
         TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-        R res = resExtService.queryResAllGetData(ps.getString("classroot"),ps.getString("id"), ps.getString("wb"), ps.getString("env"),
+        R res = zcService.queryResAllGetData(ps.getString("classroot"),ps.getString("id"), ps.getString("wb"), ps.getString("env"),
                 ps.getString("recycle"), ps.getString("loc"), ps.getString("search"));
 
         JSONArray data = res.queryDataToJSONArray();
@@ -125,7 +126,7 @@ public class ResExtExportController extends BaseController {
 
         TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 
-        R res = resExtService.queryResAllGetData(ps.getString("classroot"),ps.getString("id"), ps.getString("wb"), ps.getString("env"),
+        R res = zcService.queryResAllGetData(ps.getString("classroot"),ps.getString("id"), ps.getString("wb"), ps.getString("env"),
                 ps.getString("recycle"), ps.getString("loc"), ps.getString("search"));
 
         JSONArray data = res.queryDataToJSONArray();

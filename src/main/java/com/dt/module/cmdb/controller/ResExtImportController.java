@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.core.dao.Rcd;
 import com.dt.module.base.controller.FileUpDownController;
-import com.dt.module.cmdb.service.impl.ResExtService;
+import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.cmdb.service.impl.ResImportService;
 
 /**
@@ -31,7 +30,7 @@ import com.dt.module.cmdb.service.impl.ResImportService;
 public class ResExtImportController extends BaseController {
 
     @Autowired
-    ResExtService resExtService;
+    ZcCommonService resExtService;
 
     @Autowired
     ISysFilesService SysFilesServiceImpl;

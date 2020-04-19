@@ -13,7 +13,7 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ConvertUtil;
-import com.dt.module.cmdb.service.impl.ResExtService;
+import com.dt.module.zc.service.impl.ZcCommonService;
 
 /**
  * @author: algernonking
@@ -65,15 +65,15 @@ public class ResExtReportController extends BaseController {
                 ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sqlactionsql).toJsonArrayWithJsonObject()));
 
         // 脱保数量前15条
-        String sql = "  select " + ResExtService.resSqlbody
+        String sql = "  select " + ZcCommonService.resSqlbody
                 + " t.* from res t where dr='0' and  wbout_date<now() limit 15";
         RcdSet tb_rs = db.query(sql);
         res.put("res_tb_notice", ConvertUtil.OtherJSONObjectToFastJSONArray(tb_rs.toJsonArrayWithJsonObject()));
-        String sqlcnt = " select count(1) v from ( select " + ResExtService.resSqlbody
+        String sqlcnt = " select count(1) v from ( select " + ZcCommonService.resSqlbody
                 + " t.* from res t where dr='0' and  wbout_date<now() ) tab";
         res.put("wbdqcnt", db.uniqueRecord(sqlcnt).getString("v"));
 
-        String sql2 = "select " + ResExtService.resSqlbody
+        String sql2 = "select " + ZcCommonService.resSqlbody
                 + " t.* ,a.f_reason ,a.f_processtime  from res_fault a,res t where a.f_res_id=t.id and a.dr='0' and t.dr='0' limit 10";
         RcdSet rs2 = db.query(sql2);
         res.put("res_fault", ConvertUtil.OtherJSONObjectToFastJSONArray(rs2.toJsonArrayWithJsonObject()));
@@ -113,12 +113,12 @@ public class ResExtReportController extends BaseController {
         String cnt = db.uniqueRecord("select count(1) v from res where dr='0'").getString("v");
         res.put("total_count", cnt);
 
-        String sql = "  select " + ResExtService.resSqlbody
+        String sql = "  select " + ZcCommonService.resSqlbody
                 + " t.* from res t where dr='0' and wbout_date<now() limit 10";
         RcdSet rs = db.query(sql);
         res.put("res_tb_notice", ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
 
-        String sql2 = "select " + ResExtService.resSqlbody
+        String sql2 = "select " + ZcCommonService.resSqlbody
                 + " t.* ,a.f_reason ,a.f_processtime from res_fault a,res t where a.f_res_id=t.id and a.dr='0' and t.dr='0' limit 10";
         RcdSet rs2 = db.query(sql2);
         res.put("res_fault", ConvertUtil.OtherJSONObjectToFastJSONArray(rs2.toJsonArrayWithJsonObject()));

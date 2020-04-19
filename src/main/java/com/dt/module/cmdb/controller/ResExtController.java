@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.dt.module.zc.service.impl.ZcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.cmdb.service.impl.ResExtService;
+import com.dt.module.zc.service.impl.ZcCommonService;
 
 /**
  * @author: algernonking
@@ -39,7 +40,7 @@ public class ResExtController extends BaseController {
 
 
     @Autowired
-    ResExtService resExtService;
+    ZcService zcService;
 
 
     @ResponseBody
@@ -89,7 +90,7 @@ public class ResExtController extends BaseController {
 
         // reviewed(已复核),insert(待核(录入)),updated(待核(已更新))
         String sql = "select ";
-        sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  and changestate<>'reviewed'";
+        sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0  and changestate<>'reviewed'";
         if (ToolUtil.isNotEmpty(search)) {
             sql = sql + " and  (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
                     + "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
@@ -185,7 +186,7 @@ public class ResExtController extends BaseController {
     @Transactional
     public R batchUpdateRes() {
         TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-        return resExtService.batchUpdateRes(ps);
+        return zcService.batchUpdateRes(ps);
     }
 
     @ResponseBody
@@ -194,7 +195,7 @@ public class ResExtController extends BaseController {
     @Transactional
     public R addResCustom() {
         TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-        return resExtService.addRes(ps);
+        return zcService.addRes(ps);
     }
 
     @ResponseBody
@@ -203,7 +204,7 @@ public class ResExtController extends BaseController {
     public R queryResAllByClass(String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
 
 
-        return resExtService.queryResAllGetData(classroot,class_id, wb, env, recycle, loc, search);
+        return zcService.queryResAllGetData(classroot,class_id, wb, env, recycle, loc, search);
     }
 
     @ResponseBody
@@ -211,26 +212,10 @@ public class ResExtController extends BaseController {
     @RequestMapping(value = "/res/queryResAll.do")
     public R queryResAll(String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
 
-        return resExtService.queryResAllGetData(classroot,class_id, wb, env, recycle, loc, search);
+        return zcService.queryResAllGetData(classroot,class_id, wb, env, recycle, loc, search);
 
     }
 
-    @ResponseBody
-    @Acl(info = "查询Res", value = Acl.ACL_USER)
-    @RequestMapping(value = "/res/queryResFaultById.do")
-    public R queryResFaultById(String id) {
-
-        JSONObject res = new JSONObject();
-        Rcd rs = db.uniqueRecord("select * from res_fault where id=?", id);
-        if (rs != null) {
-            res = ConvertUtil.OtherJSONObjectToFastJSONObject(rs.toJsonObject());
-            // 获取attatch
-            RcdSet rrs = db.query("select * from res_fault_file where faultid=?", id);
-            res.put("attachdata", ConvertUtil.OtherJSONObjectToFastJSONArray(rrs.toJsonArrayWithJsonObject()));
-        }
-
-        return R.SUCCESS_OPER(res);
-    }
 
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
@@ -289,7 +274,7 @@ public class ResExtController extends BaseController {
                         + attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
                         + "\",  ";
             }
-            sql = sql + ResExtService.resSqlbody + " t.* from res t where dr=0  and id=?";
+            sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0  and id=?";
 
             Rcd rs2 = db.uniqueRecord(sql, id);
             if (rs2 != null) {
@@ -310,10 +295,10 @@ public class ResExtController extends BaseController {
         data.put("updatadata", ConvertUtil.OtherJSONObjectToFastJSONArray(urs.toJsonArrayWithJsonObject()));
 
         // 获取故障登记表
-        RcdSet grs = db.query(
-                "select a.*,b.name, (select count(1) from res_fault_file where a.id=faultid) attach_cnt from res_fault a ,sys_user_info b where a.f_res_id=? and a.f_oper_user=b.user_id order by f_oper_time desc limit 100",
-                id);
-        data.put("faultdata", ConvertUtil.OtherJSONObjectToFastJSONArray(grs.toJsonArrayWithJsonObject()));
+//        RcdSet grs = db.query(
+//                "select a.*,b.name, (select count(1) from res_fault_file where a.id=faultid) attach_cnt from res_fault a ,sys_user_info b where a.f_res_id=? and a.f_oper_user=b.user_id order by f_oper_time desc limit 100",
+//                id);
+//        data.put("faultdata", ConvertUtil.OtherJSONObjectToFastJSONArray(grs.toJsonArrayWithJsonObject()));
 
         return R.SUCCESS_OPER(data);
     }

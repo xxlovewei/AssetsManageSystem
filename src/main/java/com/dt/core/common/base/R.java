@@ -76,7 +76,11 @@ public class R implements Serializable {
         } else if (data instanceof T) {
             JSONObject r = JSONObject.parseObject(JSON.toJSONString(data, SerializerFeature.WriteDateUseDateFormat));
             this.data = r;
-        } else {
+        } else if(data instanceof  org.json.JSONArray){
+            this.data = ConvertUtil.OtherJSONObjectToFastJSONArray(data);
+        } else if (data instanceof  org.json.JSONObject){
+            this.data = ConvertUtil.OtherJSONObjectToFastJSONObject(data);
+        }else{
             this.data = data;
         }
     }

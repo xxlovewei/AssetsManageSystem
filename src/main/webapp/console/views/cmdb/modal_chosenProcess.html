@@ -33,9 +33,9 @@
 							<label class="col-sm-2 control-label">审批流程:</label>
 							<div class="col-sm-10">
 								<select chosen disable-search="true" class="chosen-select"
-									no-results-text="'没有找到相应条目'" ng-model="tplSel"
-									data-placeholder-text-single="'请选择...'"
-									ng-options="item.name for item in tplOpt">
+										data-placeholder-text-single="'请选择...'" ng-model="tplSel"
+										ng-options="item.name for item in tplOpt"
+										no-results-text="'没有找到相应条目'">
 									<option value=""></option>
 								</select>
 							</div>
@@ -44,9 +44,14 @@
 				</div>
 
 			</div>
-			<div class="modal-footer" style="text-align: center">
-				<button ng-click="cancel()" class="btn btn-warning">取消</button>
-				<button ng-disabled="myForm.$invalid" ng-click="sure()"
-					class="btn btn-primary">确认</button>
-			</div>
+
+
 		</div>
+	</div>
+	<div class="modal-footer" style="text-align: center">
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		<button class="btn btn-primary" ng-click="sure()"
+				ng-disabled="myForm.$invalid">确认
+		</button>
+	</div>
+</div>

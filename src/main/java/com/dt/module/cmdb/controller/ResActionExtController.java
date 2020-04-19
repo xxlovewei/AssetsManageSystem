@@ -1,15 +1,11 @@
 package com.dt.module.cmdb.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,7 +14,7 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.ISysUserInfoService;
-import com.dt.module.cmdb.service.impl.ResExtService;
+import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
@@ -36,7 +32,7 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
 public class ResActionExtController extends BaseController {
 
     @Autowired
-    ResExtService resExtService;
+    ZcCommonService resExtService;
 
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;
@@ -83,7 +79,7 @@ public class ResActionExtController extends BaseController {
         //String uuid = r.getDuuid();
         JSONObject res = JSONObject.parseObject(JSON.toJSONString(r, SerializerFeature.WriteDateUseDateFormat,
                 SerializerFeature.DisableCircularReferenceDetect));
-        String sql = "select " + ResExtService.resSqlbody
+        String sql = "select " + ZcCommonService.resSqlbody
                 + " t.*,a.backtime,a.status actitemstatus from res_action_item a,res t where a.resid=t.id and a.dr='0' and actuuid=?";
         //	RcdSet rs = db.query(sql, uuid);
         //	res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));

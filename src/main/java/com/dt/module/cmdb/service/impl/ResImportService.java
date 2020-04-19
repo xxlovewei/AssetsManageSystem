@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.dt.module.zc.service.impl.ZcCommonService;
+import com.dt.module.zc.service.impl.ZcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,9 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 public class ResImportService extends BaseService {
 
     @Autowired
-    ResExtService resExtService;
+    ZcService zcService;
+//    @Autowired
+//    ZcCommonService resExtService;
 
     public static void main(String[] args) {
         String sql = "com.dt.module.cmdb.service.ResEntity@333fa13b[uuid=83E6-48C3-B47,classname=存储设备,typestr=<null>,name=存储设备,locstr=营业网点,brandstr=惠普,model=12,sn=22,wbstr=在保,wbout_datestr=2021-08-21,rackstr=<null>,frame=<null>,locdtl= 不知道,recyclestr=未上架,envstr=生产,riskstr=未评级,part_fullname=总行营业部,mgr_part_fullname=<null>,used_username=寿其伟,buy_timestr=2019-11-01,buy_price=0,confdesc=<null>,mark=<null>,processmsg=资产编号不存在]\n";
@@ -251,7 +255,7 @@ public class ResImportService extends BaseService {
             // 处理资产编号,必需不存在
             if (ToolUtil.isEmpty(re.getUuid())) {
                 // 插入时候，无编号自动生产
-                me.setIf("uuid", resExtService.createUuid(ResExtService.UUID_ZC));
+                me.setIf("uuid", zcService.createUuid(ZcCommonService.UUID_ZC));
             } else {
                 // 如果有编号,如果编号重复不可插入,否则按照指定编号插入
                 if (uuidR > 0) {
@@ -328,7 +332,7 @@ public class ResImportService extends BaseService {
             return R.FAILURE("操作失败", result.covertJSONObjectResult());
         }
         db.executeStringList(result.success_cmds);
-        resExtService.checkWbMethod();
+        zcService.checkWbMethod();
         return R.SUCCESS_OPER();
 
     }

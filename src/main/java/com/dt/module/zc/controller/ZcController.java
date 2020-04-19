@@ -6,17 +6,16 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ConvertUtil;
-import com.dt.module.cmdb.service.impl.ResExtService;
+import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.ct.entity.CtCategoryRoot;
 import com.dt.module.ct.service.ICtCategoryRootService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.entity.SysProcessForm;
 import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
-import com.dt.module.flow.service.impl.SysProcessFormServiceImpl;
 import com.dt.module.flow.service.ISysProcessFormService;
-import com.dt.module.form.entity.SysForm;
 import com.dt.module.form.service.ISysFormService;
+import com.dt.module.zc.service.impl.ZcService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +27,6 @@ import com.dt.module.cmdb.entity.ResActionItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dt.module.base.service.impl.SysUserInfoServiceImpl;
 import com.dt.module.base.service.ISysUserInfoService;
 
 /**
@@ -54,7 +52,7 @@ public class ZcController extends BaseController {
     IResActionItemService ResActionItemServiceImpl;
 
     @Autowired
-    ResExtService resExtService;
+    ZcService zcService;
 
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;
@@ -91,7 +89,7 @@ public class ZcController extends BaseController {
 
         SysProcessData sd = SysProcessDataServiceImpl.getById(id);
         JSONObject res = JSONObject.fromObject(sd);
-        String sql = "select " + ResExtService.resSqlbody + " t.* from res t,res_action_item item where t.id=item.resid and item.busuuid=?";
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t,res_action_item item where t.id=item.resid and item.busuuid=?";
         res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, sd.getBusid()).toJsonArrayWithJsonObject()));
         SysProcessForm form = SysProcessFormServiceImpl.getById(sd.getFormid());
         if (form != null) {
@@ -105,7 +103,7 @@ public class ZcController extends BaseController {
     @Acl(info = "创建单据", value = Acl.ACL_USER)
     @RequestMapping(value = "/insertBill.do")
     public R insertBill(SysProcessData entity, String items) {
-        String uuid = resExtService.createUuid(entity.getBustype());
+        String uuid = zcService.createUuid(entity.getBustype());
         entity.setBusid(uuid);
 
         if("0".equals(entity.getIfsp())){

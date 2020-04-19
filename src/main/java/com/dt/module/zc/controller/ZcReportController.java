@@ -1,34 +1,18 @@
 package com.dt.module.zc.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.util.TypedHashMap;
-import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.base.service.ISysUserInfoService;
-import com.dt.module.cmdb.entity.ResActionItem;
-import com.dt.module.cmdb.service.IResActionItemService;
-import com.dt.module.cmdb.service.impl.ResExtService;
-import com.dt.module.flow.entity.SysProcessData;
-import com.dt.module.flow.entity.SysProcessForm;
-import com.dt.module.flow.service.ISysProcessDataService;
-import com.dt.module.flow.service.ISysProcessFormService;
-import com.dt.module.flow.service.impl.SysUfloProcessService;
-import com.dt.module.form.service.ISysFormService;
+import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.zc.service.impl.ZcReportService;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author: algernonking
@@ -49,7 +33,7 @@ public class ZcReportController extends BaseController {
     public R queryPartUsedByPart() {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
         String part_id=ps.getString("part_id");
-        String sql = "select " + ResExtService.resSqlbody + " t.* from res t where dr='0'";
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0'";
         if ("-1".equals(part_id)) {
             sql = sql + " and part_id not in (select node_id from hrm_org_part where org_id='1') or part_id is null";
         } else {
@@ -120,7 +104,7 @@ public class ZcReportController extends BaseController {
     public R queryEmployeeUsedByUser() {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
         String userid=ps.getString("userid");
-        String sql = "select " + ResExtService.resSqlbody + " t.* from res t where dr='0'";
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0'";
         if(ToolUtil.isNotEmpty(userid)){
             sql=sql+" and used_userid='"+userid+"'";
         }

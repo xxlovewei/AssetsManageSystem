@@ -1310,8 +1310,12 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
                               $uibModalInstance, $scope, id, type, $http, $rootScope, DTOptionsBuilder,
-                              DTColumnBuilder, $compile) {
+                              DTColumnBuilder, $compile,datatype) {
     // type:one|many
+    // datatype: LY|
+    console.log("chosetype:"+type);
+    console.log("datatype:"+datatype);
+
     if (!angular.isDefined(type)) {
         type = "many"
     }
@@ -1373,7 +1377,7 @@ function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
 
     function flush() {
         var ps = {}
-
+        ps.datatype=datatype;
         ps.search = $scope.search;
 
         if ($scope.search == "") {

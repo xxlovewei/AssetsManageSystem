@@ -6,7 +6,6 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.cmdb.service.impl.ResExtService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -110,15 +109,16 @@ public class ZcReportService extends BaseService{
                  obj=map.get(class_id);
             }else{
                 obj=new JSONObject();
+
                 obj.put("catname",rs.getRcd(i).getString("catname"));
                 obj.put("catrootname",rs.getRcd(i).getString("catrootname"));
-                obj.put("idle","0");
-                obj.put("borrow","0");
-                obj.put("allocation","0");
-                obj.put("repair","0");
-                obj.put("inuse","0");
-                obj.put("stopuse","0");
-                obj.put("scrap","0");
+                obj.put(ZcCommonService.RECYCLE_INUSE,"0");
+                obj.put(ZcCommonService.RECYCLE_ALLOCATION,"0");
+                obj.put(ZcCommonService.RECYCLE_BORROW,"0");
+                obj.put(ZcCommonService.RECYCLE_IDLE,"0");
+                obj.put(ZcCommonService.RECYCLE_REPAIR,"0");
+                obj.put(ZcCommonService.RECYCLE_SCRAP,"0");
+                obj.put(ZcCommonService.RECYCLE_STOPUSE,"0");
             }
             obj.put(rs.getRcd(i).getString("code"),rs.getRcd(i).getString("cnt"));
             map.put(class_id,obj);
@@ -145,7 +145,7 @@ public class ZcReportService extends BaseService{
     //维保到期
     public R queryWbExpredReport(String day){
 
-        String sql = "select " + ResExtService.resSqlbody + " t.* from res t where dr='0' and wbout_date<= date_add(curdate(), INTERVAL "+day+" DAY)";
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and wbout_date<= date_add(curdate(), INTERVAL "+day+" DAY)";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
 

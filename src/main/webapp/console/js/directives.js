@@ -361,7 +361,7 @@ function ionRangeSlider() {
 /**
  * dropZone - Directive for Drag and drop zone file upload plugin
  */
-function dropZone() {
+function dropZoneBB() {
     return {
         restrict: 'AE',
         scope: {
@@ -437,6 +437,89 @@ function dropZone() {
         }
     }
 }
+
+
+function dropZone() {
+    return {
+        restrict : 'AE',
+        scope : {
+            dzconfig : '=',
+            dzeventhandlers : '=',
+            alias : '@'
+        },
+        link : function(scope, element, attrs) {
+
+            // //创建对象
+            // if (scope.dzconfig.maxFiles == null) {
+            // scope.dzconfig.maxFiles = 1;
+            // }
+            // drop files here to uploads
+            console.log(scope.dzconfig);
+            if (typeof (scope.dzconfig.dictDefaultMessage) == "undefined") {
+                scope.dzconfig.dictDefaultMessage = "点击上传文件";
+            }
+
+            scope.dzconfig.dictFallbackMessage = "Your browser does not support drag'n'drop file uploads."
+            scope.dzconfig.dictFallbackText = "Please use the fallback form below to upload your files like in the olden days."
+            scope.dzconfig.dictFileTooBig = "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB."
+            scope.dzconfig.dictInvalidFileType = "不能上传此类文件"
+            scope.dzconfig.dictResponseError = "服务端错误代码:{{statusCode}}"
+            scope.dzconfig.dictCancelUpload = "取消上传"
+            scope.dzconfig.dictCancelUploadConfirmation = "Are you sure you want to cancel this upload?"
+            scope.dzconfig.dictRemoveFile = "删除"
+            scope.dzconfig.dictRemoveFileConfirmation = null
+            scope.dzconfig.dictMaxFilesExceeded = "超过最大文件限制"
+
+            var dzeventhandlers = {
+                'addedfile' : function(file) {
+                    scope.file = file;
+                    if (this.files[1] != null) {
+                        this.removeFile(this.files[0]);
+                    }
+                    scope.$apply(function() {
+                        scope.fileAdded = true;
+                    });
+                },
+
+                'success' : function(file, response) {
+                },
+                'maxfilesexceeded' : function(file) {
+                    if (scope.dropzone.options.maxFiles == 1) {
+                        scope.dropzone.removeAllFiles()
+                        scope.dropzone.addFile(file);
+                    } else {
+                        scope.dropzone.removeFile(file);
+                    }
+                    message_error("已超过文件最大限制数目,"
+                        + scope.dropzone.options.maxFiles);
+                }
+
+            };
+
+            dropzone = new Dropzone(element[0], scope.dzconfig);
+
+            // angular.forEach(dzeventhandlers, function(handler, event) {
+            //
+            // dropzone.on(event, handler);
+            // });
+            // 派发前前端配置监听事件
+            if (scope.dzeventhandlers) {
+                Object.keys(scope.dzeventhandlers).forEach(function(eventName) {
+                    dropzone.on(eventName, scope.dzeventhandlers[eventName]);
+                });
+            }
+
+            scope.processDropzone = function() {
+                dropzone.processQueue();
+            };
+
+            scope.resetDropzone = function() {
+                dropzone.removeAllFiles();
+            }
+        }
+    }
+}
+
 
 /**
  * chatSlimScroll - Directive for slim scroll for small chat
