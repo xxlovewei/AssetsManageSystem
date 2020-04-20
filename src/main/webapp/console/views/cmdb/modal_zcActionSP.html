@@ -5,7 +5,7 @@
 	}
 }
 </style>
-<link rel="stylesheet" href="./plugin/form/k-form-design.css">
+
 <div class="modal-content">
 	<div class="modal-header">
 		<button ng-click="cancel()" type="button" class="close">
@@ -15,13 +15,6 @@
 	</div>
 	<div class="modal-body">
 		<div class="wrapper wrapper-content animated fadeInRight">
-			<div class="row">
-				<div class="wrapper wrapper-content animated fadeInRight">
-					<div id="app">
-						<k-form-build ref='kfb'  :value="jsonData"  @submit="handleSubmit"  ></k-form-build>
-								</div>
-				</div>
-			</div>
 			<div class="row">
 				<div class="wrapper wrapper-content animated fadeInRight">
 					<form class="form-horizontal m-t-md " name="myForm" novalidate
@@ -49,6 +42,4 @@
 		</div>
 	</div>
 </div>
- <script src="./plugin/form/vue.min.js"></script>
- <script src="./plugin/form/k-form-design.umd.min.js?v=1"></script>
-<!--<script src="http://127.0.0.1:8080/dt/console/plugin/form/k-form-design.umd.min.js"></script>-->
+

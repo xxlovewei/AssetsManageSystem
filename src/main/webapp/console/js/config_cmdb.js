@@ -1026,6 +1026,9 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
     $scope.spsugguest = [];
     $scope.ctl = {};
     $scope.ctl.pagespbtnhide = true;
+    $scope.ctl.flowsuggest=true;
+    $scope.ctl.flowchart=true;
+    $scope.ctl.flowsuggestlist=true;
     $scope.spsuggest = "";
     //页面是否审批类型打开
     $scope.pagetype = pagetype;
@@ -1064,8 +1067,14 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                 if (res.success) {
                     $scope.data = res.data;
                     $scope.dtOptions.aaData = res.data.items;
+
                     if(res.data.ifsp=="1"){
-                        $scope.hidectl={"flowform":false,"flowchart":false,"flowsuggestlist":false,"flowsuggest":false};
+                        $scope.hidectl={"flowchart":false,"flowsuggestlist":false,"flowsuggest":false};
+                    }else{
+                        $scope.ctl.pagespbtnhide = true;
+                        $scope.ctl.flowsuggest=true;
+                        $scope.ctl.flowchart=true;
+                        $scope.ctl.flowsuggestlist=true;
                     }
 
                     //获取审批
@@ -1111,7 +1120,8 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                                 },
                                 methods: {
                                     init() {
-                                        this.$refs.kfb.setData(res.data.formdata);
+                                        console.log(res.data.formdata);
+                                        this.$refs.kfb.setData( angular.fromJson(res.data.formdata));
                                     },
                                     handleSubmit(p) {
 
@@ -1363,11 +1373,11 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
                               $uibModalInstance, $scope, id, type, $http, $rootScope, DTOptionsBuilder,
-                              DTColumnBuilder, $compile,datatype) {
+                              DTColumnBuilder, $compile,datarange) {
     // type:one|many
     // datatype: LY|
     console.log("chosetype:"+type);
-    console.log("datatype:"+datatype);
+    console.log("datarange:"+datarange);
 
     if (!angular.isDefined(type)) {
         type = "many"
@@ -1430,7 +1440,7 @@ function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
 
     function flush() {
         var ps = {}
-        ps.datatype=datatype;
+        ps.datarange=datarange;
         ps.search = $scope.search;
 
         if ($scope.search == "") {

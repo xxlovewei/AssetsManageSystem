@@ -34,6 +34,15 @@ public class SysProcessDataExtController extends BaseController {
     ISysProcessDataService SysProcessDataServiceImpl;
 
     @ResponseBody
+    @Acl(info = "根据Id删除", value = Acl.ACL_USER)
+    @RequestMapping(value = "/deleteById.do")
+    public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+        return R.SUCCESS_OPER(SysProcessDataServiceImpl.removeById(id));
+    }
+
+
+
+    @ResponseBody
     @Acl(info = "根据Id查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectByBusinessId.do")
     public R selectById(@RequestParam(value = "businessid", required = true, defaultValue = "") String businessid) {

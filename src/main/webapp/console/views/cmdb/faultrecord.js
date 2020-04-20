@@ -90,7 +90,7 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
 				type : function() {
 					return "many"
 				},
-				datatype:function(){
+				datarange:function(){
 					return "repair"
 				}
 			}

@@ -1,11 +1,21 @@
 package com.dt.module.zc.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ConvertUtil;
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.flow.entity.SysProcessDef;
+import com.dt.module.flow.service.ISysProcessDefService;
+import com.dt.module.form.entity.SysForm;
+import com.dt.module.form.service.impl.FormServiceImpl;
+import com.dt.module.zc.entity.ResRepairItem;
+import com.dt.module.zc.service.impl.ZcChangeService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.ct.entity.CtCategoryRoot;
 import com.dt.module.ct.service.ICtCategoryRootService;
@@ -16,17 +26,16 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
 import com.dt.module.flow.service.ISysProcessFormService;
 import com.dt.module.form.service.ISysFormService;
 import com.dt.module.zc.service.impl.ZcService;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.entity.ResActionItem;
-
+import com.dt.module.form.service.impl.FormServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.dt.module.form.service.ISysFormService;
 import com.dt.module.base.service.ISysUserInfoService;
 
 /**
@@ -38,12 +47,22 @@ import com.dt.module.base.service.ISysUserInfoService;
 @RequestMapping("/api/zc")
 public class ZcController extends BaseController {
 
+    @Autowired
+    FormServiceImpl formServiceImpl;
+
 
     @Autowired
-    ISysProcessFormService SysProcessFormServiceImpl;
+    ZcChangeService zcChangeService;
+
+    @Autowired
+    ISysProcessDefService SysProcessDefServiceImpl;
+
 
     @Autowired
     ISysProcessDataService SysProcessDataServiceImpl;
+    @Autowired
+    ISysProcessFormService SysProcessFormServiceImpl;
+
 
     @Autowired
     ISysFormService SysFormServiceImpl;
@@ -60,6 +79,44 @@ public class ZcController extends BaseController {
 
     @Autowired
     ICtCategoryRootService CtCategoryRootServiceImpl;
+
+
+    @ResponseBody
+    @Acl(info = "zc", value = Acl.ACL_USER)
+    @RequestMapping(value = "/zcghById.do")
+    public R zcghById(String id) {
+
+        SysProcessData obj=SysProcessDataServiceImpl.getById(id);
+        String busstatus=obj.getBusstatus();
+        String pstatus=obj.getPstatus();
+        if(SysUfloProcessService.P_STATUS_FINISH.equals(pstatus)&&"out".equals(busstatus)){
+            return zcChangeService.ZcGhChange(obj.getBusid());
+        }
+        else{
+            return R.FAILURE("当前状态不允许归还!");
+        }
+    }
+
+    @ResponseBody
+    @Acl(info = "zc", value = Acl.ACL_USER)
+    @RequestMapping(value = "/zctkById.do")
+    public R zctkById(String id) {
+
+        SysProcessData obj=SysProcessDataServiceImpl.getById(id);
+        String busstatus=obj.getBusstatus();
+        String pstatus=obj.getPstatus();
+        if(SysUfloProcessService.P_STATUS_FINISH.equals(pstatus)&&"out".equals(busstatus)){
+            return zcChangeService.ZcTkChange(obj.getBusid());
+        }
+        else{
+            return R.FAILURE("当前状态不允许退款!");
+        }
+
+    }
+
+
+
+
 
 
     @ResponseBody
@@ -88,10 +145,12 @@ public class ZcController extends BaseController {
     public R selectBillById(String id) {
 
         SysProcessData sd = SysProcessDataServiceImpl.getById(id);
-        JSONObject res = JSONObject.fromObject(sd);
+        JSONObject res=JSONObject.parseObject(JSON.toJSONString(sd, SerializerFeature.WriteDateUseDateFormat));
         String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t,res_action_item item where t.id=item.resid and item.busuuid=?";
         res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, sd.getBusid()).toJsonArrayWithJsonObject()));
-        SysProcessForm form = SysProcessFormServiceImpl.getById(sd.getFormid());
+        QueryWrapper<SysProcessForm> ew = new QueryWrapper<SysProcessForm>();
+        ew.and(i -> i.eq("processdataid", id));
+        SysProcessForm  form =SysProcessFormServiceImpl.getOne(ew);
         if (form != null) {
             res.put("formdata", form.getFdata());
             res.put("formconf", form.getFtpldata());
@@ -99,22 +158,16 @@ public class ZcController extends BaseController {
         return R.SUCCESS_OPER(res);
     }
 
+
+
     @ResponseBody
     @Acl(info = "创建单据", value = Acl.ACL_USER)
     @RequestMapping(value = "/insertBill.do")
-    public R insertBill(SysProcessData entity, String items) {
+    public R insertBill(SysProcessData entity, String items,String jsonvalue,String processdefid) {
+        JSONObject jsonvalueobj = JSONObject.parseObject(jsonvalue);
         String uuid = zcService.createUuid(entity.getBustype());
-        entity.setBusid(uuid);
 
-        if("0".equals(entity.getIfsp())){
-            entity.setPstatus(SysUfloProcessService.P_STATUS_FINISH);
-            entity.setPstatusdtl(SysUfloProcessService.P_DTL_STATUS_FINISH_WITHOUTFLOW);
-        }else{
-            entity.setPstatus(SysUfloProcessService.P_STATUS_SFA);
-        }
-        //  entity.setPstartuserid(this.getUserId());
-        //  entity.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
-        entity.setPtype(SysUfloProcessService.P_TYPE_FLOW);
+        //填充资产数据
         JSONArray items_arr = JSONArray.parseArray(items);
         List<ResActionItem> entityList = new ArrayList<ResActionItem>();
         for (int i = 0; i < items_arr.size(); i++) {
@@ -124,9 +177,40 @@ public class ZcController extends BaseController {
             e.setStatus("out");
             entityList.add(e);
         }
-        //entity.setDtotal(ConvertUtil.toBigDecimal(entityList.size()));
         ResActionItemServiceImpl.saveBatch(entityList);
+
+        //创建单据
+        entity.setBusid(uuid);
+        entity.setPtitle(jsonvalueobj.getString("dtitle"));
+        entity.setPtype(SysUfloProcessService.P_TYPE_FLOW);
+        if("0".equals(entity.getIfsp())){
+            //不需要审批
+            entity.setPstatus(SysUfloProcessService.P_STATUS_FINISH);
+            entity.setPstatusdtl(SysUfloProcessService.P_DTL_STATUS_SUCCESS);
+            entity.setBusstatus("out");
+            //变更资产数据状态
+            zcChangeService.ZcChange(uuid,entity.getBustype());
+
+        }else{
+            //需要送审
+            entity.setPstatus(SysUfloProcessService.P_STATUS_SFA);
+            entity.setPstatusdtl(SysUfloProcessService.P_DTL_STATUS_SFA);
+        }
         SysProcessDataServiceImpl.save(entity);
+
+
+        //填充表单数据
+        QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
+        ew.and(i -> i.eq("busid", uuid));
+        String id=SysProcessDataServiceImpl.getOne(ew).getId();
+        SysProcessDef pdef = SysProcessDefServiceImpl.getById(processdefid);
+        System.out.println(pdef.toString());
+        SysForm sf = SysFormServiceImpl.getById(pdef.getForm());
+        if(ToolUtil.isNotEmpty(jsonvalue)){
+            R r = formServiceImpl.parseFromJsonToSqlTpl(sf.getCt(), jsonvalue, FormServiceImpl.OPER_TYPE_INSERT, id, "");
+            JSONObject fr = r.queryDataToJSONObject();
+            db.execute(fr.getString("out"));
+        }
         return R.SUCCESS_OPER();
     }
 

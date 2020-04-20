@@ -58,18 +58,13 @@ public class SysUfloProcessService extends BaseService {
 
     public static String P_TYPE_FLOW = "flow";
     public static String P_TYPE_FORM = "form";
-//    public static String P_TYPE_CANCEL = "cancel";
-//    public static String P_TYPE_FINISH = "finish";
-//    public static String P_TYPE_ROLLBACK = "rollback";
 
     //等待送审
+    //    public static String P_STATUS_APPROVALSUCCESS = "success";
+//    public static String P_STATUS_APPROVALFAILED = "failed";
+//    public static String P_STATUS_FINISH_WITHOUTFLOW = "finishwithoutflow";
+    //流程运行中
     public static String P_STATUS_SFA = "submitforapproval";
-    public static String P_STATUS_INREVIEW = "inreview";
-    public static String P_STATUS_APPROVALSUCCESS = "success";
-    public static String P_STATUS_APPROVALFAILED = "failed";
-    public static String P_STATUS_FINISH_WITHOUTFLOW = "finishwithoutflow";
-
-
     public static String P_STATUS_RUNNING = "running";
     public static String P_STATUS_FINISH = "finish";
     public static String P_STATUS_ROLLBACK = "rollback";
@@ -77,10 +72,11 @@ public class SysUfloProcessService extends BaseService {
 
 
     public static String P_DTL_STATUS_SFA="submitforapproval";
+    //流程运行中
     public static String P_DTL_STATUS_INREVIEW="inreview";
     public static String P_DTL_STATUS_SUCCESS="success";
     public static String P_DTL_STATUS_FAILED="failed";
-    public static String P_DTL_STATUS_FINISH_WITHOUTFLOW="withoutflow";
+
 
 
 
@@ -256,7 +252,6 @@ public class SysUfloProcessService extends BaseService {
     // 同意任务
     public R completeTask(String variables, String taskId, String opinion) {
         // 修改流程标记
-
         TaskOpinion op = new TaskOpinion(opinion);
         long taskId_l = ConvertUtil.toLong(taskId);
         Task tsk = taskService.getTask(taskId_l);
@@ -266,7 +261,7 @@ public class SysUfloProcessService extends BaseService {
         UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
         uw.eq("processInstanceId", instid);
         uw.set("pstatus", SysUfloProcessService.P_STATUS_RUNNING);
-        uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
+        uw.set("pstatusdtl", SysUfloProcessService.P_DTL_STATUS_INREVIEW);
         // 判断下一个是不是终点
         ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
         Node node = process.getNode(tsk.getNodeName());
@@ -284,17 +279,20 @@ public class SysUfloProcessService extends BaseService {
                     DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
                     String nowtime = simpleDateFormat.format(date);
                     uw.set("pstatus", SysUfloProcessService.P_STATUS_FINISH);
+                    uw.set("pstatusdtl", SysUfloProcessService.P_DTL_STATUS_SUCCESS);
                     uw.set("pendtime", nowtime);
                     // 流程类型处理
                     if (busType != null) {
-                        if (busType.equals("LY") || busType.equals("JY") || busType.equals("ZY")) {
-                            uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
+                        if (busType.equals("LY") || busType.equals("JY")|| busType.equals("DB") || busType.equals("ZY")) {
+                            uw.set("busstatus","out");
                         }
                     }
                 }
             }
         }
-        SysProcessDataServiceImpl.update(uw);
+
+
+
         return R.SUCCESS_OPER();
     }
 
@@ -391,7 +389,7 @@ public class SysUfloProcessService extends BaseService {
         UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
         uw.eq("processInstanceId", instid);
         uw.set("pstatus", SysUfloProcessService.P_STATUS_FINISH);
-        uw.set("pstatusdtl", P_STATUS_APPROVALFAILED);
+        uw.set("pstatusdtl", SysUfloProcessService.P_DTL_STATUS_FAILED);
         SysProcessDataServiceImpl.update(uw);
         return R.SUCCESS_OPER();
     }

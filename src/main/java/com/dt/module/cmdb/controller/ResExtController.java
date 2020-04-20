@@ -201,18 +201,18 @@ public class ResExtController extends BaseController {
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryResAllByClass.do")
-    public R queryResAllByClass(String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryResAllByClass(String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
 
 
-        return zcService.queryResAllGetData(classroot,class_id, wb, env, recycle, loc, search);
+        return zcService.queryResAllGetData(datarange,classroot,class_id, wb, env, recycle, loc, search);
     }
 
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryResAll.do")
-    public R queryResAll(String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryResAll(String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
 
-        return zcService.queryResAllGetData(classroot,class_id, wb, env, recycle, loc, search);
+        return zcService.queryResAllGetData(datarange,classroot,class_id, wb, env, recycle, loc, search);
 
     }
 

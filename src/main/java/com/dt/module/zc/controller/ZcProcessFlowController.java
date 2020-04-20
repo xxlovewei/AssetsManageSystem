@@ -6,6 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.dt.module.cmdb.entity.ResActionItem;
+import com.dt.module.cmdb.service.IResActionItemService;
+import com.dt.module.flow.entity.SysProcessForm;
+import com.dt.module.flow.service.ISysProcessFormService;
 import com.dt.module.form.service.ISysFormService;
 import com.dt.module.form.service.impl.FormServiceImpl;
 
@@ -15,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.dt.module.flow.entity.SysProcessDef;
 import com.dt.module.flow.service.ISysProcessDefService;
+import com.dt.module.zc.service.impl.ZcChangeService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,6 +67,9 @@ import com.dt.module.form.entity.SysForm;
 public class ZcProcessFlowController extends BaseController {
 
     @Autowired
+    ZcChangeService zcChangeService;
+
+    @Autowired
     SysUfloProcessService sysUfloProcessService;
 
     @Autowired
@@ -84,6 +93,10 @@ public class ZcProcessFlowController extends BaseController {
     @Autowired
     ISysProcessDefService SysProcessDefServiceImpl;
 
+
+
+    @Autowired
+    IResActionItemService ResActionItemServiceImpl;
 
     @Autowired
     ISysProcessDataService SysProcessDataServiceImpl;
@@ -156,42 +169,43 @@ public class ZcProcessFlowController extends BaseController {
     @Autowired
     ISysFormService SysFormServiceImpl;
 
+
+    @Autowired
+    ISysProcessFormService SysProcessFormServiceImpl;
+
+
     @ResponseBody
     @Acl(info = "发起流程", value = Acl.ACL_USER)
     @RequestMapping(value = "/startProcess.do")
-    public R startProcess(String ifsp, String id, String jsonvalue, String processdefid) {
-        //flowtype 1 ,0(不需要流程)
+    public R startProcess(String id, String jsonvalue, String processdefid) {
+
         SysProcessDef pdef = SysProcessDefServiceImpl.getById(processdefid);
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
         SysProcessData pd = SysProcessDataServiceImpl.getById(ps.getString("id"));
-        SysForm sf = SysFormServiceImpl.getById(pdef.getForm());
         if (pd == null) {
             return R.FAILURE("不存在流程数据");
         }
-        JSONObject jsonvalueobj = JSONObject.parseObject(jsonvalue);
-        R r = formServiceImpl.parseFromJsonToSqlTpl(sf.getCt(), jsonvalue, FormServiceImpl.OPER_TYPE_INSERT, id, "");
-        JSONObject fr = r.queryDataToJSONObject();
-        db.execute(fr.getString("out"));
-        if ("1".equals(ifsp)) {
-            // 需要审批
-            StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
-            startProcessInfo.setCompleteStartTask(true);
-            startProcessInfo.setBusinessId(pd.getBusid());
-            //startProcessInfo.setTag(sd.getPtype());
-            startProcessInfo.setSubject(jsonvalueobj.getString("dtitle") == null ? "" : jsonvalueobj.getString("dtitle"));
-            startProcessInfo.setCompleteStartTaskOpinion("发起流程");
-            ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
-            // 插入流程数据
-            pd.setPstatus(SysUfloProcessService.P_STATUS_RUNNING);
-            pd.setPstartuserid(this.getUserId());
-            pd.setFormid(fr.getString("id"));
-            pd.setPtitle(jsonvalueobj.getString("dtitle") == null ? "" : jsonvalueobj.getString("dtitle"));
-            pd.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
-            pd.setProcesskey(pdef.getPtplkey());
-            pd.setProcessInstanceId(inst.getId() + "");
-        } else if ("0".equals(ifsp)) {
-            pd.setPstatus(SysUfloProcessService.P_STATUS_FINISH);
-        }
+
+        //获取表单数据
+        QueryWrapper<SysProcessForm> ew = new QueryWrapper<SysProcessForm>();
+        ew.and(i -> i.eq("processdataid", id));
+        SysProcessForm  formdata =SysProcessFormServiceImpl.getOne(ew);
+
+
+        // 需要审批
+        StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
+        startProcessInfo.setCompleteStartTask(true);
+        startProcessInfo.setBusinessId(pd.getBusid());
+        startProcessInfo.setTag("zc");
+        startProcessInfo.setSubject(formdata.getDtitle() == null ? "" :formdata.getDtitle());
+        startProcessInfo.setCompleteStartTaskOpinion("发起流程");
+        ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
+        // 插入流程数据
+        pd.setPstatus(SysUfloProcessService.P_STATUS_RUNNING);
+        pd.setPstartuserid(this.getUserId());
+        pd.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
+        pd.setProcesskey(pdef.getPtplkey());
+        pd.setProcessInstanceId(inst.getId() + "");
         SysProcessDataServiceImpl.saveOrUpdate(pd);
         return R.SUCCESS_OPER();
     }
@@ -209,6 +223,13 @@ public class ZcProcessFlowController extends BaseController {
     @Acl(info = "", value = Acl.ACL_USER)
     public R completeTask(String variables, String taskId, String opinion) {
         R r = sysUfloProcessService.completeTask(variables, taskId, opinion);
+        long taskId_l = ConvertUtil.toLong(taskId);
+        Task tsk = taskService.getTask(taskId_l);
+        String instid = tsk.getProcessInstanceId() + "";
+        QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
+        qw.eq("busid", tsk.getBusinessId());
+        SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
+        zcChangeService.ZcChange(tsk.getBusinessId(),sd.getBustype());
         return r;
     }
 
@@ -290,7 +311,7 @@ public class ZcProcessFlowController extends BaseController {
         UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
         uw.eq("processInstanceId", instid);
         uw.set("pstatus", SysUfloProcessService.P_STATUS_RUNNING);
-        uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_INREVIEW);
+        uw.set("pstatusdtl", SysUfloProcessService.P_DTL_STATUS_INREVIEW);
         uw.set("ptitle", ps.getString("dtitle", " "));
         uw.set("dtitle", ps.getString("dtitle", " "));
         uw.set("df1", ps.getString("df1", " "));

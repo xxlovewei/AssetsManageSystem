@@ -2,92 +2,37 @@ function modalzcActionSPCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
 		$uibModalInstance, $window, $stateParams,$timeout) {
 		console.log(meta);
-
-
-
 		var url = $rootScope.project + "uflo/diagram?processKey=" + meta.pk;
 		$scope.url = url;
-		let vm;
-		$timeout(function(){
-			var jd=decodeURI(meta.flowform.formct);
-			let jsonData  =angular.fromJson(jd);
-			console.log(jsonData);
-			vm = new Vue({
-				el: '#app',
-				data: {
-					jsonData
-				},
-				mounted () {
-					this.init()
-				},
-				methods: {
-					init(){
-						console.log(this);
-						console.log(this.jsonData);
-					},
-					handleSubmit(p) {
-						// 通过表单提交按钮触发，获取promise对象
-						p().then(res => {
-							// 获取数据成功
-							alert(JSON.stringify(res))
-						})
-							.catch(err => {
-								console.log(err, '校验失败')
-							})
-					},
-					getData() {
-						// 通过函数获取数据
-						this.$refs.kfb.getData().then(res => {
-							// 获取数据成功
-							alert(JSON.stringify(res))
-						})
-							.catch(err => {
-								console.log(err, '校验失败')
-							})
-					}
-				}
-			})
-		},1000)
-
-
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
 	$scope.sure = function() {
-						vm.$refs.kfb.getData().then(res => {
-							// 获取数据成功
-							meta.jsonvalue=JSON.stringify(res);
-							meta.ifsp=1;
-							$http.post($rootScope.project + "/api/zc/flow/startProcess.do",
-									meta).success(function(res) {
-									if (res.success) {
-										$uibModalInstance.close("OK");
-									} else {
-										notify({
-											message : res.message
-										});
-									}
-								})
-
-						})
-							.catch(err => {
-								console.log(err, '校验失败')
-							})
-
-		//
+		$http.post($rootScope.project + "/api/zc/flow/startProcess.do",
+			meta).success(function(res) {
+			if (res.success) {
+				$uibModalInstance.close("OK");
+			} else {
+				notify({
+					message : res.message
+				});
+			}
+		})
 	}
-
-
-
 }
+
+
 function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,$timeout,
 		$uibModalInstance, $state, meta) {
-	console.log(meta);
+	console.log("meta",meta);
 	$scope.actmsg =meta.actmsg;
 	$scope.data = {};
+	$scope.data.processdefid=meta.processdefid;
+ 
 	$scope.spOpt=[{id:"1",name:"需要审批"},{id:"0",name:"不需要审批"}];
 	$scope.spSel=$scope.spOpt[0];
+
 
 	$scope.dtOptions=DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
 		.withPaginationType('full_numbers').withDisplayLength(100)
@@ -122,7 +67,7 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 				type : function() {
 					return "many"
 				},
-				datatype:function(){
+				datarange:function(){
 					return meta.flowtype
 				}
 			}
@@ -130,29 +75,76 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		modalInstance.result.then(function(result) {
 			$scope.dtOptions.aaData = result;
 		}, function(reason) {
-
 			$log.log("reason", reason)
 		});
 	}
+
+	let vm;
+	$timeout(function(){
+		var jd=decodeURI(meta.flowform.formct);
+		let jsonData  =angular.fromJson(jd);
+		console.log(jsonData);
+		vm = new Vue({
+			el: '#app',
+			data: {
+				jsonData
+			},
+			mounted () {
+				this.init()
+			},
+			methods: {
+				init(){
+					console.log(this);
+					console.log(this.jsonData);
+				},
+				handleSubmit(p) {
+					// 通过表单提交按钮触发，获取promise对象
+					p().then(res => {
+						// 获取数据成功
+						alert(JSON.stringify(res))
+					})
+						.catch(err => {
+							console.log(err, '校验失败')
+						})
+				},
+				getData() {
+					// 通过函数获取数据
+					this.$refs.kfb.getData().then(res => {
+						// 获取数据成功
+						alert(JSON.stringify(res))
+					})
+						.catch(err => {
+							console.log(err, '校验失败')
+						})
+				}
+			}
+		})
+	},1000);
+
 	$scope.sure = function() {
 		$scope.data.bustype = meta.flowtype;
 		if ($scope.dtOptions.aaData.length == 0) {
 			alert("请先选择资产");
 			return;
 		}
-
 		$scope.data.ifsp=$scope.spSel.id;
 		$scope.data.items = angular.toJson($scope.dtOptions.aaData);
-		$http.post($rootScope.project + "/api/zc/insertBill.do",
+		vm.$refs.kfb.getData().then(res => {
+			$scope.data.jsonvalue=JSON.stringify(res);
+			$http.post($rootScope.project + "/api/zc/insertBill.do",
 				$scope.data).success(function(res) {
-			if (res.success) {
-				$uibModalInstance.close("OK");
-			} else {
-				notify({
-					message : res.message
-				});
-			}
+				if (res.success) {
+					$uibModalInstance.close("OK");
+				} else {
+					notify({
+						message : res.message
+					});
+				}
+			})
 		})
+			.catch(err => {
+				console.log(err, '校验失败')
+			})
 	}
 
 	$scope.cancel = function() {
@@ -165,6 +157,20 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	var pbtns = $rootScope.curMemuBtns;
 	var flowtype = $state.router.globals.current.data.actiontype;
+
+	var actbtn = "操作";
+	var actback="退库";
+	if (flowtype == "LY") {
+		actbtn = "领用";
+		actback="退库";
+	} else if (flowtype == "JY") {
+		actbtn = "借用";
+		actback="归还";
+	} else if (flowtype == "DB") {
+		actbtn = "调拨";
+	}
+
+
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withDOM('frtlip').withPaginationType('full_numbers')
 			.withDisplayLength(100).withOption("ordering", false).withOption(
@@ -249,6 +255,31 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			return "不需要";
 		} else {
 			return data;
+		}
+	}
+
+	function renderBusstatus(data, type, full) {
+		if (data == "in") {
+			if (flowtype == "LY") {
+				return "已退库";
+			} else if (flowtype == "JY") {
+				return "已归还";
+			} else if (flowtype == "DB") {
+			}
+
+
+		} else if (data == "out") {
+
+			if (flowtype == "LY") {
+				return "已领用";
+			} else if (flowtype == "JY") {
+				return "已借用";
+			} else if (flowtype == "DB") {
+			}
+
+
+		} else {
+			return data;
 
 		}
 	}
@@ -262,10 +293,13 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					function() {
 						return ""
 					}));
-	$scope.dtColumns.push(DTColumnBuilder.newColumn('busid').withTitle('编号')
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('busid').withTitle('单据号')
 			.withOption('sDefaultContent', ''));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('busstatus').withTitle('单据状态')
+		.withOption('sDefaultContent', '').renderWith(renderBusstatus));
+
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('pstatus').withTitle(
-			'状态').withOption('sDefaultContent', '').renderWith(renderZCSPStatus));
+			'流程状态').withOption('sDefaultContent', '').renderWith(renderZCSPStatus));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('ptitle').withTitle('标题')
 			.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('pstartusername').withTitle('流程发起人')
@@ -273,40 +307,14 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('ifsp').withTitle('需要审批')
 		.withOption('sDefaultContent', '').renderWith(renderSp));
-	// if (acttype == "LY") {
-	// 	$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('领用人')
-	// 			.withOption('sDefaultContent', ''));
-	// } else if (acttype == "JY") {
-	// 	$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('借用人')
-	// 			.withOption('sDefaultContent', ''));
-	// } else if (acttype == "ZY") {
-	// 	$scope.dtColumns.push(DTColumnBuilder.newColumn('df1').withTitle('转移人')
-	// 			.withOption('sDefaultContent', ''));
-	// }
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn('df2').withTitle('退回时间')
-	// 		.withOption('sDefaultContent', ''));
-	//
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn('dtotal').withTitle('总数量')
-	// 		.withOption('sDefaultContent', ''));
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn('df10').withTitle('操作人')
-	// 		.withOption('sDefaultContent', ''));
+
 	$scope.dtColumns.push(DTColumnBuilder.newColumn('createTime').withTitle(
 			'创建时间').withOption('sDefaultContent', ''));
 
-	// $scope.dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('审批流程')
-	// .withOption('sDefaultContent', '').renderWith(renderSpReview));
 	$scope.query = function() {
 		flush();
 	}
 
-	var actbtn = "操作";
-	if (flowtype == "LY") {
-		actbtn = "领用";
-	} else if (flowtype == "JY") {
-		actbtn = "借用";
-	} else if (flowtype == "ZY") {
-		actbtn = "转移";
-	}
 
 	var meta = {
 		tablehide : false,
@@ -327,22 +335,23 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">'
 							+ actbtn + '</button>'
 				},
+
 				{
 					id : "btn2",
 					label : "",
 					type : "btn",
 					show : false,
-					priv : "act1",
-					template : ' <button ng-click="ss()" class="btn btn-sm  btn-primary" type="submit">送审</button>'
+					priv : "act2",
+					template : ' <button ng-click="actback()" class="btn btn-sm  btn-primary" type="submit">'+actback+'</button>'
 				},
-//				{
-//					id : "btn2",
-//					label : "",
-//					type : "btn",
-//					show : false,
-//					priv : "act2",
-//					template : ' <button ng-click="back()" class="btn btn-sm  btn-primary" type="submit">归还</button>'
-//				},
+			{
+				id : "btn2",
+				label : "",
+				type : "btn",
+				show : false,
+				priv : "act1",
+				template : ' <button ng-click="ss()" class="btn btn-sm  btn-primary" type="submit">送审</button>'
+			},
 				{
 					id : "btn2",
 					label : "",
@@ -354,7 +363,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "btn2",
 					label : "",
 					type : "btn",
-					show : false,
+					show : true,
 					priv : "remove",
 					template : ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
 				} ],
@@ -497,30 +506,36 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	$scope.del = function() {
-
 		var selrows = getSelectRow();
 		if (angular.isDefined(selrows)) {
-			$confirm({
-				text : '是否删除?'
-			})
+			if(selrows.pstatus=="submitforapproval"){
+				$confirm({
+					text : '是否删除?'
+				})
 					.then(
-							function() {
-								$http
-										.post(
-												$rootScope.project
-														+ "/api/cmdb/resActionExt/removeById.do",
-												{
-													id : selrows.id
-												}).success(function(res) {
-											if (res.success) {
-												flush();
-											} else {
-												notify({
-													message : res.message
-												});
-											}
-										});
+						function() {
+							$http
+								.post(
+									$rootScope.project
+									+ "/api/flow/sysProcessDataExt/deleteById.do",
+									{
+										id : selrows.id
+									}).success(function(res) {
+								if (res.success) {
+									flush();
+								} else {
+									notify({
+										message : res.message
+									});
+								}
 							});
+						});
+			}else{
+				notify({
+					message : "当前状态不允许删除"
+				});
+			}
+
 		}
 	}
 
@@ -531,34 +546,52 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		ps.flowtype = flowtype;
 		if (ps.flowtype == "LY") {
 			ps.actmsg = "领用人";
+			ps.flowcode="process_zcly";
 		} else if (ps.flowtype == "JY") {
 			ps.actmsg = "借用人";
+			ps.flowcode="process_zcjy";
 		} else if (ps.flowtype == "ZY") {
-			ps.actmsg = "转移人";
+			ps.actmsg = "调拨人";
+			ps.flowcode="process_zczy";
 		}
-		var modalInstance = $uibModal.open({
-			backdrop : true,
-			templateUrl : 'views/cmdb/modal_zcAction.html',
-			controller : modalzcActionSaveCtl,
-			size : 'blg',
-			resolve : {
-				meta : function() {
-					return ps;
+
+		$http.post($rootScope.project + "/api/flow/sysProcessSetting/ext/selectByCode.do",
+			{code:ps.flowcode}).success(function(res) {
+			if(!res.success){
+				notify({
+					message : "未定义流程配置"
+				});
+				return ;
+			}
+			ps.flowform=res.data;
+			if(!angular.isDefined(res.data.processdefid)){
+				notify({
+					message : "未定义流程"
+				});
+			}
+			ps.processdefid=res.data.processdefid;
+			ps.pk=res.data.processKey;
+
+			var modalInstance = $uibModal.open({
+				backdrop : true,
+				templateUrl : 'views/cmdb/modal_zcAction.html',
+				controller : modalzcActionSaveCtl,
+				size : 'blg',
+				resolve : {
+					meta : function() {
+						return ps;
+					}
 				}
-			}
+			});
+			modalInstance.result.then(function(result) {
+				if (result == "OK") {
+					flush();
+				}
+			}, function(reason) {
+
+				$log.log("reason", reason)
+			});
 		});
-		modalInstance.result.then(function(result) {
-
-			if (result == "OK") {
-				flush();
-			}
-		}, function(reason) {
-
-			$log.log("reason", reason)
-		});
-
-
-
 	}
 
 	$scope.ss = function() {
@@ -577,8 +610,6 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				});
 				return;
 			}
-
-
 			if (item.flowtype == "LY") {
 				item.flowcode="process_zcly";
 			} else if (item.flowtype == "JY") {
@@ -614,18 +645,74 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					}
 				});
 				modalInstance.result.then(function(result) {
-
 					if (result == "OK") {
 						flush();
 					}
 				}, function(reason) {
-
 					$log.log("reason", reason)
 				});
 			});
 		}
 	}
-	$scope.back = function() {
+
+	$scope.actback = function() {
+
+		var selrows = getSelectRow();
+		console.log(selrows);
+		if (angular.isDefined(selrows)) {
+			if (flowtype == "LY") {
+
+				$confirm({
+					text : '是否确认退库?'
+				})
+					.then(
+						function() {
+							$http
+								.post(
+									$rootScope.project
+									+ "/api/zc/zctkById.do",
+									{
+										id : selrows.id
+									}).success(function(res) {
+								if (res.success) {
+									flush();
+								} else {
+									notify({
+										message : res.message
+									});
+								}
+							});
+						});
+			} else if (flowtype == "JY") {
+				$confirm({
+					text : '是否确认归还?'
+				})
+					.then(
+						function() {
+							$http
+								.post(
+									$rootScope.project
+									+ "/api/zc/zcghById.do",
+									{
+										id : selrows.id
+									}).success(function(res) {
+								if (res.success) {
+									flush();
+								} else {
+									notify({
+										message : res.message
+									});
+								}
+							});
+						});
+
+			} else if (flowtype == "ZY") {
+
+			}
+
+		}
+
+
 	}
 
 };

@@ -107,7 +107,7 @@ public class ZcService extends BaseService{
 
 
     // 根据ClassId获取数据,优先判断multiclassroot,在获取class_id
-    public R queryResAllGetData(String classroot, String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryResAllGetData(String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search) {
 
         // 获取属性数据
         String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
@@ -172,6 +172,20 @@ public class ZcService extends BaseService{
 
         if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
             sql = sql + " and recycle='" + recycle + "'";
+        }
+
+        //idle,inuse,scrap,borrow,repair,stopuse,allocation
+        if(ToolUtil.isNotEmpty(datarange)){
+            if(ZcCommonService.DATARANGE_REPAIR.equals(datarange)){
+                sql = sql + " and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
+            }else if(ZcCommonService.DATARANGE_LY.equals(datarange)){
+                sql = sql + " and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"')";
+            }else if(ZcCommonService.DATARANGE_JY.equals(datarange)){
+                sql = sql +  " and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
+            }else if(ZcCommonService.DATARANGE_DB.equals(datarange)){
+                sql = sql +  " and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
+            }
+
         }
 
         if (ToolUtil.isNotEmpty(search)) {

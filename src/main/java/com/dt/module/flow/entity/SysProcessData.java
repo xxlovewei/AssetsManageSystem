@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-16
+ * @since 2020-04-20
  */
  
 @TableName("sys_process_data")
@@ -106,6 +106,8 @@ failed
     private String formid;
     @TableField("ifsp")
     private String ifsp;
+    @TableField("busstatus")
+    private String busstatus;
 
 
     public String getId() {
@@ -244,6 +246,14 @@ failed
         this.ifsp = ifsp;
     }
 
+    public String getBusstatus() {
+        return busstatus;
+    }
+
+    public void setBusstatus(String busstatus) {
+        this.busstatus = busstatus;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -269,6 +279,7 @@ failed
         ", pendtime=" + pendtime +
         ", formid=" + formid +
         ", ifsp=" + ifsp +
+        ", busstatus=" + busstatus +
         "}";
     }
 }

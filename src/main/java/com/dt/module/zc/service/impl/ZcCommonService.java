@@ -45,7 +45,11 @@ public class ZcCommonService extends BaseService {
     public static String RECYCLE_SCRAP="scrap";
 
 
-
+    public static String DATARANGE_REPAIR="repair";
+    public static String DATARANGE_LY="LY";
+    public static String DATARANGE_JY="JY";
+    public static String DATARANGE_DB="DB";
+    public static String DATARANGE_ALL="all";
 
 
     public static String UUID_ZC = "ZC";
@@ -54,6 +58,13 @@ public class ZcCommonService extends BaseService {
     public static String UUID_ZY = "ZY";
     public static String UUID_BF = "BF";
     public static String UUID_BX = "BX";
+    public static String UUID_DB = "DB";
+
+    public static String ZC_BUS_TYPE_LY="LY";
+    public static String ZC_BUS_TYPE_JY="JY";
+    public static String ZC_BUS_TYPE_ZY="ZY";
+    public static String ZC_BUS_TYPE_DB="DB";
+
 
 
     public static String BX_STATUS_WAIT="wait";

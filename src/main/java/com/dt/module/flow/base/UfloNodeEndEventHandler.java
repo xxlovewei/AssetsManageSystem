@@ -61,11 +61,11 @@ public class UfloNodeEndEventHandler implements NodeEventHandler {
                 uw.set("pstatus", SysUfloProcessService.P_STATUS_FINISH);
                 uw.set("pendtime", nowtime);
                 // 流程类型处理
-                if (bustype != null) {
-                    if (bustype.equals("LY") || bustype.equals("JY") || bustype.equals("ZY")) {
-                        uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
-                    }
-                }
+//                if (bustype != null) {
+//                    if (bustype.equals("LY") || bustype.equals("JY") || bustype.equals("ZY")) {
+//                        uw.set("pstatusdtl", SysUfloProcessService.P_STATUS_APPROVALSUCCESS);
+//                    }
+//                }
                 System.out.println("#####adfasdfasdfjlasdfasdljfsadjlkf\n" + uw);
                 SysProcessDataServiceImpl.update(uw);
             }
