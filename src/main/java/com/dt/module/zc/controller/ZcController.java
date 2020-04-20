@@ -80,6 +80,35 @@ public class ZcController extends BaseController {
     @Autowired
     ICtCategoryRootService CtCategoryRootServiceImpl;
 
+    @ResponseBody
+    @Acl(info = "zc", value = Acl.ACL_USER)
+    @RequestMapping(value = "/queryzclabelcols.do")
+    public R queryzclabelcols() {
+
+        JSONArray res=new JSONArray();
+        JSONObject e1=new JSONObject();
+        e1.put("name","资产名称");
+        res.add(e1);
+
+        JSONObject e2=new JSONObject();
+        e2.put("model","资产型号");
+        res.add(e2);
+
+        JSONObject e3=new JSONObject();
+        e3.put("buy_time","采购日期");
+        res.add(e3);
+
+        JSONObject e4=new JSONObject();
+        e4.put("part_id","使用部门");
+        res.add(e4);
+
+        JSONObject e5=new JSONObject();
+        e5.put("loc","存放区域");
+        res.add(e5);
+        return R.SUCCESS_OPER(res);
+
+    }
+
 
     @ResponseBody
     @Acl(info = "zc", value = Acl.ACL_USER)

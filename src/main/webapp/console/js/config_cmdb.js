@@ -214,6 +214,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('cmsetting.labeltpl', {
+        url: "/cmsetting_labeltpl",
+        data: {pageTitle: '资产标签'},
+        templateUrl: "views/cmdb/labeltpl.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/labeltpl.js?v=' + version]
+                }]);
+            }
+        }
     })
 
 
