@@ -103,12 +103,14 @@ public class ResRepairExtController extends BaseController {
 				cols.add(e);
 			}
 			ResRepairItemServiceImpl.saveOrUpdateBatch(cols);
-			UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-			ups.inSql("id","select resid from res_repair_item where dr='0' and repairid='"+id+"'");
-			ups.setSql("prerecycle=recycle");
-			ups.set("recycle",ZcCommonService.RECYCLE_REPAIR);
-			ResServiceImpl.update(ups);
-
+			if(!ZcCommonService.BX_STATUS_FINSH.equals(status)){
+				//修改资产状态
+				UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
+				ups.inSql("id","select resid from res_repair_item where dr='0' and repairid='"+id+"'");
+				ups.setSql("prerecycle=recycle");
+				ups.set("recycle",ZcCommonService.RECYCLE_REPAIR);
+				ResServiceImpl.update(ups);
+			}
 		}
 
 		//删除图片

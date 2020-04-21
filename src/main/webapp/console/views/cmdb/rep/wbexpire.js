@@ -76,7 +76,7 @@ function wbexpireCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		toolsbtn : [],
 		tools : [{
 			id : "select",
-			label : "类目",
+			label : "时间",
 			type : "select",
 			disablesearch : true,
 			dataOpt : [],
