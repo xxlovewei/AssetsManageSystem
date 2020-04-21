@@ -47,7 +47,6 @@
 		src="plugin/pace/pace.min.js"></script>
 <!-- Custom and plugin javascript -->
 <script src="js/base.js?v=80"></script>
-<script src="vendor/basket/basket.0.5.2.full.min.js"></script>
 <!-- Main Angular scripts-->
 <script src="vendor/angular/angular.min.js"></script>
 <script src="vendor/angular-sanitize/angular-sanitize.min.js"></script>
@@ -88,6 +87,8 @@
 <script src="vendor/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="plugin/datatable/dataTables.bootstrap.min.1.10.16.js"></script>
 <script src="vendor/angular-datatables/dist/angular-datatables.min.js"></script>
+
+
 
 <!-- datatable 按钮 -->
 <script src="plugin/datatable/buttons.html51.22.min.js"></script>
@@ -145,14 +146,7 @@
 <script type="text/javascript" src="js/controllers.js?v=80"></script>
 </body>
 <script>
-	setTimeout(function () {
-		basket
-				.require({ url:'./plugin/form/vue.min.js?v=80',key:'vue',execute:false})
-				.then(function () {
-					basket.require({ url:'./plugin/form/k-form-design.umd.min.js?v=80',key:'vue-form',execute:false});
-				}, function (error) {
-					console.log('ERROR',error);
-				});
-	}, 500);
+	basket.require({ url:'./plugin/form/vue.min.js?v=80',key:'vue',execute:false});
+	basket.require({ url:'./plugin/form/k-form-design.umd.min.js?v=80',key:'vue-form',execute:false});
 </script>
 </html>

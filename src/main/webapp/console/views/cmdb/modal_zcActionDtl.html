@@ -102,8 +102,17 @@
 
             </div>
         </div>
-    </div>
+    </div>.mine.a
 </div>
-<script src="./plugin/form/vue.min.js"></script>
-<script src="./plugin/form/k-form-design.umd.min.js?v=1"></script>
-<!--<script src="http://127.0.0.1:8080/dt/console/plugin/form/k-form-design.umd.min.js"></script>-->
+<script src="vendor/basket/basket.0.5.2.full.min.js"></script>
+<script>
+    basket
+        .require({ url:'./plugin/form/vue.min.js?v=80',key:'vue'})
+        .then(function () {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        basket.require({ url:'./plugin/form/k-form-design.umd.min.js?v=80',key:'vue-form'});
+        }, function (error) {
+
+            console.log('######',error);
+        });
+</script>
