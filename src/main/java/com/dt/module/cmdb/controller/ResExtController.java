@@ -134,7 +134,7 @@ public class ResExtController extends BaseController {
     @Acl(info = "", value = Acl.ACL_ALLOW)
     @RequestMapping(value = "/res/queryDictFast.do")
     @Transactional
-    public R queryDictFast(String dicts, String parts, String partusers, String subclass, String classroot) {
+    public R queryDictFast(String comp,String belongcomp,String dicts, String parts, String partusers, String subclass, String classroot) {
 
         JSONObject res = new JSONObject();
         String[] dict_arr = dicts.split(",");
@@ -162,12 +162,6 @@ public class ResExtController extends BaseController {
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
-        // 所有部门
-        if (ToolUtil.isNotEmpty(parts)) {
-            RcdSet partrs = db
-                    .query("select node_id partid ,route_name name from hrm_org_part where org_id=1 order by route");
-            res.put("parts", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
-        }
 
         // 所有用户
         if (ToolUtil.isNotEmpty(partusers)) {
@@ -176,6 +170,38 @@ public class ResExtController extends BaseController {
                             + "  a.empl_id=b.empl_id and a.dr='0' and b.dr='0'  and c.node_id=b.node_id");
             res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
         }
+
+        RcdSet comprs=db.query("select node_id id, route_name name from hrm_org_part where dr='0' and type='comp' order by node_id");
+
+
+        if(ToolUtil.isNotEmpty(comp)){
+            res.put("comp",comprs.toJsonArrayWithJsonObject());
+        }
+
+        if(ToolUtil.isNotEmpty(belongcomp)){
+            res.put("belongcomp",comprs.toJsonArrayWithJsonObject());
+        }
+
+        if(ToolUtil.isNotEmpty(belongcomp)){
+            res.put("belongcomp",comprs.toJsonArrayWithJsonObject());
+        }
+
+//        // 所有部门
+//        if (ToolUtil.isNotEmpty(parts)) {
+//            JSONObject tmp=new JSONObject();
+//            for(int i=0;i<comprs.size();i++){
+//                RcdSet partrs = db
+//                        .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and parent_id=? order by route",comprs.getRcd(i).getString("id"));
+//                tmp.put(comprs.getRcd(i).getString("id"),partrs.toJsonArrayWithJsonObject());
+//            }
+//            res.put("parts",tmp);
+//        }
+        if (ToolUtil.isNotEmpty(parts)) {
+            RcdSet partrs = db
+                    .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and type='part' order by route" );
+            res.put("parts",partrs.toJsonArrayWithJsonObject());
+        }
+
         System.out.println(res.toJSONString());
         return R.SUCCESS_OPER(res);
     }

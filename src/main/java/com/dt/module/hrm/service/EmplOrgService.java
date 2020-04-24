@@ -25,6 +25,10 @@ import com.dt.core.tool.util.ToolUtil;
 @Service
 public class EmplOrgService extends BaseService {
     private String LEVEL_SPLIT = "/";
+
+    public static String ORG_PART_TYPE_COMP="comp";
+    public static String ORG_PART_TYPE_SUBCOMP="subpart";
+    public static String ORG_PART_TYPE_PART="part";
     private static Logger _log = LoggerFactory.getLogger(EmplOrgService.class);
 
     /**
@@ -41,8 +45,9 @@ public class EmplOrgService extends BaseService {
     public R addEmplOrg(TypedHashMap<String, Object> ps) {
         String cur_node_id = "";
         String org_id = ps.getString("org_id");
-        String node_name = ps.getString("node_name");
+        String node_name ="新节点";
         String parent_id = ps.getString("parent_id");
+        String type = ps.getString("type");
         _log.info("node_id:" + cur_node_id);
         _log.info("org_id:" + org_id);
         _log.info("parent_id:" + parent_id);
@@ -57,7 +62,7 @@ public class EmplOrgService extends BaseService {
         } else {
             cur_node_id = idrs.getString("value");
         }
-        Rcd verifyrs = db.uniqueRecord("select * from hrm_org_part where dr='0' and  node_id=?", parent_id);
+        Rcd verifyrs = db.uniqueRecord("select * from hrm_org_part where dr='0' and node_id=?", parent_id);
         Insert ins = new Insert("hrm_org_part");
         ins.set("org_id", org_id);
         // 判断是否是第一个节点
@@ -67,8 +72,11 @@ public class EmplOrgService extends BaseService {
             ins.set("route", verifyrs.getString("route") + "-" + cur_node_id);
         }
         ins.set("node_id", cur_node_id);
+        ins.setIf("dr", "0");
+        ins.setIf("type", type);
         ins.set("parent_id", parent_id);
         ins.setIf("node_name", node_name);
+        System.out.println(ins.getSQL());
         db.execute(ins);
         updateRouteName(cur_node_id, node_name);
         JSONObject ro = new JSONObject();
@@ -83,11 +91,13 @@ public class EmplOrgService extends BaseService {
     public R updateEmplOrg(TypedHashMap<String, Object> ps) {
         String node_id = ps.getString("node_id");
         String node_name = ps.getString("node_name");
+        String type = ps.getString("type");
         if (ToolUtil.isEmpty(node_name)) {
             return R.FAILURE_REQ_PARAM_ERROR();
         }
         Update ups = new Update("hrm_org_part");
         ups.setIf("node_name", node_name);
+        ups.setIf("type", type);
         ups.where().and("node_id=?", node_id);
         db.execute(ups);
         updateRouteName(node_id, node_name);
@@ -114,7 +124,7 @@ public class EmplOrgService extends BaseService {
         String route_name = "";
         for (int i = 0; i < arr.size(); i++) {
             route_name = route_name + LEVEL_SPLIT
-                    + db.uniqueRecord("select node_name from hrm_org_part where  dr='0' and node_id=?",
+                    + db.uniqueRecord("select node_name from hrm_org_part where dr='0' and node_id=?",
                     arr.getJSONObject(i).getString("id")).getString("node_name");
         }
         route_name = route_name.replaceFirst(LEVEL_SPLIT, "");
@@ -122,7 +132,7 @@ public class EmplOrgService extends BaseService {
         me.set("route_name", route_name);
         me.where().and("node_id=?", node_id);
         db.execute(me);
-        RcdSet rds = db.query("select node_id,node_name from hrm_org_part where  dr='0' and  parent_id=?", node_id);
+        RcdSet rds = db.query("select node_id,node_name from hrm_org_part where dr='0' and parent_id=?", node_id);
         for (int j = 0; j < rds.size(); j++) {
             // 递归调用
             updateRouteName(rds.getRcd(j).getString("node_id"), rds.getRcd(j).getString("node_name"));
@@ -138,11 +148,11 @@ public class EmplOrgService extends BaseService {
             return R.FAILURE("无节点,请选择节点");
         }
         // 检查是否有下一级节点
-        if (db.uniqueRecord("select count(1) v from hrm_org_part where  dr='0' and  parent_id=? ", node_id).getInteger("v") > 0) {
+        if (db.uniqueRecord("select count(1) v from hrm_org_part where dr='0' and parent_id=? ", node_id).getInteger("v") > 0) {
             return R.FAILURE("请先删除子节点");
         }
         // 检查节点是否有人员信息,如果有人,在判断是否需要删除
-        if (db.uniqueRecord("select count(1) v from hrm_org_employee where   dr='0' and node_id=? ", node_id).getInteger("v") > 0) {
+        if (db.uniqueRecord("select count(1) v from hrm_org_employee where dr='0' and node_id=? ", node_id).getInteger("v") > 0) {
             if (db.uniqueRecord(
                     "select count(1) v from sys_user_info a,hrm_org_employee b where a.empl_id=b.empl_id and  b.dr='0' and  a.dr='0' and b.node_id=?",
                     node_id).getInteger("v") > 0) {
@@ -179,11 +189,22 @@ public class EmplOrgService extends BaseService {
      * @Description:横行显示组织信息,类似A->B->C-D
      */
     public R queryEmplOrgLevelList() {
-        return R.SUCCESS_OPER(db.query("select node_id,route_name routename ,route from hrm_org_part where dr='0' order by route")
+        return R.SUCCESS_OPER(db.query("select node_id,route_name routename,route from hrm_org_part where dr='0' order by route")
                 .toJsonArrayWithJsonObject());
     }
 
+    public R orgQueryCompany() {
+        return R.SUCCESS_OPER(db.query("select * from hrm_org_part where type='"+ORG_PART_TYPE_COMP+"' and dr='0' order by node_id").toJsonArrayWithJsonObject());
+    }
+
+
+    public R orgQueryPartByCompany(String id) {
+        return R.SUCCESS_OPER(db.query("select * from hrm_org_part where type='"+ORG_PART_TYPE_PART+"' and dr='0'  and parent_id=? order by node_id",id).toJsonArrayWithJsonObject());
+    }
+
+
     /**
+     *
      * @Description:树行显示组织信息
      */
     public R queryEmplOrgNodeTree(String org_id) {
@@ -208,6 +229,7 @@ public class EmplOrgService extends BaseService {
             e.put("id", rs.getRcd(i).getString("node_id"));
             e.put("text", rs.getRcd(i).getString("node_name"));
             e.put("parent", rs.getRcd(i).getString("parent_id"));
+            e.put("type", rs.getRcd(i).getString("type"));
             res.add(e);
         }
         return R.SUCCESS_OPER(res);

@@ -666,6 +666,16 @@ function zcBaseColsCreate(DTColumnBuilder,selectype){
         'sDefaultContent', ''));
     dtColumns.push(  DTColumnBuilder.newColumn('fs2').withTitle('标签2').withOption(
         'sDefaultContent', ''));
+
+    dtColumns.push(  DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(  DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(  DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(  DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+        'sDefaultContent', ''));
+
     dtColumns.push( DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push(  DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
@@ -761,26 +771,12 @@ function loadOpt(modal_meta, gdicts) {
                 }
             }
         } else {
-            if (gdicts.devbrand.length > 0) {
-            }
+          //  if (gdicts.devbrand.length > 0) {
+           // }
         }
     }
 
-    // 部门
-    modal_meta.meta.partOpt = gdicts.parts;
-    if (angular.isDefined(gdicts.parts) && gdicts.parts.length > 0) {
-        if (angular.isDefined(item) && angular.isDefined(item.part_id)) {
-            for (var i = 0; i < gdicts.parts.length; i++) {
-                if (gdicts.parts[i].partid == item.part_id) {
-                    modal_meta.meta.partSel = gdicts.parts[i];
-                }
-            }
-        } else {
-            if (gdicts.parts.length > 0) {
-                // modal_meta.meta.partSel = gdicts.parts[0];
-            }
-        }
-    }
+
 
     // 使用人
     modal_meta.meta.usedunameOpt = gdicts.partusers;
@@ -792,9 +788,9 @@ function loadOpt(modal_meta, gdicts) {
                 }
             }
         } else {
-            if (gdicts.partusers.length > 0) {
+           // if (gdicts.partusers.length > 0) {
                 // modal_meta.meta.usedunameSel = gdicts.partusers[0];
-            }
+            //}
         }
     }
 
@@ -956,7 +952,68 @@ function loadOpt(modal_meta, gdicts) {
         }
     }
 
+    //属于公司
+    modal_meta.meta.belongcompOpt = gdicts.belongcomp;
+    if (angular.isDefined(gdicts.belongcomp) && gdicts.belongcomp.length > 0) {
+        if (angular.isDefined(item) && angular.isDefined(item.belong_company_id)) {
+            for (var i = 0; i < gdicts.belongcomp.length; i++) {
+                if (gdicts.belongcomp[i].id == item.belong_company_id) {
+                    modal_meta.meta.belongcompSel = gdicts.belongcomp[i];
+                }
+            }
+        } else {
+            if (gdicts.belongcomp.length > 0) {
+                modal_meta.meta.belongcompSel = gdicts.belongcomp[0];
+            }
+        }
+    }
+    //使用公司
+    modal_meta.meta.compOpt = gdicts.comp;
+    if (angular.isDefined(gdicts.comp) && gdicts.comp.length > 0) {
+        if (angular.isDefined(item) && angular.isDefined(item.used_company_id)) {
+            for (var i = 0; i < gdicts.comp.length; i++) {
+                if (gdicts.comp[i].id == item.used_company_id) {
+                    modal_meta.meta.compSel = gdicts.comp[i];
+                }
+            }
+        } else {
+           if (gdicts.comp.length > 0) {
+              modal_meta.meta.compSel = gdicts.comp[0];
+            }
+        }
+    }
 
+
+    // 部门
+    modal_meta.meta.partOpt = gdicts.parts;
+    if (angular.isDefined(gdicts.parts) && gdicts.parts.length > 0) {
+        if (angular.isDefined(item) && angular.isDefined(item.part_id)) {
+            for (var i = 0; i < gdicts.parts.length; i++) {
+                if (gdicts.parts[i].partid == item.part_id) {
+                    modal_meta.meta.partSel = gdicts.parts[i];
+                }
+            }
+        } else {
+            if (gdicts.parts.length > 0) {
+                // modal_meta.meta.partSel = gdicts.parts[0];
+            }
+        }
+    }
+
+    // 部门
+    // if(angular.isDefined(modal_meta.meta.compSel) &&angular.isDefined(modal_meta.meta.compSel.id)){
+    //     modal_meta.meta.partOpt = gdicts.parts[modal_meta.meta.compSel.id];
+    //     if (angular.isDefined(modal_meta.meta.partOpt) &&  modal_meta.meta.partOpt.length > 0) {
+    //         if (angular.isDefined(item) && angular.isDefined(item.part_id)) {
+    //             for (var i = 0; i <  modal_meta.meta.partOpt.length; i++) {
+    //                 if ( modal_meta.meta.partOpt[i].partid == item.part_id) {
+    //                     modal_meta.meta.partSel =  modal_meta.meta.partOpt[i];
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    //
     // 机柜
     modal_meta.meta.jgOpt = gdicts.devrack;
     if (angular.isDefined(gdicts.devrack) && gdicts.devrack.length > 0) {

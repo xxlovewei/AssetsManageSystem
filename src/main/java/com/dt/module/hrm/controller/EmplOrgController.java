@@ -74,10 +74,26 @@ public class EmplOrgController extends BaseController {
         return emplOrgService.queryEmplOrgLevelList();
     }
 
+
     @RequestMapping("/hrm/orgQuery.do")
     @ResponseBody
-    @Acl(info = "查询组织")
+    @Acl(info="查询组织")
     public R orgQuery() {
         return emplOrgService.queryEmplOrg();
     }
+
+    @RequestMapping("/hrm/orgQueryCompany.do")
+    @ResponseBody
+    @Acl(info = "查询公司",value=Acl.ACL_USER)
+    public R orgQueryCompany() {
+        return emplOrgService.orgQueryCompany();
+    }
+
+    @RequestMapping("/hrm/orgQueryPartByCompany.do")
+    @ResponseBody
+    @Acl(info = "查询部门",value=Acl.ACL_USER)
+    public R orgQueryPartByCompany(String id) {
+        return emplOrgService.orgQueryPartByCompany(id);
+    }
+
 }

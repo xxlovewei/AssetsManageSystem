@@ -19,9 +19,10 @@ docker exec -it 20f750b8c954 /bin/bash
 
 
 res 添加3个字段
-wbsupplier
-zcsource
-prerecycle
+  belong_part_id
+  belong_company_id
+  used_company_id
+
 
 
 添加数据字典

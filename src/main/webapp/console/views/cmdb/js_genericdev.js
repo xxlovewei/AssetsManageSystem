@@ -138,6 +138,8 @@
 		
 		$scope.item.iflocSel=$scope.iflocSel.id;
 		$scope.item.locSel=$scope.locSel.dict_item_id;
+
+
 		
 		$http
 		.post(
@@ -186,6 +188,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						dicts : dicts,
 						parts : "Y",
 						partusers : "Y",
+						comp :"Y",
+						belongcomp:"Y",
 						subclass:subclass
 					})
 					.success(
@@ -638,7 +642,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								return;
 							}
 							var meta = {};
-							var items = [ ]; 
+
+							var items = [];
 							items.push({
 								type : "input",
 								disabled : "true",
@@ -694,7 +699,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								type : "select",
 								disabled : "false",
 								label : "资产来源",
-								need : false,
+								need : true,
 								disable_search : "true",
 								dataOpt : "zcsourceOpt",
 								dataSel : "zcsourceSel"
@@ -757,25 +762,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							});
 							
 
-							items.push({
-								type : "select",
-								disabled : "false",
-								label : "使用人",
-								need : false,
-								disable_search : "false",
-								dataOpt : "usedunameOpt",
-								dataSel : "usedunameSel"
-							});
-
-							items.push({
-								type : "select",
-								disabled : "false",
-								label : "使用部门",
-								need : false,
-								disable_search : "false",
-								dataOpt : "partOpt",
-								dataSel : "partSel"
-							});
 
 							items.push( {
 								type : "input",
@@ -829,6 +815,51 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								ng_model : "fs2"
 							});
 
+							items.push({
+								type : "dashed",
+								name : 'model'
+							});
+
+							items.push({
+								type : "select",
+								disabled : "false",
+								label : "所属公司",
+								need : true,
+								disable_search : "true",
+								dataOpt : "belongcompOpt",
+								dataSel : "belongcompSel"
+							});
+
+							items.push({
+								type : "select",
+								disabled : "false",
+								label : "使用公司",
+								need : true,
+								disable_search : "true",
+								dataOpt : "compOpt",
+								dataSel : "compSel"
+							});
+
+
+							items.push({
+								type : "select",
+								disabled : "false",
+								label : "使用部门",
+								need : false,
+								disable_search : "false",
+								dataOpt : "partOpt",
+								dataSel : "partSel"
+							});
+
+							items.push({
+								type : "select",
+								disabled : "false",
+								label : "使用人",
+								need : false,
+								disable_search : "false",
+								dataOpt : "usedunameOpt",
+								dataSel : "usedunameSel"
+							});
 
 
 							items.push({
@@ -879,7 +910,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								type : "select",
 								disabled : "false",
 								label : "区域",
-								need : false,
+								need : true,
 								disable_search : "true",
 								dataOpt : "locOpt",
 								dataSel : "locSel"
@@ -969,7 +1000,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								type : "select",
 								disabled : "false",
 								label : "维保供应商",
-								need : false,
+								need : true,
 								disable_search : "true",
 								dataOpt : "zcwbsupperOpt",
 								dataSel : "zcwbsupperSel"
@@ -1090,6 +1121,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								jgSel : "",
 								riskOpt : [],
 								riskSel : "",
+								compOpt:[],
+								compSel:"",
 								picconfig : {
 									url : 'fileupload.do',
 									maxFilesize : 10000,
@@ -1243,6 +1276,20 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 										modal_meta.meta.item.supplier =modal_meta.meta.zcsupperSel.dict_item_id ;
 									}
 
+									if(angular.isDefined( modal_meta.meta.zcsupperSel.dict_item_id)){
+										modal_meta.meta.item.supplier =modal_meta.meta.zcsupperSel.dict_item_id ;
+									}
+
+									//属于公司
+									if(angular.isDefined( modal_meta.meta.belongcompSel.id)){
+										modal_meta.meta.item.belong_company_id =modal_meta.meta.belongcompSel.id ;
+									}
+
+									//使用公司
+									if(angular.isDefined( modal_meta.meta.compSel.id)){
+										modal_meta.meta.item.used_company_id =modal_meta.meta.compSel.id ;
+									}
+
 
 									modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
 											.format('YYYY-MM-DD');
@@ -1282,7 +1329,10 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									var tt = {};
 									angular.copy(gdicts, tt)
 									loadOpt(modal_meta, tt);
-									 
+
+
+
+
 									var iid=modal_meta.meta.item.img;
 									if(angular.isDefined(iid)&&iid.length>0){
 										$timeout(function() {
@@ -1393,14 +1443,12 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								}
 
 							}
- 
+
 							// 打开静态框
 							var modalInstance = $uibModal
 									.open({
 										backdrop : true,
 										templateUrl : 'views/Template/modal_simpleForm.html',
-									// templateUrl :
-									// 'views/cmdb/modal_test.html',
 										controller : modal_simpleFormCtl,
 										size : 'lg',
 										resolve : {

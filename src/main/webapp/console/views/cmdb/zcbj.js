@@ -199,6 +199,8 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			dicts : dicts,
 			parts : "Y",
 			partusers : "Y",
+			comp :"Y",
+			belongcomp:"Y",
 			classroot:gclassroot
 		})
 		.success(
@@ -483,7 +485,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						type : "select",
 						disabled : "false",
 						label : "资产来源",
-						need : false,
+						need : true,
 						disable_search : "true",
 						dataOpt : "zcsourceOpt",
 						dataSel : "zcsourceSel"
@@ -543,25 +545,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						ng_model : "zc_cnt"
 					});
 
-					items.push({
-						type : "select",
-						disabled : "false",
-						label : "使用人",
-						need : false,
-						disable_search : "false",
-						dataOpt : "usedunameOpt",
-						dataSel : "usedunameSel"
-					});
 
-					items.push({
-						type : "select",
-						disabled : "false",
-						label : "使用部门",
-						need : false,
-						disable_search : "false",
-						dataOpt : "partOpt",
-						dataSel : "partSel"
-					});
 
 					items.push( {
 						type : "input",
@@ -615,6 +599,57 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					});
 
 
+
+
+
+					items.push({
+						type : "dashed",
+						name : 'model'
+					});
+
+					items.push({
+						type : "select",
+						disabled : "false",
+						label : "所属公司",
+						need : true,
+						disable_search : "true",
+						dataOpt : "belongcompOpt",
+						dataSel : "belongcompSel"
+					});
+
+					items.push({
+						type : "select",
+						disabled : "false",
+						label : "使用公司",
+						need : true,
+						disable_search : "true",
+						dataOpt : "compOpt",
+						dataSel : "compSel"
+					});
+
+
+					items.push({
+						type : "select",
+						disabled : "false",
+						disabled : "false",
+						label : "使用部门",
+						need : false,
+						disable_search : "false",
+						dataOpt : "partOpt",
+						dataSel : "partSel"
+					});
+
+					items.push({
+						type : "select",
+						disabled : "false",
+						label : "使用人",
+						need : false,
+						disable_search : "false",
+						dataOpt : "usedunameOpt",
+						dataSel : "usedunameSel"
+					});
+
+
 					items.push({
 						type : "dashed",
 						name : 'model'
@@ -663,7 +698,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						maxlength : "30",
 						placeholder : "请输入采购价格",
 						label : "采购单价",
-						need : false,
+						need : true,
 						name : 'buy_price',
 						ng_model : "buy_price"
 					});
@@ -862,6 +897,15 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							if(angular.isDefined( modal_meta.meta.zcsupperSel.dict_item_id)){
 								modal_meta.meta.item.supplier =modal_meta.meta.zcsupperSel.dict_item_id ;
 							}
+							if(angular.isDefined( modal_meta.meta.belongcompSel.id)){
+								modal_meta.meta.item.belong_company_id =modal_meta.meta.belongcompSel.id ;
+							}
+
+							//使用公司
+							if(angular.isDefined( modal_meta.meta.compSel.id)){
+								modal_meta.meta.item.used_company_id =modal_meta.meta.compSel.id ;
+							}
+
 
 
 							modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime

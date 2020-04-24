@@ -407,6 +407,12 @@ public class ZcService extends BaseService{
             me.setIf("wbsupplier", ps.getString("wbsupplier"));
             me.setIf("zcsource", ps.getString("zcsource"));
             me.setIf("wbct", ps.getString("wbct"));
+
+            me.setIf("belong_part_id", ps.getString("belong_part_id"));
+            me.setIf("belong_company_id", ps.getString("belong_company_id"));
+            me.setIf("used_company_id", ps.getString("used_company_id"));
+
+
             sql = me.getSQL();
         } else {
             Update me = new Update("res");
@@ -457,6 +463,9 @@ public class ZcService extends BaseService{
             me.setIf("wbsupplier", ps.getString("wbsupplier"));
             me.setIf("zcsource", ps.getString("zcsource"));
             me.setIf("wbct", ps.getString("wbct"));
+            me.setIf("belong_part_id", ps.getString("belong_part_id"));
+            me.setIf("belong_company_id", ps.getString("belong_company_id"));
+            me.setIf("used_company_id", ps.getString("used_company_id"));
             me.where().and("id=?", id);
             sql = me.getSQL();
 

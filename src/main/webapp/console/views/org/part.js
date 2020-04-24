@@ -3,6 +3,9 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	$scope.topMenuOpt = []
 	$scope.topMenuSel = "";
 
+
+	$scope.typeOpt=[{id:"comp",name:"公司"},{id:"part",name:"部门"}];
+	$scope.typeSel=$scope.typeOpt[0];
 	$scope.item = {};
 
 	var org_id = "";
@@ -50,7 +53,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 	$scope.treeConfig = {
 		core : {
 			multiple : false,
-			animation : true,
+			animation : false,
 			error : function(error) {
 				$log.error('treeCtrl: error from js tree - '
 						+ angular.toJson(error));
@@ -72,6 +75,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 			}
 		},
 
+
 		types : {
 			"default" : {
 				icon : 'glyphicon glyphicon-th'
@@ -81,6 +85,15 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 			},
 			"file" : {
 				"icon" : "fa fa-file icon-state-warning icon-lg"
+			},
+			"fold" : {
+				"icon" : "fold fa fa-folder icon-state-success"
+			},
+			"comp" : {
+				"icon" : "fa fa-building"
+			},
+			"part" : {
+				"icon" : "fa fa-genderless"
 			}
 
 		},
@@ -186,7 +199,13 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 						node_id : node
 					}).success(function(res) {
 						if (res.success) {
-						 
+						 	if(angular.isDefined(res.data.type)){
+						 		if(res.data.type=="comp"){
+									$scope.typeSel=$scope.typeOpt[0];
+								}else if(res.data.type=="part"){
+									$scope.typeSel=$scope.typeOpt[1];
+								}
+							}
 							$scope.item = res.data;
 						} else {
 							notify({
@@ -226,6 +245,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
 
 	$scope.ok = function() {
 		if (angular.isDefined($scope.item.node_id)) {
+			$scope.item.type=$scope.typeSel.id;
 			$http.post($rootScope.project + "/api/hrm/orgNodeSave.do", $scope.item)
 					.success(
 							function(res) {
