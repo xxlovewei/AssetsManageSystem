@@ -77,21 +77,18 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
 	};
 
 	$scope.selectzc = function() {
-
+		var mdata={};
+		mdata.id="";
+		mdata.type="many";
+		mdata.datarange="repair";
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/cmdb/modal_common_zclist.html',
-			controller : modal_faultZcListCtl,
+			controller : modal_common_ZcListCtl,
 			size : 'blg',
 			resolve : {
-				id : function() {
-					return ""
-				},
-				type : function() {
-					return "many"
-				},
-				datarange:function(){
-					return "repair"
+				data:function(){
+					return mdata
 				}
 			}
 		});
@@ -169,6 +166,7 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
 			notify({
 				message :"请选择资产"
 			});
+			return ;
 		}
 		// 产品图片
 		var file = "";
@@ -259,12 +257,13 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		}),
 		DTColumnBuilder.newColumn('fuuid').withTitle('单据号').withOption(
 			'sDefaultContent', ''),
+		DTColumnBuilder.newColumn('fstatus').withTitle('办理状态').withOption(
+			'sDefaultContent', '').renderWith(renderStatus),
 		DTColumnBuilder.newColumn('fprocessuser').withTitle('维护人').withOption(
 			'sDefaultContent', ''),
 		DTColumnBuilder.newColumn('fprocesstime').withTitle('维护时间').withOption(
 			'sDefaultContent', ''),
-		DTColumnBuilder.newColumn('fstatus').withTitle('状态').withOption(
-			'sDefaultContent', '').renderWith(renderStatus),
+
 		DTColumnBuilder.newColumn('fmoney').withTitle('费用').withOption(
 			'sDefaultContent', ''),
 		DTColumnBuilder.newColumn('freason').withTitle('原因').withOption(
@@ -385,7 +384,7 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		meta.id=id;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
-			templateUrl : 'views/cmdb/modal_devfault.html',
+			templateUrl : 'views/cmdb/modal_zcfault.html',
 			controller : modaldevfaultCtl,
 			size : 'lg',
 			resolve : {

@@ -1,6 +1,6 @@
 package com.dt.module.zc.service;
 
-import com.dt.module.zc.entity.ResRepairItem;
+import com.dt.module.zc.entity.ResAllocate;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author algernonking
  * @since 2020-04-25
  */
-public interface IResRepairItemService extends IService<ResRepairItem> {
+public interface IResAllocateService extends IService<ResAllocate> {
 
 }

@@ -2,8 +2,8 @@ package com.dt.module.zc.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.dt.module.zc.entity.ResRepairItem;
-import com.dt.module.zc.service.IResRepairItemService;
+import com.dt.module.zc.entity.ResAllocateItem;
+import com.dt.module.zc.service.IResAllocateItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -30,54 +30,54 @@ import com.dt.core.common.base.BaseController;
  * @since 2020-04-25
  */
 @Controller
-@RequestMapping("/api/zc/resRepairItem")
-public class ResRepairItemController extends BaseController {
+@RequestMapping("/api/zc/resAllocateItem")
+public class ResAllocateItemController extends BaseController {
 
 
 	@Autowired
-	IResRepairItemService ResRepairItemServiceImpl;
+	IResAllocateItemService ResAllocateItemServiceImpl;
 
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(ResRepairItemServiceImpl.removeById(id));
+		return R.SUCCESS_OPER(ResAllocateItemServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(ResRepairItemServiceImpl.getById(id));
+		return R.SUCCESS_OPER(ResAllocateItemServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
-	public R insert(ResRepairItem entity) {
-		return R.SUCCESS_OPER(ResRepairItemServiceImpl.save(entity));
+	public R insert(ResAllocateItem entity) {
+		return R.SUCCESS_OPER(ResAllocateItemServiceImpl.save(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
 	@RequestMapping(value = "/updateById.do")
-	public R updateById(ResRepairItem entity) {
-		return R.SUCCESS_OPER(ResRepairItemServiceImpl.updateById(entity));
+	public R updateById(ResAllocateItem entity) {
+		return R.SUCCESS_OPER(ResAllocateItemServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(ResRepairItem entity) {
-		return R.SUCCESS_OPER(ResRepairItemServiceImpl.saveOrUpdate(entity));
+	public R insertOrUpdate(ResAllocateItem entity) {
+		return R.SUCCESS_OPER(ResAllocateItemServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(ResRepairItemServiceImpl.list(null));
+		return R.SUCCESS_OPER(ResAllocateItemServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -90,9 +90,9 @@ public class ResRepairItemController extends BaseController {
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<ResRepairItem> ew = new QueryWrapper<ResRepairItem>();
+		QueryWrapper<ResAllocateItem> ew = new QueryWrapper<ResAllocateItem>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<ResRepairItem> pdata = ResRepairItemServiceImpl.page(new Page<ResRepairItem>(pageindex, pagesize), ew);
+		IPage<ResAllocateItem> pdata = ResAllocateItemServiceImpl.page(new Page<ResAllocateItem>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

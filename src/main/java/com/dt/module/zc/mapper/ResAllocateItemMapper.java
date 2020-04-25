@@ -1,6 +1,6 @@
 package com.dt.module.zc.mapper;
 
-import com.dt.module.zc.entity.ResRepairItem;
+import com.dt.module.zc.entity.ResAllocateItem;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author algernonking
  * @since 2020-04-25
  */
-public interface ResRepairItemMapper extends BaseMapper<ResRepairItem> {
+public interface ResAllocateItemMapper extends BaseMapper<ResAllocateItem> {
 
 }

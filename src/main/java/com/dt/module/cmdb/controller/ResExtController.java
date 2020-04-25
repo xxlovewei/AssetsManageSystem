@@ -134,7 +134,7 @@ public class ResExtController extends BaseController {
     @Acl(info = "", value = Acl.ACL_ALLOW)
     @RequestMapping(value = "/res/queryDictFast.do")
     @Transactional
-    public R queryDictFast(String comp,String belongcomp,String dicts, String parts, String partusers, String subclass, String classroot) {
+    public R queryDictFast(String comppart,String comp,String belongcomp,String dicts, String parts, String partusers, String subclass, String classroot) {
 
         JSONObject res = new JSONObject();
         String[] dict_arr = dicts.split(",");
@@ -186,16 +186,18 @@ public class ResExtController extends BaseController {
             res.put("belongcomp",comprs.toJsonArrayWithJsonObject());
         }
 
-//        // 所有部门
-//        if (ToolUtil.isNotEmpty(parts)) {
-//            JSONObject tmp=new JSONObject();
-//            for(int i=0;i<comprs.size();i++){
-//                RcdSet partrs = db
-//                        .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and parent_id=? order by route",comprs.getRcd(i).getString("id"));
-//                tmp.put(comprs.getRcd(i).getString("id"),partrs.toJsonArrayWithJsonObject());
-//            }
-//            res.put("parts",tmp);
-//        }
+        // 所有部门
+        if (ToolUtil.isNotEmpty(comppart)) {
+            JSONObject tmp=new JSONObject();
+            for(int i=0;i<comprs.size();i++){
+                RcdSet partrs = db
+                        .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and parent_id=? order by route",comprs.getRcd(i).getString("id"));
+                tmp.put(comprs.getRcd(i).getString("id"),partrs.toJsonArrayWithJsonObject());
+            }
+            res.put("comppart",tmp);
+        }
+
+
         if (ToolUtil.isNotEmpty(parts)) {
             RcdSet partrs = db
                     .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and type='part' order by route" );
@@ -227,18 +229,18 @@ public class ResExtController extends BaseController {
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryResAllByClass.do")
-    public R queryResAllByClass(String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryResAllByClass(String comp,String belongcomp,String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
 
 
-        return zcService.queryResAllGetData(datarange,classroot,class_id, wb, env, recycle, loc, search);
+        return zcService.queryResAllGetData(belongcomp,comp,datarange,classroot,class_id, wb, env, recycle, loc, search);
     }
 
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryResAll.do")
-    public R queryResAll(String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryResAll(String comp,String belongcomp,String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
 
-        return zcService.queryResAllGetData(datarange,classroot,class_id, wb, env, recycle, loc, search);
+        return zcService.queryResAllGetData(belongcomp,comp,datarange,classroot,class_id, wb, env, recycle, loc, search);
 
     }
 

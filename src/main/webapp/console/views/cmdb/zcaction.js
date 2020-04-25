@@ -55,20 +55,18 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.dtOptions.aaData = [];
 	$scope.selectzc = function() {
+		var mdata={};
+		mdata.id="";
+		mdata.type="many";
+		mdata.datarange=meta.flowtype;
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/cmdb/modal_common_zclist.html',
-			controller : modal_faultZcListCtl,
+			controller : modal_common_ZcListCtl,
 			size : 'blg',
 			resolve : {
-				id : function() {
-					return ""
-				},
-				type : function() {
-					return "many"
-				},
-				datarange:function(){
-					return meta.flowtype
+				data:function(){
+					return mdata
 				}
 			}
 		});

@@ -403,13 +403,13 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         }
     }).state('zcchange.zczy', {
         url: "/zcchange_zczy",
-        data: {pageTitle: '我的资产转移', actiontype: "ZY"},
-        templateUrl: "views/cmdb/zcaction.html?v=" + version,
+        data: {pageTitle: '资产调拨'},
+        templateUrl: "views/cmdb/zcallocation.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/zcaction.js?v=' + version]
+                    files: ['views/cmdb/zcallocation.js?v=' + version]
                 }]);
             }
         }
@@ -1440,16 +1440,16 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
 }
 
 
-function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
-                              $uibModalInstance, $scope, id, type, $http, $rootScope, DTOptionsBuilder,
-                              DTColumnBuilder, $compile,datarange) {
+function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
+                              $uibModalInstance, $scope,  $http, $rootScope, DTOptionsBuilder,
+                              DTColumnBuilder, $compile, data) {
     // type:one|many
     // datatype: LY|
-    console.log("chosetype:"+type);
-    console.log("datarange:"+datarange);
+    console.log("data:"+data);
 
-    if (!angular.isDefined(type)) {
-        type = "many"
+
+    if (!angular.isDefined(data.type)) {
+        data.type = "many"
     }
     $scope.search = "";
     // 分类
@@ -1508,10 +1508,8 @@ function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 
     function flush() {
-        var ps = {}
-        ps.datarange=datarange;
+        var ps = data;
         ps.search = $scope.search;
-
         if ($scope.search == "") {
             notify({
                 message: "请输入搜索内容"
@@ -1559,34 +1557,34 @@ function modal_faultZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
 
     $scope.sure = function () {
 
-        var data = $scope.dtInstance.DataTable.rows({
+        var dtdata = $scope.dtInstance.DataTable.rows({
             selected: true
         })[0];
 
-        if (data.length == 0) {
+        if (dtdata.length == 0) {
             notify({
                 message: "请至少选择一项"
             });
             return;
         }
 
-        if (type == "one") {
-            if (data.length > 1) {
+        if (data.type == "one") {
+            if (dtdata.length > 1) {
                 notify({
                     message: "请最多选择一项"
                 });
             }
-            var item = $scope.dtOptions.aaData[data[0]];
+            var item = $scope.dtOptions.aaData[dtdata[0]];
             if (angular.isDefined(item)) {
                 $uibModalInstance.close(item);
             }
             return;
         }
 
-        if (type == "many") {
+        if (data.type == "many") {
             var res = [];
-            for (var i = 0; i < data.length; i++) {
-                var item = $scope.dtOptions.aaData[data[i]];
+            for (var i = 0; i < dtdata.length; i++) {
+                var item = $scope.dtOptions.aaData[dtdata[i]];
                 res.push(item);
             }
             if (angular.isDefined(res)) {

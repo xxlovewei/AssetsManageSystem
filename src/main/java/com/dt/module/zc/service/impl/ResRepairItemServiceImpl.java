@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-19
+ * @since 2020-04-25
  */
 @Service
 public class ResRepairItemServiceImpl extends ServiceImpl<ResRepairItemMapper, ResRepairItem> implements IResRepairItemService {

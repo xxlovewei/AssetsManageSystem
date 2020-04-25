@@ -6,14 +6,15 @@
     <resultMap id="BaseResultMap" type="com.dt.module.zc.entity.ResRepairItem">
         <id column="id" property="id" />
     <result column="dr" property="dr" />
-    <result column="update_time" property="updateTime" />
     <result column="create_time" property="createTime" />
     <result column="create_by" property="createBy" />
     <result column="update_by" property="updateBy" />
+    <result column="update_time" property="updateTime" />
         <result column="residprerecycle" property="residprerecycle" />
         <result column="resid" property="resid" />
         <result column="repairid" property="repairid" />
         <result column="mark" property="mark" />
+        <result column="busuuid" property="busuuid" />
     </resultMap>
 
 </mapper>

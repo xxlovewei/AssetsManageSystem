@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-19
+ * @since 2020-04-25
  */
  
 @TableName("res_repair_item")
@@ -24,6 +24,9 @@ public class ResRepairItem extends BaseModel<ResRepairItem> {
 
     @TableId("id")
     private String id;
+    /**
+     * 变更前资产状态
+     */
     @TableField("residprerecycle")
     private String residprerecycle;
     @TableField("resid")
@@ -32,6 +35,8 @@ public class ResRepairItem extends BaseModel<ResRepairItem> {
     private String repairid;
     @TableField("mark")
     private String mark;
+    @TableField("busuuid")
+    private String busuuid;
 
 
     public String getId() {
@@ -74,6 +79,14 @@ public class ResRepairItem extends BaseModel<ResRepairItem> {
         this.mark = mark;
     }
 
+    public String getBusuuid() {
+        return busuuid;
+    }
+
+    public void setBusuuid(String busuuid) {
+        this.busuuid = busuuid;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -87,6 +100,7 @@ public class ResRepairItem extends BaseModel<ResRepairItem> {
         ", resid=" + resid +
         ", repairid=" + repairid +
         ", mark=" + mark +
+        ", busuuid=" + busuuid +
         "}";
     }
 }

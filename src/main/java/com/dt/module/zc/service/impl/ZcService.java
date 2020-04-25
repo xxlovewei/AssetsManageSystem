@@ -15,6 +15,8 @@ import com.dt.module.cmdb.entity.Res;
 import com.dt.module.cmdb.entity.ResActionItem;
 import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.service.IResService;
+import com.dt.module.zc.entity.ResAllocate;
+import com.dt.module.zc.service.IResAllocateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,8 @@ public class ZcService extends BaseService{
     @Autowired
     IResActionItemService ResActionItemServiceImpl;
 
-
+    @Autowired
+    IResAllocateService ResAllocateServiceImpl;
 
     private String createUuid5(){
         return  UUID.randomUUID().toString().substring(9, 23).toUpperCase();
@@ -49,7 +52,7 @@ public class ZcService extends BaseService{
         if (type.equals(ZcCommonService.UUID_ZC)) {
             for (i = 0; i< cnt; i++) {
                 QueryWrapper<Res> ew = new QueryWrapper<Res>();
-                String finalId = id;
+                String finalId =type+id;
                 ew.and(j -> j.eq("uuid", finalId));
                 Res rs=ResServiceImpl.getOne(ew);
                 if (rs == null) {
@@ -66,7 +69,7 @@ public class ZcService extends BaseService{
         } else if (type.equals(ZcCommonService.UUID_BX)) {
             for (i = 0; i < cnt; i++) {
                 QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
-                String finalId = id;
+                String finalId = type+id;
                 ew.and(j -> j.eq("busuuid", finalId));
                 ResActionItem rs=ResActionItemServiceImpl.getOne(ew);
                 if (rs == null) {
@@ -80,11 +83,30 @@ public class ZcService extends BaseService{
             } else {
                 return type + id;
             }
-        } else if (type.equals(ZcCommonService.UUID_LY) || type.equals(ZcCommonService.UUID_JY)
+        }
+        else if (type.equals(ZcCommonService.UUID_DB)) {
+            for (i = 0; i < cnt; i++) {
+                QueryWrapper<ResAllocate> ew = new QueryWrapper<ResAllocate>();
+                String finalId = type+id;
+                ew.and(j -> j.eq("uuid", finalId));
+                ResAllocate rs=ResAllocateServiceImpl.getOne(ew);
+                if (rs == null) {
+                    break;
+                } else {
+                    id = createUuid5();
+                }
+            }
+            if (i > cnt - 1) {
+                return "";
+            } else {
+                return type + id;
+            }
+        }
+        else if (type.equals(ZcCommonService.UUID_LY) || type.equals(ZcCommonService.UUID_JY)
                 || type.equals(ZcCommonService.UUID_ZY)) {
             for (i = 0; i < cnt; i++) {
                 QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
-                String finalId = id;
+                String finalId = type+id;
                 ew.and(j -> j.eq("busuuid", finalId));
                 ResActionItem rs=ResActionItemServiceImpl.getOne(ew);
                 if (rs == null) {
@@ -107,7 +129,7 @@ public class ZcService extends BaseService{
 
 
     // 根据ClassId获取数据,优先判断multiclassroot,在获取class_id
-    public R queryResAllGetData(String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryResAllGetData(String belongcomp,String comp,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search) {
 
         // 获取属性数据
         String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
@@ -172,6 +194,13 @@ public class ZcService extends BaseService{
 
         if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
             sql = sql + " and recycle='" + recycle + "'";
+        }
+
+        if(ToolUtil.isNotEmpty(comp)){
+            sql = sql + " and used_company_id='" + comp + "'";
+        }
+        if(ToolUtil.isNotEmpty(belongcomp)){
+            sql = sql + " and belong_company_id='" + belongcomp + "'";
         }
 
         //idle,inuse,scrap,borrow,repair,stopuse,allocation

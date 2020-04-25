@@ -99,6 +99,7 @@ public class ResRepairExtController extends BaseController {
 			for(int i=0;i<arr.size();i++){
 				ResRepairItem e=new ResRepairItem();
 				e.setRepairid(id);
+				e.setBusuuid(uuid);
 				e.setResid(arr.getJSONObject(i).getString("id"));
 				cols.add(e);
 			}
