@@ -318,15 +318,20 @@ public class ResExtController extends BaseController {
         }
         // 获取更新记录
         RcdSet urs = db.query(
-                "select a.*,b.name from res_history a ,sys_user_info b where res_id=? and a.oper_user=b.user_id order by oper_time desc limit 100",
+                " select * from (\n" +
+                        "select\n" +
+                        "  (select name from sys_user_info where user_id=t.create_by)create_uname,\n" +
+                        "  t.* from res_change_item t where dr='0' and t.resid=? order by create_time desc) tab limit 100\n",
                 id);
         data.put("updatadata", ConvertUtil.OtherJSONObjectToFastJSONArray(urs.toJsonArrayWithJsonObject()));
 
         // 获取故障登记表
-//        RcdSet grs = db.query(
-//                "select a.*,b.name, (select count(1) from res_fault_file where a.id=faultid) attach_cnt from res_fault a ,sys_user_info b where a.f_res_id=? and a.f_oper_user=b.user_id order by f_oper_time desc limit 100",
-//                id);
-//        data.put("faultdata", ConvertUtil.OtherJSONObjectToFastJSONArray(grs.toJsonArrayWithJsonObject()));
+        RcdSet grs = db.query(
+                " select * from (\n" +
+                        "select b.* from res_repair_item a ,res_repair b where a.repairid=b.id and a.dr='0' and a.resid=? and b.dr='0'\n" +
+                        "  order by create_time desc)tab limit 100",
+                id);
+        data.put("faultdata", ConvertUtil.OtherJSONObjectToFastJSONArray(grs.toJsonArrayWithJsonObject()));
 
         return R.SUCCESS_OPER(data);
     }

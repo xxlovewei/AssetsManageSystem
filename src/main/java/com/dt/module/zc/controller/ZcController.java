@@ -14,7 +14,6 @@ import com.dt.module.flow.entity.SysProcessDef;
 import com.dt.module.flow.service.ISysProcessDefService;
 import com.dt.module.form.entity.SysForm;
 import com.dt.module.form.service.impl.FormServiceImpl;
-import com.dt.module.zc.entity.ResRepairItem;
 import com.dt.module.zc.service.impl.ZcChangeService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.ct.entity.CtCategoryRoot;
@@ -32,10 +31,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.entity.ResActionItem;
-import com.dt.module.form.service.impl.FormServiceImpl;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.dt.module.form.service.ISysFormService;
+
 import com.dt.module.base.service.ISysUserInfoService;
 
 /**
@@ -135,16 +134,13 @@ public class ZcController extends BaseController {
         String busstatus=obj.getBusstatus();
         String pstatus=obj.getPstatus();
         if(SysUfloProcessService.P_STATUS_FINISH.equals(pstatus)&&"out".equals(busstatus)){
-            return zcChangeService.ZcTkChange(obj.getBusid());
+            return zcChangeService.ZcTkSureChange(obj.getBusid());
         }
         else{
             return R.FAILURE("当前状态不允许退款!");
         }
 
     }
-
-
-
 
 
 
@@ -218,15 +214,16 @@ public class ZcController extends BaseController {
             entity.setPstatusdtl(SysUfloProcessService.P_DTL_STATUS_SUCCESS);
             entity.setBusstatus("out");
             //变更资产数据状态
-            zcChangeService.ZcChange(uuid,entity.getBustype());
+            zcChangeService.ZcSureChange(uuid,entity.getBustype());
 
         }else{
             //需要送审
             entity.setPstatus(SysUfloProcessService.P_STATUS_SFA);
             entity.setPstatusdtl(SysUfloProcessService.P_DTL_STATUS_SFA);
+            //变更资产
+           // zcChangeService.ZcStartChange(uuid,entity.getBustype());
         }
         SysProcessDataServiceImpl.save(entity);
-
 
         //填充表单数据
         QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();

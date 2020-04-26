@@ -1354,8 +1354,6 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
             id: faultid
         }).success(function (res) {
             if (res.success) {
-
-
                 // $window
                 if (res.data.attachdata.length > 0) {
                     for (var i = 0; i < res.data.attachdata.length; i++) {
@@ -1372,20 +1370,13 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
     }
 
     $scope.dtColumns = [
-        DTColumnBuilder.newColumn('oper_time').withTitle('操作时间')
+        DTColumnBuilder.newColumn('create_time').withTitle('操作时间')
             .withOption('sDefaultContent', '').withOption('width', '30'),
-        DTColumnBuilder.newColumn('name').withTitle('记录人').withOption(
+        DTColumnBuilder.newColumn('fuuid').withTitle('报修编号').withOption(
             'sDefaultContent', '').withOption('width', '30'),
-        DTColumnBuilder.newColumn('uuid').withTitle('维护编号').withOption(
-            'sDefaultContent', '').withOption('width', '30'),
-        DTColumnBuilder.newColumn('processuser').withTitle('维护人').withOption(
-            'sDefaultContent', '').withOption('width', '30'),
-        DTColumnBuilder.newColumn('processtime').withTitle('维护时间')
-            .withOption('sDefaultContent', '').withOption('width', '90'),
-        DTColumnBuilder.newColumn('attach_cnt').withTitle('附件数')
-            .withOption('sDefaultContent', '').withOption('width', '30').renderWith(renderAttach),
-        DTColumnBuilder.newColumn('reason').withTitle('原因').withOption(
-            'sDefaultContent', '')
+        DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+            'sDefaultContent', '').withOption('width', '30')
+
     ]
 
     $scope.dtOptions2 = DTOptionsBuilder.fromFnPromise().withOption(
@@ -1395,25 +1386,29 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
         });
     $scope.dtInstance2 = {}
 
-    function renderCT(data, type, full) {
-        if (angular.isDefined(data)) {
-            return data.substr(0, 100) + "...";
-        } else {
-            return "";
+    function renderType(data, type, full) {
+
+        if(data=="DB"){
+            return "资产调拨";
+        }else if(data=="LY"){
+            return "资产领用/退库"
+        }else if(data=="JY"){
+            return "资产借用/归还"
+        }
+        else{
+           return data;
         }
 
     }
 
 
     $scope.dtColumns2 = [
-        DTColumnBuilder.newColumn('oper_time').withTitle('操作时间')
+        DTColumnBuilder.newColumn('create_time').withTitle('操作时间')
             .withOption('sDefaultContent', '').withOption('width', '30'),
-        DTColumnBuilder.newColumn('name').withTitle('操作人').withOption(
-            'sDefaultContent', '').withOption('width', '30'),
-        DTColumnBuilder.newColumn('oper_type').withTitle('操作类型').withOption(
-            'sDefaultContent', '').withOption('width', '30'),
-        DTColumnBuilder.newColumn('fullct').withTitle('内容').withOption(
-            'sDefaultContent', '').withOption('width', '100').renderWith(renderCT),
+        DTColumnBuilder.newColumn('busuuid').withTitle('单据编号').withOption(
+            'sDefaultContent', '').withOption('width', '30').renderWith(renderType),
+        DTColumnBuilder.newColumn('type').withTitle('变更类型').withOption(
+            'sDefaultContent', '').withOption('width', '30').renderWith(renderType),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
             'sDefaultContent', '')]
 

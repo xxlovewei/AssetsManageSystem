@@ -113,7 +113,7 @@ public class CustomGeneratorMysql {
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
         String busRoute = "zc";
-        strategy.setInclude(new String[]{"res_repair_item"}); // 需要生成的表
+        strategy.setInclude(new String[]{"res_change_item"}); // 需要生成的表
         // strategy.setInclude(scanner("表名"));
 
         strategy.setTableFillList(tableFillList);

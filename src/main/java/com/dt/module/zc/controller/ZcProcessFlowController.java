@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.dt.module.cmdb.entity.ResActionItem;
 import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.flow.entity.SysProcessForm;
 import com.dt.module.flow.service.ISysProcessFormService;
@@ -55,7 +54,6 @@ import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.flow.service.ISysProcessSettingService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
-import com.dt.module.form.entity.SysForm;
 
 /**
  * @author: algernonking
@@ -191,7 +189,6 @@ public class ZcProcessFlowController extends BaseController {
         ew.and(i -> i.eq("processdataid", id));
         SysProcessForm  formdata =SysProcessFormServiceImpl.getOne(ew);
 
-
         // 需要审批
         StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
         startProcessInfo.setCompleteStartTask(true);
@@ -207,6 +204,9 @@ public class ZcProcessFlowController extends BaseController {
         pd.setProcesskey(pdef.getPtplkey());
         pd.setProcessInstanceId(inst.getId() + "");
         SysProcessDataServiceImpl.saveOrUpdate(pd);
+
+        zcChangeService.ZcStartChange(pd.getBusid(),pd.getBustype());
+
         return R.SUCCESS_OPER();
     }
 
@@ -229,7 +229,7 @@ public class ZcProcessFlowController extends BaseController {
         QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
         qw.eq("busid", tsk.getBusinessId());
         SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
-        zcChangeService.ZcChange(tsk.getBusinessId(),sd.getBustype());
+        zcChangeService.ZcSureChange(tsk.getBusinessId(),sd.getBustype());
         return r;
     }
 
