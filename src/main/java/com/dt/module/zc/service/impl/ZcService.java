@@ -1,7 +1,9 @@
 package com.dt.module.zc.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -10,6 +12,7 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.SQL;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.cmdb.entity.Res;
 import com.dt.module.cmdb.entity.ResActionItem;
@@ -18,6 +21,7 @@ import com.dt.module.cmdb.service.IResService;
 import com.dt.module.zc.entity.ResAllocate;
 import com.dt.module.zc.service.IResAllocateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -40,6 +44,82 @@ public class ZcService extends BaseService{
 
     @Autowired
     IResAllocateService ResAllocateServiceImpl;
+
+    @Cacheable(value = CacheConfig.CACHE_PUBLIC_45_10,key="'qf'+#uid")
+    public R queryDictFast(String uid,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers,String subclass, String classroot) {
+
+        JSONObject res = new JSONObject();
+        String[] dict_arr = dicts.split(",");
+        for (int i = 0; i < dict_arr.length; i++) {
+            String sql = "select * from sys_dict_item where dict_id=? and dr='0' order by sort";
+            String cls = dict_arr[i];
+            if ("zcother".equals(dict_arr[i].toString())) {
+                sql = "select * from sys_dict_item where dict_id=? and dr='0' and code<>'menu' order by sort";
+                cls = "devclass";
+            }
+            RcdSet rs = db.query(sql, cls);
+            res.put(dict_arr[i], ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
+        }
+
+        if (ToolUtil.isNotEmpty(subclass)) {
+            RcdSet partrs = db.query(
+                    "select id dict_item_id,name from ct_category  where dr='0' and parent_id=? order by od", subclass);
+            res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+        }
+
+        if (ToolUtil.isNotEmpty(classroot)) {
+            String subsql=" t.dr='0' and t.root='"+classroot+"' and t.route not like '46%' and t.node_level>1 ";
+            RcdSet partrs = db.query("select id dict_item_id,route_name name , name sname from ct_category t where  "
+                    +subsql + " order by route");
+            res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+        }
+
+
+        // 所有用户
+        if (ToolUtil.isNotEmpty(partusers)) {
+            RcdSet partuserrs = db
+                    .query("select  a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n"
+                            + "  a.empl_id=b.empl_id and a.dr='0' and b.dr='0'  and c.node_id=b.node_id");
+            res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
+        }
+
+        RcdSet comprs=db.query("select node_id id, route_name name from hrm_org_part where dr='0' and type='comp' order by node_id");
+
+
+        if(ToolUtil.isNotEmpty(comp)){
+            res.put("comp",comprs.toJsonArrayWithJsonObject());
+        }
+
+        if(ToolUtil.isNotEmpty(belongcomp)){
+            res.put("belongcomp",comprs.toJsonArrayWithJsonObject());
+        }
+
+        if(ToolUtil.isNotEmpty(belongcomp)){
+            res.put("belongcomp",comprs.toJsonArrayWithJsonObject());
+        }
+
+        // 所有部门
+        if (ToolUtil.isNotEmpty(comppart)) {
+            JSONObject tmp=new JSONObject();
+            for(int i=0;i<comprs.size();i++){
+                RcdSet partrs = db
+                        .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and parent_id=? order by route",comprs.getRcd(i).getString("id"));
+                tmp.put(comprs.getRcd(i).getString("id"),partrs.toJsonArrayWithJsonObject());
+            }
+            res.put("comppart",tmp);
+        }
+
+
+        if (ToolUtil.isNotEmpty(parts)) {
+            RcdSet partrs = db
+                    .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and type='part' order by route" );
+            res.put("parts",partrs.toJsonArrayWithJsonObject());
+        }
+
+        System.out.println(res.toJSONString());
+        return R.SUCCESS_OPER(res);
+    }
+
 
     private String createUuid5(){
         return  UUID.randomUUID().toString().substring(9, 23).toUpperCase();

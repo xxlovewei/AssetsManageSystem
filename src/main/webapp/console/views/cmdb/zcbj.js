@@ -195,12 +195,13 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	var dicts = "zcwbcomoute,devbrand,devwb,devdc,devrecycle,zcsource,zcwbsupper,zcsupper";
 
 	$http
-		.post($rootScope.project + "/api/base/res/queryDictFast.do", {
+		.post($rootScope.project + "/api/zc/queryDictFast.do", {
 			dicts : dicts,
 			parts : "Y",
 			partusers : "Y",
 			comp :"Y",
 			belongcomp:"Y",
+			uid:"zcbj",
 			classroot:gclassroot
 		})
 		.success(

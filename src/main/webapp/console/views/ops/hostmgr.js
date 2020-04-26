@@ -312,8 +312,9 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	var dicts = "nodebak,sysstatus,sysdb,sysdbdtl,sysenv,sysexecenv,syslevel,sysloc,sysmid,sysmonitor,sysos,sysosdtl,syspwdstrategy,systype";
 
-	$http.post($rootScope.project + "/api/base/res/queryDictFast.do", {
-		dicts : dicts
+	$http.post($rootScope.project + "/api/zc/queryDictFast.do", {
+		dicts : dicts,
+		uid:"hostmgr"
 	}).success(function(res) {
 		if (res.success) {
 			gdicts = res.data;

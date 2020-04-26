@@ -107,10 +107,9 @@
 <script src="vendor/basket/basket.0.5.2.full.min.js"></script>
 <script>
     basket
-        .require({ url:'./plugin/form/vue.min.js?v=80',key:'vue'})
+        .require({ url:'./plugin/form/vue.min.js',key:'vue'})
         .then(function () {
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-        basket.require({ url:'./plugin/form/k-form-design.umd.min.js?v=80',key:'vue-form'});
+        basket.require({ url:'./plugin/form/k-form-design.umd.min.js',key:'vue-form'});
         }, function (error) {
 
             console.log('######',error);

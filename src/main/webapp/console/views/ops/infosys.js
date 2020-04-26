@@ -68,8 +68,9 @@ function sysinfomgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	var dicts = "sysinfodev,sysinfograde,sysinfoops,sysinfotype";
 
-	$http.post($rootScope.project + "/api/base/res/queryDictFast.do", {
-		dicts : dicts
+	$http.post($rootScope.project + "/api/zc/queryDictFast.do", {
+		dicts : dicts,
+		uid:"infosys"
 	}).success(function(res) {
 		if (res.success) {
 			gdicts = res.data;

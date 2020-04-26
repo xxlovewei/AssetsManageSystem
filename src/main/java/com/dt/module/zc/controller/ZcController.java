@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.flow.entity.SysProcessDef;
@@ -27,6 +28,7 @@ import com.dt.module.form.service.ISysFormService;
 import com.dt.module.zc.service.impl.ZcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.dt.module.cmdb.service.IResActionItemService;
@@ -78,6 +80,19 @@ public class ZcController extends BaseController {
 
     @Autowired
     ICtCategoryRootService CtCategoryRootServiceImpl;
+
+
+    //uid 每组加缓存
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/queryDictFast.do")
+    @Transactional
+    public R queryDictFast(String uid,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers, String subclass, String classroot) {
+
+        return zcService.queryDictFast(uid,comppart, comp, belongcomp, dicts,  parts,  partusers,  subclass,  classroot);
+
+    }
+
 
     @ResponseBody
     @Acl(info = "zc", value = Acl.ACL_USER)

@@ -4,10 +4,11 @@ function cmdbDataExportCtl($log, notify, $scope, $http, $rootScope,$window) {
 
 	$scope.locOpt = [];
 	$scope.locSel = "";
-	$http.post($rootScope.project + "/api/base/res/queryDictFast.do", {
+	$http.post($rootScope.project + "/api/zc/queryDictFast.do", {
 		dicts : dicts,
 		parts : "Y",
-		partusers : "Y"
+		partusers : "Y",
+		uid:"dataexport"
 	}).success(function(res) {
 		if (res.success) {
 			var gdicts = res.data;

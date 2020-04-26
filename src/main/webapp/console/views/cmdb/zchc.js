@@ -197,12 +197,13 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	
 
 	$http
-			.post($rootScope.project + "/api/base/res/queryDictFast.do", {
+			.post($rootScope.project + "/api/zc/queryDictFast.do", {
 				dicts : dicts,
 				parts : "Y",
 				partusers : "Y",
 				comp :"Y",
 				belongcomp:"Y",
+				uid:"zchc",
 				classroot:gclassroot
 			})
 			.success(

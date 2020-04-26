@@ -172,11 +172,12 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	var gdicts = {};
 	$http
 			.post(
-					$rootScope.project + "/api/base/res/queryDictFast.do",
+					$rootScope.project + "/api/zc/queryDictFast.do",
 					{
 						dicts : "devbrand,devrisk,devenv,devrecycle,devwb,devdc,devservertype,devrack",
 						parts : "Y",
-						partusers : "Y"
+						partusers : "Y",
+						uid:"devsearch"
 					}).success(function(res) {
 				if (res.success) {
 					gdicts = res.data;

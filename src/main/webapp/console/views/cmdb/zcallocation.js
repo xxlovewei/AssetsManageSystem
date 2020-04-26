@@ -284,14 +284,15 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     var gdict={};
     var dicts = "devdc"
     $http
-        .post($rootScope.project + "/api/base/res/queryDictFast.do",
+        .post($rootScope.project + "/api/zc/queryDictFast.do",
             {
                 dicts : dicts,
                 parts : "Y",
                 partusers : "Y",
                 comp :"Y",
                 belongcomp:"Y",
-                comppart:"Y"
+                comppart:"Y",
+                uid:"allocation"
             }).success(function(res) {
         if (res.success) {
             gdict=res.data;

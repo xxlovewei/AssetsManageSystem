@@ -184,7 +184,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}
 			
 			$http
-					.post($rootScope.project + "/api/base/res/queryDictFast.do", {
+					.post($rootScope.project + "/api/zc/queryDictFast.do", {
+						uid:"generic"+$state.router.globals.current.data.classid,
 						dicts : dicts,
 						parts : "Y",
 						partusers : "Y",

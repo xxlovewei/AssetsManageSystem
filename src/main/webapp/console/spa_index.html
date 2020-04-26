@@ -147,9 +147,9 @@
 <script>
 	setTimeout(function () {
 		basket
-				.require({ url:'./plugin/form/vue.min.js?v=90',key:'vue',execute:false})
+				.require({ url:'./plugin/form/vue.min.js',key:'vue',execute:false})
 				.then(function () {
-					basket.require({ url:'./plugin/form/k-form-design.umd.min.js?v=90',key:'vue-form',execute:false});
+					basket.require({ url:'./plugin/form/k-form-design.umd.min.js',key:'vue-form',execute:false});
 				}, function (error) {
 					console.log('ERROR',error);
 				});
