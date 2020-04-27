@@ -32,7 +32,7 @@ public class ContentCategoryService extends BaseService {
             return R.FAILURE("请先删除子节点");
         }
         Update me = new Update("ct_category");
-        me.set("dr", "0");
+        me.set("dr", "1");
         me.where().and("id=?", id);
         db.execute(me);
         return R.SUCCESS_OPER();
@@ -78,7 +78,7 @@ public class ContentCategoryService extends BaseService {
         root.put("text", root_rs.getString("name"));
         root.put("type", "root");
         res.add(root);
-        RcdSet rs = db.query("select * from ct_category where root=? and  dr='0'", root_id);
+        RcdSet rs = db.query("select * from ct_category where root=? and dr='0'", root_id);
         JSONObject e = new JSONObject();
         for (int i = 0; i < rs.size(); i++) {
             e = new JSONObject();
