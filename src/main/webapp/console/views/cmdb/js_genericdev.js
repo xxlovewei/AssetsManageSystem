@@ -182,10 +182,12 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			if (angular.isDefined($state.router.globals.current.data.subclass)) {
 				subclass=gclass_id;
 			}
-			
+
+			var t=$state.router.globals.current.data.classid;
+			var t2 = t.replace( "_" , "" );
 			$http
 					.post($rootScope.project + "/api/zc/queryDictFast.do", {
-						uid:"generic"+$state.router.globals.current.data.classid,
+						uid:"generic"+t2,
 						dicts : dicts,
 						parts : "Y",
 						partusers : "Y",

@@ -123,7 +123,6 @@ public class ResImportService extends BaseService {
             return R.SUCCESS_OPER(e);
         }
         Rcd rs = db.uniqueRecord("select node_id from hrm_org_part where dr='0' and type=? and route_name=?",type, name);
-        System.out.println(rs.toJsonObject().toString());
         if (rs == null) {
             return R.FAILURE("无法匹配到公司或部门,名称:"+ name);
         }

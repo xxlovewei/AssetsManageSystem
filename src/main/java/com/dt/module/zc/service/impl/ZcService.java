@@ -87,15 +87,15 @@ public class ZcService extends BaseService{
 
 
         if(ToolUtil.isNotEmpty(comp)){
-            res.put("comp",comprs.toJsonArrayWithJsonObject());
+            res.put("comp",ConvertUtil.OtherJSONObjectToFastJSONArray(comprs.toJsonArrayWithJsonObject()));
         }
 
         if(ToolUtil.isNotEmpty(belongcomp)){
-            res.put("belongcomp",comprs.toJsonArrayWithJsonObject());
+            res.put("belongcomp",ConvertUtil.OtherJSONObjectToFastJSONArray(comprs.toJsonArrayWithJsonObject()));
         }
 
         if(ToolUtil.isNotEmpty(belongcomp)){
-            res.put("belongcomp",comprs.toJsonArrayWithJsonObject());
+            res.put("belongcomp",ConvertUtil.OtherJSONObjectToFastJSONArray(comprs.toJsonArrayWithJsonObject()));
         }
 
         // 所有部门
@@ -104,7 +104,7 @@ public class ZcService extends BaseService{
             for(int i=0;i<comprs.size();i++){
                 RcdSet partrs = db
                         .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and parent_id=? order by route",comprs.getRcd(i).getString("id"));
-                tmp.put(comprs.getRcd(i).getString("id"),partrs.toJsonArrayWithJsonObject());
+                tmp.put(comprs.getRcd(i).getString("id"),ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
             }
             res.put("comppart",tmp);
         }
@@ -113,10 +113,9 @@ public class ZcService extends BaseService{
         if (ToolUtil.isNotEmpty(parts)) {
             RcdSet partrs = db
                     .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and type='part' order by route" );
-            res.put("parts",partrs.toJsonArrayWithJsonObject());
+            res.put("parts",ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
-        System.out.println(res.toJSONString());
         return R.SUCCESS_OPER(res);
     }
 
@@ -417,7 +416,6 @@ public class ZcService extends BaseService{
                     // 未脱保
                     wbcompute = "valid";
                 }
-                System.out.println(date);
             } catch (ParseException px) {
                 px.printStackTrace();
             }
