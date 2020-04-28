@@ -711,7 +711,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disabled : "false",
 								label : "供应商",
 								need : false,
-								disable_search : "true",
+								disable_search : "false",
 								dataOpt : "zcsupperOpt",
 								dataSel : "zcsupperSel"
 							});
@@ -720,7 +720,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disabled : "false",
 								label : "资产品牌",
 								need : false,
-								disable_search : "true",
+								disable_search : "false",
 								dataOpt : "pinpOpt",
 								dataSel : "pinpSel"
 							});
@@ -826,7 +826,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disabled : "false",
 								label : "所属公司",
 								need : true,
-								disable_search : "true",
+								disable_search : "false",
 								dataOpt : "belongcompOpt",
 								dataSel : "belongcompSel"
 							});
@@ -836,7 +836,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disabled : "false",
 								label : "使用公司",
 								need : true,
-								disable_search : "true",
+								disable_search : "false",
 								dataOpt : "compOpt",
 								dataSel : "compSel"
 							});
@@ -912,7 +912,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disabled : "false",
 								label : "区域",
 								need : true,
-								disable_search : "true",
+								disable_search : "false",
 								dataOpt : "locOpt",
 								dataSel : "locSel"
 							});
@@ -1002,7 +1002,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disabled : "false",
 								label : "维保供应商",
 								need : true,
-								disable_search : "true",
+								disable_search : "false",
 								dataOpt : "zcwbsupperOpt",
 								dataSel : "zcwbsupperSel"
 							});

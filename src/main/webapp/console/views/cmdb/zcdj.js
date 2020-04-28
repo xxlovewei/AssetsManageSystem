@@ -7,7 +7,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
 		.withPaginationType('full_numbers').withDisplayLength(100)
 		.withOption("ordering", false).withOption("responsive", false)
-		.withOption("searching", false).withOption('scrollY', 600)
+		.withOption("searching", true).withOption('scrollY', 600)
 		.withOption('scrollX', true).withOption('bAutoWidth', true)
 		.withOption('scrollCollapse', true).withOption('paging', true)
 		.withFixedColumns({
@@ -34,7 +34,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				extend: 'colvis',
 				text: '显示隐藏列',
 				fnLabel: function ( dt, idx, title ) {
-
 					return (idx+1)+': '+title;
 				}
 			},
@@ -482,7 +481,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						disabled : "false",
 						label : "供应商",
 						need : false,
-						disable_search : "true",
+						disable_search : "false",
 						dataOpt : "zcsupperOpt",
 						dataSel : "zcsupperSel"
 					});
@@ -500,7 +499,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						disabled : "false",
 						label : "资产品牌",
 						need : false,
-						disable_search : "true",
+						disable_search : "false",
 						dataOpt : "pinpOpt",
 						dataSel : "pinpSel"
 					});
@@ -608,7 +607,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						disabled : "false",
 						label : "所属公司",
 						need : true,
-						disable_search : "true",
+						disable_search : "false",
 						dataOpt : "belongcompOpt",
 						dataSel : "belongcompSel"
 					});
@@ -618,7 +617,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						disabled : "false",
 						label : "使用公司",
 						need : true,
-						disable_search : "true",
+						disable_search : "false",
 						dataOpt : "compOpt",
 						dataSel : "compSel"
 					});
@@ -721,7 +720,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						disabled : "false",
 						label : "维保供应商",
 						need : false,
-						disable_search : "true",
+						disable_search : "false",
 						dataOpt : "zcwbsupperOpt",
 						dataSel : "zcwbsupperSel"
 					});

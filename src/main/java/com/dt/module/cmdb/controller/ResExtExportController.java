@@ -58,20 +58,21 @@ public class ResExtExportController extends BaseController {
                 "    '资产类型明细'   name,\n" +
                 "    route_name item_name\n" +
                 "  from ct_category\n" +
-                "  where root = '3'\n" +
+                "  where root = '3' and dr='0'\n" +
                 "  union all\n" +
                 "  select\n" +
                 "    '公司' name,\n" +
                 "    route_name\n" +
                 "  from hrm_org_part\n" +
-                "  where type = 'comp'\n" +
+                "  where type = 'comp' and dr='0'\n" +
                 "  union all\n" +
                 "  select\n" +
                 "    '部门' name,\n" +
                 "    route_name\n" +
                 "  from hrm_org_part\n" +
-                "  where type = 'part'\n" +
-                ") tab order by 1";
+                "  where type = 'part' and dr='0'\n" +
+                ") tab order by 1\n" ;
+
         RcdSet rs = db.query(sql);
 
         List<DictItemEntity> data_excel = new ArrayList<DictItemEntity>();
