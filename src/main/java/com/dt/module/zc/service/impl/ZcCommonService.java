@@ -94,13 +94,17 @@ public class ZcCommonService extends BaseService {
             + " (select name from sys_dict_item where  dr='0' and dict_item_id=t.wbsupplier  ) wbsupplierstr,"
             + " (select name from sys_dict_item where  dr='0' and dict_item_id=t.zcsource  ) zcsourcestr,"
             + " (select name from sys_dict_item where  dr='0' and dict_item_id=t.supplier  ) supplierstr,"
-            + " (select node_name from hrm_org_part where node_id=t.part_id  ) part_name,"
+
             + " (select node_name from hrm_org_part where node_id=t.used_company_id  ) comp_name,"
-            + " (select node_name from hrm_org_part where node_id=t.belong_company_id  ) belongcom_name,"
-            + " (select name from sys_user_info where user_id=t.used_userid  ) used_username,"
+            + " (select route_name from hrm_org_part where node_id=t.used_company_id  ) comp_fullname,"
+            + " (select node_name from hrm_org_part where node_id=t.part_id  ) part_name,"
             + " (select route_name from hrm_org_part where node_id=t.part_id  ) part_fullname,"
-            + " (select route_name from hrm_org_part where node_id=t.mgr_part_id  ) mgr_part_name,"
+            + " (select name from sys_user_info where user_id=t.used_userid  ) used_username,"
+            + " (select node_name from hrm_org_part where node_id=t.belong_company_id  ) belongcom_name,"
+            + " (select route_name from hrm_org_part where node_id=t.belong_company_id  ) belongcom_fullname,"
             + " (select route_name from hrm_org_part where node_id=t.mgr_part_id  ) mgr_part_fullname,"
+            + " (select route_name from hrm_org_part where node_id=t.mgr_part_id  ) mgr_part_name,"
+
             + "  date_format(wbout_date,'%Y-%m-%d')  wbout_datestr,"
             + "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
             + "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";

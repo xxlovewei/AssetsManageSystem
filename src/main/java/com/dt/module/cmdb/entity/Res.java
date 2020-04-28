@@ -49,6 +49,7 @@ public class Res extends BaseModel<Res> {
      */
     @TableField("name")
     private String name;
+    
     /**
      *  资产描述
      */

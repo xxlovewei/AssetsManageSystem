@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.zc.service.impl.ZcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,24 +37,18 @@ public class ResImportService extends BaseService {
 
     @Autowired
     ZcService zcService;
-//    @Autowired
-//    ZcCommonService resExtService;
 
     public static void main(String[] args) {
         String sql = "com.dt.module.cmdb.service.ResEntity@333fa13b[uuid=83E6-48C3-B47,classname=存储设备,typestr=<null>,name=存储设备,locstr=营业网点,brandstr=惠普,model=12,sn=22,wbstr=在保,wbout_datestr=2021-08-21,rackstr=<null>,frame=<null>,locdtl= 不知道,recyclestr=未上架,envstr=生产,riskstr=未评级,part_fullname=总行营业部,mgr_part_fullname=<null>,used_username=寿其伟,buy_timestr=2019-11-01,buy_price=0,confdesc=<null>,mark=<null>,processmsg=资产编号不存在]\n";
-
         System.out.println(sql.substring(sql.indexOf("[")));
         // TODO Auto-generated method stub
 
     }
 
-
-
     public R importResNormal(String file, String type) {
         R r = R.SUCCESS_OPER();
         try {
             ImportParams params = new ImportParams();
-
             params.setHeadRows(1);
             params.setTitleRows(0);
             params.setStartSheetIndex(0);
@@ -105,7 +100,9 @@ public class ResImportService extends BaseService {
         }
         // 其他为空，判断为成功
         if (ToolUtil.isEmpty(name)) {
-            return R.SUCCESS_OPER("0");
+            JSONObject e=new JSONObject();
+            e.put("dict_item_id","");
+            return R.SUCCESS_OPER(e);
         }
         Rcd rs = db.uniqueRecord("select dict_item_id from dt.sys_dict_item where dr='0' and dict_id=? and name=?",
                 dict, name);
@@ -115,23 +112,43 @@ public class ResImportService extends BaseService {
         return R.SUCCESS_OPER(rs.toJsonObject());
     }
 
+
+
+    // 检查组织ID
+   // @Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkOrgItem'+#type+'_'+#name")
+    public R checkOrgItem(String type, String name) {
+        if (ToolUtil.isEmpty(name)) {
+            JSONObject e=new JSONObject();
+            e.put("node_id","");
+            return R.SUCCESS_OPER(e);
+        }
+        Rcd rs = db.uniqueRecord("select node_id from hrm_org_part where dr='0' and type=? and route_name=?",type, name);
+        System.out.println(rs.toJsonObject().toString());
+        if (rs == null) {
+            return R.FAILURE("无法匹配到公司或部门,名称:"+ name);
+        }
+        return R.SUCCESS_OPER(rs.toJsonObject());
+    }
+
+
+    //判断支持类型
     @Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkDictItem'+#name")
     public R checkZCClass(String name) {
         // 大类为空,则失败
-
         if (ToolUtil.isEmpty(name)) {
             return R.FAILURE("大类不允许为空或该行为空");
         }
-
         // 其他为空，判断为成功
         if (ToolUtil.isEmpty(name)) {
-            return R.SUCCESS_OPER("0");
+            JSONObject e=new JSONObject();
+            e.put("id","");
+            return R.SUCCESS_OPER(e);
         }
+
         Rcd rs = db.uniqueRecord("select * from ct_category  where dr='0' and route_name=?", name);
         if (rs == null) {
             return R.FAILURE("无法匹配大类," + name);
         }
-
         return R.SUCCESS_OPER(rs.toJsonObject());
     }
 
@@ -147,6 +164,7 @@ public class ResImportService extends BaseService {
         if (buypriceR.isFailed()) {
             return R.FAILURE(buypriceR.getMessage());
         }
+
         R checkBuyTimeR = checkDateTime(re.getBuy_price());
         if (checkBuyTimeR.isFailed()) {
             return R.FAILURE(checkBuyTimeR.getMessage());
@@ -202,6 +220,39 @@ public class ResImportService extends BaseService {
             return R.FAILURE(zcwbcomouteR.getMessage());
         }
 
+        R zcsourceR = checkDictItem("zcsource", re.getZcsourcestr());
+        if (zcsourceR.isFailed()) {
+            return R.FAILURE(zcsourceR.getMessage());
+        }
+
+        R zcsupperR = checkDictItem("zcsupper", re.getSupplierstr());
+        if (zcsupperR.isFailed()) {
+            return R.FAILURE(zcsupperR.getMessage());
+        }
+
+        R wbsupplierR = checkDictItem("zcwbsupper", re.getWbsupplierstr());
+        if (wbsupplierR.isFailed()) {
+            return R.FAILURE(wbsupplierR.getMessage());
+        }
+
+        //组织信息
+        R belongcompR = checkOrgItem("comp", re.getBelongcom_fullname());
+        if (belongcompR.isFailed()) {
+            return R.FAILURE(belongcompR.getMessage());
+        }
+
+        R compR = checkOrgItem("comp", re.getComp_fullname());
+        if (compR.isFailed()) {
+            return R.FAILURE(compR.getMessage());
+        }
+        R partR = checkOrgItem("part", re.getPart_fullname());
+        if (partR.isFailed()) {
+            return R.FAILURE(partR.getMessage());
+        }
+
+
+
+
 //		// 处理小类
 //		String typestr = null;
 //		if (ToolUtil.isNotEmpty(re.getTypestr())) {
@@ -226,22 +277,22 @@ public class ResImportService extends BaseService {
             me.setIf("update_time", nowtime);
             me.setIf("update_by", this.getUserId());
             /////////////// 开始处理///////////
-            me.setIf("fs1", re.getFs1());
-            me.setIf("fs2", re.getFs2());
-            me.setIf("ip", re.getIp());
-            me.setIf("fs20", re.getFs20());
-            me.setIf("frame", re.getFrame());
-            me.setIf("model", re.getModel());
-            me.setIf("confdesc", re.getConfdesc());
-            me.setIf("mark", re.getMark());
-            me.setIf("locdtl", re.getLocdtl());
-            me.setIf("sn", re.getSn());
-            me.setIf("buy_price", re.getBuy_price());
-            me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
+            me.setIf("fs1", re.getFs1()==null?"":re.getFs1());
+            me.setIf("fs2", re.getFs2()==null?"":re.getFs2());
+            me.setIf("fs20", re.getFs20()==null?"":re.getFs20());
+            me.setIf("ip",re.getIp()==null?"":re.getIp());
+            me.setIf("frame", re.getFrame()==null?"":re.getFrame());
+            me.setIf("model", re.getModel()==null?"":re.getModel());
+            me.setIf("confdesc",re.getConfdesc()==null?"":re.getConfdesc());
+            me.setIf("mark", re.getMark()==null?"":re.getMark() );
+            me.setIf("locdtl",re.getLocdtl()==null?"":re.getLocdtl());
+            me.setIf("sn", re.getSn()==null?"":re.getSn());
+            me.setIf("net_worth", re.getNet_worth()==null?"0":re.getNet_worth());
             me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
+            me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
+            me.setIf("buy_price", re.getBuy_price()==null?"0":re.getBuy_price());
 
             // 数据字典匹配
-//			me.setIf("type", typestr);
             me.setIf("class_id", classR.queryDataToJSONObject().getString("id"));
             me.setIf("rack", rackR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("brand", brandR.queryDataToJSONObject().getString("dict_item_id"));
@@ -251,6 +302,15 @@ public class ResImportService extends BaseService {
             me.setIf("loc", locR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("env", envR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("wb_auto", zcwbcomouteR.queryDataToJSONObject().getString("dict_item_id"));
+
+            me.setIf("zcsource", zcsourceR.queryDataToJSONObject().getString("dict_item_id"));
+            me.setIf("supplier", zcsupperR.queryDataToJSONObject().getString("dict_item_id"));
+            me.setIf("wbsupplier", wbsupplierR.queryDataToJSONObject().getString("dict_item_id"));
+
+
+            me.setIf("belong_company_id", belongcompR.queryDataToJSONObject().getString("node_id"));
+            me.setIf("used_company_id", compR.queryDataToJSONObject().getString("node_id"));
+            me.setIf("part_id", partR.queryDataToJSONObject().getString("node_id"));
 
             // 处理资产编号,必需不存在
             if (ToolUtil.isEmpty(re.getUuid())) {
@@ -272,22 +332,23 @@ public class ResImportService extends BaseService {
             me.setIf("update_time", nowtime);
             me.setIf("update_by", this.getUserId());
             /////////////// 开始处理////////////
-            me.setIf("fs1", re.getFs1());
-            me.setIf("ip", re.getIp());
-            me.setIf("fs2", re.getFs2());
-            me.setIf("fs20", re.getFs20());
-            me.setIf("frame", re.getFrame());
-            me.setIf("model", re.getModel());
-            me.setIf("confdesc", re.getConfdesc());
-            me.setIf("mark", re.getMark());
-            me.setIf("locdtl", re.getLocdtl());
-            me.setIf("sn", re.getSn());
-            me.setIf("buy_price", re.getBuy_price());
+
+            me.setIf("fs1", re.getFs1()==null?"":re.getFs1());
+            me.setIf("fs2", re.getFs2()==null?"":re.getFs2());
+            me.setIf("fs20", re.getFs20()==null?"":re.getFs20());
+            me.setIf("ip",re.getIp()==null?"":re.getIp());
+            me.setIf("frame", re.getFrame()==null?"":re.getFrame());
+            me.setIf("model", re.getModel()==null?"":re.getModel());
+            me.setIf("confdesc",re.getConfdesc()==null?"":re.getConfdesc());
+            me.setIf("mark", re.getMark()==null?"":re.getMark() );
+            me.setIf("locdtl",re.getLocdtl()==null?"":re.getLocdtl());
+            me.setIf("sn", re.getSn()==null?"":re.getSn());
+            me.setIf("net_worth", re.getNet_worth()==null?"0":re.getNet_worth());
+            me.setIf("buy_price", re.getBuy_price()==null?"0":re.getBuy_price());
             me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
             me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
 
             // 数据字典匹配
-//			me.setIf("type", typestr);
             me.setIf("class_id", classR.queryDataToJSONObject().getString("id"));
             me.setIf("rack", rackR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("brand", brandR.queryDataToJSONObject().getString("dict_item_id"));
@@ -297,6 +358,14 @@ public class ResImportService extends BaseService {
             me.setIf("loc", locR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("env", envR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("wb_auto", zcwbcomouteR.queryDataToJSONObject().getString("dict_item_id"));
+
+            me.setIf("zcsource", zcsourceR.queryDataToJSONObject().getString("dict_item_id"));
+            me.setIf("supplier", zcsupperR.queryDataToJSONObject().getString("dict_item_id"));
+            me.setIf("wbsupplier", wbsupplierR.queryDataToJSONObject().getString("dict_item_id"));
+
+            me.setIf("belong_company_id", belongcompR.queryDataToJSONObject().getString("node_id"));
+            me.setIf("used_company_id", compR.queryDataToJSONObject().getString("node_id"));
+            me.setIf("part_id", partR.queryDataToJSONObject().getString("node_id"));
 
             // 处理资产编号,必需一条
             if (uuidR == 1) {
