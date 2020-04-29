@@ -18,8 +18,6 @@ function modalpartzcCtl($timeout, $localStorage, notify, $log, $uibModal,
 			});
 
 	$scope.dtInstance = {}
-
-
 	$scope.dtColumns = [];
 	$scope.dtColumns=zcBaseColsCreate(DTColumnBuilder,'withoutselect');
 

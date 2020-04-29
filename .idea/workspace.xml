@@ -8,13 +8,35 @@
   <component name="ChangeListManager">
     <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/R.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/R.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResImportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResImportService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/Template/simpleTool.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/Template/simpleTool.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/js_genericdev.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/js_genericdev.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_batchUpdateRes.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_batchUpdateRes.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_chosenProcess.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_chosenProcess.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_common_zclist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_common_zclist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_dtl.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_dtl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_listContact.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_listContact.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_listUsers.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_listUsers.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcAction.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcAction.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionDtl.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionDtl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionSP.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionSP.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcallocation.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcallocation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/partzc.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/partzc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowlist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowlist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowselect.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowselect.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/modal_dbinstanceSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/modal_dbinstanceSave.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/modal_importfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/modal_importfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/modal_dictItemSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/modal_dictItemSave.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/modal_dictSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/modal_dictSave.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_btnsadd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_btnsadd.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_acl.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_acl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_module.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_module.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_save.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_saverootmenu.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_saverootmenu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/module/modal_module_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/module/modal_module_save.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/params/modal_paramsSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/params/modal_paramsSave.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/role/modal_role_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/role/modal_role_save.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/store/modal_storesqlSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/store/modal_storesqlSave.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_group_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_group_save.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_user_role_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_user_role_save.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_user_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_user_save.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -435,7 +457,7 @@
       <workItem from="1587976432489" duration="4000" />
       <workItem from="1587985282397" duration="13181000" />
       <workItem from="1588059677049" duration="55000" />
-      <workItem from="1588060985561" duration="5047000" />
+      <workItem from="1588060985561" duration="7971000" />
     </task>
     <task id="LOCAL-00001" summary="12">
       <created>1586045638557</created>
@@ -766,7 +788,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588061963961</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="常规更新ok">
+      <created>1588081333473</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1588081333473</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -899,7 +928,7 @@
     </state>
     <state x="347" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/38.23.1242.777@38.23.1242.777" timestamp="1586053580477" />
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1586608077562" />
-    <state x="40" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1588061962774">
+    <state x="40" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1588081332945">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="220" y="23" width="833" height="777" key="CommitChangelistDialog2/34.23.1246.777@34.23.1246.777" timestamp="1587902297321" />
@@ -908,7 +937,7 @@
     <state x="37" y="23" width="1112" height="777" key="CommitChangelistDialog2/37.23.1243.777@37.23.1243.777" timestamp="1587742405041" />
     <state x="233" y="23" width="833" height="777" key="CommitChangelistDialog2/38.23.1242.777@38.23.1242.777" timestamp="1586054107747" />
     <state x="39" y="23" width="924" height="777" key="CommitChangelistDialog2/39.23.1241.777@39.23.1241.777" timestamp="1587472647958" />
-    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1588061962774" />
+    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1588081332945" />
     <state width="434" height="466" key="DebuggerActiveHint" timestamp="1587718161099">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
@@ -938,7 +967,7 @@
       <screen x="37" y="23" width="1243" height="777" />
     </state>
     <state width="1181" height="287" key="GridCell.Tab.-1.right/37.23.1243.777@37.23.1243.777" timestamp="1587823191192" />
-    <state width="1198" height="6" key="GridCell.Tab.0.bottom" timestamp="1588080118320">
+    <state width="1178" height="94" key="GridCell.Tab.0.bottom" timestamp="1588120604774">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state width="1204" height="318" key="GridCell.Tab.0.bottom/34.23.1246.777@34.23.1246.777" timestamp="1587902594796" />
@@ -947,8 +976,8 @@
     <state width="1181" height="253" key="GridCell.Tab.0.bottom/37.23.1243.777@37.23.1243.777" timestamp="1587824056976" />
     <state width="1198" height="213" key="GridCell.Tab.0.bottom/38.23.1242.777@38.23.1242.777" timestamp="1587731641129" />
     <state width="1198" height="479" key="GridCell.Tab.0.bottom/39.23.1241.777@39.23.1241.777" timestamp="1587710369883" />
-    <state width="1198" height="6" key="GridCell.Tab.0.bottom/40.23.1240.777@40.23.1240.777" timestamp="1588080118320" />
-    <state width="1198" height="6" key="GridCell.Tab.0.center" timestamp="1588080118318">
+    <state width="1178" height="94" key="GridCell.Tab.0.bottom/40.23.1240.777@40.23.1240.777" timestamp="1588120604774" />
+    <state width="1178" height="94" key="GridCell.Tab.0.center" timestamp="1588120604773">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state width="1204" height="318" key="GridCell.Tab.0.center/34.23.1246.777@34.23.1246.777" timestamp="1587902594795" />
@@ -957,8 +986,8 @@
     <state width="1181" height="253" key="GridCell.Tab.0.center/37.23.1243.777@37.23.1243.777" timestamp="1587824056974" />
     <state width="1198" height="213" key="GridCell.Tab.0.center/38.23.1242.777@38.23.1242.777" timestamp="1587731641128" />
     <state width="1198" height="479" key="GridCell.Tab.0.center/39.23.1241.777@39.23.1241.777" timestamp="1587710369881" />
-    <state width="1198" height="6" key="GridCell.Tab.0.center/40.23.1240.777@40.23.1240.777" timestamp="1588080118318" />
-    <state width="1198" height="6" key="GridCell.Tab.0.left" timestamp="1588080118318">
+    <state width="1178" height="94" key="GridCell.Tab.0.center/40.23.1240.777@40.23.1240.777" timestamp="1588120604773" />
+    <state width="1178" height="94" key="GridCell.Tab.0.left" timestamp="1588120604772">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state width="1204" height="318" key="GridCell.Tab.0.left/34.23.1246.777@34.23.1246.777" timestamp="1587902594794" />
@@ -967,8 +996,8 @@
     <state width="1181" height="253" key="GridCell.Tab.0.left/37.23.1243.777@37.23.1243.777" timestamp="1587824056972" />
     <state width="1198" height="213" key="GridCell.Tab.0.left/38.23.1242.777@38.23.1242.777" timestamp="1587731641127" />
     <state width="1198" height="479" key="GridCell.Tab.0.left/39.23.1241.777@39.23.1241.777" timestamp="1587710369880" />
-    <state width="1198" height="6" key="GridCell.Tab.0.left/40.23.1240.777@40.23.1240.777" timestamp="1588080118318" />
-    <state width="1198" height="6" key="GridCell.Tab.0.right" timestamp="1588080118319">
+    <state width="1178" height="94" key="GridCell.Tab.0.left/40.23.1240.777@40.23.1240.777" timestamp="1588120604772" />
+    <state width="1178" height="94" key="GridCell.Tab.0.right" timestamp="1588120604773">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state width="1204" height="318" key="GridCell.Tab.0.right/34.23.1246.777@34.23.1246.777" timestamp="1587902594795" />
@@ -977,7 +1006,7 @@
     <state width="1181" height="253" key="GridCell.Tab.0.right/37.23.1243.777@37.23.1243.777" timestamp="1587824056975" />
     <state width="1198" height="213" key="GridCell.Tab.0.right/38.23.1242.777@38.23.1242.777" timestamp="1587731641128" />
     <state width="1198" height="479" key="GridCell.Tab.0.right/39.23.1241.777@39.23.1241.777" timestamp="1587710369881" />
-    <state width="1198" height="6" key="GridCell.Tab.0.right/40.23.1240.777@40.23.1240.777" timestamp="1588080118319" />
+    <state width="1178" height="94" key="GridCell.Tab.0.right/40.23.1240.777@40.23.1240.777" timestamp="1588120604773" />
     <state width="1198" height="6" key="GridCell.Tab.1.bottom" timestamp="1588080118322">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
@@ -1111,7 +1140,7 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="510" y="287" key="VCS.EditChangelistDialog/38.23.1242.777@38.23.1242.777" timestamp="1586054753811" />
-    <state x="273" y="131" key="Vcs.Push.Dialog.v2" timestamp="1588061976151">
+    <state x="273" y="131" key="Vcs.Push.Dialog.v2" timestamp="1588081339961">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="267" y="131" key="Vcs.Push.Dialog.v2/34.23.1246.777@34.23.1246.777" timestamp="1587902309411" />
@@ -1120,7 +1149,7 @@
     <state x="270" y="131" key="Vcs.Push.Dialog.v2/37.23.1243.777@37.23.1243.777" timestamp="1587308189654" />
     <state x="271" y="131" key="Vcs.Push.Dialog.v2/38.23.1242.777@38.23.1242.777" timestamp="1586054668236" />
     <state x="272" y="131" key="Vcs.Push.Dialog.v2/39.23.1241.777@39.23.1241.777" timestamp="1587472654530" />
-    <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1588061976151" />
+    <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1588081339961" />
     <state x="420" y="213" key="com.intellij.database.dbimport.ImportUtil.MyDialog" timestamp="1586335320101">
       <screen x="40" y="23" width="1240" height="777" />
     </state>

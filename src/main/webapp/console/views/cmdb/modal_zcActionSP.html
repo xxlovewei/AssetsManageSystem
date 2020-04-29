@@ -34,12 +34,14 @@
 					</form>
 				</div>
 			</div>
-			<div class="modal-footer" style="text-align: center">
-				<button ng-click="cancel()" class="btn btn-warning">取消</button>
-				<button ng-disabled="myForm.$invalid" ng-click="sure()"
-					class="btn btn-primary">确认</button>
-			</div>
 		</div>
 	</div>
+	<div class="modal-footer" style="text-align: center">
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		<button class="btn btn-primary" ng-click="sure()"
+				ng-disabled="myForm.$invalid">确认
+		</button>
+	</div>
 </div>
+
 
