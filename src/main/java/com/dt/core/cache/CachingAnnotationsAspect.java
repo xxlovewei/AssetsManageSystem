@@ -78,11 +78,9 @@ public class CachingAnnotationsAspect {
 
     // 只支持字符串+参数
     private String parseKey(String key, Method method, Object[] args) {
-
         // 获取被拦截方法参数名列表(使用Spring支持类库)
         LocalVariableTableParameterNameDiscoverer u = new LocalVariableTableParameterNameDiscoverer();
         String[] paraNameArr = u.getParameterNames(method);
-
         // 使用SPEL进行key的解析
         ExpressionParser parser = new SpelExpressionParser();
         // SPEL上下文
@@ -90,9 +88,7 @@ public class CachingAnnotationsAspect {
         // 把方法参数放入SPEL上下文中
         for (int i = 0; i < paraNameArr.length; i++) {
             context.setVariable(paraNameArr[i], args[i]);
-
         }
-
         return parser.parseExpression(key).getValue(context, String.class);
     }
 
@@ -114,19 +110,20 @@ public class CachingAnnotationsAspect {
             String key = (cacheables.key() == null ? "" : cacheables.key());
             List<String> values = Arrays.asList(cacheables.value());
             if (values.size() > 0) {
+
                 String value = values.get(0);
                 // 如果key中存在#root则不缓存，value
                 String rkey = "";
                 String[] vsp = value.split("#");
-                if (vsp.length == 3 && key.indexOf("#root.") == -1) {
+                if (vsp.length == 3 ) {
+                    //获取realy key
                     if (ToolUtil.isEmpty(key)) {
                         // key从arg中获取
                         rkey = pkey;
                     } else {
                         rkey = parseKey(key, method, joinPoint.getArgs());
                     }
-
-                    if (rkey.length() > 0) {
+                    if(ToolUtil.isNotEmpty(rkey)){
                         CacheableEntity ce = new CacheableEntity(vsp[0], rkey);
                         ce.setExpiredtime(ToolUtil.toInt(vsp[1], -1));
                         ce.setRefreshtime(ToolUtil.toInt(vsp[2], -1));

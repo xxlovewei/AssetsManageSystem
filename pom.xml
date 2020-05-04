@@ -47,6 +47,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.12.1</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.bstek.uflo</groupId>
 			<artifactId>uflo-console</artifactId>
 			<version>2.1.5</version>
@@ -118,17 +124,13 @@
 			<version>1.1.2-offical</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.12.1</version>
-		</dependency>
 
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
-		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>commons-logging</groupId>-->
+<!--			<artifactId>commons-logging</artifactId>-->
+<!--			<version>1.2</version>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>cn.afterturn</groupId>

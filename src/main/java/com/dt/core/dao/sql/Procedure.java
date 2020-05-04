@@ -142,12 +142,11 @@ public class Procedure extends SubSQL {
     }
 
     public TypedHashMap<String, Object> execute() throws Exception {
-        System.out.println(this.getOrignalSQL());
+
         CallableStatement call = createCallableStatement(this.getOrignalSQL());
         int j = 0;
         for (int i = 0; i < parameterNames.size(); i++) {
             j++;
-            System.out.println(i + "\t" + j + "\t" + parameterDataTypes.get(i).name() + "\t" + parameterTypes.get(i));
             if (parameterTypes.get(i).isOut()) {
                 call.registerOutParameter(j, parameterDataTypes.get(i).getDbType());
             }
@@ -233,84 +232,6 @@ public class Procedure extends SubSQL {
     }
 
     public static void main(String[] args) throws Exception {
-        /*
-         * Procedure p=new Procedure("TEST_P",false); p.setParameter("A",
-         * ProcedureParameterType.BOTH,ProcedureParameterDataType.INTEGER,5);
-         * p.setParameter("B",
-         * ProcedureParameterType.IN,ProcedureParameterDataType.VARCHAR,
-         * "5XXX"); p.setParameter("C",
-         * ProcedureParameterType.OUT,ProcedureParameterDataType.DATE,new
-         * Date()); TypedHashMap<String, Object> ret=p.executeE();
-         * System.out.println(ret);
-         */
-
-        /*
-         * Procedure f=new Procedure("TEST_F",true); f.setParameter("A",
-         * ProcedureParameterType.INOUT,ProcedureParameterDataType.INTEGER,5);
-         * f.setParameter("B",
-         * ProcedureParameterType.IN,ProcedureParameterDataType.VARCHAR, null);
-         * f.setParameter("C",
-         * ProcedureParameterType.OUT,ProcedureParameterDataType.DATE,new
-         * Date()); TypedHashMap<String, Object> retF=f.executeE();
-         * System.out.println(retF);
-         */
-
-        /*
-         * DAO dao=new DAO(); CallableStatement call=
-         * dao.getConnection().prepareCall("{?=call TEST_F(?,?,?)}");
-         * call.registerOutParameter(1,Types.VARCHAR);
-         * call.registerOutParameter(2,Types.INTEGER);
-         * call.registerOutParameter(4,Types.DATE);
-         *
-         * call.setString(2,"9"); call.setInt(3,9); call.setDate(4, new
-         * java.sql.Date(0)); call.executeUpdate();
-         */
-
-        /*
-         * Class.forName("oracle.jdbc.driver.OracleDriver"); Connection conn =
-         * DriverManager.getConnection(
-         * "jdbc:oracle:thin:@192.168.202.98:1521:postest", "CROSSLINK",
-         * "CROSSLINK"); String procedure = "{?=call TEST_F(?,?,?)}"; procedure
-         * = "{ ? = call TEST_F ( ? , ? , ? ) }"; CallableStatement cs =
-         * conn.prepareCall(procedure); cs.registerOutParameter(1,
-         * Types.VARCHAR);// 获得返回的字符串
-         *
-         *
-         *
-         * cs.registerOutParameter(2, Types.INTEGER);// 获得返回的字符串
-         * cs.registerOutParameter(4, Types.DATE);// 获得返回的字符串 cs.setInt(2, 9);
-         * cs.setString(3, "PPP"); cs.setDate(4, new java.sql.Date(12));
-         *
-         * cs.executeUpdate(); String names = cs.getString(1); Integer i =
-         * cs.getInt(2); java.sql.Date d = cs.getDate(4);
-         *
-         * System.out.println(names+"\t"+i+"\t"+d); conn.close();
-         */
-
-        /*
-         * Class.forName("oracle.jdbc.driver.OracleDriver"); Connection conn =
-         * DriverManager.getConnection(
-         * "jdbc:oracle:thin:@192.168.202.98:1521:postest", "CROSSLINK",
-         * "CROSSLINK"); String procedure = "{?=call TEST_F(?,?,?)}";
-         * CallableStatement cs = conn.prepareCall(procedure);
-         * cs.registerOutParameter(1, Types.VARCHAR);// 获得返回的字符串 String sql =
-         * "select * from product"; cs.setString(2, sql); cs.executeUpdate();
-         * String names = cs.getString(1); System.out.println(names);
-         * conn.close();
-         */
-
-        // DAO dao=new DAO();
-        /*
-         * TypedHashMap<String,Object>
-         * ret=dao.callProcedureE("XXB.UTILS.IF_EQ@SCM","XX","X");
-         * System.out.println(ret);
-         */
-        // new Date()
-        // TypedHashMap<String,Object>
-        // ret2=dao.callProcedureByNameE("TEST_F",6,null,null);
-        // System.out.println(ret2);
-
-        // dao.callProcedureE(SE.get("TEST_P(?,?,?)",6,"P2",new Date()));
-    }
+        }
 
 }

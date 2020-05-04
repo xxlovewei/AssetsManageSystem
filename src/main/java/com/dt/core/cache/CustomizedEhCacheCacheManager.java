@@ -80,16 +80,16 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
         int expiredtime = 0;
         int refreshtime = 0;
         String[] cacheParams = name.split(separator);
-        String cacheName = cacheParams[0];
-
-        if (ToolUtil.isEmpty(cacheName)) {
+        if(cacheParams.length==0){
             return null;
         }
-
-        if (cacheParams.length > 1) {
-            expiredtime = ToolUtil.toInt(cacheParams[1], 2);
+        String cacheName = cacheParams[0];
+        //public#5#2
+        if (cacheParams.length == 2) {
+            expiredtime = ToolUtil.toInt(cacheParams[1], 30);
         }
-        if (cacheParams.length > 2) {
+        if (cacheParams.length == 3) {
+            expiredtime = ToolUtil.toInt(cacheParams[1], 30);
             refreshtime = ToolUtil.toInt(cacheParams[2], 0);
         }
         if (cacheParams.length == 1) {

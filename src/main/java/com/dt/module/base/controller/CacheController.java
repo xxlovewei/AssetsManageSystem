@@ -39,6 +39,13 @@ public class CacheController {
         return cacheService.queryCustomizedEhCacheCacheManagerCacheKeys(cache);
     }
 
+    @RequestMapping(value = "/system/queryCacheKeyValue.do")
+    @ResponseBody
+    @Acl(info = "查询CacheName", value = Acl.ACL_USER)
+    public R queryCacheKeyValue(String cache,String key) {
+        return cacheService.queryKeyValue(cache,key);
+    }
+
     @RequestMapping(value = "/system/removeCacheKey.do")
     @ResponseBody
     @Acl(info = "删除CacheKey", value = Acl.ACL_DENY)

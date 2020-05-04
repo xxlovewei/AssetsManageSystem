@@ -129,7 +129,7 @@ public class SimpleFilterChainDefinitionsService {
             for (Map.Entry<String, String> entry : publicchains.entrySet()) {
                 String url = entry.getKey();
                 String chainDefinition = entry.getValue().trim().replace(" ", "");
-                log.info("initCustomPermission:" + url + "," + chainDefinition);
+                log.debug("initCustomPermission:" + url + "," + chainDefinition);
                 manager.createChain(url, chainDefinition);
             }
             // 加载chainDefinition中的
@@ -137,7 +137,7 @@ public class SimpleFilterChainDefinitionsService {
             for (Map.Entry<String, String> entry : chains.entrySet()) {
                 String url = entry.getKey();
                 String chainDefinition = entry.getValue().trim().replace(" ", "");
-                log.info("initStaticChainDefinition:" + url + " " + chainDefinition);
+                log.debug("initStaticChainDefinition:" + url + " " + chainDefinition);
                 manager.createChain(url, chainDefinition);
             }
             log.info("update shiro permission success...");

@@ -64,7 +64,7 @@ public class HttpKit {
         HttpServletRequest request = HttpKit.getRequest();
         Enumeration<String> enums = request.getParameterNames();
         while (enums.hasMoreElements()) {
-            BaseCommon.print(enums.nextElement() + ":" + request.getParameter((String) enums.nextElement()));
+            //BaseCommon.print(enums.nextElement() + ":" + request.getParameter((String) enums.nextElement()));
         }
     }
 

@@ -6,6 +6,7 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
@@ -46,13 +47,10 @@ public class CacheService {
     public CacheManager initCacheManager() {
         try {
             if (cacheManager == null) {
-
             }
-            // cacheManager.
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return cacheManager;
     }
 
@@ -116,6 +114,14 @@ public class CacheService {
         return R.SUCCESS_OPER();
     }
 
+    public R queryKeyValue(String cache, String key) {
+        if (ToolUtil.isOneEmpty(cache, key)) {
+            return R.FAILURE_NO_DATA();
+        }
+       Cache.ValueWrapper v= initCacheManager().getCache(cache).get(key);
+        return R.SUCCESS_OPER(v.get().toString());
+    }
+
     public static String API_CACHE = "public";
 
     public R putCacheKeyForApi(String key, String ct, long timeout) {
@@ -127,7 +133,6 @@ public class CacheService {
         e.setTimeToIdle((int) timeout);
         e.setTimeToLive((int) timeout);
         c.put(e);
-
         return R.SUCCESS_OPER();
     }
 
@@ -135,11 +140,10 @@ public class CacheService {
         if (ToolUtil.isOneEmpty(key)) {
             return null;
         }
-        //CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(API_CACHE)));
 
+        //CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(API_CACHE)));
         String value = null;
         // System.out.println(c.g);
-
         return value;
 
     }

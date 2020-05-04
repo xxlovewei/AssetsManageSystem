@@ -1,5 +1,6 @@
 package com.dt.core.shiro.service;
 
+import com.dt.module.base.listener.ApplicationContextListener;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -55,28 +56,28 @@ public class ShiroAuthorizationHelper {
     public static void showCache() {
 
         Cache<Object, Object> cache = cacheManager.getCache(authorizationCache);
-        BaseCommon.print("##########" + authorizationCache);
+        log.info("##########" + authorizationCache);
         if (cache != null) {
-            BaseCommon.print("size:" + cache.size());
+            log.info("size:" + cache.size());
             for (Object key : cache.keys()) {
-                BaseCommon.print("key:" + key + ",val:" + cache.get(key));
+                log.info("key:" + key + ",val:" + cache.get(key));
             }
         }
 
         Cache<Object, Object> cache2 = cacheManager.getCache(passwordRetryCache);
-        BaseCommon.print("##########" + passwordRetryCache);
+        log.info("##########" + passwordRetryCache);
         if (cache2 != null) {
-            BaseCommon.print("size:" + cache2.size());
+            log.info("size:" + cache2.size());
             for (Object key : cache2.keys()) {
-                BaseCommon.print("key:" + key + ",val:" + cache2.get(key));
+                log.info("key:" + key + ",val:" + cache2.get(key));
             }
         }
         Cache<Object, Object> cache3 = cacheManager.getCache(authenticationCache);
-        BaseCommon.print("##########" + authenticationCache);
+        log.info("##########" + authenticationCache);
         if (cache3 != null) {
-            BaseCommon.print("size:" + cache3.size());
+            log.info("size:" + cache3.size());
             for (Object key : cache3.keys()) {
-                BaseCommon.print("key:" + key + ",val:" + cache3.get(key));
+                log.info("key:" + key + ",val:" + cache3.get(key));
             }
         }
     }

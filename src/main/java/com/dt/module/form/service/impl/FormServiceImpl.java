@@ -32,13 +32,12 @@ public class FormServiceImpl extends BaseService {
         FormServiceImpl a = new FormServiceImpl();
 
 
-        //System.out.println(a.parseFromJsonToSqlTpl("asdfsadf", "adfsadfasdf", "insert", "process", "###3"));
 
     }
 
 
     private void parseFromJsonMetaColDB() {
-        System.out.println(db.query("select COLUMN_NAME col from information_schema.COLUMNS where table_name ='sys_process_form' and COLUMN_NAME like 'd%' and COLUMN_NAME<>'dr'").toJsonArrayWithJsonObject());
+     //   System.out.println(db.query("select COLUMN_NAME col from information_schema.COLUMNS where table_name ='sys_process_form' and COLUMN_NAME like 'd%' and COLUMN_NAME<>'dr'").toJsonArrayWithJsonObject());
     }
 
     private HashMap<String, String> parseFromJsonMetaCol() {

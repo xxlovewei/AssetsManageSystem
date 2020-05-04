@@ -422,9 +422,7 @@ public class ResExtController extends BaseController {
 
 //	public R addResBySingleNode(String data, String classCode, String attrCode) {
 //
-//		System.out.println("data:\n" + data);
-//		System.out.println("classCode:\n" + classCode);
-//		System.out.println("attrCode:\n" + attrCode);
+
 //
 //		if (ToolUtil.isOneEmpty(data, classCode, attrCode)) {
 //			return R.FAILURE_REQ_PARAM_ERROR();
@@ -496,8 +494,7 @@ public class ResExtController extends BaseController {
 //						ent.setStatus(listdata.getJSONObject(i).getString("status"));
 //					}
 //					ResAttrValuesServiceImpl.save(ent);
-//					System.out.println("user:" + user + ",type:" + type + ",status:" + ent.getStatus());
-//				}
+//				 }
 //
 //			}
 //		} else {
@@ -529,12 +526,12 @@ public class ResExtController extends BaseController {
 //						} else {
 //							ent.setStatus(listdata.getJSONObject(i).getString("status"));
 //						}
-//						System.out.println("addUser");
+//
 //						ResAttrValuesServiceImpl.save(ent);
 //					} else {
 //						// 判断update或delete
 //						if ("update".equals(act)) {
-//							System.out.println("updateUser");
+//
 //							// 内置全部强制修改成停用
 //							if (type.equals("inter")) {
 //								ent.setStatus("disable");
@@ -543,13 +540,12 @@ public class ResExtController extends BaseController {
 //							}
 //							ResAttrValuesServiceImpl.saveOrUpdate(ent);
 //						} else if ("delete".equals(act)) {
-//							System.out.println("updateUser");
+//
 //							ResAttrValuesServiceImpl.removeById(udrs.getString("id"));
 //
 //						}
 //					}
 //
-//					System.out.println("user:" + user + ",type:" + type + ",status:" + ent.getStatus());
 //
 //				}
 //

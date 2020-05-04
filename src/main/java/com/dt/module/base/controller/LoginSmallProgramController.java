@@ -65,7 +65,6 @@ public class LoginSmallProgramController extends BaseController {
         map.put("grant_type", "authorization_code");
         String str = HttpKit.sendGet(url, map);
         JSONObject strobj = JSONObject.parseObject(str);
-        System.out.println(strobj.toJSONString());
         // 判断是否获取open_id
         String openId = strobj.getString("openid");
         if (ToolUtil.isEmpty(openId)) {

@@ -76,7 +76,7 @@ public class EmplOrgService extends BaseService {
         ins.setIf("type", type);
         ins.set("parent_id", parent_id);
         ins.setIf("node_name", node_name);
-        System.out.println(ins.getSQL());
+
         db.execute(ins);
         updateRouteName(cur_node_id, node_name);
         JSONObject ro = new JSONObject();

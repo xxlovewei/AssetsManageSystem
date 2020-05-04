@@ -21,9 +21,8 @@
 	http://www.springframework.org/schema/task 
 	http://www.springframework.org/schema/task/spring-task.xsd ">
 
-	<aop:aspectj-autoproxy />
-	<!-- <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true" 
-		/> -->
+<!--	<aop:aspectj-autoproxy />-->
+	<aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
 
 	<context:component-scan
 		base-package="com.dt.core.aop" />
@@ -33,6 +32,7 @@
 		base-package="com.dt.core.cache" />
 
 	<cache:annotation-driven />
+
 	<bean id="ehCacheManager"
 		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
 		p:configLocation="classpath:ehcache.xml" p:shared="true" />
@@ -49,8 +49,6 @@
 	<!-- 流程配置 -->
 	<!-- <bean id="FlowProcessEventHandler" class="com.dt.module.flow.base.FlowProcessEventHandler"> 
 		</bean> -->
-
-
 
 
 	<context:annotation-config />

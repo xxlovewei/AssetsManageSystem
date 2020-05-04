@@ -108,7 +108,7 @@ public class RcdMetaData {
     public int name2index(String name) {
         Integer i = nameIndexMap.get(name.toUpperCase());
         if (i == null) {
-            // System.out.println("NO "+ name+ " IN \n"+this.sql);
+
             // (new Throwable()).printStackTrace();
             return -1;
         } else {

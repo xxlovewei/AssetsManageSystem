@@ -58,7 +58,7 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
         System.setProperty("net.sf.ehcache.enableShutdownHook", "true");
         if (null == event.getApplicationContext().getParent()) {
             SpringContextUtil.getApplicationContext();
-            _log.info(">>>>> spring初始化完毕 <<<<<");
+            _log.info(">>>>> spring initialize finish <<<<<");
             // 判断acldef
             if (ToolUtil.isNotEmpty(acldef) && "allow".equals(acldef.trim().toLowerCase())) {
                 BaseConstants.acldef = "allow";
@@ -74,10 +74,10 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
             }
             // 判断shiroupdateperm
             if (ToolUtil.isNotEmpty(updateperm) && "true".equals(updateperm.toLowerCase())) {
-                _log.info("更新Shiro Chain");
+                _log.info("Update Shiro Chain");
                 SimpleFilterChainDefinitionsService.me().updatePermission();
             } else {
-                _log.info("不更新,无Shiro模块");
+                _log.info("No Shiro Module");
             }
 
             // 判断Job

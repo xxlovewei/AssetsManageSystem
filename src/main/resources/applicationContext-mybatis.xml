@@ -24,9 +24,9 @@
 	<!-- 自定义处理器 -->
 	<bean id="myMetaObjectHandler"
 		class="com.dt.core.mybatis.MetaObjectHandlerConfig" />
+
 	<bean id="logicSqlInjector"
 		class="com.baomidou.mybatisplus.extension.injector.LogicSqlInjector" />
-		
 	<bean id="id_type"
 		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
 		<property name="staticField"
@@ -64,14 +64,12 @@
 				</bean>
 			</array>
 		</property>
-
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="**.mapper" />
 		<property name="sqlSessionFactoryBeanName"
 			value="sqlSessionFactory"></property>
 	</bean>
-
 </beans>
 
 

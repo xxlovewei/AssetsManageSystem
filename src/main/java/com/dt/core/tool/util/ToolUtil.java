@@ -28,12 +28,7 @@ import cn.hutool.core.util.IdUtil;
  * 高频方法集合类
  */
 public class ToolUtil {
-    /*
-     * 均衡的随机从[mix,max]中获取数据
-     */
-//	public static int rand(int mix, int max) {
-//		return RandomUtil.rand(mix, max);
-//	}
+
 
     public static String getUUID() {
         return IdUtil.simpleUUID();

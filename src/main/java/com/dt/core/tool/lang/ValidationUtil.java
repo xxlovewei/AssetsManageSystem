@@ -159,7 +159,7 @@ public class ValidationUtil {
     // }
 
     public static void main(String[] args) {
-        System.out.println(isMobileValid("11728001528"));
+
         // String token = "186281499523";
         // logger.info("checkToken:【{}】for 【{}】,result is:【{}】", token,
         // "isMobileValid",

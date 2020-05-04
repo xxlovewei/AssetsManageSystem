@@ -5,6 +5,7 @@ function sysLoginCtl($timeout, $rootScope, $scope, $log, $http, userService,
 	var from = $stateParams.from;
 	var msg = $stateParams.msg;
 
+
 	$scope.user = {
 		user : "",
 		pwd : "",

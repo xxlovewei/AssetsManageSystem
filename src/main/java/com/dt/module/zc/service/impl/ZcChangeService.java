@@ -65,7 +65,7 @@ public class ZcChangeService extends BaseService {
         } else if(type.equals(ZcCommonService.ZC_BUS_TYPE_JY)){
             return ZcJyStartChange(uuid);
         }else{
-            System.out.println("ZcStartChange:"+type);
+
         }
         return R.SUCCESS();
     }

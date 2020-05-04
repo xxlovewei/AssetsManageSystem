@@ -32,6 +32,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;
 
+
     /**
      * 提供账户信息返回认证信息
      */

@@ -10,6 +10,7 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					disablesearch : true,
 					dataOpt : [],
 					dataSel : "",
+					width:300,
 					show:true,
 				},
 				{
@@ -58,11 +59,17 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		acthtml = acthtml + " <button ng-click=\"refresh('" + full.key + "','"
 				+ full.cache
 				+ "')\" class=\"btn-white btn btn-xs\">刷新</button>   ";
+		
 		if (crud.remove) {
 			acthtml = acthtml + " <button ng-click=\"removeCacheKey('"
 					+ full.key
-					+ "')\" class=\"btn-white btn btn-xs\">删除</button> ";
+					+ "','"+full.cache+"')\" class=\"btn-white btn btn-xs\">删除</button> ";
 		}
+
+		acthtml = acthtml + " <button ng-click=\"queryKeyValue('"
+			+ full.key
+			+ "','"+full.cache+"')\" class=\"btn-white btn btn-xs\">查看</button> ";
+
 		acthtml = acthtml + " </div>";
 		return acthtml;
 	}
@@ -136,11 +143,26 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		alert("待开发");
 
 	}
-	$scope.removeCacheKey = function(key) {
+	$scope.queryKeyValue=function(key,cache){
+		$http.post($rootScope.project + "/api/sysApi/system/queryCacheKeyValue.do",
+			{
+				key : key,
+				cache : cache
+			}).success(function(res) {
+			if (res.success) {
+					alert(res.data);
+			}else{
+				notify({
+					message : res.message
+				});
+			}
+		})
+	}
+	$scope.removeCacheKey = function(key,cache) {
 		$http.post($rootScope.project + "/api/sysApi/system/removeCacheKey.do",
 				{
 					key : key,
-					cache : $scope.cacheSel.id
+					cache : cache
 				}).success(function(res) {
 			notify({
 				message : res.message

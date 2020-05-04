@@ -36,7 +36,6 @@ public class BaseController extends BaseSC {
         String msg = ExceptionUtils.getRootCauseMessage(exception) == null ? ""
                 : ExceptionUtils.getRootCauseMessage(exception);
         exception.printStackTrace();
-        // System.out.println();
         request.setAttribute("ex", exception);
         if (null != request.getHeader("X-Requested-With")
                 && "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {

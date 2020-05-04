@@ -754,7 +754,7 @@ public class RcdSet implements Iterable<Rcd> {
                 Object v2 = o2.getValue(field);
 
                 if (o1.getDouble(field) == null) {
-                    System.out.println();
+
                 }
 
                 if (v1 == null && v2 == null)
@@ -764,7 +764,7 @@ public class RcdSet implements Iterable<Rcd> {
                 if (v1 != null && v2 == null)
                     return nullslast ? -1 : 1;
 
-                System.out.println(_type);
+
                 if (v1 instanceof Integer) {
                     if (o1.getInteger(field) > o2.getInteger(field)) {
                         return _type.equals("ASC") ? 1 : -1;

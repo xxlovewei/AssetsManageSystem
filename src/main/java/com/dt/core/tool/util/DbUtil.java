@@ -144,10 +144,6 @@ public class DbUtil {
 
     public static void main(String[] args) {
 
-        System.out.println();
-        System.out.println(queryBuild("adf", " abc"));
-        System.out.println(queryByIdBuild("adf", "id", "value", "abc"));
-        System.out.println(getOraclePageSql("select * from ct_content", -1, 0));
-        System.out.println(getTotalPage(6, 4));
+
     }
 }

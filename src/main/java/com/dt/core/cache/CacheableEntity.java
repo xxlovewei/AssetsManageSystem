@@ -26,6 +26,8 @@ public class CacheableEntity {
     private String value = "";
     private String key = "";
 
+    private int refreshtime = -1;
+
     private int expiredtime = -1;
 
     /**
@@ -56,7 +58,6 @@ public class CacheableEntity {
         this.refreshtime = refreshtime;
     }
 
-    private int refreshtime = -1;
 
     public CacheableEntity(String value_in, String key_in) {
         value = value_in;

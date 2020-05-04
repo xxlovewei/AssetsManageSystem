@@ -69,8 +69,7 @@ public class RcdSetExporter {
 
         String[] names = set.getMetaData().getColumnLabels();
 
-        // System.out.println(set.getMetaData().asExtJsStoreColumnJsonArray()
-        // .toString());
+
 
         for (Rcd r : set) {
             Element row = root.addElement(ROW_TAG);

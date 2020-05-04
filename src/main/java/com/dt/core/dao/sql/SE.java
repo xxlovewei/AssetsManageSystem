@@ -595,12 +595,10 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
         HashMap<String, Object> ps = new HashMap<String, Object>();
         ps.put("e", 5);
         SE a = new SE("a=:e", ps);
-        System.out.println(a);
+
 
         // SE b=new SE("b=:x",new Object[]{":x",3});
-        // System.out.println(b);
 
-        System.out.println(SE.indexOf("asdd(,),aa", ",", true));
 
     }
 

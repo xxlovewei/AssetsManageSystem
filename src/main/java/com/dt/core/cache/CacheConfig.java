@@ -9,7 +9,7 @@ public class CacheConfig {
 
     // 刷新数据建议设置长些,短的话主动刷新轮不上
 
-    // 2小时
+    //#cache#expire#flushtime,例如public#45#10,45s过期，在最后10s内，如果有访问则强制刷新
     public static final String CACHE_PUBLIC = "public";
 
     public static final String CACHE_PUBLIC_45_10 = "public#45#10";
@@ -25,6 +25,10 @@ public class CacheConfig {
     public static final String CACHE_PUBLIC_3h_1h = "public#10800#3600";
     // 报表
     public static final String CACHE_PUBLIC_6h_30min = "public#21600#1800";
+
+    public static final String CACHE_PUBLIC_300_150 = "public#300#150";
+
+    public static final String CACHE_PUBLIC_600_120 = "public#300#120";
 
     // 用户数据
     public static final String CACHE_USER = "user";

@@ -21,8 +21,5 @@ public class BaseCommon {
                 : BaseConstants.superadmin;
     }
 
-    public static void print(String value) {
-        System.out.println(value);
-    }
 
 }

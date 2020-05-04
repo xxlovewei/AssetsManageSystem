@@ -32,7 +32,6 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
     private CacheManager cacheManager;
 
     private void refreshCache(CachedInvocation invocation, String cacheName) {
-
         boolean invocationSuccess;
         Object computed = null;
         try {
@@ -44,7 +43,6 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
         if (invocationSuccess) {
             if (cacheInvocationsMap.get(cacheName) != null) {
                 cacheManager.getCache(cacheName).put(invocation.getKey(), computed);
-
             }
         }
     }
@@ -64,7 +62,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
     @PostConstruct
     public void initialize() {
 
-        cacheInvocationsMap = new ConcurrentHashMap<String, ConcurrentHashMap<String, CachedInvocation>>(10);
+        cacheInvocationsMap = new ConcurrentHashMap<String, ConcurrentHashMap<String, CachedInvocation>>(50);
         for (final String cacheName : cacheManager.getCacheNames()) {
             cacheInvocationsMap.put(cacheName, new ConcurrentHashMap<String, CachedInvocation>());
 
@@ -75,11 +73,10 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
     public void registerInvocation(CachedInvocation invocation) {
         String key = invocation.getcacheableEntity().getKey();
         String realCacheName = invocation.getcacheableEntity().getValue();
-
         if (!cacheInvocationsMap.containsKey(realCacheName)) {
             this.initialize();
         }
-        logger.info("保存执行信息,realCacheName:" + realCacheName + ",key:" + key);
+        logger.info("Save execute info,realCacheName:" + realCacheName + ",key:" + key+",invocation:"+invocation.toString());
         cacheInvocationsMap.get(realCacheName).put(key, invocation);
 
     }

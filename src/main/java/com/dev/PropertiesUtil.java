@@ -104,7 +104,7 @@ public class PropertiesUtil {
         PropertiesUtil p;
         try {
             p = new PropertiesUtil("/opt/autologin/conf.properties");
-            System.out.println(p.readAllProperties());
+
         } catch (IOException e) {
             // TODO Auto-generated catch block  
             e.printStackTrace();

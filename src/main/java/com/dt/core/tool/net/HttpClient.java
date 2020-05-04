@@ -58,7 +58,7 @@ public class HttpClient {
                 StringBuffer all = new StringBuffer();
 
                 while ((s = bin.readLine()) != null) {
-                    // System.out.println(s);
+
                     all.append(s);
                     if (appendBr)
                         all.append("\n");

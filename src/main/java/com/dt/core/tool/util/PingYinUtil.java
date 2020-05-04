@@ -66,7 +66,7 @@ public class PingYinUtil {
         try {
             str = new String(str.getBytes(charsetName), toCharsetName);
         } catch (UnsupportedEncodingException ex) {
-            System.out.println("字符串编码转换异常：" + ex.getMessage());
+            ;
         }
         return str;
     }
@@ -81,7 +81,7 @@ public class PingYinUtil {
             JSONObject e = data.getJSONObject(i);
             String v = getPYIndexStr(e.getString(col) == null ? "1" : e.getString(col).trim(), true);
             String vf = "*";
-            // System.out.println(e.getString(col) + "," + v);
+
             // v肯定存在
             if (v.length() > 0) {
                 vf = v.substring(0, 1).toUpperCase();
@@ -141,7 +141,7 @@ public class PingYinUtil {
             JSONObject e = data.getJSONObject(i);
             String v = getPYIndexStr(e.getString(col) == null ? "" : e.getString(col).trim(), true);
             // v不存在或者首字母不再map中
-            // System.out.println(e.getString(col) + "," + v);
+
             if (v.length() == 0 || !c.containsKey(v.substring(0, 1).toUpperCase())) {
                 xx.add(e);
             } else {
@@ -158,7 +158,7 @@ public class PingYinUtil {
         while (iterator2.hasNext()) {
             Entry<String, JSONArray> entry = iterator2.next();
             if (entry.getValue().size() > 0) {
-                // System.out.println(entry.getKey());
+
                 res.put(entry.getKey(), entry.getValue());
             }
         }
@@ -167,26 +167,8 @@ public class PingYinUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(getFirstLetter("一个"));
-        System.out.println(getFirstLetter("a一个"));
-        System.out.println(getFirstLetter("v一个"));
-        System.out.println(getFirstLetter("个"));
-        System.out.println(getFirstLetter("?个"));
-        System.out.println(getFirstLetter("绛县"));
-        String datastr = "[{\"parent\":\"56\",\"id\":\"623\",\"name\":\"1介休市\"},{\"parent\":\"57\",\"id\":\"624\",\"name\":\"盐湖区\"},{\"parent\":\"57\",\"id\":\"625\",\"name\":\"临猗县\"},{\"parent\":\"57\",\"id\":\"626\",\"name\":\"万荣县\"},{\"parent\":\"57\",\"id\":\"627\",\"name\":\"闻喜县\"},{\"parent\":\"57\",\"id\":\"628\",\"name\":\"稷山县\"},{\"parent\":\"57\",\"id\":\"629\",\"name\":\"新绛县\"},{\"parent\":\"57\",\"id\":\"630\",\"name\":\"绛县\"},{\"parent\":\"57\",\"id\":\"631\",\"name\":\"垣曲县\"},{\"parent\":\"57\",\"id\":\"632\",\"name\":\"夏县\"},{\"parent\":\"57\",\"id\":\"633\",\"name\":\"平陆县\"},{\"parent\":\"57\",\"id\":\"634\",\"name\":\"芮城县\"},{\"parent\":\"57\",\"id\":\"635\",\"name\":\"永济市\"},{\"parent\":\"57\",\"id\":\"636\",\"name\":\"河津市\"},{\"parent\":\"58\",\"id\":\"637\",\"name\":\"忻府区\"},{\"parent\":\"58\",\"id\":\"638\",\"name\":\"定襄县\"},{\"parent\":\"58\",\"id\":\"639\",\"name\":\"五台县\"},{\"parent\":\"58\",\"id\":\"640\",\"name\":\"代县\"},{\"parent\":\"58\",\"id\":\"641\",\"name\":\"繁峙县\"},{\"parent\":\"58\",\"id\":\"642\",\"name\":\"宁武县\"},{\"parent\":\"58\",\"id\":\"643\",\"name\":\"静乐县\"},{\"parent\":\"58\",\"id\":\"644\",\"name\":\"神池县\"},{\"parent\":\"58\",\"id\":\"645\",\"name\":\"五寨县\"},{\"parent\":\"58\",\"id\":\"646\",\"name\":\"岢岚县\"},{\"parent\":\"58\",\"id\":\"647\",\"name\":\"河曲县\"},{\"parent\":\"58\",\"id\":\"648\",\"name\":\"保德县\"},{\"parent\":\"58\",\"id\":\"649\",\"name\":\"偏关县\"},{\"parent\":\"58\",\"id\":\"650\",\"name\":\"原平市\"},{\"parent\":\"59\",\"id\":\"651\",\"name\":\"尧都区\"}]";
-        JSONArray data = JSONArray.parseArray(datastr);
 
-        Long a = System.currentTimeMillis();
-        System.out.println(formatFirstChar2(data, "name").toJSONString());
-        Long b = System.currentTimeMillis();
-        System.out.println(b - a);
 
-        Long c = System.currentTimeMillis();
-        System.out.println(formatFirstChar(data, "name").toJSONString());
-        Long d = System.currentTimeMillis();
-        System.out.println(d - c);
-        String str = "绛县1aa这是一个测试";
-        System.out.println("中文首字母：" + getPYIndexStr(str, true));
 
     }
 

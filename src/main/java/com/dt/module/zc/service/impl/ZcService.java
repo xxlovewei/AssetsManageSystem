@@ -45,7 +45,7 @@ public class ZcService extends BaseService{
     @Autowired
     IResAllocateService ResAllocateServiceImpl;
 
-    @Cacheable(value = CacheConfig.CACHE_PUBLIC_45_10,key="'qf'+#uid")
+    @Cacheable(value = CacheConfig.CACHE_WX_CONF_300_180,key="'qf'+#uid")
     public R queryDictFast(String uid,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers,String subclass, String classroot) {
 
         JSONObject res = new JSONObject();

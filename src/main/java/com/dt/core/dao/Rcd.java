@@ -185,7 +185,7 @@ public class Rcd {
         RcdMetaData meta = this.ownerSet.getMetaData();
         JSONObject json = new JSONObject();
         for (int i = 0; i < meta.getColumnCount(); i++) {
-            // System.out.println(meta.getColumnLabel(i)+"="+this.getValue(i));
+
             json.put(meta.getColumnLabel(i), this.getValue(i));
         }
         return json;

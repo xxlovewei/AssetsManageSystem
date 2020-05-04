@@ -23,7 +23,7 @@
      | defaultStatementTimeout     null,     设置一个时限，以决定让驱动器等待数据库回应的多长时间为超时
      | -->
     <settings>
-        <!-- 这个配置使全局的映射器启用或禁用缓存 -->
+        <!-- 该配置影响的所有映射器中配置的缓存的全局开关 -->
         <setting name="cacheEnabled" value="true"/>
         <!-- 全局启用或禁用延迟加载。当禁用时，所有关联对象都会即时加载 -->
         <setting name="lazyLoadingEnabled" value="false"/>
@@ -31,6 +31,6 @@
         <setting name="useColumnLabel" value="true"/>
         <setting name="defaultExecutorType" value="REUSE"/>
         <setting name="defaultStatementTimeout" value="25000"/>
-        <setting name="logImpl" value="STDOUT_LOGGING" />
+        <setting name="logImpl" value="LOG4J" />
     </settings>
 </configuration>

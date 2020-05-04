@@ -27,5 +27,5 @@ res 添加3个字段
 
 添加数据字典
 
-
+org.apache.ibatis.logging.log4j.Log4jImpl:
 

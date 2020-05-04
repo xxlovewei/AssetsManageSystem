@@ -305,52 +305,10 @@ public class Block extends SubSQL {
 
     public static void main(String[] args) {
 
-        /*
-         * SE se=SE.get("B:=R.BOX;"); se.setIgnorColon(true); se.getSQL();
-         * if(1==1) return;
-         */
 
-        Block b = new Block();
-        b.DECLARE();
-
-        b.ln("A varchar2(50);");
-        for (int i = 0; i < 5; i++) {
-            b.ln("B" + i + " varchar2(50);");
-        }
-        b.ln("CURSOR S select * from XX;");
-        b.BEGIN();
-        b.NULL();
-        b.COMMENT_LINE("得到数量");
-        SE se = SE.get("SELECT COUNT(*) INTO A FROM SYS_USER WHERE ID=?; \n \n NULL;", "leefj");
-        System.out.println(se.getSQL());
-        b.ln(se);
-        b.printLn();
-
-        // CE
-
-        b.IF("A=? AND B>? And x like ? and date>?", 10, 5, "%XX%", new Date());
-        b.COMMENT_LINE("IF分支");
-        b.NULL();
-        b.ELSIF("A=?", 30);
-        b.COMMENT_LINE("ELSIF分支");
-        b.NULL();
-        b.ELSE();
-        b.COMMENT_LINE("ELSE分支");
-        b.NULL();
-        b.END_IF();
-        b.COMMENT_BLOCK("以下是循环语句", "LOOP");
-        b.LOOP_CURSOR("R", "SELECT * FROM TAB_A WHERE F1>?", 9);
-        b.ln("B:=R.BOX;");
-        b.ln("UPDATE TAB_B SET BX=B WHERE ID=R.ID;");
-        b.END_LOOP();
-        b.EXCEPTION();
-        b.NULL();
-        b.END();
-        System.out.println(b.getSQL());
     }
 
     private void printLn() {
-        System.out.println(lines.get(lines.size() - 1));
-    }
+        }
 
 }

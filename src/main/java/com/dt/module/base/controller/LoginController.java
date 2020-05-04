@@ -147,7 +147,7 @@ public class LoginController extends BaseController {
         // 登录操作
         Subject currentUser = ShiroKit.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user_id, pwd == null ? null : pwd.toCharArray());
-        token.setRememberMe(true);
+    //    token.setRememberMe(true);
         String error = "";
         try {
             currentUser.login(token);
@@ -202,6 +202,9 @@ public class LoginController extends BaseController {
     @ResponseBody
     @Acl(value = Acl.ACL_ALLOW, info = "退出")
     public R loginout() throws IOException {
+        if (ShiroKit.isAuthenticated()) {
+            ShiroKit.getSubject().logout();
+        }
         return R.SUCCESS("成功退出");
     }
 

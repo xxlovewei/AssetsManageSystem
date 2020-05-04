@@ -1,13 +1,9 @@
 package com.dev;
 
-import javax.servlet.http.HttpSession;
 
-import com.alibaba.fastjson.JSONArray;
-
-import cn.hutool.core.util.IdUtil;
-import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.module.om.term.entity.Machine;
 import com.dt.module.om.term.websocket.SftpClient;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -18,19 +14,31 @@ public class Demo {
 
     public static void main(String[] args) {
 
+//
 
-        for (int i=0;i<30;i++) {
+//
+//        Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
+//        SecurityManager securityManager = factory.getInstance();
+//
+//        SecurityUtils.setSecurityManager((org.apache.shiro.mgt.SecurityManager) securityManager);
+//
+//        JcaCipherService jcaCipherService =new DefaultBlockCipherService("RSA") ;
+//        jcaCipherService.decrypt("UOK4yfsmoavRDq+5NiYuMh2s2KC9GBzUCra4MGIx+7ERbdb0IRGsQZxDza7kir/OAupq18Vzm8cZzaHoKeC/TA==".getBytes(), "MIIBVwIBADANBgkqhk".getBytes());
+//
 
-            int v=i;
-            ThreadTaskHelper.run(new Runnable() {
-                @Override
-                public void run( ) {
-                    Demo d=new Demo();
-                    d.action(v);
-                }
-            });
 
-        }
+//        for (int i=0;i<30;i++) {
+//
+//            int v=i;
+//            ThreadTaskHelper.run(new Runnable() {
+//                @Override
+//                public void run( ) {
+//                    Demo d=new Demo();
+//                    d.action(v);
+//                }
+//            });
+//
+//        }
 
     }
 

@@ -143,7 +143,6 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
     @Override
     public List<HashMap<String, Object>> listUserRoles(String user_id) {
         // TODO Auto-generated method stub
-        System.out.println(this.baseMapper.listUserRoles(user_id));
         return this.baseMapper.listUserRoles(user_id);
     }
 

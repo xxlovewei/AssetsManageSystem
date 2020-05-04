@@ -39,15 +39,14 @@ public class CustomizedEhCacheCache implements Cache {
     // 格式cacahename#5#2
     // #expiredtime 0注解层面上永未不过期(具体还要看其他配置),当有值是,优先级最高
     // #refreshtime 0离快过期时刷新数据
-    // expiredtime = -1 可能来自注定刷新需要设置
-    // expiredtime=-2 则设置cache不需要设置
+
+    // expiredtime = -1 可能来自注定刷新需要设置,默认
+    // expiredtime=  -2  则设置cache不需要设置,没有对cache设置cache#40#20
     private int expiredtime = -1;
     private int refreshtime = -1;
 
     private CacheSupport getCacheSupport() {
-
         return SpringContextUtil.getBean(CacheSupport.class);
-
     }
 
     /**
@@ -96,6 +95,7 @@ public class CustomizedEhCacheCache implements Cache {
 
     @Override
     public ValueWrapper get(Object key) {
+
         Element element = lookup(key);
         return toValueWrapper(element);
 
@@ -136,6 +136,7 @@ public class CustomizedEhCacheCache implements Cache {
     @Override
     @SuppressWarnings("unchecked")
     public <T> T get(Object key, Class<T> type) {
+
         Element element = this.cache.get(key);
         Object value = (element != null ? element.getObjectValue() : null);
         if (value != null && type != null && !type.isInstance(value)) {
@@ -159,16 +160,16 @@ public class CustomizedEhCacheCache implements Cache {
         } else if (expiredtime == -2) {
             // 注解中没有设置,引用原来cache的
         } else {
-            // expiredtime=-1,正常情况下可能来自主动刷新需要获取ttl
-            Element ce = this.cache.get(key);
-            if (ce != null) {
-                // 如果没有找到cache
-                e.setTimeToLive(ce.getTimeToLive());
-            } else {
-                logger.info("Can't cache it,no key. cache:" + this.cache.getName() + ",key:" + key + ",expiredtime:"
-                        + expiredtime);
-                return;
-            }
+//            // expiredtime=-1,正常情况下可能来自主动刷新需要获取ttl
+//            Element ce = this.cache.get(key);
+//            if (ce != null) {
+//                // 如果没有找到cache
+//                e.setTimeToLive(ce.getTimeToLive());
+//            } else {
+//                logger.info("Can't cache it,no key. cache:" + this.cache.getName() + ",key:" + key + ",expiredtime:"
+//                        + expiredtime);
+//                return;
+//            }
         }
         this.cache.put(e);
 
@@ -209,10 +210,10 @@ public class CustomizedEhCacheCache implements Cache {
         if (element == null) {
             return null;
         }
-        logger.info("@From mem " + cache.getName() + ":" + element.getObjectKey());
         Long expired = (element.getExpirationTime() - System.currentTimeMillis()) / 1000;
+        logger.info("@From mem " + cache.getName() + ":" + element.getObjectKey()+",ExpirationTime:"+expired+",RefreshTime:"+refreshtime);
         // 判断是否要刷新
-        if (refreshtime > 0 && expired != null && expired > 0 && expired <= refreshtime) {
+        if (refreshtime > 0 &&  expired > 0 && expired <= refreshtime) {
             ThreadTaskHelper.run(new Runnable() {
                 @Override
                 public void run() {
@@ -223,7 +224,6 @@ public class CustomizedEhCacheCache implements Cache {
                 }
             });
         }
-
         return new SimpleValueWrapper(element.getObjectValue());
     }
 
