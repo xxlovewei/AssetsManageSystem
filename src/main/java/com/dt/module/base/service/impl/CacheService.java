@@ -58,17 +58,19 @@ public class CacheService {
         Collection<String> col = initCacheManager().getCacheNames();
         for (String cache : col) {
             if (cache.indexOf("#") == -1) {
+                _log.info("check cachename:"+cache);
                 refreshCache(cache);
             }
         }
         return R.SUCCESS_OPER();
     }
 
+
+    //按照时间刷新
     public R refreshCache(String cache) {
         if (ToolUtil.isEmpty(cache)) {
             return R.FAILURE_NO_DATA();
         }
-
         CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(cache)));
         for (int i = 0; i < c.getAllKeys().size(); i++) {
             // 捕捉瞬间key失效报错问题
@@ -85,7 +87,7 @@ public class CacheService {
                 CacheableEntity ce = inv.getcacheableEntity();
                 int refreshtime = ce.getRefreshtime();
                 // 主动刷新时间太低,并且命中率不高,则不去主动刷新
-                if (refreshtime < 600 && hit < 5) {
+                if (refreshtime < 10 && hit < 3) {
                     _log.info("too low to refresh,too low to hit.cache:" + cache + ",key:" + key + ",refreshtime:"
                             + refreshtime + ",hit:" + hit);
                     continue;
@@ -94,7 +96,7 @@ public class CacheService {
                     ThreadTaskHelper.run(new Runnable() {
                         @Override
                         public void run() {
-                            _log.info("refresh by CacheService");
+                            _log.info("refresh by CacheService,cache:"+cache+",key:"+key);
                             cacheSupportImpl.refreshCacheByKey(cache, key);
                         }
                     });

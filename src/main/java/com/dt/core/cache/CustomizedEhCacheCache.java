@@ -160,16 +160,16 @@ public class CustomizedEhCacheCache implements Cache {
         } else if (expiredtime == -2) {
             // 注解中没有设置,引用原来cache的
         } else {
-//            // expiredtime=-1,正常情况下可能来自主动刷新需要获取ttl
-//            Element ce = this.cache.get(key);
-//            if (ce != null) {
-//                // 如果没有找到cache
-//                e.setTimeToLive(ce.getTimeToLive());
-//            } else {
-//                logger.info("Can't cache it,no key. cache:" + this.cache.getName() + ",key:" + key + ",expiredtime:"
-//                        + expiredtime);
-//                return;
-//            }
+            // expiredtime=-1,正常情况下可能来自主动刷新需要获取ttl
+            Element ce = this.cache.get(key);
+            if (ce != null) {
+                // 如果没有找到cache
+                e.setTimeToLive(ce.getTimeToLive());
+            } else {
+                logger.info("Can't cache it,no key. cache:" + this.cache.getName() + ",key:" + key + ",expiredtime:"
+                        + expiredtime);
+                return;
+            }
         }
         this.cache.put(e);
 

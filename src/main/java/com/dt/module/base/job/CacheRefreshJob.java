@@ -18,9 +18,9 @@ public class CacheRefreshJob implements Job {
 
     @Override
     public void execute(JobExecutionContext jc) throws JobExecutionException {
-        _log.info("session clear start.");
+        _log.info("CacheRefreshJob start.");
         CacheService.me().refreshCaches();
-        _log.info("session clear end.");
+        _log.info("CacheRefreshJob end.");
     }
 
 }

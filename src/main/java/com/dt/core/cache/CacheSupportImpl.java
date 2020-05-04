@@ -6,9 +6,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
 
+import net.sf.ehcache.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MethodInvoker;
@@ -30,6 +32,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 
     @Autowired
     private CacheManager cacheManager;
+
 
     private void refreshCache(CachedInvocation invocation, String cacheName) {
         boolean invocationSuccess;
@@ -61,11 +64,9 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 
     @PostConstruct
     public void initialize() {
-
         cacheInvocationsMap = new ConcurrentHashMap<String, ConcurrentHashMap<String, CachedInvocation>>(50);
         for (final String cacheName : cacheManager.getCacheNames()) {
             cacheInvocationsMap.put(cacheName, new ConcurrentHashMap<String, CachedInvocation>());
-
         }
     }
 
@@ -96,8 +97,13 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
     @Override
     public void refreshCache(String cacheName) {
         logger.info("refreshCache" + cacheName);
-        this.refreshCacheByKey(cacheName, null);
+        ConcurrentHashMap<String, CachedInvocation> map= cacheInvocationsMap.get(cacheName);
+        for(Map.Entry<String, CachedInvocation> entry: map.entrySet()) {
+            refreshCacheByKey(cacheName,entry.getKey());
+        }
     }
+
+
 
     @Override
     public void refreshCacheByKey(String cacheName, String cacheKey) {

@@ -77,7 +77,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
         // 处理每个角色的权限
         if (roleList.size() > 0) {
             for (String roleId : roleList) {
-                _log.info("角色ID:" + roleId);
+                _log.info("Role Id:" + roleId);
                 List<SysModulesItem> permissions = shiroService.findPermissionsByRoleId(roleId);
                 if (permissions != null) {
                     for (SysModulesItem permission : permissions) {
@@ -91,7 +91,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
                 roleNameSet.add(roleName);
             }
         } else {
-            _log.info("无角色获取");
+            _log.info("no role get.");
         }
         // 将权限名称提供给info
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();

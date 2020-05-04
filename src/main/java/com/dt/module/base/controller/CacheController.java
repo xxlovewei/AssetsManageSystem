@@ -66,4 +66,14 @@ public class CacheController {
         return R.SUCCESS_OPER();
     }
 
+
+    @RequestMapping(value = "/system/refreshCacheForExpire.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R refreshCacheForExpire(String cache){
+        return cacheService.refreshCaches();
+    }
+
+
+
 }

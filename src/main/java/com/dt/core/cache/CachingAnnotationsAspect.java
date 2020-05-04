@@ -110,7 +110,6 @@ public class CachingAnnotationsAspect {
             String key = (cacheables.key() == null ? "" : cacheables.key());
             List<String> values = Arrays.asList(cacheables.value());
             if (values.size() > 0) {
-
                 String value = values.get(0);
                 // 如果key中存在#root则不缓存，value
                 String rkey = "";
