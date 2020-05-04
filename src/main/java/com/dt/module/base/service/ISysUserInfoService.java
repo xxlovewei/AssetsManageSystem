@@ -5,10 +5,12 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.R;
 import com.dt.module.base.entity.SysMenus;
 import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.entity.UserShiro;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * <p>
@@ -22,7 +24,6 @@ public interface ISysUserInfoService extends IService<SysUserInfo> {
 
     List<SysMenus> listMyMenus(String user_id);
 
-    JSONArray listMyMenusById(String user_id, String menu_id);
 
     R saveDefMenus(String user_id, String id);
 

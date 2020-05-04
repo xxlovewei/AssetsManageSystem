@@ -64,7 +64,13 @@ public class CacheableEntity {
         key = key_in;
     }
 
+    @Override
     public String toString() {
-        return "value:" + value + ",key:" + key + ",refreshtime:" + refreshtime + ",expiredtime:" + expiredtime;
+        return "CacheableEntity{" +
+                "value='" + value + '\'' +
+                ", key='" + key + '\'' +
+                ", refreshtime=" + refreshtime +
+                ", expiredtime=" + expiredtime +
+                '}';
     }
 }

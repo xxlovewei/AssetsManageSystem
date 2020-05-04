@@ -136,7 +136,6 @@ public class CustomizedEhCacheCache implements Cache {
     @Override
     @SuppressWarnings("unchecked")
     public <T> T get(Object key, Class<T> type) {
-
         Element element = this.cache.get(key);
         Object value = (element != null ? element.getObjectValue() : null);
         if (value != null && type != null && !type.isInstance(value)) {
@@ -146,17 +145,18 @@ public class CustomizedEhCacheCache implements Cache {
     }
 
     public void put(Element e) {
-
+        logger.info("put Element:"+e);
         this.cache.put(e);
-
     }
 
     @Override
     public void put(Object key, Object value) {
+        logger.info("put key:"+key);
         Element e = new Element(key, value);
         if (expiredtime > 0) {
             // 注解中有设置
             e.setTimeToLive(expiredtime);
+
         } else if (expiredtime == -2) {
             // 注解中没有设置,引用原来cache的
         } else {
@@ -172,7 +172,6 @@ public class CustomizedEhCacheCache implements Cache {
             }
         }
         this.cache.put(e);
-
     }
 
     @Override

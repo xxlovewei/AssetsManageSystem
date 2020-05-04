@@ -89,4 +89,17 @@ public class UserShiro {
         this.salt = salt;
     }
 
+    @Override
+    public String toString() {
+        return "UserShiro{" +
+                "userId='" + userId + '\'' +
+                ", account='" + account + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", isLocked=" + isLocked +
+                ", isAdmin=" + isAdmin +
+                ", salt='" + salt + '\'' +
+                ", rolsSet=" + rolsSet +
+                '}';
+    }
 }

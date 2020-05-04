@@ -87,12 +87,12 @@ public class CacheService {
                 CacheableEntity ce = inv.getcacheableEntity();
                 int refreshtime = ce.getRefreshtime();
                 // 主动刷新时间太低,并且命中率不高,则不去主动刷新
-                if (refreshtime < 10 && hit < 3) {
+                if (refreshtime < 30 && hit < 2) {
                     _log.info("too low to refresh,too low to hit.cache:" + cache + ",key:" + key + ",refreshtime:"
                             + refreshtime + ",hit:" + hit);
                     continue;
                 }
-                if (refreshtime > 0 && expired != null && expired > 0 && expired <= refreshtime) {
+                if (refreshtime > 0 &&  expired > 0 && expired <= refreshtime) {
                     ThreadTaskHelper.run(new Runnable() {
                         @Override
                         public void run() {
@@ -135,6 +135,7 @@ public class CacheService {
         e.setTimeToIdle((int) timeout);
         e.setTimeToLive((int) timeout);
         c.put(e);
+
         return R.SUCCESS_OPER();
     }
 

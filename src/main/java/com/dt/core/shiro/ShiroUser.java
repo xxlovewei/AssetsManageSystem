@@ -50,4 +50,15 @@ public class ShiroUser implements Serializable {
     public void setRoleList(List<String> roleList) {
         this.roleList = roleList;
     }
+
+    @Override
+    public String toString() {
+        return "ShiroUser{" +
+                "id='" + id + '\'' +
+                ", account='" + account + '\'' +
+                ", name='" + name + '\'' +
+                ", roleList=" + roleList +
+                ", roleNames=" + roleNames +
+                '}';
+    }
 }

@@ -77,7 +77,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
         if (!cacheInvocationsMap.containsKey(realCacheName)) {
             this.initialize();
         }
-        logger.info("Save execute info,realCacheName:" + realCacheName + ",key:" + key+",invocation:"+invocation.toString());
+        logger.info("Save execute info,realCacheName:" + realCacheName + ",key:" + key+",invocation:"+invocation.getcacheableEntity().toString());
         cacheInvocationsMap.get(realCacheName).put(key, invocation);
 
     }

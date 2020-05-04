@@ -1,5 +1,7 @@
 package com.dt.module.base.controller;
 
+
+import com.dt.module.base.service.impl.SysUserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,9 @@ public class SysUserInfoMyController extends BaseController {
 
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;
+
+    @Autowired
+    SysUserInfoService sysUserInfoService;
 
     @ResponseBody
     @Acl(info = "根据Id查询", value = Acl.ACL_USER)
@@ -84,7 +89,7 @@ public class SysUserInfoMyController extends BaseController {
         if (ToolUtil.isEmpty(menu_id)) {
             return R.FAILURE_REQ_PARAM_ERROR();
         }
-        return R.SUCCESS_OPER(SysUserInfoServiceImpl.listMyMenusById(getUserId(), menu_id));
+        return sysUserInfoService.listMyMenusById(getUserId(), menu_id);
     }
 
     @RequestMapping("/queryReceivingaddr.do")

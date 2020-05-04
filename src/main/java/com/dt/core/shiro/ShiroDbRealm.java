@@ -43,6 +43,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
         IShiro shiroService = ShiroServiceImpl.me();
         // authcToken 中储存着输入的用户名和密码
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+        _log.info("cache:"+this.getAuthenticationCacheName());
         _log.info("###################Action 登录认证#################");
         _log.info("Username:" + token.getUsername());
         // 从数据库中获取密码
@@ -68,6 +69,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         this.clearCachedAuthenticationInfo(principals);
+        _log.info("cache:"+this.getAuthorizationCacheName());
         _log.info("###################Action 权限认证#################");
         IShiro shiroService = ShiroServiceImpl.me();
         ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
