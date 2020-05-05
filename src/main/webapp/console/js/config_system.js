@@ -360,7 +360,20 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('system.servermonitor', {
+        url: "/servermonitor",
+        data: {pageTitle: '服务监控'},
+        templateUrl: "views/system/mon/servermonitor.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/system/mon/servermonitor.js?v=' + version]
+                }]);
+            }
+        }
     });
+
 
     // 组织架构
     $stateProvider.state('org', {
