@@ -65,13 +65,15 @@ public class CustomizedEhCacheCache implements Cache {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T get(Object key, Class<T> type) {
         Element element = cache.get(key);
         Object value = (element != null ? element.getObjectValue() : null);
         if (value != null && type != null && !type.isInstance(value)) {
             throw new IllegalStateException("Cached value is not of required type [" + type.getName() + "]: " + value);
+        } else {
+            return (T) value;
         }
-        return (T) value;
     }
 
     @Override
