@@ -7,7 +7,7 @@
 						<span class="label label-success pull-right">资产数量</span>
 					</div>
 					<div class="ibox-content">
-						<h1 class="no-margins">{{item.total_count}}</h1>
+						<h1 class="no-margins">{{item.total_count||0}}</h1>
 					</div>
 				</div>
 			</div>
@@ -18,7 +18,7 @@
 						<!-- <h5>Orders</h5> -->
 					</div>
 					<div class="ibox-content">
-						<h1 class="no-margins">{{item.total_sum}}</h1>
+						<h1 class="no-margins">{{item.total_sum||0}}</h1>
 						<!-- 
 						<div class="stat-percent font-bold text-info">
 							20% <i class="fa fa-level-up"></i>
@@ -170,12 +170,7 @@
 					</div>
 				</div>
 			</div>
-
-
 		</div>
 	</div>
-
-
-
 </div>
 

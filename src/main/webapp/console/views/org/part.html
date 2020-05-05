@@ -13,23 +13,24 @@
 									ng-model="topMenuSel" data-placeholder-text-single="'请选择...'"
 									ng-options="item.org_name for item in topMenuOpt">
 									<option value=""></option>
-								</select>
+							</select>
 							</div>
 							<button ng-click="query()" class="btn btn-sm btn-primary"
-								type="submit">查询</button>
+									type="submit">查询
+							</button>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div style="position: relative; height: 100%; background-color:;">
+		<div style="position: relative; height: 100%">
 			<div class="gBqKoW">
 				<div id="leftcb" class="FnqzS" style="background: white;">
 					<div class="celaRy">
 						<div style="margin-top: 20px; margin-left: 8px"
-							js-tree="treeConfig" ng-model="treeData" tree="treeInstance"
-							tree-events="ready:readyCB;create_node:createNodeCB"></div>
+							 js-tree="treeConfig" ng-model="treeData" tree="treeInstance"
+							 tree-events="ready:readyCB;create_node:createNodeCB"></div>
 
 					</div>
 				</div>
@@ -56,9 +57,9 @@
 										class="text-danger">*</span>名称:</label>
 									<div class="col-sm-10">
 										<input type="text" required ng-maxlength="10"
-											class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-											placeholder="请输入内容" name="name" ng-model="item.node_name"
-											class="form-control">
+											   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+											   name="name" ng-model="item.node_name" placeholder="请输入内容"
+										>
 										<div class="text-danger"
 											ng-if="myForm.name.$dirty && myForm.name.$invalid">
 											<span ng-if="myForm.name.$error.required"> 输入不能为空 </span> <span

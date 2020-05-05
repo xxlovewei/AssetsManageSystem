@@ -10,10 +10,8 @@ function sysTaskCtl( DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log
 		var acthtml = " <div class=\"btn-group\"> ";
 		acthtml = acthtml + " <button ng-click=\"enable('" + full.seq + "')\" class=\"btn-white btn btn-xs\">启用</button>  ";
 		acthtml = acthtml + " <button ng-click=\"disable('" + full.seq + "')\" class=\"btn-white btn btn-xs\">停用</button>  ";
-
 		acthtml = acthtml + " <button ng-click=\"pause('" + full.seq + "')\" class=\"btn-white btn btn-xs\">暂停</button>  ";
 		acthtml = acthtml + " <button ng-click=\"resume('" + full.seq + "')\" class=\"btn-white btn btn-xs\">恢复</button>  ";
-
 		acthtml = acthtml + " <button ng-click=\"runonce('" + full.seq + "')\" class=\"btn-white btn btn-xs\">执行一次</button> </div> ";
 		return acthtml;
 	}

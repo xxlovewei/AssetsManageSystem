@@ -32,7 +32,7 @@ public class WeixinUtil {
     public static String appSecret = "j0uSvR0zP1TbewpgWQ7eArUIaVhSeG4Ss6vPU9miTxS9KOMJiQk4BKIz9rr3hAs7";
     //消息提醒appSecret
     public static String xiaoxi_appSectet = "FJBg0pSI-8wea46opNht-kUcjZuUpJYB7ktGF23u7ZtFYbtHNTNz7B8YmvRhQQe6";
-    //private static Logger log = LoggerFactory.getLogger(WeixinUtil.class);
+
     // 获取access_token的接口地址（GET） 限200（次/天）
     public final static String access_token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 

@@ -6,8 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <!--jQuery and Bootstrap  -->
 <link href="../../../css/bootstrap.min.css" rel="stylesheet">
 <script src="../../../vendor/jquery/dist/jquery.min.js"></script>
@@ -80,12 +78,13 @@ function buildHtml(udata) {
 						+ "')\" class=\"btn-white btn btn-xs\">更新</button><button ng-click=\"delitem('"
 						+ userdata[j].id
 						+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div></td>";
-				if (j == 0) {
+				if (j != 0) {
+				} else {
 
 					html = html
-							+ "<td   rowspan=\""
+							+ "<td rowspan=\""
 							+ userlength
-							+ "\"style=\"width:170px!important; vertical-align: middle;\" > <div class=\"btn-group\"><button ng-click=\"saveitem(null,'"
+							+ "\" style=\"width:170px!important;vertical-align:middle;\" > <div class=\"btn-group\"><button ng-click=\"saveitem(null,'"
 							+ udata[i].class_id
 							+ "','"
 							+ udata[i].id
@@ -93,7 +92,7 @@ function buildHtml(udata) {
 							+ udata[i].id
 							+ "')\" class=\"btn-white btn btn-xs\">更新</button> <button ng-click=\"delNode('"
 							+ udata[i].id
-							+ "')\" class=\"btn-white btn btn-xs\">删除</button>   </div></td>";
+							+ "')\" class=\"btn-white btn btn-xs\">删除</button></div></td>";
 
 				}
 				html = html + "</tr>";

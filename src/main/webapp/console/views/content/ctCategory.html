@@ -45,9 +45,9 @@
 								<label class="col-sm-2 control-label">路径:</label>
 								<div class="col-sm-10">
 									<input type="text" ng-disabled="true"
-										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-										placeholder="系统自动生产" ng-model="item.route_name"
-										class="form-control">
+										   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+										   ng-model="item.route_name" placeholder="系统自动生产"
+									>
 								</div>
 							</div>
 							<div class="form-group">
@@ -55,9 +55,9 @@
 									class="text-danger">*</span>名称:</label>
 								<div class="col-sm-10">
 									<input type="text" required ng-maxlength="100"
-										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-										placeholder="请输入内容" name="name" ng-model="item.name"
-										class="form-control">
+										   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+										   name="name" ng-model="item.name" placeholder="请输入内容"
+									>
 									<div class="text-danger"
 										ng-if="myForm.name.$dirty && myForm.name.$invalid">
 										<span ng-if="myForm.name.$error.required"> 输入不能为空 </span> <span
@@ -69,9 +69,9 @@
 								<label class="col-sm-2 control-label">编码:</label>
 								<div class="col-sm-10">
 									<input type="text"
-										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-										placeholder="请输入编码" name="name" ng-model="item.code"
-										class="form-control">
+										   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+										   name="name" ng-model="item.code" placeholder="请输入编码"
+									>
 
 								</div>
 							</div>
@@ -90,8 +90,8 @@
 								<label class="col-sm-2 control-label">备注:</label>
 								<div class="col-sm-10">
 									<input type="text"
-										class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-										placeholder="请输入内容" ng-model="item.mark" class="form-control">
+										   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+										   ng-model="item.mark" placeholder="请输入内容">
 								</div>
 							</div>
 						</form>

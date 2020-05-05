@@ -273,11 +273,10 @@ function cmdbouterContactListCtl($sce, DTOptionsBuilder, DTColumnBuilder,
 							+ userdata[j].id
 							+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div></td>";
 					if (j == 0) {
-
 						html = html
-								+ "<td   rowspan=\""
+								+ "<td rowspan=\""
 								+ userlength
-								+ "\"style=\"width:170px!important; vertical-align: middle;\" > <div class=\"btn-group\"><button ng-click=\"saveitem(null,'"
+								+ "\" style=\"width:170px!important; vertical-align: middle;\" > <div class=\"btn-group\"><button ng-click=\"saveitem(null,'"
 								+ udata[i].class_id
 								+ "','"
 								+ udata[i].id

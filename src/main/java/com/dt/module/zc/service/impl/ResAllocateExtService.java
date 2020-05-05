@@ -1,11 +1,7 @@
 package com.dt.module.zc.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
-import com.dt.module.zc.entity.ResAllocate;
-import com.dt.module.zc.mapper.ResAllocateMapper;
-import com.dt.module.zc.service.IResAllocateService;
 import org.springframework.stereotype.Service;
 
 /**
