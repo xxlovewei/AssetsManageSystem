@@ -10,10 +10,10 @@
 	<url></url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>5.0.16.RELEASE</spring.version>
+		<spring.version>5.0.17.RELEASE</spring.version>
 		<ehcache.version>2.10.0</ehcache.version>
 		<!-- 暂时无法升级到1.4.2之后版本 -->
-		<shiro.version>1.4.2</shiro.version>
+		<shiro.version>1.5.3</shiro.version>
 	</properties>
 
 	<dependencies>

@@ -78,10 +78,23 @@ public class CacheService {
                 // 判断是否需要刷新
                 String key = c.getAllKeys().get(i).toString();
                 Element el = c.getKey(key);
+                //el为null,强制刷新
+                if(el==null){
+                    _log.info("Refresh by CacheService,cache:"+cache+",key:"+key+",value is null,force to refresh");
+                    ThreadTaskHelper.run(new Runnable() {
+                        @Override
+                        public void run() {
+                            cacheSupportImpl.refreshCacheByKey(cache, key);
+                        }
+                    });
+                    continue;
+                }
                 long hit = el.getHitCount();
                 Long expired = (el.getExpirationTime() - System.currentTimeMillis()) / 1000;
+                if(expired<0){ expired=expired*(-1);}
                 CachedInvocation inv = CacheSupportImpl.cacheInvocationsMap.get(cache).get(key);
-                if (inv == null) {
+                if (inv == null||inv.getcacheableEntity()==null) {
+                    _log.info("CachedInvocation is null or CacheableEntity is null.");
                     continue;
                 }
                 CacheableEntity ce = inv.getcacheableEntity();
@@ -92,17 +105,17 @@ public class CacheService {
                             + refreshtime + ",hit:" + hit);
                     continue;
                 }
-                if (refreshtime > 0 &&  expired > 0 && expired <= refreshtime) {
+                _log.info("Refresh by CacheService,cache:"+cache+",key:"+key+",cacheableEntity:"+ce.toString());
+                if (refreshtime > 0 && expired > 0 && expired <= refreshtime) {
                     ThreadTaskHelper.run(new Runnable() {
                         @Override
                         public void run() {
-                            _log.info("refresh by CacheService,cache:"+cache+",key:"+key);
                             cacheSupportImpl.refreshCacheByKey(cache, key);
                         }
                     });
                 }
             } catch (Exception e) {
-                _log.info(e.getMessage());
+                e.printStackTrace();
             }
         }
         return R.SUCCESS_OPER();
@@ -132,22 +145,13 @@ public class CacheService {
         }
         CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(API_CACHE)));
         Element e = new Element(key, ct);
-        e.setTimeToIdle((int) timeout);
         e.setTimeToLive((int) timeout);
-        c.put(e);
-
+        c.put(key,ct);
         return R.SUCCESS_OPER();
     }
 
     public String queryCacheKeyForApi(String key) {
-        if (ToolUtil.isOneEmpty(key)) {
-            return null;
-        }
-
-        //CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(API_CACHE)));
-        String value = null;
-        // System.out.println(c.g);
-        return value;
+      return null;
 
     }
 

@@ -35,6 +35,10 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 
 
     private void refreshCache(CachedInvocation invocation, String cacheName) {
+        if(invocation==null){
+            logger.info("RefreshCache failed,CachedInvocation is null.");
+            return;
+        }
         boolean invocationSuccess;
         Object computed = null;
         try {
@@ -44,9 +48,12 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
             invocationSuccess = false;
         }
         if (invocationSuccess) {
+            logger.info("RefreshCache success.");
             if (cacheInvocationsMap.get(cacheName) != null) {
                 cacheManager.getCache(cacheName).put(invocation.getKey(), computed);
             }
+        }else{
+            logger.info("RefreshCache failed.");
         }
     }
 

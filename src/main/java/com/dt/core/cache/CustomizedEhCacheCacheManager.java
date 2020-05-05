@@ -79,6 +79,7 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
         // runtime)
         int expiredtime = 0;
         int refreshtime = 0;
+        logger.info("getMissingCache:"+name);
         String[] cacheParams = name.split(separator);
         if(cacheParams.length==0){
             return null;
@@ -92,6 +93,7 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
             expiredtime = ToolUtil.toInt(cacheParams[1], 30);
             refreshtime = ToolUtil.toInt(cacheParams[2], 0);
         }
+
         if (cacheParams.length == 1) {
             expiredtime = -2;
         }
