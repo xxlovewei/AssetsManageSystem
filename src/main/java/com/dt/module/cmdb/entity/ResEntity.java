@@ -96,11 +96,11 @@ public class ResEntity implements java.io.Serializable {
     private String belongcom_fullname;
 
     @Excel(name = "使用公司", width = 20)
-    private String part_fullname;
+    private String comp_fullname ;
 
 
     @Excel(name = "使用部门", width = 20)
-    private String comp_fullname;
+    private String part_fullname;
 
     @Excel(name = "使用人(不支持)", width = 10)
     private String used_username;
