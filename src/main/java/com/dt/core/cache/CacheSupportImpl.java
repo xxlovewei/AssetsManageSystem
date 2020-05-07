@@ -3,14 +3,10 @@ package com.dt.core.cache;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import javax.annotation.PostConstruct;
-
-import net.sf.ehcache.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MethodInvoker;
@@ -36,7 +32,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
 
     private void refreshCache(CachedInvocation invocation, String cacheName) {
         if(invocation==null){
-            logger.info("RefreshCache failed,CachedInvocation is null.");
+            logger.info("RefreshCache failed,CacheName:"+cacheName+",CachedInvocation is null.");
             return;
         }
         boolean invocationSuccess;
@@ -48,12 +44,12 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
             invocationSuccess = false;
         }
         if (invocationSuccess) {
-            logger.info("RefreshCache success.");
+            logger.info("RefreshCache success,cacheName:"+cacheName+",key:"+invocation.getKey());
             if (cacheInvocationsMap.get(cacheName) != null) {
                 cacheManager.getCache(cacheName).put(invocation.getKey(), computed);
             }
         }else{
-            logger.info("RefreshCache failed.");
+            logger.info("RefreshCache failed,cacheName:"+cacheName+",key:"+invocation.getKey());
         }
     }
 
@@ -96,7 +92,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
         if (cacheInvocationsMap.get(cacheName) != null && ToolUtil.isNotEmpty(cachekey)) {
             cacheInvocationsMap.get(cacheName).remove(cachekey);
         } else {
-            logger.info("Cache name:" + cacheName + " not exists");
+            logger.info("Cache name:" + cacheName + " not exists,key:"+cachekey);
         }
     }
 
@@ -118,7 +114,7 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
         if (cacheInvocationsMap.get(cacheName) != null && ToolUtil.isNotEmpty(cacheKey)) {
             refreshCache(cacheInvocationsMap.get(cacheName).get(cacheKey), cacheName);
         } else {
-            logger.info("Cache name:" + cacheName + " not exists");
+            logger.info("Cache name:" + cacheName + " not exists,key:"+cacheKey);
         }
     }
 

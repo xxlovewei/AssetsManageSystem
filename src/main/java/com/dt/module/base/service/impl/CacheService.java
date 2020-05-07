@@ -94,7 +94,7 @@ public class CacheService {
                 if(expired<0){ expired=expired*(-1);}
                 CachedInvocation inv = CacheSupportImpl.cacheInvocationsMap.get(cache).get(key);
                 if (inv == null||inv.getcacheableEntity()==null) {
-                    _log.info("CachedInvocation is null or CacheableEntity is null.");
+                    _log.info("CachedInvocation is null or CacheableEntity is null,cache:"+cache+",key"+key);
                     continue;
                 }
                 CacheableEntity ce = inv.getcacheableEntity();
