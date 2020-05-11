@@ -402,7 +402,7 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 id : "btn",
                 label : "",
                 type : "btn",
-                show : false,
+                show : true,
                 priv:"select",
                 template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
             },
@@ -411,32 +411,32 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 id : "btn3",
                 label : "",
                 type : "btn",
-                show : true,
-                priv:"fix",
+                show : false,
+                priv:"insert",
                 template : ' <button ng-click="add()" class="btn btn-sm btn-primary" type="submit">申请调拨</button>'
             },
             {
                 id : "btn4",
                 label : "",
                 type : "btn",
-                show : true,
-                priv:"fix",
+                show : false,
+                priv:"act1",
                 template : ' <button ng-click="finish()" class="btn btn-sm btn-primary" type="submit">确认调拨</button>'
             },
             {
                 id : "btn4",
                 label : "",
                 type : "btn",
-                show : true,
-                priv:"fix",
+                show : false,
+                priv:"remove",
                 template : ' <button ng-click="cancel()" class="btn btn-sm btn-primary" type="submit">取消调拨</button>'
             },
             {
                 id : "btn5",
                 label : "",
                 type : "btn",
-                show : true,
-                priv:"fix",
+                show : false,
+                priv:"detail",
                 template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详细</button>'
             }]
     }
