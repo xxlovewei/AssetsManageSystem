@@ -3,7 +3,6 @@ package com.dt.module.wx.msg.req;
 /**
  * 地理位置消息 (请求消息)
  *
- * @author NCX
  */
 public class LocationMessage extends BaseMessage {
     // 地理位置维度

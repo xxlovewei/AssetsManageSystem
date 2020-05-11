@@ -2,8 +2,6 @@ package com.dt.module.wx.msg.resp;
 
 /**
  * 图文model 图文消息中Article类的定义
- *
- * @author NCX
  */
 public class Article {
     // 图文消息名称

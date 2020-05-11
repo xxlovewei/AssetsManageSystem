@@ -22,13 +22,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-/**
- * Request请求过滤包装
- * <p>
- *
- * @author hubin
- * @Date 2014-5-8
- */
+
 public class WafRequestWrapper extends HttpServletRequestWrapper {
 
     private boolean filterXSS = true;

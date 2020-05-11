@@ -13,11 +13,7 @@ import com.dt.core.common.base.R;
 import com.dt.module.wx.service.WxConfigService;
 import com.dt.module.wx.service.WxService;
 
-/**
- * @author: jinjie
- * @date: 2018年3月22日 上午8:42:21
- * @Description: TODO
- */
+
 @Controller
 @RequestMapping("/api")
 @Configuration

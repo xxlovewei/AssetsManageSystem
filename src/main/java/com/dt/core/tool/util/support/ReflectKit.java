@@ -32,7 +32,6 @@ import com.dt.core.tool.util.exception.ToolBoxException;
  * .call("toString")
  * // Retrieve the wrapped object
  *
- * @author Lukas Eder
  */
 public class ReflectKit {
 
@@ -189,15 +188,7 @@ public class ReflectKit {
         return field(name).<T>get();
     }
 
-    /**
-     * TODO:(简单描述方法作用). <br/>
-     *
-     * @param clazz
-     * @param name
-     * @return
-     * @throws NoSuchFieldException
-     * @author kid create 2013-8-29
-     */
+
     public Field getDeclaredField(Class<?> clazz, String name) throws NoSuchFieldException {
         Field field = null;
         while (clazz != Object.class) {

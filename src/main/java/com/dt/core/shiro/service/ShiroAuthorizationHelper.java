@@ -12,7 +12,7 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.impl.LoginService;
 
 /**
- * @author Dylan
+ * @author algernonking
  * @time 2014年1月8日
  */
 public class ShiroAuthorizationHelper {

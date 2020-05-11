@@ -1,10 +1,5 @@
 package com.dt.module.wx.service;
 
-/**
- * @author: jinjie
- * @date: 2018年3月22日 上午9:31:54
- * @Description: TODO
- */
 public class AccessToken {
     // 获取到的凭证
     private String token;

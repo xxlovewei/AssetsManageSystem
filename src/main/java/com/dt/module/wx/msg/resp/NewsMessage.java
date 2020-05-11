@@ -5,7 +5,6 @@ import java.util.List;
 /**
  * 图文本消息 (响应消息)
  *
- * @author NCX
  */
 public class NewsMessage extends BaseMessage {
     // 图文消息个数，限制为10条以内

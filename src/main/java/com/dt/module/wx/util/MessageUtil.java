@@ -27,11 +27,6 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 
-/**
- * 消息工具类
- *
- * @author NCX
- */
 public class MessageUtil {
     /**
      * 返回消息类型：文本

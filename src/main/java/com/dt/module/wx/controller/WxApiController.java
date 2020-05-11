@@ -21,11 +21,7 @@ import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.wx.service.CoreService;
 import com.dt.module.wx.service.WxService;
 
-/**
- * @author: jinjie
- * @date: 2018年4月18日 上午8:57:49
- * @Description: TODO
- */
+
 @Controller
 @RequestMapping("/api")
 public class WxApiController extends BaseController {

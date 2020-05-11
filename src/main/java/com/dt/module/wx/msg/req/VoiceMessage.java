@@ -3,7 +3,6 @@ package com.dt.module.wx.msg.req;
 /**
  * 音频消息 (请求消息)
  *
- * @author NCX
  */
 public class VoiceMessage extends BaseMessage {
     // 媒体ID

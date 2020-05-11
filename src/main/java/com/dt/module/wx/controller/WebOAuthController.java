@@ -24,11 +24,6 @@ import com.dt.module.wx.service.WebOAuthService;
 import com.dt.module.wx.service.WxService;
 import com.dt.module.wx.util.AdvancedUtil;
 
-/**
- * @author: jinjie
- * @date: 2018年5月18日 上午11:54:42
- * @Description: TODO
- */
 @Controller
 @RequestMapping("/api")
 public class WebOAuthController extends BaseController {

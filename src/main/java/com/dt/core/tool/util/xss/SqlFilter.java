@@ -2,13 +2,7 @@ package com.dt.core.tool.util.xss;
 
 import org.apache.commons.lang.StringUtils;
 
-/**
- * SQL过滤
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2017-04-01 16:16
- */
+
 public class SqlFilter {
 
     /**

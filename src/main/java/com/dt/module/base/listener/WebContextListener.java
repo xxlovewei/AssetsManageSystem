@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author 作者 Lank
+ * @author algernonking
  * @version 创建时间：2017年8月1日 下午5:23:44 类说明
  */
 public class WebContextListener implements ServletContextListener {

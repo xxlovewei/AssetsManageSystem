@@ -1,7 +1,7 @@
 package com.dt.core.cache;
 
 /**
- * @author: jinjie
+ * @author: algernonking
  * @date: 2018年4月3日 下午1:14:45
  * @Description: TODO
  */

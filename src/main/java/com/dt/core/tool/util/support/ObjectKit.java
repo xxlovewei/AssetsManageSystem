@@ -6,11 +6,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * 一些通用的函数
- *
- * @author Looly
- */
+
 public class ObjectKit {
 
     /**

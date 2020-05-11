@@ -18,7 +18,7 @@ import org.apache.commons.io.FileUtils;
 /**
  * 读取Properties综合类,默认绑定到classpath下的config.properties文件。
  *
- * @author GaoYu
+ * @author algernonking
  */
 public class PropertiesUtil {
     //配置文件的路径  
@@ -48,7 +48,7 @@ public class PropertiesUtil {
      * @param key key值
      * @return key 键对应的值
      * @throws IOException
-     * @author GaoYu
+     * @author algernonking
      */
     public String readValue(String key) throws IOException {
         return props.getProperty(key);
@@ -60,7 +60,7 @@ public class PropertiesUtil {
      *
      * @throws FileNotFoundException 配置文件没有找到
      * @throws IOException           关闭资源文件，或者加载配置文件错误
-     * @author GaoYu
+     * @author algernonking
      */
     public Map<String, String> readAllProperties() throws FileNotFoundException, IOException {
         //保存所有的键值  
@@ -81,7 +81,7 @@ public class PropertiesUtil {
      * @param key key值
      * @return key 键对应的值
      * @throws IOException
-     * @author GaoYu
+     * @author algernonking
      */
     public void setValue(String key, String value) throws IOException {
         Properties prop = new Properties();

@@ -13,11 +13,6 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.wx.service.MessageService;
 
-/**
- * @author: jinjie
- * @date: 2018年5月7日 下午2:46:41
- * @Description: TODO
- */
 @Controller
 @RequestMapping("/api")
 public class MessageController extends BaseController {

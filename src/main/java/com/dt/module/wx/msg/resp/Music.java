@@ -3,7 +3,6 @@ package com.dt.module.wx.msg.resp;
 /**
  * 音乐model 音乐消息中Music类的定义
  *
- * @author NCX
  */
 public class Music {
     // 音乐名称

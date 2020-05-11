@@ -17,7 +17,7 @@ import com.dt.module.base.entity.ScheduleJob;
 import com.dt.module.db.DB;
 
 /**
- * @author 作者 Lank
+ * @author algernonking
  * @version 创建时间：2017年8月1日 下午5:50:44 类说明
  */
 @Service

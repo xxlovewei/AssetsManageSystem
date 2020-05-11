@@ -3,7 +3,6 @@ package com.dt.module.wx.msg.req;
 /**
  * 文本消息 (请求消息)
  *
- * @author NCX
  */
 public class TextMessage extends BaseMessage {
 

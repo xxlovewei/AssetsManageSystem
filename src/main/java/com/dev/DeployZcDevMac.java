@@ -8,7 +8,7 @@ import com.dt.module.om.term.websocket.SftpClient;
 import com.dt.module.om.util.RemoteShellExecutor;
 
 /**
- * @author: jinjie
+ * @author: algernonking
  * @date: 2018年4月19日 下午2:38:43
  * @Description: TODO
  */

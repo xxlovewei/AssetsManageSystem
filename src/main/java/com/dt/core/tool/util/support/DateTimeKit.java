@@ -12,7 +12,7 @@ import com.dt.core.tool.date.DateTime;
 /**
  * 时间工具类
  *
- * @author xiaoleilu
+ * @author algernonking
  */
 public class DateTimeKit {
     /**
@@ -656,7 +656,7 @@ public class DateTimeKit {
      * 计时器<br>
      * 计算某个过程话费的时间，精确到毫秒
      *
-     * @author Looly
+     * @author algernonking
      */
     public static class Timer {
         private long time;
