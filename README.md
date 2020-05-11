@@ -25,18 +25,21 @@
 - Mail:maillank@qq.com
 - QQ交流群:904754434
 
+
 ## 部署说明
 ### 步骤一
 - 准备环境
 ```
+- 操作系统:Window、推荐Linux
+- 数据库:Mysql 5.7.X
 - 中间件:Tomcat 9 以上
-- 数据库:Mysql 5.7
+- Java版本:Java 1.8 以上
 ```
 
 ### 步骤二
 - 初始化sql
 ```
-- 要求Mysql lower_case_table_names=1
+- 要求Mysql的参数 lower_case_table_names=1
 - SQL>CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
 - SQL>set names utf8;
 - SQL>use dt;

@@ -6,45 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
+    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="常规更新ok">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dev/DeployZcDevMac.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dev/DeployZcDevMac.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dev/PropertiesUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dev/PropertiesUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/impl/MyRHttpMessageConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/impl/MyRHttpMessageConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CacheableEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CacheableEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/ShiroAuthorizationHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/ShiroAuthorizationHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/DateTimeKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/DateTimeKit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/ObjectKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/ObjectKit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/ReflectKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/ReflectKit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/WafKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/WafKit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/WafRequestWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/WafRequestWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/SqlFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/SqlFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/XssFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/XssFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/XssHttpServletRequestWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/XssHttpServletRequestWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/listener/WebContextListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/listener/WebContextListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/JobService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/JobService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/MessageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WebOAuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WebOAuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WxApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WxApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WxConfigController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WxConfigController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/BaseMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/BaseMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/ImageMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/ImageMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/LinkMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/LinkMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/LocationMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/LocationMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/TextMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/TextMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/VoiceMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/VoiceMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/Article.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/BaseMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/BaseMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/LinkMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/LinkMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/LocationMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/LocationMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/Music.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/Music.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/MusicMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/MusicMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/NewsMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/NewsMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/TextMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/TextMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/AccessToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/AccessToken.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/util/MessageUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/util/MessageUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/none.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/none.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -478,14 +441,7 @@
       <workItem from="1588945327716" duration="965000" />
       <workItem from="1589157443779" duration="933000" />
       <workItem from="1589166564718" duration="14000" />
-      <workItem from="1589172277143" duration="11560000" />
-    </task>
-    <task id="LOCAL-00018" summary="常规更新">
-      <created>1586776622719</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1586776622719</updated>
+      <workItem from="1589172277143" duration="12197000" />
     </task>
     <task id="LOCAL-00019" summary="常规更新">
       <created>1586776767912</created>
@@ -823,7 +779,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589199502850</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="常规更新ok">
+      <created>1589236755913</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1589236755914</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -956,7 +919,7 @@
     </state>
     <state x="347" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/38.23.1242.777@38.23.1242.777" timestamp="1586053580477" />
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1586608077562" />
-    <state x="40" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1589199501877">
+    <state x="40" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1589236763169">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="220" y="23" width="833" height="777" key="CommitChangelistDialog2/34.23.1246.777@34.23.1246.777" timestamp="1587902297321" />
@@ -965,7 +928,7 @@
     <state x="37" y="23" width="1112" height="777" key="CommitChangelistDialog2/37.23.1243.777@37.23.1243.777" timestamp="1587742405041" />
     <state x="233" y="23" width="833" height="777" key="CommitChangelistDialog2/38.23.1242.777@38.23.1242.777" timestamp="1586054107747" />
     <state x="39" y="23" width="924" height="777" key="CommitChangelistDialog2/39.23.1241.777@39.23.1241.777" timestamp="1587472647958" />
-    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1589199501877" />
+    <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1589236763169" />
     <state width="434" height="466" key="DebuggerActiveHint" timestamp="1587718161099">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
@@ -1168,7 +1131,7 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="510" y="287" key="VCS.EditChangelistDialog/38.23.1242.777@38.23.1242.777" timestamp="1586054753811" />
-    <state x="273" y="131" key="Vcs.Push.Dialog.v2" timestamp="1589199509658">
+    <state x="273" y="131" key="Vcs.Push.Dialog.v2" timestamp="1589236772566">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
     <state x="267" y="131" key="Vcs.Push.Dialog.v2/34.23.1246.777@34.23.1246.777" timestamp="1587902309411" />
@@ -1177,7 +1140,7 @@
     <state x="270" y="131" key="Vcs.Push.Dialog.v2/37.23.1243.777@37.23.1243.777" timestamp="1587308189654" />
     <state x="271" y="131" key="Vcs.Push.Dialog.v2/38.23.1242.777@38.23.1242.777" timestamp="1586054668236" />
     <state x="272" y="131" key="Vcs.Push.Dialog.v2/39.23.1241.777@39.23.1241.777" timestamp="1587472654530" />
-    <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1589199509658" />
+    <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1589236772566" />
     <state x="420" y="213" key="com.intellij.database.dbimport.ImportUtil.MyDialog" timestamp="1586335320101">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
