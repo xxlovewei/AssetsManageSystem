@@ -104,6 +104,11 @@ function prepend(arr, item) {
 }
 
 /** **************按钮权限判断函数*************** */
+// $scope.crud = {
+//     "update" : false,
+//     "insert" : false,
+//     "remove" : false
+// }
 function privCrudCompute(curd, pbtns) {
     if (!angular.isDefined(pbtns)) {
         return;

@@ -168,7 +168,6 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 		"update" : false,
 		"insert" : false,
 		"remove" : false
-
 	}
 	var pbtns=$rootScope.curMemuBtns;
 	privCrudCompute($scope.crud, pbtns);

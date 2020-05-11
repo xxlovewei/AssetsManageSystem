@@ -2,6 +2,8 @@ package com.dt.module.base.controller;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.dt.module.cmdb.entity.ResActionItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,7 +74,10 @@ public class SysRoleInfoController extends BaseController {
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
-        return R.SUCCESS_OPER(SysRoleInfoServiceImpl.list(null));
+
+        QueryWrapper<SysRoleInfo> ew = new QueryWrapper<SysRoleInfo>();
+        ew.orderByDesc("role_name");
+        return R.SUCCESS_OPER(SysRoleInfoServiceImpl.list(ew));
     }
 
     @RequestMapping(value = "/roleQueryFormatKV.do")

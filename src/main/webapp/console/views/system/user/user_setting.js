@@ -167,6 +167,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,
 		$stateParams) {
 
+	//hide
 	$scope.crud = {
 		"update" : false,
 		"insert" : false,

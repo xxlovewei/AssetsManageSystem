@@ -304,30 +304,30 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					id : "btn3",
 					label : "",
 					type : "btn",
-					show : true,
-					priv:"fix",
+					show : false,
+					priv:"insert",
 					template : ' <button ng-click="add()" class="btn btn-sm btn-primary" type="submit">申请报修</button>'
 				},
 			 {
 				id : "btn4",
 				label : "",
 				type : "btn",
-				show : true,
-				priv:"fix",
+				show : false,
+				priv:"act1",
 				template : ' <button ng-click="finish()" class="btn btn-sm btn-primary" type="submit">完成维修</button>'
 			}, {
 				id : "btn5",
 				label : "",
 				type : "btn",
-				show : true,
-				priv:"fix",
+				show : false,
+				priv:"detail",
 				template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详细</button>'
 			}, {
 				id : "btn5",
 				label : "",
 				type : "btn",
-				show : true,
-				priv:"fix",
+				show : false,
+				priv:"update",
 				template : ' <button ng-click="modify()" class="btn btn-sm btn-primary" type="submit">修改</button>'
 			},	{
 				id : "btn2",

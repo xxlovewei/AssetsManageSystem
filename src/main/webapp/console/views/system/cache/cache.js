@@ -20,13 +20,22 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					show:true,
 					template : ' <button ng-click="flush()" class="btn btn-sm btn-primary" type="submit">查询</button>'
 
-				} ]
+				},{
+				id : "3",
+				label : "清除缓存",
+				type : "btn",
+				show:true,
+				template : ' <button ng-click="cacheclear()" class="btn btn-sm btn-primary" type="submit">清除缓存</button>'
+
+			}  ]
 	}
 
+	var gcacheOpt=[];
 	$http.post($rootScope.project + "/api/sysApi/system/queryCacheName.do", {})
 			.success(function(res) {
 				if (res.success) {
 					$scope.meta.tools[0].dataOpt = res.data;
+					gcacheOpt=res.data;
 					if (res.data.length > 0) {
 						$scope.meta.tools[0].dataSel = res.data[0]
 						flush();
@@ -186,6 +195,80 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			}
 		})
 	}
+
+	$scope.cacheclear=function(){
+
+		var meta = {};
+
+		var items = [{
+			type : "select",
+			disabled : "false",
+			label : "缓存域",
+			need : false,
+			disable_search : "true",
+			dataOpt : "cacheOpt",
+			dataSel : "cacheSel"
+		}];
+
+		meta = {
+			footer_hide : false,
+			title : "清除缓存",
+			item : {},
+			cacheOpt:gcacheOpt,
+			cacheSel:"",
+			items : items,
+			sure : function(modalInstance, modal_meta) {
+				console.log('1111',modal_meta.meta);
+				if(angular.isDefined( modal_meta.meta.cacheSel.id)){
+					var cache =modal_meta.meta.cacheSel.id ;
+					$http.post($rootScope.project + "/api/sysApi/system/clearCache.do",
+						{cache:cache}).success(function(res) {
+						if (res.success) {
+							modalInstance.close("OK");
+						} else {
+							notify({
+								message : res.message
+							});
+						}
+					});
+				}else{
+							notify({
+								message : "请选择缓存域"
+							});
+					}
+
+			},
+			init : function(modal_meta) {
+
+
+
+			}
+		}
+
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/Template/modal_simpleForm.html',
+			controller : modal_simpleFormCtl,
+			size : 'lg',
+			resolve : {
+				meta : function() {
+					return meta;
+				}
+			}
+		});
+
+		modalInstance.result.then(function(result) {
+			if (result == "OK") {
+				flush();
+			}
+		}, function(reason) {
+			$log.log("reason", reason)
+		});
+
+
+	}
+
+
 
 };
 

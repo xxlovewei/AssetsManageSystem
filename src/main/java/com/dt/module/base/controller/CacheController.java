@@ -65,6 +65,14 @@ public class CacheController {
         });
         return R.SUCCESS_OPER();
     }
+    @RequestMapping(value = "/system/clearCache.do")
+    @ResponseBody
+    @Acl(info = "删除Cache", value = Acl.ACL_USER)
+    public R clearCache(String cache) {
+       return cacheService.clearCache(cache);
+    }
+
+
 
 
     @RequestMapping(value = "/system/refreshCacheForExpire.do")

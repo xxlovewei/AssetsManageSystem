@@ -321,7 +321,8 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "btn",
 					label : "",
 					type : "btn",
-					show : true,
+					show : false,
+					priv : "search",
 					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
 				},
 				{
@@ -354,14 +355,15 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					id : "btn2",
 					label : "",
 					type : "btn",
-					show : true,
+					show : false,
+					priv : "detail",
 					template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
 				},
 				{
 					id : "btn2",
 					label : "",
 					type : "btn",
-					show : true,
+					show : false,
 					priv : "remove",
 					template : ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
 				} ],

@@ -369,7 +369,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">入库</button>'
 				},
 				{
-					id : "btn2",
+					id : "btn3",
 					label : "",
 					type : "btn",
 					show:false,
@@ -377,7 +377,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					template : ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新</button>'
 				},				
 				{
-					id : "btn2",
+					id : "btn4",
 					label : "",
 					type : "btn",
 					show:false,
@@ -386,14 +386,15 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				},
 
 				{
-					id : "btn2",
+					id : "btn5",
 					label : "",
 					type : "btn",
-					show:true,
+					show:false,
+					priv:"detail",
 					template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
 				},
 				{
-					id : "btn2",
+					id : "btn6",
 					label : "",
 					type : "btn",
 					show:false,
@@ -401,7 +402,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					template : ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
 				},
 				{
-					id : "btn3",
+					id : "btn7",
 					label : "",
 					type : "btn",
 					show:false,

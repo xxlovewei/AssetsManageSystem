@@ -65,6 +65,15 @@ public class CacheService {
         return R.SUCCESS_OPER();
     }
 
+    public R clearCache(String cache) {
+        CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(cache)));
+        for (int i = 0; i < c.getAllKeys().size(); i++) {
+            String key = c.getAllKeys().get(i).toString();
+            removeCacheKey(cache,key);
+        }
+        return R.SUCCESS_OPER();
+    }
+
 
     //按照时间刷新
     public R refreshCache(String cache) {
