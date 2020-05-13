@@ -1082,49 +1082,49 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			items : items,
 			sure : function(modalInstance, modal_meta) {
 
-				if (angular.isDefined(modal_meta.meta.statusSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.statusSel)&&angular.isDefined(modal_meta.meta.statusSel.dict_item_id)) {
 					modal_meta.meta.item.status = modal_meta.meta.statusSel.dict_item_id
 				}
 
-				if (angular.isDefined(modal_meta.meta.runenvSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.runenvSel)&&angular.isDefined(modal_meta.meta.runenvSel.dict_item_id)) {
 					modal_meta.meta.item.runenv = modal_meta.meta.runenvSel.dict_item_id
 				}
-				if (angular.isDefined(modal_meta.meta.busitypeSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.busitypeSel)&&angular.isDefined(modal_meta.meta.busitypeSel.dict_item_id)) {
 					modal_meta.meta.item.busitype = modal_meta.meta.busitypeSel.dict_item_id
 				}
-				if (angular.isDefined(modal_meta.meta.locSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.locSel)&&angular.isDefined(modal_meta.meta.locSel.dict_item_id)) {
 					modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id
 				}
-				if (angular.isDefined(modal_meta.meta.osSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.osSel)&&angular.isDefined(modal_meta.meta.osSel.dict_item_id)) {
 					modal_meta.meta.item.os = modal_meta.meta.osSel.dict_item_id
 				}
-				if (angular.isDefined(modal_meta.meta.osdtlSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.osdtlSel)&&angular.isDefined(modal_meta.meta.osdtlSel.dict_item_id)) {
 					modal_meta.meta.item.osdtl = modal_meta.meta.osdtlSel.dict_item_id
 				}
-				if (angular.isDefined(modal_meta.meta.dbSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.dbSel)&&angular.isDefined(modal_meta.meta.dbSel.dict_item_id)) {
 					modal_meta.meta.item.db = modal_meta.meta.dbSel.dict_item_id
 				}
-				if (angular.isDefined(modal_meta.meta.dbdtlSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.dbdtlSel)&&angular.isDefined(modal_meta.meta.dbdtlSel.dict_item_id)) {
 					modal_meta.meta.item.dbdtl = modal_meta.meta.dbdtlSel.dict_item_id
 				}
 
-				if (angular.isDefined(modal_meta.meta.execSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.execSel)&&angular.isDefined(modal_meta.meta.execSel.dict_item_id)) {
 					modal_meta.meta.item.execenv = modal_meta.meta.execSel.dict_item_id
 				}
 
-				if (angular.isDefined(modal_meta.meta.monitorSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.monitorSel)&&angular.isDefined(modal_meta.meta.monitorSel.dict_item_id)) {
 					modal_meta.meta.item.monitor = modal_meta.meta.monitorSel.dict_item_id
 				}
 
-				if (angular.isDefined(modal_meta.meta.pwdSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.pwdSel)&&angular.isDefined(modal_meta.meta.pwdSel.dict_item_id)) {
 					modal_meta.meta.item.pwdstrategy = modal_meta.meta.pwdSel.dict_item_id
 				}
 
-				if (angular.isDefined(modal_meta.meta.syslevelSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.syslevelSel)&&angular.isDefined(modal_meta.meta.syslevelSel.dict_item_id)) {
 					modal_meta.meta.item.syslevel = modal_meta.meta.syslevelSel.dict_item_id
 				}
 
-				if (angular.isDefined(modal_meta.meta.nodebakSel.dict_item_id)) {
+				if (angular.isDefined(modal_meta.meta.nodebakSel)&&angular.isDefined(modal_meta.meta.nodebakSel.dict_item_id)) {
 					modal_meta.meta.item.nodebackup = modal_meta.meta.nodebakSel.dict_item_id
 				}
 

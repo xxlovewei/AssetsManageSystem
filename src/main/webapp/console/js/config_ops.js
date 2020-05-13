@@ -4,12 +4,13 @@ function config_ops($stateProvider, $ocLazyLoadProvider) {
         debug: true
     });
 
-    $stateProvider.state('infosys', {
+
+    $stateProvider.state('hmgr', {
         abstract: true,
-        url: "/infosys",
+        url: "/hmgr",
         templateUrl: "views/common/content.html?v=" + version
-    }).state('infosys.host', {
-        url: "infosys_host",
+    }).state('hmgr.hlist', {
+        url: "hmgr_hlist",
         data: {pageTitle: '主机管理'},
         templateUrl: "views/ops/hostmgr.html?v=" + version,
         resolve: {
@@ -20,8 +21,33 @@ function config_ops($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    }).state('infosys.xttj', {
-        url: "infosys_xttj",
+    });
+
+
+    $stateProvider.state('dbmgr', {
+        abstract: true,
+        url: "/dbmgr",
+        templateUrl: "views/common/content.html?v=" + version
+    }).state('dbmgr.dblist', {
+        url: "dbmgr_dblist",
+        data: {pageTitle: '数据库管理'},
+        templateUrl: "views/ops/dbbackup.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/ops/dbbackup.js?v=' + version]
+                }]);
+            }
+        }
+    });
+
+    $stateProvider.state('dtj', {
+        abstract: true,
+        url: "/dtj",
+        templateUrl: "views/common/content.html?v=" + version
+    }).state('dtj.hd', {
+        url: "dtj_hd",
         data: {pageTitle: '系统统计'},
         templateUrl: "views/ops/xttj.html?v=" + version,
         resolve: {
@@ -38,22 +64,15 @@ function config_ops($stateProvider, $ocLazyLoadProvider) {
                     }]);
             }
         }
-    }).state('infosys.dbbackup', {
-        url: "infosys_dbbackup",
-        data: {pageTitle: '数据库备份'},
-        templateUrl: "views/ops/dbbackup.html?v=" + version,
-        resolve: {
-            loadPlugin: function ($ocLazyLoad) {
-                return $ocLazyLoad.load([
-                    {
-                        serie: true,
-                        files: ['views/ops/dbbackup.js?v=' + version]
-                    }]);
-            }
-        }
+    })
+
+    $stateProvider.state('infosys', {
+        abstract: true,
+        url: "/infosys",
+        templateUrl: "views/common/content.html?v=" + version
     }).state('infosys.infosys', {
         url: "infosys_infosys",
-        data: {pageTitle: '信息系统'},
+        data: {pageTitle: '业务系统'},
         templateUrl: "views/ops/infosys.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {

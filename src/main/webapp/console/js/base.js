@@ -282,7 +282,8 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.meta = meta;
 
     $log.log($scope.meta);
-    var formhtml = "";
+    var formhtml = " <form id=\"formct\" class=\"form-horizontal m-t-md\" name=\"myForm\" novalidate compile=\"template\" action=\"\">";
+
     var items = meta.items;
     var select_ids = [];
 
@@ -298,8 +299,10 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 
             if (obj.type == "input") {
                 var required_col = "";
+
                 if (obj.required) {
                     required_col = "required";
+                    console.log('true');
                 }
                 var maxlength_col = "";
                 if (typeof (obj.maxlength) != "undefined" && obj.maxlength > 0) {
@@ -321,18 +324,27 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + "  class=\"form-control ng-pristine ng-untouched ng-valid ng-empty\" placeholder=\""
                     + obj.placeholder + "\" name=\"" + obj.name
                     + "\" ng-model=\"meta.item." + obj.ng_model + "\" > ";
+
+
                 tmp_tpl = tmp_tpl
                     + "	<div class=\"text-danger\" ng-if=\"myForm."
                     + obj.name + ".$dirty && myForm." + obj.name
                     + ".$invalid\"> ";
+
                 tmp_tpl = tmp_tpl + "		<span ng-if=\"myForm." + obj.name
                     + ".$error.required\"> 输入不能为空 </span> ";
+
+
                 tmp_tpl = tmp_tpl + "		<span ng-show=\"myForm." + obj.name
                     + ".$error.maxlength\">不能超过" + obj.maxlength
                     + "个字符</span> ";
+
                 tmp_tpl = tmp_tpl + "	</div> ";
+
+
                 tmp_tpl = tmp_tpl + "</div> ";
                 tmp_tpl = tmp_tpl + "</div> ";
+              //  console.log(tmp_tpl)
                 formhtml = formhtml + tmp_tpl;
             } else if (obj.type == "select") {
                 var uid = getUuid()
@@ -473,15 +485,21 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                 formhtml = formhtml + tmp_tpl;
             }
         }
-
     }
-    // $scope.template = formhtml;
-    $timeout(function () {
+    formhtml=formhtml+" </form> ";
+     $timeout(function () {
         var tplhtml = $compile(formhtml);
         var $dom = tplhtml($scope);
         var ct = document.getElementById('formct');
         angular.element(ct).append($dom);
-    }, 200);
+        $timeout(
+            function () {
+                // 设置select全宽度
+                for (var i = 0; i < select_ids.length; i++) {
+                    document.getElementById(select_ids[i] + "_chosen").style.width = "100%";
+                }
+            }, 10);
+     }, 100);
 
     $scope.sure = function () {
         meta.sure($uibModalInstance, $scope);
@@ -490,13 +508,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
         $uibModalInstance.dismiss('cancel');
     };
 
-    $timeout(
-        function () {
-            // 设置select全宽度
-            for (var i = 0; i < select_ids.length; i++) {
-                document.getElementById(select_ids[i] + "_chosen").style.width = "100%";
-            }
-        }, 250);
+
 
     if (typeof ($scope.meta.init) != "undefined") {
         $scope.meta.init($scope);
