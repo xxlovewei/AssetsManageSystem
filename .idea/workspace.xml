@@ -6,13 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="常规更新ok">
+    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/base.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/config_ops.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_ops.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/Template/modal_simpleForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/Template/modal_simpleForm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/hostmgr.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/hostmgr.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -446,14 +442,7 @@
       <workItem from="1588945327716" duration="965000" />
       <workItem from="1589157443779" duration="933000" />
       <workItem from="1589166564718" duration="14000" />
-      <workItem from="1589172277143" duration="22618000" />
-    </task>
-    <task id="LOCAL-00020" summary="常规更新">
-      <created>1586776876550</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1586776876550</updated>
+      <workItem from="1589172277143" duration="23964000" />
     </task>
     <task id="LOCAL-00021" summary="常规更新">
       <created>1586777693899</created>
@@ -791,7 +780,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589237552955</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="常规更新ok">
+      <created>1589360597510</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1589360597510</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -924,8 +920,8 @@
     </state>
     <state x="347" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/38.23.1242.777@38.23.1242.777" timestamp="1586053580477" />
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1589272592550" />
-    <state x="40" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1589272925634">
-      <screen x="40" y="23" width="1240" height="777" />
+    <state x="174" y="37" width="833" height="617" key="CommitChangelistDialog2" timestamp="1589360596925">
+      <screen x="41" y="23" width="1239" height="777" />
     </state>
     <state x="220" y="23" width="833" height="777" key="CommitChangelistDialog2/34.23.1246.777@34.23.1246.777" timestamp="1587902297321" />
     <state x="35" y="23" width="922" height="777" key="CommitChangelistDialog2/35.23.1245.777@35.23.1245.777" timestamp="1587890042920" />
@@ -934,6 +930,7 @@
     <state x="233" y="23" width="833" height="777" key="CommitChangelistDialog2/38.23.1242.777@38.23.1242.777" timestamp="1586054107747" />
     <state x="39" y="23" width="924" height="777" key="CommitChangelistDialog2/39.23.1241.777@39.23.1241.777" timestamp="1587472647958" />
     <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1589272925634" />
+    <state x="174" y="37" width="833" height="617" key="CommitChangelistDialog2/41.23.1239.777@41.23.1239.777" timestamp="1589360596925" />
     <state width="434" height="466" key="DebuggerActiveHint" timestamp="1587718161099">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
@@ -1136,8 +1133,8 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="510" y="287" key="VCS.EditChangelistDialog/38.23.1242.777@38.23.1242.777" timestamp="1586054753811" />
-    <state x="273" y="131" key="Vcs.Push.Dialog.v2" timestamp="1589237562784">
-      <screen x="40" y="23" width="1240" height="777" />
+    <state x="274" y="131" key="Vcs.Push.Dialog.v2" timestamp="1589360603977">
+      <screen x="41" y="23" width="1239" height="777" />
     </state>
     <state x="267" y="131" key="Vcs.Push.Dialog.v2/34.23.1246.777@34.23.1246.777" timestamp="1587902309411" />
     <state x="268" y="131" key="Vcs.Push.Dialog.v2/35.23.1245.777@35.23.1245.777" timestamp="1587825134011" />
@@ -1146,6 +1143,7 @@
     <state x="271" y="131" key="Vcs.Push.Dialog.v2/38.23.1242.777@38.23.1242.777" timestamp="1586054668236" />
     <state x="272" y="131" key="Vcs.Push.Dialog.v2/39.23.1241.777@39.23.1241.777" timestamp="1587472654530" />
     <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1589237562784" />
+    <state x="274" y="131" key="Vcs.Push.Dialog.v2/41.23.1239.777@41.23.1239.777" timestamp="1589360603977" />
     <state x="420" y="213" key="com.intellij.database.dbimport.ImportUtil.MyDialog" timestamp="1586335320101">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
