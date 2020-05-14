@@ -45,7 +45,7 @@ public class ZcService extends BaseService{
     IResAllocateService ResAllocateServiceImpl;
 
     @Cacheable(value = CacheConfig.CACHE_PUBLIC_300_150,key="'qf'+#uid")
-    public R queryDictFast(String uid,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers,String subclass, String classroot) {
+    public R queryDictFast(String uid,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers,String subclass, String classroot,String zccatused) {
 
         JSONObject res = new JSONObject();
         String[] dict_arr = dicts.split(",");
@@ -75,7 +75,7 @@ public class ZcService extends BaseService{
 
 
         // 所有用户
-        if (ToolUtil.isNotEmpty(partusers)) {
+        if (ToolUtil.isNotEmpty(partusers)&&"Y".equals(partusers)) {
             RcdSet partuserrs = db
                     .query("select  a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n"
                             + "  a.empl_id=b.empl_id and a.dr='0' and b.dr='0'  and c.node_id=b.node_id");
@@ -85,20 +85,16 @@ public class ZcService extends BaseService{
         RcdSet comprs=db.query("select node_id id, route_name name from hrm_org_part where dr='0' and type='comp' order by node_id");
 
 
-        if(ToolUtil.isNotEmpty(comp)){
+        if(ToolUtil.isNotEmpty(comp)&&"Y".equals(comp)){
             res.put("comp",ConvertUtil.OtherJSONObjectToFastJSONArray(comprs.toJsonArrayWithJsonObject()));
         }
 
-        if(ToolUtil.isNotEmpty(belongcomp)){
-            res.put("belongcomp",ConvertUtil.OtherJSONObjectToFastJSONArray(comprs.toJsonArrayWithJsonObject()));
-        }
-
-        if(ToolUtil.isNotEmpty(belongcomp)){
+        if(ToolUtil.isNotEmpty(belongcomp)&&"Y".equals(belongcomp)){
             res.put("belongcomp",ConvertUtil.OtherJSONObjectToFastJSONArray(comprs.toJsonArrayWithJsonObject()));
         }
 
         // 所有部门
-        if (ToolUtil.isNotEmpty(comppart)) {
+        if (ToolUtil.isNotEmpty(comppart) && "Y".equals(comppart) ) {
             JSONObject tmp=new JSONObject();
             for(int i=0;i<comprs.size();i++){
                 RcdSet partrs = db
@@ -109,10 +105,17 @@ public class ZcService extends BaseService{
         }
 
 
-        if (ToolUtil.isNotEmpty(parts)) {
+        if (ToolUtil.isNotEmpty(parts) && "Y".equals(parts) ) {
             RcdSet partrs = db
                     .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and type='part' order by route" );
             res.put("parts",ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+        }
+
+        if (ToolUtil.isNotEmpty(zccatused) && "Y".equals(zccatused) ) {
+            RcdSet partrs = db
+                    .query("select a.id,concat(b.name,'/',a.route_name) name from ct_category a,ct_category_root b where a.root=b.id and a.dr='0' and a.id in (select distinct class_id from res where dr='0')\n" +
+                            "order by a.root ,a.route_name" );
+            res.put("zccatused",ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
         return R.SUCCESS_OPER(res);

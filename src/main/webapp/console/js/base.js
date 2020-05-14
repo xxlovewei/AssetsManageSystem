@@ -377,7 +377,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                 tmp_tpl = tmp_tpl
                     + "	<select   ng-disabled=\""+obj.disabled+"\"  class=\"dt_select\" width=\"100\" id=\""
                     + uid
-                    + "\"   multiple chosen   disable-search=\""
+                    + "\"   multiple chosen  data-placeholder-text-multiple=\"'请选择...'\"    disable-search=\""
                     + obj.disable_search
                     + "\" class=\"chosen-select\" no-results-text=\"'没有找到相应条目'\" ng-model=\"meta."
                     + obj.dataSel

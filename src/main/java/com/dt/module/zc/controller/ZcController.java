@@ -87,9 +87,9 @@ public class ZcController extends BaseController {
     @Acl(info = "", value = Acl.ACL_ALLOW)
     @RequestMapping(value = "/queryDictFast.do")
     @Transactional
-    public R queryDictFast(String uid,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers, String subclass, String classroot) {
+    public R queryDictFast(String uid,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers, String subclass, String classroot,String zccatused) {
 
-        return zcService.queryDictFast(uid,comppart, comp, belongcomp, dicts,  parts,  partusers,  subclass,  classroot);
+        return zcService.queryDictFast(uid,comppart, comp, belongcomp, dicts,  parts,  partusers,  subclass,  classroot,zccatused);
 
     }
 

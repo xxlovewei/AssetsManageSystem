@@ -44,6 +44,27 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
     })
 
 
+
+    // 盘点管理
+    $stateProvider.state('pandian', {
+        abstract: true,
+        url: "/pandian",
+        templateUrl: "views/common/content.html?v=" + version
+    }).state('pandian.zcpd', {
+        url: "/pandian_pcpd",
+        data: {pageTitle: '资产盘点'},
+        templateUrl: "views/cmdb/zcinventory.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/zcinventory.js?v=' + version]
+                }]);
+            }
+        }
+    })
+
+
     // cmdb
     $stateProvider.state('maintain', {
         abstract: true,
