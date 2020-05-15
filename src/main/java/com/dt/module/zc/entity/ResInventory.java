@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-05-14
+ * @since 2020-05-15
  */
  
 @TableName("res_inventory")

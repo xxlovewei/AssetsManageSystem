@@ -13,6 +13,129 @@ function GetDateNowId()
 }
 
 
+function zcinventoryResCtl($timeout, $localStorage, notify, $log, $uibModal,
+                                $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
+                                DTColumnBuilder, $compile) {
+
+    var item=meta;
+    $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
+        .withPaginationType('full_numbers').withDisplayLength(100)
+        .withOption("ordering", false).withOption("responsive", false)
+        .withOption("searching", true).withOption('scrollY', 600)
+        .withOption('scrollX', true).withOption('bAutoWidth', true)
+        .withOption('scrollCollapse', true).withOption('paging', true)
+        .withFixedColumns({
+            leftColumns : 0,
+            rightColumns : 0
+        }).withOption('bStateSave', true).withOption('bProcessing', false)
+        .withOption('bFilter', false).withOption('bInfo', false)
+        .withOption('serverSide', false).withOption('createdRow', function(row) {
+            $compile(angular.element(row).contents())($scope);
+        }).withOption(
+            'headerCallback',
+            function(header) {
+                if ((!angular.isDefined($scope.headerCompiled))
+                    || $scope.headerCompiled) {
+                    $scope.headerCompiled = true;
+                    $compile(angular.element(header).contents())
+                    ($scope);
+                }
+            }).withOption("select", {
+            style : 'multi',
+            selector : 'td:first-child'
+        });
+
+    $scope.dtInstance = {}
+
+
+    $scope.dtColumns = [];
+    $scope.dtColumns=zcBaseColsCreate(DTColumnBuilder,'withoutselect');
+
+
+    function flush(){
+        $http.post($rootScope.project + "/api/zc/resInventory/ext/queryInventoryRes.do",
+            item).success(function(res) {
+            if (res.success) {
+                $scope.dtOptions.aaData = res.data;
+            }else{
+                notify({
+                    message : res.message
+                });
+            }
+
+        })
+    }
+    flush();
+
+
+    $scope.cancel = function() {
+        $uibModalInstance.dismiss('cancel');
+    };
+
+}
+
+
+function zcinventoryUserSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
+                                $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
+                                DTColumnBuilder, $compile) {
+
+
+    $scope.pduserOpt=meta.dict.partusers;
+    $scope.pduserSel=[];
+    var tmparr=[]
+    var curusers=angular.fromJson(decodeURIComponent(meta.pduserdata));
+    if(meta.pduserdata.length>0){
+        for(var i=0;i< $scope.pduserOpt.length;i++) {
+            for (var j = 0; j < curusers.length; j++) {
+                if ($scope.pduserOpt[i].user_id == curusers[j].user_id) {
+                    tmparr.push($scope.pduserOpt[i]);
+                }
+            }
+        }
+    }
+    $scope.pduserSel=tmparr;
+
+
+    $scope.cancel = function() {
+        $uibModalInstance.dismiss('cancel');
+    };
+
+    $scope.sure = function() {
+        //分配盘点人员
+        $scope.item={};
+        $scope.item.id=meta.id;
+        if(angular.isDefined($scope.pduserSel)&&$scope.pduserSel.length>0){
+            var tstr="";
+            for(var i=0;i<$scope.pduserSel.length;i++){
+                tstr=tstr+$scope.pduserSel[i].name+" ";
+            }
+            $scope.item.pduserdata=angular.toJson($scope.pduserSel);
+            $scope.item.pduserlist=tstr;
+        }else{
+            notify({
+                message :"请选择分配盘点人员"
+            });
+            return;
+        }
+
+        $http.post($rootScope.project + "/api/zc/resInventory/ext/assignusers.do",
+            $scope.item).success(function(res) {
+            if (res.success) {
+                $uibModalInstance.close('ok');
+            }
+            notify({
+                message : res.message
+            });
+        })
+
+
+
+    }
+}
+
+
+
+
 function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                           $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                           DTColumnBuilder, $compile) {
@@ -24,6 +147,9 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     if( $scope.adminuserOpt.length>0){
         $scope.adminuserSel=$scope.adminuserOpt[0];
     }
+
+    $scope.pdOpt=[{id:"1",name:"支持"},{id:"0",name:"不支持"}]
+    $scope.pdSel=$scope.pdOpt[0];
 
     $scope.pduserOpt=meta.dict.partusers;
     $scope.pduserSel=[];
@@ -52,6 +178,7 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     };
 
     $scope.sure = function() {
+
         if(angular.isDefined($scope.adminuserSel)&&angular.isDefined($scope.adminuserSel.user_id)){
             $scope.item.adminuserid=$scope.adminuserSel.user_id;
             $scope.item.adminusername=$scope.adminuserSel.name;
@@ -76,6 +203,18 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
             return;
         }
 
+        if(angular.isUndefined($scope.item.status)){
+            $scope.item.status="start";
+        }
+
+        if(angular.isUndefined($scope.item.syncstatus)){
+            $scope.item.syncstatus="0";
+        }
+
+        if(angular.isUndefined($scope.item.batchid)){
+            $scope.item.batchid= GetDateNowId();
+        }
+
 
         if(angular.isDefined($scope.zcAreaSel)&&$scope.zcAreaSel.length>0){
             var tstr1="";
@@ -89,10 +228,10 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
             $scope.item.areaname=tstr2;
         }
 
-       if(angular.isDefined($scope.belongcompSel)&& angular.isDefined($scope.belongcompSel.id)){
-           $scope.item.belongcomp=$scope.belongcompSel.id;
-           $scope.item.belongcompname=$scope.belongcompSel.name;
-       }
+        if(angular.isDefined($scope.belongcompSel)&& angular.isDefined($scope.belongcompSel.id)){
+            $scope.item.belongcomp=$scope.belongcompSel.id;
+            $scope.item.belongcompname=$scope.belongcompSel.name;
+        }
 
         if(angular.isDefined($scope.compSel)&& angular.isDefined($scope.compSel.id)){
             $scope.item.usedcomp=$scope.compSel.id;
@@ -122,20 +261,8 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
             $scope.item.rescat=tstr1;
             $scope.item.rescatname=tstr2;
         }
-        if(angular.isUndefined($scope.item.status)){
-            $scope.item.status="start";
-        }
 
-        if(angular.isUndefined($scope.item.syncstatus)){
-            $scope.item.syncstatus="0";
-        }
-
-        if(angular.isUndefined($scope.item.batchid)){
-            $scope.item.batchid= GetDateNowId();
-        }
-
-
-        $scope.item.manualinventory=1;
+        $scope.item.manualinventory=$scope.pdSel.id;
         $scope.item.allusersinventory=0;
 
         $http.post($rootScope.project + "/api/zc/resInventory/ext/insertOrUpdate.do",
@@ -148,9 +275,82 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
             });
         })
     }
+
+
+
+
+    $scope.review=function(){
+        if(angular.isDefined($scope.zcAreaSel)&&$scope.zcAreaSel.length>0){
+            var tstr1="";
+            var tstr2="";
+            for(var i=0;i<$scope.zcAreaSel.length;i++){
+                tstr1=tstr1+$scope.zcAreaSel[i].dict_item_id+" ";
+                tstr2=tstr2+$scope.zcAreaSel[i].name+" ";
+            }
+            $scope.item.areadata=angular.toJson($scope.zcAreaSel);
+            $scope.item.area=tstr1;
+            $scope.item.areaname=tstr2;
+        }
+
+        if(angular.isDefined($scope.belongcompSel)&& angular.isDefined($scope.belongcompSel.id)){
+            $scope.item.belongcomp=$scope.belongcompSel.id;
+            $scope.item.belongcompname=$scope.belongcompSel.name;
+        }
+
+        if(angular.isDefined($scope.compSel)&& angular.isDefined($scope.compSel.id)){
+            $scope.item.usedcomp=$scope.compSel.id;
+            $scope.item.usedcompname=$scope.compSel.name;
+        }
+
+        if(angular.isDefined($scope.comppartSel)&&$scope.comppartSel.length>0){
+            var tstr1="";
+            var tstr2="";
+            for(var i=0;i<$scope.comppartSel.length;i++){
+                tstr1=tstr1+$scope.comppartSel[i].partid+" ";
+                tstr2=tstr2+$scope.comppartSel[i].name+" ";
+            }
+            $scope.item.usedpartdata=angular.toJson($scope.comppartSel);
+            $scope.item.usedpart=tstr1;
+            $scope.item.usedpartname=tstr2;
+        }
+
+        if(angular.isDefined($scope.zcCatSel)&&$scope.zcCatSel.length>0){
+            var tstr1="";
+            var tstr2="";
+            for(var i=0;i<$scope.zcCatSel.length;i++){
+                tstr1=tstr1+$scope.zcCatSel[i].id+" ";
+                tstr2=tstr2+$scope.zcCatSel[i].name+" ";
+            }
+            $scope.item.rescatdata=angular.toJson($scope.zcCatSel);
+            $scope.item.rescat=tstr1;
+            $scope.item.rescatname=tstr2;
+        }
+
+
+        var modalInstance = $uibModal.open({
+            backdrop : true,
+            templateUrl : 'views/cmdb/modal_zcinventory_item.html',
+            controller : zcinventoryResCtl,
+            size : 'blg',
+            resolve : {
+                meta : function() {
+                    return  $scope.item;
+                }
+            }
+        });
+        modalInstance.result.then(function(result) {
+        }, function(reason) {
+            $log.log("reason", reason)
+        });
+
+
+
+
+
+    }
 }
 
-function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,$window,
                             $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
 
     var gdict={};
@@ -259,8 +459,7 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }
         acthtml = acthtml + " <button  "+tstr+" ng-click=\"assignusers('"
             + full.id
-            + "')\" class=\"btn-white btn btn-xs\">分配用户</button>   ";
-
+            + "','"+encodeURIComponent(full.pduserdata)+"')\" class=\"btn-white btn btn-xs\">分配用户</button>   ";
 
         var tstr2="";
         if(full.status=='finish' && full.syncstatus!='1'){
@@ -277,15 +476,29 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }else{
             tstr3=" disabled=\"disabled\"";
         }
-        acthtml = acthtml + " <button "+ tstr3+"ng-click=\"cancel('"
+
+        var tstr4="";
+        if(full.manualinventory=='1'){
+        }else{
+            tstr4=" disabled=\"disabled\"";
+        }
+
+        acthtml = acthtml + " <button "+tstr4+" ng-click=\"inventory('"
             + full.id
-            + "')\" class=\"btn-white btn btn-xs\">取消</button>   ";
+            + "')\" class=\"btn-white btn btn-xs\">手工盘点</button>   ";
 
 
         acthtml = acthtml + " <button ng-click=\"detail('"
             + full.id
             + "')\" class=\"btn-white btn btn-xs\">详情</button>   ";
+
+        acthtml = acthtml + " <button "+ tstr3+"ng-click=\"cancel('"
+            + full.id
+            + "')\" class=\"btn-white btn btn-xs\">取消</button>   ";
+
         acthtml = acthtml + "</div>"
+
+
         return acthtml;
     }
     function renderDataStatus(data, type, full) {
@@ -298,6 +511,17 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }
     }
 
+    function renderManualinventory(data, type, full) {
+        if(data=="1"){
+            return "支持"
+        }else if(data=="0"){
+            return "不支持"
+        }else{
+            return data;
+        }
+    }
+
+
 
 
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
@@ -306,10 +530,12 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'select-checkbox checkbox_center').renderWith(function() {
             return ""
         }),
-        DTColumnBuilder.newColumn('batchid').withTitle('批次号').withOption(
+        DTColumnBuilder.newColumn('batchid').withTitle('盘点单号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('adminusername').withTitle('负责人').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('manualinventory').withTitle('手工盘点').withOption(
+            'sDefaultContent', '').renderWith(renderManualinventory),
         DTColumnBuilder.newColumn('status').withTitle('盘点状态').withOption(
             'sDefaultContent', '').renderWith(renderStatus),
         DTColumnBuilder.newColumn('syncstatus').withTitle('数据同步').withOption(
@@ -326,7 +552,7 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', '').renderWith(renderDownload),
         DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
             'sDefaultContent', '').withOption(
-            'width', '200px').renderWith(renderAction)
+            'width', '250px').renderWith(renderAction)
 
     ]
 
@@ -421,7 +647,7 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             backdrop : true,
             templateUrl : 'views/cmdb/modal_zcinventory.html',
             controller : zcinventorySaveCtl,
-            size : 'lg',
+            size : 'blg',
             resolve : {
                 meta : function() {
                     return meta;
@@ -449,7 +675,7 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 function() {
                     $http.post(
                         $rootScope.project
-                        + "/api/zc/resRepair/ext/deleteById.do", {
+                        + "/api/zc/resInventory/ext/deleteById.do", {
                             id :selrow.id
                         }).success(function(res) {
                         if (res.success) {
@@ -468,17 +694,58 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
     }
 
-    $scope.assignusers=function(){
-        alert('开发中')
+    $scope.assignusers=function(id,pduserdata){
+        var meta={};
+        meta.id=id;
+        meta.dict=gdict;
+        meta.pduserdata=pduserdata;
+        var modalInstance = $uibModal.open({
+            backdrop : true,
+            templateUrl : 'views/cmdb/modal_zcinventory_user.html',
+            controller : zcinventoryUserSaveCtl,
+            size : 'lg',
+            resolve : {
+                meta : function() {
+                    return meta;
+                }
+            }
+        });
+        modalInstance.result.then(function(result) {
+            flush();
+        }, function(reason) {
+            $log.log("reason", reason)
+        });
     }
 
 
-    $scope.download=function(){
-alert('开发中')
+    $scope.download=function(id){
+        $window.open($rootScope.project
+            + "/api/zc/resInventory/ext/downloadInventoryRes.do?id=" +id);
     }
 
-    $scope.cancel=function(){
-        alert('开发中')
+    $scope.inventory=function(){
+
+
+    }
+
+    $scope.cancel=function(id){
+
+        $confirm({
+            text : '是否取消?'
+        }).then(
+            function() {
+                $http.post($rootScope.project + "/api/zc/resInventory/ext/cancel.do",
+                    {id:id}).success(function(res) {
+                    if (res.success) {
+                        flush()
+                    }
+                    notify({
+                        message : res.message
+                    });
+                })
+            });
+
+
     }
 
 
