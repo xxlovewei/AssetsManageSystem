@@ -577,9 +577,9 @@ public class ResInventoryExtController extends BaseController {
 
 		TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 		String sql="select "+ZcCommonService.resSqlbody ;
-		sql=sql+" case when t.pdstatus = '"+ResInventoryService.INVENTORY_ITEM_STATAUS_WAIT+"' then '待盘点' when t.pdstatus = '"+ResInventoryService.INVENTORY_ITEM_STATAUS_WAIT+"' then '已盘点'  else '未知' end pdstatusstr ,";
+		sql=sql+" case when t.pdstatus = '"+ResInventoryService.INVENTORY_ITEM_STATAUS_WAIT+"' then '待盘点' when t.pdstatus = '"+ResInventoryService.INVENTORY_STATAUS_FINISH+"' then '已盘点'  else '未知' end pdstatusstr ,";
 		sql=sql+" case when t.pdsyncneed = '"+ResInventoryService.INVENTORY_ITEM_ACTION_SYNC+"' then '更新' when t.pdsyncneed = '"+ResInventoryService.INVENTORY_ITEM_ACTION_NOSYNC+"' then '不更新'  else '未知' end pdsyncneedstr ,";
-		sql=sql+" t.* from res_inventory_item t where dr='0' and pdid=?";
+		sql=sql+" t.* from res_inventory_item t where dr='0' and pdid=? order by t.pdstatus desc";
 		JSONArray data = ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql,ps.getString("id")).toJsonArrayWithJsonObject());
 		List<ResInventoryEntity> data_excel = new ArrayList<ResInventoryEntity>();
 		for (int i = 0; i < data.size(); i++) {
