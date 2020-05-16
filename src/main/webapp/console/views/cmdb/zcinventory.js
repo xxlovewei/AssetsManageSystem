@@ -11,8 +11,123 @@ function GetDateNowId()
     sNow += String(vNow.getMilliseconds());
    return sNow;
 }
+function modalimportdataFailCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+                                $confirm, $log, notify, $scope, meta, $http, $rootScope, $uibModal,
+                                $uibModalInstance) {
+
+    $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
+        'bAutoWidth', false).withOption('createdRow', function(row) {
+        // Recompiling so we can bind Angular,directive to the
+        $compile(angular.element(row).contents())($scope);
+    });
+    $scope.dtInstance = {}
+
+    $scope.cancel = function() {
+        $uibModalInstance.dismiss('cancel');
+    };
+
+    $scope.dtColumns = [ DTColumnBuilder.newColumn('ct').withTitle('失败列表')
+        .withOption('sDefaultContent', '') ]
+
+    if(angular.isDefined(meta.failed_data)){
+        $scope.dtOptions.aaData = meta.failed_data;
+    }
 
 
+}
+
+
+function zcinventoryPdCtl($timeout, $localStorage, notify, $log, $uibModal,
+                           $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
+                           DTColumnBuilder, $compile) {
+    $scope.dzconfig = {
+        url : 'fileupload.do',
+        maxFilesize : 10000,
+        paramName : "file",
+        maxThumbnailFilesize : 2,
+        // 一个请求上传多个文件
+        uploadMultiple : true,
+        // 当多文件上传,需要设置parallelUploads>=maxFiles
+        parallelUploads : 1,
+        maxFiles : 1,
+        dictDefaultMessage : "点击上传需要上传的文件",
+        acceptedFiles : ".xlsx,.xls",
+        // 添加上传取消和删除预览图片的链接，默认不添加
+        addRemoveLinks : true,
+        // 关闭自动上传功能，默认会true会自动上传
+        // 也就是添加一张图片向服务器发送一次请求
+        autoProcessQueue : false,
+        init : function() {
+            $scope.myDropzone = this; // closure
+        }
+    };
+
+    $scope.cancel = function() {
+        $uibModalInstance.dismiss('cancel');
+    };
+
+    $scope.sure = function() {
+
+
+        $scope.okbtnstatus = true;
+        var id = getUuid();
+        if ($scope.myDropzone.files.length > 0) {
+            $scope.myDropzone.options.url = $rootScope.project
+                + '/api/file/fileupload.do?uuid=' + id
+                + '&bus=file&interval=10000&bus=file';
+            $scope.myDropzone.uploadFile($scope.myDropzone.files[0])
+        } else {
+            notify({
+                message : "请选择文件"
+            });
+            $scope.okbtnstatus = false;
+            return ;
+        }
+        $timeout(function() {
+            $http.post($rootScope.project + "/api/zc/resInventory/ext/manualInventoryRes.do", {
+                fileid:id,
+                id : meta.id
+            }).success(function(res) {
+                $scope.okbtnstatus = false;
+                $scope.myDropzone.removeAllFiles(true);
+                if (res.success) {
+                    notify({
+                        message : "操作成功！"
+                    });
+                    $uibModalInstance.close('ok');
+                } else {
+                    if(angular.isDefined(res.data)){
+                        var modalInstance = $uibModal.open({
+                            backdrop : true,
+                            templateUrl : 'views/cmdb/modal_importFail.html',
+                            controller : modalimportdataFailCtl,
+                            size : 'blg',
+                            resolve : {
+                                meta : function() {
+                                    return res.data;
+                                }
+                            }
+                        });
+                        $scope.myDropzone.removeAllFiles(true);
+                        modalInstance.result.then(function(result) {
+                        }, function(reason) {
+                            $log.log("reason", reason)
+                        });
+                    }else{
+                        notify({
+                            message : res.message
+                        });
+                    }
+                }
+            })
+        }, 3000);
+
+
+
+    };
+
+
+                           }
 function zcinventoryResCtl($timeout, $localStorage, notify, $log, $uibModal,
                                 $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                                 DTColumnBuilder, $compile) {
@@ -427,13 +542,14 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,$window,
     }
 
     function renderStatus(data, type, full) {
+        console.log(data);
         if(data=="wait"){
             return "等待开始"
         }else if(data=="start"){
             return "进行中"
         }else if(data=="cancel"){
             return "取消"
-        }else if(data=="finsih "){
+        }else if(data=="finish"){
             return "完成"
         }else{
             return data;
@@ -548,11 +664,13 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,$window,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('createTime').withTitle('创建时间').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('finishtime').withTitle('结束时间').withOption(
+            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('id').withTitle('盘点资产').withOption(
             'sDefaultContent', '').renderWith(renderDownload),
         DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
             'sDefaultContent', '').withOption(
-            'width', '250px').renderWith(renderAction)
+            'width', '300px').renderWith(renderAction)
 
     ]
 
@@ -723,8 +841,26 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,$window,
             + "/api/zc/resInventory/ext/downloadInventoryRes.do?id=" +id);
     }
 
-    $scope.inventory=function(){
+    $scope.inventory=function(id){
 
+        var meta={};
+        meta.id=id;
+        var modalInstance = $uibModal.open({
+            backdrop : true,
+            templateUrl : 'views/cmdb/modal_zcinventory_pd.html',
+            controller : zcinventoryPdCtl,
+            size : 'lg',
+            resolve : {
+                meta : function() {
+                    return meta;
+                }
+            }
+        });
+        modalInstance.result.then(function(result) {
+            flush();
+        }, function(reason) {
+            $log.log("reason", reason)
+        });
 
     }
 
@@ -756,6 +892,23 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,$window,
         alert('开发中')
     }
 
+
+    $scope.syncdata=function(id){
+        $confirm({
+            text : '是否同步数据?'
+        }).then(
+            function() {
+                $http.post($rootScope.project + "/api/zc/resInventory/ext/syncdata.do",
+                    {id:id}).success(function(res) {
+                    if (res.success) {
+                        flush()
+                    }
+                    notify({
+                        message : res.message
+                    });
+                })
+            });
+    }
 
 
     $scope.add=function(){

@@ -49,7 +49,10 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -101,6 +104,66 @@ public class ResInventoryExtController extends BaseController {
 		return R.SUCCESS_OPER(res);
 	}
 
+
+	@ResponseBody
+	@Acl(info = "", value = Acl.ACL_USER)
+	@RequestMapping(value = "/syncdata.do")
+	public R syncdata(String id) {
+
+
+		ResInventory ri=ResInventoryServiceImpl.getById(id);
+		if(ri==null){
+			return R.FAILURE_NO_DATA();
+		}
+		if(!ResInventoryService.INVENTORY_STATAUS_FINISH.equals(ri.getStatus())){
+			return R.FAILURE("当前单据单状态错误,不能进行同步数据操作!");
+		}
+		if("1".equals(ri.getSyncstatus())){
+			return R.FAILURE("数据已同步,不需要重复操作.");
+		}
+
+		UpdateWrapper<ResInventory> uw = new UpdateWrapper<ResInventory>();
+		uw.set("syncstatus","1");
+		uw.eq("id", id);
+		ResInventoryServiceImpl.update(uw);
+		String sql1="update res a,res_inventory_item b\n" +
+				"set a.class_id=b.class_id,\n" +
+				"a.type=b.type,\n" +
+				"a.uuid=b.uuid,\n" +
+				"a.name=b.name,\n" +
+				"a.zcsource=b.zcsource,\n" +
+				"a.model=b.model,\n" +
+				"a.sn=b.sn,\n" +
+				"a.res_desc=b.res_desc,\n" +
+				"a.brand=b.brand,\n" +
+				"a.supplier=b.supplier,\n" +
+				"a.recycle=b.recycle,\n" +
+				"a.prerecycle=b.prerecycle,\n" +
+				"a.buy_time=b.buy_time,\n" +
+				"a.confdesc=b.confdesc,\n" +
+				"a.loc=b.loc,\n" +
+				"a.locdtl=b.locdtl,\n" +
+				"a.belong_company_id=b.belong_company_id,\n" +
+				"a.belong_part_id=b.belong_part_id,\n" +
+				"a.used_company_id=b.used_company_id,\n" +
+				"a.part_id=b.part_id,\n" +
+				"a.used_userid=b.used_userid,\n" +
+				"a.mgr_part_id=b.mgr_part_id,\n" +
+				"a.buy_price=b.buy_price,\n" +
+				"a.net_worth=b.net_worth,\n" +
+			//	"a.zc_cnt=b.zc_cnt,\n" +
+				"a.actionstatus=b.actionstatus,\n" +
+				"a.wb=b.wb,\n" +
+				"a.wb_auto=b.wb_auto,\n" +
+				"a.wbsupplier=b.wbsupplier,\n" +
+				"a.wbct=b.wbct,\n" +
+				"a.status=b.status,\n" +
+				"a.mark=b.mark\n" +
+				"where a.id=b.resid\n";
+		db.execute(sql1);
+		return R.SUCCESS_OPER();
+
+	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
@@ -456,11 +519,19 @@ public class ResInventoryExtController extends BaseController {
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_USER)
 	@RequestMapping(value = "/manualInventoryRes.do")
-	public R manualInventoryRes( String id, HttpServletRequest request, HttpServletResponse response)
+	public R manualInventoryRes( String fileid,String id, HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException {
-		SysFiles fileobj = SysFilesServiceImpl.getById(id);
+		SysFiles fileobj = SysFilesServiceImpl.getById(fileid);
 		String fileurl = fileobj.getPath();
 		String filePath = FileUpDownController.getWebRootDir() + ".." + File.separatorChar + fileurl;
+
+		ResInventory ri=ResInventoryServiceImpl.getById(id);
+		if(ri==null){
+			return R.FAILURE_NO_DATA();
+		}
+		if(!ResInventoryService.INVENTORY_STATAUS_WAIT.equals(ri.getStatus())){
+			return R.FAILURE("当前单据单状态错误,不能进行盘点操作!");
+		}
 
 		R r = R.SUCCESS_OPER();
 		try {
@@ -469,21 +540,29 @@ public class ResInventoryExtController extends BaseController {
 			params.setTitleRows(0);
 			params.setStartSheetIndex(0);
 			List<ResInventoryEntity> result = ExcelImportUtil.importExcel(new File(filePath), ResInventoryEntity.class, params);
+			if(result.size()>0)
+			{
+				if(!result.get(0).getPdbatchid().equals(ri.getBatchid())){
+					return R.FAILURE("导入的盘点单据错误!");
+				}
+			}
 			r = resInventoryImportService.executeEntitysImport(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return R.FAILURE("导入数据异常");
 		}
 		//处理状态
-		if("0".equals(db.uniqueRecord("select count(1) cnt from res_inventory_item where dr='0' and pdstatus<>'finish' and pdid=?",id).getString("cnt"))){
+		if("0".equals(db.uniqueRecord("select count(1) cnt from res_inventory_item where dr='0' and pdstatus<>'"+ResInventoryService.INVENTORY_STATAUS_FINISH+"' and pdid=?",id).getString("cnt"))){
 			//更新状态
+			Date date = new Date(); // 获取一个Date对象
+			DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+			String nowtime = simpleDateFormat.format(date);
 			UpdateWrapper<ResInventory> uw = new UpdateWrapper<ResInventory>();
-			uw.set("stats",ResInventoryService.INVENTORY_STATAUS_FINISH);
+			uw.set("status",ResInventoryService.INVENTORY_STATAUS_FINISH);
+			uw.set("finishtime",nowtime);
 			uw.eq("id", id);
 			ResInventoryServiceImpl.update(uw);
 		}
-
-
 		return r;
 
 	}

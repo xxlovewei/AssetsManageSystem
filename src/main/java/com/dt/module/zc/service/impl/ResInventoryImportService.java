@@ -192,17 +192,17 @@ public class ResInventoryImportService extends BaseService {
         }
 
 
-        String pdstatus="wait";
+        String pdstatus=ResInventoryService.INVENTORY_ITEM_STATAUS_WAIT;
         if("已盘点".equals(re.getPdstatusstr())){
-            pdstatus="finish";
+            pdstatus=ResInventoryService.INVENTORY_ITEM_STATAUS_FINISH;
         }
 
-        String pdsyncneed="0";
+        String pdsyncneed=ResInventoryService.INVENTORY_ITEM_ACTION_NOSYNC;
         if("更新".equals(re.getPdsyncneedstr())){
-            pdsyncneed="1";
+            pdsyncneed=ResInventoryService.INVENTORY_ITEM_ACTION_SYNC;
         }
 
-        Update me = new Update("res");
+        Update me = new Update("res_inventory_item");
         me.set("importlabel", importlabel);
         me.setIf("update_time", nowtime);
         me.setIf("update_by", this.getUserId());
@@ -234,8 +234,8 @@ public class ResInventoryImportService extends BaseService {
         me.setIf("used_company_id", compR.queryDataToJSONObject().getString("node_id"));
         me.setIf("part_id", partR.queryDataToJSONObject().getString("node_id"));
 
-            me.where().and("uuid=?", re.getUuid()).and("pdbatchid=?",re.getPdbatchid());
-            sql = me.getSQL();
+        me.where().and("uuid=?", re.getUuid()).andIf("pdbatchid=?",re.getPdbatchid());
+        sql = me.getSQL();
 
         return R.SUCCESS_OPER(sql);
     }
