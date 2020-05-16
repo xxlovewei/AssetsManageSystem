@@ -21,7 +21,7 @@
 					<label class="col-sm-2 control-label"><span
 							class="text-danger">*</span>名称:</label>
 					<div class="col-sm-10">
-						<input type="text" required ng-maxlength="100"
+						<input type="text" required ng-maxlength="100" ng-disabled="ctl.name"
 							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
 							   placeholder="请输入名称" name="name" ng-model="item.name">
 						<div class="text-danger"
@@ -35,7 +35,7 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">负责人:</label>
 					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
+						<select chosen disable-search="true" class="chosen-select" ng-disabled="ctl.adminuserSel"
 								no-results-text="'没有找到相应条目'" ng-model="adminuserSel"
 								data-placeholder-text-single="'请选择...'"
 								ng-options="item.name for item in adminuserOpt">
@@ -48,7 +48,7 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">分配用户:</label>
 					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select" multiple
+						<select chosen disable-search="true" class="chosen-select" multiple ng-disabled="ctl.pduserSel"
 								no-results-text="'没有找到相应条目'" ng-model="pduserSel"
 								data-placeholder-text-multiple="'请选择...'"
 								data-placeholder-text-single="'请选择...'"
@@ -62,7 +62,7 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">手工盘点:</label>
 					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
+						<select chosen disable-search="true" class="chosen-select"  ng-disabled="ctl.pdSel"
 								no-results-text="'没有找到相应条目'" ng-model="pdSel"
 								data-placeholder-text-multiple="'请选择...'"
 								data-placeholder-text-single="'请选择...'"
@@ -76,7 +76,7 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">备注:</label>
 					<div class="col-sm-10">
-						<input type="text"
+						<input type="text" ng-disabled="ctl.mark"
 							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
 							   placeholder="请输入内容" name="mark" ng-model="item.mark">
 					</div>
@@ -87,7 +87,7 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">所属公司:</label>
 					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
+						<select chosen disable-search="true" class="chosen-select" ng-disabled="ctl.belongcompSel"
 								no-results-text="'没有找到相应条目'" ng-model="belongcompSel"
 								data-placeholder-text-single="'请选择...'"
 								ng-options="item.name for item in belongcompOpt">
@@ -99,7 +99,7 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">使用公司:</label>
 					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
+						<select chosen disable-search="true" class="chosen-select" ng-disabled="ctl.compSel"
 								no-results-text="'没有找到相应条目'" ng-model="compSel"
 								data-placeholder-text-single="'请选择...'"
 								ng-options="item.name for item in compOpt">
@@ -113,7 +113,7 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">使用部门:</label>
 					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select" multiple
+						<select chosen disable-search="true" class="chosen-select" multiple ng-disabled="ctl.comppartSel"
 								no-results-text="'没有找到相应条目'" ng-model="comppartSel"
 								data-placeholder-text-multiple="'请选择...'"
 								data-placeholder-text-single="'请选择...'"
@@ -127,7 +127,7 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">资产类型:</label>
 					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select" multiple
+						<select chosen disable-search="true" class="chosen-select" multiple ng-disabled="ctl.zcCatSel"
 								no-results-text="'没有找到相应条目'" ng-model="zcCatSel"
 								data-placeholder-text-single="'请选择...'"
 								data-placeholder-text-multiple="'请选择...'"
@@ -140,7 +140,7 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">资产区域:</label>
 					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select" multiple
+						<select chosen disable-search="true" class="chosen-select" multiple ng-disabled="ctl.zcAreaSel"
 								no-results-text="'没有找到相应条目'" ng-model="zcAreaSel"
 								data-placeholder-text-single="'请选择...'"
 								data-placeholder-text-multiple="'请选择...'"

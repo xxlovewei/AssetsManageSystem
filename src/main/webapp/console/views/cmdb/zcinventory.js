@@ -131,6 +131,8 @@ function zcinventoryPdCtl($timeout, $localStorage, notify, $log, $uibModal,
 function zcinventoryResCtl($timeout, $localStorage, notify, $log, $uibModal,
                                 $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                                 DTColumnBuilder, $compile) {
+    console.log(meta);
+
 
     var item=meta;
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
@@ -166,7 +168,6 @@ function zcinventoryResCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.dtColumns = [];
     $scope.dtColumns=zcBaseColsCreate(DTColumnBuilder,'withoutselect');
 
-
     function flush(){
         $http.post($rootScope.project + "/api/zc/resInventory/ext/queryInventoryRes.do",
             item).success(function(res) {
@@ -180,8 +181,46 @@ function zcinventoryResCtl($timeout, $localStorage, notify, $log, $uibModal,
 
         })
     }
-    flush();
 
+    function renderPdStatus(data, type, full) {
+        if(data=="wait"){
+            return "待盘点"
+        }else if(data=="finish"){
+            return "已盘点"
+        }else{
+            return data;
+        }
+    }
+
+    function renderPdSync(data, type, full) {
+        if(data=="1"){
+            return "更新"
+        }else if(data=="0"){
+            return "不更新"
+        }else{
+            return data;
+        }
+    }
+
+    if(angular.isDefined(meta.id)){
+        //获取数据
+        $scope.dtColumns.push(DTColumnBuilder.newColumn('pdstatus').withTitle('盘点状态').withOption(
+            'sDefaultContent', '').withOption("width", '30').renderWith(renderPdStatus));
+        $scope.dtColumns.push(DTColumnBuilder.newColumn('pdsyncneed').withTitle('数据更新').withOption(
+            'sDefaultContent', '').withOption("width", '30').renderWith(renderPdSync));
+        $http.post($rootScope.project + "/api/zc/resInventory/ext/selectById.do",
+            item).success(function(res) {
+            if (res.success) {
+                $scope.dtOptions.aaData = res.data.items;
+            }else{
+                notify({
+                    message : res.message
+                });
+            }
+        })
+    }else{
+        flush();
+    }
 
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
@@ -193,6 +232,8 @@ function zcinventoryResCtl($timeout, $localStorage, notify, $log, $uibModal,
 function zcinventoryUserSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                                 $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                                 DTColumnBuilder, $compile) {
+
+
 
 
     $scope.pduserOpt=meta.dict.partusers;
@@ -254,6 +295,30 @@ function zcinventoryUserSaveCtl($timeout, $localStorage, notify, $log, $uibModal
 function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                           $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                           DTColumnBuilder, $compile) {
+
+    $scope.ctl={};
+    $scope.ctl.name=false;
+    $scope.ctl.adminuserSel=false;
+    $scope.ctl.pduserSel=false;
+    $scope.ctl.pdSel=false;
+    $scope.ctl.mark=false;
+    $scope.ctl.belongcompSel=false;
+    $scope.ctl.compSel=false;
+    $scope.ctl.comppartSel=false;
+    $scope.ctl.zcCatSel=false;
+    $scope.ctl.zcAreaSel=false;
+    if(meta.type=="detail"){
+        $scope.ctl.name=true;
+        $scope.ctl.adminuserSel=true;
+        $scope.ctl.pduserSel=true;
+        $scope.ctl.pdSel=true;
+        $scope.ctl.mark=true;
+        $scope.ctl.belongcompSel=true;
+        $scope.ctl.compSel=true;
+        $scope.ctl.comppartSel=true;
+        $scope.ctl.zcCatSel=true;
+        $scope.ctl.zcAreaSel=true;
+    }
 
 
     $scope.item={};
@@ -395,6 +460,7 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 
 
     $scope.review=function(){
+        var item={};
         if(angular.isDefined($scope.zcAreaSel)&&$scope.zcAreaSel.length>0){
             var tstr1="";
             var tstr2="";
@@ -402,19 +468,19 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                 tstr1=tstr1+$scope.zcAreaSel[i].dict_item_id+" ";
                 tstr2=tstr2+$scope.zcAreaSel[i].name+" ";
             }
-            $scope.item.areadata=angular.toJson($scope.zcAreaSel);
-            $scope.item.area=tstr1;
-            $scope.item.areaname=tstr2;
+            item.areadata=angular.toJson($scope.zcAreaSel);
+            item.area=tstr1;
+            item.areaname=tstr2;
         }
 
         if(angular.isDefined($scope.belongcompSel)&& angular.isDefined($scope.belongcompSel.id)){
-            $scope.item.belongcomp=$scope.belongcompSel.id;
-            $scope.item.belongcompname=$scope.belongcompSel.name;
+            item.belongcomp=$scope.belongcompSel.id;
+            item.belongcompname=$scope.belongcompSel.name;
         }
 
         if(angular.isDefined($scope.compSel)&& angular.isDefined($scope.compSel.id)){
-            $scope.item.usedcomp=$scope.compSel.id;
-            $scope.item.usedcompname=$scope.compSel.name;
+            item.usedcomp=$scope.compSel.id;
+            item.usedcompname=$scope.compSel.name;
         }
 
         if(angular.isDefined($scope.comppartSel)&&$scope.comppartSel.length>0){
@@ -424,9 +490,9 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                 tstr1=tstr1+$scope.comppartSel[i].partid+" ";
                 tstr2=tstr2+$scope.comppartSel[i].name+" ";
             }
-            $scope.item.usedpartdata=angular.toJson($scope.comppartSel);
-            $scope.item.usedpart=tstr1;
-            $scope.item.usedpartname=tstr2;
+            item.usedpartdata=angular.toJson($scope.comppartSel);
+            item.usedpart=tstr1;
+            item.usedpartname=tstr2;
         }
 
         if(angular.isDefined($scope.zcCatSel)&&$scope.zcCatSel.length>0){
@@ -436,12 +502,13 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                 tstr1=tstr1+$scope.zcCatSel[i].id+" ";
                 tstr2=tstr2+$scope.zcCatSel[i].name+" ";
             }
-            $scope.item.rescatdata=angular.toJson($scope.zcCatSel);
-            $scope.item.rescat=tstr1;
-            $scope.item.rescatname=tstr2;
+            item.rescatdata=angular.toJson($scope.zcCatSel);
+            item.rescat=tstr1;
+            item.rescatname=tstr2;
         }
 
-
+        item.type=meta.type;
+        item.id=meta.id;
         var modalInstance = $uibModal.open({
             backdrop : true,
             templateUrl : 'views/cmdb/modal_zcinventory_item.html',
@@ -449,7 +516,7 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
             size : 'blg',
             resolve : {
                 meta : function() {
-                    return  $scope.item;
+                    return  item;
                 }
             }
         });
@@ -757,10 +824,20 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,$window,
         }
     }
 
-    function action(id) {
+
+    $scope.detail = function(id) {
+
+        action(id,"detail");
+
+    }
+
+
+
+    function action(id,type) {
         var meta={};
         meta.id=id;
         meta.dict=gdict;
+        meta.type=type;
         var modalInstance = $uibModal.open({
             backdrop : true,
             templateUrl : 'views/cmdb/modal_zcinventory.html',
@@ -780,9 +857,6 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,$window,
 
     }
 
-    $scope.finish=function(){
-
-    }
     $scope.del = function() {
 
         var selrow = getSelectRow();
@@ -885,12 +959,6 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,$window,
     }
 
 
-
-
-
-    $scope.detail = function() {var selrow = getSelectRow();
-        alert('开发中')
-    }
 
 
     $scope.syncdata=function(id){
