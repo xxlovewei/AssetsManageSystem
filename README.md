@@ -78,10 +78,11 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124530_b7e7847b_448530.jpeg "4.jpg")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124540_62166efa_448530.jpeg "5.jpg")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1205/213815_ad2975a7_448530.png "lc.png")
-## 后期开发计划--5月底
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0516/232716_3e17d9e9_448530.png "yd.png")
+## 后期开发计划
 - 添加资产自定义属性功能,该功能开发延期(视情况而定)
 - 添加工单功能
 - 优化打印标签
-- 完成资产盘点开发
 
-## 后期开发计划--开发简易的ITSM相关功能
+
+ 
