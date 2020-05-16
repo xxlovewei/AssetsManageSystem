@@ -7,18 +7,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.cmdb.entity.Res;
 import com.dt.module.zc.entity.ResAllocate;
 import com.dt.module.zc.entity.ResAllocateItem;
-import com.dt.module.zc.entity.ResRepair;
-import com.dt.module.zc.entity.ResRepairItem;
 import com.dt.module.zc.service.IResAllocateItemService;
 import com.dt.module.zc.service.IResAllocateService;
 import com.dt.module.zc.service.impl.ResAllocateExtService;
@@ -81,7 +75,7 @@ public class ResAllocateExtController extends BaseController {
 			ups.set("status","finish");
 			ups.and(i -> i.eq("id", obj.getId()));
 			ResAllocateServiceImpl.update(ups);
-			return zcChangeService.ZcDBSureChange(obj.getUuid());
+			return zcChangeService.zcDBSureChange(obj.getUuid());
 		}else{
 			return R.FAILURE("当前状态不允许确认");
 		}
@@ -101,7 +95,7 @@ public class ResAllocateExtController extends BaseController {
 			ups.set("status","cancel");
 			ups.and(i -> i.eq("id", obj.getId()));
 			ResAllocateServiceImpl.update(ups);
-			return zcChangeService.ZcDBCancelChange(obj.getUuid());
+			return zcChangeService.zcDBCancelChange(obj.getUuid());
 		}
 	}
 
@@ -144,7 +138,7 @@ public class ResAllocateExtController extends BaseController {
 				cols.add(e);
 			}
 			ResAllocateItemServiceImpl.saveBatch(cols);
-			zcChangeService.ZcDBChange(uuid);
+			zcChangeService.zcDBChange(uuid);
 		}
 		return R.SUCCESS_OPER();
 	}

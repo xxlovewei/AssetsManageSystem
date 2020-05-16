@@ -229,7 +229,7 @@ public class ZcProcessFlowController extends BaseController {
         QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
         qw.eq("busid", tsk.getBusinessId());
         SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
-        zcChangeService.ZcSureChange(tsk.getBusinessId(),sd.getBustype());
+        zcChangeService.zcSureChange(tsk.getBusinessId(),sd.getBustype());
         return r;
     }
 

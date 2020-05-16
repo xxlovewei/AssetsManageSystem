@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.flow.entity.SysProcessDef;
@@ -133,7 +132,7 @@ public class ZcController extends BaseController {
         String busstatus=obj.getBusstatus();
         String pstatus=obj.getPstatus();
         if(SysUfloProcessService.P_STATUS_FINISH.equals(pstatus)&&"out".equals(busstatus)){
-            return zcChangeService.ZcGhChange(obj.getBusid());
+            return zcChangeService.zcGhChange(obj.getBusid());
         }
         else{
             return R.FAILURE("当前状态不允许归还!");
@@ -149,7 +148,7 @@ public class ZcController extends BaseController {
         String busstatus=obj.getBusstatus();
         String pstatus=obj.getPstatus();
         if(SysUfloProcessService.P_STATUS_FINISH.equals(pstatus)&&"out".equals(busstatus)){
-            return zcChangeService.ZcTkSureChange(obj.getBusid());
+            return zcChangeService.zcTkSureChange(obj.getBusid());
         }
         else{
             return R.FAILURE("当前状态不允许退款!");
@@ -229,7 +228,7 @@ public class ZcController extends BaseController {
             entity.setPstatusdtl(SysUfloProcessService.P_DTL_STATUS_SUCCESS);
             entity.setBusstatus("out");
             //变更资产数据状态
-            zcChangeService.ZcSureChange(uuid,entity.getBustype());
+            zcChangeService.zcSureChange(uuid,entity.getBustype());
 
         }else{
             //需要送审
