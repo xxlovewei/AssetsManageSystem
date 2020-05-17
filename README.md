@@ -80,10 +80,7 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1205/213815_ad2975a7_448530.png "lc.png")
  
 ## 移动端
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0517/101739_544dd3cf_448530.jpeg "WechatIMG155.jpeg")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0517/100346_35a0d8d0_448530.jpeg "WechatIMG153.jpeg")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0517/100355_9b78a631_448530.jpeg "WechatIMG152.jpeg")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0517/100407_cc4f1a17_448530.jpeg "WechatIMG151.jpeg")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0517/102238_f51306f9_448530.png "WechatIMG156.png")
 
 ## 后期开发计划
 - 添加资产自定义属性功能,该功能开发延期(视情况而定)

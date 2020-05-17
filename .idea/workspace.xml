@@ -451,14 +451,7 @@
       <workItem from="1589642772662" duration="166000" />
       <workItem from="1589678247556" duration="51000" />
       <workItem from="1589680148652" duration="23000" />
-      <workItem from="1589681095238" duration="645000" />
-    </task>
-    <task id="LOCAL-00030" summary="常规更新">
-      <created>1587302097022</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1587302097022</updated>
+      <workItem from="1589681095238" duration="924000" />
     </task>
     <task id="LOCAL-00031" summary="常规更新">
       <created>1587308174787</created>
@@ -796,7 +789,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589642926827</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="常规更新ok">
+      <created>1589681920038</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1589681920039</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -932,7 +932,7 @@
     </state>
     <state x="347" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/38.23.1242.777@38.23.1242.777" timestamp="1586053580477" />
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1589272592550" />
-    <state x="176" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1589642926376">
+    <state x="176" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1589681919437">
       <screen x="43" y="23" width="1237" height="777" />
     </state>
     <state x="220" y="23" width="833" height="777" key="CommitChangelistDialog2/34.23.1246.777@34.23.1246.777" timestamp="1587902297321" />
@@ -943,7 +943,7 @@
     <state x="39" y="23" width="924" height="777" key="CommitChangelistDialog2/39.23.1241.777@39.23.1241.777" timestamp="1587472647958" />
     <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1589272925634" />
     <state x="174" y="37" width="833" height="617" key="CommitChangelistDialog2/41.23.1239.777@41.23.1239.777" timestamp="1589423259184" />
-    <state x="176" y="23" width="833" height="777" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1589642926376" />
+    <state x="176" y="23" width="833" height="777" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1589681919437" />
     <state width="434" height="466" key="DebuggerActiveHint" timestamp="1587718161099">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
@@ -1180,7 +1180,7 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="510" y="287" key="VCS.EditChangelistDialog/38.23.1242.777@38.23.1242.777" timestamp="1586054753811" />
-    <state x="276" y="131" key="Vcs.Push.Dialog.v2" timestamp="1589642934652">
+    <state x="276" y="131" key="Vcs.Push.Dialog.v2" timestamp="1589681930749">
       <screen x="43" y="23" width="1237" height="777" />
     </state>
     <state x="267" y="131" key="Vcs.Push.Dialog.v2/34.23.1246.777@34.23.1246.777" timestamp="1587902309411" />
@@ -1191,7 +1191,7 @@
     <state x="272" y="131" key="Vcs.Push.Dialog.v2/39.23.1241.777@39.23.1241.777" timestamp="1587472654530" />
     <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1589237562784" />
     <state x="274" y="131" key="Vcs.Push.Dialog.v2/41.23.1239.777@41.23.1239.777" timestamp="1589423277592" />
-    <state x="276" y="131" key="Vcs.Push.Dialog.v2/43.23.1237.777@43.23.1237.777" timestamp="1589642934652" />
+    <state x="276" y="131" key="Vcs.Push.Dialog.v2/43.23.1237.777@43.23.1237.777" timestamp="1589681930749" />
     <state x="420" y="213" key="com.intellij.database.dbimport.ImportUtil.MyDialog" timestamp="1586335320101">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
