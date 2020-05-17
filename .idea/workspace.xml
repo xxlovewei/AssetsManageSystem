@@ -6,10 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="常规更新ok">
+    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dev/CustomGeneratorMysql.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dev/CustomGeneratorMysql.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -449,21 +448,10 @@
       <workItem from="1589166564718" duration="14000" />
       <workItem from="1589172277143" duration="84937000" />
       <workItem from="1589633587585" duration="1280000" />
-      <workItem from="1589642772662" duration="130000" />
-    </task>
-    <task id="LOCAL-00028" summary="常规更新">
-      <created>1587205626546</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1587205626546</updated>
-    </task>
-    <task id="LOCAL-00029" summary="常规更新">
-      <created>1587260486465</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1587260486465</updated>
+      <workItem from="1589642772662" duration="166000" />
+      <workItem from="1589678247556" duration="51000" />
+      <workItem from="1589680148652" duration="23000" />
+      <workItem from="1589681095238" duration="645000" />
     </task>
     <task id="LOCAL-00030" summary="常规更新">
       <created>1587302097022</created>
@@ -794,7 +782,21 @@
       <option name="project" value="LOCAL" />
       <updated>1589602740922</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="常规更新ok">
+      <created>1589642915690</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1589642915691</updated>
+    </task>
+    <task id="LOCAL-00078" summary="常规更新ok">
+      <created>1589642926826</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1589642926827</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -930,7 +932,7 @@
     </state>
     <state x="347" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/38.23.1242.777@38.23.1242.777" timestamp="1586053580477" />
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1589272592550" />
-    <state x="176" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1589642915042">
+    <state x="176" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1589642926376">
       <screen x="43" y="23" width="1237" height="777" />
     </state>
     <state x="220" y="23" width="833" height="777" key="CommitChangelistDialog2/34.23.1246.777@34.23.1246.777" timestamp="1587902297321" />
@@ -941,7 +943,7 @@
     <state x="39" y="23" width="924" height="777" key="CommitChangelistDialog2/39.23.1241.777@39.23.1241.777" timestamp="1587472647958" />
     <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1589272925634" />
     <state x="174" y="37" width="833" height="617" key="CommitChangelistDialog2/41.23.1239.777@41.23.1239.777" timestamp="1589423259184" />
-    <state x="176" y="23" width="833" height="777" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1589642915042" />
+    <state x="176" y="23" width="833" height="777" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1589642926376" />
     <state width="434" height="466" key="DebuggerActiveHint" timestamp="1587718161099">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
@@ -1178,7 +1180,7 @@
       <screen x="38" y="23" width="1242" height="777" />
     </state>
     <state x="510" y="287" key="VCS.EditChangelistDialog/38.23.1242.777@38.23.1242.777" timestamp="1586054753811" />
-    <state x="276" y="131" key="Vcs.Push.Dialog.v2" timestamp="1589600489382">
+    <state x="276" y="131" key="Vcs.Push.Dialog.v2" timestamp="1589642934652">
       <screen x="43" y="23" width="1237" height="777" />
     </state>
     <state x="267" y="131" key="Vcs.Push.Dialog.v2/34.23.1246.777@34.23.1246.777" timestamp="1587902309411" />
@@ -1189,7 +1191,7 @@
     <state x="272" y="131" key="Vcs.Push.Dialog.v2/39.23.1241.777@39.23.1241.777" timestamp="1587472654530" />
     <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1589237562784" />
     <state x="274" y="131" key="Vcs.Push.Dialog.v2/41.23.1239.777@41.23.1239.777" timestamp="1589423277592" />
-    <state x="276" y="131" key="Vcs.Push.Dialog.v2/43.23.1237.777@43.23.1237.777" timestamp="1589600489382" />
+    <state x="276" y="131" key="Vcs.Push.Dialog.v2/43.23.1237.777@43.23.1237.777" timestamp="1589642934652" />
     <state x="420" y="213" key="com.intellij.database.dbimport.ImportUtil.MyDialog" timestamp="1586335320101">
       <screen x="40" y="23" width="1240" height="777" />
     </state>

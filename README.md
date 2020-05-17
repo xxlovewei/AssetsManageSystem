@@ -67,7 +67,7 @@
 - 密码:1
 ```
 
-## 效果图
+## PC效果图
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/130924_93070844_448530.jpeg "11.jpg")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0506/130904_339165e8_448530.png "1.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124506_47c9ca08_448530.jpeg "2.jpg")
@@ -78,7 +78,13 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124530_b7e7847b_448530.jpeg "4.jpg")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/124540_62166efa_448530.jpeg "5.jpg")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1205/213815_ad2975a7_448530.png "lc.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0516/232716_3e17d9e9_448530.png "yd.png")
+ 
+## 移动端
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0517/101739_544dd3cf_448530.jpeg "WechatIMG155.jpeg")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0517/100346_35a0d8d0_448530.jpeg "WechatIMG153.jpeg")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0517/100355_9b78a631_448530.jpeg "WechatIMG152.jpeg")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0517/100407_cc4f1a17_448530.jpeg "WechatIMG151.jpeg")
+
 ## 后期开发计划
 - 添加资产自定义属性功能,该功能开发延期(视情况而定)
 - 添加工单功能
