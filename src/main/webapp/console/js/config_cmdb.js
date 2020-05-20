@@ -72,7 +72,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         templateUrl: "views/common/content.html?v=" + version
     }).state('maintain.faultrecord', {
         url: "/maintain_faultrecord?psBtns",
-        data: {pageTitle: '报修工作'},
+        data: {pageTitle: '报修工作',datatype:"full"},
         templateUrl: "views/cmdb/faultrecord.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
@@ -290,8 +290,32 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    })
-    ;
+    }).state('myprocess.myjy', {
+        url: "/myprocess_myjy",
+        data: {pageTitle: '我的借用归还', actiontype: "JY",datatype:"self"},
+        templateUrl: "views/cmdb/zcaction.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/zcaction.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('myprocess.mybx', {
+        url: "/myprocess_mybx",
+        data: {pageTitle: '我的报修',datatype:"self"},
+        templateUrl: "views/cmdb/faultrecord.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/faultrecord.js?v=' + version]
+                }]);
+            }
+        }
+    });
+
     // cmdb
     $stateProvider.state('xt', {
         abstract: true,
@@ -412,7 +436,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         }
     }).state('zcchange.jygh', {
         url: "/zcchange_jygh",
-        data: {pageTitle: '资产借用归还', actiontype: "JY"},
+        data: {pageTitle: '资产借用归还', actiontype: "JY",datatype:"full"},
         templateUrl: "views/cmdb/zcaction.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {

@@ -177,6 +177,16 @@ public class ZcController extends BaseController {
         return R.SUCCESS_OPER(SysProcessDataServiceImpl.list(ew));
     }
 
+    @ResponseBody
+    @Acl(info = "查询单据", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectMyListBills.do")
+    public R selectMyListBills(String bustype) {
+        QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
+        ew.and(i -> i.eq("bustype", bustype).eq("create_by",this.getUserId()));
+        ew.orderByDesc("create_time");
+        return R.SUCCESS_OPER(SysProcessDataServiceImpl.list(ew));
+    }
+
 
     @ResponseBody
     @Acl(info = "查询单据", value = Acl.ACL_USER)

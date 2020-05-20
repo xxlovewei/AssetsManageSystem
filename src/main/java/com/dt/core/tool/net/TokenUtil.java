@@ -16,11 +16,11 @@ public class TokenUtil {
 
     public static String getRequestToken(HttpServletRequest httpRequest) {
         // 从header中获取token
-        String token = httpRequest.getHeader("dt-token");
+        String token = httpRequest.getHeader("dttoken");
 
         // 如果header中不存在token，则从参数中获取token
         if (StringUtils.isBlank(token)) {
-            token = httpRequest.getParameter("dt-token");
+            token = httpRequest.getParameter("dttoken");
         }
 
         return token;

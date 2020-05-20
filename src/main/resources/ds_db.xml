@@ -43,7 +43,7 @@
 
         <!-- 这里建议配置为TRUE，防止取到的连接不可用 -->
         <!-- 申请连接时执行validationQuery检测连接是否有效，配置为true会降低性能 -->
-        <property name="testOnBorrow" value="true"/>
+        <property name="testOnBorrow" value="false"/>
         <!-- 归还连接时执行validationQuery检测连接是否有效，配置为true会降低性能 -->
         <property name="testOnReturn" value="false"/>
 

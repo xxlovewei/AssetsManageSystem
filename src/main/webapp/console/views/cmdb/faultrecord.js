@@ -200,8 +200,8 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
 }
 
 function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
-
+		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,$state) {
+	var datatype= $state.router.globals.current.data.datatype;
 	// 分类
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 			.withPaginationType('full_numbers').withDisplayLength(100)
@@ -344,8 +344,12 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	function flush() {
 		var ps = {};
 		ps.search = $scope.meta.tools[0].ct;
+		url="/api/zc/resRepair/ext/selectList.do"
+		if(angular.isDefined(datatype)&&datatype=="self"){
+			url="/api/zc/resRepair/ext/selectMyList.do"
+		}
 		$http
-				.post($rootScope.project + "/api/zc/resRepair/ext/selectList.do",
+				.post($rootScope.project + url,
 						ps).success(function(res) {
 					if (res.success) {
 						$scope.dtOptions.aaData = res.data;

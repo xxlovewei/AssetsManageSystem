@@ -182,6 +182,17 @@ public class ResRepairExtController extends BaseController {
 
 	}
 
+	@ResponseBody
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectMyList.do")
+	public R selectMyList() {
+		QueryWrapper<ResRepair> ew = new QueryWrapper<ResRepair>();
+		ew.and(i -> i.eq("create_by", this.getUserId()));
+		ew.orderByDesc("create_time");
+		return R.SUCCESS_OPER(ResRepairServiceImpl.list(ew));
+
+	}
+
 
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_USER)

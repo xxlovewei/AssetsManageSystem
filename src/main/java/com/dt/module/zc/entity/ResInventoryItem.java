@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-05-15
+ * @since 2020-05-18
  */
  
 @TableName("res_inventory_item")
@@ -39,30 +39,23 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
     @TableField("pdstatus")
     private String pdstatus;
     /**
-     * 盘点处理,1|0
+     * 是否需要同步数据,1|0
      */
     @TableField("pdsyncneed")
     private String pdsyncneed;
-    /**
-     * 盘点时间
-     */
     @TableField("pdtime")
-    private String pdtime;
-    /**
-     * 盘点人ID
-     */
+    private Date pdtime;
     @TableField("pduserid")
     private String pduserid;
-    /**
-     * 盘点人
-     */
     @TableField("pdusername")
     private String pdusername;
-    /**
-     * 盘点备注
-     */
     @TableField("pdmark")
     private String pdmark;
+    /**
+     * 盘点标记,source|new|delete
+     */
+    @TableField("pdflag")
+    private String pdflag;
     @TableField("resid")
     private String resid;
     /**
@@ -229,7 +222,7 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
      * 使用部门Id
      */
     @TableField("part_id")
-    private BigDecimal partId;
+    private String partId;
     /**
      * 使用人Id
      */
@@ -474,11 +467,11 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
         this.pdsyncneed = pdsyncneed;
     }
 
-    public String getPdtime() {
+    public Date getPdtime() {
         return pdtime;
     }
 
-    public void setPdtime(String pdtime) {
+    public void setPdtime(Date pdtime) {
         this.pdtime = pdtime;
     }
 
@@ -504,6 +497,14 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
 
     public void setPdmark(String pdmark) {
         this.pdmark = pdmark;
+    }
+
+    public String getPdflag() {
+        return pdflag;
+    }
+
+    public void setPdflag(String pdflag) {
+        this.pdflag = pdflag;
     }
 
     public String getResid() {
@@ -770,11 +771,11 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
         this.usedCompanyId = usedCompanyId;
     }
 
-    public BigDecimal getPartId() {
+    public String getPartId() {
         return partId;
     }
 
-    public void setPartId(BigDecimal partId) {
+    public void setPartId(String partId) {
         this.partId = partId;
     }
 
@@ -1315,6 +1316,7 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
         ", pduserid=" + pduserid +
         ", pdusername=" + pdusername +
         ", pdmark=" + pdmark +
+        ", pdflag=" + pdflag +
         ", resid=" + resid +
         ", zcCategory=" + zcCategory +
         ", classId=" + classId +

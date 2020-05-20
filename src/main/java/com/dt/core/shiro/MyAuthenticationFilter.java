@@ -5,6 +5,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dt.core.tool.net.TokenUtil;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
@@ -127,6 +128,8 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
         log.info("onAccessDenied");
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+
         if (isLoginRequest(request, response)) {
             // 登录
             if (isLoginSubmission(request, response)) {

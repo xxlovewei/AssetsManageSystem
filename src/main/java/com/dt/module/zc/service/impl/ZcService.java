@@ -425,6 +425,94 @@ public class ZcService extends BaseService{
         return wbcompute;
     }
 
+    public R queryResAllByUUID(String uuid) {
+        Rcd rs = db.uniqueRecord("select * from res t where dr=0 and uuid=?", uuid);
+        if(rs==null){
+            return R.FAILURE_NO_DATA();
+        }
+        return queryResAllById(rs.getString("id"));
+    }
+
+    public R queryResAllById(String id) {
+        JSONObject data = new JSONObject();
+//
+//		if (ToolUtil.isEmpty(id)) {
+//			return R.FAILURE_REQ_PARAM_ERROR();
+//		}
+
+        String class_id = "";
+        Rcd rs = db.uniqueRecord("select * from res t where dr=0 and id=?", id);
+        if (rs != null) {
+            class_id = rs.getString("class_id");
+        }
+
+        // 获取属性数据
+        RcdSet attrs = null;
+        String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
+        attrs = db.query(attrsql, class_id);
+        data.put("attr", ConvertUtil.OtherJSONObjectToFastJSONArray(attrs.toJsonArrayWithJsonObject()));
+
+        // 获取res数据
+        if (ToolUtil.isNotEmpty(id)) {
+            String sql = "select";
+            RcdSet attrs_rs = db.query(attrsql, class_id);
+
+            // 如果包含一对多，则将一对多保存至dataarr
+            JSONArray kvdataarr = new JSONArray();
+            for (int i = 0; i < attrs_rs.size(); i++) {
+                // 拼接sql
+                String valsql = "";
+                if (attrs_rs.getRcd(i).getString("attr_type").equals("number")) {
+                    // "to_number(attr_value)";
+                    valsql = " cast( attr_value as SIGNED INTEGER)";
+                } else if (attrs_rs.getRcd(i).getString("attr_type").equals("string_arr")) {
+                    kvdataarr.add(attrs_rs.getRcd(i).getString("attr_code"));
+                    valsql = "attr_value";
+                } else {
+                    valsql = "attr_value";
+                }
+
+                sql = sql + " (select " + valsql
+                        + " from res_attr_value i where i.dr=0 and i.res_id=t.id and i.attr_id='"
+                        + attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
+                        + "\",  ";
+            }
+            sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0  and id=?";
+
+            Rcd rs2 = db.uniqueRecord(sql, id);
+            if (rs2 != null) {
+                data.put("data", ConvertUtil.OtherJSONObjectToFastJSONObject(rs2.toJsonObject()));
+                // 获取kv一对多数据
+                for (int i = 0; i < kvdataarr.size(); i++) {
+                    RcdSet trs = db.query("select * from res_attr_value where res_id=? and  attr_value_id=?", id,
+                            rs2.getString(kvdataarr.getString(i)));
+                    data.put(kvdataarr.getString(i),
+                            ConvertUtil.OtherJSONObjectToFastJSONArray(trs.toJsonArrayWithJsonObject()));
+                }
+            }
+        }
+        // 获取更新记录
+        RcdSet urs = db.query(
+                " select * from (\n" +
+                        "select\n" +
+                        "  (select name from sys_user_info where user_id=t.create_by)create_uname,\n" +
+                        "  t.* from res_change_item t where dr='0' and t.resid=? order by create_time desc) tab limit 100\n",
+                id);
+        data.put("updatadata", ConvertUtil.OtherJSONObjectToFastJSONArray(urs.toJsonArrayWithJsonObject()));
+
+        // 获取故障登记表
+        RcdSet grs = db.query(
+                " select * from (\n" +
+                        "select b.* from res_repair_item a ,res_repair b where a.repairid=b.id and a.dr='0' and a.resid=? and b.dr='0'\n" +
+                        "  order by create_time desc)tab limit 100",
+                id);
+        data.put("faultdata", ConvertUtil.OtherJSONObjectToFastJSONArray(grs.toJsonArrayWithJsonObject()));
+
+        return R.SUCCESS_OPER(data);
+
+    }
+
+
     public R addRes(TypedHashMap<String, Object> ps) {
         Date date = new Date(); // 获取一个Date对象
         DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象

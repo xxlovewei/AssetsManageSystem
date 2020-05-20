@@ -155,7 +155,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	var pbtns = $rootScope.curMemuBtns;
 	var flowtype = $state.router.globals.current.data.actiontype;
-
+	var datatype= $state.router.globals.current.data.datatype;
 	var actbtn = "操作";
 	var actback="退库";
 	if (flowtype == "LY") {
@@ -405,7 +405,12 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		ps.edate = $scope.meta.tools[1].time.format('YYYY-MM-DD');
 		ps.search = $scope.meta.tools[0].ct;
 		ps.bustype = flowtype;
-		$http.post($rootScope.project + "/api/zc/selectListBills.do",
+
+		var url="/api/zc/selectListBills.do";
+		if(angular.isDefined(datatype)&&datatype=="self"){
+			url="/api/zc/selectMyListBills.do";
+		}
+		$http.post($rootScope.project + url,
 				ps).success(function(res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;

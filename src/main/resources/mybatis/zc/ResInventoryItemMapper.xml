@@ -18,6 +18,7 @@
         <result column="pduserid" property="pduserid" />
         <result column="pdusername" property="pdusername" />
         <result column="pdmark" property="pdmark" />
+        <result column="pdflag" property="pdflag" />
         <result column="resid" property="resid" />
         <result column="zc_category" property="zcCategory" />
         <result column="class_id" property="classId" />

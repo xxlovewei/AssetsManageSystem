@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author algernonking
- * @since 2020-05-15
+ * @since 2020-05-18
  */
 @Service
 public class ResInventoryItemServiceImpl extends ServiceImpl<ResInventoryItemMapper, ResInventoryItem> implements IResInventoryItemService {
