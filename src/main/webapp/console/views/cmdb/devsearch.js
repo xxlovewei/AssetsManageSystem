@@ -2,20 +2,24 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
 
 	// 分类
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-			.withPaginationType('full_numbers').withDisplayLength(100).withDOM('frtlip')
-			.withOption("ordering", false).withOption("responsive", false)
-			.withOption("searching", true).withOption('scrollY', 600)
-			.withOption('scrollX', true).withOption('bAutoWidth', true)
-			.withOption('scrollCollapse', true).withOption('paging', true)
-			.withFixedColumns({
-				leftColumns : 0,
-				rightColumns : 0
-			}).withOption('bStateSave', true).withOption('bProcessing', false)
-			.withOption('bFilter', false).withOption('bInfo', false)
-			.withOption('serverSide', false).withOption('createdRow', function(row) {
-				$compile(angular.element(row).contents())($scope);
-			}).withOption(
+	$scope.URL = $rootScope.project + "/api/base/res/queryPageResAll.do";
+
+	$scope.dtOptions = DTOptionsBuilder.newOptions()
+		.withOption('ajax', {
+			url: $scope.URL,
+			type: 'POST'
+		})
+		.withDataProp('data').withDataProp('data').withDOM('frtlip').withPaginationType('full_numbers')
+		.withDisplayLength(25)
+		.withOption("ordering", false).withOption("responsive", false)
+		.withOption("searching", true).withOption('scrollY', 420)
+		.withOption('scrollX', true).withOption('bAutoWidth', true)
+		.withOption('scrollCollapse', true).withOption('paging', true)
+		.withOption('bStateSave', true).withOption('bProcessing', true)
+		.withOption('bFilter', false).withOption('bInfo', false)
+		.withOption('serverSide', true).withOption('createdRow', function(row) {
+			$compile(angular.element(row).contents())($scope);
+		}).withOption(
 					'headerCallback',
 					function(header) {
 						if ((!angular.isDefined($scope.headerCompiled))
@@ -136,22 +140,15 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	function flush() {
 
 		var ps = {}
+		var time = new Date().getTime();
 		ps.loc = $scope.meta.tools[0].dataSel.dict_item_id;
 		ps.env = $scope.meta.tools[1].dataSel.dict_item_id;
 		ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
 		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
 		ps.search = $scope.meta.tools[4].ct;
+		ps.time=time;
+		$scope.dtOptions.ajax.data=ps
 
-		$http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
-				.success(function(res) {
-					if (res.success) {
-						$scope.dtOptions.aaData = res.data;
-					} else {
-						notify({
-							message : res.message
-						});
-					}
-				})
 	}
 	$scope.query = function() {
 		flush();
@@ -269,7 +266,8 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 			return;
 		} else {
-			return $scope.dtOptions.aaData[data[0]];
+			var d = $scope.dtInstance.DataTable.context[0].json.data;
+			return d[data[0]]
 		}
 	}
 

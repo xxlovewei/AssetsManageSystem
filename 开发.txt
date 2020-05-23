@@ -2,30 +2,23 @@ process_id 模版ID
 流程实例ID
 任务ID
 
-truncate table sys_session;
+
+--clear
 truncate table sys_log_access;
 truncate table sys_log_login;
-truncate table ct_content;
-truncate table ct_class;
-truncate table ct_uri;
-truncate table sys_banner;
-truncate table sys_banner_item;
-truncate table sys_notice;
-
-5688c9c215a0
-docker ps -a
-docker exec -it 20f750b8c954 /bin/bash
-
-
-
-res 添加3个字段
-  belong_part_id
-  belong_company_id
-  used_company_id
-
-
-
-添加数据字典
-
-org.apache.ibatis.logging.log4j.Log4jImpl:
+truncate table res;
+truncate table res_action_item;
+truncate table res_allocate;
+truncate table res_allocate_item
+truncate table res_change_item;
+truncate table res_history;
+truncate table res_inventory;
+truncate table res_inventory_item;
+truncate table res_inventory_item_s;
+truncate table res_inventory_user;
+truncate table res_repair;
+truncate table res_repair_file;
+truncate table res_repair_item;
+truncate table sys_feedback;
+update sys_user_info set pwd='oracle'
 

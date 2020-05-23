@@ -6,11 +6,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.dt.core.tool.util.DbUtil;
 import com.dt.module.zc.service.impl.ZcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
@@ -153,19 +157,66 @@ public class ResExtController extends BaseController {
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryResAllByClass.do")
     public R queryResAllByClass(String comp,String belongcomp,String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+        return zcService.queryResAllGetData(belongcomp,comp,datarange,classroot,class_id, wb, env, recycle, loc, search,ps);
+    }
 
+    @ResponseBody
+    @Acl(info = "查询Res", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/queryPageResAllByClass.do")
+    public R queryPageResAllByClass(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex,String comp,String belongcomp,String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+        JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
+        if (ToolUtil.isEmpty(respar)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        int pagesize = respar.getIntValue("pagesize");
+        int pageindex = respar.getIntValue("pageindex");
+        String sql= zcService.buildQueryResAllGetdatalSql(  belongcomp,  comp,  datarange,  classroot,   class_id,   wb,   env,   recycle,   loc,   search, ps);
+        String sqlcnt = "select count(1) value from (" + sql + ") tab";
+        int count = db.uniqueRecord(sqlcnt).getInteger("value");
+        JSONObject retrunObject = new JSONObject();
+        retrunObject.put("iTotalRecords", count);
+        retrunObject.put("iTotalDisplayRecords", count);
+        retrunObject.put("success",  true);
+        retrunObject.put("code",  200);
+        retrunObject.put("data", ConvertUtil.OtherJSONObjectToFastJSONArray(
+                db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pagesize, pageindex)).toJsonArrayWithJsonObject()));
+        return R.clearAttachDirect(retrunObject);
+    }
 
-        return zcService.queryResAllGetData(belongcomp,comp,datarange,classroot,class_id, wb, env, recycle, loc, search);
+    @ResponseBody
+    @Acl(info = "查询Res", value = Acl.ACL_USER)
+    @RequestMapping(value = "/res/queryPageResAll.do")
+    public R queryResAllForPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize, @RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex,String comp, String belongcomp, String datarange, String classroot, String class_id, String wb, String env, String recycle, String loc, String search) {
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+        JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
+        if (ToolUtil.isEmpty(respar)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        int pagesize = respar.getIntValue("pagesize");
+        int pageindex = respar.getIntValue("pageindex");
+        String sql= zcService.buildQueryResAllGetdatalSql(  belongcomp,  comp,  datarange,  classroot,   class_id,   wb,   env,   recycle,   loc,   search, ps);
+        String sqlcnt = "select count(1) value from (" + sql + ") tab";
+        int count = db.uniqueRecord(sqlcnt).getInteger("value");
+        JSONObject retrunObject = new JSONObject();
+        retrunObject.put("iTotalRecords", count);
+        retrunObject.put("iTotalDisplayRecords", count);
+        retrunObject.put("success",  true);
+        retrunObject.put("code",  200);
+        retrunObject.put("data", ConvertUtil.OtherJSONObjectToFastJSONArray(
+                db.query(DbUtil.getDBPageSql(db.getDBType(), sql, pagesize, pageindex)).toJsonArrayWithJsonObject()));
+        return R.clearAttachDirect(retrunObject);
     }
 
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryResAll.do")
     public R queryResAll(String comp,String belongcomp,String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
-
-        return zcService.queryResAllGetData(belongcomp,comp,datarange,classroot,class_id, wb, env, recycle, loc, search);
-
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+        return zcService.queryResAllGetData(belongcomp,comp,datarange,classroot,class_id, wb, env, recycle, loc, search, ps);
     }
+
 
 
     @ResponseBody

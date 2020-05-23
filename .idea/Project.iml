@@ -41,6 +41,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="lib" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.65" level="project" />
     <orderEntry type="library" name="Maven: com.github.oshi:oshi-core:4.7.1" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:5.5.0" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna-platform:5.5.0" level="project" />

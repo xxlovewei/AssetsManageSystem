@@ -223,14 +223,11 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.reloadData = reloadData;
 
 	function reloadData() {
-		var resetPaging = true;
-		$scope.dtInstance.reloadData(callback, resetPaging);
+		var resetPaging = false;
+		//$scope.dtInstance.reloadData(callback, resetPaging);
 	}
-	var tabdata = [];
-	function callback(json) {
-		tabdata = json.data;
-	 
 
+	function callback(json) {
 	}
 
 	$scope.selectCheckBoxAll = function(selected) {
@@ -305,8 +302,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 		$scope.URL = url;
 		$scope.dtOptions.ajax = $scope.URL;
-		reloadData();
-
+		$scope.dtOptions.ajax.reload();
 	}
 
 	$scope.row_dtl = function(id) {

@@ -242,7 +242,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		var html = "";
 		if (angular.isDefined(full.spmethod) && full.spmethod == "1"
 				&& full.spstatus != "submitforapproval") {
-			html = "1212";
+			html = "1";
 		}
 		return html;
 	}
@@ -405,10 +405,9 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		ps.edate = $scope.meta.tools[1].time.format('YYYY-MM-DD');
 		ps.search = $scope.meta.tools[0].ct;
 		ps.bustype = flowtype;
-
-		var url="/api/zc/selectListBills.do";
+		url="/api/zc/selectListBills.do"
 		if(angular.isDefined(datatype)&&datatype=="self"){
-			url="/api/zc/selectMyListBills.do";
+			url="/api/zc/selectMyListBills.do"
 		}
 		$http.post($rootScope.project + url,
 				ps).success(function(res) {

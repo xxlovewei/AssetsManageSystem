@@ -207,10 +207,7 @@ public class ZcService extends BaseService{
 
     }
 
-
-
-    // 根据ClassId获取数据,优先判断multiclassroot,在获取class_id
-    public R queryResAllGetData(String belongcomp,String comp,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search) {
+    public String buildQueryResAllGetdatalSql(String belongcomp,String comp,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps){
 
         // 获取属性数据
         String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
@@ -298,16 +295,27 @@ public class ZcService extends BaseService{
 
         }
 
+
+        String ressql="";
         if (ToolUtil.isNotEmpty(search)) {
-            sql = sql + " and  (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
+            ressql="select * from ("+sql+") end where (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
                     + "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
-                    + "%' )";
+                    + "%' or classrootname like '%"+search+"%' or locstr like '%"+search+"%' or  supplierstr like '%"+search+"%' or part_fullname like '%"+search+"%')";
+
+        }else{
+            ressql = sql ;
         }
+        ressql = ressql + " order by update_time desc,loc,rack,frame ";
+        System.out.println(ressql);
+        return  ressql;
+    }
 
-        sql = sql + " order by update_time desc,loc,rack,frame ";
 
+
+    // 根据ClassId获取数据,优先判断multiclassroot,在获取class_id
+    public R queryResAllGetData(String belongcomp,String comp,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps) {
+        String sql=this.buildQueryResAllGetdatalSql(  belongcomp,  comp,  datarange,  classroot,   class_id,   wb,   env,   recycle,   loc,     search,ps);
         RcdSet rs2 = db.query(sql);
-
         return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
     }
 

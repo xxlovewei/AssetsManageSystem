@@ -4,18 +4,21 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	var pbtns=$rootScope.curMemuBtns;
 	var gclassroot='8';
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
-		.withPaginationType('full_numbers').withDisplayLength(100)
+	$scope.URL = $rootScope.project + "/api/base/res/queryPageResAllByClass.do";
+	$scope.dtOptions = DTOptionsBuilder.newOptions()
+		.withOption('ajax', {
+			url: $scope.URL,
+			type: 'POST'
+		})
+		.withDataProp('data').withDataProp('data').withDOM('frtlip').withPaginationType('full_numbers')
+		.withDisplayLength(25)
 		.withOption("ordering", false).withOption("responsive", false)
-		.withOption("searching", true).withOption('scrollY', 600)
+		.withOption("searching", false).withOption('scrollY', 420)
 		.withOption('scrollX', true).withOption('bAutoWidth', true)
 		.withOption('scrollCollapse', true).withOption('paging', true)
-		.withFixedColumns({
-			leftColumns : 0,
-			rightColumns : 0
-		}).withOption('bStateSave', true).withOption('bProcessing', false)
+		.withOption('bStateSave', false).withOption('bProcessing', true)
 		.withOption('bFilter', false).withOption('bInfo', false)
-		.withOption('serverSide', false).withOption('createdRow', function(row) {
+		.withOption('serverSide', true).withOption('createdRow', function(row) {
 			$compile(angular.element(row).contents())($scope);
 		}).withOption(
 			'headerCallback',
@@ -164,20 +167,13 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	function flush() {
 		var ps = {}
+		var time = new Date().getTime();
 		ps.classroot =gclassroot;
 		ps.loc = $scope.meta.tools[0].dataSel.dict_item_id;
 		ps.recycle = $scope.meta.tools[1].dataSel.dict_item_id;
 		ps.search = $scope.meta.tools[2].ct;
-		$http.post($rootScope.project + "/api/base/res/queryResAllByClass.do", ps)
-			.success(function(res) {
-				if (res.success) {
-					$scope.dtOptions.aaData = res.data;
-				} else {
-					notify({
-						message : res.message
-					});
-				}
-			})
+		ps.time=time;
+		$scope.dtOptions.ajax.data=ps
 
 	}
 
@@ -401,7 +397,8 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			return;
 		} else {
 
-			return $scope.dtOptions.aaData[data[0]];
+			var d = $scope.dtInstance.DataTable.context[0].json.data;
+			return d[data[0]]
 		}
 	}
 

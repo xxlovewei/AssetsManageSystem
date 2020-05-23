@@ -14,6 +14,7 @@
           <element id="module-output" name="Project" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk15on:1.65" />
           <element id="library" level="project" name="Maven: com.github.oshi:oshi-core:4.7.1" />
           <element id="library" level="project" name="Maven: net.java.dev.jna:jna:5.5.0" />
           <element id="library" level="project" name="Maven: net.java.dev.jna:jna-platform:5.5.0" />

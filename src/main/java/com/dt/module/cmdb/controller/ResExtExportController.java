@@ -111,7 +111,7 @@ public class ResExtExportController extends BaseController {
 
         TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
         R res = zcService.queryResAllGetData(null,null,ps.getString("datarange"),ps.getString("classroot"),ps.getString("id"), ps.getString("wb"), ps.getString("env"),
-                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"));
+                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"),ps);
 
         JSONArray data = res.queryDataToJSONArray();
         List<ResEntity> data_excel = new ArrayList<ResEntity>();
@@ -151,7 +151,7 @@ public class ResExtExportController extends BaseController {
         TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
 
         R res = zcService.queryResAllGetData(null,null,ps.getString("datarange"),ps.getString("classroot"),ps.getString("id"), ps.getString("wb"), ps.getString("env"),
-                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"));
+                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"),ps);
 
         JSONArray data = res.queryDataToJSONArray();
         List<ResEntity> data_excel = new ArrayList<ResEntity>();
