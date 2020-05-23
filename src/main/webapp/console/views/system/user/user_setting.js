@@ -196,8 +196,13 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 
 	$scope.URL = $rootScope.project + "/api/sysUserInfo/selectPage.do";
-	$scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp(
-			'data').withPaginationType('full_numbers').withDisplayLength(25)
+	$scope.dtOptions = DTOptionsBuilder.newOptions()
+		.withOption('ajax', {
+			url: $scope.URL,
+			type: 'POST'
+		})
+		.withDataProp('data').withDataProp('data').withDOM('frtlip').withPaginationType('full_numbers')
+		.withDisplayLength(25)
 			.withOption("ordering", false).withOption("responsive", true)
 			.withOption("searching", false).withOption("paging", true)
 			.withOption('bStateSave', true).withOption('bProcessing', true)
@@ -220,15 +225,8 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 				selector : 'td:first-child'
 			});
 	$scope.dtInstance = {}
-	$scope.reloadData = reloadData;
 
-	function reloadData() {
-		var resetPaging = false;
-		//$scope.dtInstance.reloadData(callback, resetPaging);
-	}
 
-	function callback(json) {
-	}
 
 	$scope.selectCheckBoxAll = function(selected) {
 		if (selected) {
@@ -286,7 +284,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	function flush() {
 
-		 
+		var time = new Date().getTime();
 		var url = "";
 		if (angular.isDefined($scope.ct)) {
 			url = $rootScope.project
@@ -301,8 +299,15 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			url = url + "&groupId=" + $scope.userGroupSel.groupId;
 		}
 		$scope.URL = url;
-		$scope.dtOptions.ajax = $scope.URL;
-		$scope.dtOptions.ajax.reload();
+		var ps={};
+		ps.time=time;
+		$scope.dtOptions.ajax.data=ps
+		$scope.dtOptions.ajax.url=$scope.URL
+		$scope.dtInstance.reloadData(callback, true);
+
+	}
+	function callback(json){
+		console.log(json)
 	}
 
 	$scope.row_dtl = function(id) {

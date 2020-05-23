@@ -8,7 +8,8 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.dtOptions = DTOptionsBuilder.newOptions()
 		.withOption('ajax', {
 			url: $scope.URL,
-			type: 'POST'
+			type: 'POST',
+			data:{classroot:"-1",start:0}
 		})
 		.withDataProp('data').withDataProp('data').withDOM('frtlip').withPaginationType('full_numbers')
 		.withDisplayLength(25)
@@ -16,7 +17,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		.withOption("searching", false).withOption('scrollY', 420)
 		.withOption('scrollX', true).withOption('bAutoWidth', true)
 		.withOption('scrollCollapse', true).withOption('paging', true)
-		.withOption('bStateSave', false).withOption('bProcessing', true)
+		.withOption('bStateSave', true).withOption('bProcessing', true)
 		.withOption('bFilter', false).withOption('bInfo', false)
 		.withOption('serverSide', true).withOption('createdRow', function(row) {
 			$compile(angular.element(row).contents())($scope);
@@ -174,7 +175,10 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		ps.search = $scope.meta.tools[2].ct;
 		ps.time=time;
 		$scope.dtOptions.ajax.data=ps
-
+		$scope.dtInstance.reloadData(callback, true);
+	}
+	function callback(json){
+		console.log(json)
 	}
 
 	$scope.filedown = function() {
@@ -282,9 +286,9 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			return;
 		} else {
 			var res = [];
-
+			var d = $scope.dtInstance.DataTable.context[0].json.data;
 			for (var i = 0; i < data.length; i++) {
-				res.push($scope.dtOptions.aaData[data[i]].id)
+				res.push(d[data[i]].id)
 			}
 			return angular.toJson(res);
 		}

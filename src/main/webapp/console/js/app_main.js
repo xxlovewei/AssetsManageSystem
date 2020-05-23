@@ -82,7 +82,7 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
                      KeepaliveProvider, $httpProvider) {
     // 圈圈延迟出现控制
     console.log("App main config");
-    cfpLoadingBarProvider.latencyThreshold = 2500;
+    cfpLoadingBarProvider.latencyThreshold = 1500;
     // 拦截请求
     $httpProvider.interceptors.push('sessionInjector');
     app.register = {
