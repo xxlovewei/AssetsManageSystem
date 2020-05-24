@@ -442,7 +442,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 					items.push({
-
 						type : "select",
 						disabled : "false",
 						label : "资产类型",
@@ -465,6 +464,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						name : 'model',
 						ng_model : "model"
 					});
+
 					items.push({
 						type : "input",
 						disabled : "false",
@@ -496,6 +496,33 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						dataOpt : "zcsourceOpt",
 						dataSel : "zcsourceSel"
 					});
+
+					items.push( {
+						type : "select",
+						disabled : zcrecycle,
+						label : "资产状态",
+						need : true,
+						disable_search : "true",
+						dataOpt : "recycelOpt",
+						dataSel : "recycelSel"
+					});
+
+					items.push({
+						type : "input",
+						disabled : "false",
+						sub_type : "number",
+						required : true,
+						maxlength : "50",
+						placeholder : "",
+						label : "资产数量",
+						need : true,
+						name : 'zc_cnt',
+						ng_model : "zc_cnt"
+					});
+
+
+
+
 					items.push( {
 						type : "select",
 						disabled : "false",
@@ -519,28 +546,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						ng_model : "fs20"
 					});
 
-					items.push( {
-						type : "select",
-						disabled : zcrecycle,
-						label : "资产状态",
-						need : true,
-						disable_search : "true",
-						dataOpt : "recycelOpt",
-						dataSel : "recycelSel"
-					});
-
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "number",
-						required : false,
-						maxlength : "50",
-						placeholder : "",
-						label : "资产数量",
-						need : false,
-						name : 'zc_cnt',
-						ng_model : "zc_cnt"
-					});
 
 
 

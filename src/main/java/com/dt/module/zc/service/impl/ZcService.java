@@ -207,7 +207,7 @@ public class ZcService extends BaseService{
 
     }
 
-    public String buildQueryResAllGetdatalSql(String belongcomp,String comp,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps){
+    public String buildQueryResAllGetdatalSql(String belongcomp,String comp,String part,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps){
 
         // 获取属性数据
         String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
@@ -281,6 +281,11 @@ public class ZcService extends BaseService{
             sql = sql + " and belong_company_id='" + belongcomp + "'";
         }
 
+        if(ToolUtil.isNotEmpty(part)){
+            sql = sql + " and part_id='" + part + "'";
+        }
+
+
         //idle,inuse,scrap,borrow,repair,stopuse,allocation
         if(ToolUtil.isNotEmpty(datarange)){
             if(ZcCommonService.DATARANGE_REPAIR.equals(datarange)){
@@ -313,8 +318,8 @@ public class ZcService extends BaseService{
 
 
     // 根据ClassId获取数据,优先判断multiclassroot,在获取class_id
-    public R queryResAllGetData(String belongcomp,String comp,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps) {
-        String sql=this.buildQueryResAllGetdatalSql(  belongcomp,  comp,  datarange,  classroot,   class_id,   wb,   env,   recycle,   loc,     search,ps);
+    public R queryResAllGetData(String belongcomp,String comp,String part,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps) {
+        String sql=this.buildQueryResAllGetdatalSql(  belongcomp,  comp, part, datarange,  classroot,   class_id,   wb,   env,   recycle,   loc,     search,ps);
         RcdSet rs2 = db.query(sql);
         return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
     }
@@ -603,7 +608,7 @@ public class ZcService extends BaseService{
             me.setIf("fs6", ps.getString("fs6"));
             me.setIf("fs7", ps.getString("fs7"));
             me.setIf("fs20", ps.getString("fs20"));
-            me.setIf("zc_cnt", ps.getString("zc_cnt"));
+            me.setIf("zc_cnt", ps.getString("zc_cnt","1"));
             me.setIf("img", ps.getString("img"));
             me.setIf("attach", ps.getString("attach"));
 

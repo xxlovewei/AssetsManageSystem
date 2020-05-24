@@ -48,6 +48,7 @@ import javax.tools.Tool;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -151,14 +152,15 @@ public class ResInventoryExtController extends BaseController {
 				"a.mgr_part_id=b.mgr_part_id,\n" +
 				"a.buy_price=b.buy_price,\n" +
 				"a.net_worth=b.net_worth,\n" +
-			//	"a.zc_cnt=b.zc_cnt,\n" +
+				"a.zc_cnt=b.zc_cnt,\n" +
 				"a.actionstatus=b.actionstatus,\n" +
 				"a.wb=b.wb,\n" +
 				"a.wb_auto=b.wb_auto,\n" +
 				"a.wbsupplier=b.wbsupplier,\n" +
 				"a.wbct=b.wbct,\n" +
 				"a.status=b.status,\n" +
-				"a.mark=b.mark\n" +
+				"a.mark=b.mark,\n" +
+				"a.lastinventorytime=now()\n"+
 				"where a.id=b.resid\n";
 		db.execute(sql1);
 		return R.SUCCESS_OPER();
@@ -226,6 +228,9 @@ public class ResInventoryExtController extends BaseController {
 				itemlist.add(e1);
 				itemslist.add(e2);
 			}
+
+			obj.setCnt(new BigDecimal(itemlist.size()));
+			ResInventoryServiceImpl.saveOrUpdate(obj);
 			//批量更新主要数据
 			ResInventoryItemServiceImpl.saveBatch(itemlist);
 			ResInventoryItemSServiceImpl.saveBatch(itemslist);
@@ -529,7 +534,7 @@ public class ResInventoryExtController extends BaseController {
 		if(ri==null){
 			return R.FAILURE_NO_DATA();
 		}
-		if(!ResInventoryService.INVENTORY_STATAUS_WAIT.equals(ri.getStatus())){
+		if(!ResInventoryService.INVENTORY_STATAUS_START.equals(ri.getStatus())){
 			return R.FAILURE("当前单据单状态错误,不能进行盘点操作!");
 		}
 

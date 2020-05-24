@@ -2,6 +2,7 @@ package com.dt.module.zc.entity;
 
 import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.math.BigDecimal;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.util.Date;
@@ -14,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-05-15
+ * @since 2020-05-24
  */
  
 @TableName("res_inventory")
@@ -162,6 +163,11 @@ public class ResInventory extends BaseModel<ResInventory> {
     private String allusersinventory;
     @TableField("mark")
     private String mark;
+    /**
+     * 资产盘点数量
+     */
+    @TableField("cnt")
+    private BigDecimal cnt;
 
 
     public String getId() {
@@ -396,6 +402,14 @@ public class ResInventory extends BaseModel<ResInventory> {
         this.mark = mark;
     }
 
+    public BigDecimal getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(BigDecimal cnt) {
+        this.cnt = cnt;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -433,6 +447,7 @@ public class ResInventory extends BaseModel<ResInventory> {
         ", manualinventory=" + manualinventory +
         ", allusersinventory=" + allusersinventory +
         ", mark=" + mark +
+        ", cnt=" + cnt +
         "}";
     }
 }

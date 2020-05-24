@@ -14,15 +14,59 @@
 	</div>
 	<div class="modal-body">
 		<div class="wrapper wrapper-content animated fadeInRight">
+
 			<div class="row">
 				<div class="col-lg-12">
-
 					<form role="form" class="form-inline">
-						<input type="text" class="form-control " placeholder="搜索"
-							name="search" ng-model="search">
-						<button ng-click="query()" class="btn btn-sm btn-primary">查询</button>
+						<div class="form-group">
+							<label for="class">区域:</label>
+							<select
+									style="width: 120px;" chosen disable-search="true"
+									class="chosen-select" no-results-text="'没有找到相应条目'"
+									ng-model="areaSel" data-placeholder-text-single="'请选择...'"
+									ng-options="item.name for item in areaOpt">
+								<option value=""></option>
+							</select>
+						</div>
 
+						<div class="form-group">
+							<label for="class">使用公司:</label>
+							<select
+									style="width: 120px;" chosen disable-search="true"
+									class="chosen-select" no-results-text="'没有找到相应条目'"
+									ng-model="compSel" data-placeholder-text-single="'请选择...'"
+									ng-options="item.name for item in compOpt">
+								<option value=""></option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="class">使用部门:</label>
+							<select
+									style="width: 120px;" chosen disable-search="true"
+									class="chosen-select" no-results-text="'没有找到相应条目'"
+									ng-model="partSel" data-placeholder-text-single="'请选择...'"
+									ng-options="item.name for item in partOpt">
+								<option value=""></option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="class">资产状态:</label>
+							<select
+									style="width: 120px;" chosen disable-search="true"
+									class="chosen-select" no-results-text="'没有找到相应条目'"
+									ng-model="recycleSel" data-placeholder-text-single="'请选择...'"
+									ng-options="item.name for item in recycleOpt">
+								<option value=""></option>
+							</select>
+						</div>
 
+						<div class="form-group">
+							<input type="text"
+							   class="form-control ng-pristine ng-valid ng-empty ng-touched"
+							   placeholder="搜索内容" name="search" ng-model="search">
+						</div>
+						<button ng-click="query()" class="btn btn-sm btn-primary"
+								type="submit">查询</button>
 					</form>
 				</div>
 			</div>

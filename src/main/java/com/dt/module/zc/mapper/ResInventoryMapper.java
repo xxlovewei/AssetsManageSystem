@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author algernonking
- * @since 2020-05-15
+ * @since 2020-05-24
  */
 public interface ResInventoryMapper extends BaseMapper<ResInventory> {
 

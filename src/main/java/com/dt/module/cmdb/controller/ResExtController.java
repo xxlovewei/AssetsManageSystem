@@ -156,15 +156,15 @@ public class ResExtController extends BaseController {
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryResAllByClass.do")
-    public R queryResAllByClass(String comp,String belongcomp,String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryResAllByClass(String comp,String belongcomp,String datarange,String part,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        return zcService.queryResAllGetData(belongcomp,comp,datarange,classroot,class_id, wb, env, recycle, loc, search,ps);
+        return zcService.queryResAllGetData(belongcomp,comp,part,datarange,classroot,class_id, wb, env, recycle, loc, search,ps);
     }
 
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryPageResAllByClass.do")
-    public R queryPageResAllByClass(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex,String comp,String belongcomp,String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryPageResAllByClass(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex,String comp,String belongcomp,String part,String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
         JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
         if (ToolUtil.isEmpty(respar)) {
@@ -172,7 +172,7 @@ public class ResExtController extends BaseController {
         }
         int pagesize = respar.getIntValue("pagesize");
         int pageindex = respar.getIntValue("pageindex");
-        String sql= zcService.buildQueryResAllGetdatalSql(  belongcomp,  comp,  datarange,  classroot,   class_id,   wb,   env,   recycle,   loc,   search, ps);
+        String sql= zcService.buildQueryResAllGetdatalSql(  belongcomp,  comp,part,  datarange,  classroot,   class_id,   wb,   env,   recycle,   loc,   search, ps);
         String sqlcnt = "select count(1) value from (" + sql + ") tab";
         int count = db.uniqueRecord(sqlcnt).getInteger("value");
         JSONObject retrunObject = new JSONObject();
@@ -188,7 +188,7 @@ public class ResExtController extends BaseController {
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryPageResAll.do")
-    public R queryResAllForPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize, @RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex,String comp, String belongcomp, String datarange, String classroot, String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryResAllForPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize, @RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex,String comp, String belongcomp,String part, String datarange, String classroot, String class_id, String wb, String env, String recycle, String loc, String search) {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
         JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
         if (ToolUtil.isEmpty(respar)) {
@@ -196,7 +196,7 @@ public class ResExtController extends BaseController {
         }
         int pagesize = respar.getIntValue("pagesize");
         int pageindex = respar.getIntValue("pageindex");
-        String sql= zcService.buildQueryResAllGetdatalSql(  belongcomp,  comp,  datarange,  classroot,   class_id,   wb,   env,   recycle,   loc,   search, ps);
+        String sql= zcService.buildQueryResAllGetdatalSql(  belongcomp,  comp,part,  datarange,  classroot,   class_id,   wb,   env,   recycle,   loc,   search, ps);
         String sqlcnt = "select count(1) value from (" + sql + ") tab";
         int count = db.uniqueRecord(sqlcnt).getInteger("value");
         JSONObject retrunObject = new JSONObject();
@@ -212,9 +212,9 @@ public class ResExtController extends BaseController {
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/queryResAll.do")
-    public R queryResAll(String comp,String belongcomp,String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
+    public R queryResAll(String comp,String belongcomp,String part,String datarange,String classroot,String class_id, String wb, String env, String recycle, String loc, String search) {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        return zcService.queryResAllGetData(belongcomp,comp,datarange,classroot,class_id, wb, env, recycle, loc, search, ps);
+        return zcService.queryResAllGetData(belongcomp,comp,part,datarange,classroot,class_id, wb, env, recycle, loc, search, ps);
     }
 
 

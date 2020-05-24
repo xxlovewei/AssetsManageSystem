@@ -103,7 +103,7 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					type : "btn",
 					show:false,
 					priv:"insert",
-					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">入库</button>'
+					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">登记</button>'
 				},
 				{
 					id : "btn3",
@@ -503,6 +503,29 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							});
 							items.push( {
 								type : "select",
+								disabled : zcrecycle,
+								label : "资产状态",
+								need : true,
+								disable_search : "true",
+								dataOpt : "recycelOpt",
+								dataSel : "recycelSel"
+							});
+							items.push({
+								type : "input",
+								disabled : "false",
+								sub_type : "number",
+								required : true,
+								maxlength : "50",
+								placeholder : "",
+								label : "资产数量",
+								need : true,
+								name : 'zc_cnt',
+								ng_model : "zc_cnt"
+							});
+
+
+							items.push( {
+								type : "select",
 								disabled : "false",
 								label : "资产品牌",
 								need : false,
@@ -524,15 +547,7 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								ng_model : "fs20"
 							});
 
-							items.push( {
-								type : "select",
-								disabled : zcrecycle,
-								label : "资产状态",
-								need : true,
-								disable_search : "true",
-								dataOpt : "recycelOpt",
-								dataSel : "recycelSel"
-							});
+
 
 
 

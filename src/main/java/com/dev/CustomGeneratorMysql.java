@@ -89,7 +89,7 @@ public class CustomGeneratorMysql {
         });
 
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/dt?useUnicode=true&characterEncoding=utf8&useSSL=false");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/dtdev?useUnicode=true&characterEncoding=utf8&useSSL=false");
         dsc.setUsername("root");
         dsc.setPassword("root_pwd");
         mpg.setDataSource(dsc);
@@ -113,7 +113,7 @@ public class CustomGeneratorMysql {
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
         String busRoute = "zc";
-        strategy.setInclude(new String[]{"res_inventory_item"}); // 需要生成的表
+        strategy.setInclude(new String[]{"res_inventory"}); // 需要生成的表
         // strategy.setInclude(scanner("表名"));
 
         strategy.setTableFillList(tableFillList);

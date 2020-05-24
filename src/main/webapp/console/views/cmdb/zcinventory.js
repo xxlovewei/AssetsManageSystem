@@ -721,6 +721,8 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,$window,
             'sDefaultContent', '').renderWith(renderManualinventory),
         DTColumnBuilder.newColumn('status').withTitle('盘点状态').withOption(
             'sDefaultContent', '').renderWith(renderStatus),
+        DTColumnBuilder.newColumn('cnt').withTitle('盘点数量').withOption(
+            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('syncstatus').withTitle('数据同步').withOption(
             'sDefaultContent', '').renderWith(renderDataStatus),
         DTColumnBuilder.newColumn('belongcompname').withTitle('所属公司').withOption(

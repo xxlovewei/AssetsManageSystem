@@ -22,3 +22,10 @@ truncate table res_repair_item;
 truncate table sys_feedback;
 update sys_user_info set pwd='oracle'
 
+res_inventory 新增cnt
+res，res_inventory_item，res_inventory_item_s 新增字段lastinventorytime
+
+
+
+
+

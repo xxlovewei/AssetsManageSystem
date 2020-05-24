@@ -705,13 +705,8 @@ function zcBaseColsCreate(DTColumnBuilder,selectype){
         'sDefaultContent', ''));
     dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
-        'sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('fs1').withTitle('标签1').withOption(
-        'sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('fs2').withTitle('标签2').withOption(
-        'sDefaultContent', ''));
-
+    dtColumns.push( DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')
+        .withOption('sDefaultContent', ''));
     dtColumns.push(  DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
         'sDefaultContent', ''));
     dtColumns.push(  DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
@@ -720,7 +715,6 @@ function zcBaseColsCreate(DTColumnBuilder,selectype){
         'sDefaultContent', ''));
     dtColumns.push(  DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
         'sDefaultContent', ''));
-
     dtColumns.push( DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push(  DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
@@ -739,6 +733,14 @@ function zcBaseColsCreate(DTColumnBuilder,selectype){
         .withOption('sDefaultContent', ''));
     dtColumns.push(   DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
         .withOption('sDefaultContent', ''));
+    dtColumns.push(   DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(  DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(  DTColumnBuilder.newColumn('fs1').withTitle('标签1').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(  DTColumnBuilder.newColumn('fs2').withTitle('标签2').withOption(
+        'sDefaultContent', ''));
     return dtColumns;
 }
 
@@ -1121,9 +1123,7 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                              $uibModalInstance) {
     $scope.hidectl={"flowform":true,"flowchart":true,"flowsuggestlist":true,"flowsuggest":true};
 
-    console.log(meta);
-    console.log(task);
-    console.log(pagetype);
+
     $scope.actmsg = "操作人";
     if (meta.acttype == "LY") {
         $scope.actmsg = "领用人";
@@ -1486,6 +1486,71 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
     // type:one|many
     // datatype: LY|
     console.log("data:"+data);
+    $scope.partOpt=[];
+    $scope.partSel={};
+    $scope.compOpt=[];
+    $scope.compSel={};
+    $scope.areaOpt=[];
+    $scope.areaSel={};
+    $scope.recycleOpt=[];
+    $scope.recycleSel={};
+
+    var gdicts={};
+    var dicts = "devrecycle,devdc";
+    $http
+        .post($rootScope.project + "/api/zc/queryDictFast.do", {
+            uid:"zclistmodal",
+            dicts : dicts,
+            parts : "Y",
+            comp :"Y"
+        })
+        .success(
+            function(res) {
+                if (res.success) {
+                    gdicts = res.data;
+                    angular.copy(gdicts.devrecycle, $scope.recycleOpt);
+                    $scope.recycleOpt.unshift({
+                        dict_item_id : "all",
+                        name : "全部"
+                    });
+                    $scope.recycleSel=$scope.recycleOpt[0];
+
+
+                    angular.copy(gdicts.comp, $scope.compOpt);
+                    $scope.compOpt.unshift({
+                        id : "all",
+                        name : "全部"
+                    });
+                    $scope.compSel=$scope.compOpt[0];
+
+
+                    angular.copy(gdicts.parts, $scope.partOpt);
+                    $scope.partOpt.unshift({
+                        partid : "all",
+                        name : "全部"
+                    });
+                    $scope.partSel=$scope.partOpt[0];
+
+
+                    angular.copy(gdicts.devdc, $scope.areaOpt);
+                    $scope.areaOpt.unshift({
+                        dict_item_id : "all",
+                        name : "全部"
+                    });
+                    $scope.areaSel=$scope.areaOpt[0];
+
+
+
+                } else {
+                    notify({
+                        message : res.message
+                    });
+                }
+            })
+
+
+
+
 
 
     if (!angular.isDefined(data.type)) {
@@ -1549,13 +1614,30 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
 
     function flush() {
         var ps = data;
-        ps.search = $scope.search;
-        if ($scope.search == "") {
-            notify({
-                message: "请输入搜索内容"
-            });
-            return;
+        if(angular.isDefined($scope.search)){
+            ps.search = $scope.search;
         }
+        if(angular.isDefined($scope.compSel.id) && $scope.compSel.id!='all'){
+            ps.comp=$scope.compSel.id;
+        }
+
+        if(angular.isDefined($scope.partSel.partid) && $scope.partSel.partid!='all'){
+            ps.part=$scope.partSel.partid;
+        }
+
+
+        if(angular.isDefined($scope.recycleSel.dict_item_id) && $scope.recycleSel.dict_item_id!='all'){
+            ps.recycle=$scope.recycleSel.dict_item_id;
+        }
+
+        if(angular.isDefined($scope.areaSel.dict_item_id) && $scope.areaSel.dict_item_id!='all'){
+            ps.loc=$scope.areaSel.dict_item_id;
+        }
+
+
+
+
+
         $http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
             .success(function (res) {
                 if (res.success) {
@@ -1576,24 +1658,6 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
         $uibModalInstance.dismiss('cancel');
     };
 
-// function getSelectRow() {
-// var data = $scope.dtInstance.DataTable.rows({
-// selected : true
-// })[0];
-// if (data.length == 0) {
-// notify({
-// message : "请至少选择一项"
-// });
-// return;
-// } else if (data.length > 1) {
-// notify({
-// message : "请最多选择一项"
-// });
-// return;
-// } else {
-// return $scope.dtOptions.aaData[data[0]];
-// }
-// }
 
     $scope.sure = function () {
 
