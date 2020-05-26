@@ -202,24 +202,24 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
     }).state('cmsetting.hccat', {
         url: "/cmsetting_hccat?psBtns",
         data: {pageTitle: '耗材分类', code:"7"},
-        templateUrl: "views/cmdb/zccategory.html?v=" + version,
+        templateUrl: "views/cmdb/hcbjcategory.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/zccategory.js?v=' + version]
+                    files: ['views/cmdb/hcbjcategory.js?v=' + version]
                 }]);
             }
         }
     }).state('cmsetting.bjcat', {
         url: "/cmsetting_bjcat?psBtns",
         data: {pageTitle: '备件分类', code:"8"},
-        templateUrl: "views/cmdb/zccategory.html?v=" + version,
+        templateUrl: "views/cmdb/hcbjcategory.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/zccategory.js?v=' + version]
+                    files: ['views/cmdb/hcbjcategory.js?v=' + version]
                 }]);
             }
         }
@@ -382,6 +382,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 return $ocLazyLoad.load([{
                     serie: true,
                     files: ['views/cmdb/zchc.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('hcmgr.hcinout', {
+        url: "/hcmgr_hcinout",
+        data: {pageTitle: '耗材出入库'},
+        templateUrl: "views/cmdb/hcinout.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/hcinout.js?v=' + version]
                 }]);
             }
         }
@@ -673,6 +685,100 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 
 
 
+function zcBaseInOutColsCreate(DTColumnBuilder,selectype){
+//selectype:withoutselect,withselect
+    dtColumns=[];
+    var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
+    dtColumns = [];
+    if(selectype=="withselect"){
+        dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
+            'select-checkbox checkbox_center').renderWith(function() {
+            return ""
+        }));
+    }
+    dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('title').withTitle('标题').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('action').withTitle('出入库').withOption(
+        'sDefaultContent', '').withOption("width", '30').renderWith( function(data, type, full) {
+            if(data=="HCRK"){
+                return "入库"
+            }else if(data=="HCCK"){
+                return "出库"
+            }
+            else{
+                return data;
+            }
+    })  );
+    dtColumns.push(DTColumnBuilder.newColumn('suppliername').withTitle('资产供应商').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push( DTColumnBuilder.newColumn('buytime').withTitle('采购时间')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push( DTColumnBuilder.newColumn('createTime').withTitle('创建时间')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push( DTColumnBuilder.newColumn('operusername').withTitle('制单人')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(  DTColumnBuilder.newColumn('remark').withTitle('备注').withOption(
+        'sDefaultContent', ''));
+    return dtColumns;
+}
+
+
+function zcBaseColsHCCreate(DTColumnBuilder,selectype){
+//selectype:withoutselect,withselect
+    dtColumns=[];
+    var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
+    dtColumns = [];
+    if(selectype=="withselect"){
+        dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
+            'select-checkbox checkbox_center').renderWith(function() {
+            return ""
+        }));
+    }
+    dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('物品类型').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+
+    dtColumns.push( DTColumnBuilder.newColumn('ctmodel').withTitle('规格型号').withOption(
+        'sDefaultContent', '').withOption('width', '50'));
+    dtColumns.push( DTColumnBuilder.newColumn('ctunit').withTitle('单位').withOption(
+        'sDefaultContent', '').withOption('width', '50'));
+    dtColumns.push(DTColumnBuilder.newColumn('ctdowncnt').withTitle('安全库存下限').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('ctupcnt').withTitle('安全库存上限').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(  DTColumnBuilder.newColumn('batchno').withTitle('批次号').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('厂商').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push( DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push( DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
+        'sDefaultContent', '').withOption('width', '30'));
+    dtColumns.push( DTColumnBuilder.newColumn('warehousestr').withTitle('仓库').withOption(
+        'sDefaultContent', '').withOption('width', '30'));
+    dtColumns.push( DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push( DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push( DTColumnBuilder.newColumn('buy_price').withTitle('采购金额')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(   DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(  DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(  DTColumnBuilder.newColumn('fs1').withTitle('标签1').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(  DTColumnBuilder.newColumn('fs2').withTitle('标签2').withOption(
+        'sDefaultContent', ''));
+    return dtColumns;
+}
+
+
 function zcBaseColsCreate(DTColumnBuilder,selectype){
 //selectype:withoutselect,withselect
     dtColumns=[];
@@ -697,7 +803,7 @@ function zcBaseColsCreate(DTColumnBuilder,selectype){
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push( DTColumnBuilder.newColumn('model').withTitle('型号').withOption(
+    dtColumns.push( DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push( DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30'));
@@ -905,7 +1011,26 @@ function loadOpt(modal_meta, gdicts) {
         }
     }
 
-    // 位置
+
+    //仓库
+
+
+    modal_meta.meta.warehouseOpt = gdicts.warehouse;
+    if (angular.isDefined(gdicts.warehouse) && gdicts.warehouse.length > 0) {
+        if (angular.isDefined(item) && angular.isDefined(item.warehouse)) {
+            for (var i = 0; i < gdicts.warehouse.length; i++) {
+                if (gdicts.warehouse[i].dict_item_id == item.warehouse) {
+                    modal_meta.meta.warehouseSel = gdicts.warehouse[i];
+                }
+            }
+        } else {
+            if (gdicts.warehouse.length > 0) {
+                modal_meta.meta.warehouseSel = gdicts.warehouse[0];
+            }
+        }
+    }
+
+    // 区域
     modal_meta.meta.locOpt = gdicts.devdc;
     if (angular.isDefined(gdicts.devdc) && gdicts.devdc.length > 0) {
         if (angular.isDefined(item) && angular.isDefined(item.loc)) {

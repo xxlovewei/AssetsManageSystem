@@ -45,7 +45,7 @@ public class ZcService extends BaseService{
     IResAllocateService ResAllocateServiceImpl;
 
     @Cacheable(value = CacheConfig.CACHE_PUBLIC_300_150,key="'qf'+#uid")
-    public R queryDictFast(String uid,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers,String subclass, String classroot,String zccatused) {
+    public R queryDictFast(String uid,String zchccat,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers,String subclass, String classroot,String zccatused) {
 
         JSONObject res = new JSONObject();
         String[] dict_arr = dicts.split(",");
@@ -117,6 +117,12 @@ public class ZcService extends BaseService{
                             "order by a.root ,a.route_name" );
             res.put("zccatused",ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
+        if (ToolUtil.isNotEmpty(zchccat) && "Y".equals(zchccat) ) {
+            RcdSet partrs = db
+                    .query("select * from ct_category where root='7' and dr='0' and type='goods'" );
+            res.put("zchccat",ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+        }
+
 
         return R.SUCCESS_OPER(res);
     }
@@ -182,6 +188,11 @@ public class ZcService extends BaseService{
             } else {
                 return type + id;
             }
+        }
+        else if (type.equals(ZcCommonService.UUID_HCRK)) {
+            id = createUuid5();
+            return type + id;
+
         }
         else if (type.equals(ZcCommonService.UUID_LY) || type.equals(ZcCommonService.UUID_JY)
                 || type.equals(ZcCommonService.UUID_ZY)) {
@@ -622,7 +633,9 @@ public class ZcService extends BaseService{
             me.setIf("belong_company_id", ps.getString("belong_company_id"));
             me.setIf("used_company_id", ps.getString("used_company_id"));
 
-
+            me.setIf("unit_price", ps.getString("unit_price"));
+            me.setIf("warehouse", ps.getString("warehouse"));
+            me.setIf("batchno", ps.getString("batchno"));
             sql = me.getSQL();
         } else {
             Update me = new Update("res");
@@ -676,6 +689,11 @@ public class ZcService extends BaseService{
             me.setIf("belong_part_id", ps.getString("belong_part_id"));
             me.setIf("belong_company_id", ps.getString("belong_company_id"));
             me.setIf("used_company_id", ps.getString("used_company_id"));
+            me.setIf("unit_price", ps.getString("unit_price"));
+            me.setIf("warehouse", ps.getString("warehouse"));
+            me.setIf("batchno", ps.getString("batchno"));
+
+
             me.where().and("id=?", id);
             sql = me.getSQL();
 

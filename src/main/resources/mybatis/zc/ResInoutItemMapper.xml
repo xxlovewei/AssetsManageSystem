@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dt.module.zc.mapper.ResInoutItemMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dt.module.zc.entity.ResInoutItem">
+    <result column="dr" property="dr" />
+    <result column="update_by" property="updateBy" />
+    <result column="create_by" property="createBy" />
+    <result column="create_time" property="createTime" />
+    <result column="update_time" property="updateTime" />
+        <result column="id" property="id" />
+        <result column="uuid" property="uuid" />
+        <result column="class_id" property="classId" />
+        <result column="zc_category" property="zcCategory" />
+        <result column="cnt" property="cnt" />
+        <result column="supplier" property="supplier" />
+        <result column="buy_time" property="buyTime" />
+        <result column="price" property="price" />
+        <result column="unit" property="unit" />
+        <result column="confdesc" property="confdesc" />
+        <result column="loc" property="loc" />
+        <result column="warehouse" property="warehouse" />
+        <result column="belong_company_id" property="belongCompanyId" />
+        <result column="belong_part_id" property="belongPartId" />
+        <result column="used_company_id" property="usedCompanyId" />
+        <result column="part_id" property="partId" />
+        <result column="used_userid" property="usedUserid" />
+        <result column="mgr_part_id" property="mgrPartId" />
+    </resultMap>
+
+</mapper>

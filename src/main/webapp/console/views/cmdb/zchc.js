@@ -81,7 +81,7 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		}
 	}
 	$scope.dtColumns = [];
-	$scope.dtColumns=zcBaseColsCreate(DTColumnBuilder,'withselect');
+	$scope.dtColumns=zcBaseColsHCCreate(DTColumnBuilder,'withselect');
 
 	$scope.query = function() {
 		flush();
@@ -97,14 +97,15 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					show:true,
 					template : ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
 				},
-				{
-					id : "btn2",
-					label : "",
-					type : "btn",
-					show:false,
-					priv:"insert",
-					template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">登记</button>'
-				},
+				// {
+				// 	id : "btn2",
+				// 	label : "",
+				// 	type : "btn",
+				// 	show:false,
+				// 	priv:"insert",
+				// 	template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">登记</button>'
+				// },
+
 				{
 					id : "btn3",
 					label : "",
@@ -113,14 +114,14 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					priv:"update",
 					template : ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新</button>'
 				},				
-				{
-					id : "btn4",
-					label : "",
-					type : "btn",
-					show:false,
-					priv:"detail",
-					template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
-				},
+				// {
+				// 	id : "btn4",
+				// 	label : "",
+				// 	type : "btn",
+				// 	show:false,
+				// 	priv:"detail",
+				// 	template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
+				// },
 				{
 					id : "btn5",
 					label : "",
@@ -197,17 +198,17 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	var gdicts = {};
 	//
-	var dicts = "zcwbcomoute,devbrand,devwb,devdc,devrecycle,zcsource,zcwbsupper,zcsupper";
+	var dicts = "warehouse,zcwbcomoute,devbrand,devwb,devdc,devrecycle,zcsource,zcwbsupper,zcsupper";
 	
 
 	$http
 			.post($rootScope.project + "/api/zc/queryDictFast.do", {
-				dicts : dicts,
+				dicts :dicts,
 				parts : "Y",
 				partusers : "Y",
 				comp :"Y",
 				belongcomp:"Y",
-				uid:"zchc",
+				uid:"zchcdictdata",
 				classroot:gclassroot
 			})
 			.success(
@@ -445,71 +446,54 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								ng_model : "uuid"
 							});
 
-
 							items.push({
-
 								type : "select",
 								disabled : "false",
-								label : "资产类型",
+								label : "物品类型",
 								need : false,
 								disable_search : "false",
 								dataOpt : "classOpt",
 								dataSel : "classSel"
 							});
 
-
 							items.push({
 								type : "input",
-								disabled : "false",
+								disabled : "true",
 								sub_type : "text",
 								required : true,
 								maxlength : "50",
 								placeholder : "请输型号",
-								label : "资产型号",
+								label : "规格型号",
 								need : true,
-								name : 'model',
-								ng_model : "model"
+								name : 'ctmodel',
+								ng_model : "ctmodel"
 							});
+
 							items.push({
 								type : "input",
-								disabled : "false",
+								disabled : "true",
 								sub_type : "text",
-								required : false,
+								required : true,
 								maxlength : "50",
-								placeholder : "请输入序列号",
-								label : "序列号",
-								need : false,
-								name : 'sn',
-								ng_model : "sn"
+								placeholder : "单位",
+								label : "单位",
+								need : true,
+								name : 'ctunit',
+								ng_model : "ctunit"
 							});
+
 
 							items.push( {
 								type : "select",
 								disabled : "false",
-								label : "供应商",
+								label : "厂商",
 								need : false,
 								disable_search : "false",
 								dataOpt : "zcsupperOpt",
 								dataSel : "zcsupperSel"
 							});
-							items.push( {
-								type : "select",
-								disabled : "false",
-								label : "资产来源",
-								need : true,
-								disable_search : "true",
-								dataOpt : "zcsourceOpt",
-								dataSel : "zcsourceSel"
-							});
-							items.push( {
-								type : "select",
-								disabled : zcrecycle,
-								label : "资产状态",
-								need : true,
-								disable_search : "true",
-								dataOpt : "recycelOpt",
-								dataSel : "recycelSel"
-							});
+
+
 							items.push({
 								type : "input",
 								disabled : "false",
@@ -517,21 +501,10 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								required : true,
 								maxlength : "50",
 								placeholder : "",
-								label : "资产数量",
+								label : "数量",
 								need : true,
 								name : 'zc_cnt',
 								ng_model : "zc_cnt"
-							});
-
-
-							items.push( {
-								type : "select",
-								disabled : "false",
-								label : "资产品牌",
-								need : false,
-								disable_search : "false",
-								dataOpt : "pinpOpt",
-								dataSel : "pinpSel"
 							});
 
 							items.push({
@@ -541,29 +514,12 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								required : false,
 								maxlength : "50",
 								placeholder : "",
-								label : "其他资产编号",
+								label : "批次号",
 								need : false,
-								name : 'fs20',
-								ng_model : "fs20"
+								name : 'batchno',
+								ng_model : "batchno"
 							});
 
-
-
-
-
-
-							items.push( {
-								type : "input",
-								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入配置描述",
-								label : "配置描述",
-								need : false,
-								name : 'confdesc',
-								ng_model : "confdesc"
-							});
 							items.push({
 								type : "input",
 								disabled : "false",
@@ -604,22 +560,11 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							});
 
 
-
-
 							items.push({
 								type : "dashed",
 								name : 'model'
 							});
 
-							items.push({
-								type : "select",
-								disabled : "false",
-								label : "所属公司",
-								need : true,
-								disable_search : "false",
-								dataOpt : "belongcompOpt",
-								dataSel : "belongcompSel"
-							});
 
 							items.push({
 								type : "select",
@@ -629,27 +574,6 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								disable_search : "false",
 								dataOpt : "compOpt",
 								dataSel : "compSel"
-							});
-
-
-							items.push({
-								type : "select",
-								disabled : "false",
-								label : "使用部门",
-								need : false,
-								disable_search : "false",
-								dataOpt : "partOpt",
-								dataSel : "partSel"
-							});
-
-							items.push({
-								type : "select",
-								disabled : "false",
-								label : "使用人",
-								need : false,
-								disable_search : "false",
-								dataOpt : "usedunameOpt",
-								dataSel : "usedunameSel"
 							});
 
 
@@ -667,18 +591,16 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								dataSel : "locSel"
 							});
 
-							items.push({
-								type : "input",
+							items.push( {
+								type : "select",
 								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "50",
-								placeholder : "请输入详细位置",
-								label : "详细位置",
+								label : "仓库",
 								need : false,
-								name : 'locdtl',
-								ng_model : "locdtl"
+								disable_search : "false",
+								dataOpt : "warehouseOpt",
+								dataSel : "warehouseSel"
 							});
+
 
 							items.push({
 								type : "dashed",
@@ -700,76 +622,10 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								required : false,
 								maxlength : "30",
 								placeholder : "请输入采购价格",
-								label : "采购单价",
+								label : "采购价格",
 								need : false,
 								name : 'buy_price',
 								ng_model : "buy_price"
-							});
-							items.push({
-								type : "input",
-								disabled : "false",
-								sub_type : "number",
-								required : false,
-								maxlength : "30",
-								placeholder : "请输入资产净值",
-								label : "资产净值",
-								need : false,
-								name : 'net_worth',
-								ng_model : "net_worth"
-							});
-
-
-							items.push({
-								type : "dashed",
-								name : 'model'
-							});
-							items.push( {
-								type : "select",
-								disabled : "false",
-								label : "维保供应商",
-								need : false,
-								disable_search : "false",
-								dataOpt : "zcwbsupperOpt",
-								dataSel : "zcwbsupperSel"
-							});
-							items.push( {
-								type : "select",
-								disabled : "false",
-								label : "脱保计算",
-								need : false,
-								disable_search : "true",
-								dataOpt : "tbOpt",
-								dataSel : "tbSel"
-							});
-							items.push( {
-								type : "datetime",
-								disabled : "false",
-								label : "脱保时间",
-								need : false,
-								ng_model : "wboutdate"
-							});
-
-							items.push( {
-								type : "select",
-								disabled : "false",
-								label : "维保状态",
-								false : true,
-								disable_search : "true",
-								dataOpt : "wbOpt",
-								dataSel : "wbSel"
-							});
-
-							items.push({
-								type : "input",
-								disabled : "false",
-								sub_type : "text",
-								required : false,
-								maxlength : "100",
-								placeholder : "请输入内容",
-								label : "维保说明",
-								need : false,
-								name : 'wbct',
-								ng_model : "wbct"
 							});
 
 
@@ -813,6 +669,8 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								classSel:[],
 								usedunameOpt : [],
 								usedunameSel : "",
+								warehouseOpt:[],
+								warehouseSel:"",
 								locOpt : [],
 								locSel : "",
 								wbOpt : [],
@@ -861,6 +719,9 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 										modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
 									}
 
+									if(angular.isDefined( modal_meta.meta.warehouseSel.dict_item_id)){
+										modal_meta.meta.item.warehouse = modal_meta.meta.warehouseSel.dict_item_id;
+									}
 
 
 									if(angular.isDefined( modal_meta.meta.zcwbsupperSel.dict_item_id)){
@@ -882,6 +743,9 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									if(angular.isDefined( modal_meta.meta.compSel.id)){
 										modal_meta.meta.item.used_company_id =modal_meta.meta.compSel.id ;
 									}
+
+
+
 
 
 							

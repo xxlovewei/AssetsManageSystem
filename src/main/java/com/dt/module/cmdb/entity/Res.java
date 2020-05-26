@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-19
+ * @since 2020-05-26
  */
  
 @TableName("res")
@@ -30,53 +30,285 @@ public class Res extends BaseModel<Res> {
     @TableId("id")
     private String id;
     /**
-     * 资产编号
+     * 资产类目
      */
-    @TableField("uuid")
-    private String uuid;
+    @TableField("zc_category")
+    private String zcCategory;
     /**
      * 大类
      */
     @TableField("class_id")
     private String classId;
     /**
-     * 序列号
+     * 最近一次盘点时间
      */
-    @TableField("sn")
-    private String sn;
+    @TableField("lastinventorytime")
+    private Date lastinventorytime;
+    /**
+     * 国际大类
+     */
+    @TableField("gj_dl")
+    private String gjDl;
+    /**
+     * 国际小类
+     */
+    @TableField("gj_xl")
+    private String gjXl;
+    /**
+     * 小类
+     */
+    @TableField("type")
+    private String type;
+    /**
+     * 资产编号
+     */
+    @TableField("uuid")
+    private String uuid;
     /**
      * 资产名称
      */
     @TableField("name")
     private String name;
-    
+    /**
+     * 型号
+     */
+    @TableField("model")
+    private String model;
+    /**
+     * 资产来源
+     */
+    @TableField("zcsource")
+    private String zcsource;
+    /**
+     * 序列号
+     */
+    @TableField("sn")
+    private String sn;
+    /**
+     * 版本
+     */
+    @TableField("version")
+    private String version;
     /**
      *  资产描述
      */
     @TableField("res_desc")
     private String resDesc;
     /**
-     * 维护人用户ID
-     */
-    @TableField("maintain_userid")
-    private String maintainUserid;
-    @TableField("headuserid")
-    private String headuserid;
-    /**
      * 品牌
      */
     @TableField("brand")
     private String brand;
     /**
-     * 位置
+     * 供应商
+     */
+    @TableField("supplier")
+    private String supplier;
+    /**
+     * 生命周期状态
+     */
+    @TableField("recycle")
+    private String recycle;
+    /**
+     * 生命周期
+     */
+    @TableField("prerecycle")
+    private String prerecycle;
+    /**
+     * 运行环境
+     */
+    @TableField("env")
+    private String env;
+    /**
+     * 风险等级
+     */
+    @TableField("risk")
+    private String risk;
+    /**
+     * 购买时间
+     */
+    @TableField("buy_time")
+    private Date buyTime;
+    /**
+     * 下线时间
+     */
+    @TableField("offline_time")
+    private Date offlineTime;
+    /**
+     * 上线时间
+     */
+    @TableField("online_time")
+    private Date onlineTime;
+    /**
+     * ip
+     */
+    @TableField("ip")
+    private String ip;
+    /**
+     * 二维码
+     */
+    @TableField("rwm")
+    private String rwm;
+    /**
+     * 配置描述
+     */
+    @TableField("confdesc")
+    private String confdesc;
+    /**
+     * 资产区域
      */
     @TableField("loc")
     private String loc;
     /**
-     * 是否显示位置
+     * 资产区域是否显示
      */
     @TableField("locshow")
     private String locshow;
+    /**
+     * 位置详情
+     */
+    @TableField("locdtl")
+    private String locdtl;
+    /**
+     * 机柜号
+     */
+    @TableField("rack")
+    private String rack;
+    /**
+     * 机架号
+     */
+    @TableField("frame")
+    private String frame;
+    /**
+     * 归属公司
+     */
+    @TableField("belong_company_id")
+    private String belongCompanyId;
+    /**
+     * 归属部门
+     */
+    @TableField("belong_part_id")
+    private String belongPartId;
+    /**
+     * 使用公司Id
+     */
+    @TableField("used_company_id")
+    private String usedCompanyId;
+    /**
+     * 使用部门Id
+     */
+    @TableField("part_id")
+    private String partId;
+    /**
+     * 使用人Id
+     */
+    @TableField("used_userid")
+    private String usedUserid;
+    /**
+     * 管理部门Id
+     */
+    @TableField("mgr_part_id")
+    private String mgrPartId;
+    /**
+     * 维护人用户ID
+     */
+    @TableField("maintain_userid")
+    private String maintainUserid;
+    /**
+     * 负责人ID
+     */
+    @TableField("headuserid")
+    private String headuserid;
+    /**
+     * 采购单价
+     */
+    @TableField("buy_price")
+    private BigDecimal buyPrice;
+    /**
+     * 当前价值
+     */
+    @TableField("net_worth")
+    private BigDecimal netWorth;
+    /**
+     * 资产数量
+     */
+    @TableField("zc_cnt")
+    private BigDecimal zcCnt;
+    /**
+     * 资产变更状态
+     */
+    @TableField("actionstatus")
+    private String actionstatus;
+    /**
+     * 维保状态
+     */
+    @TableField("wb")
+    private String wb;
+    /**
+     * 是否自动计算维保:1,0
+     */
+    @TableField("wb_auto")
+    private String wbAuto;
+    /**
+     * 脱保时间
+     */
+    @TableField("wbout_date")
+    private Date wboutDate;
+    /**
+     * 维保供应商
+     */
+    @TableField("wbsupplier")
+    private String wbsupplier;
+    /**
+     * 维保说明
+     */
+    @TableField("wbct")
+    private String wbct;
+    /**
+     * 状态,未使用
+     */
+    @TableField("status")
+    private String status;
+    /**
+     * 资产变更期间临时状态
+     */
+    @TableField("changestatus")
+    private String changestatus;
+    /**
+     * 批量导入标记
+     */
+    @TableField("importlabel")
+    private String importlabel;
+    /**
+     * 图片Id
+     */
+    @TableField("img")
+    private String img;
+    /**
+     * 附件
+     */
+    @TableField("attach")
+    private String attach;
+    /**
+     * 备注
+     */
+    @TableField("mark")
+    private String mark;
+    /**
+     * 复核状态:updated,reviewed
+     */
+    @TableField("changestate")
+    private String changestate;
+    /**
+     * 复核人Id
+     */
+    @TableField("review_userid")
+    private String reviewUserid;
+    /**
+     * 最后复核时间
+     */
+    @TableField("review_date")
+    private Date reviewDate;
     /**
      * 资产标签1
      */
@@ -169,211 +401,12 @@ public class Res extends BaseModel<Res> {
     private Date fd2;
     @TableField("fd3")
     private Date fd3;
-    /**
-     * 运行环境
-     */
-    @TableField("env")
-    private String env;
-    /**
-     * 风险等级
-     */
-    @TableField("risk")
-    private String risk;
-    /**
-     * 版本
-     */
-    @TableField("version")
-    private String version;
-    /**
-     * 图片Id
-     */
-    @TableField("img")
-    private String img;
-    /**
-     * 供应商
-     */
-    @TableField("supplier")
-    private String supplier;
-    /**
-     * 备注
-     */
-    @TableField("mark")
-    private String mark;
-    /**
-     * 生命周期状态
-     */
-    @TableField("recycle")
-    private String recycle;
-    /**
-     * 生命周期
-     */
-    @TableField("prerecycle")
-    private String prerecycle;
-    /**
-     * 购买时间
-     */
-    @TableField("buy_time")
-    private Date buyTime;
-    /**
-     * 报废时间
-     */
-    @TableField("offline_time")
-    private Date offlineTime;
-    /**
-     * 上线时间
-     */
-    @TableField("online_time")
-    private Date onlineTime;
-    /**
-     * ip
-     */
-    @TableField("ip")
-    private String ip;
-    /**
-     * 二维码
-     */
-    @TableField("rwm")
-    private String rwm;
-    /**
-     * 型号
-     */
-    @TableField("model")
-    private String model;
-    /**
-     * 小类
-     */
-    @TableField("type")
-    private String type;
-    /**
-     * 机架号
-     */
-    @TableField("frame")
-    private String frame;
-    /**
-     * 配置描述
-     */
-    @TableField("confdesc")
-    private String confdesc;
-    /**
-     * 维保状态
-     */
-    @TableField("wb")
-    private String wb;
-    /**
-     * 机柜号
-     */
-    @TableField("rack")
-    private String rack;
-    /**
-     * 复核状态:updated,reviewed
-     */
-    @TableField("changestate")
-    private String changestate;
-    /**
-     * 复核人Id
-     */
-    @TableField("review_userid")
-    private String reviewUserid;
-    /**
-     * 最后复核时间
-     */
-    @TableField("review_date")
-    private Date reviewDate;
-    /**
-     * 采购单价
-     */
-    @TableField("buy_price")
-    private BigDecimal buyPrice;
-    /**
-     * 使用部门Id
-     */
-    @TableField("part_id")
-    private BigDecimal partId;
-    /**
-     * 使用人Id
-     */
-    @TableField("used_userid")
-    private String usedUserid;
-    /**
-     * 管理部门Id
-     */
-    @TableField("mgr_part_id")
-    private String mgrPartId;
-    /**
-     * 当前价值
-     */
-    @TableField("net_worth")
-    private BigDecimal netWorth;
-    /**
-     * 资产分类
-     */
-    @TableField("zc_category")
-    private String zcCategory;
-    /**
-     * 位置详情
-     */
-    @TableField("locdtl")
-    private String locdtl;
-    /**
-     * 资产数量
-     */
-    @TableField("zc_cnt")
-    private BigDecimal zcCnt;
-    /**
-     * 国际大类
-     */
-    @TableField("gj_dl")
-    private String gjDl;
-    /**
-     * 国际小类
-     */
-    @TableField("gj_xl")
-    private String gjXl;
-    /**
-     * 批量导入标记
-     */
-    @TableField("importlabel")
-    private String importlabel;
-    /**
-     * 附件
-     */
-    @TableField("attach")
-    private String attach;
-    /**
-     * 资产变更状态
-     */
-    @TableField("actionstatus")
-    private String actionstatus;
-    /**
-     * 资产来源
-     */
-    @TableField("zcsource")
-    private String zcsource;
-    /**
-     * 是否自动计算维保:1,0
-     */
-    @TableField("wb_auto")
-    private String wbAuto;
-    /**
-     * 脱保时间
-     */
-    @TableField("wbout_date")
-    private Date wboutDate;
-    /**
-     * 维保供应商
-     */
-    @TableField("wbsupplier")
-    private String wbsupplier;
-    /**
-     * 维保说明
-     */
-    @TableField("wbct")
-    private String wbct;
-    /**
-     * 状态
-     */
-    @TableField("status")
-    private String status;
+    @TableField("warehouse")
+    private String warehouse;
+    @TableField("unit_price")
+    private BigDecimal unitPrice;
+    @TableField("batchno")
+    private String batchno;
 
 
     public String getId() {
@@ -384,12 +417,12 @@ public class Res extends BaseModel<Res> {
         this.id = id;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getZcCategory() {
+        return zcCategory;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setZcCategory(String zcCategory) {
+        this.zcCategory = zcCategory;
     }
 
     public String getClassId() {
@@ -400,12 +433,44 @@ public class Res extends BaseModel<Res> {
         this.classId = classId;
     }
 
-    public String getSn() {
-        return sn;
+    public Date getLastinventorytime() {
+        return lastinventorytime;
     }
 
-    public void setSn(String sn) {
-        this.sn = sn;
+    public void setLastinventorytime(Date lastinventorytime) {
+        this.lastinventorytime = lastinventorytime;
+    }
+
+    public String getGjDl() {
+        return gjDl;
+    }
+
+    public void setGjDl(String gjDl) {
+        this.gjDl = gjDl;
+    }
+
+    public String getGjXl() {
+        return gjXl;
+    }
+
+    public void setGjXl(String gjXl) {
+        this.gjXl = gjXl;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getName() {
@@ -416,12 +481,228 @@ public class Res extends BaseModel<Res> {
         this.name = name;
     }
 
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getZcsource() {
+        return zcsource;
+    }
+
+    public void setZcsource(String zcsource) {
+        this.zcsource = zcsource;
+    }
+
+    public String getSn() {
+        return sn;
+    }
+
+    public void setSn(String sn) {
+        this.sn = sn;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
     public String getResDesc() {
         return resDesc;
     }
 
     public void setResDesc(String resDesc) {
         this.resDesc = resDesc;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
+    public String getRecycle() {
+        return recycle;
+    }
+
+    public void setRecycle(String recycle) {
+        this.recycle = recycle;
+    }
+
+    public String getPrerecycle() {
+        return prerecycle;
+    }
+
+    public void setPrerecycle(String prerecycle) {
+        this.prerecycle = prerecycle;
+    }
+
+    public String getEnv() {
+        return env;
+    }
+
+    public void setEnv(String env) {
+        this.env = env;
+    }
+
+    public String getRisk() {
+        return risk;
+    }
+
+    public void setRisk(String risk) {
+        this.risk = risk;
+    }
+
+    public Date getBuyTime() {
+        return buyTime;
+    }
+
+    public void setBuyTime(Date buyTime) {
+        this.buyTime = buyTime;
+    }
+
+    public Date getOfflineTime() {
+        return offlineTime;
+    }
+
+    public void setOfflineTime(Date offlineTime) {
+        this.offlineTime = offlineTime;
+    }
+
+    public Date getOnlineTime() {
+        return onlineTime;
+    }
+
+    public void setOnlineTime(Date onlineTime) {
+        this.onlineTime = onlineTime;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getRwm() {
+        return rwm;
+    }
+
+    public void setRwm(String rwm) {
+        this.rwm = rwm;
+    }
+
+    public String getConfdesc() {
+        return confdesc;
+    }
+
+    public void setConfdesc(String confdesc) {
+        this.confdesc = confdesc;
+    }
+
+    public String getLoc() {
+        return loc;
+    }
+
+    public void setLoc(String loc) {
+        this.loc = loc;
+    }
+
+    public String getLocshow() {
+        return locshow;
+    }
+
+    public void setLocshow(String locshow) {
+        this.locshow = locshow;
+    }
+
+    public String getLocdtl() {
+        return locdtl;
+    }
+
+    public void setLocdtl(String locdtl) {
+        this.locdtl = locdtl;
+    }
+
+    public String getRack() {
+        return rack;
+    }
+
+    public void setRack(String rack) {
+        this.rack = rack;
+    }
+
+    public String getFrame() {
+        return frame;
+    }
+
+    public void setFrame(String frame) {
+        this.frame = frame;
+    }
+
+    public String getBelongCompanyId() {
+        return belongCompanyId;
+    }
+
+    public void setBelongCompanyId(String belongCompanyId) {
+        this.belongCompanyId = belongCompanyId;
+    }
+
+    public String getBelongPartId() {
+        return belongPartId;
+    }
+
+    public void setBelongPartId(String belongPartId) {
+        this.belongPartId = belongPartId;
+    }
+
+    public String getUsedCompanyId() {
+        return usedCompanyId;
+    }
+
+    public void setUsedCompanyId(String usedCompanyId) {
+        this.usedCompanyId = usedCompanyId;
+    }
+
+    public String getPartId() {
+        return partId;
+    }
+
+    public void setPartId(String partId) {
+        this.partId = partId;
+    }
+
+    public String getUsedUserid() {
+        return usedUserid;
+    }
+
+    public void setUsedUserid(String usedUserid) {
+        this.usedUserid = usedUserid;
+    }
+
+    public String getMgrPartId() {
+        return mgrPartId;
+    }
+
+    public void setMgrPartId(String mgrPartId) {
+        this.mgrPartId = mgrPartId;
     }
 
     public String getMaintainUserid() {
@@ -440,28 +721,148 @@ public class Res extends BaseModel<Res> {
         this.headuserid = headuserid;
     }
 
-    public String getBrand() {
-        return brand;
+    public BigDecimal getBuyPrice() {
+        return buyPrice;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setBuyPrice(BigDecimal buyPrice) {
+        this.buyPrice = buyPrice;
     }
 
-    public String getLoc() {
-        return loc;
+    public BigDecimal getNetWorth() {
+        return netWorth;
     }
 
-    public void setLoc(String loc) {
-        this.loc = loc;
+    public void setNetWorth(BigDecimal netWorth) {
+        this.netWorth = netWorth;
     }
 
-    public String getLocshow() {
-        return locshow;
+    public BigDecimal getZcCnt() {
+        return zcCnt;
     }
 
-    public void setLocshow(String locshow) {
-        this.locshow = locshow;
+    public void setZcCnt(BigDecimal zcCnt) {
+        this.zcCnt = zcCnt;
+    }
+
+    public String getActionstatus() {
+        return actionstatus;
+    }
+
+    public void setActionstatus(String actionstatus) {
+        this.actionstatus = actionstatus;
+    }
+
+    public String getWb() {
+        return wb;
+    }
+
+    public void setWb(String wb) {
+        this.wb = wb;
+    }
+
+    public String getWbAuto() {
+        return wbAuto;
+    }
+
+    public void setWbAuto(String wbAuto) {
+        this.wbAuto = wbAuto;
+    }
+
+    public Date getWboutDate() {
+        return wboutDate;
+    }
+
+    public void setWboutDate(Date wboutDate) {
+        this.wboutDate = wboutDate;
+    }
+
+    public String getWbsupplier() {
+        return wbsupplier;
+    }
+
+    public void setWbsupplier(String wbsupplier) {
+        this.wbsupplier = wbsupplier;
+    }
+
+    public String getWbct() {
+        return wbct;
+    }
+
+    public void setWbct(String wbct) {
+        this.wbct = wbct;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getChangestatus() {
+        return changestatus;
+    }
+
+    public void setChangestatus(String changestatus) {
+        this.changestatus = changestatus;
+    }
+
+    public String getImportlabel() {
+        return importlabel;
+    }
+
+    public void setImportlabel(String importlabel) {
+        this.importlabel = importlabel;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getAttach() {
+        return attach;
+    }
+
+    public void setAttach(String attach) {
+        this.attach = attach;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
+    public String getChangestate() {
+        return changestate;
+    }
+
+    public void setChangestate(String changestate) {
+        this.changestate = changestate;
+    }
+
+    public String getReviewUserid() {
+        return reviewUserid;
+    }
+
+    public void setReviewUserid(String reviewUserid) {
+        this.reviewUserid = reviewUserid;
+    }
+
+    public Date getReviewDate() {
+        return reviewDate;
+    }
+
+    public void setReviewDate(Date reviewDate) {
+        this.reviewDate = reviewDate;
     }
 
     public String getFs1() {
@@ -808,332 +1209,28 @@ public class Res extends BaseModel<Res> {
         this.fd3 = fd3;
     }
 
-    public String getEnv() {
-        return env;
+    public String getWarehouse() {
+        return warehouse;
     }
 
-    public void setEnv(String env) {
-        this.env = env;
+    public void setWarehouse(String warehouse) {
+        this.warehouse = warehouse;
     }
 
-    public String getRisk() {
-        return risk;
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setRisk(String risk) {
-        this.risk = risk;
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
-    public String getVersion() {
-        return version;
+    public String getBatchno() {
+        return batchno;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public String getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
-    }
-
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
-
-    public String getRecycle() {
-        return recycle;
-    }
-
-    public void setRecycle(String recycle) {
-        this.recycle = recycle;
-    }
-
-    public String getPrerecycle() {
-        return prerecycle;
-    }
-
-    public void setPrerecycle(String prerecycle) {
-        this.prerecycle = prerecycle;
-    }
-
-    public Date getBuyTime() {
-        return buyTime;
-    }
-
-    public void setBuyTime(Date buyTime) {
-        this.buyTime = buyTime;
-    }
-
-    public Date getOfflineTime() {
-        return offlineTime;
-    }
-
-    public void setOfflineTime(Date offlineTime) {
-        this.offlineTime = offlineTime;
-    }
-
-    public Date getOnlineTime() {
-        return onlineTime;
-    }
-
-    public void setOnlineTime(Date onlineTime) {
-        this.onlineTime = onlineTime;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public String getRwm() {
-        return rwm;
-    }
-
-    public void setRwm(String rwm) {
-        this.rwm = rwm;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getFrame() {
-        return frame;
-    }
-
-    public void setFrame(String frame) {
-        this.frame = frame;
-    }
-
-    public String getConfdesc() {
-        return confdesc;
-    }
-
-    public void setConfdesc(String confdesc) {
-        this.confdesc = confdesc;
-    }
-
-    public String getWb() {
-        return wb;
-    }
-
-    public void setWb(String wb) {
-        this.wb = wb;
-    }
-
-    public String getRack() {
-        return rack;
-    }
-
-    public void setRack(String rack) {
-        this.rack = rack;
-    }
-
-    public String getChangestate() {
-        return changestate;
-    }
-
-    public void setChangestate(String changestate) {
-        this.changestate = changestate;
-    }
-
-    public String getReviewUserid() {
-        return reviewUserid;
-    }
-
-    public void setReviewUserid(String reviewUserid) {
-        this.reviewUserid = reviewUserid;
-    }
-
-    public Date getReviewDate() {
-        return reviewDate;
-    }
-
-    public void setReviewDate(Date reviewDate) {
-        this.reviewDate = reviewDate;
-    }
-
-    public BigDecimal getBuyPrice() {
-        return buyPrice;
-    }
-
-    public void setBuyPrice(BigDecimal buyPrice) {
-        this.buyPrice = buyPrice;
-    }
-
-    public BigDecimal getPartId() {
-        return partId;
-    }
-
-    public void setPartId(BigDecimal partId) {
-        this.partId = partId;
-    }
-
-    public String getUsedUserid() {
-        return usedUserid;
-    }
-
-    public void setUsedUserid(String usedUserid) {
-        this.usedUserid = usedUserid;
-    }
-
-    public String getMgrPartId() {
-        return mgrPartId;
-    }
-
-    public void setMgrPartId(String mgrPartId) {
-        this.mgrPartId = mgrPartId;
-    }
-
-    public BigDecimal getNetWorth() {
-        return netWorth;
-    }
-
-    public void setNetWorth(BigDecimal netWorth) {
-        this.netWorth = netWorth;
-    }
-
-    public String getZcCategory() {
-        return zcCategory;
-    }
-
-    public void setZcCategory(String zcCategory) {
-        this.zcCategory = zcCategory;
-    }
-
-    public String getLocdtl() {
-        return locdtl;
-    }
-
-    public void setLocdtl(String locdtl) {
-        this.locdtl = locdtl;
-    }
-
-    public BigDecimal getZcCnt() {
-        return zcCnt;
-    }
-
-    public void setZcCnt(BigDecimal zcCnt) {
-        this.zcCnt = zcCnt;
-    }
-
-    public String getGjDl() {
-        return gjDl;
-    }
-
-    public void setGjDl(String gjDl) {
-        this.gjDl = gjDl;
-    }
-
-    public String getGjXl() {
-        return gjXl;
-    }
-
-    public void setGjXl(String gjXl) {
-        this.gjXl = gjXl;
-    }
-
-    public String getImportlabel() {
-        return importlabel;
-    }
-
-    public void setImportlabel(String importlabel) {
-        this.importlabel = importlabel;
-    }
-
-    public String getAttach() {
-        return attach;
-    }
-
-    public void setAttach(String attach) {
-        this.attach = attach;
-    }
-
-    public String getActionstatus() {
-        return actionstatus;
-    }
-
-    public void setActionstatus(String actionstatus) {
-        this.actionstatus = actionstatus;
-    }
-
-    public String getZcsource() {
-        return zcsource;
-    }
-
-    public void setZcsource(String zcsource) {
-        this.zcsource = zcsource;
-    }
-
-    public String getWbAuto() {
-        return wbAuto;
-    }
-
-    public void setWbAuto(String wbAuto) {
-        this.wbAuto = wbAuto;
-    }
-
-    public Date getWboutDate() {
-        return wboutDate;
-    }
-
-    public void setWboutDate(Date wboutDate) {
-        this.wboutDate = wboutDate;
-    }
-
-    public String getWbsupplier() {
-        return wbsupplier;
-    }
-
-    public void setWbsupplier(String wbsupplier) {
-        this.wbsupplier = wbsupplier;
-    }
-
-    public String getWbct() {
-        return wbct;
-    }
-
-    public void setWbct(String wbct) {
-        this.wbct = wbct;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setBatchno(String batchno) {
+        this.batchno = batchno;
     }
 
     @Override
@@ -1145,16 +1242,62 @@ public class Res extends BaseModel<Res> {
     public String toString() {
         return "Res{" +
         "id=" + id +
-        ", uuid=" + uuid +
+        ", zcCategory=" + zcCategory +
         ", classId=" + classId +
-        ", sn=" + sn +
+        ", lastinventorytime=" + lastinventorytime +
+        ", gjDl=" + gjDl +
+        ", gjXl=" + gjXl +
+        ", type=" + type +
+        ", uuid=" + uuid +
         ", name=" + name +
+        ", model=" + model +
+        ", zcsource=" + zcsource +
+        ", sn=" + sn +
+        ", version=" + version +
         ", resDesc=" + resDesc +
-        ", maintainUserid=" + maintainUserid +
-        ", headuserid=" + headuserid +
         ", brand=" + brand +
+        ", supplier=" + supplier +
+        ", recycle=" + recycle +
+        ", prerecycle=" + prerecycle +
+        ", env=" + env +
+        ", risk=" + risk +
+        ", buyTime=" + buyTime +
+        ", offlineTime=" + offlineTime +
+        ", onlineTime=" + onlineTime +
+        ", ip=" + ip +
+        ", rwm=" + rwm +
+        ", confdesc=" + confdesc +
         ", loc=" + loc +
         ", locshow=" + locshow +
+        ", locdtl=" + locdtl +
+        ", rack=" + rack +
+        ", frame=" + frame +
+        ", belongCompanyId=" + belongCompanyId +
+        ", belongPartId=" + belongPartId +
+        ", usedCompanyId=" + usedCompanyId +
+        ", partId=" + partId +
+        ", usedUserid=" + usedUserid +
+        ", mgrPartId=" + mgrPartId +
+        ", maintainUserid=" + maintainUserid +
+        ", headuserid=" + headuserid +
+        ", buyPrice=" + buyPrice +
+        ", netWorth=" + netWorth +
+        ", zcCnt=" + zcCnt +
+        ", actionstatus=" + actionstatus +
+        ", wb=" + wb +
+        ", wbAuto=" + wbAuto +
+        ", wboutDate=" + wboutDate +
+        ", wbsupplier=" + wbsupplier +
+        ", wbct=" + wbct +
+        ", status=" + status +
+        ", changestatus=" + changestatus +
+        ", importlabel=" + importlabel +
+        ", img=" + img +
+        ", attach=" + attach +
+        ", mark=" + mark +
+        ", changestate=" + changestate +
+        ", reviewUserid=" + reviewUserid +
+        ", reviewDate=" + reviewDate +
         ", fs1=" + fs1 +
         ", fs2=" + fs2 +
         ", fs3=" + fs3 +
@@ -1198,47 +1341,9 @@ public class Res extends BaseModel<Res> {
         ", fd1=" + fd1 +
         ", fd2=" + fd2 +
         ", fd3=" + fd3 +
-        ", env=" + env +
-        ", risk=" + risk +
-        ", version=" + version +
-        ", img=" + img +
-        ", supplier=" + supplier +
-        ", mark=" + mark +
-        ", recycle=" + recycle +
-        ", prerecycle=" + prerecycle +
-        ", buyTime=" + buyTime +
-        ", offlineTime=" + offlineTime +
-        ", onlineTime=" + onlineTime +
-        ", ip=" + ip +
-        ", rwm=" + rwm +
-        ", model=" + model +
-        ", type=" + type +
-        ", frame=" + frame +
-        ", confdesc=" + confdesc +
-        ", wb=" + wb +
-        ", rack=" + rack +
-        ", changestate=" + changestate +
-        ", reviewUserid=" + reviewUserid +
-        ", reviewDate=" + reviewDate +
-        ", buyPrice=" + buyPrice +
-        ", partId=" + partId +
-        ", usedUserid=" + usedUserid +
-        ", mgrPartId=" + mgrPartId +
-        ", netWorth=" + netWorth +
-        ", zcCategory=" + zcCategory +
-        ", locdtl=" + locdtl +
-        ", zcCnt=" + zcCnt +
-        ", gjDl=" + gjDl +
-        ", gjXl=" + gjXl +
-        ", importlabel=" + importlabel +
-        ", attach=" + attach +
-        ", actionstatus=" + actionstatus +
-        ", zcsource=" + zcsource +
-        ", wbAuto=" + wbAuto +
-        ", wboutDate=" + wboutDate +
-        ", wbsupplier=" + wbsupplier +
-        ", wbct=" + wbct +
-        ", status=" + status +
+        ", warehouse=" + warehouse +
+        ", unitPrice=" + unitPrice +
+        ", batchno=" + batchno +
         "}";
     }
 }

@@ -468,7 +468,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						required : true,
 						maxlength : "50",
 						placeholder : "请输型号",
-						label : "资产型号",
+						label : "规格型号",
 						need : true,
 						name : 'model',
 						ng_model : "model"

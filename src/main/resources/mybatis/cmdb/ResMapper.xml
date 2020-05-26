@@ -10,16 +10,62 @@
     <result column="create_by" property="createBy" />
     <result column="create_time" property="createTime" />
     <result column="update_time" property="updateTime" />
-        <result column="uuid" property="uuid" />
+        <result column="zc_category" property="zcCategory" />
         <result column="class_id" property="classId" />
-        <result column="sn" property="sn" />
+        <result column="lastinventorytime" property="lastinventorytime" />
+        <result column="gj_dl" property="gjDl" />
+        <result column="gj_xl" property="gjXl" />
+        <result column="type" property="type" />
+        <result column="uuid" property="uuid" />
         <result column="name" property="name" />
+        <result column="model" property="model" />
+        <result column="zcsource" property="zcsource" />
+        <result column="sn" property="sn" />
+        <result column="version" property="version" />
         <result column="res_desc" property="resDesc" />
-        <result column="maintain_userid" property="maintainUserid" />
-        <result column="headuserid" property="headuserid" />
         <result column="brand" property="brand" />
+        <result column="supplier" property="supplier" />
+        <result column="recycle" property="recycle" />
+        <result column="prerecycle" property="prerecycle" />
+        <result column="env" property="env" />
+        <result column="risk" property="risk" />
+        <result column="buy_time" property="buyTime" />
+        <result column="offline_time" property="offlineTime" />
+        <result column="online_time" property="onlineTime" />
+        <result column="ip" property="ip" />
+        <result column="rwm" property="rwm" />
+        <result column="confdesc" property="confdesc" />
         <result column="loc" property="loc" />
         <result column="locshow" property="locshow" />
+        <result column="locdtl" property="locdtl" />
+        <result column="rack" property="rack" />
+        <result column="frame" property="frame" />
+        <result column="belong_company_id" property="belongCompanyId" />
+        <result column="belong_part_id" property="belongPartId" />
+        <result column="used_company_id" property="usedCompanyId" />
+        <result column="part_id" property="partId" />
+        <result column="used_userid" property="usedUserid" />
+        <result column="mgr_part_id" property="mgrPartId" />
+        <result column="maintain_userid" property="maintainUserid" />
+        <result column="headuserid" property="headuserid" />
+        <result column="buy_price" property="buyPrice" />
+        <result column="net_worth" property="netWorth" />
+        <result column="zc_cnt" property="zcCnt" />
+        <result column="actionstatus" property="actionstatus" />
+        <result column="wb" property="wb" />
+        <result column="wb_auto" property="wbAuto" />
+        <result column="wbout_date" property="wboutDate" />
+        <result column="wbsupplier" property="wbsupplier" />
+        <result column="wbct" property="wbct" />
+        <result column="status" property="status" />
+        <result column="changestatus" property="changestatus" />
+        <result column="importlabel" property="importlabel" />
+        <result column="img" property="img" />
+        <result column="attach" property="attach" />
+        <result column="mark" property="mark" />
+        <result column="changestate" property="changestate" />
+        <result column="review_userid" property="reviewUserid" />
+        <result column="review_date" property="reviewDate" />
         <result column="fs1" property="fs1" />
         <result column="fs2" property="fs2" />
         <result column="fs3" property="fs3" />
@@ -63,47 +109,9 @@
         <result column="fd1" property="fd1" />
         <result column="fd2" property="fd2" />
         <result column="fd3" property="fd3" />
-        <result column="env" property="env" />
-        <result column="risk" property="risk" />
-        <result column="version" property="version" />
-        <result column="img" property="img" />
-        <result column="supplier" property="supplier" />
-        <result column="mark" property="mark" />
-        <result column="recycle" property="recycle" />
-        <result column="prerecycle" property="prerecycle" />
-        <result column="buy_time" property="buyTime" />
-        <result column="offline_time" property="offlineTime" />
-        <result column="online_time" property="onlineTime" />
-        <result column="ip" property="ip" />
-        <result column="rwm" property="rwm" />
-        <result column="model" property="model" />
-        <result column="type" property="type" />
-        <result column="frame" property="frame" />
-        <result column="confdesc" property="confdesc" />
-        <result column="wb" property="wb" />
-        <result column="rack" property="rack" />
-        <result column="changestate" property="changestate" />
-        <result column="review_userid" property="reviewUserid" />
-        <result column="review_date" property="reviewDate" />
-        <result column="buy_price" property="buyPrice" />
-        <result column="part_id" property="partId" />
-        <result column="used_userid" property="usedUserid" />
-        <result column="mgr_part_id" property="mgrPartId" />
-        <result column="net_worth" property="netWorth" />
-        <result column="zc_category" property="zcCategory" />
-        <result column="locdtl" property="locdtl" />
-        <result column="zc_cnt" property="zcCnt" />
-        <result column="gj_dl" property="gjDl" />
-        <result column="gj_xl" property="gjXl" />
-        <result column="importlabel" property="importlabel" />
-        <result column="attach" property="attach" />
-        <result column="actionstatus" property="actionstatus" />
-        <result column="zcsource" property="zcsource" />
-        <result column="wb_auto" property="wbAuto" />
-        <result column="wbout_date" property="wboutDate" />
-        <result column="wbsupplier" property="wbsupplier" />
-        <result column="wbct" property="wbct" />
-        <result column="status" property="status" />
+        <result column="warehouse" property="warehouse" />
+        <result column="unit_price" property="unitPrice" />
+        <result column="batchno" property="batchno" />
     </resultMap>
 
 </mapper>

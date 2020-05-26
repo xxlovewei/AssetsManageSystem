@@ -28,4 +28,15 @@ public class BaseSC {
         }
         return user_id;
     }
+    public String getUserName() {
+        String name = (String) HttpKit.getRequest().getSession().getAttribute("name");
+        if (ToolUtil.isEmpty(name)) {
+            ShiroUser shiroUser = ShiroKit.getUser();
+            if (shiroUser != null) {
+                HttpKit.getRequest().getSession().setAttribute("user_id", shiroUser.getName());
+                return shiroUser.getName();
+            }
+        }
+        return name;
+    }
 }

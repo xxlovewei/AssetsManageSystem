@@ -1,6 +1,6 @@
-package com.dt.module.cmdb.mapper;
+package com.dt.module.zc.mapper;
 
-import com.dt.module.cmdb.entity.Res;
+import com.dt.module.zc.entity.ResInout;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author algernonking
  * @since 2020-05-26
  */
-public interface ResMapper extends BaseMapper<Res> {
+public interface ResInoutMapper extends BaseMapper<ResInout> {
 
 }

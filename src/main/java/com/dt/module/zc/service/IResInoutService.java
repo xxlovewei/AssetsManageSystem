@@ -1,6 +1,6 @@
-package com.dt.module.cmdb.service;
+package com.dt.module.zc.service;
 
-import com.dt.module.cmdb.entity.Res;
+import com.dt.module.zc.entity.ResInout;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author algernonking
  * @since 2020-05-26
  */
-public interface IResService extends IService<Res> {
+public interface IResInoutService extends IService<ResInout> {
 
 }

@@ -1,9 +1,9 @@
-package com.dt.module.cmdb.controller;
+package com.dt.module.zc.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.dt.module.cmdb.entity.Res;
-import com.dt.module.cmdb.service.IResService;
+import com.dt.module.zc.entity.ResInoutItem;
+import com.dt.module.zc.service.IResInoutItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -27,57 +27,57 @@ import com.dt.core.common.base.BaseController;
  * </p>
  *
  * @author algernonking
- * @since 2020-05-26
+ * @since 2020-05-25
  */
 @Controller
-@RequestMapping("/api/cmdb/res")
-public class ResController extends BaseController {
+@RequestMapping("/api/zc/resInoutItem")
+public class ResInoutItemController extends BaseController {
 
 
 	@Autowired
-	IResService ResServiceImpl;
+	IResInoutItemService ResInoutItemServiceImpl;
 
 
 	@ResponseBody
 	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(ResServiceImpl.removeById(id));
+		return R.SUCCESS_OPER(ResInoutItemServiceImpl.removeById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectById.do")
 	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		return R.SUCCESS_OPER(ResServiceImpl.getById(id));
+		return R.SUCCESS_OPER(ResInoutItemServiceImpl.getById(id));
 	}
 
 	@ResponseBody
 	@Acl(info = "插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insert.do")
-	public R insert(Res entity) {
-		return R.SUCCESS_OPER(ResServiceImpl.save(entity));
+	public R insert(ResInoutItem entity) {
+		return R.SUCCESS_OPER(ResInoutItemServiceImpl.save(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "根据Id更新", value = Acl.ACL_USER)
 	@RequestMapping(value = "/updateById.do")
-	public R updateById(Res entity) {
-		return R.SUCCESS_OPER(ResServiceImpl.updateById(entity));
+	public R updateById(ResInoutItem entity) {
+		return R.SUCCESS_OPER(ResInoutItemServiceImpl.updateById(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
 	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(Res entity) {
-		return R.SUCCESS_OPER(ResServiceImpl.saveOrUpdate(entity));
+	public R insertOrUpdate(ResInoutItem entity) {
+		return R.SUCCESS_OPER(ResInoutItemServiceImpl.saveOrUpdate(entity));
 	}
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList() {
-		return R.SUCCESS_OPER(ResServiceImpl.list(null));
+		return R.SUCCESS_OPER(ResInoutItemServiceImpl.list(null));
 	}
 
 	@ResponseBody
@@ -90,9 +90,9 @@ public class ResController extends BaseController {
 		}
 		int pagesize = respar.getIntValue("pagesize");
 		int pageindex = respar.getIntValue("pageindex");
-		QueryWrapper<Res> ew = new QueryWrapper<Res>();
+		QueryWrapper<ResInoutItem> ew = new QueryWrapper<ResInoutItem>();
 		//ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-		IPage<Res> pdata = ResServiceImpl.page(new Page<Res>(pageindex, pagesize), ew);
+		IPage<ResInoutItem> pdata = ResInoutItemServiceImpl.page(new Page<ResInoutItem>(pageindex, pagesize), ew);
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
