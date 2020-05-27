@@ -10,7 +10,7 @@
 		<button ng-click="cancel()" type="button" class="close">
 			<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 		</button>
-		<h4 class="modal-title">入库</h4>
+		<h4 class="modal-title">入库单</h4>
 	</div>
 	<div class="modal-body">
 		<div class="wrapper wrapper-content animated fadeInRight">
@@ -30,7 +30,7 @@
 					<label class="col-sm-2 control-label"><span
 							class="text-danger">*</span>标题:</label>
 					<div class="col-sm-10">
-						<input type="text" required ng-maxlength="100"
+						<input type="text" required ng-maxlength="100" ng-disabled="ctl.title"
 							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
 							   placeholder="请输入内容" name="title" ng-model="data.title">
 						<div class="text-danger"
@@ -45,7 +45,7 @@
 					<label class="col-sm-2 control-label">供应商:</label>
 					<div class="col-sm-10">
 						<input type="text"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+							   class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-disabled="ctl.suppliername"
 							   placeholder="请输入内容" name="suppliername" ng-model="data.suppliername">
 					</div>
 				</div>
@@ -54,10 +54,10 @@
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><span
-							style="color: red">*</span>采购时间:</label>
+							style="color: red">*</span>业务日期:</label>
 					<div class="col-sm-10">
-						<input date-time time-zone="Asia/Hong_Kong" style="width:100"
-							   style="width: 160px;!important" ng-model="data.cgtime"
+						<input date-time time-zone="Asia/Hong_Kong" style="width:100" ng-disabled="ctl.ywtime"
+							   style="width: 160px;!important" ng-model="data.ywtime"
 							   date-change="changeDate" view="date" auto-close="true"
 							   min-view="date" format="YYYY-MM-DD" class="form-control"
 							   type="datetime">
@@ -68,15 +68,15 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">备注:</label>
 					<div class="col-sm-10">
-						 	<textarea type="text" class="form-control " placeholder="请输入备注"
+						 	<textarea type="text" class="form-control " placeholder="请输入备注" ng-disabled="ctl.remark"
 									  name="mark" ng-model="data.remark"></textarea>
 					</div>
 				</div>
 
 
+				<div ng-hide="ctl.goods">
 				<hr>
 				<div style="margin-top:10px"></div>
-
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">物品类型:</label>
@@ -99,6 +99,7 @@
 					</div>
 				</div>
 
+
 				<div class="form-group">
 					<label class="col-sm-2 control-label">规格型号:</label>
 					<div class="col-sm-10">
@@ -116,6 +117,15 @@
 							   placeholder="" name="unit" ng-model="catSel.unit">
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">品牌商标:</label>
+					<div class="col-sm-10">
+						<input type="text" ng-disabled="true"
+							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+							   placeholder="" name="brandmark" ng-model="catSel.brandmark">
+					</div>
+				</div>
+
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">默认单价:</label>
@@ -219,11 +229,13 @@
 							   placeholder="" name="mark" ng-model="data.mark">
 					</div>
 				</div>
+
+				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><span
 							class="text-danger">*</span>物品列表:</label>
 					<div class="col-sm-10">
- 					<a href="javascript:void(0)" style="margin-top: 3px;"
+ 					<a href="javascript:void(0)" ng-disabled="ctl.addlist"   style="margin-top: 3px;"
  						   ng-click="zcadd()" class="btn btn-primary">加入列表</a>
 						<table datatable="ed" dt-options="dtOptions"
 							   dt-instance="dtInstance" dt-columns="dtColumns"

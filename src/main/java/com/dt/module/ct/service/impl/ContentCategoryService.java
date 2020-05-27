@@ -137,6 +137,9 @@ public class ContentCategoryService extends BaseService {
         ups.setIf("upcnt", ps.getString("upcnt"));
         ups.setIf("downcnt", ps.getString("downcnt"));
         ups.setIf("unitprice", ps.getString("unitprice"));
+        ups.setIf("supplier", ps.getString("supplier"));
+        ups.setIf("brandmark", ps.getString("brandmark"));
+        ups.setIf("acl", ps.getString("acl"));
         ups.setIf("isaction", ps.getString("isaction"));
         ups.where().and("id=?", id);
         db.execute(ups);

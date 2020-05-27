@@ -1,7 +1,7 @@
 function cmdbHCBJCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $timeout,$state) {
 
-	console.log('11',$state.router.globals.current.data)
+
 	$scope.typeOpt=[{
 		id:"dir",
 		name:"目录"

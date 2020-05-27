@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-05-25
+ * @since 2020-05-27
  */
  
 @TableName("res_inout_item")
@@ -25,14 +25,38 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
 
     @TableField("id")
     private String id;
+    /**
+     * 批次号
+     */
+    @TableField("batchno")
+    private String batchno;
+    @TableField("crkstatus")
+    private String crkstatus;
+    /**
+     * 数量
+     */
+    @TableField("zc_cnt")
+    private BigDecimal zcCnt;
+    /**
+     * 出库记录物品ID
+     */
+    @TableField("resid")
+    private String resid;
+    /**
+     * 单据号
+     */
     @TableField("uuid")
     private String uuid;
+    /**
+     * 物品ID
+     */
     @TableField("class_id")
     private String classId;
+    /**
+     * 厂商
+     */
     @TableField("zc_category")
     private String zcCategory;
-    @TableField("cnt")
-    private BigDecimal cnt;
     /**
      * 供应商
      */
@@ -46,18 +70,13 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
     /**
      * 购买总价
      */
-    @TableField("price")
-    private BigDecimal price;
+    @TableField("buy_price")
+    private BigDecimal buyPrice;
     /**
      * 购买单价
      */
-    @TableField("unit")
-    private BigDecimal unit;
-    /**
-     * 配置描述
-     */
-    @TableField("confdesc")
-    private String confdesc;
+    @TableField("unit_price")
+    private BigDecimal unitPrice;
     /**
      * 资产区域
      */
@@ -69,12 +88,12 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
     @TableField("warehouse")
     private String warehouse;
     /**
-     * 归属公司
+     * 所属公司
      */
     @TableField("belong_company_id")
     private String belongCompanyId;
     /**
-     * 归属部门
+     * 所属部门
      */
     @TableField("belong_part_id")
     private String belongPartId;
@@ -93,11 +112,8 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
      */
     @TableField("used_userid")
     private String usedUserid;
-    /**
-     * 管理部门Id
-     */
-    @TableField("mgr_part_id")
-    private String mgrPartId;
+    @TableField("mark")
+    private String mark;
 
 
     public String getId() {
@@ -106,6 +122,38 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getBatchno() {
+        return batchno;
+    }
+
+    public void setBatchno(String batchno) {
+        this.batchno = batchno;
+    }
+
+    public String getCrkstatus() {
+        return crkstatus;
+    }
+
+    public void setCrkstatus(String crkstatus) {
+        this.crkstatus = crkstatus;
+    }
+
+    public BigDecimal getZcCnt() {
+        return zcCnt;
+    }
+
+    public void setZcCnt(BigDecimal zcCnt) {
+        this.zcCnt = zcCnt;
+    }
+
+    public String getResid() {
+        return resid;
+    }
+
+    public void setResid(String resid) {
+        this.resid = resid;
     }
 
     public String getUuid() {
@@ -132,14 +180,6 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
         this.zcCategory = zcCategory;
     }
 
-    public BigDecimal getCnt() {
-        return cnt;
-    }
-
-    public void setCnt(BigDecimal cnt) {
-        this.cnt = cnt;
-    }
-
     public String getSupplier() {
         return supplier;
     }
@@ -156,28 +196,20 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
         this.buyTime = buyTime;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getBuyPrice() {
+        return buyPrice;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setBuyPrice(BigDecimal buyPrice) {
+        this.buyPrice = buyPrice;
     }
 
-    public BigDecimal getUnit() {
-        return unit;
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setUnit(BigDecimal unit) {
-        this.unit = unit;
-    }
-
-    public String getConfdesc() {
-        return confdesc;
-    }
-
-    public void setConfdesc(String confdesc) {
-        this.confdesc = confdesc;
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public String getLoc() {
@@ -236,12 +268,12 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
         this.usedUserid = usedUserid;
     }
 
-    public String getMgrPartId() {
-        return mgrPartId;
+    public String getMark() {
+        return mark;
     }
 
-    public void setMgrPartId(String mgrPartId) {
-        this.mgrPartId = mgrPartId;
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 
     @Override
@@ -253,15 +285,17 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
     public String toString() {
         return "ResInoutItem{" +
         "id=" + id +
+        ", batchno=" + batchno +
+        ", crkstatus=" + crkstatus +
+        ", zcCnt=" + zcCnt +
+        ", resid=" + resid +
         ", uuid=" + uuid +
         ", classId=" + classId +
         ", zcCategory=" + zcCategory +
-        ", cnt=" + cnt +
         ", supplier=" + supplier +
         ", buyTime=" + buyTime +
-        ", price=" + price +
-        ", unit=" + unit +
-        ", confdesc=" + confdesc +
+        ", buyPrice=" + buyPrice +
+        ", unitPrice=" + unitPrice +
         ", loc=" + loc +
         ", warehouse=" + warehouse +
         ", belongCompanyId=" + belongCompanyId +
@@ -269,7 +303,7 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
         ", usedCompanyId=" + usedCompanyId +
         ", partId=" + partId +
         ", usedUserid=" + usedUserid +
-        ", mgrPartId=" + mgrPartId +
+        ", mark=" + mark +
         "}";
     }
 }

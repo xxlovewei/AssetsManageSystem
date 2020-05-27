@@ -35,7 +35,7 @@ public class ResInventoryService extends BaseService {
 
     public R inventoryRange(ResInventory obj){
 
-        String sql="select "+ZcCommonService.resSqlbody + " t.* from res t where dr=0 ";
+        String sql="select "+ZcCommonService.resSqlbody + " t.* from res t where dr='0' and zc_category='"+ZcCommonService.CATEGORY_ZC+"'";
 
 
         if(ToolUtil.isNotEmpty(obj.getBelongcomp())){

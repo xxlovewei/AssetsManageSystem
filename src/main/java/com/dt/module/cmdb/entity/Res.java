@@ -407,6 +407,11 @@ public class Res extends BaseModel<Res> {
     private BigDecimal unitPrice;
     @TableField("batchno")
     private String batchno;
+    /**
+     * 待审批wait,已同意agreen,拒绝deny,打回back,无需审批none
+     */
+    @TableField("crkstatus")
+    private String crkstatus;
 
 
     public String getId() {
@@ -1233,6 +1238,14 @@ public class Res extends BaseModel<Res> {
         this.batchno = batchno;
     }
 
+    public String getCrkstatus() {
+        return crkstatus;
+    }
+
+    public void setCrkstatus(String crkstatus) {
+        this.crkstatus = crkstatus;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -1344,6 +1357,7 @@ public class Res extends BaseModel<Res> {
         ", warehouse=" + warehouse +
         ", unitPrice=" + unitPrice +
         ", batchno=" + batchno +
+        ", crkstatus=" + crkstatus +
         "}";
     }
 }

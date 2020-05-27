@@ -194,6 +194,11 @@ public class ZcService extends BaseService{
             return type + id;
 
         }
+        else if (type.equals(ZcCommonService.UUID_HCCK)) {
+            id = createUuid5();
+            return type + id;
+
+        }
         else if (type.equals(ZcCommonService.UUID_LY) || type.equals(ZcCommonService.UUID_JY)
                 || type.equals(ZcCommonService.UUID_ZY)) {
             for (i = 0; i < cnt; i++) {
@@ -296,17 +301,26 @@ public class ZcService extends BaseService{
             sql = sql + " and part_id='" + part + "'";
         }
 
+        if(ToolUtil.isNotEmpty(ps.getString("warehouse"))){
+            sql = sql + " and warehouse='" + ps.getString("warehouse") + "'";
+        }
+
+        if(ToolUtil.isNotEmpty(ps.getString("hcavaliable"))){
+            sql = sql + " and zc_cnt>0";
+        }
+
+
 
         //idle,inuse,scrap,borrow,repair,stopuse,allocation
         if(ToolUtil.isNotEmpty(datarange)){
             if(ZcCommonService.DATARANGE_REPAIR.equals(datarange)){
-                sql = sql + " and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
+                sql = sql + "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
             }else if(ZcCommonService.DATARANGE_LY.equals(datarange)){
-                sql = sql + " and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"')";
+                sql = sql + "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"')";
             }else if(ZcCommonService.DATARANGE_JY.equals(datarange)){
-                sql = sql +  " and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
+                sql = sql +  "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
             }else if(ZcCommonService.DATARANGE_DB.equals(datarange)){
-                sql = sql +  " and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
+                sql = sql +  "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
             }
 
         }
@@ -550,10 +564,11 @@ public class ZcService extends BaseService{
         Insert ins = new Insert("res_history");
 
         //判断资产编码是否正确
+        Rcd rs=null;
         if (ToolUtil.isEmpty(class_id)) {
             return R.FAILURE_REQ_PARAM_ERROR();
         } else {
-            Rcd rs = db.uniqueRecord("select * from ct_category where dr='0' and id=?", class_id);
+            rs = db.uniqueRecord("select * from ct_category where dr='0' and id=?", class_id);
             if (rs == null) {
                 return R.FAILURE("资产别名称编码不存在,Code:" + class_id);
             }
@@ -587,7 +602,7 @@ public class ZcService extends BaseService{
             me.setIf("loc", ps.getString("loc"));
             me.setIf("locshow", ps.getString("locshow"));
             me.setIf("type", ps.getString("type"));
-            me.setIf("zc_category", ps.getString("zc_category"));
+            me.setIf("zc_category", rs.getString("root"));
             me.setIf("status", ps.getString("status"));
             me.setIf("env", ps.getString("env"));
             me.setIf("risk", ps.getString("risk"));
@@ -666,7 +681,6 @@ public class ZcService extends BaseService{
             me.setIf("part_id", "none".equals(ps.getString("part_id")) ? 0 : ps.getString("part_id"));
             me.setIf("mgr_part_id", "none".equals(ps.getString("mgr_part_id")) ? 0 : ps.getString("mgr_part_id"));
             me.setIf("used_userid", ps.getString("used_userid"));
-            me.setIf("zc_category", ps.getString("zc_category"));
             me.setIf("locdtl", ps.getString("locdtl"));
             me.setIf("wb_auto", ps.getString("wb_auto"));
             me.setIf("wbout_date",

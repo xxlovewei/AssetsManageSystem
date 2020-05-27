@@ -10,15 +10,17 @@
     <result column="create_time" property="createTime" />
     <result column="update_time" property="updateTime" />
         <result column="id" property="id" />
+        <result column="batchno" property="batchno" />
+        <result column="crkstatus" property="crkstatus" />
+        <result column="zc_cnt" property="zcCnt" />
+        <result column="resid" property="resid" />
         <result column="uuid" property="uuid" />
         <result column="class_id" property="classId" />
         <result column="zc_category" property="zcCategory" />
-        <result column="cnt" property="cnt" />
         <result column="supplier" property="supplier" />
         <result column="buy_time" property="buyTime" />
-        <result column="price" property="price" />
-        <result column="unit" property="unit" />
-        <result column="confdesc" property="confdesc" />
+        <result column="buy_price" property="buyPrice" />
+        <result column="unit_price" property="unitPrice" />
         <result column="loc" property="loc" />
         <result column="warehouse" property="warehouse" />
         <result column="belong_company_id" property="belongCompanyId" />
@@ -26,7 +28,7 @@
         <result column="used_company_id" property="usedCompanyId" />
         <result column="part_id" property="partId" />
         <result column="used_userid" property="usedUserid" />
-        <result column="mgr_part_id" property="mgrPartId" />
+        <result column="mark" property="mark" />
     </resultMap>
 
 </mapper>

@@ -1,11 +1,113 @@
 
+function modalHcTjCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+					  $confirm, $log, notify, $scope, $http, $rootScope, $uibModal,meta,
+					  $uibModalInstance, $window, $stateParams,$timeout) {
+
+
+	// 分类
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
+		.withPaginationType('full_numbers').withDisplayLength(100)
+		.withOption("ordering", false).withOption("responsive", false)
+		.withOption("searching", true).withOption('scrollY', 200)
+		.withOption('scrollX', true).withOption('bAutoWidth', true)
+		.withOption('scrollCollapse', true).withOption('paging', true)
+		.withOption('bStateSave', true).withOption('bProcessing', false)
+		.withOption('bFilter', false).withOption('bInfo', false)
+		.withOption('serverSide', false).withOption('createdRow', function (row) {
+			$compile(angular.element(row).contents())($scope);
+		})
+	$scope.dtInstance = {}
+	$scope.dtColumns=[];
+
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('ctid').withTitle('物品编号').withOption(
+		'sDefaultContent', '').withOption("width", '30'));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('ctname').withTitle('物品类型').withOption(
+		'sDefaultContent', '').withOption("width", '30'));
+
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('ctmodel').withTitle('规格类型').withOption(
+		'sDefaultContent', '').withOption("width", '30'));
+
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('ctunit').withTitle('单位').withOption(
+		'sDefaultContent', '').withOption("width", '30'));
+
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('ctunitprice').withTitle('默认单价').withOption(
+		'sDefaultContent', '').withOption("width", '30'));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('ctdowncnt').withTitle('安全库存下限').withOption(
+		'sDefaultContent', '').withOption("width", '30'));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('ctupcnt').withTitle('安全库存上限').withOption(
+		'sDefaultContent', '').withOption("width", '30'));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('当前数量').withOption(
+		'sDefaultContent', '').withOption("width", '30'));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
+		'sDefaultContent', '').withOption("width", '30'));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('warehousestr').withTitle('仓库').withOption(
+		'sDefaultContent', '').withOption("width", '30'));
+	$scope.dtColumns.push(DTColumnBuilder.newColumn('ctmark').withTitle('备注').withOption(
+		'sDefaultContent', '').withOption("width", '30'));
+
+
+	var gdicts={};
+	var dicts = "devdc";
+	$scope.areaOpt=[];
+	$scope.areaSel={};
+	$http
+		.post($rootScope.project + "/api/zc/queryDictFast.do", {
+			uid:"hctjlist",
+			dicts : dicts
+		})
+		.success(
+			function(res) {
+				if (res.success) {
+					gdicts = res.data;
+					angular.copy(gdicts.devdc, $scope.areaOpt);
+					$scope.areaOpt.unshift({
+						dict_item_id : "all",
+						name : "全部"
+					});
+					$scope.areaSel=$scope.areaOpt[0];
+
+					flush();
+				} else {
+					notify({
+						message : res.message
+					});
+				}
+			})
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+
+	function flush(){
+		var ps={};
+		if($scope.areaSel.dict_item_id!="all"){
+			ps.loc=$scope.areaSel.dict_item_id;
+		}
+		$http.post($rootScope.project + "/api/zc/resInout/ext/selectHcTj.do",
+			ps).success(function(res) {
+			if (res.success) {
+				$scope.dtOptions.aaData = res.data;
+			}else{
+				notify({
+					message : res.message
+				});
+			}
+
+		})
+	}
+
+	$scope.query=function(){
+		flush();
+	}
+
+}
 function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		$log, notify,$scope, $http, $rootScope, $uibModal, $window,$state) {
 
 	var pbtns=$rootScope.curMemuBtns;
 	var gclassroot='7';
 	$scope.URL = $rootScope.project + "/api/base/res/queryPageResAllByClass.do";
-
 	$scope.dtOptions = DTOptionsBuilder.newOptions()
 		.withOption('ajax', {
 			url: $scope.URL,
@@ -130,7 +232,16 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					priv:"remove",
 					template : ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
 				},
-				{
+			{
+				id : "btn2",
+				label : "",
+				type : "btn",
+				show:true,
+				priv:"insert",
+				template : ' <button ng-click="hctj()" class="btn btn-sm btn-primary" type="submit">耗材统计</button>'
+			},
+
+			{
 					id : "btn6",
 					label : "",
 					type : "btn",
@@ -448,7 +559,7 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 							items.push({
 								type : "select",
-								disabled : "false",
+								disabled : "true",
 								label : "物品类型",
 								need : false,
 								disable_search : "false",
@@ -460,7 +571,7 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								type : "input",
 								disabled : "true",
 								sub_type : "text",
-								required : true,
+								required : false,
 								maxlength : "50",
 								placeholder : "请输型号",
 								label : "规格型号",
@@ -473,13 +584,26 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								type : "input",
 								disabled : "true",
 								sub_type : "text",
-								required : true,
+								required : false,
 								maxlength : "50",
 								placeholder : "单位",
 								label : "单位",
-								need : true,
+								need : false,
 								name : 'ctunit',
 								ng_model : "ctunit"
+							});
+
+							items.push({
+								type : "input",
+								disabled : "true",
+								sub_type : "text",
+								required : false,
+								maxlength : "50",
+								placeholder : "品牌商标",
+								label : "品牌商标",
+								need : false,
+								name : 'ctbrandmark',
+								ng_model : "ctbrandmark"
 							});
 
 
@@ -872,6 +996,25 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 	// flush();
+
+
+	$scope.hctj=function(){
+		var modalInstance = $uibModal.open({
+			backdrop : true,
+			templateUrl : 'views/cmdb/modal_hctj.html',
+			controller : modalHcTjCtl,
+			size : 'blg',
+			resolve : {
+				meta:function(){
+					return ""
+				}
+			}
+		});
+		modalInstance.result.then(function(result) {
+		}, function(reason) {
+			$log.log("reason", reason)
+		});
+	}
 };
 
 app.register.controller('zcHcCtl',zcHcCtl);

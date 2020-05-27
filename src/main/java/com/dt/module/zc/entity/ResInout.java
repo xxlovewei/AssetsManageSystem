@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-05-26
+ * @since 2020-05-27
  */
  
 @TableName("res_inout")
@@ -27,10 +27,31 @@ public class ResInout extends BaseModel<ResInout> {
     private String id;
     @TableField("type")
     private String type;
+    /**
+     * 单据号
+     */
     @TableField("uuid")
     private String uuid;
     @TableField("title")
     private String title;
+    /**
+     * HCRK,HCCK
+     */
+    @TableField("action")
+    private String action;
+    /**
+     * 待审批wait,已同意agreen,拒绝deny,打回back,无需审批none
+     */
+    @TableField("status")
+    private String status;
+    /**
+     * 类型数量
+     */
+    @TableField("cnt")
+    private BigDecimal cnt;
+    /**
+     * 资产来源
+     */
     @TableField("zcsource")
     private String zcsource;
     /**
@@ -52,24 +73,64 @@ public class ResInout extends BaseModel<ResInout> {
     private String operuserid;
     @TableField("operusername")
     private String operusername;
-    @TableField("rdate")
-    private Date rdate;
+    /**
+     * 业务时间
+     */
     @TableField("busidate")
     private Date busidate;
+    @TableField("rdate")
+    private Date rdate;
+    /**
+     * 使用公司、出库
+     */
+    @TableField("compid")
+    private String compid;
+    /**
+     * 区域、出库
+     */
     @TableField("loc")
     private String loc;
+    /**
+     * 仓库、出库
+     */
     @TableField("warehouse")
     private String warehouse;
-    @TableField("mark")
-    private String mark;
+    /**
+     * 使用公司、进库
+     */
+    @TableField("usedcompid")
+    private String usedcompid;
+    /**
+     * 使用部门、进库
+     */
+    @TableField("usedpartid")
+    private String usedpartid;
+    /**
+     * 使用人、进库
+     */
+    @TableField("useduserid")
+    private String useduserid;
+    /**
+     * 区域、进库
+     */
+    @TableField("inloc")
+    private String inloc;
+    /**
+     * 仓库、进库
+     */
+    @TableField("inwarehouse")
+    private String inwarehouse;
     @TableField("label1")
     private String label1;
     @TableField("label2")
     private String label2;
     @TableField("remark")
     private String remark;
-    @TableField("action")
-    private String action;
+    /**
+     * 所属公司、出库
+     */
+    @TableField("belongcompid")
+    private String belongcompid;
 
 
     public String getId() {
@@ -102,6 +163,30 @@ public class ResInout extends BaseModel<ResInout> {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public BigDecimal getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(BigDecimal cnt) {
+        this.cnt = cnt;
     }
 
     public String getZcsource() {
@@ -152,6 +237,14 @@ public class ResInout extends BaseModel<ResInout> {
         this.operusername = operusername;
     }
 
+    public Date getBusidate() {
+        return busidate;
+    }
+
+    public void setBusidate(Date busidate) {
+        this.busidate = busidate;
+    }
+
     public Date getRdate() {
         return rdate;
     }
@@ -160,12 +253,12 @@ public class ResInout extends BaseModel<ResInout> {
         this.rdate = rdate;
     }
 
-    public Date getBusidate() {
-        return busidate;
+    public String getCompid() {
+        return compid;
     }
 
-    public void setBusidate(Date busidate) {
-        this.busidate = busidate;
+    public void setCompid(String compid) {
+        this.compid = compid;
     }
 
     public String getLoc() {
@@ -184,12 +277,44 @@ public class ResInout extends BaseModel<ResInout> {
         this.warehouse = warehouse;
     }
 
-    public String getMark() {
-        return mark;
+    public String getUsedcompid() {
+        return usedcompid;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setUsedcompid(String usedcompid) {
+        this.usedcompid = usedcompid;
+    }
+
+    public String getUsedpartid() {
+        return usedpartid;
+    }
+
+    public void setUsedpartid(String usedpartid) {
+        this.usedpartid = usedpartid;
+    }
+
+    public String getUseduserid() {
+        return useduserid;
+    }
+
+    public void setUseduserid(String useduserid) {
+        this.useduserid = useduserid;
+    }
+
+    public String getInloc() {
+        return inloc;
+    }
+
+    public void setInloc(String inloc) {
+        this.inloc = inloc;
+    }
+
+    public String getInwarehouse() {
+        return inwarehouse;
+    }
+
+    public void setInwarehouse(String inwarehouse) {
+        this.inwarehouse = inwarehouse;
     }
 
     public String getLabel1() {
@@ -216,12 +341,12 @@ public class ResInout extends BaseModel<ResInout> {
         this.remark = remark;
     }
 
-    public String getAction() {
-        return action;
+    public String getBelongcompid() {
+        return belongcompid;
     }
 
-    public void setAction(String action) {
-        this.action = action;
+    public void setBelongcompid(String belongcompid) {
+        this.belongcompid = belongcompid;
     }
 
     @Override
@@ -236,21 +361,29 @@ public class ResInout extends BaseModel<ResInout> {
         ", type=" + type +
         ", uuid=" + uuid +
         ", title=" + title +
+        ", action=" + action +
+        ", status=" + status +
+        ", cnt=" + cnt +
         ", zcsource=" + zcsource +
         ", suppliername=" + suppliername +
         ", buytime=" + buytime +
         ", price=" + price +
         ", operuserid=" + operuserid +
         ", operusername=" + operusername +
-        ", rdate=" + rdate +
         ", busidate=" + busidate +
+        ", rdate=" + rdate +
+        ", compid=" + compid +
         ", loc=" + loc +
         ", warehouse=" + warehouse +
-        ", mark=" + mark +
+        ", usedcompid=" + usedcompid +
+        ", usedpartid=" + usedpartid +
+        ", useduserid=" + useduserid +
+        ", inloc=" + inloc +
+        ", inwarehouse=" + inwarehouse +
         ", label1=" + label1 +
         ", label2=" + label2 +
         ", remark=" + remark +
-        ", action=" + action +
+        ", belongcompid=" + belongcompid +
         "}";
     }
 }

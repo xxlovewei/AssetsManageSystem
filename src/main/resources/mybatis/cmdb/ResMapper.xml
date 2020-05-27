@@ -112,6 +112,7 @@
         <result column="warehouse" property="warehouse" />
         <result column="unit_price" property="unitPrice" />
         <result column="batchno" property="batchno" />
+        <result column="crkstatus" property="crkstatus" />
     </resultMap>
 
 </mapper>

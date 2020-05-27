@@ -75,6 +75,10 @@ public class ZcCommonService extends BaseService {
     public static String BX_STATUS_WAIT="wait";
     public static String BX_STATUS_FINSH="finish";
 
+    public static String CATEGORY_ZC="3";
+    public static String CATEGORY_HC="7";
+    public static String CATEGORY_BJ="8";
+
     @Autowired
     IResService ResServiceImpl;
 
@@ -96,14 +100,15 @@ public class ZcCommonService extends BaseService {
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.type) typename,"
 
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.zcsource) zcsourcestr,"
-
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) warehousestr,"
             + " (select model from ct_category where dr='0' and id=t.class_id) ctmodel,"
+            + " (select id from ct_category where dr='0' and id=t.class_id) ctid,"
             + " (select unit from ct_category where dr='0' and id=t.class_id) ctunit,"
             + " (select mark from ct_category where dr='0' and id=t.class_id) ctmark,"
-            + " (select unitprice from ct_category where dr='0' and id=t.class_id) ctnitprice,"
+            + " (select unitprice from ct_category where dr='0' and id=t.class_id) ctunitprice,"
             + " (select upcnt from ct_category where dr='0' and id=t.class_id) ctupcnt,"
             + " (select downcnt from ct_category where dr='0' and id=t.class_id) ctdowncnt,"
+            + " (select brandmark from ct_category where dr='0' and id=t.class_id) ctbrandmark,"
 
             + " (select node_name from hrm_org_part where node_id=t.used_company_id) comp_name,"
             + " (select route_name from hrm_org_part where node_id=t.used_company_id) comp_fullname,"
@@ -137,12 +142,16 @@ public class ZcCommonService extends BaseService {
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.supplier) supplierstr,"
 
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) warehousestr,"
+
+
+            + " (select id from ct_category where dr='0' and id=t.class_id) ctid,"
             + " (select model from ct_category where dr='0' and id=t.class_id) ctmodel,"
             + " (select unit from ct_category where dr='0' and id=t.class_id) ctunit,"
             + " (select mark from ct_category where dr='0' and id=t.class_id) ctmark,"
-            + " (select unitprice from ct_category where dr='0' and id=t.class_id) ctnitprice,"
+            + " (select unitprice from ct_category where dr='0' and id=t.class_id) ctunitprice,"
             + " (select upcnt from ct_category where dr='0' and id=t.class_id) ctupcnt,"
             + " (select downcnt from ct_category where dr='0' and id=t.class_id) ctdowncnt,"
+            + " (select brandmark from ct_category where dr='0' and id=t.class_id) ctbrandmark,"
 
             + " (select node_name from hrm_org_part where node_id=t.used_company_id) comp_name,"
             + " (select route_name from hrm_org_part where node_id=t.used_company_id) comp_fullname,"

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author algernonking
- * @since 2020-05-25
+ * @since 2020-05-27
  */
 @Service
 public class ResInoutItemServiceImpl extends ServiceImpl<ResInoutItemMapper, ResInoutItem> implements IResInoutItemService {
