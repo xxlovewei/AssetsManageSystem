@@ -1,4 +1,4 @@
-function modalhcoutcntCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+function modalhcdbcntCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                           $confirm, $log, notify, $scope, $http, $rootScope, $uibModal,meta,
                           $uibModalInstance, $window, $stateParams,$timeout) {
 
@@ -27,7 +27,7 @@ function modalhcoutcntCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     }
 }
 
-function modalhcoutlistCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+function modalhcdblistCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                            $confirm, $log, notify, $scope, $http, $rootScope, $uibModal,meta,
                            $uibModalInstance, $window, $stateParams,$timeout) {
     $scope.cancel = function() {
@@ -135,7 +135,7 @@ function modalhcoutlistCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 
 }
-function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                        $confirm, $log, notify, $scope, $http, $rootScope, $uibModal,meta,
                        $uibModalInstance, $window, $stateParams,$timeout) {
 
@@ -145,7 +145,8 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.ctl.ywtime=false;
     $scope.ctl.title=false;
     $scope.ctl.range=false;
-
+    $scope.ctl.selectlist=false;
+    $scope.ctl.footer=false;
     $scope.data={};
     $scope.data.zc_cnt=0;
 
@@ -171,11 +172,7 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.inwarehouseOpt=[];
     $scope.inwarehouseSel="";
 
-    $scope.incompOpt=[];
-    $scope.incompSel="";
 
-    $scope.inpartOpt=[];
-    $scope.inpartSel="";
 
     $scope.inuserOpt=[];
     $scope.inuserSel="";
@@ -223,15 +220,7 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 $scope.inwarehouseSel=$scope.inwarehouseOpt[0];
             }
 
-            angular.copy(res.data.comp,$scope.incompOpt);
-            if($scope.incompOpt.length>0){
-                $scope.incompSel=$scope.incompOpt[0];
-            }
 
-            angular.copy(res.data.parts,$scope.inpartOpt);
-            if($scope.inpartOpt.length>0){
-                $scope.inpartSel=$scope.inpartOpt[0];
-            }
 
             angular.copy(res.data.partusers,$scope.inuserOpt);
             if($scope.inuserOpt.length>0){
@@ -268,7 +257,6 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     function renderAction(data, type, full) {
         var acthtml=" <a href=\"javascript:void(0)\" style=\"margin-top: 3px;\" ng-click=\"modify('"+full.id+"',"+full.zc_cnt+")\" class=\"btn-white btn btn-xs\">修改</a>";
         return acthtml;
-
     }
     var dtColumns = [];
     $scope.dtColumns=[];
@@ -290,7 +278,7 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push( DTColumnBuilder.newColumn('ctbrandmark').withTitle('品牌商标').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push( DTColumnBuilder.newColumn('supplierstr').withTitle('厂商').withOption(
+    dtColumns.push( DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('ctdowncnt').withTitle('安全库存下限').withOption(
         'sDefaultContent', '').withOption("width", '30'));
@@ -321,7 +309,7 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         var modalInstance = $uibModal.open({
             backdrop : true,
             templateUrl : 'views/cmdb/modal_hcout_list.html',
-            controller : modalhcoutlistCtl,
+            controller : modalhcdblistCtl,
             size : 'blg',
             resolve : {
                 meta:function(){
@@ -347,7 +335,7 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         var modalInstance = $uibModal.open({
             backdrop : true,
             templateUrl : 'views/cmdb/modal_hcout_cnt.html',
-            controller : modalhcoutcntCtl,
+            controller : modalhcdbcntCtl,
             size : 'blg',
             resolve : {
                 meta:function(){
@@ -374,9 +362,10 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         $scope.ctl.ywtime=true;
         $scope.ctl.title=true;
         $scope.ctl.range=true;
+        $scope.ctl.selectlist=true;
+        $scope.ctl.footer=true;
 
-
-        $http.post($rootScope.project + "/api/zc/resInout/ext/selectHcOutDataById.do",
+        $http.post($rootScope.project + "/api/zc/resInout/ext/selectHcDbDataById.do",
             meta).success(function(res) {
             if (res.success) {
                 $scope.data=res.data;
@@ -413,7 +402,7 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }
         $scope.data.items=angular.toJson($scope.dtOptions.aaData)
         $scope.data.type="hc";
-        $scope.data.action="HCCK";
+        $scope.data.action="HCDB";
         $scope.data.busitimestr=$scope.data.ywtime.format('YYYY-MM-DD');
 
         $scope.data.compid=$scope.outbelongCompSel.id;
@@ -422,12 +411,11 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 
         //inbelongCompSel
-        $scope.data.usedcompid=$scope.incompSel.id;
-        $scope.data.usedpartid=$scope.inpartSel.partid;
         $scope.data.useduserid=$scope.inuserSel.user_id;
         $scope.data.inloc=$scope.inareaSel.dict_item_id;
         $scope.data.inwarehouse=$scope.inwarehouseSel.dict_item_id;
         $scope.data.belongcompid=$scope.inbelongCompSel.id;
+
 
         $http.post($rootScope.project + "/api/zc/resInout/ext/insert.do",
             $scope.data).success(function(res) {
@@ -446,7 +434,7 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 }
 
-function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                     $log, notify,$scope, $http, $rootScope, $uibModal, $window,$state) {
 
     var pbtns=$rootScope.curMemuBtns;
@@ -569,11 +557,8 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     $scope.dtColumns.push( DTColumnBuilder.newColumn('inwarehousestr').withTitle('进库仓库')
         .withOption('sDefaultContent', ''));
 
-    $scope.dtColumns.push( DTColumnBuilder.newColumn('busidate').withTitle('进库使用公司')
-        .withOption('sDefaultContent', ''));
-    $scope.dtColumns.push( DTColumnBuilder.newColumn('inusedcompname').withTitle('进库使用部门')
-        .withOption('sDefaultContent', ''));
-    $scope.dtColumns.push( DTColumnBuilder.newColumn('inusername').withTitle('进库部门人')
+
+    $scope.dtColumns.push( DTColumnBuilder.newColumn('inusername').withTitle('进库使用人')
         .withOption('sDefaultContent', ''));
 
 
@@ -581,6 +566,8 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(  DTColumnBuilder.newColumn('remark').withTitle('备注').withOption(
         'sDefaultContent', ''));
+    $scope.dtColumns.push( DTColumnBuilder.newColumn('busidate').withTitle('业务日期')
+        .withOption('sDefaultContent', ''));
     $scope.dtColumns.push( DTColumnBuilder.newColumn('create_time').withTitle('创建时间')
         .withOption('sDefaultContent', ''));
 
@@ -627,7 +614,7 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 type : "btn",
                 show:true,
                 priv:"insert",
-                template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">出库</button>'
+                template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">调拨单</button>'
             },
 
             {
@@ -682,7 +669,7 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     function flush() {
         var ps={};
         ps.type='hc';
-        ps.action="HCCK";
+        ps.action="HCDB";
         $http.post($rootScope.project + "/api/zc/resInout/ext/selectList.do", ps)
             .success(function(res) {
                 if (res.success) {
@@ -699,10 +686,6 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     function callback(json){
         console.log(json)
     }
-
-
-
-
 
 
     function getSelectRows() {
@@ -774,8 +757,8 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         meta.id=id;
         var modalInstance = $uibModal.open({
             backdrop : true,
-            templateUrl : 'views/cmdb/modal_hcout.html',
-            controller : modalhcoutCtl,
+            templateUrl : 'views/cmdb/modal_hcdb.html',
+            controller : modalhcdbCtl,
             size : 'blg',
             resolve : {
                 meta:function(){
@@ -792,8 +775,8 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
         var modalInstance = $uibModal.open({
             backdrop : true,
-            templateUrl : 'views/cmdb/modal_hcout.html',
-            controller : modalhcoutCtl,
+            templateUrl : 'views/cmdb/modal_hcdb.html',
+            controller : modalhcdbCtl,
             size : 'blg',
             resolve : {
                 meta:function(){
@@ -816,4 +799,4 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 };
 
-app.register.controller('zcHcoutCtl',zcHcoutCtl);
+app.register.controller('zcHcDbCtl',zcHcDbCtl);

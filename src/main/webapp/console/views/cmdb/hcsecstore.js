@@ -22,7 +22,7 @@ function hcsecStoreCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		'sDefaultContent', '').withOption('width', '30'));
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('unit').withTitle('单位').withOption(
 		'sDefaultContent', '').withOption('width', '30'));
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('brandmark').withTitle('厂商').withOption(
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('brandmark').withTitle('品牌商标').withOption(
 		'sDefaultContent', '').withOption('width', '30'));
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('downcnt').withTitle('安全库存下限').withOption(
 		'sDefaultContent', '').withOption('width', '30'));

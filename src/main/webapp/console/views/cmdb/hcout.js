@@ -37,7 +37,7 @@ function modalhcoutlistCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.URL = $rootScope.project + "/api/base/res/queryPageResAllByClass.do";
 	meta.classroot=7;
 	meta.start=0;
-	meta.hcavaliable="Y";
+	meta.zcnumber="1";
 	$scope.dtOptions = DTOptionsBuilder.newOptions()
 		.withOption('ajax', {
 			url: $scope.URL,
@@ -145,7 +145,8 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.ctl.ywtime=false;
 	$scope.ctl.title=false;
 	$scope.ctl.range=false;
-
+	$scope.ctl.selectlist=false;
+	$scope.ctl.footer=false;
 	$scope.data={};
 	$scope.data.zc_cnt=0;
 
@@ -290,7 +291,7 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		'sDefaultContent', '').withOption('width', '50'));
 	dtColumns.push( DTColumnBuilder.newColumn('ctbrandmark').withTitle('品牌商标').withOption(
 		'sDefaultContent', '').withOption('width', '50'));
-	dtColumns.push( DTColumnBuilder.newColumn('supplierstr').withTitle('厂商').withOption(
+	dtColumns.push( DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
 		'sDefaultContent', '').withOption('width', '50'));
 	dtColumns.push(DTColumnBuilder.newColumn('ctdowncnt').withTitle('安全库存下限').withOption(
 		'sDefaultContent', '').withOption("width", '30'));
@@ -374,7 +375,8 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$scope.ctl.ywtime=true;
 		$scope.ctl.title=true;
 		$scope.ctl.range=true;
-
+		$scope.ctl.selectlist=true;
+		$scope.ctl.footer=true;
 
 		$http.post($rootScope.project + "/api/zc/resInout/ext/selectHcOutDataById.do",
 			meta).success(function(res) {
@@ -573,7 +575,7 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('inusedcompname').withTitle('进库使用部门')
 		.withOption('sDefaultContent', ''));
-	$scope.dtColumns.push( DTColumnBuilder.newColumn('inusername').withTitle('进库部门人')
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('inusername').withTitle('进库使用人')
 		.withOption('sDefaultContent', ''));
 
 
@@ -581,6 +583,8 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push(  DTColumnBuilder.newColumn('remark').withTitle('备注').withOption(
 		'sDefaultContent', ''));
+	$scope.dtColumns.push( DTColumnBuilder.newColumn('busidate').withTitle('业务日期')
+		.withOption('sDefaultContent', ''));
 	$scope.dtColumns.push( DTColumnBuilder.newColumn('create_time').withTitle('创建时间')
 		.withOption('sDefaultContent', ''));
 

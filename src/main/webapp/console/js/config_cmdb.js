@@ -806,7 +806,7 @@ function zcBaseColsHCCreate(DTColumnBuilder,selectype){
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push( DTColumnBuilder.newColumn('ctbrandmark').withTitle('品牌商标').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push( DTColumnBuilder.newColumn('supplierstr').withTitle('厂商').withOption(
+    dtColumns.push( DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('ctdowncnt').withTitle('安全库存下限').withOption(
         'sDefaultContent', '').withOption("width", '30'));
@@ -814,22 +814,22 @@ function zcBaseColsHCCreate(DTColumnBuilder,selectype){
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push( DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('crkstatus').withTitle('单据状态').withOption(
-        'sDefaultContent', '').withOption("width", '30').renderWith( function(data, type, full) {
-        if(data=="none"){
-            return "无需审批"
-        }else if(data=="back"){
-            data=="打回"
-        }else if(data=="deny"){
-            data=="拒绝"
-        }else if(data=="agreen"){
-            data=="同意"
-        }else if(data=="wait"){
-            data=="待审批"
-        }else{
-            return data;
-        }
-    }));
+    // dtColumns.push(DTColumnBuilder.newColumn('crkstatus').withTitle('单据状态').withOption(
+    //     'sDefaultContent', '').withOption("width", '30').renderWith( function(data, type, full) {
+    //     if(data=="none"){
+    //         return "无需审批"
+    //     }else if(data=="back"){
+    //         data=="打回"
+    //     }else if(data=="deny"){
+    //         data=="拒绝"
+    //     }else if(data=="agreen"){
+    //         data=="同意"
+    //     }else if(data=="wait"){
+    //         data=="待审批"
+    //     }else{
+    //         return data;
+    //     }
+    // }));
     dtColumns.push(  DTColumnBuilder.newColumn('batchno').withTitle('批次号').withOption(
         'sDefaultContent', ''));
     dtColumns.push( DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
@@ -840,7 +840,7 @@ function zcBaseColsHCCreate(DTColumnBuilder,selectype){
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push( DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
         .withOption('sDefaultContent', ''));
-    dtColumns.push( DTColumnBuilder.newColumn('buy_price').withTitle('采购金额')
+    dtColumns.push( DTColumnBuilder.newColumn('buy_price').withTitle('采购总额')
         .withOption('sDefaultContent', ''));
     dtColumns.push(   DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
         .withOption('sDefaultContent', ''));
@@ -902,7 +902,7 @@ function zcBaseColsCreate(DTColumnBuilder,selectype){
         'sDefaultContent', ''));
     dtColumns.push( DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
         .withOption('sDefaultContent', ''));
-    dtColumns.push( DTColumnBuilder.newColumn('buy_price').withTitle('采购金额')
+    dtColumns.push( DTColumnBuilder.newColumn('buy_price').withTitle('采购总额')
         .withOption('sDefaultContent', ''));
     dtColumns.push( DTColumnBuilder.newColumn('net_worth').withTitle('资产净值')
         .withOption('sDefaultContent', ''));

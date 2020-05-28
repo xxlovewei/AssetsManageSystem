@@ -55,7 +55,7 @@ public class ResInoutExtService extends BaseService {
 
     }
 
-    public R selectHcCk(){
+    public R selectHcCk(String action){
 
         String sql="select\n" +
                 "   (select node_name from hrm_org_part where node_id=t.compid) outbelongcompname,\n" +
@@ -68,13 +68,12 @@ public class ResInoutExtService extends BaseService {
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) inlocstr,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) inwarehousestr,\n" +
                 "   t.*\n" +
-                "from res_inout t where dr='0' and action='HCCK' order by create_time desc";
+                "from res_inout t where dr='0' and action='"+action+"' order by create_time desc";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 
     }
 
-
-    public R selectHcOutDataById(String id){
+    public R selectHcDbDataById(String id){
         String sql="select\n" +
                 "   (select node_name from hrm_org_part where node_id=t.compid) outbelongcompname,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) outlocstr,\n" +
@@ -86,7 +85,7 @@ public class ResInoutExtService extends BaseService {
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) inlocstr,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) inwarehousestr,\n" +
                 "   t.*\n" +
-                "from res_inout t where dr='0' and action='HCCK' and id=?" ;
+                "from res_inout t where dr='0' and id=?" ;
         Rcd rcd=db.uniqueRecord(sql,id);
         JSONObject r= ConvertUtil.OtherJSONObjectToFastJSONObject(rcd.toJsonObject());
         String sql2="\n" +
@@ -107,9 +106,45 @@ public class ResInoutExtService extends BaseService {
                 "t.*\n" +
                 "from res_inout_item t where dr='0' and uuid=?";
         r.put("items",ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql2,rcd.getString("uuid") ).toJsonArrayWithJsonObject()));
-
         return R.SUCCESS_OPER(r);
+    }
 
+
+
+    public R selectHcOutDataById(String id){
+        String sql="select\n" +
+                "   (select node_name from hrm_org_part where node_id=t.compid) outbelongcompname,\n" +
+                "   (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) outlocstr,\n" +
+                "   (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) outwarehousestr,\n" +
+                "   (select node_name from hrm_org_part where node_id=t.usedcompid) inusedcompname,\n" +
+                "   (select node_name from hrm_org_part where node_id=t.usedpartid) inpartname,\n" +
+                "   (select name from sys_user_info where user_id=t.useduserid) inusername,\n" +
+                "   (select node_name from hrm_org_part where node_id=t.belongcompid) inbelongcompname,\n" +
+                "   (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) inlocstr,\n" +
+                "   (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) inwarehousestr,\n" +
+                "   t.*\n" +
+                "from res_inout t where dr='0' and id=?" ;
+        Rcd rcd=db.uniqueRecord(sql,id);
+        JSONObject r= ConvertUtil.OtherJSONObjectToFastJSONObject(rcd.toJsonObject());
+        String sql2="\n" +
+                "select\n" +
+                "  (select node_name from hrm_org_part where node_id=t.belong_company_id) belongcom_name,\n" +
+                "  (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) locstr,\n" +
+                "  (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) warehousestr,\n" +
+                "  (select id from ct_category where dr='0' and id=t.class_id) ctid,\n" +
+                "  (select model from ct_category where dr='0' and id=t.class_id) ctmodel,\n" +
+                "  (select name from ct_category where dr='0' and id=t.class_id) classname,\n" +
+                "  (select unit from ct_category where dr='0' and id=t.class_id) ctunit,\n" +
+                "  (select mark from ct_category where dr='0' and id=t.class_id) ctmark,\n" +
+                "  (select unitprice from ct_category where dr='0' and id=t.class_id) ctunitprice,\n" +
+                "  (select upcnt from ct_category where dr='0' and id=t.class_id) ctupcnt,\n" +
+                "  (select downcnt from ct_category where dr='0' and id=t.class_id) ctdowncnt,\n" +
+                "  (select brandmark from ct_category where dr='0' and id=t.class_id) ctbrandmark,\n" +
+                "  (select name from sys_dict_item where dr='0' and dict_item_id=t.supplier) supplierstr,\n" +
+                "t.*\n" +
+                "from res_inout_item t where dr='0' and uuid=?";
+        r.put("items",ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql2,rcd.getString("uuid") ).toJsonArrayWithJsonObject()));
+        return R.SUCCESS_OPER(r);
     }
     public R selectHcInDataById(String id){
 

@@ -11,8 +11,9 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.ctl.goods=false;
 	$scope.ctl.addlist=false;
 	$scope.ctl.ywtime=false;
+	$scope.ctl.footer=false;
 	$scope.data={};
-	$scope.data.zc_cnt=0;
+	$scope.data.zc_cnt=1;
 	$scope.data.batchno=new Date().getTime();
 	$scope.data.buy_price=0;
 	$scope.data.ywtime = moment();
@@ -39,7 +40,7 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$scope.ctl.goods=true;
 		$scope.ctl.addlist=true;
 		$scope.ctl.ywtime=true;
-
+		$scope.ctl.footer=true;
 		$http.post($rootScope.project + "/api/zc/resInout/ext/selectHcInDataById.do",
 			{id:meta.id}).success(function(res) {
 			if (res.success) {
@@ -152,7 +153,7 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	dtColumns.push(DTColumnBuilder.newColumn('brandmark').withTitle('品牌商标').withOption(
 		'sDefaultContent', '').withOption("width", '30'));
 
-	dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('厂商').withOption(
+	dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
 		'sDefaultContent', '').withOption("width", '30'));
 
 	dtColumns.push( DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
@@ -163,7 +164,7 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	dtColumns.push( DTColumnBuilder.newColumn('warehousestr').withTitle('仓库').withOption(
 		'sDefaultContent', '').withOption('width', '30'));
-	dtColumns.push( DTColumnBuilder.newColumn('buy_price').withTitle('采购金额')
+	dtColumns.push( DTColumnBuilder.newColumn('buy_price').withTitle('采购总额')
 		.withOption('sDefaultContent', ''));
 	dtColumns.push( DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
 		.withOption('sDefaultContent', ''));

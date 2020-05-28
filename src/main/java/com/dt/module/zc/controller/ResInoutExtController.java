@@ -85,6 +85,7 @@ public class ResInoutExtController extends BaseController {
 		if(ZcCommonService.UUID_HCRK.equals(entity.getAction())){
 
 			for(int i=0;i<items_arr.size();i++){
+				//当前无审批,入库
 				Res e=new Res();
 				e.setUuid(uuid);
 				e.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
@@ -100,6 +101,7 @@ public class ResInoutExtController extends BaseController {
 				e.setBelongCompanyId(items_arr.getJSONObject(i).getString("belong_company_id"));
 				cols.add(e);
 
+				//单据
 				ResInoutItem e2=new ResInoutItem();
 				e2.setUuid(uuid);
 				e2.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
@@ -119,16 +121,17 @@ public class ResInoutExtController extends BaseController {
 
 		}else if (ZcCommonService.UUID_HCCK.equals(entity.getAction())){
 			for(int i=0;i<items_arr.size();i++) {
+				//当前无审批,减值
 				UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
 				ups.setSql("zc_cnt=zc_cnt-"+items_arr.getJSONObject(i).getString("zc_cnt"));
 				ups.eq("id", items_arr.getJSONObject(i).getString("id"));
 				ResServiceImpl.update(ups);
 
+				//单据明细
 				ResInoutItem e2 = new ResInoutItem();
+				e2.setCrkstatus("none");
 				e2.setUuid(uuid);
 			 	e2.setResid(items_arr.getJSONObject(i).getString("id"));
-				e2.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
-				e2.setCrkstatus("none");
 				e2.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
 				e2.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
 				e2.setLoc(items_arr.getJSONObject(i).getString("loc"));
@@ -141,7 +144,48 @@ public class ResInoutExtController extends BaseController {
 				cols2.add(e2);
 			}
 
+		}else if (ZcCommonService.UUID_HCDB.equals(entity.getAction())){
+			for(int i=0;i<items_arr.size();i++) {
+
+				//出库
+				UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
+				ups.setSql("zc_cnt=zc_cnt-"+items_arr.getJSONObject(i).getString("zc_cnt"));
+				ups.eq("id", items_arr.getJSONObject(i).getString("id"));
+				ResServiceImpl.update(ups);
+
+				//进库
+				Res e=new Res();
+				e.setUuid(uuid);
+				e.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
+				e.setCrkstatus("none");
+				e.setRecycle(ZcCommonService.RECYCLE_IDLE);
+				e.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
+				e.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
+				e.setSupplier(items_arr.getJSONObject(i).getString("supplier"));
+				e.setClassId(items_arr.getJSONObject(i).getString("class_id"));
+				e.setZcCategory(items_arr.getJSONObject(i).getString("zc_category"));
+				e.setLoc(entity.getInloc());
+				e.setWarehouse(entity.getInwarehouse());
+				e.setBelongCompanyId(entity.getBelongcompid());
+				cols.add(e);
+
+
+				//单据明细
+				ResInoutItem e2 = new ResInoutItem();
+				e2.setUuid(uuid);
+				e2.setResid(items_arr.getJSONObject(i).getString("id"));
+				e2.setCrkstatus("none");
+				e2.setClassId(items_arr.getJSONObject(i).getString("class_id"));
+				e2.setZcCategory(items_arr.getJSONObject(i).getString("zc_category"));
+				e2.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
+				e2.setBelongCompanyId(entity.getCompid());
+				e2.setLoc(entity.getLoc());
+				e2.setWarehouse(entity.getWarehouse());
+				cols2.add(e2);
+			}
+
 		}
+
 
 		entity.setCnt(new BigDecimal(items_arr.size()));
 		ResInoutServiceImpl.saveOrUpdate(entity);
@@ -168,8 +212,8 @@ public class ResInoutExtController extends BaseController {
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectList.do")
 	public R selectList(String type,String action) {
-		if(ZcCommonService.UUID_HCCK.equals(action)){
-			return resInoutExtService.selectHcCk();
+		if(ZcCommonService.UUID_HCCK.equals(action)||ZcCommonService.UUID_HCDB.equals(action)){
+			return resInoutExtService.selectHcCk(ZcCommonService.UUID_HCDB);
 		}else if (ZcCommonService.UUID_HCRK.equals(action)){
 			QueryWrapper<ResInout> qw = new QueryWrapper<ResInout>();
 			qw.and(i -> i.eq("type", type));
@@ -212,6 +256,16 @@ public class ResInoutExtController extends BaseController {
 	public R selectHcOutDataById(String id) {
 		return resInoutExtService.selectHcOutDataById(id);
 	}
+
+	@ResponseBody
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectHcDbDataById.do")
+	public R selectHcDbDataById(String id) {
+		return resInoutExtService.selectHcDbDataById(id);
+	}
+
+
+
 
 
 }

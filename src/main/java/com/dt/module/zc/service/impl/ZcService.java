@@ -192,7 +192,10 @@ public class ZcService extends BaseService{
         else if (type.equals(ZcCommonService.UUID_HCRK)) {
             id = createUuid5();
             return type + id;
-
+        }
+        else if (type.equals(ZcCommonService.UUID_HCDB)) {
+            id = createUuid5();
+            return type + id;
         }
         else if (type.equals(ZcCommonService.UUID_HCCK)) {
             id = createUuid5();
@@ -305,11 +308,9 @@ public class ZcService extends BaseService{
             sql = sql + " and warehouse='" + ps.getString("warehouse") + "'";
         }
 
-        if(ToolUtil.isNotEmpty(ps.getString("hcavaliable"))){
-            sql = sql + " and zc_cnt>0";
+        if(ToolUtil.isNotEmpty(ps.getString("zcnumber"))){
+            sql = sql + " and zc_cnt>"+ps.getString("zcnumber");
         }
-
-
 
         //idle,inuse,scrap,borrow,repair,stopuse,allocation
         if(ToolUtil.isNotEmpty(datarange)){
@@ -625,7 +626,6 @@ public class ZcService extends BaseService{
             me.setIf("wb_auto", ps.getString("wb_auto"));
             me.setIf("wbout_date",
                     ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 01:00:00");
-
             me.setIf("fs1", ps.getString("fs1"));
             me.setIf("fs2", ps.getString("fs2"));
             me.setIf("fs3", ps.getString("fs3"));
@@ -637,17 +637,13 @@ public class ZcService extends BaseService{
             me.setIf("zc_cnt", ps.getString("zc_cnt","1"));
             me.setIf("img", ps.getString("img"));
             me.setIf("attach", ps.getString("attach"));
-
-
             me.setIf("supplier", ps.getString("supplier"));
             me.setIf("wbsupplier", ps.getString("wbsupplier"));
             me.setIf("zcsource", ps.getString("zcsource"));
             me.setIf("wbct", ps.getString("wbct"));
-
             me.setIf("belong_part_id", ps.getString("belong_part_id"));
             me.setIf("belong_company_id", ps.getString("belong_company_id"));
             me.setIf("used_company_id", ps.getString("used_company_id"));
-
             me.setIf("unit_price", ps.getString("unit_price"));
             me.setIf("warehouse", ps.getString("warehouse"));
             me.setIf("batchno", ps.getString("batchno"));
@@ -706,8 +702,6 @@ public class ZcService extends BaseService{
             me.setIf("unit_price", ps.getString("unit_price"));
             me.setIf("warehouse", ps.getString("warehouse"));
             me.setIf("batchno", ps.getString("batchno"));
-
-
             me.where().and("id=?", id);
             sql = me.getSQL();
 
@@ -759,7 +753,6 @@ public class ZcService extends BaseService{
                 me.setIf("attr_value", valsarr.getJSONObject(i).getString("attr_value"));
                 db.execute(me);
             }
-
         }
         return R.SUCCESS_OPER();
     }

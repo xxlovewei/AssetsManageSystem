@@ -746,7 +746,7 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								required : false,
 								maxlength : "30",
 								placeholder : "请输入采购价格",
-								label : "采购价格",
+								label : "采购总额",
 								need : false,
 								name : 'buy_price',
 								ng_model : "buy_price"

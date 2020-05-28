@@ -62,6 +62,8 @@ public class ZcCommonService extends BaseService {
 
     public static String UUID_HCRK = "HCRK";
     public static String UUID_HCCK = "HCCK";
+    public static String UUID_HCDB = "HCDB";
+
     public static String UUID_BJRK = "BJRK";
     public static String UUID_BJCK = "BJCK";
 

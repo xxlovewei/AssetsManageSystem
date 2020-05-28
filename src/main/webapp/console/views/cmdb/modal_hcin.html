@@ -18,7 +18,7 @@
 				action="">
 
 				<div class="form-group">
-					<label class="col-sm-2 control-label">入库单据:</label>
+					<label class="col-sm-2 control-label">单据编号:</label>
 					<div class="col-sm-10">
 						<input type="text" ng-disabled="true"
 							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
@@ -84,7 +84,7 @@
 						<select chosen disable-search="true" class="chosen-select"
 								no-results-text="'没有找到相应条目'" ng-model="catSel"
 								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in catOpt">
+								ng-options="item.route_name for item in catOpt">
 							<option value=""></option>
 						</select>
 					</div>
@@ -148,7 +148,7 @@
 
 
 				<div class="form-group">
-					<label class="col-sm-2 control-label">厂商:</label>
+					<label class="col-sm-2 control-label">供应商:</label>
 					<div class="col-sm-10">
 						<select chosen disable-search="true" class="chosen-select"
 								no-results-text="'没有找到相应条目'" ng-model="supperSel"
@@ -160,7 +160,7 @@
 				</div>
 
 				<div class="form-group">
-					<label class="col-sm-2 control-label">使用公司:</label>
+					<label class="col-sm-2 control-label">所属公司:</label>
 					<div class="col-sm-10">
 						<select chosen disable-search="true" class="chosen-select"
 								no-results-text="'没有找到相应条目'" ng-model="compSel"
@@ -235,7 +235,7 @@
 					<label class="col-sm-2 control-label"><span
 							class="text-danger">*</span>物品列表:</label>
 					<div class="col-sm-10">
- 					<a href="javascript:void(0)" ng-disabled="ctl.addlist"   style="margin-top: 3px;"
+ 					<a href="javascript:void(0)" ng-hide="ctl.addlist"   style="margin-top: 3px;"
  						   ng-click="zcadd()" class="btn btn-primary">加入列表</a>
 						<table datatable="ed" dt-options="dtOptions"
 							   dt-instance="dtInstance" dt-columns="dtColumns"
@@ -246,7 +246,8 @@
 			</form>
 		</div>
 	</div>
-	<div class="modal-footer" style ="text-align:center">
+	<div class="modal-footer" style ="text-align:center" ng-hide="ctl.footer">
+
 		<button ng-click="cancel()" class="btn btn-warning">取消</button>
 		<button ng-disabled="myForm.$invalid" ng-hide="ctl.surebtn" ng-click="sure()"
 			class="btn btn-primary">确认</button>
