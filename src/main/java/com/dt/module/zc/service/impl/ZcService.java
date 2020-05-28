@@ -330,6 +330,8 @@ public class ZcService extends BaseService{
                 sql = sql +  "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
             }else if(ZcCommonService.DATARANGE_DB.equals(datarange)){
                 sql = sql +  "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
+            }else if(ZcCommonService.DATARANGE_BF.equals(datarange)){
+                sql = sql +  "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
             }
 
         }

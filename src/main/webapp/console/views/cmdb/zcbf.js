@@ -85,7 +85,7 @@ function modalzcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		var mdata={};
 		mdata.id="";
 		mdata.type="many";
-		mdata.datarange=meta.flowtype;
+		mdata.datarange="BF";
 		var modalInstance = $uibModal.open({
 			backdrop : true,
 			templateUrl : 'views/cmdb/modal_common_zclist.html',
@@ -412,7 +412,7 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	function flush() {
 		var ps={};
-		$http.post($rootScope.project + "/api/zc/resScrape/selectList.do", ps)
+		$http.post($rootScope.project + "/api/zc/resScrape/ext/selectList.do", ps)
 			.success(function(res) {
 				if (res.success) {
 					$scope.dtOptions.aaData = res.data;

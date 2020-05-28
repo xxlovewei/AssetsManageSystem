@@ -49,6 +49,7 @@ public class ZcCommonService extends BaseService {
     public static String DATARANGE_LY="LY";
     public static String DATARANGE_JY="JY";
     public static String DATARANGE_DB="DB";
+    public static String DATARANGE_BF="BF";
     public static String DATARANGE_ALL="all";
 
 

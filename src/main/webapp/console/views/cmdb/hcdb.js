@@ -37,7 +37,6 @@ function modalhcdblistCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.URL = $rootScope.project + "/api/base/res/queryPageResAllByClass.do";
     meta.classroot=7;
     meta.start=0;
-    meta.hcavaliable="Y";
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withOption('ajax', {
             url: $scope.URL,
@@ -90,6 +89,7 @@ function modalhcdblistCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         ps.time=time;
         ps.belongcomp=meta.belongcomp;
         ps.loc=meta.loc;
+        ps.zcnumber=1;
         ps.warehouse=meta.warehouse;
         $scope.dtOptions.ajax.data=ps
         //$scope.dtInstance.reloadData(callback, true);
@@ -306,6 +306,7 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         meta.belongcomp=$scope.outbelongCompSel.id;
         meta.loc=$scope.outareaSel.dict_item_id;
         meta.warehouse=$scope.outwarehouseSel.dict_item_id;
+        meta.zcnumber="1";
         var modalInstance = $uibModal.open({
             backdrop : true,
             templateUrl : 'views/cmdb/modal_hcout_list.html',

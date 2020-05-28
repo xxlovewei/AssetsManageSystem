@@ -185,9 +185,8 @@ public class ResInoutExtController extends BaseController {
 			}
 
 		}
-
-
 		entity.setCnt(new BigDecimal(items_arr.size()));
+		System.out.println(entity);
 		ResInoutServiceImpl.saveOrUpdate(entity);
 		if(cols.size()>0){
 			ResServiceImpl.saveOrUpdateBatch(cols);
@@ -213,7 +212,7 @@ public class ResInoutExtController extends BaseController {
 	@RequestMapping(value = "/selectList.do")
 	public R selectList(String type,String action) {
 		if(ZcCommonService.UUID_HCCK.equals(action)||ZcCommonService.UUID_HCDB.equals(action)){
-			return resInoutExtService.selectHcCk(ZcCommonService.UUID_HCDB);
+			return resInoutExtService.selectHcCk(action);
 		}else if (ZcCommonService.UUID_HCRK.equals(action)){
 			QueryWrapper<ResInout> qw = new QueryWrapper<ResInout>();
 			qw.and(i -> i.eq("type", type));
