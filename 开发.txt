@@ -20,6 +20,11 @@ truncate table res_repair;
 truncate table res_repair_file;
 truncate table res_repair_item;
 truncate table sys_feedback;
+truncate table res_scrape;
+truncate table res_scrape_item;
+truncate table res_inout;
+truncate table res_inout_item;
+
 update sys_user_info set pwd='oracle'
 
 res_inventory 新增cnt

@@ -200,6 +200,9 @@ public class ZcService extends BaseService{
         else if (type.equals(ZcCommonService.UUID_HCCK)) {
             id = createUuid5();
             return type + id;
+        } else if (type.equals(ZcCommonService.UUID_BF)) {
+            id = createUuid5();
+            return type + id;
 
         }
         else if (type.equals(ZcCommonService.UUID_LY) || type.equals(ZcCommonService.UUID_JY)
@@ -311,6 +314,11 @@ public class ZcService extends BaseService{
         if(ToolUtil.isNotEmpty(ps.getString("zcnumber"))){
             sql = sql + " and zc_cnt>"+ps.getString("zcnumber");
         }
+
+        if(ToolUtil.isNotEmpty(ps.getString("zc_category"))){
+            sql = sql + " and zc_category='"+ps.getString("zc_category")+"'";
+        }
+
 
         //idle,inuse,scrap,borrow,repair,stopuse,allocation
         if(ToolUtil.isNotEmpty(datarange)){

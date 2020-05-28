@@ -32,10 +32,9 @@ public class CacheConfig {
 
     // 用户数据
     public static final String CACHE_USER = "user";
-
     public static final String CACHE_USER_180_60 = "user#180#60";
     public static final String CACHE_USER_480_300 = "user#480#300";
-
+    public static final String CACHE_USER_1200_600 = "user#1200#600";
     public static final String CACHE_WX_CONF = "wxconf";
     public static final String CACHE_WX_CONF_300_180 = "wxconf#300#180";
 

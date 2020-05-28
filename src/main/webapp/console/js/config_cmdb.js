@@ -214,12 +214,12 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
     }).state('cmsetting.bjcat', {
         url: "/cmsetting_bjcat?psBtns",
         data: {pageTitle: '备件分类', code:"8"},
-        templateUrl: "views/cmdb/goodscategory.html?v=" + version,
+        templateUrl: "views/cmdb/zccategory.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/goodscategory.js?v=' + version]
+                    files: ['views/cmdb/zccategory.js?v=' + version]
                 }]);
             }
         }
@@ -504,6 +504,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 return $ocLazyLoad.load([{
                     serie: true,
                     files: ['views/cmdb/zcallocation.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('zcchange.zcbf', {
+        url: "/zcchange_zcbf",
+        data: {pageTitle: '资产报废'},
+        templateUrl: "views/cmdb/zcbf.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/zcbf.js?v=' + version]
                 }]);
             }
         }
@@ -1837,7 +1849,7 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
 
 
 
-
+        ps.zc_category=3;
         $http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
             .success(function (res) {
                 if (res.success) {

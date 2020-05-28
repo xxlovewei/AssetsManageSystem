@@ -36,9 +36,9 @@ public class ResInoutExtService extends BaseService {
                 "  b.*,\n" +
                 "  t.*,\n" +
                 "  case when zc_cnt < downcnt\n" +
-                "    then '超下限'\n" +
+                "    then '低于下限'\n" +
                 "  when zc_cnt > upcnt\n" +
-                "    then '超上限'\n" +
+                "    then '超过上限'\n" +
                 "  else '未知'\n" +
                 "  end msg\n" +
                 "from (\n" +

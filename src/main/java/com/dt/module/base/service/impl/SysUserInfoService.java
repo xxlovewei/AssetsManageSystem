@@ -28,7 +28,8 @@ public class SysUserInfoService extends BaseService {
 
     private static Logger _log = LoggerFactory.getLogger(SysUserInfoService.class);
 
-    @Cacheable(value = CacheConfig.CACHE_USER_480_300, key ="'um'+#user_id+#menu_id")
+
+    @Cacheable(value = CacheConfig.CACHE_USER_1200_600, key ="'um'+#user_id+#menu_id")
     public R listMyMenusById(String user_id, String menu_id) {
         String basesql = "";
         if (BaseCommon.isSuperAdmin(user_id)) {
