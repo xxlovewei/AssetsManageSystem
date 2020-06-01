@@ -58,7 +58,7 @@ public class ResExtExportController extends BaseController {
                 "    '资产类型明细'   name,\n" +
                 "    route_name item_name\n" +
                 "  from ct_category\n" +
-                "  where root = '3' and dr='0'\n" +
+                "  where root = '"+ZcCommonService.CATEGORY_ZC+"' and dr='0'\n" +
                 "  union all\n" +
                 "  select\n" +
                 "    '公司' name,\n" +

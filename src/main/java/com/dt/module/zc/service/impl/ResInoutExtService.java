@@ -46,7 +46,7 @@ public class ResInoutExtService extends BaseService {
                 "         class_id,\n" +
                 "         sum(zc_cnt) zc_cnt\n" +
                 "       from res\n" +
-                "       where dr = '0' and zc_category = '7'\n" +
+                "       where dr = '0' and zc_category = '"+ZcCommonService.CATEGORY_HC+"'\n" +
                 "       group by class_id) t,\n" +
                 "  ct_category b\n" +
                 "where t.class_id = b.id and upcnt > 0 and downcnt > 0\n" +
@@ -236,7 +236,7 @@ public class ResInoutExtService extends BaseService {
                 "         warehouse,\n" +
                 "         sum(zc_cnt) zc_cnt\n" +
                 "       from res\n" +
-                "       where dr = '0' and zc_category = '7'\n" +
+                "       where dr = '0' and zc_category = '"+ZcCommonService.CATEGORY_HC+"'\n" +
                 "       group by class_id, loc, warehouse\n" +
                 "       order by 1, 2, 3) t where 1=1 ";
         if(ToolUtil.isNotEmpty(loc)){

@@ -8,7 +8,7 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		.withOption('ajax', {
 			url: $scope.URL,
 			type: 'POST',
-			data:{classroot:"-1",start:0}
+			data:{classroot:"-1",start:0,zc_category:3}
 		})
 		.withDataProp('data').withDataProp('data').withDOM('frtlip').withPaginationType('full_numbers')
 		.withDisplayLength(25)
@@ -148,6 +148,7 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
 		ps.search = $scope.meta.tools[4].ct;
 		ps.time=time;
+		ps.zc_category=3;
 		$scope.dtOptions.ajax.data=ps
 
 	}
@@ -162,7 +163,7 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
 		ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
 		ps.search = $scope.meta.tools[4].ct;
-		$window.open($rootScope.project + "/api/base/res/exportAllRes.do?loc="
+		$window.open($rootScope.project + "/api/base/res/exportAllRes.do?zc_category=7&loc="
 				+ ps.loc + "&env=" + ps.env + "&wb=" + ps.wb + "&recycle="
 				+ ps.recycle + "&search=" + ps.search);
 

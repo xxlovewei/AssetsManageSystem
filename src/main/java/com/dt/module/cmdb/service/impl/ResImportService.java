@@ -365,6 +365,7 @@ public class ResImportService extends BaseService {
             me.setIf("belong_company_id", belongcompR.queryDataToJSONObject().getString("node_id"));
             me.setIf("used_company_id", compR.queryDataToJSONObject().getString("node_id"));
             me.setIf("part_id", partR.queryDataToJSONObject().getString("node_id"));
+            me.setIf("zc_category", classR.queryDataToJSONObject().getString("root"));
 
             // 处理资产编号,必需一条
             if (uuidR == 1) {

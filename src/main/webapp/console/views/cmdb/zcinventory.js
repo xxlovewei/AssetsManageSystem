@@ -754,7 +754,7 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,$window,
             {
                 id : "input",
                 label : "内容",
-                placeholder : "",
+                placeholder : "请输入搜索内容",
                 type : "input",
                 show : true,
                 ct : ""

@@ -119,7 +119,7 @@ public class ZcService extends BaseService{
         }
         if (ToolUtil.isNotEmpty(zchccat) && "Y".equals(zchccat) ) {
             RcdSet partrs = db
-                    .query("select * from ct_category where root='7' and dr='0' and type='goods'" );
+                    .query("select * from ct_category where root='"+ZcCommonService.CATEGORY_HC+"' and dr='0' and type='goods'" );
             res.put("zchccat",ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
