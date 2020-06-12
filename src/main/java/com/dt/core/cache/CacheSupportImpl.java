@@ -43,8 +43,9 @@ public class CacheSupportImpl implements CacheSupport, InvocationRegistry {
         } catch (Exception ex) {
             invocationSuccess = false;
         }
+
+        logger.info("RefreshCache Result:"+invocationSuccess+",cacheName:"+cacheName+",key:"+invocation.getKey());
         if (invocationSuccess) {
-            logger.info("RefreshCache success,cacheName:"+cacheName+",key:"+invocation.getKey());
             if (cacheInvocationsMap.get(cacheName) != null) {
                 cacheManager.getCache(cacheName).put(invocation.getKey(), computed);
             }

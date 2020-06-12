@@ -59,7 +59,13 @@ public class CacheService {
         for (String cache : col) {
             if (cache.indexOf("#") == -1) {
                 _log.info("check cachename:"+cache);
-                refreshCache(cache);
+                if(cache.toLowerCase().endsWith("cache")){
+                    _log.info("check "+cache+" filter out.");
+                }else{
+                    _log.info("action fresh cache "+cache);
+                    refreshCache(cache);
+                }
+
             }
         }
         return R.SUCCESS_OPER();
@@ -86,10 +92,11 @@ public class CacheService {
             try {
                 // 判断是否需要刷新
                 String key = c.getAllKeys().get(i).toString();
+
                 Element el = c.getKey(key);
                 //el为null,强制刷新
                 if(el==null){
-                    _log.info("Refresh by CacheService,cache:"+cache+",key:"+key+",value is null,force to refresh");
+                    _log.info("Refresh required,cache:"+cache+",key:"+key+",value is null,force to refresh");
                     ThreadTaskHelper.run(new Runnable() {
                         @Override
                         public void run() {
@@ -104,25 +111,28 @@ public class CacheService {
                 CachedInvocation inv = CacheSupportImpl.cacheInvocationsMap.get(cache).get(key);
                 if (inv == null||inv.getcacheableEntity()==null) {
                     _log.info("CachedInvocation is null or CacheableEntity is null,cache:"+cache+",key"+key);
+                    removeCacheKey(cache,key);
                     continue;
                 }
                 CacheableEntity ce = inv.getcacheableEntity();
                 int refreshtime = ce.getRefreshtime();
-                // 主动刷新时间太低,并且命中率不高,则不去主动刷新
-                if (refreshtime < 30 && hit < 2) {
+                // 主动刷新时间太低,并且命中率不高,则不去主动刷新,refreshtime second
+                if (refreshtime < 120 && hit < 2) {
                     _log.info("too low to refresh,too low to hit.cache:" + cache + ",key:" + key + ",refreshtime:"
                             + refreshtime + ",hit:" + hit);
                     continue;
                 }
-                _log.info("Refresh by CacheService,cache:"+cache+",key:"+key+",cacheableEntity:"+ce.toString());
-                if (refreshtime > 0 && expired > 0 && expired <= refreshtime) {
-                    ThreadTaskHelper.run(new Runnable() {
+             if (refreshtime > 0 && expired > 0 && expired <= refreshtime) {
+                 _log.info("Refresh required,cache:"+cache+",key:"+key+",cacheableEntity:"+ce.toString()+",refreshtime:"+refreshtime);
+                     ThreadTaskHelper.run(new Runnable() {
                         @Override
                         public void run() {
                             cacheSupportImpl.refreshCacheByKey(cache, key);
                         }
                     });
-                }
+                }else{
+                  _log.info("No refresh required,cache:"+cache+",key:"+key+",cacheableEntity:"+ce.toString()+",refreshtime:"+refreshtime);
+             }
             } catch (Exception e) {
                 e.printStackTrace();
             }
