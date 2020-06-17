@@ -965,53 +965,6 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						// 填充其他数据
 					}
 
-					// 补充属性数据
-					if (angular.isDefined(res.data.attr)
-						&& res.data.attr.length > 0) {
-						meta.attr = res.data.attr;
-						for (var i = 0; i < res.data.attr.length; i++) {
-							if (i == 0) {
-								var e = {
-									type : "dashed"
-								}
-								items.push(e);
-							}
-
-							var attr_type = res.data.attr[i].attr_type;
-							if (attr_type == "string") {
-								var e = {
-									type : "input",
-									disabled : "false",
-									sub_type : "text",
-									required : true,
-									maxlength : "100",
-									placeholder : "请输入内容",
-									label : res.data.attr[i].attr_name,
-									need : false,
-									name : res.data.attr[i].attr_code,
-									ng_model : res.data.attr[i].attr_code,
-								}
-								items.push(e);
-							} else if (attr_type == "number") {
-								var e = {
-									type : "input",
-									disabled : "false",
-									sub_type : "number",
-									required : true,
-									maxlength : "20",
-									placeholder : "请输入内容",
-									label : res.data.attr[i].attr_name,
-									need : false,
-									name : res.data.attr[i].attr_code,
-									ng_model : res.data.attr[i].attr_code,
-								}
-								items.push(e);
-							}
-
-						}
-
-					}
-
 
 					// 打开静态框
 					var modalInstance = $uibModal

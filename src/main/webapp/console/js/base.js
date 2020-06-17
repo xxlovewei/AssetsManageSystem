@@ -280,6 +280,7 @@ function dt_renderMapSimple(data, type, full, map) {
 function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                              $uibModalInstance, $scope, meta, $http, $rootScope, $compile) {
     $scope.meta = meta;
+
     $log.log($scope.meta);
     var formhtml = " <form id=\"formct\" class=\"form-horizontal m-t-md\" name=\"myForm\" novalidate compile=\"template\" action=\"\">";
     var items = meta.items;
@@ -296,7 +297,6 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                 var required_col = "";
                 if (obj.required) {
                     required_col = "required";
-                    console.log('true');
                 }
                 var maxlength_col = "";
                 if (typeof (obj.maxlength) != "undefined" && obj.maxlength > 0) {
@@ -446,7 +446,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + obj.conf
                     + "\" dzeventHandlers=\"dtldzevent\" enctype=\"multipart/form-data\"> ";
                 tmp_tpl = tmp_tpl
-                    + "			<div id=\"dropzone\" class=\"fallback\"> ";
+                    + "			<div id=\"dropzone1\" class=\"fallback\"> ";
                 tmp_tpl = tmp_tpl
                     + "				<input name=\"file\" type=\"file\" multiple=\"\" /> ";
                 tmp_tpl = tmp_tpl + "			</div> ";
@@ -462,9 +462,9 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                 tmp_tpl = tmp_tpl
                     + "		<div class=\"dropzone\" drop-zone dzconfig=\"meta."
                     + obj.conf
-                    + "\" dzeventHandlers=\"dtldzevent\" enctype=\"multipart/form-data\"> ";
+                    + "\" dzeventHandlers=\"dtldzevent2\" enctype=\"multipart/form-data\"> ";
                 tmp_tpl = tmp_tpl
-                    + "			<div id=\"dropzone\" class=\"fallback\"> ";
+                    + "			<div id=\"dropzone2\" class=\"fallback\"> ";
                 tmp_tpl = tmp_tpl
                     + "				<input name=\"file\" type=\"file\" multiple=\"\" /> ";
                 tmp_tpl = tmp_tpl + "			</div> ";
@@ -475,6 +475,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
             }
         }
     }
+
     formhtml=formhtml+" </form> ";
     $timeout(function () {
         var tplhtml = $compile(formhtml);
@@ -490,16 +491,112 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
          //             document.getElementById(select_ids[i] + "_chosen").style.width = "100%";
          //         }
          //     }, 10);
-    },10);
+    },20);
 
-    $timeout(function () {
-        var tplhtml = $compile(formhtml);
-        var $dom = tplhtml($scope);
-        //console.log("$dom:",$dom)
-        var ct = document.getElementById('formitem');
-        //console.log("ct:",ct)
-        angular.element(ct).append($dom);
-    },10);
+    //########################################################本段为资产管理所需########################################################
+    $scope.$watch('meta.extitems',function(newValue,oldValue) {
+        var extitemshtml = " <form id=\"formct\" class=\"form-horizontal m-t-md\" name=\"myForm2\" novalidate compile=\"template\" action=\"\">";
+        var extitems=newValue;
+        if(angular.isDefined(extitems)){
+            for(var i=0;i<extitems.length;i++){
+                var obj=extitems[i];
+                var need_col = "";
+                if (obj.ifneed=="1") {
+                    need_col = "<span class=\"text-danger\">*</span>";
+                }
+                if (obj.inputtype == "inputint") {
+                    var required_col = "";
+                    if (obj.ifneed == "1") {
+                        required_col = "required";
+                    }
+                    var maxlength_col = "";
+                    if (typeof (obj.maxlength) != "undefined" && obj.maxlength > 0) {
+                        maxlength_col = "ng-maxlength=\"" + obj.maxlength + "\"";
+                    }
+                    var tmp_tpl="";
+                    tmp_tpl = tmp_tpl + "<div class=\"form-group\">";
+                    tmp_tpl = tmp_tpl + "<label class=\"col-sm-2 control-label\">"
+                        + need_col + obj.attrname + ":</label> ";
+                    tmp_tpl = tmp_tpl + "<div class=\"col-sm-10\">    ";
+                    tmp_tpl = tmp_tpl
+                        + "	<input ng-disabled=\""
+                        + obj.disabled
+                        + "\" type=\"number\" "
+                        + required_col
+                        + "  "
+                        + maxlength_col
+                        + "  class=\"form-control ng-pristine ng-untouched ng-valid ng-empty\" placeholder=\"请输入内容\" name=\"" + obj.attrname
+                        + "\" ng-model=\"meta.item." + obj.attrcode + "\" > ";
+                    tmp_tpl = tmp_tpl
+                        + "	<div class=\"text-danger\" ng-if=\"myForm."
+                        + obj.attrcode + ".$dirty && myForm." + obj.attrname
+                        + ".$invalid\"> ";
+
+                    tmp_tpl = tmp_tpl + "		<span ng-if=\"myForm." + obj.attrname
+                        + ".$error.required\"> 输入不能为空 </span> ";
+
+
+                    tmp_tpl = tmp_tpl + "		<span ng-show=\"myForm." + obj.attrname
+                        + ".$error.maxlength\">不能超过" + obj.maxlength
+                        + "个字符</span> ";
+                    tmp_tpl = tmp_tpl + "</div> ";
+                    tmp_tpl = tmp_tpl + "</div> ";
+                    tmp_tpl = tmp_tpl + "</div> ";
+                    extitemshtml = extitemshtml + tmp_tpl;
+                }else if (obj.inputtype == "inputstr") {
+                    var required_col = "";
+                    if (obj.ifneed=="1") {
+                        required_col = "required";
+                    }
+                    var maxlength_col = "";
+                    if (typeof (obj.maxlength) != "undefined" && obj.maxlength > 0) {
+                        maxlength_col = "ng-maxlength=\"" + obj.maxlength + "\"";
+                    }
+                    var tmp_tpl="";
+                    tmp_tpl = tmp_tpl + "<div class=\"form-group\">";
+                    tmp_tpl = tmp_tpl + "<label class=\"col-sm-2 control-label\">"
+                        + need_col + obj.attrname + ":</label> ";
+                    tmp_tpl = tmp_tpl + "<div class=\"col-sm-10\">    ";
+                    tmp_tpl = tmp_tpl
+                        + "	<input ng-disabled=\""
+                        + obj.disabled
+                        + "\" type=\"text\" "
+                        + required_col
+                        + "  "
+                        + maxlength_col
+                        + "  class=\"form-control ng-pristine ng-untouched ng-valid ng-empty\" placeholder=\"请输入内容\" name=\"" + obj.attrname
+                        + "\" ng-model=\"meta.item." + obj.attrcode + "\" > ";
+                    tmp_tpl = tmp_tpl
+                        + "	<div class=\"text-danger\" ng-if=\"myForm."
+                        + obj.attrcode + ".$dirty && myForm." + obj.attrname
+                        + ".$invalid\"> ";
+
+                    tmp_tpl = tmp_tpl + "		<span ng-if=\"myForm." + obj.attrname
+                        + ".$error.required\"> 输入不能为空 </span> ";
+
+
+                    tmp_tpl = tmp_tpl + "		<span ng-show=\"myForm." + obj.attrname
+                        + ".$error.maxlength\">不能超过" + obj.maxlength
+                        + "个字符</span> ";
+                    tmp_tpl = tmp_tpl + "</div> ";
+                    tmp_tpl = tmp_tpl + "</div> ";
+                    tmp_tpl = tmp_tpl + "</div> ";
+                    extitemshtml = extitemshtml + tmp_tpl;
+                }
+            }
+            extitemshtml=extitemshtml+" </form> ";
+            if(extitems.length>0){
+                $timeout(function () {
+                    var tplhtml2 = $compile(extitemshtml);
+                    var $dom2 = tplhtml2($scope);
+                    var ct2 = document.getElementById('formitem');
+                    angular.element(ct2).append($dom2);
+                },20);
+            }
+            }
+    });
+
+
 
     $scope.sure = function () {
         meta.sure($uibModalInstance, $scope);

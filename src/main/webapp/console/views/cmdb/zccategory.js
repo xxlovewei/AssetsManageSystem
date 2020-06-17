@@ -466,7 +466,7 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 		modalInstance.result.then(function(result) {
 			if (result == "OK") {
-
+				flushAttr($scope.item.id);
 			}
 		}, function(reason) {
 			$log.log("reason", reason)

@@ -115,7 +115,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				id : "btn5",
 				label : "",
 				type : "btn",
-				show:false,
+				show:true,
 				priv:"detail",
 				template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
 			},
@@ -400,6 +400,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 	// //////////////////////////save/////////////////////
+	$scope.gmeta={};
 	$scope.save = function(type) {
 		var id;
 		var zcrecycle="false";
@@ -427,7 +428,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						});
 						return;
 					}
-					var meta = {};
+
 
 					var items = [ ];
 					items.push({
@@ -787,7 +788,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						tbtime = moment(res.data.data.wbout_datestr);
 					}
 
-					meta = {
+					$scope.gmeta = {
 						classroot:gclassroot,
 						footer_hide : false,
 						title : "资产-"+$state.router.globals.current.data.pageTitle,
@@ -893,15 +894,15 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 							// 动态参数
-							if (angular.isDefined(modal_meta.meta.attr)
-								&& modal_meta.meta.attr.length > 0) {
-								for (var j = 0; j < modal_meta.meta.attr.length; j++) {
-									var code = modal_meta.meta.attr[j].attr_code;
-									modal_meta.meta.attr[j].attr_value = modal_meta.meta.item[modal_meta.meta.attr[j].attr_code];
+							if (angular.isDefined(modal_meta.meta.extitems)
+								&& modal_meta.meta.extitems.length > 0) {
+								for (var j = 0; j < modal_meta.meta.extitems.length; j++) {
+									var code = modal_meta.meta.extitems[j].attrcode;
+									modal_meta.meta.extitems[j].attrvalue = modal_meta.meta.item[code];
 								}
 							}
 							modal_meta.meta.item.attrvals = angular
-								.toJson(modal_meta.meta.attr);
+								.toJson(modal_meta.meta.extitems);
 
 							$http
 								.post(
@@ -924,60 +925,26 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							angular.copy(gdicts, tt)
 							loadOpt(modal_meta, tt);
 
+							$scope.$watch('gmeta.classSel',function(newValue,oldValue) {
+								//console.log(newValue);
+								$http.post(
+									$rootScope.project
+									+ "/api/cmdb/resAttrs/ext/selectByCatId.do", {
+										catid:newValue.dict_item_id
+									}).success(function(res) {
+									if (res.success) {
+										modal_meta.meta.extitems=res.data;
+									}
+								});
+							});
+
 						}
 					}
 
 					if (angular.isDefined(res.data.data)
 						&& angular.isDefined(res.data.data.id)) {
-						meta.item = res.data.data;
+						$scope.gmeta.item = res.data.data;
 						// 填充其他数据
-					}
-
-					// 补充属性数据
-					if (angular.isDefined(res.data.attr)
-						&& res.data.attr.length > 0) {
-						meta.attr = res.data.attr;
-						for (var i = 0; i < res.data.attr.length; i++) {
-							if (i == 0) {
-								var e = {
-									type : "dashed"
-								}
-								items.push(e);
-							}
-
-							var attr_type = res.data.attr[i].attr_type;
-							if (attr_type == "string") {
-								var e = {
-									type : "input",
-									disabled : "false",
-									sub_type : "text",
-									required : true,
-									maxlength : "100",
-									placeholder : "请输入内容",
-									label : res.data.attr[i].attr_name,
-									need : false,
-									name : res.data.attr[i].attr_code,
-									ng_model : res.data.attr[i].attr_code,
-								}
-								items.push(e);
-							} else if (attr_type == "number") {
-								var e = {
-									type : "input",
-									disabled : "false",
-									sub_type : "number",
-									required : true,
-									maxlength : "20",
-									placeholder : "请输入内容",
-									label : res.data.attr[i].attr_name,
-									need : false,
-									name : res.data.attr[i].attr_code,
-									ng_model : res.data.attr[i].attr_code,
-								}
-								items.push(e);
-							}
-
-						}
-
 					}
 
 
@@ -990,7 +957,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							size : 'lg',
 							resolve : {
 								meta : function() {
-									return meta;
+									return $scope.gmeta;
 								}
 							}
 						});

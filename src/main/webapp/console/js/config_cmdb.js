@@ -1099,9 +1099,7 @@ function loadOpt(modal_meta, gdicts) {
     }
 
 
-    //仓库
-
-
+    //仓库cmsetting_zccat
     modal_meta.meta.warehouseOpt = gdicts.warehouse;
     if (angular.isDefined(gdicts.warehouse) && gdicts.warehouse.length > 0) {
         if (angular.isDefined(item) && angular.isDefined(item.warehouse)) {
@@ -1676,6 +1674,22 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
         }).success(function (res) {
             if (res.success) {
                 $scope.item = res.data.data;
+                var extdata=[];
+                var extdataitem=[];
+                for(var i=0;i<res.data.extattr.length;i++){
+                  //  console.log(res.data.extattr)
+                    if(res.data.extattr[i].idx==0&&i>0){
+                        extdata.push(extdataitem);
+                        extdataitem=[];
+                        extdataitem.push(res.data.extattr[i]);
+                    }else{
+                        extdataitem.push(res.data.extattr[i]);
+                    }
+                }
+                if(extdataitem.length>0){
+                    extdata.push(extdataitem);
+                }
+                $scope.extdata=extdata;
                 $scope.dtOptions.aaData = res.data.faultdata;
                 $scope.dtOptions2.aaData = res.data.updatadata;
             } else {

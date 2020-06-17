@@ -1,0 +1,19 @@
+<div ng-if="extdata.length>0">
+	<hr>
+</div>
+<div ng-repeat="item in extdata">
+	<div class="row">
+		<div ng-repeat="e in item" class="col-md-3">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">{{e.attrname}}</label>
+					<div class="col-sm-8">
+						<input ng-disabled="true" ng-model="e.attrvalue" type="text"
+							   class="form-control">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

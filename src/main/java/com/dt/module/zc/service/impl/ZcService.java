@@ -232,24 +232,24 @@ public class ZcService extends BaseService{
     public String buildQueryResAllGetdatalSql(String belongcomp,String comp,String part,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps){
 
         // 获取属性数据
-        String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
+        String attrsql = "select * from res_attrs where catid=? and dr='0'";
         RcdSet attrs_rs = db.query(attrsql, class_id);
         String sql = "select";
         if (attrs_rs != null) {
             for (int i = 0; i < attrs_rs.size(); i++) {
                 // 拼接sql
                 String valsql = "";
-                if (attrs_rs.getRcd(i).getString("attr_type").equals("number")) {
-                    // "to_number(attr_value)";
-                    valsql = " cast( attr_value as SIGNED INTEGER)";
-                } else if (attrs_rs.getRcd(i).getString("attr_type").equals("string_arr")) {
-                    valsql = "attr_value";
+                if (attrs_rs.getRcd(i).getString("inputtype").equals("inputint")) {
+                    // valsql = " cast( attrvalue as signed integer)";
+                    valsql = " attrvalue+0";
+                } else if (attrs_rs.getRcd(i).getString("inputtype").equals("inputstr")) {
+                    valsql = "attrvalue";
                 } else {
-                    valsql = "attr_value";
+                    valsql = "attrvalue";
                 }
                 sql = sql + " (select " + valsql
-                        + " from res_attr_value i where i.dr=0 and i.res_id=t.id and i.attr_id='"
-                        + attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
+                        + " from res_attr_value i where i.dr=0 and i.resid=t.id and i.attrid='"
+                        + attrs_rs.getRcd(i).getString("id") + "') \"" + attrs_rs.getRcd(i).getString("attrcode")
                         + "\",  ";
             }
         }
@@ -265,20 +265,6 @@ public class ZcService extends BaseService{
             sql = sql + " and class_id in (select id from ct_category  where dr='0' and ( id='" + class_id
                     + "' or parent_id='" + class_id + "')) ";
         }
-
-//
-//        if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
-//            if (class_id.equals("multiclass")) {
-//                //获取多个类型
-//                String subsql=" t.dr='0' and t.root='3' and t.route not like '46%' and t.node_level>1 ";
-//                sql = sql + " and class_id in (select id from ct_category t where " +subsql+")";
-//            } else {
-//                //获取一个类型
-//                sql = sql + " and class_id in (select id from ct_category  where dr='0' and ( id='" + class_id
-//                        + "' or parent_id='" + class_id + "')) ";
-//            }
-//
-//        }
 
         if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
             sql = sql + " and loc='" + loc + "'";
@@ -484,61 +470,43 @@ public class ZcService extends BaseService{
 
     public R queryResAllById(String id) {
         JSONObject data = new JSONObject();
-//
-//		if (ToolUtil.isEmpty(id)) {
-//			return R.FAILURE_REQ_PARAM_ERROR();
-//		}
-
         String class_id = "";
         Rcd rs = db.uniqueRecord("select * from res t where dr=0 and id=?", id);
         if (rs != null) {
             class_id = rs.getString("class_id");
         }
-
         // 获取属性数据
         RcdSet attrs = null;
-        String attrsql = "select * from res_class_attrs where class_id=? and dr='0'";
-        attrs = db.query(attrsql, class_id);
-        data.put("attr", ConvertUtil.OtherJSONObjectToFastJSONArray(attrs.toJsonArrayWithJsonObject()));
-
+        String attrsql = "select (end.i-1)%4 idx,end.* from (\n" +
+                "select  (@i:=@i+1) as i,t.* from (select a.*,b.attrvalue from (select * from res_attrs where catid=? and dr='0') a left join (select * from res_attr_value where resid=? and dr='0') b on a.id=b.attrid\n" +
+                ") t,(select @i:=0) as it)end";
+        attrs = db.query(attrsql, class_id,id);
+        data.put("extattr", ConvertUtil.OtherJSONObjectToFastJSONArray(attrs.toJsonArrayWithJsonObject()));
         // 获取res数据
         if (ToolUtil.isNotEmpty(id)) {
             String sql = "select";
-            RcdSet attrs_rs = db.query(attrsql, class_id);
-
-            // 如果包含一对多，则将一对多保存至dataarr
-            JSONArray kvdataarr = new JSONArray();
+            RcdSet attrs_rs = db.query(attrsql, class_id,id);
             for (int i = 0; i < attrs_rs.size(); i++) {
                 // 拼接sql
                 String valsql = "";
-                if (attrs_rs.getRcd(i).getString("attr_type").equals("number")) {
-                    // "to_number(attr_value)";
-                    valsql = " cast( attr_value as SIGNED INTEGER)";
-                } else if (attrs_rs.getRcd(i).getString("attr_type").equals("string_arr")) {
-                    kvdataarr.add(attrs_rs.getRcd(i).getString("attr_code"));
-                    valsql = "attr_value";
+                if ("inputint".equals(attrs_rs.getRcd(i).getString("inputtype"))) {
+                   // valsql = " cast( attrvalue as signed integer)";
+                    valsql = " attrvalue+0";
+                } else if ("inputstr".equals(attrs_rs.getRcd(i).getString("inputtype"))) {
+                    valsql = "attrvalue";
                 } else {
-                    valsql = "attr_value";
+                    valsql = "attrvalue";
                 }
-
                 sql = sql + " (select " + valsql
-                        + " from res_attr_value i where i.dr=0 and i.res_id=t.id and i.attr_id='"
-                        + attrs_rs.getRcd(i).getString("attr_id") + "') \"" + attrs_rs.getRcd(i).getString("attr_code")
+                        + " from res_attr_value i where i.dr=0 and i.resid=t.id and i.attrid='"
+                        + attrs_rs.getRcd(i).getString("id") + "') \"" + attrs_rs.getRcd(i).getString("attrcode")
                         + "\",  ";
             }
-            sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0  and id=?";
-
+            sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0 and id=?";
             Rcd rs2 = db.uniqueRecord(sql, id);
-            if (rs2 != null) {
-                data.put("data", ConvertUtil.OtherJSONObjectToFastJSONObject(rs2.toJsonObject()));
-                // 获取kv一对多数据
-                for (int i = 0; i < kvdataarr.size(); i++) {
-                    RcdSet trs = db.query("select * from res_attr_value where res_id=? and  attr_value_id=?", id,
-                            rs2.getString(kvdataarr.getString(i)));
-                    data.put(kvdataarr.getString(i),
-                            ConvertUtil.OtherJSONObjectToFastJSONArray(trs.toJsonArrayWithJsonObject()));
-                }
-            }
+          if (rs2 != null) {
+              data.put("data", ConvertUtil.OtherJSONObjectToFastJSONObject(rs2.toJsonObject()));
+           }
         }
         // 获取更新记录
         RcdSet urs = db.query(
@@ -731,13 +699,8 @@ public class ZcService extends BaseService{
             } else {
                 ins.set("oper_type", "更新");
             }
-
-
         }
-
-
         db.execute(sql);
-
         // 更新记录表
         ins.set("id", db.getUUID());
         ins.set("res_id", id);
@@ -750,17 +713,17 @@ public class ZcService extends BaseService{
         String attrvals = ps.getString("attrvals");
         Update del = new Update("res_attr_value");
         del.set("dr", "1");
-        del.where().and("res_id=?", id);
+        del.where().and("resid=?", id);
         db.execute(del);
         if (ToolUtil.isNotEmpty(attrvals)) {
             JSONArray valsarr = JSONArray.parseArray(attrvals);
             for (int i = 0; i < valsarr.size(); i++) {
                 Insert me = new Insert("res_attr_value");
                 me.set("id", db.getUUID());
-                me.set("res_id", id);
+                me.set("resid", id);
                 me.set("dr", "0");
-                me.setIf("attr_id", valsarr.getJSONObject(i).getString("attr_id"));
-                me.setIf("attr_value", valsarr.getJSONObject(i).getString("attr_value"));
+                me.setIf("attrid", valsarr.getJSONObject(i).getString("id"));
+                me.setIf("attrvalue", valsarr.getJSONObject(i).getString("attrvalue"));
                 db.execute(me);
             }
         }

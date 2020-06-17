@@ -379,9 +379,11 @@
 
 					</div>
 
-					<!-- 	//自定义扩展属性 -->
-					<div ng-switch="item.classname">
+					<!--扩展属性-->
+					<div ng-include="'views/cmdb/dtl_extattr.html'"></div>
 
+					<!--//自定义扩展属性 -->
+					<div ng-switch="item.classname">
 						<span ng-switch-when="X86">
 							<div ng-include="'views/cmdb/dtl_itdev.html'"></div>
 						</span> <span ng-switch-when="小机">
@@ -403,8 +405,10 @@
 						</span> <span ng-switch-when="zcotherhard">
 							<div ng-include="'views/cmdb/dtl_itdev.html'"></div>
 						</span>
-
 					</div>
+
+
+
 					<div class="row">
 						<div class="col-md-12">
 							<form class="form-horizontal">
@@ -460,7 +464,6 @@
 							</form>
 						</div>
 					</div>
-
 
 					<div class="row">
 						<div class="col-md-12">

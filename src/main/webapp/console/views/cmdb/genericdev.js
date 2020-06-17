@@ -527,12 +527,9 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			});
 
 			modalInstance.result.then(function(result) {
-
 				if (result == "OK") {
 					flush();
 				}
-		 
- 
 			}, function(reason) {
 
 				$log.log("reason", reason)
@@ -542,7 +539,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	$scope.del = function() {
 		var selrows=getSelectRows();
-	 
 		if (angular.isDefined(selrows)) {
 			$confirm({
 				text : '是否删除?'
@@ -589,7 +585,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 		modalInstance.result.then(function(result) {
-
 			if (result == "OK") {
 			}
 		}, function(reason) {
@@ -621,6 +616,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 	
 	// //////////////////////////save/////////////////////
+	$scope.gmeta= {};
 	$scope.save = function(type) {
 		var id;
 		var zcclass="false";
@@ -646,7 +642,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								});
 								return;
 							}
-							var meta = {};
 
 							var items = [];
 							items.push({
@@ -1074,9 +1069,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								conf:"attachconfig"
 							});
 						 
-					
-					 
-							
+
 							var bt = moment().subtract(1, "days");
 							var tbtime = moment();
 
@@ -1093,7 +1086,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								tbtime = moment(res.data.data.wbout_datestr);
 							}
 
-							meta = {
+							$scope.gmeta = {
 								class_id : gclass_id,
 								footer_hide : false,
 								title : "资产-"+$state.router.globals.current.data.pageTitle,
@@ -1175,7 +1168,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 								items : items,
 								sure : function(modalInstance, modal_meta) {
 									
-									console.log("pic",$scope.myDropzonepic);
+
 									// 只允许传一张图片
 									modal_meta.meta.item.img="";
 									if($scope.myDropzonepic.files.length>0&&$scope.myDropzonepic.files.length==1){
@@ -1243,8 +1236,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 										return;
 									}
 
-									
-									
 									if(angular.isDefined(modal_meta.meta.pinpSel.dict_item_id)){
 										modal_meta.meta.item.brand = modal_meta.meta.pinpSel.dict_item_id;
 									}
@@ -1302,20 +1293,17 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 											.format('YYYY-MM-DD');
 									modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
 											.format('YYYY-MM-DD');
-								 
-								 
 
-									// 动态参数
-									if (angular.isDefined(modal_meta.meta.attr)
-											&& modal_meta.meta.attr.length > 0) {
-										for (var j = 0; j < modal_meta.meta.attr.length; j++) {
-											var code = modal_meta.meta.attr[j].attr_code;
-											modal_meta.meta.attr[j].attr_value = modal_meta.meta.item[modal_meta.meta.attr[j].attr_code];
+									if (angular.isDefined(modal_meta.meta.extitems)
+											&& modal_meta.meta.extitems.length > 0) {
+										for (var j = 0; j < modal_meta.meta.extitems.length; j++) {
+											var code = modal_meta.meta.extitems[j].attrcode;
+											modal_meta.meta.extitems[j].attrvalue = modal_meta.meta.item[code];
 										}
 									}
 									modal_meta.meta.item.attrvals = angular
-											.toJson(modal_meta.meta.attr);
-								 
+											.toJson(modal_meta.meta.extitems);
+
 									$http
 											.post(
 													$rootScope.project
@@ -1330,15 +1318,24 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 													});
 												}
 											});
-
 								},
 								init : function(modal_meta) {
 									var tt = {};
 									angular.copy(gdicts, tt)
 									loadOpt(modal_meta, tt);
 
-
-
+									$scope.$watch('gmeta.classSel',function(newValue,oldValue) {
+									   //console.log(newValue);
+										$http.post(
+											$rootScope.project
+											+ "/api/cmdb/resAttrs/ext/selectByCatId.do", {
+												catid:newValue.dict_item_id
+											}).success(function(res) {
+											if (res.success) {
+												modal_meta.meta.extitems=res.data;
+											}
+										});
+									});
 
 									var iid=modal_meta.meta.item.img;
 									if(angular.isDefined(iid)&&iid.length>0){
@@ -1393,63 +1390,17 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 											$scope.myDropzonefile.emit("complete", mockFile); 
 										}, 300);
 										}
- 
 
 								}
 							}
 
 							if (angular.isDefined(res.data.data)
 									&& angular.isDefined(res.data.data.id)) {
-								meta.item = res.data.data;
+								$scope.gmeta.item = res.data.data;
 								// 填充其他数据
 							}
 
-							// 补充属性数据
-							if (angular.isDefined(res.data.attr)
-									&& res.data.attr.length > 0) {
-								meta.attr = res.data.attr;
-								for (var i = 0; i < res.data.attr.length; i++) {
-									if (i == 0) {
-										var e = {
-											type : "dashed"
-										}
-										items.push(e);
-									}
 
-									var attr_type = res.data.attr[i].attr_type;
-									if (attr_type == "string") {
-										var e = {
-											type : "input",
-											disabled : "false",
-											sub_type : "text",
-											required : true,
-											maxlength : "100",
-											placeholder : "请输入内容",
-											label : res.data.attr[i].attr_name,
-											need : false,
-											name : res.data.attr[i].attr_code,
-											ng_model : res.data.attr[i].attr_code,
-										}
-										items.push(e);
-									} else if (attr_type == "number") {
-										var e = {
-											type : "input",
-											disabled : "false",
-											sub_type : "number",
-											required : true,
-											maxlength : "20",
-											placeholder : "请输入内容",
-											label : res.data.attr[i].attr_name,
-											need : false,
-											name : res.data.attr[i].attr_code,
-											ng_model : res.data.attr[i].attr_code,
-										}
-										items.push(e);
-									}
-
-								}
-
-							}
 
 							// 打开静态框
 							var modalInstance = $uibModal
@@ -1460,17 +1411,15 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 										size : 'lg',
 										resolve : {
 											meta : function() {
-												return meta;
+												return $scope.gmeta ;
 											}
 										}
 									});
 							modalInstance.result.then(function(result) {
-
 								if (result == "OK") {
 									flush();
 								}
 							}, function(reason) {
-
 								$log.log("reason", reason)
 							});
 						})
