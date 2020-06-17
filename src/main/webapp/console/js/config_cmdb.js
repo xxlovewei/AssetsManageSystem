@@ -214,12 +214,12 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
     }).state('cmsetting.bjcat', {
         url: "/cmsetting_bjcat?psBtns",
         data: {pageTitle: '备件分类', code:"8"},
-        templateUrl: "views/cmdb/zccategory.html?v=" + version,
+        templateUrl: "views/cmdb/zcbjcategory.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/zccategory.js?v=' + version]
+                    files: ['views/cmdb/zcbjcategory.js?v=' + version]
                 }]);
             }
         }
@@ -443,12 +443,12 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
     }).state('zcmgr.zctz', {
         url: "/zcmgr_zctz",
         data: {pageTitle: '资产台账'},
-        templateUrl: "views/cmdb/devsearch.html?v=" + version,
+        templateUrl: "views/cmdb/zcsearch.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/devsearch.js?v=' + version]
+                    files: ['views/cmdb/zcsearch.js?v=' + version]
                 }]);
             }
         }
@@ -530,12 +530,12 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
     }).state('cf.server', {
         url: "/cf_server?psBtns",
         data: {pageTitle: '服务器', classid: 'zc_server', subclass: "Y"},
-        templateUrl: "views/cmdb/html_genericdev.html?v=" + version,
+        templateUrl: "views/cmdb/genericdev.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/js_genericdev.js?v=' + version]
+                    files: ['views/cmdb/genericdev.js?v=' + version]
                 }]);
             }
         }
@@ -543,12 +543,12 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         .state('cf.lightsw', {
             url: "/cf_lightsw?psBtns",
             data: {pageTitle: '光纤交换机', classid: 'zc_lsw'},
-            templateUrl: "views/cmdb/html_genericdev.html?v=" + version,
+            templateUrl: "views/cmdb/genericdev.html?v=" + version,
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {
                     return $ocLazyLoad.load([{
                         serie: true,
-                        files: ['views/cmdb/js_genericdev.js?v=' + version]
+                        files: ['views/cmdb/genericdev.js?v=' + version]
                     }]);
                 }
             }
@@ -556,36 +556,36 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         .state('cf.outlets', {
             url: "/cf_outlets?psBtns",
             data: {pageTitle: '网点设备', classid: "zc_website", subclass: "Y"},
-            templateUrl: "views/cmdb/html_genericdev.html?v=" + version,
+            templateUrl: "views/cmdb/genericdev.html?v=" + version,
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {
                     return $ocLazyLoad.load([{
                         serie: true,
-                        files: ['views/cmdb/js_genericdev.js?v=' + version]
+                        files: ['views/cmdb/genericdev.js?v=' + version]
                     }]);
                 }
             }
         }).state('cf.safety', {
         url: "/cf_safety?psBtns",
         data: {pageTitle: '安全设备', classid: 'zc_safety', subclass: "Y"},
-        templateUrl: "views/cmdb/html_genericdev.html?v=" + version,
+        templateUrl: "views/cmdb/genericdev.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/js_genericdev.js?v=' + version]
+                    files: ['views/cmdb/genericdev.js?v=' + version]
                 }]);
             }
         }
     }).state('cf.storage', {
         url: "/cf_storage?psBtns",
         data: {pageTitle: '存储设备', classid: 'zc_storage'},
-        templateUrl: "views/cmdb/html_genericdev.html?v=" + version,
+        templateUrl: "views/cmdb/genericdev.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/js_genericdev.js?v=' + version]
+                    files: ['views/cmdb/genericdev.js?v=' + version]
                 }]);
             }
         }
@@ -593,36 +593,36 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         .state('cf.switch', {
             url: "/cf_switch?psBtns",
             data: {pageTitle: '交换机', classid: "51"},
-            templateUrl: "views/cmdb/html_genericdev.html?v=" + version,
+            templateUrl: "views/cmdb/genericdev.html?v=" + version,
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {
                     return $ocLazyLoad.load([{
                         serie: true,
-                        files: ['views/cmdb/js_genericdev.js?v=' + version]
+                        files: ['views/cmdb/genericdev.js?v=' + version]
                     }]);
                 }
             }
         }).state('cf.zcotherhard', {
         url: "/cf_zcotherhard?psBtns",
         data: {pageTitle: '其他资产', classid: "zc_other", subclass: "Y"},
-        templateUrl: "views/cmdb/html_genericdev.html?v=" + version,
+        templateUrl: "views/cmdb/genericdev.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/js_genericdev.js?v=' + version]
+                    files: ['views/cmdb/genericdev.js?v=' + version]
                 }]);
             }
         }
     }).state('cf.network', {
         url: "/cf_network?psBtns",
         data: {pageTitle: '网络设备', classid: "zc_network", subclass: "Y"},
-        templateUrl: "views/cmdb/html_genericdev.html?v=" + version,
+        templateUrl: "views/cmdb/genericdev.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/js_genericdev.js?v=' + version]
+                    files: ['views/cmdb/genericdev.js?v=' + version]
                 }]);
             }
         }
@@ -636,12 +636,12 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
     }).state('softzc.soft', {
         url: "/softzc.soft",
         data: {pageTitle: '软件资产', classid: "softzc", input_type: "zcsofttype"},
-        templateUrl: "views/cmdb/html_genericdev.html?v=" + version,
+        templateUrl: "views/cmdb/genericdev.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/js_genericdev.js?v=' + version]
+                    files: ['views/cmdb/genericdev.js?v=' + version]
                 }]);
             }
         }

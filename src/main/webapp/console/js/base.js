@@ -280,26 +280,20 @@ function dt_renderMapSimple(data, type, full, map) {
 function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                              $uibModalInstance, $scope, meta, $http, $rootScope, $compile) {
     $scope.meta = meta;
-
     $log.log($scope.meta);
     var formhtml = " <form id=\"formct\" class=\"form-horizontal m-t-md\" name=\"myForm\" novalidate compile=\"template\" action=\"\">";
-
     var items = meta.items;
     var select_ids = [];
-
     if (typeof (items) != "undefined" && items.length > 0) {
         for (var i = 0; i < items.length; i++) {
             var tmp_tpl = "";
             var obj = items[i];
-
             var need_col = "";
             if (obj.need) {
                 need_col = "<span class=\"text-danger\">*</span>";
             }
-
             if (obj.type == "input") {
                 var required_col = "";
-
                 if (obj.required) {
                     required_col = "required";
                     console.log('true');
@@ -324,8 +318,6 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + "  class=\"form-control ng-pristine ng-untouched ng-valid ng-empty\" placeholder=\""
                     + obj.placeholder + "\" name=\"" + obj.name
                     + "\" ng-model=\"meta.item." + obj.ng_model + "\" > ";
-
-
                 tmp_tpl = tmp_tpl
                     + "	<div class=\"text-danger\" ng-if=\"myForm."
                     + obj.name + ".$dirty && myForm." + obj.name
@@ -338,10 +330,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                 tmp_tpl = tmp_tpl + "		<span ng-show=\"myForm." + obj.name
                     + ".$error.maxlength\">不能超过" + obj.maxlength
                     + "个字符</span> ";
-
-                tmp_tpl = tmp_tpl + "	</div> ";
-
-
+                tmp_tpl = tmp_tpl + "</div> ";
                 tmp_tpl = tmp_tpl + "</div> ";
                 tmp_tpl = tmp_tpl + "</div> ";
               //  console.log(tmp_tpl)
@@ -354,7 +343,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + need_col + obj.label + ":</label> ";
                 tmp_tpl = tmp_tpl + "<div class=\"col-sm-10\"> ";
                 tmp_tpl = tmp_tpl
-                    + "	<select   ng-disabled=\""+obj.disabled+"\" class=\"dt_select\" width=\"100\" id=\""
+                    + "	<select ng-disabled=\""+obj.disabled+"\" class=\"dt_select\"  style=\"width:100%\" id=\""
                     + uid
                     + "\"   chosen disable-search=\""
                     + obj.disable_search
@@ -375,7 +364,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + need_col + obj.label + ":</label> ";
                 tmp_tpl = tmp_tpl + "<div class=\"col-sm-10\"> ";
                 tmp_tpl = tmp_tpl
-                    + "	<select   ng-disabled=\""+obj.disabled+"\"  class=\"dt_select\" width=\"100\" id=\""
+                    + "	<select ng-disabled=\""+obj.disabled+"\"  class=\"dt_select\" style=\"width:100%\"  id=\""
                     + uid
                     + "\"   multiple chosen  data-placeholder-text-multiple=\"'请选择...'\"    disable-search=\""
                     + obj.disable_search
@@ -487,19 +476,30 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
         }
     }
     formhtml=formhtml+" </form> ";
-     $timeout(function () {
+    $timeout(function () {
         var tplhtml = $compile(formhtml);
         var $dom = tplhtml($scope);
+        //console.log("$dom:",$dom)
         var ct = document.getElementById('formct');
+        //console.log("ct:",ct)
         angular.element(ct).append($dom);
-        $timeout(
-            function () {
-                // 设置select全宽度
-                for (var i = 0; i < select_ids.length; i++) {
-                    document.getElementById(select_ids[i] + "_chosen").style.width = "100%";
-                }
-            }, 10);
-     }, 100);
+         // $timeout(
+         //     function () {
+         //         // 设置select全宽度
+         //         for (var i = 0; i < select_ids.length; i++) {
+         //             document.getElementById(select_ids[i] + "_chosen").style.width = "100%";
+         //         }
+         //     }, 10);
+    },10);
+
+    $timeout(function () {
+        var tplhtml = $compile(formhtml);
+        var $dom = tplhtml($scope);
+        //console.log("$dom:",$dom)
+        var ct = document.getElementById('formitem');
+        //console.log("ct:",ct)
+        angular.element(ct).append($dom);
+    },10);
 
     $scope.sure = function () {
         meta.sure($uibModalInstance, $scope);
@@ -507,9 +507,6 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
-
-
     if (typeof ($scope.meta.init) != "undefined") {
         $scope.meta.init($scope);
     }
@@ -522,5 +519,4 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 function buildSimpleToolTableTpl() {
     return '<div class="wrapper wrapper-content animated fadeInRight">  <ng-include src="\'views/Template/simpleTool.html\'"></ng-include>   <div class="row"> <div class="col-lg-12"><div class="ibox"><div class="ibox-content">	<table datatable="ed" dt-options="dtOptions" dt-instance="dtInstance" dt-columns="dtColumns" dt-column-defs="dtColumnDefs" class="table table-hover"></table></div></div></div></div> </div> ';
 }
-
 /** ******************************simple tool table模版结束************************ */

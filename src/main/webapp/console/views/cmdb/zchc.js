@@ -252,6 +252,7 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		tools : [ {
 			id : "select",
 			label : "区域",
+			width:"200",
 			type : "select",
 			disablesearch : true,
 			show:true,

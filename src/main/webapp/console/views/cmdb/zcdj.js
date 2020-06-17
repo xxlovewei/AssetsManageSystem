@@ -141,6 +141,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			type : "select",
 			disablesearch : true,
 			show:true,
+			width:"200",
 			dataOpt : [],
 			dataSel : ""
 		}, {
@@ -402,11 +403,13 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.save = function(type) {
 		var id;
 		var zcrecycle="false";
+		var zcclass="false";
 		if (type == 1) {
 			var selrow = getSelectRow();
 			if (angular.isDefined(selrow)) {
 				id = selrow.id;
 				zcrecycle="true";
+				zcclass="true";
 			} else {
 				return;
 			}
@@ -440,17 +443,15 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						ng_model : "uuid"
 					});
 
-
 					items.push({
 						type : "select",
-						disabled : "false",
+						disabled : zcclass,
 						label : "资产类型",
-						need : false,
+						need : true,
 						disable_search : "false",
 						dataOpt : "classOpt",
 						dataSel : "classSel"
 					});
-
 
 					items.push({
 						type : "input",
@@ -519,9 +520,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						name : 'zc_cnt',
 						ng_model : "zc_cnt"
 					});
-
-
-
 
 					items.push( {
 						type : "select",

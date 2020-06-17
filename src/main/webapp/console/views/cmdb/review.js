@@ -130,9 +130,7 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 			}
 		});
 		modalInstance.result.then(function(result) {
-
 			if (result == "OK") {
-
 			}
 		}, function(reason) {
 

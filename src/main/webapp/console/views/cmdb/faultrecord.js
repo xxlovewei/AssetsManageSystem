@@ -189,7 +189,7 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$http.post($rootScope.project + "/api/zc/resRepair/ext/insertOrUpdate.do",
 				$scope.data).success(function(res) {
 			if (res.success) {
-				$uibModalInstance.close('ok');
+				$uibModalInstance.close('OK');
 			}
 			notify({
 				message : res.message

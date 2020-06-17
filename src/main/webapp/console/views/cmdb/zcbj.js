@@ -143,6 +143,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			type : "select",
 			disablesearch : true,
 			show:true,
+			width:"200",
 			dataOpt : [],
 			dataSel : ""
 		}, {
@@ -411,11 +412,13 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.save = function(type) {
 		var id;
 		var zcrecycle="false";
+		var zcclass="false";
 		if (type == 1) {
 			var selrow = getSelectRow();
 			if (angular.isDefined(selrow)) {
 				id = selrow.id;
 				zcrecycle="true";
+				zcclass="true";
 			} else {
 				return;
 			}
@@ -452,9 +455,9 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 					items.push({
 						type : "select",
-						disabled : "false",
+						disabled : zcclass,
 						label : "资产类型",
-						need : false,
+						need : true,
 						disable_search : "false",
 						dataOpt : "classOpt",
 						dataSel : "classSel"
@@ -550,10 +553,6 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						name : 'fs20',
 						ng_model : "fs20"
 					});
-
-
-
-
 
 					items.push( {
 						type : "input",

@@ -139,8 +139,6 @@
 		$scope.item.iflocSel=$scope.iflocSel.id;
 		$scope.item.locSel=$scope.locSel.dict_item_id;
 
-
-		
 		$http
 		.post(
 				$rootScope.project
@@ -413,6 +411,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			id : "select",
 			label : "区域",
 			type : "select",
+			width:"200",
 			disablesearch : true,
 			show:true,
 			dataOpt : [],
@@ -624,10 +623,12 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	// //////////////////////////save/////////////////////
 	$scope.save = function(type) {
 		var id;
+		var zcclass="false";
 		if (type == 1) {
 			var selrow = getSelectRow();
 			if (angular.isDefined(selrow)) {
 				id = selrow.id;
+				zcclass=true;
 			} else {
 				return;
 			}
@@ -666,9 +667,9 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 									.isDefined($state.router.globals.current.data.subclass) || $state.router.globals.current.data.classid == "zcotherhard"  ) {
 								items.push({
 									type : "select",
-									disabled : "false",
+									disabled : zcclass,
 									label : "资产类型",
-									need : false,
+									need : true,
 									disable_search : "true",
 									dataOpt : "classOpt",
 									dataSel : "classSel"

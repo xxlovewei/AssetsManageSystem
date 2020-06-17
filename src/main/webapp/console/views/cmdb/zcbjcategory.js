@@ -1,64 +1,4 @@
-
-function modalAttrSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
-							  $uibModalInstance, $scope, meta, $http, $rootScope,
-							   $compile) {
-
-	$scope.needOpt=[{id:"0",name:"可选"},{id:"1",name:"必须"}];
-	$scope.needSel=$scope.needOpt[0];
-
-	$scope.inputTypeOpt=[{id:"inputstr",name:"输入框(字符串)"},{id:"inputint",name:"输入框(数字)"}];
-	$scope.inputTypeSel=$scope.inputTypeOpt[0];
-	$scope.data={};
-	$scope.data.sort=1;
-	if(angular.isDefined(meta.attrid)){
-		$http.post(
-			$rootScope.project
-			+ "/api/cmdb/resAttrs/selectById.do",{id:meta.attrid}).success(function(res) {
-			if (res.success) {
-				 $scope.data=res.data;
-				if(res.data.ifneed=="1"){
-					$scope.needSel=$scope.needOpt[1];
-				}else{
-					$scope.needSel=$scope.needOpt[0];
-				}
-				for(var i=0;i<$scope.inputTypeOpt.length;i++){
-					if($scope.inputTypeOpt[i].id==res.data.inputtype){
-						$scope.inputTypeSel=$scope.inputTypeOpt[i];
-						break;
-					}
-				}
-			}else{
-				notify({
-					message : res.message
-				});
-			}
-
-		});
-	}
-
-
-	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
-	};
-
-	$scope.sure = function() {
-		$scope.data.catid=meta.id;
-		$scope.data.ifneed=$scope.needSel.id;
-		$scope.data.inputtype=$scope.inputTypeSel.id;
-		$http.post(
-			$rootScope.project
-			+ "/api/cmdb/resAttrs/insertOrUpdate.do", $scope.data).success(function(res) {
-			if (res.success) {
-				$uibModalInstance.close('OK');
-			}
-			notify({
-				message : res.message
-			});
-		});
-	};
-
-}
-function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+function cmdbzcbjCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $timeout,$state) {
 
 
@@ -283,21 +223,6 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	 
 
 	}
-	function flushAttr(id){
-		$http.post(
-			$rootScope.project
-			+ "api/cmdb/resAttrs/ext/selectByCatId.do", {
-				catid : id
-			}).success(function(res) {
-			if (res.success) {
-				$scope.dtOptions.aaData = res.data;
-			} else {
-				notify({
-					message : res.message
-				});
-			}
-		});
-	}
 	$scope.readyCB = function() {
 
 		$scope.tree = $scope.treeInstance.jstree(true)
@@ -311,6 +236,7 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 				var snodes = $scope.tree.get_selected();
 				if (snodes.length == 1) {
 					var node = snodes[0];
+				 
 					$http.post(
 							$rootScope.project
 									+ "/api/ctCategroy/queryCategoryById.do", {
@@ -331,8 +257,6 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 							});
 						}
 					});
-					flushAttr(node);
-
 				}
 
 			}
@@ -388,130 +312,6 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		flushTree($scope.catRootSel.id);
 	}
 
-
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-		.withPaginationType('full_numbers').withDisplayLength(50)
-		.withOption("ordering", false).withOption("responsive", false)
-		.withOption("searching", false).withOption('scrollY', 600)
-		.withOption('scrollX', true).withOption('bAutoWidth', true)
-		.withOption('scrollCollapse', true).withOption('paging', false)
-		.withFixedColumns({
-			leftColumns : 0,
-			rightColumns : 0
-		}).withOption('bStateSave', true).withOption('bProcessing', false)
-		.withOption('bFilter', false).withOption('bInfo', false)
-		.withOption('serverSide', false).withOption('createdRow', function(row) {
-			// Recompiling so we can bind Angular,directive to the
-			$compile(angular.element(row).contents())($scope);
-		});
-
-	function renderType(data, type, full) {
-		if(data=="inputstr"){
-			return "输入框(字符串)"
-		}else if(data=="inputint"){
-			return "输入框(数字)"
-		} else{
-			return data;
-		}
-	}
-	function renderIfNeed(data, type, full) {
-		if(data=="1"){
-			return "必须"
-		}else if(data=="0"){
-			return "可选"
-		}else{
-			return data;
-		}
-	}
-
-
-	function renderAction(data, type, full) {
-		var acthtml = " <div class=\"btn-group\" style='width:100px'> ";
-		acthtml = acthtml + " <button ng-click=\"attrmodify('" + full.id
-			+ "')\" class=\"btn-white btn btn-xs\">修改</button> ";
-		acthtml = acthtml + " <button ng-click=\"attrremove('" + full.id
-			+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
-		return acthtml;
-	}
-
-
-	$scope.dtColumns = [
-		DTColumnBuilder.newColumn('attrname').withTitle('名称').withOption(
-			'sDefaultContent', ''),
-		DTColumnBuilder.newColumn('attrcode').withTitle('编码').withOption(
-			'sDefaultContent', ''),
-		DTColumnBuilder.newColumn('inputtype').withTitle('输入类型').withOption(
-			'sDefaultContent', '').renderWith(renderType),
-		DTColumnBuilder.newColumn('ifneed').withTitle('是否必须').withOption(
-			'sDefaultContent', '').renderWith(renderIfNeed),
-		DTColumnBuilder.newColumn('sort').withTitle('排序').withOption(
-			'sDefaultContent', ''),
-		DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
-			'sDefaultContent', '').renderWith(renderAction)]
-	$scope.dtInstance = {}
-
-	//以下扩展属性相关
-	$scope.addattr=function(){
-		var ps=$scope.item;
-		var modalInstance = $uibModal.open({
-			backdrop : true,
-			templateUrl : 'views/cmdb/modal_attrSave.html',
-			controller : modalAttrSaveCtl,
-			size : 'blg',
-			resolve : {
-				meta : function() {
-					return ps;
-				}
-			}
-		});
-		modalInstance.result.then(function(result) {
-			if (result == "OK") {
-
-			}
-		}, function(reason) {
-			$log.log("reason", reason)
-		});
-	}
-
-	$scope.attrmodify=function(id){
-		var ps=$scope.item;
-		ps.attrid=id;
-		var modalInstance = $uibModal.open({
-			backdrop : true,
-			templateUrl : 'views/cmdb/modal_attrSave.html',
-			controller : modalAttrSaveCtl,
-			size : 'blg',
-			resolve : {
-				meta : function() {
-					return ps;
-				}
-			}
-		});
-		modalInstance.result.then(function(result) {
-			if (result == "OK") {
-				flushAttr($scope.item.id);
-			}
-		}, function(reason) {
-			$log.log("reason", reason)
-		});
-	}
-	$scope.attrremove=function(id){
-		$confirm({
-			text : '是否删除?'
-		}).then(function() {
-			$http.post($rootScope.project + "/api/cmdb/resAttrs/deleteById.do", {
-				id : id
-			}).success(function(res) {
-				if (res.success) {
-					flushAttr($scope.item.id);
-				} else {
-					notify({
-						message : res.message
-					});
-				}
-			});
-		});
-	}
 };
 
-app.register.controller('cmdbzcCateSettingCtl', cmdbzcCateSettingCtl);
+app.register.controller('cmdbzcbjCateSettingCtl', cmdbzcbjCateSettingCtl);

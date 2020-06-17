@@ -94,7 +94,7 @@ function zcinventoryPdCtl($timeout, $localStorage, notify, $log, $uibModal,
                     notify({
                         message : "操作成功！"
                     });
-                    $uibModalInstance.close('ok');
+                    $uibModalInstance.close('OK');
                 } else {
                     if(angular.isDefined(res.data)){
                         var modalInstance = $uibModal.open({
@@ -277,7 +277,7 @@ function zcinventoryUserSaveCtl($timeout, $localStorage, notify, $log, $uibModal
         $http.post($rootScope.project + "/api/zc/resInventory/ext/assignusers.do",
             $scope.item).success(function(res) {
             if (res.success) {
-                $uibModalInstance.close('ok');
+                $uibModalInstance.close('OK');
             }
             notify({
                 message : res.message
@@ -448,7 +448,7 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $http.post($rootScope.project + "/api/zc/resInventory/ext/insertOrUpdate.do",
             $scope.item).success(function(res) {
             if (res.success) {
-                $uibModalInstance.close('ok');
+                $uibModalInstance.close('OK');
             }
             notify({
                 message : res.message

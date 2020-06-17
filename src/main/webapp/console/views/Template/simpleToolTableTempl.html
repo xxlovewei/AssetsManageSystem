@@ -108,7 +108,7 @@
 								ng-show="item.show"
 								style="line-height: 30px; padding-right: 4px"> <label
 									ng-hide="item.label_hide">{{item.label}}:</label> <select
-									chosen  width={{item.width||125}} disable-search="{{item.disablesearch}}"
+									chosen width={{item.width||125}} disable-search="{{item.disablesearch}}"
 									class="chosen-select" no-results-text="'没有找到相应条目'"
 									ng-model="item.dataSel" data-placeholder-text-single="'请选择...'"
 									ng-options="i.name for i in item.dataOpt">

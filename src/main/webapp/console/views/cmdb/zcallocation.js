@@ -200,7 +200,6 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
 
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
-
     };
     $scope.sure = function() {
         if($scope.dtOptions.aaData.length==0){
@@ -268,7 +267,7 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
         $http.post($rootScope.project + "/api/zc/resAllocate/ext/insertOrUpdate.do",
             $scope.data).success(function(res) {
             if (res.success) {
-                $uibModalInstance.close('ok');
+                $uibModalInstance.close('OK');
             }
             notify({
                 message : res.message
