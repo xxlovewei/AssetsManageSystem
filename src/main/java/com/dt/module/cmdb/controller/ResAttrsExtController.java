@@ -11,15 +11,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.cmdb.entity.ResAttrs;
 import com.dt.module.cmdb.service.IResAttrsService;
+import com.dt.module.ct.entity.CtCategory;
+import com.dt.module.ct.service.ICtCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -37,6 +42,8 @@ public class ResAttrsExtController extends BaseController {
 	@Autowired
 	IResAttrsService ResAttrsServiceImpl;
 
+	@Autowired
+	ICtCategoryService CtCategoryServiceImpl;
 
 	@ResponseBody
 	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
@@ -46,6 +53,34 @@ public class ResAttrsExtController extends BaseController {
 		ew.and(i -> i.eq("catid",catid));
 		ew.orderByAsc("sort");
 		return R.SUCCESS_OPER(ResAttrsServiceImpl.list(ew));
+	}
+
+	@ResponseBody
+	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectAllAttrByCatId.do")
+	public R selectByCatIdAllAttr(@RequestParam(value = "catid", required = true, defaultValue = "") String catid) {
+		CtCategory ct=CtCategoryServiceImpl.getById(catid);
+		String route=ct.getRoute();
+		String sql="select t.* from res_attrs t where ifinheritable='1' and dr='0' and catid<>? and catid in ("+route.replaceAll("-",",")+") union all (select * from res_attrs where dr='0' and catid=? order by sort)";
+		JSONArray res= ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql,catid,catid).toJsonArrayWithJsonObject());
+		return R.SUCCESS_OPER(res);
+	}
+
+
+	@ResponseBody
+	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectInheritableAttrByCatId.do")
+	public R selectInheritableAttrByCatId(@RequestParam(value = "catid", required = true, defaultValue = "") String catid) {
+
+		CtCategory ct=CtCategoryServiceImpl.getById(catid);
+		String route=ct.getRoute();
+		BigDecimal nodelevel=ct.getNodeLevel();
+		JSONArray res=new JSONArray();
+		if(nodelevel.compareTo(new BigDecimal (1))==1){
+			String sql="select (select route_name from ct_category where id=t.catid) catname,t.* from res_attrs t where ifinheritable='1' and dr='0' and catid<>? and catid in ("+route.replaceAll("-",",")+")";
+			res= ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql,catid).toJsonArrayWithJsonObject());
+		}
+		return R.SUCCESS_OPER(res);
 	}
 
 

@@ -18,6 +18,8 @@ import com.dt.module.cmdb.entity.Res;
 import com.dt.module.cmdb.entity.ResActionItem;
 import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.service.IResService;
+import com.dt.module.ct.entity.CtCategory;
+import com.dt.module.ct.service.ICtCategoryService;
 import com.dt.module.zc.entity.ResAllocate;
 import com.dt.module.zc.service.IResAllocateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,10 @@ public class ZcService extends BaseService{
 
     @Autowired
     IResAllocateService ResAllocateServiceImpl;
+
+    @Autowired
+    ICtCategoryService CtCategoryServiceImpl;
+
 
     @Cacheable(value = CacheConfig.CACHE_PUBLIC_300_150,key="'qf'+#uid")
     public R queryDictFast(String uid,String zchccat,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers,String subclass, String classroot,String zccatused) {
@@ -457,12 +463,45 @@ public class ZcService extends BaseService{
         return wbcompute;
     }
 
+
     public R queryResAllByUUID(String uuid) {
         Rcd rs = db.uniqueRecord("select * from res t where dr=0 and uuid=?", uuid);
         if(rs==null){
             return R.FAILURE_NO_DATA();
         }
         return queryResAllById(rs.getString("id"));
+    }
+    public void queryZcAttrWithValue2(String catid,String resid){
+
+    }
+
+    public RcdSet queryZcAttrWithValue(String catid,String resid){
+        CtCategory ct=CtCategoryServiceImpl.getById(catid);
+        String route=ct.getRoute();
+        String attrsql = "select\n" +
+                "  (end.i - 1) % 4 idx,\n" +
+                "  end.*\n" +
+                "from (\n" +
+                "       select\n" +
+                "         (@i := @i + 1) as i,\n" +
+                "         t.*\n" +
+                "       from (select\n" +
+                "               a.*,\n" +
+                "               b.attrvalue\n" +
+                "             from (\n" +
+                "                    select t.*\n" +
+                "                    from res_attrs t\n" +
+                "                    where ifinheritable = '1' and dr = '0' and catid <> ? and catid in ("+route.replaceAll("-",",")+")\n" +
+                "                    union all (select *\n" +
+                "                               from res_attrs\n" +
+                "                               where dr = '0' and catid = ?\n" +
+                "                               order by sort)\n" +
+                "                  ) a left join (select *\n" +
+                "                                 from res_attr_value\n" +
+                "                                 where resid = ? and dr = '0') b on a.id = b.attrid\n" +
+                "            ) t, (select @i := 0) as it) end";
+        RcdSet attrs = db.query(attrsql, catid,catid,resid);
+        return attrs;
     }
 
     public R queryResAllById(String id) {
@@ -473,16 +512,12 @@ public class ZcService extends BaseService{
             class_id = rs.getString("class_id");
         }
         // 获取属性数据
-        RcdSet attrs = null;
-        String attrsql = "select (end.i-1)%4 idx,end.* from (\n" +
-                "select  (@i:=@i+1) as i,t.* from (select a.*,b.attrvalue from (select * from res_attrs where catid=? and dr='0') a left join (select * from res_attr_value where resid=? and dr='0') b on a.id=b.attrid\n" +
-                ") t,(select @i:=0) as it)end";
-        attrs = db.query(attrsql, class_id,id);
+        RcdSet attrs = queryZcAttrWithValue(class_id,id) ;
         data.put("extattr", ConvertUtil.OtherJSONObjectToFastJSONArray(attrs.toJsonArrayWithJsonObject()));
         // 获取res数据
         if (ToolUtil.isNotEmpty(id)) {
             String sql = "select";
-            RcdSet attrs_rs = db.query(attrsql, class_id,id);
+            RcdSet attrs_rs = queryZcAttrWithValue(class_id,id) ;
             for (int i = 0; i < attrs_rs.size(); i++) {
                 // 拼接sql
                 String valsql = "";

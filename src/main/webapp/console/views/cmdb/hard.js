@@ -350,8 +350,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 		$http
 				.post($rootScope.project + "/api/base/res/queryResAllById.do", {
-					id : id,
-					classId : class_id
+					id : id
 				})
 				.success(
 						function(res) {

@@ -614,7 +614,8 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    }).state('cf.network', {
+    }).
+    state('cf.network', {
         url: "/cf_network?psBtns",
         data: {pageTitle: '网络设备', classid: "zc_network", subclass: "Y"},
         templateUrl: "views/cmdb/genericdev.html?v=" + version,

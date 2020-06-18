@@ -11,7 +11,7 @@ function modalAttrSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 	$scope.data={};
 	$scope.data.sort=1;
 
-	$scope.jcOpt=[{id:"0",name:"不可以"}];
+	$scope.jcOpt=[{id:"0",name:"不可以"},{id:"1",name:"可以"}];
 	$scope.jcSel=$scope.jcOpt[0];
 
 	if(angular.isDefined(meta.attrid)){
@@ -177,9 +177,7 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 								}).success(function(res) {
 
 							if (res.success) {
-
 								$timeout(function() {
-
 									$scope.tree.create_node(obj, {
 										id : res.data.id,
 										text : "新节点",
@@ -297,7 +295,7 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	function flushAttr(id){
 		$http.post(
 			$rootScope.project
-			+ "api/cmdb/resAttrs/ext/selectByCatId.do", {
+			+ "/api/cmdb/resAttrs/ext/selectByCatId.do", {
 				catid : id
 			}).success(function(res) {
 			if (res.success) {
@@ -343,6 +341,21 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 						}
 					});
 					flushAttr(node);
+
+
+					$http.post(
+						$rootScope.project
+						+ "/api/cmdb/resAttrs/ext/selectInheritableAttrByCatId.do", {
+							catid : node
+						}).success(function(res) {
+						if (res.success) {
+							$scope.dtOptions2.aaData = res.data;
+						} else {
+							notify({
+								message : res.message
+							});
+						}
+					});
 
 				}
 
@@ -534,6 +547,37 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			});
 		});
 	}
+
+	//继承的属性
+	$scope.dtOptions2 = DTOptionsBuilder.fromFnPromise().withDataProp('data')
+		.withPaginationType('full_numbers').withDisplayLength(50)
+		.withOption("ordering", false).withOption("responsive", false)
+		.withOption("searching", false).withOption('scrollY', 600)
+		.withOption('scrollX', true).withOption('bAutoWidth', true)
+		.withOption('scrollCollapse', true).withOption('paging', false)
+		.withFixedColumns({
+			leftColumns : 0,
+			rightColumns : 0
+		}).withOption('bStateSave', true).withOption('bProcessing', false)
+		.withOption('bFilter', false).withOption('bInfo', false)
+		.withOption('serverSide', false).withOption('createdRow', function(row) {
+			// Recompiling so we can bind Angular,directive to the
+			$compile(angular.element(row).contents())($scope);
+		});
+	$scope.dtColumns2 = [
+		DTColumnBuilder.newColumn('attrname').withTitle('名称').withOption(
+			'sDefaultContent', ''),
+		DTColumnBuilder.newColumn('attrcode').withTitle('编码').withOption(
+			'sDefaultContent', ''),
+		DTColumnBuilder.newColumn('inputtype').withTitle('输入类型').withOption(
+			'sDefaultContent', '').renderWith(renderType),
+		DTColumnBuilder.newColumn('ifneed').withTitle('是否必须').withOption(
+			'sDefaultContent', '').renderWith(renderIfNeed),
+		DTColumnBuilder.newColumn('sort').withTitle('排序').withOption(
+			'sDefaultContent', ''),
+		DTColumnBuilder.newColumn('catname').withTitle('来源').withOption(
+			'sDefaultContent', '')]
+	$scope.dtInstance2 = {}
 };
 
 app.register.controller('cmdbzcCateSettingCtl', cmdbzcCateSettingCtl);
