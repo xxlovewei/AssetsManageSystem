@@ -775,8 +775,11 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 		items.push({
-			type : "dashed"
+			type : "dashedword",
+			name : 'model',
+			label:"用户信息"
 		});
+
 
 		items.push({
 			type : "input",
@@ -882,8 +885,11 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			ng_model : "usernologin"
 		});
 		items.push({
-			type : "dashed"
+			type : "dashedword",
+			name : 'model',
+			label:"应用中间件"
 		});
+
 
 		items.push({
 			type : "select",
@@ -946,7 +952,9 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 		items.push({
-			type : "dashed"
+			type : "dashedword",
+			name : 'model',
+			label:"密码策略"
 		});
 
 		items.push({
@@ -973,8 +981,11 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		});
 
 		items.push({
-			type : "dashed"
+			type : "dashedword",
+			name : 'model',
+			label:"其他信息"
 		});
+
 
 		items.push({
 			type : "select",

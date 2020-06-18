@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author algernonking
- * @since 2020-06-17
+ * @since 2020-06-18
  */
 public interface ResAttrsMapper extends BaseMapper<ResAttrs> {
 

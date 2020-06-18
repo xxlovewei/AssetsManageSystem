@@ -605,13 +605,10 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						ng_model : "fs2"
 					});
 
-
-
-
-
 					items.push({
-						type : "dashed",
-						name : 'model'
+						type : "dashedword",
+						name : 'model',
+						label:"组织信息"
 					});
 
 					items.push({
@@ -658,8 +655,9 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 					items.push({
-						type : "dashed",
-						name : 'model'
+						type : "dashedword",
+						name : 'model',
+						label:"位置区域"
 					});
 
 					items.push( {
@@ -686,9 +684,11 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					});
 
 					items.push({
-						type : "dashed",
-						name : 'model'
+						type : "dashedword",
+						name : 'model',
+						label:"财务信息"
 					});
+
 
 					items.push({
 						type : "datetime",
@@ -722,11 +722,12 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						ng_model : "net_worth"
 					});
 
-
 					items.push({
-						type : "dashed",
-						name : 'model'
+						type : "dashedword",
+						name : 'model',
+						label:"维保信息"
 					});
+
 					items.push( {
 						type : "select",
 						disabled : "false",
@@ -775,29 +776,6 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						name : 'wbct',
 						ng_model : "wbct"
 					});
-
-
-					// items.push({
-					// 	type : "dashed",
-					// 	name : 'model'
-					// });
-
-					// items.push({
-					// 	type : "picupload",
-					// 	disabled : "false",
-					// 	required : false,
-					// 	label : "图片",
-					// 	need : false,
-					// 	conf:"picconfig"
-					// });
-					// items.push({
-					// 	type : "fileupload",
-					// 	disabled : "false",
-					// 	required : false,
-					// 	label : "附件",
-					// 	need : false,
-					// 	conf:"attachconfig"
-					// });
 
 
 					var bt = moment().subtract(1, "days");

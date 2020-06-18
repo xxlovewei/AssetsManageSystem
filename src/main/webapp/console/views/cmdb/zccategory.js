@@ -10,6 +10,10 @@ function modalAttrSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 	$scope.inputTypeSel=$scope.inputTypeOpt[0];
 	$scope.data={};
 	$scope.data.sort=1;
+
+	$scope.jcOpt=[{id:"0",name:"不可以"}];
+	$scope.jcSel=$scope.jcOpt[0];
+
 	if(angular.isDefined(meta.attrid)){
 		$http.post(
 			$rootScope.project
@@ -21,6 +25,12 @@ function modalAttrSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 				}else{
 					$scope.needSel=$scope.needOpt[0];
 				}
+				if(res.data.ifinheritable=="1"){
+					$scope.jcSel=$scope.jcOpt[1];
+				}else{
+					$scope.jcSel=$scope.jcOpt[0];
+				}
+
 				for(var i=0;i<$scope.inputTypeOpt.length;i++){
 					if($scope.inputTypeOpt[i].id==res.data.inputtype){
 						$scope.inputTypeSel=$scope.inputTypeOpt[i];
@@ -45,6 +55,7 @@ function modalAttrSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$scope.data.catid=meta.id;
 		$scope.data.ifneed=$scope.needSel.id;
 		$scope.data.inputtype=$scope.inputTypeSel.id;
+		$scope.data.ifinheritable=$scope.jcSel.id;
 		$http.post(
 			$rootScope.project
 			+ "/api/cmdb/resAttrs/insertOrUpdate.do", $scope.data).success(function(res) {
@@ -423,7 +434,15 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			return data;
 		}
 	}
-
+	function renderJc(data, type, full) {
+		if(data=="1"){
+			return "可以"
+		}else if(data=="0"){
+			return "不可以"
+		}else{
+			return data;
+		}
+	}
 
 	function renderAction(data, type, full) {
 		var acthtml = " <div class=\"btn-group\" style='width:100px'> ";
@@ -435,6 +454,7 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	}
 
 
+
 	$scope.dtColumns = [
 		DTColumnBuilder.newColumn('attrname').withTitle('名称').withOption(
 			'sDefaultContent', ''),
@@ -442,6 +462,8 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			'sDefaultContent', ''),
 		DTColumnBuilder.newColumn('inputtype').withTitle('输入类型').withOption(
 			'sDefaultContent', '').renderWith(renderType),
+		DTColumnBuilder.newColumn('ifinheritable').withTitle('继承').withOption(
+			'sDefaultContent', '').renderWith(renderJc),
 		DTColumnBuilder.newColumn('ifneed').withTitle('是否必须').withOption(
 			'sDefaultContent', '').renderWith(renderIfNeed),
 		DTColumnBuilder.newColumn('sort').withTitle('排序').withOption(

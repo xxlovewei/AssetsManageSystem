@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-06-17
+ * @since 2020-06-18
  */
  
 @TableName("res_attrs")
@@ -35,6 +35,8 @@ public class ResAttrs extends BaseModel<ResAttrs> {
     private String catid;
     @TableField("ifneed")
     private String ifneed;
+    @TableField("ifinheritable")
+    private String ifinheritable;
     @TableField("dict")
     private String dict;
     @TableField("sort")
@@ -89,6 +91,14 @@ public class ResAttrs extends BaseModel<ResAttrs> {
         this.ifneed = ifneed;
     }
 
+    public String getIfinheritable() {
+        return ifinheritable;
+    }
+
+    public void setIfinheritable(String ifinheritable) {
+        this.ifinheritable = ifinheritable;
+    }
+
     public String getDict() {
         return dict;
     }
@@ -119,6 +129,7 @@ public class ResAttrs extends BaseModel<ResAttrs> {
         ", inputtype=" + inputtype +
         ", catid=" + catid +
         ", ifneed=" + ifneed +
+        ", ifinheritable=" + ifinheritable +
         ", dict=" + dict +
         ", sort=" + sort +
         "}";

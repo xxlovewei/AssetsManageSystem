@@ -115,7 +115,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				id : "btn5",
 				label : "",
 				type : "btn",
-				show:true,
+				show:false,
 				priv:"detail",
 				template : ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
 			},
@@ -602,10 +602,10 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					});
 
 
-
 					items.push({
-						type : "dashed",
-						name : 'model'
+						type : "dashedword",
+						name : 'model',
+						label:"组织信息"
 					});
 
 					items.push({
@@ -651,9 +651,11 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 					items.push({
-						type : "dashed",
-						name : 'model'
+						type : "dashedword",
+						name : 'model',
+						label:"位置区域"
 					});
+
 
 					items.push( {
 						type : "select",
@@ -679,9 +681,11 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 					});
 
 					items.push({
-						type : "dashed",
-						name : 'model'
+						type : "dashedword",
+						name : 'model',
+						label:"财务信息"
 					});
+
 
 					items.push({
 						type : "datetime",
@@ -718,9 +722,11 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 					items.push({
-						type : "dashed",
-						name : 'model'
+						type : "dashedword",
+						name : 'model',
+						label:"维保信息"
 					});
+
 					items.push( {
 						type : "select",
 						disabled : "false",
@@ -769,8 +775,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 						name : 'wbct',
 						ng_model : "wbct"
 					});
-
-
 
 					var bt = moment().subtract(1, "days");
 					var tbtime = moment();

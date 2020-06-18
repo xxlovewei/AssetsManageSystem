@@ -27,7 +27,7 @@ import com.dt.core.common.base.BaseController;
  * </p>
  *
  * @author algernonking
- * @since 2020-06-17
+ * @since 2020-06-18
  */
 @Controller
 @RequestMapping("/api/cmdb/resAttrs")

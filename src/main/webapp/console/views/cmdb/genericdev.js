@@ -816,8 +816,9 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							});
 
 							items.push({
-								type : "dashed",
-								name : 'model'
+								type : "dashedword",
+								name : 'model',
+								label:"所属组织"
 							});
 
 							items.push({
@@ -902,9 +903,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 							items.push({
-								type : "dashed",
-								name : 'model'
+								type : "dashedword",
+								name : 'model',
+								label:"区域位置"
 							});
+
 
 							items.push( {
 								type : "select",
@@ -954,9 +957,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 							});
 
 							items.push({
-								type : "dashed",
-								name : 'model'
+								type : "dashedword",
+								name : 'model',
+								label:"财务信息"
 							});
+
 
 							items.push({
 								type : "datetime",
@@ -992,8 +997,9 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 							items.push({
-								type : "dashed",
-								name : 'model'
+								type : "dashedword",
+								name : 'model',
+								label:"维保信息"
 							});
 
 							items.push( {

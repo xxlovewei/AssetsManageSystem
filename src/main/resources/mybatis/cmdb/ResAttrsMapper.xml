@@ -15,6 +15,7 @@
         <result column="inputtype" property="inputtype" />
         <result column="catid" property="catid" />
         <result column="ifneed" property="ifneed" />
+        <result column="ifinheritable" property="ifinheritable" />
         <result column="dict" property="dict" />
         <result column="sort" property="sort" />
     </resultMap>

@@ -22,17 +22,28 @@
 							<label class="col-sm-2 control-label"><span
 									class="text-danger">*</span>属性名称:</label>
 							<div class="col-sm-10">
-								<input type="text"
+								<input type="text" required ng-maxlength="50"
 									   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
 									   placeholder="请输入内容" name="attrname" ng-model="data.attrname">
+								<div class="text-danger"
+									 ng-if="myForm.title.$dirty && myForm.title.$invalid">
+									<span ng-if="myForm.title.$error.required"> 输入不能为空 </span> <span
+										ng-show="myForm.title.$error.maxlength">不能超过50个字符 </span>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">属性编码:</label>
+							<label class="col-sm-2 control-label"><span
+									class="text-danger">*</span>属性编码:</label>
 							<div class="col-sm-10">
-								<input type="text"
+								<input type="text" required ng-maxlength="50"
 									   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
 									   placeholder="请输入内容" name="attrcode" ng-model="data.attrcode">
+								<div class="text-danger"
+									 ng-if="myForm.title.$dirty && myForm.title.$invalid">
+									<span ng-if="myForm.title.$error.required"> 输入不能为空 </span> <span
+										ng-show="myForm.title.$error.maxlength">不能超过100个字符 </span>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -46,6 +57,18 @@
 								</select>
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">是否继承:</label>
+							<div class="col-sm-10">
+								<select chosen disable-search="true" class="chosen-select"
+										no-results-text="'没有找到相应条目'" ng-model="jcSel"
+										data-placeholder-text-single="'请选择...'"
+										ng-options="item.name for item in jcOpt">
+									<option value=""></option>
+								</select>
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="col-sm-2 control-label">是否必须:</label>
 							<div class="col-sm-10">

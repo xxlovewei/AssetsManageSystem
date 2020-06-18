@@ -378,8 +378,15 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                 tmp_tpl = tmp_tpl + "</div> ";
                 formhtml = formhtml + tmp_tpl;
             } else if (obj.type == "dashed") {
-                formhtml = formhtml + "<div  style='color:red' class=\"hr-line-dashed\"></div>";
-            } else if (obj.type == "textarea") {
+                formhtml = formhtml + "<div class=\"hr-line-dashed\"></div>";
+            }else if (obj.type == "dashedword"){
+                formhtml = formhtml + "<div><table style=\"width:100%\">";
+                formhtml = formhtml + "<tr><td style=\"width:50%\"><div class=\"hr-line-dashed\"></div></td>   ";
+                formhtml = formhtml + "<td style=\"color:#C0C0C0;width:80px;padding-left:10px;padding-right:10px\">"+obj.label+"</td>  ";
+                formhtml = formhtml + "<td style=\"width:50%\"><div class=\"hr-line-dashed\"></div></td>  ";
+                formhtml = formhtml + "</tr></table></div>";
+            }
+            else if (obj.type == "textarea") {
                 var required_col = "";
                 if (obj.required) {
                     required_col = "required";
@@ -475,7 +482,6 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
             }
         }
     }
-
     formhtml=formhtml+" </form> ";
     $timeout(function () {
         var tplhtml = $compile(formhtml);
@@ -497,6 +503,11 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.$watch('meta.extitems',function(newValue,oldValue) {
         var extitemshtml = " <form id=\"formct\" class=\"form-horizontal m-t-md\" name=\"myForm2\" novalidate compile=\"template\" action=\"\">";
         var extitems=newValue;
+        extitemshtml = extitemshtml + "<div><table style=\"width:100%\">";
+        extitemshtml = extitemshtml + "<tr><td style=\"width:50%\"><div class=\"hr-line-dashed\"></div></td>   ";
+        extitemshtml = extitemshtml + "<td style=\"color:#C0C0C0;width:80px;padding-left:10px;padding-right:10px\">扩展属性</td>  ";
+        extitemshtml = extitemshtml + "<td style=\"width:50%\"><div class=\"hr-line-dashed\"></div></td>  ";
+        extitemshtml = extitemshtml + "</tr></table></div>";
         if(angular.isDefined(extitems)){
             for(var i=0;i<extitems.length;i++){
                 var obj=extitems[i];

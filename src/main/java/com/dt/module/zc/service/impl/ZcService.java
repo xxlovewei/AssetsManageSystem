@@ -62,14 +62,14 @@ public class ZcService extends BaseService{
 
         if (ToolUtil.isNotEmpty(subclass)) {
             RcdSet partrs = db.query(
-                    "select id dict_item_id,name from ct_category  where dr='0' and parent_id=? order by od", subclass);
+                    "select id dict_item_id,name from ct_category where dr='0' and parent_id=? order by od", subclass);
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
         if (ToolUtil.isNotEmpty(classroot)) {
-            String subsql=" t.dr='0' and t.root='"+classroot+"' and t.route not like '46%' and t.node_level>1 ";
-            RcdSet partrs = db.query("select id dict_item_id,route_name name , name sname from ct_category t where  "
-                    +subsql + " order by route");
+            String subsql=" isaction='Y' and t.dr='0' and t.root=? and t.route not like '46%' and t.node_level>1 ";
+            RcdSet partrs = db.query("select id dict_item_id,route_name name,name sname from ct_category t where  "
+                    +subsql + " order by route",classroot);
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
@@ -77,8 +77,8 @@ public class ZcService extends BaseService{
         // 所有用户
         if (ToolUtil.isNotEmpty(partusers)&&"Y".equals(partusers)) {
             RcdSet partuserrs = db
-                    .query("select  a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n"
-                            + "  a.empl_id=b.empl_id and a.dr='0' and b.dr='0'  and c.node_id=b.node_id");
+                    .query("select a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n"
+                            + "  a.empl_id=b.empl_id and a.dr='0' and b.dr='0' and c.node_id=b.node_id");
             res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
         }
 
@@ -93,7 +93,7 @@ public class ZcService extends BaseService{
             res.put("belongcomp",ConvertUtil.OtherJSONObjectToFastJSONArray(comprs.toJsonArrayWithJsonObject()));
         }
 
-        // 所有部门
+        //所有部门
         if (ToolUtil.isNotEmpty(comppart) && "Y".equals(comppart) ) {
             JSONObject tmp=new JSONObject();
             for(int i=0;i<comprs.size();i++){
@@ -257,12 +257,11 @@ public class ZcService extends BaseService{
 
         if(ToolUtil.isNotEmpty(classroot)){
             //获取多个类型
-            String subsql=" t.dr='0' and t.root='"+classroot+"' and t.route not like '46%' and t.node_level>1 ";
-            sql = sql + " and class_id in (select id from ct_category t where " +subsql+")";
+            sql = sql + " and class_id in (select id from ct_category t where t.dr='0' and t.root='"+classroot+"' and t.route not like '46%' and t.node_level>1)";
         }
 
         if(ToolUtil.isNotEmpty(class_id)&& !"all".equals(class_id)){
-            sql = sql + " and class_id in (select id from ct_category  where dr='0' and ( id='" + class_id
+            sql = sql + " and class_id in (select id from ct_category  where dr='0' and (id='" + class_id
                     + "' or parent_id='" + class_id + "')) ";
         }
 
@@ -322,17 +321,15 @@ public class ZcService extends BaseService{
 
         }
 
-
         String ressql="";
         if (ToolUtil.isNotEmpty(search)) {
             ressql="select * from ("+sql+") end where (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
                     + "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
                     + "%' or classrootname like '%"+search+"%' or locstr like '%"+search+"%' or  supplierstr like '%"+search+"%' or part_fullname like '%"+search+"%')";
-
         }else{
             ressql = sql ;
         }
-        ressql = ressql + " order by update_time desc,loc,rack,frame ";
+        ressql = ressql + " order by update_time desc,loc,rack,frame";
         System.out.println(ressql);
         return  ressql;
     }

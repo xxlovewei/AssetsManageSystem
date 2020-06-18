@@ -686,9 +686,11 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 							items.push({
-								type : "dashed",
-								name : 'model'
+								type : "dashedword",
+								name : 'model',
+								label:"组织信息"
 							});
+
 
 
 							items.push({
@@ -728,9 +730,11 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 							items.push({
-								type : "dashed",
-								name : 'model'
+								type : "dashedword",
+								name : 'model',
+								label:"财务信息"
 							});
+
 
 							items.push({
 								type : "datetime",

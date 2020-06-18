@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author algernonking
- * @since 2020-06-17
+ * @since 2020-06-18
  */
 @Service
 public class ResAttrsServiceImpl extends ServiceImpl<ResAttrsMapper, ResAttrs> implements IResAttrsService {
