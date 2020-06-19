@@ -280,8 +280,6 @@ function dt_renderMapSimple(data, type, full, map) {
 function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                              $uibModalInstance, $scope, meta, $http, $rootScope, $compile) {
     $scope.meta = meta;
-
-    $log.log($scope.meta);
     var formhtml = " <form id=\"formct\" class=\"form-horizontal m-t-md\" name=\"myForm\" novalidate compile=\"template\" action=\"\">";
     var items = meta.items;
     var select_ids = [];
@@ -333,7 +331,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                 tmp_tpl = tmp_tpl + "</div> ";
                 tmp_tpl = tmp_tpl + "</div> ";
                 tmp_tpl = tmp_tpl + "</div> ";
-              //  console.log(tmp_tpl)
+                //  console.log(tmp_tpl)
                 formhtml = formhtml + tmp_tpl;
             } else if (obj.type == "select") {
                 var uid = getUuid()
@@ -343,7 +341,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + need_col + obj.label + ":</label> ";
                 tmp_tpl = tmp_tpl + "<div class=\"col-sm-10\"> ";
                 tmp_tpl = tmp_tpl
-                    + "	<select ng-disabled=\""+obj.disabled+"\" class=\"dt_select\"  style=\"width:100%\" id=\""
+                    + "	<select ng-disabled=\"" + obj.disabled + "\" class=\"dt_select\"  style=\"width:100%\" id=\""
                     + uid
                     + "\"   chosen disable-search=\""
                     + obj.disable_search
@@ -364,7 +362,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + need_col + obj.label + ":</label> ";
                 tmp_tpl = tmp_tpl + "<div class=\"col-sm-10\"> ";
                 tmp_tpl = tmp_tpl
-                    + "	<select ng-disabled=\""+obj.disabled+"\"  class=\"dt_select\" style=\"width:100%\"  id=\""
+                    + "	<select ng-disabled=\"" + obj.disabled + "\"  class=\"dt_select\" style=\"width:100%\"  id=\""
                     + uid
                     + "\"   multiple chosen  data-placeholder-text-multiple=\"'请选择...'\"    disable-search=\""
                     + obj.disable_search
@@ -379,14 +377,13 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                 formhtml = formhtml + tmp_tpl;
             } else if (obj.type == "dashed") {
                 formhtml = formhtml + "<div class=\"hr-line-dashed\"></div>";
-            }else if (obj.type == "dashedword"){
+            } else if (obj.type == "dashedword") {
                 formhtml = formhtml + "<div><table style=\"width:100%\">";
                 formhtml = formhtml + "<tr><td style=\"width:50%\"><div class=\"hr-line-dashed\"></div></td>   ";
-                formhtml = formhtml + "<td style=\"color:#C0C0C0;width:80px;padding-left:10px;padding-right:10px\">"+obj.label+"</td>  ";
+                formhtml = formhtml + "<td style=\"color:#C0C0C0;width:80px;padding-left:10px;padding-right:10px\">" + obj.label + "</td>  ";
                 formhtml = formhtml + "<td style=\"width:50%\"><div class=\"hr-line-dashed\"></div></td>  ";
                 formhtml = formhtml + "</tr></table></div>";
-            }
-            else if (obj.type == "textarea") {
+            } else if (obj.type == "textarea") {
                 var required_col = "";
                 if (obj.required) {
                     required_col = "required";
@@ -482,37 +479,35 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
             }
         }
     }
-    formhtml=formhtml+" </form> ";
+    formhtml = formhtml + " </form> ";
     $timeout(function () {
         var tplhtml = $compile(formhtml);
         var $dom = tplhtml($scope);
-        //console.log("$dom:",$dom)
         var ct = document.getElementById('formct');
-        //console.log("ct:",ct)
         angular.element(ct).append($dom);
-         // $timeout(
-         //     function () {
-         //         // 设置select全宽度
-         //         for (var i = 0; i < select_ids.length; i++) {
-         //             document.getElementById(select_ids[i] + "_chosen").style.width = "100%";
-         //         }
-         //     }, 10);
-    },20);
+        // $timeout(
+        //     function () {
+        //         // 设置select全宽度
+        //         for (var i = 0; i < select_ids.length; i++) {
+        //             document.getElementById(select_ids[i] + "_chosen").style.width = "100%";
+        //         }
+        //     }, 10);
+    }, 30);
 
     //########################################################本段为资产管理所需########################################################
-    $scope.$watch('meta.extitems',function(newValue,oldValue) {
+    $scope.$watch('meta.extitems', function (newValue, oldValue) {
         var extitemshtml = " <form id=\"formct\" class=\"form-horizontal m-t-md\" name=\"myForm2\" novalidate compile=\"template\" action=\"\">";
-        var extitems=newValue;
+        var extitems = newValue;
         extitemshtml = extitemshtml + "<div><table style=\"width:100%\">";
         extitemshtml = extitemshtml + "<tr><td style=\"width:50%\"><div class=\"hr-line-dashed\"></div></td>   ";
         extitemshtml = extitemshtml + "<td style=\"color:#C0C0C0;width:80px;padding-left:10px;padding-right:10px\">扩展属性</td>  ";
         extitemshtml = extitemshtml + "<td style=\"width:50%\"><div class=\"hr-line-dashed\"></div></td>  ";
         extitemshtml = extitemshtml + "</tr></table></div>";
-        if(angular.isDefined(extitems)){
-            for(var i=0;i<extitems.length;i++){
-                var obj=extitems[i];
+        if (angular.isDefined(extitems)) {
+            for (var i = 0; i < extitems.length; i++) {
+                var obj = extitems[i];
                 var need_col = "";
-                if (obj.ifneed=="1") {
+                if (obj.ifneed == "1") {
                     need_col = "<span class=\"text-danger\">*</span>";
                 }
                 if (obj.inputtype == "inputint") {
@@ -524,7 +519,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     if (typeof (obj.maxlength) != "undefined" && obj.maxlength > 0) {
                         maxlength_col = "ng-maxlength=\"" + obj.maxlength + "\"";
                     }
-                    var tmp_tpl="";
+                    var tmp_tpl = "";
                     tmp_tpl = tmp_tpl + "<div class=\"form-group\">";
                     tmp_tpl = tmp_tpl + "<label class=\"col-sm-2 control-label\">"
                         + need_col + obj.attrname + ":</label> ";
@@ -539,31 +534,31 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                         + "  class=\"form-control ng-pristine ng-untouched ng-valid ng-empty\" placeholder=\"请输入内容\" name=\"" + obj.attrname
                         + "\" ng-model=\"meta.item." + obj.attrcode + "\" > ";
                     tmp_tpl = tmp_tpl
-                        + "	<div class=\"text-danger\" ng-if=\"myForm."
-                        + obj.attrcode + ".$dirty && myForm." + obj.attrname
+                        + "	<div class=\"text-danger\" ng-if=\"myForm2."
+                        + obj.attrcode + ".$dirty && myForm2." + obj.attrcode
                         + ".$invalid\"> ";
 
-                    tmp_tpl = tmp_tpl + "		<span ng-if=\"myForm." + obj.attrname
+                    tmp_tpl = tmp_tpl + "		<span ng-if=\"myForm2." + obj.attrcode
                         + ".$error.required\"> 输入不能为空 </span> ";
 
 
-                    tmp_tpl = tmp_tpl + "		<span ng-show=\"myForm." + obj.attrname
+                    tmp_tpl = tmp_tpl + "		<span ng-show=\"myForm2." + obj.attrcode
                         + ".$error.maxlength\">不能超过" + obj.maxlength
                         + "个字符</span> ";
                     tmp_tpl = tmp_tpl + "</div> ";
                     tmp_tpl = tmp_tpl + "</div> ";
                     tmp_tpl = tmp_tpl + "</div> ";
                     extitemshtml = extitemshtml + tmp_tpl;
-                }else if (obj.inputtype == "inputstr") {
+                } else if (obj.inputtype == "inputstr") {
                     var required_col = "";
-                    if (obj.ifneed=="1") {
+                    if (obj.ifneed == "1") {
                         required_col = "required";
                     }
                     var maxlength_col = "";
                     if (typeof (obj.maxlength) != "undefined" && obj.maxlength > 0) {
                         maxlength_col = "ng-maxlength=\"" + obj.maxlength + "\"";
                     }
-                    var tmp_tpl="";
+                    var tmp_tpl = "";
                     tmp_tpl = tmp_tpl + "<div class=\"form-group\">";
                     tmp_tpl = tmp_tpl + "<label class=\"col-sm-2 control-label\">"
                         + need_col + obj.attrname + ":</label> ";
@@ -578,15 +573,15 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                         + "  class=\"form-control ng-pristine ng-untouched ng-valid ng-empty\" placeholder=\"请输入内容\" name=\"" + obj.attrname
                         + "\" ng-model=\"meta.item." + obj.attrcode + "\" > ";
                     tmp_tpl = tmp_tpl
-                        + "	<div class=\"text-danger\" ng-if=\"myForm."
-                        + obj.attrcode + ".$dirty && myForm." + obj.attrname
+                        + "	<div class=\"text-danger\" ng-if=\"myForm2."
+                        + obj.attrcode + ".$dirty && myForm2." + obj.attrcode
                         + ".$invalid\"> ";
 
-                    tmp_tpl = tmp_tpl + "		<span ng-if=\"myForm." + obj.attrname
+                    tmp_tpl = tmp_tpl + "		<span ng-if=\"myForm2." + obj.attrcode
                         + ".$error.required\"> 输入不能为空 </span> ";
 
 
-                    tmp_tpl = tmp_tpl + "		<span ng-show=\"myForm." + obj.attrname
+                    tmp_tpl = tmp_tpl + "		<span ng-show=\"myForm2." + obj.attrcode
                         + ".$error.maxlength\">不能超过" + obj.maxlength
                         + "个字符</span> ";
                     tmp_tpl = tmp_tpl + "</div> ";
@@ -595,19 +590,17 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     extitemshtml = extitemshtml + tmp_tpl;
                 }
             }
-            extitemshtml=extitemshtml+" </form> ";
-            if(extitems.length>0){
+            extitemshtml = extitemshtml + " </form> ";
+            if (extitems.length > 0) {
                 $timeout(function () {
                     var tplhtml2 = $compile(extitemshtml);
                     var $dom2 = tplhtml2($scope);
                     var ct2 = document.getElementById('formitem');
                     angular.element(ct2).append($dom2);
-                },20);
+                }, 20);
             }
-            }
+        }
     });
-
-
 
     $scope.sure = function () {
         meta.sure($uibModalInstance, $scope);
@@ -627,4 +620,5 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
 function buildSimpleToolTableTpl() {
     return '<div class="wrapper wrapper-content animated fadeInRight">  <ng-include src="\'views/Template/simpleTool.html\'"></ng-include>   <div class="row"> <div class="col-lg-12"><div class="ibox"><div class="ibox-content">	<table datatable="ed" dt-options="dtOptions" dt-instance="dtInstance" dt-columns="dtColumns" dt-column-defs="dtColumnDefs" class="table table-hover"></table></div></div></div></div> </div> ';
 }
+
 /** ******************************simple tool table模版结束************************ */

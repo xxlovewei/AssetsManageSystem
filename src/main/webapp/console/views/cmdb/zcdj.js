@@ -399,8 +399,22 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	}
 
 
+
 	// //////////////////////////save/////////////////////
 	$scope.gmeta={};
+	$scope.$watch('gmeta.classSel',function(newValue,oldValue) {
+		if(angular.isDefined(newValue)&&angular.isDefined(newValue.dict_item_id)) {
+			$http.post(
+				$rootScope.project
+				+ "/api/cmdb/resAttrs/ext/selectAllAttrByCatId.do", {
+					catid:newValue.dict_item_id
+				}).success(function(result) {
+				if (result.success) {
+					$scope.gmeta.extitems=result.data;
+				}
+			});
+		}
+	});
 	function openWindow(res,zcrecycle,zcclass){
 		var items = [ ];
 		items.push({
@@ -516,11 +530,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			name : 'fs20',
 			ng_model : "fs20"
 		});
-
-
-
-
-
 
 		items.push( {
 			type : "input",
@@ -679,6 +688,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			name : 'buy_price',
 			ng_model : "buy_price"
 		});
+
 		items.push({
 			type : "input",
 			disabled : "false",
@@ -691,7 +701,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			name : 'net_worth',
 			ng_model : "net_worth"
 		});
-
 
 		items.push({
 			type : "dashedword",
@@ -768,7 +777,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			classroot:gclassroot,
 			footer_hide : false,
 			title : "资产-"+$state.router.globals.current.data.pageTitle,
-			item : {},
+			item : {zc_cnt:1},
 			buytime : bt,
 			typeOpt:[],
 			typeSel:"",
@@ -860,8 +869,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 
-
-
 				modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
 					.format('YYYY-MM-DD');
 				modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
@@ -900,20 +907,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 				var tt = {};
 				angular.copy(gdicts, tt)
 				loadOpt(modal_meta, tt);
-
-				$scope.$watch('gmeta.classSel',function(newValue,oldValue) {
-					//console.log(newValue);
-					$http.post(
-						$rootScope.project
-						+ "/api/cmdb/resAttrs/ext/selectAllAttrByCatId.do", {
-							catid:newValue.dict_item_id
-						}).success(function(result) {
-						if (result.success) {
-							modal_meta.meta.extitems=result.data;
-						}
-					});
-				});
-
 			}
 		}
 

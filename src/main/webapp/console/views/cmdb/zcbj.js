@@ -409,6 +409,532 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 
 
 	// //////////////////////////save/////////////////////
+	$scope.gmeta={};
+	function openWindow(res,zcrecycle,zcclass){
+		var items = [ ];
+		items.push({
+			type : "input",
+			disabled : "true",
+			sub_type : "text",
+			required : false,
+			maxlength : "50",
+			placeholder : "系统自动生成",
+			label : "资产编号",
+			need : false,
+			name : 'uuid',
+			ng_model : "uuid"
+		});
+
+
+		items.push({
+			type : "select",
+			disabled : zcclass,
+			label : "资产类型",
+			need : true,
+			disable_search : "false",
+			dataOpt : "classOpt",
+			dataSel : "classSel"
+		});
+
+
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : true,
+			maxlength : "50",
+			placeholder : "请输型号",
+			label : "规格型号",
+			need : true,
+			name : 'model',
+			ng_model : "model"
+		});
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "50",
+			placeholder : "请输入序列号",
+			label : "序列号",
+			need : false,
+			name : 'sn',
+			ng_model : "sn"
+		});
+		items.push( {
+			type : "select",
+			disabled : "false",
+			label : "资产来源",
+			need : true,
+			disable_search : "true",
+			dataOpt : "zcsourceOpt",
+			dataSel : "zcsourceSel"
+		});
+
+		items.push( {
+			type : "select",
+			disabled : zcrecycle,
+			label : "资产状态",
+			need : true,
+			disable_search : "true",
+			dataOpt : "recycelOpt",
+			dataSel : "recycelSel"
+		});
+
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "number",
+			required : true,
+			maxlength : "50",
+			placeholder : "",
+			label : "资产数量",
+			need : true,
+			name : 'zc_cnt',
+			ng_model : "zc_cnt"
+		});
+
+
+		items.push( {
+			type : "select",
+			disabled : "false",
+			label : "供应商",
+			need : false,
+			disable_search : "false",
+			dataOpt : "zcsupperOpt",
+			dataSel : "zcsupperSel"
+		});
+		items.push( {
+			type : "select",
+			disabled : "false",
+			label : "资产品牌",
+			need : false,
+			disable_search : "false",
+			dataOpt : "pinpOpt",
+			dataSel : "pinpSel"
+		});
+
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "50",
+			placeholder : "",
+			label : "其他资产编号",
+			need : false,
+			name : 'fs20',
+			ng_model : "fs20"
+		});
+
+		items.push( {
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "50",
+			placeholder : "请输入配置描述",
+			label : "配置描述",
+			need : false,
+			name : 'confdesc',
+			ng_model : "confdesc"
+		});
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "50",
+			placeholder : "请输入备注",
+			label : "备注",
+			need : false,
+			name : 'mark',
+			ng_model : "mark"
+		});
+
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "50",
+			placeholder : "请输入标签",
+			label : "标签1",
+			need : false,
+			name : 'fs1',
+			ng_model : "fs1"
+		});
+
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "50",
+			placeholder : "请输入标签",
+			label : "标签2",
+			need : false,
+			name : 'fs2',
+			ng_model : "fs2"
+		});
+
+		items.push({
+			type : "dashedword",
+			name : 'model',
+			label:"组织信息"
+		});
+
+		items.push({
+			type : "select",
+			disabled : "false",
+			label : "所属公司",
+			need : true,
+			disable_search : "false",
+			dataOpt : "belongcompOpt",
+			dataSel : "belongcompSel"
+		});
+
+		items.push({
+			type : "select",
+			disabled : "false",
+			label : "使用公司",
+			need : true,
+			disable_search : "false",
+			dataOpt : "compOpt",
+			dataSel : "compSel"
+		});
+
+
+		items.push({
+			type : "select",
+			disabled : "false",
+			disabled : "false",
+			label : "使用部门",
+			need : false,
+			disable_search : "false",
+			dataOpt : "partOpt",
+			dataSel : "partSel"
+		});
+
+		items.push({
+			type : "select",
+			disabled : "false",
+			label : "使用人",
+			need : false,
+			disable_search : "false",
+			dataOpt : "usedunameOpt",
+			dataSel : "usedunameSel"
+		});
+
+
+		items.push({
+			type : "dashedword",
+			name : 'model',
+			label:"位置区域"
+		});
+
+		items.push( {
+			type : "select",
+			disabled : "false",
+			label : "区域",
+			need : false,
+			disable_search : "false",
+			dataOpt : "locOpt",
+			dataSel : "locSel"
+		});
+
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "50",
+			placeholder : "请输入详细位置",
+			label : "详细位置",
+			need : false,
+			name : 'locdtl',
+			ng_model : "locdtl"
+		});
+
+		items.push({
+			type : "dashedword",
+			name : 'model',
+			label:"财务信息"
+		});
+
+
+		items.push({
+			type : "datetime",
+			disabled : "false",
+			label : "采购时间",
+			false : true,
+			ng_model : "buytime"
+		});
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "number",
+			required : false,
+			maxlength : "30",
+			placeholder : "请输入采购价格",
+			label : "采购总额",
+			need : true,
+			name : 'buy_price',
+			ng_model : "buy_price"
+		});
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "number",
+			required : false,
+			maxlength : "30",
+			placeholder : "请输入资产净值",
+			label : "资产净值",
+			need : false,
+			name : 'net_worth',
+			ng_model : "net_worth"
+		});
+
+		items.push({
+			type : "dashedword",
+			name : 'model',
+			label:"维保信息"
+		});
+
+		items.push( {
+			type : "select",
+			disabled : "false",
+			label : "维保供应商",
+			need : false,
+			disable_search : "false",
+			dataOpt : "zcwbsupperOpt",
+			dataSel : "zcwbsupperSel"
+		});
+
+		items.push( {
+			type : "select",
+			disabled : "false",
+			label : "脱保计算",
+			need : false,
+			disable_search : "true",
+			dataOpt : "tbOpt",
+			dataSel : "tbSel"
+		});
+		items.push( {
+			type : "datetime",
+			disabled : "false",
+			label : "脱保时间",
+			need : false,
+			ng_model : "wboutdate"
+		});
+
+		items.push( {
+			type : "select",
+			disabled : "false",
+			label : "维保状态",
+			false : true,
+			disable_search : "true",
+			dataOpt : "wbOpt",
+			dataSel : "wbSel"
+		});
+		items.push({
+			type : "input",
+			disabled : "false",
+			sub_type : "text",
+			required : false,
+			maxlength : "100",
+			placeholder : "请输入内容",
+			label : "维保说明",
+			need : false,
+			name : 'wbct',
+			ng_model : "wbct"
+		});
+
+
+		var bt = moment().subtract(1, "days");
+		var tbtime = moment();
+
+		if (angular.isDefined(res)
+			&& angular.isDefined(res.data)
+			&& angular
+				.isDefined(res.data.buy_timestr)) {
+			bt = moment(res.data.buy_timestr);
+		}
+		if (angular.isDefined(res)
+			&& angular.isDefined(res.data)
+			&& angular
+				.isDefined(res.data.wbout_datestr)) {
+			tbtime = moment(res.data.wbout_datestr);
+		}
+
+		$scope.gmeta = {
+			classroot:gclassroot,
+			footer_hide : false,
+			title : "资产-"+$state.router.globals.current.data.pageTitle,
+			item : {zc_cnt:1},
+			buytime : bt,
+			typeOpt:[],
+			typeSel:"",
+			belongcompSel:"",
+			compSel:"",
+			wboutdate : tbtime,
+			statusOpt : [],
+			statusSel : "",
+			pinpOpt : [],
+			pinpSel : "",
+			headuserOpt : [],
+			headuserSel : "",
+			partOpt : [],
+			partSel : "",
+			classOpt:[],
+			classSel:[],
+			usedunameOpt : [],
+			usedunameSel : "",
+			locOpt : [],
+			locSel : "",
+			wbOpt : [],
+			wbSel : "",
+			envOpt : [],
+			tbOpt : [],
+			tbSel : "",
+			envSel : "",
+			jgOpt : [],
+			jgSel : "",
+			riskOpt : [],
+			riskSel : "",
+			items : items,
+			sure : function(modalInstance, modal_meta) {
+
+
+				modal_meta.meta.item.class_id = modal_meta.meta.classSel.dict_item_id;
+
+				if(angular.isDefined(modal_meta.meta.typeSel.dict_item_id)){
+					modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
+				}
+
+				if(angular.isDefined(modal_meta.meta.partSel.partid)){
+					modal_meta.meta.item.part_id = modal_meta.meta.partSel.partid;
+				}
+
+				if(angular.isDefined( modal_meta.meta.usedunameSel.user_id)){
+					modal_meta.meta.item.used_userid = modal_meta.meta.usedunameSel.user_id;
+				}
+
+
+				if(angular.isDefined( modal_meta.meta.recycelSel.dict_item_id)){
+					modal_meta.meta.item.recycle = modal_meta.meta.recycelSel.dict_item_id;
+				}
+
+
+				if(angular.isDefined(modal_meta.meta.pinpSel.dict_item_id)){
+					modal_meta.meta.item.brand = modal_meta.meta.pinpSel.dict_item_id;
+				}
+
+				if(angular.isDefined( modal_meta.meta.wbSel.dict_item_id)){
+					modal_meta.meta.item.wb =modal_meta.meta.wbSel.dict_item_id;
+				}
+
+				if(angular.isDefined( modal_meta.meta.locSel.dict_item_id)){
+					modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
+				}
+
+
+
+				if(angular.isDefined( modal_meta.meta.tbSel.dict_item_id)){
+					modal_meta.meta.item.wb_auto =modal_meta.meta.tbSel.dict_item_id ;
+				}
+
+				if(angular.isDefined( modal_meta.meta.zcwbsupperSel.dict_item_id)){
+					modal_meta.meta.item.wbsupplier =modal_meta.meta.zcwbsupperSel.dict_item_id ;
+				}
+
+				if(angular.isDefined( modal_meta.meta.zcsourceSel.dict_item_id)){
+					modal_meta.meta.item.zcsource =modal_meta.meta.zcsourceSel.dict_item_id ;
+				}
+
+				if(angular.isDefined( modal_meta.meta.zcsupperSel.dict_item_id)){
+					modal_meta.meta.item.supplier =modal_meta.meta.zcsupperSel.dict_item_id ;
+				}
+				if(angular.isDefined( modal_meta.meta.belongcompSel.id)){
+					modal_meta.meta.item.belong_company_id =modal_meta.meta.belongcompSel.id ;
+				}
+
+				//使用公司
+				if(angular.isDefined( modal_meta.meta.compSel.id)){
+					modal_meta.meta.item.used_company_id =modal_meta.meta.compSel.id ;
+				}
+
+
+
+				modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
+					.format('YYYY-MM-DD');
+				modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
+					.format('YYYY-MM-DD');
+
+				// 动态参数
+				// if (angular.isDefined(modal_meta.meta.attr)
+				// 	&& modal_meta.meta.attr.length > 0) {
+				// 	for (var j = 0; j < modal_meta.meta.attr.length; j++) {
+				// 		var code = modal_meta.meta.attr[j].attr_code;
+				// 		modal_meta.meta.attr[j].attr_value = modal_meta.meta.item[modal_meta.meta.attr[j].attr_code];
+				// 	}
+				// }
+				// modal_meta.meta.item.attrvals = angular
+				// 	.toJson(modal_meta.meta.attr);
+
+				$http
+					.post(
+						$rootScope.project
+						+ "/api/base/res/addResCustom.do",
+						modal_meta.meta.item)
+					.success(function(result) {
+						if (result.success) {
+							modalInstance.close("OK");
+						} else {
+							notify({
+								message : result.message
+							});
+						}
+					});
+
+			},
+			init : function(modal_meta) {
+				var tt = {};
+				angular.copy(gdicts, tt)
+				loadOpt(modal_meta, tt);
+
+			}
+		}
+
+		if (angular.isDefined(res.data)
+			&& angular.isDefined(res.data.id)) {
+			$scope.gmeta.item = res.data;
+			// 填充其他数据
+		}
+
+		// 打开静态框
+		var modalInstance = $uibModal
+			.open({
+				backdrop : true,
+				templateUrl : 'views/Template/modal_simpleForm.html',
+				controller : modal_simpleFormCtl,
+				size : 'lg',
+				resolve : {
+					meta : function() {
+						return $scope.gmeta ;
+					}
+				}
+			});
+		modalInstance.result.then(function(result) {
+
+			if (result == "OK") {
+				flush();
+			}
+		}, function(reason) {
+
+			$log.log("reason", reason)
+		});
+	}
 	$scope.save = function(type) {
 		var id;
 		var zcrecycle="false";
@@ -422,551 +948,25 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			} else {
 				return;
 			}
-		}
-		$http
-			.post($rootScope.project + "/api/base/res/queryResAllById.do", {
-				id : id
-			})
-			.success(
-				function(res) {
-
-					if (!res.success) {
-						notify({
-							message : res.message
-						});
-						return;
-					}
-					var meta = {};
-
-					var items = [ ];
-					items.push({
-						type : "input",
-						disabled : "true",
-						sub_type : "text",
-						required : false,
-						maxlength : "50",
-						placeholder : "系统自动生成",
-						label : "资产编号",
-						need : false,
-						name : 'uuid',
-						ng_model : "uuid"
-					});
-
-
-					items.push({
-						type : "select",
-						disabled : zcclass,
-						label : "资产类型",
-						need : true,
-						disable_search : "false",
-						dataOpt : "classOpt",
-						dataSel : "classSel"
-					});
-
-
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "text",
-						required : true,
-						maxlength : "50",
-						placeholder : "请输型号",
-						label : "规格型号",
-						need : true,
-						name : 'model',
-						ng_model : "model"
-					});
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "text",
-						required : false,
-						maxlength : "50",
-						placeholder : "请输入序列号",
-						label : "序列号",
-						need : false,
-						name : 'sn',
-						ng_model : "sn"
-					});
-					items.push( {
-						type : "select",
-						disabled : "false",
-						label : "资产来源",
-						need : true,
-						disable_search : "true",
-						dataOpt : "zcsourceOpt",
-						dataSel : "zcsourceSel"
-					});
-
-					items.push( {
-						type : "select",
-						disabled : zcrecycle,
-						label : "资产状态",
-						need : true,
-						disable_search : "true",
-						dataOpt : "recycelOpt",
-						dataSel : "recycelSel"
-					});
-
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "number",
-						required : true,
-						maxlength : "50",
-						placeholder : "",
-						label : "资产数量",
-						need : true,
-						name : 'zc_cnt',
-						ng_model : "zc_cnt"
-					});
-
-
-					items.push( {
-						type : "select",
-						disabled : "false",
-						label : "供应商",
-						need : false,
-						disable_search : "false",
-						dataOpt : "zcsupperOpt",
-						dataSel : "zcsupperSel"
-					});
-					items.push( {
-						type : "select",
-						disabled : "false",
-						label : "资产品牌",
-						need : false,
-						disable_search : "false",
-						dataOpt : "pinpOpt",
-						dataSel : "pinpSel"
-					});
-
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "text",
-						required : false,
-						maxlength : "50",
-						placeholder : "",
-						label : "其他资产编号",
-						need : false,
-						name : 'fs20',
-						ng_model : "fs20"
-					});
-
-					items.push( {
-						type : "input",
-						disabled : "false",
-						sub_type : "text",
-						required : false,
-						maxlength : "50",
-						placeholder : "请输入配置描述",
-						label : "配置描述",
-						need : false,
-						name : 'confdesc',
-						ng_model : "confdesc"
-					});
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "text",
-						required : false,
-						maxlength : "50",
-						placeholder : "请输入备注",
-						label : "备注",
-						need : false,
-						name : 'mark',
-						ng_model : "mark"
-					});
-
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "text",
-						required : false,
-						maxlength : "50",
-						placeholder : "请输入标签",
-						label : "标签1",
-						need : false,
-						name : 'fs1',
-						ng_model : "fs1"
-					});
-
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "text",
-						required : false,
-						maxlength : "50",
-						placeholder : "请输入标签",
-						label : "标签2",
-						need : false,
-						name : 'fs2',
-						ng_model : "fs2"
-					});
-
-					items.push({
-						type : "dashedword",
-						name : 'model',
-						label:"组织信息"
-					});
-
-					items.push({
-						type : "select",
-						disabled : "false",
-						label : "所属公司",
-						need : true,
-						disable_search : "false",
-						dataOpt : "belongcompOpt",
-						dataSel : "belongcompSel"
-					});
-
-					items.push({
-						type : "select",
-						disabled : "false",
-						label : "使用公司",
-						need : true,
-						disable_search : "false",
-						dataOpt : "compOpt",
-						dataSel : "compSel"
-					});
-
-
-					items.push({
-						type : "select",
-						disabled : "false",
-						disabled : "false",
-						label : "使用部门",
-						need : false,
-						disable_search : "false",
-						dataOpt : "partOpt",
-						dataSel : "partSel"
-					});
-
-					items.push({
-						type : "select",
-						disabled : "false",
-						label : "使用人",
-						need : false,
-						disable_search : "false",
-						dataOpt : "usedunameOpt",
-						dataSel : "usedunameSel"
-					});
-
-
-					items.push({
-						type : "dashedword",
-						name : 'model',
-						label:"位置区域"
-					});
-
-					items.push( {
-						type : "select",
-						disabled : "false",
-						label : "区域",
-						need : false,
-						disable_search : "false",
-						dataOpt : "locOpt",
-						dataSel : "locSel"
-					});
-
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "text",
-						required : false,
-						maxlength : "50",
-						placeholder : "请输入详细位置",
-						label : "详细位置",
-						need : false,
-						name : 'locdtl',
-						ng_model : "locdtl"
-					});
-
-					items.push({
-						type : "dashedword",
-						name : 'model',
-						label:"财务信息"
-					});
-
-
-					items.push({
-						type : "datetime",
-						disabled : "false",
-						label : "采购时间",
-						false : true,
-						ng_model : "buytime"
-					});
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "number",
-						required : false,
-						maxlength : "30",
-						placeholder : "请输入采购价格",
-						label : "采购总额",
-						need : true,
-						name : 'buy_price',
-						ng_model : "buy_price"
-					});
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "number",
-						required : false,
-						maxlength : "30",
-						placeholder : "请输入资产净值",
-						label : "资产净值",
-						need : false,
-						name : 'net_worth',
-						ng_model : "net_worth"
-					});
-
-					items.push({
-						type : "dashedword",
-						name : 'model',
-						label:"维保信息"
-					});
-
-					items.push( {
-						type : "select",
-						disabled : "false",
-						label : "维保供应商",
-						need : false,
-						disable_search : "false",
-						dataOpt : "zcwbsupperOpt",
-						dataSel : "zcwbsupperSel"
-					});
-
-					items.push( {
-						type : "select",
-						disabled : "false",
-						label : "脱保计算",
-						need : false,
-						disable_search : "true",
-						dataOpt : "tbOpt",
-						dataSel : "tbSel"
-					});
-					items.push( {
-						type : "datetime",
-						disabled : "false",
-						label : "脱保时间",
-						need : false,
-						ng_model : "wboutdate"
-					});
-
-					items.push( {
-						type : "select",
-						disabled : "false",
-						label : "维保状态",
-						false : true,
-						disable_search : "true",
-						dataOpt : "wbOpt",
-						dataSel : "wbSel"
-					});
-					items.push({
-						type : "input",
-						disabled : "false",
-						sub_type : "text",
-						required : false,
-						maxlength : "100",
-						placeholder : "请输入内容",
-						label : "维保说明",
-						need : false,
-						name : 'wbct',
-						ng_model : "wbct"
-					});
-
-
-					var bt = moment().subtract(1, "days");
-					var tbtime = moment();
-
-					if (angular.isDefined(res.data)
-						&& angular.isDefined(res.data.data)
-						&& angular
-							.isDefined(res.data.data.buy_timestr)) {
-						bt = moment(res.data.data.buy_timestr);
-					}
-					if (angular.isDefined(res.data)
-						&& angular.isDefined(res.data.data)
-						&& angular
-							.isDefined(res.data.data.wbout_datestr)) {
-						tbtime = moment(res.data.data.wbout_datestr);
-					}
-
-					meta = {
-						classroot:gclassroot,
-						footer_hide : false,
-						title : "资产-"+$state.router.globals.current.data.pageTitle,
-						item : {},
-						buytime : bt,
-						typeOpt:[],
-						typeSel:"",
-						belongcompSel:"",
-						compSel:"",
-						wboutdate : tbtime,
-						statusOpt : [],
-						statusSel : "",
-						pinpOpt : [],
-						pinpSel : "",
-						headuserOpt : [],
-						headuserSel : "",
-						partOpt : [],
-						partSel : "",
-						classOpt:[],
-						classSel:[],
-						usedunameOpt : [],
-						usedunameSel : "",
-						locOpt : [],
-						locSel : "",
-						wbOpt : [],
-						wbSel : "",
-						envOpt : [],
-						tbOpt : [],
-						tbSel : "",
-						envSel : "",
-						jgOpt : [],
-						jgSel : "",
-						riskOpt : [],
-						riskSel : "",
-						items : items,
-						sure : function(modalInstance, modal_meta) {
-
-
-							modal_meta.meta.item.class_id = modal_meta.meta.classSel.dict_item_id;
-
-							if(angular.isDefined(modal_meta.meta.typeSel.dict_item_id)){
-								modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
-							}
-
-							if(angular.isDefined(modal_meta.meta.partSel.partid)){
-								modal_meta.meta.item.part_id = modal_meta.meta.partSel.partid;
-							}
-
-							if(angular.isDefined( modal_meta.meta.usedunameSel.user_id)){
-								modal_meta.meta.item.used_userid = modal_meta.meta.usedunameSel.user_id;
-							}
-
-
-							if(angular.isDefined( modal_meta.meta.recycelSel.dict_item_id)){
-								modal_meta.meta.item.recycle = modal_meta.meta.recycelSel.dict_item_id;
-							}
-
-
-							if(angular.isDefined(modal_meta.meta.pinpSel.dict_item_id)){
-								modal_meta.meta.item.brand = modal_meta.meta.pinpSel.dict_item_id;
-							}
-
-							if(angular.isDefined( modal_meta.meta.wbSel.dict_item_id)){
-								modal_meta.meta.item.wb =modal_meta.meta.wbSel.dict_item_id;
-							}
-
-							if(angular.isDefined( modal_meta.meta.locSel.dict_item_id)){
-								modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
-							}
-
-
-
-							if(angular.isDefined( modal_meta.meta.tbSel.dict_item_id)){
-								modal_meta.meta.item.wb_auto =modal_meta.meta.tbSel.dict_item_id ;
-							}
-
-
-
-							if(angular.isDefined( modal_meta.meta.zcwbsupperSel.dict_item_id)){
-								modal_meta.meta.item.wbsupplier =modal_meta.meta.zcwbsupperSel.dict_item_id ;
-							}
-
-							if(angular.isDefined( modal_meta.meta.zcsourceSel.dict_item_id)){
-								modal_meta.meta.item.zcsource =modal_meta.meta.zcsourceSel.dict_item_id ;
-							}
-
-							if(angular.isDefined( modal_meta.meta.zcsupperSel.dict_item_id)){
-								modal_meta.meta.item.supplier =modal_meta.meta.zcsupperSel.dict_item_id ;
-							}
-							if(angular.isDefined( modal_meta.meta.belongcompSel.id)){
-								modal_meta.meta.item.belong_company_id =modal_meta.meta.belongcompSel.id ;
-							}
-
-							//使用公司
-							if(angular.isDefined( modal_meta.meta.compSel.id)){
-								modal_meta.meta.item.used_company_id =modal_meta.meta.compSel.id ;
-							}
-
-
-
-							modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
-								.format('YYYY-MM-DD');
-							modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
-								.format('YYYY-MM-DD');
-
-
-
-							// 动态参数
-							if (angular.isDefined(modal_meta.meta.attr)
-								&& modal_meta.meta.attr.length > 0) {
-								for (var j = 0; j < modal_meta.meta.attr.length; j++) {
-									var code = modal_meta.meta.attr[j].attr_code;
-									modal_meta.meta.attr[j].attr_value = modal_meta.meta.item[modal_meta.meta.attr[j].attr_code];
-								}
-							}
-							modal_meta.meta.item.attrvals = angular
-								.toJson(modal_meta.meta.attr);
-
-							$http
-								.post(
-									$rootScope.project
-									+ "/api/base/res/addResCustom.do",
-									modal_meta.meta.item)
-								.success(function(res) {
-									if (res.success) {
-										modalInstance.close("OK");
-									} else {
-										notify({
-											message : res.message
-										});
-									}
-								});
-
-						},
-						init : function(modal_meta) {
-							var tt = {};
-							angular.copy(gdicts, tt)
-							loadOpt(modal_meta, tt);
-
-						}
-					}
-
-					if (angular.isDefined(res.data.data)
-						&& angular.isDefined(res.data.data.id)) {
-						meta.item = res.data.data;
-						// 填充其他数据
-					}
-
-
-					// 打开静态框
-					var modalInstance = $uibModal
-						.open({
-							backdrop : true,
-							templateUrl : 'views/Template/modal_simpleForm.html',
-							controller : modal_simpleFormCtl,
-							size : 'lg',
-							resolve : {
-								meta : function() {
-									return meta;
-								}
-							}
-						});
-					modalInstance.result.then(function(result) {
-
-						if (result == "OK") {
-							flush();
-						}
-					}, function(reason) {
-
-						$log.log("reason", reason)
-					});
+			$http
+				.post($rootScope.project + "/api/base/res/queryResAllById.do", {
+					id : id
 				})
+				.success(
+					function(res) {
+
+						if (!res.success) {
+							notify({
+								message : res.message
+							});
+							return;
+						}
+						openWindow(res.data,zcrecycle,zcclass);
+					})
+		}else{
+			openWindow({},zcrecycle,zcclass);
+		}
+
 	}
 };
 

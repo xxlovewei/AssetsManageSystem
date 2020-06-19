@@ -448,17 +448,15 @@ function dropZone() {
             alias : '@'
         },
         link : function(scope, element, attrs) {
-
             // //创建对象
             // if (scope.dzconfig.maxFiles == null) {
             // scope.dzconfig.maxFiles = 1;
             // }
             // drop files here to uploads
-            console.log(scope.dzconfig);
+            //console.log(scope.dzconfig);
             if (typeof (scope.dzconfig.dictDefaultMessage) == "undefined") {
                 scope.dzconfig.dictDefaultMessage = "点击上传文件";
             }
-
             scope.dzconfig.dictFallbackMessage = "Your browser does not support drag'n'drop file uploads."
             scope.dzconfig.dictFallbackText = "Please use the fallback form below to upload your files like in the olden days."
             scope.dzconfig.dictFileTooBig = "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB."
@@ -496,7 +494,11 @@ function dropZone() {
 
             };
 
-            dropzone = new Dropzone(element[0], scope.dzconfig);
+            try {
+                dropzone = new Dropzone(element[0], scope.dzconfig);
+            }catch(error){
+                console.log("Catching " + error);
+            }
 
             // angular.forEach(dzeventhandlers, function(handler, event) {
             //

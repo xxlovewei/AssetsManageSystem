@@ -1,45 +1,44 @@
-
 function modalAttrSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
-							  $uibModalInstance, $scope, meta, $http, $rootScope,
-							   $compile) {
+						  $uibModalInstance, $scope, meta, $http, $rootScope,
+						  $compile) {
 
-	$scope.needOpt=[{id:"0",name:"可选"},{id:"1",name:"必须"}];
-	$scope.needSel=$scope.needOpt[0];
+	$scope.needOpt = [{id: "0", name: "可选"}, {id: "1", name: "必须"}];
+	$scope.needSel = $scope.needOpt[0];
 
-	$scope.inputTypeOpt=[{id:"inputstr",name:"输入框(字符串)"},{id:"inputint",name:"输入框(数字)"}];
-	$scope.inputTypeSel=$scope.inputTypeOpt[0];
-	$scope.data={};
-	$scope.data.sort=1;
+	$scope.inputTypeOpt = [{id: "inputstr", name: "输入框(字符串)"}, {id: "inputint", name: "输入框(数字)"}];
+	$scope.inputTypeSel = $scope.inputTypeOpt[0];
+	$scope.data = {};
+	$scope.data.sort = 1;
 
-	$scope.jcOpt=[{id:"0",name:"不可以"},{id:"1",name:"可以"}];
-	$scope.jcSel=$scope.jcOpt[0];
+	$scope.jcOpt = [{id: "0", name: "不可以"}, {id: "1", name: "可以"}];
+	$scope.jcSel = $scope.jcOpt[0];
 
-	if(angular.isDefined(meta.attrid)){
+	if (angular.isDefined(meta.attrid)) {
 		$http.post(
 			$rootScope.project
-			+ "/api/cmdb/resAttrs/selectById.do",{id:meta.attrid}).success(function(res) {
+			+ "/api/cmdb/resAttrs/selectById.do", {id: meta.attrid}).success(function (res) {
 			if (res.success) {
-				 $scope.data=res.data;
-				if(res.data.ifneed=="1"){
-					$scope.needSel=$scope.needOpt[1];
-				}else{
-					$scope.needSel=$scope.needOpt[0];
+				$scope.data = res.data;
+				if (res.data.ifneed == "1") {
+					$scope.needSel = $scope.needOpt[1];
+				} else {
+					$scope.needSel = $scope.needOpt[0];
 				}
-				if(res.data.ifinheritable=="1"){
-					$scope.jcSel=$scope.jcOpt[1];
-				}else{
-					$scope.jcSel=$scope.jcOpt[0];
+				if (res.data.ifinheritable == "1") {
+					$scope.jcSel = $scope.jcOpt[1];
+				} else {
+					$scope.jcSel = $scope.jcOpt[0];
 				}
 
-				for(var i=0;i<$scope.inputTypeOpt.length;i++){
-					if($scope.inputTypeOpt[i].id==res.data.inputtype){
-						$scope.inputTypeSel=$scope.inputTypeOpt[i];
+				for (var i = 0; i < $scope.inputTypeOpt.length; i++) {
+					if ($scope.inputTypeOpt[i].id == res.data.inputtype) {
+						$scope.inputTypeSel = $scope.inputTypeOpt[i];
 						break;
 					}
 				}
-			}else{
+			} else {
 				notify({
-					message : res.message
+					message: res.message
 				});
 			}
 
@@ -47,114 +46,115 @@ function modalAttrSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 	}
 
 
-	$scope.cancel = function() {
+	$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
 	};
 
-	$scope.sure = function() {
-		$scope.data.catid=meta.id;
-		$scope.data.ifneed=$scope.needSel.id;
-		$scope.data.inputtype=$scope.inputTypeSel.id;
-		$scope.data.ifinheritable=$scope.jcSel.id;
+	$scope.sure = function () {
+		$scope.data.catid = meta.id;
+		$scope.data.ifneed = $scope.needSel.id;
+		$scope.data.inputtype = $scope.inputTypeSel.id;
+		$scope.data.ifinheritable = $scope.jcSel.id;
 		$http.post(
 			$rootScope.project
-			+ "/api/cmdb/resAttrs/insertOrUpdate.do", $scope.data).success(function(res) {
+			+ "/api/cmdb/resAttrs/insertOrUpdate.do", $scope.data).success(function (res) {
 			if (res.success) {
 				$uibModalInstance.close('OK');
 			}
 			notify({
-				message : res.message
+				message: res.message
 			});
 		});
 	};
 
 }
+
 function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $timeout,$state) {
+							  $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $timeout, $state) {
 
 
-	$scope.actionOpt = [ {
-		id : "Y",
-		name : "有效"
+	$scope.actionOpt = [{
+		id: "Y",
+		name: "有效"
 	}, {
-		id : "N",
-		name : "无效"
-	} ]
+		id: "N",
+		name: "无效"
+	}]
 	$scope.actionSel = $scope.actionOpt[0];
 
 	$scope.catRootOpt = [];
 	$scope.catRootSel = "";
 	$scope.item = {};
-	var ps={};
-	var parm=[];
+	var ps = {};
+	var parm = [];
 	parm.push($state.router.globals.current.data.code);
-	ps.ids=angular.toJson(parm);
+	ps.ids = angular.toJson(parm);
 	$http.post($rootScope.project + "/api/ctCategoryRoot/ext/selectList.do", ps)
-			.success(function(res) {
-				if (res.success) {
-					$scope.catRootOpt = res.data;
-					if ($scope.catRootOpt.length > 0) {
-						$scope.catRootSel = $scope.catRootOpt[0];
-						flushTree($scope.catRootSel.id)
-					}
-				} else {
-					notify({
-						message : res.message
-					});
+		.success(function (res) {
+			if (res.success) {
+				$scope.catRootOpt = res.data;
+				if ($scope.catRootOpt.length > 0) {
+					$scope.catRootSel = $scope.catRootOpt[0];
+					flushTree($scope.catRootSel.id)
 				}
-			});
+			} else {
+				notify({
+					message: res.message
+				});
+			}
+		});
 	// 树配置
 	$scope.treeConfig = {
-		core : {
-			multiple : false,
-			animation : true,
-			error : function(error) {
+		core: {
+			multiple: false,
+			animation: true,
+			error: function (error) {
 				$log.error('treeCtrl: error from js tree - '
-						+ angular.toJson(error));
+					+ angular.toJson(error));
 			},
-			check_callback : true,
-			worker : true
+			check_callback: true,
+			worker: true
 		},
-		loading : "加载中……",
-		ui : {
-			theme_name : "classic" // 设置皮肤样式
+		loading: "加载中……",
+		ui: {
+			theme_name: "classic" // 设置皮肤样式
 		},
-		rules : {
-			type_attr : "rel", // 设置节点类型
-			valid_children : "root" // 只有root节点才能作为顶级结点
+		rules: {
+			type_attr: "rel", // 设置节点类型
+			valid_children: "root" // 只有root节点才能作为顶级结点
 		},
-		callback : {
-			onopen : function(node, tree_obj) {
+		callback: {
+			onopen: function (node, tree_obj) {
 				return true;
 			}
 		},
 
-		types : {
-			"default" : {
-				icon : 'glyphicon glyphicon-th'
+		types: {
+			"default": {
+				icon: 'glyphicon glyphicon-th'
 			},
-			root : {
-				icon : 'glyphicon glyphicon-home'
+			root: {
+				icon: 'glyphicon glyphicon-home'
 			},
-			"node" : {
-				"icon" : "glyphicon glyphicon-tag"
+			"node": {
+				"icon": "glyphicon glyphicon-tag"
 			},
-			"category" : {
-				"icon" : "glyphicon glyphicon-equalizer"
+			"category": {
+				"icon": "glyphicon glyphicon-equalizer"
 			}
 
 		},
-		version : 1,
-		plugins : [ 'themes', 'types', 'contextmenu', 'changed' ],
-		contextmenu : {
-			items : {
-				"createPoint" : {
-					"separator_before" : false,
-					"separator_after" : false,
-					"label" : function() {
+		version: 1,
+		plugins: ['themes', 'types', 'contextmenu', 'changed'],
+		contextmenu: {
+			items: {
+				"createPoint": {
+					"separator_before": false,
+					"separator_after": false,
+					"label": function () {
 						return "新建节点";
 					},
-					"_disabled" : function(data) {
+					"_disabled": function (data) {
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
 						// 只有在层级节点可以添加
@@ -163,35 +163,35 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 						}
 						return true;
 					},
-					"action" : function(data) {
+					"action": function (data) {
 						// first before after last
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
 
 						$http.post(
-								$rootScope.project
-										+ "/api/ctCategroy/addCategory.do", {
-									old_node_type : obj.type,
-									name : "新节点",
-									old_id : obj.id
-								}).success(function(res) {
+							$rootScope.project
+							+ "/api/ctCategroy/addCategory.do", {
+								old_node_type: obj.type,
+								name: "新节点",
+								old_id: obj.id
+							}).success(function (res) {
 
 							if (res.success) {
-								$timeout(function() {
+								$timeout(function () {
 									$scope.tree.create_node(obj, {
-										id : res.data.id,
-										text : "新节点",
-										parent : res.data.parent_id,
-										type : "node"
+										id: res.data.id,
+										text: "新节点",
+										parent: res.data.parent_id,
+										type: "node"
 
-									}, "last", function(new_node) {
-								 
+									}, "last", function (new_node) {
+
 									});
 								}, 300);
 
 							} else {
 								notify({
-									message : res.message
+									message: res.message
 								});
 
 							}
@@ -199,11 +199,11 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 						})
 					}
 				},
-				"DeleteItem" : {
-					"separator_before" : false,
-					"separator_after" : false,
-					"label" : "删除节点",
-					"_disabled" : function(data) {
+				"DeleteItem": {
+					"separator_before": false,
+					"separator_after": false,
+					"label": "删除节点",
+					"_disabled": function (data) {
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
 						$log.warn(obj);
@@ -213,58 +213,58 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 						}
 						return false;
 					},
-					"action" : function(data) {
+					"action": function (data) {
 						$log.info("删除节点");
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
- 
+
 
 						$http
-								.post(
-										$rootScope.project
-												+ "/api/ctCategroy/queryCategoryById.do",
-										{
-											id : obj.id
-										})
-								.success(
-										function(res) {
-											if (res.success) {
+							.post(
+								$rootScope.project
+								+ "/api/ctCategroy/queryCategoryById.do",
+								{
+									id: obj.id
+								})
+							.success(
+								function (res) {
+									if (res.success) {
 
-												if (angular
-														.isDefined(res.data.action)
-														&& res.data.action == "ndel") {
-													notify({
-														message : "系统默认设置,不允许删除。"
-													});
-												} else {
-													$http
-															.post(
-																	$rootScope.project
-																			+ "/api/ctCategroy/deleteCategory.do",
-																	{
-																		id : obj.id
-																	})
-															.success(
-																	function(
-																			res) {
-																		if (res.success) {
-																			inst
-																					.delete_node(obj);
-																		}
-																		notify({
-																			message : res.message
-																		});
-																	})
+										if (angular
+												.isDefined(res.data.action)
+											&& res.data.action == "ndel") {
+											notify({
+												message: "系统默认设置,不允许删除。"
+											});
+										} else {
+											$http
+												.post(
+													$rootScope.project
+													+ "/api/ctCategroy/deleteCategory.do",
+													{
+														id: obj.id
+													})
+												.success(
+													function (
+														res) {
+														if (res.success) {
+															inst
+																.delete_node(obj);
+														}
+														notify({
+															message: res.message
+														});
+													})
 
-												}
+										}
 
-											} else {
-												notify({
-													message : res.message
-												});
-											}
+									} else {
+										notify({
+											message: res.message
+										});
+									}
 
-										})
+								})
 
 					}
 
@@ -274,57 +274,59 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		}
 	}
 
-	$scope.addNewNode = function() {
+	$scope.addNewNode = function () {
 		$scope.treeData.push({
-			id : (newId++).toString(),
-			parent : $scope.newNode.parent,
-			text : $scope.newNode.text
+			id: (newId++).toString(),
+			parent: $scope.newNode.parent,
+			text: $scope.newNode.text
 		});
 	};
 
-	$scope.modelChanges = function(t) {
+	$scope.modelChanges = function (t) {
 
 		return true;
 	}
 
-	$scope.test = function() {
+	$scope.test = function () {
 		$log.info("测试");
-	 
+
 
 	}
-	function flushAttr(id){
+
+	function flushAttr(id) {
 		$http.post(
 			$rootScope.project
 			+ "/api/cmdb/resAttrs/ext/selectByCatId.do", {
-				catid : id
-			}).success(function(res) {
+				catid: id
+			}).success(function (res) {
 			if (res.success) {
 				$scope.dtOptions.aaData = res.data;
 			} else {
 				notify({
-					message : res.message
+					message: res.message
 				});
 			}
 		});
 	}
-	$scope.readyCB = function() {
+
+	$scope.readyCB = function () {
 
 		$scope.tree = $scope.treeInstance.jstree(true)
 		// 展开所有节点
 		$scope.tree.open_all();
 		// 响应节点变化
-		$scope.treeInstance.on("changed.jstree", function(e, data) {
-		 
+		$scope.treeInstance.on("changed.jstree", function (e, data) {
+
 			if (data.action == "select_node") {
 				// 加载数据
 				var snodes = $scope.tree.get_selected();
 				if (snodes.length == 1) {
 					var node = snodes[0];
 					$http.post(
-							$rootScope.project
-									+ "/api/ctCategroy/queryCategoryById.do", {
-								id : node
-							}).success(function(res) {
+						$rootScope.project
+						+ "/api/ctCategroy/queryCategoryById.do", {
+							id: node
+						}).success(function (res) {
 						if (res.success) {
 							if (angular.isDefined(res.data)) {
 								$scope.item = res.data;
@@ -336,7 +338,7 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 							}
 						} else {
 							notify({
-								message : res.message
+								message: res.message
 							});
 						}
 					});
@@ -346,13 +348,13 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					$http.post(
 						$rootScope.project
 						+ "/api/cmdb/resAttrs/ext/selectInheritableAttrByCatId.do", {
-							catid : node
-						}).success(function(res) {
+							catid: node
+						}).success(function (res) {
 						if (res.success) {
 							$scope.dtOptions2.aaData = res.data;
 						} else {
 							notify({
-								message : res.message
+								message: res.message
 							});
 						}
 					});
@@ -364,51 +366,49 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		});
 
 	}
-	$scope.cc = function() {
-	 
-
+	$scope.cc = function () {
 	}
 
-	$scope.createCB = function(e, item) {
-	 
+	$scope.createCB = function (e, item) {
+
 	};
 
 	function flushTree(id) {
 
 		$http
-				.post(
-						$rootScope.project
-								+ "/api/ctCategroy/queryCategoryTreeList.do", {
-							root : id
-						}).success(function(res) {
-					if (res.success) {
-						$scope.ignoreChanges = true;
-						$scope.treeData = angular.copy(res.data);
-						$scope.treeConfig.version++;
-					} else {
-						notify({
-							message : res.message
-						});
-					}
+			.post(
+				$rootScope.project
+				+ "/api/ctCategroy/queryCategoryTreeList.do", {
+					root: id
+				}).success(function (res) {
+			if (res.success) {
+				$scope.ignoreChanges = true;
+				$scope.treeData = angular.copy(res.data);
+				$scope.treeConfig.version++;
+			} else {
+				notify({
+					message: res.message
 				});
+			}
+		});
 
 	}
 
-	$scope.saveItem = function() {
+	$scope.saveItem = function () {
 		$scope.item.isaction = $scope.actionSel.id;
 		$http.post($rootScope.project + "/api/ctCategroy/updateCategory.do",
-				$scope.item).success(function(res) {
+			$scope.item).success(function (res) {
 			if (res.success) {
 				var inst = $scope.tree;
 				inst.rename_node($scope.item.id, $scope.item.name)
 			}
 			notify({
-				message : res.message
+				message: res.message
 			});
 
 		});
 	}
-	$scope.query = function() {
+	$scope.query = function () {
 		flushTree($scope.catRootSel.id);
 	}
 
@@ -420,39 +420,41 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		.withOption('scrollX', true).withOption('bAutoWidth', true)
 		.withOption('scrollCollapse', true).withOption('paging', false)
 		.withFixedColumns({
-			leftColumns : 0,
-			rightColumns : 0
+			leftColumns: 0,
+			rightColumns: 0
 		}).withOption('bStateSave', true).withOption('bProcessing', false)
 		.withOption('bFilter', false).withOption('bInfo', false)
-		.withOption('serverSide', false).withOption('createdRow', function(row) {
+		.withOption('serverSide', false).withOption('createdRow', function (row) {
 			// Recompiling so we can bind Angular,directive to the
 			$compile(angular.element(row).contents())($scope);
 		});
 
 	function renderType(data, type, full) {
-		if(data=="inputstr"){
+		if (data == "inputstr") {
 			return "输入框(字符串)"
-		}else if(data=="inputint"){
+		} else if (data == "inputint") {
 			return "输入框(数字)"
-		} else{
+		} else {
 			return data;
 		}
 	}
+
 	function renderIfNeed(data, type, full) {
-		if(data=="1"){
+		if (data == "1") {
 			return "必须"
-		}else if(data=="0"){
+		} else if (data == "0") {
 			return "可选"
-		}else{
+		} else {
 			return data;
 		}
 	}
+
 	function renderJc(data, type, full) {
-		if(data=="1"){
+		if (data == "1") {
 			return "可以"
-		}else if(data=="0"){
+		} else if (data == "0") {
 			return "不可以"
-		}else{
+		} else {
 			return data;
 		}
 	}
@@ -465,7 +467,6 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			+ "')\" class=\"btn-white btn btn-xs\">删除</button> </div> ";
 		return acthtml;
 	}
-
 
 
 	$scope.dtColumns = [
@@ -486,62 +487,62 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	$scope.dtInstance = {}
 
 	//以下扩展属性相关
-	$scope.addattr=function(){
-		var ps=$scope.item;
+	$scope.addattr = function () {
+		var ps = $scope.item;
 		var modalInstance = $uibModal.open({
-			backdrop : true,
-			templateUrl : 'views/cmdb/modal_attrSave.html',
-			controller : modalAttrSaveCtl,
-			size : 'blg',
-			resolve : {
-				meta : function() {
+			backdrop: true,
+			templateUrl: 'views/cmdb/modal_attrSave.html',
+			controller: modalAttrSaveCtl,
+			size: 'blg',
+			resolve: {
+				meta: function () {
 					return ps;
 				}
 			}
 		});
-		modalInstance.result.then(function(result) {
+		modalInstance.result.then(function (result) {
 			if (result == "OK") {
 				flushAttr($scope.item.id);
 			}
-		}, function(reason) {
+		}, function (reason) {
 			$log.log("reason", reason)
 		});
 	}
 
-	$scope.attrmodify=function(id){
-		var ps=$scope.item;
-		ps.attrid=id;
+	$scope.attrmodify = function (id) {
+		var ps = $scope.item;
+		ps.attrid = id;
 		var modalInstance = $uibModal.open({
-			backdrop : true,
-			templateUrl : 'views/cmdb/modal_attrSave.html',
-			controller : modalAttrSaveCtl,
-			size : 'blg',
-			resolve : {
-				meta : function() {
+			backdrop: true,
+			templateUrl: 'views/cmdb/modal_attrSave.html',
+			controller: modalAttrSaveCtl,
+			size: 'blg',
+			resolve: {
+				meta: function () {
 					return ps;
 				}
 			}
 		});
-		modalInstance.result.then(function(result) {
+		modalInstance.result.then(function (result) {
 			if (result == "OK") {
 				flushAttr($scope.item.id);
 			}
-		}, function(reason) {
+		}, function (reason) {
 			$log.log("reason", reason)
 		});
 	}
-	$scope.attrremove=function(id){
+	$scope.attrremove = function (id) {
 		$confirm({
-			text : '是否删除?'
-		}).then(function() {
+			text: '是否删除?'
+		}).then(function () {
 			$http.post($rootScope.project + "/api/cmdb/resAttrs/deleteById.do", {
-				id : id
-			}).success(function(res) {
+				id: id
+			}).success(function (res) {
 				if (res.success) {
 					flushAttr($scope.item.id);
 				} else {
 					notify({
-						message : res.message
+						message: res.message
 					});
 				}
 			});
@@ -556,11 +557,11 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		.withOption('scrollX', true).withOption('bAutoWidth', true)
 		.withOption('scrollCollapse', true).withOption('paging', false)
 		.withFixedColumns({
-			leftColumns : 0,
-			rightColumns : 0
+			leftColumns: 0,
+			rightColumns: 0
 		}).withOption('bStateSave', true).withOption('bProcessing', false)
 		.withOption('bFilter', false).withOption('bInfo', false)
-		.withOption('serverSide', false).withOption('createdRow', function(row) {
+		.withOption('serverSide', false).withOption('createdRow', function (row) {
 			// Recompiling so we can bind Angular,directive to the
 			$compile(angular.element(row).contents())($scope);
 		});
