@@ -73,14 +73,19 @@ public class ResAttrsExtController extends BaseController {
 	public R selectInheritableAttrByCatId(@RequestParam(value = "catid", required = true, defaultValue = "") String catid) {
 
 		CtCategory ct=CtCategoryServiceImpl.getById(catid);
-		String route=ct.getRoute();
-		BigDecimal nodelevel=ct.getNodeLevel();
-		JSONArray res=new JSONArray();
-		if(nodelevel.compareTo(new BigDecimal (1))==1){
-			String sql="select (select route_name from ct_category where id=t.catid) catname,t.* from res_attrs t where ifinheritable='1' and dr='0' and catid<>? and catid in ("+route.replaceAll("-",",")+")";
-			res= ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql,catid).toJsonArrayWithJsonObject());
+		if (ct != null) {
+			String route=ct.getRoute();
+			BigDecimal nodelevel=ct.getNodeLevel();
+			JSONArray res=new JSONArray();
+			if(nodelevel.compareTo(new BigDecimal (1))==1){
+				String sql="select (select route_name from ct_category where id=t.catid) catname,t.* from res_attrs t where ifinheritable='1' and dr='0' and catid in ("+route.replaceAll("-",",").replace(","+catid,"")+")";
+				res= ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql).toJsonArrayWithJsonObject());
+			}
+			return R.SUCCESS_OPER(res);
+		}else{
+			return R.FAILURE_NO_DATA();
 		}
-		return R.SUCCESS_OPER(res);
+
 	}
 
 

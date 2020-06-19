@@ -77,17 +77,10 @@ public class ContentCategoryService extends BaseService {
         root.put("parent", "#");
         root.put("text", root_rs.getString("name"));
         root.put("type", "root");
-        res.add(root);
-        RcdSet rs = db.query("select * from ct_category where root=? and dr='0'", root_id);
+        RcdSet rs = db.query("select t.*,t.name text,t.parent_id parent from ct_category t where root=? and dr='0'", root_id);
         JSONObject e = new JSONObject();
-        for (int i = 0; i < rs.size(); i++) {
-            e = new JSONObject();
-            e.put("id", rs.getRcd(i).getString("id"));
-            e.put("text", rs.getRcd(i).getString("name"));
-            e.put("type", rs.getRcd(i).getString("type"));
-            e.put("parent", rs.getRcd(i).getString("parent_id"));
-            res.add(e);
-        }
+        res=ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
+        res.add(root);
         return R.SUCCESS_OPER(res);
     }
 

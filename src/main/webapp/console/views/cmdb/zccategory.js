@@ -174,7 +174,7 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
 						// 只有在层级节点可以添加
-						if (obj.type == "root" || obj.type == "node") {
+						if (obj.type == "root" || obj.type == "node"||obj.type == "dir" ) {
 							return false
 						}
 						return true;
