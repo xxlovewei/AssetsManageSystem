@@ -267,7 +267,11 @@ function cmdbHCBJCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 										$scope.typeSel = $scope.typeOpt[1];
 									}else if($scope.item.type == "dir"){
 										$scope.typeSel = $scope.typeOpt[0];
+									}else{
+										$scope.typeSel = "";
 									}
+								}else{
+										$scope.typeSel = "";
 								}
 
 
@@ -317,7 +321,9 @@ function cmdbHCBJCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.saveItem = function() {
 		$scope.item.isaction = $scope.actionSel.id;
-		$scope.item.type=$scope.typeSel.id;
+		if(angular.isDefined($scope.typeSel.id)){
+			$scope.item.type=$scope.typeSel.id;
+		}
 		$http.post($rootScope.project + "/api/ctCategroy/updateCategory.do",
 				$scope.item).success(function(res) {
 			if (res.success) {

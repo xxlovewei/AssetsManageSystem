@@ -84,7 +84,7 @@ public class ContentCategoryService extends BaseService {
             e = new JSONObject();
             e.put("id", rs.getRcd(i).getString("id"));
             e.put("text", rs.getRcd(i).getString("name"));
-            e.put("type", "node");
+            e.put("type", rs.getRcd(i).getString("type"));
             e.put("parent", rs.getRcd(i).getString("parent_id"));
             res.add(e);
         }

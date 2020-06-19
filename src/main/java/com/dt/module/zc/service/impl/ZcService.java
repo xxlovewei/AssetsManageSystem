@@ -119,10 +119,11 @@ public class ZcService extends BaseService{
 
         if (ToolUtil.isNotEmpty(zccatused) && "Y".equals(zccatused) ) {
             RcdSet partrs = db
-                    .query("select a.id,concat(b.name,'/',a.route_name) name from ct_category a,ct_category_root b where a.root=b.id and a.dr='0' and a.id in (select distinct class_id from res where dr='0')\n" +
+                    .query("select a.id,concat(b.name,'/',a.route_name) name from ct_category a,ct_category_root b where a.type='goods' and  a.root=b.id and a.dr='0' and a.id in (select distinct class_id from res where dr='0')\n" +
                             "order by a.root ,a.route_name" );
             res.put("zccatused",ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
+
         if (ToolUtil.isNotEmpty(zchccat) && "Y".equals(zchccat) ) {
             RcdSet partrs = db
                     .query("select * from ct_category where root='"+ZcCommonService.CATEGORY_HC+"' and dr='0' and type='goods'" );

@@ -13,6 +13,7 @@ function modalAttrSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 	$scope.jcOpt = [{id: "0", name: "不可以"}, {id: "1", name: "可以"}];
 	$scope.jcSel = $scope.jcOpt[0];
 
+
 	if (angular.isDefined(meta.attrid)) {
 		$http.post(
 			$rootScope.project
@@ -80,6 +81,15 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		id: "N",
 		name: "无效"
 	}]
+
+	$scope.typeOpt=[{
+		id:"dir",
+		name:"目录"
+	},{
+		id:"goods",
+		name:"物品"
+	}]
+	$scope.typeSel=$scope.typeOpt[0];
 	$scope.actionSel = $scope.actionOpt[0];
 
 	$scope.catRootOpt = [];
@@ -141,6 +151,12 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			},
 			"category": {
 				"icon": "glyphicon glyphicon-equalizer"
+			}
+			,"dir" : {
+				"icon" : "fa fa-building"
+			},
+			"goods" : {
+				"icon" : "fa fa-genderless"
 			}
 
 		},
@@ -217,8 +233,6 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 						$log.info("删除节点");
 						var inst = $scope.tree;
 						var obj = inst.get_node(data.reference);
-
-
 						$http
 							.post(
 								$rootScope.project
@@ -335,6 +349,19 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 								} else {
 									$scope.actionSel = $scope.actionOpt[1];
 								}
+
+								if(angular.isDefined($scope.item.type)){
+									if ($scope.item.type == "goods") {
+										$scope.typeSel = $scope.typeOpt[1];
+									}else if($scope.item.type == "dir"){
+										$scope.typeSel = $scope.typeOpt[0];
+									}else{
+										$scope.typeSel = "";
+									}
+								}else{
+									$scope.typeSel = "";
+								}
+
 							}
 						} else {
 							notify({
@@ -396,6 +423,9 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.saveItem = function () {
 		$scope.item.isaction = $scope.actionSel.id;
+		if(angular.isDefined($scope.typeSel.id)){
+			$scope.item.type=$scope.typeSel.id;
+		}
 		$http.post($rootScope.project + "/api/ctCategroy/updateCategory.do",
 			$scope.item).success(function (res) {
 			if (res.success) {
