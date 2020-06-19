@@ -518,7 +518,8 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	//以下扩展属性相关
 	$scope.addattr = function () {
-		var ps = $scope.item;
+		var ps = {};
+		ps.id=$scope.item.id;
 		var modalInstance = $uibModal.open({
 			backdrop: true,
 			templateUrl: 'views/cmdb/modal_attrSave.html',

@@ -65,6 +65,7 @@ public class DeployZcDevMac {
 
         // 删除
         executor.exec("rm -rf " + rfile).print();
+        executor.exec("rm -rf /opt/tomcat/tomcat_shopuat/temp").print();
         try {
             Thread.sleep(1000);
         } catch (Exception e) {
