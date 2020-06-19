@@ -1,7 +1,7 @@
 function modalzcActionSPCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
 		$uibModalInstance, $window, $stateParams,$timeout) {
-		console.log(meta);
+
 		var url = $rootScope.project + "uflo/diagram?processKey=" + meta.pk;
 		$scope.url = url;
 	$scope.cancel = function() {
@@ -25,7 +25,7 @@ function modalzcActionSPCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		$confirm, $log, notify, $scope, $http, $rootScope, $uibModal,$timeout,
 		$uibModalInstance, $state, meta) {
-	console.log("meta",meta);
+
 	$scope.actmsg =meta.actmsg;
 	$scope.data = {};
 	$scope.data.processdefid=meta.processdefid;
@@ -93,7 +93,7 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			methods: {
 				init(){
 					console.log(this);
-					console.log(this.jsonData);
+
 				},
 				handleSubmit(p) {
 					// 通过表单提交按钮触发，获取promise对象
@@ -662,7 +662,6 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 	$scope.actback = function() {
 
 		var selrows = getSelectRow();
-		console.log(selrows);
 		if (angular.isDefined(selrows)) {
 			if (flowtype == "LY") {
 

@@ -218,7 +218,6 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 			cacheSel:"",
 			items : items,
 			sure : function(modalInstance, modal_meta) {
-				console.log('1111',modal_meta.meta);
 				if(angular.isDefined( modal_meta.meta.cacheSel.id)){
 					var cache =modal_meta.meta.cacheSel.id ;
 					$http.post($rootScope.project + "/api/sysApi/system/clearCache.do",

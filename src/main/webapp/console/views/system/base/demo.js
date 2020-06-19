@@ -41,8 +41,7 @@ function demoCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 	   var html2 = $compile(html);
 	  var $dom = html2($scope); 
 	  angular.element(cc).append($dom);
-//	   console.log('cccc');
-//	   console.log($dom);
+
        // 添加到文档中
 	   
 // 
@@ -61,7 +60,7 @@ function demoCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
 	
 
 	$scope.btn_add = function() {
-		console.log($scope.myDropzone);
+
 		
 		return 
 

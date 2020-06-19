@@ -131,8 +131,6 @@ function zcinventoryPdCtl($timeout, $localStorage, notify, $log, $uibModal,
 function zcinventoryResCtl($timeout, $localStorage, notify, $log, $uibModal,
                                 $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                                 DTColumnBuilder, $compile) {
-    console.log(meta);
-
 
     var item=meta;
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
@@ -609,7 +607,6 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile,$window,
     }
 
     function renderStatus(data, type, full) {
-        console.log(data);
         if(data=="wait"){
             return "等待开始"
         }else if(data=="start"){

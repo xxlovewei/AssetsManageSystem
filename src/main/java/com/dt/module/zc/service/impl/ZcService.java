@@ -480,28 +480,20 @@ public class ZcService extends BaseService{
         CtCategory ct=CtCategoryServiceImpl.getById(catid);
         String route=ct.getRoute();
         String attrsql = "select\n" +
-                "  (end.i - 1) % 4 idx,\n" +
-                "  end.*\n" +
+                "  a.*,\n" +
+                "  b.attrvalue\n" +
                 "from (\n" +
-                "       select\n" +
-                "         (@i := @i + 1) as i,\n" +
-                "         t.*\n" +
-                "       from (select\n" +
-                "               a.*,\n" +
-                "               b.attrvalue\n" +
-                "             from (\n" +
-                "                    select t.*\n" +
-                "                    from res_attrs t\n" +
-                "                    where ifinheritable = '1' and dr = '0' and catid <> ? and catid in ("+route.replaceAll("-",",")+")\n" +
-                "                    union all (select *\n" +
-                "                               from res_attrs\n" +
-                "                               where dr = '0' and catid = ?\n" +
-                "                               order by sort)\n" +
-                "                  ) a left join (select *\n" +
-                "                                 from res_attr_value\n" +
-                "                                 where resid = ? and dr = '0') b on a.id = b.attrid\n" +
-                "            ) t, (select @i := 0) as it) end";
-        RcdSet attrs = db.query(attrsql, catid,catid,resid);
+                "       select t.*\n" +
+                "       from res_attrs t\n" +
+                "       where ifinheritable = '1' and dr = '0' and catid <> ? and catid in (46, 50, 123)\n" +
+                "       union all (select *\n" +
+                "                  from res_attrs\n" +
+                "                  where dr = '0' and catid = ?\n" +
+                "                  order by sort)\n" +
+                "     ) a left join (select *\n" +
+                "                    from res_attr_value\n" +
+                "                    where resid = ? and dr = '0') b on a.id = b.attrid\n";
+        RcdSet attrs = db.query(attrsql,catid,catid,resid);
         return attrs;
     }
 

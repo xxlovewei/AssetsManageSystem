@@ -1445,7 +1445,7 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                                 },
                                 methods: {
                                     init() {
-                                        console.log(res.data.formdata);
+
                                         this.$refs.kfb.setData( angular.fromJson(res.data.formdata));
                                     },
                                     handleSubmit(p) {
@@ -1678,11 +1678,10 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
                 var extdata=[];
                 var extdataitem=[];
                 for(var i=0;i<res.data.extattr.length;i++){
-                  //  console.log(res.data.extattr)
-                    if(res.data.extattr[i].idx==0&&i>0){
+                    if(i%4==3&&i>0){
+                        extdataitem.push(res.data.extattr[i]);
                         extdata.push(extdataitem);
                         extdataitem=[];
-                        extdataitem.push(res.data.extattr[i]);
                     }else{
                         extdataitem.push(res.data.extattr[i]);
                     }

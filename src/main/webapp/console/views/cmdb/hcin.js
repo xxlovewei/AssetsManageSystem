@@ -2,7 +2,6 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 					  $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
 					  $uibModalInstance, $window, $stateParams, $timeout) {
 
-	console.log(meta);
 	$scope.ctl = {};
 	$scope.ctl.title = false;
 	$scope.ctl.suppliername = false;
@@ -217,7 +216,7 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 		angular.copy($scope.data, e);
 		$scope.dtOptions.aaData.push(e);
-		console.log($scope.dtOptions.aaData);
+
 
 	}
 	$scope.remove = function (id) {

@@ -388,8 +388,6 @@ function dropZoneBB() {
 
             var dzeventhandlers = {
                 'addedfile': function (file) {
-                    console.log("ADDFILE", file);
-                    console.log(scope);
                     scope.file = file;
                     if (this.files[1] != null) {
                         this.removeFile(this.files[0]);
@@ -453,7 +451,6 @@ function dropZone() {
             // scope.dzconfig.maxFiles = 1;
             // }
             // drop files here to uploads
-            //console.log(scope.dzconfig);
             if (typeof (scope.dzconfig.dictDefaultMessage) == "undefined") {
                 scope.dzconfig.dictDefaultMessage = "点击上传文件";
             }

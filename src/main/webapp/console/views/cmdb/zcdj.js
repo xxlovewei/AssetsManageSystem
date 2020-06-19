@@ -210,7 +210,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
 		.success(
 			function(res) {
 				if (res.success) {
-					console.log(res.data.btype);
+
 					gdicts = res.data;
 
 					var btype = [];

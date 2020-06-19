@@ -331,7 +331,6 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                 tmp_tpl = tmp_tpl + "</div> ";
                 tmp_tpl = tmp_tpl + "</div> ";
                 tmp_tpl = tmp_tpl + "</div> ";
-                //  console.log(tmp_tpl)
                 formhtml = formhtml + tmp_tpl;
             } else if (obj.type == "select") {
                 var uid = getUuid()

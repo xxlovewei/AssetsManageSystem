@@ -1,7 +1,6 @@
 function modalFormListSelCtl($timeout, $localStorage, notify, $log, $uibModal,
 		$window, $uibModalInstance, $scope, $http, $rootScope,
 		DTOptionsBuilder, DTColumnBuilder, $compile, data) {
-	console.log(data)
 	$scope.typeOpt = data.formType;
 	$scope.typeSel = "";
 	if ($scope.typeOpt.length > 0) {
