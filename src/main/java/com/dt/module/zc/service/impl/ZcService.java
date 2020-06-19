@@ -68,12 +68,12 @@ public class ZcService extends BaseService{
 
         if (ToolUtil.isNotEmpty(subclass)) {
             RcdSet partrs = db.query(
-                    "select id dict_item_id,name from ct_category where dr='0' and parent_id=? order by od", subclass);
+                    "select id dict_item_id,name from ct_category where dr='0' and parent_id=? and type='goods' order by od", subclass);
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
         if (ToolUtil.isNotEmpty(classroot)) {
-            String subsql=" isaction='Y' and t.dr='0' and t.root=? and t.route not like '46%' and t.node_level>1 ";
+            String subsql=" t.type='goods' and isaction='Y' and t.dr='0' and t.root=? and t.route not like '46%' and t.node_level>1 ";
             RcdSet partrs = db.query("select id dict_item_id,route_name name,name sname from ct_category t where  "
                     +subsql + " order by route",classroot);
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
@@ -337,7 +337,6 @@ public class ZcService extends BaseService{
             ressql = sql ;
         }
         ressql = ressql + " order by update_time desc,loc,rack,frame";
-        System.out.println(ressql);
         return  ressql;
     }
 
