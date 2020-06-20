@@ -151,10 +151,7 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 			'full_numbers').withDisplayLength(100)
 			.withOption("ordering", false).withOption("responsive", false)
 			.withOption("searching", false).withOption("paging", false)
-			.withFixedColumns({
-				leftColumns : 0,
-				rightColumns : 0
-			}).withOption('bStateSave', true).withOption('bProcessing', false)
+			.withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
 			.withOption('serverSide', false).withOption('bAutoWidth', true)
 			.withOption('rowCallback', rowCallback).withOption('createdRow',

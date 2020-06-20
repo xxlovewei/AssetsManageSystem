@@ -7,10 +7,7 @@ function modaluserzcCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption("searching", true).withOption('scrollY', 600)
         .withOption('scrollX', true).withOption('bAutoWidth', true)
         .withOption('scrollCollapse', true).withOption('paging', true)
-        .withFixedColumns({
-            leftColumns: 0,
-            rightColumns: 0
-        }).withOption('bStateSave', true).withOption('bProcessing', false)
+        .withOption('bStateSave', true).withOption('bProcessing', false)
         .withOption('bFilter', false).withOption('bInfo', false)
         .withOption('serverSide', false).withOption('createdRow', function (row) {
             // Recompiling so we can bind Angular,directive to the

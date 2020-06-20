@@ -3,10 +3,7 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 		.withDOM('frtlip').withPaginationType('full_numbers')
 		.withDisplayLength(100).withOption("ordering", false).withOption(
 				"responsive", false).withOption("searching", false).withOption(
-				'paging', false).withFixedColumns({
-			leftColumns : 0,
-			rightColumns : 0
-		}).withOption('bStateSave', true).withOption('bProcessing', false)
+				'paging', false).withOption('bStateSave', true).withOption('bProcessing', false)
 		.withOption('bFilter', false).withOption('bInfo', false).withOption(
 				'serverSide', false).withOption('createdRow', function(row) {
 			$compile(angular.element(row).contents())($scope);
@@ -38,10 +35,7 @@ $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
 				"responsive", false).withOption("searching", false).withOption(
 				'scrollY', '600px').withOption('scrollX', true).withOption(
 				'bAutoWidth', true).withOption('scrollCollapse', true)
-		.withOption('paging', true).withFixedColumns({
-			leftColumns : 0,
-			rightColumns : 0
-		}).withOption('bStateSave', true).withOption('bProcessing', false)
+		.withOption('paging', true).withOption('bStateSave', true).withOption('bProcessing', false)
 		.withOption('bFilter', true).withOption('bInfo', false).withOption(
 				'serverSide', false).withOption('createdRow', function(row) {
 			$compile(angular.element(row).contents())($scope);

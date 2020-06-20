@@ -45,10 +45,7 @@ function menuBtnaddSaveCtl($localStorage, notify, $log, $uibModal, $compile,
 			.withDisplayLength(100).withOption("ordering", false).withOption(
 					"responsive", false).withOption("searching", false)
 			.withOption('bAutoWidth', true).withOption('scrollCollapse', false)
-			.withOption('paging', false).withFixedColumns({
-				leftColumns : 0,
-				rightColumns : 0
-			}).withOption('bStateSave', true).withOption('bProcessing', false)
+			.withOption('paging', false).withOption('bStateSave', true).withOption('bProcessing', false)
 			.withOption('bFilter', false).withOption('bInfo', false)
 			.withOption('serverSide', false).withOption('createdRow',
 					function(row) {

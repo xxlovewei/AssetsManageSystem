@@ -447,61 +447,6 @@ function initDT(DTDefaultOptions) {
 
 }
 
-// $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-// 	.withDOM('frtlip').withPaginationType('full_numbers')
-// 	.withDisplayLength(100).withOption("ordering", false).withOption(
-// 		"responsive", false).withOption("searching", true)
-// 	.withOption('scrollY', 500).withOption('scrollX', true)
-// 	.withOption('bAutoWidth', true).withOption('scrollCollapse', true)
-// 	.withOption('paging', true).withFixedColumns({
-// 		leftColumns : 0,
-// 		rightColumns : 0
-// 	}).withOption('bStateSave', true).withOption('bProcessing', true)
-// 	.withOption('bFilter', false).withOption('bInfo', false)
-// 	.withOption('serverSide', false).withOption('createdRow', function(row) {
-// 		$compile(angular.element(row).contents())($scope);
-// 	}).withOption(
-// 		'headerCallback',
-// 		function(header) {
-// 			if ((!angular.isDefined($scope.headerCompiled))
-// 				|| $scope.headerCompiled) {
-// 				$scope.headerCompiled = true;
-// 				$compile(angular.element(header).contents())
-// 				($scope);
-// 			}
-// 		}).withOption("select", {
-// 		style : 'multi',
-// 		selector : 'td:first-child'
-// 	}).withButtons([ {
-// 		extend : 'colvis',
-// 		text : '显示隐藏列',
-// 		fnLabel : function(dt, idx, title) {
-//
-// 			return (idx + 1) + ': ' + title;
-// 		}
-// 	}, {
-// 		extend : 'csv',
-// 		text : 'Excel(当前页)',
-// 		exportOptions : {
-// 			columns : ':visible',
-// 			trim : true,
-// 			modifier : {
-// 				page : 'current'
-// 			}
-// 		}
-// 	}, {
-// 		extend : 'print',
-// 		text : '打印(当前页)',
-// 		exportOptions : {
-// 			columns : ':visible',
-// 			stripHtml : false,
-// 			columns : ':visible',
-// 			modifier : {
-// 				page : 'current'
-// 			}
-// 		}
-// 	} ]);
-
 app.run(initDT);
 // before loading
 $("#beforePage").removeClass("preloader");

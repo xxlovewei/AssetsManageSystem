@@ -1367,10 +1367,7 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
             false).withOption("searching", false).withOption('scrollY',
             300).withOption('scrollX', true).withOption(
             'bAutoWidth', true).withOption('scrollCollapse', true)
-        .withOption('paging', false).withFixedColumns({
-            leftColumns: 0,
-            rightColumns: 0
-        }).withOption('bStateSave', true).withOption('bProcessing', false)
+        .withOption('paging', false).withOption('bStateSave', true).withOption('bProcessing', false)
         .withOption('bFilter', false).withOption('bInfo', false)
         .withOption('serverSide', false).withOption('createdRow', function (row) {
             $compile(angular.element(row).contents())($scope);
@@ -1790,10 +1787,7 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
         .withOption("searching", true).withOption('scrollY', 200)
         .withOption('scrollX', true).withOption('bAutoWidth', true)
         .withOption('scrollCollapse', true).withOption('paging', true)
-        .withFixedColumns({
-            leftColumns: 0,
-            rightColumns: 0
-        }).withOption('bStateSave', true).withOption('bProcessing', false)
+        .withOption('bStateSave', true).withOption('bProcessing', false)
         .withOption('bFilter', false).withOption('bInfo', false)
         .withOption('serverSide', false).withOption('createdRow', function (row) {
             $compile(angular.element(row).contents())($scope);
