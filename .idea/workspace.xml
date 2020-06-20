@@ -7,240 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/css/style2.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/css/t.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/app_main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/app_main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/base.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/config_ops.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_ops.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/config_system.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_system.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/controllers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/controllers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/directives.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/directives.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/service_user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/service_user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/spa_index2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/Template/modal_simpleForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/Template/modal_simpleForm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/Template/simpleTool.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/Template/simpleTool.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/Template/simpleToolTableTempl.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/Template/simpleToolTableTempl.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/contactlook.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/contactlook.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dataexport.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dataexport.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dataexport.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dataexport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dataimport.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dataimport.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dataimport.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dataimport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dtl_extattr.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dtl_extattr.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dtl_itdev.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dtl_itdev.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/faultrecord.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/faultrecord.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/faultrecord.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/faultrecord.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/allprocess.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/allprocess.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/allprocess.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/allprocess.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/myprocess.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/myprocess.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/myprocess.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/myprocess.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/processfinish.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/processfinish.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/processfinish.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/processfinish.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/todo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/todo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/todo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/todo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/genericdev.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/genericdev.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/genericdev.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/genericdev.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/goodscategory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/goodscategory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/goodscategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/goodscategory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcdb.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcdb.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcdb.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcdb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcin.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcout.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcsecstore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/hcsecstore.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/labeltpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/labeltpl.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/labeltpl.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/labeltpl.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_attrSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_attrSave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_batchUpdateRes.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_batchUpdateRes.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_chosenProcess.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_chosenProcess.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_common_zclist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_common_zclist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_dtl.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_dtl.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hcdb.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hcdb.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hcin.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hcin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hcout.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hcout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hcout_cnt.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hcout_cnt.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hcout_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hcout_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hctj.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_hctj.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_importFail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_importFail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_importdoc.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_importdoc.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_listContact.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_listContact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_listUsers.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_listUsers.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcAction.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcAction.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionDtl.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionDtl.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionSP.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcActionSP.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcallocation.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcallocation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcbf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcbf.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcfault.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcfault.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcinventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcinventory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcinventory_item.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcinventory_item.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcinventory_pd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcinventory_pd.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcinventory_user.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcinventory_user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/outercontact.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/outercontact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/outercontact.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/outercontact.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/catreport.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/catreport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/catused.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/catused.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/employeezc.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/employeezc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/partzc.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/partzc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/wbexpire.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/wbexpire.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/zctj.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/zctj.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/review.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/review.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/review.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/review.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/systemlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/systemlist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/userList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/userList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/userList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/userList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/userlook.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/userlook.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcaction.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcaction.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcaction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcallocation.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcallocation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcallocation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcallocation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbf.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbf.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbj.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbj.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbj.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbj.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbjcategory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbjcategory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbjcategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbjcategory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zccategory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zccategory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zccategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zccategory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcdj.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcdj.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcdj.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcdj.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zchc.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zchc.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zchc.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zchc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcindex.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcindex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcinventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcinventory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcinventory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcinventory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcsearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcsearch.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcsearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcsearch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/content.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/content.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/content_top_navigation.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/content_top_navigation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/footer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/navigation.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/navigation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/navigation_full_height.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/navigation_full_height.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/navigation_off_canvas.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/navigation_off_canvas.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/notify.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/notify.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/pdf_viewer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/pdf_viewer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/right_sidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/right_sidebar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/top_navigation.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/top_navigation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/topnavbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/topnavbar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/content/ctCategory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/content/ctCategory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/content/ctCategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/content/ctCategory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/designer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/designer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/designer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/designer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/flowgroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/flowgroup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/flowmatch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/flowmatch.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/flowmatch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/flowmatch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowconfsave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowconfsave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowlist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowlist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowmatchsave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowmatchsave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowselect.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_flowselect.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_formSelect.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_formSelect.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_reviewProcess.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/modal_reviewProcess.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/processconf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/processconf.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/processconf.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/processconf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/processmonitor.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/processmonitor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/flow/processmonitor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/processmonitor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/form/2.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/form/2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/form/design.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/form/design.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/form/formsetting.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/form/formsetting.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/form/formsetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/form/formsetting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/me/accesslog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/me/accesslog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/me/common_mgr.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/me/common_mgr.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/me/common_mgr.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/me/common_mgr.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/me/pwdreset.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/me/pwdreset.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/me/pwdreset.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/me/pwdreset.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/me/receaddr.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/me/receaddr.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/dbbackup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/dbbackup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/dbbackup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/dbbackup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/hostmgr.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/hostmgr.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/hostmgr.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/hostmgr.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/infosys.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/infosys.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/infosys.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/infosys.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/modal_dbinstanceSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/modal_dbinstanceSave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/modal_importfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/modal_importfile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/tb.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/tb.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/xttj.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/xttj.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/ops/xttj.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/ops/xttj.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/org/employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/org/employee.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/org/employee.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/org/employee.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/org/employee_adjust.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/org/employee_adjust.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/org/employee_adjust.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/org/employee_adjust.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/org/modal_employee_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/org/modal_employee_save.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/org/part.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/org/part.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/org/part.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/org/part.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/base/area.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/base/area.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/base/area.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/base/area.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/base/d.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/base/d.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/base/demo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/base/demo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/base/demo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/base/demo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/cache/cache.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/cache/cache.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/dict.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/dict.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/dict.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/dict.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/modal_dictItemSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/modal_dictItemSave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/modal_dictSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/dict/modal_dictSave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/filesetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/filesetting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/flow/designer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/flow/designer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/flow/designer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/flow/designer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/form_formsave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/form_formsave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/formdesign.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/formdesign.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/formsetting.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/formsetting.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/formsetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/form/formsetting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/login/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/login/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/login/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/menu.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/menu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/menu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_btnsadd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_btnsadd.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_acl.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_acl.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_module.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_module.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_menu_save.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_saverootmenu.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/modal_saverootmenu.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/rootmenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/menu/rootmenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/module/modal_module_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/module/modal_module_save.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/module/module_setting.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/module/module_setting.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/module/module_setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/module/module_setting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/druid.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/druid.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/druid.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/druid.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/melody.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/melody.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/melody.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/melody.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/servermonitor.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/servermonitor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/servermonitor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/mon/servermonitor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/params/modal_paramsSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/params/modal_paramsSave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/params/params.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/params/params.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/res/resattr.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/res/resattr.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/res/restype.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/res/restype.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/role/modal_role_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/role/modal_role_save.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/role/role_module_map.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/role/role_module_map.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/role/role_module_map.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/role/role_module_map.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/role/role_setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/role/role_setting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/store/modal_storesqlSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/store/modal_storesqlSave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/store/storesql.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/store/storesql.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/task/task.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/task/task.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/group_setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/group_setting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_group_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_group_save.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_user_pwd.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_user_pwd.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_user_role_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_user_role_save.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_user_save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/modal_user_save.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/online.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/online.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/online.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/online.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/user_add.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/user_add.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/user_add.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/user_add.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/user_setting.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/user_setting.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/user_setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/system/user/user_setting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/table.tpl.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/table.tpl.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/wx/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/wx/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/wx/imgtext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/wx/imgtext.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/wx/modal_msgsetting.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/wx/modal_msgsetting.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/wx/modal_msgtext.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/wx/modal_msgtext.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/wx/modal_saveapp.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/wx/modal_saveapp.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/wx/modal_saveweboauth.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/wx/modal_saveweboauth.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/wx/msgimg.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/wx/msgimg.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/wx/setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/wx/setting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/wx/weboauth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/wx/weboauth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/.bowerrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/.npmrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/vendor/bootstrap/dist/js/npm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/vendor/dropzone/dist/readme.md" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -703,14 +473,7 @@
       <workItem from="1592387155758" duration="11519000" />
       <workItem from="1592447667914" duration="39464000" />
       <workItem from="1592550548154" duration="127000" />
-      <workItem from="1592556486305" duration="15510000" />
-    </task>
-    <task id="LOCAL-00064" summary="常规更新ok">
-      <created>1588945556875</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1588945556876</updated>
+      <workItem from="1592556486305" duration="15757000" />
     </task>
     <task id="LOCAL-00065" summary="常规更新ok">
       <created>1589197918580</created>
@@ -1048,7 +811,14 @@
       <option name="project" value="LOCAL" />
       <updated>1592645918400</updated>
     </task>
-    <option name="localTasksCounter" value="113" />
+    <task id="LOCAL-00113" summary="常规更新操作">
+      <created>1592648964644</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1592648964644</updated>
+    </task>
+    <option name="localTasksCounter" value="114" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1192,7 +962,7 @@
     <state x="347" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/38.23.1242.777@38.23.1242.777" timestamp="1586053580477" />
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1589272592550" />
     <state x="353" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/45.23.1235.777@45.23.1235.777" timestamp="1592522940651" />
-    <state x="45" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1592645917297">
+    <state x="45" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1592648963139">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state x="220" y="23" width="833" height="777" key="CommitChangelistDialog2/34.23.1246.777@34.23.1246.777" timestamp="1587902297321" />
@@ -1204,7 +974,7 @@
     <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1590673712633" />
     <state x="174" y="37" width="833" height="617" key="CommitChangelistDialog2/41.23.1239.777@41.23.1239.777" timestamp="1590622241157" />
     <state x="192" y="70" width="761" height="592" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1591002752233" />
-    <state x="45" y="23" width="833" height="777" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1592645917297" />
+    <state x="45" y="23" width="833" height="777" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1592648963139" />
     <state width="434" height="466" key="DebuggerActiveHint" timestamp="1587718161099">
       <screen x="40" y="23" width="1240" height="777" />
     </state>
