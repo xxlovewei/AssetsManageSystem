@@ -545,12 +545,18 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
             sortingType: "string"
         },
         {
+            field: "sort",
+            sortable: false,
+            displayName: "排序",
+            sortingType: "string"
+        },
+        {
             field: "node_id",
             displayName: "操作",
             cellTemplate: acthtml,
             cellTemplateScope: {
                 setmodule: function (data) { // this works too:
-                    // 展示不实现
+                    // 暂时不实现
                     var ps = data;
                     var modalInstance = $uibModal
                         .open({

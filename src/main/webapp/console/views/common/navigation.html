@@ -1,17 +1,6 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu" side-navigation>
-            <!-- <div class="nav-header ">
-                <div class="profile-element"
-                    style="padding-left: 20px; padding-top: 15px;">
-                    <a href="javacript:void(0);" style="font-size: 15px;"> <i
-                        class="fa fa-btc"></i> <span class="hidden-folded m-l-xs">后台</span>
-                    </a>
-                </div>
-                <div class="logo-element">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                </div>
-            </div> -->
             <li ng-class="{active: $state.includes('{{first.state}}')}"
                 ng-repeat="first in menu"><a
                     class="" ui-sref="{{first.state}}"> <i
