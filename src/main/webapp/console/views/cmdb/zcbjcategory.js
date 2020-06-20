@@ -11,6 +11,14 @@ function cmdbzcbjCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 	} ]
 	$scope.actionSel = $scope.actionOpt[0];
 
+	$scope.typeOpt=[{
+		id:"dir",
+		name:"目录"
+	},{
+		id:"goods",
+		name:"物品"
+	}]
+	$scope.typeSel=$scope.typeOpt[0];
 	$scope.catRootOpt = [];
 	$scope.catRootSel = "";
 	$scope.item = {};
@@ -253,6 +261,17 @@ function cmdbzcbjCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 								} else {
 									$scope.actionSel = $scope.actionOpt[1];
 								}
+								if(angular.isDefined($scope.item.type)){
+									if ($scope.item.type == "goods") {
+										$scope.typeSel = $scope.typeOpt[1];
+									}else if($scope.item.type == "dir"){
+										$scope.typeSel = $scope.typeOpt[0];
+									}else{
+										$scope.typeSel = "";
+									}
+								}else{
+									$scope.typeSel = "";
+								}
 							}
 						} else {
 							notify({
@@ -299,6 +318,9 @@ function cmdbzcbjCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
 	$scope.saveItem = function() {
 		$scope.item.isaction = $scope.actionSel.id;
+		if(angular.isDefined($scope.typeSel.id)){
+			$scope.item.type=$scope.typeSel.id;
+		}
 		$http.post($rootScope.project + "/api/ctCategroy/updateCategory.do",
 				$scope.item).success(function(res) {
 			if (res.success) {
