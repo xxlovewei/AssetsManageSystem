@@ -248,7 +248,7 @@ function menuAclCtl($timeout, DTOptionsBuilder, DTColumnBuilder, notify, $log,
 			.withPaginationType('full_numbers')
 			.withDisplayLength(10)
 			.withOption("ordering", false)
-			.withOption("responsive", true)
+			.withOption("responsive", false)
 			.withOption("searching", true)
 			.withOption("paging", true)
 			.withOption('bStateSave', true)

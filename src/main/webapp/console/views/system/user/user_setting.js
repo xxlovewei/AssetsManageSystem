@@ -203,7 +203,7 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 		})
 		.withDataProp('data').withDataProp('data').withDOM('frtlip').withPaginationType('full_numbers')
 		.withDisplayLength(25)
-			.withOption("ordering", false).withOption("responsive", true)
+			.withOption("ordering", false).withOption("responsive", false)
 			.withOption("searching", false).withOption("paging", true)
 			.withOption('bStateSave', true).withOption('bProcessing', true)
 			.withOption('bFilter', false).withOption('bInfo', false)

@@ -192,7 +192,7 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise().withPaginationType(
 			'full_numbers').withDisplayLength(25).withOption("ordering", false)
-			.withOption("responsive", true).withOption("searching", false)
+			.withOption("responsive", false).withOption("searching", false)
 			.withOption("paging", false).withOption('bStateSave', true)
 			.withOption('bProcessing', true).withOption('bFilter', false)
 			.withOption('bInfo', false).withOption('serverSide', false)
