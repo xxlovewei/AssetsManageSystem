@@ -10,7 +10,6 @@
  * touchSpin - markdownEditor - resizeable - bootstrapTagsinput - passwordMeter
  *
  */
-
 /**
  * pageTitle - Directive for set Page title - mata title
  */
@@ -43,7 +42,6 @@ function sideNavigation($timeout) {
             $timeout(function () {
                 element.metisMenu();
             });
-
             // Colapse menu in mobile mode after click on element
             var menuElement = $('#side-menu a:not([href$="\\#"])');
             menuElement.click(function () {
@@ -51,7 +49,6 @@ function sideNavigation($timeout) {
                     $("body").toggleClass("mini-navbar");
                 }
             });
-
             // Enable initial fixed sidebar
             if ($("body").hasClass('fixed-sidebar')) {
                 var sidebar = element.parent();
@@ -60,7 +57,6 @@ function sideNavigation($timeout) {
                     railOpacity: 0.9,
                 });
             }
-
         }
     };
 };
@@ -76,7 +72,6 @@ function responsiveVideo() {
             var video = element.children();
             video.attr('data-aspectRatio', video.height() / video.width())
                 .removeAttr('height').removeAttr('width')
-
             // We can use $watch on $window.innerWidth also.
             $(window).resize(
                 function () {
@@ -176,7 +171,6 @@ function minimalizaSidebar($timeout) {
         controller: function ($scope, $element) {
             $scope.minimalize = function () {
                 $("body").toggleClass("mini-navbar");
-
                 if (!$('body').hasClass('mini-navbar')
                     || $('body').hasClass('body-small')) {
                     // Hide menu in order to smoothly turn on when maximize menu
@@ -185,7 +179,6 @@ function minimalizaSidebar($timeout) {
                     setTimeout(function () {
                         $('#side-menu').fadeIn(400);
                     }, 200);
-
                 } else if ($('body').hasClass('fixed-sidebar')) {
                     $('#side-menu').hide();
                     setTimeout(function () {
@@ -307,16 +300,13 @@ function icheck($timeout) {
             return $timeout(function () {
                 var value;
                 value = $attrs['value'];
-
                 $scope.$watch($attrs['ngModel'], function (newValue) {
                     $(element).iCheck('update');
                 })
-
                 return $(element)
                     .iCheck({
                         checkboxClass: 'icheckbox_square-green',
                         radioClass: 'iradio_square-green'
-
                     })
                     .on(
                         'ifChanged',
@@ -370,8 +360,6 @@ function dropZoneBB() {
             alias: '@'
         },
         link: function (scope, element, attrs) {
-
-
             if (typeof (scope.dzconfig.dictDefaultMessage) == "undefined") {
                 scope.dzconfig.dictDefaultMessage = "点击上传文件";
             }
@@ -385,7 +373,6 @@ function dropZoneBB() {
             scope.dzconfig.dictRemoveFile = "删除"
             scope.dzconfig.dictRemoveFileConfirmation = null
             scope.dzconfig.dictMaxFilesExceeded = "超过最大文件限制"
-
             var dzeventhandlers = {
                 'addedfile': function (file) {
                     scope.file = file;
@@ -396,7 +383,6 @@ function dropZoneBB() {
                         scope.fileAdded = true;
                     });
                 },
-
                 'success': function (file, response) {
                     console.log("dropZone success");
                 },
@@ -410,9 +396,7 @@ function dropZoneBB() {
                     message_error("已超过文件最大限制数目!"
                         + scope.dropzone.options.maxFiles);
                 }
-
             };
-
             dropzone = new Dropzone(element[0], scope.dzconfig);
             angular.forEach(dzeventhandlers, function (handler, event) {
                 dropzone.on(event, handler);
@@ -424,11 +408,9 @@ function dropZoneBB() {
                     dropzone.on(eventName, scope.dzeventhandlers[eventName]);
                 });
             }
-
             scope.processDropzone = function () {
                 dropzone.processQueue();
             };
-
             scope.resetDropzone = function () {
                 dropzone.removeAllFiles();
             }
@@ -436,16 +418,15 @@ function dropZoneBB() {
     }
 }
 
-
 function dropZone() {
     return {
-        restrict : 'AE',
-        scope : {
-            dzconfig : '=',
-            dzeventhandlers : '=',
-            alias : '@'
+        restrict: 'AE',
+        scope: {
+            dzconfig: '=',
+            dzeventhandlers: '=',
+            alias: '@'
         },
-        link : function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
             // //创建对象
             // if (scope.dzconfig.maxFiles == null) {
             // scope.dzconfig.maxFiles = 1;
@@ -464,21 +445,19 @@ function dropZone() {
             scope.dzconfig.dictRemoveFile = "删除"
             scope.dzconfig.dictRemoveFileConfirmation = null
             scope.dzconfig.dictMaxFilesExceeded = "超过最大文件限制"
-
             var dzeventhandlers = {
-                'addedfile' : function(file) {
+                'addedfile': function (file) {
                     scope.file = file;
                     if (this.files[1] != null) {
                         this.removeFile(this.files[0]);
                     }
-                    scope.$apply(function() {
+                    scope.$apply(function () {
                         scope.fileAdded = true;
                     });
                 },
-
-                'success' : function(file, response) {
+                'success': function (file, response) {
                 },
-                'maxfilesexceeded' : function(file) {
+                'maxfilesexceeded': function (file) {
                     if (scope.dropzone.options.maxFiles == 1) {
                         scope.dropzone.removeAllFiles()
                         scope.dropzone.addFile(file);
@@ -488,37 +467,31 @@ function dropZone() {
                     message_error("已超过文件最大限制数目,"
                         + scope.dropzone.options.maxFiles);
                 }
-
             };
-
             try {
                 dropzone = new Dropzone(element[0], scope.dzconfig);
-            }catch(error){
+            } catch (error) {
                 console.log("Catching " + error);
             }
-
             // angular.forEach(dzeventhandlers, function(handler, event) {
             //
             // dropzone.on(event, handler);
             // });
             // 派发前前端配置监听事件
             if (scope.dzeventhandlers) {
-                Object.keys(scope.dzeventhandlers).forEach(function(eventName) {
+                Object.keys(scope.dzeventhandlers).forEach(function (eventName) {
                     dropzone.on(eventName, scope.dzeventhandlers[eventName]);
                 });
             }
-
-            scope.processDropzone = function() {
+            scope.processDropzone = function () {
                 dropzone.processQueue();
             };
-
-            scope.resetDropzone = function() {
+            scope.resetDropzone = function () {
                 dropzone.removeAllFiles();
             }
         }
     }
 }
-
 
 /**
  * chatSlimScroll - Directive for slim scroll for small chat
@@ -532,7 +505,6 @@ function chatSlimScroll($timeout) {
                     height: '234px',
                     railOpacity: 0.4
                 });
-
             });
         }
     };
@@ -546,18 +518,14 @@ function customValid() {
         require: 'ngModel',
         link: function (scope, ele, attrs, c) {
             scope.$watch(attrs.ngModel, function () {
-
                 // You can call a $http method here
                 // Or create custom validation
-
-                var validText = "Inspinia";
-
+                var validText = "app";
                 if (scope.extras == validText) {
                     c.$setValidity('cvalid', true);
                 } else {
                     c.$setValidity('cvalid', false);
                 }
-
             });
         }
     }
@@ -575,7 +543,6 @@ function fullScroll($timeout) {
                     height: '100%',
                     railOpacity: 0.9
                 });
-
             });
         }
     };
@@ -596,7 +563,6 @@ function slimScroll($timeout) {
                     height: scope.boxHeight,
                     railOpacity: 0.9
                 });
-
             });
         }
     };
@@ -654,7 +620,6 @@ function truncate($timeout) {
         link: function (scope, element) {
             $timeout(function () {
                 element.dotdotdot(scope.truncateOptions);
-
             });
         }
     };
@@ -722,13 +687,11 @@ angular.module('app').directive('compile', function ($compile) {
         scope.$watch(function (scope) {
             return scope.$eval(attrs.compile);
         }, function (value) {
-
             element.html(value);
             $compile(element.contents())(scope);
         });
     };
 });
-
 /**
  *
  * Pass all functions into module
@@ -749,8 +712,6 @@ angular.module('app').directive('pageTitle', pageTitle).directive(
     .directive('truncate', truncate).directive('touchSpin', touchSpin)
     .directive('markdownEditor', markdownEditor).directive('passwordMeter',
     passwordMeter).directive('onFinishRender', onFinishRender);
-
-
 angular.module('app').directive("bnDocumentClick",
     function ($document, $parse) {
         // 将Angular的上下文链接到DOM事件
@@ -778,21 +739,16 @@ angular.module('app').directive("bnDocumentClick",
         // 返回linking函数
         return (linkFunction);
     });
-
 'use strict';
-
 /**
  * 0.1.1 Deferred load js/css file, used for ui-jq.js and Lazy Loading. @ flatfull.com
  * All Rights Reserved. Author url: #user/flatfull
  */
-
 angular.module('ui.load', [])
     .service('uiLoad', ['$document', '$q', '$timeout', function ($document, $q, $timeout) {
-
         var loaded = [];
         var promise = false;
         var deferred = $q.defer();
-
         /**
          * Chain loads the given sources
          *
@@ -815,7 +771,6 @@ angular.module('ui.load', [])
             deferred.resolve();
             return promise;
         }
-
         /**
          * Dynamically loads the given script
          *
@@ -826,7 +781,6 @@ angular.module('ui.load', [])
          */
         this.loadScript = function (src) {
             if (loaded[src]) return loaded[src].promise;
-
             var deferred = $q.defer();
             var script = $document[0].createElement('script');
             script.src = src;
@@ -842,10 +796,8 @@ angular.module('ui.load', [])
             };
             $document[0].body.appendChild(script);
             loaded[src] = deferred;
-
             return deferred.promise;
         };
-
         /**
          * Dynamically loads the given CSS file
          *
@@ -856,7 +808,6 @@ angular.module('ui.load', [])
          */
         this.loadCSS = function (href) {
             if (loaded[href]) return loaded[href].promise;
-
             var deferred = $q.defer();
             var style = $document[0].createElement('link');
             style.rel = 'stylesheet';
@@ -874,27 +825,20 @@ angular.module('ui.load', [])
             };
             $document[0].head.appendChild(style);
             loaded[href] = deferred;
-
             return deferred.promise;
         };
     }]);
-
 angular.module('ui.jq', ['ui.load']).value('uiJqConfig', {}).directive('uiJq', ['uiJqConfig', 'JQ_CONFIG', 'uiLoad', '$timeout', function uiJqInjectingFunction(uiJqConfig, JQ_CONFIG, uiLoad, $timeout) {
-
     return {
         restrict: 'A',
         compile: function uiJqCompilingFunction(tElm, tAttrs) {
-
             if (!angular.isFunction(tElm[tAttrs.uiJq]) && !JQ_CONFIG[tAttrs.uiJq]) {
                 throw new Error('ui-jq: The "' + tAttrs.uiJq + '" function does not exist');
             }
             var options = uiJqConfig && uiJqConfig[tAttrs.uiJq];
-
             return function uiJqLinkingFunction(scope, elm, attrs) {
-
                 function getOptions() {
                     var linkOptions = [];
-
                     // If ui-options are passed, merge (or override) them onto global
                     // defaults and pass to the jQuery method
                     if (attrs.uiOptions) {
@@ -937,7 +881,6 @@ angular.module('ui.jq', ['ui.load']).value('uiJqConfig', {}).directive('uiJq', [
                         callPlugin();
                         refresh();
                     }).catch(function () {
-
                     });
                 } else {
                     callPlugin();
@@ -947,8 +890,6 @@ angular.module('ui.jq', ['ui.load']).value('uiJqConfig', {}).directive('uiJq', [
         }
     };
 }]);
-
-
 app.directive('focusMe', ['$timeout', function ($timeout) {
     return {
         scope: {trigger: '@focusMe'},
@@ -963,28 +904,23 @@ app.directive('focusMe', ['$timeout', function ($timeout) {
         }
     };
 }]);
-
 app.directive('contenteditable', function () {
     return {
         require: '?ngModel',
         link: function (scope, element, attrs, ctrl) {
-
             // Do nothing if this is not bound to a model
             if (!ctrl) {
                 return;
             }
-
             // Checks for updates (input or pressing ENTER)
             // view -> model
             element.bind('input enterKey', function () {
                 var rerender = false;
                 var html = element.html();
-
                 if (attrs.noLineBreaks) {
                     html = html.replace(/<div>/g, '').replace(/<br>/g, '').replace(/<\/div>/g, '');
                     rerender = true;
                 }
-
                 scope.$apply(function () {
                     ctrl.$setViewValue(html);
                     if (rerender) {
@@ -992,18 +928,15 @@ app.directive('contenteditable', function () {
                     }
                 });
             });
-
             element.keyup(function (e) {
                 if (e.keyCode === 13) {
                     element.trigger('enterKey');
                 }
             });
-
             // model -> view
             ctrl.$render = function () {
                 element.html(ctrl.$viewValue);
             };
-
             // load init value from DOM
             ctrl.$render();
         }

@@ -1,183 +1,171 @@
 <!-- Wrapper-->
 <div id="wrapper">
-	<!-- Navigation -->
-	<div ng-include="'views/common/navigation.html?v=1'"></div>
-	<!-- Page wraper -->
-	<div id="page-wrapper" class="gray-bg {{$state.current.name}}">
-		<!-- Page wrapper -->
-		<div ng-include="'views/common/topnavbar.html?v=1'"></div>
-
-		<div ng-controller="zcindexCtl">
-			<div class="wrapper wrapper-content">
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="ibox float-e-margins" style="margin-bottom: 20px;">
-							<div class="ibox-title"
-								style="min-height: 40px; padding-top: 10px;">
-								<span class="label label-success pull-right">领用待审批</span>
-							</div>
-							<div class="ibox-content"
-								style="padding-top: 8px; padding-bottom: 8px">
-								<h1 class="no-margins" style="font-size: 20px">{{item.lywait_cnt||0}}</h1>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-3">
-						<div class="ibox float-e-margins" style="margin-bottom: 20px;">
-							<div class="ibox-title"
-								style="min-height: 40px; padding-top: 10px;">
-								<span class="label label-success pull-right">借用待审批</span>
-							</div>
-							<div class="ibox-content"
-								style="padding-top: 8px; padding-bottom: 8px">
-								<h1 class="no-margins" style="font-size: 20px">{{item.jywait_cnt||0}}</h1>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-3">
-						<div class="ibox float-e-margins" style="margin-bottom: 20px;">
-							<div class="ibox-title"
-								style="min-height: 40px; padding-top: 10px;">
-								<span class="label label-success pull-right">调拨待审批</span>
-							</div>
-							<div class="ibox-content"
-								style="padding-top: 8px; padding-bottom: 8px">
-								<h1 class="no-margins" style="font-size: 20px">{{item.dbwait_cnt||0}}</h1>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="ibox float-e-margins" style="margin-bottom: 20px;">
-							<div class="ibox-title"
-								style="min-height: 40px; padding-top: 10px;">
-								<span class="label label-success pull-right">报修待审批</span>
-							</div>
-							<div class="ibox-content"
-								style="padding-top: 8px; padding-bottom: 8px">
-								<h1 class="no-margins" style="font-size: 20px">{{item.bx_cnt||0}}</h1>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title"
-								style="min-height: 40px; padding-top: 10px;">
-								<span class="label label-success pull-right">维保到期资产</span>
-							</div>
-							<div class="ibox-content"
-								style="padding-top: 8px; padding-bottom: 8px">
-								<h1 class="no-margins" style="font-size: 20px">{{item.wbout_cnt||0}}</h1>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-3">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title"
-								style="min-height: 40px; padding-top: 10px;">
-								<span class="label label-success pull-right">资产数量</span>
-							</div>
-							<div class="ibox-content"
-								style="padding-top: 8px; padding-bottom: 8px">
-								<h1 class="no-margins" style="font-size: 20px">{{item.zc_cnt||0}}</h1>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title"
-								style="min-height: 40px; padding-top: 10px;">
-								<span class="label label-success pull-right">资产金额</span>
-							</div>
-							<div class="ibox-content"
-								style="padding-top: 8px; padding-bottom: 8px">
-								<h1 class="no-margins" style="font-size: 20px">{{item.zc_money||0}}</h1>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title">
-								<h5>资产状态</h5>
-								<div class="pull-right"></div>
-							</div>
-							<div class="ibox-content">
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="flot-chart" style="height: 350px">
-											<div class="flot-chart">
-												<div style="height: 350px" flot class="flot-chart-content"
-													dataset="charts.flotChartData"
-													options="charts.flotBarOptions"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title">
-								<h5>资产分类情况</h5>
-								<div class="pull-right"></div>
-							</div>
-							<div class="ibox-content">
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="flot-chart" style="height: 350px">
-											<div class="flot-chart">
-												<div style="height: 350px" flot class="flot-chart-content"
-													 dataset="charts.catflotChartData"
-													 options="charts.catflotBarOptions"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title">
-								<h5>部门资产统计情况</h5>
-								<div class="pull-right"></div>
-							</div>
-							<div class="ibox-content">
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="flot-chart" style="height: 350px">
-											<div class="flot-chart">
-												<div style="height: 350px" flot class="flot-chart-content"
-													 dataset="charts.partflotChartData"
-													 options="charts.partflotBarOptions"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-			</div>
-		</div>
-	</div>
+    <!-- Navigation -->
+    <div ng-include="'views/common/navigation.html?v=1'"></div>
+    <!-- Page wraper -->
+    <div class="gray-bg {{$state.current.name}}" id="page-wrapper">
+        <!-- Page wrapper -->
+        <div ng-include="'views/common/topnavbar.html?v=1'"></div>
+        <div ng-controller="zcindexCtl">
+            <div class="wrapper wrapper-content">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins" style="margin-bottom: 20px;">
+                            <div class="ibox-title"
+                                 style="min-height: 40px; padding-top: 10px;">
+                                <span class="label label-success pull-right">领用待审批</span>
+                            </div>
+                            <div class="ibox-content"
+                                 style="padding-top: 8px; padding-bottom: 8px">
+                                <h1 class="no-margins" style="font-size: 20px">{{item.lywait_cnt||0}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins" style="margin-bottom: 20px;">
+                            <div class="ibox-title"
+                                 style="min-height: 40px; padding-top: 10px;">
+                                <span class="label label-success pull-right">借用待审批</span>
+                            </div>
+                            <div class="ibox-content"
+                                 style="padding-top: 8px; padding-bottom: 8px">
+                                <h1 class="no-margins" style="font-size: 20px">{{item.jywait_cnt||0}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins" style="margin-bottom: 20px;">
+                            <div class="ibox-title"
+                                 style="min-height: 40px; padding-top: 10px;">
+                                <span class="label label-success pull-right">调拨待审批</span>
+                            </div>
+                            <div class="ibox-content"
+                                 style="padding-top: 8px; padding-bottom: 8px">
+                                <h1 class="no-margins" style="font-size: 20px">{{item.dbwait_cnt||0}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins" style="margin-bottom: 20px;">
+                            <div class="ibox-title"
+                                 style="min-height: 40px; padding-top: 10px;">
+                                <span class="label label-success pull-right">报修待审批</span>
+                            </div>
+                            <div class="ibox-content"
+                                 style="padding-top: 8px; padding-bottom: 8px">
+                                <h1 class="no-margins" style="font-size: 20px">{{item.bx_cnt||0}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title"
+                                 style="min-height: 40px; padding-top: 10px;">
+                                <span class="label label-success pull-right">维保到期资产</span>
+                            </div>
+                            <div class="ibox-content"
+                                 style="padding-top: 8px; padding-bottom: 8px">
+                                <h1 class="no-margins" style="font-size: 20px">{{item.wbout_cnt||0}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title"
+                                 style="min-height: 40px; padding-top: 10px;">
+                                <span class="label label-success pull-right">资产数量</span>
+                            </div>
+                            <div class="ibox-content"
+                                 style="padding-top: 8px; padding-bottom: 8px">
+                                <h1 class="no-margins" style="font-size: 20px">{{item.zc_cnt||0}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title"
+                                 style="min-height: 40px; padding-top: 10px;">
+                                <span class="label label-success pull-right">资产金额</span>
+                            </div>
+                            <div class="ibox-content"
+                                 style="padding-top: 8px; padding-bottom: 8px">
+                                <h1 class="no-margins" style="font-size: 20px">{{item.zc_money||0}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>资产状态</h5>
+                                <div class="pull-right"></div>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="flot-chart" style="height: 350px">
+                                            <div class="flot-chart">
+                                                <div class="flot-chart-content" dataset="charts.flotChartData" flot
+                                                     options="charts.flotBarOptions"
+                                                     style="height: 350px"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>资产分类情况</h5>
+                                <div class="pull-right"></div>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="flot-chart" style="height: 350px">
+                                            <div class="flot-chart">
+                                                <div class="flot-chart-content" dataset="charts.catflotChartData" flot
+                                                     options="charts.catflotBarOptions"
+                                                     style="height: 350px"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>部门资产统计情况</h5>
+                                <div class="pull-right"></div>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="flot-chart" style="height: 350px">
+                                            <div class="flot-chart">
+                                                <div class="flot-chart-content" dataset="charts.partflotChartData" flot
+                                                     options="charts.partflotBarOptions"
+                                                     style="height: 350px"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -12,7 +12,6 @@
 	<link rel="icon" href="../favicon.ico">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-	<!-- <link href="css/animate.css" rel="stylesheet"> -->
 	<link id="loadBefore" href="css/style.css?v=107" rel="stylesheet">
 	<link id="loadBefore" href="css/cb.css?v=107" rel="stylesheet">
 	<link id="loadFirst" href="css/beforeload.css" rel="stylesheet">
@@ -20,7 +19,6 @@
 	<link href="css/application-ie9-part2.css" rel="stylesheet">
 	<![endif]-->
 </head>
-
 <script>
 	if (window.navigator.userAgent.indexOf("MSIE") >= 1) {
 		window.location.href = "./BrowserInfo.html";
@@ -43,7 +41,6 @@
 <script src="vendor/metismenu/dist/metisMenu.min.js"></script>
 <!-- SlimScroll -->
 <script src="vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-
 <script data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }' src="plugin/pace/pace.min.js"></script>
 <!-- Custom and plugin javascript -->
 <script src="js/base.js?v=107"></script>
@@ -74,17 +71,14 @@
 <link href="vendor/jstree/dist/themes/default/style.min.css" rel="stylesheet" type="text/css" />
 <script src="vendor/jstree/dist/jstree.min.js"></script>
 <script src="vendor/ng-js-tree/dist/ngJsTree.min.js"></script>
-
 <!--  icheck -->
 <script src="vendor/icheck/icheck.js"></script>
 <link href="vendor/icheck/custom.css" rel="stylesheet" />
-
 <!--  datatable -->
 <link href="vendor/datatables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 <script src="vendor/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="vendor/datatables/media/js/dataTables.bootstrap.min.js"></script>
 <script src="vendor/angular-datatables/dist/angular-datatables.min.js"></script>
-
 <!-- datatable 按钮 -->
 <link href="plugin/datatable/buttons.bootstrap.min.1.2.2.css" rel="stylesheet" />
 <script src="plugin/datatable/buttons.html51.22.min.js"></script>
@@ -93,18 +87,15 @@
 <script src="plugin/datatable/dataTables.buttons1.22.min.js"></script>
 <script src="plugin/datatable/angular-datatables.colvis0.6.5.min.js"></script>
 <script src="plugin/datatable/angular-datatables.buttons0.6.2.min.js"></script>
-
-<!-- datatable自适应 -->
+<!-- datatable自适应已删除 -->
 <!-- datatable select -->
 <link href="vendor/datatables-select/dist/css/select.dataTables.min.css" rel="stylesheet" type="text/css" />
 <script src="vendor/datatables-select/dist/js/dataTables.select.min.js"></script>
 <script src="vendor/angular-datatables/dist/plugins/select/angular-datatables.select.min.js"></script>
-
 <!-- datatable 列固定 -->
 <link href="vendor/datatables.net-fixedcolumns/css/fixedColumns.jquery.css" rel="stylesheet" type="text/css" />
 <script src ="vendor/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
 <script src="vendor/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.min.js"></script>
-
 <!-- ueditor -->
 <script src="plugin/ueditor/ueditor.config.js"></script>
 <script src="plugin/ueditor/ueditor.all.min.js"></script>
@@ -117,7 +108,6 @@
 <script src="vendor/angular-confirm/angular-confirm.min.js"></script>
 <!-- angular-localstorage -->
 <script src="vendor/angular-swx-local-storage/release/swx-local-storage.min.js"></script>
-
 <script src="plugin/treegrid/tree-grid-directive.js?v=107"></script>
 <link href="plugin/treegrid/treeGrid.css" rel="stylesheet" type="text/css" />
 <!-- common app js -->
@@ -132,8 +122,7 @@
 </body>
 <script>
 	setTimeout(function () {
-		basket
-				.require({ url:'./plugin/form/vue.min.js',key:'vue',execute:false})
+		basket.require({ url:'./plugin/form/vue.min.js',key:'vue',execute:false})
 				.then(function () {
 					basket.require({ url:'./plugin/form/k-form-design.umd.min.js',key:'vue-form',execute:false});
 				}, function (error) {

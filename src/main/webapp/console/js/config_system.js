@@ -56,7 +56,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
     // 内容管理
     $stateProvider.state('ct', {
         abstract: true,
@@ -122,8 +121,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
-
     // 用户管理
     $stateProvider.state('user', {
         abstract: true,
@@ -184,7 +181,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
                 }
             }
         });
-
     // 模块管理
     $stateProvider.state('module', {
         abstract: true,
@@ -216,7 +212,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
     // 角色管理
     $stateProvider.state('role', {
         abstract: true,
@@ -247,7 +242,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
     // 权限管理
     $stateProvider.state('privilige', {
         abstract: true,
@@ -269,13 +263,11 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
     // 系统设置
     $stateProvider.state('system', {
         abstract: true,
         url: "/system",
         templateUrl: "views/common/content.html?v=" + version
-
     }).state('system.file_setting', {
         url: "/filesetting?psBtns",
         data: {pageTitle: '文件设置'},
@@ -373,8 +365,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
-
     // 组织架构
     $stateProvider.state('org', {
         abstract: true,
@@ -417,7 +407,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
     // 任务设置
     $stateProvider.state('task', {
         abstract: true,
@@ -436,7 +425,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
     // 表单管理
     $stateProvider.state('formmgr', {
         abstract: true,
@@ -456,7 +444,6 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
     // flow
     $stateProvider.state('flow', {
         abstract: true,
@@ -523,6 +510,5 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
 }
  

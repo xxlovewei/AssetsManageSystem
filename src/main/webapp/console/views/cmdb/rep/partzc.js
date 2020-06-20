@@ -13,11 +13,9 @@ function modalpartzcCtl($timeout, $localStorage, notify, $log, $uibModal,
             // Recompiling so we can bind Angular,directive to the
             $compile(angular.element(row).contents())($scope);
         });
-
     $scope.dtInstance = {}
     $scope.dtColumns = [];
     $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withoutselect');
-
     var ps = {}
     ps.part_id = meta.part_id;
     $http
@@ -31,11 +29,9 @@ function modalpartzcCtl($timeout, $localStorage, notify, $log, $uibModal,
             });
         }
     })
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
 }
 
 function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
@@ -52,7 +48,6 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 // Recompiling so we can bind Angular,directive to the
                 $compile(angular.element(row).contents())($scope);
             });
-
     $scope.dtInstance = {}
 
     function renderAction(data, type, full) {
@@ -71,11 +66,9 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('part_id').withTitle('操作').withOption(
             'sDefaultContent', '').renderWith(renderAction)]
-
     $scope.query = function () {
         flush();
     }
-
     var meta = {
         tablehide: false,
         toolsbtn: [],
@@ -96,20 +89,15 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             }]
     }
-
-
     $scope.meta = meta;
-
     $http.post($rootScope.project + "/api/zc/selectZcCats.do",
         {}).success(function (res) {
         if (res.success) {
-
             var temp = res.data;
             temp.unshift({
                 id: "all",
                 name: "全部"
             });
-
             $scope.meta.tools[0].dataOpt = temp;
             $scope.meta.tools[0].dataSel = temp[0];
         } else {
@@ -118,7 +106,6 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             });
         }
     })
-
 
     function flush() {
         var ps = {}
@@ -156,16 +143,11 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             }
         });
         modalInstance.result.then(function (result) {
-
             if (result == "OK") {
             }
         }, function (reason) {
-
             $log.log("reason", reason)
         });
-
     }
-
 };
-
 app.register.controller('cmdbrepPartZcCtl', cmdbrepPartZcCtl);

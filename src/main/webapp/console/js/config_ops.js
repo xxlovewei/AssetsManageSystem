@@ -3,8 +3,6 @@ function config_ops($stateProvider, $ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
         debug: true
     });
-
-
     $stateProvider.state('hmgr', {
         abstract: true,
         url: "/hmgr",
@@ -22,8 +20,6 @@ function config_ops($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
-
     $stateProvider.state('dbmgr', {
         abstract: true,
         url: "/dbmgr",
@@ -41,7 +37,6 @@ function config_ops($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
     $stateProvider.state('dtj', {
         abstract: true,
         url: "/dtj",
@@ -65,7 +60,6 @@ function config_ops($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
-
     $stateProvider.state('infosys', {
         abstract: true,
         url: "/infosys",
@@ -84,5 +78,4 @@ function config_ops($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
-
 }

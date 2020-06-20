@@ -1,23 +1,23 @@
 <style>
-@media ( min-width : 992px) {
-	.modal-blg {
-		width: 95%;
-	}
-}
+    @media ( min-width: 992px) {
+        .modal-blg {
+            width: 95%;
+        }
+    }
 </style>
 <div class="modal-content">
-	<div class="modal-header">
-		<button ng-click="cancel()" type="button" class="close">
-			<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-		</button>
-		<h4 class="modal-title">流程预览</h4>
-	</div>
-	<div class="modal-body">
-		<div class="wrapper wrapper-content animated fadeInRight">
-			<iframe ng-src="{{url}}" height="400px" width="100%"
-				style="margin-bottom: 50px" frameborder="no" border="0"
-				marginwidth="0" marginheight="0" scrolling="yes"
-				allowtransparency="yes"></iframe>
-		</div>
-	</div>
+    <div class="modal-header">
+        <button class="close" ng-click="cancel()" type="button">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">流程预览</h4>
+    </div>
+    <div class="modal-body">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <iframe allowtransparency="yes" border="0" frameborder="no"
+                    height="400px" marginheight="0" marginwidth="0"
+                    ng-src="{{url}}" scrolling="yes" style="margin-bottom: 50px"
+                    width="100%"></iframe>
+        </div>
+    </div>
 </div>

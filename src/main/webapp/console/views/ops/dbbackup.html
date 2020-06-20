@@ -1,39 +1,37 @@
 <script src="js/common.js?v=70"></script>
 <div ng-controller="opsdbbackupCtl">
-	<div class="wrapper wrapper-content animated fadeInRight">
-		<div ng-include="'views/Template/simpleTool.html'"></div>
-		<div>
-			<div class="gBqKoW">
-				<div id="leftcb" class="FnqzS" style="background: white;">
-					<div class="celaRy">
-						<table datatable="ed" dt-options="dtOptions"
-							dt-instance="dtInstance" dt-columns="dtColumns"
-							dt-column-defs="dtColumnDefs" class="table table-hover">
-						</table>
-					</div>
-				</div>
-				<div id="flagcb" class="TNqaS">
-					<span class="cmRdnZ"> <i id="flagcb2"
-						class="fa fa-angle-double-right"
-						style="position: absolute; right: 4px; top: 34%;"></i>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div ng-include="'views/Template/simpleTool.html'"></div>
+        <div>
+            <div class="gBqKoW">
+                <div class="FnqzS" id="leftcb" style="background: white;">
+                    <div class="celaRy">
+                        <table class="table table-hover" datatable="ed"
+                               dt-column-defs="dtColumnDefs" dt-columns="dtColumns"
+                               dt-instance="dtInstance" dt-options="dtOptions">
+                        </table>
+                    </div>
+                </div>
+                <div class="TNqaS" id="flagcb">
+					<span class="cmRdnZ"> <i class="fa fa-angle-double-right"
+                                             id="flagcb2"
+                                             style="position: absolute; right: 4px; top: 34%;"></i>
 					</span>
-				</div>
-				<!-- style="width:calc(100% - 500px);" -->
-				<div class="jexhMp" style ="">
-					<div class="ibox" >
-						<div class="ibox-content">
-							<table datatable="ed2" dt-options="dtItemOptions"  
-								dt-instance="dtItemInstance" dt-columns="dtItemColumns"
-								dt-column-defs="dtItemColumnDefs" class="table table-hover">
-							</table>
-						</div>
-					</div>
-				</div>
-
-			</div>
-
-		</div>
-	</div>
+                </div>
+                <!-- style="width:calc(100% - 500px);" -->
+                <div class="jexhMp" style="">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <table class="table table-hover" datatable="ed2"
+                                   dt-column-defs="dtItemColumnDefs" dt-columns="dtItemColumns"
+                                   dt-instance="dtItemInstance" dt-options="dtItemOptions">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

@@ -1,254 +1,228 @@
 <style>
-@media ( min-width : 992px) {
-	.modal-blg {
-		width: 95%;
-	}
-}
+    @media ( min-width: 992px) {
+        .modal-blg {
+            width: 95%;
+        }
+    }
 </style>
 <div class="modal-content">
-	<div class="modal-header">
-		<button ng-click="cancel()" type="button" class="close">
-			<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-		</button>
-		<h4 class="modal-title">入库单</h4>
-	</div>
-	<div class="modal-body">
-		<div class="wrapper wrapper-content animated fadeInRight">
-			<form class="form-horizontal m-t-md " name="myForm" novalidate
-				action="">
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">单据编号:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-disabled="true"
-							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							placeholder="系统自动生成" name="uuid" ng-model="data.uuid">
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><span
-							class="text-danger">*</span>标题:</label>
-					<div class="col-sm-10">
-						<input type="text" required ng-maxlength="100" ng-disabled="ctl.title"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="请输入内容" name="title" ng-model="data.title">
-						<div class="text-danger"
-							 ng-if="myForm.title.$dirty && myForm.title.$invalid">
-							<span ng-if="myForm.title.$error.required"> 输入不能为空 </span> <span
-								ng-show="myForm.title.$error.maxlength">不能超过100个字符 </span>
-						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">供应商:</label>
-					<div class="col-sm-10">
-						<input type="text"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-disabled="ctl.suppliername"
-							   placeholder="请输入内容" name="suppliername" ng-model="data.suppliername">
-					</div>
-				</div>
-
-
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><span
-							style="color: red">*</span>业务日期:</label>
-					<div class="col-sm-10">
-						<input date-time time-zone="Asia/Hong_Kong" style="width:100" ng-disabled="ctl.ywtime"
-							   style="width: 160px;!important" ng-model="data.ywtime"
-							   date-change="changeDate" view="date" auto-close="true"
-							   min-view="date" format="YYYY-MM-DD" class="form-control"
-							   type="datetime">
-					</div>
-				</div>
-
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">备注:</label>
-					<div class="col-sm-10">
-						 	<textarea type="text" class="form-control " placeholder="请输入备注" ng-disabled="ctl.remark"
-									  name="mark" ng-model="data.remark"></textarea>
-					</div>
-				</div>
-
-
-				<div ng-hide="ctl.goods">
-				<hr>
-				<div style="margin-top:10px"></div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">物品类型:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="catSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.route_name for item in catOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">物品编码:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-disabled="true"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="" name="id" ng-model="catSel.id">
-					</div>
-				</div>
-
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">规格型号:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-disabled="true"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="" name="model" ng-model="catSel.model">
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">单位:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-disabled="true"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="" name="unit" ng-model="catSel.unit">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">品牌商标:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-disabled="true"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="" name="brandmark" ng-model="catSel.brandmark">
-					</div>
-				</div>
-
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">默认单价:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-disabled="true"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="" name="unitprice" ng-model="catSel.unitprice">
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">安全库存:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-disabled="true"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="" name="seckc" ng-model="catSel.seckc" value="12">
-					</div>
-				</div>
-
-
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">供应商:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="supperSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in supperOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">所属公司:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="compSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in compOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">区域:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="locSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in locOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">仓库:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="wareHouseSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in wareHouseOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">数量:</label>
-					<div class="col-sm-10">
-						<input type="number"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="" name="zc_cnt" ng-model="data.zc_cnt">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">总金额:</label>
-					<div class="col-sm-10">
-						<input type="number"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="" name="buy_price" ng-model="data.buy_price">
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">批次号:</label>
-					<div class="col-sm-10">
-						<input type="text"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="" name="batchno" ng-model="data.batchno">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">备注:</label>
-					<div class="col-sm-10">
-						<input type="text"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="" name="mark" ng-model="data.mark">
-					</div>
-				</div>
-
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><span
-							class="text-danger">*</span>物品列表:</label>
-					<div class="col-sm-10">
- 					<a href="javascript:void(0)" ng-hide="ctl.addlist"   style="margin-top: 3px;"
- 						   ng-click="zcadd()" class="btn btn-primary">加入列表</a>
-						<table datatable="ed" dt-options="dtOptions"
-							   dt-instance="dtInstance" dt-columns="dtColumns"
-							   dt-column-defs="dtColumnDefs" class="table table-hover">
-						</table>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-	<div class="modal-footer" style ="text-align:center" ng-hide="ctl.footer">
-
-		<button ng-click="cancel()" class="btn btn-warning">取消</button>
-		<button ng-disabled="myForm.$invalid" ng-hide="ctl.surebtn" ng-click="sure()"
-			class="btn btn-primary">确认</button>
-	</div>
+    <div class="modal-header">
+        <button class="close" ng-click="cancel()" type="button">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">入库单</h4>
+    </div>
+    <div class="modal-body">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <form action="" class="form-horizontal m-t-md " name="myForm"
+                  novalidate>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">单据编号:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="uuid"
+                               ng-disabled="true"
+                               ng-model="data.uuid" placeholder="系统自动生成" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span
+                            class="text-danger">*</span>标题:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="title" ng-disabled="ctl.title" ng-maxlength="100"
+                               ng-model="data.title"
+                               placeholder="请输入内容" required type="text">
+                        <div class="text-danger"
+                             ng-if="myForm.title.$dirty && myForm.title.$invalid">
+                            <span ng-if="myForm.title.$error.required"> 输入不能为空 </span> <span
+                                ng-show="myForm.title.$error.maxlength">不能超过100个字符 </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">供应商:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                               name="suppliername"
+                               ng-disabled="ctl.suppliername"
+                               ng-model="data.suppliername" placeholder="请输入内容" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span
+                            style="color: red">*</span>业务日期:</label>
+                    <div class="col-sm-10">
+                        <input auto-close="true" class="form-control" date-change="changeDate" date-time
+                               format="YYYY-MM-DD" min-view="date"
+                               ng-disabled="ctl.ywtime" ng-model="data.ywtime" style="width:100"
+                               style="width: 160px;!important" time-zone="Asia/Hong_Kong" type="datetime"
+                               view="date">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">备注:</label>
+                    <div class="col-sm-10">
+						 	<textarea class="form-control " name="mark" ng-disabled="ctl.remark" ng-model="data.remark"
+                                      placeholder="请输入备注" type="text"></textarea>
+                    </div>
+                </div>
+                <div ng-hide="ctl.goods">
+                    <hr>
+                    <div style="margin-top:10px"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">物品类型:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="catSel"
+                                    ng-options="item.route_name for item in catOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">物品编码:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="id"
+                                   ng-disabled="true"
+                                   ng-model="catSel.id" placeholder="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">规格型号:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="model"
+                                   ng-disabled="true"
+                                   ng-model="catSel.model" placeholder="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">单位:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="unit"
+                                   ng-disabled="true"
+                                   ng-model="catSel.unit" placeholder="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">品牌商标:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="brandmark"
+                                   ng-disabled="true"
+                                   ng-model="catSel.brandmark" placeholder="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">默认单价:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="unitprice"
+                                   ng-disabled="true"
+                                   ng-model="catSel.unitprice" placeholder="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">安全库存:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="seckc"
+                                   ng-disabled="true"
+                                   ng-model="catSel.seckc" placeholder="" type="text" value="12">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">供应商:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="supperSel"
+                                    ng-options="item.name for item in supperOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">所属公司:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="compSel"
+                                    ng-options="item.name for item in compOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">区域:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="locSel"
+                                    ng-options="item.name for item in locOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">仓库:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="wareHouseSel"
+                                    ng-options="item.name for item in wareHouseOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">数量:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                   name="zc_cnt"
+                                   ng-model="data.zc_cnt" placeholder="" type="number">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">总金额:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                   name="buy_price"
+                                   ng-model="data.buy_price" placeholder="" type="number">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">批次号:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                   name="batchno"
+                                   ng-model="data.batchno" placeholder="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                   name="mark"
+                                   ng-model="data.mark" placeholder="" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span
+                            class="text-danger">*</span>物品列表:</label>
+                    <div class="col-sm-10">
+                        <a class="btn btn-primary" href="javascript:void(0)" ng-click="zcadd()"
+                           ng-hide="ctl.addlist" style="margin-top: 3px;">加入列表</a>
+                        <table class="table table-hover" datatable="ed"
+                               dt-column-defs="dtColumnDefs" dt-columns="dtColumns"
+                               dt-instance="dtInstance" dt-options="dtOptions">
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer" ng-hide="ctl.footer" style="text-align:center">
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        <button class="btn btn-primary" ng-click="sure()" ng-disabled="myForm.$invalid"
+                ng-hide="ctl.surebtn">确认
+        </button>
+    </div>
 </div>

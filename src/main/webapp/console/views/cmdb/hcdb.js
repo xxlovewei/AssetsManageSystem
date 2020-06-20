@@ -1,22 +1,18 @@
 function modalhcdbcntCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                          $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
                          $uibModalInstance, $window, $stateParams, $timeout) {
-
     $scope.data = {};
     $scope.data.zc_cnt = 1;
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
     $scope.sure = function () {
-
         if ($scope.data.zc_cnt > meta.zc_cnt) {
             notify({
                 message: "数量不允许超过" + meta.zc_cnt + "个"
             });
             return;
         }
-
         if ($scope.data.zc_cnt <= 0) {
             notify({
                 message: "数量必须大于0个"
@@ -33,7 +29,6 @@ function modalhcdblistCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
     $scope.URL = $rootScope.project + "/api/base/res/queryPageResAllByClass.do";
     meta.classroot = 7;
     meta.start = 0;
@@ -68,11 +63,9 @@ function modalhcdblistCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         });
 
     function stateChange(iColumn, bVisible) {
-
     }
 
     $scope.dtInstance = {}
-
     $scope.selectCheckBoxAll = function (selected) {
         if (selected) {
             $scope.dtInstance.DataTable.rows().select();
@@ -116,7 +109,6 @@ function modalhcdblistCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             return;
         } else {
             var res = [];
-
             var d = $scope.dtInstance.DataTable.context[0].json.data;
             for (var i = 0; i < data.length; i++) {
                 res.push(d[data[i]])
@@ -133,15 +125,11 @@ function modalhcdblistCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             $uibModalInstance.close(selrows);
         }
     }
-
-
 }
 
 function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                       $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
                       $uibModalInstance, $window, $stateParams, $timeout) {
-
-
     $scope.ctl = {}
     $scope.ctl.remark = false;
     $scope.ctl.ywtime = false;
@@ -151,35 +139,22 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.ctl.footer = false;
     $scope.data = {};
     $scope.data.zc_cnt = 0;
-
-
     $scope.data.ywtime = moment();
-
-
     $scope.outbelongCompOpt = [];
     $scope.outbelongCompSel = "";
-
     $scope.outareaOpt = [];
     $scope.outareaSel = "";
-
     $scope.outwarehouseOpt = [];
     $scope.outwarehouseSel = "";
-
     $scope.inbelongCompOpt = [];
     $scope.inbelongCompSel = "";
-
     $scope.inareaOpt = [];
     $scope.inareaSel = "";
-
     $scope.inwarehouseOpt = [];
     $scope.inwarehouseSel = "";
-
-
     $scope.inuserOpt = [];
     $scope.inuserSel = "";
-
     var dicts = "devdc,zcsupper,warehouse";
-
     $http.post($rootScope.project + "/api/zc/queryDictFast.do",
         {
             uid: "hcoutdicts",
@@ -191,7 +166,6 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             dicts: dicts
         }).success(function (res) {
         if (res.success) {
-
             angular.copy(res.data.belongcomp, $scope.outbelongCompOpt);
             if ($scope.outbelongCompOpt.length > 0) {
                 $scope.outbelongCompSel = $scope.outbelongCompOpt[0];
@@ -200,12 +174,10 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             if ($scope.outareaOpt.length > 0) {
                 $scope.outareaSel = $scope.outareaOpt[0];
             }
-
             angular.copy(res.data.warehouse, $scope.outwarehouseOpt);
             if ($scope.outwarehouseOpt.length > 0) {
                 $scope.outwarehouseSel = $scope.outwarehouseOpt[0];
             }
-
             //
             angular.copy(res.data.belongcomp, $scope.inbelongCompOpt);
             if ($scope.inbelongCompOpt.length > 0) {
@@ -215,31 +187,23 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             if ($scope.inareaOpt.length > 0) {
                 $scope.inareaSel = $scope.inareaOpt[0];
             }
-
             angular.copy(res.data.warehouse, $scope.inwarehouseOpt);
             if ($scope.inwarehouseOpt.length > 0) {
                 $scope.inwarehouseSel = $scope.inwarehouseOpt[0];
             }
-
-
             angular.copy(res.data.partusers, $scope.inuserOpt);
             if ($scope.inuserOpt.length > 0) {
                 $scope.inuserSel = $scope.inuserOpt[0];
             }
-
-
         } else {
             notify({
                 message: res.message
             });
         }
     })
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
-
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers')
         .withDisplayLength(25)
@@ -252,7 +216,6 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         .withOption('serverSide', false).withOption('createdRow', function (row) {
             $compile(angular.element(row).contents())($scope);
         });
-
     $scope.dtInstance = {}
 
     function renderAction(data, type, full) {
@@ -267,7 +230,6 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         dtColumns.push(DTColumnBuilder.newColumn('lid').withTitle('动作').withOption(
             'sDefaultContent', '').withOption("name", '30').renderWith(renderAction));
     }
-
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('ctid').withTitle('物品编号').withOption(
@@ -296,11 +258,7 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push(DTColumnBuilder.newColumn('warehousestr').withTitle('仓库').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-
-
     $scope.dtColumns = dtColumns;
-
-
     $scope.dtOptions.aaData = [];
     $scope.zcselect = function () {
         var meta = {};
@@ -322,15 +280,10 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         modalInstance.result.then(function (result) {
             console.log("result", result);
             $scope.dtOptions.aaData = result;
-
         }, function (reason) {
-
             $log.log("reason", reason)
         });
-
     }
-
-
     $scope.modify = function (id, zc_cnt) {
         var meta = {};
         meta.zc_cnt = zc_cnt;
@@ -354,10 +307,7 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }, function (reason) {
             $log.log("reason", reason)
         });
-
     }
-
-
     if (angular.isDefined(meta.type) && meta.type == "dtl") {
         $scope.ctl.remark = true;
         $scope.ctl.ywtime = true;
@@ -365,7 +315,6 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         $scope.ctl.range = true;
         $scope.ctl.selectlist = true;
         $scope.ctl.footer = true;
-
         $http.post($rootScope.project + "/api/zc/resInout/ext/selectHcDbDataById.do",
             meta).success(function (res) {
             if (res.success) {
@@ -376,13 +325,8 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                     message: res.message
                 });
             }
-
         })
-
-
     }
-
-
     $scope.remove = function (id) {
         var del = 0;
         for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
@@ -392,9 +336,7 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }
         $scope.dtOptions.aaData.splice(del, 1);
     }
-
     $scope.sure = function () {
-
         if ($scope.dtOptions.aaData == 0) {
             notify({
                 message: "请选择物品"
@@ -405,42 +347,31 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         $scope.data.type = "hc";
         $scope.data.action = "HCDB";
         $scope.data.busitimestr = $scope.data.ywtime.format('YYYY-MM-DD');
-
         $scope.data.compid = $scope.outbelongCompSel.id;
         $scope.data.loc = $scope.outareaSel.dict_item_id;
         $scope.data.warehouse = $scope.outwarehouseSel.dict_item_id;
-
-
         //inbelongCompSel
         $scope.data.useduserid = $scope.inuserSel.user_id;
         $scope.data.inloc = $scope.inareaSel.dict_item_id;
         $scope.data.inwarehouse = $scope.inwarehouseSel.dict_item_id;
         $scope.data.belongcompid = $scope.inbelongCompSel.id;
-
-
         $http.post($rootScope.project + "/api/zc/resInout/ext/insert.do",
             $scope.data).success(function (res) {
             if (res.success) {
                 $uibModalInstance.close("OK");
             } else {
-
             }
             notify({
                 message: res.message
             });
         })
     }
-
-
 }
 
 function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                    $log, notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
-
     var pbtns = $rootScope.curMemuBtns;
     var gclassroot = '7';
-
-
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers')
         .withDisplayLength(25)
@@ -469,7 +400,6 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 extend: 'colvis',
                 text: '显示隐藏列',
                 fnLabel: function (dt, idx, title) {
-
                     return (idx + 1) + ': ' + title;
                 }
             },
@@ -499,11 +429,9 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         ]);
 
     function stateChange(iColumn, bVisible) {
-
     }
 
     $scope.dtInstance = {}
-
     $scope.selectCheckBoxAll = function (selected) {
         if (selected) {
             $scope.dtInstance.DataTable.rows().select();
@@ -514,13 +442,10 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     $scope.dtColumns = [];
     $scope.dtColumns = [];
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
-
-
     $scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
         'select-checkbox checkbox_center').renderWith(function () {
         return ""
     }));
-
     $scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('title').withTitle('标题').withOption(
@@ -549,20 +474,14 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('outwarehousestr').withTitle('出库仓库')
         .withOption('sDefaultContent', ''));
-
-
     $scope.dtColumns.push(DTColumnBuilder.newColumn('inbelongcompname').withTitle('进库所属公司')
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('inlocstr').withTitle('进库区域')
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('inwarehousestr').withTitle('进库仓库')
         .withOption('sDefaultContent', ''));
-
-
     $scope.dtColumns.push(DTColumnBuilder.newColumn('inusername').withTitle('进库使用人')
         .withOption('sDefaultContent', ''));
-
-
     $scope.dtColumns.push(DTColumnBuilder.newColumn('operusername').withTitle('制单人')
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('remark').withTitle('备注').withOption(
@@ -571,8 +490,6 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('create_time').withTitle('创建时间')
         .withOption('sDefaultContent', ''));
-
-
     $scope.query = function () {
         flush();
     }
@@ -592,11 +509,9 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             });
             return;
         } else {
-
             return $scope.dtOptions.aaData[data[0]];
         }
     }
-
 
     var meta = {
         tablehide: false,
@@ -616,7 +531,6 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 priv: "insert",
                 template: ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">调拨单</button>'
             },
-
             {
                 id: "btn3",
                 label: "",
@@ -650,7 +564,6 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 template: ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">全部导出(Excel)</button>'
             }],
         tools: [
-
             {
                 id: "input",
                 show: true,
@@ -659,10 +572,8 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 type: "input",
                 ct: ""
             }
-
         ]
     };
-
     $scope.meta = meta;
     privNormalCompute($scope.meta.toolsbtn, pbtns);
 
@@ -682,11 +593,9 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             })
     }
 
-
     function callback(json) {
         console.log(json)
     }
-
 
     function getSelectRows() {
         var data = $scope.dtInstance.DataTable.rows({
@@ -704,7 +613,6 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             return;
         } else {
             var res = [];
-
             var d = $scope.dtInstance.DataTable.context[0].json.data;
             for (var i = 0; i < data.length; i++) {
                 res.push(d[data[i]].id)
@@ -713,10 +621,8 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         }
     }
 
-
     $scope.del = function () {
         var selrows = getSelectRows();
-
         if (angular.isDefined(selrows)) {
             $confirm({
                 text: '是否删除?'
@@ -737,20 +643,15 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                     });
                 });
         }
-
     }
-
-
     $scope.detail = function () {
         var id;
-
         var selrow = getSelectRow();
         if (angular.isDefined(selrow)) {
             id = selrow.id;
         } else {
             return;
         }
-
         var meta = {};
         meta.type = "dtl";
         meta.id = id;
@@ -771,7 +672,6 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     }
     // //////////////////////////save/////////////////////
     $scope.save = function (type) {
-
         var modalInstance = $uibModal.open({
             backdrop: true,
             templateUrl: 'views/cmdb/modal_hcdb.html',
@@ -788,14 +688,9 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 flush();
             }
         }, function (reason) {
-
             $log.log("reason", reason)
         });
-
     }
-
     flush();
-
 };
-
 app.register.controller('zcHcDbCtl', zcHcDbCtl);

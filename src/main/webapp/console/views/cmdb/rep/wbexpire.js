@@ -1,6 +1,5 @@
 function wbexpireCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                      $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window, $stateParams) {
-
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
         .withOption("ordering", false).withOption("responsive", false)
@@ -28,7 +27,6 @@ function wbexpireCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 extend: 'colvis',
                 text: '显示隐藏列',
                 fnLabel: function (dt, idx, title) {
-
                     return (idx + 1) + ': ' + title;
                 }
             },
@@ -56,15 +54,11 @@ function wbexpireCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 }
             }
         ]);
-
     $scope.dtColumns = [];
     $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withoutselect');
-
-
     $scope.query = function () {
         flush();
     }
-
     var meta = {
         tablehide: false,
         toolsbtn: [],
@@ -85,7 +79,6 @@ function wbexpireCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             }]
     }
-
     $scope.meta = meta;
     $scope.meta.tools[0].dataOpt = [{id: "0", name: "今日"}, {id: "15", name: "15天"}, {id: "30", name: "30天"}, {
         id: "90",
@@ -112,7 +105,5 @@ function wbexpireCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.btn_query = function () {
         flush();
     }
-
 };
-
 app.register.controller('wbexpireCtl', wbexpireCtl);

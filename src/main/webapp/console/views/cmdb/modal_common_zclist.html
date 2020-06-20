@@ -1,89 +1,86 @@
 <style>
-@media ( min-width : 992px) {
-	.modal-blg {
-		width: 95%;
-	}
-}
+    @media ( min-width: 992px) {
+        .modal-blg {
+            width: 95%;
+        }
+    }
 </style>
 <div class="modal-content">
-	<div class="modal-header">
-		<button ng-click="cancel()" type="button" class="close">
-			<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-		</button>
-		<h4 class="modal-title">资产查询</h4>
-	</div>
-	<div class="modal-body">
-		<div class="wrapper wrapper-content animated fadeInRight">
-
-			<div class="row">
-				<div class="col-lg-12">
-					<form role="form" class="form-inline">
-						<div class="form-group">
-							<label for="class">区域:</label>
-							<select
-									style="width: 120px;" chosen disable-search="true"
-									class="chosen-select" no-results-text="'没有找到相应条目'"
-									ng-model="areaSel" data-placeholder-text-single="'请选择...'"
-									ng-options="item.name for item in areaOpt">
-								<option value=""></option>
-							</select>
-						</div>
-
-						<div class="form-group">
-							<label for="class">使用公司:</label>
-							<select
-									style="width: 120px;" chosen disable-search="true"
-									class="chosen-select" no-results-text="'没有找到相应条目'"
-									ng-model="compSel" data-placeholder-text-single="'请选择...'"
-									ng-options="item.name for item in compOpt">
-								<option value=""></option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="class">使用部门:</label>
-							<select
-									style="width: 120px;" chosen disable-search="true"
-									class="chosen-select" no-results-text="'没有找到相应条目'"
-									ng-model="partSel" data-placeholder-text-single="'请选择...'"
-									ng-options="item.name for item in partOpt">
-								<option value=""></option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="class">资产状态:</label>
-							<select
-									style="width: 120px;" chosen disable-search="true"
-									class="chosen-select" no-results-text="'没有找到相应条目'"
-									ng-model="recycleSel" data-placeholder-text-single="'请选择...'"
-									ng-options="item.name for item in recycleOpt">
-								<option value=""></option>
-							</select>
-						</div>
-
-						<div class="form-group">
-							<input type="text"
-							   class="form-control ng-pristine ng-valid ng-empty ng-touched"
-							   placeholder="搜索内容" name="search" ng-model="search">
-						</div>
-						<button ng-click="query()" class="btn btn-sm btn-primary"
-								type="submit">查询</button>
-					</form>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-12">
-					<table datatable="ed" dt-options="dtOptions"
-						dt-instance="dtInstance" dt-columns="dtColumns"
-						dt-column-defs="dtColumnDefs" class="table table-hover">
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal-footer" style="text-align: center">
-		<button class="btn btn-warning" ng-click="cancel()">取消</button>
-		<button class="btn btn-primary" ng-click="sure()">确认
-		</button>
-	</div>
-
+    <div class="modal-header">
+        <button class="close" ng-click="cancel()" type="button">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">资产查询</h4>
+    </div>
+    <div class="modal-body">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form class="form-inline" role="form">
+                        <div class="form-group">
+                            <label for="class">区域:</label>
+                            <select
+                                    chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="areaSel"
+                                    ng-options="item.name for item in areaOpt" no-results-text="'没有找到相应条目'"
+                                    style="width: 120px;">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="class">使用公司:</label>
+                            <select
+                                    chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="compSel"
+                                    ng-options="item.name for item in compOpt" no-results-text="'没有找到相应条目'"
+                                    style="width: 120px;">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="class">使用部门:</label>
+                            <select
+                                    chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="partSel"
+                                    ng-options="item.name for item in partOpt" no-results-text="'没有找到相应条目'"
+                                    style="width: 120px;">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="class">资产状态:</label>
+                            <select
+                                    chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="recycleSel"
+                                    ng-options="item.name for item in recycleOpt" no-results-text="'没有找到相应条目'"
+                                    style="width: 120px;">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                                   name="search"
+                                   ng-model="search" placeholder="搜索内容" type="text">
+                        </div>
+                        <button class="btn btn-sm btn-primary" ng-click="query()"
+                                type="submit">查询
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-hover" datatable="ed"
+                           dt-column-defs="dtColumnDefs" dt-columns="dtColumns"
+                           dt-instance="dtInstance" dt-options="dtOptions">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        <button class="btn btn-primary" ng-click="sure()">确认
+        </button>
+    </div>
 </div>

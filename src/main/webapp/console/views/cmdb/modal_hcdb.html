@@ -1,182 +1,161 @@
 <style>
-@media ( min-width : 992px) {
-	.modal-blg {
-		width: 95%;
-	}
-}
+    @media ( min-width: 992px) {
+        .modal-blg {
+            width: 95%;
+        }
+    }
 </style>
 <div class="modal-content">
-	<div class="modal-header">
-		<button ng-click="cancel()" type="button" class="close">
-			<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-		</button>
-		<h4 class="modal-title">调拨单</h4>
-	</div>
-	<div class="modal-body">
-		<div class="wrapper wrapper-content animated fadeInRight">
-			<form class="form-horizontal m-t-md " name="myForm" novalidate
-				action="">
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">单据编号:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-disabled="true"
-							class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							placeholder="系统自动生成" name="uuid" ng-model="data.uuid">
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><span
-							class="text-danger">*</span>标题:</label>
-					<div class="col-sm-10">
-						<input type="text" required ng-maxlength="100" ng-disabled="ctl.title"
-							   class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-							   placeholder="请输入内容" name="title" ng-model="data.title">
-						<div class="text-danger"
-							 ng-if="myForm.title.$dirty && myForm.title.$invalid">
-							<span ng-if="myForm.title.$error.required"> 输入不能为空 </span> <span
-								ng-show="myForm.title.$error.maxlength">不能超过100个字符 </span>
-						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><span
-							style="color: red">*</span>业务日期:</label>
-					<div class="col-sm-10">
-						<input date-time time-zone="Asia/Hong_Kong" style="width:100" ng-disabled="ctl.ywtime"
-							   style="width: 160px;!important" ng-model="data.ywtime"
-							   date-change="changeDate" view="date" auto-close="true"
-							   min-view="date" format="YYYY-MM-DD" class="form-control"
-							   type="datetime">
-					</div>
-				</div>
-
-
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">备注:</label>
-					<div class="col-sm-10">
-						 	<textarea type="text" class="form-control " placeholder="请输入备注" ng-disabled="ctl.remark"
-									  name="mark" ng-model="data.remark"></textarea>
-					</div>
-				</div>
-
-
-				<div ng-hide="ctl.range">
-				<div class="form-group">
-					<label class="col-sm-2 control-label">出库所属公司:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="outbelongCompSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in outbelongCompOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">出库区域:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="outareaSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in outareaOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">出库仓库:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="outwarehouseSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in outwarehouseOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-
-				<hr>
-				<div style="margin-top:10px"></div>
-
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">进库所属公司:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="inbelongCompSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in inbelongCompOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">进库区域:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="inareaSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in inareaOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">进库仓库:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="inwarehouseSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in inwarehouseOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">进库使用人:</label>
-					<div class="col-sm-10">
-						<select chosen disable-search="true" class="chosen-select"
-								no-results-text="'没有找到相应条目'" ng-model="inuserSel"
-								data-placeholder-text-single="'请选择...'"
-								ng-options="item.name for item in inuserOpt">
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><span
-							class="text-danger">*</span>物品列表:</label>
-					<div class="col-sm-10">
- 					<a href="javascript:void(0)" ng-hide="ctl.selectlist"   style="margin-top: 3px;"
- 						   ng-click="zcselect()" class="btn btn-primary">选择物品</a>
-						<table datatable="ed" dt-options="dtOptions"
-							   dt-instance="dtInstance" dt-columns="dtColumns"
-							   dt-column-defs="dtColumnDefs" class="table table-hover">
-						</table>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-	<div class="modal-footer" style ="text-align:center" ng-hide="ctl.footer">
-		<button ng-click="cancel()" class="btn btn-warning">取消</button>
-		<button ng-disabled="myForm.$invalid" ng-hide="ctl.surebtn" ng-click="sure()"
-			class="btn btn-primary">确认</button>
-	</div>
+    <div class="modal-header">
+        <button class="close" ng-click="cancel()" type="button">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">调拨单</h4>
+    </div>
+    <div class="modal-body">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <form action="" class="form-horizontal m-t-md " name="myForm"
+                  novalidate>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">单据编号:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="uuid"
+                               ng-disabled="true"
+                               ng-model="data.uuid" placeholder="系统自动生成" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span
+                            class="text-danger">*</span>标题:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="title" ng-disabled="ctl.title" ng-maxlength="100"
+                               ng-model="data.title"
+                               placeholder="请输入内容" required type="text">
+                        <div class="text-danger"
+                             ng-if="myForm.title.$dirty && myForm.title.$invalid">
+                            <span ng-if="myForm.title.$error.required"> 输入不能为空 </span> <span
+                                ng-show="myForm.title.$error.maxlength">不能超过100个字符 </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span
+                            style="color: red">*</span>业务日期:</label>
+                    <div class="col-sm-10">
+                        <input auto-close="true" class="form-control" date-change="changeDate" date-time
+                               format="YYYY-MM-DD" min-view="date"
+                               ng-disabled="ctl.ywtime" ng-model="data.ywtime" style="width:100"
+                               style="width: 160px;!important" time-zone="Asia/Hong_Kong" type="datetime"
+                               view="date">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">备注:</label>
+                    <div class="col-sm-10">
+						 	<textarea class="form-control " name="mark" ng-disabled="ctl.remark" ng-model="data.remark"
+                                      placeholder="请输入备注" type="text"></textarea>
+                    </div>
+                </div>
+                <div ng-hide="ctl.range">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">出库所属公司:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="outbelongCompSel"
+                                    ng-options="item.name for item in outbelongCompOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">出库区域:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="outareaSel"
+                                    ng-options="item.name for item in outareaOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">出库仓库:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="outwarehouseSel"
+                                    ng-options="item.name for item in outwarehouseOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                    <div style="margin-top:10px"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">进库所属公司:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="inbelongCompSel"
+                                    ng-options="item.name for item in inbelongCompOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">进库区域:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="inareaSel"
+                                    ng-options="item.name for item in inareaOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">进库仓库:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="inwarehouseSel"
+                                    ng-options="item.name for item in inwarehouseOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">进库使用人:</label>
+                        <div class="col-sm-10">
+                            <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="inuserSel"
+                                    ng-options="item.name for item in inuserOpt"
+                                    no-results-text="'没有找到相应条目'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span
+                            class="text-danger">*</span>物品列表:</label>
+                    <div class="col-sm-10">
+                        <a class="btn btn-primary" href="javascript:void(0)" ng-click="zcselect()"
+                           ng-hide="ctl.selectlist" style="margin-top: 3px;">选择物品</a>
+                        <table class="table table-hover" datatable="ed"
+                               dt-column-defs="dtColumnDefs" dt-columns="dtColumns"
+                               dt-instance="dtInstance" dt-options="dtOptions">
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer" ng-hide="ctl.footer" style="text-align:center">
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        <button class="btn btn-primary" ng-click="sure()" ng-disabled="myForm.$invalid"
+                ng-hide="ctl.surebtn">确认
+        </button>
+    </div>
 </div>

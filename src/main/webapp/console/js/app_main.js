@@ -39,7 +39,6 @@ app.factory('sessionInjector', [
                 config.url += "?auto_v=" + version;
             }
             return config;
-
         }
         sessionInjector.response = function (responseObject) {
             // 输出调试信息
@@ -54,7 +53,7 @@ app.factory('sessionInjector', [
             // 未登录
             if (responseObject.status == "299") {
                 var state = $injector.get('$state');
-                //		state.go("login");
+                state.go("login");
             } else if (responseObject.status == "298") {
                 // 未授权
             }
@@ -130,7 +129,6 @@ function config_main(cfpLoadingBarProvider, $locationProvider,
                 query += encodeURIComponent(name) + '='
                     + encodeURIComponent(value) + '&';
         }
-
         return query.length ? query.substr(0, query.length - 1) : query;
     };
     $httpProvider.defaults.transformRequest = [function (data) {
@@ -198,7 +196,6 @@ app
                 alert("未开发完成.");
             });
             // 替换了之前的$stateChangeStart
-
             $transitions
                 .onBefore(
                     {
@@ -218,7 +215,6 @@ app
                         }
                         console.log('onBefore|from:' + from
                             + ',to:' + to);
-
                         // 处理按钮权限
                         if (angular
                             .isDefined(trans._targetState._options.custom.btns)) {
@@ -242,20 +238,15 @@ app
                                 console
                                     .log("onBefore｜pbtns trans get from localstorage,success")
                             }
-
                         }
-
                     });
-
             $transitions
                 .onSuccess(
                     {
                         to: '**'
                     },
                     function (trans) {
-
                         console.log("onSuccess", trans);
-
                         // 删除html缓存
                         var $state = trans.router.stateService;
                         if (angular
@@ -276,7 +267,6 @@ app
                         if (from_arr.length > 0) {
                             from = from_arr[from_arr.length - 1].state.name;
                         }
-
                         var pbtns = "";
                         if (from_arr.length > 0) {
                             from = from_arr[from_arr.length - 1].state.name;
@@ -285,7 +275,6 @@ app
                                 pbtns = from_arr[from_arr.length - 1].paramValues.psBtns;
                             }
                         }
-
                         var to_arr = trans._treeChanges.to;
                         var to = null;
                         if (to_arr.length > 0) {
@@ -293,22 +282,18 @@ app
                         }
                         console.log('onSuccess|from:' + from
                             + ',to:' + to);
-
                         // 判断
                         var userService = trans.injector().get(
                             'userService');
                         if (angular.isDefined(from)
                             && from != ""
                             && from != "login") {
-
                             if (to != "login") {
-
                                 userService
                                     .checkLogin()
                                     .then(
                                         function (result) {
                                             if (!result.success) {
-
                                                 console
                                                     .log('onSuccess|Jump to login'
                                                         + to
@@ -331,12 +316,9 @@ app
                                         function (
                                             progress) {
                                         })
-
                             }
                         }
-
                     });
-
             $rootScope.$state = $state;
             var ct = getContextPath();
             $rootScope.project = ct + "/";
@@ -346,7 +328,6 @@ app
                 $log.warn('IdleStart');
                 // the user appears to have gone idle
             });
-
             $rootScope.$on('IdleWarn', function (e, countdown) {
                 $log.warn('IdleWarncountdown', countdown);
                 if (countdown == 1) {
@@ -381,15 +362,12 @@ app
                 // do something to keep the user's session alive
             });
         });
-
 app.config(config_cmdb).run(function () {
     console.log("App cmdb run");
 });
-
 app.config(config_ops).run(function () {
     console.log("App ops run");
 });
-
 app.config(config_system).run(function () {
     console.log("App System run");
 });
@@ -433,7 +411,7 @@ function initDT(DTDefaultOptions) {
     //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态
     DTDefaultOptions.setOption('bStateSave', true);
     //DataTables载入数据时，是否显示‘进度’提示
-    DTDefaultOptions.setOption('bProcessing', true);
+    DTDefaultOptions.setOption('bProcessing', false);
     //是否显示页脚信息，DataTables插件左下角显示记录数
     DTDefaultOptions.setOption('bInfo', false);
     //列宽度
@@ -444,7 +422,6 @@ function initDT(DTDefaultOptions) {
     DTDefaultOptions.setOption('bFilter', false);
     //是否启动服务器端数据导入
     DTDefaultOptions.setOption('serverSide', false);
-
 }
 
 app.run(initDT);

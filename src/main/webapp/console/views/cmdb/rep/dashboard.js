@@ -1,16 +1,12 @@
 function cmdbdashboardCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                           $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
-
     $scope.item = {};
-
     $http.post($rootScope.project + "/api/base/res/rep/dashboard.do", {})
         .success(function (res) {
             if (res.success) {
-
                 $scope.item = res.data;
                 var ticks = res.data.chart_meta;
                 var data = res.data.chart_data;
-
                 //
                 // var ticks = [ [ 0, "第一周" ], [ 1, "第二周" ], [ 2, "第三周" ], [
                 // 3, "第四周" ],
@@ -23,13 +19,11 @@ function cmdbdashboardCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 // [ 4, 13 ], //Beijing, China
                 // [ 5, 18 ] //Sydney, AU
                 // ];
-
                 var dataset = [{
                     label: "资产数量",
                     data: data,
                     color: "#5482FF"
                 }
-
                 ];
                 var barOptions = {
                     series: {
@@ -67,7 +61,6 @@ function cmdbdashboardCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                         axisLabelPadding: 10,
                         tickSize: 2,
                         ticks: ticks
-
                     },
 //						legend : {
 //							noColumns : 0,
@@ -82,18 +75,14 @@ function cmdbdashboardCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                         content: "数量: %y"
                     }
                 };
-
                 $scope.charts = {};
                 $scope.charts.flotChartData = dataset;
                 $scope.charts.flotBarOptions = barOptions;
-
             } else {
                 notify({
                     message: res.message
                 });
             }
         })
-
 };
-
 app.register.controller('cmdbdashboardCtl', cmdbdashboardCtl);

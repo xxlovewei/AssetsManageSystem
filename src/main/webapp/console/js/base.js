@@ -1,31 +1,21 @@
-/**
- * INSPINIA - Responsive Admin Theme 2.7.1 Custom scripts
- */
-
 $(document).ready(
     function () {
-
         // Full height of sidebar
         function fix_height() {
             var heightWithoutNavbar = $("#wrapper").height() - 61;
             $(".sidebar-panel").css("min-height",
                 heightWithoutNavbar + "px");
-
             var navbarHeight = $('nav.navbar-default').height();
             var wrapperHeight = $('#page-wrapper').height();
-
             // $(".sidebar-panel").css("min-height", wrapperHeigh - 61 +
             // "px");
-
             if (navbarHeight > wrapperHeight) {
                 $('#page-wrapper').css("min-height", navbarHeight + "px");
             }
-
             if (navbarHeight < wrapperHeight) {
                 $('#page-wrapper').css("min-height",
                     $(window).height() + "px");
             }
-
             if ($('body').hasClass('fixed-nav')) {
                 if (navbarHeight > wrapperHeight) {
                     $('#page-wrapper').css("min-height",
@@ -35,7 +25,6 @@ $(document).ready(
                         $(window).height() - 60 + "px");
                 }
             }
-
         }
 
         $(window).bind("load resize scroll", function () {
@@ -43,7 +32,6 @@ $(document).ready(
                 fix_height();
             }
         });
-
         // Move right sidebar top after scroll
         $(window).scroll(
             function () {
@@ -54,12 +42,10 @@ $(document).ready(
                     $('#right-sidebar').removeClass('sidebar-top');
                 }
             });
-
         setTimeout(function () {
             fix_height();
         })
     });
-
 // Minimalize menu when screen is less than 768px
 $(window).bind("load resize", function () {
     if ($(document).width() < 769) {
@@ -116,7 +102,6 @@ function privCrudCompute(curd, pbtns) {
     if (pbtns == "") {
         return;
     }
-
     var pbtns_arr = angular.fromJson(pbtns);
     if (angular.isDefined(pbtns_arr) && pbtns_arr.length > 0) {
         for (var i = 0; i < pbtns_arr.length; i++) {
@@ -180,7 +165,6 @@ function privCrudCompute(curd, pbtns) {
                 curd.importfile = true;
                 continue;
             }
-
             if (pbtns_arr[i].p == "uploadfile") {
                 curd.uploadfile = true;
                 continue;
@@ -228,7 +212,6 @@ function privCrudCompute(curd, pbtns) {
             }
         }
     }
-
 }
 
 function privNormalCompute(meta, pbtns) {
@@ -320,11 +303,8 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + "	<div class=\"text-danger\" ng-if=\"myForm."
                     + obj.name + ".$dirty && myForm." + obj.name
                     + ".$invalid\"> ";
-
                 tmp_tpl = tmp_tpl + "		<span ng-if=\"myForm." + obj.name
                     + ".$error.required\"> 输入不能为空 </span> ";
-
-
                 tmp_tpl = tmp_tpl + "		<span ng-show=\"myForm." + obj.name
                     + ".$error.maxlength\">不能超过" + obj.maxlength
                     + "个字符</span> ";
@@ -492,7 +472,6 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
         //         }
         //     }, 10);
     }, 30);
-
     //########################################################本段为资产管理所需########################################################
     $scope.$watch('meta.extitems', function (newValue, oldValue) {
         var extitemshtml = " <form id=\"formct\" class=\"form-horizontal m-t-md\" name=\"myForm2\" novalidate compile=\"template\" action=\"\">";
@@ -536,11 +515,8 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                         + "	<div class=\"text-danger\" ng-if=\"myForm2."
                         + obj.attrcode + ".$dirty && myForm2." + obj.attrcode
                         + ".$invalid\"> ";
-
                     tmp_tpl = tmp_tpl + "		<span ng-if=\"myForm2." + obj.attrcode
                         + ".$error.required\"> 输入不能为空 </span> ";
-
-
                     tmp_tpl = tmp_tpl + "		<span ng-show=\"myForm2." + obj.attrcode
                         + ".$error.maxlength\">不能超过" + obj.maxlength
                         + "个字符</span> ";
@@ -575,11 +551,8 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                         + "	<div class=\"text-danger\" ng-if=\"myForm2."
                         + obj.attrcode + ".$dirty && myForm2." + obj.attrcode
                         + ".$invalid\"> ";
-
                     tmp_tpl = tmp_tpl + "		<span ng-if=\"myForm2." + obj.attrcode
                         + ".$error.required\"> 输入不能为空 </span> ";
-
-
                     tmp_tpl = tmp_tpl + "		<span ng-show=\"myForm2." + obj.attrcode
                         + ".$error.maxlength\">不能超过" + obj.maxlength
                         + "个字符</span> ";
@@ -600,7 +573,6 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
             }
         }
     });
-
     $scope.sure = function () {
         meta.sure($uibModalInstance, $scope);
     };
@@ -610,7 +582,6 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
     if (typeof ($scope.meta.init) != "undefined") {
         $scope.meta.init($scope);
     }
-
 }
 
 /** ******************************modal end************************* */

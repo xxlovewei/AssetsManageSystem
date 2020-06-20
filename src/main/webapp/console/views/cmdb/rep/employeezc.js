@@ -13,13 +13,9 @@ function modaluserzcCtl($timeout, $localStorage, notify, $log, $uibModal,
             // Recompiling so we can bind Angular,directive to the
             $compile(angular.element(row).contents())($scope);
         });
-
     $scope.dtInstance = {}
-
-
     $scope.dtColumns = [];
     $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withoutselect');
-
     var ps = {}
     if (angular.isDefined(meta.userid) && meta.userid != "undefined") {
         ps.userid = meta.userid;
@@ -35,11 +31,9 @@ function modaluserzcCtl($timeout, $localStorage, notify, $log, $uibModal,
             });
         }
     })
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
 }
 
 function employeezcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
@@ -56,7 +50,6 @@ function employeezcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 // Recompiling so we can bind Angular,directive to the
                 $compile(angular.element(row).contents())($scope);
             });
-
     $scope.dtInstance = {}
 
     function renderAction(data, type, full) {
@@ -79,11 +72,9 @@ function employeezcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('part_id').withTitle('操作').withOption(
             'sDefaultContent', '').renderWith(renderAction)]
-
     $scope.query = function () {
         flush();
     }
-
     var meta = {
         tablehide: false,
         toolsbtn: [],
@@ -96,14 +87,10 @@ function employeezcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             }]
     }
-
-
     $scope.meta = meta;
-
 
     function flush() {
         var ps = {}
-
         $http.post($rootScope.project + "/api/zc/report/queryEmployeeUsedReport.do",
             ps).success(function (res) {
             if (res.success) {
@@ -135,16 +122,11 @@ function employeezcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             }
         });
         modalInstance.result.then(function (result) {
-
             if (result == "OK") {
             }
         }, function (reason) {
-
             $log.log("reason", reason)
         });
-
     }
-
 };
-
 app.register.controller('employeezcCtl', employeezcCtl);

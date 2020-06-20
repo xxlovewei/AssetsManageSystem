@@ -1,5 +1,4 @@
 app.factory('scriptLoader', ['$q', '$timeout', function ($q, $timeout) {
-
     /**
      * Naming it processedScripts because there is no guarantee any of those have been actually loaded/executed
      * @type {Array}
@@ -17,18 +16,14 @@ app.factory('scriptLoader', ['$q', '$timeout', function ($q, $timeout) {
             var $contents = $($.parseHTML(data, document, true)),
                 $scripts = $contents.filter('script[data-src][type="text/javascript-lazy"]').add($contents.find('script[data-src][type="text/javascript-lazy"]')),
                 scriptLoader = this;
-
             scriptLoader.loadScripts($scripts.map(function () {
                 return $(this).attr('data-src')
             }).get())
                 .then(function () {
                     deferred.resolve(data);
                 });
-
             return deferred.promise;
         },
-
-
         /**
          * Sequentially and asynchronously loads scripts (without blocking) if not already loaded
          * @param scripts an array of url to create script tags from
@@ -44,13 +39,11 @@ app.factory('scriptLoader', ['$q', '$timeout', function ($q, $timeout) {
                     }
                     return
                 }
-
                 var scriptTag = document.createElement('script'),
                     $scriptTag = $(scriptTag),
                     defer = $q.defer();
                 scriptTag.src = script;
                 defer.processing = true;
-
                 $scriptTag.load(function () {
                     $timeout(function () {
                         defer.resolve();
@@ -58,14 +51,11 @@ app.factory('scriptLoader', ['$q', '$timeout', function ($q, $timeout) {
                         Pace.restart();
                     })
                 });
-
                 previousDefer.promise.then(function () {
                     document.body.appendChild(scriptTag);
                 });
-
                 processedScripts[script] = previousDefer = defer;
             });
-
             return previousDefer.promise;
         }
     }
@@ -100,11 +90,9 @@ app.service('userService', function ($http, $q, $log, $rootScope, $localStorage)
                         // 用户信息
                         $rootScope.dt_sys_user_info = res.data.user_info;
                         $localStorage.put('dt_sys_user_info', res.data.user_info);
-
                         // 用户拥有的系统资源
                         $rootScope.dt_systems = res.data.systems;
                         $localStorage.put('dt_systems', res.data.systems);
-
                         //初始化菜单,当前默认可能存在Id为1的系统,默认获取该资源
                         var menuid = "";
                         if (angular.isDefined(res.data.cur_system) && res.data.cur_system.length > 0) {
@@ -127,7 +115,6 @@ app.service('userService', function ($http, $q, $log, $rootScope, $localStorage)
                             $rootScope.dt_sys_menus = [];
                             $localStorage.put('dt_sys_menus', []);
                         }
-
                     } else {
                         $log.debug("返回不存在token");
                     }
@@ -168,8 +155,6 @@ app.service('userService', function ($http, $q, $log, $rootScope, $localStorage)
 //				})
 //			 
 //			}
-
-
         },
         switchSystem: function (id) {
             var deferred = $q.defer();

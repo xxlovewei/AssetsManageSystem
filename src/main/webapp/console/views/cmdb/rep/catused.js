@@ -1,6 +1,5 @@
 function catusedreportCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                           $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window, $stateParams) {
-
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
         .withPaginationType('full_numbers').withDisplayLength(50)
         .withOption("ordering", false).withOption("responsive", false)
@@ -32,8 +31,6 @@ function catusedreportCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', '').withOption('width', '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('repair').withTitle('维修中').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-
-
     // $http.post($rootScope.project + "/api/sysDict/ext/selectItemListByDictId.do",
     // 	{dict_id:"devrecycle"}).success(function(res) {
     // 	if (res.success) {
@@ -50,8 +47,6 @@ function catusedreportCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     // 		});
     // 	}
     // })
-
-
     function renderAction(data, type, full) {
         var acthtml = " <div class=\"btn-group\"> ";
         acthtml = acthtml + " <button ng-click=\"detail('" + full.used_userid
@@ -59,11 +54,9 @@ function catusedreportCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         return acthtml;
     }
 
-
     $scope.query = function () {
         flush();
     }
-
     var meta = {
         tablehide: false,
         toolsbtn: [],
@@ -80,7 +73,6 @@ function catusedreportCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
     function flush() {
         var ps = {}
-
         $http.post($rootScope.project + "/api/zc/report/queryCatUsedReport.do",
             ps).success(function (res) {
             if (res.success) {
@@ -97,7 +89,5 @@ function catusedreportCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.btn_query = function () {
         flush();
     }
-
 };
-
 app.register.controller('catusedreportCtl', catusedreportCtl);

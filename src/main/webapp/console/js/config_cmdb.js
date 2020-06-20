@@ -3,7 +3,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
         debug: true
     });
-
     // template: '<div ng-controller="cmdbrepPartZcCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
     $stateProvider.state('zcindex', {
         url: "/zcindex",
@@ -23,7 +22,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
     // 流程管理
     $stateProvider.state('zcprocess', {
         abstract: true,
@@ -42,9 +40,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
-
-
-
     // 盘点管理
     $stateProvider.state('pandian', {
         abstract: true,
@@ -63,8 +58,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
-
-
     // cmdb
     $stateProvider.state('maintain', {
         abstract: true,
@@ -72,7 +65,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         templateUrl: "views/common/content.html?v=" + version
     }).state('maintain.faultrecord', {
         url: "/maintain_faultrecord?psBtns",
-        data: {pageTitle: '报修工作',datatype:"full"},
+        data: {pageTitle: '报修工作', datatype: "full"},
         templateUrl: "views/cmdb/faultrecord.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
@@ -131,8 +124,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
-
-
     // 报表
     $stateProvider.state('cmdbresp', {
         abstract: true,
@@ -181,15 +172,13 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
-
     $stateProvider.state('cmsetting', {
         abstract: true,
         url: "/cmsetting",
         templateUrl: "views/common/content.html?v=" + version
     }).state('cmsetting.zccat', {
         url: "/cmsetting_zccat?psBtns",
-        data: {pageTitle: '资产分类', code:"3"},
+        data: {pageTitle: '资产分类', code: "3"},
         templateUrl: "views/cmdb/zccategory.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
@@ -201,7 +190,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         }
     }).state('cmsetting.goodscat', {
         url: "/cmsetting_goodscat",
-        data: {pageTitle: '物品档案', code:"7"},
+        data: {pageTitle: '物品档案', code: "7"},
         templateUrl: "views/cmdb/goodscategory.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
@@ -213,7 +202,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         }
     }).state('cmsetting.bjcat', {
         url: "/cmsetting_bjcat?psBtns",
-        data: {pageTitle: '备件分类', code:"8"},
+        data: {pageTitle: '备件分类', code: "8"},
         templateUrl: "views/cmdb/zcbjcategory.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
@@ -248,8 +237,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
-
-
     $stateProvider.state('myprocess', {
         abstract: true,
         url: "/myprocess",
@@ -292,7 +279,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         }
     }).state('myprocess.myjy', {
         url: "/myprocess_myjy",
-        data: {pageTitle: '我的借用归还', actiontype: "JY",datatype:"self"},
+        data: {pageTitle: '我的借用归还', actiontype: "JY", datatype: "self"},
         templateUrl: "views/cmdb/zcaction.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
@@ -304,7 +291,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         }
     }).state('myprocess.mybx', {
         url: "/myprocess_mybx",
-        data: {pageTitle: '我的报修',datatype:"self"},
+        data: {pageTitle: '我的报修', datatype: "self"},
         templateUrl: "views/cmdb/faultrecord.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
@@ -315,7 +302,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
     // cmdb
     $stateProvider.state('xt', {
         abstract: true,
@@ -347,8 +333,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }
             }
         });
-
-
     // 备件管理
     $stateProvider.state('bjmgr', {
         abstract: true,
@@ -367,7 +351,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
     // 耗材管理
     $stateProvider.state('hcmgr', {
         abstract: true,
@@ -434,8 +417,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
-
     $stateProvider.state('zcmgr', {
         abstract: true,
         url: "/zcmgr",
@@ -465,8 +446,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
-
     $stateProvider.state('zcchange', {
         abstract: true,
         url: "/zcchange",
@@ -485,7 +464,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         }
     }).state('zcchange.jygh', {
         url: "/zcchange_jygh",
-        data: {pageTitle: '资产借用归还', actiontype: "JY",datatype:"full"},
+        data: {pageTitle: '资产借用归还', actiontype: "JY", datatype: "full"},
         templateUrl: "views/cmdb/zcaction.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
@@ -520,8 +499,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
-
-
     // cmdb
     $stateProvider.state('cf', {
         abstract: true,
@@ -614,8 +591,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    }).
-    state('cf.network', {
+    }).state('cf.network', {
         url: "/cf_network?psBtns",
         data: {pageTitle: '网络设备', classid: "zc_network", subclass: "Y"},
         templateUrl: "views/cmdb/genericdev.html?v=" + version,
@@ -628,8 +604,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
-
     $stateProvider.state('softzc', {
         abstract: true,
         url: "/softzc",
@@ -647,7 +621,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
-
     $stateProvider.state('report', {
         abstract: true,
         url: "/report",
@@ -668,7 +641,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         url: "/report_Taxonomy",
         data: {pageTitle: '分类使用汇总表'},
         template: '<div ng-controller="catusedreportCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
-
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
@@ -728,9 +700,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
-
-
-
 }
 
 //
@@ -792,16 +761,14 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 //         'sDefaultContent', ''));
 //     return dtColumns;
 // }
-
-
-function zcBaseColsHCCreate(DTColumnBuilder,selectype){
+function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
 //selectype:withoutselect,withselect
-    dtColumns=[];
+    dtColumns = [];
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
     dtColumns = [];
-    if(selectype=="withselect"){
+    if (selectype == "withselect") {
         dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
-            'select-checkbox checkbox_center').renderWith(function() {
+            'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }));
     }
@@ -813,19 +780,19 @@ function zcBaseColsHCCreate(DTColumnBuilder,selectype){
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('物品类型').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push( DTColumnBuilder.newColumn('ctmodel').withTitle('规格型号').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('ctmodel').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push( DTColumnBuilder.newColumn('ctunit').withTitle('单位').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('ctunit').withTitle('单位').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push( DTColumnBuilder.newColumn('ctbrandmark').withTitle('品牌商标').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('ctbrandmark').withTitle('品牌商标').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push( DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('ctdowncnt').withTitle('安全库存下限').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('ctupcnt').withTitle('安全库存上限').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push( DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30'));
     // dtColumns.push(DTColumnBuilder.newColumn('crkstatus').withTitle('单据状态').withOption(
     //     'sDefaultContent', '').withOption("width", '30').renderWith( function(data, type, full) {
@@ -843,42 +810,40 @@ function zcBaseColsHCCreate(DTColumnBuilder,selectype){
     //         return data;
     //     }
     // }));
-    dtColumns.push(  DTColumnBuilder.newColumn('batchno').withTitle('批次号').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('batchno').withTitle('批次号').withOption(
         'sDefaultContent', ''));
-    dtColumns.push( DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
         'sDefaultContent', ''));
-    dtColumns.push( DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push( DTColumnBuilder.newColumn('warehousestr').withTitle('仓库').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('warehousestr').withTitle('仓库').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push( DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
+    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
         .withOption('sDefaultContent', ''));
-    dtColumns.push( DTColumnBuilder.newColumn('buy_price').withTitle('采购总额')
+    dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('采购总额')
         .withOption('sDefaultContent', ''));
-    dtColumns.push(   DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
+    dtColumns.push(DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
         .withOption('sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('fs1').withTitle('标签1').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('fs1').withTitle('标签1').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('fs2').withTitle('标签2').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('fs2').withTitle('标签2').withOption(
         'sDefaultContent', ''));
     return dtColumns;
 }
 
-
-function zcBaseColsCreate(DTColumnBuilder,selectype){
+function zcBaseColsCreate(DTColumnBuilder, selectype) {
 //selectype:withoutselect,withselect
-    dtColumns=[];
+    dtColumns = [];
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
     dtColumns = [];
-    if(selectype=="withselect"){
+    if (selectype == "withselect") {
         dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
-            'select-checkbox checkbox_center').renderWith(function() {
+            'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }));
     }
-
     dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
@@ -891,58 +856,56 @@ function zcBaseColsCreate(DTColumnBuilder,selectype){
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push( DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push( DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(  DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
         'sDefaultContent', ''));
-    dtColumns.push( DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')
+    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')
         .withOption('sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
         'sDefaultContent', ''));
-    dtColumns.push( DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(  DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
         'sDefaultContent', ''));
-    dtColumns.push( DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
+    dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
         .withOption('sDefaultContent', ''));
-    dtColumns.push( DTColumnBuilder.newColumn('buy_price').withTitle('采购总额')
+    dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('采购总额')
         .withOption('sDefaultContent', ''));
-    dtColumns.push( DTColumnBuilder.newColumn('net_worth').withTitle('资产净值')
+    dtColumns.push(DTColumnBuilder.newColumn('net_worth').withTitle('资产净值')
         .withOption('sDefaultContent', ''));
-    dtColumns.push( DTColumnBuilder.newColumn('wbsupplierstr').withTitle('维保供应商').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('wbsupplierstr').withTitle('维保供应商').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push( DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));
-    dtColumns.push(  DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
+    dtColumns.push(DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
         .withOption('sDefaultContent', ''));
-    dtColumns.push(   DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
+    dtColumns.push(DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
         .withOption('sDefaultContent', ''));
-    dtColumns.push(   DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
+    dtColumns.push(DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
         .withOption('sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('fs1').withTitle('标签1').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('fs1').withTitle('标签1').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(  DTColumnBuilder.newColumn('fs2').withTitle('标签2').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('fs2').withTitle('标签2').withOption(
         'sDefaultContent', ''));
     return dtColumns;
 }
 
-
 function renderName(data, type, full) {
     var html = full.model;
     return html;
-
 }
 
 function renderJg(data, type, full) {
@@ -977,19 +940,13 @@ function renderWb(data, type, full) {
 }
 
 function loadOpt(modal_meta, gdicts) {
-
-
     var item = modal_meta.meta.item;
     console.log("LoadOpt,Item:", item);
-
-
     // 维保
     modal_meta.meta.tbOpt = gdicts.zcwbcomoute;
-
     if (angular.isDefined(gdicts.zcwbcomoute) && modal_meta.meta.tbOpt.length > 0) {
         if (angular.isDefined(item) && angular.isDefined(item.wb_auto)) {
             for (var i = 0; i < gdicts.zcwbcomoute.length; i++) {
-
                 if (modal_meta.meta.tbOpt[i].dict_item_id == item.wb_auto) {
                     modal_meta.meta.tbSel = modal_meta.meta.tbOpt[i];
                 }
@@ -1000,25 +957,20 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
     // 品牌
     modal_meta.meta.pinpOpt = gdicts.devbrand;
     if (angular.isDefined(gdicts.devbrand) && modal_meta.meta.pinpOpt.length > 0) {
         if (angular.isDefined(item) && angular.isDefined(item.brand)) {
             for (var i = 0; i < gdicts.devbrand.length; i++) {
-
                 if (modal_meta.meta.pinpOpt[i].dict_item_id == item.brand) {
                     modal_meta.meta.pinpSel = modal_meta.meta.pinpOpt[i];
                 }
             }
         } else {
-          //  if (gdicts.devbrand.length > 0) {
-           // }
+            //  if (gdicts.devbrand.length > 0) {
+            // }
         }
     }
-
-
-
     // 使用人
     modal_meta.meta.usedunameOpt = gdicts.partusers;
     if (angular.isDefined(gdicts.partusers) && gdicts.partusers.length > 0) {
@@ -1029,12 +981,11 @@ function loadOpt(modal_meta, gdicts) {
                 }
             }
         } else {
-           // if (gdicts.partusers.length > 0) {
-                // modal_meta.meta.usedunameSel = gdicts.partusers[0];
+            // if (gdicts.partusers.length > 0) {
+            // modal_meta.meta.usedunameSel = gdicts.partusers[0];
             //}
         }
     }
-
     // 风险等级
     modal_meta.meta.riskOpt = gdicts.devrisk;
     if (angular.isDefined(gdicts.devrisk) && gdicts.devrisk.length > 0) {
@@ -1050,7 +1001,6 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
     // 环境
     modal_meta.meta.envOpt = gdicts.devenv;
     if (angular.isDefined(gdicts.devenv) && gdicts.devenv.length > 0) {
@@ -1066,7 +1016,6 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
     // 状态
     modal_meta.meta.recycelOpt = gdicts.devrecycle;
     if (angular.isDefined(gdicts.devrecycle) && gdicts.devrecycle.length > 0) {
@@ -1082,7 +1031,6 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
     // 维保
     modal_meta.meta.wbOpt = gdicts.devwb;
     if (angular.isDefined(gdicts.devwb) && gdicts.devwb.length > 0) {
@@ -1098,8 +1046,6 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
-
     //仓库cmsetting_zccat
     modal_meta.meta.warehouseOpt = gdicts.warehouse;
     if (angular.isDefined(gdicts.warehouse) && gdicts.warehouse.length > 0) {
@@ -1115,7 +1061,6 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
     // 区域
     modal_meta.meta.locOpt = gdicts.devdc;
     if (angular.isDefined(gdicts.devdc) && gdicts.devdc.length > 0) {
@@ -1131,7 +1076,6 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
     // 小类
     modal_meta.meta.typeOpt = gdicts.stype;
     if (angular.isDefined(gdicts.stype) && gdicts.stype.length > 0) {
@@ -1147,7 +1091,6 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
     // 大类
     modal_meta.meta.classOpt = gdicts.btype;
     if (angular.isDefined(gdicts.btype) && gdicts.btype.length > 0) {
@@ -1178,7 +1121,6 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
     //资产来源
     modal_meta.meta.zcsourceOpt = gdicts.zcsource;
     if (angular.isDefined(gdicts.zcsource) && gdicts.zcsource.length > 0) {
@@ -1209,7 +1151,6 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
     //属于公司
     modal_meta.meta.belongcompOpt = gdicts.belongcomp;
     if (angular.isDefined(gdicts.belongcomp) && gdicts.belongcomp.length > 0) {
@@ -1235,13 +1176,11 @@ function loadOpt(modal_meta, gdicts) {
                 }
             }
         } else {
-           if (gdicts.comp.length > 0) {
-              modal_meta.meta.compSel = gdicts.comp[0];
+            if (gdicts.comp.length > 0) {
+                modal_meta.meta.compSel = gdicts.comp[0];
             }
         }
     }
-
-
     // 部门
     modal_meta.meta.partOpt = gdicts.parts;
     if (angular.isDefined(gdicts.parts) && gdicts.parts.length > 0) {
@@ -1257,7 +1196,6 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
     // 部门
     // if(angular.isDefined(modal_meta.meta.compSel) &&angular.isDefined(modal_meta.meta.compSel.id)){
     //     modal_meta.meta.partOpt = gdicts.parts[modal_meta.meta.compSel.id];
@@ -1287,8 +1225,6 @@ function loadOpt(modal_meta, gdicts) {
             }
         }
     }
-
-
 }
 
 function modalreviewProcessCtl(meta, $rootScope, $window, $scope,
@@ -1299,7 +1235,6 @@ function modalreviewProcessCtl(meta, $rootScope, $window, $scope,
         $uibModalInstance.dismiss('cancel');
     };
 }
-
 
 function renderZCSPStatus(data, type, full) {
     var html = data;
@@ -1327,14 +1262,10 @@ function renderZCSPStatus(data, type, full) {
     return html;
 }
 
-
-
 function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compile,
                              $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta, pagetype, task,
                              $uibModalInstance) {
-    $scope.hidectl={"flowform":true,"flowchart":true,"flowsuggestlist":true,"flowsuggest":true};
-
-
+    $scope.hidectl = {"flowform": true, "flowchart": true, "flowsuggestlist": true, "flowsuggest": true};
     $scope.actmsg = "操作人";
     if (meta.acttype == "LY") {
         $scope.actmsg = "领用人";
@@ -1346,21 +1277,19 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
     $scope.url = "";
     $scope.spsugguest = [];
     $scope.ctl = {};
     $scope.ctl.pagespbtnhide = true;
-    $scope.ctl.flowsuggest=true;
-    $scope.ctl.flowchart=true;
-    $scope.ctl.flowsuggestlist=true;
+    $scope.ctl.flowsuggest = true;
+    $scope.ctl.flowchart = true;
+    $scope.ctl.flowsuggestlist = true;
     $scope.spsuggest = "";
     //页面是否审批类型打开
     $scope.pagetype = pagetype;
     if ($scope.pagetype == "sp") {
         $scope.ctl.pagespbtnhide = false;
     }
-
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
         .withDOM('frtlip').withPaginationType('simple').withDisplayLength(
             50).withOption("ordering", false).withOption("responsive",
@@ -1373,11 +1302,8 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
             $compile(angular.element(row).contents())($scope);
         });
     $scope.dtColumns = [];
-    $scope.dtColumns=zcBaseColsCreate(DTColumnBuilder,'withoutselect');
-
-
+    $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withoutselect');
     $scope.dtOptions.aaData = [];
-
     // 显示审批页面
     $http
         .post($rootScope.project + "/api/zc/selectBillById.do",
@@ -1389,16 +1315,14 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                 if (res.success) {
                     $scope.data = res.data;
                     $scope.dtOptions.aaData = res.data.items;
-
-                    if(res.data.ifsp=="1"){
-                        $scope.hidectl={"flowchart":false,"flowsuggestlist":false,"flowsuggest":false};
-                    }else{
+                    if (res.data.ifsp == "1") {
+                        $scope.hidectl = {"flowchart": false, "flowsuggestlist": false, "flowsuggest": false};
+                    } else {
                         $scope.ctl.pagespbtnhide = true;
-                        $scope.ctl.flowsuggest=true;
-                        $scope.ctl.flowchart=true;
-                        $scope.ctl.flowsuggestlist=true;
+                        $scope.ctl.flowsuggest = true;
+                        $scope.ctl.flowchart = true;
+                        $scope.ctl.flowsuggestlist = true;
                     }
-
                     //获取审批
                     if (angular.isDefined(res.data.processInstanceId) && res.data.processInstanceId != "") {
                         $http
@@ -1423,13 +1347,11 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                             + "uflo/diagram?processInstanceId="
                             + res.data.processInstanceId;
                     }
-
-
                     var dynamicData = res.data.formdata;
                     let vm;
                     $timeout(function () {
                         var jd = decodeURI(res.data.formconf);
-                        if(angular.isDefined(jd)&&jd!="undefined"&&jd!=""){
+                        if (angular.isDefined(jd) && jd != "undefined" && jd != "") {
                             let jsonData = angular.fromJson(jd);
                             vm = new Vue({
                                 el: '#app',
@@ -1442,36 +1364,25 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                                 },
                                 methods: {
                                     init() {
-
-                                        this.$refs.kfb.setData( angular.fromJson(res.data.formdata));
+                                        this.$refs.kfb.setData(angular.fromJson(res.data.formdata));
                                     },
                                     handleSubmit(p) {
-
                                     },
                                     getData() {
-
                                     }
                                 }
                             })
                         }
-
-
-
                     }, 1000)
-
-
                 } else {
                     notify({
                         message: res.message
                     });
                 }
             })
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
-
     $scope.agreen = function () {
         if ($scope.spsuggest.length == 0) {
             $scope.spsuggest = "同意";
@@ -1493,9 +1404,7 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                 });
             }
         })
-
     }
-
     $scope.rollback = function () {
         if ($scope.spsuggest.length == 0) {
             $scope.spsuggest = "退回";
@@ -1518,7 +1427,6 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
             }
         })
     }
-
     $scope.refuse = function () {
         if ($scope.spsuggest.length == 0) {
             $scope.spsuggest = "拒绝";
@@ -1529,7 +1437,6 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
             });
             return;
         }
-
         $http
             .post($rootScope.project + "/api/zc/flow/refuseTask.do",
                 {taskId: task.id, opinion: $scope.spsuggest}).success(function (res) {
@@ -1541,9 +1448,7 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                 });
             }
         })
-
     }
-
     $scope.submit = function () {
         if ($scope.spsuggest.length == 0) {
             $scope.spsuggest = "重新提交审批";
@@ -1568,27 +1473,18 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
             }
         })
     }
-
 }
-
-
-
-
 
 function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
                          $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                          DTColumnBuilder, $compile, $window) {
-
     $scope.item = {};
-
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
         'createdRow', function (row) {
             // Recompiling so we can bind Angular,directive to the
             $compile(angular.element(row).contents())($scope);
-
         });
     $scope.dtInstance = {}
-
 
     function renderAttach(data, type, full) {
         if (data > 0) {
@@ -1600,9 +1496,7 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
         }
     }
 
-
     $scope.attachdown = function (faultid) {
-
         $http.post($rootScope.project + "/api/base/res/queryResFaultById.do", {
             id: faultid
         }).success(function (res) {
@@ -1621,7 +1515,6 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
             }
         });
     }
-
     $scope.dtColumns = [
         DTColumnBuilder.newColumn('create_time').withTitle('操作时间')
             .withOption('sDefaultContent', '').withOption('width', '30'),
@@ -1629,9 +1522,7 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').withOption('width', '30'),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
             'sDefaultContent', '').withOption('width', '30')
-
     ]
-
     $scope.dtOptions2 = DTOptionsBuilder.fromFnPromise().withOption(
         'createdRow', function (row) {
             // Recompiling so we can bind Angular,directive to the
@@ -1640,20 +1531,16 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.dtInstance2 = {}
 
     function renderType(data, type, full) {
-
-        if(data=="DB"){
+        if (data == "DB") {
             return "资产调拨";
-        }else if(data=="LY"){
+        } else if (data == "LY") {
             return "资产领用/退库"
-        }else if(data=="JY"){
+        } else if (data == "JY") {
             return "资产借用/归还"
+        } else {
+            return data;
         }
-        else{
-           return data;
-        }
-
     }
-
 
     $scope.dtColumns2 = [
         DTColumnBuilder.newColumn('create_time').withTitle('操作时间')
@@ -1664,7 +1551,6 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').withOption('width', '30').renderWith(renderType),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
             'sDefaultContent', '')]
-
     if (angular.isDefined(meta.id)) {
         // 加载数据
         $http.post($rootScope.project + "/api/base/res/queryResAllById.do", {
@@ -1672,21 +1558,21 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
         }).success(function (res) {
             if (res.success) {
                 $scope.item = res.data.data;
-                var extdata=[];
-                var extdataitem=[];
-                for(var i=0;i<res.data.extattr.length;i++){
-                    if(i%4==3&&i>0){
+                var extdata = [];
+                var extdataitem = [];
+                for (var i = 0; i < res.data.extattr.length; i++) {
+                    if (i % 4 == 3 && i > 0) {
                         extdataitem.push(res.data.extattr[i]);
                         extdata.push(extdataitem);
-                        extdataitem=[];
-                    }else{
+                        extdataitem = [];
+                    } else {
                         extdataitem.push(res.data.extattr[i]);
                     }
                 }
-                if(extdataitem.length>0){
+                if (extdataitem.length > 0) {
                     extdata.push(extdataitem);
                 }
-                $scope.extdata=extdata;
+                $scope.extdata = extdata;
                 $scope.dtOptions.aaData = res.data.faultdata;
                 $scope.dtOptions2.aaData = res.data.updatadata;
             } else {
@@ -1696,86 +1582,68 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
             }
         });
     }
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
 }
 
-
 function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
-                              $uibModalInstance, $scope,  $http, $rootScope, DTOptionsBuilder,
-                              DTColumnBuilder, $compile, data) {
+                                $uibModalInstance, $scope, $http, $rootScope, DTOptionsBuilder,
+                                DTColumnBuilder, $compile, data) {
     // type:one|many
     // datatype: LY|
-    console.log("data:"+data);
-    $scope.partOpt=[];
-    $scope.partSel={};
-    $scope.compOpt=[];
-    $scope.compSel={};
-    $scope.areaOpt=[];
-    $scope.areaSel={};
-    $scope.recycleOpt=[];
-    $scope.recycleSel={};
-
-    var gdicts={};
+    console.log("data:" + data);
+    $scope.partOpt = [];
+    $scope.partSel = {};
+    $scope.compOpt = [];
+    $scope.compSel = {};
+    $scope.areaOpt = [];
+    $scope.areaSel = {};
+    $scope.recycleOpt = [];
+    $scope.recycleSel = {};
+    var gdicts = {};
     var dicts = "devrecycle,devdc";
     $http
         .post($rootScope.project + "/api/zc/queryDictFast.do", {
-            uid:"zclistmodal",
-            dicts : dicts,
-            parts : "Y",
-            comp :"Y"
+            uid: "zclistmodal",
+            dicts: dicts,
+            parts: "Y",
+            comp: "Y"
         })
         .success(
-            function(res) {
+            function (res) {
                 if (res.success) {
                     gdicts = res.data;
                     angular.copy(gdicts.devrecycle, $scope.recycleOpt);
                     $scope.recycleOpt.unshift({
-                        dict_item_id : "all",
-                        name : "全部"
+                        dict_item_id: "all",
+                        name: "全部"
                     });
-                    $scope.recycleSel=$scope.recycleOpt[0];
-
-
+                    $scope.recycleSel = $scope.recycleOpt[0];
                     angular.copy(gdicts.comp, $scope.compOpt);
                     $scope.compOpt.unshift({
-                        id : "all",
-                        name : "全部"
+                        id: "all",
+                        name: "全部"
                     });
-                    $scope.compSel=$scope.compOpt[0];
-
-
+                    $scope.compSel = $scope.compOpt[0];
                     angular.copy(gdicts.parts, $scope.partOpt);
                     $scope.partOpt.unshift({
-                        partid : "all",
-                        name : "全部"
+                        partid: "all",
+                        name: "全部"
                     });
-                    $scope.partSel=$scope.partOpt[0];
-
-
+                    $scope.partSel = $scope.partOpt[0];
                     angular.copy(gdicts.devdc, $scope.areaOpt);
                     $scope.areaOpt.unshift({
-                        dict_item_id : "all",
-                        name : "全部"
+                        dict_item_id: "all",
+                        name: "全部"
                     });
-                    $scope.areaSel=$scope.areaOpt[0];
-
-
-
+                    $scope.areaSel = $scope.areaOpt[0];
                 } else {
                     notify({
-                        message : res.message
+                        message: res.message
                     });
                 }
             })
-
-
-
-
-
-
     if (!angular.isDefined(data.type)) {
         data.type = "many"
     }
@@ -1804,21 +1672,16 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
             style: 'multi',
             selector: 'td:first-child'
         })
-
     $scope.dtInstance = {}
 
     function renderName(data, type, full) {
-
         var html = full.model;
         return html;
-
     }
 
     function renderJg(data, type, full) {
-
         var html = full.rackstr + "-" + full.frame;
         return html;
-
     }
 
     $scope.selectCheckBoxAll = function (selected) {
@@ -1829,35 +1692,26 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
         }
     }
     $scope.dtColumns = [];
-    $scope.dtColumns=zcBaseColsCreate(DTColumnBuilder,'withselect');
-
+    $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withselect');
 
     function flush() {
         var ps = data;
-        if(angular.isDefined($scope.search)){
+        if (angular.isDefined($scope.search)) {
             ps.search = $scope.search;
         }
-        if(angular.isDefined($scope.compSel.id) && $scope.compSel.id!='all'){
-            ps.comp=$scope.compSel.id;
+        if (angular.isDefined($scope.compSel.id) && $scope.compSel.id != 'all') {
+            ps.comp = $scope.compSel.id;
         }
-
-        if(angular.isDefined($scope.partSel.partid) && $scope.partSel.partid!='all'){
-            ps.part=$scope.partSel.partid;
+        if (angular.isDefined($scope.partSel.partid) && $scope.partSel.partid != 'all') {
+            ps.part = $scope.partSel.partid;
         }
-
-
-        if(angular.isDefined($scope.recycleSel.dict_item_id) && $scope.recycleSel.dict_item_id!='all'){
-            ps.recycle=$scope.recycleSel.dict_item_id;
+        if (angular.isDefined($scope.recycleSel.dict_item_id) && $scope.recycleSel.dict_item_id != 'all') {
+            ps.recycle = $scope.recycleSel.dict_item_id;
         }
-
-        if(angular.isDefined($scope.areaSel.dict_item_id) && $scope.areaSel.dict_item_id!='all'){
-            ps.loc=$scope.areaSel.dict_item_id;
+        if (angular.isDefined($scope.areaSel.dict_item_id) && $scope.areaSel.dict_item_id != 'all') {
+            ps.loc = $scope.areaSel.dict_item_id;
         }
-
-
-
-
-        ps.zc_category=3;
+        ps.zc_category = 3;
         $http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
             .success(function (res) {
                 if (res.success) {
@@ -1873,25 +1727,19 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
     $scope.query = function () {
         flush()
     }
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
-
     $scope.sure = function () {
-
         var dtdata = $scope.dtInstance.DataTable.rows({
             selected: true
         })[0];
-
         if (dtdata.length == 0) {
             notify({
                 message: "请至少选择一项"
             });
             return;
         }
-
         if (data.type == "one") {
             if (dtdata.length > 1) {
                 notify({
@@ -1904,7 +1752,6 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
             }
             return;
         }
-
         if (data.type == "many") {
             var res = [];
             for (var i = 0; i < dtdata.length; i++) {
@@ -1916,9 +1763,7 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
             }
             return;
         }
-
     }
-
 }
 
 

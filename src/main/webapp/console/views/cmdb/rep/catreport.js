@@ -12,7 +12,6 @@ function catreportCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 // Recompiling so we can bind Angular,directive to the
                 $compile(angular.element(row).contents())($scope);
             });
-
     $scope.dtInstance = {}
 
     function renderAction(data, type, full) {
@@ -25,17 +24,13 @@ function catreportCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.dtColumns = [
         DTColumnBuilder.newColumn('catrootname').withTitle('类目')
             .withOption('sDefaultContent', ''),
-
         DTColumnBuilder.newColumn('catname').withTitle('分类')
             .withOption('sDefaultContent', ''),
-
         DTColumnBuilder.newColumn('cnt').withTitle('数量').withOption(
             'sDefaultContent', '')]
-
     $scope.query = function () {
         flush();
     }
-
     var meta = {
         tablehide: false,
         toolsbtn: [],
@@ -48,14 +43,10 @@ function catreportCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             }]
     }
-
-
     $scope.meta = meta;
-
 
     function flush() {
         var ps = {}
-
         $http.post($rootScope.project + "/api/zc/report/queryCatReport.do",
             ps).success(function (res) {
             if (res.success) {
@@ -72,7 +63,5 @@ function catreportCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.btn_query = function () {
         flush();
     }
-
 };
-
 app.register.controller('catreportCtl', catreportCtl);

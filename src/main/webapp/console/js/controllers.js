@@ -50,11 +50,9 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
         }, function (progress) {
         })
     }
-
     $scope.changepwd = function () {
         $state.go("me.pwdreset");
     }
-
     // 切换系统
     $scope.switchSystem = function (id) {
         userService.switchSystem(id).then(function (result) {
@@ -70,7 +68,6 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
         }, function (error) {
         }, function (progress) {
         })
-
     }
     // 处理菜单的logo函数
     $scope.menuLogoIsExist = function (logo) {
@@ -94,7 +91,6 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
             });
         }
     }, true);
-
     // 页面刷新
     var dt_sys_menu = $localStorage.get("dt_sys_menus");
     if (angular.isDefined(dt_sys_menu)) {
@@ -102,7 +98,6 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
         $scope.menu = dt_sys_menu;
         // fixnav();
     }
-
     // 监听用户数据
     $scope
         .$watch(
@@ -119,14 +114,12 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
                     $scope.sys_user_info = $rootScope.dt_sys_user_info
                 }
             }, true);
-
     // 页面刷新
     var sys_user_info = $localStorage.get("dt_sys_user_info")
     if (angular.isDefined(sys_user_info)) {
         $log.warn("user_info load from localstorage", sys_user_info);
         $scope.sys_user_info = sys_user_info;
     }
-
     // 列举系统
     $scope.$watch(function () {
         return $rootScope.dt_systems;
