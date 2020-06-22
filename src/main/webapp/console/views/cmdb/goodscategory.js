@@ -74,12 +74,12 @@ function cmdbHCBJCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             },
             "category": {
                 "icon": "glyphicon glyphicon-equalizer"
-            },
-            "dir": {
-                "icon": "fa fa-building"
+            }
+            , "dir": {
+                "icon": "fa fa-list"
             },
             "goods": {
-                "icon": "fa fa-genderless"
+                "icon": "fa fa-file-o"
             }
         },
         version: 1,

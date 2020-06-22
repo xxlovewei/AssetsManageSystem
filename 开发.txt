@@ -1,9 +1,5 @@
-process_id 模版ID
-流程实例ID
-任务ID
 
-
---clear
+--clear all
 truncate table sys_log_access;
 truncate table sys_log_login;
 truncate table res;
@@ -26,6 +22,8 @@ truncate table res_inout;
 truncate table res_inout_item;
 
 update sys_user_info set pwd='oracle'
+
+--clear all
 
 
 

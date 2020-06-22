@@ -187,7 +187,7 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             // 	type : "btn",
             // 	show:false,
             // 	priv:"insert",
-            // 	template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">登记</button>'
+            // 	template : ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">入库</button>'
             // },
             {
                 id: "btn3",

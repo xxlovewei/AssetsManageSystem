@@ -121,6 +121,12 @@ function hrmOrgEmployeeCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm
             },
             "file": {
                 "icon": "fa fa-file icon-state-warning icon-lg"
+            },
+            "comp": {
+                "icon": "fa fa-building"
+            },
+            "part": {
+                "icon": "fa fa-users"
             }
         },
         version: 1,

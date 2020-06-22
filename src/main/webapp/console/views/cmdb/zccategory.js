@@ -137,10 +137,10 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 "icon": "glyphicon glyphicon-equalizer"
             }
             , "dir": {
-                "icon": "fa fa-building"
+                "icon": "fa fa-list"
             },
             "goods": {
-                "icon": "fa fa-genderless"
+                "icon": "fa fa-file-o"
             }
         },
         version: 1,

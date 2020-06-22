@@ -49,8 +49,7 @@
 
         <!-- 打开PSCache，并且指定每个连接上PSCache的大小,mysql下建议关闭 -->
         <property name="poolPreparedStatements" value="true"/>
-        <property name="maxPoolPreparedStatementPerConnectionSize"
-                  value="100"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="100"/>
 
         <!-- 默认true,解释为,那么方法中如果自己捕获了异常，事务是不会回滚的，如果没有自己捕获异常则事务会回滚,spring会将底层连接的自动提交特性设置为false -->
         <property name="defaultAutoCommit" value="true"/>

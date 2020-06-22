@@ -84,7 +84,7 @@ function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
                 "icon": "fa fa-building"
             },
             "part": {
-                "icon": "fa fa-genderless"
+                "icon": "fa fa-users"
             }
         },
         version: 1,

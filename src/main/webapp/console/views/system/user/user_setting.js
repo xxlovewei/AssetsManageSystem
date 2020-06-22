@@ -1,6 +1,28 @@
 function userRoleAdjustFormCtl($localStorage, notify, $log, $uibModal,
                                $uibModalInstance, $scope, userIds, $http, $rootScope) {
     $log.warn("window in:", userIds);
+    $scope.settings = {
+        bootstrap2: false,
+        filterClear: '显示所有',
+        filterPlaceHolder: '过滤',
+        moveSelectedLabel: 'Move selected only',
+        moveAllLabel: '移动所有',
+        removeSelectedLabel: 'Remove selected only',
+        removeAllLabel: '删除所有',
+        moveOnSelect: true,
+        preserveSelection: '移动',
+        selectedListLabel: '已选择',
+        nonSelectedListLabel: '未选择',
+        postfix: '_helperz',
+        selectMinHeight: 130,
+        filter: true,
+        filterNonSelected: '',
+        filterSelected: '',
+        infoAll: '显示 {0}',
+        infoFiltered: '<span class="label label-warning">Filtered</span> {0} from {1}!',
+        infoEmpty: '空队列!',
+        filterValues: true
+    };
     $scope.userRoles = []
     $http
         .post($rootScope.project + "/api/sysRoleInfo/roleQueryFormatKV.do",
