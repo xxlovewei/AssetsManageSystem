@@ -443,6 +443,24 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('formmgr.fdesigner', {
+        url: "/formmgr_fdesigner",
+        data: {pageTitle: '表单设计'},
+        templateUrl: "views/system/form/fdesigner.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                    {
+                        serie: true,
+                        files: ['plugin/form/k-form-design.css', 'plugin/form/vue.min.js?v=' + version, 'plugin/form/k-form-design.umd.min.js?v=' + version, 'plugin/form/vue-resource.min.js?v=' + version]
+                    }
+                    ,
+                    {
+                        serie: true,
+                        files: ['views/system/form/fdesigner.js?v=' + version]
+                    }]);
+            }
+        }
     });
     // flow
     $stateProvider.state('flow', {

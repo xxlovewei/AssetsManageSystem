@@ -1,7 +1,6 @@
 package com.dt.module.flow.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -14,9 +13,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-11
+ * @since 2020-06-25
  */
-
+ 
 @TableName("sys_process_setting")
 
 public class SysProcessSetting extends BaseModel<SysProcessSetting> {
@@ -41,15 +40,25 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
     @TableField("processdefid")
     private String processdefid;
     /**
-     * 备注
-     */
-    @TableField("mark")
-    private String mark;
-    /**
      * 流程类型 system|user
      */
     @TableField("type")
     private String type;
+    /**
+     * 流程表单
+     */
+    @TableField("form")
+    private String form;
+    /**
+     * 流程表单名称
+     */
+    @TableField("formname")
+    private String formname;
+    /**
+     * 备注
+     */
+    @TableField("mark")
+    private String mark;
 
 
     public String getId() {
@@ -84,20 +93,36 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
         this.processdefid = processdefid;
     }
 
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
-
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getForm() {
+        return form;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
+    }
+
+    public String getFormname() {
+        return formname;
+    }
+
+    public void setFormname(String formname) {
+        this.formname = formname;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 
     @Override
@@ -112,8 +137,10 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
                 ", name=" + name +
                 ", code=" + code +
                 ", processdefid=" + processdefid +
-                ", mark=" + mark +
                 ", type=" + type +
+                ", form=" + form +
+                ", formname=" + formname +
+                ", mark=" + mark +
                 "}";
     }
 }

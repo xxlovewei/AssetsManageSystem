@@ -51,7 +51,6 @@ public class SysProcessSettingExtController extends BaseController {
     @Acl(info = "根据Id查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectByCode.do")
     public R selectById(@RequestParam(value = "code", required = true, defaultValue = "") String code) {
-
         QueryWrapper<SysProcessSetting> ew = new QueryWrapper<SysProcessSetting>();
         ew.and(i -> i.eq("code", code));
         SysProcessSetting setting = SysProcessSettingServiceImpl.getOne(ew);
@@ -69,7 +68,6 @@ public class SysProcessSettingExtController extends BaseController {
         res.put("formct", form.getCt());
         res.put("process", def.getPtplid());
         res.put("processKey", def.getPtplkey());
-
         return R.SUCCESS_OPER(res);
     }
 

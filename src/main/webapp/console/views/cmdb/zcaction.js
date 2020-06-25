@@ -521,6 +521,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 notify({
                     message: "未定义流程"
                 });
+                return;
             }
             ps.processdefid = res.data.processdefid;
             ps.pk = res.data.processKey;

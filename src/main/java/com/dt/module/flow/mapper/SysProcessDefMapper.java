@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-04
+ * @since 2020-06-24
  */
 public interface SysProcessDefMapper extends BaseMapper<SysProcessDef> {
 

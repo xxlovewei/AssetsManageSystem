@@ -4,21 +4,22 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.dt.module.flow.entity.SysProcessDef">
-        <id column="id" property="id" />
-    <result column="dr" property="dr" />
-    <result column="create_by" property="createBy" />
-    <result column="create_time" property="createTime" />
-    <result column="update_by" property="updateBy" />
-    <result column="update_time" property="updateTime" />
-        <result column="name" property="name" />
-        <result column="mark" property="mark" />
-        <result column="status" property="status" />
-        <result column="ptplid" property="ptplid" />
-        <result column="form" property="form" />
-        <result column="ptplname" property="ptplname" />
-        <result column="owner" property="owner" />
-        <result column="ptplkey" property="ptplkey" />
-        <result column="type" property="type" />
+        <id column="id" property="id"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="dr" property="dr"/>
+        <result column="name" property="name"/>
+        <result column="mark" property="mark"/>
+        <result column="type" property="type"/>
+        <result column="ptplkey" property="ptplkey"/>
+        <result column="owner" property="owner"/>
+        <result column="ptplname" property="ptplname"/>
+        <result column="form" property="form"/>
+        <result column="formname" property="formname"/>
+        <result column="status" property="status"/>
+        <result column="ptplid" property="ptplid"/>
     </resultMap>
 
 </mapper>

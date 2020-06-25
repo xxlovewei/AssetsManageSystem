@@ -112,8 +112,8 @@ public class CustomGeneratorMysql {
         // "","sys_qud_qux"
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
-        String busRoute = "cmdb";
-        strategy.setInclude(new String[]{"res_attrs"}); // 需要生成的表
+        String busRoute = "flow";
+        strategy.setInclude(new String[]{"sys_process_setting"}); // 需要生成的表
         // strategy.setInclude(scanner("表名"));
 
         strategy.setTableFillList(tableFillList);

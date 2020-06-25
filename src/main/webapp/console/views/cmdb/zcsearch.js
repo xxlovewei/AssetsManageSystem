@@ -157,7 +157,7 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         ps.wb = $scope.meta.tools[2].dataSel.dict_item_id;
         ps.recycle = $scope.meta.tools[3].dataSel.dict_item_id;
         ps.search = $scope.meta.tools[4].ct;
-        $window.open($rootScope.project + "/api/base/res/exportAllRes.do?zc_category=7&loc="
+        $window.open($rootScope.project + "/api/base/res/exportAllRes.do?zc_category=3&loc="
             + ps.loc + "&env=" + ps.env + "&wb=" + ps.wb + "&recycle="
             + ps.recycle + "&search=" + ps.search);
     }

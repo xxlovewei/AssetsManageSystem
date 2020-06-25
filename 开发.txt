@@ -21,6 +21,19 @@ truncate table res_scrape_item;
 truncate table res_inout;
 truncate table res_inout_item;
 
+truncate table ops_node;
+truncate table ops_node_infosys;
+truncate table ops_node_item;
+
+delete from sys_menus_node where dr='1';
+delete from res_attrs where dr='1';
+delete from res_attr_value where dr='1';
+delete from sys_dict where dr='1';
+delete from sys_dict_item where dr='1';
+delete from sys_params where dr='1';
+
+
+select * from hrm_org_part
 update sys_user_info set pwd='oracle'
 
 --clear all

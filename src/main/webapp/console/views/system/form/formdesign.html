@@ -10,6 +10,7 @@
     <k-form-design @save="handleSave" ref='kfd'
                    title="表单设计器"/>
 </div>
+<script src="../../../vendor/jquery/dist/jquery.min.js"></script>
 <script src="../../../plugin/form/vue.min.js"></script>
 <script src="../../../plugin/form/k-form-design.umd.min.js?v=1"></script>
 <script src="../../../plugin/form/vue-resource.min.js"></script>
@@ -70,6 +71,7 @@
                 },
                 init() {
                     this.$refs.kfd.handleSetData(this.jsonData);
+                    $("header").remove();
                 },
                 handleSave(val) {
                     var valstr = JSON.stringify(val);

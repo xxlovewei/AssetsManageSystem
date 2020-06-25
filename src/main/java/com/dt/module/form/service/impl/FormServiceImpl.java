@@ -59,7 +59,9 @@ public class FormServiceImpl extends BaseService {
         }
         //   parseFromJsonMetaColDB();
         HashMap<String, String> metacols = parseFromJsonMetaCol();
+        System.out.println(json_value);
         JSONObject e = JSONObject.parseObject(json_value);
+
         Iterator<String> keys = e.keySet().iterator();// jsonObject.keys();
         HashMap<String, String> map = new HashMap<String, String>();
         while (keys.hasNext()) {

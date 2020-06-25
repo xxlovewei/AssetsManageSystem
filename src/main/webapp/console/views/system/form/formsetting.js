@@ -83,9 +83,18 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
         .withOption('sDefaultContent', ''));
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('ct').withTitle('表单配置')
+        .withOption('sDefaultContent', '').renderWith(
+            function (data, type, full) {
+                if (angular.isDefined(data)) {
+                    if (data.length > 20) {
+                        return data.substring(0, 10) + '...';
+                    } else {
+                        return data;
+                    }
+                }
+            }));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
-        .withOption('sDefaultContent', ''));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('ct').withTitle('表单内容')
         .withOption('sDefaultContent', ''));
     $scope.catRootOpt = [];
     $scope.catRootSel = "";
