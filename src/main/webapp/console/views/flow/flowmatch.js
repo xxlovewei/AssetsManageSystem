@@ -175,20 +175,24 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
             function () {
                 return ""
             }));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('ID')
-        .withOption('sDefaultContent', ''));
+    // $scope.dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('ID')
+    //     .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
         .withOption('sDefaultContent', ''));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('type').withTitle('类型')
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('ptplkey')
+        .withTitle('流程实例').withOption('sDefaultContent', ''));
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('type').withTitle('表单类型')
         .withOption('sDefaultContent', '').renderWith(renderType)),
-        $scope.dtColumns.push(DTColumnBuilder.newColumn('ptplkey')
-            .withTitle('流程实例').withOption('sDefaultContent', ''));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('formname').withTitle('表单')
+        $scope.dtColumns.push(DTColumnBuilder.newColumn('form').withTitle('表单编码')
+            .withOption('sDefaultContent', ''));
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('formname').withTitle('表单名称')
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('状态')
         .withOption('sDefaultContent', '').renderWith(renderStatus)),
         $scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
             .withOption('sDefaultContent', ''));
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('createTime').withTitle('创建时间')
+        .withOption('sDefaultContent', ''));
     $scope.catRootOpt = [];
     $scope.catRootSel = "";
     $scope.item = {};
@@ -405,7 +409,7 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
         var selrow = getSelectRow();
         if (angular.isDefined(selrow)) {
             var ps = {};
-            ps.pk = selrow.ptplkey;
+            ps = selrow;
             var modalInstance = $uibModal.open({
                 backdrop: true,
                 templateUrl: 'views/flow/modal_reviewProcess.html',

@@ -1238,10 +1238,64 @@ function loadOpt(modal_meta, gdicts) {
     }
 }
 
-function modalreviewProcessCtl(meta, $rootScope, $window, $scope,
-                               $uibModalInstance) {
-    var url = $rootScope.project + "uflo/diagram?processKey=" + meta.pk;
+function modalreviewProcessCtl(meta, $rootScope, $window, $scope, $http, $timeout, $uibModalInstance) {
+    var url = $rootScope.project + "uflo/diagram?processKey=" + meta.ptplkey;
     $scope.url = url;
+    if (angular.isDefined(meta.form)) {
+        $http
+            .post(
+                $rootScope.project
+                + "/api/form/sysForm/selectById.do",
+                {
+                    id: meta.form
+                })
+            .success(
+                function (res) {
+                    if (res.success) {
+                        if (angular.isDefined(res.data.ct)) {
+                            $timeout(function () {
+                                var jd = decodeURI(res.data.ct);
+                                let jsonData = angular.fromJson(jd);
+                                console.log(jsonData);
+                                vm = new Vue({
+                                    el: '#app',
+                                    data: {
+                                        jsonData
+                                    },
+                                    mounted() {
+                                        this.init()
+                                    },
+                                    methods: {
+                                        init() {
+                                            console.log(this);
+                                        },
+                                        handleSubmit(p) {
+                                            // 通过表单提交按钮触发，获取promise对象
+                                            p().then(res => {
+                                                // 获取数据成功
+                                                alert(JSON.stringify(res))
+                                            })
+                                                .catch(err => {
+                                                    console.log(err, '校验失败')
+                                                })
+                                        },
+                                        getData() {
+                                            // 通过函数获取数据
+                                            this.$refs.kfb.getData().then(res => {
+                                                // 获取数据成功
+                                                alert(JSON.stringify(res))
+                                            })
+                                                .catch(err => {
+                                                    console.log(err, '校验失败')
+                                                })
+                                        }
+                                    }
+                                })
+                            }, 800);
+                        }
+                    }
+                })
+    }
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };

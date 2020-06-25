@@ -139,7 +139,9 @@ function processConfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', '').renderWith(renderType),
         DTColumnBuilder.newColumn('processdefid').withTitle('流程配置编码').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('formname').withTitle('表单').withOption(
+        DTColumnBuilder.newColumn('form').withTitle('表单编码').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('formname').withTitle('表单名称').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
             'sDefaultContent', '')

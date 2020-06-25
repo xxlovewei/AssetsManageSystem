@@ -9,14 +9,13 @@
 - 系统包含admin 管理用户
 
 ## 所用框架
+- Spring 5.0.17
+- Shiro 1.5。3
 - MyBatis-Plus 3.0.7.1
 - MyBatis 3.4.6
-- Spring 5.0.7
-- Fastjson 1.2.62
-- Shiro 1.4.2
-- Druid 1.1.21
+- Druid 1.1.22
 - Easypoi 4.1.3
-- quartz 2.3.0
+- quartz 2.3.2
 - UFLO 2.1.5(流程引擎)
 - k-form-design 3.x(表单)
 - angular 1.x
@@ -41,7 +40,7 @@
 ### 步骤二
 - 初始化sql
 ```
-- 要求Mysql的参数 lower_case_table_names=1
+- 要求Mysql的参数:lower_case_table_names=1
 - SQL>CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
 - SQL>set names utf8;
 - SQL>use dt;
@@ -52,7 +51,7 @@
 - 发布应用,注意:最新版本的war包已经发布,请直接下载（右上角发版中）,不需要下载源代码进行编译。
 ```
 - 将war包部署到Tomcat目录的webapps下后，修改配置文件(webapps/dt/WEB-INF/classes)中数据库的数据库配置文件config.properties
-- jdbc.url=jdbc:mysql://127.0.0.1:3306/dt?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+- jdbc.url=jdbc:mysql://127.0.0.1:3306/dt?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
 - jdbc.username=root
 - jdbc.password=root_pwd
 - 修改成你所在的环境配置
@@ -64,7 +63,7 @@
 - http://ip:port/dt/console
 - 选择用户名方式登陆
 - 账户:admin 
-- 密码:1
+- 密码:oracle
 ```
 
 ## PC效果图
@@ -82,9 +81,15 @@
 ## 移动端
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0517/102238_f51306f9_448530.png "WechatIMG156.png")
 
+
+## 商业
+- 本项目完全开源,可以商业使用,也欢迎商业合作!
+
 ## 后期开发计划
 - 添加工单功能
 - 优化打印标签
+- 移动端计划9月份开源
+
 
 
  

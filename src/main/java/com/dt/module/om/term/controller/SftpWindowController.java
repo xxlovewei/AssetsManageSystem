@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,9 +41,10 @@ import ch.ethz.ssh2.SFTPException;
  */
 @Controller
 @RequestMapping("/api")
-public class SftpWindowController extends BaseController {
+public class SftpWindowController<MySQLDatabaseBackupServicem> extends BaseController {
     private Map<String, Object> sftpsession;
     private Map<String, Object> sftpuploadSession = new HashMap<String, Object>();
+
 
     @RequestMapping(value = "/sftp/exeCommand.do", method = RequestMethod.POST)
     @ResponseBody
