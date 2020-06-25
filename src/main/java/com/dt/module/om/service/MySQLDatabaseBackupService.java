@@ -20,11 +20,17 @@ import com.dt.module.db.DB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@PropertySource(value = "classpath:config.properties")
 public class MySQLDatabaseBackupService extends BaseService {
+
+    @Value("${databackup.mysqldump}")
+    private String databackupmysqldump;
 
     @Autowired
     ISysFileConfService SysFileConfServiceImpl;
@@ -124,7 +130,10 @@ public class MySQLDatabaseBackupService extends BaseService {
             }
             StringBuilder mysqldump = new StringBuilder();
             mysqldump.append("mysqldump");
-            mysqldump.append("  --column-statistics=0 --opt");
+            if (ToolUtil.isNotEmpty(databackupmysqldump)) {
+                mysqldump.append(" " + databackupmysqldump + " ");
+            }
+            mysqldump.append("  --opt");
 
             mysqldump.append(" --user=").append(username);
             mysqldump.append(" --password=").append(password);
@@ -144,6 +153,7 @@ public class MySQLDatabaseBackupService extends BaseService {
             mysqldump.append("").append(filePath).append("");
 
             String command = mysqldump.toString();
+            //   System.out.println(command);
             commands[2] = command;
             Runtime runtime = Runtime.getRuntime();
             Process process = runtime.exec(commands);
