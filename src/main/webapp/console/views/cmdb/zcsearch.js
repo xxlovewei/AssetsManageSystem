@@ -83,6 +83,14 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
             },
             {
+                id: "btn5",
+                label: "",
+                type: "btn",
+                show: true,
+                priv: "detail",
+                template: ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
+            },
+            {
                 id: "btn2",
                 label: "",
                 type: "btn",
@@ -216,7 +224,14 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             });
         }
     })
-    $scope.detail = function (id) {
+    $scope.detail = function () {
+        var id = "";
+        var selrow = getSelectRow();
+        if (angular.isDefined(selrow)) {
+            id = selrow.id;
+        } else {
+            return;
+        }
         var ps = {};
         ps.id = id;
         var modalInstance = $uibModal.open({
@@ -237,7 +252,6 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             $log.log("reason", reason)
         });
     }
-
     function getSelectRow() {
         var data = $scope.dtInstance.DataTable.rows({
             selected: true

@@ -63,9 +63,9 @@ function databackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('duration').withTitle('备份时间').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('filepath').withTitle('文件路径').withOption(
-            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('filesize').withTitle('文件大小').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('filepath').withTitle('文件路径').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('createTime').withTitle('创建时间')
             .withOption('sDefaultContent', '')]

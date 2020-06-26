@@ -3,6 +3,7 @@ package com.dt.module.base.job;
 
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.impl.JobService;
 import com.dt.module.om.service.MySQLDatabaseBackupService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -45,5 +46,6 @@ public class DatabackupJob implements Job {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        JobService.me().finishedJobUpdate(jc);
     }
 }

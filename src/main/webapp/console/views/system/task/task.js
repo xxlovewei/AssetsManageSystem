@@ -1,4 +1,22 @@
 function sysTaskCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+    $scope.meta = {
+        tools: [
+            {
+                id: "2",
+                label: "刷新",
+                type: "btn",
+                show: true,
+                template: ' <button ng-click="flush()" class="btn btn-sm btn-primary" type="submit">刷新</button>'
+            }
+            // , {
+            //     id: "3",
+            //     label: "清除缓存",
+            //     type: "btn",
+            //     show: true,
+            //     template: ' <button ng-click="cacheclear()" class="btn btn-sm btn-primary" type="submit">清除缓存</button>'
+            // }
+        ]
+    }
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption('createdRow', function (row) {
         // Recompiling so we can bind Angular,directive to the
         $compile(angular.element(row).contents())($scope);

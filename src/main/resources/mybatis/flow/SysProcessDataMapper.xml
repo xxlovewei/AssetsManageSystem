@@ -25,6 +25,7 @@
         <result column="pstartusername" property="pstartusername" />
         <result column="pendtime" property="pendtime" />
         <result column="formid" property="formid" />
+        <result column="formtype" property="formtype"/>
         <result column="ifsp" property="ifsp" />
         <result column="busstatus" property="busstatus" />
     </resultMap>

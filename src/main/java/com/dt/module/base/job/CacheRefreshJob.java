@@ -1,5 +1,6 @@
 package com.dt.module.base.job;
 
+import com.dt.module.base.service.impl.JobService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -21,6 +22,8 @@ public class CacheRefreshJob implements Job {
         _log.info("CacheRefreshJob start.");
         CacheService.me().refreshCaches();
         _log.info("CacheRefreshJob end.");
+        JobService.me().finishedJobUpdate(jc);
     }
+
 
 }

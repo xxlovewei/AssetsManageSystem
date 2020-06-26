@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/api")
 @PropertySource(value = "classpath:config.properties")
-public class DbbackupController<MySQLDatabaseBackupServicem> extends BaseController {
+public class DatabackupController<MySQLDatabaseBackupServicem> extends BaseController {
 
     @Autowired
     MySQLDatabaseBackupService mySQLDatabaseBackupService;

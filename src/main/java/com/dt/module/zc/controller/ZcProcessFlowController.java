@@ -194,18 +194,21 @@ public class ZcProcessFlowController extends BaseController {
         startProcessInfo.setCompleteStartTask(true);
         startProcessInfo.setBusinessId(pd.getBusid());
         startProcessInfo.setTag("zc");
-        startProcessInfo.setSubject(formdata.getDtitle() == null ? "" :formdata.getDtitle());
+        startProcessInfo.setSubject(formdata.getDtitle() == null ? "" : formdata.getDtitle());
         startProcessInfo.setCompleteStartTaskOpinion("发起流程");
         ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
+
         // 插入流程数据
         pd.setPstatus(SysUfloProcessService.P_STATUS_RUNNING);
         pd.setPstartuserid(this.getUserId());
         pd.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
         pd.setProcesskey(pdef.getPtplkey());
         pd.setProcessInstanceId(inst.getId() + "");
+        pd.setFormid(formdata.getId());
+        pd.setFormtype(pdef.getType());
         SysProcessDataServiceImpl.saveOrUpdate(pd);
 
-        zcChangeService.ZcStartChange(pd.getBusid(),pd.getBustype());
+        zcChangeService.ZcStartChange(pd.getBusid(), pd.getBustype());
 
         return R.SUCCESS_OPER();
     }

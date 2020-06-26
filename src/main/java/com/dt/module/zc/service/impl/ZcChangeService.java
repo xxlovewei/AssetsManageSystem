@@ -79,7 +79,7 @@ public class ZcChangeService extends BaseService {
     }
 
     //**************************领用/退库************************//
-    //领用
+    //领用确认
     public R zcLySureChange(String uuid){
         UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
         ups.inSql("id","select resid from res_action_item where dr='0' and busuuid='"+uuid+"'");
@@ -98,7 +98,7 @@ public class ZcChangeService extends BaseService {
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_LY);
-            e.setMark("资产领用审批通过");
+            e.setMark("资产领用");
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
@@ -107,7 +107,7 @@ public class ZcChangeService extends BaseService {
 
     }
 
-    //领用取消
+    //领用申请
     public R zcLyStartChange(String uuid){
         //记录资产变更
         ArrayList<ResChangeItem> cols=new ArrayList<ResChangeItem>();
@@ -169,7 +169,7 @@ public class ZcChangeService extends BaseService {
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_LY);
-            e.setMark("资产已退库");
+            e.setMark("资产退还");
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
@@ -179,15 +179,13 @@ public class ZcChangeService extends BaseService {
     }
 
     //**************************借用/归还************************//
-    //借用
+    //借用确认
     public R zcJySureChange(String uuid){
         UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
         ups.inSql("id","select resid from res_action_item where dr='0' and busuuid='"+uuid+"'");
-    //    ups.set("prerecycle","");
         ups.setSql("prerecycle=recycle");
         ups.set("recycle",ZcCommonService.RECYCLE_BORROW);
         ResServiceImpl.update(ups);
-
 
         //记录资产变更
         ArrayList<ResChangeItem> cols=new ArrayList<ResChangeItem>();
@@ -199,20 +197,21 @@ public class ZcChangeService extends BaseService {
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
-            e.setMark("资产借用审批通过");
+            e.setMark("资产借用");
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
         return R.SUCCESS_OPER();
     }
 
+    //借用申请
     public R zcJyStartChange(String uuid){
         //记录资产变更
         ArrayList<ResChangeItem> cols=new ArrayList<ResChangeItem>();
         QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
         ew.and(i -> i.eq("busuuid", uuid));
         List<ResActionItem> items= ResActionItemServiceImpl.list(ew);
-        for(int i=0;i<items.size();i++){
+        for(int i=0; i<items.size(); i++){
             ResChangeItem e=new ResChangeItem();
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
@@ -244,14 +243,12 @@ public class ZcChangeService extends BaseService {
     }
 
 
-    //归还
+    //资产借用归还
     public R zcGhChange(String uuid){
         UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-        ups.inSql("id","select resid from res_action_item where dr='0' and busuuid='"+uuid+"'");
-      //  ups.setSql("recycle=prerecycle");
-        ups.set("prerecycle","");
+        ups.inSql("id", "select resid from res_action_item where dr='0' and busuuid='" + uuid + "'");
         ups.setSql("recycle=prerecycle");
-      //  ups.set("recycle",ZcCommonService.RECYCLE_IDLE);
+        ups.set("prerecycle", "");
         ResServiceImpl.update(ups);
         UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
         uw.eq("busid", uuid);
@@ -280,7 +277,6 @@ public class ZcChangeService extends BaseService {
 
     //**************************调拨************************//
     public R zcDBChange(String uuid){
-
         //修改资产
         UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
         ups.inSql("id","select resid from res_allocate_item where dr='0' and busuuid='"+uuid+"'");
@@ -386,8 +382,6 @@ public class ZcChangeService extends BaseService {
         ResChangeItemServiceImpl.saveBatch(cols);
         return R.SUCCESS_OPER();
     }
-
-
 
 
 

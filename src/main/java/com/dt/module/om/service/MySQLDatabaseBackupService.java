@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
@@ -26,11 +25,9 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-@PropertySource(value = "classpath:config.properties")
+
 public class MySQLDatabaseBackupService extends BaseService {
 
-    @Value("${databackup.mysqldump}")
-    private String databackupmysqldump;
 
     @Autowired
     ISysFileConfService SysFileConfServiceImpl;
@@ -114,6 +111,65 @@ public class MySQLDatabaseBackupService extends BaseService {
     }
 
 
+    private String decideMysqldumpColumnStatistics() {
+        StringBuilder result = new StringBuilder();
+        Process process = null;
+        BufferedReader bufrIn = null;
+        BufferedReader bufrError = null;
+        try {
+            String[] commands = new String[3];
+            String os = System.getProperties().getProperty("os.name");
+            if (os.startsWith("Win")) {
+                commands[0] = "cmd.exe";
+                commands[1] = "/c";
+            } else {
+                commands[0] = "/bin/sh";
+                commands[1] = "-c";
+            }
+            commands[2] = "mysqldump --help";
+            // 执行命令, 返回一个子进程对象（命令在子进程中执行）
+            process = Runtime.getRuntime().exec(commands, null);
+            // 方法阻塞, 等待命令执行完成（成功会返回0）
+            process.waitFor();
+            // 获取命令执行结果, 有两个结果: 正常的输出 和 错误的输出（PS: 子进程的输出就是主进程的输入）
+            bufrIn = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+            bufrError = new BufferedReader(new InputStreamReader(process.getErrorStream(), "UTF-8"));
+            // 读取输出
+            String line;
+            while ((line = bufrIn.readLine()) != null) {
+                result.append(line + "\n");
+            }
+            while ((line = bufrError.readLine()) != null) {
+                result.append(line + "\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeStream(bufrIn);
+            closeStream(bufrError);
+            // 销毁子进程
+            if (process != null) {
+                process.destroy();
+            }
+            // 返回执行结果
+            if (result.toString().indexOf("column-statistics") > 0) {
+                return "--column-statistics=0";
+            }
+            return "";
+        }
+
+    }
+
+    private static void closeStream(Closeable stream) {
+        if (stream != null) {
+            try {
+                stream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public R backup(String host, int port, String dbName, String username, String password, String filePath) {
         Long starttime = System.currentTimeMillis();
         JSONObject res = new JSONObject();
@@ -130,9 +186,7 @@ public class MySQLDatabaseBackupService extends BaseService {
             }
             StringBuilder mysqldump = new StringBuilder();
             mysqldump.append("mysqldump");
-            if (ToolUtil.isNotEmpty(databackupmysqldump)) {
-                mysqldump.append(" " + databackupmysqldump + " ");
-            }
+            mysqldump.append(" " + decideMysqldumpColumnStatistics() + " ");
             mysqldump.append("  --opt");
 
             mysqldump.append(" --user=").append(username);
@@ -153,7 +207,6 @@ public class MySQLDatabaseBackupService extends BaseService {
             mysqldump.append("").append(filePath).append("");
 
             String command = mysqldump.toString();
-            //   System.out.println(command);
             commands[2] = command;
             Runtime runtime = Runtime.getRuntime();
             Process process = runtime.exec(commands);
@@ -228,10 +281,11 @@ public class MySQLDatabaseBackupService extends BaseService {
         }
     }
 
+
     public static void main(String[] args) throws Exception {
         MySQLDatabaseBackupService d = new MySQLDatabaseBackupService();
-        d.zip("/tmp/a.file", "/tmp/a.file.zip");
-        // MySQLDatabaseBackup.backup("127.0.0.1",3306,"dt","root","root_pwd","/tmp/a.file");
+        System.out.println(d.decideMysqldumpColumnStatistics());
+
     }
 
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author algernonking
- * @since 2020-06-25
+ * @since 2020-06-26
  */
 @Service
 public class SysProcessSettingServiceImpl extends ServiceImpl<SysProcessSettingMapper, SysProcessSetting> implements ISysProcessSettingService {

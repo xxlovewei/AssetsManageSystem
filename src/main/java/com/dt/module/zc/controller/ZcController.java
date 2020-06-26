@@ -156,8 +156,6 @@ public class ZcController extends BaseController {
 
     }
 
-
-
     @ResponseBody
     @Acl(info = "获取后台类目", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectZcCats.do")
@@ -244,8 +242,6 @@ public class ZcController extends BaseController {
             //需要送审
             entity.setPstatus(SysUfloProcessService.P_STATUS_SFA);
             entity.setPstatusdtl(SysUfloProcessService.P_DTL_STATUS_SFA);
-            //变更资产
-           // zcChangeService.ZcStartChange(uuid,entity.getBustype());
         }
         SysProcessDataServiceImpl.save(entity);
 

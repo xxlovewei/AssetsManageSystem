@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author algernonking
- * @since 2020-06-25
+ * @since 2020-06-26
  */
 public interface ISysProcessSettingService extends IService<SysProcessSetting> {
 

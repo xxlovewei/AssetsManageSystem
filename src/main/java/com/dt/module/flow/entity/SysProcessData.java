@@ -10,11 +10,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
- * @since 2020-04-20
+ * @since 2020-06-26
  */
  
 @TableName("sys_process_data")
@@ -71,16 +71,12 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     @TableField("psubtype")
     private String psubtype;
     /**
-     * 
-waiting 
-inreview  
-finish ?
+     * waiting、inreview、finish
      */
     @TableField("pstatus")
     private String pstatus;
     /**
-     * success 
-failed 
+     * success、failed 
      */
     @TableField("pstatusdtl")
     private String pstatusdtl;
@@ -104,6 +100,14 @@ failed
      */
     @TableField("formid")
     private String formid;
+    /**
+     * 流程调用的表单类型
+     */
+    @TableField("formtype")
+    private String formtype;
+    /**
+     * 是否审批
+     */
     @TableField("ifsp")
     private String ifsp;
     @TableField("busstatus")
@@ -238,6 +242,14 @@ failed
         this.formid = formid;
     }
 
+    public String getFormtype() {
+        return formtype;
+    }
+
+    public void setFormtype(String formtype) {
+        this.formtype = formtype;
+    }
+
     public String getIfsp() {
         return ifsp;
     }
@@ -268,18 +280,19 @@ failed
         ", processkey=" + processkey +
         ", processname=" + processname +
         ", processversion=" + processversion +
-        ", processInstanceId=" + processInstanceId +
-        ", ptitle=" + ptitle +
-        ", ptype=" + ptype +
-        ", psubtype=" + psubtype +
-        ", pstatus=" + pstatus +
-        ", pstatusdtl=" + pstatusdtl +
-        ", pstartuserid=" + pstartuserid +
-        ", pstartusername=" + pstartusername +
-        ", pendtime=" + pendtime +
-        ", formid=" + formid +
-        ", ifsp=" + ifsp +
-        ", busstatus=" + busstatus +
-        "}";
+                ", processInstanceId=" + processInstanceId +
+                ", ptitle=" + ptitle +
+                ", ptype=" + ptype +
+                ", psubtype=" + psubtype +
+                ", pstatus=" + pstatus +
+                ", pstatusdtl=" + pstatusdtl +
+                ", pstartuserid=" + pstartuserid +
+                ", pstartusername=" + pstartusername +
+                ", pendtime=" + pendtime +
+                ", formid=" + formid +
+                ", formtype=" + formtype +
+                ", ifsp=" + ifsp +
+                ", busstatus=" + busstatus +
+                "}";
     }
 }

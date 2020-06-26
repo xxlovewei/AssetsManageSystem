@@ -63,7 +63,8 @@ function modalFlowConfSaveCtl($timeout, $localStorage, notify, $log, $uibModal, 
             size: 'lg'
         });
         modalInstance.result.then(function (result) {
-            $scope.data.processdefid = result.id
+            $scope.data.processdefid = result.id;
+            $scope.data.processdefname = result.name;
         }, function (reason) {
             $log.log("reason", reason)
         });
@@ -129,8 +130,8 @@ function processConfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
-        DTColumnBuilder.newColumn('id').withTitle('流程ID').withOption(
-            'sDefaultContent', ''),
+        // DTColumnBuilder.newColumn('id').withTitle('流程ID').withOption(
+        //     'sDefaultContent', ''),
         DTColumnBuilder.newColumn('name').withTitle('流程名称').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('code').withTitle('编码').withOption(
@@ -139,11 +140,15 @@ function processConfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', '').renderWith(renderType),
         DTColumnBuilder.newColumn('processdefid').withTitle('流程配置编码').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('processdefname').withTitle('流程配置名称').withOption(
+            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('form').withTitle('表单编码').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('formname').withTitle('表单名称').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('createTime').withTitle('创建时间').withOption(
             'sDefaultContent', '')
     ]
 

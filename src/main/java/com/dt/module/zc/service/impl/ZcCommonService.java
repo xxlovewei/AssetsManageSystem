@@ -68,19 +68,20 @@ public class ZcCommonService extends BaseService {
     public static String UUID_BJRK = "BJRK";
     public static String UUID_BJCK = "BJCK";
 
-    public static String ZC_BUS_TYPE_LY="LY";
-    public static String ZC_BUS_TYPE_JY="JY";
-    public static String ZC_BUS_TYPE_ZY="ZY";
-    public static String ZC_BUS_TYPE_DB="DB";
+    public static String ZC_BUS_TYPE_LY = "LY";
+    public static String ZC_BUS_TYPE_JY = "JY";
+    public static String ZC_BUS_TYPE_ZY = "ZY";
+    public static String ZC_BUS_TYPE_DB = "DB";
 
 
+    //维修状态:维修中、维修结束、报废
+    public static String BX_STATUS_UNDERREPAIR = "underrepair";
+    public static String BX_STATUS_FINSH = "finish";
+    public static String BX_STATUS_CANCEL = "cancel";
 
-    public static String BX_STATUS_WAIT="wait";
-    public static String BX_STATUS_FINSH="finish";
-
-    public static String CATEGORY_ZC="3";
-    public static String CATEGORY_HC="7";
-    public static String CATEGORY_BJ="8";
+    public static String CATEGORY_ZC = "3";
+    public static String CATEGORY_HC = "7";
+    public static String CATEGORY_BJ = "8";
 
     @Autowired
     IResService ResServiceImpl;

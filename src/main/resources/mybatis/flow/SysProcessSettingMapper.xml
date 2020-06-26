@@ -5,14 +5,15 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.dt.module.flow.entity.SysProcessSetting">
         <id column="id" property="id"/>
-        <result column="update_time" property="updateTime"/>
         <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
         <result column="create_by" property="createBy"/>
         <result column="create_time" property="createTime"/>
         <result column="dr" property="dr"/>
         <result column="name" property="name"/>
         <result column="code" property="code"/>
         <result column="processdefid" property="processdefid"/>
+        <result column="processdefname" property="processdefname"/>
         <result column="type" property="type"/>
         <result column="form" property="form"/>
         <result column="formname" property="formname"/>

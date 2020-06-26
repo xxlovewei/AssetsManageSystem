@@ -83,7 +83,7 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
         var mdata = {};
         mdata.id = "";
         mdata.type = "many";
-        mdata.datarange = "repair";
+        mdata.datarange = "DB";
         if (angular.isUndefined($scope.outcompSel.id)) {
             notify({
                 message: "请选择调出公司"

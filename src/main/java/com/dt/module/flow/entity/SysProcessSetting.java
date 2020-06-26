@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-06-25
+ * @since 2020-06-26
  */
  
 @TableName("sys_process_setting")
@@ -39,6 +39,11 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
      */
     @TableField("processdefid")
     private String processdefid;
+    /**
+     * 流程定义名称
+     */
+    @TableField("processdefname")
+    private String processdefname;
     /**
      * 流程类型 system|user
      */
@@ -93,6 +98,14 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
         this.processdefid = processdefid;
     }
 
+    public String getProcessdefname() {
+        return processdefname;
+    }
+
+    public void setProcessdefname(String processdefname) {
+        this.processdefname = processdefname;
+    }
+
     public String getType() {
         return type;
     }
@@ -137,6 +150,7 @@ public class SysProcessSetting extends BaseModel<SysProcessSetting> {
                 ", name=" + name +
                 ", code=" + code +
                 ", processdefid=" + processdefid +
+                ", processdefname=" + processdefname +
                 ", type=" + type +
                 ", form=" + form +
                 ", formname=" + formname +

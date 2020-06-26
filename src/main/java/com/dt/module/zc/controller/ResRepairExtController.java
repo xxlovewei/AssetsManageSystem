@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -65,69 +66,104 @@ public class ResRepairExtController extends BaseController {
 
 	@ResponseBody
 	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(ResRepair entity,String items,String files) {
-		System.out.println(entity.toString());
-		String status=entity.getFstatus();
-		String id=entity.getId();
+	@RequestMapping(value = "/cancellation.do")
+	public R cancellation(String id) {
+		ResRepair dbobj = ResRepairServiceImpl.getById(id);
+		if (ZcCommonService.BX_STATUS_UNDERREPAIR.equals(dbobj.getFstatus())) {
 
-		JSONArray arr=JSONArray.parseArray(items);
-		if(ToolUtil.isNotEmpty(id)){
-			//维护单已完成，不允许修改
-			ResRepair dbobj=ResRepairServiceImpl.getById(entity.getId());
-			if(ZcCommonService.BX_STATUS_FINSH.equals(dbobj.getFstatus())){
+			//修改单据
+			ResRepair e = new ResRepair();
+			e.setId(id);
+			e.setFstatus(ZcCommonService.BX_STATUS_CANCEL);
+			ResRepairServiceImpl.saveOrUpdate(e);
+
+			//更新资产状态，作废单据
+			UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
+			ups.inSql("id", "select resid from res_repair_item where dr='0' and repairid='" + id + "'");
+			ups.setSql("recycle=prerecycle");
+			ResServiceImpl.update(ups);
+
+			//删除历史记录
+			QueryWrapper<ResRepairItem> ew = new QueryWrapper<ResRepairItem>();
+			ew.and(i -> i.eq("repairid", id));
+			ResRepairItemServiceImpl.remove(ew);
+
+
+		} else {
+			return R.FAILURE("当前状态不允许作废");
+		}
+		return R.SUCCESS_OPER();
+
+	}
+
+	@ResponseBody
+	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+	@RequestMapping(value = "/insertOrUpdate.do")
+	public R insertOrUpdate(ResRepair entity, String items, String files) {
+		System.out.println(entity.toString());
+		String status = entity.getFstatus();
+		String id = entity.getId();
+
+		JSONArray arr = JSONArray.parseArray(items);
+		if (ToolUtil.isNotEmpty(id)) {
+			//更新报修单据
+			//盘点维护单是否已完成，完成的维修单不允许修改
+			ResRepair dbobj = ResRepairServiceImpl.getById(entity.getId());
+			if (ZcCommonService.BX_STATUS_FINSH.equals(dbobj.getFstatus())) {
 				return R.FAILURE("当前状态不允许更新");
 			}
-			if(ZcCommonService.BX_STATUS_FINSH.equals(status)){
+			//如果修改了维修状态,则同步修改
+			if (ZcCommonService.BX_STATUS_FINSH.equals(status)) {
 				//更新资产状态，完成单据
 				UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-				ups.inSql("id","select resid from res_repair_item where dr='0' and repairid='"+id+"'");
+				ups.inSql("id", "select resid from res_repair_item where dr='0' and repairid='" + id + "'");
 				ups.setSql("recycle=prerecycle");
 				ResServiceImpl.update(ups);
 			}
 			ResRepairServiceImpl.saveOrUpdate(entity);
-		}else{
-			//新增单据
-			ArrayList<ResRepairItem> cols=new ArrayList<ResRepairItem>();
-			String uuid=zcService.createUuid(ZcCommonService.UUID_BX);
+		}else {
+			//新增报修单据
+			ArrayList<ResRepairItem> cols = new ArrayList<ResRepairItem>();
+			String uuid = zcService.createUuid(ZcCommonService.UUID_BX);
 			entity.setFuuid(uuid);
 			ResRepairServiceImpl.saveOrUpdate(entity);
 			QueryWrapper<ResRepair> ew = new QueryWrapper<ResRepair>();
-			ew.and(i -> i.eq("fuuid",uuid));
-			ResRepair dbobj=ResRepairServiceImpl.getOne(ew);
-			id=dbobj.getId();
-			for(int i=0;i<arr.size();i++){
-				ResRepairItem e=new ResRepairItem();
+			ew.and(i -> i.eq("fuuid", uuid));
+			ResRepair dbobj = ResRepairServiceImpl.getOne(ew);
+			id = dbobj.getId();
+			//记录需要维修的资产
+			for (int i = 0; i < arr.size(); i++) {
+				ResRepairItem e = new ResRepairItem();
 				e.setRepairid(id);
 				e.setBusuuid(uuid);
 				e.setResid(arr.getJSONObject(i).getString("id"));
 				cols.add(e);
 			}
 			ResRepairItemServiceImpl.saveOrUpdateBatch(cols);
-			if(!ZcCommonService.BX_STATUS_FINSH.equals(status)){
-				//修改资产状态
+			if (!ZcCommonService.BX_STATUS_FINSH.equals(status)) {
+				//修改资产状态,记录原资产状态
 				UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-				ups.inSql("id","select resid from res_repair_item where dr='0' and repairid='"+id+"'");
+				ups.inSql("id", "select resid from res_repair_item where dr='0' and repairid='" + id + "'");
 				ups.setSql("prerecycle=recycle");
-				ups.set("recycle",ZcCommonService.RECYCLE_REPAIR);
+				ups.set("recycle", ZcCommonService.RECYCLE_REPAIR);
 				ResServiceImpl.update(ups);
 			}
 		}
 
-		//删除图片
+		//全量删除图片
 		QueryWrapper<ResRepairFile> fq = new QueryWrapper<ResRepairFile>();
 		String finalId = id;
 		fq.and(i -> i.eq("repiarid", finalId));
 		ResRepairFileServiceImpl.remove(fq);
-		//处理图片
-		if(ToolUtil.isNotEmpty(files)){
-			ArrayList<ResRepairFile> flist=new ArrayList<ResRepairFile>();
-			String[] arrfiles=files.split("#");
-			for(int i=0;i<arrfiles.length;i++){
-				ResRepairFile e=new ResRepairFile();
+		//重新更新图片数据
+		if (ToolUtil.isNotEmpty(files)) {
+			ArrayList<ResRepairFile> flist = new ArrayList<ResRepairFile>();
+			String[] arrfiles = files.split("#");
+			for (int i = 0; i < arrfiles.length; i++) {
+				ResRepairFile e = new ResRepairFile();
 				e.setRepiarid(id);
 				e.setFileid(arrfiles[i]);
-				if(arrfiles[i].length()>6){
+				if (arrfiles[i].length() > 6) {
 					flist.add(e);
 				}
 			}
@@ -135,9 +171,7 @@ public class ResRepairExtController extends BaseController {
 				ResRepairFileServiceImpl.saveBatch(flist);
 			}
 		}
-
 		return R.SUCCESS_OPER();
-
 	}
 
 
@@ -163,10 +197,13 @@ public class ResRepairExtController extends BaseController {
 	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
 	@RequestMapping(value = "/deleteById.do")
 	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		ResRepair obj=ResRepairServiceImpl.getById(id);
-		if(ZcCommonService.BX_STATUS_WAIT.equals(obj.getFstatus())){
+		ResRepair obj = ResRepairServiceImpl.getById(id);
+		if (ZcCommonService.BX_STATUS_UNDERREPAIR.equals(obj.getFstatus())) {
 			return R.FAILURE("当前状态不允许删除");
-		}else{
+		} else {
+			QueryWrapper<ResRepairItem> ew = new QueryWrapper<ResRepairItem>();
+			ew.and(i -> i.eq("repairid", id));
+			ResRepairItemServiceImpl.remove(ew);
 			return R.SUCCESS_OPER(ResRepairServiceImpl.removeById(id));
 		}
 
@@ -235,12 +272,12 @@ public class ResRepairExtController extends BaseController {
 	@Acl(info = "", value = Acl.ACL_USER)
 	@RequestMapping(value = "/finish.do")
 	public R finish(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		ResRepair obj=ResRepairServiceImpl.getById(id);
-		if(ZcCommonService.BX_STATUS_FINSH.equals(obj.getFstatus())){
+		ResRepair obj = ResRepairServiceImpl.getById(id);
+		if (!ZcCommonService.BX_STATUS_UNDERREPAIR.equals(obj.getFstatus())) {
 			return R.FAILURE("当前状态不允许变更");
-		}else{
+		} else {
 			//修改单据
-			ResRepair e=new ResRepair();
+			ResRepair e = new ResRepair();
 			e.setId(id);
 			e.setFstatus(ZcCommonService.BX_STATUS_FINSH);
 			ResRepairServiceImpl.saveOrUpdate(e);

@@ -1330,31 +1330,25 @@ function renderZCSPStatus(data, type, full) {
 function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compile,
                              $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta, pagetype, task,
                              $uibModalInstance) {
-    $scope.hidectl = {"flowform": true, "flowchart": true, "flowsuggestlist": true, "flowsuggest": true};
-    $scope.actmsg = "操作人";
-    if (meta.acttype == "LY") {
-        $scope.actmsg = "领用人";
-    } else if (meta.acttype == "JY") {
-        $scope.actmsg = "借用人";
-    } else if (meta.acttype == "ZY") {
-        actbtn = "转移人";
-    }
+    console.log(meta, pagetype, task);
+    //pagetype:sp,query
+    //审批流程，已审批意见，审批意见,默认隐藏
+    $scope.hidectl = {"pagespbtnhide": true, "flowchart": true, "flowsuggestlist": true, "flowsuggest": true};
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
     $scope.url = "";
+    //审批已经
     $scope.spsugguest = [];
-    $scope.ctl = {};
-    $scope.ctl.pagespbtnhide = true;
-    $scope.ctl.flowsuggest = true;
-    $scope.ctl.flowchart = true;
-    $scope.ctl.flowsuggestlist = true;
     $scope.spsuggest = "";
     //页面是否审批类型打开
     $scope.pagetype = pagetype;
     if ($scope.pagetype == "sp") {
-        $scope.ctl.pagespbtnhide = false;
+        $scope.hidectl.pagespbtnhide = false;
+    } else {
+        $scope.hidectl.pagespbtnhide = true;
     }
+
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
         .withDOM('frtlip').withPaginationType('simple').withDisplayLength(
             50).withOption("ordering", false).withOption("responsive",
@@ -1381,12 +1375,12 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                     $scope.data = res.data;
                     $scope.dtOptions.aaData = res.data.items;
                     if (res.data.ifsp == "1") {
-                        $scope.hidectl = {"flowchart": false, "flowsuggestlist": false, "flowsuggest": false};
+                        //需要审批的单据
+                        $scope.hidectl.flowchart = false;
+                        $scope.hidectl.flowsuggestlist = false;
+                        $scope.hidectl.flowsuggest = false;
                     } else {
-                        $scope.ctl.pagespbtnhide = true;
-                        $scope.ctl.flowsuggest = true;
-                        $scope.ctl.flowchart = true;
-                        $scope.ctl.flowsuggestlist = true;
+                        $scope.hidectl.pagespbtnhide = true;
                     }
                     //获取审批
                     if (angular.isDefined(res.data.processInstanceId) && res.data.processInstanceId != "") {
@@ -1703,6 +1697,7 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
                         name: "全部"
                     });
                     $scope.areaSel = $scope.areaOpt[0];
+                    flush();
                 } else {
                     notify({
                         message: res.message
@@ -1760,13 +1755,17 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
     $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withselect');
 
     function flush() {
-        var ps = data;
+        var ps = {};
+        ps.id = data.id;
+        ps.type = data.type;
+        ps.datarange = data.datarange;
         if (angular.isDefined($scope.search)) {
             ps.search = $scope.search;
         }
         if (angular.isDefined($scope.compSel.id) && $scope.compSel.id != 'all') {
             ps.comp = $scope.compSel.id;
         }
+        console.log($scope.partSel);
         if (angular.isDefined($scope.partSel.partid) && $scope.partSel.partid != 'all') {
             ps.part = $scope.partSel.partid;
         }
@@ -2043,6 +2042,8 @@ function modalFlowSelectCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.dtColumns.push(DTColumnBuilder.newColumn('formname').withTitle('表单')
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
+        .withOption('sDefaultContent', ''));
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('createTime').withTitle('创建时间')
         .withOption('sDefaultContent', ''));
     $scope.catRootOpt = [];
     $scope.catRootSel = "";

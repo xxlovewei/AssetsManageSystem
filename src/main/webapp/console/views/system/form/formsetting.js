@@ -81,7 +81,7 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
             }));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('编号')
         .withOption('sDefaultContent', ''));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('表单名称')
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('ct').withTitle('表单配置')
         .withOption('sDefaultContent', '').renderWith(
@@ -95,6 +95,8 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
                 }
             }));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')
+        .withOption('sDefaultContent', ''));
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('createTime').withTitle('创建时间')
         .withOption('sDefaultContent', ''));
     $scope.catRootOpt = [];
     $scope.catRootSel = "";

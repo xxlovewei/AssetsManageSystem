@@ -22,8 +22,11 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.ctl.ffile = true;
         $scope.ctl.chosenzcbtn = true;
         $scope.ctl.surebtn = true;
+    } else if (meta.actiontype == "modify") {
+        $scope.ctl.status = true;
+        $scope.ctl.chosenzcbtn = true;
     }
-    $scope.statusOpt = [{id: "wait", name: "维修中"}, {id: "finish", name: "已完成"}];
+    $scope.statusOpt = [{id: "underrepair", name: "维修中"}, {id: "finish", name: "已完成"}];
     $scope.statusSel = $scope.statusOpt[0];
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
@@ -52,7 +55,7 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
         // 当多文件上传,需要设置parallelUploads>=maxFiles
         parallelUploads: 5,
         maxFiles: 5,
-        dictDefaultMessage: "点击上传附件",
+        dictDefaultMessage: "点击上传图片",
         acceptedFiles: "image/jpeg,image/png,image/gif,.xls,.zip,.rar,.doc,.pdf,.docx,.txt,.xlsx",
         // 添加上传取消和删除预览图片的链接，默认不添加
         addRemoveLinks: true,
@@ -92,10 +95,15 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
             if (res.success) {
                 $scope.dtOptions.aaData = res.data.items;
                 $scope.data = res.data;
-                if (res.data.fstatus == "wait") {
-                    $scope.statusSel = $scope.statusOpt[0];
+                if (res.data.fstatus == "cancel") {
+                    $scope.statusOpt.push({id: "underrepair", name: "作废"});
+                    $scope.statusSel = $scope.statusOpt[2];
                 } else {
-                    $scope.statusSel = $scope.statusOpt[1];
+                    for (var i = 0; i < $scope.statusOpt.length; i++) {
+                        if (res.data.fstatus == $scope.statusOpt[i].id) {
+                            $scope.statusSel = $scope.statusOpt[i];
+                        }
+                    }
                 }
                 $timeout(function () {
                     var files = res.data.files;
@@ -208,8 +216,10 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     }
 
     function renderStatus(data, type, full) {
-        if (data == "wait") {
+        if (data == "underrepair") {
             return "维修中"
+        } else if (data == "cancel") {
+            return "作废"
         } else if (data == "finish") {
             return "已完成"
         } else {
@@ -281,22 +291,31 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 label: "",
                 type: "btn",
                 show: false,
-                priv: "detail",
-                template: ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详细</button>'
+                priv: "update",
+                template: ' <button ng-click="modify()" class="btn btn-sm btn-primary" type="submit">修改</button>'
+            }
+            , {
+                id: "btn2",
+                label: "",
+                type: "btn",
+                show: false,
+                priv: "act2",
+                template: ' <button ng-click="cancellation()" class="btn btn-sm btn-primary" type="submit">作废</button>'
             }, {
                 id: "btn5",
                 label: "",
                 type: "btn",
                 show: false,
-                priv: "update",
-                template: ' <button ng-click="modify()" class="btn btn-sm btn-primary" type="submit">修改</button>'
-            }, {
+                priv: "detail",
+                template: ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详细</button>'
+            }
+            , {
                 id: "btn2",
                 label: "",
                 type: "btn",
                 show: false,
                 priv: "remove",
-                template: ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit"> 删除</button>'
+                template: ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
             }]
     }
     $scope.meta = meta;
@@ -437,5 +456,28 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         action('add');
     }
     flush();
+    $scope.cancellation = function () {
+        var selrow = getSelectRow();
+        if (angular.isDefined(selrow) && angular.isDefined(selrow.id)) {
+            //调用作废
+            $confirm({
+                text: '是否作废处理?'
+            }).then(
+                function () {
+                    $http
+                        .post($rootScope.project + "/api/zc/resRepair/ext/cancellation.do",
+                            {id: selrow.id}).success(function (res) {
+                        if (res.success) {
+                            flush();
+                        }
+                        notify({
+                            message: res.message
+                        });
+                    })
+                });
+        } else {
+            return;
+        }
+    }
 };
 app.register.controller('cmdbfaultrecordCtl', cmdbfaultrecordCtl);
