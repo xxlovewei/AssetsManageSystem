@@ -59,10 +59,7 @@ public class SysUfloProcessService extends BaseService {
     public static String P_TYPE_FLOW = "flow";
     public static String P_TYPE_FORM = "form";
 
-    //等待送审
-    //    public static String P_STATUS_APPROVALSUCCESS = "success";
-//    public static String P_STATUS_APPROVALFAILED = "failed";
-//    public static String P_STATUS_FINISH_WITHOUTFLOW = "finishwithoutflow";
+
     //流程运行中
     public static String P_STATUS_SFA = "submitforapproval";
     public static String P_STATUS_RUNNING = "running";
@@ -71,9 +68,9 @@ public class SysUfloProcessService extends BaseService {
     public static String P_STATUS_CANCEL = "cancel";
 
 
-    public static String P_DTL_STATUS_SFA="submitforapproval";
     //流程运行中
-    public static String P_DTL_STATUS_INREVIEW="inreview";
+    public static String P_DTL_STATUS_SFA = "submitforapproval";
+    public static String P_DTL_STATUS_INREVIEW = "inreview";
     public static String P_DTL_STATUS_SUCCESS="success";
     public static String P_DTL_STATUS_FAILED="failed";
 
@@ -182,10 +179,8 @@ public class SysUfloProcessService extends BaseService {
         pd.setProcesskey(key);
         pd.setPtype(type);
         pd.setPstatus(SysUfloProcessService.P_STATUS_RUNNING);
-        pd.setProcessInstanceId(inst.getId() + "");
+        pd.setProcessinstanceid(inst.getId() + "");
         pd.setPstartuserid(this.getUserId());
-        //	pd.setDmessage(ps.getString("dmessage", ""));
-        //	pd.setDmark(ps.getString("dmark", ""));
         SysProcessDataServiceImpl.save(pd);
         return R.SUCCESS_OPER();
     }
@@ -258,41 +253,6 @@ public class SysUfloProcessService extends BaseService {
         String instid = tsk.getProcessInstanceId() + "";
         taskService.start(taskId_l);
         taskService.complete(taskId_l, op);
-        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-        uw.eq("processInstanceId", instid);
-        uw.set("pstatus", SysUfloProcessService.P_STATUS_RUNNING);
-        uw.set("pstatusdtl", SysUfloProcessService.P_DTL_STATUS_INREVIEW);
-        // 判断下一个是不是终点
-        ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
-        Node node = process.getNode(tsk.getNodeName());
-        List<SequenceFlowImpl> flows = node.getSequenceFlows();
-        if (flows.size() > 0) {
-            SequenceFlowImpl flowimpl = flows.get(0);
-            String toNode = flowimpl.getToNode();
-            if (toNode != null) {
-                if (toNode.startsWith("结束") || toNode.startsWith("流程结束") || toNode.toLowerCase().startsWith("end")) {
-                    QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
-                    qw.eq("busid", tsk.getBusinessId());
-                    SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
-                    String busType = sd.getBustype();
-                    Date date = new Date(); // 获取一个Date对象
-                    DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
-                    String nowtime = simpleDateFormat.format(date);
-                    uw.set("pstatus", SysUfloProcessService.P_STATUS_FINISH);
-                    uw.set("pstatusdtl", SysUfloProcessService.P_DTL_STATUS_SUCCESS);
-                    uw.set("pendtime", nowtime);
-                    // 流程类型处理
-                    if (busType != null) {
-                        if (busType.equals("LY") || busType.equals("JY")|| busType.equals("DB") || busType.equals("ZY")) {
-                            uw.set("busstatus","out");
-                        }
-                    }
-                }
-            }
-        }
-
-
-
         return R.SUCCESS_OPER();
     }
 

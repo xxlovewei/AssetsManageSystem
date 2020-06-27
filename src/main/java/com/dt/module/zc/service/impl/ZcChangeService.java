@@ -87,7 +87,6 @@ public class ZcChangeService extends BaseService {
         ups.set("recycle",ZcCommonService.RECYCLE_INUSE);
         ResServiceImpl.update(ups);
 
-
         //记录资产变更
         ArrayList<ResChangeItem> cols=new ArrayList<ResChangeItem>();
         QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();

@@ -11,11 +11,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
- * @since 2020-05-18
+ * @since 2020-06-27
  */
  
 @TableName("res_inventory_item")
@@ -61,8 +61,8 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
     /**
      * 资产类目
      */
-    @TableField("zc_category")
-    private String zcCategory;
+    @TableField("category")
+    private String category;
     /**
      * 大类
      */
@@ -425,6 +425,8 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
     private Date fd2;
     @TableField("fd3")
     private Date fd3;
+    @TableField("lastinventorytime")
+    private BigDecimal lastinventorytime;
 
 
     public String getId() {
@@ -515,12 +517,12 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
         this.resid = resid;
     }
 
-    public String getZcCategory() {
-        return zcCategory;
+    public String getCategory() {
+        return category;
     }
 
-    public void setZcCategory(String zcCategory) {
-        this.zcCategory = zcCategory;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getClassId() {
@@ -1299,6 +1301,14 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
         this.fd3 = fd3;
     }
 
+    public BigDecimal getLastinventorytime() {
+        return lastinventorytime;
+    }
+
+    public void setLastinventorytime(BigDecimal lastinventorytime) {
+        this.lastinventorytime = lastinventorytime;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -1307,29 +1317,29 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
     @Override
     public String toString() {
         return "ResInventoryItem{" +
-        "id=" + id +
-        ", pdbatchid=" + pdbatchid +
-        ", pdid=" + pdid +
-        ", pdstatus=" + pdstatus +
-        ", pdsyncneed=" + pdsyncneed +
-        ", pdtime=" + pdtime +
-        ", pduserid=" + pduserid +
-        ", pdusername=" + pdusername +
-        ", pdmark=" + pdmark +
-        ", pdflag=" + pdflag +
-        ", resid=" + resid +
-        ", zcCategory=" + zcCategory +
-        ", classId=" + classId +
-        ", type=" + type +
-        ", gjDl=" + gjDl +
-        ", gjXl=" + gjXl +
-        ", uuid=" + uuid +
-        ", name=" + name +
-        ", zcsource=" + zcsource +
-        ", model=" + model +
-        ", sn=" + sn +
-        ", version=" + version +
-        ", resDesc=" + resDesc +
+                "id=" + id +
+                ", pdbatchid=" + pdbatchid +
+                ", pdid=" + pdid +
+                ", pdstatus=" + pdstatus +
+                ", pdsyncneed=" + pdsyncneed +
+                ", pdtime=" + pdtime +
+                ", pduserid=" + pduserid +
+                ", pdusername=" + pdusername +
+                ", pdmark=" + pdmark +
+                ", pdflag=" + pdflag +
+                ", resid=" + resid +
+                ", category=" + category +
+                ", classId=" + classId +
+                ", type=" + type +
+                ", gjDl=" + gjDl +
+                ", gjXl=" + gjXl +
+                ", uuid=" + uuid +
+                ", name=" + name +
+                ", zcsource=" + zcsource +
+                ", model=" + model +
+                ", sn=" + sn +
+                ", version=" + version +
+                ", resDesc=" + resDesc +
         ", brand=" + brand +
         ", supplier=" + supplier +
         ", recycle=" + recycle +
@@ -1406,16 +1416,17 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
         ", fi11=" + fi11 +
         ", fi12=" + fi12 +
         ", fi13=" + fi13 +
-        ", fi14=" + fi14 +
-        ", fi15=" + fi15 +
-        ", fi16=" + fi16 +
-        ", fi17=" + fi17 +
-        ", fi18=" + fi18 +
-        ", fi19=" + fi19 +
-        ", fi20=" + fi20 +
-        ", fd1=" + fd1 +
-        ", fd2=" + fd2 +
-        ", fd3=" + fd3 +
-        "}";
+                ", fi14=" + fi14 +
+                ", fi15=" + fi15 +
+                ", fi16=" + fi16 +
+                ", fi17=" + fi17 +
+                ", fi18=" + fi18 +
+                ", fi19=" + fi19 +
+                ", fi20=" + fi20 +
+                ", fd1=" + fd1 +
+                ", fd2=" + fd2 +
+                ", fd3=" + fd3 +
+                ", lastinventorytime=" + lastinventorytime +
+                "}";
     }
 }

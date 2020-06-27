@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-06-26
+ * @since 2020-06-27
  */
  
 @TableName("sys_process_data")
@@ -53,8 +53,8 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     /**
      * 流程实例化后的ID
      */
-    @TableField("processInstanceId")
-    private String processInstanceId;
+    @TableField("processinstanceid")
+    private String processinstanceid;
     /**
      * 流程标题
      */
@@ -162,12 +162,12 @@ public class SysProcessData extends BaseModel<SysProcessData> {
         this.processversion = processversion;
     }
 
-    public String getProcessInstanceId() {
-        return processInstanceId;
+    public String getProcessinstanceid() {
+        return processinstanceid;
     }
 
-    public void setProcessInstanceId(String processInstanceId) {
-        this.processInstanceId = processInstanceId;
+    public void setProcessinstanceid(String processinstanceid) {
+        this.processinstanceid = processinstanceid;
     }
 
     public String getPtitle() {
@@ -274,13 +274,13 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     @Override
     public String toString() {
         return "SysProcessData{" +
-        "id=" + id +
-        ", busid=" + busid +
-        ", bustype=" + bustype +
-        ", processkey=" + processkey +
-        ", processname=" + processname +
-        ", processversion=" + processversion +
-                ", processInstanceId=" + processInstanceId +
+                "id=" + id +
+                ", busid=" + busid +
+                ", bustype=" + bustype +
+                ", processkey=" + processkey +
+                ", processname=" + processname +
+                ", processversion=" + processversion +
+                ", processinstanceid=" + processinstanceid +
                 ", ptitle=" + ptitle +
                 ", ptype=" + ptype +
                 ", psubtype=" + psubtype +

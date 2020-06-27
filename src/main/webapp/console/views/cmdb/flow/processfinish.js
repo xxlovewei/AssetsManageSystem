@@ -86,16 +86,18 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
-        //			DTColumnBuilder.newColumn('rootProcessInstanceId').withTitle('流程编号').withOption(
-        //					'sDefaultContent', ''),
         DTColumnBuilder.newColumn('id').withTitle('任务编号').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('rootProcessInstanceId').withTitle('流程编号').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('businessId').withTitle('单据号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('subject').withTitle('标题').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('opinion').withTitle('处理意见').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('state').withTitle('任务状态').withOption(
-            'sDefaultContent', ''),
+            'sDefaultContent', '').renderWith(renderUfloTaskStatus),
         DTColumnBuilder.newColumn('nodeName').withTitle('任务名称').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('description').withTitle('任务描述')

@@ -143,7 +143,7 @@ function zcinventoryResCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.dtInstance = {}
     $scope.dtColumns = [];
     $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withoutselect');
-
+    item.category = 3;
     function flush() {
         $http.post($rootScope.project + "/api/zc/resInventory/ext/queryInventoryRes.do",
             item).success(function (res) {
@@ -375,6 +375,7 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         }
         $scope.item.manualinventory = $scope.pdSel.id;
         $scope.item.allusersinventory = 0;
+        $scope.item.category = 3;
         $http.post($rootScope.project + "/api/zc/resInventory/ext/insertOrUpdate.do",
             $scope.item).success(function (res) {
             if (res.success) {
@@ -787,7 +788,7 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
     }
     $scope.download = function (id) {
         $window.open($rootScope.project
-            + "/api/zc/resInventory/ext/downloadInventoryRes.do?id=" + id);
+            + "/api/zc/resInventory/ext/downloadInventoryRes.do?category=3&id=" + id);
     }
     $scope.inventory = function (id) {
         var meta = {};

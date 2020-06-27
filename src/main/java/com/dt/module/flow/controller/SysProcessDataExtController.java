@@ -48,7 +48,13 @@ public class SysProcessDataExtController extends BaseController {
     public R selectById(@RequestParam(value = "businessid", required = true, defaultValue = "") String businessid) {
         QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
         qw.eq("busid", businessid);
-        return R.SUCCESS_OPER(SysProcessDataServiceImpl.getOne(qw));
+        SysProcessData r = SysProcessDataServiceImpl.getOne(qw);
+        if (r == null) {
+            return R.FAILURE_NO_DATA();
+        } else {
+            return R.SUCCESS_OPER(r);
+        }
+
     }
 
     @ResponseBody

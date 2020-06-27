@@ -291,6 +291,21 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('myprocess.myly', {
+        url: "/myprocess_myly",
+        data: {pageTitle: '我的领用退库', actiontype: "LY", datatype: "self"},
+        templateUrl: "views/cmdb/zcaction.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['vendor/basket/basket.0.5.2.full.min.js', 'plugin/form/k-form-design.css']
+                }, {
+                    serie: true,
+                    files: ['views/cmdb/zcaction.js?v=' + version]
+                }]);
+            }
+        }
     }).state('myprocess.mybx', {
         url: "/myprocess_mybx",
         data: {pageTitle: '我的报修', datatype: "self"},
@@ -950,6 +965,32 @@ function renderWb(data, type, full) {
     }
 }
 
+function renderUfloTaskStatus(data, type, full) {
+    if (data == "Created") {
+        return "新建";
+    } else if (data == "Ready") {
+        return "准备"
+    } else if (data == "Reserved") {
+        return "保留"
+    } else if (data == "InProgress") {
+        return "进行中"
+    } else if (data == "Completed") {
+        return "已完成"
+    } else if (data == "Suspended") {
+        return "挂起"
+    } else if (data == "Canceled") {
+        return "取消"
+    } else if (data == "Forwarded") {
+        return "转发"
+    } else if (data == "Rollback") {
+        return "回滚"
+    } else if (data == "Withdraw") {
+        return "撤回"
+    } else {
+        return data;
+    }
+}
+
 function loadOpt(modal_meta, gdicts) {
     var item = modal_meta.meta.item;
     console.log("LoadOpt,Item:", item);
@@ -1383,13 +1424,13 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                         $scope.hidectl.pagespbtnhide = true;
                     }
                     //获取审批
-                    if (angular.isDefined(res.data.processInstanceId) && res.data.processInstanceId != "") {
+                    if (angular.isDefined(res.data.processinstanceid) && res.data.processinstanceid != "") {
                         $http
                             .post(
                                 $rootScope.project
                                 + "/api/flow/loadProcessInstanceData.do",
                                 {
-                                    processInstanceId: res.data.processInstanceId
+                                    processInstanceId: res.data.processinstanceid
                                 })
                             .success(
                                 function (res) {
@@ -1404,7 +1445,7 @@ function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compi
                         //获取审批
                         $scope.url = $rootScope.project
                             + "uflo/diagram?processInstanceId="
-                            + res.data.processInstanceId;
+                            + res.data.processinstanceid;
                     }
                     var dynamicData = res.data.formdata;
                     let vm;
@@ -1775,7 +1816,7 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
         if (angular.isDefined($scope.areaSel.dict_item_id) && $scope.areaSel.dict_item_id != 'all') {
             ps.loc = $scope.areaSel.dict_item_id;
         }
-        ps.zc_category = 3;
+        ps.category = 3;
         $http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
             .success(function (res) {
                 if (res.success) {

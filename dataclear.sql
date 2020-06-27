@@ -56,6 +56,10 @@ delete from hrm_org_info where dr='1';
 delete from hrm_org_part where dr='1';
 delete from res_label_tpl where dr='1';
 delete from sys_process_def where dr='1';
+delete from sys_user_role where user_id not in (select user_id from sys_user_info);
+delete from sys_user_role where role_id not in (select role_id from sys_role_info);
+delete from sys_role_module where role_id not in  (select role_id from sys_role_info)
+delete from sys_role_module where module_id not in  (select node_id from sys_menus_node)
 truncate table sys_process_form;
 delete from sys_process_setting where dr='1';
 update sys_user_info set pwd='oracle';
@@ -66,5 +70,6 @@ truncate table uflo_task_participator;
 truncate table uflo_task_appointor;
 truncate table uflo_task_reminder;
 delete from uflo_task;
+truncate table uflo_his_task
 
 

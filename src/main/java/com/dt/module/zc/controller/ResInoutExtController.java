@@ -87,36 +87,36 @@ public class ResInoutExtController extends BaseController {
 			for(int i=0;i<items_arr.size();i++){
 				//当前无审批,入库
 				Res e=new Res();
-				e.setUuid(uuid);
-				e.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
-				e.setCrkstatus("none");
-				e.setRecycle(ZcCommonService.RECYCLE_IDLE);
-				e.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
-				e.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
-				e.setLoc(items_arr.getJSONObject(i).getString("loc"));
-				e.setWarehouse(items_arr.getJSONObject(i).getString("warehouse"));
-				e.setSupplier(items_arr.getJSONObject(i).getString("supplier"));
-				e.setClassId(items_arr.getJSONObject(i).getString("class_id"));
-				e.setZcCategory(items_arr.getJSONObject(i).getString("zc_category"));
-				e.setBelongCompanyId(items_arr.getJSONObject(i).getString("belong_company_id"));
-				cols.add(e);
+                e.setUuid(uuid);
+                e.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
+                e.setCrkstatus("none");
+                e.setRecycle(ZcCommonService.RECYCLE_IDLE);
+                e.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
+                e.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
+                e.setLoc(items_arr.getJSONObject(i).getString("loc"));
+                e.setWarehouse(items_arr.getJSONObject(i).getString("warehouse"));
+                e.setSupplier(items_arr.getJSONObject(i).getString("supplier"));
+                e.setClassId(items_arr.getJSONObject(i).getString("class_id"));
+                e.setCategory(items_arr.getJSONObject(i).getString("category"));
+                e.setBelongCompanyId(items_arr.getJSONObject(i).getString("belong_company_id"));
+                cols.add(e);
 
-				//单据
-				ResInoutItem e2=new ResInoutItem();
-				e2.setUuid(uuid);
-				e2.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
-				e2.setCrkstatus("none");
-				e2.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
-				e2.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
-				e2.setLoc(items_arr.getJSONObject(i).getString("loc"));
-				e2.setSupplier(items_arr.getJSONObject(i).getString("supplier"));
-				e2.setWarehouse(items_arr.getJSONObject(i).getString("warehouse"));
-				e2.setClassId(items_arr.getJSONObject(i).getString("class_id"));
-				e2.setZcCategory(items_arr.getJSONObject(i).getString("zc_category"));
-				e2.setBelongCompanyId(items_arr.getJSONObject(i).getString("belong_company_id"));
-				e2.setBuyTime(date);
-				cols2.add(e2);
-			}
+                //单据
+                ResInoutItem e2 = new ResInoutItem();
+                e2.setUuid(uuid);
+                e2.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
+                e2.setCrkstatus("none");
+                e2.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
+                e2.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
+                e2.setLoc(items_arr.getJSONObject(i).getString("loc"));
+                e2.setSupplier(items_arr.getJSONObject(i).getString("supplier"));
+                e2.setWarehouse(items_arr.getJSONObject(i).getString("warehouse"));
+                e2.setClassId(items_arr.getJSONObject(i).getString("class_id"));
+                e2.setCategory(items_arr.getJSONObject(i).getString("category"));
+                e2.setBelongCompanyId(items_arr.getJSONObject(i).getString("belong_company_id"));
+                e2.setBuyTime(date);
+                cols2.add(e2);
+            }
 
 
 		}else if (ZcCommonService.UUID_HCCK.equals(entity.getAction())){
@@ -128,21 +128,21 @@ public class ResInoutExtController extends BaseController {
 				ResServiceImpl.update(ups);
 
 				//单据明细
-				ResInoutItem e2 = new ResInoutItem();
-				e2.setCrkstatus("none");
-				e2.setUuid(uuid);
-			 	e2.setResid(items_arr.getJSONObject(i).getString("id"));
-				e2.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
-				e2.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
-				e2.setLoc(items_arr.getJSONObject(i).getString("loc"));
-				e2.setSupplier(items_arr.getJSONObject(i).getString("supplier"));
-				e2.setWarehouse(items_arr.getJSONObject(i).getString("warehouse"));
-				e2.setClassId(items_arr.getJSONObject(i).getString("class_id"));
-				e2.setZcCategory(items_arr.getJSONObject(i).getString("zc_category"));
-				e2.setBelongCompanyId(items_arr.getJSONObject(i).getString("belong_company_id"));
-				e2.setBuyTime(date);
-				cols2.add(e2);
-			}
+                ResInoutItem e2 = new ResInoutItem();
+                e2.setCrkstatus("none");
+                e2.setUuid(uuid);
+                e2.setResid(items_arr.getJSONObject(i).getString("id"));
+                e2.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
+                e2.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
+                e2.setLoc(items_arr.getJSONObject(i).getString("loc"));
+                e2.setSupplier(items_arr.getJSONObject(i).getString("supplier"));
+                e2.setWarehouse(items_arr.getJSONObject(i).getString("warehouse"));
+                e2.setClassId(items_arr.getJSONObject(i).getString("class_id"));
+                e2.setCategory(items_arr.getJSONObject(i).getString("category"));
+                e2.setBelongCompanyId(items_arr.getJSONObject(i).getString("belong_company_id"));
+                e2.setBuyTime(date);
+                cols2.add(e2);
+            }
 
 		}else if (ZcCommonService.UUID_HCDB.equals(entity.getAction())){
 			for(int i=0;i<items_arr.size();i++) {
@@ -153,36 +153,36 @@ public class ResInoutExtController extends BaseController {
 				ups.eq("id", items_arr.getJSONObject(i).getString("id"));
 				ResServiceImpl.update(ups);
 
-				//进库
-				Res e=new Res();
-				e.setUuid(uuid);
-				e.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
-				e.setCrkstatus("none");
-				e.setRecycle(ZcCommonService.RECYCLE_IDLE);
-				e.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
-				e.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
-				e.setSupplier(items_arr.getJSONObject(i).getString("supplier"));
-				e.setClassId(items_arr.getJSONObject(i).getString("class_id"));
-				e.setZcCategory(items_arr.getJSONObject(i).getString("zc_category"));
-				e.setLoc(entity.getInloc());
-				e.setWarehouse(entity.getInwarehouse());
-				e.setBelongCompanyId(entity.getBelongcompid());
-				cols.add(e);
+                //进库
+                Res e = new Res();
+                e.setUuid(uuid);
+                e.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
+                e.setCrkstatus("none");
+                e.setRecycle(ZcCommonService.RECYCLE_IDLE);
+                e.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
+                e.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
+                e.setSupplier(items_arr.getJSONObject(i).getString("supplier"));
+                e.setClassId(items_arr.getJSONObject(i).getString("class_id"));
+                e.setCategory(items_arr.getJSONObject(i).getString("category"));
+                e.setLoc(entity.getInloc());
+                e.setWarehouse(entity.getInwarehouse());
+                e.setBelongCompanyId(entity.getBelongcompid());
+                cols.add(e);
 
 
-				//单据明细
-				ResInoutItem e2 = new ResInoutItem();
-				e2.setUuid(uuid);
-				e2.setResid(items_arr.getJSONObject(i).getString("id"));
-				e2.setCrkstatus("none");
-				e2.setClassId(items_arr.getJSONObject(i).getString("class_id"));
-				e2.setZcCategory(items_arr.getJSONObject(i).getString("zc_category"));
-				e2.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
-				e2.setBelongCompanyId(entity.getCompid());
-				e2.setLoc(entity.getLoc());
-				e2.setWarehouse(entity.getWarehouse());
-				cols2.add(e2);
-			}
+                //单据明细
+                ResInoutItem e2 = new ResInoutItem();
+                e2.setUuid(uuid);
+                e2.setResid(items_arr.getJSONObject(i).getString("id"));
+                e2.setCrkstatus("none");
+                e2.setClassId(items_arr.getJSONObject(i).getString("class_id"));
+                e2.setCategory(items_arr.getJSONObject(i).getString("category"));
+                e2.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
+                e2.setBelongCompanyId(entity.getCompid());
+                e2.setLoc(entity.getLoc());
+                e2.setWarehouse(entity.getWarehouse());
+                cols2.add(e2);
+            }
 
 		}
 		entity.setCnt(new BigDecimal(items_arr.size()));

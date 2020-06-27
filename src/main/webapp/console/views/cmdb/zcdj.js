@@ -1,4 +1,4 @@
-function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $timeout,
                         $log, notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
     var pbtns = $rootScope.curMemuBtns;
     var gclassroot = '3';
@@ -691,6 +691,22 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             name: 'wbct',
             ng_model: "wbct"
         });
+        items.push({
+            type: "picupload",
+            disabled: "false",
+            required: false,
+            label: "图片",
+            need: false,
+            conf: "picconfig"
+        });
+        items.push({
+            type: "fileupload",
+            disabled: "false",
+            required: false,
+            label: "附件",
+            need: false,
+            conf: "attachconfig"
+        });
         var bt = moment().subtract(1, "days");
         var tbtime = moment();
         if (angular.isDefined(res)
@@ -740,8 +756,84 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             jgSel: "",
             riskOpt: [],
             riskSel: "",
+            picconfig: {
+                url: 'fileupload.do',
+                maxFilesize: 10000,
+                paramName: "file",
+                maxThumbnailFilesize: 6,
+                // 一个请求上传多个文件
+                uploadMultiple: true,
+                // 当多文件上传,需要设置parallelUploads>=maxFiles
+                parallelUploads: 6,
+                maxFiles: 6,
+                dictDefaultMessage: "点击上传图片",
+                acceptedFiles: "image/jpeg,image/png,image/gif",
+                // 添加上传取消和删除预览图片的链接，默认不添加
+                addRemoveLinks: true,
+                // 关闭自动上传功能，默认会true会自动上传
+                // 也就是添加一张图片向服务器发送一次请求
+                autoProcessQueue: false,
+                init: function () {
+                    Dropzone.autoDiscover = false;
+                    $scope.myDropzonepic = this;
+                }
+            },
+            attachconfig: {
+                url: 'fileupload.do',
+                maxFilesize: 10000,
+                paramName: "file",
+                maxThumbnailFilesize: 1,
+                // 一个请求上传多个文件
+                uploadMultiple: true,
+                // 当多文件上传,需要设置parallelUploads>=maxFiles
+                parallelUploads: 1,
+                maxFiles: 1,
+                dictDefaultMessage: "点击上传附件",
+                acceptedFiles: "image/jpeg,image/png,image/gif",
+                // 添加上传取消和删除预览图片的链接，默认不添加
+                addRemoveLinks: true,
+                // 关闭自动上传功能，默认会true会自动上传
+                // 也就是添加一张图片向服务器发送一次请求
+                autoProcessQueue: false,
+                init: function () {
+                    Dropzone.autoDiscover = false;
+                    //	console.log('111111',$scope);
+                    $scope.myDropzonefile = this;
+                }
+            },
             items: items,
             sure: function (modalInstance, modal_meta) {
+                //处理图片
+                // 只允许传一张图片
+                modal_meta.meta.item.img = "";
+                if ($scope.myDropzonepic.files.length > 0 && $scope.myDropzonepic.files.length == 1) {
+                    var id = getUuid();
+                    if (typeof ($scope.myDropzonepic.files[0].uuid) == "undefined") {
+                        // 需要上传
+                        $scope.myDropzonepic.options.url = $rootScope.project
+                            + '/api/file/fileupload.do?uuid=' + id
+                            + '&bus=file&interval=10000&bus=file';
+                        $scope.myDropzonepic.uploadFile($scope.myDropzonepic.files[0])
+                    } else {
+                        id = $scope.myDropzonepic.files[0].uuid;
+                    }
+                    modal_meta.meta.item.img = id;
+                }
+                // 只允许传一张附件
+                modal_meta.meta.item.attach = "";
+                if ($scope.myDropzonefile.files.length > 0 && $scope.myDropzonefile.files.length == 1) {
+                    var id = getUuid();
+                    if (typeof ($scope.myDropzonefile.files[0].uuid) == "undefined") {
+                        // 需要上传
+                        $scope.myDropzonefile.options.url = $rootScope.project
+                            + '/api/file/fileupload.do?uuid=' + id
+                            + '&bus=file&interval=10000&bus=file';
+                        $scope.myDropzonefile.uploadFile($scope.myDropzonefile.files[0])
+                    } else {
+                        id = $scope.myDropzonefile.files[0].uuid;
+                    }
+                    modal_meta.meta.item.attach = id;
+                }
                 modal_meta.meta.item.class_id = modal_meta.meta.classSel.dict_item_id;
                 if (angular.isDefined(modal_meta.meta.typeSel.dict_item_id)) {
                     modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;
@@ -836,6 +928,58 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 var tt = {};
                 angular.copy(gdicts, tt)
                 loadOpt(modal_meta, tt);
+                var iid = modal_meta.meta.item.img;
+                if (angular.isDefined(iid) && iid.length > 0) {
+                    $timeout(function () {
+                        var mockFile = {
+                            name: "主图",
+                            uuid: iid,
+                            href: $rootScope.project
+                                + "/api/file/imagedown.do?id="
+                                + iid,
+                            url: $rootScope.project
+                                + "/api/file/imagedown.do?id="
+                                + iid,
+                            status: "success",
+                            accepted: true,
+                            type: 'image/png'
+                        };
+                        $scope.myDropzonepic.emit("addedfile", mockFile);
+                        $scope.myDropzonepic.files.push(mockFile);
+                        // manually
+                        $scope.myDropzonepic.createThumbnailFromUrl(
+                            mockFile, $rootScope.project
+                            + "/api/file/imagedown.do?id="
+                            + iid);
+                        $scope.myDropzonepic.emit("complete", mockFile);
+                    }, 300);
+                }
+                var iidf = modal_meta.meta.item.attach;
+                if (angular.isDefined(iidf) && iidf.length > 0) {
+                    $timeout(function () {
+                        var mockFile = {
+                            name: "主图",
+                            uuid: iidf,
+                            href: $rootScope.project
+                                + "/api/file/imagedown.do?id="
+                                + iidf,
+                            url: $rootScope.project
+                                + "/api/file/imagedown.do?id="
+                                + iidf,
+                            status: "success",
+                            accepted: true,
+                            type: 'image/png'
+                        };
+                        $scope.myDropzonefile.emit("addedfile", mockFile);
+                        $scope.myDropzonefile.files.push(mockFile);
+                        // manually
+                        $scope.myDropzonefile.createThumbnailFromUrl(
+                            mockFile, $rootScope.project
+                            + "/api/file/imagedown.do?id="
+                            + iidf);
+                        $scope.myDropzonefile.emit("complete", mockFile);
+                    }, 300);
+                }
             }
         }
         if (angular.isDefined(res.data)

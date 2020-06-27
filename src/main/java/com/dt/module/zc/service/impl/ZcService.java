@@ -299,31 +299,31 @@ public class ZcService extends BaseService{
             sql = sql + " and part_id='" + part + "'";
         }
 
-        if(ToolUtil.isNotEmpty(ps.getString("warehouse"))){
+        if (ToolUtil.isNotEmpty(ps.getString("warehouse"))) {
             sql = sql + " and warehouse='" + ps.getString("warehouse") + "'";
         }
 
-        if(ToolUtil.isNotEmpty(ps.getString("zcnumber"))){
-            sql = sql + " and zc_cnt>"+ps.getString("zcnumber");
+        if (ToolUtil.isNotEmpty(ps.getString("zcnumber"))) {
+            sql = sql + " and zc_cnt>" + ps.getString("zcnumber");
         }
 
-        if(ToolUtil.isNotEmpty(ps.getString("zc_category"))){
-            sql = sql + " and zc_category='"+ps.getString("zc_category")+"'";
+        if (ToolUtil.isNotEmpty(ps.getString("category"))) {
+            sql = sql + " and category='" + ps.getString("category") + "'";
         }
 
 
         //idle,inuse,scrap,borrow,repair,stopuse,allocation
-        if(ToolUtil.isNotEmpty(datarange)){
-            if(ZcCommonService.DATARANGE_REPAIR.equals(datarange)){
-                sql = sql + "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
-            }else if(ZcCommonService.DATARANGE_LY.equals(datarange)){
-                sql = sql + "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"')";
-            }else if(ZcCommonService.DATARANGE_JY.equals(datarange)){
-                sql = sql +  "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
+        if (ToolUtil.isNotEmpty(datarange)) {
+            if (ZcCommonService.DATARANGE_REPAIR.equals(datarange)) {
+                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
+            } else if (ZcCommonService.DATARANGE_LY.equals(datarange)) {
+                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "')";
+            } else if (ZcCommonService.DATARANGE_JY.equals(datarange)) {
+                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             }else if(ZcCommonService.DATARANGE_DB.equals(datarange)){
-                sql = sql +  "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
+                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             }else if(ZcCommonService.DATARANGE_BF.equals(datarange)){
-                sql = sql +  "and zc_category='"+ZcCommonService.CATEGORY_ZC+"' and recycle in ('"+ZcCommonService.RECYCLE_IDLE+"','"+ZcCommonService.RECYCLE_INUSE+"')";
+                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             }
 
         }
@@ -344,7 +344,7 @@ public class ZcService extends BaseService{
 
     // 根据ClassId获取数据,优先判断multiclassroot,在获取class_id
     public R queryResAllGetData(String belongcomp,String comp,String part,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps) {
-        String sql=this.buildQueryResAllGetdatalSql(  belongcomp,  comp, part, datarange,  classroot,   class_id,   wb,   env,   recycle,   loc,     search,ps);
+        String sql = this.buildQueryResAllGetdatalSql(belongcomp, comp, part, datarange, classroot, class_id, wb, env, recycle, loc, search, ps);
         RcdSet rs2 = db.query(sql);
         return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
     }
@@ -605,7 +605,7 @@ public class ZcService extends BaseService{
             me.setIf("loc", ps.getString("loc"));
             me.setIf("locshow", ps.getString("locshow"));
             me.setIf("type", ps.getString("type"));
-            me.setIf("zc_category", rs.getString("root"));
+            me.setIf("category", rs.getString("root"));
             me.setIf("status", ps.getString("status"));
             me.setIf("env", ps.getString("env"));
             me.setIf("risk", ps.getString("risk"));

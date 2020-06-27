@@ -214,6 +214,7 @@ public class ZcController extends BaseController {
         JSONObject jsonvalueobj = JSONObject.parseObject(jsonvalue);
         String uuid = zcService.createUuid(entity.getBustype());
 
+
         //填充资产数据
         JSONArray items_arr = JSONArray.parseArray(items);
         List<ResActionItem> entityList = new ArrayList<ResActionItem>();
@@ -230,6 +231,7 @@ public class ZcController extends BaseController {
         entity.setBusid(uuid);
         entity.setPtitle(jsonvalueobj.getString("dtitle"));
         entity.setPtype(SysUfloProcessService.P_TYPE_FLOW);
+        //entity.setFormid(pdef.getForm());
         if("0".equals(entity.getIfsp())){
             //不需要审批
             entity.setPstatus(SysUfloProcessService.P_STATUS_FINISH);
@@ -237,7 +239,6 @@ public class ZcController extends BaseController {
             entity.setBusstatus("out");
             //变更资产数据状态
             zcChangeService.zcSureChange(uuid,entity.getBustype());
-
         }else{
             //需要送审
             entity.setPstatus(SysUfloProcessService.P_STATUS_SFA);
@@ -245,12 +246,13 @@ public class ZcController extends BaseController {
         }
         SysProcessDataServiceImpl.save(entity);
 
-        //填充表单数据
+        //获取流程配置数据
         QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
         ew.and(i -> i.eq("busid", uuid));
         String id=SysProcessDataServiceImpl.getOne(ew).getId();
         SysProcessDef pdef = SysProcessDefServiceImpl.getById(processdefid);
 
+        //填充表单数据
         SysForm sf = SysFormServiceImpl.getById(pdef.getForm());
         if(ToolUtil.isNotEmpty(jsonvalue)){
             R r = formServiceImpl.parseFromJsonToSqlTpl(sf.getCt(), jsonvalue, FormServiceImpl.OPER_TYPE_INSERT, id, "");

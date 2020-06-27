@@ -111,7 +111,6 @@ public class ResInventoryExtController extends BaseController {
 	@RequestMapping(value = "/syncdata.do")
 	public R syncdata(String id) {
 
-
 		ResInventory ri=ResInventoryServiceImpl.getById(id);
 		if(ri==null){
 			return R.FAILURE_NO_DATA();
@@ -178,19 +177,19 @@ public class ResInventoryExtController extends BaseController {
 	}
 
 	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insertOrUpdate.do")
-	public R insertOrUpdate(ResInventory entity) {
+    @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insertOrUpdate.do")
+    public R insertOrUpdate(ResInventory entity, String category) {
 
-		ResInventoryServiceImpl.saveOrUpdate(entity);
-		QueryWrapper<ResInventory> ew = new QueryWrapper<ResInventory>();
-		ew.and(i -> i.eq("batchid", entity.getBatchid()));
-		ResInventory obj=ResInventoryServiceImpl.getOne(ew);
+        ResInventoryServiceImpl.saveOrUpdate(entity);
+        QueryWrapper<ResInventory> ew = new QueryWrapper<ResInventory>();
+        ew.and(i -> i.eq("batchid", entity.getBatchid()));
+        ResInventory obj = ResInventoryServiceImpl.getOne(ew);
 
 
-		//处理用户
-		QueryWrapper<ResInventoryUser>  userqw = new QueryWrapper<ResInventoryUser>();
-		userqw.and(i -> i.eq("pdid",obj.getId()));
+        //处理用户
+        QueryWrapper<ResInventoryUser> userqw = new QueryWrapper<ResInventoryUser>();
+        userqw.and(i -> i.eq("pdid", obj.getId()));
 		ResInventoryUserServiceImpl.remove(userqw);
 		String pduserstr=entity.getPduserdata();
 		ArrayList<ResInventoryUser> items=new ArrayList<ResInventoryUser>();
@@ -198,27 +197,27 @@ public class ResInventoryExtController extends BaseController {
 			JSONArray pduserarr=JSONArray.parseArray(pduserstr);
 			for(int i=0;i<pduserarr.size();i++){
 				ResInventoryUser e=new ResInventoryUser();
-				e.setUserid(pduserarr.getJSONObject(i).getString("user_id"));
-				e.setUsername(pduserarr.getJSONObject(i).getString("name"));
-				e.setPdid(obj.getId());
-				items.add(e);
-			}
-			ResInventoryUserServiceImpl.saveBatch(items);
-		}
+                e.setUserid(pduserarr.getJSONObject(i).getString("user_id"));
+                e.setUsername(pduserarr.getJSONObject(i).getString("name"));
+                e.setPdid(obj.getId());
+                items.add(e);
+            }
+            ResInventoryUserServiceImpl.saveBatch(items);
+        }
 
 
-		//处理盘点单明细
-		R itemsR=resInventoryService.inventoryRange(entity);
-		JSONArray arr=itemsR.queryDataToJSONArray();
-		ArrayList<ResInventoryItem> itemlist=new ArrayList<ResInventoryItem>();
-		ArrayList<ResInventoryItemS> itemslist=new ArrayList<ResInventoryItemS>();
-		if(arr.size()>0){
-			for(int i=0;i<arr.size();i++){
-				ResInventoryItem e1=new ResInventoryItem();
-				e1.setPdbatchid(obj.getBatchid());
-				e1.setPdid(obj.getId());
-				e1.setResid(arr.getJSONObject(i).getString("id"));
-				e1.setPdstatus(ResInventoryService.INVENTORY_ITEM_STATAUS_WAIT);
+        //处理盘点单明细
+        R itemsR = resInventoryService.inventoryRange(entity, category);
+        JSONArray arr = itemsR.queryDataToJSONArray();
+        ArrayList<ResInventoryItem> itemlist = new ArrayList<ResInventoryItem>();
+        ArrayList<ResInventoryItemS> itemslist = new ArrayList<ResInventoryItemS>();
+        if (arr.size() > 0) {
+            for (int i = 0; i < arr.size(); i++) {
+                ResInventoryItem e1 = new ResInventoryItem();
+                e1.setPdbatchid(obj.getBatchid());
+                e1.setPdid(obj.getId());
+                e1.setResid(arr.getJSONObject(i).getString("id"));
+                e1.setPdstatus(ResInventoryService.INVENTORY_ITEM_STATAUS_WAIT);
 				e1.setPdsyncneed(ResInventoryService.INVENTORY_ITEM_ACTION_NOSYNC);
 
 				ResInventoryItemS e2=new ResInventoryItemS();
@@ -235,18 +234,18 @@ public class ResInventoryExtController extends BaseController {
 			ResInventoryItemServiceImpl.saveBatch(itemlist);
 			ResInventoryItemSServiceImpl.saveBatch(itemslist);
 			//批量更新内容
-			String sql1="update res_inventory_item a,res b\n" +
-					"set a.zc_category=b.zc_category,\n" +
-					"a.class_id=b.class_id,\n" +
-					"a.type=b.type,\n" +
-					"a.gj_dl=b.gj_dl,\n" +
-					"a.gj_xl=b.gj_xl,\n" +
-					"a.uuid=b.uuid,\n" +
-					"a.name=b.name,\n" +
-					"a.zcsource=b.zcsource,\n" +
-					"a.model=b.model,\n" +
-					"a.sn=b.sn,\n" +
-					"a.version=b.version,\n" +
+			String sql1= "update res_inventory_item a,res b\n" +
+                    "set a.category=b.category,\n" +
+                    "a.class_id=b.class_id,\n" +
+                    "a.type=b.type,\n" +
+                    "a.gj_dl=b.gj_dl,\n" +
+                    "a.gj_xl=b.gj_xl,\n" +
+                    "a.uuid=b.uuid,\n" +
+                    "a.name=b.name,\n" +
+                    "a.zcsource=b.zcsource,\n" +
+                    "a.model=b.model,\n" +
+                    "a.sn=b.sn,\n" +
+                    "a.version=b.version,\n" +
 					"a.res_desc=b.res_desc,\n" +
 					"a.brand=b.brand,\n" +
 					"a.supplier=b.supplier,\n" +
@@ -336,18 +335,18 @@ public class ResInventoryExtController extends BaseController {
 					"a.fd3=b.fd3\n" +
 					"where a.resid=b.id\n";
 
-			String sql2="update res_inventory_item_s a,res b\n" +
-					"set a.zc_category=b.zc_category,\n" +
-					"a.class_id=b.class_id,\n" +
-					"a.type=b.type,\n" +
-					"a.gj_dl=b.gj_dl,\n" +
-					"a.gj_xl=b.gj_xl,\n" +
-					"a.uuid=b.uuid,\n" +
-					"a.name=b.name,\n" +
-					"a.zcsource=b.zcsource,\n" +
-					"a.model=b.model,\n" +
-					"a.sn=b.sn,\n" +
-					"a.version=b.version,\n" +
+			String sql2= "update res_inventory_item_s a,res b\n" +
+                    "set a.category=b.category,\n" +
+                    "a.class_id=b.class_id,\n" +
+                    "a.type=b.type,\n" +
+                    "a.gj_dl=b.gj_dl,\n" +
+                    "a.gj_xl=b.gj_xl,\n" +
+                    "a.uuid=b.uuid,\n" +
+                    "a.name=b.name,\n" +
+                    "a.zcsource=b.zcsource,\n" +
+                    "a.model=b.model,\n" +
+                    "a.sn=b.sn,\n" +
+                    "a.version=b.version,\n" +
 					"a.res_desc=b.res_desc,\n" +
 					"a.brand=b.brand,\n" +
 					"a.supplier=b.supplier,\n" +
@@ -514,12 +513,12 @@ public class ResInventoryExtController extends BaseController {
 		return R.SUCCESS_OPER( );
 	}
 
-	@ResponseBody
-	@Acl(info = "", value = Acl.ACL_USER)
-	@RequestMapping(value = "/queryInventoryRes.do")
-	public R queryInventoryRes(ResInventory entity) {
-		return resInventoryService.inventoryRange(entity);
-	}
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/queryInventoryRes.do")
+    public R queryInventoryRes(ResInventory entity, String category) {
+        return resInventoryService.inventoryRange(entity, category);
+    }
 
 	@ResponseBody
 	@Acl(info = "", value = Acl.ACL_USER)

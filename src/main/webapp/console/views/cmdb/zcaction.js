@@ -265,6 +265,8 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         .withOption('sDefaultContent', '').renderWith(renderBusstatus));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('pstatus').withTitle(
         '流程状态').withOption('sDefaultContent', '').renderWith(renderZCSPStatus));
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('processinstanceid').withTitle('流程实例ID')
+        .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('ptitle').withTitle('标题')
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('pstartusername').withTitle('流程发起人')

@@ -15,7 +15,7 @@
         <result column="processkey" property="processkey" />
         <result column="processname" property="processname" />
         <result column="processversion" property="processversion" />
-        <result column="processInstanceId" property="processInstanceId" />
+        <result column="processinstanceid" property="processinstanceid"/>
         <result column="ptitle" property="ptitle" />
         <result column="ptype" property="ptype" />
         <result column="psubtype" property="psubtype" />

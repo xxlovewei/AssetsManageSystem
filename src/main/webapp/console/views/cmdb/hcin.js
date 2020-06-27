@@ -172,7 +172,7 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         $scope.data.busitimestr = $scope.data.ywtime.format('YYYY-MM-DD')
         $scope.data.class_id = $scope.catSel.id;
         $scope.data.class_name = $scope.catSel.name;
-        $scope.data.zc_category = $scope.catSel.root;
+        $scope.data.category = $scope.catSel.root;
         $scope.data.brandmark = $scope.catSel.brandmark;
         angular.copy($scope.data, e);
         $scope.dtOptions.aaData.push(e);

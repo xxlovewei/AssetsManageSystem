@@ -33,17 +33,17 @@ public class ResInventoryService extends BaseService {
     public static String INVENTORY_ITEM_ACTION_NOSYNC="0";
 
 
-    public R inventoryRange(ResInventory obj){
+    public R inventoryRange(ResInventory obj, String category) {
 
-        String sql="select "+ZcCommonService.resSqlbody + " t.* from res t where dr='0' and zc_category='"+ZcCommonService.CATEGORY_ZC+"'";
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and category='" + category + "'";
 
 
-        if(ToolUtil.isNotEmpty(obj.getBelongcomp())){
-            sql=sql+" and t.belong_company_id='"+obj.getBelongcomp()+"' " ;
+        if (ToolUtil.isNotEmpty(obj.getBelongcomp())) {
+            sql = sql + " and t.belong_company_id='" + obj.getBelongcomp() + "' ";
         }
 
-        if(ToolUtil.isNotEmpty(obj.getUsedcomp())){
-            sql=sql+" and t.used_company_id='"+obj.getUsedcomp()+"' " ;
+        if (ToolUtil.isNotEmpty(obj.getUsedcomp())) {
+            sql = sql + " and t.used_company_id='" + obj.getUsedcomp() + "' ";
         }
 
         if(ToolUtil.isNotEmpty(obj.getUsedpart())){

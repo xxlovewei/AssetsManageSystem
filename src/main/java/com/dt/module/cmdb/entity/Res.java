@@ -11,11 +11,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
- * @since 2020-05-26
+ * @since 2020-06-27
  */
  
 @TableName("res")
@@ -32,8 +32,8 @@ public class Res extends BaseModel<Res> {
     /**
      * 资产类目
      */
-    @TableField("zc_category")
-    private String zcCategory;
+    @TableField("category")
+    private String category;
     /**
      * 大类
      */
@@ -65,10 +65,35 @@ public class Res extends BaseModel<Res> {
     @TableField("uuid")
     private String uuid;
     /**
+     * 资产变更状态
+     */
+    @TableField("actionstatus")
+    private String actionstatus;
+    /**
+     * 出入库单据状态，待审批wait,已同意agreen,拒绝deny,打回back,无需审批none
+     */
+    @TableField("crkstatus")
+    private String crkstatus;
+    /**
+     * 状态,该字段未使用
+     */
+    @TableField("status")
+    private String status;
+    /**
+     * 资产变更期间临时状态
+     */
+    @TableField("changestatus")
+    private String changestatus;
+    /**
      * 资产名称
      */
     @TableField("name")
     private String name;
+    /**
+     * 资产数量
+     */
+    @TableField("zc_cnt")
+    private BigDecimal zcCnt;
     /**
      * 型号
      */
@@ -90,7 +115,7 @@ public class Res extends BaseModel<Res> {
     @TableField("version")
     private String version;
     /**
-     *  资产描述
+     * 资产描述
      */
     @TableField("res_desc")
     private String resDesc;
@@ -155,10 +180,15 @@ public class Res extends BaseModel<Res> {
     @TableField("confdesc")
     private String confdesc;
     /**
-     * 资产区域
+     * 存放区域
      */
     @TableField("loc")
     private String loc;
+    /**
+     * 存放仓库
+     */
+    @TableField("warehouse")
+    private String warehouse;
     /**
      * 资产区域是否显示
      */
@@ -220,25 +250,20 @@ public class Res extends BaseModel<Res> {
     @TableField("headuserid")
     private String headuserid;
     /**
-     * 采购单价
+     * 资产总价
      */
     @TableField("buy_price")
     private BigDecimal buyPrice;
+    /**
+     * 资产单价
+     */
+    @TableField("unit_price")
+    private BigDecimal unitPrice;
     /**
      * 当前价值
      */
     @TableField("net_worth")
     private BigDecimal netWorth;
-    /**
-     * 资产数量
-     */
-    @TableField("zc_cnt")
-    private BigDecimal zcCnt;
-    /**
-     * 资产变更状态
-     */
-    @TableField("actionstatus")
-    private String actionstatus;
     /**
      * 维保状态
      */
@@ -265,21 +290,6 @@ public class Res extends BaseModel<Res> {
     @TableField("wbct")
     private String wbct;
     /**
-     * 状态,未使用
-     */
-    @TableField("status")
-    private String status;
-    /**
-     * 资产变更期间临时状态
-     */
-    @TableField("changestatus")
-    private String changestatus;
-    /**
-     * 批量导入标记
-     */
-    @TableField("importlabel")
-    private String importlabel;
-    /**
      * 图片Id
      */
     @TableField("img")
@@ -289,11 +299,6 @@ public class Res extends BaseModel<Res> {
      */
     @TableField("attach")
     private String attach;
-    /**
-     * 备注
-     */
-    @TableField("mark")
-    private String mark;
     /**
      * 复核状态:updated,reviewed
      */
@@ -309,6 +314,21 @@ public class Res extends BaseModel<Res> {
      */
     @TableField("review_date")
     private Date reviewDate;
+    /**
+     * 出入库批次号
+     */
+    @TableField("batchno")
+    private String batchno;
+    /**
+     * 批量导入标记
+     */
+    @TableField("importlabel")
+    private String importlabel;
+    /**
+     * 备注
+     */
+    @TableField("mark")
+    private String mark;
     /**
      * 资产标签1
      */
@@ -401,17 +421,6 @@ public class Res extends BaseModel<Res> {
     private Date fd2;
     @TableField("fd3")
     private Date fd3;
-    @TableField("warehouse")
-    private String warehouse;
-    @TableField("unit_price")
-    private BigDecimal unitPrice;
-    @TableField("batchno")
-    private String batchno;
-    /**
-     * 待审批wait,已同意agreen,拒绝deny,打回back,无需审批none
-     */
-    @TableField("crkstatus")
-    private String crkstatus;
 
 
     public String getId() {
@@ -422,12 +431,12 @@ public class Res extends BaseModel<Res> {
         this.id = id;
     }
 
-    public String getZcCategory() {
-        return zcCategory;
+    public String getCategory() {
+        return category;
     }
 
-    public void setZcCategory(String zcCategory) {
-        this.zcCategory = zcCategory;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getClassId() {
@@ -478,12 +487,52 @@ public class Res extends BaseModel<Res> {
         this.uuid = uuid;
     }
 
+    public String getActionstatus() {
+        return actionstatus;
+    }
+
+    public void setActionstatus(String actionstatus) {
+        this.actionstatus = actionstatus;
+    }
+
+    public String getCrkstatus() {
+        return crkstatus;
+    }
+
+    public void setCrkstatus(String crkstatus) {
+        this.crkstatus = crkstatus;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getChangestatus() {
+        return changestatus;
+    }
+
+    public void setChangestatus(String changestatus) {
+        this.changestatus = changestatus;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public BigDecimal getZcCnt() {
+        return zcCnt;
+    }
+
+    public void setZcCnt(BigDecimal zcCnt) {
+        this.zcCnt = zcCnt;
     }
 
     public String getModel() {
@@ -630,6 +679,14 @@ public class Res extends BaseModel<Res> {
         this.loc = loc;
     }
 
+    public String getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(String warehouse) {
+        this.warehouse = warehouse;
+    }
+
     public String getLocshow() {
         return locshow;
     }
@@ -734,28 +791,20 @@ public class Res extends BaseModel<Res> {
         this.buyPrice = buyPrice;
     }
 
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
     public BigDecimal getNetWorth() {
         return netWorth;
     }
 
     public void setNetWorth(BigDecimal netWorth) {
         this.netWorth = netWorth;
-    }
-
-    public BigDecimal getZcCnt() {
-        return zcCnt;
-    }
-
-    public void setZcCnt(BigDecimal zcCnt) {
-        this.zcCnt = zcCnt;
-    }
-
-    public String getActionstatus() {
-        return actionstatus;
-    }
-
-    public void setActionstatus(String actionstatus) {
-        this.actionstatus = actionstatus;
     }
 
     public String getWb() {
@@ -798,30 +847,6 @@ public class Res extends BaseModel<Res> {
         this.wbct = wbct;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getChangestatus() {
-        return changestatus;
-    }
-
-    public void setChangestatus(String changestatus) {
-        this.changestatus = changestatus;
-    }
-
-    public String getImportlabel() {
-        return importlabel;
-    }
-
-    public void setImportlabel(String importlabel) {
-        this.importlabel = importlabel;
-    }
-
     public String getImg() {
         return img;
     }
@@ -836,14 +861,6 @@ public class Res extends BaseModel<Res> {
 
     public void setAttach(String attach) {
         this.attach = attach;
-    }
-
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
     }
 
     public String getChangestate() {
@@ -868,6 +885,30 @@ public class Res extends BaseModel<Res> {
 
     public void setReviewDate(Date reviewDate) {
         this.reviewDate = reviewDate;
+    }
+
+    public String getBatchno() {
+        return batchno;
+    }
+
+    public void setBatchno(String batchno) {
+        this.batchno = batchno;
+    }
+
+    public String getImportlabel() {
+        return importlabel;
+    }
+
+    public void setImportlabel(String importlabel) {
+        this.importlabel = importlabel;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 
     public String getFs1() {
@@ -1214,38 +1255,6 @@ public class Res extends BaseModel<Res> {
         this.fd3 = fd3;
     }
 
-    public String getWarehouse() {
-        return warehouse;
-    }
-
-    public void setWarehouse(String warehouse) {
-        this.warehouse = warehouse;
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public String getBatchno() {
-        return batchno;
-    }
-
-    public void setBatchno(String batchno) {
-        this.batchno = batchno;
-    }
-
-    public String getCrkstatus() {
-        return crkstatus;
-    }
-
-    public void setCrkstatus(String crkstatus) {
-        this.crkstatus = crkstatus;
-    }
-
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -1254,74 +1263,78 @@ public class Res extends BaseModel<Res> {
     @Override
     public String toString() {
         return "Res{" +
-        "id=" + id +
-        ", zcCategory=" + zcCategory +
-        ", classId=" + classId +
-        ", lastinventorytime=" + lastinventorytime +
-        ", gjDl=" + gjDl +
-        ", gjXl=" + gjXl +
-        ", type=" + type +
-        ", uuid=" + uuid +
-        ", name=" + name +
-        ", model=" + model +
-        ", zcsource=" + zcsource +
-        ", sn=" + sn +
-        ", version=" + version +
-        ", resDesc=" + resDesc +
-        ", brand=" + brand +
-        ", supplier=" + supplier +
-        ", recycle=" + recycle +
-        ", prerecycle=" + prerecycle +
-        ", env=" + env +
-        ", risk=" + risk +
-        ", buyTime=" + buyTime +
-        ", offlineTime=" + offlineTime +
-        ", onlineTime=" + onlineTime +
-        ", ip=" + ip +
-        ", rwm=" + rwm +
-        ", confdesc=" + confdesc +
-        ", loc=" + loc +
-        ", locshow=" + locshow +
-        ", locdtl=" + locdtl +
-        ", rack=" + rack +
-        ", frame=" + frame +
-        ", belongCompanyId=" + belongCompanyId +
-        ", belongPartId=" + belongPartId +
-        ", usedCompanyId=" + usedCompanyId +
-        ", partId=" + partId +
-        ", usedUserid=" + usedUserid +
-        ", mgrPartId=" + mgrPartId +
-        ", maintainUserid=" + maintainUserid +
-        ", headuserid=" + headuserid +
-        ", buyPrice=" + buyPrice +
-        ", netWorth=" + netWorth +
-        ", zcCnt=" + zcCnt +
-        ", actionstatus=" + actionstatus +
-        ", wb=" + wb +
-        ", wbAuto=" + wbAuto +
-        ", wboutDate=" + wboutDate +
-        ", wbsupplier=" + wbsupplier +
-        ", wbct=" + wbct +
-        ", status=" + status +
-        ", changestatus=" + changestatus +
-        ", importlabel=" + importlabel +
-        ", img=" + img +
-        ", attach=" + attach +
-        ", mark=" + mark +
-        ", changestate=" + changestate +
-        ", reviewUserid=" + reviewUserid +
-        ", reviewDate=" + reviewDate +
-        ", fs1=" + fs1 +
-        ", fs2=" + fs2 +
-        ", fs3=" + fs3 +
-        ", fs4=" + fs4 +
-        ", fs5=" + fs5 +
-        ", fs6=" + fs6 +
-        ", fs7=" + fs7 +
-        ", fs8=" + fs8 +
-        ", fs9=" + fs9 +
-        ", fs10=" + fs10 +
-        ", fs11=" + fs11 +
+                "id=" + id +
+                ", category=" + category +
+                ", classId=" + classId +
+                ", lastinventorytime=" + lastinventorytime +
+                ", gjDl=" + gjDl +
+                ", gjXl=" + gjXl +
+                ", type=" + type +
+                ", uuid=" + uuid +
+                ", actionstatus=" + actionstatus +
+                ", crkstatus=" + crkstatus +
+                ", status=" + status +
+                ", changestatus=" + changestatus +
+                ", name=" + name +
+                ", zcCnt=" + zcCnt +
+                ", model=" + model +
+                ", zcsource=" + zcsource +
+                ", sn=" + sn +
+                ", version=" + version +
+                ", resDesc=" + resDesc +
+                ", brand=" + brand +
+                ", supplier=" + supplier +
+                ", recycle=" + recycle +
+                ", prerecycle=" + prerecycle +
+                ", env=" + env +
+                ", risk=" + risk +
+                ", buyTime=" + buyTime +
+                ", offlineTime=" + offlineTime +
+                ", onlineTime=" + onlineTime +
+                ", ip=" + ip +
+                ", rwm=" + rwm +
+                ", confdesc=" + confdesc +
+                ", loc=" + loc +
+                ", warehouse=" + warehouse +
+                ", locshow=" + locshow +
+                ", locdtl=" + locdtl +
+                ", rack=" + rack +
+                ", frame=" + frame +
+                ", belongCompanyId=" + belongCompanyId +
+                ", belongPartId=" + belongPartId +
+                ", usedCompanyId=" + usedCompanyId +
+                ", partId=" + partId +
+                ", usedUserid=" + usedUserid +
+                ", mgrPartId=" + mgrPartId +
+                ", maintainUserid=" + maintainUserid +
+                ", headuserid=" + headuserid +
+                ", buyPrice=" + buyPrice +
+                ", unitPrice=" + unitPrice +
+                ", netWorth=" + netWorth +
+                ", wb=" + wb +
+                ", wbAuto=" + wbAuto +
+                ", wboutDate=" + wboutDate +
+                ", wbsupplier=" + wbsupplier +
+                ", wbct=" + wbct +
+                ", img=" + img +
+                ", attach=" + attach +
+                ", changestate=" + changestate +
+                ", reviewUserid=" + reviewUserid +
+                ", reviewDate=" + reviewDate +
+                ", batchno=" + batchno +
+                ", importlabel=" + importlabel +
+                ", mark=" + mark +
+                ", fs1=" + fs1 +
+                ", fs2=" + fs2 +
+                ", fs3=" + fs3 +
+                ", fs4=" + fs4 +
+                ", fs5=" + fs5 +
+                ", fs6=" + fs6 +
+                ", fs7=" + fs7 +
+                ", fs8=" + fs8 +
+                ", fs9=" + fs9 +
+                ", fs10=" + fs10 +
+                ", fs11=" + fs11 +
         ", fs12=" + fs12 +
         ", fs13=" + fs13 +
         ", fs14=" + fs14 +
@@ -1354,10 +1367,6 @@ public class Res extends BaseModel<Res> {
         ", fd1=" + fd1 +
         ", fd2=" + fd2 +
         ", fd3=" + fd3 +
-        ", warehouse=" + warehouse +
-        ", unitPrice=" + unitPrice +
-        ", batchno=" + batchno +
-        ", crkstatus=" + crkstatus +
         "}";
     }
 }

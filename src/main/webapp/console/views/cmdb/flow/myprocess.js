@@ -120,8 +120,8 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
-        //			DTColumnBuilder.newColumn('processInstanceId').withTitle('流程编号')
-        //					.withOption('sDefaultContent', ''),
+        DTColumnBuilder.newColumn('processinstanceid').withTitle('流程编号')
+            .withOption('sDefaultContent', ''),
         DTColumnBuilder.newColumn('busid').withTitle('单据号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('pstatus').withTitle('状态').withOption(
@@ -130,6 +130,8 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('bustype').withTitle('类型').withOption(
             'sDefaultContent', '').renderWith(renderType),
+        DTColumnBuilder.newColumn('pstartusername').withTitle('发起人').withOption(
+            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('createTime').withTitle('发起时间')
             .withOption('sDefaultContent', ''),
         DTColumnBuilder.newColumn('pendtime').withTitle('结束时间').withOption(

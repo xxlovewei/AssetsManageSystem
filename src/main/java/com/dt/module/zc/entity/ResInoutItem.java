@@ -10,11 +10,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
- * @since 2020-05-27
+ * @since 2020-06-27
  */
  
 @TableName("res_inout_item")
@@ -30,6 +30,9 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
      */
     @TableField("batchno")
     private String batchno;
+    /**
+     * 出入库状态
+     */
     @TableField("crkstatus")
     private String crkstatus;
     /**
@@ -53,10 +56,10 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
     @TableField("class_id")
     private String classId;
     /**
-     * 厂商
+     * 物品档案
      */
-    @TableField("zc_category")
-    private String zcCategory;
+    @TableField("category")
+    private String category;
     /**
      * 供应商
      */
@@ -172,12 +175,12 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
         this.classId = classId;
     }
 
-    public String getZcCategory() {
-        return zcCategory;
+    public String getCategory() {
+        return category;
     }
 
-    public void setZcCategory(String zcCategory) {
-        this.zcCategory = zcCategory;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getSupplier() {
@@ -284,25 +287,25 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
     @Override
     public String toString() {
         return "ResInoutItem{" +
-        "id=" + id +
-        ", batchno=" + batchno +
-        ", crkstatus=" + crkstatus +
-        ", zcCnt=" + zcCnt +
-        ", resid=" + resid +
-        ", uuid=" + uuid +
-        ", classId=" + classId +
-        ", zcCategory=" + zcCategory +
-        ", supplier=" + supplier +
-        ", buyTime=" + buyTime +
-        ", buyPrice=" + buyPrice +
-        ", unitPrice=" + unitPrice +
-        ", loc=" + loc +
-        ", warehouse=" + warehouse +
-        ", belongCompanyId=" + belongCompanyId +
-        ", belongPartId=" + belongPartId +
-        ", usedCompanyId=" + usedCompanyId +
-        ", partId=" + partId +
-        ", usedUserid=" + usedUserid +
+                "id=" + id +
+                ", batchno=" + batchno +
+                ", crkstatus=" + crkstatus +
+                ", zcCnt=" + zcCnt +
+                ", resid=" + resid +
+                ", uuid=" + uuid +
+                ", classId=" + classId +
+                ", category=" + category +
+                ", supplier=" + supplier +
+                ", buyTime=" + buyTime +
+                ", buyPrice=" + buyPrice +
+                ", unitPrice=" + unitPrice +
+                ", loc=" + loc +
+                ", warehouse=" + warehouse +
+                ", belongCompanyId=" + belongCompanyId +
+                ", belongPartId=" + belongPartId +
+                ", usedCompanyId=" + usedCompanyId +
+                ", partId=" + partId +
+                ", usedUserid=" + usedUserid +
         ", mark=" + mark +
         "}";
     }

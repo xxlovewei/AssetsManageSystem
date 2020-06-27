@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author algernonking
- * @since 2020-05-26
+ * @since 2020-06-27
  */
 @Service
 public class ResServiceImpl extends ServiceImpl<ResMapper, Res> implements IResService {

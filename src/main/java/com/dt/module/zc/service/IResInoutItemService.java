@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author algernonking
- * @since 2020-05-27
+ * @since 2020-06-27
  */
 public interface IResInoutItemService extends IService<ResInoutItem> {
 

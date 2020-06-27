@@ -1,12 +1,16 @@
 package com.dt.module.zc.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.bstek.uflo.model.ProcessDefinition;
+import com.bstek.uflo.process.flow.SequenceFlowImpl;
+import com.bstek.uflo.process.node.Node;
 import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.flow.entity.SysProcessForm;
 import com.dt.module.flow.service.ISysProcessFormService;
@@ -203,7 +207,7 @@ public class ZcProcessFlowController extends BaseController {
         pd.setPstartuserid(this.getUserId());
         pd.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
         pd.setProcesskey(pdef.getPtplkey());
-        pd.setProcessInstanceId(inst.getId() + "");
+        pd.setProcessinstanceid(inst.getId() + "");
         pd.setFormid(formdata.getId());
         pd.setFormtype(pdef.getType());
         SysProcessDataServiceImpl.saveOrUpdate(pd);
@@ -225,14 +229,42 @@ public class ZcProcessFlowController extends BaseController {
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R completeTask(String variables, String taskId, String opinion) {
-        R r = sysUfloProcessService.completeTask(variables, taskId, opinion);
+
         long taskId_l = ConvertUtil.toLong(taskId);
+        System.out.println(taskId_l);
         Task tsk = taskService.getTask(taskId_l);
-        String instid = tsk.getProcessInstanceId() + "";
-        QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
-        qw.eq("busid", tsk.getBusinessId());
-        SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
-        zcChangeService.zcSureChange(tsk.getBusinessId(),sd.getBustype());
+        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+        ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
+        Node node = process.getNode(tsk.getNodeName());
+        List<SequenceFlowImpl> flows = node.getSequenceFlows();
+        if (flows.size() > 0) {
+            SequenceFlowImpl flowimpl = flows.get(0);
+            String toNode = flowimpl.getToNode();
+            if (toNode != null) {
+                if (toNode.startsWith("结束") || toNode.startsWith("流程结束") || toNode.toLowerCase().startsWith("end")) {
+                    //盘点为最后一个节点
+                    QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
+                    qw.eq("busid", tsk.getBusinessId());
+                    SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
+                    String busType = sd.getBustype();
+                    Date date = new Date(); // 获取一个Date对象
+                    DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+                    String nowtime = simpleDateFormat.format(date);
+                    uw.set("pstatus", SysUfloProcessService.P_STATUS_FINISH);
+                    uw.set("pstatusdtl", SysUfloProcessService.P_DTL_STATUS_SUCCESS);
+                    uw.set("pendtime", nowtime);
+                    // 流程类型处理
+                    if (busType != null) {
+                        if (busType.equals("LY") || busType.equals("JY") || busType.equals("DB") || busType.equals("ZY")) {
+                            uw.set("busstatus", "out");
+                        }
+                    }
+                    SysProcessDataServiceImpl.update(uw);
+                    zcChangeService.zcSureChange(tsk.getBusinessId(), sd.getBustype());
+                }
+            }
+        }
+        R r = sysUfloProcessService.completeTask(variables, taskId, opinion);
         return r;
     }
 
