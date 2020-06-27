@@ -484,7 +484,7 @@ public class ZcService extends BaseService{
                 "from (\n" +
                 "       select t.*\n" +
                 "       from res_attrs t\n" +
-                "       where ifinheritable = '1' and dr = '0' and catid <> ? and catid in (46, 50, 123)\n" +
+                "       where ifinheritable = '1' and dr = '0' and catid <> ? and catid in (" + route.replaceAll("-", ",") + ")\n" +
                 "       union all (select *\n" +
                 "                  from res_attrs\n" +
                 "                  where dr = '0' and catid = ?\n" +

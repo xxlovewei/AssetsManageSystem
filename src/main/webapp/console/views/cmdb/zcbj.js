@@ -789,20 +789,43 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 // }
                 // modal_meta.meta.item.attrvals = angular
                 // 	.toJson(modal_meta.meta.attr);
-                $http
-                    .post(
-                        $rootScope.project
-                        + "/api/base/res/addResCustom.do",
-                        modal_meta.meta.item)
-                    .success(function (result) {
-                        if (result.success) {
-                            modalInstance.close("OK");
-                        } else {
-                            notify({
-                                message: result.message
-                            });
-                        }
-                    });
+                if (angular.isDefined(modal_meta.meta.item.id)) {
+                    $confirm({
+                        title: "资产修改确认",
+                        text: '修改功能不保存变更记录是否确认使用修改功能?'
+                    }).then(
+                        function () {
+                            $http
+                                .post(
+                                    $rootScope.project
+                                    + "/api/base/res/addResCustom.do",
+                                    modal_meta.meta.item)
+                                .success(function (result) {
+                                    if (result.success) {
+                                        modalInstance.close("OK");
+                                    } else {
+                                        notify({
+                                            message: result.message
+                                        });
+                                    }
+                                });
+                        });
+                } else {
+                    $http
+                        .post(
+                            $rootScope.project
+                            + "/api/base/res/addResCustom.do",
+                            modal_meta.meta.item)
+                        .success(function (result) {
+                            if (result.success) {
+                                modalInstance.close("OK");
+                            } else {
+                                notify({
+                                    message: result.message
+                                });
+                            }
+                        });
+                }
             },
             init: function (modal_meta) {
                 var tt = {};

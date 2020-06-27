@@ -1,4 +1,4 @@
-function modalresBatchUpdateCtl($timeout, $localStorage, notify, $log, $uibModal,
+function modalresBatchUpdateCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
                                 $uibModalInstance, $scope, meta, $http, $rootScope,
                                 $compile) {
     var tgdict = meta.gdicts;
@@ -116,19 +116,25 @@ function modalresBatchUpdateCtl($timeout, $localStorage, notify, $log, $uibModal
         $scope.item.tbSel = $scope.tbSel.dict_item_id;
         $scope.item.iflocSel = $scope.iflocSel.id;
         $scope.item.locSel = $scope.locSel.dict_item_id;
-        $http
-            .post(
-                $rootScope.project
-                + "/api/base/res/batchUpdateRes.do",
-                $scope.item)
-            .success(function (res) {
-                if (res.success) {
-                    $uibModalInstance.close('OK');
-                } else {
-                    notify({
-                        message: res.message
+        $confirm({
+            title: "资产修改确认",
+            text: '修改功能不保存变更记录是否确认使用修改功能?'
+        }).then(
+            function () {
+                $http
+                    .post(
+                        $rootScope.project
+                        + "/api/base/res/batchUpdateRes.do",
+                        $scope.item)
+                    .success(function (res) {
+                        if (res.success) {
+                            $uibModalInstance.close('OK');
+                        } else {
+                            notify({
+                                message: res.message
+                            });
+                        }
                     });
-                }
             });
     }
 }
@@ -1057,6 +1063,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             },
             items: items,
             sure: function (modalInstance, modal_meta) {
+
                 // 只允许传一张图片
                 modal_meta.meta.item.img = "";
                 if ($scope.myDropzonepic.files.length > 0 && $scope.myDropzonepic.files.length == 1) {
@@ -1164,20 +1171,43 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 }
                 modal_meta.meta.item.attrvals = angular
                     .toJson(modal_meta.meta.extitems);
-                $http
-                    .post(
-                        $rootScope.project
-                        + "/api/base/res/addResCustom.do",
-                        modal_meta.meta.item)
-                    .success(function (result) {
-                        if (result.success) {
-                            modalInstance.close("OK");
-                        } else {
-                            notify({
-                                message: result.message
-                            });
-                        }
-                    });
+                if (angular.isDefined(modal_meta.meta.item.id)) {
+                    $confirm({
+                        title: "资产修改确认",
+                        text: '修改功能不保存变更记录是否确认使用修改功能?'
+                    }).then(
+                        function () {
+                            $http
+                                .post(
+                                    $rootScope.project
+                                    + "/api/base/res/addResCustom.do",
+                                    modal_meta.meta.item)
+                                .success(function (result) {
+                                    if (result.success) {
+                                        modalInstance.close("OK");
+                                    } else {
+                                        notify({
+                                            message: result.message
+                                        });
+                                    }
+                                });
+                        });
+                } else {
+                    $http
+                        .post(
+                            $rootScope.project
+                            + "/api/base/res/addResCustom.do",
+                            modal_meta.meta.item)
+                        .success(function (result) {
+                            if (result.success) {
+                                modalInstance.close("OK");
+                            } else {
+                                notify({
+                                    message: result.message
+                                });
+                            }
+                        });
+                }
             },
             init: function (modal_meta) {
                 var tt = {};
