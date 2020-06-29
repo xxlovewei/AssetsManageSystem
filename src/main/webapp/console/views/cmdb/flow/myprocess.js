@@ -30,7 +30,7 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 priv: "act1",
                 label: "详情",
                 type: "btn",
-                template: ' <button ng-click="oper()" class="btn btn-sm btn-primary" type="submit">详情</button>',
+                template: ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>',
                 show: true,
             }]
     }
@@ -203,7 +203,7 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         }
     }
 
-    $scope.oper = function () {
+    $scope.detail = function () {
         var item = getSelectRow();
         if (angular.isDefined(item)) {
             $http
@@ -216,31 +216,8 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 .success(
                     function (res) {
                         if (res.success) {
-                            // 资产领用
-                            var modalInstance = $uibModal
-                                .open({
-                                    backdrop: true,
-                                    templateUrl: 'views/cmdb/modal_zcActionDtl.html',
-                                    controller: modalzcActionDtlCtl,
-                                    size: 'blg',
-                                    resolve: {
-                                        meta: function () {
-                                            return res.data;
-                                        },
-                                        task: function () {
-                                            return item;
-                                        },
-                                        pagetype: function () {
-                                            return "query";
-                                        }
-                                    }
-                                });
-                            modalInstance.result.then(function (result) {
-                            }, function (reason) {
-                                // 点击空白区域，总会输出backdrop
-                                // click，点击取消，则会cancel
-                                $log.log("reason", reason)
-                            });
+                            var url = "#/fullpage/fullpage_flowdetail?id=" + res.data.id + "&pagetype=lookup";
+                            var win = $window.open(url, "_bank", "fullscreen:yes,menubar:no,status:no,location:no,menubar:no")
                         } else {
                             notify({
                                 message: res.message
@@ -248,9 +225,6 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                         }
                     })
         } else {
-            // notify({
-            // message : "该流程不存在"
-            // });
         }
     }
 };

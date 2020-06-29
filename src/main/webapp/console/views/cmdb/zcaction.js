@@ -416,32 +416,34 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         } else {
             return;
         }
-        var ps = {};
-        ps.id = id;
-        ps.flowtype = flowtype;
-        var modalInstance = $uibModal.open({
-            backdrop: true,
-            templateUrl: 'views/cmdb/modal_zcActionDtl.html',
-            controller: modalzcActionDtlCtl,
-            size: 'blg',
-            resolve: {
-                meta: function () {
-                    return ps;
-                },
-                pagetype: function () {
-                    return "query";
-                },
-                task: function () {
-                    return "";
-                }
-            }
-        });
-        modalInstance.result.then(function (result) {
-            if (result == "OK") {
-            }
-        }, function (reason) {
-            $log.log("reason", reason)
-        });
+        // var ps = {};
+        // ps.id = id;
+        // ps.flowtype = flowtype;
+        var url = "#/fullpage/fullpage_flowdetail?id=" + id + "&pagetype=lookup";
+        var win = $window.open(url, "_bank", "fullscreen:yes,menubar:no,status:no,location:no,menubar:no")
+        // var modalInstance = $uibModal.open({
+        //     backdrop: true,
+        //     templateUrl: 'views/cmdb/modal_zcActionDtl.html',
+        //     controller: modalzcActionDtlCtl,
+        //     size: 'blg',
+        //     resolve: {
+        //         meta: function () {
+        //             return ps;
+        //         },
+        //         pagetype: function () {
+        //             return "query";
+        //         },
+        //         task: function () {
+        //             return "";
+        //         }
+        //     }
+        // });
+        // modalInstance.result.then(function (result) {
+        //     if (result == "OK") {
+        //     }
+        // }, function (reason) {
+        //     $log.log("reason", reason)
+        // });
     }
 
     function getSelectRow() {

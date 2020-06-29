@@ -1,4 +1,4 @@
-function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+function myProcessTodoCtl($window, $state, DTOptionsBuilder, DTColumnBuilder, $compile,
                           $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
     $scope.meta = {
         tablehide: false,
@@ -18,7 +18,27 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 type: "btn",
                 template: ' <button ng-click="oper()" class="btn btn-sm btn-primary" type="submit">处理</button>',
                 show: true,
-            }]
+            }
+
+            // , {
+            //     id: "1",
+            //     priv: "act1",
+            //     label: "demo",
+            //     type: "btn",
+            //     template: ' <button ng-click="demo()" class="btn btn-sm btn-primary" type="submit">demo</button>',
+            //     show: true,
+            // }
+        ]
+    }
+    $scope.demo = function () {
+        // let url = $state.href('app.user');
+        //window.open(url, '_blank')
+        var url = $state.href('fullpage.flowdetail', {basicType: 8});
+        var win = $window.open(url, "_bank", "menubar:no,status:no,location:no,menubar:no")
+        // win.onunload = function() {
+        //     console.log('@@@@@@@@@@@@@');
+        //     console.log(a)
+        // };
     }
     privNormalCompute($scope.meta.tools, $rootScope.curMemuBtns);
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
@@ -153,6 +173,7 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }
     }
 
+    var win = null;
     $scope.oper = function () {
         var item = getSelectRow();
         if (angular.isDefined(item) && angular.isDefined(item.businessId)) {
@@ -166,34 +187,19 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 .success(
                     function (res) {
                         if (res.success) {
-                            // 资产领用
-                            var modalInstance = $uibModal
-                                .open({
-                                    backdrop: true,
-                                    templateUrl: 'views/cmdb/modal_zcActionDtl.html',
-                                    controller: modalzcActionDtlCtl,
-                                    size: 'blg',
-                                    resolve: {
-                                        meta: function () {
-                                            return res.data;
-                                        },
-                                        task: function () {
-                                            return item;
-                                        },
-                                        pagetype: function () {
-                                            return "sp";
-                                        }
+                            var url = "#/fullpage/fullpage_flowdetail?taskid=" + item.id + "&id=" + res.data.id + "&pagetype=approval";
+                            win = $window.open(url, "_bank", "fullscreen:yes,menubar:no,status:no,location:no,menubar:no")
+                            var loop = setInterval(function () {//监听子页面关闭事件,轮询时间1000毫秒
+                                console.log(win);
+                                if (win.closed) {
+                                    clearInterval(loop);
+                                    if (angular.isDefined(win.opener) && win.opener == "ok") {
+                                        flush()
+                                        console.log('ffffffllll')
                                     }
-                                });
-                            modalInstance.result.then(function (result) {
-                                if (result == "OK") {
-                                    flush();
                                 }
-                            }, function (reason) {
-                                // 点击空白区域，总会输出backdrop
-                                // click，点击取消，则会cancel
-                                $log.log("reason", reason)
-                            });
+                            }, 1000);
+                            //
                         } else {
                             notify({
                                 message: res.message
@@ -201,9 +207,6 @@ function myProcessTodoCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                         }
                     })
         } else {
-//			notify({
-//				message : "该流程不存在"
-//			});
         }
     }
 };

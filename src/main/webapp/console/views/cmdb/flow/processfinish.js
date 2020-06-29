@@ -1,4 +1,4 @@
-function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
                             $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
     $scope.meta = {
         tablehide: false,
@@ -30,7 +30,7 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 priv: "act1",
                 label: "详情",
                 type: "btn",
-                template: ' <button ng-click="oper()" class="btn btn-sm btn-primary" type="submit">详情</button>',
+                template: ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>',
                 show: true,
             }]
     }
@@ -176,44 +176,20 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }
     }
 
-    $scope.oper = function () {
+    $scope.detail = function () {
         var item = getSelectRow();
         if (angular.isDefined(item) && angular.isDefined(item.businessId)) {
             $http
                 .post(
                     $rootScope.project
-                    + "/api/flow/sysProcessDataExt/selectByBusinessId.do",
-                    {
+                    + "/api/flow/sysProcessDataExt/selectByBusinessId.do", {
                         businessid: item.businessId
                     })
                 .success(
                     function (res) {
                         if (res.success) {
-                            // 资产领用
-                            var modalInstance = $uibModal
-                                .open({
-                                    backdrop: true,
-                                    templateUrl: 'views/cmdb/modal_zcActionDtl.html',
-                                    controller: modalzcActionDtlCtl,
-                                    size: 'blg',
-                                    resolve: {
-                                        meta: function () {
-                                            return res.data;
-                                        },
-                                        task: function () {
-                                            return item;
-                                        },
-                                        pagetype: function () {
-                                            return "query";
-                                        }
-                                    }
-                                });
-                            modalInstance.result.then(function (result) {
-                            }, function (reason) {
-                                // 点击空白区域，总会输出backdrop
-                                // click，点击取消，则会cancel
-                                $log.log("reason", reason)
-                            });
+                            var url = "#/fullpage/fullpage_flowdetail?id=" + res.data.id + "&pagetype=lookup";
+                            var win = $window.open(url, "_bank", "fullscreen:yes,menubar:no,status:no,location:no,menubar:no")
                         } else {
                             notify({
                                 message: res.message
@@ -221,9 +197,7 @@ function myProcessfinishCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                         }
                     })
         } else {
-            //			notify({
-            //				message : "该流程不存在"
-            //			});
+            return;
         }
     }
 };

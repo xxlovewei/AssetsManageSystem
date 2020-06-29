@@ -540,5 +540,27 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
+    // flow
+    $stateProvider.state('fullpage', {
+        abstract: true,
+        url: "/fullpage",
+        templateUrl: "views/common/fullpage.html?v=" + version
+    }).state('fullpage.flowdetail', {
+        url: "/fullpage_flowdetail",
+        params: {
+            id: null,
+            pagetype: null
+        },
+        data: {pageTitle: '详情'},
+        templateUrl: "views/cmdb/flowdetail.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/flowdetail.js?v=' + version]
+                }]);
+            }
+        }
+    })
 }
- 
+
