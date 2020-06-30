@@ -859,6 +859,20 @@ function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
     return dtColumns;
 }
 
+function rendeZcLoc(data, type, full) {
+    var html = "";
+    if (angular.isDefined(full.rackstr)) {
+        html = html + full.rackstr;
+    }
+    if (angular.isDefined(full.frame)) {
+        html = html + "[" + full.frame + "]"
+    }
+    if (angular.isDefined(full.locdtl)) {
+        html = html + " " + full.locdtl
+    }
+    return html;
+}
+
 function zcBaseColsCreate(DTColumnBuilder, selectype) {
 //selectype:withoutselect,withselect
     dtColumns = [];
@@ -903,7 +917,7 @@ function zcBaseColsCreate(DTColumnBuilder, selectype) {
     dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push(DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
-        'sDefaultContent', ''));
+        'sDefaultContent', '').renderWith(rendeZcLoc));
     dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('采购总额')

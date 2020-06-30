@@ -329,11 +329,12 @@ public class OpsNodeExtServiceImpl extends BaseService {
                 + "  (select name from sys_dict_item where dr='0' and dict_item_id=b.db and dict_id = 'sysdb' ) sysdbstr,\n"
                 + "  (select name from sys_dict_item where dr='0' and dict_item_id=b.nodebackup and dict_id = 'nodebak' ) nodebackupstr,\n"
                 + "	(select name from sys_dict_item where dr='0' and dict_item_id=b.dbdtl and dict_id = 'sysdbdtl' ) sysdbdtlstr,\n"
+                + "	(select name from sys_dict_item where dr='0' and dict_item_id=b.status and dict_id = 'sysstatus' ) sysstatusstr,\n"
                 + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.archtype and dict_id = 'dbbkarchtype' ) dbbkarchtypestr,\n"
                 + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkmethod and dict_id = 'dbbkmethod' ) dbbkmethodstr,\n"
                 + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkstatus and dict_id = 'dbbkstatus' ) dbbkstatusstr,\n"
                 + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bktype and dict_id = 'dbbktype' ) dbbktypestr,\n"
-                + "  a.*,b.name xtname,b.ip,b.db ,b.dbdtl from  ops_node_item a, ops_node b where a.nid=b.id\n"
+                + "  a.*,b.name xtname,b.ip,b.db ,b.dbdtl from ops_node_item a, ops_node b where a.nid=b.id\n"
                 + "and a.dr='0' and b.dr='0' and a.type='dbinstance'\n";
 
         if (ToolUtil.isNotEmpty(dbinstid)) {

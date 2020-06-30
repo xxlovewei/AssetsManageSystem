@@ -361,9 +361,11 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }).withOption('width', '5px'),
-        DTColumnBuilder.newColumn('xtname').withTitle('系统').withOption(
+        DTColumnBuilder.newColumn('xtname').withTitle('节点名称').withOption(
             'sDefaultContent', '').withOption('width', '30px')
             .renderWith(ColWidthRender),
+        DTColumnBuilder.newColumn('sysstatusstr').withTitle('节点状态').withOption(
+            'sDefaultContent', '').withOption('width', '30px'),
         DTColumnBuilder.newColumn('nodebackupstr').withTitle('节点备份类型').withOption(
             'sDefaultContent', '').withOption('width', '30px')
             .renderWith(ColWidthRender),

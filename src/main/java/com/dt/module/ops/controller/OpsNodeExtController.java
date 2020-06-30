@@ -125,18 +125,18 @@ public class OpsNodeExtController extends BaseController {
     public R dashboard() {
         JSONObject res = new JSONObject();
 
-        String sql = "select\n" + "  (select count(1) from ops_node where dr='0') oscnt,\n"
-                + "  (select count(1) from ops_node_item a,ops_node b where b.dr='0' and a.dr='0' and a.nid=b.id and a.type='dbinstance')  dbinstancecnt, "
-                + "  (select sum(cnt) from (select count(cnt) cnt from (select distinct ip ,count(1) cnt from  ops_node  where dr='0' group by ip) t where cnt>1 union all select count(1) cnt from ops_node where ip is null)end) exceptioncnt ,"
-                + "  (select count(1) from ops_node a,sys_dict_item b where a.dr='0' and a.db=b.dict_item_id and b.dict_id='sysdb' and b.dr='0') dbcnt,\n"
-                + "  (select count(1) from ops_node a,sys_dict_item b where a.dr='0' and a.monitor=b.dict_item_id and b.dict_id='sysmonitor' and b.dr='0' and b.name='监控中') monitorcnt,\n"
-                + "  (select sum((length(middleware)-length(replace(middleware, ',','')) ) +1)  cnt  from ops_node where middleware<>'[]' and dr='0') midcnt\n";
+        String sql = "select (select count(1) from ops_node where dr='0' and status in (select dict_item_id from sys_dict_item where dr='0' and dict_id='sysstatus' and code='online')) oscnt,"
+                + "  (select count(1) from ops_node_item a,ops_node b where b.dr='0' and a.dr='0' and a.nid=b.id and a.type='dbinstance' and b.status in (select dict_item_id from sys_dict_item where dr='0' and dict_id='sysstatus' and code='online'))dbinstancecnt,"
+                + "  (select sum(cnt) from (select count(cnt) cnt from (select distinct ip ,count(1) cnt from  ops_node where status in (select dict_item_id from sys_dict_item where dr='0' and dict_id='sysstatus' and code='online') and dr='0' group by ip) t where cnt>1 union all select count(1) cnt from ops_node where status in (select dict_item_id from sys_dict_item where dr='0' and dict_id='sysstatus' and code='online') and ip is null)end) exceptioncnt ,"
+                + "  (select count(1) from ops_node a,sys_dict_item b where a.status in (select dict_item_id from sys_dict_item where dr='0' and dict_id='sysstatus' and code='online') and a.dr='0' and a.db=b.dict_item_id and b.dict_id='sysdb' and b.dr='0') dbcnt,"
+                + "  (select count(1) from ops_node a,sys_dict_item b where a.status in (select dict_item_id from sys_dict_item where dr='0' and dict_id='sysstatus' and code='online') and a.dr='0' and a.monitor=b.dict_item_id and b.dict_id='sysmonitor' and b.dr='0' and b.name='监控中') monitorcnt,"
+                + "  (select sum((length(middleware)-length(replace(middleware, ',','')) ) +1)  cnt from ops_node where status in (select dict_item_id from sys_dict_item where dr='0' and dict_id='sysstatus' and code='online') and middleware<>'[]' and dr='0') midcnt";
         Rcd rcd = db.uniqueRecord(sql);
         if (rcd != null) {
             res = ConvertUtil.OtherJSONObjectToFastJSONObject((rcd.toJsonObject()));
         }
         // 操作系统
-        String ossql = "select b.name,count(1) cnt from ops_node a,sys_dict_item b where a.dr='0' and a.os=b.dict_item_id and b.dict_id='sysos'\n"
+        String ossql = "select b.name,count(1) cnt from ops_node a,sys_dict_item b where a.status in (select dict_item_id from sys_dict_item where dr='0' and dict_id='sysstatus' and code='online') and a.dr='0' and a.os=b.dict_item_id and b.dict_id='sysos'\n"
                 + "group by b.name order by 2 desc";
         JSONArray os_meta_arr = new JSONArray();
         JSONArray os_data_arr = new JSONArray();
@@ -157,7 +157,7 @@ public class OpsNodeExtController extends BaseController {
         // 数据库
         JSONArray db_meta_arr = new JSONArray();
         JSONArray db_data_arr = new JSONArray();
-        String dbsql = "select b.name,count(1) cnt from ops_node a,sys_dict_item b where a.dr='0' and a.db=b.dict_item_id and b.dict_id='sysdb'\n"
+        String dbsql = "select b.name,count(1) cnt from ops_node a,sys_dict_item b where a.status in (select dict_item_id from sys_dict_item where dr='0' and dict_id='sysstatus' and code='online') and a.dr='0' and a.db=b.dict_item_id and b.dict_id='sysdb'\n"
                 + "group by b.name order by 2 desc";
         RcdSet db_rs = db.query(dbsql);
         for (int i = 0; i < db_rs.size(); i++) {
@@ -174,7 +174,7 @@ public class OpsNodeExtController extends BaseController {
         res.put("db_chart_data", db_data_arr);
 
         // 中间件
-        String midsql = "select b.code name ,count(1) cnt from ops_node c ,ops_node_item a,sys_dict_item b where c.dr='0' and  c.id=a.nid and a.value=b.dict_item_id and a.dr='0' group by code order by 2 desc";
+        String midsql = "select b.code name ,count(1) cnt from ops_node c ,ops_node_item a,sys_dict_item b where c.status in (select dict_item_id from sys_dict_item where dr='0' and dict_id='sysstatus' and code='online') and c.dr='0' and c.id=a.nid and a.value=b.dict_item_id and a.dr='0' group by code order by 2 desc";
         JSONArray mid_meta_arr = new JSONArray();
         JSONArray mid_data_arr = new JSONArray();
         RcdSet mid_rs = db.query(midsql);
@@ -272,7 +272,6 @@ public class OpsNodeExtController extends BaseController {
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectDBList.do")
     public R selectDBList(String dbinstid, String nodeid) {
-
         return opsNodeExtServiceImpl.selectDBList(dbinstid, nodeid);
     }
 

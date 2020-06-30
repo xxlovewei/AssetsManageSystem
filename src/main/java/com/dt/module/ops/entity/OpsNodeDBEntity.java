@@ -21,9 +21,12 @@ public class OpsNodeDBEntity {
     @Excel(name = "编号", width = 30)
     private String id;
 
-    @Excel(name = "系统", width = 25)
+    @Excel(name = "节点名称", width = 25)
     private String xtname;
 
+
+    @Excel(name = "节点状态", width = 25)
+    private String sysstatusstr;
 
     @Excel(name = "节点备份类型", width = 18)
     private String nodebackupstr;
@@ -290,6 +293,7 @@ public class OpsNodeDBEntity {
 
     public void fullEntity(JSONObject obj) {
         this.id = obj.getString("id");
+        this.sysstatusstr = obj.getString("sysstatusstr");
         this.nodebackupstr = obj.getString("nodebackupstr");
         this.xtname = obj.getString("xtname");
         this.ip = obj.getString("ip");
@@ -304,5 +308,13 @@ public class OpsNodeDBEntity {
         this.dsize = obj.getString("dsize");
         this.mark = obj.getString("mark");
 
+    }
+
+    public String getSysstatusstr() {
+        return sysstatusstr;
+    }
+
+    public void setSysstatusstr(String sysstatusstr) {
+        this.sysstatusstr = sysstatusstr;
     }
 }
