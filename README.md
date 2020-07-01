@@ -60,6 +60,15 @@
 ### 步骤四
 - 启动服务访问
 ```
+- http://ip:port/dt/console
+- 选择用户名方式登陆
+- 账户:admin 
+- 密
+```
+
+
+## Docker 部署方式
+```
 #正式部署数据库
 docker run --name dt-db -t \
 -e MYSQL_USER="dt" \
@@ -79,14 +88,6 @@ docker run --name dt-app -t \
 -d docker.io/algernonking/dtapp:2.2.8
 ```
 
-
-## Docker 部署方式
-```
-- http://ip:port/dt/console
-- 选择用户名方式登陆
-- 账户:admin 
-- 密
-```
 
 ## PC效果图
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/130924_93070844_448530.jpeg "11.jpg")
