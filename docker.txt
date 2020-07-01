@@ -1,0 +1,85 @@
+######################### 官方 Mysql ####################
+docker run --name dt-db -t \
+-e MYSQL_USER="dt" \
+-e MYSQL_PASSWORD="dt_pwd" \
+-e MYSQL_ROOT_PASSWORD=root_pwd \
+-v /data/mysql:/var/lib/mysql  \
+-p 3367:3306 \
+-d mysql:5.7 \
+--character-set-server=utf8 \
+--lower_case_table_names=1 \
+
+#####初始化脚本
+#!/bin/bash
+dtdbcnt=`mysqlshow -uroot -proot_pwd|grep dt|wc -l`
+if [ $dtdbcnt -eq "0" ] ; then
+	mysql -uroot -p$MYSQL_ROOT_PASSWORD <<EOF
+	CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
+	set names utf8;
+	use dt;
+	source /tmp/dt.sql
+EOF
+else
+	echo "db is exits"
+fi
+exit 0
+
+
+######################## 官方 Tomcat ####################
+docker pull tomcat:9.0.36-jdk8-openjdk
+
+
+
+
+######################## 正式部署  ####################
+#正式部署数据库
+docker run --name dt-db -t \
+-e MYSQL_USER="dt" \
+-e MYSQL_PASSWORD="dt_pwd" \
+-e MYSQL_ROOT_PASSWORD=root_pwd \
+-v /data/mysql:/var/lib/mysql  \
+-p 10050:3306 \
+-d docker.io/algernonking/dtmysql:2.2.8 \
+--character-set-server=utf8 \
+--lower_case_table_names=1
+
+#正式部署应用
+docker run --name dt-app -t \
+--link=dt-db:db \
+-p 3367:8080  \
+-d tomcat:9.0.36-jdk8-openjdk
+
+
+
+
+
+
+
+##################################################
+docker run --name dt-dbdev -t \
+-e MYSQL_USER="dt" \
+-e MYSQL_PASSWORD="dt_pwd" \
+-e MYSQL_ROOT_PASSWORD=root_pwd \
+-v /data/mysql2:/var/lib/mysql  \
+-p 3367:3306 \
+-d mysql:5.7 \
+--character-set-server=utf8 \
+--lower_case_table_names=1 \
+
+docker push algernonking/mysql:tagname
+
+docker push [repository]:[tag]
+
+docker login
+
+
+
+#进入容器
+docker exec -it cfb0cc2ee513 bash
+
+#备份
+docker exec a74ba2038307 sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > /some/path/on/your/host/all-databases.sql
+
+#容器转为镜像
+docker commit -m "Added Mysql Version 2.2.8"  -a "algernonking" cfb0cc2ee513 docker.io/algernonking/mysql:2.2.8
+

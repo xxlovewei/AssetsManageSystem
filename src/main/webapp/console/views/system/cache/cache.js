@@ -24,6 +24,13 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 type: "btn",
                 show: true,
                 template: ' <button ng-click="cacheclear()" class="btn btn-sm btn-primary" type="submit">清除缓存</button>'
+            }
+            , {
+                id: "4",
+                label: "一键清除缓存",
+                type: "btn",
+                show: true,
+                template: ' <button ng-click="cacheclearall()" class="btn btn-sm btn-primary" type="submit">一键清除缓存</button>'
             }]
     }
     var gcacheOpt = [];
@@ -177,6 +184,28 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 flush();
             }
         })
+    }
+    $scope.cacheclearall = function () {
+        $confirm({
+            text: '是否清除所有缓存(不包含shiro及wxconf)?'
+        }).then(function () {
+            if (gcacheOpt.length > 0) {
+                for (var i = 0; i < gcacheOpt.length; i++) {
+                    if (gcacheOpt[i].id == "passwordRetryCache" || gcacheOpt[i].id == "authorizationCache" || gcacheOpt[i].id == "authenticationCache" || gcacheOpt[i].id == "wxconf") {
+                        continue;
+                    }
+                    $http.post($rootScope.project + "/api/sysApi/system/clearCache.do",
+                        {cache: gcacheOpt[i].id}).success(function (res) {
+                        if (res.success) {
+                        } else {
+                            notify({
+                                message: res.message
+                            });
+                        }
+                    });
+                }
+            }
+        });
     }
     $scope.cacheclear = function () {
         var meta = {};

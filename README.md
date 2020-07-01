@@ -10,15 +10,15 @@
 
 ## 所用框架
 - Spring 5.0.17
-- Shiro 1.5。3
+- Shiro 1.5.3
 - MyBatis-Plus 3.0.7.1
 - MyBatis 3.4.6
 - Druid 1.1.22
 - Easypoi 4.1.3
-- quartz 2.3.2
+- Quartz 2.3.2
 - UFLO 2.1.5(流程引擎)
-- k-form-design 3.x(表单)
-- angular 1.x
+- K-form-design 3.x(表单)
+- Angular 1.x
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0626/151044_1cfbb43b_448530.png "WechatIMG170.png")
 
@@ -60,10 +60,32 @@
 ### 步骤四
 - 启动服务访问
 ```
+#正式部署数据库
+docker run --name dt-db -t \
+-e MYSQL_USER="dt" \
+-e MYSQL_PASSWORD="dt_pwd" \
+-e MYSQL_ROOT_PASSWORD=root_pwd \
+-v /data/mysql:/var/lib/mysql  \
+-p 3306:3306 \
+-d docker.io/algernonking/dtmysql:2.2.8 \
+--character-set-server=utf8 \
+--lower_case_table_names=1
+
+#正式部署应用
+docker run --name dt-app -t \
+-v /data/upload:/usr/local/tomcat/webapps/upload \
+--link=dt-db:db \
+-p 8080:8080  \
+-d docker.io/algernonking/dtapp:2.2.8
+```
+
+
+## Docker 部署方式
+```
 - http://ip:port/dt/console
 - 选择用户名方式登陆
 - 账户:admin 
-- 密码:oracle
+- 密
 ```
 
 ## PC效果图
