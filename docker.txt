@@ -1,13 +1,6 @@
 ######################### 官方 Mysql ####################
-docker run --name dt-db -t \
--e MYSQL_USER="dt" \
--e MYSQL_PASSWORD="dt_pwd" \
--e MYSQL_ROOT_PASSWORD=root_pwd \
--v /data/mysql:/var/lib/mysql  \
--p 3367:3306 \
--d mysql:5.7 \
---character-set-server=utf8 \
---lower_case_table_names=1 \
+docker.io/tomcat                                       9.0.36-jdk8-openjdk   b79665757bae        3 weeks ago         530 MB
+docker.io/mysql                                        5.7                   9cfcce23593a        3 weeks ago         448 MB
 
 #####初始化脚本
 #!/bin/bash
@@ -25,37 +18,38 @@ fi
 exit 0
 
 
-######################## 官方 Tomcat ####################
-docker pull tomcat:9.0.36-jdk8-openjdk
-
 
 
 
 ######################## 正式部署  ####################
-#正式部署数据库
+#部署数据库
 docker run --name dt-db -t \
 -e MYSQL_USER="dt" \
 -e MYSQL_PASSWORD="dt_pwd" \
 -e MYSQL_ROOT_PASSWORD=root_pwd \
 -v /data/mysql:/var/lib/mysql  \
--p 10050:3306 \
+-p 3306:3306 \
 -d docker.io/algernonking/dtmysql:2.2.8 \
 --character-set-server=utf8 \
 --lower_case_table_names=1
 
-#正式部署应用
+#部署应用
 docker run --name dt-app -t \
+-v /data/upload:/usr/local/tomcat/webapps/dt/upload  \
 --link=dt-db:db \
--p 3367:8080  \
--d tomcat:9.0.36-jdk8-openjdk
+-p 8080:8080  \
+-d docker.io/algernonking/dtapp:2.2.8
 
 
 
 
-
+######################## 正式部署  ####################
+sed -i "s/127.0.0.1/$DB_PORT_3306_TCP_ADDR/g"   /usr/local/tomcat/webapps/dt/WEB-INF/classes/config.properties
+sed -i "s/$DB_PORT_3306_TCP_ADDR/127.0.0.1/g"   /usr/local/tomcat/webapps/dt/WEB-INF/classes/config.properties
 
 
 ##################################################
+开发测试
 docker run --name dt-dbdev -t \
 -e MYSQL_USER="dt" \
 -e MYSQL_PASSWORD="dt_pwd" \
@@ -66,20 +60,27 @@ docker run --name dt-dbdev -t \
 --character-set-server=utf8 \
 --lower_case_table_names=1 \
 
-docker push algernonking/mysql:tagname
 
 docker push [repository]:[tag]
 
 docker login
 
-
+docker logs -f 4e8bdf7424ae
 
 #进入容器
-docker exec -it cfb0cc2ee513 bash
+docker exec -it e5a79f19b37e bash
+
+$DB_PORT_3306_TCP_ADDR
 
 #备份
 docker exec a74ba2038307 sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > /some/path/on/your/host/all-databases.sql
 
-#容器转为镜像
-docker commit -m "Added Mysql Version 2.2.8"  -a "algernonking" cfb0cc2ee513 docker.io/algernonking/mysql:2.2.8
+#容器copy
+docker cp  e5a79f19b37e:/usr/local/tomcat/bin/catalina.sh /tmp
+docker cp /tmp/catalina.sh e5a79f19b37e:/usr/local/tomcat/bin/
+docker cp /tmp/dt/dt.tar e5a79f19b37e:/usr/local/tomcat/webapps/
 
+
+#容器转为镜像
+docker commit -m "Added Mysql database Version 2.2.8"  -a "algernonking" cfb0cc2ee513 docker.io/algernonking/mysql:2.2.8
+docker commit -m "Added APP Tomcat Version 2.2.8"  -a "algernonking" 4e8bdf7424ae docker.io/algernonking/dtapp:2.2.8
