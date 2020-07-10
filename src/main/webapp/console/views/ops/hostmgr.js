@@ -351,6 +351,21 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             $scope.dtInstance.DataTable.rows().deselect();
         }
     }
+
+    function statusRender(data, type, full) {
+        if (angular.isDefined(data)) {
+            if (data == "在线") {
+                return "<span style='color:green'>" + data + "</span>"
+            } else if (data == "下线") {
+                return "<span style='color:red'>" + data + "</span>"
+            } else {
+                return data;
+            }
+        } else {
+            return data;
+        }
+    }
+
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
     $scope.dtColumns = [];
     $scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml)
@@ -364,6 +379,8 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         .withOption('sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('systypestr').withTitle(
         '系统类型').withOption('sDefaultContent', ''));
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('statusstr')
+        .withTitle('状态').withOption('sDefaultContent', '').renderWith(statusRender));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('syslocstr')
         .withTitle('位置').withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('sysmonitorstr').withTitle(
@@ -388,8 +405,6 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         '风险等级').withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('sysenvstr').withTitle(
         '运行环境').withOption('sDefaultContent', ''));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('statusstr')
-        .withTitle('状态').withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('label1').withTitle('标签1')
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注')

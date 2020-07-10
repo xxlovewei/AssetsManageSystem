@@ -319,6 +319,23 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
+    $stateProvider.state('datacenter', {
+        abstract: true,
+        url: "/datacenter",
+        templateUrl: "views/common/content.html?v=" + version
+    }).state('datacenter.rackview', {
+        url: "/datacenter",
+        data: {pageTitle: '机柜视图'},
+        templateUrl: "views/cmdb/dc/rackview.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/dc/rackview.js?v=' + version]
+                }]);
+            }
+        }
+    });
     // cmdb
     $stateProvider.state('xt', {
         abstract: true,

@@ -177,9 +177,7 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             key: key,
             cache: cache
         }).success(function (res) {
-            notify({
-                message: res.message
-            });
+
             if (res.success) {
                 flush();
             }
@@ -187,7 +185,7 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     }
     $scope.cacheclearall = function () {
         $confirm({
-            text: '是否清除所有缓存(不包含shiro及wxconf)?'
+            text: '清除缓存的动作将在后台触发,是否清除所有缓存(不包含shiro及wxconf)?'
         }).then(function () {
             if (gcacheOpt.length > 0) {
                 for (var i = 0; i < gcacheOpt.length; i++) {
@@ -233,10 +231,10 @@ function sysCacheCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                         if (res.success) {
                             modalInstance.close("OK");
                         } else {
-                            notify({
-                                message: res.message
-                            });
                         }
+                        notify({
+                            message: res.message
+                        });
                     });
                 } else {
                     notify({

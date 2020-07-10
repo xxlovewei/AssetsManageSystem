@@ -299,15 +299,18 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             $scope.dtInstance.DataTable.rows().deselect();
         }
     }
+    // $scope.dtColumns.push();
+    var cols = zcBaseColsCreate(DTColumnBuilder, 'withselect');
+    console.log(cols)
+    var e = DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
+        'sDefaultContent', '').withOption('width', '50');
+    cols.splice(4, 0, e);
     $scope.dtColumns = [];
-    $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withselect');
+    $scope.dtColumns = cols;
     $scope.dtColumns.push(DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
         'sDefaultContent', '').withOption('width', '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
-        'sDefaultContent', '').withOption('width', '50')
-    );
     $scope.query = function () {
         flush();
     }

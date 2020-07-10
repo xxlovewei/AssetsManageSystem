@@ -311,6 +311,10 @@ public class ZcService extends BaseService{
             sql = sql + " and category='" + ps.getString("category") + "'";
         }
 
+        if (ToolUtil.isNotEmpty(ps.getString("rack"))) {
+            sql = sql + " and rack='" + ps.getString("rack") + "'";
+        }
+
 
         //idle,inuse,scrap,borrow,repair,stopuse,allocation
         if (ToolUtil.isNotEmpty(datarange)) {
