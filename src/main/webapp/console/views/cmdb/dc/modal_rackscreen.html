@@ -1,0 +1,95 @@
+<style>
+    @media ( min-width: 992px) {
+        .modal-blg {
+            width: 100%;
+        }
+    }
+</style>
+<style>
+    .rack {
+        ext-align: center;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .rack tr {
+        border: 3px solid #0094ff;
+    }
+
+    .rack tr td {
+        min-height: 30px;
+        height: 30px;
+        font-size: 5px;
+        border: 3px solid #0094ff;
+        font-weight: bold;
+    }
+
+    .greenclass {
+        background-color: green;
+    }
+
+    .redclass {
+        background-color: red;
+    }
+</style>
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" ng-click="cancel()" type="button">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">机柜视图</h4>
+    </div>
+    <div class="modal-body">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <form class="form-inline" role="form">
+                                <div class="form-group">
+                                    <label for="class">区域</label> <select chosen
+                                                                          class="chosen-select"
+                                                                          data-placeholder-text-single="'请选择...'"
+                                                                          disable-search="true"
+                                                                          id="class"
+                                                                          ng-model="catRootSel"
+                                                                          ng-options="item.name for item in catRootOpt"
+                                                                          no-results-text="'没有找到相应条目'"
+                                                                          style="width: 120px;">
+                                    <option value=""></option>
+                                </select>
+                                </div>
+                                <button class="btn btn-sm btn-primary" ng-click="query()"
+                                        type="submit">查询
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="overflow:hidden;float:left">
+                <div ng-repeat="rack in data" class="div-inline" style="width:180px;float:left;padding-right:8px;">
+                    <div class="ibox" style="min-height:450px;border:2px solid black;">
+                        <div class="ibox-title"
+                             style="color:black;font-weight: bold;margin-top:0px;padding:0px;text-align:center;min-height:25px;height:9px!important;">
+                            {{rack.rackname}}
+                        </div>
+                        <div class="ibox-content"
+                             style="padding:0px;text-align:center;width:100%;border-top:2px solid black;">
+                            <table class="rack">
+                                <tr ng-repeat="res in rack.items">
+                                    <!--//ng-class="{'':'redclass','inuse':'greenclass'}[res.recycle]"-->
+                                    <td ng-class="res.recycle=='inuse'?'greenclass':'redclass'">
+                                        <div style="color:black;">{{res.classname}}/{{res.model}}</div>
+                                        <div style="color:darkred">{{res.ip}}</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+</div>

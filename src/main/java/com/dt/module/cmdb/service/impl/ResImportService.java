@@ -181,6 +181,7 @@ public class ResImportService extends BaseService {
         }
 
         R rackR = checkDictItem("devrack", re.getRackstr());
+        System.out.println(rackR.toString());
         if (rackR.isFailed()) {
             return R.FAILURE(rackR.getMessage());
         }
@@ -249,10 +250,7 @@ public class ResImportService extends BaseService {
             return R.FAILURE(partR.getMessage());
         }
 
-
-
-
-//		// 处理小类
+//
 //		String typestr = null;
 //		if (ToolUtil.isNotEmpty(re.getTypestr())) {
 //			// 支持的小类类型:网点、服务器、电脑、安全设备,IT备件

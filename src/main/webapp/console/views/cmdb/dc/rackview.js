@@ -1,3 +1,53 @@
+function rackscreenCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
+                       $uibModalInstance, $scope, meta, $http, $rootScope,
+                       $compile) {
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+    $scope.catRootOpt = [];
+    $scope.catRootSel = "";
+    var dicts = "devdc";
+    $http.post($rootScope.project + "/api/zc/queryDictFast.do", {
+        uid: "devdconly",
+        dicts: dicts,
+        parts: "N",
+        partusers: "N",
+        comp: "N",
+        belongcomp: "N"
+    })
+        .success(function (res) {
+            if (res.success) {
+                $scope.catRootOpt = res.data.devdc;
+                if ($scope.catRootOpt.length > 0) {
+                    $scope.catRootSel = $scope.catRootOpt[0];
+                    flush();
+                }
+            } else {
+                notify({
+                    message: res.message
+                });
+            }
+        });
+
+    function flush() {
+        $http.post($rootScope.project + "/api/zc/rack/ext/queryRackZcByDc.do", {
+            dcid: $scope.catRootSel.dict_item_id
+        }).success(function (res) {
+            if (res.success) {
+                $scope.data = res.data;
+            } else {
+                notify({
+                    message: res.message
+                });
+            }
+        });
+    }
+
+    $scope.query = function () {
+        flush();
+    }
+}
+
 function rackviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                      $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $timeout, $state) {
     $scope.catRootOpt = [];
@@ -248,7 +298,17 @@ function rackviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         flushTree($scope.catRootSel.dict_item_id);
     }
     $scope.screen = function () {
-        alert('开发中')
+        var modalInstance = $uibModal.open({
+            backdrop: true,
+            templateUrl: 'views/cmdb/dc/modal_rackscreen.html',
+            controller: rackscreenCtl,
+            size: 'blg',
+            resolve: {
+                meta: function () {
+                    return ""
+                }
+            }
+        });
     }
 };
 app.register.controller('rackviewCtl', rackviewCtl);

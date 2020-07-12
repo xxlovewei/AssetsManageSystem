@@ -186,15 +186,21 @@ public class ResInventoryImportService extends BaseService {
         if (compR.isFailed()) {
             return R.FAILURE(compR.getMessage());
         }
+
+//        R compR = checkOrgItem("comp", re.getComp_fullname());
+//        if (compR.isFailed()) {
+//            return R.FAILURE(compR.getMessage());
+//        }
+
         R partR = checkOrgItem("part", re.getPart_fullname());
         if (partR.isFailed()) {
             return R.FAILURE(partR.getMessage());
         }
 
 
-        String pdstatus=ResInventoryService.INVENTORY_ITEM_STATAUS_WAIT;
-        if("已盘点".equals(re.getPdstatusstr())){
-            pdstatus=ResInventoryService.INVENTORY_ITEM_STATAUS_FINISH;
+        String pdstatus = ResInventoryService.INVENTORY_ITEM_STATAUS_WAIT;
+        if ("已盘点".equals(re.getPdstatusstr())) {
+            pdstatus = ResInventoryService.INVENTORY_ITEM_STATAUS_FINISH;
         }
 
         String pdsyncneed=ResInventoryService.INVENTORY_ITEM_ACTION_NOSYNC;
