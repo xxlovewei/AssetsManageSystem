@@ -46,6 +46,9 @@ function rackscreenCtl($confirm, $timeout, $localStorage, notify, $log, $uibModa
     $scope.query = function () {
         flush();
     }
+    $scope.itemclick = function () {
+        console.log(11);
+    }
 }
 
 function rackviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
