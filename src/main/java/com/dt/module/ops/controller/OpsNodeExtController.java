@@ -121,7 +121,7 @@ public class OpsNodeExtController extends BaseController {
 
     @ResponseBody
     @Acl(info = " ", value = Acl.ACL_USER)
-    @RequestMapping(value = "/sydashboard.do")
+    @RequestMapping(value = "/dashboard.do")
     public R dashboard() {
         JSONObject res = new JSONObject();
 
