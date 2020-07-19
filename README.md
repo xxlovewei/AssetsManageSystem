@@ -37,7 +37,8 @@
   
 - 部署说明  
 ```
-#正式部署数据库
+其中镜像中2.2.8为版本号,替换相对于版本即可。
+#部署数据库
 docker run --name dt-db -t \
 -e MYSQL_USER="dt" \
 -e MYSQL_PASSWORD="dt_pwd" \
@@ -48,7 +49,7 @@ docker run --name dt-db -t \
 --character-set-server=utf8 \
 --lower_case_table_names=1
 
-#正式部署应用
+#部署应用
 docker run --name dt-app -t \
 -v /data/upload:/usr/local/tomcat/webapps/upload \
 --link=dt-db:db \
@@ -116,6 +117,7 @@ docker run --name dt-app -t \
 
 ## 商业
 - 本项目完全开源,可以商业使用,也欢迎商业合作!
+
 
 ## 后期开发计划
 - 添加工单功能
