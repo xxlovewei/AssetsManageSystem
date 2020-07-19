@@ -27,7 +27,37 @@
 - QQ交流群:904754434
 
 
-## 部署说明
+## Docker 部署方式
+- 兼容说明
+
+| 系统版本         |   应用镜像       | 数据库镜像 |  
+| ----------   | ------------- | ----------- |  
+| 2.2.9(未发布) | 2.2.9(未发布)  |   2.2.9(未发布)|   
+| 2.2.8       | 2.2.8          |   2.2.8     |      
+  
+- 部署说明  
+```
+#正式部署数据库
+docker run --name dt-db -t \
+-e MYSQL_USER="dt" \
+-e MYSQL_PASSWORD="dt_pwd" \
+-e MYSQL_ROOT_PASSWORD=root_pwd \
+-v /data/mysql:/var/lib/mysql  \
+-p 3306:3306 \
+-d docker.io/algernonking/dtmysql:2.2.8 \
+--character-set-server=utf8 \
+--lower_case_table_names=1
+
+#正式部署应用
+docker run --name dt-app -t \
+-v /data/upload:/usr/local/tomcat/webapps/upload \
+--link=dt-db:db \
+-p 8080:8080  \
+-d docker.io/algernonking/dtapp:2.2.8
+```
+
+
+## 传统部署方式
 ### 步骤一
 - 准备环境
 ```
@@ -67,35 +97,6 @@
 ```
 
  
-## Docker 部署方式
-- 兼容说明
-
-| 系统版本         |   应用镜像       | 数据库镜像 |  
-| ----------   | ------------- | ----------- |  
-| 2.2.9(未发布) | 2.2.9(未发布)  |   2.2.9(未发布)|   
-| 2.2.8       | 2.2.8          |   2.2.8     |      
-  
-- 部署说明  
-```
-#正式部署数据库
-docker run --name dt-db -t \
--e MYSQL_USER="dt" \
--e MYSQL_PASSWORD="dt_pwd" \
--e MYSQL_ROOT_PASSWORD=root_pwd \
--v /data/mysql:/var/lib/mysql  \
--p 3306:3306 \
--d docker.io/algernonking/dtmysql:2.2.8 \
---character-set-server=utf8 \
---lower_case_table_names=1
-
-#正式部署应用
-docker run --name dt-app -t \
--v /data/upload:/usr/local/tomcat/webapps/upload \
---link=dt-db:db \
--p 8080:8080  \
--d docker.io/algernonking/dtapp:2.2.8
-```
-
 
 ## PC效果图
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1112/130924_93070844_448530.jpeg "11.jpg")
