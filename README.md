@@ -94,7 +94,7 @@ docker run --name dt-app -t \
 - http://ip:port/dt/console
 - 选择用户名方式登陆
 - 账户:admin 
-- 密
+- 密码:oracle
 ```
 
  
@@ -115,11 +115,11 @@ docker run --name dt-app -t \
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0517/102238_f51306f9_448530.png "WechatIMG156.png")
 
 
-## 商业
+## 商业说明
 - 本项目完全开源,可以商业使用,也欢迎商业合作!
 
 
-## 后期开发计划
+## 开发计划
 - 添加工单功能
 - 优化打印标签
 - 资产申请
@@ -128,6 +128,7 @@ docker run --name dt-app -t \
 - 财务折旧
 - 添加数据权限:用户可以选择数据的资产范围、组织范围、资产区域和资产仓库
 - 移动端计划延后
+
 
 
 
