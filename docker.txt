@@ -34,10 +34,10 @@ docker run --name dt-db -t \
 --lower_case_table_names=1
 
 #部署应用
-docker run --name dt-app -t \
+docker run --name dt-appt -t \
 -v /data/upload:/usr/local/tomcat/webapps/dt/upload  \
 --link=dt-db:db \
--p 8080:8080  \
+-p 8089:8080  \
 -d docker.io/algernonking/dtapp:2.2.8
 
 
@@ -67,8 +67,13 @@ docker login
 
 docker logs -f 4e8bdf7424ae
 
+
+mysqldump -uroot -proot_pwd  --databases  dt >dt.sql
+
+
+
 #进入容器
-docker exec -it e5a79f19b37e bash
+docker exec -it a77fb43d55ac bash
 
 $DB_PORT_3306_TCP_ADDR
 
@@ -78,9 +83,12 @@ docker exec a74ba2038307 sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_
 #容器copy
 docker cp  e5a79f19b37e:/usr/local/tomcat/bin/catalina.sh /tmp
 docker cp /tmp/catalina.sh e5a79f19b37e:/usr/local/tomcat/bin/
-docker cp /tmp/dt/dt.tar e5a79f19b37e:/usr/local/tomcat/webapps/
+docker cp /tmp/dt/dt.tar c3b5db456940:/usr/local/tomcat/webapps/
 
 
 #容器转为镜像
-docker commit -m "Added Mysql database Version 2.2.8"  -a "algernonking" cfb0cc2ee513 docker.io/algernonking/mysql:2.2.8
-docker commit -m "Added APP Tomcat Version 2.2.8"  -a "algernonking" 4e8bdf7424ae docker.io/algernonking/dtapp:2.2.8
+docker commit -m "Added Mysql database Version 2.2.9"  -a "algernonking" 64ffa9abcfaf docker.io/algernonking/dtmysql:2.2.9
+docker commit -m "Added APP Tomcat Version 2.2.9"  -a "algernonking" c3b5db456940 docker.io/algernonking/dtapp:2.2.9
+
+docker push docker.io/algernonking/dtmysql:2.2.9
+docker push docker.io/algernonking/dtapp:2.2.9

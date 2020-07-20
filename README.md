@@ -32,7 +32,7 @@
 
 | 系统版本         |   应用镜像       | 数据库镜像 |  
 | ----------   | ------------- | ----------- |  
-| 2.2.9(未发布) | 2.2.9(未发布)  |   2.2.9(未发布)|   
+| 2.2.9 | 2.2.9 |   2.2.9|   
 | 2.2.8       | 2.2.8          |   2.2.8     |      
   
 - 部署说明  
@@ -45,7 +45,7 @@ docker run --name dt-db -t \
 -e MYSQL_ROOT_PASSWORD=root_pwd \
 -v /data/mysql:/var/lib/mysql  \
 -p 3306:3306 \
--d docker.io/algernonking/dtmysql:2.2.8 \
+-d docker.io/algernonking/dtmysql:2.2.9 \
 --character-set-server=utf8 \
 --lower_case_table_names=1
 
@@ -54,7 +54,7 @@ docker run --name dt-app -t \
 -v /data/upload:/usr/local/tomcat/webapps/upload \
 --link=dt-db:db \
 -p 8080:8080  \
--d docker.io/algernonking/dtapp:2.2.8
+-d docker.io/algernonking/dtapp:2.2.9
 ```
 
 
