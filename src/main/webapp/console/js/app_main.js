@@ -371,6 +371,9 @@ app.config(config_ops).run(function () {
 app.config(config_system).run(function () {
     console.log("App System run");
 });
+app.config(config_monitor).run(function () {
+    console.log("App Monitor run");
+});
 
 function initDT(DTDefaultOptions) {
     var lng = {
