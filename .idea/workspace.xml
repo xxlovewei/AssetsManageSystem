@@ -7,41 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="常规更新操作">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/DashBoardController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/GraphController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/HostController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/HostGroupController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/ImageController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/TemplateController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/TriggrController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/DashBoardService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/GraphService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/HostGroupService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/HostService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ImageService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/TemplateService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/TriggerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZabbixUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZabbixUtilService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_monitor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/monitor/dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/monitor/dashboard.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/monitor/host.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/monitor/host.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/monitor/hostgraph.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/monitor/hostgraph.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/monitor/hostgroup.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/monitor/hostgroup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/monitor/tpls.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/monitor/tpls.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Project_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Project_war_exploded.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeExtController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/app_main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/app_main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -549,14 +516,7 @@
       <workItem from="1594421353425" duration="15754000" />
       <workItem from="1594521741829" duration="6605000" />
       <workItem from="1594599191817" duration="41728000" />
-      <workItem from="1595684179491" duration="20962000" />
-    </task>
-    <task id="LOCAL-00098" summary="常规更新ok">
-      <created>1592454948350</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1592454948351</updated>
+      <workItem from="1595684179491" duration="20983000" />
     </task>
     <task id="LOCAL-00099" summary="常规更新ok">
       <created>1592467188258</created>
@@ -894,7 +854,14 @@
       <option name="project" value="LOCAL" />
       <updated>1595234440474</updated>
     </task>
-    <option name="localTasksCounter" value="147" />
+    <task id="LOCAL-00147" summary="常规更新操作">
+      <created>1595840903820</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1595840903823</updated>
+    </task>
+    <option name="localTasksCounter" value="148" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1005,7 +972,7 @@
     </state>
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1589272592550" />
     <state x="353" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/45.23.1235.777@45.23.1235.777" timestamp="1592522940651" />
-    <state x="333" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1595840892899">
+    <state x="333" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1595840908844">
       <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state x="220" y="23" width="833" height="777" key="CommitChangelistDialog2/34.23.1246.777@34.23.1246.777" timestamp="1587902297321" />
@@ -1017,7 +984,7 @@
     <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1590673712633" />
     <state x="174" y="37" width="833" height="617" key="CommitChangelistDialog2/41.23.1239.777@41.23.1239.777" timestamp="1590622241157" />
     <state x="192" y="70" width="761" height="592" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1591002752233" />
-    <state x="333" y="23" width="833" height="777" key="CommitChangelistDialog2/44.23.1236.777@44.23.1236.777" timestamp="1595840892899" />
+    <state x="333" y="23" width="833" height="777" key="CommitChangelistDialog2/44.23.1236.777@44.23.1236.777" timestamp="1595840908844" />
     <state x="336" y="23" width="833" height="731" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1595234440060" />
     <state x="428" y="23" key="CommitChangelistDialog2/45.23.1635.1027@45.23.1635.1027" timestamp="1594547269947" />
     <state width="434" height="466" key="DebuggerActiveHint" timestamp="1587718161099">
