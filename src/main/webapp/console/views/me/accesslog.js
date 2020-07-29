@@ -4,12 +4,22 @@ function meAccessLogCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         tools: []
     }
     $scope.URL = $rootScope.project + "/api/sysLogAccess/selectPage.do";
-    $scope.dtOptions = DTOptionsBuilder.fromSource($scope.URL).withDataProp(
-        'data').withPaginationType('full_numbers').withOption('serverSide',
-        true).withOption('createdRow', function (row) {
-        // Recompiling so we can bind Angular,directive to the
-        $compile(angular.element(row).contents())($scope);
-    });
+    $scope.dtOptions = DTOptionsBuilder.newOptions()
+        .withOption('ajax', {
+            url: $scope.URL,
+            type: 'POST'
+        })
+        .withDataProp('data').withDataProp('data').withDOM('frtlip').withPaginationType('full_numbers')
+        .withDisplayLength(100)
+        .withOption("ordering", false).withOption("responsive", false)
+        .withOption("searching", false).withOption('scrollY', 500)
+        .withOption('scrollX', true).withOption('bAutoWidth', true)
+        .withOption('scrollCollapse', true).withOption('paging', true)
+        .withOption('bStateSave', false).withOption('bProcessing', true)
+        .withOption('bFilter', false).withOption('bInfo', false)
+        .withOption('serverSide', true).withOption('createdRow', function (row) {
+            $compile(angular.element(row).contents())($scope);
+        })
     $scope.dtInstance = {}
     $scope.reloadData = reloadData;
 

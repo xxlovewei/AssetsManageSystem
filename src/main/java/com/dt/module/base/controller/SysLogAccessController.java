@@ -95,6 +95,7 @@ public class SysLogAccessController extends BaseController {
         QueryWrapper<SysLogAccess> ew = new QueryWrapper<SysLogAccess>();
         ew.and(i -> i.eq("user_id", getUserId()));
         ew.orderByDesc("rtime");
+        System.out.println(this.getUserId());
         IPage<SysLogAccess> pdata = SysLogAccessServiceImpl.page(new Page<SysLogAccess>(pageindex, pagesize), ew);
         JSONObject retrunObject = new JSONObject();
         retrunObject.put("iTotalRecords", pdata.getTotal());

@@ -145,6 +145,7 @@ public class AclAop {
                 ins.set("id", db.getUUID());
                 ins.setIf("user_id", user_id);
                 ins.setIf("ip", ip);
+                ins.setIf("dr", "0");
                 ins.setIf("info", info);
                 ins.setIf("url", url);
                 ins.setIf("method_type", method_type);
