@@ -38,6 +38,8 @@ function zbxhostgroupCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             });
     $scope.dtInstance = {}
     $scope.dtColumns = [
+        DTColumnBuilder.newColumn('groupid').withTitle('编号').withOption(
+            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('name').withTitle('主机组').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('hosts').withTitle('主机数').withOption(

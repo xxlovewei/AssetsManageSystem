@@ -919,6 +919,8 @@ function zcBaseColsCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
         'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
+        'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')

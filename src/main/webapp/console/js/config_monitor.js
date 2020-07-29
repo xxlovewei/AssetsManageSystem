@@ -73,5 +73,46 @@ function config_monitor($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('zbxresmgr.lastdata', {
+        url: "/zbxresmgr_lastdata",
+        data: {pageTitle: "最新数据"},
+        templateUrl: "views/monitor/lastdata.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/monitor/lastdata.js?v=' + version]
+                }]);
+            }
+        }
     });
+    $stateProvider.state('zbxresconf', {
+        abstract: true,
+        url: "/zbxresconf",
+        templateUrl: "views/common/content.html?v=" + version
+    }).state('zbxresconf.hostgroup', {
+        url: "/zbxresconf_hostgroup",
+        data: {pageTitle: '主机'},
+        templateUrl: "views/monitor/hostgroup.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/monitor/hostgroup.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('zbxresconf.tpl', {
+        url: "/zbxresconf_tpl",
+        data: {pageTitle: '模版'},
+        templateUrl: "views/monitor/tpls.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/monitor/tpls.js?v=' + version]
+                }]);
+            }
+        }
+    })
 }

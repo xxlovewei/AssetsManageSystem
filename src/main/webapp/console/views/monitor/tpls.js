@@ -43,6 +43,8 @@ function zbxtplsCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     }
 
     $scope.dtColumns = [
+        DTColumnBuilder.newColumn('templateid').withTitle('编号').withOption(
+            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('name').withTitle('可见名称').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('applications').withTitle('应用集').withOption(

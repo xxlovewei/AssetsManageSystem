@@ -314,7 +314,7 @@
                                 <table class="rack">
                                     <tr ng-repeat="res in rack.items" ng-click="itemclick()">
                                         <td data-tooltip="bottom"
-                                            data-tooltip-text="详细信息: &#010 编号:{{res.uuid}} &#010 类型:{{res.classname}} &#010 品牌:{{res.brandstr}} &#010 型号:{{res.model}} &#010 状态:{{res.recyclestr}} &#010 序列:{{res.sn}} &#010 机架:{{res.frame}} &#010 IP:{{res.ip}}"
+                                            data-tooltip-text="详细信息: &#010 编号:{{res.uuid}} &#010 编号2:{{res.fs20}} &#010 类型:{{res.classname}} &#010 品牌:{{res.brandstr}} &#010 型号:{{res.model}} &#010 状态:{{res.recyclestr}} &#010 序列:{{res.sn}} &#010 机架:{{res.frame}} &#010 IP:{{res.ip}}"
                                             ng-class="res.recycle=='inuse'?'greenclass':'redclass'">
                                             <div style="text-align:center;color:black;">{{res.classname}}/{{res.model}}
                                             </div>
