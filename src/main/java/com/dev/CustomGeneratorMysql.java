@@ -89,7 +89,7 @@ public class CustomGeneratorMysql {
         });
 
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/dtdev2?useUnicode=true&characterEncoding=utf8&useSSL=false");
+        dsc.setUrl("jdbc:mysql://47.92.240.43:10050/dt?useUnicode=true&characterEncoding=utf8&useSSL=false");
         dsc.setUsername("root");
         dsc.setPassword("root_pwd");
         mpg.setDataSource(dsc);
@@ -112,8 +112,8 @@ public class CustomGeneratorMysql {
         // "","sys_qud_qux"
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
-        String busRoute = "flow";
-        strategy.setInclude(new String[]{"sys_process_data"}); // 需要生成的表
+        String busRoute = "zbx";
+        strategy.setInclude(new String[]{"zbx_object_item"}); // 需要生成的表
         // strategy.setInclude(scanner("表名"));
 
         strategy.setTableFillList(tableFillList);
