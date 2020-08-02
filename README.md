@@ -20,7 +20,7 @@
 - K-form-design 3.x(表单)
 - Angular 1.x
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0729/221313_49392c48_448530.jpeg "1596031886493.jpg")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0729/221313_49392c48_448530.jpeg "1596031886493.jpg")/
 
 ## 联系方式
 - Mail:maillank@qq.com

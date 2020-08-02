@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.zbx.service.impl.HostGroupService;
 import com.dt.module.zbx.service.impl.HostService;
 import io.github.hengyunabc.zabbix.api.DefaultZabbixApi;
@@ -41,6 +42,27 @@ public class HostGroupController extends BaseController {
     @RequestMapping(value = "/getAllHostGroupsListFormatTree.do")
     public R getAllHostGroupsListFormatTree(String groups) {
         return hostGroupService.getAllHostGroupsListFormatTree(groups);
+    }
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/addHostGroup.do")
+    public R addHostGroup(String name) {
+        if (ToolUtil.isEmpty(name)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        return hostGroupService.addHostGroup(name);
+    }
+
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/updateHostGroup.do")
+    public R updateHostGroup(String name, String groupid) {
+        if (ToolUtil.isOneEmpty(name, groupid)) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        return hostGroupService.updateHostGroup(name, groupid);
     }
 
 }

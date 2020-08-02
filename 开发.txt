@@ -23,3 +23,33 @@ $cpu_load_top10_sql = "select hosts.name,b.value from (select * from (select * f
 
             $network_outgoing_top10_sql = "select hosts.name,b.value from (select * from (select * from history_uint where itemid in (select itemid from items where key_ like 'net.if.out[%]' and hostid in ( select hostid from hosts where available=1)) and clock in (select MAX(clock) from history group by itemid) order by clock) a group by a.itemid order by a.value desc limit 10) b inner join items on items.itemid=b.itemid inner join hosts on hosts.hostid=items.hostid";
             $network_outgoing_top10 = mysqli_query($conn, $network_outgoing_top10_sql);
+
+create table zbx_object_group(
+  id varchar(50),
+  name varchar(100),
+  mark varchar(500),
+  code varchar(50),
+  status varchar(50),
+  sort decimal(5),
+   dr        varchar(1)  null,
+  create_time datetime    null,
+  create_by   varchar(50) null,
+  update_time datetime    null,
+  update_by   varchar(50) null,
+  primary key (id)
+);
+
+
+
+ create table zbx_object_item(
+  id varchar(50),
+  groupid varchar(50),
+  objid varchar(50),
+  objname varchar(100),
+  primary key (id),
+     dr        varchar(1)  null,
+  create_time datetime    null,
+  create_by   varchar(50) null,
+  update_time datetime    null,
+  update_by   varchar(50) null
+)

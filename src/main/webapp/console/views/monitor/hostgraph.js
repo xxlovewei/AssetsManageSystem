@@ -1,7 +1,7 @@
 function hostgroupimageCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
     $scope.data = {
         stime: moment().subtract(3, "days"),
-        etime: moment().add(1, 'days')
+        etime: moment()
     }
     $scope.treeData = [];
     $scope.ignoreChanges = false;

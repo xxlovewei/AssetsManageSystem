@@ -26,6 +26,24 @@ public class HostGroupService extends BaseService {
 
     }
 
+    public R addHostGroup(String name) {
+        Request request = RequestBuilder.newBuilder().method("hostgroup.create")
+                .paramEntry("name", name)
+                .build();
+        JSONObject resJson = zabbixUtilService.ApiCall(request);
+        return R.SUCCESS_OPER(resJson.getJSONObject("result"));
+    }
+
+
+    public R updateHostGroup(String name, String groupid) {
+        Request request = RequestBuilder.newBuilder().method("hostgroup.update")
+                .paramEntry("name", name)
+                .paramEntry("groupid", groupid)
+                .build();
+        JSONObject resJson = zabbixUtilService.ApiCall(request);
+        return R.SUCCESS_OPER(resJson.getJSONObject("result"));
+    }
+
     public R getAllHostGroupsList(String groups) {
         Request request = RequestBuilder.newBuilder().method("hostgroup.get")
                 .paramEntry("output", "extend")

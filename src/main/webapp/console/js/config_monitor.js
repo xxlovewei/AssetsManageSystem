@@ -86,6 +86,23 @@ function config_monitor($stateProvider, $ocLazyLoadProvider) {
             }
         }
     });
+    $stateProvider.state('zbxalarmmgr', {
+        abstract: true,
+        url: "/zbxalarmmgr",
+        templateUrl: "views/common/content.html?v=" + version
+    }).state('zbxalarmmgr.noticerec', {
+        url: "/zbxalarmmgr_noticerec",
+        data: {pageTitle: '通知记录'},
+        templateUrl: "views/monitor/noticerec.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/monitor/noticerec.js?v=' + version]
+                }]);
+            }
+        }
+    });
     $stateProvider.state('zbxresconf', {
         abstract: true,
         url: "/zbxresconf",
@@ -114,5 +131,33 @@ function config_monitor($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('zbxresconf.objcate', {
+        url: "/zbxresconf_objcate",
+        data: {pageTitle: '对象分组'},
+        templateUrl: "views/monitor/objcate.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/monitor/objcate.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('zbxresconf.objmgr', {
+        url: "/zbxresconf_objmgr",
+        data: {pageTitle: '对象管理'},
+        templateUrl: "views/monitor/objmgr.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/monitor/objmgr.js?v=' + version]
+                }]);
+            }
+        }
     })
+
+
+
+
 }

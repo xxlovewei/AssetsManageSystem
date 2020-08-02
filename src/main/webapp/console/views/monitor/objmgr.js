@@ -1,16 +1,24 @@
-function hostgroupSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
-                          $uibModalInstance, $scope, id, name, $http, $rootScope) {
+function objsaveCtl($timeout, $localStorage, notify, $log, $uibModal,
+                    $uibModalInstance, $scope, id, $http, $rootScope) {
     $scope.item = {};
-    $scope.item.name = name;
+    if (angular.isDefined(id)) {
+        // 修改
+        $http.post($rootScope.project + "/api/zbx/zbxObjectGroup/selectById.do", {
+            id: id
+        }).success(function (res) {
+            if (res.success) {
+                $scope.item = res.data
+            } else {
+                notify({
+                    message: res.message
+                });
+            }
+        })
+    } else {
+        // 新增
+    }
     $scope.sure = function () {
-        var url = "";
-        if (angular.isDefined(id)) {
-            url = "/api/zbx/hostgroup/updateHostGroup.do";
-            $scope.item.groupid = id;
-        } else {
-            url = "/api/zbx/hostgroup/addHostGroup.do"
-        }
-        $http.post($rootScope.project + url,
+        $http.post($rootScope.project + "/api/zbx/zbxObjectGroup/insertOrUpdate.do",
             $scope.item).success(function (res) {
             if (res.success) {
                 $uibModalInstance.close("OK");
@@ -21,26 +29,28 @@ function hostgroupSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
             });
         })
     }
+    $timeout(function () {
+        var modal = document.getElementsByClassName('modal-body');
+        for (var i = 0; i < modal.length; i++) {
+            var adom = modal[i].getElementsByClassName('chosen-container');
+            for (var j = 0; j < adom.length; j++) {
+                adom[i].style.width = "100%";
+            }
+        }
+    }, 200);
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
 }
 
-function zbxhostgroupCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
-                         $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
+function objmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+                   $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
     $scope.meta = {
         tablehide: false,
         tools: [
             {
                 id: "1",
                 label: "刷新",
-                type: "btn",
-                show: true,
-                priv: 'select',
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
-            }, {
-                id: "1",
-                label: "新增",
                 type: "btn",
                 show: true,
                 priv: 'select',
@@ -76,23 +86,21 @@ function zbxhostgroupCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     function renderAction(data, type, full) {
         var acthtml = " <div class=\"btn-group\"> ";
         acthtml = acthtml + " <button ng-click=\"save('"
-            + full.groupid
-            + "','" + full.name + "')\" class=\"btn-white btn btn-xs\">修改</button> ";
-        // acthtml = acthtml + " <button ng-click=\"remove('"
-        //     + full.id
-        //     + "','" + full.code + "')\" class=\"btn-white btn btn-xs\">删除</button> ";
+            + full.id
+            + "','" + full.code + "')\" class=\"btn-white btn btn-xs\">修改</button> ";
+        acthtml = acthtml + " <button ng-click=\"remove('"
+            + full.id
+            + "','" + full.code + "')\" class=\"btn-white btn btn-xs\">删除</button> ";
         acthtml = acthtml + " </div>";
         return acthtml;
     }
 
     $scope.dtColumns = [
-        DTColumnBuilder.newColumn('groupid').withTitle('编号').withOption(
+        DTColumnBuilder.newColumn('code').withTitle('编码').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('name').withTitle('主机组').withOption(
+        DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('hosts').withTitle('主机数').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('groupid').withTitle('操作').withOption(
+        DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
             'sDefaultContent', '').renderWith(renderAction)]
     $scope.query = function () {
         flush();
@@ -100,24 +108,37 @@ function zbxhostgroupCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
     function flush() {
         var ps = {}
-        $http.post($rootScope.project + "/api/zbx/hostgroup/getAllHostGroups.do",
+        $http.post($rootScope.project + "/api/zbx/zbxObjectGroup/selectList.do",
             ps).success(function (res) {
             $scope.dtOptions.aaData = res.data;
         })
     }
 
-    $scope.save = function (id, name) {
+    $scope.remove = function (id) {
+        $confirm({
+            text: '是否删除?'
+        }).then(function () {
+            $http.post($rootScope.project + "/api/zbx/zbxObjectGroup/deleteById.do", {
+                id: id
+            }).success(function (res) {
+                if (res.success) {
+                    flush();
+                }
+                notify({
+                    message: res.message
+                });
+            })
+        });
+    }
+    $scope.save = function (id) {
         var modalInstance = $uibModal.open({
             backdrop: true,
-            templateUrl: 'views/monitor/modal_hostgroupsave.html',
-            controller: hostgroupSaveCtl,
+            templateUrl: 'views/monitor/modal_objsave.html',
+            controller: objsaveCtl,
             size: 'lg',
             resolve: {
                 id: function () {
                     return id;
-                },
-                name: function () {
-                    return name;
                 }
             }
         });
@@ -131,4 +152,4 @@ function zbxhostgroupCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     }
     flush();
 };
-app.register.controller('zbxhostgroupCtl', zbxhostgroupCtl);
+app.register.controller('objmgrCtl', objmgrCtl);
