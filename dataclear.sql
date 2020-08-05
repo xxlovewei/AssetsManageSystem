@@ -31,14 +31,17 @@ truncate table res_scrape;
 truncate table res_scrape_item;
 truncate table res_inout;
 truncate table res_inout_item;
-
 truncate table sys_process_data;
 truncate table sys_process_data_kv;
+truncate table res_residual_item
+truncate table res_residual
+
 
 #clear ops table
 truncate table ops_node;
 truncate table ops_node_infosys;
 truncate table ops_node_item;
+
 #clear others
 delete from sys_user_info where dr='1'
 delete from sys_user_group where dr='1';
