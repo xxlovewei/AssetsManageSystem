@@ -188,7 +188,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
     }
     var gdicts = {};
     //
-    var dicts = "zcwbcomoute,devbrand,devwb,devdc,devrecycle,zcsource,zcwbsupper,zcsupper";
+    var dicts = "zcusefullife,zcwbcomoute,devbrand,devwb,devdc,devrecycle,zcsource,zcwbsupper,zcsupper";
     $http
         .post($rootScope.project + "/api/zc/queryDictFast.do", {
             dicts: dicts,
@@ -440,6 +440,15 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         items.push({
             type: "select",
             disabled: "false",
+            label: "资产品牌",
+            need: false,
+            disable_search: "false",
+            dataOpt: "pinpOpt",
+            dataSel: "pinpSel"
+        });
+        items.push({
+            type: "select",
+            disabled: "false",
             label: "资产来源",
             need: true,
             disable_search: "true",
@@ -456,6 +465,15 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
             dataSel: "recycelSel"
         });
         items.push({
+            type: "select",
+            disabled: "false",
+            label: "使用年限",
+            need: true,
+            disable_search: "false",
+            dataOpt: "uselifeOpt",
+            dataSel: "uselifeSel"
+        });
+        items.push({
             type: "input",
             disabled: "false",
             sub_type: "number",
@@ -467,15 +485,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
             name: 'zc_cnt',
             ng_model: "zc_cnt"
         });
-        items.push({
-            type: "select",
-            disabled: "false",
-            label: "资产品牌",
-            need: false,
-            disable_search: "false",
-            dataOpt: "pinpOpt",
-            dataSel: "pinpSel"
-        });
+
         items.push({
             type: "input",
             disabled: "false",
@@ -623,7 +633,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
             required: false,
             maxlength: "30",
             placeholder: "请输入采购价格",
-            label: "采购总额",
+            label: "采购单价",
             need: false,
             name: 'buy_price',
             ng_model: "buy_price"
@@ -855,6 +865,9 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
                 }
                 if (angular.isDefined(modal_meta.meta.locSel.dict_item_id)) {
                     modal_meta.meta.item.loc = modal_meta.meta.locSel.dict_item_id;
+                }
+                if (angular.isDefined(modal_meta.meta.uselifeSel.dict_item_id)) {
+                    modal_meta.meta.item.usefullife = modal_meta.meta.uselifeSel.dict_item_id;
                 }
                 if (angular.isDefined(modal_meta.meta.zcwbsupperSel.dict_item_id)) {
                     modal_meta.meta.item.wbsupplier = modal_meta.meta.zcwbsupperSel.dict_item_id;

@@ -18,6 +18,7 @@ import com.dt.module.zc.entity.ResScrape;
 import com.dt.module.zc.entity.ResScrapeItem;
 import com.dt.module.zc.service.IResScrapeItemService;
 import com.dt.module.zc.service.IResScrapeService;
+import com.dt.module.zc.service.impl.ZcChangeService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.zc.service.impl.ZcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,25 +47,27 @@ public class ResScrapeExtController extends BaseController {
 	@Autowired
 	IResScrapeItemService ResScrapeItemServiceImpl;
 
-	@Autowired
-	ZcService zcService;
+    @Autowired
+    ZcService zcService;
 
-	@Autowired
-	IResScrapeService ResScrapeServiceImpl;
+    @Autowired
+    IResScrapeService ResScrapeServiceImpl;
 
-	@Autowired
-	IResService ResServiceImpl;
+    @Autowired
+    IResService ResServiceImpl;
 
+    @Autowired
+    ZcChangeService zcChangeService;
 
-	@ResponseBody
-	@Acl(info = "根据Id查询", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectById.do")
-	public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+    @ResponseBody
+    @Acl(info = "根据Id查询", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectById.do")
+    public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
 
-		ResScrape in=ResScrapeServiceImpl.getById(id);
-		String uuid=in.getUuid();
-		JSONObject res=JSONObject.parseObject(JSON.toJSONString(in, SerializerFeature.WriteDateUseDateFormat));
-		String sql="select "+ZcCommonService.resSqlbody+" t.* from res t where dr='0' and id in (select resid from res_scrape_item where uuid=? and dr='0')";
+        ResScrape in = ResScrapeServiceImpl.getById(id);
+        String uuid = in.getUuid();
+        JSONObject res = JSONObject.parseObject(JSON.toJSONString(in, SerializerFeature.WriteDateUseDateFormat));
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and id in (select resid from res_scrape_item where uuid=? and dr='0')";
 		res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql,uuid).toJsonArrayWithJsonObject()));
 		return R.SUCCESS_OPER(res);
 	}
@@ -94,17 +97,19 @@ public class ResScrapeExtController extends BaseController {
 			ups.eq("id", itemsarr.getJSONObject(i).getString("id"));
 			ResServiceImpl.update(ups);
 
-			ResScrapeItem e=new ResScrapeItem();
-			e.setUuid(uuid);
-			e.setResid(itemsarr.getJSONObject(i).getString("id"));
-			e.setPrestatus(itemsarr.getJSONObject(i).getString("status"));
-			cols.add(e);
-		}
-		entity.setCnt(new BigDecimal(cols.size()));
-		ResScrapeItemServiceImpl.saveBatch(cols);
-		ResScrapeServiceImpl.save(entity);
-		return R.SUCCESS_OPER();
-	}
+            ResScrapeItem e = new ResScrapeItem();
+            e.setUuid(uuid);
+            e.setResid(itemsarr.getJSONObject(i).getString("id"));
+            e.setPrestatus(itemsarr.getJSONObject(i).getString("status"));
+            cols.add(e);
+        }
+        entity.setCnt(new BigDecimal(cols.size()));
+        ResScrapeItemServiceImpl.saveBatch(cols);
+        ResScrapeServiceImpl.save(entity);
+
+        zcChangeService.zcSureChange(uuid, ZcCommonService.ZC_BUS_TYPE_BF);
+        return R.SUCCESS_OPER();
+    }
 
 	@ResponseBody
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)

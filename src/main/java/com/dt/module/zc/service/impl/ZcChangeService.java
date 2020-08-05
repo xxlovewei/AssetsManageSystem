@@ -14,9 +14,11 @@ import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.zc.entity.ResAllocate;
 import com.dt.module.zc.entity.ResAllocateItem;
 import com.dt.module.zc.entity.ResChangeItem;
+import com.dt.module.zc.entity.ResScrapeItem;
 import com.dt.module.zc.service.IResAllocateItemService;
 import com.dt.module.zc.service.IResAllocateService;
 import com.dt.module.zc.service.IResChangeItemService;
+import com.dt.module.zc.service.IResScrapeItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,17 +43,21 @@ public class ZcChangeService extends BaseService {
     @Autowired
     IResChangeItemService ResChangeItemServiceImpl;
 
+    @Autowired
+    IResScrapeItemService ResScrapeItemServiceImpl;
 
     @Autowired
     IResAllocateService ResAllocateServiceImpl;
 
-    public R zcSureChange(String uuid, String type){
-        if(type.equals(ZcCommonService.ZC_BUS_TYPE_LY)){
+    public R zcSureChange(String uuid, String type) {
+        if (type.equals(ZcCommonService.ZC_BUS_TYPE_LY)) {
             return zcLySureChange(uuid);
-        } else if(type.equals(ZcCommonService.ZC_BUS_TYPE_JY)){
+        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_JY)) {
             return zcJySureChange(uuid);
-        }else if(type.equals(ZcCommonService.ZC_BUS_TYPE_DB)){
-        }else {
+        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_DB)) {
+        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_BF)) {
+            return zcBFSureChange(uuid);
+        } else {
         }
         return R.SUCCESS();
     }
@@ -383,5 +389,22 @@ public class ZcChangeService extends BaseService {
     }
 
 
-
+    //资产报废确认
+    public R zcBFSureChange(String uuid) {
+        //记录资产变更
+        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
+        QueryWrapper<ResScrapeItem> ew = new QueryWrapper<ResScrapeItem>();
+        ew.and(i -> i.eq("uuid", uuid));
+        List<ResScrapeItem> items = ResScrapeItemServiceImpl.list(ew);
+        for (int i = 0; i < items.size(); i++) {
+            ResChangeItem e = new ResChangeItem();
+            e.setBusuuid(uuid);
+            e.setResid(items.get(i).getResid());
+            e.setType(ZcCommonService.ZC_BUS_TYPE_BF);
+            e.setMark("资产报废");
+            cols.add(e);
+        }
+        ResChangeItemServiceImpl.saveBatch(cols);
+        return R.FAILURE_OPER();
+    }
 }

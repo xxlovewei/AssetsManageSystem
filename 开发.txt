@@ -24,32 +24,117 @@ $cpu_load_top10_sql = "select hosts.name,b.value from (select * from (select * f
             $network_outgoing_top10_sql = "select hosts.name,b.value from (select * from (select * from history_uint where itemid in (select itemid from items where key_ like 'net.if.out[%]' and hostid in ( select hostid from hosts where available=1)) and clock in (select MAX(clock) from history group by itemid) order by clock) a group by a.itemid order by a.value desc limit 10) b inner join items on items.itemid=b.itemid inner join hosts on hosts.hostid=items.hostid";
             $network_outgoing_top10 = mysqli_query($conn, $network_outgoing_top10_sql);
 
-create table zbx_object_group(
+-- auto-generated definition
+create table zbx_object_group
+(
+  id          varchar(50)  not null
+    primary key,
+  name        varchar(100) null,
+  mark        varchar(500) null,
+  code        varchar(50)  null,
+  status      varchar(50)  null,
+  sort        decimal(5)   null,
+  dr          varchar(1)   null,
+  create_time datetime     null,
+  create_by   varchar(50)  null,
+  update_time datetime     null,
+  update_by   varchar(50)  null
+);
+
+
+-- auto-generated definition
+create table zbx_object_item
+(
+  id          varchar(50)  not null
+    primary key,
+  groupid     varchar(50)  null,
+  objid       varchar(50)  null,
+  objname     varchar(100) null,
+  dr          varchar(1)   null,
+  create_time datetime     null,
+  create_by   varchar(50)  null,
+  update_time datetime     null,
+  update_by   varchar(50)  null
+);
+
+create table res_residual_strategy
+(
   id varchar(50),
   name varchar(100),
-  mark varchar(500),
-  code varchar(50),
   status varchar(50),
-  sort decimal(5),
-   dr        varchar(1)  null,
-  create_time datetime    null,
-  create_by   varchar(50) null,
-  update_time datetime    null,
-  update_by   varchar(50) null,
+  stratedesc varchar(200),
+  code varchar(50),
+    residualvaluerate  decimal(10,2),
+    depreciationrate decimal(10,2),
+     valuestr  varchar(100),
+  mark varchar(500),
+  dr          varchar(1)   null,
+  create_time datetime     null,
+  create_by   varchar(50)  null,
+  update_time datetime     null,
+  update_by   varchar(50)  null,
+  primary key (id)
+);
+
+
+create table res_residual
+(
+  id varchar(50),
+  uuid varchar(50),
+  title varchar(100),
+  residualvaluerate  decimal(10,2),
+  depreciationrate decimal(10,2),
+  valuestr  varchar(100),
+  status varchar(50),
+  checkstatus varchar(50),
+  strategyid varchar(50),
+  processuserid varchar(50),
+  processusername varchar(100),
+  processdate datetime,
+  mark varchar(100),
+  cnt decimal(10),
+  busidate date,
+  dr          varchar(1)   null,
+  create_time datetime     null,
+  create_by   varchar(50)  null,
+  update_time datetime     null,
+  update_by   varchar(50)  null,
   primary key (id)
 );
 
 
 
- create table zbx_object_item(
+create table res_residual_item
+(
   id varchar(50),
-  groupid varchar(50),
-  objid varchar(50),
-  objname varchar(100),
-  primary key (id),
-     dr        varchar(1)  null,
-  create_time datetime    null,
-  create_by   varchar(50) null,
-  update_time datetime    null,
-  update_by   varchar(50) null
-)
+  uuid varchar(50),
+  resid varchar(50),
+  checkstatus varchar(50),
+  curresidualvalue decimal(10,2),
+  buyprice decimal(10,2),
+  bnetworth decimal(10,2),
+  anetworth decimal(10,2),
+  lossprice  decimal(10,2),
+  dr          varchar(1)   null,
+  create_time datetime     null,
+  create_by   varchar(50)  null,
+  update_time datetime     null,
+  update_by   varchar(50)  null,
+  primary key (id)
+);
+
+res表新增字段,残值
+1.residualvalue,默认0
+价格，数量设置默认值
+2.使用年限
+usefullife varchar(50),
+3
+lastdepreciationdate date,
+4
+accumulateddepreciation
+
+新增资产数据字典
+zcusefullife
+
+
+

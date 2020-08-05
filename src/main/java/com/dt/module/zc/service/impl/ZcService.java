@@ -210,15 +210,16 @@ public class ZcService extends BaseService{
         } else if (type.equals(ZcCommonService.UUID_BF)) {
             id = createUuid5();
             return type + id;
-
-        }
-        else if (type.equals(ZcCommonService.UUID_LY) || type.equals(ZcCommonService.UUID_JY)
+        } else if (type.equals(ZcCommonService.UUID_ZJ)) {
+            id = createUuid5();
+            return type + id;
+        } else if (type.equals(ZcCommonService.UUID_LY) || type.equals(ZcCommonService.UUID_JY)
                 || type.equals(ZcCommonService.UUID_ZY)) {
             for (i = 0; i < cnt; i++) {
                 QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
-                String finalId = type+id;
+                String finalId = type + id;
                 ew.and(j -> j.eq("busuuid", finalId));
-                ResActionItem rs=ResActionItemServiceImpl.getOne(ew);
+                ResActionItem rs = ResActionItemServiceImpl.getOne(ew);
                 if (rs == null) {
                     break;
                 } else {
@@ -653,6 +654,9 @@ public class ZcService extends BaseService{
             me.setIf("unit_price", ps.getString("unit_price"));
             me.setIf("warehouse", ps.getString("warehouse"));
             me.setIf("batchno", ps.getString("batchno"));
+
+            me.setIf("usefullife", ps.getString("usefullife"));
+
             sql = me.getSQL();
         } else {
             Update me = new Update("res");
@@ -708,6 +712,7 @@ public class ZcService extends BaseService{
             me.setIf("unit_price", ps.getString("unit_price"));
             me.setIf("warehouse", ps.getString("warehouse"));
             me.setIf("batchno", ps.getString("batchno"));
+            me.setIf("usefullife", ps.getString("usefullife"));
             me.where().and("id=?", id);
             sql = me.getSQL();
 

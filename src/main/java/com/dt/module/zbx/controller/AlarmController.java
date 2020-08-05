@@ -17,7 +17,6 @@ public class AlarmController extends BaseController {
     @Autowired
     AlarmService alarmService;
 
-
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_ALLOW)
     @RequestMapping(value = "/getAllAlarm.do")

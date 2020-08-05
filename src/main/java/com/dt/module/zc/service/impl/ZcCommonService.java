@@ -49,8 +49,9 @@ public class ZcCommonService extends BaseService {
     public static String DATARANGE_LY="LY";
     public static String DATARANGE_JY="JY";
     public static String DATARANGE_DB="DB";
-    public static String DATARANGE_BF="BF";
-    public static String DATARANGE_ALL="all";
+    public static String DATARANGE_BF = "BF";
+    public static String DATARANGE_ZJ = "ZJ";
+    public static String DATARANGE_ALL = "all";
 
 
     public static String UUID_ZC = "ZC";
@@ -60,11 +61,10 @@ public class ZcCommonService extends BaseService {
     public static String UUID_BF = "BF";
     public static String UUID_BX = "BX";
     public static String UUID_DB = "DB";
-
+    public static String UUID_ZJ = "ZJ";
     public static String UUID_HCRK = "HCRK";
     public static String UUID_HCCK = "HCCK";
     public static String UUID_HCDB = "HCDB";
-
     public static String UUID_BJRK = "BJRK";
     public static String UUID_BJCK = "BJCK";
 
@@ -72,6 +72,8 @@ public class ZcCommonService extends BaseService {
     public static String ZC_BUS_TYPE_JY = "JY";
     public static String ZC_BUS_TYPE_ZY = "ZY";
     public static String ZC_BUS_TYPE_DB = "DB";
+    public static String ZC_BUS_TYPE_BF = "BF";
+    public static String ZC_BUS_TYPE_ZJ = "ZJ";
 
 
     //维修状态:维修中、维修结束、报废
@@ -102,10 +104,10 @@ public class ZcCommonService extends BaseService {
             + " (select a.name from ct_category_root a,ct_category b where a.id=b.root and b.id=t.class_id) classrootname,"
             + " (select route_name from ct_category where  dr='0' and id=t.class_id) classfullname,"
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.type) typename,"
-
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.zcsource) zcsourcestr,"
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) warehousestr,"
             + " (select model from ct_category where dr='0' and id=t.class_id) ctmodel,"
+            + " (select name from sys_dict_item where dr='0' and dict_item_id=t.usefullife) usefullifestr,"
             + " (select id from ct_category where dr='0' and id=t.class_id) ctid,"
             + " (select unit from ct_category where dr='0' and id=t.class_id) ctunit,"
             + " (select mark from ct_category where dr='0' and id=t.class_id) ctmark,"
@@ -113,7 +115,6 @@ public class ZcCommonService extends BaseService {
             + " (select upcnt from ct_category where dr='0' and id=t.class_id) ctupcnt,"
             + " (select downcnt from ct_category where dr='0' and id=t.class_id) ctdowncnt,"
             + " (select brandmark from ct_category where dr='0' and id=t.class_id) ctbrandmark,"
-
             + " (select node_name from hrm_org_part where node_id=t.used_company_id) comp_name,"
             + " (select route_name from hrm_org_part where node_id=t.used_company_id) comp_fullname,"
             + " (select node_name from hrm_org_part where node_id=t.part_id) part_name,"
@@ -122,8 +123,8 @@ public class ZcCommonService extends BaseService {
             + " (select route_name from hrm_org_part where node_id=t.belong_company_id) belongcom_fullname,"
             + " (select route_name from hrm_org_part where node_id=t.mgr_part_id) mgr_part_fullname,"
             + " (select route_name from hrm_org_part where node_id=t.mgr_part_id) mgr_part_name,"
-            + " (select name from sys_user_info where user_id=t.used_userid) used_username,";
-
+            + " (select name from sys_user_info where user_id=t.used_userid) used_username,"
+            + "  date_format(lastdepreciationdate,'%Y-%m-%d %H:%i') lastdepreciationdatestr,";
 
 
     public static String resSqlbody = " (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) locstr,"
@@ -144,10 +145,8 @@ public class ZcCommonService extends BaseService {
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.wbsupplier) wbsupplierstr,"
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.zcsource) zcsourcestr,"
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.supplier) supplierstr,"
-
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) warehousestr,"
-
-
+            + " (select name from sys_dict_item where dr='0' and dict_item_id=t.usefullife) usefullifestr,"
             + " (select id from ct_category where dr='0' and id=t.class_id) ctid,"
             + " (select model from ct_category where dr='0' and id=t.class_id) ctmodel,"
             + " (select unit from ct_category where dr='0' and id=t.class_id) ctunit,"
@@ -156,7 +155,6 @@ public class ZcCommonService extends BaseService {
             + " (select upcnt from ct_category where dr='0' and id=t.class_id) ctupcnt,"
             + " (select downcnt from ct_category where dr='0' and id=t.class_id) ctdowncnt,"
             + " (select brandmark from ct_category where dr='0' and id=t.class_id) ctbrandmark,"
-
             + " (select node_name from hrm_org_part where node_id=t.used_company_id) comp_name,"
             + " (select route_name from hrm_org_part where node_id=t.used_company_id) comp_fullname,"
             + " (select node_name from hrm_org_part where node_id=t.part_id) part_name,"
@@ -166,9 +164,8 @@ public class ZcCommonService extends BaseService {
             + " (select route_name from hrm_org_part where node_id=t.mgr_part_id) mgr_part_fullname,"
             + " (select route_name from hrm_org_part where node_id=t.mgr_part_id) mgr_part_name,"
             + " (select name from sys_user_info where user_id=t.used_userid) used_username,"
-
+            + "  date_format(lastinventorytime,'%Y-%m-%d %H:%i') lastinventorytimestr,"
             + "  date_format(wbout_date,'%Y-%m-%d')  wbout_datestr,"
-            +"   date_format(lastinventorytime,'%Y-%m-%d %H:%i') lastinventorytimestr,"
             + "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
             + "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
 

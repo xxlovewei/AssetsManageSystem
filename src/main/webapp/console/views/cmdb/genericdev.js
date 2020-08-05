@@ -153,7 +153,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                     });
                 }
                 gclass_id = res.data.value;
-                var dicts = "zcwbcomoute,devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack,zcsource,zcwbsupper,zcsupper";
+                var dicts = "zcusefullife,zcwbcomoute,devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack,zcsource,zcwbsupper,zcsupper";
                 // 判断输入框
                 var subclass = "N";
                 if (angular.isDefined($state.router.globals.current.data.subclass)) {
@@ -301,10 +301,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     }
     // $scope.dtColumns.push();
     var cols = zcBaseColsCreate(DTColumnBuilder, 'withselect');
-    console.log(cols)
+
     var e = DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
         'sDefaultContent', '').withOption('width', '50');
     cols.splice(4, 0, e);
+
     $scope.dtColumns = [];
     $scope.dtColumns = cols;
     $scope.dtColumns.push(DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
@@ -579,7 +580,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         }
     });
 
-    function openWindow(res, zcclass) {
+    function openWindow(res) {
         var items = [];
         items.push({
             type: "input",
@@ -592,6 +593,18 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             need: false,
             name: 'uuid',
             ng_model: "uuid"
+        });
+        items.push({
+            type: "input",
+            disabled: "false",
+            sub_type: "text",
+            required: false,
+            maxlength: "50",
+            placeholder: "",
+            label: "其他资产编号",
+            need: false,
+            name: 'fs20',
+            ng_model: "fs20"
         });
         // 资产大类
         if (angular
@@ -658,18 +671,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             dataSel: "pinpSel"
         });
         items.push({
-            type: "input",
-            disabled: "false",
-            sub_type: "text",
-            required: false,
-            maxlength: "50",
-            placeholder: "",
-            label: "其他资产编号",
-            need: false,
-            name: 'fs20',
-            ng_model: "fs20"
-        });
-        items.push({
             type: "select",
             disabled: "false",
             label: "资产状态",
@@ -677,6 +678,15 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             disable_search: "true",
             dataOpt: "recycelOpt",
             dataSel: "recycelSel"
+        });
+        items.push({
+            type: "select",
+            disabled: "false",
+            label: "使用年限",
+            need: true,
+            disable_search: "false",
+            dataOpt: "uselifeOpt",
+            dataSel: "uselifeSel"
         });
         items.push({
             type: "input",
@@ -872,27 +882,28 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             false: true,
             ng_model: "buytime"
         });
+
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcbuyprice,
             sub_type: "number",
             required: false,
             maxlength: "30",
             placeholder: "请输入采购价格",
-            label: "采购总额",
-            need: false,
+            label: "采购单价",
+            need: true,
             name: 'buy_price',
             ng_model: "buy_price"
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcnetworth,
             sub_type: "number",
             required: false,
             maxlength: "30",
             placeholder: "请输入资产净值",
             label: "资产净值",
-            need: false,
+            need: true,
             name: 'net_worth',
             ng_model: "net_worth"
         });
@@ -1019,6 +1030,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             riskSel: "",
             compOpt: [],
             compSel: "",
+            uselifeOpt: [],
+            uselifeSel: "",
             picconfig: {
                 url: 'fileupload.do',
                 maxFilesize: 10000,
@@ -1146,6 +1159,9 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 }
                 if (angular.isDefined(modal_meta.meta.zcsourceSel.dict_item_id)) {
                     modal_meta.meta.item.zcsource = modal_meta.meta.zcsourceSel.dict_item_id;
+                }
+                if (angular.isDefined(modal_meta.meta.uselifeSel.dict_item_id)) {
+                    modal_meta.meta.item.usefullife = modal_meta.meta.uselifeSel.dict_item_id;
                 }
                 if (angular.isDefined(modal_meta.meta.zcsupperSel.dict_item_id)) {
                     modal_meta.meta.item.supplier = modal_meta.meta.zcsupperSel.dict_item_id;
@@ -1298,14 +1314,18 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     }
 
     // //////////////////////////save/////////////////////
+    var zcclass = "false";
+    var zcbuyprice = "false";
+    var zcnetworth = "false";
     $scope.save = function (type) {
         var id = "-1";
-        var zcclass = "false";
         if (type == 1) {
             var selrow = getSelectRow();
             if (angular.isDefined(selrow)) {
                 id = selrow.id;
-                zcclass = true;
+                zcclass = "true";
+                zcbuyprice = "true";
+                zcnetworth = "true";
             } else {
                 return;
             }
@@ -1321,10 +1341,10 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                             });
                             return;
                         }
-                        openWindow(res.data, zcclass);
+                        openWindow(res.data);
                     })
         } else {
-            openWindow({}, zcclass);
+            openWindow({});
         }
     }
 };

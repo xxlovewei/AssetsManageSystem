@@ -57,6 +57,16 @@
                                 <option value=""></option>
                             </select>
                         </div>
+                        <div class="form-group" ng-show="ctl.showusefullife">
+                            <label for="class">使用年限:</label>
+                            <select
+                                    chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                    disable-search="true" ng-model="zcusefullifeSel"
+                                    ng-options="item.name for item in zcusefullifeOpt" no-results-text="'没有找到相应条目'"
+                                    style="width: 120px;">
+                                <option value=""></option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <input class="form-control ng-pristine ng-valid ng-empty ng-touched"
                                    name="search"

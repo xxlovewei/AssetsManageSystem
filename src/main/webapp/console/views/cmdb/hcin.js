@@ -132,7 +132,7 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push(DTColumnBuilder.newColumn('warehousestr').withTitle('仓库').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('采购总额')
+    dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('采购单价')
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
         .withOption('sDefaultContent', ''));
