@@ -16,10 +16,10 @@ import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.cmdb.entity.Res;
+import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.service.IResService;
-import com.dt.module.zc.entity.ResResidual;
-import com.dt.module.zc.entity.ResResidualItem;
-import com.dt.module.zc.entity.ResResidualStrategy;
+import com.dt.module.zc.entity.*;
+import com.dt.module.zc.service.IResChangeItemService;
 import com.dt.module.zc.service.IResResidualItemService;
 import com.dt.module.zc.service.IResResidualService;
 import com.dt.module.zc.service.IResResidualStrategyService;
@@ -48,6 +48,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/zc/resResidual/ext")
 public class ResResidualExtController extends BaseController {
+
+
+	@Autowired
+	IResChangeItemService ResChangeItemServiceImpl;
 
 
 	@Autowired
@@ -137,19 +141,28 @@ public class ResResidualExtController extends BaseController {
 			List<ResResidualItem> list = ResResidualItemServiceImpl.list(ew);
 
 			List<Res> list2 = new ArrayList<Res>();
+			ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
 			for (int i = 0; i < list.size(); i++) {
 				ResResidualItem item = list.get(i);
 				UpdateWrapper<Res> resups = new UpdateWrapper<Res>();
 				resups.set("net_worth", item.getAnetworth());
 				resups.setSql("accumulateddepreciation=accumulateddepreciation+" + item.getLossprice());
+				resups.setSql("lastdepreciationdate=now()");
 				resups.eq("id", item.getResid());
 				ResServiceImpl.update(resups);
+
+				ResChangeItem e = new ResChangeItem();
+				e.setBusuuid(obj.getUuid());
+				e.setResid(item.getResid());
+				e.setType(ZcCommonService.ZC_BUS_TYPE_ZJ);
+				e.setMark(obj.getMark());
+				cols.add(e);
 			}
 			UpdateWrapper<ResResidual> ups = new UpdateWrapper<ResResidual>();
 			ups.set("status", ResResidualExtService.STATUS_SUCCESS);
 			ups.eq("id", obj.getId());
 			ResResidualServiceImpl.update(ups);
-
+			ResChangeItemServiceImpl.saveBatch(cols);
 		} else {
 			return R.FAILURE("当前状态异常,无法操作");
 		}

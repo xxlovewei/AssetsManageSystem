@@ -184,6 +184,30 @@ public class ZcReportController extends BaseController {
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
 
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/queryZcTotalAssets.do")
+    @Transactional
+    public R queryZcTotalAssets() {
+        String sql = "\n" +
+                "select\n" +
+                "  (select route_name from ct_category where dr='0' and id=t.class_id) classname,\n" +
+                "   t.*\n" +
+                "from (\n" +
+                "  select\n" +
+                "\n" +
+                "    class_id,\n" +
+                "    sum(zc_cnt)                           tcnt,\n" +
+                "    sum(buy_price * zc_cnt)               tbuyprice,\n" +
+                "    sum(net_worth * zc_cnt)               tnetworth,\n" +
+                "    sum(accumulateddepreciation * zc_cnt) taccumulateddepreciation\n" +
+                "  from res\n" +
+                "  where dr = '0' and category='3'\n" +
+                "  group by class_id\n" +
+                ")t order by 1";
+        return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+    }
+
 
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)

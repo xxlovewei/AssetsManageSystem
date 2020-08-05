@@ -192,8 +192,8 @@ public class ZcController extends BaseController {
     public R selectBillById(String id) {
 
         SysProcessData sd = SysProcessDataServiceImpl.getById(id);
-        JSONObject res=JSONObject.parseObject(JSON.toJSONString(sd, SerializerFeature.WriteDateUseDateFormat));
-        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t,res_action_item item where t.id=item.resid and item.busuuid=?";
+        JSONObject res = JSONObject.parseObject(JSON.toJSONString(sd, SerializerFeature.WriteDateUseDateFormat));
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t,res_action_item item where item.dr='0' and  t.id=item.resid and item.busuuid=?";
         res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, sd.getBusid()).toJsonArrayWithJsonObject()));
         QueryWrapper<SysProcessForm> ew = new QueryWrapper<SysProcessForm>();
         ew.and(i -> i.eq("processdataid", id));

@@ -12,14 +12,18 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.cmdb.entity.Res;
+import com.dt.module.flow.entity.SysProcessData;
+import com.dt.module.flow.entity.SysProcessForm;
 import com.dt.module.zc.entity.ResResidual;
 import com.dt.module.zc.entity.ResResidualItem;
 import com.dt.module.zc.service.IResResidualItemService;
 import com.dt.module.zc.service.IResResidualService;
 import com.dt.module.zc.service.impl.ResResidualExtService;
+import com.dt.module.zc.service.impl.ZcCommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +68,15 @@ public class ResResidualItemExtController extends BaseController {
 		ups.eq("id", obj.getId());
 		ResResidualServiceImpl.update(ups);
 		return R.SUCCESS_OPER();
+	}
+
+	@ResponseBody
+	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+	@RequestMapping(value = "/selectListByUuid.do")
+	public R selectListByUuid(String uuid) {
+		String sql = "select " + ZcCommonService.resSqlbody + " t.* , item.* from res t,res_residual_item item where item.dr='0' and t.id=item.resid and item.uuid=?";
+		return R.SUCCESS_OPER(db.query(sql, uuid).toJsonArrayWithJsonObject());
+
 	}
 
 

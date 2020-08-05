@@ -30,7 +30,7 @@ function GetDateNowId() {
 //         $scope.dtOptions.aaData = meta.failed_data;
 //     }
 // }
-function residualitemlistCtl($timeout, $localStorage, notify, $log, $uibModal,
+function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
                              $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                              DTColumnBuilder, $compile) {
     var item = meta;
@@ -59,110 +59,111 @@ function residualitemlistCtl($timeout, $localStorage, notify, $log, $uibModal,
         });
     $scope.dtInstance = {}
     $scope.dtColumns = [];
-    $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withoutselect');
+    var dtColumns = [];
 
-    function flush() {
-        $http.post($rootScope.project + "/api/zc/resInventory/ext/queryInventoryRes.do",
-            item).success(function (res) {
-            if (res.success) {
-                $scope.dtOptions.aaData = res.data;
-            } else {
-                notify({
-                    message: res.message
-                });
-            }
-        })
-    }
-
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-}
-
-function zcResidualItemCtl($timeout, $localStorage, notify, $log, $uibModal,
-                           $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
-                           DTColumnBuilder, $compile) {
-    var item = meta;
-    $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
-        .withPaginationType('full_numbers').withDisplayLength(100)
-        .withOption("ordering", false).withOption("responsive", false)
-        .withOption("searching", true).withOption('scrollY', 600)
-        .withOption('scrollX', true).withOption('bAutoWidth', true)
-        .withOption('scrollCollapse', true).withOption('paging', true)
-        .withOption('bStateSave', true).withOption('bProcessing', false)
-        .withOption('bFilter', false).withOption('bInfo', false)
-        .withOption('serverSide', false).withOption('createdRow', function (row) {
-            $compile(angular.element(row).contents())($scope);
-        }).withOption(
-            'headerCallback',
-            function (header) {
-                if ((!angular.isDefined($scope.headerCompiled))
-                    || $scope.headerCompiled) {
-                    $scope.headerCompiled = true;
-                    $compile(angular.element(header).contents())
-                    ($scope);
-                }
-            }).withOption("select", {
-            style: 'multi',
-            selector: 'td:first-child'
-        });
-    $scope.dtInstance = {}
-    $scope.dtColumns = [];
-    $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withoutselect');
-    item.category = 3;
-
-    function flush() {
-        $http.post($rootScope.project + "/api/zc/resInventory/ext/queryInventoryRes.do",
-            item).success(function (res) {
-            if (res.success) {
-                $scope.dtOptions.aaData = res.data;
-            } else {
-                notify({
-                    message: res.message
-                });
-            }
-        })
-    }
-
-    function renderPdStatus(data, type, full) {
-        if (data == "wait") {
-            return "待盘点"
-        } else if (data == "finish") {
-            return "已盘点"
+    function renderItemCheckStatus(data, type, full) {
+        if (data == 'success') {
+            return "通过";
+        } else if (data == 'failed') {
+            return "不通过";
+        } else if (data == 'init') {
+            return "未校验";
         } else {
             return data;
         }
     }
 
-    function renderPdSync(data, type, full) {
-        if (data == "1") {
-            return "更新"
-        } else if (data == "0") {
-            return "不更新"
-        } else {
-            return data;
-        }
+    function renderZCAction(data, type, full) {
+        var acthtml = " <div class=\"btn-group\"> ";
+        acthtml = acthtml + " <button ng-click=\"delitem('"
+            + full.id
+            + "')\" class=\"btn-white btn btn-xs\">删除</button>   ";
+        acthtml = acthtml + "</div>"
+        return acthtml;
     }
 
-    if (angular.isDefined(meta.id)) {
-        //获取数据
-        $scope.dtColumns.push(DTColumnBuilder.newColumn('pdstatus').withTitle('盘点状态').withOption(
-            'sDefaultContent', '').withOption("width", '30').renderWith(renderPdStatus));
-        $scope.dtColumns.push(DTColumnBuilder.newColumn('pdsyncneed').withTitle('数据更新').withOption(
-            'sDefaultContent', '').withOption("width", '30').renderWith(renderPdSync));
-        $http.post($rootScope.project + "/api/zc/resInventory/ext/selectById.do",
-            item).success(function (res) {
-            if (res.success) {
-                $scope.dtOptions.aaData = res.data.items;
-            } else {
-                notify({
-                    message: res.message
-                });
-            }
-        })
+    $scope.delitem = function (id) {
+        $confirm({
+            text: '是否删除?'
+        }).then(
+            function () {
+                $http.post($rootScope.project + "/api/zc/resResidualItem/ext/deleteById.do",
+                    {id: id}).success(function (res) {
+                    if (res.success) {
+                        flush();
+                    } else {
+                        notify({
+                            message: res.message
+                        });
+                    }
+                })
+            });
+    }
+    if (angular.isDefined(meta.status) && meta.status == "success") {
     } else {
-        flush();
+        dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+            'sDefaultContent', '').withOption("width", '30').renderWith(renderZCAction));
     }
+    dtColumns.push(DTColumnBuilder.newColumn('checkstatus').withTitle('校验').withOption(
+        'sDefaultContent', '').withOption("width", '30').renderWith(renderItemCheckStatus));
+    dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
+        'sDefaultContent', '').withOption('width', '50'));
+    dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
+        'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
+    dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('buyprice').withTitle('本期单价')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('curresidualvalue').withTitle('本期残值')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('bnetworth').withTitle('本期资产净值(前)')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('anetworth').withTitle('本期资产净值(后)')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('lossprice').withTitle('本期折旧')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('net_worth').withTitle('当前资产净值')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('accumulateddepreciation').withTitle('累计折旧')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('资产品牌').withOption(
+        'sDefaultContent', '').withOption('width', '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+        'sDefaultContent', ''));
+    $scope.dtColumns = dtColumns;
+
+    function flush() {
+        $http.post($rootScope.project + "/api/zc/resResidualItem/ext/selectListByUuid.do",
+            item).success(function (res) {
+            if (res.success) {
+                $scope.dtOptions.aaData = res.data;
+            } else {
+                notify({
+                    message: res.message
+                });
+            }
+        })
+    }
+
+    flush();
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
@@ -234,11 +235,28 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         });
     $scope.dtInstance = {}
     var dtColumns = [];
-    var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
-    dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
-        'select-checkbox checkbox_center').renderWith(function () {
-        return ""
-    }));
+
+    function renderZCAction(data, type, full) {
+        var acthtml = " <div class=\"btn-group\"> ";
+        acthtml = acthtml + " <button ng-click=\"delitem('"
+            + full.id
+            + "')\" class=\"btn-white btn btn-xs\">删除</button>   ";
+        acthtml = acthtml + "</div>"
+        return acthtml;
+    }
+
+    $scope.delitem = function (id) {
+        var del = 0;
+        for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
+            if ($scope.dtOptions.aaData[i].id == id) {
+                del = i;
+                break;
+            }
+        }
+        $scope.dtOptions.aaData.splice(del, 1);
+    }
+    dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+        'sDefaultContent', '').withOption("width", '30').renderWith(renderZCAction));
     dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
@@ -310,7 +328,7 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         var mdata = {};
         mdata.id = "";
         mdata.type = "many";
-        mdata.datarange = "LZ";
+        mdata.datarange = "ZJ";
         mdata.showusefullife = "true";
         var modalInstance = $uibModal.open({
             backdrop: true,
@@ -437,8 +455,8 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
     function renderAction(data, type, full) {
         var acthtml = " <div class=\"btn-group\"> ";
         acthtml = acthtml + " <button ng-click=\"detail('"
-            + full.id
-            + "')\" class=\"btn-white btn btn-xs\">资产详情</button>   ";
+            + full.uuid
+            + "','" + full.status + "')\" class=\"btn-white btn btn-xs\">资产列表</button>   ";
         acthtml = acthtml + "</div>"
         return acthtml;
     }
@@ -568,8 +586,9 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         }
     }
 
-    $scope.detail = function (id) {
-        meta.id = id;
+    $scope.detail = function (uuid, status) {
+        meta.uuid = uuid;
+        meta.status = status;
         var modalInstance = $uibModal.open({
             backdrop: true,
             templateUrl: 'views/cmdb/modal_residualitemlist.html',

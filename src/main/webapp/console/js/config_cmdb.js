@@ -699,6 +699,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         abstract: true,
         url: "/report",
         templateUrl: "views/common/content.html?v=" + version
+    }).state('report.totalassets', {
+        url: "/report_totalassets",
+        data: {pageTitle: '资产总值汇总表'},
+        template: '<div ng-controller="totalassetsCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/rep/totalassets.js?v=' + version]
+                }]);
+            }
+        }
     }).state('report.departsummary', {
         url: "/report_departsummary",
         data: {pageTitle: '部门资产汇总'},
@@ -1735,6 +1747,10 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
             return "资产领用/退库"
         } else if (data == "JY") {
             return "资产借用/归还"
+        } else if (data == "ZJ") {
+            return "资产折旧"
+        } else if (data == "BF") {
+            return "资产报废"
         } else {
             return data;
         }
