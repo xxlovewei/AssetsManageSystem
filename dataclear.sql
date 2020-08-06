@@ -33,8 +33,8 @@ truncate table res_inout;
 truncate table res_inout_item;
 truncate table sys_process_data;
 truncate table sys_process_data_kv;
-truncate table res_residual_item
-truncate table res_residual
+truncate table res_residual_item;
+truncate table res_residual;
 
 
 #clear ops table
