@@ -132,7 +132,7 @@ public class EmplService extends BaseService {
             Insert ins3 = new Insert("hrm_org_employee");
             ins3.set("id", ToolUtil.getUUID());
             ins3.set("node_id", node_id);
-            ins3.set("dr", "1");
+            ins3.set("dr", "0");
             ins3.set("empl_id", empl_id);
             exeSqls.add(ins3);
         }
