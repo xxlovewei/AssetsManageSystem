@@ -6,24 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="常规更新操作">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcquery.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcquery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/版本变更2.2.10-2.2.11.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataclear.sql" beforeDir="false" afterPath="$PROJECT_DIR$/部署_数据清理.sql" afterDir="false" />
+    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/config_system.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_system.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/genericdev.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/genericdev.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_residualitemlist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_residualitemlist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/totalassets.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/totalassets.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/residual.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/residual.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/topnavbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/topnavbar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/变更2.2.9-2.2.10.txt" beforeDir="false" afterPath="$PROJECT_DIR$/版本变更2.2.9-2.2.10.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/开发.txt" beforeDir="false" afterPath="$PROJECT_DIR$/开发.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -540,14 +524,7 @@
       <workItem from="1596027709936" duration="4436000" />
       <workItem from="1596078261503" duration="1888000" />
       <workItem from="1596153755538" duration="74179000" />
-      <workItem from="1596671631877" duration="10761000" />
-    </task>
-    <task id="LOCAL-00108" summary="修改bug">
-      <created>1592550500918</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1592550500918</updated>
+      <workItem from="1596671631877" duration="10783000" />
     </task>
     <task id="LOCAL-00109" summary="修改bug">
       <created>1592576583716</created>
@@ -885,7 +862,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596756122251</updated>
     </task>
-    <option name="localTasksCounter" value="157" />
+    <task id="LOCAL-00157" summary="常规更新操作">
+      <created>1596889144254</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1596889144254</updated>
+    </task>
+    <option name="localTasksCounter" value="158" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -994,7 +978,7 @@
     </state>
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1589272592550" />
     <state x="353" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/45.23.1235.777@45.23.1235.777" timestamp="1592522940651" />
-    <state x="336" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1596756121754">
+    <state x="310" y="69" width="833" height="777" key="CommitChangelistDialog2" timestamp="1596889143565">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state x="36" y="23" width="833" height="777" key="CommitChangelistDialog2/36.23.1244.777@36.23.1244.777" timestamp="1590670297315" />
@@ -1004,7 +988,7 @@
     <state x="174" y="37" width="833" height="617" key="CommitChangelistDialog2/41.23.1239.777@41.23.1239.777" timestamp="1590622241157" />
     <state x="192" y="70" width="761" height="592" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1591002752233" />
     <state x="333" y="23" width="833" height="777" key="CommitChangelistDialog2/44.23.1236.777@44.23.1236.777" timestamp="1595840921775" />
-    <state x="336" y="23" width="833" height="731" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1596756121754" />
+    <state x="310" y="69" width="833" height="731" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1596889143565" />
     <state x="428" y="23" key="CommitChangelistDialog2/45.23.1635.1027@45.23.1635.1027" timestamp="1594547269947" />
     <state x="53" y="90" width="1227" height="614" key="DiffContextDialog" timestamp="1593252739819">
       <screen x="45" y="23" width="1235" height="777" />
