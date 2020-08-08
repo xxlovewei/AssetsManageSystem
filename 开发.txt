@@ -1,18 +1,3 @@
-CREATE DATABASE IF NOT EXISTS dtdev2 default charset utf8 COLLATE utf8_general_ci;
-set names utf8;
-use dtdev2;
-source dt.sql
-
-
-CREATE DATABASE IF NOT EXISTS dt default charset utf8 COLLATE utf8_general_ci;
-set names utf8;
-use dt;
-
-CREATE DATABASE IF NOT EXISTS dh default charset utf8 COLLATE utf8_general_ci;
-set names utf8;
-use dh;
-source dh.sql
-
 
 
 

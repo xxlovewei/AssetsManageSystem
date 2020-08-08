@@ -30,7 +30,7 @@ function totalassetsCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tnetworth').withTitle('资产净值').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('taccumulateddepreciation').withTitle('资产折旧').withOption(
+        DTColumnBuilder.newColumn('taccumulateddepreciation').withTitle('累计折旧').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tcnt').withTitle('数量').withOption(
             'sDefaultContent', ''),

@@ -564,3 +564,66 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
     })
 }
 
+function renderDTFontColorRedH(data, type, full) {
+    if (angular.isDefined(data)) {
+        return "<span style=\"color:red;font-weight:bold\">" + data + "</span>"
+    } else {
+        return data;
+    }
+}
+
+function renderDTFontColorRed(data, type, full) {
+    if (angular.isDefined(data)) {
+        return "<span style=\"color:red\">" + data + "</span>"
+    } else {
+        return data;
+    }
+}
+
+function renderDTFontColorGreenH(data, type, full) {
+    if (angular.isDefined(data)) {
+        return "<span style=\"color:green;font-weight:bold\">" + data + "</span>"
+    } else {
+        return data;
+    }
+}
+
+function renderDTFontColorGreen(data, type, full) {
+    if (angular.isDefined(data)) {
+        return "<span style=\"color:green\">" + data + "</span>"
+    } else {
+        return data;
+    }
+}
+
+function renderDTFontColoBluerH(data, type, full) {
+    if (angular.isDefined(data)) {
+        return "<span style=\"color:blue;font-weight:bold\">" + data + "</span>"
+    } else {
+        return data;
+    }
+}
+
+function renderDTFontColoBlue(data, type, full) {
+    if (angular.isDefined(data)) {
+        return "<span style=\"color:blue\">" + data + "</span>"
+    } else {
+        return data;
+    }
+}
+
+function renderDTFontColoPurpleH(data, type, full) {
+    if (angular.isDefined(data)) {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return data;
+    }
+}
+
+function renderDTFontColoPurple(data, type, full) {
+    if (angular.isDefined(data)) {
+        return "<span style=\"color:purple\">" + data + "</span>"
+    } else {
+        return data;
+    }
+}

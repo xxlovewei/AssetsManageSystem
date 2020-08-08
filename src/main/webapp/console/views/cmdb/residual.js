@@ -56,18 +56,42 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
             }).withOption("select", {
             style: 'multi',
             selector: 'td:first-child'
-        });
+        }).withButtons([
+            {
+                extend: 'csv',
+                text: 'Excel(当前页)',
+                exportOptions: {
+                    columns: ':visible',
+                    trim: true,
+                    modifier: {
+                        page: 'current'
+                    }
+                }
+            },
+            {
+                extend: 'print',
+                text: '打印(当前页)',
+                exportOptions: {
+                    columns: ':visible',
+                    stripHtml: false,
+                    columns: ':visible',
+                    modifier: {
+                        page: 'current'
+                    }
+                }
+            }
+        ]);
     $scope.dtInstance = {}
     $scope.dtColumns = [];
     var dtColumns = [];
 
     function renderItemCheckStatus(data, type, full) {
         if (data == 'success') {
-            return "通过";
+            return "<span style=\"color:green;font-weight:bold\">通过</span>";
         } else if (data == 'failed') {
-            return "不通过";
+            return "<span style=\"color:red;font-weight:bold\">失败</span>";
         } else if (data == 'init') {
-            return "未校验";
+            return "<span style=\"color:red;font-weight:bold\">未校验</span>";
         } else {
             return data;
         }
@@ -110,32 +134,34 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
-        'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
-    dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('buyprice').withTitle('本期单价')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('curresidualvalue').withTitle('本期残值')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('bnetworth').withTitle('本期资产净值(前)')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('anetworth').withTitle('本期资产净值(后)')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('lossprice').withTitle('本期折旧')
-        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('采购单价')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('net_worth').withTitle('当前资产净值')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('accumulateddepreciation').withTitle('累计折旧')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
+    dtColumns.push(DTColumnBuilder.newColumn('accumulateddepreciation').withTitle('当前累计折旧')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
+    dtColumns.push(DTColumnBuilder.newColumn('buyprice').withTitle('本期单价')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('curresidualvalue').withTitle('本期计算残值')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('bnetworth').withTitle('本期资产净值(折旧前)')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('anetworth').withTitle('本期资产净值(折旧后)')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('lossprice').withTitle('本期折旧价')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')
         .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
+        'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('资产品牌').withOption(
@@ -274,14 +300,6 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     dtColumns.push(DTColumnBuilder.newColumn('buyprice').withTitle('采购单价')
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('residualvalue').withTitle('设置残值')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('curresidualvalue').withTitle('本次残值')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('bnetworth').withTitle('折旧前净值')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('anetworth').withTitle('折旧后净值')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('lossprice').withTitle('折旧')
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('lastdepreciationdatestr').withTitle('最近折旧时间')
         .withOption('sDefaultContent', ''));
@@ -467,7 +485,7 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
-        DTColumnBuilder.newColumn('uuid').withTitle('折旧批号').withOption(
+        DTColumnBuilder.newColumn('uuid').withTitle('折旧单据').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('title').withTitle('标题').withOption(
             'sDefaultContent', ''),
@@ -477,9 +495,9 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(renderCheckStatus),
         DTColumnBuilder.newColumn('cnt').withTitle('资产数量').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('residualvaluerate').withTitle('残值率').withOption(
+        DTColumnBuilder.newColumn('residualvaluerate').withTitle('残值率(%)').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('depreciationrate').withTitle('折旧率').withOption(
+        DTColumnBuilder.newColumn('depreciationrate').withTitle('折旧率(%)').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('processusername').withTitle('负责人').withOption(
             'sDefaultContent', ''),
@@ -490,8 +508,7 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         DTColumnBuilder.newColumn('createTime').withTitle('创建时间').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
-            'sDefaultContent', '').withOption(
-            'width', '300px').renderWith(renderAction)
+            'sDefaultContent', '').renderWith(renderAction)
     ]
     $scope.query = function () {
         flush();
@@ -499,14 +516,6 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
     var meta = {
         tablehide: false,
         tools: [
-            // {
-            //     id: "input",
-            //     label: "内容",
-            //     placeholder: "请输入搜索内容",
-            //     type: "input",
-            //     show: true,
-            //     ct: ""
-            // },
             {
                 id: "btn",
                 label: "",

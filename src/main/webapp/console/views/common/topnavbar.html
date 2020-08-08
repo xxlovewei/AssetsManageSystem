@@ -3,6 +3,8 @@
          style="background-color: white ;margin-bottom: 0;">
         <div class="navbar-header">
             <span minimaliza-sidebar></span>
+            <a style="font-size:14px;margin-top:3px" ng-click="switchSystem(item.menuId)" class="navbar-brand"
+               href="javascript:void(0);" ng-repeat="item in dt_systems | limitTo:4">{{item.name}}</a>
         </div>
         <ul class="nav navbar-top-links navbar-right">
             <li ng-if="dt_systems.length>1" uib-dropdown><a
@@ -36,7 +38,6 @@
 			 <span style="font-size:12px;color: #686B6D;">
 						{{sys_user_info.name}}
 			<i aria-hidden="true" class="fa fa-caret-down"></i>
-						
 						</span>
                 <span aria-hidden="true" class="fa fa-user"
                       style="color: #686B6D; padding-left: 3px; padding-right: 3px"></span></a>

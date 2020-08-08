@@ -1,4 +1,4 @@
--- auto-generated definition
+1.新增表
 create table res_residual_strategy
 (
   id                varchar(50)    not null
@@ -23,8 +23,7 @@ create table res_residual_strategy
 );
 
 
-
--- auto-generated definition
+2.新增表
 create table res_residual
 (
   id                varchar(50)    not null
@@ -50,7 +49,7 @@ create table res_residual
   update_by         varchar(50)    null
 );
 
--- auto-generated definition
+3.新增表
 create table res_residual_item
 (
   id               varchar(50)    not null
@@ -71,7 +70,7 @@ create table res_residual_item
 );
 
 
-
+4.新增字典
 res表新增字段
   residualvalue           decimal(10, 2) default '0.00' null
   comment '资产残值',
@@ -82,7 +81,10 @@ res表新增字段
   accumulateddepreciation decimal(10, 2) default '0.00' null
   comment '累计折旧'
 
-
-新增资产数据字典
+5.新增数据字典。
 zcusefullife
+
+
+6.新增菜单
+略
 

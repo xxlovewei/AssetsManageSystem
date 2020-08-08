@@ -301,11 +301,9 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     }
     // $scope.dtColumns.push();
     var cols = zcBaseColsCreate(DTColumnBuilder, 'withselect');
-
     var e = DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
         'sDefaultContent', '').withOption('width', '50');
-    cols.splice(4, 0, e);
-
+    cols.splice(1, 0, e);
     $scope.dtColumns = [];
     $scope.dtColumns = cols;
     $scope.dtColumns.push(DTColumnBuilder.newColumn('riskstr').withTitle('风险等级').withOption(
