@@ -274,7 +274,8 @@ public class ZcService extends BaseService{
         }
 
         if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
-            sql = sql + " and class_id='" + class_id + "' ";
+            sql = sql + " and class_id in (select id from ct_category  where dr='0' and (id='" + class_id
+                    + "' or parent_id='" + class_id + "')) ";
         }
 
         if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
