@@ -197,6 +197,7 @@ public class ResExtController extends BaseController {
         int pagesize = respar.getIntValue("pagesize");
         int pageindex = respar.getIntValue("pageindex");
         String sql= zcService.buildQueryResAllGetdatalSql(  belongcomp,  comp,part,  datarange,  classroot,   class_id,   wb,   env,   recycle,   loc,   search, ps);
+        System.out.println(sql);
         String sqlcnt = "select count(1) value from (" + sql + ") tab";
         int count = db.uniqueRecord(sqlcnt).getInteger("value");
         JSONObject retrunObject = new JSONObject();

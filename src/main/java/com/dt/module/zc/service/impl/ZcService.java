@@ -263,14 +263,18 @@ public class ZcService extends BaseService{
         }
         sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0  ";
 
-        if(ToolUtil.isNotEmpty(classroot)){
+        if (ToolUtil.isNotEmpty(classroot)) {
             //获取多个类型
-            sql = sql + " and class_id in (select id from ct_category t where t.dr='0' and t.root='"+classroot+"' and t.route not like '46%' and t.node_level>1)";
+            sql = sql + " and class_id in (select id from ct_category t where t.dr='0' and t.root='" + classroot + "' and t.route not like '46%' and t.node_level>1)";
+        }
+        //获取分类以下全部数据
+        String class_id_parents = ps.getString("class_id_parents");
+        if (ToolUtil.isNotEmpty(class_id_parents) && !"all".equals(class_id_parents)) {
+            sql = sql + " and class_id in (select id from ct_category where 1=1 and (id='" + class_id_parents + "' or route like '%" + class_id_parents + "-%'))";
         }
 
-        if(ToolUtil.isNotEmpty(class_id)&& !"all".equals(class_id)){
-            sql = sql + " and class_id in (select id from ct_category  where dr='0' and (id='" + class_id
-                    + "' or parent_id='" + class_id + "')) ";
+        if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
+            sql = sql + " and class_id='" + class_id + "' ";
         }
 
         if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
@@ -292,12 +296,19 @@ public class ZcService extends BaseService{
         if(ToolUtil.isNotEmpty(comp)){
             sql = sql + " and used_company_id='" + comp + "'";
         }
-        if(ToolUtil.isNotEmpty(belongcomp)){
+
+        if (ToolUtil.isNotEmpty(belongcomp)) {
             sql = sql + " and belong_company_id='" + belongcomp + "'";
         }
 
-        if(ToolUtil.isNotEmpty(part)){
+        //使用部门
+        if (ToolUtil.isNotEmpty(part)) {
             sql = sql + " and part_id='" + part + "'";
+        }
+        //使用部门组织以下全部数据
+        String part_parents = ps.getString("part_parents");
+        if (ToolUtil.isNotEmpty(part_parents)) {
+            sql = sql + " and part_id in (select node_id from hrm_org_part where (node_id='" + part_parents + "' or route like '%" + part_parents + "-%'))";
         }
 
         if (ToolUtil.isNotEmpty(ps.getString("warehouse"))) {

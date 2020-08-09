@@ -9,7 +9,7 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             data: {classroot: "-1", start: 0, category: 3}
         })
         .withDataProp('data').withDataProp('data').withDOM('frtlip').withPaginationType('full_numbers')
-        .withDisplayLength(25)
+        .withDisplayLength(100)
         .withOption("ordering", false).withOption("responsive", false)
         .withOption("searching", false).withOption('scrollY', 420)
         .withOption('scrollX', true).withOption('bAutoWidth', true)
@@ -224,34 +224,34 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             });
         }
     })
-    $scope.detail = function () {
-        var id = "";
-        var selrow = getSelectRow();
-        if (angular.isDefined(selrow)) {
-            id = selrow.id;
-        } else {
-            return;
-        }
-        var ps = {};
-        ps.id = id;
-        var modalInstance = $uibModal.open({
-            backdrop: true,
-            templateUrl: 'views/cmdb/modal_dtl.html',
-            controller: modalcmdbdtlCtl,
-            size: 'blg',
-            resolve: {
-                meta: function () {
-                    return ps;
-                }
-            }
-        });
-        modalInstance.result.then(function (result) {
-            if (result == "OK") {
-            }
-        }, function (reason) {
-            $log.log("reason", reason)
-        });
-    }
+    // $scope.detail = function () {
+    //     var id = "";
+    //     var selrow = getSelectRow();
+    //     if (angular.isDefined(selrow)) {
+    //         id = selrow.id;
+    //     } else {
+    //         return;
+    //     }
+    //     var ps = {};
+    //     ps.id = id;
+    //     var modalInstance = $uibModal.open({
+    //         backdrop: true,
+    //         templateUrl: 'views/cmdb/modal_dtl.html',
+    //         controller: modalcmdbdtlCtl,
+    //         size: 'blg',
+    //         resolve: {
+    //             meta: function () {
+    //                 return ps;
+    //             }
+    //         }
+    //     });
+    //     modalInstance.result.then(function (result) {
+    //         if (result == "OK") {
+    //         }
+    //     }, function (reason) {
+    //         $log.log("reason", reason)
+    //     });
+    // }
     function getSelectRow() {
         var data = $scope.dtInstance.DataTable.rows({
             selected: true

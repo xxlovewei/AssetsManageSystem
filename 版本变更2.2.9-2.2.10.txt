@@ -72,14 +72,20 @@ create table res_residual_item
 
 4.新增字典
 res表新增字段
-  residualvalue           decimal(10, 2) default '0.00' null
-  comment '资产残值',
-  usefullife              varchar(50)                   null
-  comment '资产使用年限',
-  lastdepreciationdate    date                          null
-  comment '最近一次折旧时间',
-  accumulateddepreciation decimal(10, 2) default '0.00' null
-  comment '累计折旧'
+ALTER TABLE res ADD residualvalue decimal(10,2) DEFAULT 0 NULL;
+ALTER TABLE res ADD usefullife varchar(50) NULL;
+ALTER TABLE res ADD lastdepreciationdate date NULL;
+ALTER TABLE res ADD accumulateddepreciation decimal(10,2) DEFAULT 0 NULL;
+
+ALTER TABLE res_inventory_item ADD residualvalue decimal(10,2) DEFAULT 0 NULL;
+ALTER TABLE res_inventory_item ADD usefullife varchar(50) NULL;
+ALTER TABLE res_inventory_item ADD lastdepreciationdate date NULL;
+ALTER TABLE res_inventory_item ADD accumulateddepreciation decimal(10,2) DEFAULT 0 NULL;
+
+ALTER TABLE res_inventory_item_s ADD residualvalue decimal(10,2) DEFAULT 0 NULL;
+ALTER TABLE res_inventory_item_s ADD usefullife varchar(50) NULL;
+ALTER TABLE res_inventory_item_s ADD lastdepreciationdate date NULL;
+ALTER TABLE res_inventory_item_s ADD accumulateddepreciation decimal(10,2) DEFAULT 0 NULL;
 
 5.新增数据字典。
 zcusefullife

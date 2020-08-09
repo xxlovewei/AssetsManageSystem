@@ -316,10 +316,10 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                                     } else if ($scope.item.type == "dir") {
                                         $scope.typeSel = $scope.typeOpt[0];
                                     } else {
-                                        $scope.typeSel = "";
+                                        $scope.typeSel = $scope.typeOpt[0];
                                     }
                                 } else {
-                                    $scope.typeSel = "";
+                                    $scope.typeSel = $scope.typeOpt[0];
                                 }
                             }
                         } else {

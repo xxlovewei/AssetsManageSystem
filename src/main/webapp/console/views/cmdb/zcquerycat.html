@@ -1,26 +1,13 @@
 <script src="js/common.js?v=70"></script>
-<div ng-controller="zcqueryCtl">
+<div ng-controller="zcquerycatCtl">
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox">
                     <div class="ibox-content">
                         <form class="form-inline" role="form">
-                            <div class="form-group">
-                                <label for="class">类目组 </label> <select chosen
-                                                                        class="chosen-select"
-                                                                        data-placeholder-text-single="'请选择...'"
-                                                                        disable-search="true"
-                                                                        id="class"
-                                                                        ng-model="catRootSel"
-                                                                        ng-options="item.name for item in catRootOpt"
-                                                                        no-results-text="'没有找到相应条目'"
-                                                                        style="width: 120px;">
-                                <option value=""></option>
-                            </select>
-                            </div>
-                            <button class="btn btn-sm btn-primary" ng-click="query()"
-                                    type="submit">查询
+                            <button class="btn btn-sm btn-primary" ng-click="detail()"
+                                    type="submit">详情
                             </button>
                         </form>
                     </div>

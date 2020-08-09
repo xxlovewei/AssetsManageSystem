@@ -498,15 +498,27 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    }).state('zcmgr.zcquery', {
-        url: "/zcmgr_zcquery",
-        data: {pageTitle: '资产台账'},
-        templateUrl: "views/cmdb/zcquery.html?v=" + version,
+    }).state('zcmgr.zcqueryorg', {
+        url: "/zcmgr_zcqueryorg",
+        data: {pageTitle: '资产查询(组织)'},
+        templateUrl: "views/cmdb/zcqueryorg.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/cmdb/zcquery.js?v=' + version]
+                    files: ['views/cmdb/zcqueryorg.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('zcmgr.zcquerycat', {
+        url: "/zcmgr_zcquerycat",
+        data: {pageTitle: '资产查询(类别)'},
+        templateUrl: "views/cmdb/zcquerycat.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/zcquerycat.js?v=' + version]
                 }]);
             }
         }
@@ -975,7 +987,7 @@ function zcBaseColsCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('classfullname').withTitle('资产类型').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
@@ -997,7 +1009,7 @@ function zcBaseColsCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_fullname').withTitle('使用部门').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
     dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));

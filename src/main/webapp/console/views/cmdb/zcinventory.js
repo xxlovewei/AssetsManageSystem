@@ -571,9 +571,9 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         acthtml = acthtml + " <button " + tstr4 + " ng-click=\"inventory('"
             + full.id
             + "')\" class=\"btn-white btn btn-xs\">手工盘点</button>   ";
-        acthtml = acthtml + " <button ng-click=\"detail('"
-            + full.id
-            + "')\" class=\"btn-white btn btn-xs\">详情</button>   ";
+        // acthtml = acthtml + " <button ng-click=\"detail('"
+        //     + full.id
+        //     + "')\" class=\"btn-white btn btn-xs\">详情</button>   ";
         acthtml = acthtml + " <button " + tstr3 + "ng-click=\"cancel('"
             + full.id
             + "')\" class=\"btn-white btn btn-xs\">取消</button>   ";
@@ -608,6 +608,8 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             return ""
         }),
         DTColumnBuilder.newColumn('batchid').withTitle('盘点单号').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('adminusername').withTitle('负责人').withOption(
             'sDefaultContent', ''),
