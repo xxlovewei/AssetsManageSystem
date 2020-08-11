@@ -11,14 +11,8 @@ import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.service.IResService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;
-import com.dt.module.zc.entity.ResAllocate;
-import com.dt.module.zc.entity.ResAllocateItem;
-import com.dt.module.zc.entity.ResChangeItem;
-import com.dt.module.zc.entity.ResScrapeItem;
-import com.dt.module.zc.service.IResAllocateItemService;
-import com.dt.module.zc.service.IResAllocateService;
-import com.dt.module.zc.service.IResChangeItemService;
-import com.dt.module.zc.service.IResScrapeItemService;
+import com.dt.module.zc.entity.*;
+import com.dt.module.zc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -306,6 +300,7 @@ public class ZcChangeService extends BaseService {
         return R.SUCCESS_OPER();
     }
 
+
     //资产调拨确认
     public R zcDBSureChange(String uuid){
 
@@ -407,4 +402,93 @@ public class ZcChangeService extends BaseService {
         ResChangeItemServiceImpl.saveBatch(cols);
         return R.FAILURE_OPER();
     }
+
+
+    @Autowired
+    IResCMaintenanceService ResCMaintenanceServiceImpl;
+
+    @Autowired
+    IResCMaintenanceItemService ResCMaintenanceItemServiceImpl;
+
+    public R zcCGWBSureChange(String uuid) {
+        QueryWrapper<ResCMaintenanceItem> qw = new QueryWrapper<ResCMaintenanceItem>();
+        qw.and(i -> i.eq("busuuid", uuid));
+        ResCMaintenanceItem entity = ResCMaintenanceItemServiceImpl.getOne(qw);
+
+        String sql = "update res_c_maintenance_item a,res b set a.fwb=b.wb,\n" +
+                "  a.fwbsupplier=b.wbsupplier,\n" +
+                "  a.fwbauto=b.wb_auto,\n" +
+                "  a.fwbct=b.wbct,\n" +
+                "  a.fwboutdate=b.wbout_date\n" +
+                "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql, uuid);
+        String sql2 = "update res_c_maintenance_item b,res a set a.wb=b.twb,\n" +
+                "  a.wbsupplier=b.twbsupplier,\n" +
+                "  a.wb_auto=b.twbauto,\n" +
+                "  a.wbct=b.twbct,\n" +
+                "  a.wbout_date=b.twboutdate\n" +
+                "where a.id=b.resid and b.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql2, uuid);
+        //记录资产变更
+        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
+        QueryWrapper<ResCMaintenanceItem> qw2 = new QueryWrapper<ResCMaintenanceItem>();
+        qw2.and(i -> i.eq("busuuid", uuid));
+        List<ResCMaintenanceItem> items = ResCMaintenanceItemServiceImpl.list(qw2);
+        for (int i = 0; i < items.size(); i++) {
+            ResChangeItem e = new ResChangeItem();
+            e.setBusuuid(uuid);
+            e.setResid(items.get(i).getResid());
+            e.setType(ZcCommonService.ZC_BUS_TYPE_CGWB);
+            e.setMark("维保信息变更");
+            cols.add(e);
+        }
+        ResChangeItemServiceImpl.saveBatch(cols);
+        return R.FAILURE_OPER();
+    }
+
+    @Autowired
+    IResCFinanceService ResCFinanceServiceImpl;
+
+    @Autowired
+    IResCFinanceItemService ResCFinanceItemServiceImpl;
+
+    //资产变更
+    public R zcCGCWSureChange(String uuid) {
+        QueryWrapper<ResCFinance> qw = new QueryWrapper<ResCFinance>();
+        qw.and(i -> i.eq("busuuid", uuid));
+        ResCFinance entity = ResCFinanceServiceImpl.getOne(qw);
+
+        String sql = "update res_c_finance_item a,res b set a.fbuyprice=b.buy_price,\n" +
+                "  a.fbelongcomp=b.belong_company_id,\n" +
+                "  a.fbelongpart=b.belong_part_id,\n" +
+                "  a.faccumulateddepreciation=b.accumulateddepreciation,\n" +
+                "  a.fnetworth=b.net_worth,\n" +
+                "  a.fresidualvalue=b.residualvalue\n" +
+                "where a.resid=b.id and a.busuuid=? and a.dr='0'";
+        db.execute(sql, uuid);
+        String sql2 = "update res_c_finance_item a,res b set a.fbuyprice=b.buy_price,\n" +
+                "b.belong_company_id=a.tbelongcomp,\n" +
+                "b.belong_part_id=a.tbelongpart,\n" +
+                "b.accumulateddepreciation=a.taccumulateddepreciation,\n" +
+                "b.net_worth=a.tnetworth,\n" +
+                "b.residualvalue=a.tresidualvalue\n" +
+                "where a.resid=b.id and a.busuuid=? and a.dr='0'";
+        db.execute(sql2, uuid);
+        //记录资产变更
+        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
+        QueryWrapper<ResCFinanceItem> qw2 = new QueryWrapper<ResCFinanceItem>();
+        qw2.and(i -> i.eq("busuuid", uuid));
+        List<ResCFinanceItem> items = ResCFinanceItemServiceImpl.list(qw2);
+        for (int i = 0; i < items.size(); i++) {
+            ResChangeItem e = new ResChangeItem();
+            e.setBusuuid(uuid);
+            e.setResid(items.get(i).getResid());
+            e.setType(ZcCommonService.ZC_BUS_TYPE_CGCW);
+            e.setMark("财务信息变更");
+            cols.add(e);
+        }
+        ResChangeItemServiceImpl.saveBatch(cols);
+        return R.FAILURE_OPER();
+    }
+
 }

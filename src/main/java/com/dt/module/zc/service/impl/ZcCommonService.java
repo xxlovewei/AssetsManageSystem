@@ -62,18 +62,42 @@ public class ZcCommonService extends BaseService {
     public static String UUID_BX = "BX";
     public static String UUID_DB = "DB";
     public static String UUID_ZJ = "ZJ";
+    //耗材入库
     public static String UUID_HCRK = "HCRK";
+    //耗材出库
     public static String UUID_HCCK = "HCCK";
+    //耗材调拨
     public static String UUID_HCDB = "HCDB";
+    //备件入库
     public static String UUID_BJRK = "BJRK";
+    //备件出库
     public static String UUID_BJCK = "BJCK";
 
+    //财务变更
+    public static String UUID_CGCW = "CGCW";
+    //维保比昂
+    public static String UUID_CGWB = "CGWB";
+    //基本信息变更
+    public static String UUID_CGJB = "CGJB";
+
+    //领用
     public static String ZC_BUS_TYPE_LY = "LY";
+    //借用
     public static String ZC_BUS_TYPE_JY = "JY";
+    //转移
     public static String ZC_BUS_TYPE_ZY = "ZY";
+    //调拨
     public static String ZC_BUS_TYPE_DB = "DB";
+    //报废
     public static String ZC_BUS_TYPE_BF = "BF";
+    //折旧
     public static String ZC_BUS_TYPE_ZJ = "ZJ";
+    //财务变更
+    public static String ZC_BUS_TYPE_CGCW = "CGCW";
+    //维保变更
+    public static String ZC_BUS_TYPE_CGWB = "CGWB";
+    //基本变更
+    public static String ZC_BUS_TYPE_CGJB = "CGJB";
 
 
     //维修状态:维修中、维修结束、报废

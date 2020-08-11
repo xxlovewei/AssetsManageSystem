@@ -74,10 +74,10 @@ public class ResResidualItemExtController extends BaseController {
 	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectListByUuid.do")
 	public R selectListByUuid(String uuid) {
-		String sql = "select " + ZcCommonService.resSqlbody + " t.* , item.* from res t,res_residual_item item where item.dr='0' and t.id=item.resid and item.uuid=?";
-		return R.SUCCESS_OPER(db.query(sql, uuid).toJsonArrayWithJsonObject());
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* , item.*,t.uuid zcuuid from res t,res_residual_item item where item.dr='0' and t.id=item.resid and item.uuid=?";
+        return R.SUCCESS_OPER(db.query(sql, uuid).toJsonArrayWithJsonObject());
 
-	}
+    }
 
 
 }

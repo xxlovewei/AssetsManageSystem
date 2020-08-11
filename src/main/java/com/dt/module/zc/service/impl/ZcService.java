@@ -195,16 +195,22 @@ public class ZcService extends BaseService{
             } else {
                 return type + id;
             }
-        }
-        else if (type.equals(ZcCommonService.UUID_HCRK)) {
+        } else if (type.equals(ZcCommonService.UUID_CGCW)) {
             id = createUuid5();
             return type + id;
-        }
-        else if (type.equals(ZcCommonService.UUID_HCDB)) {
+        } else if (type.equals(ZcCommonService.UUID_CGWB)) {
             id = createUuid5();
             return type + id;
-        }
-        else if (type.equals(ZcCommonService.UUID_HCCK)) {
+        } else if (type.equals(ZcCommonService.UUID_CGJB)) {
+            id = createUuid5();
+            return type + id;
+        } else if (type.equals(ZcCommonService.UUID_HCRK)) {
+            id = createUuid5();
+            return type + id;
+        } else if (type.equals(ZcCommonService.UUID_HCDB)) {
+            id = createUuid5();
+            return type + id;
+        } else if (type.equals(ZcCommonService.UUID_HCCK)) {
             id = createUuid5();
             return type + id;
         } else if (type.equals(ZcCommonService.UUID_BF)) {

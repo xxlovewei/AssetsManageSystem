@@ -202,7 +202,7 @@ public class ZcReportController extends BaseController {
                 "    sum(net_worth * zc_cnt)               tnetworth,\n" +
                 "    sum(accumulateddepreciation * zc_cnt) taccumulateddepreciation\n" +
                 "  from res\n" +
-                "  where dr = '0' and category='3'\n" +
+                "  where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "'\n" +
                 "  group by class_id\n" +
                 ")t order by 1";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());

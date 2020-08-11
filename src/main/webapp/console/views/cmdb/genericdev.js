@@ -579,6 +579,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     });
 
     function openWindow(res) {
+
         var items = [];
         items.push({
             type: "input",
@@ -889,7 +890,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             maxlength: "30",
             placeholder: "请输入采购价格",
             label: "采购单价",
-            need: true,
+            need: false,
             name: 'buy_price',
             ng_model: "buy_price"
         });
@@ -901,7 +902,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             maxlength: "30",
             placeholder: "请输入资产净值",
             label: "资产净值",
-            need: true,
+            need: false,
             name: 'net_worth',
             ng_model: "net_worth"
         });
@@ -1342,6 +1343,9 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                         openWindow(res.data);
                     })
         } else {
+            zcclass = "false";
+            zcbuyprice = "false";
+            zcnetworth = "false";
             openWindow({});
         }
     }

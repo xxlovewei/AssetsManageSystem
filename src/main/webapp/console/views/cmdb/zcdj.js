@@ -381,7 +381,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         }
     });
 
-    function openWindow(res, zcrecycle, zcclass) {
+    function openWindow(res) {
         var items = [];
         items.push({
             type: "input",
@@ -628,7 +628,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcbuyprice,
             sub_type: "number",
             required: false,
             maxlength: "30",
@@ -640,7 +640,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcnetworth,
             sub_type: "number",
             required: false,
             maxlength: "30",
@@ -1022,16 +1022,24 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
     }
 
+    var zcrecycle = "false";
+    var zcclass = "false";
+    var zcbuyprice = "false";
+    var zcnetworth = "false";
     $scope.save = function (type) {
         var id;
-        var zcrecycle = "false";
-        var zcclass = "false";
+        zcrecycle = "false";
+        zcclass = "false";
+        zcbuyprice = "false";
+        zcnetworth = "false";
         if (type == 1) {
             var selrow = getSelectRow();
             if (angular.isDefined(selrow)) {
                 id = selrow.id;
                 zcrecycle = "true";
                 zcclass = "true";
+                zcbuyprice = "true";
+                zcnetworth = "true";
             } else {
                 return;
             }
@@ -1047,10 +1055,14 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
                             });
                             return;
                         }
-                        openWindow(res.data, zcrecycle, zcclass);
+                        openWindow(res.data);
                     })
         } else {
-            openWindow({}, zcrecycle, zcclass);
+            zcrecycle = "false";
+            zcclass = "false";
+            zcbuyprice = "false";
+            zcnetworth = "false";
+            openWindow({});
         }
     }
 };

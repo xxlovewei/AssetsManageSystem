@@ -596,6 +596,42 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('zcchange.changefinancial', {
+        url: "/zcchange_cgcw",
+        data: {pageTitle: '财务信息变更 '},
+        templateUrl: "views/cmdb/cgcw.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/cgcw.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('zcchange.changemaintenance', {
+        url: "/zcchange_cgwb",
+        data: {pageTitle: '维保信息变更 '},
+        templateUrl: "views/cmdb/cgwb.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/cgwb.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('zcchange.changephyzc', {
+        url: "/zcchange_cgjb",
+        data: {pageTitle: '实物信息变更 '},
+        templateUrl: "views/cmdb/cgjb.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/cgjb.js?v=' + version]
+                }]);
+            }
+        }
     })
     // cmdb
     $stateProvider.state('cf', {
@@ -1775,6 +1811,12 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
             return "资产折旧"
         } else if (data == "BF") {
             return "资产报废"
+        } else if (data == "CGCW") {
+            return "财务变更"
+        } else if (data == "CGWB") {
+            return "维保变更"
+        } else if (data == "CGJB") {
+            return "基本信息变更"
         } else {
             return data;
         }

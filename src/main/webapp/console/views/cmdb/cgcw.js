@@ -11,9 +11,9 @@ function GetDateNowId() {
     return sNow;
 }
 
-function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
-                             $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
-                             DTColumnBuilder, $compile) {
+function cgcwlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
+                     $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
+                     DTColumnBuilder, $compile) {
     var item = meta;
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
@@ -87,33 +87,7 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
         return acthtml;
     }
 
-    $scope.delitem = function (id) {
-        $confirm({
-            text: '是否删除?'
-        }).then(
-            function () {
-                $http.post($rootScope.project + "/api/zc/resResidualItem/ext/deleteById.do",
-                    {id: id}).success(function (res) {
-                    if (res.success) {
-                        flush();
-                    } else {
-                        notify({
-                            message: res.message
-                        });
-                    }
-                })
-            });
-    }
-    if (angular.isDefined(meta.status) && meta.status == "success") {
-    } else {
-        dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
-            'sDefaultContent', '').withOption("width", '30').renderWith(renderZCAction));
-    }
-    dtColumns.push(DTColumnBuilder.newColumn('checkstatus').withTitle('校验').withOption(
-        'sDefaultContent', '').withOption("width", '30').renderWith(renderItemCheckStatus));
-    dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
-        'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('zcuuid').withTitle('资产编号').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
         'sDefaultContent', '').withOption("width", '30'));
@@ -121,36 +95,26 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
-    dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('采购单价')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
-    dtColumns.push(DTColumnBuilder.newColumn('net_worth').withTitle('当前资产净值')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
-    dtColumns.push(DTColumnBuilder.newColumn('accumulateddepreciation').withTitle('当前累计折旧')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
-    dtColumns.push(DTColumnBuilder.newColumn('buyprice').withTitle('本期单价')
+    dtColumns.push(DTColumnBuilder.newColumn('fbelongcom_fullname').withTitle('所属公司(变更前)').withOption(
+        'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('fbuyprice').withTitle('采购单价(变更前)')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('curresidualvalue').withTitle('本期计算残值')
+    dtColumns.push(DTColumnBuilder.newColumn("fnetworth").withTitle('资产净值(变更前)')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+    dtColumns.push(DTColumnBuilder.newColumn("faccumulateddepreciation").withTitle('累计折旧(变更前)')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('bnetworth').withTitle('本期资产净值(折旧前)')
+    dtColumns.push(DTColumnBuilder.newColumn('fresidualvalue').withTitle('设置残值(变更前)')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('anetworth').withTitle('本期资产净值(折旧后)')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('lossprice').withTitle('本期折旧价')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
-        'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('资产品牌').withOption(
-        'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
-        'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
-        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('tbelongcom_fullname').withTitle('所属公司(变更后)').withOption(
+        'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+    dtColumns.push(DTColumnBuilder.newColumn('tbuyprice').withTitle('采购单价(变更后)')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+    dtColumns.push(DTColumnBuilder.newColumn("tnetworth").withTitle('资产净值(变更后)')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+    dtColumns.push(DTColumnBuilder.newColumn("taccumulateddepreciation").withTitle('累计折旧(变更后)')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+    dtColumns.push(DTColumnBuilder.newColumn('tresidualvalue').withTitle('设置残值(变更后)')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
@@ -158,7 +122,7 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
     $scope.dtColumns = dtColumns;
 
     function flush() {
-        $http.post($rootScope.project + "/api/zc/resResidualItem/ext/selectListByUuid.do",
+        $http.post($rootScope.project + "/api/zc/resCFinance/ext/selectByUuid.do",
             item).success(function (res) {
             if (res.success) {
                 $scope.dtOptions.aaData = res.data;
@@ -176,44 +140,21 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
     };
 }
 
-function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
-                           $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
-                           DTColumnBuilder, $compile) {
+function zccgcwSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
+                       $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
+                       DTColumnBuilder, $compile) {
     $scope.ctl = {};
-    $scope.ctl.name = false;
-    $scope.ctl.adminuserSel = false;
-    $scope.ctl.pduserSel = false;
-    $scope.ctl.pdSel = false;
-    $scope.ctl.mark = false;
-    $scope.ctl.belongcompSel = false;
-    $scope.ctl.compSel = false;
-    $scope.ctl.comppartSel = false;
-    $scope.ctl.zcCatSel = false;
-    $scope.ctl.zcAreaSel = false;
     $scope.item = {};
     $scope.adminuserOpt = meta.dict.partusers;
     $scope.adminuserSel = "";
     if ($scope.adminuserOpt.length > 0) {
         $scope.adminuserSel = $scope.adminuserOpt[0];
     }
-    $scope.zjOpt = [];
-    $scope.zjSel = "";
-    $http.post($rootScope.project + "/api/zc/resResidualStrategy/selectList.do",
-        $scope.item).success(function (res) {
-        if (res.success) {
-            for (var i = 0; i < res.data.length; i++) {
-                res.data[i].name = res.data[i].name + "-" + res.data[i].strategydesc;
-            }
-            $scope.zjOpt = res.data;
-            if (res.data.length > 0) {
-                $scope.zjSel = $scope.zjOpt[0];
-            }
-        } else {
-            notify({
-                message: res.message
-            });
-        }
-    })
+    $scope.belongcompOpt = meta.dict.belongcomp;
+    $scope.belongcompSel = "";
+    if ($scope.belongcompOpt.length > 0) {
+        $scope.belongcompSel = $scope.belongcompOpt[0];
+    }
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
@@ -266,8 +207,6 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption("width", '30').renderWith(renderZCAction));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
-        'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
@@ -288,8 +227,6 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('资产品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
-        'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
@@ -298,8 +235,6 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
-        .withOption('sDefaultContent', ''));
     $scope.dtColumns = dtColumns;
     $scope.dtOptions.aaData = [];
     $scope.sure = function () {
@@ -309,11 +244,11 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
             });
             return;
         }
-        $scope.item.strategyid = $scope.zjSel.id;
+        $scope.item.tbelongcomp = $scope.belongcompSel.id;
         $scope.item.processuserid = $scope.adminuserSel.user_id;
         $scope.item.processusername = $scope.adminuserSel.name;
         $scope.item.items = angular.toJson($scope.dtOptions.aaData);
-        $http.post($rootScope.project + "/api/zc/resResidual/ext/insert.do",
+        $http.post($rootScope.project + "/api/zc/resCFinance/ext/insert.do",
             $scope.item).success(function (res) {
             if (res.success) {
                 $uibModalInstance.close('OK');
@@ -348,8 +283,8 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     }
 }
 
-function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
-                       $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
+function zccgcwCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
+                   $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
     var gdict = {};
     var dicts = "devdc";
     $http
@@ -360,7 +295,7 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             comp: "Y",
             belongcomp: "Y",
             zccatused: "Y",
-            uid: "zcresidual"
+            uid: "zccgcw"
         })
         .success(
             function (res) {
@@ -442,19 +377,10 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         }
     }
 
-    function renderDownload(data, type, full) {
-        var acthtml = " <div class=\"btn-group\"> ";
-        acthtml = acthtml + " <button ng-click=\"download('"
-            + full.id
-            + "')\" class=\"btn-white btn btn-xs\">下载</button>   ";
-        acthtml = acthtml + "</div>"
-        return acthtml;
-    }
-
     function renderAction(data, type, full) {
         var acthtml = " <div class=\"btn-group\"> ";
         acthtml = acthtml + " <button ng-click=\"detail('"
-            + full.uuid
+            + full.busuuid
             + "','" + full.status + "')\" class=\"btn-white btn btn-xs\">资产列表</button>   ";
         acthtml = acthtml + "</div>"
         return acthtml;
@@ -466,27 +392,21 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
-        DTColumnBuilder.newColumn('uuid').withTitle('折旧单据').withOption(
+        DTColumnBuilder.newColumn('busuuid').withTitle('变更单号').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('title').withTitle('标题').withOption(
+        DTColumnBuilder.newColumn('processusername').withTitle('处理人').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('status').withTitle('状态').withOption(
-            'sDefaultContent', '').renderWith(renderStatus),
-        DTColumnBuilder.newColumn('checkstatus').withTitle('校验状态').withOption(
-            'sDefaultContent', '').renderWith(renderCheckStatus),
-        DTColumnBuilder.newColumn('cnt').withTitle('资产数量').withOption(
+        DTColumnBuilder.newColumn('tbelongcom_fullname').withTitle('所属公司').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('residualvaluerate').withTitle('残值率(%)').withOption(
+        DTColumnBuilder.newColumn('tbuyprice').withTitle('采购单价').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('depreciationrate').withTitle('折旧率(%)').withOption(
+        DTColumnBuilder.newColumn('tnetworth').withTitle('资产净值').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('processusername').withTitle('负责人').withOption(
+        DTColumnBuilder.newColumn('taccumulateddepreciation').withTitle('累计折旧').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+        DTColumnBuilder.newColumn('tresidualvalue').withTitle('设置残值').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('busidate').withTitle('业务时间').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('createTime').withTitle('创建时间').withOption(
+        DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
             'sDefaultContent', '').renderWith(renderAction)
@@ -512,40 +432,14 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
                 show: true,
                 priv: "insert",
                 template: ' <button ng-click="add()" class="btn btn-sm btn-primary" type="submit">新建</button>'
-            },
-            {
-                id: "btn2",
-                label: "",
-                type: "btn",
-                show: true,
-                priv: "remove",
-                template: ' <button ng-click="check()" class="btn btn-sm btn-primary" type="submit">校验</button>'
-            },
-            {
-                id: "zj",
-                label: "",
-                type: "btn",
-                show: true,
-                priv: "remove",
-                template: ' <button ng-click="zj()" class="btn btn-sm btn-primary" type="submit">折旧</button>'
-            },
-            {
-                id: "btn2",
-                label: "",
-                type: "btn",
-                show: true,
-                priv: "remove",
-                template: ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
             }]
     }
     $scope.meta = meta;
-    privNormalCompute($scope.meta.tools, $rootScope.curMemuBtns);
 
     function flush() {
         var ps = {};
-        ps.search = $scope.meta.tools[0].ct;
         $http
-            .post($rootScope.project + "/api/zc/resResidual/ext/selectList.do",
+            .post($rootScope.project + "/api/zc/resCFinance/ext/selectList.do",
                 ps).success(function (res) {
             if (res.success) {
                 $scope.dtOptions.aaData = res.data;
@@ -581,8 +475,8 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         meta.status = status;
         var modalInstance = $uibModal.open({
             backdrop: true,
-            templateUrl: 'views/cmdb/modal_residualitemlist.html',
-            controller: residualitemlistCtl,
+            templateUrl: 'views/cmdb/modal_cglist.html',
+            controller: cgcwlistCtl,
             size: 'blg',
             resolve: {
                 meta: function () {
@@ -603,8 +497,8 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         meta.dict = gdict;
         var modalInstance = $uibModal.open({
             backdrop: true,
-            templateUrl: 'views/cmdb/modal_residualsave.html',
-            controller: zcresidualSaveCtl,
+            templateUrl: 'views/cmdb/modal_zccgcwSave.html',
+            controller: zccgcwSaveCtl,
             size: 'blg',
             resolve: {
                 meta: function () {
@@ -619,82 +513,9 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         });
     }
 
-    $scope.check = function () {
-        var selrow = getSelectRow();
-        if (angular.isDefined(selrow) && angular.isDefined(selrow.id)) {
-            $confirm({
-                text: '是否验证数据?'
-            }).then(
-                function () {
-                    $http.post(
-                        $rootScope.project
-                        + "/api/zc/resResidual/ext/checkDataById.do", {
-                            id: selrow.id
-                        }).success(function (res) {
-                        if (res.success) {
-                            flush();
-                        } else {
-                        }
-                        notify({
-                            message: res.message
-                        });
-                    });
-                });
-        }
-    }
-    $scope.del = function () {
-        var selrow = getSelectRow();
-        if (angular.isDefined(selrow) && angular.isDefined(selrow.id)) {
-            $confirm({
-                text: '是否删除?'
-            }).then(
-                function () {
-                    $http.post(
-                        $rootScope.project
-                        + "/api/zc/resResidual/ext/deleteById.do", {
-                            id: selrow.id
-                        }).success(function (res) {
-                        if (res.success) {
-                            flush();
-                        } else {
-                            notify({
-                                message: res.message
-                            });
-                        }
-                    });
-                });
-        } else {
-            return;
-        }
-    }
-    $scope.zj = function () {
-        var selrow = getSelectRow();
-        if (angular.isDefined(selrow) && angular.isDefined(selrow.id)) {
-            $confirm({
-                text: '是否折旧资产?'
-            }).then(
-                function () {
-                    $http.post(
-                        $rootScope.project
-                        + "/api/zc/resResidual/ext/actionSysData.do", {
-                            id: selrow.id
-                        }).success(function (res) {
-                        if (res.success) {
-                            flush();
-                        } else {
-                            notify({
-                                message: res.message
-                            });
-                        }
-                    });
-                });
-        } else {
-            return;
-        }
-    }
     $scope.add = function () {
         action();
     }
     flush();
 };
-app.register.controller('zcresidualCtl', zcresidualCtl);
+app.register.controller('zccgcwCtl', zccgcwCtl);
