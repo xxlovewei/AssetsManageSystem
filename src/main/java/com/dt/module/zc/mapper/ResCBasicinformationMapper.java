@@ -1,6 +1,6 @@
 package com.dt.module.zc.mapper;
 
-import com.dt.module.zc.entity.ResCFinanceItem;
+import com.dt.module.zc.entity.ResCBasicinformation;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-14
+ * @since 2020-08-13
  */
-public interface ResCFinanceItemMapper extends BaseMapper<ResCFinanceItem> {
+public interface ResCBasicinformationMapper extends BaseMapper<ResCBasicinformation> {
 
 }

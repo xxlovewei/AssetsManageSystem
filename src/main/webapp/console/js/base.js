@@ -413,7 +413,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + need_col + obj.label + ":</label> ";
                 tmp_tpl = tmp_tpl + "<div class=\"col-sm-10\"> ";
                 tmp_tpl = tmp_tpl
-                    + "	<input date-time time-zone=\"Asia/Hong_Kong\" ng-model=\"meta."
+                    + "	<input ng-disabled=\"" + obj.disabled + "\" date-time time-zone=\"Asia/Hong_Kong\" ng-model=\"meta."
                     + obj.ng_model
                     + "\" date-change=\"changeDate\" view=\"date\" auto-close=\"true\" min-view=\"date\" format=\"YYYY-MM-DD\" class=\"form-control\" type=\"datetime\">";
                 tmp_tpl = tmp_tpl + "</div>";

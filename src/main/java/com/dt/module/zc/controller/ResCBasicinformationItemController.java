@@ -2,8 +2,8 @@ package com.dt.module.zc.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.dt.module.zc.entity.ResCFinanceItem;
-import com.dt.module.zc.service.IResCFinanceItemService;
+import com.dt.module.zc.entity.ResCBasicinformationItem;
+import com.dt.module.zc.service.IResCBasicinformationItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -27,57 +27,57 @@ import com.dt.core.common.base.BaseController;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-14
+ * @since 2020-08-13
  */
 @Controller
-@RequestMapping("/api/zc/resCFinanceItem")
-public class ResCFinanceItemController extends BaseController {
+@RequestMapping("/api/zc/resCBasicinformationItem")
+public class ResCBasicinformationItemController extends BaseController {
 
 
     @Autowired
-    IResCFinanceItemService ResCFinanceItemServiceImpl;
+    IResCBasicinformationItemService ResCBasicinformationItemServiceImpl;
 
 
     @ResponseBody
     @Acl(info = "根据Id删除", value = Acl.ACL_USER)
     @RequestMapping(value = "/deleteById.do")
     public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-        return R.SUCCESS_OPER(ResCFinanceItemServiceImpl.removeById(id));
+        return R.SUCCESS_OPER(ResCBasicinformationItemServiceImpl.removeById(id));
     }
 
     @ResponseBody
     @Acl(info = "根据Id查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectById.do")
     public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-        return R.SUCCESS_OPER(ResCFinanceItemServiceImpl.getById(id));
+        return R.SUCCESS_OPER(ResCBasicinformationItemServiceImpl.getById(id));
     }
 
     @ResponseBody
     @Acl(info = "插入", value = Acl.ACL_USER)
     @RequestMapping(value = "/insert.do")
-    public R insert(ResCFinanceItem entity) {
-        return R.SUCCESS_OPER(ResCFinanceItemServiceImpl.save(entity));
+    public R insert(ResCBasicinformationItem entity) {
+        return R.SUCCESS_OPER(ResCBasicinformationItemServiceImpl.save(entity));
     }
 
     @ResponseBody
     @Acl(info = "根据Id更新", value = Acl.ACL_USER)
     @RequestMapping(value = "/updateById.do")
-    public R updateById(ResCFinanceItem entity) {
-        return R.SUCCESS_OPER(ResCFinanceItemServiceImpl.updateById(entity));
+    public R updateById(ResCBasicinformationItem entity) {
+        return R.SUCCESS_OPER(ResCBasicinformationItemServiceImpl.updateById(entity));
     }
 
     @ResponseBody
     @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
     @RequestMapping(value = "/insertOrUpdate.do")
-    public R insertOrUpdate(ResCFinanceItem entity) {
-        return R.SUCCESS_OPER(ResCFinanceItemServiceImpl.saveOrUpdate(entity));
+    public R insertOrUpdate(ResCBasicinformationItem entity) {
+        return R.SUCCESS_OPER(ResCBasicinformationItemServiceImpl.saveOrUpdate(entity));
     }
 
     @ResponseBody
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
-        return R.SUCCESS_OPER(ResCFinanceItemServiceImpl.list(null));
+        return R.SUCCESS_OPER(ResCBasicinformationItemServiceImpl.list(null));
     }
 
     @ResponseBody
@@ -90,9 +90,9 @@ public class ResCFinanceItemController extends BaseController {
         }
         int pagesize = respar.getIntValue("pagesize");
         int pageindex = respar.getIntValue("pageindex");
-        QueryWrapper<ResCFinanceItem> ew = new QueryWrapper<ResCFinanceItem>();
+        QueryWrapper<ResCBasicinformationItem> ew = new QueryWrapper<ResCBasicinformationItem>();
         //ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
-        IPage<ResCFinanceItem> pdata = ResCFinanceItemServiceImpl.page(new Page<ResCFinanceItem>(pageindex, pagesize), ew);
+        IPage<ResCBasicinformationItem> pdata = ResCBasicinformationItemServiceImpl.page(new Page<ResCBasicinformationItem>(pageindex, pagesize), ew);
         JSONObject retrunObject = new JSONObject();
         retrunObject.put("iTotalRecords", pdata.getTotal());
         retrunObject.put("iTotalDisplayRecords", pdata.getTotal());

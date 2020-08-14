@@ -50,7 +50,6 @@ public class ResCMaintenanceExtController extends BaseController {
     public R insert(ResCMaintenance entity, String items) throws ParseException {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
         String wboutdatestr = ps.getString("twboutdatestr");
-        ;
         String uuid = zcService.createUuid(ZcCommonService.ZC_BUS_TYPE_CGWB);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = simpleDateFormat.parse(wboutdatestr);
@@ -69,6 +68,12 @@ public class ResCMaintenanceExtController extends BaseController {
             e.setTwbct(entity.getTwbct());
             e.setTwboutdate(entity.getTwboutdate());
             e.setTwbsupplier(entity.getTwbsupplier());
+
+            e.setTwbstatus(entity.getTwbstatus());
+            e.setTwbsupplierstatus(entity.getTwbsupplierstatus());
+            e.setTwbautostatus(entity.getTwbautostatus());
+            e.setTwbctstatus(entity.getTwbctstatus());
+            e.setTwboutdatestatus(entity.getTwboutdatestatus());
             list.add(e);
         }
         ResCMaintenanceServiceImpl.save(entity);
@@ -82,6 +87,7 @@ public class ResCMaintenanceExtController extends BaseController {
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
         String sql = "select t.*,\n" +
+                "(select name from sys_user_info where user_id=t.create_by) createusername," +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=t.twb)twbstr," +
                 "date_format(twboutdate,'%Y-%m-%d') twboutdatestr,\n" +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=t.twbsupplier) twbsupplierstr\n" +

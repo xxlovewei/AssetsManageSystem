@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-11
+ * @since 2020-08-14
  */
 public interface IResCFinanceItemService extends IService<ResCFinanceItem> {
 

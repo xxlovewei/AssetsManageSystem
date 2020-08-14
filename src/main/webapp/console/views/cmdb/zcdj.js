@@ -405,8 +405,17 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
             dataSel: "classSel"
         });
         items.push({
+            type: "select",
+            disabled: zcrecycle,
+            label: "资产状态",
+            need: true,
+            disable_search: "true",
+            dataOpt: "recycelOpt",
+            dataSel: "recycelSel"
+        });
+        items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcmodel,
             sub_type: "text",
             required: true,
             maxlength: "50",
@@ -418,7 +427,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcsn,
             sub_type: "text",
             required: false,
             maxlength: "50",
@@ -430,7 +439,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcsupper,
             label: "供应商",
             need: false,
             disable_search: "false",
@@ -439,7 +448,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcpinp,
             label: "资产品牌",
             need: false,
             disable_search: "false",
@@ -448,25 +457,17 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcsoure,
             label: "资产来源",
             need: true,
             disable_search: "true",
             dataOpt: "zcsourceOpt",
             dataSel: "zcsourceSel"
         });
+
         items.push({
             type: "select",
-            disabled: zcrecycle,
-            label: "资产状态",
-            need: true,
-            disable_search: "true",
-            dataOpt: "recycelOpt",
-            dataSel: "recycelSel"
-        });
-        items.push({
-            type: "select",
-            disabled: "false",
+            disabled: zcuselife,
             label: "使用年限",
             need: true,
             disable_search: "false",
@@ -475,7 +476,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zccnt,
             sub_type: "number",
             required: true,
             maxlength: "50",
@@ -553,7 +554,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcbelongcomp,
             label: "所属公司",
             need: true,
             disable_search: "false",
@@ -562,7 +563,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zccomp,
             label: "使用公司",
             need: true,
             disable_search: "false",
@@ -571,7 +572,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcpart,
             label: "使用部门",
             need: false,
             disable_search: "false",
@@ -580,7 +581,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcuseduser,
             label: "使用人",
             need: false,
             disable_search: "false",
@@ -594,7 +595,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcloc,
             label: "区域",
             need: false,
             disable_search: "true",
@@ -620,7 +621,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "datetime",
-            disabled: "false",
+            disabled: zcbuytime,
             label: "采购时间",
             false: true,
             need: true,
@@ -657,7 +658,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcwbsupper,
             label: "维保供应商",
             need: false,
             disable_search: "false",
@@ -675,14 +676,14 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "datetime",
-            disabled: "false",
+            disabled: zcwboutdate,
             label: "脱保时间",
             need: false,
             ng_model: "wboutdate"
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcwb,
             label: "维保状态",
             false: true,
             disable_search: "true",
@@ -1026,6 +1027,22 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
     var zcclass = "false";
     var zcbuyprice = "false";
     var zcnetworth = "false";
+    var zcmodel = "false";
+    var zcsn = "false";
+    var zcsupper = "false";
+    var zcpinp = "false";
+    var zcsoure = "false";
+    var zcuselife = "false";
+    var zccnt = "false";
+    var zcbelongcomp = "false";
+    var zccomp = "false";
+    var zcpart = "false";
+    var zcuseduser = "false";
+    var zcloc = "false";
+    var zcbuytime = "false";
+    var zcwbsupper = "false";
+    var zcwboutdate = "false";
+    var zcwb = "false";
     $scope.save = function (type) {
         var id;
         zcrecycle = "false";
@@ -1040,6 +1057,22 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
                 zcclass = "true";
                 zcbuyprice = "true";
                 zcnetworth = "true";
+                zcmodel = "true";
+                zcsn = "true";
+                zcsupper = "true";
+                zcpinp = "true";
+                zcsoure = "true";
+                zcuselife = "true";
+                zccnt = "true";
+                zcbelongcomp = "true";
+                zccomp = "true";
+                zcpart = "true";
+                zcuseduser = "true";
+                zcloc = "true";
+                zcbuytime = "true";
+                zcwbsupper = "true";
+                zcwboutdate = "true";
+                zcwb = "true";
             } else {
                 return;
             }
@@ -1058,10 +1091,26 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
                         openWindow(res.data);
                     })
         } else {
-            zcrecycle = "false";
             zcclass = "false";
+            zcrecycle = "false";
             zcbuyprice = "false";
             zcnetworth = "false";
+            zcmodel = "false";
+            zcsn = "false";
+            zcsupper = "false";
+            zcpinp = "false";
+            zcsoure = "false";
+            zcuselife = "false";
+            zccnt = "false";
+            zcbelongcomp = "false";
+            zccomp = "false";
+            zcpart = "false";
+            zcuseduser = "false";
+            zcloc = "false";
+            zcbuytime = "false";
+            zcwbsupper = "false";
+            zcwboutdate = "false";
+            zcwb = "false";
             openWindow({});
         }
     }

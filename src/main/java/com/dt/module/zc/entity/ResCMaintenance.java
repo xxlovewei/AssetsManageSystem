@@ -1,13 +1,10 @@
 package com.dt.module.zc.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
@@ -17,9 +14,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-11
+ * @since 2020-08-14
  */
-
+ 
 @TableName("res_c_maintenance")
 
 public class ResCMaintenance extends BaseModel<ResCMaintenance> {
@@ -48,6 +45,16 @@ public class ResCMaintenance extends BaseModel<ResCMaintenance> {
     private String twbct;
     @TableField("twboutdate")
     private Date twboutdate;
+    @TableField("twbstatus")
+    private String twbstatus;
+    @TableField("twbsupplierstatus")
+    private String twbsupplierstatus;
+    @TableField("twbautostatus")
+    private String twbautostatus;
+    @TableField("twbctstatus")
+    private String twbctstatus;
+    @TableField("twboutdatestatus")
+    private String twboutdatestatus;
     @TableField("mark")
     private String mark;
 
@@ -140,6 +147,46 @@ public class ResCMaintenance extends BaseModel<ResCMaintenance> {
         this.twboutdate = twboutdate;
     }
 
+    public String getTwbstatus() {
+        return twbstatus;
+    }
+
+    public void setTwbstatus(String twbstatus) {
+        this.twbstatus = twbstatus;
+    }
+
+    public String getTwbsupplierstatus() {
+        return twbsupplierstatus;
+    }
+
+    public void setTwbsupplierstatus(String twbsupplierstatus) {
+        this.twbsupplierstatus = twbsupplierstatus;
+    }
+
+    public String getTwbautostatus() {
+        return twbautostatus;
+    }
+
+    public void setTwbautostatus(String twbautostatus) {
+        this.twbautostatus = twbautostatus;
+    }
+
+    public String getTwbctstatus() {
+        return twbctstatus;
+    }
+
+    public void setTwbctstatus(String twbctstatus) {
+        this.twbctstatus = twbctstatus;
+    }
+
+    public String getTwboutdatestatus() {
+        return twboutdatestatus;
+    }
+
+    public void setTwboutdatestatus(String twboutdatestatus) {
+        this.twboutdatestatus = twboutdatestatus;
+    }
+
     public String getMark() {
         return mark;
     }
@@ -167,6 +214,11 @@ public class ResCMaintenance extends BaseModel<ResCMaintenance> {
                 ", twbauto=" + twbauto +
                 ", twbct=" + twbct +
                 ", twboutdate=" + twboutdate +
+                ", twbstatus=" + twbstatus +
+                ", twbsupplierstatus=" + twbsupplierstatus +
+                ", twbautostatus=" + twbautostatus +
+                ", twbctstatus=" + twbctstatus +
+                ", twboutdatestatus=" + twboutdatestatus +
                 ", mark=" + mark +
                 "}";
     }

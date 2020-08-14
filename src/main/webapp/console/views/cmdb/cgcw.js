@@ -11,6 +11,61 @@ function GetDateNowId() {
     return sNow;
 }
 
+function renderbcomp(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = ""
+    }
+    if (full.tbelongcompstatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function renderbuyprice(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = ""
+    }
+    if (full.tbuypricestatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function rendernetworth(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = ""
+    }
+    if (full.tnetworthstatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function renderaccumulateddepreciation(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = ""
+    }
+    if (full.taccumulatedstatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function renderesidualvalue(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = ""
+    }
+    if (full.tresidualvaluestatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
 function cgcwlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
                      $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                      DTColumnBuilder, $compile) {
@@ -65,28 +120,6 @@ function cgcwlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
     $scope.dtInstance = {}
     $scope.dtColumns = [];
     var dtColumns = [];
-
-    function renderItemCheckStatus(data, type, full) {
-        if (data == 'success') {
-            return "<span style=\"color:green;font-weight:bold\">通过</span>";
-        } else if (data == 'failed') {
-            return "<span style=\"color:red;font-weight:bold\">失败</span>";
-        } else if (data == 'init') {
-            return "<span style=\"color:red;font-weight:bold\">未校验</span>";
-        } else {
-            return data;
-        }
-    }
-
-    function renderZCAction(data, type, full) {
-        var acthtml = " <div class=\"btn-group\"> ";
-        acthtml = acthtml + " <button ng-click=\"delitem('"
-            + full.id
-            + "')\" class=\"btn-white btn btn-xs\">删除</button>   ";
-        acthtml = acthtml + "</div>"
-        return acthtml;
-    }
-
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
@@ -97,24 +130,24 @@ function cgcwlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
     dtColumns.push(DTColumnBuilder.newColumn('fbelongcom_fullname').withTitle('所属公司(变更前)').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('tbelongcom_fullname').withTitle('所属公司(变更后)').withOption(
+        'sDefaultContent', '').renderWith(renderbcomp));
     dtColumns.push(DTColumnBuilder.newColumn('fbuyprice').withTitle('采购单价(变更前)')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('tbuyprice').withTitle('采购单价(变更后)')
+        .withOption('sDefaultContent', '').renderWith(renderbuyprice));
     dtColumns.push(DTColumnBuilder.newColumn("fnetworth").withTitle('资产净值(变更前)')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+    dtColumns.push(DTColumnBuilder.newColumn("tnetworth").withTitle('资产净值(变更后)')
+        .withOption('sDefaultContent', '').renderWith(rendernetworth));
     dtColumns.push(DTColumnBuilder.newColumn("faccumulateddepreciation").withTitle('累计折旧(变更前)')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn("taccumulateddepreciation").withTitle('累计折旧(变更后)')
+        .withOption('sDefaultContent', '').renderWith(renderaccumulateddepreciation));
     dtColumns.push(DTColumnBuilder.newColumn('fresidualvalue').withTitle('设置残值(变更前)')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('tbelongcom_fullname').withTitle('所属公司(变更后)').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('tbuyprice').withTitle('采购单价(变更后)')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn("tnetworth").withTitle('资产净值(变更后)')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn("taccumulateddepreciation").withTitle('累计折旧(变更后)')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
     dtColumns.push(DTColumnBuilder.newColumn('tresidualvalue').withTitle('设置残值(变更后)')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+        .withOption('sDefaultContent', '').renderWith(renderesidualvalue));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
@@ -145,6 +178,34 @@ function zccgcwSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                        DTColumnBuilder, $compile) {
     $scope.ctl = {};
     $scope.item = {};
+
+    function selectnall() {
+        $scope.item.tbelongcompstatus = false;
+        $scope.item.tbelongpartstatus = false;
+        $scope.item.tbuypricestatus = false;
+        $scope.item.tnetworthstatus = false;
+        $scope.item.tnetworthstatus = false;
+        $scope.item.taccumulatedstatus = false;
+        $scope.item.tresidualvaluestatus = false;
+    }
+
+    function selectall() {
+        $scope.item.tbelongcompstatus = true;
+        $scope.item.tbelongpartstatus = true;
+        $scope.item.tbuypricestatus = true;
+        $scope.item.tnetworthstatus = true;
+        $scope.item.tnetworthstatus = true;
+        $scope.item.taccumulatedstatus = true;
+        $scope.item.tresidualvaluestatus = true;
+    }
+
+    selectnall();
+    $scope.selectall = function () {
+        selectall();
+    }
+    $scope.selectnall = function () {
+        selectnall();
+    }
     $scope.adminuserOpt = meta.dict.partusers;
     $scope.adminuserSel = "";
     if ($scope.adminuserOpt.length > 0) {
@@ -186,13 +247,50 @@ function zccgcwSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 
     function renderZCAction(data, type, full) {
         var acthtml = " <div class=\"btn-group\"> ";
-        acthtml = acthtml + " <button ng-click=\"delitem('"
+        acthtml = acthtml + " <span ng-click=\"delitem('"
             + full.id
-            + "')\" class=\"btn-white btn btn-xs\">删除</button>   ";
+            + "')\" class=\"btn-white btn btn-xs\">删除</span>   ";
+        acthtml = acthtml + " <span ng-click=\"filldata('"
+            + full.id
+            + "')\" class=\"btn-white btn btn-xs\">填充</span>   ";
         acthtml = acthtml + "</div>"
         return acthtml;
     }
 
+    $scope.filldata = function (id, data2) {
+        var data = {};
+        for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
+            if ($scope.dtOptions.aaData[i].id == id) {
+                data = $scope.dtOptions.aaData[i];
+                break;
+            }
+        }
+        $scope.belongcompSel = "";
+        $scope.item.tbuyprice = "";
+        $scope.item.tnetworth = "";
+        $scope.item.tresidualvalue = "";
+        $scope.item.taccumulateddepreciation = "";
+        if (angular.isDefined(data.net_worth)) {
+            $scope.item.tnetworth = data.net_worth;
+        }
+        if (angular.isDefined(data.buy_price)) {
+            $scope.item.tbuyprice = data.buy_price;
+        }
+        if (angular.isDefined(data.residualvalue)) {
+            $scope.item.tresidualvalue = data.residualvalue;
+        }
+        if (angular.isDefined(data.accumulateddepreciation)) {
+            $scope.item.taccumulateddepreciation = data.accumulateddepreciation;
+        }
+        if (angular.isDefined(data.belong_company_id)) {
+            for (var i = 0; i < $scope.belongcompOpt.length; i++) {
+                if (data.belong_company_id == $scope.belongcompOpt[i].id) {
+                    $scope.belongcompSel = $scope.belongcompOpt[i];
+                    break;
+                }
+            }
+        }
+    }
     $scope.delitem = function (id) {
         var del = 0;
         for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
@@ -204,9 +302,10 @@ function zccgcwSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.dtOptions.aaData.splice(del, 1);
     }
     dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
-        'sDefaultContent', '').withOption("width", '30').renderWith(renderZCAction));
+        'sDefaultContent', '').withOption("width", '100').renderWith(renderZCAction));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
+
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
@@ -248,6 +347,42 @@ function zccgcwSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.processuserid = $scope.adminuserSel.user_id;
         $scope.item.processusername = $scope.adminuserSel.name;
         $scope.item.items = angular.toJson($scope.dtOptions.aaData);
+        if ($scope.item.tbuypricestatus) {
+            if (angular.isDefined($scope.item.tbuyprice)) {
+            } else {
+                notify({
+                    message: "请输入采购单价"
+                });
+                return;
+            }
+        }
+        if ($scope.item.tnetworthstatus) {
+            if (angular.isDefined($scope.item.tnetworth)) {
+            } else {
+                notify({
+                    message: "请输入资产净值"
+                });
+                return;
+            }
+        }
+        if ($scope.item.tresidualvaluestatus) {
+            if (angular.isDefined($scope.item.tresidualvalue)) {
+            } else {
+                notify({
+                    message: "请输入残值"
+                });
+                return;
+            }
+        }
+        if ($scope.item.taccumulatedstatus) {
+            if (angular.isDefined($scope.item.taccumulateddepreciation)) {
+            } else {
+                notify({
+                    message: "请输入累计折扣"
+                });
+                return;
+            }
+        }
         $http.post($rootScope.project + "/api/zc/resCFinance/ext/insert.do",
             $scope.item).success(function (res) {
             if (res.success) {
@@ -363,7 +498,7 @@ function zccgcwCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         }
     }
 
-    function renderStatus(data, type, full) {
+    function renderCGStatus(data, type, full) {
         if (data == "wait") {
             return "未处理"
         } else if (data == "cancel") {
@@ -394,17 +529,21 @@ function zccgcwCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         }),
         DTColumnBuilder.newColumn('busuuid').withTitle('变更单号').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('status').withTitle('变更状态').withOption(
+            'sDefaultContent', '').renderWith(renderCGStatus),
         DTColumnBuilder.newColumn('processusername').withTitle('处理人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tbelongcom_fullname').withTitle('所属公司').withOption(
-            'sDefaultContent', ''),
+            'sDefaultContent', '').renderWith(renderbcomp),
         DTColumnBuilder.newColumn('tbuyprice').withTitle('采购单价').withOption(
-            'sDefaultContent', ''),
+            'sDefaultContent', '').renderWith(renderbuyprice),
         DTColumnBuilder.newColumn('tnetworth').withTitle('资产净值').withOption(
-            'sDefaultContent', ''),
+            'sDefaultContent', '').renderWith(rendernetworth),
         DTColumnBuilder.newColumn('taccumulateddepreciation').withTitle('累计折旧').withOption(
-            'sDefaultContent', ''),
+            'sDefaultContent', '').renderWith(renderaccumulateddepreciation),
         DTColumnBuilder.newColumn('tresidualvalue').withTitle('设置残值').withOption(
+            'sDefaultContent', '').renderWith(renderesidualvalue),
+        DTColumnBuilder.newColumn('createusername').withTitle('创建人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
             'sDefaultContent', ''),

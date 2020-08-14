@@ -1,6 +1,6 @@
 package com.dt.module.zc.service;
 
-import com.dt.module.zc.entity.ResCMaintenance;
+import com.dt.module.zc.entity.ResCBasicinformation;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-14
+ * @since 2020-08-13
  */
-public interface IResCMaintenanceService extends IService<ResCMaintenance> {
+public interface IResCBasicinformationService extends IService<ResCBasicinformation> {
 
 }

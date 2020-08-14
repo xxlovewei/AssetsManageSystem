@@ -139,7 +139,7 @@ function modalresBatchUpdateCtl($confirm, $timeout, $localStorage, notify, $log,
     }
 }
 
-function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $location,
                        $log, notify, $scope, $http, $rootScope, $uibModal, $window, $state, $timeout) {
     var pbtns = $rootScope.curMemuBtns;
     var gclass_id = "";
@@ -338,14 +338,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 show: false,
                 priv: "update",
                 template: ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新</button>'
-            },
-            {
-                id: "btn4",
-                label: "",
-                type: "btn",
-                show: false,
-                priv: "item_update",
-                template: ' <button ng-click="batchupate()" class="btn btn-sm btn-primary" type="submit">批量更新</button>'
             },
             {
                 id: "btn5",
@@ -619,8 +611,17 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             });
         }
         items.push({
+            type: "select",
+            disabled: zccycel,
+            label: "资产状态",
+            need: true,
+            disable_search: "true",
+            dataOpt: "recycelOpt",
+            dataSel: "recycelSel"
+        });
+        items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcmodel,
             sub_type: "text",
             required: true,
             maxlength: "100",
@@ -630,9 +631,10 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             name: 'model',
             ng_model: "model"
         });
+
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcsn,
             sub_type: "text",
             required: false,
             maxlength: "200",
@@ -644,7 +646,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcsoure,
             label: "资产来源",
             need: true,
             disable_search: "true",
@@ -653,7 +655,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcsupper,
             label: "供应商",
             need: false,
             disable_search: "false",
@@ -662,25 +664,17 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcpinp,
             label: "资产品牌",
             need: false,
             disable_search: "false",
             dataOpt: "pinpOpt",
             dataSel: "pinpSel"
         });
+
         items.push({
             type: "select",
-            disabled: "false",
-            label: "资产状态",
-            need: true,
-            disable_search: "true",
-            dataOpt: "recycelOpt",
-            dataSel: "recycelSel"
-        });
-        items.push({
-            type: "select",
-            disabled: "false",
+            disabled: zcuselife,
             label: "使用年限",
             need: true,
             disable_search: "false",
@@ -689,7 +683,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zccnt,
             sub_type: "number",
             required: false,
             maxlength: "50",
@@ -754,7 +748,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcbelongcomp,
             label: "所属公司",
             need: true,
             disable_search: "false",
@@ -763,7 +757,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zccomp,
             label: "使用公司",
             need: true,
             disable_search: "false",
@@ -772,7 +766,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcpart,
             label: "使用部门",
             need: false,
             disable_search: "false",
@@ -781,7 +775,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcuseduser,
             label: "使用人",
             need: false,
             disable_search: "false",
@@ -829,7 +823,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcloc,
             label: "区域",
             need: true,
             disable_search: "false",
@@ -876,7 +870,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "datetime",
-            disabled: "false",
+            disabled: zcbuytime,
             label: "采购时间",
             false: true,
             ng_model: "buytime"
@@ -913,7 +907,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcwbsupper,
             label: "维保供应商",
             need: true,
             disable_search: "false",
@@ -931,14 +925,14 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "datetime",
-            disabled: "false",
+            disabled: zcwboutdate,
             label: "脱保时间",
             need: false,
             ng_model: "wboutdate"
         });
         items.push({
             type: "select",
-            disabled: "false",
+            disabled: zcwb,
             label: "维保状态",
             false: true,
             disable_search: "true",
@@ -1316,6 +1310,24 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     var zcclass = "false";
     var zcbuyprice = "false";
     var zcnetworth = "false";
+    var zcmodel = "false";
+    var zcsn = "false";
+    var zcsupper = "false";
+    var zcpinp = "false";
+    var zcsoure = "false";
+    var zcuselife = "false";
+    var zccnt = "false";
+    var zcbelongcomp = "false";
+    var zccomp = "false";
+    var zcpart = "false";
+    var zcuseduser = "false";
+    var zcloc = "false";
+    var zcbuytime = "false";
+    var zcwbsupper = "false";
+    var zcwboutdate = "false";
+    var zcwb = "false";
+    var zccycel = "false";
+    var f = $location.search()['force'];
     $scope.save = function (type) {
         var id = "-1";
         if (type == 1) {
@@ -1323,8 +1335,31 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             if (angular.isDefined(selrow)) {
                 id = selrow.id;
                 zcclass = "true";
-                zcbuyprice = "true";
-                zcnetworth = "true";
+                console.log(111111)
+                console.log(f);
+                console.log(111111)
+                if (angular.isDefined(f) && f == "y") {
+                } else {
+                    zcbuyprice = "true";
+                    zcnetworth = "true";
+                    zcmodel = "true";
+                    zcsn = "true";
+                    zcsupper = "true";
+                    zcpinp = "true";
+                    zcsoure = "true";
+                    zcuselife = "true";
+                    zccnt = "true";
+                    zcbelongcomp = "true";
+                    zccomp = "true";
+                    zcpart = "true";
+                    zcuseduser = "true";
+                    zcloc = "true";
+                    zcbuytime = "true";
+                    zcwbsupper = "true";
+                    zcwboutdate = "true";
+                    zcwb = "true";
+                    zccycel = "true";
+                }
             } else {
                 return;
             }
@@ -1346,6 +1381,23 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             zcclass = "false";
             zcbuyprice = "false";
             zcnetworth = "false";
+            zcmodel = "false";
+            zcsn = "false";
+            zcsupper = "false";
+            zcpinp = "false";
+            zcsoure = "false";
+            zcuselife = "false";
+            zccnt = "false";
+            zcbelongcomp = "false";
+            zccomp = "false";
+            zcpart = "false";
+            zcuseduser = "false";
+            zcloc = "false";
+            zcbuytime = "false";
+            zcwbsupper = "false";
+            zcwboutdate = "false";
+            zcwb = "false";
+            zccycel = "false";
             openWindow({});
         }
     }

@@ -73,9 +73,9 @@ public class ZcService extends BaseService{
         }
 
         if (ToolUtil.isNotEmpty(classroot)) {
-            String subsql=" t.type='goods' and isaction='Y' and t.dr='0' and t.root=? and t.route not like '46%' and t.node_level>1 ";
+            String subsql = " t.type='goods' and isaction='Y' and t.dr='0' and t.root=? and t.node_level>1 ";
             RcdSet partrs = db.query("select id dict_item_id,route_name name,name sname from ct_category t where  "
-                    +subsql + " order by route",classroot);
+                    + subsql + " order by route", classroot);
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 

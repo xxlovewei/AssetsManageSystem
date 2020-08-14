@@ -22,6 +22,11 @@
         <result column="twbauto" property="twbauto"/>
         <result column="twbct" property="twbct"/>
         <result column="twboutdate" property="twboutdate"/>
+        <result column="twbstatus" property="twbstatus"/>
+        <result column="twbsupplierstatus" property="twbsupplierstatus"/>
+        <result column="twbautostatus" property="twbautostatus"/>
+        <result column="twbctstatus" property="twbctstatus"/>
+        <result column="twboutdatestatus" property="twboutdatestatus"/>
         <result column="mark" property="mark"/>
     </resultMap>
 

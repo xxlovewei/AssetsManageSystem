@@ -11,6 +11,50 @@ function GetDateNowId() {
     return sNow;
 }
 
+function renderwb(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = ""
+    }
+    if (full.twbstatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function rendersupplier(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = ""
+    }
+    if (full.twbsupplierstatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function renderwboutdate(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = ""
+    }
+    if (full.twboutdatestatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function renderwbct(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = ""
+    }
+    if (full.twbctstatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
 function cgwblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
                      $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                      DTColumnBuilder, $compile) {
@@ -66,17 +110,7 @@ function cgwblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
     $scope.dtColumns = [];
     var dtColumns = [];
 
-    function renderItemCheckStatus(data, type, full) {
-        if (data == 'success') {
-            return "<span style=\"color:green;font-weight:bold\">通过</span>";
-        } else if (data == 'failed') {
-            return "<span style=\"color:red;font-weight:bold\">失败</span>";
-        } else if (data == 'init') {
-            return "<span style=\"color:red;font-weight:bold\">未校验</span>";
-        } else {
-            return data;
-        }
-    }
+
 
     function renderZCAction(data, type, full) {
         var acthtml = " <div class=\"btn-group\"> ";
@@ -86,6 +120,7 @@ function cgwblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
         acthtml = acthtml + "</div>"
         return acthtml;
     }
+
 
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
@@ -97,20 +132,20 @@ function cgwblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
     dtColumns.push(DTColumnBuilder.newColumn('fwbstr').withTitle('维保状态(变更前)').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('twbstr').withTitle('维保状态(变更后)').withOption(
+        'sDefaultContent', '').renderWith(renderwb));
     dtColumns.push(DTColumnBuilder.newColumn('fwbsupplierstr').withTitle('维保供应商(变更前)').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('twbsupplierstr').withTitle('维保供应商(变更后)').withOption(
+        'sDefaultContent', '').renderWith(rendersupplier));
     dtColumns.push(DTColumnBuilder.newColumn('fwboutdatestr').withTitle('脱保时间(变更前)').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('twboutdatestr').withTitle('脱保时间(变更后)').withOption(
+        'sDefaultContent', '').renderWith(renderwboutdate));
     dtColumns.push(DTColumnBuilder.newColumn('fwbct').withTitle('维保说明(变更前)').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('twbstr').withTitle('维保状态(变更后)').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('twbsupplierstr').withTitle('维保供应商(变更后)').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('twboutdatestr').withTitle('脱保时间(变更后)').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
     dtColumns.push(DTColumnBuilder.newColumn('twbct').withTitle('维保说明(变更后)').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+        'sDefaultContent', '').renderWith(renderwbct));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
@@ -143,6 +178,30 @@ function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.item = {};
     $scope.adminuserOpt = meta.dict.partusers;
     $scope.adminuserSel = "";
+
+    function selectnall() {
+        $scope.item.twbstatus = false;
+        $scope.item.twbsupplierstatus = false;
+        $scope.item.twbautostatus = false;
+        $scope.item.twbctstatus = false;
+        $scope.item.twboutdatestatus = false;
+    }
+
+    function selectall() {
+        $scope.item.twbstatus = true;
+        $scope.item.twbsupplierstatus = true;
+        $scope.item.twbautostatus = true;
+        $scope.item.twbctstatus = true;
+        $scope.item.twboutdatestatus = true;
+    }
+
+    selectnall();
+    $scope.selectall = function () {
+        selectall();
+    }
+    $scope.selectnall = function () {
+        selectnall();
+    }
     $scope.date = {
         wboutdate: moment()
     }
@@ -190,13 +249,50 @@ function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
 
     function renderZCAction(data, type, full) {
         var acthtml = " <div class=\"btn-group\"> ";
-        acthtml = acthtml + " <button ng-click=\"delitem('"
+        acthtml = acthtml + " <span ng-click=\"delitem('"
             + full.id
-            + "')\" class=\"btn-white btn btn-xs\">删除</button>   ";
+            + "')\" class=\"btn-white btn btn-xs\">删除</span>   ";
+        acthtml = acthtml + " <span ng-click=\"filldata('"
+            + full.id
+            + "')\" class=\"btn-white btn btn-xs\">填充</span>   ";
         acthtml = acthtml + "</div>"
         return acthtml;
     }
 
+    $scope.filldata = function (id, data2) {
+        var data = {};
+        for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
+            if ($scope.dtOptions.aaData[i].id == id) {
+                data = $scope.dtOptions.aaData[i];
+                break;
+            }
+        }
+        $scope.compSel = "";
+        $scope.statusSel = "";
+        $scope.item.twbct = "";
+        if (angular.isDefined(data.wbct)) {
+            $scope.item.twbct = data.wbct;
+        }
+        if (angular.isDefined(data.wbout_datestr)) {
+            $scope.date.wboutdate = moment(data.wbout_datestr);
+        }
+        if (angular.isDefined(data.wbsupplier)) {
+            for (var i = 0; i < $scope.compOpt.length; i++) {
+                if (data.wbsupplier == $scope.compOpt[i].dict_item_id) {
+                    $scope.compSel = $scope.compOpt[i];
+                    break;
+                }
+            }
+        }
+        if (angular.isDefined(data.wb)) {
+            for (var i = 0; i < $scope.statusOpt.length; i++) {
+                if (data.wb == $scope.statusOpt[i].dict_item_id) {
+                    $scope.statusSel = $scope.statusOpt[i];
+                    break;
+                }
+            }
+        }
+    }
     $scope.delitem = function (id) {
         var del = 0;
         for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
@@ -208,7 +304,7 @@ function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.dtOptions.aaData.splice(del, 1);
     }
     dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
-        'sDefaultContent', '').withOption("width", '30').renderWith(renderZCAction));
+        'sDefaultContent', '').withOption("width", '100').renderWith(renderZCAction));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
@@ -367,7 +463,7 @@ function zccgwbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         }
     }
 
-    function renderStatus(data, type, full) {
+    function renderCGStatus(data, type, full) {
         if (data == "wait") {
             return "未处理"
         } else if (data == "cancel") {
@@ -398,17 +494,21 @@ function zccgwbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         }),
         DTColumnBuilder.newColumn('busuuid').withTitle('变更单号').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('status').withTitle('变更状态').withOption(
+            'sDefaultContent', '').renderWith(renderCGStatus),
         DTColumnBuilder.newColumn('processusername').withTitle('处理人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('twbstr').withTitle('维保状态').withOption(
-            'sDefaultContent', ''),
+            'sDefaultContent', '').renderWith(renderwb),
         DTColumnBuilder.newColumn('twbsupplierstr').withTitle('维保供应商').withOption(
-            'sDefaultContent', ''),
+            'sDefaultContent', '').renderWith(rendersupplier),
         DTColumnBuilder.newColumn('twboutdatestr').withTitle('脱保时间').withOption(
-            'sDefaultContent', ''),
+            'sDefaultContent', '').renderWith(renderwboutdate),
         DTColumnBuilder.newColumn('twbct').withTitle('维保说明').withOption(
-            'sDefaultContent', ''),
+            'sDefaultContent', '').renderWith(renderwbct),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('createusername').withTitle('创建人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
             'sDefaultContent', ''),

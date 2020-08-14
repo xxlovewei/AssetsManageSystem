@@ -10,10 +10,18 @@
         <button class="close" ng-click="cancel()" type="button">
             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
-        <h4 class="modal-title">财务信息变更</h4>
+        <h4 class="modal-title">维保信息变更</h4>
     </div>
     <div class="modal-body">
         <div class="wrapper wrapper-content animated fadeInRight">
+            <form class="form-inline" role="form">
+                <button class="btn btn-sm btn-primary" ng-click="selectall()"
+                        type="submit">全选
+                </button>
+                <button class="btn btn-sm btn-primary" ng-click="selectnall()"
+                        type="submit">全不选
+                </button>
+            </form>
             <form action="" class="form-horizontal m-t-md" name="myForm"
                   novalidate>
                 <div class="form-group">
@@ -29,7 +37,20 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">维保状态:</label>
+                    <label class="col-sm-2 control-label">备注:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="mark"
+                               ng-model="item.mark" placeholder="请输入内容" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.twbstatus"></span>
+                        <span style="font-weight:bold">维保状态:</span>
+                    </label>
                     <div class="col-sm-10">
                         <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
                                 data-placeholder-text-single="'请选择...'"
@@ -42,7 +63,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">维保供应商:</label>
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.twbsupplierstatus"></span>
+                        <span style="font-weight:bold">维保供应商:</span>
+                    </label>
                     <div class="col-sm-10">
                         <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
                                 data-placeholder-text-single="'请选择...'"
@@ -55,7 +82,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">脱保时间:</label>
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.twboutdatestatus"></span>
+                        <span style="font-weight:bold">脱保时间:</span>
+                    </label>
                     <div class="col-sm-10">
                         <input auto-close="true" class="form-control" date-change="datachange"
                                date-time format="YYYY-MM-DD"
@@ -65,18 +98,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">维保说明:</label>
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.twbctstatus"></span>
+                        <span style="font-weight:bold">维保说明:</span>
+                    </label>
                     <div class="col-sm-10">
                         <input class="form-control "
                                ng-model="item.twbct"
                                placeholder="请输入内容" type="text">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">备注:</label>
-                    <div class="col-sm-10">
-                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="mark"
-                               ng-model="item.mark" placeholder="请输入内容" type="text">
                     </div>
                 </div>
                 <div class="form-group">

@@ -58,6 +58,14 @@ public class ResCFinanceExtController extends BaseController {
             e.setTnetworth(entity.getTnetworth());
             e.setTresidualvalue(entity.getTresidualvalue());
             e.setTaccumulateddepreciation(entity.getTaccumulateddepreciation());
+
+            e.setTbelongcompstatus(entity.getTbelongcompstatus());
+            e.setTbelongpartstatus(entity.getTbelongpartstatus());
+            e.setTbuypricestatus(entity.getTbuypricestatus());
+            e.setTnetworthstatus(entity.getTnetworthstatus());
+            e.setTresidualvaluestatus(entity.getTresidualvaluestatus());
+            e.setTaccumulatedstatus(entity.getTaccumulatedstatus());
+
             e.setResid(items_arr.getJSONObject(i).getString("id"));
             list.add(e);
         }
@@ -72,6 +80,7 @@ public class ResCFinanceExtController extends BaseController {
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
         String sql = "select\n" +
+                " (select name from sys_user_info where user_id=b.create_by) createusername," +
                 "(select route_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcom_fullname,\n" +
                 "(select node_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcom_name,\n" +
                 "b.*\n" +

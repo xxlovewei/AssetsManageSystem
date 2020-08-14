@@ -1,0 +1,302 @@
+<style>
+    @media ( min-width: 992px) {
+        .modal-blg {
+            width: 95%;
+        }
+    }
+</style>
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" ng-click="cancel()" type="button">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">实体信息变更</h4>
+    </div>
+    <div class="modal-body">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <form class="form-inline" role="form">
+                <button class="btn btn-sm btn-primary" ng-click="selectall()"
+                        type="submit">全选
+                </button>
+                <button class="btn btn-sm btn-primary" ng-click="selectnall()"
+                        type="submit">全不选
+                </button>
+            </form>
+            <form action="" class="form-horizontal m-t-md" name="myForm"
+                  novalidate>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">处理人:</label>
+                    <div class="col-sm-10">
+                        <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                disable-search="true"
+                                ng-model="adminuserSel"
+                                ng-options="item.name for item in adminuserOpt"
+                                no-results-text="'没有找到相应条目'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">备注:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control "
+                               ng-model="item.mark"
+                               placeholder="请输入内容" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tclassidstatus"></span>
+                        <span style="font-weight:bold">资产类型:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
+                                data-placeholder-text-single="'请选择...'"
+                                disable-search="true"
+                                ng-model="classSel"
+                                ng-options="item.name for item in classOpt"
+                                no-results-text="'没有找到相应条目'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tmodelstatus"></span>
+                        <span style="font-weight:bold"><span
+                                class="text-danger">*</span>规格型号:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="tmodel"
+                               ng-maxlength="100"
+                               ng-model="item.tmodel"
+                               placeholder="请输入名称" type="text">
+                        <div class="text-danger"
+                             ng-if="myForm.tmodel.$dirty && myForm.tmodel.$invalid">
+                            <span ng-if="myForm.tmodel.$error.required"> 输入不能为空 </span> <span
+                                ng-show="myForm.tmodel.$error.maxlength">不能超过100个字符 </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tsupplierstatus"></span>
+                        <span style="padding-left:11px;font-weight:bold">供应商:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
+                                data-placeholder-text-single="'请选择...'"
+                                disable-search="true"
+                                ng-model="supplierSel"
+                                ng-options="item.name for item in supplierOpt"
+                                no-results-text="'没有找到相应条目'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tbrandstatus"></span>
+                        <span style="font-weight:bold">资产品牌:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
+                                data-placeholder-text-single="'请选择...'"
+                                disable-search="true"
+                                ng-model="brandSel"
+                                ng-options="item.name for item in brandOpt"
+                                no-results-text="'没有找到相应条目'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tsnstatus"></span>
+                        <span style="font-weight:bold">资产序列:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <input class="form-control "
+                               ng-model="item.tsn"
+                               placeholder="请输入内容" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tzccntstatus"></span>
+                        <span style="font-weight:bold">资产数量:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control "
+                               ng-model="item.tzccnt" ng-init="item.tzccnt=1"
+                               placeholder="请输入内容" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tusefullifestatus"></span>
+                        <span style="font-weight:bold">使用期限:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
+                                data-placeholder-text-single="'请选择...'"
+                                disable-search="true"
+                                ng-model="usefullifeSel"
+                                ng-options="item.name for item in usefullifeOpt"
+                                no-results-text="'没有找到相应条目'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tzcsourcestatus"></span>
+                        <span style="font-weight:bold">资产来源:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
+                                data-placeholder-text-single="'请选择...'"
+                                disable-search="true"
+                                ng-model="zcsourceSel"
+                                ng-options="item.name for item in zcsourceOpt"
+                                no-results-text="'没有找到相应条目'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tlocstatus"></span>
+                        <span style="font-weight:bold">资产区域:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
+                                data-placeholder-text-single="'请选择...'"
+                                disable-search="true"
+                                ng-model="locSel"
+                                ng-options="item.name for item in locOpt"
+                                no-results-text="'没有找到相应条目'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tbuytimestatus"></span>
+                        <span style="font-weight:bold">采购时间:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <input auto-close="true" class="form-control" date-change="datachange"
+                               date-time format="YYYY-MM-DD"
+                               min-view="date" ng-model="date.buytime" time-zone="Asia/Hong_Kong"
+                               type="datetime" view="year">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tusedcompanyidstatus"></span>
+                        <span style="font-weight:bold">使用公司:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
+                                data-placeholder-text-single="'请选择...'"
+                                disable-search="true"
+                                ng-model="usedcompSel"
+                                ng-options="item.name for item in usedcompOpt"
+                                no-results-text="'没有找到相应条目'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tpartidstatus"></span>
+                        <span style="font-weight:bold">使用部门:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
+                                data-placeholder-text-single="'请选择...'"
+                                disable-search="true"
+                                ng-model="usedpartSel"
+                                ng-options="item.name for item in usedpartOpt"
+                                no-results-text="'没有找到相应条目'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span style="margin-right:5px"><span
+                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
+                               ng-model="item.tuseduseridstatus"></span>
+                        <span style="font-weight:bold">使用人员:</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
+                                data-placeholder-text-single="'请选择...'"
+                                disable-search="true"
+                                ng-model="useduserSel"
+                                ng-options="item.name for item in useduserOpt"
+                                no-results-text="'没有找到相应条目'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+						<span class="btn btn-primary"
+                              ng-click="review()">资产选择范围</span>
+                        <table class="table table-hover" datatable="ed"
+                               dt-column-defs="dtColumnDefs" dt-columns="dtColumns"
+                               dt-instance="dtInstance" dt-options="dtOptions">
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align:center">
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        <button class="btn btn-primary" ng-click="sure()" ng-disabled="myForm.$invalid">确认
+        </button>
+    </div>
+</div>

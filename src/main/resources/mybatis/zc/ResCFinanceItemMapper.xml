@@ -24,6 +24,12 @@
         <result column="tresidualvalue" property="tresidualvalue"/>
         <result column="faccumulateddepreciation" property="faccumulateddepreciation"/>
         <result column="taccumulateddepreciation" property="taccumulateddepreciation"/>
+        <result column="tbelongcompstatus" property="tbelongcompstatus"/>
+        <result column="tbelongpartstatus" property="tbelongpartstatus"/>
+        <result column="tbuypricestatus" property="tbuypricestatus"/>
+        <result column="tnetworthstatus" property="tnetworthstatus"/>
+        <result column="tresidualvaluestatus" property="tresidualvaluestatus"/>
+        <result column="taccumulatedstatus" property="taccumulatedstatus"/>
     </resultMap>
 
 </mapper>

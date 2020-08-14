@@ -1,11 +1,8 @@
 package com.dt.module.zc.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.math.BigDecimal;
-
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -17,9 +14,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-11
+ * @since 2020-08-14
  */
-
+ 
 @TableName("res_c_finance_item")
 
 public class ResCFinanceItem extends BaseModel<ResCFinanceItem> {
@@ -56,6 +53,18 @@ public class ResCFinanceItem extends BaseModel<ResCFinanceItem> {
     private BigDecimal faccumulateddepreciation;
     @TableField("taccumulateddepreciation")
     private BigDecimal taccumulateddepreciation;
+    @TableField("tbelongcompstatus")
+    private String tbelongcompstatus;
+    @TableField("tbelongpartstatus")
+    private String tbelongpartstatus;
+    @TableField("tbuypricestatus")
+    private String tbuypricestatus;
+    @TableField("tnetworthstatus")
+    private String tnetworthstatus;
+    @TableField("tresidualvaluestatus")
+    private String tresidualvaluestatus;
+    @TableField("taccumulatedstatus")
+    private String taccumulatedstatus;
 
 
     public String getId() {
@@ -178,6 +187,54 @@ public class ResCFinanceItem extends BaseModel<ResCFinanceItem> {
         this.taccumulateddepreciation = taccumulateddepreciation;
     }
 
+    public String getTbelongcompstatus() {
+        return tbelongcompstatus;
+    }
+
+    public void setTbelongcompstatus(String tbelongcompstatus) {
+        this.tbelongcompstatus = tbelongcompstatus;
+    }
+
+    public String getTbelongpartstatus() {
+        return tbelongpartstatus;
+    }
+
+    public void setTbelongpartstatus(String tbelongpartstatus) {
+        this.tbelongpartstatus = tbelongpartstatus;
+    }
+
+    public String getTbuypricestatus() {
+        return tbuypricestatus;
+    }
+
+    public void setTbuypricestatus(String tbuypricestatus) {
+        this.tbuypricestatus = tbuypricestatus;
+    }
+
+    public String getTnetworthstatus() {
+        return tnetworthstatus;
+    }
+
+    public void setTnetworthstatus(String tnetworthstatus) {
+        this.tnetworthstatus = tnetworthstatus;
+    }
+
+    public String getTresidualvaluestatus() {
+        return tresidualvaluestatus;
+    }
+
+    public void setTresidualvaluestatus(String tresidualvaluestatus) {
+        this.tresidualvaluestatus = tresidualvaluestatus;
+    }
+
+    public String getTaccumulatedstatus() {
+        return taccumulatedstatus;
+    }
+
+    public void setTaccumulatedstatus(String taccumulatedstatus) {
+        this.taccumulatedstatus = taccumulatedstatus;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -201,6 +258,12 @@ public class ResCFinanceItem extends BaseModel<ResCFinanceItem> {
                 ", tresidualvalue=" + tresidualvalue +
                 ", faccumulateddepreciation=" + faccumulateddepreciation +
                 ", taccumulateddepreciation=" + taccumulateddepreciation +
+                ", tbelongcompstatus=" + tbelongcompstatus +
+                ", tbelongpartstatus=" + tbelongpartstatus +
+                ", tbuypricestatus=" + tbuypricestatus +
+                ", tnetworthstatus=" + tnetworthstatus +
+                ", tresidualvaluestatus=" + tresidualvaluestatus +
+                ", taccumulatedstatus=" + taccumulatedstatus +
                 "}";
     }
 }
