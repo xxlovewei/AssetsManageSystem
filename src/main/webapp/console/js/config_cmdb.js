@@ -895,9 +895,9 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 //     dtColumns.push(DTColumnBuilder.newColumn('cnt').withTitle('物品类型数量').withOption(
 //         'sDefaultContent', '').withOption("width", '30'));
 //
-//     dtColumns.push(DTColumnBuilder.newColumn('suppliername').withTitle('资产供应商').withOption(
+//     dtColumns.push(DTColumnBuilder.newColumn('suppliername').withTitle('供应商').withOption(
 //         'sDefaultContent', '').withOption("width", '30'));
-//     dtColumns.push( DTColumnBuilder.newColumn('buytime').withTitle('采购时间')
+//     dtColumns.push( DTColumnBuilder.newColumn('buytime').withTitle('采购日期')
 //         .withOption('sDefaultContent', ''));
 //     dtColumns.push( DTColumnBuilder.newColumn('createTime').withTitle('创建时间')
 //         .withOption('sDefaultContent', ''));
@@ -930,7 +930,7 @@ function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('ctunit').withTitle('单位').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push(DTColumnBuilder.newColumn('ctbrandmark').withTitle('品牌商标').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('ctbrandmark').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
         'sDefaultContent', '').withOption('width', '50'));
@@ -1023,21 +1023,21 @@ function zcBaseColsCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('classfullname').withTitle('资产类型').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('classfullname').withTitle('资产类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
-    dtColumns.push(DTColumnBuilder.newColumn('zcsourcestr').withTitle('资产来源').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('zcsourcestr').withTitle('来源').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('资产供应商').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('资产品牌').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')
+    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
         'sDefaultContent', ''));
@@ -1051,11 +1051,11 @@ function zcBaseColsCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
     dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('locdtl').withTitle('位置').withOption(
         'sDefaultContent', '').renderWith(renderZcLoc));
     dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
+    dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购日期')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('采购单价')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
@@ -1063,11 +1063,11 @@ function zcBaseColsCreate(DTColumnBuilder, selectype) {
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('accumulateddepreciation').withTitle('累计折旧')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('wbsupplierstr').withTitle('维保供应商').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('wbsupplierstr').withTitle('维保商').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));
-    dtColumns.push(DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
+    dtColumns.push(DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保日期')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
@@ -1160,7 +1160,7 @@ function loadOpt(modal_meta, gdicts) {
             }
         } else {
             if (gdicts.zcwbcomoute.length > 0) {
-                // modal_meta.meta.tbOpt = gdicts.zcwbcomoute[];
+                modal_meta.meta.tbSel = modal_meta.meta.tbOpt[0];
             }
         }
     }
@@ -1174,8 +1174,9 @@ function loadOpt(modal_meta, gdicts) {
                 }
             }
         } else {
-            //  if (gdicts.devbrand.length > 0) {
-            // }
+            if (gdicts.devbrand.length > 0) {
+                modal_meta.meta.pinpSel = modal_meta.meta.pinpOpt[0];
+            }
         }
     }
     // 使用年限

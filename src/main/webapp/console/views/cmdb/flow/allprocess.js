@@ -123,7 +123,7 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         }),
         // DTColumnBuilder.newColumn('processInstanceId').withTitle('流程编号')
         // .withOption('sDefaultContent', ''),
-        DTColumnBuilder.newColumn('duuid').withTitle('单据号').withOption(
+        DTColumnBuilder.newColumn('duuid').withTitle('单据编号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('pstartusername').withTitle('发起人')
             .withOption('sDefaultContent', ''),

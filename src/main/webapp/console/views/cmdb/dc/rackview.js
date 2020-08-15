@@ -132,7 +132,7 @@ function rackviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.dtColumns = [];
     $scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
@@ -144,9 +144,9 @@ function rackviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', '').withOption('width', '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('envstr').withTitle('运行环境').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('locdtl').withTitle('位置').withOption(
         'sDefaultContent', '').renderWith(rendeZcLoc));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
         'sDefaultContent', ''));
 
     function flushtab(rack, dc) {

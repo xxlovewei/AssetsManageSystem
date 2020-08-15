@@ -50,7 +50,7 @@ public class ZcService extends BaseService{
     ICtCategoryService CtCategoryServiceImpl;
 
 
-    @Cacheable(value = CacheConfig.CACHE_PUBLIC_300_150,key="'qf'+#uid")
+    //@Cacheable(value = CacheConfig.CACHE_PUBLIC_80_10,key="'qf'+#uid")
     public R queryDictFast(String uid,String zchccat,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers,String subclass, String classroot,String zccatused) {
 
         JSONObject res = new JSONObject();
@@ -271,7 +271,7 @@ public class ZcService extends BaseService{
 
         if (ToolUtil.isNotEmpty(classroot)) {
             //获取多个类型
-            sql = sql + " and class_id in (select id from ct_category t where t.dr='0' and t.root='" + classroot + "' and t.route not like '46%' and t.node_level>1)";
+            sql = sql + " and class_id in (select id from ct_category t where t.dr='0' and t.root='" + classroot + "' and t.node_level>1)";
         }
         //获取分类以下全部数据
         String class_id_parents = ps.getString("class_id_parents");

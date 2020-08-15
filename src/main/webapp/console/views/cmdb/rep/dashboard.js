@@ -20,7 +20,7 @@ function cmdbdashboardCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 // [ 5, 18 ] //Sydney, AU
                 // ];
                 var dataset = [{
-                    label: "资产数量",
+                    label: "数量",
                     data: data,
                     color: "#5482FF"
                 }

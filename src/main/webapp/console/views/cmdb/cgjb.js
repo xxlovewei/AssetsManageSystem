@@ -219,9 +219,11 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
     }
 
     $scope.dtColumns = [
-        DTColumnBuilder.newColumn('fclassfullname').withTitle('资产类型(变更前)').withOption(
+        DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
+            'sDefaultContent', '').withOption("width", '30'),
+        DTColumnBuilder.newColumn('fclassfullname').withTitle('资产类别(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tclassfullname').withTitle('资产类型(变更后)').withOption(
+        DTColumnBuilder.newColumn('tclassfullname').withTitle('资产类别(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderclass),
         DTColumnBuilder.newColumn('fmodel').withTitle('规格型号(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
@@ -450,21 +452,21 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('classfullname').withTitle('资产类型').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('classfullname').withTitle('资产类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
-    dtColumns.push(DTColumnBuilder.newColumn('zcsourcestr').withTitle('资产来源').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('zcsourcestr').withTitle('来源').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('资产供应商').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('资产品牌').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')
+    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
         'sDefaultContent', ''));
@@ -478,11 +480,11 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
     dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('locdtl').withTitle('位置详情').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('locdtl').withTitle('位置').withOption(
         'sDefaultContent', '').renderWith(renderZcLoc));
     dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
+    dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购日期')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
         'sDefaultContent', ''));
@@ -802,9 +804,9 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(renderCGStatus),
         DTColumnBuilder.newColumn('processusername').withTitle('处理人').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tclassfullname').withTitle('类型').withOption(
+        DTColumnBuilder.newColumn('tclassfullname').withTitle('资产类别').withOption(
             'sDefaultContent', '').renderWith(renderclass),
-        DTColumnBuilder.newColumn('tmodel').withTitle('型号').withOption(
+        DTColumnBuilder.newColumn('tmodel').withTitle('规格型号').withOption(
             'sDefaultContent', '').renderWith(rendermodel),
         DTColumnBuilder.newColumn('tsn').withTitle('序列').withOption(
             'sDefaultContent', '').renderWith(rendersn),

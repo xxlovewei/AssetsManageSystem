@@ -592,7 +592,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             required: false,
             maxlength: "50",
             placeholder: "",
-            label: "其他资产编号",
+            label: "其他编号",
             need: false,
             name: 'fs20',
             ng_model: "fs20"
@@ -603,7 +603,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             items.push({
                 type: "select",
                 disabled: zcclass,
-                label: "资产类型",
+                label: "资产类别",
                 need: true,
                 disable_search: "true",
                 dataOpt: "classOpt",
@@ -639,7 +639,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             required: false,
             maxlength: "200",
             placeholder: "请输入序列号",
-            label: "序列号",
+            label: "序列",
             need: false,
             name: 'sn',
             ng_model: "sn"
@@ -647,8 +647,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         items.push({
             type: "select",
             disabled: zcsoure,
-            label: "资产来源",
-            need: true,
+            label: "来源",
+            need: false,
             disable_search: "true",
             dataOpt: "zcsourceOpt",
             dataSel: "zcsourceSel"
@@ -665,7 +665,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         items.push({
             type: "select",
             disabled: zcpinp,
-            label: "资产品牌",
+            label: "品牌",
             need: false,
             disable_search: "false",
             dataOpt: "pinpOpt",
@@ -676,7 +676,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             type: "select",
             disabled: zcuselife,
             label: "使用年限",
-            need: true,
+            need: false,
             disable_search: "false",
             dataOpt: "uselifeOpt",
             dataSel: "uselifeSel"
@@ -688,7 +688,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             required: false,
             maxlength: "50",
             placeholder: "",
-            label: "资产数量",
+            label: "数量",
             need: false,
             name: 'zc_cnt',
             ng_model: "zc_cnt"
@@ -825,7 +825,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             type: "select",
             disabled: zcloc,
             label: "区域",
-            need: true,
+            need: false,
             disable_search: "false",
             dataOpt: "locOpt",
             dataSel: "locSel"
@@ -858,7 +858,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             required: false,
             maxlength: "50",
             placeholder: "请输入详细位置",
-            label: "详细位置",
+            label: "位置",
             need: false,
             name: 'locdtl',
             ng_model: "locdtl"
@@ -871,8 +871,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         items.push({
             type: "datetime",
             disabled: zcbuytime,
-            label: "采购时间",
-            false: true,
+            label: "采购日期",
+            need: false,
             ng_model: "buytime"
         });
 
@@ -908,8 +908,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         items.push({
             type: "select",
             disabled: zcwbsupper,
-            label: "维保供应商",
-            need: true,
+            label: "维保商",
+            need: false,
             disable_search: "false",
             dataOpt: "zcwbsupperOpt",
             dataSel: "zcwbsupperSel"
@@ -926,7 +926,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         items.push({
             type: "datetime",
             disabled: zcwboutdate,
-            label: "脱保时间",
+            label: "脱保日期",
             need: false,
             ng_model: "wboutdate"
         });

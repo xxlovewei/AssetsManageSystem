@@ -240,7 +240,7 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('ctunit').withTitle('单位').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push(DTColumnBuilder.newColumn('ctbrandmark').withTitle('品牌商标').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('ctbrandmark').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
         'sDefaultContent', '').withOption('width', '50'));

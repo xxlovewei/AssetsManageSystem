@@ -233,7 +233,7 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
-        DTColumnBuilder.newColumn('fuuid').withTitle('单据号').withOption(
+        DTColumnBuilder.newColumn('fuuid').withTitle('单据编号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('fstatus').withTitle('办理状态').withOption(
             'sDefaultContent', '').renderWith(renderStatus),

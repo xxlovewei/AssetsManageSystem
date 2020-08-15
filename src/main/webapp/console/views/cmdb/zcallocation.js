@@ -303,7 +303,7 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
-        DTColumnBuilder.newColumn('uuid').withTitle('单据号').withOption(
+        DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
             'sDefaultContent', '').renderWith(renderStatus),
@@ -317,7 +317,7 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tolocname').withTitle('调入区域').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tolocdtl').withTitle('存放位置').withOption(
+        DTColumnBuilder.newColumn('tolocdtl').withTitle('位置').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('acttime').withTitle('调入日期').withOption(
             'sDefaultContent', ''),

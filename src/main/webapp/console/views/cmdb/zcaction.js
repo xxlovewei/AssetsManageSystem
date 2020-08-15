@@ -259,7 +259,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             function () {
                 return ""
             }));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('busid').withTitle('单据号')
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('busid').withTitle('单据编号')
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('busstatus').withTitle('单据状态')
         .withOption('sDefaultContent', '').renderWith(renderBusstatus));

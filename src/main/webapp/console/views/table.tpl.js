@@ -91,7 +91,7 @@ $scope.dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml)
     }));
 $scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号')
     .withOption('sDefaultContent', '').withOption("width", '30'));
-$scope.dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型')
+$scope.dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类别')
     .withOption('sDefaultContent', '').withOption("width", '30'));
 $scope.dtColumns = [
     DTColumnBuilder.newColumn('name').withTitle('名称').withOption(

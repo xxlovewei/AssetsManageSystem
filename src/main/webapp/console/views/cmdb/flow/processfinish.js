@@ -90,7 +90,7 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('rootProcessInstanceId').withTitle('流程编号').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('businessId').withTitle('单据号').withOption(
+        DTColumnBuilder.newColumn('businessId').withTitle('单据编号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('subject').withTitle('标题').withOption(
             'sDefaultContent', ''),

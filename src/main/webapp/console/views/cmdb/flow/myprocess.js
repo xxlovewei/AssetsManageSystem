@@ -122,7 +122,7 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         }),
         DTColumnBuilder.newColumn('processinstanceid').withTitle('流程编号')
             .withOption('sDefaultContent', ''),
-        DTColumnBuilder.newColumn('busid').withTitle('单据号').withOption(
+        DTColumnBuilder.newColumn('busid').withTitle('单据编号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('pstatus').withTitle('状态').withOption(
             'sDefaultContent', '').renderWith(renderZCSPStatus),

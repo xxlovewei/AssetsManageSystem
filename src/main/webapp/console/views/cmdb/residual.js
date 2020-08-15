@@ -115,7 +115,7 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('zcuuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
@@ -129,7 +129,7 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('buyprice').withTitle('本期单价')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('curresidualvalue').withTitle('本期计算残值')
+    dtColumns.push(DTColumnBuilder.newColumn('curresidualvalue').withTitle('本期设置残值')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('bnetworth').withTitle('本期资产净值(折旧前)')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
@@ -139,15 +139,15 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
         .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')
+    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
+    dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购日期')
         .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('资产品牌').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列号').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
         'sDefaultContent', ''));
@@ -266,13 +266,13 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption("width", '30').renderWith(renderZCAction));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
-    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')
+    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
         .withOption('sDefaultContent', ''));
@@ -286,7 +286,7 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('lastdepreciationdatestr').withTitle('最近折旧时间')
         .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('资产品牌').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
         'sDefaultContent', ''));
@@ -474,7 +474,7 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(renderStatus),
         DTColumnBuilder.newColumn('checkstatus').withTitle('校验状态').withOption(
             'sDefaultContent', '').renderWith(renderCheckStatus),
-        DTColumnBuilder.newColumn('cnt').withTitle('资产数量').withOption(
+        DTColumnBuilder.newColumn('cnt').withTitle('数量').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('residualvaluerate').withTitle('残值率(%)').withOption(
             'sDefaultContent', ''),

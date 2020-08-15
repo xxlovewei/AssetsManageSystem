@@ -394,7 +394,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             required: false,
             maxlength: "50",
             placeholder: "",
-            label: "其他资产编号",
+            label: "其他编号",
             need: false,
             name: 'fs20',
             ng_model: "fs20"
@@ -402,11 +402,20 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         items.push({
             type: "select",
             disabled: zcclass,
-            label: "资产类型",
+            label: "资产类别",
             need: true,
             disable_search: "false",
             dataOpt: "classOpt",
             dataSel: "classSel"
+        });
+        items.push({
+            type: "select",
+            disabled: zcrecycle,
+            label: "资产状态",
+            need: true,
+            disable_search: "true",
+            dataOpt: "recycelOpt",
+            dataSel: "recycelSel"
         });
         items.push({
             type: "input",
@@ -427,7 +436,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             required: false,
             maxlength: "50",
             placeholder: "请输入序列号",
-            label: "序列号",
+            label: "序列",
             need: false,
             name: 'sn',
             ng_model: "sn"
@@ -435,21 +444,13 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         items.push({
             type: "select",
             disabled: "false",
-            label: "资产来源",
+            label: "来源",
             need: true,
             disable_search: "true",
             dataOpt: "zcsourceOpt",
             dataSel: "zcsourceSel"
         });
-        items.push({
-            type: "select",
-            disabled: zcrecycle,
-            label: "资产状态",
-            need: true,
-            disable_search: "true",
-            dataOpt: "recycelOpt",
-            dataSel: "recycelSel"
-        });
+
         items.push({
             type: "select",
             disabled: "false",
@@ -466,7 +467,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             required: true,
             maxlength: "50",
             placeholder: "",
-            label: "资产数量",
+            label: "数量",
             need: true,
             name: 'zc_cnt',
             ng_model: "zc_cnt"
@@ -483,7 +484,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         items.push({
             type: "select",
             disabled: "false",
-            label: "资产品牌",
+            label: "品牌",
             need: false,
             disable_search: "false",
             dataOpt: "pinpOpt",
@@ -583,7 +584,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         items.push({
             type: "dashedword",
             name: 'model',
-            label: "位置区域"
+            label: "区域位置"
         });
         items.push({
             type: "select",
@@ -601,7 +602,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             required: false,
             maxlength: "50",
             placeholder: "请输入详细位置",
-            label: "详细位置",
+            label: "位置",
             need: false,
             name: 'locdtl',
             ng_model: "locdtl"
@@ -614,7 +615,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         items.push({
             type: "datetime",
             disabled: "false",
-            label: "采购时间",
+            label: "采购日期",
             false: true,
             ng_model: "buytime"
         });
@@ -650,7 +651,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         items.push({
             type: "select",
             disabled: "false",
-            label: "维保供应商",
+            label: "维保商",
             need: false,
             disable_search: "false",
             dataOpt: "zcwbsupperOpt",
@@ -668,7 +669,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         items.push({
             type: "datetime",
             disabled: "false",
-            label: "脱保时间",
+            label: "脱保日期",
             need: false,
             ng_model: "wboutdate"
         });
@@ -883,8 +884,8 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             var selrow = getSelectRow();
             if (angular.isDefined(selrow)) {
                 id = selrow.id;
-                zcbuyprice = "true";
-                zcnetworth = "true";
+                // zcbuyprice = "true";
+                // zcnetworth = "true";
                 zcrecycle = "true";
                 zcclass = "true";
             } else {

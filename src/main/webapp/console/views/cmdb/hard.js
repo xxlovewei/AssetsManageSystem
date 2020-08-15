@@ -351,7 +351,7 @@ function cmdbHardCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                         required: false,
                         maxlength: "50",
                         placeholder: "请输入序列号",
-                        label: "序列号",
+                        label: "序列",
                         need: false,
                         name: 'sn',
                         ng_model: "sn"

@@ -260,7 +260,7 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         'sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
         'sDefaultContent', ''));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('cnt').withTitle('资产数量').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('cnt').withTitle('数量').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('busidate').withTitle('业务日期')
         .withOption('sDefaultContent', ''));

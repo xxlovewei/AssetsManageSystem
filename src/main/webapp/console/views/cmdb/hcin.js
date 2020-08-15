@@ -122,7 +122,7 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('unit').withTitle('单位').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('brandmark').withTitle('品牌商标').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('brandmark').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
         'sDefaultContent', '').withOption("width", '30'));
@@ -309,7 +309,7 @@ function zcHcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     }));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('cnt').withTitle('物品类型数量').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('suppliername').withTitle('物品供应商').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('suppliername').withTitle('供应商').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('busidate').withTitle('业务日期')
         .withOption('sDefaultContent', ''));

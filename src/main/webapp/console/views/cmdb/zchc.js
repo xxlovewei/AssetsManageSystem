@@ -19,7 +19,7 @@ function modalHcTjCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('ctname').withTitle('物品类型').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('ctmodel').withTitle('规格类型').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('ctmodel').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('ctunit').withTitle('单位').withOption(
         'sDefaultContent', '').withOption("width", '30'));
@@ -542,8 +542,8 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                         sub_type: "text",
                         required: false,
                         maxlength: "50",
-                        placeholder: "品牌商标",
-                        label: "品牌商标",
+                        placeholder: "品牌",
+                        label: "品牌",
                         need: false,
                         name: 'ctbrandmark',
                         ng_model: "ctbrandmark"
@@ -661,7 +661,7 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                     items.push({
                         type: "datetime",
                         disabled: "false",
-                        label: "采购时间",
+                        label: "采购日期",
                         false: true,
                         need: true,
                         ng_model: "buytime"

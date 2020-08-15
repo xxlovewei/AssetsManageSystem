@@ -124,7 +124,7 @@ function cgwblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
 
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类型').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
@@ -134,13 +134,13 @@ function cgwblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('twbstr').withTitle('维保状态(变更后)').withOption(
         'sDefaultContent', '').renderWith(renderwb));
-    dtColumns.push(DTColumnBuilder.newColumn('fwbsupplierstr').withTitle('维保供应商(变更前)').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('fwbsupplierstr').withTitle('维保商(变更前)').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('twbsupplierstr').withTitle('维保供应商(变更后)').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('twbsupplierstr').withTitle('维保商(变更后)').withOption(
         'sDefaultContent', '').renderWith(rendersupplier));
-    dtColumns.push(DTColumnBuilder.newColumn('fwboutdatestr').withTitle('脱保时间(变更前)').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('fwboutdatestr').withTitle('脱保日期(变更前)').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('twboutdatestr').withTitle('脱保时间(变更后)').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('twboutdatestr').withTitle('脱保日期(变更后)').withOption(
         'sDefaultContent', '').renderWith(renderwboutdate));
     dtColumns.push(DTColumnBuilder.newColumn('fwbct').withTitle('维保说明(变更前)').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
@@ -311,7 +311,7 @@ function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
-    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('资产数量')
+    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
         .withOption('sDefaultContent', ''));
@@ -319,11 +319,11 @@ function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption('width', '30').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));
-    dtColumns.push(DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保时间')
+    dtColumns.push(DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保日期')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
-    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('资产品牌').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
         'sDefaultContent', ''));
@@ -500,9 +500,9 @@ function zccgwbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('twbstr').withTitle('维保状态').withOption(
             'sDefaultContent', '').renderWith(renderwb),
-        DTColumnBuilder.newColumn('twbsupplierstr').withTitle('维保供应商').withOption(
+        DTColumnBuilder.newColumn('twbsupplierstr').withTitle('维保商').withOption(
             'sDefaultContent', '').renderWith(rendersupplier),
-        DTColumnBuilder.newColumn('twboutdatestr').withTitle('脱保时间').withOption(
+        DTColumnBuilder.newColumn('twboutdatestr').withTitle('脱保日期').withOption(
             'sDefaultContent', '').renderWith(renderwboutdate),
         DTColumnBuilder.newColumn('twbct').withTitle('维保说明').withOption(
             'sDefaultContent', '').renderWith(renderwbct),
