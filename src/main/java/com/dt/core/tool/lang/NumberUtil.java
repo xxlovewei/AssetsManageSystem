@@ -88,17 +88,17 @@ public class NumberUtil {
         return add(Double.toString(v1), Double.toString(v2)).doubleValue();
     }
 
-    /**
-     * 提供精确的加法运算
-     *
-     * @param v1 被加数
-     * @param v2 加数
-     * @return 和
-     * @since 3.1.1
-     */
-    public static double add(Double v1, Double v2) {
-        return add(v1, v2).doubleValue();
-    }
+//    /**
+//     * 提供精确的加法运算
+//     *
+//     * @param v1 被加数
+//     * @param v2 加数
+//     * @return 和
+//     * @since 3.1.1
+//     */
+//    public static double add(Double v1, Double v2) {
+//        return add(v1, v2).doubleValue();
+//    }
 
     /**
      * 提供精确的加法运算<br>
@@ -228,16 +228,16 @@ public class NumberUtil {
         return sub(Double.toString(v1), Double.toString(v2)).doubleValue();
     }
 
-    /**
-     * 提供精确的减法运算
-     *
-     * @param v1 被减数
-     * @param v2 减数
-     * @return 差
-     */
-    public static double sub(Double v1, Double v2) {
-        return sub(v1, v2).doubleValue();
-    }
+//    /**
+//     * 提供精确的减法运算
+//     *
+//     * @param v1 被减数
+//     * @param v2 减数
+//     * @return 差
+//     */
+//    public static double sub(Double v1, Double v2) {
+//        return sub(v1, v2).doubleValue();
+//    }
 
     /**
      * 提供精确的减法运算<br>
@@ -367,17 +367,17 @@ public class NumberUtil {
         return mul(Double.toString(v1), Double.toString(v2)).doubleValue();
     }
 
-    /**
-     * 提供精确的乘法运算<br>
-     * 如果传入多个值为null或者空，则返回0
-     *
-     * @param v1 被乘数
-     * @param v2 乘数
-     * @return 积
-     */
-    public static double mul(Double v1, Double v2) {
-        return mul(v1, v2).doubleValue();
-    }
+//    /**
+//     * 提供精确的乘法运算<br>
+//     * 如果传入多个值为null或者空，则返回0
+//     *
+//     * @param v1 被乘数
+//     * @param v2 乘数
+//     * @return 积
+//     */
+//    public static double mul(Double v1, Double v2) {
+//        return mul(v1, v2).doubleValue();
+//    }
 
     /**
      * 提供精确的乘法运算<br>
@@ -518,17 +518,17 @@ public class NumberUtil {
     public static double div(double v1, double v2) {
         return div(v1, v2, DEFAUT_DIV_SCALE);
     }
-
-    /**
-     * 提供(相对)精确的除法运算,当发生除不尽的情况的时候,精确到小数点后10位,后面的四舍五入
-     *
-     * @param v1 被除数
-     * @param v2 除数
-     * @return 两个参数的商
-     */
-    public static double div(Double v1, Double v2) {
-        return div(v1, v2, DEFAUT_DIV_SCALE);
-    }
+//
+//    /**
+//     * 提供(相对)精确的除法运算,当发生除不尽的情况的时候,精确到小数点后10位,后面的四舍五入
+//     *
+//     * @param v1 被除数
+//     * @param v2 除数
+//     * @return 两个参数的商
+//     */
+//    public static double div(Double v1, Double v2) {
+//        return div(v1, v2, DEFAUT_DIV_SCALE);
+//    }
 
     /**
      * 提供(相对)精确的除法运算,当发生除不尽的情况的时候,精确到小数点后10位,后面的四舍五入
@@ -601,17 +601,17 @@ public class NumberUtil {
         return div(v1, v2, scale, RoundingMode.HALF_UP);
     }
 
-    /**
-     * 提供(相对)精确的除法运算,当发生除不尽的情况时,由scale指定精确度,后面的四舍五入
-     *
-     * @param v1    被除数
-     * @param v2    除数
-     * @param scale 精确度，如果为负值，取绝对值
-     * @return 两个参数的商
-     */
-    public static double div(Double v1, Double v2, int scale) {
-        return div(v1, v2, scale, RoundingMode.HALF_UP);
-    }
+//    /**
+//     * 提供(相对)精确的除法运算,当发生除不尽的情况时,由scale指定精确度,后面的四舍五入
+//     *
+//     * @param v1    被除数
+//     * @param v2    除数
+//     * @param scale 精确度，如果为负值，取绝对值
+//     * @return 两个参数的商
+//     */
+//    public static double div(Double v1, Double v2, int scale) {
+//        return div(v1, v2, scale, RoundingMode.HALF_UP);
+//    }
 
     /**
      * 提供(相对)精确的除法运算,当发生除不尽的情况时,由scale指定精确度,后面的四舍五入
@@ -690,18 +690,18 @@ public class NumberUtil {
         return div(Double.toString(v1), Double.toString(v2), scale, roundingMode).doubleValue();
     }
 
-    /**
-     * 提供(相对)精确的除法运算,当发生除不尽的情况时,由scale指定精确度
-     *
-     * @param v1           被除数
-     * @param v2           除数
-     * @param scale        精确度，如果为负值，取绝对值
-     * @param roundingMode 保留小数的模式 {@link RoundingMode}
-     * @return 两个参数的商
-     */
-    public static double div(Double v1, Double v2, int scale, RoundingMode roundingMode) {
-        return div(v1, v2, scale, roundingMode).doubleValue();
-    }
+//    /**
+//     * 提供(相对)精确的除法运算,当发生除不尽的情况时,由scale指定精确度
+//     *
+//     * @param v1           被除数
+//     * @param v2           除数
+//     * @param scale        精确度，如果为负值，取绝对值
+//     * @param roundingMode 保留小数的模式 {@link RoundingMode}
+//     * @return 两个参数的商
+//     */
+//    public static double div(Double v1, Double v2, int scale, RoundingMode roundingMode) {
+//        return div(v1, v2, scale, roundingMode).doubleValue();
+//    }
 
     /**
      * 提供(相对)精确的除法运算,当发生除不尽的情况时,由scale指定精确度
