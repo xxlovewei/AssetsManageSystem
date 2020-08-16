@@ -238,7 +238,7 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     }));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('审批状态').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
         'sDefaultContent', '').withOption("width", '30').renderWith(function (data, type, full) {
         if (data == "none") {
             return "无需审批"

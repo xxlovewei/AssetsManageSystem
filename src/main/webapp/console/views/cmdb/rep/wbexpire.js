@@ -64,7 +64,7 @@ function wbexpireCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         toolsbtn: [],
         tools: [{
             id: "select",
-            label: "时间",
+            label: "到期时间",
             type: "select",
             disablesearch: true,
             dataOpt: [],

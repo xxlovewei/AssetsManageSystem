@@ -886,7 +886,7 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(renderAction),
         DTColumnBuilder.newColumn('busuuid').withTitle('变更单号').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('status').withTitle('变更状态').withOption(
+        DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
             'sDefaultContent', '').renderWith(renderCGStatus),
         DTColumnBuilder.newColumn('processusername').withTitle('处理人').withOption(
             'sDefaultContent', ''),

@@ -230,10 +230,16 @@ function cmdbzcbjCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                         if (res.success) {
                             if (angular.isDefined(res.data)) {
                                 $scope.item = res.data;
-                                if ($scope.item.isaction == "Y") {
-                                    $scope.actionSel = $scope.actionOpt[0];
+                                if (angular.isDefined($scope.item.isaction)) {
+                                    if ($scope.item.isaction == "Y") {
+                                        $scope.actionSel = $scope.actionOpt[0];
+                                    } else if ($scope.item.isaction == "N") {
+                                        $scope.actionSel = $scope.actionOpt[1];
+                                    } else {
+                                        $scope.actionSel = $scope.actionOpt[0];
+                                    }
                                 } else {
-                                    $scope.actionSel = $scope.actionOpt[1];
+                                    $scope.actionSel = $scope.actionOpt[0];
                                 }
                                 if (angular.isDefined($scope.item.type)) {
                                     if ($scope.item.type == "goods") {

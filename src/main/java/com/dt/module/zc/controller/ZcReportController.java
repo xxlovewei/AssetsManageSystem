@@ -270,6 +270,8 @@ public class ZcReportController extends BaseController {
         String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and category='" + ZcCommonService.CATEGORY_ZC + "'";
         if (ToolUtil.isNotEmpty(userid)) {
             sql = sql + " and used_userid='" + userid + "'";
+        } else {
+            sql = sql + " and used_userid is null";
         }
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }

@@ -1,0 +1,2 @@
+1.表结构字段变化
+ALTER TABLE res ADD scrapdate date NULL;
