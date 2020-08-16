@@ -3,9 +3,9 @@ package com.dt.core.dao.sql;
 import com.dt.core.dao.SpringDAO;
 
 public interface ExecutableSQL extends SQL {
-    public Integer execute();
+    Integer execute();
 
-    public SpringDAO getDao();
+    SpringDAO getDao();
 
-    public ExecutableSQL setDao(SpringDAO dao);
+    ExecutableSQL setDao(SpringDAO dao);
 }

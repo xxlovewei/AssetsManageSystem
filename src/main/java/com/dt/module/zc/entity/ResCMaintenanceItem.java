@@ -1,12 +1,12 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.io.Serializable;
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -16,7 +16,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * @author algernonking
  * @since 2020-08-14
  */
- 
+
 @TableName("res_c_maintenance_item")
 
 public class ResCMaintenanceItem extends BaseModel<ResCMaintenanceItem> {

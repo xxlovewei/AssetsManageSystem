@@ -1,9 +1,9 @@
 package com.dt.module.base.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dt.module.base.entity.SysFileConf;
 import com.dt.module.base.mapper.SysFileConfMapper;
 import com.dt.module.base.service.ISysFileConfService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

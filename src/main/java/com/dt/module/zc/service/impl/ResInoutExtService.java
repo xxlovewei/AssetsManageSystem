@@ -3,21 +3,19 @@ package com.dt.module.zc.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.zc.entity.ResInout;
-import com.dt.module.zc.mapper.ResInoutMapper;
 import com.dt.module.zc.service.IResInoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author algernonking
@@ -31,8 +29,8 @@ public class ResInoutExtService extends BaseService {
     IResInoutService ResInoutServiceImpl;
 
 
-    public R selectSafetyStore(){
-        String sql="select\n" +
+    public R selectSafetyStore() {
+        String sql = "select\n" +
                 "  b.*,\n" +
                 "  t.*,\n" +
                 "  case when zc_cnt < downcnt\n" +
@@ -50,14 +48,14 @@ public class ResInoutExtService extends BaseService {
                 "       group by class_id) t,\n" +
                 "  ct_category b\n" +
                 "where t.class_id = b.id and upcnt > 0 and downcnt > 0\n" +
-                "      and (zc_cnt < downcnt or zc_cnt > upcnt)\n" ;
+                "      and (zc_cnt < downcnt or zc_cnt > upcnt)\n";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 
     }
 
-    public R selectHcCk(String action){
+    public R selectHcCk(String action) {
 
-        String sql="select\n" +
+        String sql = "select\n" +
                 "   (select node_name from hrm_org_part where node_id=t.compid) outbelongcompname,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) outlocstr,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) outwarehousestr,\n" +
@@ -68,13 +66,13 @@ public class ResInoutExtService extends BaseService {
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) inlocstr,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) inwarehousestr,\n" +
                 "   t.*\n" +
-                "from res_inout t where dr='0' and action='"+action+"' order by create_time desc";
+                "from res_inout t where dr='0' and action='" + action + "' order by create_time desc";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
 
     }
 
-    public R selectHcDbDataById(String id){
-        String sql="select\n" +
+    public R selectHcDbDataById(String id) {
+        String sql = "select\n" +
                 "   (select node_name from hrm_org_part where node_id=t.compid) outbelongcompname,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) outlocstr,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) outwarehousestr,\n" +
@@ -85,10 +83,10 @@ public class ResInoutExtService extends BaseService {
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) inlocstr,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) inwarehousestr,\n" +
                 "   t.*\n" +
-                "from res_inout t where dr='0' and id=?" ;
-        Rcd rcd=db.uniqueRecord(sql,id);
-        JSONObject r= ConvertUtil.OtherJSONObjectToFastJSONObject(rcd.toJsonObject());
-        String sql2="\n" +
+                "from res_inout t where dr='0' and id=?";
+        Rcd rcd = db.uniqueRecord(sql, id);
+        JSONObject r = ConvertUtil.OtherJSONObjectToFastJSONObject(rcd.toJsonObject());
+        String sql2 = "\n" +
                 "select\n" +
                 "  (select node_name from hrm_org_part where node_id=t.belong_company_id) belongcom_name,\n" +
                 "  (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) locstr,\n" +
@@ -105,14 +103,13 @@ public class ResInoutExtService extends BaseService {
                 "  (select name from sys_dict_item where dr='0' and dict_item_id=t.supplier) supplierstr,\n" +
                 "t.*\n" +
                 "from res_inout_item t where dr='0' and uuid=?";
-        r.put("items",ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql2,rcd.getString("uuid") ).toJsonArrayWithJsonObject()));
+        r.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql2, rcd.getString("uuid")).toJsonArrayWithJsonObject()));
         return R.SUCCESS_OPER(r);
     }
 
 
-
-    public R selectHcOutDataById(String id){
-        String sql="select\n" +
+    public R selectHcOutDataById(String id) {
+        String sql = "select\n" +
                 "   (select node_name from hrm_org_part where node_id=t.compid) outbelongcompname,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) outlocstr,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) outwarehousestr,\n" +
@@ -123,10 +120,10 @@ public class ResInoutExtService extends BaseService {
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) inlocstr,\n" +
                 "   (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) inwarehousestr,\n" +
                 "   t.*\n" +
-                "from res_inout t where dr='0' and id=?" ;
-        Rcd rcd=db.uniqueRecord(sql,id);
-        JSONObject r= ConvertUtil.OtherJSONObjectToFastJSONObject(rcd.toJsonObject());
-        String sql2="\n" +
+                "from res_inout t where dr='0' and id=?";
+        Rcd rcd = db.uniqueRecord(sql, id);
+        JSONObject r = ConvertUtil.OtherJSONObjectToFastJSONObject(rcd.toJsonObject());
+        String sql2 = "\n" +
                 "select\n" +
                 "  (select node_name from hrm_org_part where node_id=t.belong_company_id) belongcom_name,\n" +
                 "  (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) locstr,\n" +
@@ -143,15 +140,16 @@ public class ResInoutExtService extends BaseService {
                 "  (select name from sys_dict_item where dr='0' and dict_item_id=t.supplier) supplierstr,\n" +
                 "t.*\n" +
                 "from res_inout_item t where dr='0' and uuid=?";
-        r.put("items",ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql2,rcd.getString("uuid") ).toJsonArrayWithJsonObject()));
+        r.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql2, rcd.getString("uuid")).toJsonArrayWithJsonObject()));
         return R.SUCCESS_OPER(r);
     }
-    public R selectHcInDataById(String id){
 
-        ResInout in=ResInoutServiceImpl.getById(id);
-        String uuid=in.getUuid();
-        JSONObject res=JSONObject.parseObject(JSON.toJSONString(in, SerializerFeature.WriteDateUseDateFormat));
-        String sql="select\n" +
+    public R selectHcInDataById(String id) {
+
+        ResInout in = ResInoutServiceImpl.getById(id);
+        String uuid = in.getUuid();
+        JSONObject res = JSONObject.parseObject(JSON.toJSONString(in, SerializerFeature.WriteDateUseDateFormat));
+        String sql = "select\n" +
                 "\n" +
                 "   (select node_name from hrm_org_part where node_id=t.belong_company_id) belongcom_name,\n" +
                 "  (select name\n" +
@@ -172,7 +170,7 @@ public class ResInoutExtService extends BaseService {
                 "  (select unit\n" +
                 "   from ct_category\n" +
                 "   where dr = '0' and id = t.class_id)            unit,\n" +
-                " (select name from sys_dict_item where dr='0' and dict_item_id=t.supplier) supplierstr,"+
+                " (select name from sys_dict_item where dr='0' and dict_item_id=t.supplier) supplierstr," +
                 "  (select mark\n" +
                 "   from ct_category\n" +
                 "   where dr = '0' and id = t.class_id)            remark,\n" +
@@ -191,11 +189,12 @@ public class ResInoutExtService extends BaseService {
                 "   where dr = '0' and dict_item_id = t.loc)       locstr,\n" +
                 "  t.*\n" +
                 "from res_inout_item t where dr='0' and uuid=?";
-        res.put("items",db.query(sql,uuid).toJsonArrayWithJsonObject());
+        res.put("items", db.query(sql, uuid).toJsonArrayWithJsonObject());
         return R.SUCCESS_OPER(res);
     }
-    public R selectHcTj(String loc){
-        String sql="select\n" +
+
+    public R selectHcTj(String loc) {
+        String sql = "select\n" +
                 "  (select name\n" +
                 "   from sys_dict_item\n" +
                 "   where dr = '0' and dict_item_id = t.warehouse) warehousestr,\n" +
@@ -239,8 +238,8 @@ public class ResInoutExtService extends BaseService {
                 "       where dr = '0' and category = '" + ZcCommonService.CATEGORY_HC + "'\n" +
                 "       group by class_id, loc, warehouse\n" +
                 "       order by 1, 2, 3) t where 1=1 ";
-        if(ToolUtil.isNotEmpty(loc)){
-            sql=sql+" and loc='"+loc+"'";
+        if (ToolUtil.isNotEmpty(loc)) {
+            sql = sql + " and loc='" + loc + "'";
         }
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }

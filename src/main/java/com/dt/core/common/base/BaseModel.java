@@ -1,12 +1,12 @@
 package com.dt.core.common.base;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.io.Serializable;
+import java.util.Date;
 
 @SuppressWarnings("rawtypes")
 public class BaseModel<T> extends Model implements Serializable {

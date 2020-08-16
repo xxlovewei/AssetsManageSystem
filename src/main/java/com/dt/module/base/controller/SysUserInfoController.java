@@ -1,16 +1,5 @@
 package com.dt.module.base.controller;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -27,6 +16,16 @@ import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.entity.SysUserRole;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.base.service.ISysUserRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * <p>
@@ -42,6 +41,8 @@ public class SysUserInfoController extends BaseController {
 
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;
+    @Autowired
+    ISysUserRoleService SysUserRoleServiceImpl;
 
     @ResponseBody
     @Acl(info = "根据Id删除", value = Acl.ACL_DENY)
@@ -143,7 +144,7 @@ public class SysUserInfoController extends BaseController {
             HashMap<String, Object> mapt = map.get(i);
             Iterator<Entry<String, Object>> it = mapt.entrySet().iterator();
             while (it.hasNext()) {
-                Entry<String, Object> entry = (Entry<String, Object>) it.next();
+                Entry<String, Object> entry = it.next();
                 if (entry.getKey().toLowerCase().equals("role_id")) {
                     res.add(entry.getValue());
                 }
@@ -165,9 +166,6 @@ public class SysUserInfoController extends BaseController {
     public R addUser(SysUserInfo entity) {
         return SysUserInfoServiceImpl.addUser(entity);
     }
-
-    @Autowired
-    ISysUserRoleService SysUserRoleServiceImpl;
 
     @RequestMapping("/changeRoles.do")
     @ResponseBody

@@ -1,12 +1,9 @@
 package com.dt.core.shiro.service;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-
+import com.dt.core.annotion.Acl;
+import com.dt.core.common.base.BaseConstants;
+import com.dt.core.tool.lang.SpringContextUtil;
+import com.dt.core.tool.util.ToolUtil;
 import org.apache.shiro.config.Ini;
 import org.apache.shiro.config.Ini.Section;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -22,10 +19,11 @@ import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import com.dt.core.annotion.Acl;
-import com.dt.core.common.base.BaseConstants;
-import com.dt.core.tool.lang.SpringContextUtil;
-import com.dt.core.tool.util.ToolUtil;
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 安全框架角色资源配置服务类
@@ -33,12 +31,12 @@ import com.dt.core.tool.util.ToolUtil;
  * @author algernonking
  */
 public class SimpleFilterChainDefinitionsService {
-    private final static Logger log = LoggerFactory.getLogger(SimpleFilterChainDefinitionsService.class);
-    private String filterChainDefinitions;
     /**
      * 默认premission字符串
      */
     public static final String PREMISSION_STRING = "perms[\"{0}\"]";
+    private final static Logger log = LoggerFactory.getLogger(SimpleFilterChainDefinitionsService.class);
+    private String filterChainDefinitions;
     @Autowired
     private ShiroFilterFactoryBean shiroFilterFactoryBean;
 
@@ -74,7 +72,7 @@ public class SimpleFilterChainDefinitionsService {
             PatternsRequestCondition pc = rmi.getPatternsCondition();
             Set<String> pSet = pc.getPatterns();
             HandlerMethod hm = entry.getValue();
-            Acl am = ((HandlerMethod) hm).getMethodAnnotation(Acl.class);
+            Acl am = hm.getMethodAnnotation(Acl.class);
             if (ToolUtil.isNotEmpty(am)) {
                 String aclvalue = am.value();
                 if (Acl.ACL_ALLOW.equals(aclvalue)) {

@@ -1,10 +1,9 @@
 package com.dt.module.base.controller;
 
 
+import com.dt.core.common.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.dt.core.common.base.BaseController;
 
 /**
  * <p>

@@ -4,7 +4,6 @@ package com.dev;
 import com.dt.module.om.term.entity.Machine;
 import com.dt.module.om.term.websocket.SftpClient;
 
-
 import java.io.File;
 import java.io.IOException;
 
@@ -42,12 +41,11 @@ public class Demo {
 
     }
 
-    public void action(int v){
+    public void action(int v) {
 
 
-
-     //   int v=11;
-        System.out.println("thread:"+v);
+        //   int v=11;
+        System.out.println("thread:" + v);
         String dir = "/tmp";
         String filename = "dt";
         String rfile = dir + "/" + filename + ".war";
@@ -65,7 +63,7 @@ public class Demo {
             System.out.println("mkdir" + filename + ".war" + v);
             sftp.mkDir(filename + ".war" + v);
             File f = new File(fstr + "/" + filename + ".war" + v);
-            sftp.changeDirectory("/tmp"+"/"+ filename + ".war" + v);
+            sftp.changeDirectory("/tmp" + "/" + filename + ".war" + v);
             sftp.uploadFile(f, filename + ".war", null);
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -73,7 +71,7 @@ public class Demo {
         }
 
 
-        }
+    }
 
 
 }

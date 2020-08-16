@@ -1,16 +1,7 @@
 package com.dt.core.annotion.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.dt.core.common.base.R;
+import com.dt.core.common.base.ReqData;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -19,12 +10,17 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.StreamUtils;
 
-import com.dt.core.common.base.R;
-import com.dt.core.common.base.ReqData;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverter<Object> {
     // 当返回是json是,自动转换成
-    private static final MediaType UTF8 = new MediaType("application", "json", Charset.forName("UTF-8"));
+    private static final MediaType UTF8 = new MediaType("application", "json", StandardCharsets.UTF_8);
     private boolean writeAcceptCharset = true;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -57,7 +53,7 @@ public class ResReqDataMessageConvert extends AbstractGenericHttpMessageConverte
     }
 
     private Object readMap(HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
-        Charset cs = Charset.forName("UTF-8");
+        Charset cs = StandardCharsets.UTF_8;
         StringBuilder stringBuilder = new StringBuilder();
         InputStream inputStream = inputMessage.getBody();
         byte[] b = new byte[1024];

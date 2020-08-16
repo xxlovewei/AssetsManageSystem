@@ -1,19 +1,13 @@
 package com.dev;
 
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.apache.commons.io.FileUtils;
+
+import java.io.*;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import org.apache.commons.io.FileUtils;
 
 /**
  * 读取Properties综合类,默认绑定到classpath下的config.properties文件。
@@ -41,6 +35,17 @@ public class PropertiesUtil {
         in.close();
     }
 
+    public static void main(String[] args) {
+        PropertiesUtil p;
+        try {
+            p = new PropertiesUtil("/opt/autologin/conf.properties");
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 根据key值读取配置的值
      * Jun 26, 2010 9:15:43 PM
@@ -63,7 +68,7 @@ public class PropertiesUtil {
      * @author algernonking
      */
     public Map<String, String> readAllProperties() throws FileNotFoundException, IOException {
-        //保存所有的键值  
+        //保存所有的键值
         Map<String, String> map = new HashMap<String, String>();
         Enumeration en = props.propertyNames();
         while (en.hasMoreElements()) {
@@ -86,28 +91,17 @@ public class PropertiesUtil {
     public void setValue(String key, String value) throws IOException {
         Properties prop = new Properties();
         InputStream fis = new FileInputStream(this.configPath);
-        // 从输入流中读取属性列表（键和元素对）  
+        // 从输入流中读取属性列表（键和元素对）
         prop.load(fis);
-        // 调用 Hashtable 的方法 put。使用 getProperty 方法提供并行性。  
-        // 强制要求为属性的键和值使用字符串。返回值是 Hashtable 调用 put 的结果。  
+        // 调用 Hashtable 的方法 put。使用 getProperty 方法提供并行性。
+        // 强制要求为属性的键和值使用字符串。返回值是 Hashtable 调用 put 的结果。
         OutputStream fos = new FileOutputStream(this.configPath);
         prop.setProperty(key, value);
-        // 以适合使用 load 方法加载到 Properties 表中的格式，  
-        // 将此 Properties 表中的属性列表（键和元素对）写入输出流  
+        // 以适合使用 load 方法加载到 Properties 表中的格式，
+        // 将此 Properties 表中的属性列表（键和元素对）写入输出流
         prop.store(fos, "last update");
-        //关闭文件  
+        //关闭文件
         fis.close();
         fos.close();
-    }
-
-    public static void main(String[] args) {
-        PropertiesUtil p;
-        try {
-            p = new PropertiesUtil("/opt/autologin/conf.properties");
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block  
-            e.printStackTrace();
-        }
     }
 }  

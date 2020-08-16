@@ -1,17 +1,5 @@
 package com.dt.module.wx.controller;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
@@ -23,24 +11,30 @@ import com.dt.module.wx.pojo.WeixinOauth2Token;
 import com.dt.module.wx.service.WebOAuthService;
 import com.dt.module.wx.service.WxService;
 import com.dt.module.wx.util.AdvancedUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/api")
 public class WebOAuthController extends BaseController {
 
+    private static Logger _log = LoggerFactory.getLogger(WebOAuthController.class);
     @Value("${wx.appId}")
     public String appIdconf;
-
     @Value("${wx.secret}")
     public String secretconf;
-
     @Autowired
     WxService wxService;
-
     @Autowired
     WebOAuthService webOAuthService;
-
-    private static Logger _log = LoggerFactory.getLogger(WebOAuthController.class);
 
     public WeixinOauth2Token getOauth2AccessToken(String code) {
         if (ToolUtil.isOneEmpty(appIdconf, secretconf)) {
@@ -141,7 +135,7 @@ public class WebOAuthController extends BaseController {
     @Acl(info = "保存WebOAuth", value = Acl.ACL_DENY)
     @RequestMapping(value = "/wx/saveWebOAuth.do")
     public R saveWebOAuth() {
-        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
         String id = ps.getString("id");
         if (ToolUtil.isEmpty(id)) {
             return webOAuthService.addWebOAuth(ps);

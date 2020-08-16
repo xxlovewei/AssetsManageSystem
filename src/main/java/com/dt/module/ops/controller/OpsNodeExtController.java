@@ -1,25 +1,9 @@
 package com.dt.module.ops.controller;
 
-import java.io.File;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.dt.module.base.entity.SysFiles;
-import com.dt.module.base.service.ISysFilesService;
-import com.dt.module.zbx.service.impl.HostService;
-import com.dt.module.zbx.service.impl.TemplateService;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -34,16 +18,27 @@ import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.controller.FileUpDownController;
+import com.dt.module.base.entity.SysFiles;
+import com.dt.module.base.service.ISysFilesService;
 import com.dt.module.ops.entity.OpsNode;
 import com.dt.module.ops.entity.OpsNodeDBEntity;
 import com.dt.module.ops.entity.OpsNodeEntity;
 import com.dt.module.ops.service.IOpsNodeService;
 import com.dt.module.ops.service.impl.OpsNodeExtServiceImpl;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.afterturn.easypoi.excel.ExcelExportUtil;
-import cn.afterturn.easypoi.excel.ExcelImportUtil;
-import cn.afterturn.easypoi.excel.entity.ExportParams;
-import cn.afterturn.easypoi.excel.entity.ImportParams;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -226,7 +221,7 @@ public class OpsNodeExtController extends BaseController {
     @RequestMapping(value = "/selectListExport.do")
     public void selectListExport(HttpServletRequest request, HttpServletResponse response)
             throws UnsupportedEncodingException {
-        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 
         R res = opsNodeExtServiceImpl.selecList(ps.getString("search"));
 

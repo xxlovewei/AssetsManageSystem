@@ -1,11 +1,11 @@
 package com.dt.module.cmdb.service;
 
-import com.dt.module.cmdb.entity.ResHistory;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.dt.module.cmdb.entity.ResHistory;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author algernonking

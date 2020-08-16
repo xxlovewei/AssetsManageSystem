@@ -23,11 +23,11 @@ public enum YNBoolean {
 
     }
 
-    public Boolean getValue() {
-        return value;
-    }
-
     public static String toText(boolean b) {
         return b ? "Y" : "N";
+    }
+
+    public Boolean getValue() {
+        return value;
     }
 }

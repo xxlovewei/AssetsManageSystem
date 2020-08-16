@@ -1,22 +1,15 @@
 package com.dt.module.zc.controller;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.cmdb.entity.Res;
 import com.dt.module.cmdb.service.IResService;
-import com.dt.module.zc.entity.ResChangeItem;
 import com.dt.module.zc.entity.ResInout;
 import com.dt.module.zc.entity.ResInoutItem;
 import com.dt.module.zc.service.IResInoutItemService;
@@ -27,7 +20,6 @@ import com.dt.module.zc.service.impl.ZcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
@@ -38,7 +30,7 @@ import java.util.Date;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -49,44 +41,44 @@ import java.util.Date;
 public class ResInoutExtController extends BaseController {
 
 
-	@Autowired
-	IResInoutService ResInoutServiceImpl;
+    @Autowired
+    IResInoutService ResInoutServiceImpl;
 
-	@Autowired
-	ResInoutExtService resInoutExtService;
+    @Autowired
+    ResInoutExtService resInoutExtService;
 
-	@Autowired
-	IResService ResServiceImpl;
+    @Autowired
+    IResService ResServiceImpl;
 
-	@Autowired
-	ZcService zcService;
+    @Autowired
+    ZcService zcService;
 
-	@Autowired
-	IResInoutItemService ResInoutItemServiceImpl;
+    @Autowired
+    IResInoutItemService ResInoutItemServiceImpl;
 
-	@ResponseBody
-	@Acl(info = "插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insert.do")
-	public R insert(ResInout entity,String busitimestr,String items) throws ParseException {
-		ArrayList<Res> cols=new ArrayList<Res>();
-		ArrayList<ResInoutItem> cols2=new ArrayList<ResInoutItem>();
-		String uuid=zcService.createUuid(entity.getAction());
-		entity.setUuid(uuid);
-		entity.setStatus("none");
-		if(ToolUtil.isEmpty(entity.getOperuserid())){
-			entity.setOperuserid(this.getUserId());
-		}
-		if(ToolUtil.isEmpty(entity.getOperusername())){
-			entity.setOperusername(this.getUserName());
-		}
-		JSONArray items_arr=JSONArray.parseArray(items);
-		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(busitimestr);
-		entity.setBusidate(date);
-		if(ZcCommonService.UUID_HCRK.equals(entity.getAction())){
+    @ResponseBody
+    @Acl(info = "插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insert.do")
+    public R insert(ResInout entity, String busitimestr, String items) throws ParseException {
+        ArrayList<Res> cols = new ArrayList<Res>();
+        ArrayList<ResInoutItem> cols2 = new ArrayList<ResInoutItem>();
+        String uuid = zcService.createUuid(entity.getAction());
+        entity.setUuid(uuid);
+        entity.setStatus("none");
+        if (ToolUtil.isEmpty(entity.getOperuserid())) {
+            entity.setOperuserid(this.getUserId());
+        }
+        if (ToolUtil.isEmpty(entity.getOperusername())) {
+            entity.setOperusername(this.getUserName());
+        }
+        JSONArray items_arr = JSONArray.parseArray(items);
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(busitimestr);
+        entity.setBusidate(date);
+        if (ZcCommonService.UUID_HCRK.equals(entity.getAction())) {
 
-			for(int i=0;i<items_arr.size();i++){
-				//当前无审批,入库
-				Res e=new Res();
+            for (int i = 0; i < items_arr.size(); i++) {
+                //当前无审批,入库
+                Res e = new Res();
                 e.setUuid(uuid);
                 e.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
                 e.setCrkstatus("none");
@@ -119,15 +111,15 @@ public class ResInoutExtController extends BaseController {
             }
 
 
-		}else if (ZcCommonService.UUID_HCCK.equals(entity.getAction())){
-			for(int i=0;i<items_arr.size();i++) {
-				//当前无审批,减值
-				UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-				ups.setSql("zc_cnt=zc_cnt-"+items_arr.getJSONObject(i).getString("zc_cnt"));
-				ups.eq("id", items_arr.getJSONObject(i).getString("id"));
-				ResServiceImpl.update(ups);
+        } else if (ZcCommonService.UUID_HCCK.equals(entity.getAction())) {
+            for (int i = 0; i < items_arr.size(); i++) {
+                //当前无审批,减值
+                UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
+                ups.setSql("zc_cnt=zc_cnt-" + items_arr.getJSONObject(i).getString("zc_cnt"));
+                ups.eq("id", items_arr.getJSONObject(i).getString("id"));
+                ResServiceImpl.update(ups);
 
-				//单据明细
+                //单据明细
                 ResInoutItem e2 = new ResInoutItem();
                 e2.setCrkstatus("none");
                 e2.setUuid(uuid);
@@ -144,14 +136,14 @@ public class ResInoutExtController extends BaseController {
                 cols2.add(e2);
             }
 
-		}else if (ZcCommonService.UUID_HCDB.equals(entity.getAction())){
-			for(int i=0;i<items_arr.size();i++) {
+        } else if (ZcCommonService.UUID_HCDB.equals(entity.getAction())) {
+            for (int i = 0; i < items_arr.size(); i++) {
 
-				//出库
-				UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-				ups.setSql("zc_cnt=zc_cnt-"+items_arr.getJSONObject(i).getString("zc_cnt"));
-				ups.eq("id", items_arr.getJSONObject(i).getString("id"));
-				ResServiceImpl.update(ups);
+                //出库
+                UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
+                ups.setSql("zc_cnt=zc_cnt-" + items_arr.getJSONObject(i).getString("zc_cnt"));
+                ups.eq("id", items_arr.getJSONObject(i).getString("id"));
+                ResServiceImpl.update(ups);
 
                 //进库
                 Res e = new Res();
@@ -184,87 +176,82 @@ public class ResInoutExtController extends BaseController {
                 cols2.add(e2);
             }
 
-		}
-		entity.setCnt(new BigDecimal(items_arr.size()));
-		System.out.println(entity);
-		ResInoutServiceImpl.saveOrUpdate(entity);
-		if(cols.size()>0){
-			ResServiceImpl.saveOrUpdateBatch(cols);
-		}
-		if(cols2.size()>0){
-			ResInoutItemServiceImpl.saveOrUpdateBatch(cols2);
-		}
+        }
+        entity.setCnt(new BigDecimal(items_arr.size()));
+        System.out.println(entity);
+        ResInoutServiceImpl.saveOrUpdate(entity);
+        if (cols.size() > 0) {
+            ResServiceImpl.saveOrUpdateBatch(cols);
+        }
+        if (cols2.size() > 0) {
+            ResInoutItemServiceImpl.saveOrUpdateBatch(cols2);
+        }
 
-		return R.SUCCESS_OPER();
-	}
-
-
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectHcTj.do")
-	public R selectHcTj(String loc) {
-		return resInoutExtService.selectHcTj(loc);
-	}
+        return R.SUCCESS_OPER();
+    }
 
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList(String type,String action) {
-		if(ZcCommonService.UUID_HCCK.equals(action)||ZcCommonService.UUID_HCDB.equals(action)){
-			return resInoutExtService.selectHcCk(action);
-		}else if (ZcCommonService.UUID_HCRK.equals(action)){
-			QueryWrapper<ResInout> qw = new QueryWrapper<ResInout>();
-			qw.and(i -> i.eq("type", type));
-			qw.and(i -> i.eq("action", action));
-			qw.orderByDesc("create_time");
-			return R.SUCCESS_OPER(ResInoutServiceImpl.list(qw));
-		}
-
-		return R.SUCCESS_OPER();
-	}
-
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectById.do")
-	public R selectById(String id) {
-		return R.SUCCESS_OPER();
-	}
-
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectSafetyStore.do")
-	public R selectSafetyStore() {
-		return resInoutExtService.selectSafetyStore();
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectHcTj.do")
+    public R selectHcTj(String loc) {
+        return resInoutExtService.selectHcTj(loc);
+    }
 
 
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList(String type, String action) {
+        if (ZcCommonService.UUID_HCCK.equals(action) || ZcCommonService.UUID_HCDB.equals(action)) {
+            return resInoutExtService.selectHcCk(action);
+        } else if (ZcCommonService.UUID_HCRK.equals(action)) {
+            QueryWrapper<ResInout> qw = new QueryWrapper<ResInout>();
+            qw.and(i -> i.eq("type", type));
+            qw.and(i -> i.eq("action", action));
+            qw.orderByDesc("create_time");
+            return R.SUCCESS_OPER(ResInoutServiceImpl.list(qw));
+        }
+
+        return R.SUCCESS_OPER();
+    }
+
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectById.do")
+    public R selectById(String id) {
+        return R.SUCCESS_OPER();
+    }
+
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectSafetyStore.do")
+    public R selectSafetyStore() {
+        return resInoutExtService.selectSafetyStore();
+    }
 
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectHcInDataById.do")
-	public R selectHcInDataById(String id) {
-		return resInoutExtService.selectHcInDataById(id);
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectHcInDataById.do")
+    public R selectHcInDataById(String id) {
+        return resInoutExtService.selectHcInDataById(id);
+    }
 
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectHcOutDataById.do")
-	public R selectHcOutDataById(String id) {
-		return resInoutExtService.selectHcOutDataById(id);
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectHcOutDataById.do")
+    public R selectHcOutDataById(String id) {
+        return resInoutExtService.selectHcOutDataById(id);
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectHcDbDataById.do")
-	public R selectHcDbDataById(String id) {
-		return resInoutExtService.selectHcDbDataById(id);
-	}
-
-
-
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectHcDbDataById.do")
+    public R selectHcDbDataById(String id) {
+        return resInoutExtService.selectHcDbDataById(id);
+    }
 
 
 }

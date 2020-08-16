@@ -11,6 +11,9 @@ import com.alibaba.fastjson.JSONObject;
 public class AccessTicket {
     // 获取到的凭证
     private String ticket;
+    // 凭证有效时间，单位：秒
+    private int expiresIn;
+    private long ctime;
 
     public String getTicket() {
 
@@ -36,11 +39,6 @@ public class AccessTicket {
     public void setCtime(long ctime) {
         this.ctime = ctime;
     }
-
-    // 凭证有效时间，单位：秒
-    private int expiresIn;
-
-    private long ctime;
 
     @Override
     public String toString() {

@@ -1,9 +1,9 @@
 package com.dt.core.dao;
 
+import com.dt.core.tool.util.DbUtil;
+
 import java.util.Date;
 import java.util.Map;
-
-import com.dt.core.tool.util.DbUtil;
 
 public abstract class SpringSQLLiteDao extends SpringDAO {
     protected RcdSet getPageSet(RcdSet set, String sql, int pageIndex, int pageSize, Map<String, Object> params) {

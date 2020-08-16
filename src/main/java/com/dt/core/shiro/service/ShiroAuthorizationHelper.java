@@ -1,28 +1,18 @@
 package com.dt.core.shiro.service;
 
-import com.dt.module.base.listener.ApplicationContextListener;
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.impl.LoginService;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dt.core.common.base.BaseCommon;
-import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.service.impl.LoginService;
-
 /**
  * @author algernonking
  * @time 2014年1月8日
  */
 public class ShiroAuthorizationHelper {
-
-    /**
-     *
-     */
-    private static EhCacheManager cacheManager;
-
-    private static Logger log = LoggerFactory.getLogger(ShiroAuthorizationHelper.class);
 
     /**
      * 清除用户的授权信息
@@ -32,6 +22,11 @@ public class ShiroAuthorizationHelper {
     public static String authorizationCache = "authorizationCache";
     public static String passwordRetryCache = "passwordRetryCache";
     public static String authenticationCache = "authenticationCache";
+    /**
+     *
+     */
+    private static EhCacheManager cacheManager;
+    private static Logger log = LoggerFactory.getLogger(ShiroAuthorizationHelper.class);
 
     /* 权限信息 */
     public static void clearAuthorizationInfo(PrincipalCollection principals) {

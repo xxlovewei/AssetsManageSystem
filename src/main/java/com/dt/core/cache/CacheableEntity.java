@@ -7,6 +7,16 @@ package com.dt.core.cache;
  */
 public class CacheableEntity {
 
+    private String value = "";
+    private String key = "";
+    private int refreshtime = -1;
+    private int expiredtime = -1;
+
+    public CacheableEntity(String value_in, String key_in) {
+        value = value_in;
+        key = key_in;
+    }
+
     public String getValue() {
         return value;
     }
@@ -22,13 +32,6 @@ public class CacheableEntity {
     public void setKey(String key) {
         this.key = key;
     }
-
-    private String value = "";
-    private String key = "";
-
-    private int refreshtime = -1;
-
-    private int expiredtime = -1;
 
     /**
      * @return the expiredtime
@@ -56,12 +59,6 @@ public class CacheableEntity {
      */
     public void setRefreshtime(int refreshtime) {
         this.refreshtime = refreshtime;
-    }
-
-
-    public CacheableEntity(String value_in, String key_in) {
-        value = value_in;
-        key = key_in;
     }
 
     @Override

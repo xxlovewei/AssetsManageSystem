@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
  */
 public class RemoteShellResult {
 
+    private static Logger _log = LoggerFactory.getLogger(RemoteShellResult.class);
     public int code;
     public StringBuffer result = new StringBuffer();
-    private static Logger _log = LoggerFactory.getLogger(RemoteShellResult.class);
 
     public static RemoteShellResult setData(int code, StringBuffer result) {
         RemoteShellResult res = new RemoteShellResult();

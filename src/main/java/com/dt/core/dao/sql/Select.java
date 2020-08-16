@@ -1,13 +1,13 @@
 package com.dt.core.dao.sql;
 
+import com.dt.core.dao.Rcd;
+import com.dt.core.dao.RcdSet;
+import com.dt.core.dao.SpringDAO;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
-import com.dt.core.dao.Rcd;
-import com.dt.core.dao.RcdSet;
-import com.dt.core.dao.SpringDAO;
 
 public class Select extends DML implements QueryableSQL {
 
@@ -24,6 +24,17 @@ public class Select extends DML implements QueryableSQL {
     private SelectWhere where = new SelectWhere();
     private OrderBy orderBy = new OrderBy();
     private GroupBy groupBy = new GroupBy();
+    private SpringDAO dao = null;
+
+    public Select() {
+        this.where.setParent(this);
+        this.orderBy.setParent(this);
+        this.groupBy.setParent(this);
+    }
+
+    public static Select init() {
+        return new Select();
+    }
 
     public SelectWhere where() {
         return where;
@@ -35,16 +46,6 @@ public class Select extends DML implements QueryableSQL {
 
     public OrderBy orderBy() {
         return orderBy;
-    }
-
-    public static Select init() {
-        return new Select();
-    }
-
-    public Select() {
-        this.where.setParent(this);
-        this.orderBy.setParent(this);
-        this.groupBy.setParent(this);
     }
 
     public Select from(SE table, String alias) {
@@ -393,8 +394,7 @@ public class Select extends DML implements QueryableSQL {
         }
         if (!this.orderBy().isEmpty()) {
             orderBy().setIgnorColon(ignorColon);
-            if (!this.orderBy().isAllParamsEmpty())
-                return false;
+            return this.orderBy().isAllParamsEmpty();
         }
         return true;
     }
@@ -402,8 +402,6 @@ public class Select extends DML implements QueryableSQL {
     public boolean isAllParamsEmpty(boolean isCE) {
         return isAllParamsEmpty();
     }
-
-    private SpringDAO dao = null;
 
     public SpringDAO getDao() {
         return dao;

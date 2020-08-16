@@ -1,16 +1,17 @@
 package com.dt.core.cache;
 
-import java.util.List;
-import java.util.concurrent.Callable;
+import com.dt.core.tool.lang.SpringContextUtil;
+import net.sf.ehcache.Ehcache;
+import net.sf.ehcache.Element;
+import net.sf.ehcache.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.util.Assert;
-import com.dt.core.tool.lang.SpringContextUtil;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.Status;
+
+import java.util.List;
+import java.util.concurrent.Callable;
 
 public class CustomizedEhCacheCache implements Cache {
 
@@ -25,10 +26,6 @@ public class CustomizedEhCacheCache implements Cache {
     // expiredtime=  -2  则设置cache不需要设置,没有对cache设置cache#40#20
     private int expiredtime = -1;
     private int refreshtime = -1;
-
-    private CacheSupport getCacheSupport() {
-        return SpringContextUtil.getBean(CacheSupport.class);
-    }
 
     public CustomizedEhCacheCache(Ehcache ehcache) {
         Assert.notNull(ehcache, "Ehcache must not be null");
@@ -46,6 +43,10 @@ public class CustomizedEhCacheCache implements Cache {
         Assert.isTrue(Status.STATUS_ALIVE.equals(status),
                 "An 'alive' Ehcache is required - current cache is " + status.toString());
         cache = ehcache;
+    }
+
+    private CacheSupport getCacheSupport() {
+        return SpringContextUtil.getBean(CacheSupport.class);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class CustomizedEhCacheCache implements Cache {
 
     @Override
     public void put(Object key, Object value) {
-        logger.info("put key:"+key+",expiredtime:"+expiredtime);
+        logger.info("put key:" + key + ",expiredtime:" + expiredtime);
         Element e = new Element(key, value);
         if (expiredtime > 0) {
             // 注解中有设置
@@ -93,9 +94,9 @@ public class CustomizedEhCacheCache implements Cache {
                 e.setTimeToLive(ce.getTimeToLive());
             } else {
                 logger.info("Can't cache it,key not exists. cache:" + cache.getName() + ",key:" + key + ",expiredtime:"
-                        + expiredtime,",will put obj again");
+                        + expiredtime, ",will put obj again");
             }
-        }else{
+        } else {
             logger.info("未知");
         }
         cache.put(e);
@@ -129,9 +130,9 @@ public class CustomizedEhCacheCache implements Cache {
             return null;
         }
         Long expired = (element.getExpirationTime() - System.currentTimeMillis()) / 1000;
-        logger.info("@From mem " + cache.getName() + ":" + element.getObjectKey()+",ExpirationTime:"+expired+",RefreshTime:"+refreshtime);
+        logger.info("@From mem " + cache.getName() + ":" + element.getObjectKey() + ",ExpirationTime:" + expired + ",RefreshTime:" + refreshtime);
         // 判断是否要刷新
-        if (refreshtime > 0 &&  expired > 0 && expired <= refreshtime) {
+        if (refreshtime > 0 && expired > 0 && expired <= refreshtime) {
             ThreadTaskHelper.run(new Runnable() {
                 @Override
                 public void run() {
@@ -148,7 +149,7 @@ public class CustomizedEhCacheCache implements Cache {
 
     @Override
     public <T> T get(Object o, Callable<T> callable) {
-      return null;
+        return null;
     }
 
     public Element getKey(String key) {
@@ -161,7 +162,7 @@ public class CustomizedEhCacheCache implements Cache {
 
     private void removeCacheByKey(Object key) {
         //同步删除运行时环境
-        if(cache.isKeyInCache(key)){
+        if (cache.isKeyInCache(key)) {
             cache.remove(key);
         }
         CustomizedEhCacheCache.this.getCacheSupport().removeCacheByKey(cache.getName(), key.toString());

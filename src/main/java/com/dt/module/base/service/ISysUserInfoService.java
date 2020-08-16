@@ -1,16 +1,13 @@
 package com.dt.module.base.service;
 
-import java.util.HashMap;
-import java.util.List;
-
-import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.R;
 import com.dt.module.base.entity.SysMenus;
 import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.entity.UserShiro;
-import org.springframework.cache.annotation.Cacheable;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>

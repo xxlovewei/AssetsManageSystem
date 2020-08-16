@@ -1,9 +1,9 @@
 package com.dt.module.base.busenum;
 
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.core.enums.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.io.Serializable;
 
 public enum ctCtTypeEnum implements IEnum<Serializable> {
     NEWS("news", "新闻"), DOC("doc", "文档"), COMPANY("company", "公司");

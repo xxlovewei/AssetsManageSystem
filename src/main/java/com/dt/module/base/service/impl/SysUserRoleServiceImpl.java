@@ -1,11 +1,10 @@
 package com.dt.module.base.service.impl;
 
-import org.springframework.stereotype.Service;
-
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dt.module.base.entity.SysUserRole;
 import com.dt.module.base.mapper.SysUserRoleMapper;
 import com.dt.module.base.service.ISysUserRoleService;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>

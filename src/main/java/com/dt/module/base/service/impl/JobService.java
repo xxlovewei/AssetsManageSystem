@@ -1,9 +1,5 @@
 package com.dt.module.base.service.impl;
 
-import org.quartz.JobExecutionContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseCommon;
@@ -15,6 +11,9 @@ import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.entity.ScheduleJob;
 import com.dt.module.db.DB;
+import org.quartz.JobExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author algernonking
@@ -23,14 +22,14 @@ import com.dt.module.db.DB;
 @Service
 public class JobService extends BaseService {
 
+    public static String TYPE_SYS = "sys";
+    public static String TYPE_USER = "user";
+    @Autowired
+    ScheduleMangerService scheduleMangerService = null;
+
     public static JobService me() {
         return SpringContextUtil.getBean(JobService.class);
     }
-
-    @Autowired
-    ScheduleMangerService scheduleMangerService = null;
-    public static String TYPE_SYS = "sys";
-    public static String TYPE_USER = "user";
 
     public Boolean finishedJobUpdate(JobExecutionContext jc) {
         ScheduleJob job = (ScheduleJob) jc.getJobDetail().getJobDataMap().get("scheduleJob");
@@ -59,11 +58,11 @@ public class JobService extends BaseService {
         job.setJobInstanceValid(false);
         Rcd res = db.uniqueRecord(sql, seq);
         if (ToolUtil.isNotEmpty(res)) {
-            job.setJobSeq(res.getString("seq").toString());
-            job.setCronExpression(res.getString("jobcron").toString());
-            job.setJobGroup(res.getString("jobgroup").toString());
-            job.setJobName(res.getString("jobname").toString());
-            job.setJobClassName(res.getString("jobclassname").toString());
+            job.setJobSeq(res.getString("seq"));
+            job.setCronExpression(res.getString("jobcron"));
+            job.setJobGroup(res.getString("jobgroup"));
+            job.setJobName(res.getString("jobname"));
+            job.setJobClassName(res.getString("jobclassname"));
             job.setJobInstanceValid(true);
         } else {
         }

@@ -1,12 +1,12 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.math.BigDecimal;
-import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
@@ -16,9 +16,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * @author algernonking
  * @since 2020-06-27
  */
- 
+
 @TableName("res_inout_item")
- 
+
 public class ResInoutItem extends BaseModel<ResInoutItem> {
 
     private static final long serialVersionUID = 1L;
@@ -306,7 +306,7 @@ public class ResInoutItem extends BaseModel<ResInoutItem> {
                 ", usedCompanyId=" + usedCompanyId +
                 ", partId=" + partId +
                 ", usedUserid=" + usedUserid +
-        ", mark=" + mark +
-        "}";
+                ", mark=" + mark +
+                "}";
     }
 }

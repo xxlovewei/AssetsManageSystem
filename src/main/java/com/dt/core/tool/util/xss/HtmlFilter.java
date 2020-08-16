@@ -1,10 +1,6 @@
 package com.dt.core.tool.util.xss;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
@@ -120,13 +116,13 @@ public final class HtmlFilter {
      */
     private final boolean stripComment;
     private final boolean encodeQuotes;
-    private boolean vDebug = false;
     /**
      * flag determining whether to try to make tags when presented with
      * "unbalanced" angle brackets (e.g. "<b text </b>" becomes "<b> text </b>"
      * ). If set to false, unbalanced angle brackets will be html escaped.
      */
     private final boolean alwaysMakeTags;
+    private boolean vDebug = false;
 
     /**
      * Default constructor.
@@ -199,16 +195,6 @@ public final class HtmlFilter {
         alwaysMakeTags = conf.containsKey("alwaysMakeTags") ? (Boolean) conf.get("alwaysMakeTags") : true;
     }
 
-    private void reset() {
-        vTagCounts.clear();
-    }
-
-    private void debug(final String msg) {
-        if (vDebug) {
-            Logger.getAnonymousLogger().info(msg);
-        }
-    }
-
     public static String chr(final int decimal) {
         return String.valueOf((char) decimal);
     }
@@ -222,7 +208,31 @@ public final class HtmlFilter {
         return result;
     }
 
+    private static String regexReplace(final Pattern regexPattern, final String replacement, final String s) {
+        Matcher m = regexPattern.matcher(s);
+        return m.replaceAll(replacement);
+    }
+
+    private static boolean inArray(final String s, final String[] array) {
+        for (String item : array) {
+            if (item != null && item.equals(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // ---------------------------------------------------------------
+
+    private void reset() {
+        vTagCounts.clear();
+    }
+
+    private void debug(final String msg) {
+        if (vDebug) {
+            Logger.getAnonymousLogger().info(msg);
+        }
+    }
 
     /**
      * given a user submitted input String, filter out any invalid or restricted
@@ -329,11 +339,6 @@ public final class HtmlFilter {
         return result;
     }
 
-    private static String regexReplace(final Pattern regexPattern, final String replacement, final String s) {
-        Matcher m = regexPattern.matcher(s);
-        return m.replaceAll(replacement);
-    }
-
     private String processTag(final String s) {
         // ending tags
         Matcher m = P_END_TAG.matcher(s);
@@ -418,10 +423,10 @@ public final class HtmlFilter {
         if (m.find()) {
             final String protocol = m.group(1);
             if (!inArray(protocol, vAllowedProtocols)) {
-                s = "#" + s.substring(protocol.length() + 1, s.length());
+                s = "#" + s.substring(protocol.length() + 1);
                 String protocolpre = "#//";
                 if (s.startsWith(protocolpre)) {
-                    s = "#" + s.substring(3, s.length());
+                    s = "#" + s.substring(3);
                 }
             }
         }
@@ -500,15 +505,6 @@ public final class HtmlFilter {
 
     private boolean isValidEntity(final String entity) {
         return inArray(entity, vAllowedEntities);
-    }
-
-    private static boolean inArray(final String s, final String[] array) {
-        for (String item : array) {
-            if (item != null && item.equals(s)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private boolean allowed(final String name) {

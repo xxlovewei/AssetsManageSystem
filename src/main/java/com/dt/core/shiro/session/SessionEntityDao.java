@@ -1,13 +1,10 @@
 package com.dt.core.shiro.session;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import com.dt.core.cache.ThreadTaskHelper;
+import com.dt.core.dao.Rcd;
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.ISysSessionService;
+import com.dt.module.db.DB;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
@@ -17,11 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.dt.core.cache.ThreadTaskHelper;
-import com.dt.core.dao.Rcd;
-import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.service.ISysSessionService;
-import com.dt.module.db.DB;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author: algernonking
@@ -30,6 +25,10 @@ import com.dt.module.db.DB;
  */
 public class SessionEntityDao extends EnterpriseCacheSessionDAO {
 
+
+    private static Logger _log = LoggerFactory.getLogger(SessionEntityDao.class);
+    @Autowired
+    ISysSessionService SysSessionService;
 
     public static String serialize(Session session) {
         try {
@@ -51,10 +50,6 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
             throw new RuntimeException("deserialize session error", e);
         }
     }
-
-    @Autowired
-    ISysSessionService SysSessionService;
-    private static Logger _log = LoggerFactory.getLogger(SessionEntityDao.class);
 
     @Override
     public Serializable create(Session session) {
@@ -129,10 +124,7 @@ public class SessionEntityDao extends EnterpriseCacheSessionDAO {
         long timeout = session.getTimeout();
         long lastTime = session.getLastAccessTime().getTime();
         long current = new Date().getTime();
-        if ((lastTime + timeout) > current) {
-            return false;
-        }
-        return true;
+        return (lastTime + timeout) <= current;
     }
 
     @Override

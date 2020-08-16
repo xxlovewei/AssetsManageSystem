@@ -1,13 +1,12 @@
 package com.dt.module.flow.base;
 
-import java.util.Collection;
-
-import org.springframework.stereotype.Component;
-
 import com.bstek.uflo.env.Context;
 import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.process.handler.AssignmentHandler;
 import com.bstek.uflo.process.node.TaskNode;
+import org.springframework.stereotype.Component;
+
+import java.util.Collection;
 
 /**
  * @author: algernonking

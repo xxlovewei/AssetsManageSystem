@@ -1,9 +1,9 @@
 package com.dt.core.common.base;
 
-import java.util.Date;
-
 import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.ToolUtil;
+
+import java.util.Date;
 
 /**
  * @author: algernonking
@@ -13,7 +13,7 @@ import com.dt.core.tool.util.ToolUtil;
 public class BaseCommon {
 
     public static boolean isSuperAdmin(String id) {
-        return ToolUtil.isNotEmpty(id) && id.equals(getSuperAdmin()) ? true : false;
+        return ToolUtil.isNotEmpty(id) && id.equals(getSuperAdmin());
     }
 
     public static String getSuperAdmin() {

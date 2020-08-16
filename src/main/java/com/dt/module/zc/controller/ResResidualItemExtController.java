@@ -1,23 +1,11 @@
 package com.dt.module.zc.controller;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.core.tool.util.ConvertUtil;
-import com.dt.core.tool.util.DbUtil;
-import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.cmdb.entity.Res;
-import com.dt.module.flow.entity.SysProcessData;
-import com.dt.module.flow.entity.SysProcessForm;
 import com.dt.module.zc.entity.ResResidual;
 import com.dt.module.zc.entity.ResResidualItem;
 import com.dt.module.zc.service.IResResidualItemService;
@@ -43,37 +31,37 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ResResidualItemExtController extends BaseController {
 
 
-	@Autowired
-	IResResidualItemService ResResidualItemServiceImpl;
+    @Autowired
+    IResResidualItemService ResResidualItemServiceImpl;
 
-	@Autowired
-	IResResidualService ResResidualServiceImpl;
+    @Autowired
+    IResResidualService ResResidualServiceImpl;
 
-	@ResponseBody
-	@Acl(info = "根据Id删除", value = Acl.ACL_USER)
-	@RequestMapping(value = "/deleteById.do")
-	public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		ResResidualItem item = ResResidualItemServiceImpl.getById(id);
-		QueryWrapper<ResResidual> ew = new QueryWrapper<ResResidual>();
-		ew.and(i -> i.eq("uuid", item.getUuid()));
-		ResResidual obj = ResResidualServiceImpl.getOne(ew);
-		if (ResResidualExtService.STATUS_SUCCESS.equals(obj.getStatus())) {
-			return R.FAILURE("当前状态已完成,不允许删除");
-		}
-		//删除
-		ResResidualItemServiceImpl.removeById(id);
-		//更新主数据
-		UpdateWrapper<ResResidual> ups = new UpdateWrapper<ResResidual>();
-		ups.setSql("cnt=cnt-1");
-		ups.eq("id", obj.getId());
-		ResResidualServiceImpl.update(ups);
-		return R.SUCCESS_OPER();
-	}
+    @ResponseBody
+    @Acl(info = "根据Id删除", value = Acl.ACL_USER)
+    @RequestMapping(value = "/deleteById.do")
+    public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+        ResResidualItem item = ResResidualItemServiceImpl.getById(id);
+        QueryWrapper<ResResidual> ew = new QueryWrapper<ResResidual>();
+        ew.and(i -> i.eq("uuid", item.getUuid()));
+        ResResidual obj = ResResidualServiceImpl.getOne(ew);
+        if (ResResidualExtService.STATUS_SUCCESS.equals(obj.getStatus())) {
+            return R.FAILURE("当前状态已完成,不允许删除");
+        }
+        //删除
+        ResResidualItemServiceImpl.removeById(id);
+        //更新主数据
+        UpdateWrapper<ResResidual> ups = new UpdateWrapper<ResResidual>();
+        ups.setSql("cnt=cnt-1");
+        ups.eq("id", obj.getId());
+        ResResidualServiceImpl.update(ups);
+        return R.SUCCESS_OPER();
+    }
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectListByUuid.do")
-	public R selectListByUuid(String uuid) {
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectListByUuid.do")
+    public R selectListByUuid(String uuid) {
         String sql = "select " + ZcCommonService.resSqlbody + " t.* , item.*,t.uuid zcuuid from res t,res_residual_item item where item.dr='0' and t.id=item.resid and item.uuid=?";
         return R.SUCCESS_OPER(db.query(sql, uuid).toJsonArrayWithJsonObject());
 

@@ -1,11 +1,11 @@
 package com.dt.module.om.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import com.alibaba.fastjson.JSON;
 
 import javax.servlet.http.HttpServletRequest;
-
-import com.alibaba.fastjson.JSON;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class WebSshUtil {
 
@@ -22,9 +22,9 @@ public class WebSshUtil {
         InputStream is = null;
         try {
             try {
-                is = new ByteArrayInputStream(JSON.toJSONString(message).getBytes("UTF-8"));
+                is = new ByteArrayInputStream(JSON.toJSONString(message).getBytes(StandardCharsets.UTF_8));
             } catch (Exception e) {
-                is = new ByteArrayInputStream("{\"code\":-1,\"msg\":\"system error.\"}".getBytes("UTF-8"));
+                is = new ByteArrayInputStream("{\"code\":-1,\"msg\":\"system error.\"}".getBytes(StandardCharsets.UTF_8));
             }
         } catch (Exception e) {
         }

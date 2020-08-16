@@ -1,11 +1,11 @@
 package com.dt.module.zc.mapper;
 
-import com.dt.module.zc.entity.ResInventoryUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dt.module.zc.entity.ResInventoryUser;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author algernonking

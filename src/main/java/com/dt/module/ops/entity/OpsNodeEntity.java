@@ -1,9 +1,8 @@
 package com.dt.module.ops.entity;
 
-import com.alibaba.fastjson.JSONObject;
-
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * <p>
@@ -89,6 +88,12 @@ public class OpsNodeEntity {
 
     @Excel(name = "标签2", width = 15)
     private String label2;
+    @Excel(name = "风险等级", width = 15)
+    private String syslevelstr;
+    @Excel(name = "运行环境", width = 15)
+    private String sysenvstr;
+    @Excel(name = "备注", width = 20)
+    private String mark;
 
     /**
      * @return the status
@@ -132,18 +137,18 @@ public class OpsNodeEntity {
         this.label2 = label2;
     }
 
-    @Excel(name = "风险等级", width = 15)
-    private String syslevelstr;
-    @Excel(name = "运行环境", width = 15)
-    private String sysenvstr;
-    @Excel(name = "备注", width = 20)
-    private String mark;
-
     /**
      * @return the name
      */
     public String getName() {
         return name == null ? "" : name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -158,13 +163,6 @@ public class OpsNodeEntity {
      */
     public void setId(String id) {
         this.id = id;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**

@@ -67,7 +67,7 @@ public class ResInventoryEntity implements java.io.Serializable {
     private String belongcom_fullname;
 
     @Excel(name = "使用公司", width = 20)
-    private String comp_fullname ;
+    private String comp_fullname;
 
     @Excel(name = "使用部门", width = 20)
     private String part_fullname;
@@ -81,16 +81,18 @@ public class ResInventoryEntity implements java.io.Serializable {
 
     @Excel(name = "净值", width = 10)
     private String net_worth;
-
-
+    private String processmsg = "";
 
 
     public ResInventoryEntity() {
     }
 
-
-
-
+    /**
+     * @return the serialversionuid
+     */
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
     /**
      * @return the fs20
@@ -119,7 +121,6 @@ public class ResInventoryEntity implements java.io.Serializable {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
-
 
     /**
      * @return the brandstr
@@ -191,7 +192,6 @@ public class ResInventoryEntity implements java.io.Serializable {
         this.recyclestr = recyclestr;
     }
 
-
     /**
      * @return the net_worth
      */
@@ -205,7 +205,6 @@ public class ResInventoryEntity implements java.io.Serializable {
     public void setNet_worth(String net_worth) {
         this.net_worth = net_worth;
     }
-
 
     /**
      * @return the locstr
@@ -233,14 +232,6 @@ public class ResInventoryEntity implements java.io.Serializable {
      */
     public void setBuy_timestr(String buy_timestr) {
         this.buy_timestr = buy_timestr;
-    }
-
-
-    /**
-     * @return the serialversionuid
-     */
-    public static long getSerialversionuid() {
-        return serialVersionUID;
     }
 
     /**
@@ -271,7 +262,6 @@ public class ResInventoryEntity implements java.io.Serializable {
         this.part_fullname = part_fullname;
     }
 
-
     /**
      * @return the buy_price
      */
@@ -286,12 +276,9 @@ public class ResInventoryEntity implements java.io.Serializable {
         this.buy_price = buy_price;
     }
 
-
-
-
     public void fullResEntity(JSONObject obj) {
 
-        this.supplierstr=obj.getString("supplierstr");
+        this.supplierstr = obj.getString("supplierstr");
         this.uuid = obj.getString("uuid");
         this.classname = obj.getString("classname");
         this.classfullname = obj.getString("classfullname");
@@ -357,8 +344,6 @@ public class ResInventoryEntity implements java.io.Serializable {
         this.classname = classname;
     }
 
-    private String processmsg = "";
-
     /**
      * @return the processmsg
      */
@@ -372,8 +357,6 @@ public class ResInventoryEntity implements java.io.Serializable {
     public void setProcessmsg(String processmsg) {
         this.processmsg = processmsg;
     }
-
-
 
 
     public String getZcsourcestr() {

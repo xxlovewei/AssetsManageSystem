@@ -60,7 +60,7 @@ public enum SQLKeyword {
 
     private String keyword;
 
-    private SQLKeyword(String kw) {
+    SQLKeyword(String kw) {
         this.keyword = kw;
     }
 

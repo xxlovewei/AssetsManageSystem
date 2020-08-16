@@ -1,11 +1,11 @@
 package com.dt.module.flow.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * @author algernonking
  * @since 2020-06-26
  */
- 
+
 @TableName("sys_process_setting")
 
 public class SysProcessSetting extends BaseModel<SysProcessSetting> {

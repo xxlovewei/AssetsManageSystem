@@ -1,24 +1,24 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.math.BigDecimal;
-import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-05-27
  */
- 
+
 @TableName("res_inout")
- 
+
 public class ResInout extends BaseModel<ResInout> {
 
     private static final long serialVersionUID = 1L;
@@ -357,33 +357,33 @@ public class ResInout extends BaseModel<ResInout> {
     @Override
     public String toString() {
         return "ResInout{" +
-        "id=" + id +
-        ", type=" + type +
-        ", uuid=" + uuid +
-        ", title=" + title +
-        ", action=" + action +
-        ", status=" + status +
-        ", cnt=" + cnt +
-        ", zcsource=" + zcsource +
-        ", suppliername=" + suppliername +
-        ", buytime=" + buytime +
-        ", price=" + price +
-        ", operuserid=" + operuserid +
-        ", operusername=" + operusername +
-        ", busidate=" + busidate +
-        ", rdate=" + rdate +
-        ", compid=" + compid +
-        ", loc=" + loc +
-        ", warehouse=" + warehouse +
-        ", usedcompid=" + usedcompid +
-        ", usedpartid=" + usedpartid +
-        ", useduserid=" + useduserid +
-        ", inloc=" + inloc +
-        ", inwarehouse=" + inwarehouse +
-        ", label1=" + label1 +
-        ", label2=" + label2 +
-        ", remark=" + remark +
-        ", belongcompid=" + belongcompid +
-        "}";
+                "id=" + id +
+                ", type=" + type +
+                ", uuid=" + uuid +
+                ", title=" + title +
+                ", action=" + action +
+                ", status=" + status +
+                ", cnt=" + cnt +
+                ", zcsource=" + zcsource +
+                ", suppliername=" + suppliername +
+                ", buytime=" + buytime +
+                ", price=" + price +
+                ", operuserid=" + operuserid +
+                ", operusername=" + operusername +
+                ", busidate=" + busidate +
+                ", rdate=" + rdate +
+                ", compid=" + compid +
+                ", loc=" + loc +
+                ", warehouse=" + warehouse +
+                ", usedcompid=" + usedcompid +
+                ", usedpartid=" + usedpartid +
+                ", useduserid=" + useduserid +
+                ", inloc=" + inloc +
+                ", inwarehouse=" + inwarehouse +
+                ", label1=" + label1 +
+                ", label2=" + label2 +
+                ", remark=" + remark +
+                ", belongcompid=" + belongcompid +
+                "}";
     }
 }

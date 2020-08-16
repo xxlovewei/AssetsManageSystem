@@ -1,13 +1,12 @@
 package com.dt.core.dao.sql;
 
+import com.dt.core.dao.SpringDAO;
+import com.dt.core.dao.util.TypedHashMap;
+import jodd.util.ArraysUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.dt.core.dao.SpringDAO;
-import com.dt.core.dao.util.TypedHashMap;
-
-import jodd.util.ArraysUtil;
 
 public class Update extends DML implements ExecutableSQL {
 
@@ -17,14 +16,7 @@ public class Update extends DML implements ExecutableSQL {
     private String table = null;
     private String tableAlias = null;
     private UpdateWhere where = new UpdateWhere();
-
-    public static Update create(String table) {
-        return new Update(table);
-    }
-
-    public UpdateWhere where() {
-        return this.where;
-    }
+    private SpringDAO dao = null;
 
     public Update() {
 
@@ -33,6 +25,14 @@ public class Update extends DML implements ExecutableSQL {
     public Update(String table) {
         this.where.setParent(this);
         this.update(table);
+    }
+
+    public static Update create(String table) {
+        return new Update(table);
+    }
+
+    public UpdateWhere where() {
+        return this.where;
     }
 
     public Update update(String table, String alias) {
@@ -231,8 +231,7 @@ public class Update extends DML implements ExecutableSQL {
                 return false;
         }
         if (!this.where().isEmpty()) {
-            if (!this.where().isAllParamsEmpty())
-                return false;
+            return this.where().isAllParamsEmpty();
         }
         return true;
     }
@@ -240,8 +239,6 @@ public class Update extends DML implements ExecutableSQL {
     public boolean isAllParamsEmpty(boolean isCE) {
         return isAllParamsEmpty();
     }
-
-    private SpringDAO dao = null;
 
     public Integer execute() {
         return dao.execute(this);

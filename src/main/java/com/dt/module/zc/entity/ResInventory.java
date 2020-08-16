@@ -1,25 +1,25 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.math.BigDecimal;
-import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-05-24
  */
- 
+
 @TableName("res_inventory")
- 
+
 public class ResInventory extends BaseModel<ResInventory> {
 
     private static final long serialVersionUID = 1L;
@@ -418,36 +418,36 @@ public class ResInventory extends BaseModel<ResInventory> {
     @Override
     public String toString() {
         return "ResInventory{" +
-        "id=" + id +
-        ", name=" + name +
-        ", batchid=" + batchid +
-        ", syncstatus=" + syncstatus +
-        ", status=" + status +
-        ", resstartdate=" + resstartdate +
-        ", resenddate=" + resenddate +
-        ", usedcomp=" + usedcomp +
-        ", usedcompname=" + usedcompname +
-        ", usedpart=" + usedpart +
-        ", usedpartname=" + usedpartname +
-        ", usedpartdata=" + usedpartdata +
-        ", belongcomp=" + belongcomp +
-        ", belongcompname=" + belongcompname +
-        ", rescat=" + rescat +
-        ", rescatname=" + rescatname +
-        ", rescatdata=" + rescatdata +
-        ", area=" + area +
-        ", areaname=" + areaname +
-        ", areadata=" + areadata +
-        ", adminuserid=" + adminuserid +
-        ", adminusername=" + adminusername +
-        ", starttime=" + starttime +
-        ", finishtime=" + finishtime +
-        ", pduserlist=" + pduserlist +
-        ", pduserdata=" + pduserdata +
-        ", manualinventory=" + manualinventory +
-        ", allusersinventory=" + allusersinventory +
-        ", mark=" + mark +
-        ", cnt=" + cnt +
-        "}";
+                "id=" + id +
+                ", name=" + name +
+                ", batchid=" + batchid +
+                ", syncstatus=" + syncstatus +
+                ", status=" + status +
+                ", resstartdate=" + resstartdate +
+                ", resenddate=" + resenddate +
+                ", usedcomp=" + usedcomp +
+                ", usedcompname=" + usedcompname +
+                ", usedpart=" + usedpart +
+                ", usedpartname=" + usedpartname +
+                ", usedpartdata=" + usedpartdata +
+                ", belongcomp=" + belongcomp +
+                ", belongcompname=" + belongcompname +
+                ", rescat=" + rescat +
+                ", rescatname=" + rescatname +
+                ", rescatdata=" + rescatdata +
+                ", area=" + area +
+                ", areaname=" + areaname +
+                ", areadata=" + areadata +
+                ", adminuserid=" + adminuserid +
+                ", adminusername=" + adminusername +
+                ", starttime=" + starttime +
+                ", finishtime=" + finishtime +
+                ", pduserlist=" + pduserlist +
+                ", pduserdata=" + pduserdata +
+                ", manualinventory=" + manualinventory +
+                ", allusersinventory=" + allusersinventory +
+                ", mark=" + mark +
+                ", cnt=" + cnt +
+                "}";
     }
 }

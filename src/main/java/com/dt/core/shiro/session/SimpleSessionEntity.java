@@ -1,12 +1,12 @@
 package com.dt.core.shiro.session;
 
-import java.io.Serializable;
-
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.module.db.DB;
+
+import java.io.Serializable;
 
 /**
  * @author: algernonking
@@ -35,10 +35,6 @@ public class SimpleSessionEntity {
         return session;
     }
 
-    public void setSession(String session) {
-        this.session = session;
-    }
-
     public String getCookie() {
         return cookie;
     }
@@ -49,6 +45,10 @@ public class SimpleSessionEntity {
 
     public String getSession() {
         return session;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
     }
 
     public void save() {

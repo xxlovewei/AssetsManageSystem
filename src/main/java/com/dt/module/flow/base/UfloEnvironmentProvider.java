@@ -1,14 +1,13 @@
 package com.dt.module.flow.base;
 
-import javax.annotation.Resource;
-
+import com.bstek.uflo.env.EnvironmentProvider;
+import com.dt.core.shiro.ShiroKit;
+import com.dt.core.shiro.ShiroUser;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.bstek.uflo.env.EnvironmentProvider;
-import com.dt.core.shiro.ShiroKit;
-import com.dt.core.shiro.ShiroUser;
+import javax.annotation.Resource;
 
 @Component
 public class UfloEnvironmentProvider implements EnvironmentProvider {

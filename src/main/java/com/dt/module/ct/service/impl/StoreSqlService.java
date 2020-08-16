@@ -1,12 +1,5 @@
 package com.dt.module.ct.service.impl;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -15,6 +8,12 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 /**
  * @author: algernonking
@@ -23,7 +22,6 @@ import com.dt.core.tool.util.ToolUtil;
  */
 @Service
 public class StoreSqlService extends BaseService {
-    private static Logger _log = LoggerFactory.getLogger(StoreSqlService.class);
     public static String ACL_PUBLIC = "public";
     public static String ACL_USER = "user";
     public static String ACL_SYSTEM = "system";
@@ -31,6 +29,7 @@ public class StoreSqlService extends BaseService {
     public static String RETURN_OBJECT = "object";
     public static String RETURN_ARRARY = "array";
     public static String VAR_SPLIT = "@";
+    private static Logger _log = LoggerFactory.getLogger(StoreSqlService.class);
 
     /**
      * @Description: 根据条件返回数据，无分页功能
@@ -60,7 +59,7 @@ public class StoreSqlService extends BaseService {
         // 处理自定义变量,格式:@var@
         Iterator<Entry<String, Object>> i = ps.entrySet().iterator();
         while (i.hasNext()) {
-            Entry entry = (java.util.Map.Entry) i.next();
+            Entry entry = i.next();
             String key = entry.getKey().toString();
             String value = (String) entry.getValue();
             _log.info("key:" + key + ",value:" + value);

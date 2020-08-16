@@ -1,23 +1,23 @@
 package com.dt.module.base.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
+
+import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-05-16
  */
- 
+
 @TableName("sys_feedback")
- 
+
 public class SysFeedback extends BaseModel<SysFeedback> {
 
     private static final long serialVersionUID = 1L;
@@ -82,11 +82,11 @@ public class SysFeedback extends BaseModel<SysFeedback> {
     @Override
     public String toString() {
         return "SysFeedback{" +
-        "id=" + id +
-        ", userid=" + userid +
-        ", name=" + name +
-        ", contact=" + contact +
-        ", ct=" + ct +
-        "}";
+                "id=" + id +
+                ", userid=" + userid +
+                ", name=" + name +
+                ", contact=" + contact +
+                ", ct=" + ct +
+                "}";
     }
 }

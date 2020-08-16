@@ -1,24 +1,30 @@
 package com.dt.core.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.sql.DataSource;
-
 import org.springframework.jdbc.core.SqlInOutParameter;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 
+import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class StoredProcedure {
 
+    protected Object ret = null;
     private ArrayList<SqlParameter> parameters = new ArrayList<SqlParameter>();
     private ArrayList<SqlOutParameter> outParameters = new ArrayList<SqlOutParameter>();
     private ArrayList<SqlInOutParameter> inOutParameters = new ArrayList<SqlInOutParameter>();
+    private DataSource dataSource = null;
+    private String procedureName = null;
+    private boolean isFunction = false;
 
-    private class InnerProcedure extends org.springframework.jdbc.object.StoredProcedure {
-        InnerProcedure(DataSource dataSource, String procedureName) {
-            super(dataSource, procedureName);
-        }
+    /**
+     * 当有多个参数时，这个函数貌似有问题
+     */
+    public StoredProcedure(DataSource dataSource, String procedureName, boolean isFunction) {
+        this.procedureName = procedureName;
+        this.isFunction = isFunction;
+        this.dataSource = dataSource;
     }
 
     /**
@@ -44,21 +50,6 @@ public class StoredProcedure {
         SqlInOutParameter p = new SqlInOutParameter(name, type);
         inOutParameters.add(p);
     }
-
-    private DataSource dataSource = null;
-    private String procedureName = null;
-    private boolean isFunction = false;
-
-    /**
-     * 当有多个参数时，这个函数貌似有问题
-     */
-    public StoredProcedure(DataSource dataSource, String procedureName, boolean isFunction) {
-        this.procedureName = procedureName;
-        this.isFunction = isFunction;
-        this.dataSource = dataSource;
-    }
-
-    protected Object ret = null;
 
     /**
      * 执行
@@ -95,5 +86,11 @@ public class StoredProcedure {
             ps.put(params[i * 2].toString(), params[i * 2 + 1]);
         }
         return execute(ps);
+    }
+
+    private class InnerProcedure extends org.springframework.jdbc.object.StoredProcedure {
+        InnerProcedure(DataSource dataSource, String procedureName) {
+            super(dataSource, procedureName);
+        }
     }
 }

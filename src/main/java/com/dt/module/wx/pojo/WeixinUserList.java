@@ -12,16 +12,16 @@ public class WeixinUserList {
         return total;
     }
 
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
     public String getNextOpenId() {
         return nextOpenId;
     }
 
     public void setNextOpenId(String nextOpenId) {
         this.nextOpenId = nextOpenId;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
     }
 
     public int getCount() {

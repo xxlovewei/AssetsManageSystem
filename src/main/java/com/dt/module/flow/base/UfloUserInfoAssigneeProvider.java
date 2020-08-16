@@ -1,12 +1,5 @@
 package com.dt.module.flow.base;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bstek.uflo.env.Context;
@@ -16,6 +9,12 @@ import com.bstek.uflo.process.assign.Entity;
 import com.bstek.uflo.process.assign.PageQuery;
 import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.ISysUserInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author: algernonking

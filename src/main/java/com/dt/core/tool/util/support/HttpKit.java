@@ -1,6 +1,18 @@
-
 package com.dt.core.tool.util.support;
 
+import com.alibaba.fastjson.JSONObject;
+import com.dt.core.dao.util.TypedHashMap;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,28 +23,12 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import com.alibaba.fastjson.JSONObject;
-import com.dt.core.common.base.BaseCommon;
-import com.dt.core.dao.util.TypedHashMap;
-
 public class HttpKit {
 
     public static Boolean isAjax(HttpServletRequest request) {
 
         String header = request.getHeader("X-Requested-With");
-        boolean isAjax = "XMLHttpRequest".equals(header) ? true : false;
+        boolean isAjax = "XMLHttpRequest".equals(header);
         return isAjax;
 
     }
@@ -49,7 +45,7 @@ public class HttpKit {
         HttpServletRequest request = HttpKit.getRequest();
         Enumeration<String> enums = request.getParameterNames();
         while (enums.hasMoreElements()) {
-            String paramName = (String) enums.nextElement();
+            String paramName = enums.nextElement();
             String paramValue = request.getParameter(paramName);
             values.put(paramName, paramValue);
         }
@@ -261,9 +257,9 @@ public class HttpKit {
         basePath.append("://");
         basePath.append(domain);
         if ("http".equalsIgnoreCase(scheme) && 80 != port) {
-            basePath.append(":").append(String.valueOf(port));
+            basePath.append(":").append(port);
         } else if ("https".equalsIgnoreCase(scheme) && port != 443) {
-            basePath.append(":").append(String.valueOf(port));
+            basePath.append(":").append(port);
         }
         return basePath.toString();
     }

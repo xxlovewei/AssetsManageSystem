@@ -1,10 +1,9 @@
 package com.dt.module.ops.entity;
 
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.annotation.TableField;
-
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -55,21 +54,6 @@ public class OpsNodeInfosysEntity {
     private String downdatestr;
     @Excel(name = "硬件", width = 30)
     private String hardware;
-
-    /**
-     * @return the hardware
-     */
-    public String getHardware() {
-        return hardware;
-    }
-
-    /**
-     * @param hardware the hardware to set
-     */
-    public void setHardware(String hardware) {
-        this.hardware = hardware;
-    }
-
     @Excel(name = "操作系统", width = 30)
     private String os;
     @Excel(name = "数据库", width = 30)
@@ -89,6 +73,20 @@ public class OpsNodeInfosysEntity {
     @Excel(name = "备注", width = 30)
     @TableField("mark")
     private String mark;
+
+    /**
+     * @return the hardware
+     */
+    public String getHardware() {
+        return hardware;
+    }
+
+    /**
+     * @param hardware the hardware to set
+     */
+    public void setHardware(String hardware) {
+        this.hardware = hardware;
+    }
 
     public String getId() {
         return id;
@@ -251,10 +249,6 @@ public class OpsNodeInfosysEntity {
         this.label2 = label2;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
-
     /**
      * @return the gradestr
      */
@@ -316,6 +310,10 @@ public class OpsNodeInfosysEntity {
      */
     public String getMark() {
         return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 
     public void fullEntity(JSONObject obj) {

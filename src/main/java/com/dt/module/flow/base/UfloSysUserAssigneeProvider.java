@@ -1,17 +1,16 @@
 package com.dt.module.flow.base;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
 import com.bstek.uflo.env.Context;
 import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.process.assign.Entity;
 import com.bstek.uflo.process.assign.PageQuery;
 import com.bstek.uflo.process.assign.impl.AbstractAssigneeProvider;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 @Component
@@ -59,13 +58,6 @@ public class UfloSysUserAssigneeProvider extends AbstractAssigneeProvider {
     }
 
     /**
-     * @param disabledSysUserAssigneeProvider the disabledSysUserAssigneeProvider to set
-     */
-    public void setDisabledSysUserAssigneeProvider(boolean disabledSysUserAssigneeProvider) {
-        this.disabledSysUserAssigneeProvider = disabledSysUserAssigneeProvider;
-    }
-
-    /**
      * 根据指定的处理人ID，返回具体的任务处理人用户名
      *
      * @param entityId        处理人ID，可能是一个用户的用户名，这样就是直接返回这个用户名，也可能是一个部门的ID，那么就是返回这个部门下的所有用户的用户名等
@@ -86,9 +78,15 @@ public class UfloSysUserAssigneeProvider extends AbstractAssigneeProvider {
         return disabledSysUserAssigneeProvider;
     }
 
-
     public boolean isDisabledSysUserAssigneeProvider() {
         return disabledSysUserAssigneeProvider;
+    }
+
+    /**
+     * @param disabledSysUserAssigneeProvider the disabledSysUserAssigneeProvider to set
+     */
+    public void setDisabledSysUserAssigneeProvider(boolean disabledSysUserAssigneeProvider) {
+        this.disabledSysUserAssigneeProvider = disabledSysUserAssigneeProvider;
     }
 
 

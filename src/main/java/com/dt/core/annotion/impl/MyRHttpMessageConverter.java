@@ -1,16 +1,16 @@
 package com.dt.core.annotion.impl;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.nio.charset.Charset;
-
+import com.dt.core.common.base.R;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.StreamUtils;
 
-import com.dt.core.common.base.R;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author: algernonking
@@ -20,7 +20,7 @@ import com.dt.core.common.base.R;
 public class MyRHttpMessageConverter {
     // private static final Logger _logger =
     // LoggerFactory.getLogger(MyRHttpMessageConverter.class);
-    private static final MediaType UTF8 = new MediaType("application", "json", Charset.forName("UTF-8"));
+    private static final MediaType UTF8 = new MediaType("application", "json", StandardCharsets.UTF_8);
 
     public MappingJackson2HttpMessageConverter init() {
         return new MappingJackson2HttpMessageConverter() {
@@ -56,4 +56,4 @@ public class MyRHttpMessageConverter {
             }
         };
     }
-};
+}

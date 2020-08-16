@@ -1,18 +1,12 @@
 package com.dt.module.base.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.dt.core.annotion.Acl;
+import com.dt.core.common.base.BaseController;
+import com.dt.core.common.base.R;
+import com.dt.core.dao.sql.Insert;
+import com.dt.core.tool.util.DbUtil;
+import com.dt.core.tool.util.SmartImageScalr;
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.entity.SysFileConf;
 import com.dt.module.base.entity.SysFiles;
 import com.dt.module.base.service.ISysFileConfService;
@@ -26,27 +20,76 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.dt.core.annotion.Acl;
-import com.dt.core.common.base.BaseController;
-import com.dt.core.common.base.R;
-import com.dt.core.dao.Rcd;
-import com.dt.core.dao.sql.Insert;
-import com.dt.core.tool.util.DbUtil;
-import com.dt.core.tool.util.SmartImageScalr;
-import com.dt.core.tool.util.ToolUtil;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
 
 @Controller
 @RequestMapping("/api/file")
 public class FileUpDownController extends BaseController {
 
 
+    public static final String THUMBS = "thumbs";
+    private static Logger _log = LoggerFactory.getLogger(FileUpDownController.class);
     @Autowired
     ISysFileConfService SysFileConfServiceImpl;
-
-
     @Autowired
     ISysFilesService SysFilesServiceImpl;
-    private static Logger _log = LoggerFactory.getLogger(FileUpDownController.class);
+
+    public final static File scale5(String id, String srcImageFile, int height, int width, int origWidth, int origHeigh,
+                                    String fitType, String crop) throws IOException {
+        if (height <= 0 && width <= 0)
+            return new File(srcImageFile);
+        File srcFile = new File(srcImageFile);
+        String format = null;
+        int i = srcFile.getName().lastIndexOf(".");
+        if (i > 0) {
+            format = srcFile.getName().substring(i + 1);
+        }
+        if (format == null)
+            format = "jpg";
+        BufferedImage srcImage = null;
+        SmartImageScalr sis = null;
+        if (origWidth > 0 && origHeigh > 0) {
+            sis = new SmartImageScalr(width, height, fitType, crop, origWidth, origHeigh);
+        } else {
+            srcImage = ImageIO.read(srcFile);
+            sis = new SmartImageScalr(width, height, fitType, crop, srcImage);
+        }
+        String thumbFilePath = sis.getFileName(srcFile, format);
+        thumbFilePath = srcFile.getParentFile().getAbsolutePath() + File.separatorChar + THUMBS + File.separatorChar
+                + thumbFilePath;
+        File thumbFile = new File(thumbFilePath);
+        if (thumbFile.exists())
+            return thumbFile;
+
+        if (srcImage == null)
+            srcImage = ImageIO.read(srcFile);
+        BufferedImage thumbImage = sis.scaleAndCrop(srcImage);
+        if (!thumbFile.getParentFile().exists())
+            thumbFile.getParentFile().mkdirs();
+        ImageIO.write(thumbImage, format, thumbFile);
+        return thumbFile;
+    }
+
+    private static R valid(File file) {
+        File parentPath = file.getParentFile();
+        if ((!parentPath.exists()) && (!parentPath.mkdirs())) {
+            return R.FAILURE("创建文件失败");
+        }
+        if (!parentPath.canWrite()) {
+            return R.FAILURE("不可写");
+        }
+        return R.SUCCESS_OPER();
+    }
+
+    public static String getWebRootDir() {
+        return ToolUtil.getRealPathInWebApp("");
+    }
 
     // curl http://127.0.01:8080/dt/api/file/fileupload.do?uuid=image_111&bus=news
     // -F "file[0]=@/Users/algernonking/Desktop/a.jpeg" -H
@@ -172,12 +215,8 @@ public class FileUpDownController extends BaseController {
 
             response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream");
-            try {
-                response.setHeader("Content-Disposition",
-                        "attachment;filename=" + new String(filename.getBytes("utf-8"), "ISO-8859-1"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + new String(filename.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
             byte[] buffer = new byte[1024];
             FileInputStream fis = null;
             BufferedInputStream bis = null;
@@ -250,7 +289,6 @@ public class FileUpDownController extends BaseController {
                 width = Integer.parseInt(widthStr);
             } catch (Exception e) {
             }
-            ;
             try {
                 height = Integer.parseInt(heightStr);
             } catch (Exception e) {
@@ -289,58 +327,5 @@ public class FileUpDownController extends BaseController {
     public File getDefaultImageFile() {
         _log.info("获取默认图片:" + getWebRootDir() + File.separatorChar + "image" + File.separatorChar + "blank.jpg");
         return new File(getWebRootDir() + File.separatorChar + "image" + File.separatorChar + "blank.jpg");
-    }
-
-    public static final String THUMBS = "thumbs";
-
-    public final static File scale5(String id, String srcImageFile, int height, int width, int origWidth, int origHeigh,
-                                    String fitType, String crop) throws IOException {
-        if (height <= 0 && width <= 0)
-            return new File(srcImageFile);
-        File srcFile = new File(srcImageFile);
-        String format = null;
-        int i = srcFile.getName().lastIndexOf(".");
-        if (i > 0) {
-            format = srcFile.getName().substring(i + 1);
-        }
-        if (format == null)
-            format = "jpg";
-        BufferedImage srcImage = null;
-        SmartImageScalr sis = null;
-        if (origWidth > 0 && origHeigh > 0) {
-            sis = new SmartImageScalr(width, height, fitType, crop, origWidth, origHeigh);
-        } else {
-            srcImage = ImageIO.read(srcFile);
-            sis = new SmartImageScalr(width, height, fitType, crop, srcImage);
-        }
-        String thumbFilePath = sis.getFileName(srcFile, format);
-        thumbFilePath = srcFile.getParentFile().getAbsolutePath() + File.separatorChar + THUMBS + File.separatorChar
-                + thumbFilePath;
-        File thumbFile = new File(thumbFilePath);
-        if (thumbFile.exists())
-            return thumbFile;
-
-        if (srcImage == null)
-            srcImage = ImageIO.read(srcFile);
-        BufferedImage thumbImage = sis.scaleAndCrop(srcImage);
-        if (!thumbFile.getParentFile().exists())
-            thumbFile.getParentFile().mkdirs();
-        ImageIO.write(thumbImage, format, thumbFile);
-        return thumbFile;
-    }
-
-    private static R valid(File file) {
-        File parentPath = file.getParentFile();
-        if ((!parentPath.exists()) && (!parentPath.mkdirs())) {
-            return R.FAILURE("创建文件失败");
-        }
-        if (!parentPath.canWrite()) {
-            return R.FAILURE("不可写");
-        }
-        return R.SUCCESS_OPER();
-    }
-
-    public static String getWebRootDir() {
-        return ToolUtil.getRealPathInWebApp("");
     }
 }

@@ -1,9 +1,9 @@
 package com.dt.module.base.busenum;
 
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.core.enums.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.io.Serializable;
 
 public enum ctCategoryTypeEnum implements IEnum<Serializable> {
     SYSTEM("sys", "系统"), EMPL("empl", "组织"), CRM("crm", "会员粉丝"), WX("wx", "微信用户");

@@ -15,12 +15,11 @@
  */
 package com.dt.core.tool.util.support;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class WafRequestWrapper extends HttpServletRequestWrapper {

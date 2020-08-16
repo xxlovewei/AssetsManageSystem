@@ -1,10 +1,5 @@
 package com.dt.module.hrm.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
@@ -16,6 +11,10 @@ import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author: algernonking
@@ -24,12 +23,11 @@ import com.dt.core.tool.util.ToolUtil;
  */
 @Service
 public class EmplOrgService extends BaseService {
-    private String LEVEL_SPLIT = "/";
-
-    public static String ORG_PART_TYPE_COMP="comp";
-    public static String ORG_PART_TYPE_SUBCOMP="subpart";
-    public static String ORG_PART_TYPE_PART="part";
+    public static String ORG_PART_TYPE_COMP = "comp";
+    public static String ORG_PART_TYPE_SUBCOMP = "subpart";
+    public static String ORG_PART_TYPE_PART = "part";
     private static Logger _log = LoggerFactory.getLogger(EmplOrgService.class);
+    private String LEVEL_SPLIT = "/";
 
     /**
      * @Description:查询所有组织信息
@@ -45,7 +43,7 @@ public class EmplOrgService extends BaseService {
     public R addEmplOrg(TypedHashMap<String, Object> ps) {
         String cur_node_id = "";
         String org_id = ps.getString("org_id");
-        String node_name ="新节点";
+        String node_name = "新节点";
         String parent_id = ps.getString("parent_id");
         String type = ps.getString("type");
         _log.info("node_id:" + cur_node_id);
@@ -194,17 +192,16 @@ public class EmplOrgService extends BaseService {
     }
 
     public R orgQueryCompany() {
-        return R.SUCCESS_OPER(db.query("select * from hrm_org_part where type='"+ORG_PART_TYPE_COMP+"' and dr='0' order by node_id").toJsonArrayWithJsonObject());
+        return R.SUCCESS_OPER(db.query("select * from hrm_org_part where type='" + ORG_PART_TYPE_COMP + "' and dr='0' order by node_id").toJsonArrayWithJsonObject());
     }
 
 
     public R orgQueryPartByCompany(String id) {
-        return R.SUCCESS_OPER(db.query("select * from hrm_org_part where type='"+ORG_PART_TYPE_PART+"' and dr='0'  and parent_id=? order by node_id",id).toJsonArrayWithJsonObject());
+        return R.SUCCESS_OPER(db.query("select * from hrm_org_part where type='" + ORG_PART_TYPE_PART + "' and dr='0'  and parent_id=? order by node_id", id).toJsonArrayWithJsonObject());
     }
 
 
     /**
-     *
      * @Description:树行显示组织信息
      */
     public R queryEmplOrgNodeTree(String org_id) {

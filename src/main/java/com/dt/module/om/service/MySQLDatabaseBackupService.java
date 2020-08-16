@@ -1,11 +1,5 @@
 package com.dt.module.om.service;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
@@ -19,9 +13,15 @@ import com.dt.module.db.DB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 @Service
@@ -29,13 +29,11 @@ import org.springframework.stereotype.Service;
 public class MySQLDatabaseBackupService extends BaseService {
 
 
+    private static Logger log = LoggerFactory.getLogger(MySQLDatabaseBackupService.class);
     @Autowired
     ISysFileConfService SysFileConfServiceImpl;
-
     @Autowired
     ISysDbbackupRecService SysDbbackupRecServiceImpl;
-
-    private static Logger log = LoggerFactory.getLogger(MySQLDatabaseBackupService.class);
 
     public static MySQLDatabaseBackupService me() {
         return SpringContextUtil.getBean(MySQLDatabaseBackupService.class);
@@ -43,6 +41,33 @@ public class MySQLDatabaseBackupService extends BaseService {
 
     public static String getWebRootDir() {
         return ToolUtil.getRealPathInWebApp("");
+    }
+
+    private static R valid(File file) {
+        File parentPath = file.getParentFile();
+        if ((!parentPath.exists()) && (!parentPath.mkdirs())) {
+            return R.FAILURE("创建文件失败");
+        }
+        if (!parentPath.canWrite()) {
+            return R.FAILURE("不可写");
+        }
+        return R.SUCCESS_OPER();
+    }
+
+    private static void closeStream(Closeable stream) {
+        if (stream != null) {
+            try {
+                stream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        MySQLDatabaseBackupService d = new MySQLDatabaseBackupService();
+        System.out.println(d.decideMysqldumpColumnStatistics());
+
     }
 
     public R backupWithZip(String host, int port, String dbName, String username, String password) throws Exception {
@@ -99,18 +124,6 @@ public class MySQLDatabaseBackupService extends BaseService {
         return R.SUCCESS();
     }
 
-    private static R valid(File file) {
-        File parentPath = file.getParentFile();
-        if ((!parentPath.exists()) && (!parentPath.mkdirs())) {
-            return R.FAILURE("创建文件失败");
-        }
-        if (!parentPath.canWrite()) {
-            return R.FAILURE("不可写");
-        }
-        return R.SUCCESS_OPER();
-    }
-
-
     private String decideMysqldumpColumnStatistics() {
         StringBuilder result = new StringBuilder();
         Process process = null;
@@ -132,8 +145,8 @@ public class MySQLDatabaseBackupService extends BaseService {
             // 方法阻塞, 等待命令执行完成（成功会返回0）
             process.waitFor();
             // 获取命令执行结果, 有两个结果: 正常的输出 和 错误的输出（PS: 子进程的输出就是主进程的输入）
-            bufrIn = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
-            bufrError = new BufferedReader(new InputStreamReader(process.getErrorStream(), "UTF-8"));
+            bufrIn = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
+            bufrError = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8));
             // 读取输出
             String line;
             while ((line = bufrIn.readLine()) != null) {
@@ -158,16 +171,6 @@ public class MySQLDatabaseBackupService extends BaseService {
             return "";
         }
 
-    }
-
-    private static void closeStream(Closeable stream) {
-        if (stream != null) {
-            try {
-                stream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public R backup(String host, int port, String dbName, String username, String password, String filePath) {
@@ -204,7 +207,7 @@ public class MySQLDatabaseBackupService extends BaseService {
 
             mysqldump.append(" ").append(dbName);
             mysqldump.append(" > ");
-            mysqldump.append("").append(filePath).append("");
+            mysqldump.append("").append(filePath);
 
             String command = mysqldump.toString();
             commands[2] = command;
@@ -219,7 +222,7 @@ public class MySQLDatabaseBackupService extends BaseService {
             } else {
                 InputStream is = process.getErrorStream();
                 if (is != null) {
-                    BufferedReader in = new BufferedReader(new InputStreamReader(is, "utf-8"));
+                    BufferedReader in = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
                     String line;
                     StringBuilder sb = new StringBuilder();
                     while ((line = in.readLine()) != null) {
@@ -235,7 +238,6 @@ public class MySQLDatabaseBackupService extends BaseService {
         }
         return null;
     }
-
 
     public void zip(String sourceFileName, String zipFileName) throws Exception {
         //File zipFile = new File(zipFileName);
@@ -279,13 +281,6 @@ public class MySQLDatabaseBackupService extends BaseService {
             fos.close();
 
         }
-    }
-
-
-    public static void main(String[] args) throws Exception {
-        MySQLDatabaseBackupService d = new MySQLDatabaseBackupService();
-        System.out.println(d.decideMysqldumpColumnStatistics());
-
     }
 
 }

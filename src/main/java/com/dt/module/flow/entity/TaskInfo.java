@@ -1,10 +1,10 @@
 package com.dt.module.flow.entity;
 
 
-import java.util.Date;
-
 import com.bstek.uflo.model.task.TaskState;
 import com.bstek.uflo.model.task.TaskType;
+
+import java.util.Date;
 
 /**
  * @author Jacky.gao
@@ -15,6 +15,19 @@ public class TaskInfo {
     private String taskName;
     private String assignee;
     private String assigneename;
+    private String owner;
+    private String ownername;
+    private TaskState state;
+    private long processInstanceId;
+    private Date createDate;
+    private String opinion;
+    private String url;
+    private TaskType type;
+    private Date duedate;
+    private String businessId;
+    private Date endDate;
+    private String description;
+    private long processId;
 
     /**
      * @return the assigneename
@@ -43,20 +56,6 @@ public class TaskInfo {
     public void setOwnername(String ownername) {
         this.ownername = ownername;
     }
-
-    private String owner;
-    private String ownername;
-    private TaskState state;
-    private long processInstanceId;
-    private Date createDate;
-    private String opinion;
-    private String url;
-    private TaskType type;
-    private Date duedate;
-    private String businessId;
-    private Date endDate;
-    private String description;
-    private long processId;
 
     public long getTaskId() {
         return taskId;

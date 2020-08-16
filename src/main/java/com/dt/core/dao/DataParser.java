@@ -1,13 +1,13 @@
 package com.dt.core.dao;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Date;
-
 import com.dt.core.dao.util.BITBoolean;
 import com.dt.core.dao.util.DateUtil;
 import com.dt.core.dao.util.TFBoolean;
 import com.dt.core.dao.util.YNBoolean;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Date;
 
 public class DataParser {
     public String parseString(Object val) {
@@ -124,7 +124,7 @@ public class DataParser {
         } else if (isNumberType(val)) {
             return new BigDecimal(val.toString());
         } else if (val instanceof BigInteger) {
-            return new BigDecimal(((BigInteger) val).toString());
+            return new BigDecimal(val.toString());
         } else {
             return null;
         }
@@ -167,11 +167,7 @@ public class DataParser {
             return true;
         } else if (valueNotNull instanceof Float) {
             return true;
-        } else if (valueNotNull instanceof Double) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return valueNotNull instanceof Double;
     }
 
     public Short parseShort(Object val) {
@@ -214,11 +210,7 @@ public class DataParser {
             return true;
         } else if (cls.equals(float.class)) {
             return true;
-        } else if (cls.equals(byte.class)) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return cls.equals(byte.class);
     }
 
     @SuppressWarnings("rawtypes")

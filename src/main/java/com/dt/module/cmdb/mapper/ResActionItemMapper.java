@@ -1,7 +1,7 @@
 package com.dt.module.cmdb.mapper;
 
-import com.dt.module.cmdb.entity.ResActionItem;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dt.module.cmdb.entity.ResActionItem;
 
 /**
  * <p>

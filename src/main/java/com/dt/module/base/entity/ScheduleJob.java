@@ -10,6 +10,13 @@ public class ScheduleJob {
     private String JobType = "";
     private String jobEnable = "";
     private boolean JobInstanceValid = true; // 当前job全部设置成有效
+    private String CronTrigger = "";
+    private String CronExpression = "";
+    private String JobClassName = "";
+    private String Jobtrigger = "";
+    private String JobPlanStatus = "";
+    private String JobSource = ""; // tab,scheplan
+    private String lastRun = "";
 
     public boolean isJobInstanceValid() {
         return JobInstanceValid;
@@ -26,14 +33,6 @@ public class ScheduleJob {
     public void setNodeName(String nodeName) {
         NodeName = nodeName;
     }
-
-    private String CronTrigger = "";
-    private String CronExpression = "";
-    private String JobClassName = "";
-    private String Jobtrigger = "";
-    private String JobPlanStatus = "";
-    private String JobSource = ""; // tab,scheplan
-    private String lastRun = "";
 
     public String getJobSource() {
         return JobSource;

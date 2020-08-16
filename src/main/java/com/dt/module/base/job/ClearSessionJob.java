@@ -1,16 +1,11 @@
 package com.dt.module.base.job;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.dt.module.base.service.impl.JobService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.dt.module.base.service.impl.JobService;
-import com.dt.module.db.DB;
 
 /**
  * @author: algernonking

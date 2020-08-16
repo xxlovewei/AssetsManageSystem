@@ -1,28 +1,17 @@
 package com.dt.core.tool.util;
 
+import cn.hutool.core.util.IdUtil;
+import com.dt.core.tool.enums.OsType;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.dt.core.tool.enums.OsType;
-
-import cn.hutool.core.util.IdUtil;
 
 /**
  * 高频方法集合类
@@ -64,7 +53,7 @@ public class ToolUtil {
             }
             String strClassFileName = "";
             if (!"".equals(strPackageName)) {
-                strClassFileName = strClassName.substring(strPackageName.length() + 1, strClassName.length());
+                strClassFileName = strClassName.substring(strPackageName.length() + 1);
             } else {
                 strClassFileName = strClassName;
             }
@@ -251,7 +240,7 @@ public class ToolUtil {
             return ((Collection<?>) obj).contains(element);
         }
         if (obj instanceof Map) {
-            return ((Map<?, ?>) obj).values().contains(element);
+            return ((Map<?, ?>) obj).containsValue(element);
         }
         if (obj instanceof Iterator) {
             Iterator<?> iter = (Iterator<?>) obj;
@@ -296,33 +285,19 @@ public class ToolUtil {
             return true;
         }
         if (o instanceof String) {
-            if (o.toString().trim().equals("") || o.toString().length() == 0) {
-                return true;
-            }
+            return o.toString().trim().equals("") || o.toString().length() == 0;
         } else if (o instanceof List) {
-            if (((List) o).size() == 0) {
-                return true;
-            }
+            return ((List) o).size() == 0;
         } else if (o instanceof Map) {
-            if (((Map) o).size() == 0) {
-                return true;
-            }
+            return ((Map) o).size() == 0;
         } else if (o instanceof Set) {
-            if (((Set) o).size() == 0) {
-                return true;
-            }
+            return ((Set) o).size() == 0;
         } else if (o instanceof Object[]) {
-            if (((Object[]) o).length == 0) {
-                return true;
-            }
+            return ((Object[]) o).length == 0;
         } else if (o instanceof int[]) {
-            if (((int[]) o).length == 0) {
-                return true;
-            }
+            return ((int[]) o).length == 0;
         } else if (o instanceof long[]) {
-            if (((long[]) o).length == 0) {
-                return true;
-            }
+            return ((long[]) o).length == 0;
         }
         return false;
     }
@@ -520,11 +495,7 @@ public class ToolUtil {
      */
     public static Boolean isWinOs() {
         String os = System.getProperty("os.name");
-        if (os.toLowerCase().startsWith("win")) {
-            return true;
-        } else {
-            return false;
-        }
+        return os.toLowerCase().startsWith("win");
     }
 
     /**

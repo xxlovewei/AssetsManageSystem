@@ -1,24 +1,24 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.io.Serializable;
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-25
  */
- 
+
 @TableName("res_allocate")
- 
+
 public class ResAllocate extends BaseModel<ResAllocate> {
 
     private static final long serialVersionUID = 1L;
@@ -253,28 +253,28 @@ public class ResAllocate extends BaseModel<ResAllocate> {
     @Override
     public String toString() {
         return "ResAllocate{" +
-        "id=" + id +
-        ", uuid=" + uuid +
-        ", allocateuserid=" + allocateuserid +
-        ", allocateusername=" + allocateusername +
-        ", frombelongcompid=" + frombelongcompid +
-        ", frombelongcompname=" + frombelongcompname +
-        ", touseduserid=" + touseduserid +
-        ", tousedusername=" + tousedusername +
-        ", tousedpartid=" + tousedpartid +
-        ", tousedpartname=" + tousedpartname +
-        ", tousedcompid=" + tousedcompid +
-        ", tousedcompname=" + tousedcompname +
-        ", tobelongcompid=" + tobelongcompid +
-        ", tobelongcompname=" + tobelongcompname +
-        ", tobelongpartid=" + tobelongpartid +
-        ", tobelongpartname=" + tobelongpartname +
-        ", toloc=" + toloc +
-        ", tolocname=" + tolocname +
-        ", status=" + status +
-        ", acttime=" + acttime +
-        ", tolocdtl=" + tolocdtl +
-        ", mark=" + mark +
-        "}";
+                "id=" + id +
+                ", uuid=" + uuid +
+                ", allocateuserid=" + allocateuserid +
+                ", allocateusername=" + allocateusername +
+                ", frombelongcompid=" + frombelongcompid +
+                ", frombelongcompname=" + frombelongcompname +
+                ", touseduserid=" + touseduserid +
+                ", tousedusername=" + tousedusername +
+                ", tousedpartid=" + tousedpartid +
+                ", tousedpartname=" + tousedpartname +
+                ", tousedcompid=" + tousedcompid +
+                ", tousedcompname=" + tousedcompname +
+                ", tobelongcompid=" + tobelongcompid +
+                ", tobelongcompname=" + tobelongcompname +
+                ", tobelongpartid=" + tobelongpartid +
+                ", tobelongpartname=" + tobelongpartname +
+                ", toloc=" + toloc +
+                ", tolocname=" + tolocname +
+                ", status=" + status +
+                ", acttime=" + acttime +
+                ", tolocdtl=" + tolocdtl +
+                ", mark=" + mark +
+                "}";
     }
 }

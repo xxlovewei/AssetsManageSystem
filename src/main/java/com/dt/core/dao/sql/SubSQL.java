@@ -3,11 +3,11 @@ package com.dt.core.dao.sql;
 public abstract class SubSQL implements SQL {
 
     private static final long serialVersionUID = 6083127890659811198L;
-
+    protected boolean ignorColon = false;
+    protected boolean replaceNull = true;
     private SQL parent = null;
     private int nameIndex = 0;
-
-    protected boolean ignorColon = false;
+    private SQL currentTop;
 
     /**
      * IgnorColon
@@ -16,8 +16,6 @@ public abstract class SubSQL implements SQL {
         ignorColon = b;
         return this;
     }
-
-    protected boolean replaceNull = true;
 
     public void setReplaceNull(boolean replaceNull) {
         this.replaceNull = replaceNull;
@@ -38,8 +36,6 @@ public abstract class SubSQL implements SQL {
     public void setParent(SQL sql) {
         this.parent = sql;
     }
-
-    private SQL currentTop;
 
     public void beginParamNameSQL() {
         currentTop = this.top();

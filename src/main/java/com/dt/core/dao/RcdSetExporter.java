@@ -1,18 +1,13 @@
 package com.dt.core.dao;
 
-import java.io.IOException;
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
 
 public class RcdSetExporter {
     private static final String ENCODING = "UTF-8";
@@ -68,7 +63,6 @@ public class RcdSetExporter {
         totals.addCDATA(total + "");
 
         String[] names = set.getMetaData().getColumnLabels();
-
 
 
         for (Rcd r : set) {

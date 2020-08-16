@@ -3,6 +3,9 @@ package com.dt.module.wx.service;
 public class AccessToken {
     // 获取到的凭证
     private String token;
+    // 凭证有效时间，单位：秒
+    private int expiresIn;
+    private long ctime;
 
     public String getToken() {
         return token;
@@ -27,10 +30,5 @@ public class AccessToken {
     public void setCtime(long ctime) {
         this.ctime = ctime;
     }
-
-    // 凭证有效时间，单位：秒
-    private int expiresIn;
-
-    private long ctime;
 
 }

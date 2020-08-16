@@ -1,11 +1,11 @@
 package com.dt.module.hrm.service;
 
-import com.dt.module.hrm.entity.HrmOrgEmployee;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.dt.module.hrm.entity.HrmOrgEmployee;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author algernonking

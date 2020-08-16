@@ -1,12 +1,12 @@
 package com.dt.module.flow.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.io.Serializable;
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -16,9 +16,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * @author algernonking
  * @since 2020-06-27
  */
- 
+
 @TableName("sys_process_data")
- 
+
 public class SysProcessData extends BaseModel<SysProcessData> {
 
     private static final long serialVersionUID = 1L;
@@ -76,7 +76,7 @@ public class SysProcessData extends BaseModel<SysProcessData> {
     @TableField("pstatus")
     private String pstatus;
     /**
-     * success、failed 
+     * success、failed
      */
     @TableField("pstatusdtl")
     private String pstatusdtl;

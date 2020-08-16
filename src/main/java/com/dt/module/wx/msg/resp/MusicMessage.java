@@ -2,7 +2,6 @@ package com.dt.module.wx.msg.resp;
 
 /**
  * 音乐消息 (响应消息)
- *
  */
 public class MusicMessage extends BaseMessage {
     // 音乐

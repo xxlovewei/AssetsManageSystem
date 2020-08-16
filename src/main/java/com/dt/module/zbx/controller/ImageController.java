@@ -2,7 +2,6 @@ package com.dt.module.zbx.controller;
 
 
 import com.dt.core.annotion.Acl;
-import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.zbx.service.impl.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.*;
+import java.net.URLEncoder;
 
 
 @Controller
@@ -28,17 +28,14 @@ import java.net.*;
 @PropertySource(value = "classpath:config.properties")
 public class ImageController {
 
-    @Autowired
-    ImageService imageService;
-
     @Value("${zbx.user}")
     public String zbxuser;
-
     @Value("${zbx.pwd}")
     public String zbxpwd;
-
     @Value("${zbx.server}")
     public String zbxserver;
+    @Autowired
+    ImageService imageService;
 
     @Acl(info = "", value = Acl.ACL_ALLOW)
     @RequestMapping(value = "/getOneByGraphId.do")

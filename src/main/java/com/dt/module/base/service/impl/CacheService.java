@@ -1,8 +1,13 @@
 package com.dt.module.base.service.impl;
 
-import java.util.Collection;
-import java.util.Date;
-
+import com.alibaba.fastjson.JSONArray;
+import com.dt.core.cache.*;
+import com.dt.core.common.base.R;
+import com.dt.core.tool.lang.SpringContextUtil;
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.core.tool.util.support.DateTimeKit;
+import net.sf.ehcache.Element;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +15,8 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.dt.core.cache.CacheSupportImpl;
-import com.dt.core.cache.CacheableEntity;
-import com.dt.core.cache.CachedInvocation;
-import com.dt.core.cache.CustomizedEhCacheCache;
-import com.dt.core.cache.ThreadTaskHelper;
-import com.dt.core.common.base.R;
-import com.dt.core.tool.lang.SpringContextUtil;
-import com.dt.core.tool.util.ToolUtil;
-import com.dt.core.tool.util.support.DateTimeKit;
-
-import net.sf.ehcache.Element;
-import net.sf.json.JSONObject;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  * @author: algernonking
@@ -32,17 +26,16 @@ import net.sf.json.JSONObject;
 @Service
 public class CacheService {
 
+    public static String API_CACHE = "public";
+    private static Logger _log = LoggerFactory.getLogger(CacheService.class);
     @Autowired
     private CacheSupportImpl cacheSupportImpl;
-
     @Autowired
     private CacheManager cacheManager;
 
     public static CacheService me() {
         return SpringContextUtil.getBean(CacheService.class);
     }
-
-    private static Logger _log = LoggerFactory.getLogger(CacheService.class);
 
     public CacheManager initCacheManager() {
         try {
@@ -58,11 +51,11 @@ public class CacheService {
         Collection<String> col = initCacheManager().getCacheNames();
         for (String cache : col) {
             if (cache.indexOf("#") == -1) {
-                _log.info("check cachename:"+cache);
-                if(cache.toLowerCase().endsWith("cache")){
-                    _log.info("check "+cache+" filter out.");
-                }else{
-                    _log.info("action fresh cache "+cache);
+                _log.info("check cachename:" + cache);
+                if (cache.toLowerCase().endsWith("cache")) {
+                    _log.info("check " + cache + " filter out.");
+                } else {
+                    _log.info("action fresh cache " + cache);
                     refreshCache(cache);
                 }
 
@@ -75,11 +68,10 @@ public class CacheService {
         CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(cache)));
         for (int i = 0; i < c.getAllKeys().size(); i++) {
             String key = c.getAllKeys().get(i).toString();
-            removeCacheKey(cache,key);
+            removeCacheKey(cache, key);
         }
         return R.SUCCESS_OPER();
     }
-
 
     //按照时间刷新
     public R refreshCache(String cache) {
@@ -95,8 +87,8 @@ public class CacheService {
 
                 Element el = c.getKey(key);
                 //el为null,强制刷新
-                if(el==null){
-                    _log.info("Refresh required,cache:"+cache+",key:"+key+",value is null,force to refresh");
+                if (el == null) {
+                    _log.info("Refresh required,cache:" + cache + ",key:" + key + ",value is null,force to refresh");
                     ThreadTaskHelper.run(new Runnable() {
                         @Override
                         public void run() {
@@ -107,11 +99,13 @@ public class CacheService {
                 }
                 long hit = el.getHitCount();
                 Long expired = (el.getExpirationTime() - System.currentTimeMillis()) / 1000;
-                if(expired<0){ expired=expired*(-1);}
+                if (expired < 0) {
+                    expired = expired * (-1);
+                }
                 CachedInvocation inv = CacheSupportImpl.cacheInvocationsMap.get(cache).get(key);
-                if (inv == null||inv.getcacheableEntity()==null) {
-                    _log.info("CachedInvocation is null or CacheableEntity is null,cache:"+cache+",key"+key);
-                    removeCacheKey(cache,key);
+                if (inv == null || inv.getcacheableEntity() == null) {
+                    _log.info("CachedInvocation is null or CacheableEntity is null,cache:" + cache + ",key" + key);
+                    removeCacheKey(cache, key);
                     continue;
                 }
                 CacheableEntity ce = inv.getcacheableEntity();
@@ -122,17 +116,17 @@ public class CacheService {
                             + refreshtime + ",hit:" + hit);
                     continue;
                 }
-             if (refreshtime > 0 && expired > 0 && expired <= refreshtime) {
-                 _log.info("Refresh required,cache:"+cache+",key:"+key+",cacheableEntity:"+ce.toString()+",refreshtime:"+refreshtime);
-                     ThreadTaskHelper.run(new Runnable() {
+                if (refreshtime > 0 && expired > 0 && expired <= refreshtime) {
+                    _log.info("Refresh required,cache:" + cache + ",key:" + key + ",cacheableEntity:" + ce.toString() + ",refreshtime:" + refreshtime);
+                    ThreadTaskHelper.run(new Runnable() {
                         @Override
                         public void run() {
                             cacheSupportImpl.refreshCacheByKey(cache, key);
                         }
                     });
-                }else{
-                  _log.info("No refresh required,cache:"+cache+",key:"+key+",cacheableEntity:"+ce.toString()+",refreshtime:"+refreshtime);
-             }
+                } else {
+                    _log.info("No refresh required,cache:" + cache + ",key:" + key + ",cacheableEntity:" + ce.toString() + ",refreshtime:" + refreshtime);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -152,11 +146,9 @@ public class CacheService {
         if (ToolUtil.isOneEmpty(cache, key)) {
             return R.FAILURE_NO_DATA();
         }
-       Cache.ValueWrapper v= initCacheManager().getCache(cache).get(key);
+        Cache.ValueWrapper v = initCacheManager().getCache(cache).get(key);
         return R.SUCCESS_OPER(v.get().toString());
     }
-
-    public static String API_CACHE = "public";
 
     public R putCacheKeyForApi(String key, String ct, long timeout) {
         if (ToolUtil.isOneEmpty(key, ct)) {
@@ -165,12 +157,12 @@ public class CacheService {
         CustomizedEhCacheCache c = ((CustomizedEhCacheCache) (initCacheManager().getCache(API_CACHE)));
         Element e = new Element(key, ct);
         e.setTimeToLive((int) timeout);
-        c.put(key,ct);
+        c.put(key, ct);
         return R.SUCCESS_OPER();
     }
 
     public String queryCacheKeyForApi(String key) {
-      return null;
+        return null;
 
     }
 

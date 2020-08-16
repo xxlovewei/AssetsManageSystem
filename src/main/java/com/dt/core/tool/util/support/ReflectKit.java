@@ -1,18 +1,12 @@
 package com.dt.core.tool.util.support;
 
 
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
+import com.dt.core.tool.util.exception.ToolBoxException;
+
+import java.lang.reflect.*;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import com.dt.core.tool.util.exception.ToolBoxException;
 
 
 //import com.jfinal.ext.kit.ToolBoxException;
@@ -31,12 +25,35 @@ import com.dt.core.tool.util.exception.ToolBoxException;
  * // Invoke methods using the call() method:
  * .call("toString")
  * // Retrieve the wrapped object
- *
  */
 public class ReflectKit {
 
     // ---------------------------------------------------------------------
     // Static API used as entrance points to the fluent API
+    // ---------------------------------------------------------------------
+
+    /**
+     * The wrapped object
+     */
+    private final Object object;
+    /**
+     * A flag indicating whether the wrapped object is a {@link Class} (for accessing static fields and methods), or any
+     * other type of {@link Object} (for accessing instance fields and methods).
+     */
+    private final boolean isClass;
+
+    private ReflectKit(Class<?> type) {
+        this.object = type;
+        this.isClass = true;
+    }
+
+    private ReflectKit(Object object) {
+        this.object = object;
+        this.isClass = false;
+    }
+
+    // ---------------------------------------------------------------------
+    // Members
     // ---------------------------------------------------------------------
 
     /**
@@ -65,6 +82,10 @@ public class ReflectKit {
     public static ReflectKit on(Class<?> clazz) {
         return new ReflectKit(clazz);
     }
+
+    // ---------------------------------------------------------------------
+    // Constructors
+    // ---------------------------------------------------------------------
 
     /**
      * Wrap an object.
@@ -97,37 +118,127 @@ public class ReflectKit {
     }
 
     // ---------------------------------------------------------------------
-    // Members
-    // ---------------------------------------------------------------------
-
-    /**
-     * The wrapped object
-     */
-    private final Object object;
-
-    /**
-     * A flag indicating whether the wrapped object is a {@link Class} (for accessing static fields and methods), or any
-     * other type of {@link Object} (for accessing instance fields and methods).
-     */
-    private final boolean isClass;
-
-    // ---------------------------------------------------------------------
-    // Constructors
-    // ---------------------------------------------------------------------
-
-    private ReflectKit(Class<?> type) {
-        this.object = type;
-        this.isClass = true;
-    }
-
-    private ReflectKit(Object object) {
-        this.object = object;
-        this.isClass = false;
-    }
-
-    // ---------------------------------------------------------------------
     // Fluent Reflection API
     // ---------------------------------------------------------------------
+
+    /**
+     * Get the POJO property name of an getter/setter
+     */
+    private static String property(String string) {
+        int length = string.length();
+
+        if (length == 0) {
+            return "";
+        } else if (length == 1) {
+            return string.toLowerCase();
+        } else {
+            return string.substring(0, 1).toLowerCase() + string.substring(1);
+        }
+    }
+
+    /**
+     * Wrap an object created from a constructor
+     */
+    private static ReflectKit on(Constructor<?> constructor, Object... args) throws ToolBoxException {
+        try {
+            return on(accessible(constructor).newInstance(args));
+        } catch (Exception e) {
+            throw new ToolBoxException(e);
+        }
+    }
+
+    /**
+     * Wrap an object returned from a method
+     */
+    private static ReflectKit on(Method method, Object object, Object... args) throws ToolBoxException {
+        try {
+            accessible(method);
+
+            if (method.getReturnType() == void.class) {
+                method.invoke(object, args);
+                return on(object);
+            } else {
+                return on(method.invoke(object, args));
+            }
+        } catch (Exception e) {
+            throw new ToolBoxException(e);
+        }
+    }
+
+    /**
+     * Unwrap an object
+     */
+    private static Object unwrap(Object object) {
+        if (object instanceof ReflectKit) {
+            return ((ReflectKit) object).get();
+        }
+
+        return object;
+    }
+
+    /**
+     * Get an array of types for an array of objects
+     *
+     * @see Object#getClass()
+     */
+    private static Class<?>[] types(Object... values) {
+        if (values == null) {
+            return new Class[0];
+        }
+
+        Class<?>[] result = new Class[values.length];
+
+        for (int i = 0; i < values.length; i++) {
+            Object value = values[i];
+            result[i] = value == null ? Object.class : value.getClass();
+        }
+
+        return result;
+    }
+
+    /**
+     * Load a class
+     *
+     * @see Class#forName(String)
+     */
+    private static Class<?> forName(String name) throws ToolBoxException {
+        try {
+            return Class.forName(name);
+        } catch (Exception e) {
+            throw new ToolBoxException(e);
+        }
+    }
+
+    /**
+     * Get a wrapper type for a primitive type, or the argument type itself, if it is not a primitive type.
+     */
+    public static Class<?> wrapper(Class<?> type) {
+        if (type == null) {
+            return null;
+        } else if (type.isPrimitive()) {
+            if (boolean.class == type) {
+                return Boolean.class;
+            } else if (int.class == type) {
+                return Integer.class;
+            } else if (long.class == type) {
+                return Long.class;
+            } else if (short.class == type) {
+                return Short.class;
+            } else if (byte.class == type) {
+                return Byte.class;
+            } else if (double.class == type) {
+                return Double.class;
+            } else if (float.class == type) {
+                return Float.class;
+            } else if (char.class == type) {
+                return Character.class;
+            } else if (void.class == type) {
+                return Void.class;
+            }
+        }
+
+        return type;
+    }
 
     /**
      * Get the wrapped object
@@ -185,9 +296,8 @@ public class ReflectKit {
      * @see #field(String)
      */
     public <T> T get(String name) throws ToolBoxException {
-        return field(name).<T>get();
+        return field(name).get();
     }
-
 
     public Field getDeclaredField(Class<?> clazz, String name) throws NoSuchFieldException {
         Field field = null;
@@ -330,6 +440,10 @@ public class ReflectKit {
         }
     }
 
+    // ---------------------------------------------------------------------
+    // Object API
+    // ---------------------------------------------------------------------
+
     /**
      * Searches a method with the exact same signature as desired.
      * <p>
@@ -402,6 +516,10 @@ public class ReflectKit {
     public ReflectKit create() throws ToolBoxException {
         return create(new Object[0]);
     }
+
+    // ---------------------------------------------------------------------
+    // Utility methods
+    // ---------------------------------------------------------------------
 
     /**
      * Call a constructor.
@@ -494,25 +612,6 @@ public class ReflectKit {
     }
 
     /**
-     * Get the POJO property name of an getter/setter
-     */
-    private static String property(String string) {
-        int length = string.length();
-
-        if (length == 0) {
-            return "";
-        } else if (length == 1) {
-            return string.toLowerCase();
-        } else {
-            return string.substring(0, 1).toLowerCase() + string.substring(1);
-        }
-    }
-
-    // ---------------------------------------------------------------------
-    // Object API
-    // ---------------------------------------------------------------------
-
-    /**
      * Check whether two arrays of types match, converting primitive types to their corresponding wrappers.
      */
     private boolean match(Class<?>[] declaredTypes, Class<?>[] actualTypes) {
@@ -557,83 +656,6 @@ public class ReflectKit {
         return object.toString();
     }
 
-    // ---------------------------------------------------------------------
-    // Utility methods
-    // ---------------------------------------------------------------------
-
-    /**
-     * Wrap an object created from a constructor
-     */
-    private static ReflectKit on(Constructor<?> constructor, Object... args) throws ToolBoxException {
-        try {
-            return on(accessible(constructor).newInstance(args));
-        } catch (Exception e) {
-            throw new ToolBoxException(e);
-        }
-    }
-
-    /**
-     * Wrap an object returned from a method
-     */
-    private static ReflectKit on(Method method, Object object, Object... args) throws ToolBoxException {
-        try {
-            accessible(method);
-
-            if (method.getReturnType() == void.class) {
-                method.invoke(object, args);
-                return on(object);
-            } else {
-                return on(method.invoke(object, args));
-            }
-        } catch (Exception e) {
-            throw new ToolBoxException(e);
-        }
-    }
-
-    /**
-     * Unwrap an object
-     */
-    private static Object unwrap(Object object) {
-        if (object instanceof ReflectKit) {
-            return ((ReflectKit) object).get();
-        }
-
-        return object;
-    }
-
-    /**
-     * Get an array of types for an array of objects
-     *
-     * @see Object#getClass()
-     */
-    private static Class<?>[] types(Object... values) {
-        if (values == null) {
-            return new Class[0];
-        }
-
-        Class<?>[] result = new Class[values.length];
-
-        for (int i = 0; i < values.length; i++) {
-            Object value = values[i];
-            result[i] = value == null ? Object.class : value.getClass();
-        }
-
-        return result;
-    }
-
-    /**
-     * Load a class
-     *
-     * @see Class#forName(String)
-     */
-    private static Class<?> forName(String name) throws ToolBoxException {
-        try {
-            return Class.forName(name);
-        } catch (Exception e) {
-            throw new ToolBoxException(e);
-        }
-    }
-
     /**
      * Get the type of the wrapped object.
      *
@@ -645,37 +667,6 @@ public class ReflectKit {
         } else {
             return object.getClass();
         }
-    }
-
-    /**
-     * Get a wrapper type for a primitive type, or the argument type itself, if it is not a primitive type.
-     */
-    public static Class<?> wrapper(Class<?> type) {
-        if (type == null) {
-            return null;
-        } else if (type.isPrimitive()) {
-            if (boolean.class == type) {
-                return Boolean.class;
-            } else if (int.class == type) {
-                return Integer.class;
-            } else if (long.class == type) {
-                return Long.class;
-            } else if (short.class == type) {
-                return Short.class;
-            } else if (byte.class == type) {
-                return Byte.class;
-            } else if (double.class == type) {
-                return Double.class;
-            } else if (float.class == type) {
-                return Float.class;
-            } else if (char.class == type) {
-                return Character.class;
-            } else if (void.class == type) {
-                return Void.class;
-            }
-        }
-
-        return type;
     }
 }
 

@@ -2,7 +2,6 @@ package com.dt.module.wx.msg.resp;
 
 /**
  * 链接消息 (请求消息)
- *
  */
 public class LinkMessage extends BaseMessage {
     // 消息标题

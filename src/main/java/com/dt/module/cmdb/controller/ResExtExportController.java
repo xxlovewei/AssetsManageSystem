@@ -1,20 +1,7 @@
 package com.dt.module.cmdb.controller;
 
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.dt.module.zc.service.impl.ZcService;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
@@ -26,9 +13,19 @@ import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.cmdb.entity.DictItemEntity;
 import com.dt.module.cmdb.entity.ResEntity;
 import com.dt.module.zc.service.impl.ZcCommonService;
+import com.dt.module.zc.service.impl.ZcService;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import cn.afterturn.easypoi.excel.ExcelExportUtil;
-import cn.afterturn.easypoi.excel.entity.ExportParams;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: algernonking
@@ -47,7 +44,7 @@ public class ResExtExportController extends BaseController {
     public void exportDictItems(HttpServletRequest request, HttpServletResponse response)
             throws UnsupportedEncodingException {
 
-        String sql="select * from (\n" +
+        String sql = "select * from (\n" +
                 "  select\n" +
                 "    b.name,\n" +
                 "    a.name item_name\n" +
@@ -58,7 +55,7 @@ public class ResExtExportController extends BaseController {
                 "    '资产类型明细'   name,\n" +
                 "    route_name item_name\n" +
                 "  from ct_category\n" +
-                "  where root = '"+ZcCommonService.CATEGORY_ZC+"' and dr='0'\n" +
+                "  where root = '" + ZcCommonService.CATEGORY_ZC + "' and dr='0'\n" +
                 "  union all\n" +
                 "  select\n" +
                 "    '公司' name,\n" +
@@ -71,7 +68,7 @@ public class ResExtExportController extends BaseController {
                 "    route_name\n" +
                 "  from hrm_org_part\n" +
                 "  where type = 'part' and dr='0'\n" +
-                ") tab order by 1\n" ;
+                ") tab order by 1\n";
 
         RcdSet rs = db.query(sql);
 
@@ -109,9 +106,9 @@ public class ResExtExportController extends BaseController {
     public void exportAllRes(HttpServletRequest request, HttpServletResponse response)
             throws UnsupportedEncodingException {
 
-        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-        R res = zcService.queryResAllGetData(null,null,null,ps.getString("datarange"),ps.getString("classroot"),ps.getString("id"), ps.getString("wb"), ps.getString("env"),
-                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"),ps);
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+        R res = zcService.queryResAllGetData(null, null, null, ps.getString("datarange"), ps.getString("classroot"), ps.getString("id"), ps.getString("wb"), ps.getString("env"),
+                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"), ps);
 
         JSONArray data = res.queryDataToJSONArray();
         List<ResEntity> data_excel = new ArrayList<ResEntity>();
@@ -148,10 +145,10 @@ public class ResExtExportController extends BaseController {
     public void exportServerData(HttpServletRequest request, HttpServletResponse response)
             throws UnsupportedEncodingException {
 
-        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 
-        R res = zcService.queryResAllGetData(null,null,null,ps.getString("datarange"),ps.getString("classroot"),ps.getString("id"), ps.getString("wb"), ps.getString("env"),
-                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"),ps);
+        R res = zcService.queryResAllGetData(null, null, null, ps.getString("datarange"), ps.getString("classroot"), ps.getString("id"), ps.getString("wb"), ps.getString("env"),
+                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"), ps);
 
         JSONArray data = res.queryDataToJSONArray();
         List<ResEntity> data_excel = new ArrayList<ResEntity>();

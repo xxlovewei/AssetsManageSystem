@@ -1,9 +1,8 @@
 package com.dt.module.cmdb.entity;
 
-import com.alibaba.fastjson.JSONObject;
-
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * @author: algernonking
@@ -84,21 +83,18 @@ public class ResEntity implements java.io.Serializable {
     private String locdtl;
 
 
-
-
     //组织
     @Excel(name = "所属公司", width = 20)
     private String belongcom_fullname;
 
     @Excel(name = "使用公司", width = 20)
-    private String comp_fullname ;
+    private String comp_fullname;
 
     @Excel(name = "使用部门", width = 20)
     private String part_fullname;
 
     @Excel(name = "使用人(不支持)", width = 10)
     private String used_username;
-
 
 
     //财务
@@ -135,10 +131,18 @@ public class ResEntity implements java.io.Serializable {
 
     @Excel(name = "ip", width = 20)
     private String ip;
+    private String processmsg = "";
+
 
     public ResEntity() {
     }
 
+    /**
+     * @return the serialversionuid
+     */
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
     /**
      * @return the ip
@@ -153,8 +157,6 @@ public class ResEntity implements java.io.Serializable {
     public void setIp(String ip) {
         this.ip = ip;
     }
-
-
 
     /**
      * @return the wb_autostr
@@ -225,7 +227,6 @@ public class ResEntity implements java.io.Serializable {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
-
 
     /**
      * @return the brandstr
@@ -424,13 +425,6 @@ public class ResEntity implements java.io.Serializable {
     }
 
     /**
-     * @return the serialversionuid
-     */
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
-    /**
      * @return the locdtl
      */
     public String getLocdtl() {
@@ -471,7 +465,6 @@ public class ResEntity implements java.io.Serializable {
     public void setPart_fullname(String part_fullname) {
         this.part_fullname = part_fullname;
     }
-
 
     /**
      * @return the used_username
@@ -515,12 +508,9 @@ public class ResEntity implements java.io.Serializable {
         this.wbout_datestr = wbout_datestr;
     }
 
-
-
-
     public void fullResEntity(JSONObject obj) {
 
-        this.supplierstr=obj.getString("supplierstr");
+        this.supplierstr = obj.getString("supplierstr");
         this.uuid = obj.getString("uuid");
         this.classname = obj.getString("classname");
         this.classfullname = obj.getString("classfullname");
@@ -594,8 +584,6 @@ public class ResEntity implements java.io.Serializable {
     public void setClassname(String classname) {
         this.classname = classname;
     }
-
-    private String processmsg = "";
 
     /**
      * @return the processmsg

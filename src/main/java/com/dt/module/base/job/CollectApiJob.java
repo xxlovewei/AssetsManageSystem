@@ -1,11 +1,13 @@
 package com.dt.module.base.job;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.dt.core.annotion.Acl;
+import com.dt.core.dao.sql.Insert;
+import com.dt.core.dao.sql.SQL;
+import com.dt.core.tool.lang.SpringContextUtil;
+import com.dt.core.tool.util.DbUtil;
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.service.impl.JobService;
+import com.dt.module.db.DB;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -17,14 +19,7 @@ import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import com.dt.core.annotion.Acl;
-import com.dt.core.dao.sql.Insert;
-import com.dt.core.dao.sql.SQL;
-import com.dt.core.tool.lang.SpringContextUtil;
-import com.dt.core.tool.util.DbUtil;
-import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.service.impl.JobService;
-import com.dt.module.db.DB;
+import java.util.*;
 
 /**
  * @author: algernonking
@@ -46,7 +41,7 @@ public class CollectApiJob implements Job {
             PatternsRequestCondition pc = rmi.getPatternsCondition();
             Set<String> pSet = pc.getPatterns();
             HandlerMethod hm = entry.getValue();
-            Acl am = ((HandlerMethod) hm).getMethodAnnotation(Acl.class);
+            Acl am = hm.getMethodAnnotation(Acl.class);
             if (ToolUtil.isNotEmpty(am)) {
                 String aclvalue = am.value();
                 String aclinfo = am.info();

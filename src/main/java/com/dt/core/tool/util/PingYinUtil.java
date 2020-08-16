@@ -1,13 +1,13 @@
 package com.dt.core.tool.util;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Random;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 
 public class PingYinUtil {
 
@@ -40,8 +40,8 @@ public class PingYinUtil {
 
         if (chinese.length() > 1) // 判断是不是汉字
         {
-            int li_SectorCode = (int) chinese.charAt(0); // 汉字区码
-            int li_PositionCode = (int) chinese.charAt(1); // 汉字位码
+            int li_SectorCode = chinese.charAt(0); // 汉字区码
+            int li_PositionCode = chinese.charAt(1); // 汉字位码
             li_SectorCode = li_SectorCode - 160;
             li_PositionCode = li_PositionCode - 160;
             int li_SecPosCode = li_SectorCode * 100 + li_PositionCode; // 汉字区位码
@@ -66,7 +66,6 @@ public class PingYinUtil {
         try {
             str = new String(str.getBytes(charsetName), toCharsetName);
         } catch (UnsupportedEncodingException ex) {
-            ;
         }
         return str;
     }
@@ -169,7 +168,6 @@ public class PingYinUtil {
     public static void main(String[] args) {
 
 
-
     }
 
     /**
@@ -178,7 +176,7 @@ public class PingYinUtil {
     public static String getPYIndexStr(String strChinese, boolean bUpCase) {
         try {
             StringBuffer buffer = new StringBuffer();
-            byte b[] = strChinese.getBytes("GBK");// 把中文转化成byte数组
+            byte[] b = strChinese.getBytes("GBK");// 把中文转化成byte数组
             for (int i = 0; i < b.length; i++) {
                 if ((b[i] & 255) > 128) {
                     int char1 = b[i++] & 255;

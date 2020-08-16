@@ -1,12 +1,5 @@
 package com.dt.core.tool.util;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.NumberFormat;
-import java.util.Date;
-import java.util.Set;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -16,6 +9,13 @@ import com.dt.core.tool.util.exception.ToolBoxException;
 import com.dt.core.tool.util.support.CollectionKit;
 import com.dt.core.tool.util.support.DateTimeKit;
 import com.dt.core.tool.util.support.StrKit;
+
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.NumberFormat;
+import java.util.Date;
+import java.util.Set;
 
 public class ConvertUtil {
     private ConvertUtil() {
@@ -66,7 +66,7 @@ public class ConvertUtil {
 
     public static JSONObject OtherJSONObjectToFastJSONObject(Object value) {
         if (value instanceof org.json.JSONObject) {
-            return JSONObject.parseObject(((org.json.JSONObject) (value)).toString());
+            return JSONObject.parseObject(value.toString());
         } else if (value instanceof JSONObject) {
             return (JSONObject) value;
         } else
@@ -75,7 +75,7 @@ public class ConvertUtil {
 
     public static JSONArray OtherJSONObjectToFastJSONArray(Object value) {
         if (value instanceof org.json.JSONArray) {
-            return JSONArray.parseArray(((org.json.JSONArray) (value)).toString());
+            return JSONArray.parseArray(value.toString());
         } else if (value instanceof JSONArray) {
             return (JSONArray) value;
         } else
@@ -906,7 +906,7 @@ public class ConvertUtil {
      * @return 全角字符串.
      */
     public static String toSBC(String input, Set<Character> notConvertSet) {
-        char c[] = input.toCharArray();
+        char[] c = input.toCharArray();
         for (int i = 0; i < c.length; i++) {
             if (null != notConvertSet && notConvertSet.contains(c[i])) {
                 // 跳过不替换的字符
@@ -939,7 +939,7 @@ public class ConvertUtil {
      * @return 替换后的字符
      */
     public static String toDBC(String text, Set<Character> notConvertSet) {
-        char c[] = text.toCharArray();
+        char[] c = text.toCharArray();
         for (int i = 0; i < c.length; i++) {
             if (null != notConvertSet && notConvertSet.contains(c[i])) {
                 // 跳过不替换的字符
@@ -969,7 +969,7 @@ public class ConvertUtil {
         String strHex;
         for (int i = 0; i < strText.length(); i++) {
             c = strText.charAt(i);
-            intAsc = (int) c;
+            intAsc = c;
             strHex = Integer.toHexString(intAsc);
             if (intAsc > 128)
                 str.append("\\u" + strHex);
@@ -1030,9 +1030,9 @@ public class ConvertUtil {
      * @return 中文大写数字
      */
     public static String digitUppercase(double n) {
-        String fraction[] = {"角", "分"};
-        String digit[] = {"零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
-        String unit[][] = {{"元", "万", "亿"}, {"", "拾", "佰", "仟"}};
+        String[] fraction = {"角", "分"};
+        String[] digit = {"零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
+        String[][] unit = {{"元", "万", "亿"}, {"", "拾", "佰", "仟"}};
         String head = n < 0 ? "负" : "";
         n = Math.abs(n);
         String s = "";

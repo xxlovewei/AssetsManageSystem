@@ -11,6 +11,14 @@ import java.util.Locale;
 
 public class DateUtil {
 
+    public static long MICRO_SECOND = 1;
+    public static long SECOND = 1000;
+    public static long MINUTE = 60000;
+    public static long HOUR = 3600000;
+    public static long DAY = 86400000;
+    public static long WEEK = 604800000;
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     public static long getSystemMilles() {
         return System.currentTimeMillis();
     }
@@ -20,15 +28,6 @@ public class DateUtil {
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         return format.format(new Date());
     }
-
-    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    public static long MICRO_SECOND = 1;
-    public static long SECOND = 1000;
-    public static long MINUTE = 60000;
-    public static long HOUR = 3600000;
-    public static long DAY = 86400000;
-    public static long WEEK = 604800000;
 
     public static String format(Date date, String format) {
         String mDateTime;
@@ -106,7 +105,7 @@ public class DateUtil {
     }
 
     public static String getChineseWeek(Calendar date) {
-        final String dayNames[] = {"周日", "周一", "周二", "周三", "周四️", "周五", "周六"};
+        final String[] dayNames = {"周日", "周一", "周二", "周三", "周四️", "周五", "周六"};
         int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
         System.out.println(dayNames[dayOfWeek - 1]);
         return dayNames[dayOfWeek - 1];
@@ -346,14 +345,7 @@ public class DateUtil {
         Calendar c2 = Calendar.getInstance();
         c2.setTime(date2);
 
-        if (c1.before(c2))
-            return true;
-
-        return false;
-    }
-
-    public static enum Type {
-        Year, Month, Week, Day, Hour, Minutes, Seconds;
+        return c1.before(c2);
     }
 
     /**
@@ -413,7 +405,7 @@ public class DateUtil {
                         }
                     }
                 }
-                return (long) yd;
+                return yd;
             }
             case Month: {
                 // 获取年份差
@@ -481,6 +473,10 @@ public class DateUtil {
             default:
                 throw new Exception("请指定要获取的时间差的类型：年，月，天，周，时，分，秒");
         }
+    }
+
+    public enum Type {
+        Year, Month, Week, Day, Hour, Minutes, Seconds
     }
 
 }

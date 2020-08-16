@@ -44,27 +44,9 @@ public enum BaseCodeMsgEnum {
     WX_FAILED_GET_OPENID(10001, "微信未获取Openid");
 
 
-    public JSONArray printAll() {
-        JSONArray res = new JSONArray();
-        for (BaseCodeMsgEnum e : BaseCodeMsgEnum.values()) {
-            JSONObject obj = new JSONObject();
-
-            obj.put(e.friendlyCode + "", e.friendlyMsg.toString());
-            res.add(obj);
-        }
-        return res;
-
-    }
-
-    public static JSONObject queryAll() {
-        JSONObject res = new JSONObject();
-        for (BaseCodeMsgEnum e : BaseCodeMsgEnum.values()) {
-            res.put(e.friendlyCode + "", e.friendlyMsg);
-        }
-        res.put("0", "操作成功");
-        return res;
-
-    }
+    private int friendlyCode;
+    private String friendlyMsg;
+    private String urlPath;
 
     BaseCodeMsgEnum(int code, String message) {
         this.friendlyCode = code;
@@ -77,11 +59,27 @@ public enum BaseCodeMsgEnum {
         this.urlPath = urlPath;
     }
 
-    private int friendlyCode;
+    public static JSONObject queryAll() {
+        JSONObject res = new JSONObject();
+        for (BaseCodeMsgEnum e : BaseCodeMsgEnum.values()) {
+            res.put(e.friendlyCode + "", e.friendlyMsg);
+        }
+        res.put("0", "操作成功");
+        return res;
 
-    private String friendlyMsg;
+    }
 
-    private String urlPath;
+    public JSONArray printAll() {
+        JSONArray res = new JSONArray();
+        for (BaseCodeMsgEnum e : BaseCodeMsgEnum.values()) {
+            JSONObject obj = new JSONObject();
+
+            obj.put(e.friendlyCode + "", e.friendlyMsg);
+            res.add(obj);
+        }
+        return res;
+
+    }
 
     public int getCode() {
         return friendlyCode;

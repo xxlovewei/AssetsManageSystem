@@ -1,23 +1,23 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
+
+import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-25
  */
- 
+
 @TableName("res_allocate_item")
- 
+
 public class ResAllocateItem extends BaseModel<ResAllocateItem> {
 
     private static final long serialVersionUID = 1L;
@@ -222,25 +222,25 @@ public class ResAllocateItem extends BaseModel<ResAllocateItem> {
     @Override
     public String toString() {
         return "ResAllocateItem{" +
-        "id=" + id +
-        ", allocateid=" + allocateid +
-        ", residprerecycle=" + residprerecycle +
-        ", resid=" + resid +
-        ", touseduserid=" + touseduserid +
-        ", tousedusername=" + tousedusername +
-        ", tousedpartid=" + tousedpartid +
-        ", tousedpartname=" + tousedpartname +
-        ", tousedcompid=" + tousedcompid +
-        ", tousedcompname=" + tousedcompname +
-        ", tobelongcompid=" + tobelongcompid +
-        ", tobelongcompname=" + tobelongcompname +
-        ", tobelongpartid=" + tobelongpartid +
-        ", tobelongpartname=" + tobelongpartname +
-        ", toloc=" + toloc +
-        ", tolocname=" + tolocname +
-        ", tolocdtl=" + tolocdtl +
-        ", status=" + status +
-        ", busuuid=" + busuuid +
-        "}";
+                "id=" + id +
+                ", allocateid=" + allocateid +
+                ", residprerecycle=" + residprerecycle +
+                ", resid=" + resid +
+                ", touseduserid=" + touseduserid +
+                ", tousedusername=" + tousedusername +
+                ", tousedpartid=" + tousedpartid +
+                ", tousedpartname=" + tousedpartname +
+                ", tousedcompid=" + tousedcompid +
+                ", tousedcompname=" + tousedcompname +
+                ", tobelongcompid=" + tobelongcompid +
+                ", tobelongcompname=" + tobelongcompname +
+                ", tobelongpartid=" + tobelongpartid +
+                ", tobelongpartname=" + tobelongpartname +
+                ", toloc=" + toloc +
+                ", tolocname=" + tolocname +
+                ", tolocdtl=" + tolocdtl +
+                ", status=" + status +
+                ", busuuid=" + busuuid +
+                "}";
     }
 }

@@ -1,26 +1,23 @@
 package com.dt.core.dao;
 
-import java.math.BigDecimal;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-
+import com.dt.core.dao.util.ArrayUtil;
+import jodd.datetime.JDateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.dt.core.dao.util.ArrayUtil;
-
-import jodd.datetime.JDateTime;
+import java.math.BigDecimal;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.*;
 
 public class RcdSet implements Iterable<Rcd> {
+    RcdSetExporter exporter = new RcdSetExporter(this);
     private RcdMetaData metaData = null;
-
     private ArrayList<Rcd> records = new ArrayList<Rcd>();
+    private int pageSize = 0;
+    private int pageIndex = 0;
+    private int pageCount = 0;
+    private int totalRowCount = 0;
 
     /**
      * 增加一个记录
@@ -501,11 +498,6 @@ public class RcdSet implements Iterable<Rcd> {
         return toStringArray(indexes);
     }
 
-    private int pageSize = 0;
-    private int pageIndex = 0;
-    private int pageCount = 0;
-    private int totalRowCount = 0;
-
     protected void setPageInfos(int pageSize, int pageIndex, int totalRowCount, int pageCount, String sql) {
         if (this.metaData != null) {
             this.metaData.setSql(sql);
@@ -564,8 +556,6 @@ public class RcdSet implements Iterable<Rcd> {
     public int getTotalRowCount() {
         return totalRowCount;
     }
-
-    RcdSetExporter exporter = new RcdSetExporter(this);
 
     /**
      * 获得导出器

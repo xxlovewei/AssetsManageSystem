@@ -1,11 +1,11 @@
 package com.dt.module.base.mapper;
 
-import com.dt.module.base.entity.SysFeedback;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dt.module.base.entity.SysFeedback;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author algernonking

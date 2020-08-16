@@ -1,23 +1,23 @@
 package com.dt.module.hrm.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
+
+import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-13
  */
- 
+
 @TableName("hrm_org_employee")
- 
+
 public class HrmOrgEmployee extends BaseModel<HrmOrgEmployee> {
 
     private static final long serialVersionUID = 1L;
@@ -68,9 +68,9 @@ public class HrmOrgEmployee extends BaseModel<HrmOrgEmployee> {
     @Override
     public String toString() {
         return "HrmOrgEmployee{" +
-        "id=" + id +
-        ", nodeId=" + nodeId +
-        ", emplId=" + emplId +
-        "}";
+                "id=" + id +
+                ", nodeId=" + nodeId +
+                ", emplId=" + emplId +
+                "}";
     }
 }

@@ -5,6 +5,16 @@ import java.util.HashMap;
 
 public class RcdMetaData {
     private int columnCount = 0;
+    private ArrayList<String> catalogNames = new ArrayList<String>();
+    private ArrayList<String> columnClassName = new ArrayList<String>();
+    private ArrayList<String> columnLabel = new ArrayList<String>();
+    private ArrayList<Integer> columnType = new ArrayList<Integer>();
+    private ArrayList<ColumnDataGenerater> columnDataGeneraters = new ArrayList<ColumnDataGenerater>();
+    private ArrayList<String> columnTypeName = new ArrayList<String>();
+    private ArrayList<String> schemaName = new ArrayList<String>();
+    private ArrayList<String> tableName = new ArrayList<String>();
+    private HashMap<String, Integer> nameIndexMap = new HashMap<String, Integer>();
+    private String sql = null;
 
     public int getColumnCount() {
         return columnCount;
@@ -14,8 +24,6 @@ public class RcdMetaData {
         columnCount = c;
     }
 
-    private ArrayList<String> catalogNames = new ArrayList<String>();
-
     protected void addCatalogName(String val) {
         catalogNames.add(val);
     }
@@ -24,8 +32,6 @@ public class RcdMetaData {
         return catalogNames.get(i);
     }
 
-    private ArrayList<String> columnClassName = new ArrayList<String>();
-
     protected void addColumnClassName(String val) {
         columnClassName.add(val);
     }
@@ -33,8 +39,6 @@ public class RcdMetaData {
     public String getColumnClassName(int i) {
         return columnClassName.get(i);
     }
-
-    private ArrayList<String> columnLabel = new ArrayList<String>();
 
     protected void addColumnLabel(String val) {
         columnLabel.add(val);
@@ -49,8 +53,6 @@ public class RcdMetaData {
         return columnLabel.toArray(arr);
     }
 
-    private ArrayList<Integer> columnType = new ArrayList<Integer>();
-
     protected void addColumnType(Integer val) {
         columnType.add(val);
     }
@@ -58,8 +60,6 @@ public class RcdMetaData {
     public Integer getColumnType(int i) {
         return columnType.get(i);
     }
-
-    private ArrayList<ColumnDataGenerater> columnDataGeneraters = new ArrayList<ColumnDataGenerater>();
 
     protected void addColumnDataGenerater(ColumnDataGenerater val) {
         columnDataGeneraters.add(val);
@@ -69,8 +69,6 @@ public class RcdMetaData {
         return columnDataGeneraters.get(i);
     }
 
-    private ArrayList<String> columnTypeName = new ArrayList<String>();
-
     protected void addColumnTypeName(String val) {
         columnTypeName.add(val);
     }
@@ -78,8 +76,6 @@ public class RcdMetaData {
     public String getColumnTypeName(int i) {
         return columnTypeName.get(i);
     }
-
-    private ArrayList<String> schemaName = new ArrayList<String>();
 
     protected void addSchemaName(String val) {
         schemaName.add(val);
@@ -89,8 +85,6 @@ public class RcdMetaData {
         return schemaName.get(i);
     }
 
-    private ArrayList<String> tableName = new ArrayList<String>();
-
     protected void addTableName(String val) {
         tableName.add(val);
     }
@@ -98,8 +92,6 @@ public class RcdMetaData {
     public String getTableName(int i) {
         return tableName.get(i);
     }
-
-    private HashMap<String, Integer> nameIndexMap = new HashMap<String, Integer>();
 
     protected void setMap(String name, int idx) {
         nameIndexMap.put(name.toUpperCase(), idx);
@@ -136,8 +128,6 @@ public class RcdMetaData {
 
         return na;
     }
-
-    private String sql = null;
 
     public String getSql() {
         return sql;

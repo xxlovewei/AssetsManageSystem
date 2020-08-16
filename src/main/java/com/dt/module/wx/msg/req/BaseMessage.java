@@ -2,7 +2,6 @@ package com.dt.module.wx.msg.req;
 
 /**
  * 消息基类（普通用户 -> 公众帐号） 请求消息的基类
- *
  */
 public class BaseMessage {
     // 开发者微信号

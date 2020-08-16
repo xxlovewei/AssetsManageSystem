@@ -1,41 +1,5 @@
 package com.dt.module.wx.service;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.ConnectException;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.ExcessiveAttemptsException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.cache.CacheConfig;
@@ -54,6 +18,31 @@ import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.wx.pojo.WeixinUserInfo;
 import com.dt.module.wx.util.AdvancedUtil;
 import com.dt.module.wx.util.WeiXX509TrustManager;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Service;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.ConnectException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 /**
  * @author: jinjie
@@ -65,22 +54,116 @@ import com.dt.module.wx.util.WeiXX509TrustManager;
 @PropertySource(value = "classpath:config.properties")
 public class WxService extends BaseService {
 
-    @Value("${wx.appId}")
-    public String appIdconf;
-
-    @Value("${wx.secret}")
-    public String secretconf;
-
-    @Autowired
-    ISysUserInfoService SysUserInfoServiceImpl;
-
     private static Logger _log = LoggerFactory.getLogger(WxService.class);
-
     /**
      * @Description:微信公众号获取配置
      */
     private static Map<String, AccessToken> tokens = new HashMap<String, AccessToken>();
     private static Map<String, AccessTicket> tickets = new HashMap<String, AccessTicket>();
+    @Value("${wx.appId}")
+    public String appIdconf;
+    @Value("${wx.secret}")
+    public String secretconf;
+    @Autowired
+    ISysUserInfoService SysUserInfoServiceImpl;
+
+    public static String byteToHex(final byte[] hash) {
+        Formatter formatter = new Formatter();
+        for (byte b : hash) {
+            formatter.format("%02x", b);
+        }
+        String result = formatter.toString();
+        formatter.close();
+        return result;
+
+    }
+
+    /**
+     * 将字节转换为十六进制字符串
+     *
+     * @param mByte
+     * @return
+     */
+    private static String byteToHexStr(byte mByte) {
+        char[] Digit = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        char[] tempArr = new char[2];
+        tempArr[0] = Digit[(mByte >>> 4) & 0X0F];
+        tempArr[1] = Digit[mByte & 0X0F];
+
+        String s = new String(tempArr);
+        return s;
+    }
+
+    /**
+     * 将字节数组转换为十六进制字符串
+     *
+     * @param byteArray
+     * @return
+     */
+    private static String byteToStr(byte[] byteArray) {
+        String strDigest = "";
+        for (int i = 0; i < byteArray.length; i++) {
+            strDigest += byteToHexStr(byteArray[i]);
+        }
+        return strDigest;
+    }
+
+    public static JSONObject httpRequest(String requestUrl, String requestMethod, String outputStr) {
+        JSONObject jsonObject = null;
+        StringBuffer buffer = new StringBuffer();
+        try {
+            // 创建SSLContext对象，并使用我们指定的信任管理器初始化
+            TrustManager[] tm = {new WeiXX509TrustManager()};
+            SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+            sslContext.init(null, tm, new java.security.SecureRandom());
+            // 从上述SSLContext对象中得到SSLSocketFactory对象
+            SSLSocketFactory ssf = sslContext.getSocketFactory();
+            URL url = new URL(requestUrl);
+            HttpsURLConnection httpUrlConn = (HttpsURLConnection) url.openConnection();
+            httpUrlConn.setSSLSocketFactory(ssf);
+            httpUrlConn.setDoOutput(true);
+            httpUrlConn.setDoInput(true);
+            httpUrlConn.setUseCaches(false);
+            // 设置请求方式（GET/POST）
+            httpUrlConn.setRequestMethod(requestMethod);
+            if ("GET".equalsIgnoreCase(requestMethod))
+                httpUrlConn.connect();
+            // 当有数据需要提交时
+            if (null != outputStr) {
+                OutputStream outputStream = httpUrlConn.getOutputStream();
+                // 注意编码格式，防止中文乱码
+                outputStream.write(outputStr.getBytes(StandardCharsets.UTF_8));
+                outputStream.close();
+            }
+            // 将返回的输入流转换成字符串
+            InputStream inputStream = httpUrlConn.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String str = null;
+            while ((str = bufferedReader.readLine()) != null) {
+                buffer.append(str);
+            }
+            bufferedReader.close();
+            inputStreamReader.close();
+            // 释放资源
+            inputStream.close();
+            inputStream = null;
+            httpUrlConn.disconnect();
+            jsonObject = JSONObject.parseObject(buffer.toString());
+        } catch (ConnectException ce) {
+            // log.error("Weixin server connection timed out.");
+        } catch (Exception e) {
+            // log.error("https request error:{}", e);
+        }
+        return jsonObject;
+    }
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        WxService s = new WxService();
+        s.syncMenuFromWx("wx8fc3340c90ec5d53", "f6cea94ef73b19db97320a36b3fb36b4");
+
+    }
 
     public R queryAccessToken() {
         return queryWxToken(appIdconf, secretconf, false);
@@ -132,8 +215,8 @@ public class WxService extends BaseService {
         Set<String> set = tickets.keySet();
         Iterator<String> it = set.iterator();
         while (it.hasNext()) {
-            String key = (String) it.next();
-            AccessTicket value = (AccessTicket) tickets.get(key);
+            String key = it.next();
+            AccessTicket value = tickets.get(key);
             JSONObject e = new JSONObject();
             e.put("access_token", key);
             e.put("data", value.toJsonObject());
@@ -177,47 +260,6 @@ public class WxService extends BaseService {
         return R.SUCCESS_OPER(r);
     }
 
-    public static String byteToHex(final byte[] hash) {
-        Formatter formatter = new Formatter();
-        for (byte b : hash) {
-            formatter.format("%02x", b);
-        }
-        String result = formatter.toString();
-        formatter.close();
-        return result;
-
-    }
-
-    /**
-     * 将字节转换为十六进制字符串
-     *
-     * @param mByte
-     * @return
-     */
-    private static String byteToHexStr(byte mByte) {
-        char[] Digit = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-        char[] tempArr = new char[2];
-        tempArr[0] = Digit[(mByte >>> 4) & 0X0F];
-        tempArr[1] = Digit[mByte & 0X0F];
-
-        String s = new String(tempArr);
-        return s;
-    }
-
-    /**
-     * 将字节数组转换为十六进制字符串
-     *
-     * @param byteArray
-     * @return
-     */
-    private static String byteToStr(byte[] byteArray) {
-        String strDigest = "";
-        for (int i = 0; i < byteArray.length; i++) {
-            strDigest += byteToHexStr(byteArray[i]);
-        }
-        return strDigest;
-    }
-
     public boolean checkSignature(String signature, String timestamp, String nonce) {
         R tr = queryAccessToken();
         if (tr.isFailed()) {
@@ -246,7 +288,7 @@ public class WxService extends BaseService {
         _log.info("right value:" + tmpStr);
         content = null;
         // 将sha1加密后的字符串可与signature对比，标识该请求来源于微信
-        return tmpStr != null ? tmpStr.equals(signature.toUpperCase()) : false;
+        return tmpStr != null && tmpStr.equals(signature.toUpperCase());
     }
 
     public R queryMenu() {
@@ -399,63 +441,6 @@ public class WxService extends BaseService {
         JSONObject json = httpRequest(url, "POST", menu);
         _log.info("result:" + json.toJSONString());
         return R.SUCCESS_OPER();
-    }
-
-    public static JSONObject httpRequest(String requestUrl, String requestMethod, String outputStr) {
-        JSONObject jsonObject = null;
-        StringBuffer buffer = new StringBuffer();
-        try {
-            // 创建SSLContext对象，并使用我们指定的信任管理器初始化
-            TrustManager[] tm = {new WeiXX509TrustManager()};
-            SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
-            sslContext.init(null, tm, new java.security.SecureRandom());
-            // 从上述SSLContext对象中得到SSLSocketFactory对象
-            SSLSocketFactory ssf = sslContext.getSocketFactory();
-            URL url = new URL(requestUrl);
-            HttpsURLConnection httpUrlConn = (HttpsURLConnection) url.openConnection();
-            httpUrlConn.setSSLSocketFactory(ssf);
-            httpUrlConn.setDoOutput(true);
-            httpUrlConn.setDoInput(true);
-            httpUrlConn.setUseCaches(false);
-            // 设置请求方式（GET/POST）
-            httpUrlConn.setRequestMethod(requestMethod);
-            if ("GET".equalsIgnoreCase(requestMethod))
-                httpUrlConn.connect();
-            // 当有数据需要提交时
-            if (null != outputStr) {
-                OutputStream outputStream = httpUrlConn.getOutputStream();
-                // 注意编码格式，防止中文乱码
-                outputStream.write(outputStr.getBytes("UTF-8"));
-                outputStream.close();
-            }
-            // 将返回的输入流转换成字符串
-            InputStream inputStream = httpUrlConn.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String str = null;
-            while ((str = bufferedReader.readLine()) != null) {
-                buffer.append(str);
-            }
-            bufferedReader.close();
-            inputStreamReader.close();
-            // 释放资源
-            inputStream.close();
-            inputStream = null;
-            httpUrlConn.disconnect();
-            jsonObject = JSONObject.parseObject(buffer.toString());
-        } catch (ConnectException ce) {
-            // log.error("Weixin server connection timed out.");
-        } catch (Exception e) {
-            // log.error("https request error:{}", e);
-        }
-        return jsonObject;
-    }
-
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-        WxService s = new WxService();
-        s.syncMenuFromWx("wx8fc3340c90ec5d53", "f6cea94ef73b19db97320a36b3fb36b4");
-
     }
 
     /* 网页授权 */

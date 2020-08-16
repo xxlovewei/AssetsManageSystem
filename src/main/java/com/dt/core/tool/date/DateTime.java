@@ -1,8 +1,8 @@
 package com.dt.core.tool.date;
 
-import java.util.Date;
-
 import com.dt.core.tool.util.support.DateTimeKit;
+
+import java.util.Date;
 
 /**
  * 封装java.util.Date
@@ -11,16 +11,6 @@ import com.dt.core.tool.util.support.DateTimeKit;
  */
 public class DateTime extends Date {
     private static final long serialVersionUID = -5395712593979185936L;
-
-    /**
-     * 转换JDK date为 DateTime
-     *
-     * @param date JDK Date
-     * @return DateTime
-     */
-    public static DateTime parse(Date date) {
-        return new DateTime(date);
-    }
 
     /**
      * 当前时间
@@ -45,6 +35,16 @@ public class DateTime extends Date {
      */
     public DateTime(long timeMillis) {
         super(timeMillis);
+    }
+
+    /**
+     * 转换JDK date为 DateTime
+     *
+     * @param date JDK Date
+     * @return DateTime
+     */
+    public static DateTime parse(Date date) {
+        return new DateTime(date);
     }
 
     @Override

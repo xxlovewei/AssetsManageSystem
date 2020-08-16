@@ -1,13 +1,13 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.math.BigDecimal;
-import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
@@ -17,9 +17,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * @author algernonking
  * @since 2020-06-27
  */
- 
+
 @TableName("res_inventory_item")
- 
+
 public class ResInventoryItem extends BaseModel<ResInventoryItem> {
 
     private static final long serialVersionUID = 1L;
@@ -114,7 +114,7 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
     @TableField("version")
     private String version;
     /**
-     *  资产描述
+     * 资产描述
      */
     @TableField("res_desc")
     private String resDesc;
@@ -1340,82 +1340,82 @@ public class ResInventoryItem extends BaseModel<ResInventoryItem> {
                 ", sn=" + sn +
                 ", version=" + version +
                 ", resDesc=" + resDesc +
-        ", brand=" + brand +
-        ", supplier=" + supplier +
-        ", recycle=" + recycle +
-        ", prerecycle=" + prerecycle +
-        ", env=" + env +
-        ", risk=" + risk +
-        ", buyTime=" + buyTime +
-        ", offlineTime=" + offlineTime +
-        ", onlineTime=" + onlineTime +
-        ", ip=" + ip +
-        ", rwm=" + rwm +
-        ", confdesc=" + confdesc +
-        ", loc=" + loc +
-        ", locshow=" + locshow +
-        ", locdtl=" + locdtl +
-        ", rack=" + rack +
-        ", frame=" + frame +
-        ", belongCompanyId=" + belongCompanyId +
-        ", belongPartId=" + belongPartId +
-        ", usedCompanyId=" + usedCompanyId +
-        ", partId=" + partId +
-        ", usedUserid=" + usedUserid +
-        ", mgrPartId=" + mgrPartId +
-        ", maintainUserid=" + maintainUserid +
-        ", headuserid=" + headuserid +
-        ", buyPrice=" + buyPrice +
-        ", netWorth=" + netWorth +
-        ", zcCnt=" + zcCnt +
-        ", actionstatus=" + actionstatus +
-        ", wb=" + wb +
-        ", wbAuto=" + wbAuto +
-        ", wboutDate=" + wboutDate +
-        ", wbsupplier=" + wbsupplier +
-        ", wbct=" + wbct +
-        ", status=" + status +
-        ", changestatus=" + changestatus +
-        ", importlabel=" + importlabel +
-        ", img=" + img +
-        ", attach=" + attach +
-        ", mark=" + mark +
-        ", changestate=" + changestate +
-        ", reviewUserid=" + reviewUserid +
-        ", reviewDate=" + reviewDate +
-        ", fs1=" + fs1 +
-        ", fs2=" + fs2 +
-        ", fs3=" + fs3 +
-        ", fs4=" + fs4 +
-        ", fs5=" + fs5 +
-        ", fs6=" + fs6 +
-        ", fs7=" + fs7 +
-        ", fs8=" + fs8 +
-        ", fs9=" + fs9 +
-        ", fs10=" + fs10 +
-        ", fs11=" + fs11 +
-        ", fs12=" + fs12 +
-        ", fs13=" + fs13 +
-        ", fs14=" + fs14 +
-        ", fs15=" + fs15 +
-        ", fs16=" + fs16 +
-        ", fs17=" + fs17 +
-        ", fs18=" + fs18 +
-        ", fs19=" + fs19 +
-        ", fs20=" + fs20 +
-        ", fi1=" + fi1 +
-        ", fi2=" + fi2 +
-        ", fi3=" + fi3 +
-        ", fi4=" + fi4 +
-        ", fi5=" + fi5 +
-        ", fi6=" + fi6 +
-        ", fi7=" + fi7 +
-        ", fi8=" + fi8 +
-        ", fi9=" + fi9 +
-        ", fi10=" + fi10 +
-        ", fi11=" + fi11 +
-        ", fi12=" + fi12 +
-        ", fi13=" + fi13 +
+                ", brand=" + brand +
+                ", supplier=" + supplier +
+                ", recycle=" + recycle +
+                ", prerecycle=" + prerecycle +
+                ", env=" + env +
+                ", risk=" + risk +
+                ", buyTime=" + buyTime +
+                ", offlineTime=" + offlineTime +
+                ", onlineTime=" + onlineTime +
+                ", ip=" + ip +
+                ", rwm=" + rwm +
+                ", confdesc=" + confdesc +
+                ", loc=" + loc +
+                ", locshow=" + locshow +
+                ", locdtl=" + locdtl +
+                ", rack=" + rack +
+                ", frame=" + frame +
+                ", belongCompanyId=" + belongCompanyId +
+                ", belongPartId=" + belongPartId +
+                ", usedCompanyId=" + usedCompanyId +
+                ", partId=" + partId +
+                ", usedUserid=" + usedUserid +
+                ", mgrPartId=" + mgrPartId +
+                ", maintainUserid=" + maintainUserid +
+                ", headuserid=" + headuserid +
+                ", buyPrice=" + buyPrice +
+                ", netWorth=" + netWorth +
+                ", zcCnt=" + zcCnt +
+                ", actionstatus=" + actionstatus +
+                ", wb=" + wb +
+                ", wbAuto=" + wbAuto +
+                ", wboutDate=" + wboutDate +
+                ", wbsupplier=" + wbsupplier +
+                ", wbct=" + wbct +
+                ", status=" + status +
+                ", changestatus=" + changestatus +
+                ", importlabel=" + importlabel +
+                ", img=" + img +
+                ", attach=" + attach +
+                ", mark=" + mark +
+                ", changestate=" + changestate +
+                ", reviewUserid=" + reviewUserid +
+                ", reviewDate=" + reviewDate +
+                ", fs1=" + fs1 +
+                ", fs2=" + fs2 +
+                ", fs3=" + fs3 +
+                ", fs4=" + fs4 +
+                ", fs5=" + fs5 +
+                ", fs6=" + fs6 +
+                ", fs7=" + fs7 +
+                ", fs8=" + fs8 +
+                ", fs9=" + fs9 +
+                ", fs10=" + fs10 +
+                ", fs11=" + fs11 +
+                ", fs12=" + fs12 +
+                ", fs13=" + fs13 +
+                ", fs14=" + fs14 +
+                ", fs15=" + fs15 +
+                ", fs16=" + fs16 +
+                ", fs17=" + fs17 +
+                ", fs18=" + fs18 +
+                ", fs19=" + fs19 +
+                ", fs20=" + fs20 +
+                ", fi1=" + fi1 +
+                ", fi2=" + fi2 +
+                ", fi3=" + fi3 +
+                ", fi4=" + fi4 +
+                ", fi5=" + fi5 +
+                ", fi6=" + fi6 +
+                ", fi7=" + fi7 +
+                ", fi8=" + fi8 +
+                ", fi9=" + fi9 +
+                ", fi10=" + fi10 +
+                ", fi11=" + fi11 +
+                ", fi12=" + fi12 +
+                ", fi13=" + fi13 +
                 ", fi14=" + fi14 +
                 ", fi15=" + fi15 +
                 ", fi16=" + fi16 +

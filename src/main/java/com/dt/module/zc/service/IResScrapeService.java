@@ -1,11 +1,11 @@
 package com.dt.module.zc.service;
 
-import com.dt.module.zc.entity.ResScrape;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.dt.module.zc.entity.ResScrape;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author algernonking

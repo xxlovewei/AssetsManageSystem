@@ -1,12 +1,12 @@
 package com.dt.core.tool.util.support;
 
+import com.dt.core.tool.date.DateTime;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Locale;
-
-import com.dt.core.tool.date.DateTime;
 
 
 /**
@@ -70,7 +70,6 @@ public class DateTimeKit {
             return new SimpleDateFormat(NORM_DATE_PATTERN);
         }
 
-        ;
     };
     /**
      * 标准时间格式化器
@@ -81,7 +80,6 @@ public class DateTimeKit {
             return new SimpleDateFormat(NORM_TIME_PATTERN);
         }
 
-        ;
     };
     /**
      * 标准日期时间格式化器
@@ -92,7 +90,6 @@ public class DateTimeKit {
             return new SimpleDateFormat(NORM_DATETIME_PATTERN);
         }
 
-        ;
     };
     /**
      * HTTP日期时间格式化器
@@ -103,7 +100,6 @@ public class DateTimeKit {
             return new SimpleDateFormat(HTTP_DATETIME_PATTERN, Locale.US);
         }
 
-        ;
     };
 
     /**
@@ -653,6 +649,18 @@ public class DateTimeKit {
     }
 
     /**
+     * 获得指定日期年份和季节<br>
+     * 格式：[20131]表示2013年第一季度
+     *
+     * @param cal 日期
+     */
+    private static String yearAndSeason(Calendar cal) {
+        return new StringBuilder().append(cal.get(Calendar.YEAR)).append(cal.get(Calendar.MONTH) / 3 + 1).toString();
+    }
+
+    // ------------------------------------------------------------------------ Private method start
+
+    /**
      * 计时器<br>
      * 计算某个过程话费的时间，精确到毫秒
      *
@@ -695,18 +703,6 @@ public class DateTimeKit {
         public long duration() {
             return current(isNano) - time;
         }
-    }
-
-    // ------------------------------------------------------------------------ Private method start
-
-    /**
-     * 获得指定日期年份和季节<br>
-     * 格式：[20131]表示2013年第一季度
-     *
-     * @param cal 日期
-     */
-    private static String yearAndSeason(Calendar cal) {
-        return new StringBuilder().append(cal.get(Calendar.YEAR)).append(cal.get(Calendar.MONTH) / 3 + 1).toString();
     }
     // ------------------------------------------------------------------------ Private method end
 }

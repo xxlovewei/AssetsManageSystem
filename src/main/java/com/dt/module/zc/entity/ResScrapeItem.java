@@ -1,23 +1,23 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
+
+import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-05-28
  */
- 
+
 @TableName("res_scrape_item")
- 
+
 public class ResScrapeItem extends BaseModel<ResScrapeItem> {
 
     private static final long serialVersionUID = 1L;
@@ -82,11 +82,11 @@ public class ResScrapeItem extends BaseModel<ResScrapeItem> {
     @Override
     public String toString() {
         return "ResScrapeItem{" +
-        "id=" + id +
-        ", uuid=" + uuid +
-        ", resid=" + resid +
-        ", prestatus=" + prestatus +
-        ", mark=" + mark +
-        "}";
+                "id=" + id +
+                ", uuid=" + uuid +
+                ", resid=" + resid +
+                ", prestatus=" + prestatus +
+                ", mark=" + mark +
+                "}";
     }
 }

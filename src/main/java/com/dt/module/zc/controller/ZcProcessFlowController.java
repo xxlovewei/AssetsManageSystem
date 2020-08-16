@@ -1,43 +1,18 @@
 package com.dt.module.zc.controller;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.bstek.uflo.model.ProcessDefinition;
-import com.bstek.uflo.process.flow.SequenceFlowImpl;
-import com.bstek.uflo.process.node.Node;
-import com.dt.module.cmdb.service.IResActionItemService;
-import com.dt.module.flow.entity.SysProcessForm;
-import com.dt.module.flow.service.ISysProcessFormService;
-import com.dt.module.form.service.ISysFormService;
-import com.dt.module.form.service.impl.FormServiceImpl;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.dt.module.flow.entity.SysProcessDef;
-import com.dt.module.flow.service.ISysProcessDefService;
-import com.dt.module.zc.service.impl.ZcChangeService;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.bstek.uflo.model.HistoryTask;
+import com.bstek.uflo.model.ProcessDefinition;
 import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.model.task.Task;
 import com.bstek.uflo.model.task.TaskState;
+import com.bstek.uflo.process.flow.SequenceFlowImpl;
+import com.bstek.uflo.process.node.Node;
 import com.bstek.uflo.query.HistoryTaskQuery;
 import com.bstek.uflo.query.TaskQuery;
 import com.bstek.uflo.service.HistoryService;
@@ -53,11 +28,34 @@ import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.ISysUserInfoService;
-import com.dt.module.zc.service.impl.ZcCommonService;
+import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.flow.entity.SysProcessData;
+import com.dt.module.flow.entity.SysProcessDef;
+import com.dt.module.flow.entity.SysProcessForm;
 import com.dt.module.flow.service.ISysProcessDataService;
+import com.dt.module.flow.service.ISysProcessDefService;
+import com.dt.module.flow.service.ISysProcessFormService;
 import com.dt.module.flow.service.ISysProcessSettingService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
+import com.dt.module.form.service.ISysFormService;
+import com.dt.module.form.service.impl.FormServiceImpl;
+import com.dt.module.zc.service.impl.ZcChangeService;
+import com.dt.module.zc.service.impl.ZcCommonService;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author: algernonking
@@ -82,26 +80,24 @@ public class ZcProcessFlowController extends BaseController {
 
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;
-
-    @Autowired
-    private ProcessService processService;
-
-    @Autowired
-    private TaskService taskService;
-
-    @Autowired
-    private HistoryService historyService;
-
     @Autowired
     ISysProcessDefService SysProcessDefServiceImpl;
-
-
-
     @Autowired
     IResActionItemService ResActionItemServiceImpl;
-
     @Autowired
     ISysProcessDataService SysProcessDataServiceImpl;
+    @Autowired
+    ISysProcessSettingService SysProcessSettingServiceImpl;
+    @Autowired
+    ISysFormService SysFormServiceImpl;
+    @Autowired
+    ISysProcessFormService SysProcessFormServiceImpl;
+    @Autowired
+    private ProcessService processService;
+    @Autowired
+    private TaskService taskService;
+    @Autowired
+    private HistoryService historyService;
 
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
@@ -165,17 +161,6 @@ public class ZcProcessFlowController extends BaseController {
         return R.clearAttachDirect(retrunObject);
     }
 
-    @Autowired
-    ISysProcessSettingService SysProcessSettingServiceImpl;
-
-    @Autowired
-    ISysFormService SysFormServiceImpl;
-
-
-    @Autowired
-    ISysProcessFormService SysProcessFormServiceImpl;
-
-
     @ResponseBody
     @Acl(info = "发起流程", value = Acl.ACL_USER)
     @RequestMapping(value = "/startProcess.do")
@@ -191,7 +176,7 @@ public class ZcProcessFlowController extends BaseController {
         //获取表单数据
         QueryWrapper<SysProcessForm> ew = new QueryWrapper<SysProcessForm>();
         ew.and(i -> i.eq("processdataid", id));
-        SysProcessForm  formdata =SysProcessFormServiceImpl.getOne(ew);
+        SysProcessForm formdata = SysProcessFormServiceImpl.getOne(ew);
 
         // 需要审批
         StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());

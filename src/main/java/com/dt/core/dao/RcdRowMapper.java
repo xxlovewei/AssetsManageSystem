@@ -1,9 +1,9 @@
 package com.dt.core.dao;
 
+import org.springframework.jdbc.core.RowMapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.springframework.jdbc.core.RowMapper;
 
 public class RcdRowMapper implements RowMapper<Rcd> {
 

@@ -1,9 +1,9 @@
 package com.dt.module.flow.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dt.module.flow.entity.SysProcessSetting;
 import com.dt.module.flow.mapper.SysProcessSettingMapper;
 import com.dt.module.flow.service.ISysProcessSettingService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

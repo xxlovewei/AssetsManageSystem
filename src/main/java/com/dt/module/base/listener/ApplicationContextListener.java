@@ -1,14 +1,5 @@
 package com.dt.module.base.listener;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Component;
-
 import com.dt.core.cache.ThreadTaskHelper;
 import com.dt.core.common.base.BaseConstants;
 import com.dt.core.dao.Rcd;
@@ -20,6 +11,14 @@ import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.impl.ScheduleMangerService;
 import com.dt.module.db.DB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
 
 /**
  * spring容器初始化完成事件 Spring框架加载完成后会publishContextRefreshedEvent事件

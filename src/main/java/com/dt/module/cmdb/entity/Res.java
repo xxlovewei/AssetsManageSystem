@@ -1,13 +1,13 @@
 package com.dt.module.cmdb.entity;
 
-import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.math.BigDecimal;
-import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
@@ -17,9 +17,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * @author algernonking
  * @since 2020-08-16
  */
- 
+
 @TableName("res")
- 
+
 public class Res extends BaseModel<Res> {
 
     private static final long serialVersionUID = 1L;
@@ -1421,17 +1421,17 @@ public class Res extends BaseModel<Res> {
                 ", fs20=" + fs20 +
                 ", fi1=" + fi1 +
                 ", fi2=" + fi2 +
-        ", fi3=" + fi3 +
-        ", fi4=" + fi4 +
-        ", fi5=" + fi5 +
-        ", fi6=" + fi6 +
-        ", fi7=" + fi7 +
-        ", fi8=" + fi8 +
-        ", fi9=" + fi9 +
-        ", fi10=" + fi10 +
-        ", fi11=" + fi11 +
-        ", fi12=" + fi12 +
-        ", fi13=" + fi13 +
+                ", fi3=" + fi3 +
+                ", fi4=" + fi4 +
+                ", fi5=" + fi5 +
+                ", fi6=" + fi6 +
+                ", fi7=" + fi7 +
+                ", fi8=" + fi8 +
+                ", fi9=" + fi9 +
+                ", fi10=" + fi10 +
+                ", fi11=" + fi11 +
+                ", fi12=" + fi12 +
+                ", fi13=" + fi13 +
                 ", fi14=" + fi14 +
                 ", fi15=" + fi15 +
                 ", fi16=" + fi16 +

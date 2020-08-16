@@ -1,27 +1,23 @@
 package com.dt.core.cache;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-
+import com.dt.core.tool.util.ToolUtil;
+import net.sf.ehcache.Ehcache;
+import net.sf.ehcache.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerUtils;
 
-import com.dt.core.tool.util.ToolUtil;
-
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Status;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomizedEhCacheCacheManager.class);
-
-    private String separator = "#";
-
     public static ArrayList<String> cachenames = new ArrayList<String>();
+    private String separator = "#";
 
     /**
      * Create a new EhCacheCacheManager, setting the target EhCache CacheManager
@@ -79,9 +75,9 @@ public class CustomizedEhCacheCacheManager extends EhCacheCacheManager {
         // runtime)
         int expiredtime = 0;
         int refreshtime = 0;
-        logger.info("getMissingCache:"+name);
+        logger.info("getMissingCache:" + name);
         String[] cacheParams = name.split(separator);
-        if(cacheParams.length==0){
+        if (cacheParams.length == 0) {
             return null;
         }
         String cacheName = cacheParams[0];

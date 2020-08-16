@@ -1,11 +1,5 @@
 package com.dt.module.base.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -25,6 +19,13 @@ import com.dt.module.base.mapper.SysUserInfoMapper;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.base.service.ISysUserReceivingaddrService;
 import com.dt.module.db.DB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -37,14 +38,11 @@ import com.dt.module.db.DB;
 @Service
 public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUserInfo> implements ISysUserInfoService {
 
+    private static Logger _log = LoggerFactory.getLogger(SysUserInfoServiceImpl.class);
     @Autowired
     DB db;
-
-
     @Autowired
     ISysUserReceivingaddrService SysUserReceivingaddrServiceImpl;
-
-    private static Logger _log = LoggerFactory.getLogger(SysUserInfoServiceImpl.class);
 
     // 显示我的菜单
     public R saveDefMenus(String user_id, String id) {
@@ -214,7 +212,6 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
         db.execute(me);
         return R.SUCCESS_OPER(ConvertUtil.formatIntToString(empl_id, 6, 100));
     }
-
 
 
     /*

@@ -1,34 +1,20 @@
 package com.dt.module.wx.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.List;
+import com.dt.module.wx.pojo.*;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.dt.module.wx.pojo.UserInfo;
-import com.dt.module.wx.pojo.WeixinGroup;
-import com.dt.module.wx.pojo.WeixinMedia;
-import com.dt.module.wx.pojo.WeixinOauth2Token;
-import com.dt.module.wx.pojo.WeixinQRCode;
-import com.dt.module.wx.pojo.WeixinUserInfo;
-import com.dt.module.wx.pojo.WeixinUserList;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class AdvancedUtil {
 
@@ -92,7 +78,7 @@ public class AdvancedUtil {
 
             // 获取媒体文件上传的输入流（从微信服务器读数据）
             InputStream inputStream = uploadConn.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             StringBuffer buffer = new StringBuffer();
             String str = null;

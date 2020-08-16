@@ -1,23 +1,5 @@
 package com.dt.module.base.controller;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.ExcessiveAttemptsException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -34,6 +16,17 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.ISysMenusService;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.base.service.impl.LoginService;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/api")
@@ -147,7 +140,7 @@ public class LoginController extends BaseController {
         // 登录操作
         Subject currentUser = ShiroKit.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user_id, pwd == null ? null : pwd.toCharArray());
-    //    token.setRememberMe(true);
+        //    token.setRememberMe(true);
         String error = "";
         try {
             currentUser.login(token);

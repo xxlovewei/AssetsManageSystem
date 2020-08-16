@@ -1,34 +1,16 @@
 package com.dt.module.om.term.websocket;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import ch.ethz.ssh2.*;
 import com.dt.module.om.term.bean.SftpBean;
 import com.dt.module.om.term.bean.SftpFileBean;
 import com.dt.module.om.term.entity.Machine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import ch.ethz.ssh2.Connection;
-import ch.ethz.ssh2.SFTPv3Client;
-import ch.ethz.ssh2.SFTPv3DirectoryEntry;
-import ch.ethz.ssh2.SFTPv3FileAttributes;
-import ch.ethz.ssh2.SFTPv3FileHandle;
+import java.io.*;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class SftpClient {
     private static Logger _log = LoggerFactory.getLogger(SftpClient.class);
@@ -160,7 +142,7 @@ public class SftpClient {
     }
 
     private String getStringPermission(Integer p) {
-        String temp[] = new String[]{"---", "--x", "-w-", "-wx", "r--", "r-x", "rw-", "rwx"};
+        String[] temp = new String[]{"---", "--x", "-w-", "-wx", "r--", "r-x", "rw-", "rwx"};
         // is a directory ?
         return (p / 8 / 8 / 8 / 8 % 8 == 04 ? "d" : "-") + temp[p / 8 / 8 % 8] + temp[p / 8 % 8] + temp[p % 8];
     }

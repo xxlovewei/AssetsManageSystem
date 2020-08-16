@@ -1,22 +1,22 @@
 package com.dt.module.cmdb.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableField;
+
+import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-20
  */
- 
+
 @TableName("res_label_tpl")
- 
+
 public class ResLabelTpl extends BaseModel<ResLabelTpl> {
 
     private static final long serialVersionUID = 1L;
@@ -113,13 +113,13 @@ public class ResLabelTpl extends BaseModel<ResLabelTpl> {
     @Override
     public String toString() {
         return "ResLabelTpl{" +
-        "id=" + id +
-        ", type=" + type +
-        ", picloc=" + picloc +
-        ", ctlcols=" + ctlcols +
-        ", ifdef=" + ifdef +
-        ", ctlcolsstr=" + ctlcolsstr +
-        ", ctlvalue=" + ctlvalue +
-        "}";
+                "id=" + id +
+                ", type=" + type +
+                ", picloc=" + picloc +
+                ", ctlcols=" + ctlcols +
+                ", ifdef=" + ifdef +
+                ", ctlcolsstr=" + ctlcolsstr +
+                ", ctlvalue=" + ctlvalue +
+                "}";
     }
 }

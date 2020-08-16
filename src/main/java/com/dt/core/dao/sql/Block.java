@@ -1,11 +1,10 @@
 package com.dt.core.dao.sql;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-
 import com.dt.core.dao.SpringDAO;
 import com.dt.core.dao.util.ArrayUtil;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Block extends SubSQL {
 
@@ -14,6 +13,12 @@ public class Block extends SubSQL {
     private ArrayList<SQL> lines = new ArrayList<SQL>();
 
     private int tab = 0;
+    private SpringDAO dao = null;
+
+    public static void main(String[] args) {
+
+
+    }
 
     private String getTab(int tab) {
         String tabs = "";
@@ -52,7 +57,6 @@ public class Block extends SubSQL {
     public Block detab() {
         return detab(1);
     }
-
 
     public Block ln(SQL sql) {
         tabs.add(tab);
@@ -296,19 +300,12 @@ public class Block extends SubSQL {
         return dao;
     }
 
-    private SpringDAO dao = null;
-
     public Block setDao(SpringDAO dao) {
         this.dao = dao;
         return this;
     }
 
-    public static void main(String[] args) {
-
-
-    }
-
     private void printLn() {
-        }
+    }
 
 }

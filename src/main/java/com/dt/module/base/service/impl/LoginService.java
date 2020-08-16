@@ -1,14 +1,13 @@
 package com.dt.module.base.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.ISysUserInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author: algernonking
@@ -17,13 +16,6 @@ import com.dt.module.base.service.ISysUserInfoService;
  */
 @Service
 public class LoginService extends BaseService {
-
-    @Autowired
-    ISysUserInfoService SysUserInfoServiceImpl;
-
-    public static LoginService me() {
-        return SpringContextUtil.getBean(LoginService.class);
-    }
 
     /**
      * @Description: 所有都登录最终统一转成user_id去判断
@@ -42,6 +34,12 @@ public class LoginService extends BaseService {
     public static String CLIENT_TYPE_SMALLPROGRAM = "smallprogram";// 小程序
     public static String CLIENT_TYPE_APP = "app";
     public static String CLIENT_TYPE_VALID_MESSAGE = "不支持的客户端类型";
+    @Autowired
+    ISysUserInfoService SysUserInfoServiceImpl;
+
+    public static LoginService me() {
+        return SpringContextUtil.getBean(LoginService.class);
+    }
 
     public R validClientType(String value) {
         if (ToolUtil.isEmpty(value)) {

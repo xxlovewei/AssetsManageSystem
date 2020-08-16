@@ -15,8 +15,6 @@ package com.dt.core.shiro;
  * limitations under the License.
  */
 
-import java.util.Random;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -24,13 +22,14 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 
+import java.util.Random;
+
 /**
  * shiro工具类
  *
  * @author dafei, Chill Zhuang
  */
 public class ShiroKit {
-    private static final String NAMES_DELIMETER = ",";
     /**
      * 加盐参数
      */
@@ -39,6 +38,7 @@ public class ShiroKit {
      * 循环次数
      */
     public final static int hashIterations = 1024;
+    private static final String NAMES_DELIMETER = ",";
 
     /**
      * shiro密码加密工具类

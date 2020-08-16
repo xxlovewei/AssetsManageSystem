@@ -1,7 +1,5 @@
 package com.dt.module.wx.service;
 
-import org.springframework.stereotype.Service;
-
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -9,6 +7,7 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ToolUtil;
+import org.springframework.stereotype.Service;
 
 /**
  * @author: algernonking

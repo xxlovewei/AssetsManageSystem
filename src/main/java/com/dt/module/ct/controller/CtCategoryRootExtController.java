@@ -1,13 +1,5 @@
 package com.dt.module.ct.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
@@ -16,6 +8,13 @@ import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.ct.entity.CtCategoryRoot;
 import com.dt.module.ct.service.ICtCategoryRootService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * <p>

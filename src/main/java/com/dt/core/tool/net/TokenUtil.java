@@ -1,18 +1,17 @@
 package com.dt.core.tool.net;
 
+import org.apache.commons.lang.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
 import java.security.MessageDigest;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-
 public class TokenUtil {
+    private static final char[] hexCode = "0123456789abcdef".toCharArray();
+
     public static String generateValue() {
         return generateValue(UUID.randomUUID().toString());
     }
-
-    private static final char[] hexCode = "0123456789abcdef".toCharArray();
 
     public static String getRequestToken(HttpServletRequest httpRequest) {
         // 从header中获取token

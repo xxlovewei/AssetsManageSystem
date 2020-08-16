@@ -8,12 +8,24 @@ import java.util.Arrays;
  */
 public final class CachedInvocation {
 
-    private Object key;
     private final Object targetBean;
     private final Method targetMethod;
+    private Object key;
     private Object[] arguments;
 
     private CacheableEntity cacheableEntity;
+
+    public CachedInvocation(Object key, Object targetBean, Method targetMethod, Object[] arguments,
+                            CacheableEntity cacheableEntity) {
+
+        this.cacheableEntity = cacheableEntity;
+        this.key = key;
+        this.targetBean = targetBean;
+        this.targetMethod = targetMethod;
+        if (arguments != null && arguments.length != 0) {
+            this.arguments = Arrays.copyOf(arguments, arguments.length);
+        }
+    }
 
     /**
      * @return the cacheableEntity
@@ -27,18 +39,6 @@ public final class CachedInvocation {
      */
     public void setCacheableEntity(CacheableEntity cacheableEntity) {
         this.cacheableEntity = cacheableEntity;
-    }
-
-    public CachedInvocation(Object key, Object targetBean, Method targetMethod, Object[] arguments,
-                            CacheableEntity cacheableEntity) {
-
-        this.cacheableEntity = cacheableEntity;
-        this.key = key;
-        this.targetBean = targetBean;
-        this.targetMethod = targetMethod;
-        if (arguments != null && arguments.length != 0) {
-            this.arguments = Arrays.copyOf(arguments, arguments.length);
-        }
     }
 
     public Object[] getArguments() {

@@ -1,31 +1,24 @@
 package com.dt.module.wx.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
-import com.dt.module.wx.msg.resp.Article;
-import com.dt.module.wx.msg.resp.ImageMessage;
-import com.dt.module.wx.msg.resp.MusicMessage;
-import com.dt.module.wx.msg.resp.NewsMessage;
-import com.dt.module.wx.msg.resp.TextMessage;
-import com.dt.module.wx.msg.resp.VideoMessage;
-import com.dt.module.wx.msg.resp.VoiceMessage;
+import com.dt.module.wx.msg.resp.*;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class MessageUtil {
     /**
@@ -116,6 +109,35 @@ public class MessageUtil {
      * 事件类型：LOCATION(上报地理位置)
      */
     public static final String EVENT_TYPE_LOCATION = "LOCATION";
+    /**
+     * 扩展xstream，使其支持CDATA块
+     *
+     * @date 2013-05-19
+     */
+    private static XStream xstream = new XStream(new XppDriver() {
+        public HierarchicalStreamWriter createWriter(Writer out) {
+            return new PrettyPrintWriter(out) {
+                // 对所有xml节点的转换都增加CDATA标记
+                boolean cdata = true;
+
+
+                @SuppressWarnings("rawtypes")
+                public void startNode(String name, Class clazz) {
+                    super.startNode(name, clazz);
+                }
+
+                protected void writeText(QuickWriter writer, String text) {
+                    if (cdata) {
+                        writer.write("<![CDATA[");
+                        writer.write(text);
+                        writer.write("]]>");
+                    } else {
+                        writer.write(text);
+                    }
+                }
+            };
+        }
+    });
 
     /**
      * 解析微信发来的请求（XML）
@@ -156,7 +178,7 @@ public class MessageUtil {
         Map<String, String> map = new HashMap<String, String>();
 
         // 从request中取得输入流
-        InputStream inputStream = new ByteArrayInputStream(msg.getBytes("UTF-8"));
+        InputStream inputStream = new ByteArrayInputStream(msg.getBytes(StandardCharsets.UTF_8));
 
         // 读取输入流
         SAXReader reader = new SAXReader();
@@ -257,34 +279,4 @@ public class MessageUtil {
         xstream.alias("xml", videoMessage.getClass());
         return xstream.toXML(videoMessage);
     }
-
-    /**
-     * 扩展xstream，使其支持CDATA块
-     *
-     * @date 2013-05-19
-     */
-    private static XStream xstream = new XStream(new XppDriver() {
-        public HierarchicalStreamWriter createWriter(Writer out) {
-            return new PrettyPrintWriter(out) {
-                // 对所有xml节点的转换都增加CDATA标记
-                boolean cdata = true;
-
-
-                @SuppressWarnings("rawtypes")
-                public void startNode(String name, Class clazz) {
-                    super.startNode(name, clazz);
-                }
-
-                protected void writeText(QuickWriter writer, String text) {
-                    if (cdata) {
-                        writer.write("<![CDATA[");
-                        writer.write(text);
-                        writer.write("]]>");
-                    } else {
-                        writer.write(text);
-                    }
-                }
-            };
-        }
-    });
 }

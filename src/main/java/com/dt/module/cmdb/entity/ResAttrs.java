@@ -1,24 +1,24 @@
 package com.dt.module.cmdb.entity;
 
-import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.math.BigDecimal;
-import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-06-18
  */
- 
+
 @TableName("res_attrs")
- 
+
 public class ResAttrs extends BaseModel<ResAttrs> {
 
     private static final long serialVersionUID = 1L;
@@ -123,15 +123,15 @@ public class ResAttrs extends BaseModel<ResAttrs> {
     @Override
     public String toString() {
         return "ResAttrs{" +
-        "id=" + id +
-        ", attrname=" + attrname +
-        ", attrcode=" + attrcode +
-        ", inputtype=" + inputtype +
-        ", catid=" + catid +
-        ", ifneed=" + ifneed +
-        ", ifinheritable=" + ifinheritable +
-        ", dict=" + dict +
-        ", sort=" + sort +
-        "}";
+                "id=" + id +
+                ", attrname=" + attrname +
+                ", attrcode=" + attrcode +
+                ", inputtype=" + inputtype +
+                ", catid=" + catid +
+                ", ifneed=" + ifneed +
+                ", ifinheritable=" + ifinheritable +
+                ", dict=" + dict +
+                ", sort=" + sort +
+                "}";
     }
 }

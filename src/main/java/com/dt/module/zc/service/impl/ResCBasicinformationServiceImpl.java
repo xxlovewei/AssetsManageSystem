@@ -1,9 +1,9 @@
 package com.dt.module.zc.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dt.module.zc.entity.ResCBasicinformation;
 import com.dt.module.zc.mapper.ResCBasicinformationMapper;
 import com.dt.module.zc.service.IResCBasicinformationService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

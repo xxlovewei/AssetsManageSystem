@@ -1,17 +1,5 @@
 package com.dt.core.shiro.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.util.ByteSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.shiro.ShiroUser;
 import com.dt.core.shiro.inter.IShiro;
@@ -21,6 +9,13 @@ import com.dt.module.base.entity.UserShiro;
 import com.dt.module.base.service.ISysModulesItemService;
 import com.dt.module.base.service.ISysRoleInfoService;
 import com.dt.module.db.DB;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class ShiroServiceImpl implements IShiro {

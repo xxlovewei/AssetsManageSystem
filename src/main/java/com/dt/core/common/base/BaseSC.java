@@ -1,12 +1,11 @@
 package com.dt.core.common.base;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.shiro.ShiroUser;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.db.DB;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author: algernonking
@@ -28,6 +27,7 @@ public class BaseSC {
         }
         return user_id;
     }
+
     public String getUserName() {
         String name = (String) HttpKit.getRequest().getSession().getAttribute("name");
         if (ToolUtil.isEmpty(name)) {

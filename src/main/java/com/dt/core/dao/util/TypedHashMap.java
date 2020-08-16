@@ -1,9 +1,9 @@
 package com.dt.core.dao.util;
 
+import com.dt.core.dao.DataParser;
+
 import java.util.Date;
 import java.util.HashMap;
-
-import com.dt.core.dao.DataParser;
 
 public class TypedHashMap<K, V> extends HashMap<K, V> {
 
@@ -20,6 +20,25 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
             V value = map.get(key);
             this.put(key, value);
         }
+    }
+
+    /**
+     * 名值对转换
+     */
+    @SuppressWarnings("rawtypes")
+    public static TypedHashMap toMap(Object... psarr) {
+        TypedHashMap<String, Object> ps = new TypedHashMap<String, Object>();
+        for (int i = 0; i < psarr.length; i++) {
+            String p = psarr[i] + "";
+            i++;
+            if (i >= psarr.length) {
+                ps.put(p, null);
+                break;
+            }
+            Object v = psarr[i];
+            ps.put(p, v);
+        }
+        return ps;
     }
 
     @SuppressWarnings("unlikely-arg-type")
@@ -96,24 +115,5 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
     @SuppressWarnings("unlikely-arg-type")
     public Short getShort(V key) {
         return dp.parseShort(this.get(key));
-    }
-
-    /**
-     * 名值对转换
-     */
-    @SuppressWarnings("rawtypes")
-    public static TypedHashMap toMap(Object... psarr) {
-        TypedHashMap<String, Object> ps = new TypedHashMap<String, Object>();
-        for (int i = 0; i < psarr.length; i++) {
-            String p = psarr[i] + "";
-            i++;
-            if (i >= psarr.length) {
-                ps.put(p, null);
-                break;
-            }
-            Object v = psarr[i];
-            ps.put(p, v);
-        }
-        return ps;
     }
 }

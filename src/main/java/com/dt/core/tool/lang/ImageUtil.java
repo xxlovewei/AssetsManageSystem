@@ -1,37 +1,18 @@
 package com.dt.core.tool.lang;
 
-import java.awt.Graphics2D;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.WritableRaster;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Iterator;
+import com.dt.core.tool.util.support.LangKit;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
+import javax.imageio.*;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
-
-import com.dt.core.tool.util.support.LangKit;
+import java.awt.*;
+import java.awt.color.ColorSpace;
+import java.awt.geom.AffineTransform;
+import java.awt.image.*;
+import java.io.*;
+import java.net.URL;
+import java.util.Iterator;
 
 /**
  * @author: algernonking
@@ -180,7 +161,7 @@ public class ImageUtil {
             param.setCompressionQuality(quality);
             ImageOutputStream os = ImageIO.createImageOutputStream(targetJpg);
             writer.setOutput(os);
-            writer.write((IIOMetadata) null, new IIOImage(im, null, null), param);
+            writer.write(null, new IIOImage(im, null, null), param);
             os.flush();
             os.close();
         } catch (IOException e) {

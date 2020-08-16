@@ -1,22 +1,8 @@
 package com.dt.module.flow.service.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.bstek.uflo.command.impl.jump.JumpNode;
 import com.bstek.uflo.model.HistoryTask;
@@ -28,11 +14,8 @@ import com.bstek.uflo.process.flow.SequenceFlowImpl;
 import com.bstek.uflo.process.node.Node;
 import com.bstek.uflo.query.HistoryTaskQuery;
 import com.bstek.uflo.query.TaskQuery;
-import com.bstek.uflo.service.HistoryService;
-import com.bstek.uflo.service.ProcessService;
-import com.bstek.uflo.service.StartProcessInfo;
-import com.bstek.uflo.service.TaskOpinion;
 import com.bstek.uflo.service.TaskService;
+import com.bstek.uflo.service.*;
 import com.bstek.uflo.utils.EnvironmentUtils;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
@@ -45,6 +28,15 @@ import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.entity.TaskInfo;
 import com.dt.module.flow.service.ISysProcessDataService;
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: algernonking
@@ -71,29 +63,20 @@ public class SysUfloProcessService extends BaseService {
     //流程运行中
     public static String P_DTL_STATUS_SFA = "submitforapproval";
     public static String P_DTL_STATUS_INREVIEW = "inreview";
-    public static String P_DTL_STATUS_SUCCESS="success";
-    public static String P_DTL_STATUS_FAILED="failed";
-
-
-
-
-
+    public static String P_DTL_STATUS_SUCCESS = "success";
+    public static String P_DTL_STATUS_FAILED = "failed";
+    @Autowired
+    ISysProcessDataService SysProcessDataServiceImpl;
+    @Autowired
+    ISysUserInfoService SysUserInfoServiceImpl;
     @Autowired
     private ProcessService processService;
 
+    //
     @Autowired
     private TaskService taskService;
-
     @Autowired
     private HistoryService historyService;
-
-//	 
-
-    @Autowired
-    ISysProcessDataService SysProcessDataServiceImpl;
-
-    @Autowired
-    ISysUserInfoService SysUserInfoServiceImpl;
 
     public R loadProcessInstanceData(String processInstanceId) {
         TaskQuery query = taskService.createTaskQuery();

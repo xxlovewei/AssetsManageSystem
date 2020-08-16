@@ -1,14 +1,13 @@
 package com.dt.core.aop;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.dt.core.annotion.Acl;
+import com.dt.core.common.base.BaseConstants;
+import com.dt.core.dao.sql.Insert;
+import com.dt.core.shiro.ShiroKit;
+import com.dt.core.tool.util.DbUtil;
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.core.tool.util.support.HttpKit;
+import com.dt.module.db.DB;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -27,14 +26,13 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.dt.core.annotion.Acl;
-import com.dt.core.common.base.BaseConstants;
-import com.dt.core.dao.sql.Insert;
-import com.dt.core.shiro.ShiroKit;
-import com.dt.core.tool.util.DbUtil;
-import com.dt.core.tool.util.ToolUtil;
-import com.dt.core.tool.util.support.HttpKit;
-import com.dt.module.db.DB;
+import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: jinjie
@@ -46,13 +44,31 @@ import com.dt.module.db.DB;
 @PropertySource(value = "classpath:config.properties")
 public class AclAop {
 
+    private static Logger _log = LoggerFactory.getLogger(AclAop.class);
+    @Autowired
+    public DB db = null;
     @Value("${app.recdb}")
     private String apprecdb;
 
-    private static Logger _log = LoggerFactory.getLogger(AclAop.class);
+    public static String req2RawString(HttpServletRequest request) {
+        String res = "";
+        try {
+            Map<String, String[]> map = request.getParameterMap();
+            if (map != null) {
+                for (String key : map.keySet()) {
+                    String values = "";
+                    for (int i = 0; i < map.get(key).length; i++) {
+                        values = map.get(key)[i] + "";
+                    }
+                    res = res + key + ":" + values + ",";
+                }
+            }
+        } catch (Exception e) {
+            _log.info("record url post data failed");
+        }
+        return res;
 
-    @Autowired
-    public DB db = null;
+    }
 
     private <T extends Annotation> List<T> getMethodAnnotations(AnnotatedElement ae, Class<T> annotationType) {
         List<T> anns = new ArrayList<T>(2);
@@ -93,26 +109,6 @@ public class AclAop {
 
     }
 
-    public static String req2RawString(HttpServletRequest request) {
-        String res = "";
-        try {
-            Map<String, String[]> map = request.getParameterMap();
-            if (map != null) {
-                for (String key : map.keySet()) {
-                    String values = "";
-                    for (int i = 0; i < map.get(key).length; i++) {
-                        values = map.get(key)[i] + "";
-                    }
-                    res = res + key + ":" + values + ",";
-                }
-            }
-        } catch (Exception e) {
-            _log.info("record url post data failed");
-        }
-        return res;
-
-    }
-
     @Around("pointcut()")
     public Object recAccessLog(ProceedingJoinPoint joinPoint) throws Throwable {
 
@@ -128,7 +124,7 @@ public class AclAop {
             is_remember = ShiroKit.isRemember();
         }
         String info = "";
-        String url = request.getRequestURI().toString();
+        String url = request.getRequestURI();
         String method_type = request.getMethod();
 
         String ip = HttpKit.getIpAddr(request);

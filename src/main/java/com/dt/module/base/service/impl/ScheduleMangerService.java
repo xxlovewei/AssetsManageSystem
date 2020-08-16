@@ -1,27 +1,5 @@
 package com.dt.module.base.service.impl;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.quartz.CronScheduleBuilder;
-import org.quartz.CronTrigger;
-import org.quartz.Job;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.quartz.TriggerKey;
-import org.quartz.impl.StdSchedulerFactory;
-import org.quartz.impl.matchers.GroupMatcher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseCommon;
@@ -32,6 +10,17 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.ReflectKit;
 import com.dt.module.base.entity.ScheduleJob;
 import com.google.common.collect.Maps;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.impl.matchers.GroupMatcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class ScheduleMangerService extends BaseService {
@@ -180,7 +169,7 @@ public class ScheduleMangerService extends BaseService {
             object = new JSONObject();
             Object o = iteratorjob.next();
             String key = (String) o;
-            ScheduleJob value = (ScheduleJob) jobs.get(key);
+            ScheduleJob value = jobs.get(key);
             String jobtype = value.getJobType();
             object.put("seq", value.getJobSeq());
             object.put("node", value.getNode());
@@ -201,11 +190,7 @@ public class ScheduleMangerService extends BaseService {
                 ifAdd = true;
             } else {
                 // type为空或匹配
-                if (ToolUtil.isEmpty(type) || jobtype.equals(type)) {
-                    ifAdd = true;
-                } else {
-                    ifAdd = false;
-                }
+                ifAdd = ToolUtil.isEmpty(type) || jobtype.equals(type);
                 // 去掉sys类型的数据
                 if (jobtype.equals(JobService.TYPE_SYS)) {
                     ifAdd = false;

@@ -1,14 +1,14 @@
 package com.dt.core.common.base;
 
-import java.io.Serializable;
-import java.util.List;
-
-import com.dt.core.tool.util.ConvertUtil;
-import org.apache.poi.ss.formula.functions.T;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.dt.core.tool.util.ConvertUtil;
+import org.apache.poi.ss.formula.functions.T;
+
+import java.io.Serializable;
+import java.util.List;
 
 public class R implements Serializable {
     /**
@@ -25,42 +25,6 @@ public class R implements Serializable {
     private boolean success = true;
     private Object data;
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public static R clearAttachDirect(Object data) {
-        R r = new R();
-        r.setClearAttach(true);
-        r.setData(data);
-        return r;
-    }
-
-    public void setClearAttach(Boolean clearAttach) {
-        this.clearAttach = clearAttach;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public boolean isFailed() {
-        return !success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
-
-    public R setMessage(String message) {
-        this.message = message;
-        return this;
-    }
-
     public R() {
     }
 
@@ -75,33 +39,20 @@ public class R implements Serializable {
         } else if (data instanceof T) {
             JSONObject r = JSONObject.parseObject(JSON.toJSONString(data, SerializerFeature.WriteDateUseDateFormat));
             this.data = r;
-        } else if(data instanceof  org.json.JSONArray){
+        } else if (data instanceof org.json.JSONArray) {
             this.data = ConvertUtil.OtherJSONObjectToFastJSONArray(data);
-        } else if (data instanceof  org.json.JSONObject){
+        } else if (data instanceof org.json.JSONObject) {
             this.data = ConvertUtil.OtherJSONObjectToFastJSONObject(data);
-        }else{
+        } else {
             this.data = data;
         }
     }
 
-    public void setData(Object data) {
-        if (data instanceof List<?>) {
-            JSONArray r = JSONArray.parseArray(JSON.toJSONString(data, SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect));
-            this.data = r;
-        } else if (data instanceof T) {
-            JSONObject r = JSONObject.parseObject(JSON.toJSONString(data, SerializerFeature.WriteDateUseDateFormat));
-            this.data = r;
-        } else if(data instanceof  org.json.JSONArray){
-            this.data = ConvertUtil.OtherJSONObjectToFastJSONArray(data);
-        } else if (data instanceof  org.json.JSONObject){
-            this.data = ConvertUtil.OtherJSONObjectToFastJSONObject(data);
-        }else{
-            this.data = data;
-        }
-    }
-
-    public Object getData() {
-        return data;
+    public static R clearAttachDirect(Object data) {
+        R r = new R();
+        r.setClearAttach(true);
+        r.setData(data);
+        return r;
     }
 
     /************************* 操作成功 ***************************/
@@ -224,9 +175,63 @@ public class R implements Serializable {
                 BaseCodeMsgEnum.SYSTEM_UNKNOW_ERROR.getMessage(), null);
     }
 
+    public static void main(String[] args) {
+
+
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setClearAttach(Boolean clearAttach) {
+        this.clearAttach = clearAttach;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public boolean isFailed() {
+        return !success;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public R setMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        if (data instanceof List<?>) {
+            JSONArray r = JSONArray.parseArray(JSON.toJSONString(data, SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect));
+            this.data = r;
+        } else if (data instanceof T) {
+            JSONObject r = JSONObject.parseObject(JSON.toJSONString(data, SerializerFeature.WriteDateUseDateFormat));
+            this.data = r;
+        } else if (data instanceof org.json.JSONArray) {
+            this.data = ConvertUtil.OtherJSONObjectToFastJSONArray(data);
+        } else if (data instanceof org.json.JSONObject) {
+            this.data = ConvertUtil.OtherJSONObjectToFastJSONObject(data);
+        } else {
+            this.data = data;
+        }
+    }
+
     public JSONArray queryDataToJSONArray() {
         if (data instanceof org.json.JSONArray) {
-            return JSONArray.parseArray(((org.json.JSONArray) (data)).toString());
+            return JSONArray.parseArray(data.toString());
         } else if (data instanceof JSONArray) {
             return (JSONArray) (data);
         } else {
@@ -236,7 +241,7 @@ public class R implements Serializable {
 
     public JSONObject queryDataToJSONObject() {
         if (data instanceof org.json.JSONObject) {
-            return JSONObject.parseObject(((org.json.JSONObject) (data)).toString());
+            return JSONObject.parseObject(data.toString());
         } else if (data instanceof JSONObject) {
             return (JSONObject) (data);
         } else {
@@ -246,9 +251,9 @@ public class R implements Serializable {
 
     public String queryDataToString() {
         if (data instanceof org.json.JSONArray) {
-            return ((org.json.JSONArray) (data)).toString();
+            return data.toString();
         } else if (data instanceof org.json.JSONObject) {
-            return ((org.json.JSONObject) (data)).toString();
+            return data.toString();
         } else if (data instanceof JSONObject) {
             return ((JSONObject) (data)).toJSONString();
         } else if (data instanceof JSONArray) {
@@ -274,9 +279,9 @@ public class R implements Serializable {
     public Object asJson() {
         if (clearAttach) {
             if (data instanceof org.json.JSONArray) {
-                return JSONArray.parseArray(((org.json.JSONArray) (data)).toString());
+                return JSONArray.parseArray(data.toString());
             } else if (data instanceof org.json.JSONObject) {
-                return JSONObject.parseObject(((org.json.JSONObject) (data)).toString());
+                return JSONObject.parseObject(data.toString());
             } else if (data instanceof JSONObject || data instanceof JSONArray) {
                 return data;
             } else {
@@ -288,9 +293,9 @@ public class R implements Serializable {
             json.put("success", success);
             json.put("message", message);
             if (data instanceof org.json.JSONObject) {
-                json.put("data", JSONObject.parseObject(((org.json.JSONObject) (data)).toString()));
+                json.put("data", JSONObject.parseObject(data.toString()));
             } else if (data instanceof org.json.JSONArray) {
-                json.put("data", JSONArray.parseArray(((org.json.JSONArray) (data)).toString()));
+                json.put("data", JSONArray.parseArray(data.toString()));
             } else {
                 json.put("data", data);
             }
@@ -312,7 +317,7 @@ public class R implements Serializable {
             json.put("success", success);
             json.put("message", message);
             if (obj instanceof JSONArray) {
-                json.put("data", ((JSONArray) (obj)));
+                json.put("data", obj);
             } else {
                 // 未识别,则将原来的数据放回去
                 json.put("data", data);
@@ -343,10 +348,5 @@ public class R implements Serializable {
 
     public void setCode(int code) {
         this.code = code;
-    }
-
-    public static void main(String[] args) {
-
-
     }
 }

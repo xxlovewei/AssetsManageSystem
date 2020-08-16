@@ -15,13 +15,11 @@ public class UserShiro {
     public Boolean isLocked = true;
 
     public Boolean isAdmin = false;
-
+    public HashMap<String, String> rolsSet;
     /**
      * md5密码盐
      */
     private String salt;
-
-    public HashMap<String, String> rolsSet;
 
     // public List<String> roleNames; // 角色名称集
 

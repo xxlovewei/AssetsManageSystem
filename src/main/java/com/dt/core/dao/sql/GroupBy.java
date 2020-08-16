@@ -143,8 +143,7 @@ public class GroupBy extends SubSQL {
                 return false;
         }
         if (!this.having().isEmpty()) {
-            if (!this.having().isAllParamsEmpty())
-                return false;
+            return this.having().isAllParamsEmpty();
         }
         return true;
     }

@@ -1,12 +1,9 @@
 package com.dt.module.wx.service;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
+import com.alibaba.fastjson.JSONObject;
+import com.dt.core.cache.CacheConfig;
+import com.dt.core.common.base.BaseService;
+import com.dt.core.common.base.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +13,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
-import com.dt.core.cache.CacheConfig;
-import com.dt.core.common.base.BaseService;
-import com.dt.core.common.base.R;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author: jinjie
@@ -30,15 +30,14 @@ import com.dt.core.common.base.R;
 @Configuration
 @PropertySource(value = "classpath:config.properties")
 public class WxConfigService extends BaseService {
-    @Autowired
-    private WxService wxService;
-
+    private static Logger _log = LoggerFactory.getLogger(WxConfigService.class);
     @Value("${wx.appId}")
     public String appIdconf;
 
     @Value("${wx.secret}")
     public String secretconf;
-    private static Logger _log = LoggerFactory.getLogger(WxConfigService.class);
+    @Autowired
+    private WxService wxService;
 
     @Cacheable(value = CacheConfig.CACHE_WX_CONF_300_180, key = "'wx_config_'+#url")
     public R queryWxConfig(String url) {
@@ -81,11 +80,9 @@ public class WxConfigService extends BaseService {
         try {
             MessageDigest crypt = MessageDigest.getInstance("SHA-1");
             crypt.reset();
-            crypt.update(sign.getBytes("UTF-8"));
+            crypt.update(sign.getBytes(StandardCharsets.UTF_8));
             signature = WxService.byteToHex(crypt.digest());
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         ret.put("appId", appId);

@@ -1,21 +1,21 @@
 package com.dt.core.dao.sql;
 
+import com.dt.core.dao.Rcd;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.dt.core.dao.Rcd;
-
 public interface QueryableSQL {
-    public Rcd record();
+    Rcd record();
 
-    public Integer intValue();
+    Integer intValue();
 
-    public String stringValue();
+    String stringValue();
 
-    public Long longValue();
+    Long longValue();
 
-    public Date dateValue();
+    Date dateValue();
 
-    public BigDecimal decimalValue();
+    BigDecimal decimalValue();
 
 }

@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
-import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
@@ -46,7 +45,7 @@ public class ZcReportController extends BaseController {
                 "  (select count(1) from res where dr='0' and category='" + ZcCommonService.CATEGORY_ZC + "') zccnt,\n" +
                 "  (select sum(net_worth) from res where dr='0' and recycle<>'scrap' and category='" + ZcCommonService.CATEGORY_ZC + "') zcnetworth\n";
 
-        JSONObject res=ConvertUtil.OtherJSONObjectToFastJSONObject(db.uniqueRecord(sql).toJsonObject());
+        JSONObject res = ConvertUtil.OtherJSONObjectToFastJSONObject(db.uniqueRecord(sql).toJsonObject());
         //资产状态
         String sql3 = "select\n" +
                 "  tab.*,\n" +
@@ -124,7 +123,7 @@ public class ZcReportController extends BaseController {
 
 
         //资产分类
-        String sql5="select\n" +
+        String sql5 = "select\n" +
                 "  tab.*,\n" +
                 "  case when name2 is null\n" +
                 "    then '未设置'\n" +
@@ -162,10 +161,6 @@ public class ZcReportController extends BaseController {
 
         return R.SUCCESS_OPER(res);
     }
-
-
-
-
 
 
     @ResponseBody
@@ -273,8 +268,8 @@ public class ZcReportController extends BaseController {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
         String userid = ps.getString("userid");
         String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and category='" + ZcCommonService.CATEGORY_ZC + "'";
-        if(ToolUtil.isNotEmpty(userid)){
-            sql=sql+" and used_userid='"+userid+"'";
+        if (ToolUtil.isNotEmpty(userid)) {
+            sql = sql + " and used_userid='" + userid + "'";
         }
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }

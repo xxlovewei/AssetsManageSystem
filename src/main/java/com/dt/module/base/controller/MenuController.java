@@ -1,12 +1,5 @@
 package com.dt.module.base.controller;
 
-import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
@@ -17,6 +10,12 @@ import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.impl.MenuRoleMapService;
 import com.dt.module.base.service.impl.MenuService;
 import com.dt.module.base.service.impl.ModuleItemMapService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping(value = "/api")

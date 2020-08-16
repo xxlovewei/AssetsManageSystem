@@ -1,13 +1,12 @@
 package com.dt.core.dao.sql;
 
+import com.dt.core.dao.SpringDAO;
+import com.dt.core.dao.util.TypedHashMap;
+import jodd.util.ArraysUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.dt.core.dao.SpringDAO;
-import com.dt.core.dao.util.TypedHashMap;
-
-import jodd.util.ArraysUtil;
 
 public class Insert extends DML implements ExecutableSQL {
 
@@ -15,6 +14,7 @@ public class Insert extends DML implements ExecutableSQL {
     private ArrayList<SQL> values = new ArrayList<SQL>();
     private ArrayList<String> fields = new ArrayList<String>();
     private String table = null;
+    private SpringDAO dao = null;
 
     public Insert() {
     }
@@ -220,8 +220,6 @@ public class Insert extends DML implements ExecutableSQL {
     public boolean isAllParamsEmpty(boolean isCE) {
         return isAllParamsEmpty();
     }
-
-    private SpringDAO dao = null;
 
     public Integer execute() {
         return dao.execute(this);

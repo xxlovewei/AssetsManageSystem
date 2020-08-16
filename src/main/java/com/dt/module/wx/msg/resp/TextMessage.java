@@ -2,7 +2,6 @@ package com.dt.module.wx.msg.resp;
 
 /**
  * 文本消息 (响应消息)
- *
  */
 public class TextMessage extends BaseMessage {
 

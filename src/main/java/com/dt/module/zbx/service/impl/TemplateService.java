@@ -3,7 +3,6 @@ package com.dt.module.zbx.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
-import io.github.hengyunabc.zabbix.api.DefaultZabbixApi;
 import io.github.hengyunabc.zabbix.api.Request;
 import io.github.hengyunabc.zabbix.api.RequestBuilder;
 import org.springframework.beans.factory.annotation.Autowired;

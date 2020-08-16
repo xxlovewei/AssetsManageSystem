@@ -1,15 +1,15 @@
 package com.dt.core.tool.util;
 
-import java.awt.Rectangle;
+import org.imgscalr.Scalr;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
-import org.imgscalr.Scalr;
-
 public class SmartImageScalr {
+    private static String[] CROPS = {"TL", "TC", "TM", "TR", "RC", "RM", "RB", "BC", "BM", "BL", "LM", "LC", "MC"};
     private BufferedImage source;
     private int height;
     private int width;
@@ -23,6 +23,99 @@ public class SmartImageScalr {
 
     public SmartImageScalr(int width, int height, String fitType, String crop, double origWidth, double origHeight) {
         init(width, height, fitType, crop, origWidth, origHeight);
+    }
+
+    private static Rectangle getCropRectangle(String crop, int width, int height, int imageWidth, int imageHeight) {
+        Rectangle r = new Rectangle(0, 0, width, height);
+        int dw = imageWidth - width;
+        int dh = imageHeight - height;
+        if (crop.equals("TL")) {
+            r.x = 0;
+            r.y = 0;
+        } else if (crop.equals("TC") || crop.equals("TM")) {
+            r.x = dw / 2;
+            r.y = 0;
+        } else if (crop.equals("TR")) {
+            r.x = dw;
+            r.y = 0;
+        } else if (crop.equals("RC") || crop.equals("RM")) {
+            r.x = dw;
+            r.y = dh / 2;
+        } else if (crop.equals("RB")) {
+            r.x = dw;
+            r.y = dh;
+        } else if (crop.equals("BC") || crop.equals("BM")) {
+            r.x = dw / 2;
+            r.y = dh;
+        } else if (crop.equals("BL")) {
+            r.x = 0;
+            r.y = dh;
+        } else if (crop.equals("LM") || crop.equals("LC")) {
+            r.x = 0;
+            r.y = dh / 2;
+        } else if (crop.equals("MC")) {
+            r.x = dw / 2;
+            r.y = dh / 2;
+        }
+        return r;
+    }
+
+    private static String checkCropType(String type) {
+        if (type == null)
+            return null;
+        type = type.trim();
+        if (type.length() != 2)
+            return null;
+        String type2 = "" + type.charAt(1) + type.charAt(0) + "";
+        for (String c : CROPS) {
+            if (c.equals(type) || type2.equals(c))
+                return c;
+        }
+        return null;
+    }
+
+    public static void main(String[] args) throws Exception {
+        File file = new File("/Users/leefangjie/Downloads/thumbs/a.jpg");
+        BufferedImage bi = ImageIO.read(file);
+        int i = file.getName().lastIndexOf(".");
+        String format = null;
+        if (i > 0) {
+            format = file.getName().substring(i + 1);
+        }
+        if (format == null)
+            format = "jpg";
+        String[] ftiTypes = {"width", "height"};
+        for (String crop : CROPS) {
+            for (String fitType : ftiTypes) {
+                @SuppressWarnings("unused")
+                long t0 = System.currentTimeMillis();
+                SmartImageScalr sc = new SmartImageScalr(300, 300, fitType, crop, bi);
+                BufferedImage thumb = sc.scaleAndCrop();
+                ImageIO.write(thumb, format,
+                        new File("/Users/leefangjie/Downloads/thumbs/t/" + sc.getFileName(file, format)));
+                @SuppressWarnings("unused")
+                long t1 = System.currentTimeMillis();
+            }
+        }
+        //
+        //
+        //
+        // BufferedImage th_1=Scalr.resize(bi, Scalr.Method.SPEED,
+        // Scalr.Mode.FIT_TO_HEIGHT,
+        // 150,
+        // 100,
+        // Scalr.OP_ANTIALIAS);
+        //
+        //
+        // BufferedImage cropimage = Scalr.crop(bi, 100,
+        // 100,500,500,Scalr.OP_ANTIALIAS);
+        // ImageIO.write(cropimage, "png",new
+        // File("/Users/leefangjie/Downloads/thumbs/attachment_y.png"));
+        // BufferedImage th_1=scaleByWidth(bi,ImageType.JPG,100);
+        // createImage(th_1,ImageType.PNG).writeToJPG(new
+        // File("/Users/leefangjie/Downloads/thumbs/attachment_z.png"), 100);
+        // ImageIO.write(th_1, "png",new
+        // File("/Users/leefangjie/Downloads/thumbs/attachment_z.png"));
     }
 
     public void init(int width, int height, String fitType, String crop, double origWidth, double origHeight) {
@@ -123,100 +216,5 @@ public class SmartImageScalr {
             thumb = Scalr.crop(thumb, r.x, r.y, r.width, r.height, Scalr.OP_ANTIALIAS);
         }
         return thumb;
-    }
-
-    private static Rectangle getCropRectangle(String crop, int width, int height, int imageWidth, int imageHeight) {
-        Rectangle r = new Rectangle(0, 0, width, height);
-        int dw = imageWidth - width;
-        int dh = imageHeight - height;
-        if (crop.equals("TL")) {
-            r.x = 0;
-            r.y = 0;
-        } else if (crop.equals("TC") || crop.equals("TM")) {
-            r.x = dw / 2;
-            r.y = 0;
-        } else if (crop.equals("TR")) {
-            r.x = dw;
-            r.y = 0;
-        } else if (crop.equals("RC") || crop.equals("RM")) {
-            r.x = dw;
-            r.y = dh / 2;
-        } else if (crop.equals("RB")) {
-            r.x = dw;
-            r.y = dh;
-        } else if (crop.equals("BC") || crop.equals("BM")) {
-            r.x = dw / 2;
-            r.y = dh;
-        } else if (crop.equals("BL")) {
-            r.x = 0;
-            r.y = dh;
-        } else if (crop.equals("LM") || crop.equals("LC")) {
-            r.x = 0;
-            r.y = dh / 2;
-        } else if (crop.equals("MC")) {
-            r.x = dw / 2;
-            r.y = dh / 2;
-        }
-        return r;
-    }
-
-    private static String[] CROPS = {"TL", "TC", "TM", "TR", "RC", "RM", "RB", "BC", "BM", "BL", "LM", "LC", "MC"};
-
-    private static String checkCropType(String type) {
-        if (type == null)
-            return null;
-        type = type.trim();
-        if (type.length() != 2)
-            return null;
-        String type2 = "" + type.charAt(1) + type.charAt(0) + "";
-        for (String c : CROPS) {
-            if (c.equals(type) || type2.equals(c))
-                return c;
-        }
-        return null;
-    }
-
-    public static void main(String[] args) throws Exception {
-        File file = new File("/Users/leefangjie/Downloads/thumbs/a.jpg");
-        BufferedImage bi = ImageIO.read(file);
-        int i = file.getName().lastIndexOf(".");
-        String format = null;
-        if (i > 0) {
-            format = file.getName().substring(i + 1);
-        }
-        if (format == null)
-            format = "jpg";
-        String[] ftiTypes = {"width", "height"};
-        for (String crop : CROPS) {
-            for (String fitType : ftiTypes) {
-                @SuppressWarnings("unused")
-                long t0 = System.currentTimeMillis();
-                SmartImageScalr sc = new SmartImageScalr(300, 300, fitType, crop, bi);
-                BufferedImage thumb = sc.scaleAndCrop();
-                ImageIO.write(thumb, format,
-                        new File("/Users/leefangjie/Downloads/thumbs/t/" + sc.getFileName(file, format)));
-                @SuppressWarnings("unused")
-                long t1 = System.currentTimeMillis();
-            }
-        }
-        //
-        //
-        //
-        // BufferedImage th_1=Scalr.resize(bi, Scalr.Method.SPEED,
-        // Scalr.Mode.FIT_TO_HEIGHT,
-        // 150,
-        // 100,
-        // Scalr.OP_ANTIALIAS);
-        //
-        //
-        // BufferedImage cropimage = Scalr.crop(bi, 100,
-        // 100,500,500,Scalr.OP_ANTIALIAS);
-        // ImageIO.write(cropimage, "png",new
-        // File("/Users/leefangjie/Downloads/thumbs/attachment_y.png"));
-        // BufferedImage th_1=scaleByWidth(bi,ImageType.JPG,100);
-        // createImage(th_1,ImageType.PNG).writeToJPG(new
-        // File("/Users/leefangjie/Downloads/thumbs/attachment_z.png"), 100);
-        // ImageIO.write(th_1, "png",new
-        // File("/Users/leefangjie/Downloads/thumbs/attachment_z.png"));
     }
 }

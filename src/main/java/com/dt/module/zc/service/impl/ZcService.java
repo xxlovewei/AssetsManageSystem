@@ -8,7 +8,6 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.sql.Insert;
-import com.dt.core.dao.sql.SQL;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
@@ -27,14 +26,12 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 
 @Service
-public class ZcService extends BaseService{
+public class ZcService extends BaseService {
 
     @Autowired
     IResService ResServiceImpl;
@@ -50,14 +47,14 @@ public class ZcService extends BaseService{
 
 
     //@Cacheable(value = CacheConfig.CACHE_PUBLIC_80_10,key="'qf'+#uid")
-    public R queryDictFast(String uid,String zchccat,String comppart,String comp,String belongcomp,String dicts, String parts, String partusers,String subclass, String classroot,String zccatused) {
+    public R queryDictFast(String uid, String zchccat, String comppart, String comp, String belongcomp, String dicts, String parts, String partusers, String subclass, String classroot, String zccatused) {
 
         JSONObject res = new JSONObject();
         String[] dict_arr = dicts.split(",");
         for (int i = 0; i < dict_arr.length; i++) {
             String sql = "select * from sys_dict_item where dict_id=? and dr='0' order by sort";
             String cls = dict_arr[i];
-            if ("zcother".equals(dict_arr[i].toString())) {
+            if ("zcother".equals(dict_arr[i])) {
                 sql = "select * from sys_dict_item where dict_id=? and dr='0' and code<>'menu' order by sort";
                 cls = "devclass";
             }
@@ -80,53 +77,53 @@ public class ZcService extends BaseService{
 
 
         // 所有用户
-        if (ToolUtil.isNotEmpty(partusers)&&"Y".equals(partusers)) {
+        if (ToolUtil.isNotEmpty(partusers) && "Y".equals(partusers)) {
             RcdSet partuserrs = db
                     .query("select a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n"
                             + "  a.empl_id=b.empl_id and a.dr='0' and b.dr='0' and c.node_id=b.node_id");
             res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
         }
 
-        RcdSet comprs=db.query("select node_id id, route_name name from hrm_org_part where dr='0' and type='comp' order by node_id");
+        RcdSet comprs = db.query("select node_id id, route_name name from hrm_org_part where dr='0' and type='comp' order by node_id");
 
 
-        if(ToolUtil.isNotEmpty(comp)&&"Y".equals(comp)){
-            res.put("comp",ConvertUtil.OtherJSONObjectToFastJSONArray(comprs.toJsonArrayWithJsonObject()));
+        if (ToolUtil.isNotEmpty(comp) && "Y".equals(comp)) {
+            res.put("comp", ConvertUtil.OtherJSONObjectToFastJSONArray(comprs.toJsonArrayWithJsonObject()));
         }
 
-        if(ToolUtil.isNotEmpty(belongcomp)&&"Y".equals(belongcomp)){
-            res.put("belongcomp",ConvertUtil.OtherJSONObjectToFastJSONArray(comprs.toJsonArrayWithJsonObject()));
+        if (ToolUtil.isNotEmpty(belongcomp) && "Y".equals(belongcomp)) {
+            res.put("belongcomp", ConvertUtil.OtherJSONObjectToFastJSONArray(comprs.toJsonArrayWithJsonObject()));
         }
 
         //所有部门
-        if (ToolUtil.isNotEmpty(comppart) && "Y".equals(comppart) ) {
-            JSONObject tmp=new JSONObject();
-            for(int i=0;i<comprs.size();i++){
+        if (ToolUtil.isNotEmpty(comppart) && "Y".equals(comppart)) {
+            JSONObject tmp = new JSONObject();
+            for (int i = 0; i < comprs.size(); i++) {
                 RcdSet partrs = db
-                        .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and parent_id=? order by route",comprs.getRcd(i).getString("id"));
-                tmp.put(comprs.getRcd(i).getString("id"),ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+                        .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and parent_id=? order by route", comprs.getRcd(i).getString("id"));
+                tmp.put(comprs.getRcd(i).getString("id"), ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
             }
-            res.put("comppart",tmp);
+            res.put("comppart", tmp);
         }
 
 
-        if (ToolUtil.isNotEmpty(parts) && "Y".equals(parts) ) {
+        if (ToolUtil.isNotEmpty(parts) && "Y".equals(parts)) {
             RcdSet partrs = db
-                    .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and type='part' order by route" );
-            res.put("parts",ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+                    .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and type='part' order by route");
+            res.put("parts", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
-        if (ToolUtil.isNotEmpty(zccatused) && "Y".equals(zccatused) ) {
+        if (ToolUtil.isNotEmpty(zccatused) && "Y".equals(zccatused)) {
             RcdSet partrs = db
                     .query("select a.id,concat(b.name,'/',a.route_name) name from ct_category a,ct_category_root b where a.type='goods' and a.root=b.id and a.dr='0' and a.id in (select distinct class_id from res where dr='0')\n" +
                             "order by a.root ,a.route_name");
-            res.put("zccatused",ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+            res.put("zccatused", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
-        if (ToolUtil.isNotEmpty(zchccat) && "Y".equals(zchccat) ) {
+        if (ToolUtil.isNotEmpty(zchccat) && "Y".equals(zchccat)) {
             RcdSet partrs = db
-                    .query("select * from ct_category where root='"+ZcCommonService.CATEGORY_HC+"' and dr='0' and type='goods'" );
-            res.put("zchccat",ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
+                    .query("select * from ct_category where root='" + ZcCommonService.CATEGORY_HC + "' and dr='0' and type='goods'");
+            res.put("zchccat", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
 
@@ -134,8 +131,8 @@ public class ZcService extends BaseService{
     }
 
 
-    private String createUuid5(){
-        return  UUID.randomUUID().toString().substring(9, 23).toUpperCase();
+    private String createUuid5() {
+        return UUID.randomUUID().toString().substring(9, 23).toUpperCase();
     }
 
     public String createUuid(String type) {
@@ -143,11 +140,11 @@ public class ZcService extends BaseService{
         String id = createUuid5();
         int i = 0;
         if (type.equals(ZcCommonService.UUID_ZC)) {
-            for (i = 0; i< cnt; i++) {
+            for (i = 0; i < cnt; i++) {
                 QueryWrapper<Res> ew = new QueryWrapper<Res>();
-                String finalId =type+id;
+                String finalId = type + id;
                 ew.and(j -> j.eq("uuid", finalId));
-                Res rs=ResServiceImpl.getOne(ew);
+                Res rs = ResServiceImpl.getOne(ew);
                 if (rs == null) {
                     break;
                 } else {
@@ -162,9 +159,9 @@ public class ZcService extends BaseService{
         } else if (type.equals(ZcCommonService.UUID_BX)) {
             for (i = 0; i < cnt; i++) {
                 QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
-                String finalId = type+id;
+                String finalId = type + id;
                 ew.and(j -> j.eq("busuuid", finalId));
-                ResActionItem rs=ResActionItemServiceImpl.getOne(ew);
+                ResActionItem rs = ResActionItemServiceImpl.getOne(ew);
                 if (rs == null) {
                     break;
                 } else {
@@ -176,13 +173,12 @@ public class ZcService extends BaseService{
             } else {
                 return type + id;
             }
-        }
-        else if (type.equals(ZcCommonService.UUID_DB)) {
+        } else if (type.equals(ZcCommonService.UUID_DB)) {
             for (i = 0; i < cnt; i++) {
                 QueryWrapper<ResAllocate> ew = new QueryWrapper<ResAllocate>();
-                String finalId = type+id;
+                String finalId = type + id;
                 ew.and(j -> j.eq("uuid", finalId));
-                ResAllocate rs=ResAllocateServiceImpl.getOne(ew);
+                ResAllocate rs = ResAllocateServiceImpl.getOne(ew);
                 if (rs == null) {
                     break;
                 } else {
@@ -242,7 +238,7 @@ public class ZcService extends BaseService{
 
     }
 
-    public String buildQueryResAllGetdatalSql(String belongcomp,String comp,String part,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps){
+    public String buildQueryResAllGetdatalSql(String belongcomp, String comp, String part, String datarange, String classroot, String class_id, String wb, String env, String recycle, String loc, String search, TypedHashMap<String, Object> ps) {
 
         // 获取属性数据
         String isscrap = ps.getString("isscrap");
@@ -268,7 +264,6 @@ public class ZcService extends BaseService{
             }
         }
         sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0 ";
-
         if (ToolUtil.isNotEmpty(classroot)) {
             //获取多个类型
             sql = sql + " and class_id in (select id from ct_category t where t.dr='0' and t.root='" + classroot + "' and t.node_level>1)";
@@ -278,43 +273,35 @@ public class ZcService extends BaseService{
         if (ToolUtil.isNotEmpty(class_id_parents) && !"all".equals(class_id_parents)) {
             sql = sql + " and class_id in (select id from ct_category where 1=1 and (id='" + class_id_parents + "' or route like '%" + class_id_parents + "-%'))";
         }
-
         //类别
         if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
             sql = sql + " and class_id in (select id from ct_category  where dr='0' and (id='" + class_id
                     + "' or parent_id='" + class_id + "')) ";
         }
-
         //区域
         if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
             sql = sql + " and loc='" + loc + "'";
         }
-
         //环境
         if (ToolUtil.isNotEmpty(env) && !"all".equals(env)) {
             sql = sql + " and env='" + env + "'";
         }
-
         //维保
         if (ToolUtil.isNotEmpty(wb) && !"all".equals(wb)) {
             sql = sql + " and wb='" + wb + "'";
         }
-
         //状态
         if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
             sql = sql + " and recycle='" + recycle + "'";
         }
-
         //使用公司
-        if(ToolUtil.isNotEmpty(comp)){
+        if (ToolUtil.isNotEmpty(comp)) {
             sql = sql + " and used_company_id='" + comp + "'";
         }
-
         //所属公司
         if (ToolUtil.isNotEmpty(belongcomp)) {
             sql = sql + " and belong_company_id='" + belongcomp + "'";
         }
-
         //使用部门
         if (ToolUtil.isNotEmpty(part)) {
             sql = sql + " and part_id='" + part + "'";
@@ -324,67 +311,67 @@ public class ZcService extends BaseService{
         if (ToolUtil.isNotEmpty(part_parents)) {
             sql = sql + " and part_id in (select node_id from hrm_org_part where (node_id='" + part_parents + "' or route like '%" + part_parents + "-%'))";
         }
-
         //仓库
         if (ToolUtil.isNotEmpty(ps.getString("warehouse"))) {
             sql = sql + " and warehouse='" + ps.getString("warehouse") + "'";
         }
-
         //资产数
         if (ToolUtil.isNotEmpty(ps.getString("zcnumber"))) {
             sql = sql + " and zc_cnt>" + ps.getString("zcnumber");
         }
-
         //类目
         if (ToolUtil.isNotEmpty(ps.getString("category"))) {
             sql = sql + " and category='" + ps.getString("category") + "'";
         }
-
         //机架
         if (ToolUtil.isNotEmpty(ps.getString("rack"))) {
             sql = sql + " and rack='" + ps.getString("rack") + "'";
         }
-
         //默认不显示报废数据,报废数据则,isscrap=1
         if (ToolUtil.isNotEmpty(isscrap) && "1".equals(isscrap)) {
             sql = sql + " and isscrap='1'";
         } else {
             sql = sql + " and isscrap='0'";
         }
-
         //idle,inuse,scrap,borrow,repair,stopuse,allocation
         if (ToolUtil.isNotEmpty(datarange)) {
             if (ZcCommonService.DATARANGE_REPAIR.equals(datarange)) {
+                //维修:闲置,在用
                 sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             } else if (ZcCommonService.DATARANGE_LY.equals(datarange)) {
+                //领用:闲置
                 sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "')";
             } else if (ZcCommonService.DATARANGE_JY.equals(datarange)) {
+                //借用:闲置,在用
                 sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             } else if (ZcCommonService.DATARANGE_DB.equals(datarange)) {
+                //调拨:闲置,在用
                 sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
-            }else if (ZcCommonService.DATARANGE_BF.equals(datarange)) {
+            } else if (ZcCommonService.DATARANGE_BF.equals(datarange)) {
+                //报废:闲置,在用
                 sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             } else if (ZcCommonService.DATARANGE_ZJ.equals(datarange)) {
-                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' ";
+                //折旧:不选报废
+                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle<>'scrap'";
             } else if (ZcCommonService.DATARANGE_CG.equals(datarange)) {
-                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' ";
+                //变更:不选报废
+                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle<>'scrap'";
             }
         }
-
-        String ressql="";
+        String ressql = "";
         if (ToolUtil.isNotEmpty(search)) {
-            ressql="select * from ("+sql+") end where (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
+            ressql = "select * from (" + sql + ") end where (rack like '%" + search + "%' or fs1 like '%" + search + "%' or mark like '%" + search
                     + "%' or uuid like '%" + search + "%' or model like '%" + search + "%'  or  sn like '%" + search
-                    + "%' or classrootname like '%"+search+"%' or locstr like '%"+search+"%' or  supplierstr like '%"+search+"%' or part_fullname like '%"+search+"%')";
-        }else{
-            ressql = sql ;
+                    + "%' or classrootname like '%" + search + "%' or locstr like '%" + search + "%' or  supplierstr like '%" + search + "%' or part_fullname like '%" + search + "%')";
+        } else {
+            ressql = sql;
         }
         ressql = ressql + " order by update_time desc,loc,rack,frame";
-        return  ressql;
+        return ressql;
     }
 
     // 根据ClassId获取数据,优先判断multiclassroot,在获取class_id
-    public R queryResAllGetData(String belongcomp,String comp,String part,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps) {
+    public R queryResAllGetData(String belongcomp, String comp, String part, String datarange, String classroot, String class_id, String wb, String env, String recycle, String loc, String search, TypedHashMap<String, Object> ps) {
         String sql = this.buildQueryResAllGetdatalSql(belongcomp, comp, part, datarange, classroot, class_id, wb, env, recycle, loc, search, ps);
         RcdSet rs2 = db.query(sql);
         return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
@@ -431,18 +418,19 @@ public class ZcService extends BaseService{
 
     public R queryResAllByUUID(String uuid) {
         Rcd rs = db.uniqueRecord("select * from res t where dr=0 and uuid=?", uuid);
-        if(rs==null){
+        if (rs == null) {
             return R.FAILURE_NO_DATA();
         }
         return queryResAllById(rs.getString("id"));
     }
-    public void queryZcAttrWithValue2(String catid,String resid){
+
+    public void queryZcAttrWithValue2(String catid, String resid) {
 
     }
 
-    public RcdSet queryZcAttrWithValue(String catid,String resid){
-        CtCategory ct=CtCategoryServiceImpl.getById(catid);
-        String route=ct.getRoute();
+    public RcdSet queryZcAttrWithValue(String catid, String resid) {
+        CtCategory ct = CtCategoryServiceImpl.getById(catid);
+        String route = ct.getRoute();
         String attrsql = "select\n" +
                 "  a.*,\n" +
                 "  b.attrvalue\n" +
@@ -457,7 +445,7 @@ public class ZcService extends BaseService{
                 "     ) a left join (select *\n" +
                 "                    from res_attr_value\n" +
                 "                    where resid = ? and dr = '0') b on a.id = b.attrid\n";
-        RcdSet attrs = db.query(attrsql,catid,catid,resid);
+        RcdSet attrs = db.query(attrsql, catid, catid, resid);
         return attrs;
     }
 
@@ -469,17 +457,17 @@ public class ZcService extends BaseService{
             class_id = rs.getString("class_id");
         }
         // 获取属性数据
-        RcdSet attrs = queryZcAttrWithValue(class_id,id) ;
+        RcdSet attrs = queryZcAttrWithValue(class_id, id);
         data.put("extattr", ConvertUtil.OtherJSONObjectToFastJSONArray(attrs.toJsonArrayWithJsonObject()));
         // 获取res数据
         if (ToolUtil.isNotEmpty(id)) {
             String sql = "select";
-            RcdSet attrs_rs = queryZcAttrWithValue(class_id,id) ;
+            RcdSet attrs_rs = queryZcAttrWithValue(class_id, id);
             for (int i = 0; i < attrs_rs.size(); i++) {
                 // 拼接sql
                 String valsql = "";
                 if ("inputint".equals(attrs_rs.getRcd(i).getString("inputtype"))) {
-                   // valsql = " cast( attrvalue as signed integer)";
+                    // valsql = " cast( attrvalue as signed integer)";
                     valsql = " attrvalue+0";
                 } else if ("inputstr".equals(attrs_rs.getRcd(i).getString("inputtype"))) {
                     valsql = "attrvalue";
@@ -493,16 +481,16 @@ public class ZcService extends BaseService{
             }
             sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0 and id=?";
             Rcd rs2 = db.uniqueRecord(sql, id);
-          if (rs2 != null) {
-              data.put("data", ConvertUtil.OtherJSONObjectToFastJSONObject(rs2.toJsonObject()));
-           }
+            if (rs2 != null) {
+                data.put("data", ConvertUtil.OtherJSONObjectToFastJSONObject(rs2.toJsonObject()));
+            }
         }
         // 获取更新记录
         RcdSet urs = db.query(
                 " select * from (\n" +
                         "select\n" +
                         "  (select name from sys_user_info where user_id=t.create_by)create_uname,\n" +
-                        "  t.* from res_change_item t where dr='0' and t.resid=? order by create_time desc) tab limit 100\n",
+                        "  t.* from res_change_item t where dr='0' and t.resid=? order by create_time desc) tab limit 300\n",
                 id);
         data.put("updatadata", ConvertUtil.OtherJSONObjectToFastJSONArray(urs.toJsonArrayWithJsonObject()));
 
@@ -510,7 +498,7 @@ public class ZcService extends BaseService{
         RcdSet grs = db.query(
                 " select * from (\n" +
                         "select b.* from res_repair_item a ,res_repair b where a.repairid=b.id and a.dr='0' and a.resid=? and b.dr='0'\n" +
-                        "  order by create_time desc)tab limit 100",
+                        "  order by create_time desc)tab limit 300",
                 id);
         data.put("faultdata", ConvertUtil.OtherJSONObjectToFastJSONArray(grs.toJsonArrayWithJsonObject()));
 
@@ -532,7 +520,7 @@ public class ZcService extends BaseService{
         Insert ins = new Insert("res_history");
 
         //判断资产编码是否正确
-        Rcd rs=null;
+        Rcd rs = null;
         if (ToolUtil.isEmpty(class_id)) {
             return R.FAILURE_REQ_PARAM_ERROR();
         } else {
@@ -601,7 +589,7 @@ public class ZcService extends BaseService{
             me.setIf("fs6", ps.getString("fs6"));
             me.setIf("fs7", ps.getString("fs7"));
             me.setIf("fs20", ps.getString("fs20"));
-            me.setIf("zc_cnt", ps.getString("zc_cnt","1"));
+            me.setIf("zc_cnt", ps.getString("zc_cnt", "1"));
             me.setIf("img", ps.getString("img"));
             me.setIf("attach", ps.getString("attach"));
             me.setIf("supplier", ps.getString("supplier"));

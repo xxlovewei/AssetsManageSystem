@@ -1,5 +1,7 @@
 package com.dt.core.tool.util.support;
 
+import com.dt.core.tool.lang.NumberUtil;
+
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -10,8 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.dt.core.tool.lang.NumberUtil;
 
 /**
  * 字符串工具类

@@ -1,13 +1,13 @@
 package com.dt.core.dao.sql;
 
+import com.dt.core.dao.Rcd;
+import com.dt.core.dao.SpringDAO;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.dt.core.dao.Rcd;
-import com.dt.core.dao.SpringDAO;
 
 /**
  * SimpleExpression 的缩写 简单表达式，SQL表达式
@@ -15,91 +15,18 @@ import com.dt.core.dao.SpringDAO;
 public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
 
     private static final long serialVersionUID = 4922774964031198960L;
-    private static HashMap<String, AnalyseRsult> CACHE = new HashMap<String, AnalyseRsult>();
-
-    private synchronized static void putAR(String sql, AnalyseRsult r) {
-        CACHE.put(sql, r);
-    }
-
-    private static AnalyseRsult getAR(String sql) {
-        return CACHE.get(sql);
-    }
-
     private static final String PARAM_NAME_SUFFIX_CHARS = "(+-*/ ><=,)";
-
+    private static HashMap<String, AnalyseRsult> CACHE = new HashMap<String, AnalyseRsult>();
+    boolean inited = false;
     private int paramIndex = -1;
     private ArrayList<Object> paramValues = new ArrayList<Object>();
     private ArrayList<Object> paramValueIndexes = new ArrayList<Object>();
-
     private String originalSQL = null;
     private ArrayList<String> splitParts = new ArrayList<String>();
     private String lastSqlPart = "";
-
-    boolean inited = false;
-
-    private void initIf() {
-        if (inited)
-            return;
-        inited = true;
-
-        boolean userSet = false;
-
-        AnalyseRsult ar = getAR(originalSQL);
-
-        if (ar == null) {
-            // 分析语句
-            analyse(this.originalSQL, originalMap, originalPs);
-            splitParts.add(this.lastSqlPart);
-            ar = new AnalyseRsult(splitParts, paramValueIndexes);
-            putAR(originalSQL, ar);
-            userSet = true;
-            // System.err.println("NC");
-        } else {
-            splitParts = ar.getSplitParts();
-            paramValueIndexes = ar.getPsIndexes();
-            userSet = false;
-            // System.err.println("UC");
-        }
-
-        // 重新参数值
-        for (int i = 0; i < this.paramValueIndexes.size(); i++) {
-            Object index = this.paramValueIndexes.get(i);
-            if (index instanceof String) {
-                String indexStr = (String) index;
-                if (userSet) {
-                    this.paramValues.set(i, originalMap.get(indexStr));
-                } else {
-                    this.paramValues.add(originalMap.get(indexStr));
-                }
-            } else {
-                Integer indexInt = (Integer) index;
-                if (userSet) {
-                    this.paramValues.set(i, originalPs[indexInt]);
-                } else {
-                    this.paramValues.add(originalPs[indexInt]);
-                }
-            }
-        }
-        //
-
-        for (Object val : paramValues) {
-            if (val instanceof SQL) {
-                SQL se = (SQL) val;
-                se.setParent(this);
-            }
-        }
-    }
-
     private Map<String, Object> originalMap = null;
     private Object[] originalPs = null;
-
-    public static SE get(String sql, Object... ps) {
-        return new SE(sql, ps);
-    }
-
-    public static SE get(String sql, Map<String, Object> map, Object... ps) {
-        return new SE(sql, map, ps);
-    }
+    private SpringDAO dao = null;
 
     public SE(String sql, Object... ps) {
         this.originalSQL = sql;
@@ -113,87 +40,20 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
         this.originalPs = ps;
     }
 
-    private void err(String msg) {
-        (new Exception(msg)).printStackTrace();
+    private synchronized static void putAR(String sql, AnalyseRsult r) {
+        CACHE.put(sql, r);
     }
 
-    private void analyse(String sql, Map<String, Object> map, Object... ps) {
-        sql = " " + sql + " ";
-        char[] chars = sql.toCharArray();
-        String part1 = "";
-        String part2 = sql;
-        int i = -1;
-        int matchCount = 0;
-        while (true) {
+    private static AnalyseRsult getAR(String sql) {
+        return CACHE.get(sql);
+    }
 
-            i++;
-            if (i >= chars.length)
-                break;
+    public static SE get(String sql, Object... ps) {
+        return new SE(sql, ps);
+    }
 
-            char c = chars[i];
-            int z = jumpIf(sql, i);
-            if (z == -1) {
-                // err("语句" + sql + "，在第" + i + "个字符处,没有找到与之对应的结尾字符,可能存在语法错误!");
-                return;
-            } else {
-                if (z != i) {
-                    i = z;
-                    continue;
-                }
-            }
-
-            if (c == '?') {
-                matchCount++;
-                part1 = part2.substring(0, i).trim();
-                this.splitParts.add(part1);
-                part2 = part2.substring(i + 1, part2.length()).trim();
-                lastSqlPart = part2;
-                paramIndex++;
-                if (paramIndex >= ps.length) {
-                    err(part1 + "? 处参数个数不足");
-                    return;
-                }
-
-                this.paramValues.add(ps[paramIndex]);
-                this.paramValueIndexes.add(paramIndex);
-
-                if (part2.length() > 0) {
-                    analyse(part2, map, ps);
-                    return;
-                }
-            } else if (c == ':' && !ignorColon) {
-                matchCount++;
-                part1 = part2.substring(0, i).trim();
-                this.splitParts.add(part1);
-                int end = chars.length;
-                for (int j = i + 1; j < chars.length; j++) {
-                    char ic = chars[j];
-                    if (PARAM_NAME_SUFFIX_CHARS.indexOf(ic) > -1) {
-                        end = j;
-                        break;
-                    }
-                }
-                String pname = part2.substring(i + 1, end).trim();
-
-                if (!map.containsKey(pname)) {
-                    err(part2 + ":" + pname + " 处没有指定参数值");
-                    return;
-                }
-                this.paramValues.add(map.get(pname));
-                this.paramValueIndexes.add(pname);
-                // part2 = part2.substring(end + 1, part2.length()).trim();
-                part2 = part2.substring(end, part2.length()).trim();
-                lastSqlPart = part2;
-                if (part2.length() > 0) {
-                    analyse(part2, map, ps);
-                    return;
-                }
-            }
-
-            if (matchCount == 0) {
-                this.lastSqlPart = part2.trim();
-            }
-        }
+    public static SE get(String sql, Map<String, Object> map, Object... ps) {
+        return new SE(sql, map, ps);
     }
 
     public static int jumpIf(String sql, int i) {
@@ -346,6 +206,190 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
             matched = true;
 
         return matched ? i : -1;
+    }
+
+    public static void main(String[] args) {
+        HashMap<String, Object> ps = new HashMap<String, Object>();
+        ps.put("e", 5);
+        SE a = new SE("a=:e", ps);
+
+
+        // SE b=new SE("b=:x",new Object[]{":x",3});
+
+
+    }
+
+    public static int indexOf(String sql, String kw, boolean includeBracket) {
+        return indexOf(sql, kw, includeBracket, 0);
+    }
+
+    public static int indexOf(String sql, String kw, boolean includeBracket, int formIndex) {
+        sql = " " + sql + " ";
+        char[] chars = sql.toCharArray();
+        int i = formIndex - 1;
+        while (true) {
+
+            i++;
+            if (i >= chars.length)
+                break;
+
+            @SuppressWarnings("unused")
+            char c = chars[i];
+            int z = jumpIf(sql, i, includeBracket);
+            if (z == -1) {
+                // err("语句" + sql + "，在第" + i + "个字符处,没有找到与之对应的结尾字符,可能存在语法错误!");
+                return -1;
+            } else {
+                if (z != i) {
+                    i = z;
+                    continue;
+                }
+            }
+
+            if (i + kw.length() < sql.length()) {
+                String str = sql.substring(i, i + kw.length());
+                if (str.equals(kw)) {
+                    return i - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private void initIf() {
+        if (inited)
+            return;
+        inited = true;
+
+        boolean userSet = false;
+
+        AnalyseRsult ar = getAR(originalSQL);
+
+        if (ar == null) {
+            // 分析语句
+            analyse(this.originalSQL, originalMap, originalPs);
+            splitParts.add(this.lastSqlPart);
+            ar = new AnalyseRsult(splitParts, paramValueIndexes);
+            putAR(originalSQL, ar);
+            userSet = true;
+            // System.err.println("NC");
+        } else {
+            splitParts = ar.getSplitParts();
+            paramValueIndexes = ar.getPsIndexes();
+            userSet = false;
+            // System.err.println("UC");
+        }
+
+        // 重新参数值
+        for (int i = 0; i < this.paramValueIndexes.size(); i++) {
+            Object index = this.paramValueIndexes.get(i);
+            if (index instanceof String) {
+                String indexStr = (String) index;
+                if (userSet) {
+                    this.paramValues.set(i, originalMap.get(indexStr));
+                } else {
+                    this.paramValues.add(originalMap.get(indexStr));
+                }
+            } else {
+                Integer indexInt = (Integer) index;
+                if (userSet) {
+                    this.paramValues.set(i, originalPs[indexInt]);
+                } else {
+                    this.paramValues.add(originalPs[indexInt]);
+                }
+            }
+        }
+        //
+
+        for (Object val : paramValues) {
+            if (val instanceof SQL) {
+                SQL se = (SQL) val;
+                se.setParent(this);
+            }
+        }
+    }
+
+    private void err(String msg) {
+        (new Exception(msg)).printStackTrace();
+    }
+
+    private void analyse(String sql, Map<String, Object> map, Object... ps) {
+        sql = " " + sql + " ";
+        char[] chars = sql.toCharArray();
+        String part1 = "";
+        String part2 = sql;
+        int i = -1;
+        int matchCount = 0;
+        while (true) {
+
+            i++;
+            if (i >= chars.length)
+                break;
+
+            char c = chars[i];
+            int z = jumpIf(sql, i);
+            if (z == -1) {
+                // err("语句" + sql + "，在第" + i + "个字符处,没有找到与之对应的结尾字符,可能存在语法错误!");
+                return;
+            } else {
+                if (z != i) {
+                    i = z;
+                    continue;
+                }
+            }
+
+            if (c == '?') {
+                matchCount++;
+                part1 = part2.substring(0, i).trim();
+                this.splitParts.add(part1);
+                part2 = part2.substring(i + 1).trim();
+                lastSqlPart = part2;
+                paramIndex++;
+                if (paramIndex >= ps.length) {
+                    err(part1 + "? 处参数个数不足");
+                    return;
+                }
+
+                this.paramValues.add(ps[paramIndex]);
+                this.paramValueIndexes.add(paramIndex);
+
+                if (part2.length() > 0) {
+                    analyse(part2, map, ps);
+                    return;
+                }
+            } else if (c == ':' && !ignorColon) {
+                matchCount++;
+                part1 = part2.substring(0, i).trim();
+                this.splitParts.add(part1);
+                int end = chars.length;
+                for (int j = i + 1; j < chars.length; j++) {
+                    char ic = chars[j];
+                    if (PARAM_NAME_SUFFIX_CHARS.indexOf(ic) > -1) {
+                        end = j;
+                        break;
+                    }
+                }
+                String pname = part2.substring(i + 1, end).trim();
+
+                if (!map.containsKey(pname)) {
+                    err(part2 + ":" + pname + " 处没有指定参数值");
+                    return;
+                }
+                this.paramValues.add(map.get(pname));
+                this.paramValueIndexes.add(pname);
+                // part2 = part2.substring(end + 1, part2.length()).trim();
+                part2 = part2.substring(end).trim();
+                lastSqlPart = part2;
+                if (part2.length() > 0) {
+                    analyse(part2, map, ps);
+                    return;
+                }
+            }
+
+            if (matchCount == 0) {
+                this.lastSqlPart = part2.trim();
+            }
+        }
     }
 
     public String getOriginalSQL() {
@@ -552,8 +596,6 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
         return SE.get(sql.toString(), ps.toArray(new Object[ps.size()]));
     }
 
-    private SpringDAO dao = null;
-
     public SpringDAO getDao() {
         return dao;
     }
@@ -591,58 +633,16 @@ public class SE extends SubSQL implements ExecutableSQL, QueryableSQL {
         return dao.execute(this);
     }
 
-    public static void main(String[] args) {
-        HashMap<String, Object> ps = new HashMap<String, Object>();
-        ps.put("e", 5);
-        SE a = new SE("a=:e", ps);
-
-
-        // SE b=new SE("b=:x",new Object[]{":x",3});
-
-
-    }
-
-    public static int indexOf(String sql, String kw, boolean includeBracket) {
-        return indexOf(sql, kw, includeBracket, 0);
-    }
-
-    public static int indexOf(String sql, String kw, boolean includeBracket, int formIndex) {
-        sql = " " + sql + " ";
-        char[] chars = sql.toCharArray();
-        int i = formIndex - 1;
-        while (true) {
-
-            i++;
-            if (i >= chars.length)
-                break;
-
-            @SuppressWarnings("unused")
-            char c = chars[i];
-            int z = jumpIf(sql, i, includeBracket);
-            if (z == -1) {
-                // err("语句" + sql + "，在第" + i + "个字符处,没有找到与之对应的结尾字符,可能存在语法错误!");
-                return -1;
-            } else {
-                if (z != i) {
-                    i = z;
-                    continue;
-                }
-            }
-
-            if (i + kw.length() < sql.length()) {
-                String str = sql.substring(i, i + kw.length());
-                if (str.equals(kw.toString())) {
-                    return i - 1;
-                }
-            }
-        }
-        return -1;
-    }
-
 }
 
 class AnalyseRsult {
     private ArrayList<String> splitParts = null;
+    private ArrayList<Object> psIndexes = null;
+
+    public AnalyseRsult(ArrayList<String> parts, ArrayList<Object> indexes) {
+        this.splitParts = parts;
+        this.psIndexes = indexes;
+    }
 
     public ArrayList<String> getSplitParts() {
         return splitParts;
@@ -650,12 +650,5 @@ class AnalyseRsult {
 
     public ArrayList<Object> getPsIndexes() {
         return psIndexes;
-    }
-
-    private ArrayList<Object> psIndexes = null;
-
-    public AnalyseRsult(ArrayList<String> parts, ArrayList<Object> indexes) {
-        this.splitParts = parts;
-        this.psIndexes = indexes;
     }
 }

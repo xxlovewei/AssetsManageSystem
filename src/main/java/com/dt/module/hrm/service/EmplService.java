@@ -1,14 +1,7 @@
 package com.dt.module.hrm.service;
 
-import java.util.ArrayList;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.dt.core.common.base.BaseCommon;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -23,6 +16,11 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.busenum.userTypeEnum;
 import com.dt.module.base.entity.SysUserInfo;
 import com.dt.module.base.service.impl.SysUserInfoServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 
 /**
  * @author: algernonking

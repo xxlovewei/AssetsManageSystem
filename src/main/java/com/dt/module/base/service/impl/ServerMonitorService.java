@@ -1,4 +1,5 @@
 package com.dt.module.base.service.impl;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
@@ -10,6 +11,7 @@ import oshi.hardware.GlobalMemory;
 import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
+
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.math.BigDecimal;
@@ -33,9 +35,9 @@ public class ServerMonitorService extends BaseService {
 
     }
 
-    public static JSONObject getCpuInfo()  {
+    public static JSONObject getCpuInfo() {
 
-        JSONObject r=new JSONObject();
+        JSONObject r = new JSONObject();
         SystemInfo systemInfo = new SystemInfo();
         CentralProcessor processor = systemInfo.getHardware().getProcessor();
         long[] prevTicks = processor.getSystemCpuLoadTicks();
@@ -52,74 +54,72 @@ public class ServerMonitorService extends BaseService {
             long iowait = ticks[CentralProcessor.TickType.IOWAIT.getIndex()] - prevTicks[CentralProcessor.TickType.IOWAIT.getIndex()];
             long idle = ticks[CentralProcessor.TickType.IDLE.getIndex()] - prevTicks[CentralProcessor.TickType.IDLE.getIndex()];
             long totalCpu = user + nice + cSys + idle + iowait + irq + softirq + steal;
-            r.put("core",processor.getLogicalProcessorCount());
-            r.put("sysusage",new DecimalFormat("#.##%").format(cSys * 1.0 / totalCpu));
+            r.put("core", processor.getLogicalProcessorCount());
+            r.put("sysusage", new DecimalFormat("#.##%").format(cSys * 1.0 / totalCpu));
             r.put("usrusage", new DecimalFormat("#.##%").format(user * 1.0 / totalCpu));
             r.put("iowaitusage", new DecimalFormat("#.##%").format(iowait * 1.0 / totalCpu));
-            r.put("usage", new DecimalFormat("#.##%").format(1.0-(idle * 1.0 / totalCpu)));
+            r.put("usage", new DecimalFormat("#.##%").format(1.0 - (idle * 1.0 / totalCpu)));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return r;
     }
-    public static JSONObject getMemInfo(){
-        JSONObject r=new JSONObject();
+
+    public static JSONObject getMemInfo() {
+        JSONObject r = new JSONObject();
         SystemInfo systemInfo = new SystemInfo();
         GlobalMemory memory = systemInfo.getHardware().getMemory();
         //总内存
         long totalByte = memory.getTotal();
         //剩余
         long acaliableByte = memory.getAvailable();
-        r.put("totalmem",formatByte(totalByte));
-        r.put("used",formatByte(totalByte-acaliableByte));
-        r.put("aliable",formatByte(acaliableByte));
-        r.put("usage",new DecimalFormat("#.##%").format((totalByte-acaliableByte)*1.0/totalByte));
+        r.put("totalmem", formatByte(totalByte));
+        r.put("used", formatByte(totalByte - acaliableByte));
+        r.put("aliable", formatByte(acaliableByte));
+        r.put("usage", new DecimalFormat("#.##%").format((totalByte - acaliableByte) * 1.0 / totalByte));
         return r;
     }
 
-    public static JSONObject getSysInfo(){
-        JSONObject r=new JSONObject();
+    public static JSONObject getSysInfo() {
+        JSONObject r = new JSONObject();
         Properties props = System.getProperties();
         //系统名称
-        String osName = ((Properties) props).getProperty("os.name");
+        String osName = props.getProperty("os.name");
         //架构名称
         String osArch = props.getProperty("os.arch");
-        r.put("osname",osName);
-        r.put("osarch",osArch);
+        r.put("osname", osName);
+        r.put("osarch", osArch);
         r.put("ip", IpUtils.getHostIp());
         r.put("hostname", IpUtils.getHostName());
         return r;
     }
 
-    public static JSONArray getSysFiles()
-    {
-        JSONArray r=new JSONArray();
+    public static JSONArray getSysFiles() {
+        JSONArray r = new JSONArray();
         SystemInfo si = new SystemInfo();
-        OperatingSystem os=si.getOperatingSystem();
+        OperatingSystem os = si.getOperatingSystem();
         FileSystem fileSystem = os.getFileSystem();
         OSFileStore[] fsArray = fileSystem.getFileStores();
-        for (OSFileStore fs : fsArray)
-        {
+        for (OSFileStore fs : fsArray) {
             long free = fs.getUsableSpace();
             long total = fs.getTotalSpace();
             long used = total - free;
-            JSONObject e=new JSONObject();
-            e.put("DirName",fs.getMount());
-            e.put("SysTypeName",fs.getType());
-            e.put("TypeName",fs.getName());
-            e.put("Total",convertFileSize(total));
-            e.put("Free",convertFileSize(free));
-            e.put("Used",convertFileSize(used));
-            e.put("usage",mul(div(used, total, 4), 100));
+            JSONObject e = new JSONObject();
+            e.put("DirName", fs.getMount());
+            e.put("SysTypeName", fs.getType());
+            e.put("TypeName", fs.getName());
+            e.put("Total", convertFileSize(total));
+            e.put("Free", convertFileSize(free));
+            e.put("Used", convertFileSize(used));
+            e.put("usage", mul(div(used, total, 4), 100));
             r.add(e);
         }
         return r;
     }
 
 
-
-    public static JSONObject getJvmInfo(){
-        JSONObject r= new JSONObject();
+    public static JSONObject getJvmInfo() {
+        JSONObject r = new JSONObject();
         Properties props = System.getProperties();
         Runtime runtime = Runtime.getRuntime();
         RuntimeMXBean runtime2 = ManagementFactory.getRuntimeMXBean();
@@ -135,38 +135,38 @@ public class ServerMonitorService extends BaseService {
         String dir = props.getProperty("user.dir");
         //启动时间
         long time = ManagementFactory.getRuntimeMXBean().getStartTime();
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String jdkHome = props.getProperty("java.home");
         //jvm内存总量
-        r.put("jvmtotal",formatByte(jvmTotalMemoryByte));
+        r.put("jvmtotal", formatByte(jvmTotalMemoryByte));
         //jvm已使用内存
-        r.put("jvmused",formatByte(jvmTotalMemoryByte-freeMemoryByte));
+        r.put("jvmused", formatByte(jvmTotalMemoryByte - freeMemoryByte));
         //jvm剩余内存
-        r.put("jvmfree",formatByte(freeMemoryByte));
+        r.put("jvmfree", formatByte(freeMemoryByte));
         //jvm内存使用率
-        r.put("jvmusage", new DecimalFormat("#.##%").format((jvmTotalMemoryByte-freeMemoryByte)*1.0/jvmTotalMemoryByte));
+        r.put("jvmusage", new DecimalFormat("#.##%").format((jvmTotalMemoryByte - freeMemoryByte) * 1.0 / jvmTotalMemoryByte));
         //安装路径
-        r.put("jdkhome",jdkHome);
+        r.put("jdkhome", jdkHome);
         //java版本
-        r.put("javaversion",jdkVersion);
+        r.put("javaversion", jdkVersion);
         //启动时间
-        r.put("starttime",sdf.format(new Date(time)));
+        r.put("starttime", sdf.format(new Date(time)));
         //项目路径
-        r.put("dir",dir);
-        r.put("javaname",runtime2.getVmName());
+        r.put("dir", dir);
+        r.put("javaname", runtime2.getVmName());
         r.put("uptime", runtime2.getUptime());
 
         return r;
     }
 
-    public static JSONObject getThread(){
-        JSONObject r=new JSONObject();
+    public static JSONObject getThread() {
+        JSONObject r = new JSONObject();
         System.out.println("----------------线程信息----------------");
-        ThreadGroup currentGroup =Thread.currentThread().getThreadGroup();
+        ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
 
-        while (currentGroup.getParent()!=null){
+        while (currentGroup.getParent() != null) {
             // 返回此线程组的父线程组
-            currentGroup=currentGroup.getParent();
+            currentGroup = currentGroup.getParent();
         }
         //此线程组中活动线程的估计数
         int noThreads = currentGroup.activeCount();
@@ -175,73 +175,63 @@ public class ServerMonitorService extends BaseService {
         //把对此线程组中的所有活动子组的引用复制到指定数组中。
         currentGroup.enumerate(lstThreads);
         for (Thread thread : lstThreads) {
-            System.out.println("线程数量："+noThreads+" 线程id：" + thread.getId() + " 线程名称：" + thread.getName() + " 线程状态：" + thread.getState());
+            System.out.println("线程数量：" + noThreads + " 线程id：" + thread.getId() + " 线程名称：" + thread.getName() + " 线程状态：" + thread.getState());
         }
         return r;
     }
 
-    public static String formatByte(long byteNumber){
+    public static String formatByte(long byteNumber) {
         //换算单位
         double FORMAT = 1024.0;
-        double kbNumber = byteNumber/FORMAT;
-        if(kbNumber<FORMAT){
+        double kbNumber = byteNumber / FORMAT;
+        if (kbNumber < FORMAT) {
             return new DecimalFormat("#.##KB").format(kbNumber);
         }
-        double mbNumber = kbNumber/FORMAT;
-        if(mbNumber<FORMAT){
+        double mbNumber = kbNumber / FORMAT;
+        if (mbNumber < FORMAT) {
             return new DecimalFormat("#.##MB").format(mbNumber);
         }
-        double gbNumber = mbNumber/FORMAT;
-        if(gbNumber<FORMAT){
+        double gbNumber = mbNumber / FORMAT;
+        if (gbNumber < FORMAT) {
             return new DecimalFormat("#.##GB").format(gbNumber);
         }
-        double tbNumber = gbNumber/FORMAT;
+        double tbNumber = gbNumber / FORMAT;
         return new DecimalFormat("#.##TB").format(tbNumber);
     }
-    public static double div(double v1, double v2, int scale)
-    {
-        if (scale < 0)
-        {
+
+    public static double div(double v1, double v2, int scale) {
+        if (scale < 0) {
             throw new IllegalArgumentException(
                     "The scale must be a positive integer or zero");
         }
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
-        if (b1.compareTo(BigDecimal.ZERO) == 0)
-        {
+        if (b1.compareTo(BigDecimal.ZERO) == 0) {
             return BigDecimal.ZERO.doubleValue();
         }
         return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
 
-    public static double mul(double v1, double v2)
-    {
+    public static double mul(double v1, double v2) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.multiply(b2).doubleValue();
     }
-    public static String convertFileSize(long size)
-    {
+
+    public static String convertFileSize(long size) {
         long kb = 1024;
         long mb = kb * 1024;
         long gb = mb * 1024;
-        if (size >= gb)
-        {
+        if (size >= gb) {
             return String.format("%.1f GB", (float) size / gb);
-        }
-        else if (size >= mb)
-        {
+        } else if (size >= mb) {
             float f = (float) size / mb;
             return String.format(f > 100 ? "%.0f MB" : "%.1f MB", f);
-        }
-        else if (size >= kb)
-        {
+        } else if (size >= kb) {
             float f = (float) size / kb;
             return String.format(f > 100 ? "%.0f KB" : "%.1f KB", f);
-        }
-        else
-        {
+        } else {
             return String.format("%d B", size);
         }
     }

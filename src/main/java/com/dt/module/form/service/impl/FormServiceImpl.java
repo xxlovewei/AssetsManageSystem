@@ -1,8 +1,5 @@
 package com.dt.module.form.service.impl;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
@@ -11,6 +8,10 @@ import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.util.ToolUtil;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * <p>
@@ -32,12 +33,11 @@ public class FormServiceImpl extends BaseService {
         FormServiceImpl a = new FormServiceImpl();
 
 
-
     }
 
 
     private void parseFromJsonMetaColDB() {
-     //   System.out.println(db.query("select COLUMN_NAME col from information_schema.COLUMNS where table_name ='sys_process_form' and COLUMN_NAME like 'd%' and COLUMN_NAME<>'dr'").toJsonArrayWithJsonObject());
+        //   System.out.println(db.query("select COLUMN_NAME col from information_schema.COLUMNS where table_name ='sys_process_form' and COLUMN_NAME like 'd%' and COLUMN_NAME<>'dr'").toJsonArrayWithJsonObject());
     }
 
     private HashMap<String, String> parseFromJsonMetaCol() {

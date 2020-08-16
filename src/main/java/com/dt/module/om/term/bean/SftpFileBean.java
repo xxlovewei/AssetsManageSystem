@@ -86,7 +86,7 @@ public class SftpFileBean implements Comparable<SftpFileBean> {
     public int compareTo(SftpFileBean o) {
         if (this.directory && !o.directory) {
             return -1;
-        } else if (!(this.directory ^ o.directory)) {
+        } else if (this.directory == o.directory) {
             return this.filename.compareTo(o.filename);
         } else if (!this.directory && o.directory) {
             return 1;

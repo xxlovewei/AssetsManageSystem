@@ -1,13 +1,11 @@
 package com.dt.module.cmdb.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.alibaba.fastjson.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
-import com.alibaba.fastjson.JSONArray;
-
-import net.sf.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: algernonking
@@ -74,11 +72,7 @@ public class ResImportResultEntity {
         total = total + 1;
         success_cnt = success_cnt + 1;
 
-        if (success_cnt != total) {
-            is_success_all = false;
-        } else {
-            is_success_all = true;
-        }
+        is_success_all = success_cnt == total;
     }
 
     public void addFailed(ResEntity re) {

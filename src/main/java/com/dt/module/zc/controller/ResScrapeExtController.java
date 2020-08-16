@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,7 +35,7 @@ import java.util.Date;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author algernonking
@@ -44,8 +45,8 @@ import java.util.Date;
 @RequestMapping("/api/zc/resScrape/ext")
 public class ResScrapeExtController extends BaseController {
 
-	@Autowired
-	IResScrapeItemService ResScrapeItemServiceImpl;
+    @Autowired
+    IResScrapeItemService ResScrapeItemServiceImpl;
 
     @Autowired
     ZcService zcService;
@@ -68,30 +69,30 @@ public class ResScrapeExtController extends BaseController {
         String uuid = in.getUuid();
         JSONObject res = JSONObject.parseObject(JSON.toJSONString(in, SerializerFeature.WriteDateUseDateFormat));
         String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and id in (select resid from res_scrape_item where uuid=? and dr='0')";
-		res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql,uuid).toJsonArrayWithJsonObject()));
-		return R.SUCCESS_OPER(res);
-	}
+        res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, uuid).toJsonArrayWithJsonObject()));
+        return R.SUCCESS_OPER(res);
+    }
 
 
-	@ResponseBody
-	@Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
-	@RequestMapping(value = "/insert.do")
-	public R insertOrUpdate(ResScrape entity,String busitimestr,String items) throws ParseException {
+    @ResponseBody
+    @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insert.do")
+    public R insertOrUpdate(ResScrape entity, String busitimestr, String items) throws ParseException {
 
-		ArrayList<ResScrapeItem> cols=new ArrayList<ResScrapeItem>();
-		String uuid=zcService.createUuid(ZcCommonService.UUID_BF);
-		entity.setUuid(uuid);
-		entity.setStatus("none");
-		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(busitimestr);
-		entity.setBusidate(date);
-		if(ToolUtil.isEmpty(entity.getProcessuserid())){
-			entity.setProcessuserid(this.getUserId());
-		}
-		if(ToolUtil.isEmpty(entity.getProcessusername())){
-			entity.setProcessusername(this.getUserName());
-		}
-		JSONArray itemsarr=JSONArray.parseArray(items);
-		for(int i=0;i<itemsarr.size();i++){
+        ArrayList<ResScrapeItem> cols = new ArrayList<ResScrapeItem>();
+        String uuid = zcService.createUuid(ZcCommonService.UUID_BF);
+        entity.setUuid(uuid);
+        entity.setStatus("none");
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(busitimestr);
+        entity.setBusidate(date);
+        if (ToolUtil.isEmpty(entity.getProcessuserid())) {
+            entity.setProcessuserid(this.getUserId());
+        }
+        if (ToolUtil.isEmpty(entity.getProcessusername())) {
+            entity.setProcessusername(this.getUserName());
+        }
+        JSONArray itemsarr = JSONArray.parseArray(items);
+        for (int i = 0; i < itemsarr.size(); i++) {
             UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
             ups.set("recycle", ZcCommonService.RECYCLE_SCRAP);
             ups.set("isscrap", "1");
@@ -111,14 +112,14 @@ public class ResScrapeExtController extends BaseController {
         return R.SUCCESS_OPER();
     }
 
-	@ResponseBody
-	@Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
-	@RequestMapping(value = "/selectList.do")
-	public R selectList() {
-		QueryWrapper<ResScrape> ew = new QueryWrapper<ResScrape>();
-		ew.orderByDesc("create_time");
-		return R.SUCCESS_OPER(ResScrapeServiceImpl.list(ew));
-	}
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList() {
+        QueryWrapper<ResScrape> ew = new QueryWrapper<ResScrape>();
+        ew.orderByDesc("create_time");
+        return R.SUCCESS_OPER(ResScrapeServiceImpl.list(ew));
+    }
 
 }
 

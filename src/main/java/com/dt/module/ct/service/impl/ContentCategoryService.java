@@ -1,7 +1,5 @@
 package com.dt.module.ct.service.impl;
 
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
@@ -13,6 +11,7 @@ import com.dt.core.dao.sql.Update;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import org.springframework.stereotype.Service;
 
 /**
  * @author: algernonking
@@ -79,7 +78,7 @@ public class ContentCategoryService extends BaseService {
         root.put("type", "root");
         RcdSet rs = db.query("select t.*,t.name text,t.parent_id parent from ct_category t where root=? and dr='0'", root_id);
         JSONObject e = new JSONObject();
-        res=ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
+        res = ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject());
         res.add(root);
         return R.SUCCESS_OPER(res);
     }

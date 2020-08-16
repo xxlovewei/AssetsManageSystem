@@ -1,21 +1,5 @@
 package com.dt.module.base.service.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.R;
@@ -28,6 +12,17 @@ import com.dt.module.base.entity.SysApi;
 import com.dt.module.base.mapper.SysApiMapper;
 import com.dt.module.base.service.ISysApiService;
 import com.dt.module.db.DB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import java.util.*;
 
 /**
  * <p>
@@ -41,13 +36,12 @@ import com.dt.module.db.DB;
 public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> implements ISysApiService {
 
     private static Logger _log = LoggerFactory.getLogger(SysApiServiceImpl.class);
+    @Autowired
+    DB db;
 
     public static SysApiServiceImpl me() {
         return SpringContextUtil.getBean(SysApiServiceImpl.class);
     }
-
-    @Autowired
-    DB db;
 
     public R updateApi() {
         List<SQL> sqls = new ArrayList<SQL>();
@@ -59,7 +53,7 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
             PatternsRequestCondition pc = rmi.getPatternsCondition();
             Set<String> pSet = pc.getPatterns();
             HandlerMethod hm = entry.getValue();
-            Acl am = ((HandlerMethod) hm).getMethodAnnotation(Acl.class);
+            Acl am = hm.getMethodAnnotation(Acl.class);
             if (ToolUtil.isNotEmpty(am)) {
                 String aclvalue = am.value();
                 String aclinfo = am.info();

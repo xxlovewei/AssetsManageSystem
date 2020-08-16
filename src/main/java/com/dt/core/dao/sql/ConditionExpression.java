@@ -16,6 +16,17 @@ public class ConditionExpression<E> extends SubSQL {
 
     private SQLKeyword startWith = SQLKeyword.AND;
 
+    public ConditionExpression() {
+    }
+
+    public ConditionExpression(SE se) {
+        and(se);
+    }
+
+    public ConditionExpression(String se, Object... ps) {
+        and(SE.get(se, ps));
+    }
+
     protected SQLKeyword getKeyword() {
         return startWith;
     }
@@ -42,17 +53,6 @@ public class ConditionExpression<E> extends SubSQL {
     public E startWithWHERE() {
         this.startWith = SQLKeyword.WHERE;
         return (E) this;
-    }
-
-    public ConditionExpression() {
-    }
-
-    public ConditionExpression(SE se) {
-        and(se);
-    }
-
-    public ConditionExpression(String se, Object... ps) {
-        and(SE.get(se, ps));
     }
 
     @SuppressWarnings("unchecked")

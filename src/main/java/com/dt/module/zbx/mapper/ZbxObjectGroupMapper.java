@@ -1,7 +1,7 @@
 package com.dt.module.zbx.mapper;
 
-import com.dt.module.zbx.entity.ZbxObjectGroup;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dt.module.zbx.entity.ZbxObjectGroup;
 
 /**
  * <p>

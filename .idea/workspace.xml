@@ -7,6 +7,552 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/版本升级2.2.12-2.2.13.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/Acl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/Acl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/Req.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/Req.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/Res.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/Res.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/impl/MyRHttpMessageConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/impl/MyRHttpMessageConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/impl/ResReqDataMessageConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/impl/ResReqDataMessageConvert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/impl/ResReqResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/annotion/impl/ResReqResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/aop/AclAop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/aop/AclAop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CacheSupportImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CacheSupportImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CacheableEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CacheableEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CachedInvocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CachedInvocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CachingAnnotationsAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CachingAnnotationsAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CustomizedEhCacheCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CustomizedEhCacheCache.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CustomizedEhCacheCacheManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/CustomizedEhCacheCacheManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/ThreadTaskHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/cache/ThreadTaskHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseCodeMsgEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseCodeMsgEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseCommon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseCommon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseSC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseSC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/R.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/R.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/DBHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/DBHolder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/DataParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/DataParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/Rcd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/Rcd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/RcdMetaData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/RcdMetaData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/RcdRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/RcdRowMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/RcdSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/RcdSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/RcdSetExporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/RcdSetExporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/SpringDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/SpringDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/SpringMySQLDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/SpringMySQLDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/SpringOracleDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/SpringOracleDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/SpringSQLLiteDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/SpringSQLLiteDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/StoredProcedure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/StoredProcedure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/ArgumentDataType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/ArgumentDataType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Block.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/ConditionExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/ConditionExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Delete.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/ExecutableSQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/ExecutableSQL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/GroupBy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/GroupBy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Insert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Insert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Procedure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Procedure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/QueryableSQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/QueryableSQL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/SE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/SE.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/SQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/SQL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/SQLKeyword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/SQLKeyword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Select.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Select.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/SubSQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/SubSQL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Update.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/sql/Update.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/util/ArrayUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/util/ArrayUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/util/DateUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/util/DateUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/util/TypedHashMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/util/TypedHashMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/util/YNBoolean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/dao/util/YNBoolean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/mybatis/MetaObjectHandlerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/mybatis/MetaObjectHandlerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/MyAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/MyAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/RetryLimitSimpleCredentialsMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/RetryLimitSimpleCredentialsMatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/ShiroDbRealm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/ShiroDbRealm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/ShiroKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/ShiroKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/SystemLogoutFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/SystemLogoutFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/UrlPermissionsFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/UrlPermissionsFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/inter/IShiro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/inter/IShiro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/ShiroAuthorizationHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/ShiroAuthorizationHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/ShiroServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/ShiroServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/SimpleFilterChainDefinitionsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/SimpleFilterChainDefinitionsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/session/DtWebSessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/session/DtWebSessionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/session/SessionEntityDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/session/SessionEntityDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/session/SimpleSessionEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/session/SimpleSessionEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/date/DateTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/date/DateTime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/lang/ArrayUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/lang/ArrayUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/lang/Assert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/lang/Assert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/lang/ImageUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/lang/ImageUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/lang/NumberUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/lang/NumberUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/lang/SpringContextUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/lang/SpringContextUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/net/HttpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/net/HttpClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/net/IpUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/net/IpUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/net/TokenUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/net/TokenUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/ConvertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/ConvertUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/DbUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/DbUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/PingYinUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/PingYinUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/SmartImageScalr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/SmartImageScalr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/ToolUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/ToolUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/CollectionKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/CollectionKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/DateTimeKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/DateTimeKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/HttpKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/HttpKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/LangKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/LangKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/ObjectKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/ObjectKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/ReflectKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/ReflectKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/StrKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/StrKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/WafRequestWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/support/WafRequestWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/HtmlFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/HtmlFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/XssFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/XssFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/XssHttpServletRequestWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/tool/util/xss/XssHttpServletRequestWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/busenum/ctCategoryTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/busenum/ctCategoryTypeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/busenum/ctCtTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/busenum/ctCtTypeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/busenum/userTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/busenum/userTypeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/CacheController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/CacheController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/FileUpDownController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/FileUpDownController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/LoginSmallProgramController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/LoginSmallProgramController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/ServerMonitorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/ServerMonitorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysCardAddrController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysCardAddrController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysDbbackupRecController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysDbbackupRecController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysDictController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysDictController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysDictExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysDictExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysDictItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysDictItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysFeedbackController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysFeedbackController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysFileConfController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysFileConfController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysFilesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysFilesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysJobController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysJobController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysLogAccessController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysLogAccessController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysMenusController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysMenusController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysMenusNodeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysMenusNodeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysModulesItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysModulesItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysParamsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysParamsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysQudChengsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysQudChengsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysQudQuxController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysQudQuxController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysQudShengfController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysQudShengfController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysRegionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysRegionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysRoleInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysRoleInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysSessionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysSessionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserGroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserGroupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserGroupItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserGroupItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserHomeaddrController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserHomeaddrController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserInfoMyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserInfoMyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserReceivingaddrController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserReceivingaddrController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserRoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/controller/SysUserRoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/ResAttrValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/ResAttrValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/ResAttrValues.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/ResAttrValues.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/ResClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/ResClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/ResClassAttrs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/ResClassAttrs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/ScheduleJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/ScheduleJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysCardAddr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysCardAddr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysDbbackupRec.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysDbbackupRec.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysDict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysDict.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysDictItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysDictItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysFeedback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysFeedback.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysFileConf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysFileConf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysFiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysFiles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysLogAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysLogAccess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysMenus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysMenus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysMenusNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysMenusNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysModulesItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysModulesItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysQudChengs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysQudChengs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysQudQux.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysQudQux.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysQudShengf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysQudShengf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysRegion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysRegion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysRoleInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysRoleInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserGroupItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserGroupItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserHomeaddr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserHomeaddr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserReceivingaddr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserReceivingaddr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/SysUserRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/UserShiro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/UserShiro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/job/BackupModuleJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/job/BackupModuleJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/job/CacheRefreshJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/job/CacheRefreshJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/job/ClearSessionJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/job/ClearSessionJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/job/CollectApiJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/job/CollectApiJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/listener/ApplicationContextListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/listener/ApplicationContextListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/listener/WebContextListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/listener/WebContextListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysDbbackupRecMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysDbbackupRecMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysDictItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysDictItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysFeedbackMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysFeedbackMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysFileConfMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysFileConfMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysFilesMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysFilesMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysUserInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/mapper/SysUserInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysDbbackupRecService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysDbbackupRecService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysDictItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysDictItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysFeedbackService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysFeedbackService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysFileConfService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysFileConfService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysFilesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysFilesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysUserInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/ISysUserInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/CacheService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/CacheService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/JobService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/JobService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/LoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/MenuRoleMapService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/MenuRoleMapService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/MenuService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/ModuleItemMapService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/ModuleItemMapService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/ScheduleMangerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/ScheduleMangerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/ServerMonitorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/ServerMonitorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysApiServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysApiServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysCardAddrServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysCardAddrServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysDbbackupRecServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysDbbackupRecServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysDictItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysDictItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysDictServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysDictServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysFeedbackServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysFeedbackServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysFileConfServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysFileConfServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysFilesServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysFilesServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysJobServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysJobServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysLogAccessServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysLogAccessServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysMenusNodeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysMenusNodeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysMenusServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysMenusServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysModulesItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysModulesItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysParamsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysParamsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysQudChengsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysQudChengsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysQudQuxServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysQudQuxServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysQudShengfServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysQudShengfServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysRegionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysRegionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysRoleInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysRoleInfoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysSessionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysSessionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserGroupItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserGroupItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserGroupServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserGroupServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserHomeaddrServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserHomeaddrServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserInfoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserReceivingaddrServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserReceivingaddrServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserRoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserRoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResActionExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResActionExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResActionItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResActionItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResAttrsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResAttrsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResAttrsExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResAttrsExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResExtExportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResExtExportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResExtImportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResExtImportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResHistoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResHistoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResLabelTplController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResLabelTplController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/DictItemEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/DictItemEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/Res.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/Res.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResActionItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResActionItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResAttrs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResAttrs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResImportResultEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResImportResultEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResLabelTpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/entity/ResLabelTpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/mapper/ResActionItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/mapper/ResActionItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/mapper/ResAttrsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/mapper/ResAttrsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/mapper/ResHistoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/mapper/ResHistoryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/mapper/ResLabelTplMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/mapper/ResLabelTplMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/mapper/ResMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/mapper/ResMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResActionItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResActionItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResAttrsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResAttrsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResHistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResHistoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResLabelTplService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResLabelTplService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResActionItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResActionItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResAttrsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResAttrsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResHistoryExtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResHistoryExtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResHistoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResHistoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResImportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResImportService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResLabelTplServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResLabelTplServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ScheduledService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ScheduledService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/ContentCategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/ContentCategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtCategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtCategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtCategoryExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtCategoryExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtCategoryRootController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtCategoryRootController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtCategoryRootExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtCategoryRootExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtContentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtContentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtStoreSqlController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/controller/CtStoreSqlController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/entity/CtCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/entity/CtCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/entity/CtCategoryRoot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/entity/CtCategoryRoot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/entity/CtContent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/entity/CtContent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/entity/CtStoreSql.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/entity/CtStoreSql.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/ContentCategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/ContentCategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/ContentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/ContentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/CtCategoryRootServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/CtCategoryRootServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/CtCategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/CtCategoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/CtContentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/CtContentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/CtStoreSqlServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/CtStoreSqlServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/StoreSqlService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ct/service/impl/StoreSqlService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/db/DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/db/DB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloAssignmentHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloAssignmentHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloEnvironmentProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloEnvironmentProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloNodeEndEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloNodeEndEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloNodeEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloNodeEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloProcessEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloProcessEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloSysUserAssigneeProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloSysUserAssigneeProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloTplFileProcessProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloTplFileProcessProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloUserInfoAssigneeProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloUserInfoAssigneeProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysProcessDefController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysProcessDefController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysProcessSettingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysProcessSettingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysProcessSettingExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysProcessSettingExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysUfloProcessExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysUfloProcessExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysUfloTplController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysUfloTplController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessDef.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysProcessSetting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysUfloTpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/SysUfloTpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/TaskInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/entity/TaskInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessDataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessDataMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessDefMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessDefMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessFormMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessFormMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessSettingMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/mapper/SysProcessSettingMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessDataService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessDataService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessDefService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessDefService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessFormService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessFormService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessSettingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/ISysProcessSettingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysUfloProcessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysUfloProcessService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/UfloService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/UfloService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/form/entity/SysForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/form/entity/SysForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/form/entity/SysFormItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/form/entity/SysFormItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/controller/EmplController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/controller/EmplController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/controller/EmplOrgController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/controller/EmplOrgController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/controller/HrmOrgEmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/controller/HrmOrgEmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/controller/HrmOrgInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/controller/HrmOrgInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/controller/HrmOrgPartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/controller/HrmOrgPartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/entity/HrmOrgEmployee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/entity/HrmOrgEmployee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/entity/HrmOrgInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/entity/HrmOrgInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/entity/HrmOrgPart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/entity/HrmOrgPart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/mapper/HrmOrgEmployeeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/mapper/HrmOrgEmployeeMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/mapper/HrmOrgInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/mapper/HrmOrgInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/mapper/HrmOrgPartMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/mapper/HrmOrgPartMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/EmplOrgService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/EmplOrgService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/EmplService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/EmplService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/IHrmOrgEmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/IHrmOrgEmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/IHrmOrgInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/IHrmOrgInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/IHrmOrgPartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/IHrmOrgPartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/impl/HrmOrgEmployeeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/impl/HrmOrgEmployeeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/impl/HrmOrgInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/impl/HrmOrgInfoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/impl/HrmOrgPartServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/hrm/service/impl/HrmOrgPartServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/om/service/MySQLDatabaseBackupService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/om/service/MySQLDatabaseBackupService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/om/term/bean/SftpFileBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/om/term/bean/SftpFileBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/om/term/controller/SftpWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/om/term/controller/SftpWindowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/om/term/entity/Machine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/om/term/entity/Machine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/om/term/websocket/SftpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/om/term/websocket/SftpClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/om/util/Ping.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/om/util/Ping.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/om/util/RemoteShellExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/om/util/RemoteShellExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/om/util/RemoteShellResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/om/util/RemoteShellResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/om/util/SwingShell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/om/util/SwingShell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/om/util/WebSshUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/om/util/WebSshUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeDbdtlController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeDbdtlController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeInfosysController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeInfosysController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeInfosysExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeInfosysExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeDBEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeDBEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeDBImportResultEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeDBImportResultEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeDbdtl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeDbdtl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeImportResultEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeImportResultEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeInfosys.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeInfosys.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeInfosysEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeInfosysEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/entity/OpsNodeItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeDbdtlServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeDbdtlServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeExtServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeExtServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeInfosysExtServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeInfosysExtServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeInfosysServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeInfosysServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/MessageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WebOAuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WebOAuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WxApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WxApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WxConfigController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/controller/WxConfigController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/BaseMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/BaseMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/ImageMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/ImageMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/LinkMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/LinkMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/LocationMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/LocationMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/TextMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/TextMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/VoiceMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/req/VoiceMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/BaseMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/BaseMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/LinkMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/LinkMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/LocationMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/LocationMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/Music.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/Music.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/MusicMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/MusicMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/NewsMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/NewsMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/TextMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/msg/resp/TextMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/pojo/WeixinUserList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/pojo/WeixinUserList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/AccessTicket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/AccessTicket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/AccessToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/AccessToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/CoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/CoreService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/MessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/WebOAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/WebOAuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/WxConfigService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/WxConfigService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/WxService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/service/WxService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/util/AdvancedUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/util/AdvancedUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/util/MessageUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/util/MessageUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/util/WeiXX509TrustManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/util/WeiXX509TrustManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/util/WeixinUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/wx/util/WeixinUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/AlarmController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/AlarmController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/DashBoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/DashBoardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/GraphController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/GraphController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/HostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/HostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/HostGroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/HostGroupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/ImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/ImageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/TemplateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/TemplateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/TriggrController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/TriggrController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/ZbxObjectGroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/ZbxObjectGroupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/ZbxObjectGroupExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/ZbxObjectGroupExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/ZbxObjectItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/ZbxObjectItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/ZbxObjectItemExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller/ZbxObjectItemExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/entity/ZbxObjectGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/entity/ZbxObjectGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/entity/ZbxObjectItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/entity/ZbxObjectItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/mapper/ZbxObjectGroupMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/mapper/ZbxObjectGroupMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/mapper/ZbxObjectItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/mapper/ZbxObjectItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/IZbxObjectGroupService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/IZbxObjectGroupService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/IZbxObjectItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/IZbxObjectItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/Demo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/Demo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/HostGroupService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/HostGroupService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/HostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/HostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ImageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ImageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/TemplateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/TemplateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZabbixUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZabbixUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZabbixUtilService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZabbixUtilService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZbxObjectGroupExtServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZbxObjectGroupExtServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZbxObjectGroupServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZbxObjectGroupServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZbxObjectItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/service/impl/ZbxObjectItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/RackInfoExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/RackInfoExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCBasicinformationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCBasicinformationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCBasicinformationExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCBasicinformationExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCBasicinformationItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCBasicinformationItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCFinanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCFinanceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCFinanceItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCFinanceItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCMaintenanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCMaintenanceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCMaintenanceExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCMaintenanceExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCMaintenanceItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCMaintenanceItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResChangeItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResChangeItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInoutController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInoutController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInoutExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInoutExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInoutItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInoutItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInventoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInventoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInventoryExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInventoryExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInventoryItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInventoryItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInventoryItemSController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInventoryItemSController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInventoryUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInventoryUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResRepairController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResRepairController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResRepairExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResRepairExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResRepairFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResRepairFileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResRepairItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResRepairItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualItemExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualItemExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualStrategyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualStrategyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResScrapeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResScrapeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResScrapeExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResScrapeExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResScrapeItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResScrapeItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcProcessFlowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcProcessFlowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocateItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocateItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCBasicinformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCBasicinformation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCBasicinformationItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCBasicinformationItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCFinance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCFinance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCFinanceItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCFinanceItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCMaintenance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCMaintenance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCMaintenanceItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCMaintenanceItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResChangeItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResChangeItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInoutItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInoutItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventoryEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventoryEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventoryImportResultEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventoryImportResultEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventoryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventoryItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventoryItemS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventoryItemS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventoryUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResInventoryUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResRepair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResRepair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResRepairFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResRepairFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResRepairItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResRepairItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResResidual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResResidual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResResidualItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResResidualItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResResidualStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResResidualStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResScrape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResScrape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResScrapeItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResScrapeItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResAllocateItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResAllocateItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResAllocateMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResAllocateMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCBasicinformationItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCBasicinformationItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCBasicinformationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCBasicinformationMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCFinanceItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCFinanceItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCFinanceMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCFinanceMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCMaintenanceItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCMaintenanceItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCMaintenanceMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCMaintenanceMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResChangeItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResChangeItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInoutItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInoutItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInoutMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInoutMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInventoryItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInventoryItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInventoryItemSMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInventoryItemSMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInventoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInventoryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInventoryUserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResInventoryUserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResRepairFileMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResRepairFileMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResRepairItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResRepairItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResRepairMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResRepairMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResResidualItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResResidualItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResResidualMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResResidualMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResResidualStrategyMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResResidualStrategyMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResScrapeItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResScrapeItemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResScrapeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResScrapeMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResAllocateItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResAllocateItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResAllocateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResAllocateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCBasicinformationItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCBasicinformationItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCBasicinformationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCBasicinformationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCFinanceItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCFinanceItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCFinanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCFinanceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCMaintenanceItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCMaintenanceItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCMaintenanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCMaintenanceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResChangeItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResChangeItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInoutItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInoutItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInoutService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInoutService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInventoryItemSService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInventoryItemSService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInventoryItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInventoryItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInventoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInventoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInventoryUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResInventoryUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResRepairFileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResRepairFileService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResRepairItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResRepairItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResRepairService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResRepairService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResResidualItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResResidualItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResResidualService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResResidualService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResResidualStrategyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResResidualStrategyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResScrapeItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResScrapeItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResScrapeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResScrapeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateExtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateExtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCBasicinformationItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCBasicinformationItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCBasicinformationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCBasicinformationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCFinanceItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCFinanceItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCFinanceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCFinanceServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCMaintenanceItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCMaintenanceItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCMaintenanceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCMaintenanceServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResChangeItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResChangeItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInoutExtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInoutExtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInoutItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInoutItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInoutServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInoutServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryImportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryImportService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryItemSServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryItemSServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResInventoryUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResRepairFileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResRepairFileServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResRepairItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResRepairItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResRepairServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResRepairServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResResidualExtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResResidualExtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResResidualItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResResidualItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResResidualServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResResidualServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResResidualStrategyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResResidualStrategyServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResScrapeItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResScrapeItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResScrapeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResScrapeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcCommonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcCommonService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,7 +685,7 @@
       <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DeployZcDevMac">
+  <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.31">
     <configuration name="CustomGeneratorMysql" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.dev.CustomGeneratorMysql" />
       <module name="Project" />
@@ -529,14 +1075,8 @@
       <workItem from="1597009964497" duration="70995000" />
       <workItem from="1597375042595" duration="29207000" />
       <workItem from="1597553357172" duration="3366000" />
-      <workItem from="1597566840017" duration="6047000" />
-    </task>
-    <task id="LOCAL-00120" summary="常规更新操作">
-      <created>1593101567757</created>
-      <option name="number" value="00120" />
-      <option name="presentableId" value="LOCAL-00120" />
-      <option name="project" value="LOCAL" />
-      <updated>1593101567757</updated>
+      <workItem from="1597566840017" duration="9011000" />
+      <workItem from="1597580680466" duration="383000" />
     </task>
     <task id="LOCAL-00121" summary="常规更新操作">
       <created>1593101708747</created>
@@ -874,7 +1414,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597573543647</updated>
     </task>
-    <option name="localTasksCounter" value="169" />
+    <task id="LOCAL-00169" summary="常规更新操作">
+      <created>1597573566624</created>
+      <option name="number" value="00169" />
+      <option name="presentableId" value="LOCAL-00169" />
+      <option name="project" value="LOCAL" />
+      <updated>1597573566624</updated>
+    </task>
+    <option name="localTasksCounter" value="170" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -976,7 +1523,7 @@
     </state>
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1589272592550" />
     <state x="353" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/45.23.1235.777@45.23.1235.777" timestamp="1592522940651" />
-    <state x="125" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1597573543302">
+    <state x="125" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1597581150721">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state x="36" y="23" width="833" height="777" key="CommitChangelistDialog2/36.23.1244.777@36.23.1244.777" timestamp="1590670297315" />
@@ -986,13 +1533,13 @@
     <state x="174" y="37" width="833" height="617" key="CommitChangelistDialog2/41.23.1239.777@41.23.1239.777" timestamp="1590622241157" />
     <state x="192" y="70" width="761" height="592" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1591002752233" />
     <state x="333" y="23" width="833" height="777" key="CommitChangelistDialog2/44.23.1236.777@44.23.1236.777" timestamp="1595840921775" />
-    <state x="125" y="23" width="833" height="731" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1597573543302" />
+    <state x="125" y="23" width="833" height="731" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1597581150721" />
     <state x="428" y="23" key="CommitChangelistDialog2/45.23.1635.1027@45.23.1635.1027" timestamp="1594547269947" />
     <state x="53" y="90" width="1227" height="614" key="DiffContextDialog" timestamp="1596977646904">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state x="53" y="90" width="1227" height="614" key="DiffContextDialog/45.23.1235.777@45.23.1235.777" timestamp="1596977646904" />
-    <state width="1260" height="338" key="GridCell.Tab.0.bottom" timestamp="1597573272797">
+    <state width="1473" height="145" key="GridCell.Tab.0.bottom" timestamp="1597580101598">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state width="1183" height="83" key="GridCell.Tab.0.bottom/35.23.1245.777@35.23.1245.777" timestamp="1590670072117" />
@@ -1004,9 +1551,9 @@
     <state width="1195" height="44" key="GridCell.Tab.0.bottom/41.23.1239.777@41.23.1239.777" timestamp="1590643671620" />
     <state width="1174" height="2" key="GridCell.Tab.0.bottom/43.23.1237.777@43.23.1237.777" timestamp="1597133837192" />
     <state width="1173" height="241" key="GridCell.Tab.0.bottom/44.23.1236.777@44.23.1236.777" timestamp="1597385280966" />
-    <state width="1260" height="338" key="GridCell.Tab.0.bottom/45.23.1235.777@45.23.1235.777" timestamp="1597573272797" />
+    <state width="1473" height="145" key="GridCell.Tab.0.bottom/45.23.1235.777@45.23.1235.777" timestamp="1597580101598" />
     <state width="1446" height="102" key="GridCell.Tab.0.bottom/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272700" />
-    <state width="1260" height="338" key="GridCell.Tab.0.center" timestamp="1597573272793">
+    <state width="1473" height="145" key="GridCell.Tab.0.center" timestamp="1597580101598">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state width="1183" height="83" key="GridCell.Tab.0.center/35.23.1245.777@35.23.1245.777" timestamp="1590670072116" />
@@ -1018,9 +1565,9 @@
     <state width="1195" height="44" key="GridCell.Tab.0.center/41.23.1239.777@41.23.1239.777" timestamp="1590643671618" />
     <state width="1174" height="2" key="GridCell.Tab.0.center/43.23.1237.777@43.23.1237.777" timestamp="1597133837191" />
     <state width="1173" height="241" key="GridCell.Tab.0.center/44.23.1236.777@44.23.1236.777" timestamp="1597385280966" />
-    <state width="1260" height="338" key="GridCell.Tab.0.center/45.23.1235.777@45.23.1235.777" timestamp="1597573272793" />
+    <state width="1473" height="145" key="GridCell.Tab.0.center/45.23.1235.777@45.23.1235.777" timestamp="1597580101598" />
     <state width="1446" height="102" key="GridCell.Tab.0.center/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272700" />
-    <state width="1260" height="338" key="GridCell.Tab.0.left" timestamp="1597573272792">
+    <state width="1473" height="145" key="GridCell.Tab.0.left" timestamp="1597580101597">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state width="1183" height="83" key="GridCell.Tab.0.left/35.23.1245.777@35.23.1245.777" timestamp="1590670072116" />
@@ -1032,9 +1579,9 @@
     <state width="1195" height="44" key="GridCell.Tab.0.left/41.23.1239.777@41.23.1239.777" timestamp="1590643671605" />
     <state width="1174" height="2" key="GridCell.Tab.0.left/43.23.1237.777@43.23.1237.777" timestamp="1597133837190" />
     <state width="1173" height="241" key="GridCell.Tab.0.left/44.23.1236.777@44.23.1236.777" timestamp="1597385280965" />
-    <state width="1260" height="338" key="GridCell.Tab.0.left/45.23.1235.777@45.23.1235.777" timestamp="1597573272792" />
+    <state width="1473" height="145" key="GridCell.Tab.0.left/45.23.1235.777@45.23.1235.777" timestamp="1597580101597" />
     <state width="1446" height="102" key="GridCell.Tab.0.left/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272699" />
-    <state width="1260" height="338" key="GridCell.Tab.0.right" timestamp="1597573272796">
+    <state width="1473" height="145" key="GridCell.Tab.0.right" timestamp="1597580101598">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state width="1183" height="83" key="GridCell.Tab.0.right/35.23.1245.777@35.23.1245.777" timestamp="1590670072116" />
@@ -1046,9 +1593,9 @@
     <state width="1195" height="44" key="GridCell.Tab.0.right/41.23.1239.777@41.23.1239.777" timestamp="1590643671619" />
     <state width="1174" height="2" key="GridCell.Tab.0.right/43.23.1237.777@43.23.1237.777" timestamp="1597133837191" />
     <state width="1173" height="241" key="GridCell.Tab.0.right/44.23.1236.777@44.23.1236.777" timestamp="1597385280966" />
-    <state width="1260" height="338" key="GridCell.Tab.0.right/45.23.1235.777@45.23.1235.777" timestamp="1597573272796" />
+    <state width="1473" height="145" key="GridCell.Tab.0.right/45.23.1235.777@45.23.1235.777" timestamp="1597580101598" />
     <state width="1446" height="102" key="GridCell.Tab.0.right/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272700" />
-    <state width="1260" height="338" key="GridCell.Tab.1.bottom" timestamp="1597573272603">
+    <state width="1260" height="297" key="GridCell.Tab.1.bottom" timestamp="1597580101584">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.1.bottom/35.23.1245.777@35.23.1245.777" timestamp="1590669849977" />
@@ -1060,9 +1607,9 @@
     <state width="1195" height="44" key="GridCell.Tab.1.bottom/41.23.1239.777@41.23.1239.777" timestamp="1590643671468" />
     <state width="1174" height="2" key="GridCell.Tab.1.bottom/43.23.1237.777@43.23.1237.777" timestamp="1597133837194" />
     <state width="1173" height="241" key="GridCell.Tab.1.bottom/44.23.1236.777@44.23.1236.777" timestamp="1597385280969" />
-    <state width="1260" height="338" key="GridCell.Tab.1.bottom/45.23.1235.777@45.23.1235.777" timestamp="1597573272603" />
+    <state width="1260" height="297" key="GridCell.Tab.1.bottom/45.23.1235.777@45.23.1235.777" timestamp="1597580101584" />
     <state width="1446" height="102" key="GridCell.Tab.1.bottom/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272702" />
-    <state width="1260" height="338" key="GridCell.Tab.1.center" timestamp="1597573272602">
+    <state width="1260" height="297" key="GridCell.Tab.1.center" timestamp="1597580101583">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.1.center/35.23.1245.777@35.23.1245.777" timestamp="1590669849976" />
@@ -1074,9 +1621,9 @@
     <state width="1195" height="44" key="GridCell.Tab.1.center/41.23.1239.777@41.23.1239.777" timestamp="1590643671466" />
     <state width="1174" height="2" key="GridCell.Tab.1.center/43.23.1237.777@43.23.1237.777" timestamp="1597133837193" />
     <state width="1173" height="241" key="GridCell.Tab.1.center/44.23.1236.777@44.23.1236.777" timestamp="1597385280967" />
-    <state width="1260" height="338" key="GridCell.Tab.1.center/45.23.1235.777@45.23.1235.777" timestamp="1597573272602" />
+    <state width="1260" height="297" key="GridCell.Tab.1.center/45.23.1235.777@45.23.1235.777" timestamp="1597580101583" />
     <state width="1446" height="102" key="GridCell.Tab.1.center/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272701" />
-    <state width="1260" height="338" key="GridCell.Tab.1.left" timestamp="1597573272601">
+    <state width="1260" height="297" key="GridCell.Tab.1.left" timestamp="1597580101583">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.1.left/35.23.1245.777@35.23.1245.777" timestamp="1590669849975" />
@@ -1088,9 +1635,9 @@
     <state width="1195" height="44" key="GridCell.Tab.1.left/41.23.1239.777@41.23.1239.777" timestamp="1590643671466" />
     <state width="1174" height="2" key="GridCell.Tab.1.left/43.23.1237.777@43.23.1237.777" timestamp="1597133837193" />
     <state width="1173" height="241" key="GridCell.Tab.1.left/44.23.1236.777@44.23.1236.777" timestamp="1597385280967" />
-    <state width="1260" height="338" key="GridCell.Tab.1.left/45.23.1235.777@45.23.1235.777" timestamp="1597573272601" />
+    <state width="1260" height="297" key="GridCell.Tab.1.left/45.23.1235.777@45.23.1235.777" timestamp="1597580101583" />
     <state width="1446" height="102" key="GridCell.Tab.1.left/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272701" />
-    <state width="1260" height="338" key="GridCell.Tab.1.right" timestamp="1597573272602">
+    <state width="1260" height="297" key="GridCell.Tab.1.right" timestamp="1597580101583">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.1.right/35.23.1245.777@35.23.1245.777" timestamp="1590669849976" />
@@ -1102,7 +1649,7 @@
     <state width="1195" height="44" key="GridCell.Tab.1.right/41.23.1239.777@41.23.1239.777" timestamp="1590643671467" />
     <state width="1174" height="2" key="GridCell.Tab.1.right/43.23.1237.777@43.23.1237.777" timestamp="1597133837193" />
     <state width="1173" height="241" key="GridCell.Tab.1.right/44.23.1236.777@44.23.1236.777" timestamp="1597385280968" />
-    <state width="1260" height="338" key="GridCell.Tab.1.right/45.23.1235.777@45.23.1235.777" timestamp="1597573272602" />
+    <state width="1260" height="297" key="GridCell.Tab.1.right/45.23.1235.777@45.23.1235.777" timestamp="1597580101583" />
     <state width="1446" height="102" key="GridCell.Tab.1.right/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272701" />
     <state width="1260" height="35" key="GridCell.Tab.2.bottom" timestamp="1597573143713">
       <screen x="45" y="23" width="1235" height="777" />
@@ -1227,7 +1774,7 @@
     <state x="196" y="23" key="SettingsEditor/40.23.1240.777@40.23.1240.777" timestamp="1589357503534" />
     <state x="123" y="23" key="SettingsEditor/43.23.1237.777@43.23.1237.777" timestamp="1589862315669" />
     <state x="187" y="23" key="SettingsEditor/45.23.1235.777@45.23.1235.777" timestamp="1597364352917" />
-    <state x="278" y="131" key="Vcs.Push.Dialog.v2" timestamp="1597573114596">
+    <state x="278" y="131" key="Vcs.Push.Dialog.v2" timestamp="1597573576030">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state x="269" y="131" key="Vcs.Push.Dialog.v2/36.23.1244.777@36.23.1244.777" timestamp="1590670304032" />
@@ -1236,7 +1783,7 @@
     <state x="274" y="131" key="Vcs.Push.Dialog.v2/41.23.1239.777@41.23.1239.777" timestamp="1590622247785" />
     <state x="276" y="131" key="Vcs.Push.Dialog.v2/43.23.1237.777@43.23.1237.777" timestamp="1591002758943" />
     <state x="277" y="131" key="Vcs.Push.Dialog.v2/44.23.1236.777@44.23.1236.777" timestamp="1595840937228" />
-    <state x="278" y="131" key="Vcs.Push.Dialog.v2/45.23.1235.777@45.23.1235.777" timestamp="1597573114596" />
+    <state x="278" y="131" key="Vcs.Push.Dialog.v2/45.23.1235.777@45.23.1235.777" timestamp="1597573576030" />
     <state x="103" y="76" width="1017" height="557" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1592377484534">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
@@ -1279,7 +1826,7 @@
       <breakpoints>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeExtServiceImpl.java</url>
-          <line>36</line>
+          <line>35</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

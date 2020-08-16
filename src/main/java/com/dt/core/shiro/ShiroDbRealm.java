@@ -1,16 +1,12 @@
 package com.dt.core.shiro;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import com.dt.core.shiro.inter.IShiro;
+import com.dt.core.shiro.service.ShiroServiceImpl;
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.entity.SysModulesItem;
+import com.dt.module.base.entity.UserShiro;
+import com.dt.module.base.service.ISysUserInfoService;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -19,12 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.dt.core.shiro.inter.IShiro;
-import com.dt.core.shiro.service.ShiroServiceImpl;
-import com.dt.core.tool.util.ToolUtil;
-import com.dt.module.base.entity.SysModulesItem;
-import com.dt.module.base.entity.UserShiro;
-import com.dt.module.base.service.ISysUserInfoService;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ShiroDbRealm extends AuthorizingRealm {
     private static Logger _log = LoggerFactory.getLogger(ShiroDbRealm.class);
@@ -43,7 +36,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
         IShiro shiroService = ShiroServiceImpl.me();
         // authcToken 中储存着输入的用户名和密码
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-        _log.info("cache:"+this.getAuthenticationCacheName());
+        _log.info("cache:" + this.getAuthenticationCacheName());
         _log.info("###################Action 登录认证#################");
         _log.info("Username:" + token.getUsername());
         // 从数据库中获取密码
@@ -69,7 +62,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         this.clearCachedAuthenticationInfo(principals);
-        _log.info("cache:"+this.getAuthorizationCacheName());
+        _log.info("cache:" + this.getAuthorizationCacheName());
         _log.info("###################Action 权限认证#################");
         IShiro shiroService = ShiroServiceImpl.me();
         ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();

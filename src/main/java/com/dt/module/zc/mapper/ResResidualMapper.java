@@ -1,7 +1,7 @@
 package com.dt.module.zc.mapper;
 
-import com.dt.module.zc.entity.ResResidual;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dt.module.zc.entity.ResResidual;
 
 /**
  * <p>

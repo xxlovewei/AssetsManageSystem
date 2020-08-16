@@ -1,24 +1,24 @@
 package com.dt.module.cmdb.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.io.Serializable;
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-16
  */
- 
+
 @TableName("res_history")
- 
+
 public class ResHistory extends BaseModel<ResHistory> {
 
     private static final long serialVersionUID = 1L;
@@ -103,13 +103,13 @@ public class ResHistory extends BaseModel<ResHistory> {
     @Override
     public String toString() {
         return "ResHistory{" +
-        "id=" + id +
-        ", resId=" + resId +
-        ", operTime=" + operTime +
-        ", operUser=" + operUser +
-        ", fullct=" + fullct +
-        ", operType=" + operType +
-        ", mark=" + mark +
-        "}";
+                "id=" + id +
+                ", resId=" + resId +
+                ", operTime=" + operTime +
+                ", operUser=" + operUser +
+                ", fullct=" + fullct +
+                ", operType=" + operType +
+                ", mark=" + mark +
+                "}";
     }
 }

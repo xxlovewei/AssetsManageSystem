@@ -1,23 +1,23 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
+
+import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-05-15
  */
- 
+
 @TableName("res_inventory_user")
- 
+
 public class ResInventoryUser extends BaseModel<ResInventoryUser> {
 
     private static final long serialVersionUID = 1L;
@@ -78,10 +78,10 @@ public class ResInventoryUser extends BaseModel<ResInventoryUser> {
     @Override
     public String toString() {
         return "ResInventoryUser{" +
-        "id=" + id +
-        ", pdid=" + pdid +
-        ", userid=" + userid +
-        ", username=" + username +
-        "}";
+                "id=" + id +
+                ", pdid=" + pdid +
+                ", userid=" + userid +
+                ", username=" + username +
+                "}";
     }
 }

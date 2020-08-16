@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author algernonking
@@ -15,10 +15,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ResAllocateExtService extends BaseService {
 
-    public R cancelAllocationById(String id){
+    public R cancelAllocationById(String id) {
         return R.SUCCESS_OPER();
     }
-    public R sureAllocationById(String id,String items){
+
+    public R sureAllocationById(String id, String items) {
         return R.SUCCESS_OPER();
     }
 

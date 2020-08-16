@@ -1,5 +1,10 @@
 package com.dt.core.tool.lang;
 
+import com.dt.core.tool.util.ConvertUtil;
+import com.dt.core.tool.util.exception.ToolBoxException;
+import com.dt.core.tool.util.support.ObjectKit;
+import com.dt.core.tool.util.support.StrKit;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -9,11 +14,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-
-import com.dt.core.tool.util.ConvertUtil;
-import com.dt.core.tool.util.exception.ToolBoxException;
-import com.dt.core.tool.util.support.ObjectKit;
-import com.dt.core.tool.util.support.StrKit;
 
 /**
  * 数字工具类<br>
@@ -97,7 +97,7 @@ public class NumberUtil {
      * @since 3.1.1
      */
     public static double add(Double v1, Double v2) {
-        return add((Number) v1, (Number) v2).doubleValue();
+        return add(v1, v2).doubleValue();
     }
 
     /**
@@ -236,7 +236,7 @@ public class NumberUtil {
      * @return 差
      */
     public static double sub(Double v1, Double v2) {
-        return sub((Number) v1, (Number) v2).doubleValue();
+        return sub(v1, v2).doubleValue();
     }
 
     /**
@@ -376,7 +376,7 @@ public class NumberUtil {
      * @return 积
      */
     public static double mul(Double v1, Double v2) {
-        return mul((Number) v1, (Number) v2).doubleValue();
+        return mul(v1, v2).doubleValue();
     }
 
     /**
@@ -700,7 +700,7 @@ public class NumberUtil {
      * @return 两个参数的商
      */
     public static double div(Double v1, Double v2, int scale, RoundingMode roundingMode) {
-        return div((Number) v1, (Number) v2, scale, roundingMode).doubleValue();
+        return div(v1, v2, scale, roundingMode).doubleValue();
     }
 
     /**
@@ -1099,10 +1099,7 @@ public class NumberUtil {
     public static boolean isDouble(String s) {
         try {
             Double.parseDouble(s);
-            if (s.contains(".")) {
-                return true;
-            }
-            return false;
+            return s.contains(".");
         } catch (NumberFormatException e) {
             return false;
         }

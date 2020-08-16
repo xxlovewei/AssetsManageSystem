@@ -1,10 +1,10 @@
 package com.dt.core.tool.lang;
 
-import java.util.Collection;
-import java.util.Map;
-
 import com.dt.core.tool.util.support.CollectionKit;
 import com.dt.core.tool.util.support.StrKit;
+
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * 断言<br>

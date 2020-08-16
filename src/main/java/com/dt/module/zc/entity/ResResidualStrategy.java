@@ -1,15 +1,12 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.math.BigDecimal;
-
-import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <p>

@@ -13,6 +13,9 @@ public class HttpClient {
     private int timeout = 3000; // 5s
     private int trys = 2;
 
+    public HttpClient() {
+    }
+
     public void setErrorToIgnor(String[] errorToIgnor) {
         this.errorToIgnor = errorToIgnor;
     }
@@ -23,9 +26,6 @@ public class HttpClient {
 
     public void setTrys(int trys) {
         this.trys = trys;
-    }
-
-    public HttpClient() {
     }
 
     public String fetchData(String url) {

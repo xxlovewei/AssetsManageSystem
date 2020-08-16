@@ -1,33 +1,35 @@
 package com.dt.core.dao;
 
-import java.math.BigDecimal;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.sql.DataSource;
-
+import com.dt.core.dao.sql.*;
+import com.dt.core.dao.util.TypedHashMap;
 import org.json.JSONObject;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dt.core.dao.sql.Block;
-import com.dt.core.dao.sql.Delete;
-import com.dt.core.dao.sql.Insert;
-import com.dt.core.dao.sql.SE;
-import com.dt.core.dao.sql.SQL;
-import com.dt.core.dao.sql.Select;
-import com.dt.core.dao.sql.Update;
-import com.dt.core.dao.util.TypedHashMap;
+import javax.sql.DataSource;
+import java.math.BigDecimal;
+import java.sql.Types;
+import java.util.*;
 
 public abstract class SpringDAO {
 
+    protected JdbcTemplate jdbcTemplate;
+    protected NamedParameterJdbcTemplate njdbcTemplate;
     private DataParser dataParser = new DataParser();
+    private DataSource ds;
+    private HashMap<String, Object> emptyMap = new HashMap<String, Object>();
+    /**
+     * 计算数据库的当前时间，不适合循环调用
+     */
+    private Long timeDiff = null;
+
+    public static void main(String[] args) {
+
+        Delete dls = new Delete();
+        dls.from("adf");
+        dls.where().and("id=?", 1);
+    }
 
     public String getUUID() {
         return UUID.randomUUID().toString();
@@ -73,10 +75,9 @@ public abstract class SpringDAO {
         }
     }
 
-    private DataSource ds;
-    protected JdbcTemplate jdbcTemplate;
-
-    protected NamedParameterJdbcTemplate njdbcTemplate;
+    public DataSource getDataSource() {
+        return this.ds;
+    }
 
     public void setDataSource(DataSource ds) {
         this.ds = ds;
@@ -84,12 +85,6 @@ public abstract class SpringDAO {
         this.njdbcTemplate = new NamedParameterJdbcTemplate(this.ds);
 
     }
-
-    public DataSource getDataSource() {
-        return this.ds;
-    }
-
-    private HashMap<String, Object> emptyMap = new HashMap<String, Object>();
 
     /**
      * 返回SQL影响的行数
@@ -206,6 +201,8 @@ public abstract class SpringDAO {
         return jdbcTemplate.batchUpdate(sql, pslist);
     }
 
+    // ========================================================================================================================
+
     /**
      * 批量执行
      *
@@ -260,11 +257,13 @@ public abstract class SpringDAO {
         return result;
     }
 
-    // ========================================================================================================================
-
     // 不同数据库的分页实现
     protected abstract RcdSet getPageSet(RcdSet set, String sql, int pageSize, int pageIndex,
                                          Map<String, Object> params);
+    //
+    // public RcdSet queryPage(String sql, int pageSize, int pageIndex) {
+    // return queryPage(sql, pageSize, pageIndex);
+    // }
 
     /**
      * 如果pageSize不为0,则不分页
@@ -306,10 +305,6 @@ public abstract class SpringDAO {
     public RcdSet query(String sql, Map<String, Object> params) {
         return queryPage(sql, 0, 0, params);
     }
-    //
-    // public RcdSet queryPage(String sql, int pageSize, int pageIndex) {
-    // return queryPage(sql, pageSize, pageIndex);
-    // }
 
     public RcdSet query(String sql) {
         return queryPage(sql, 0, 0, emptyMap);
@@ -325,6 +320,8 @@ public abstract class SpringDAO {
 
     // 不同数据库的分页实现
     protected abstract RcdSet getPageSet(RcdSet set, String sql, int pageIndex, int pageSize, Object... params);
+
+    // ===============================================================
 
     public RcdSet queryPage(String sql, int pageSize, int pageIndex, Object... params) {
 
@@ -361,14 +358,14 @@ public abstract class SpringDAO {
         return queryPage(sql, 0, 0, params);
     }
 
-    // ===============================================================
-
     /**
      * 查询单一记录
      */
     public Rcd uniqueRecord(SQL sql) {
         return uniqueRecord(sql.getParamNamedSQL(), sql.getNamedParams());
     }
+
+    // ==========================================================================
 
     /**
      * 查询单一记录
@@ -397,8 +394,6 @@ public abstract class SpringDAO {
         else
             return set.getRcd(0);
     }
-
-    // ==========================================================================
 
     /**
      * 查询单一值 如select count(*) from XX 等
@@ -565,6 +560,8 @@ public abstract class SpringDAO {
         return dataParser.parseString(uniqueObject(sql, params));
     }
 
+    //
+
     /**
      * 查询单一值 如select count(*) from XX 等
      */
@@ -579,19 +576,12 @@ public abstract class SpringDAO {
         return dataParser.parseBoolean(uniqueObject(sql.getParamNamedSQL(), sql.getNamedParams()));
     }
 
-    //
-
     /**
      * 获取数据库的当前时间，不适合循环调用
      */
     public abstract Date getBDDate();
 
     public abstract String getDBType();
-
-    /**
-     * 计算数据库的当前时间，不适合循环调用
-     */
-    private Long timeDiff = null;
 
     /**
      * 计算数据库的当前时间，比getBDDate更适合循环调用
@@ -739,13 +729,6 @@ public abstract class SpringDAO {
 
     public RcdSet tabQueryTabById(String tab, String key, Object value) {
         return query("select * from " + tab + " where " + key + "=?", value);
-    }
-
-    public static void main(String[] args) {
-
-        Delete dls = new Delete();
-        dls.from("adf");
-        dls.where().and("id=?", 1);
     }
 
 }

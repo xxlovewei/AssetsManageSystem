@@ -1,24 +1,24 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.io.Serializable;
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-19
  */
- 
+
 @TableName("res_repair")
- 
+
 public class ResRepair extends BaseModel<ResRepair> {
 
     private static final long serialVersionUID = 1L;
@@ -180,18 +180,18 @@ public class ResRepair extends BaseModel<ResRepair> {
     @Override
     public String toString() {
         return "ResRepair{" +
-        "id=" + id +
-        ", freason=" + freason +
-        ", fmark=" + fmark +
-        ", foperUser=" + foperUser +
-        ", fopertime=" + fopertime +
-        ", fuuid=" + fuuid +
-        ", fprocessuser=" + fprocessuser +
-        ", fprocesstime=" + fprocesstime +
-        ", fstatus=" + fstatus +
-        ", flevel=" + flevel +
-        ", frepairtype=" + frepairtype +
-        ", fmoney=" + fmoney +
-        "}";
+                "id=" + id +
+                ", freason=" + freason +
+                ", fmark=" + fmark +
+                ", foperUser=" + foperUser +
+                ", fopertime=" + fopertime +
+                ", fuuid=" + fuuid +
+                ", fprocessuser=" + fprocessuser +
+                ", fprocesstime=" + fprocesstime +
+                ", fstatus=" + fstatus +
+                ", flevel=" + flevel +
+                ", frepairtype=" + frepairtype +
+                ", fmoney=" + fmoney +
+                "}";
     }
 }

@@ -1,21 +1,8 @@
 package com.dt.module.ops.controller;
 
 
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
 import com.alibaba.fastjson.JSONArray;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
@@ -26,9 +13,19 @@ import com.dt.module.ops.entity.OpsNodeInfosys;
 import com.dt.module.ops.entity.OpsNodeInfosysEntity;
 import com.dt.module.ops.service.IOpsNodeInfosysService;
 import com.dt.module.ops.service.impl.OpsNodeInfosysExtServiceImpl;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.afterturn.easypoi.excel.ExcelExportUtil;
-import cn.afterturn.easypoi.excel.entity.ExportParams;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -69,7 +66,7 @@ public class OpsNodeInfosysExtController extends BaseController {
     @RequestMapping(value = "/selectListExport.do")
     public void selectListExport(HttpServletRequest request, HttpServletResponse response)
             throws UnsupportedEncodingException {
-        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 
         R res = opsNodeInfosysExtServiceImpl.selecList(ps.getString("search"));
 

@@ -2,7 +2,6 @@ package com.dt.module.wx.msg.req;
 
 /**
  * 文本消息 (请求消息)
- *
  */
 public class TextMessage extends BaseMessage {
 

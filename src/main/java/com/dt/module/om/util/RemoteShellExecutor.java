@@ -1,20 +1,20 @@
 package com.dt.module.om.util;
 
+import ch.ethz.ssh2.ChannelCondition;
+import ch.ethz.ssh2.Connection;
+import ch.ethz.ssh2.Session;
+import ch.ethz.ssh2.StreamGobbler;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-
-import ch.ethz.ssh2.ChannelCondition;
-import ch.ethz.ssh2.Connection;
-import ch.ethz.ssh2.Session;
-import ch.ethz.ssh2.StreamGobbler;
-
 public class RemoteShellExecutor {
 
+    private static final int TIME_OUT = 1000 * 5 * 60;
     private Connection conn;
     /**
      * 远程机器IP
@@ -29,10 +29,7 @@ public class RemoteShellExecutor {
      */
     private String password;
     private String charset = Charset.defaultCharset().toString();
-
     private int port = 22;
-    private static final int TIME_OUT = 1000 * 5 * 60;
-
     private Session session;
 
     // private static Logger _log =
@@ -56,6 +53,19 @@ public class RemoteShellExecutor {
         this.osUsername = usr;
         this.password = pasword;
         this.port = port;
+    }
+
+    public static void main(String[] args) throws Exception {
+        // RemoteShellExecutor executor = new
+        // RemoteShellExecutor("121.43.168.125",
+        // "root", "IBG1uFcrs", 60613);
+        // RemoteShellExecutor executor = new
+        // RemoteShellExecutor("121.43.168.125",
+        // "oracle", "oracle1234", 60613);
+        RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
+        executor.exec(" nohup sh /opt/tomcat/apache-tomcat-8.0.45/bin/startup.sh ;sleep 1 &").print();
+        executor.exec("ifconfig").print();
+
     }
 
     /**
@@ -92,7 +102,7 @@ public class RemoteShellExecutor {
         InputStream stdErr = null;
         String outStr = "";
         String outErr = "";
-        StringBuffer result = new StringBuffer("");
+        StringBuffer result = new StringBuffer();
         int ret = -1;
         try {
             if (login()) {
@@ -153,19 +163,6 @@ public class RemoteShellExecutor {
             sb.append(new String(buf, charset));
         }
         return sb.toString();
-
-    }
-
-    public static void main(String args[]) throws Exception {
-        // RemoteShellExecutor executor = new
-        // RemoteShellExecutor("121.43.168.125",
-        // "root", "IBG1uFcrs", 60613);
-        // RemoteShellExecutor executor = new
-        // RemoteShellExecutor("121.43.168.125",
-        // "oracle", "oracle1234", 60613);
-        RemoteShellExecutor executor = new RemoteShellExecutor("121.43.168.125", "root", "3UZNCxDF4kfouE", 59991);
-        executor.exec(" nohup sh /opt/tomcat/apache-tomcat-8.0.45/bin/startup.sh ;sleep 1 &").print();
-        executor.exec("ifconfig").print();
 
     }
 }

@@ -1,20 +1,15 @@
 package com.dt.core.tool.util.support;
 
+import com.dt.core.tool.util.ToolUtil;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.dt.core.tool.util.ToolUtil;
 
 /**
  * @author: algernonking
@@ -23,15 +18,12 @@ import com.dt.core.tool.util.ToolUtil;
  */
 public class LangKit {
 
-    public static int HASH_BUFF_SIZE = 16 * 1024;
-
     private static final Pattern IPV4_PATTERN = Pattern
             .compile("^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$");
-
     private static final Pattern IPV6_STD_PATTERN = Pattern.compile("^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$");
-
     private static final Pattern IPV6_HEX_COMPRESSED_PATTERN = Pattern
             .compile("^((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)$");
+    public static int HASH_BUFF_SIZE = 16 * 1024;
 
     /**
      * 用运行时异常包裹抛出对象，如果抛出对象本身就是运行时异常，则直接返回。

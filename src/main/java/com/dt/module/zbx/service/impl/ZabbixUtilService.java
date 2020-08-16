@@ -1,20 +1,14 @@
 package com.dt.module.zbx.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
 import io.github.hengyunabc.zabbix.api.DefaultZabbixApi;
 import io.github.hengyunabc.zabbix.api.Request;
-import io.github.hengyunabc.zabbix.api.RequestBuilder;
 import io.github.hengyunabc.zabbix.api.ZabbixApi;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Service;
 
 /**
  * zabbix Api

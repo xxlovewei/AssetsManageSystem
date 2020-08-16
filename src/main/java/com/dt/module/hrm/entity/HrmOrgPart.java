@@ -1,24 +1,24 @@
 package com.dt.module.hrm.entity;
 
-import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.math.BigDecimal;
-import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-13
  */
- 
+
 @TableName("hrm_org_part")
- 
+
 public class HrmOrgPart extends BaseModel<HrmOrgPart> {
 
     private static final long serialVersionUID = 1L;
@@ -124,13 +124,13 @@ public class HrmOrgPart extends BaseModel<HrmOrgPart> {
     @Override
     public String toString() {
         return "HrmOrgPart{" +
-        "nodeId=" + nodeId +
-        ", nodeName=" + nodeName +
-        ", orgId=" + orgId +
-        ", parentId=" + parentId +
-        ", route=" + route +
-        ", type=" + type +
-        ", routeName=" + routeName +
-        "}";
+                "nodeId=" + nodeId +
+                ", nodeName=" + nodeName +
+                ", orgId=" + orgId +
+                ", parentId=" + parentId +
+                ", route=" + route +
+                ", type=" + type +
+                ", routeName=" + routeName +
+                "}";
     }
 }

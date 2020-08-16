@@ -1,22 +1,22 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableField;
+
+import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-04-26
  */
- 
+
 @TableName("res_change_item")
- 
+
 public class ResChangeItem extends BaseModel<ResChangeItem> {
 
     private static final long serialVersionUID = 1L;
@@ -101,13 +101,13 @@ public class ResChangeItem extends BaseModel<ResChangeItem> {
     @Override
     public String toString() {
         return "ResChangeItem{" +
-        "id=" + id +
-        ", resid=" + resid +
-        ", busuuid=" + busuuid +
-        ", type=" + type +
-        ", mark=" + mark +
-        ", fct=" + fct +
-        ", tct=" + tct +
-        "}";
+                "id=" + id +
+                ", resid=" + resid +
+                ", busuuid=" + busuuid +
+                ", type=" + type +
+                ", mark=" + mark +
+                ", fct=" + fct +
+                ", tct=" + tct +
+                "}";
     }
 }

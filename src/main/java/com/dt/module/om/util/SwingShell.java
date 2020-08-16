@@ -1,9 +1,9 @@
 package com.dt.module.om.util;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import ch.ethz.ssh2.*;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -12,24 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-
-import ch.ethz.ssh2.Connection;
-import ch.ethz.ssh2.InteractiveCallback;
-import ch.ethz.ssh2.KnownHosts;
-import ch.ethz.ssh2.ServerHostKeyVerifier;
-import ch.ethz.ssh2.Session;
 
 /**
  * This is a very primitive SSH-2 dumb terminal (Swing based).
@@ -72,18 +54,87 @@ public class SwingShell {
         }
     }
 
+    public static void main(String[] args) {
+        SwingShell client = new SwingShell();
+        client.startGUI();
+    }
+
+    void loginPressed() {
+        String hostname = hostField.getText().trim();
+        String username = userField.getText().trim();
+
+        if ((hostname.length() == 0) || (username.length() == 0)) {
+            JOptionPane.showMessageDialog(loginFrame, "Please fill out both fields!");
+            return;
+        }
+
+        loginButton.setEnabled(false);
+        hostField.setEnabled(false);
+        userField.setEnabled(false);
+
+        ConnectionThread ct = new ConnectionThread(hostname, username);
+
+        ct.start();
+    }
+
+    void showGUI() {
+        loginFrame = new JFrame("Ganymed SSH2 SwingShell");
+
+        hostLabel = new JLabel("Hostname:");
+        userLabel = new JLabel("Username:");
+
+        hostField = new JTextField("", 20);
+        userField = new JTextField("", 10);
+
+        loginButton = new JButton("Login");
+
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                loginPressed();
+            }
+        });
+
+        JPanel loginPanel = new JPanel();
+
+        loginPanel.add(hostLabel);
+        loginPanel.add(hostField);
+        loginPanel.add(userLabel);
+        loginPanel.add(userField);
+        loginPanel.add(loginButton);
+
+        loginFrame.getRootPane().setDefaultButton(loginButton);
+
+        loginFrame.getContentPane().add(loginPanel, BorderLayout.PAGE_START);
+        // loginFrame.getContentPane().add(textArea, BorderLayout.CENTER);
+
+        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        loginFrame.pack();
+        loginFrame.setResizable(false);
+        loginFrame.setLocationRelativeTo(null);
+        loginFrame.setVisible(true);
+    }
+
+    void startGUI() {
+        Runnable r = new Runnable() {
+            public void run() {
+                showGUI();
+            }
+        };
+
+        SwingUtilities.invokeLater(r);
+
+    }
+
     /**
      * This dialog displays a number of text lines and a text field. The text
      * field can either be plain text or a password field.
      */
     class EnterSomethingDialog extends JDialog {
         private static final long serialVersionUID = 1L;
-
+        final boolean isPassword;
         JTextField answerField;
         JPasswordField passwordField;
-
-        final boolean isPassword;
-
         String answer;
 
         public EnterSomethingDialog(JFrame parent, String title, String content, boolean isPassword) {
@@ -158,6 +209,75 @@ public class SwingShell {
         OutputStream out;
 
         int x, y;
+
+        public TerminalDialog(JFrame parent, String title, Session sess, int x, int y) throws IOException {
+            super(parent, title, true);
+
+            this.sess = sess;
+
+            in = sess.getStdout();
+            out = sess.getStdin();
+
+            this.x = x;
+            this.y = y;
+
+            botPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+            logoffButton = new JButton("Logout");
+            botPanel.add(logoffButton);
+
+            logoffButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    /*
+                     * Dispose the dialog, "setVisible(true)" method will return
+                     */
+                    dispose();
+                }
+            });
+
+            Font f = new Font("Monospaced", Font.PLAIN, 16);
+
+            terminalArea = new JTextArea(y, x);
+            terminalArea.setFont(f);
+            terminalArea.setBackground(Color.BLACK);
+            terminalArea.setForeground(Color.ORANGE);
+            /*
+             * This is a hack. We cannot disable the caret, since setting
+             * editable to false also changes the meaning of the TAB key - and I
+             * want to use it in bash. Again - this is a simple DEMO terminal =)
+             */
+            terminalArea.setCaretColor(Color.BLACK);
+
+            KeyAdapter kl = new KeyAdapter() {
+                public void keyTyped(KeyEvent e) {
+                    int c = e.getKeyChar();
+
+                    try {
+
+                        out.write(c);
+                    } catch (IOException e1) {
+                    }
+                    e.consume();
+                }
+            };
+
+            terminalArea.addKeyListener(kl);
+
+            getContentPane().add(terminalArea, BorderLayout.CENTER);
+            getContentPane().add(botPanel, BorderLayout.PAGE_END);
+
+            setResizable(false);
+            pack();
+            setLocationRelativeTo(parent);
+
+            new RemoteConsumer().start();
+        }
+
+        public void setContent(String lines) {
+            // setText is thread safe, it does not have to be called from
+            // the Swing GUI thread.
+            terminalArea.setText(lines);
+        }
 
         /**
          * This thread consumes output from the remote server and displays it in
@@ -252,75 +372,6 @@ public class SwingShell {
                 } catch (Exception e) {
                 }
             }
-        }
-
-        public TerminalDialog(JFrame parent, String title, Session sess, int x, int y) throws IOException {
-            super(parent, title, true);
-
-            this.sess = sess;
-
-            in = sess.getStdout();
-            out = sess.getStdin();
-
-            this.x = x;
-            this.y = y;
-
-            botPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-            logoffButton = new JButton("Logout");
-            botPanel.add(logoffButton);
-
-            logoffButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    /*
-                     * Dispose the dialog, "setVisible(true)" method will return
-                     */
-                    dispose();
-                }
-            });
-
-            Font f = new Font("Monospaced", Font.PLAIN, 16);
-
-            terminalArea = new JTextArea(y, x);
-            terminalArea.setFont(f);
-            terminalArea.setBackground(Color.BLACK);
-            terminalArea.setForeground(Color.ORANGE);
-            /*
-             * This is a hack. We cannot disable the caret, since setting
-             * editable to false also changes the meaning of the TAB key - and I
-             * want to use it in bash. Again - this is a simple DEMO terminal =)
-             */
-            terminalArea.setCaretColor(Color.BLACK);
-
-            KeyAdapter kl = new KeyAdapter() {
-                public void keyTyped(KeyEvent e) {
-                    int c = e.getKeyChar();
-
-                    try {
-
-                        out.write(c);
-                    } catch (IOException e1) {
-                    }
-                    e.consume();
-                }
-            };
-
-            terminalArea.addKeyListener(kl);
-
-            getContentPane().add(terminalArea, BorderLayout.CENTER);
-            getContentPane().add(botPanel, BorderLayout.PAGE_END);
-
-            setResizable(false);
-            pack();
-            setLocationRelativeTo(parent);
-
-            new RemoteConsumer().start();
-        }
-
-        public void setContent(String lines) {
-            // setText is thread safe, it does not have to be called from
-            // the Swing GUI thread.
-            terminalArea.setText(lines);
         }
     }
 
@@ -646,77 +697,5 @@ public class SwingShell {
 
             SwingUtilities.invokeLater(r);
         }
-    }
-
-    void loginPressed() {
-        String hostname = hostField.getText().trim();
-        String username = userField.getText().trim();
-
-        if ((hostname.length() == 0) || (username.length() == 0)) {
-            JOptionPane.showMessageDialog(loginFrame, "Please fill out both fields!");
-            return;
-        }
-
-        loginButton.setEnabled(false);
-        hostField.setEnabled(false);
-        userField.setEnabled(false);
-
-        ConnectionThread ct = new ConnectionThread(hostname, username);
-
-        ct.start();
-    }
-
-    void showGUI() {
-        loginFrame = new JFrame("Ganymed SSH2 SwingShell");
-
-        hostLabel = new JLabel("Hostname:");
-        userLabel = new JLabel("Username:");
-
-        hostField = new JTextField("", 20);
-        userField = new JTextField("", 10);
-
-        loginButton = new JButton("Login");
-
-        loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                loginPressed();
-            }
-        });
-
-        JPanel loginPanel = new JPanel();
-
-        loginPanel.add(hostLabel);
-        loginPanel.add(hostField);
-        loginPanel.add(userLabel);
-        loginPanel.add(userField);
-        loginPanel.add(loginButton);
-
-        loginFrame.getRootPane().setDefaultButton(loginButton);
-
-        loginFrame.getContentPane().add(loginPanel, BorderLayout.PAGE_START);
-        // loginFrame.getContentPane().add(textArea, BorderLayout.CENTER);
-
-        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        loginFrame.pack();
-        loginFrame.setResizable(false);
-        loginFrame.setLocationRelativeTo(null);
-        loginFrame.setVisible(true);
-    }
-
-    void startGUI() {
-        Runnable r = new Runnable() {
-            public void run() {
-                showGUI();
-            }
-        };
-
-        SwingUtilities.invokeLater(r);
-
-    }
-
-    public static void main(String[] args) {
-        SwingShell client = new SwingShell();
-        client.startGUI();
     }
 }

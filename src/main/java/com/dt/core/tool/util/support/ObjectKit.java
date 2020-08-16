@@ -121,7 +121,7 @@ public class ObjectKit {
             return ((Collection<?>) obj).contains(element);
         }
         if (obj instanceof Map) {
-            return ((Map<?, ?>) obj).values().contains(element);
+            return ((Map<?, ?>) obj).containsValue(element);
         }
 
         if (obj instanceof Iterator) {
@@ -214,13 +214,9 @@ public class ObjectKit {
     public static boolean isValidIfNumber(Object obj) {
         if (obj != null && obj instanceof Number) {
             if (obj instanceof Double) {
-                if (((Double) obj).isInfinite() || ((Double) obj).isNaN()) {
-                    return false;
-                }
+                return !((Double) obj).isInfinite() && !((Double) obj).isNaN();
             } else if (obj instanceof Float) {
-                if (((Float) obj).isInfinite() || ((Float) obj).isNaN()) {
-                    return false;
-                }
+                return !((Float) obj).isInfinite() && !((Float) obj).isNaN();
             }
         }
         return true;

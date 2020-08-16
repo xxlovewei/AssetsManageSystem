@@ -1,10 +1,9 @@
 package com.dt.module.flow.base;
 
-import org.springframework.stereotype.Component;
-
 import com.bstek.uflo.env.Context;
 import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.process.handler.ProcessEventHandler;
+import org.springframework.stereotype.Component;
 
 /**
  * @author: algernonking

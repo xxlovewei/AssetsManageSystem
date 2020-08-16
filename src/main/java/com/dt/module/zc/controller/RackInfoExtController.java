@@ -55,7 +55,7 @@ public class RackInfoExtController extends BaseController {
     @Acl(info = "", value = Acl.ACL_USER)
     @RequestMapping(value = "/queryZcByRackId.do")
     public R queryZcByRackId(String rack, String dcid) {
-        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
         return zcService.queryResAllGetData(null, null, null, null, null, null, null, null, null, dcid, null, ps);
 
     }

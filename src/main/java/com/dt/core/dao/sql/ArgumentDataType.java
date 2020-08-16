@@ -19,15 +19,31 @@ public enum ArgumentDataType {
     private Class[] javaTypes = null;
     private int dbType;
 
-    public int getDbType() {
-        return dbType;
-    }
-
     @SuppressWarnings("rawtypes")
-    private ArgumentDataType(int dbType, Class[] javaTypes) {
+    ArgumentDataType(int dbType, Class[] javaTypes) {
         this.dbType = dbType;
         this.javaTypes = javaTypes;
 
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static ArgumentDataType getType(Class cls) {
+        for (ArgumentDataType t : ArgumentDataType.values()) {
+            Class[] ts = t.javaTypes;
+            for (Class c : ts) {
+                if (c.equals(cls)) return t;
+            }
+        }
+        return null;
+    }
+
+    public static ArgumentDataType getType(Object val) {
+        if (val == null) return null;
+        return getType(val.getClass());
+    }
+
+    public int getDbType() {
+        return dbType;
     }
 
     public Object getValue(CallableStatement call, int i) throws SQLException {
@@ -47,22 +63,6 @@ public enum ArgumentDataType {
             return call.getObject(i);
         }
 
-    }
-
-    @SuppressWarnings("rawtypes")
-    public static ArgumentDataType getType(Class cls) {
-        for (ArgumentDataType t : ArgumentDataType.values()) {
-            Class[] ts = t.javaTypes;
-            for (Class c : ts) {
-                if (c.equals(cls)) return t;
-            }
-        }
-        return null;
-    }
-
-    public static ArgumentDataType getType(Object val) {
-        if (val == null) return null;
-        return getType(val.getClass());
     }
 
 }

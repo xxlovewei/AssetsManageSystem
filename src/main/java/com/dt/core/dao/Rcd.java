@@ -1,25 +1,32 @@
 package com.dt.core.dao;
 
+import com.dt.core.dao.util.ArrayUtil;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.dt.core.dao.util.ArrayUtil;
-
 public class Rcd {
     private RcdSet ownerSet = null;
 
     private DataParser dataParser;
+    private ArrayList<Object> values = null;
+
+    public Rcd(RcdSet set) {
+        ownerSet = set;
+        dataParser = new DataParser();
+        values = new ArrayList<Object>();
+        for (int i = 0; i < ownerSet.getMetaData().getColumnCount(); i++) {
+            values.add(null);
+        }
+    }
 
     public RcdSet getOwnerSet() {
         return ownerSet;
     }
-
-    private ArrayList<Object> values = null;
 
     @SuppressWarnings({"unchecked"})
     public Rcd clone() {
@@ -31,15 +38,6 @@ public class Rcd {
     public void clear() {
         for (int i = 0; i < values.size(); i++)
             values.set(i, null);
-    }
-
-    public Rcd(RcdSet set) {
-        ownerSet = set;
-        dataParser = new DataParser();
-        values = new ArrayList<Object>();
-        for (int i = 0; i < ownerSet.getMetaData().getColumnCount(); i++) {
-            values.add(null);
-        }
     }
 
     /**

@@ -1,45 +1,36 @@
 package com.dt.module.wx.util;
 
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.ConnectException;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.dt.module.wx.pojo.AccessToken;
+import com.dt.module.wx.pojo.Menu;
+import net.sf.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
-
-import com.dt.module.wx.pojo.AccessToken;
-import com.dt.module.wx.pojo.Menu;
-
-import net.sf.json.JSONObject;
+import java.io.*;
+import java.net.ConnectException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 公众平台通用接口工具类
  */
 public class WeixinUtil {
 
+    // 获取access_token的接口地址（GET） 限200（次/天）
+    public final static String access_token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+    public final static String access_token_cor_url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=corid&corpsecret=corsecrect";
     public static String corpId = "wx71e0fce782f45e83";
     //经营动态appSecret
     public static String appSecret = "j0uSvR0zP1TbewpgWQ7eArUIaVhSeG4Ss6vPU9miTxS9KOMJiQk4BKIz9rr3hAs7";
     //消息提醒appSecret
     public static String xiaoxi_appSectet = "FJBg0pSI-8wea46opNht-kUcjZuUpJYB7ktGF23u7ZtFYbtHNTNz7B8YmvRhQQe6";
-
-    // 获取access_token的接口地址（GET） 限200（次/天）
-    public final static String access_token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
-
-    public final static String access_token_cor_url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=corid&corpsecret=corsecrect";
     //https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=id&corpsecret=secrect
-
-
     //public static String menu_create_url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
     public static String menu_create_url = "https://qyapi.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN&agentid=1";
 
@@ -126,12 +117,12 @@ public class WeixinUtil {
             if (null != outputStr) {
                 OutputStream outputStream = httpUrlConn.getOutputStream();
                 // 注意编码格式，防止中文乱码
-                outputStream.write(outputStr.getBytes("UTF-8"));
+                outputStream.write(outputStr.getBytes(StandardCharsets.UTF_8));
                 outputStream.close();
             }
             // 将返回的输入流转换成字符串
             InputStream inputStream = httpUrlConn.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String str = null;
             while ((str = bufferedReader.readLine()) != null) {

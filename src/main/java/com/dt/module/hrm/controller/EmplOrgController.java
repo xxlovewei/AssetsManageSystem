@@ -1,13 +1,5 @@
 package com.dt.module.hrm.controller;
 
-import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
@@ -16,6 +8,13 @@ import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.hrm.service.EmplOrgService;
 import com.dt.module.hrm.service.EmplService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/api")
@@ -44,7 +43,7 @@ public class EmplOrgController extends BaseController {
     @Acl(info = "保存节点")
     @Transactional
     public R orgNodeSave() {
-        TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
         String id = ps.getString("node_id");
         if (ToolUtil.isEmpty(id)) {
             return emplOrgService.addEmplOrg(ps);
@@ -77,21 +76,21 @@ public class EmplOrgController extends BaseController {
 
     @RequestMapping("/hrm/orgQuery.do")
     @ResponseBody
-    @Acl(info="查询组织")
+    @Acl(info = "查询组织")
     public R orgQuery() {
         return emplOrgService.queryEmplOrg();
     }
 
     @RequestMapping("/hrm/orgQueryCompany.do")
     @ResponseBody
-    @Acl(info = "查询公司",value=Acl.ACL_USER)
+    @Acl(info = "查询公司", value = Acl.ACL_USER)
     public R orgQueryCompany() {
         return emplOrgService.orgQueryCompany();
     }
 
     @RequestMapping("/hrm/orgQueryPartByCompany.do")
     @ResponseBody
-    @Acl(info = "查询部门",value=Acl.ACL_USER)
+    @Acl(info = "查询部门", value = Acl.ACL_USER)
     public R orgQueryPartByCompany(String id) {
         return emplOrgService.orgQueryPartByCompany(id);
     }

@@ -1,21 +1,20 @@
 package com.dt.module.flow.base;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.bstek.uflo.console.provider.ProcessFile;
 import com.bstek.uflo.console.provider.ProcessProvider;
 import com.dt.module.flow.entity.SysUfloTpl;
 import com.dt.module.flow.service.ISysUfloTplService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author: algernonking
@@ -110,10 +109,7 @@ public class UfloTplFileProcessProvider implements ProcessProvider {
     @Override
     public boolean support(String fileName) {
         // TODO Auto-generatezxd method stub
-        if (fileName == null || fileName.trim().equals("")) {
-            return false;
-        }
-        return true;
+        return fileName != null && !fileName.trim().equals("");
     }
 
     @Override

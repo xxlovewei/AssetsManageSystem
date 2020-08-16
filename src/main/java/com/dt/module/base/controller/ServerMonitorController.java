@@ -17,12 +17,12 @@ public class ServerMonitorController {
     @Acl(info = "查询", value = Acl.ACL_ALLOW)
     @RequestMapping(value = "/queryServerInfo.do")
     public R queryServerInfo() {
-        JSONObject r=new JSONObject();
-        r.put("mem",ServerMonitorService.getMemInfo());
-        r.put("sysinfo",ServerMonitorService.getSysInfo());
-        r.put("jvm",ServerMonitorService.getJvmInfo());
-        r.put("sysfiles",ServerMonitorService.getSysFiles());
-        r.put("cpu",ServerMonitorService.getCpuInfo());
+        JSONObject r = new JSONObject();
+        r.put("mem", ServerMonitorService.getMemInfo());
+        r.put("sysinfo", ServerMonitorService.getSysInfo());
+        r.put("jvm", ServerMonitorService.getJvmInfo());
+        r.put("sysfiles", ServerMonitorService.getSysFiles());
+        r.put("cpu", ServerMonitorService.getCpuInfo());
         return R.SUCCESS_OPER(r);
     }
 

@@ -1,11 +1,11 @@
 package com.dt.module.hrm.mapper;
 
-import com.dt.module.hrm.entity.HrmOrgInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dt.module.hrm.entity.HrmOrgInfo;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author algernonking

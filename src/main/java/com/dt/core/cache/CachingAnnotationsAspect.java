@@ -1,12 +1,6 @@
 package com.dt.core.cache;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import com.dt.core.tool.util.ToolUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -23,7 +17,12 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
-import com.dt.core.tool.util.ToolUtil;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 缓存拦截，用于注册方法信息
@@ -114,7 +113,7 @@ public class CachingAnnotationsAspect {
                 // 如果key中存在#root则不缓存，value
                 String rkey = "";
                 String[] vsp = value.split("#");
-                if (vsp.length == 3 ) {
+                if (vsp.length == 3) {
                     //获取realy key
                     if (ToolUtil.isEmpty(key)) {
                         // key从arg中获取
@@ -122,7 +121,7 @@ public class CachingAnnotationsAspect {
                     } else {
                         rkey = parseKey(key, method, joinPoint.getArgs());
                     }
-                    if(ToolUtil.isNotEmpty(rkey)){
+                    if (ToolUtil.isNotEmpty(rkey)) {
                         CacheableEntity ce = new CacheableEntity(vsp[0], rkey);
                         ce.setExpiredtime(ToolUtil.toInt(vsp[1], -1));
                         ce.setRefreshtime(ToolUtil.toInt(vsp[2], -1));

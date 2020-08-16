@@ -1,10 +1,10 @@
 package com.dt.core.common.base;
 
+import com.dt.core.tool.util.support.HttpKit;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.dt.core.tool.util.support.HttpKit;
 
 /**
  * @author: algernonking

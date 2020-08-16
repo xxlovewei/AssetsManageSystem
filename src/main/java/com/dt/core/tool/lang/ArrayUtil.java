@@ -354,7 +354,7 @@ public class ArrayUtil {
      * @return 是否为非空
      */
     public static boolean isNotEmpty(final Object array) {
-        return false == isEmpty((Object) array);
+        return false == isEmpty(array);
     }
 
     /**
@@ -456,7 +456,7 @@ public class ArrayUtil {
      * @return
      */
     public static <T> String toString(T[] array) {
-        StringBuffer sb = new StringBuffer("");
+        StringBuffer sb = new StringBuffer();
         if (isEmpty(array))
             return sb.toString();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

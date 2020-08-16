@@ -1,8 +1,8 @@
 package com.dt.module.om.term.entity;
 
-import java.io.Serializable;
-
 import com.dt.module.base.entity.UserShiro;
+
+import java.io.Serializable;
 
 public class Machine implements Serializable {
 

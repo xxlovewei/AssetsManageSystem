@@ -1,5 +1,8 @@
 package com.dt.core.dao.sql;
 
+import com.dt.core.dao.SpringDAO;
+import com.dt.core.dao.util.TypedHashMap;
+
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -7,27 +10,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.dt.core.dao.SpringDAO;
-import com.dt.core.dao.util.TypedHashMap;
-
 /**
  * 过程和函数都是用这个类进行处理
  */
 public class Procedure extends SubSQL {
 
-    private static final long serialVersionUID = -588109545247394266L;
     public static final String RETURN = "RETURN";
+    private static final long serialVersionUID = -588109545247394266L;
     private String name;
     private boolean isFunction = false;
-
-    public boolean isFunction() {
-        return isFunction;
-    }
-
     private ArrayList<String> parameterNames = new ArrayList<String>();
     private ArrayList<Object> parameterValues = new ArrayList<Object>();
     private ArrayList<ArgumentType> parameterTypes = new ArrayList<ArgumentType>();
     private ArrayList<ArgumentDataType> parameterDataTypes = new ArrayList<ArgumentDataType>();
+    private SpringDAO dao = null;
 
     public Procedure(String name, boolean isFunction) {
         this.name = name;
@@ -35,6 +31,13 @@ public class Procedure extends SubSQL {
         if (this.isFunction) {
             this.setParameter(RETURN, ArgumentType.OUT, ArgumentDataType.VARCHAR, RETURN);
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+    }
+
+    public boolean isFunction() {
+        return isFunction;
     }
 
     /**
@@ -166,8 +169,6 @@ public class Procedure extends SubSQL {
         return ret;
     }
 
-    private SpringDAO dao = null;
-
     public SpringDAO getDao() {
         return dao;
     }
@@ -205,7 +206,7 @@ public class Procedure extends SubSQL {
             } else if (val instanceof String) {
                 st.setString(fld, (String) val);
             } else if (val instanceof Character) {
-                st.setString(fld, ((Character) val) + "");
+                st.setString(fld, val + "");
             } else if (val instanceof Byte) {
                 st.setByte(fld, (Byte) val);
             } else if (val instanceof Short) {
@@ -230,8 +231,5 @@ public class Procedure extends SubSQL {
 
         }
     }
-
-    public static void main(String[] args) throws Exception {
-        }
 
 }

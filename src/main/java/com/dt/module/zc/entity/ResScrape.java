@@ -1,25 +1,25 @@
 package com.dt.module.zc.entity;
 
-import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.math.BigDecimal;
-import com.dt.core.common.base.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dt.core.common.base.BaseModel;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author algernonking
  * @since 2020-05-28
  */
- 
+
 @TableName("res_scrape")
- 
+
 public class ResScrape extends BaseModel<ResScrape> {
 
     private static final long serialVersionUID = 1L;
@@ -144,17 +144,17 @@ public class ResScrape extends BaseModel<ResScrape> {
     @Override
     public String toString() {
         return "ResScrape{" +
-        "id=" + id +
-        ", uuid=" + uuid +
-        ", title=" + title +
-        ", processuserid=" + processuserid +
-        ", processusername=" + processusername +
-        ", processdate=" + processdate +
-        ", status=" + status +
-        ", ct=" + ct +
-        ", busidate=" + busidate +
-        ", mark=" + mark +
-        ", cnt=" + cnt +
-        "}";
+                "id=" + id +
+                ", uuid=" + uuid +
+                ", title=" + title +
+                ", processuserid=" + processuserid +
+                ", processusername=" + processusername +
+                ", processdate=" + processdate +
+                ", status=" + status +
+                ", ct=" + ct +
+                ", busidate=" + busidate +
+                ", mark=" + mark +
+                ", cnt=" + cnt +
+                "}";
     }
 }

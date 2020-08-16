@@ -1,14 +1,5 @@
 package com.dt.module.flow.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
@@ -17,6 +8,14 @@ import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -39,7 +38,6 @@ public class SysProcessDataExtController extends BaseController {
     public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
         return R.SUCCESS_OPER(SysProcessDataServiceImpl.removeById(id));
     }
-
 
 
     @ResponseBody

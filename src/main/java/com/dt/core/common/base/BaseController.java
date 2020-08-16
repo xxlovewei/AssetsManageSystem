@@ -1,13 +1,6 @@
 package com.dt.core.common.base;
 
-import java.io.IOException;
-import java.util.Date;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.dt.core.tool.util.support.HttpKit;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.session.InvalidSessionException;
@@ -15,9 +8,24 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import com.dt.core.tool.util.support.HttpKit;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Date;
 
 public class BaseController extends BaseSC {
+
+    /**
+     * 返回jsp视图
+     *
+     * @param path
+     * @return
+     */
+    public static String jsp(String path) {
+        return path.concat("");
+    }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -122,16 +130,6 @@ public class BaseController extends BaseSC {
         } else {
             return o.toString();
         }
-    }
-
-    /**
-     * 返回jsp视图
-     *
-     * @param path
-     * @return
-     */
-    public static String jsp(String path) {
-        return path.concat("");
     }
 
 }

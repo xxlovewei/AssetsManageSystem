@@ -1,9 +1,9 @@
 package com.dt.core.dao.sql;
 
+import com.dt.core.dao.SpringDAO;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.dt.core.dao.SpringDAO;
 
 public class Delete extends DML implements ExecutableSQL {
 
@@ -11,14 +11,7 @@ public class Delete extends DML implements ExecutableSQL {
     private String table = null;
     private String tableAlias = null;
     private DeleteWhere where = new DeleteWhere();
-
-    public static Delete init() {
-        return new Delete();
-    }
-
-    public DeleteWhere where() {
-        return this.where;
-    }
+    private SpringDAO dao = null;
 
     public Delete() {
         this.where.setParent(this);
@@ -28,6 +21,14 @@ public class Delete extends DML implements ExecutableSQL {
         this.where.setParent(this);
         this.table = table;
         this.tableAlias = null;
+    }
+
+    public static Delete init() {
+        return new Delete();
+    }
+
+    public DeleteWhere where() {
+        return this.where;
     }
 
     public Delete from(String table, String alias) {
@@ -130,13 +131,11 @@ public class Delete extends DML implements ExecutableSQL {
         return true;
     }
 
+    // ==================================
+
     public boolean isAllParamsEmpty(boolean isCE) {
         return isAllParamsEmpty();
     }
-
-    // ==================================
-
-    private SpringDAO dao = null;
 
     public SpringDAO getDao() {
         return dao;
