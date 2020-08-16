@@ -472,6 +472,18 @@ public class ZcChangeService extends BaseService {
         if ("true".equals(entity.getTuseduseridstatus())) {
             sql2 = sql2 + ",a.used_userid=b.tuseduserid";
         }
+        if ("true".equals(entity.getTlabel1status())) {
+            sql2 = sql2 + ",a.fs1=b.tlabel1";
+        }
+        if ("true".equals(entity.getTlocdtlstatus())) {
+            sql2 = sql2 + ",a.locdtl=b.tlocdtl";
+        }
+        if ("true".equals(entity.getTunitstatus())) {
+            sql2 = sql2 + ",a.unit=b.tunit";
+        }
+        if ("true".equals(entity.getTconfdescstatus())) {
+            sql2 = sql2 + ",a.confdesc=b.tconfdesc";
+        }
         sql2 = sql2 + " where a.id=b.resid and b.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql2, uuid);
         //记录资产变更

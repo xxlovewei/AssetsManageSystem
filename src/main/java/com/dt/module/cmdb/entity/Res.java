@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-06-27
+ * @since 2020-08-16
  */
  
 @TableName("res")
@@ -250,7 +250,7 @@ public class Res extends BaseModel<Res> {
     @TableField("headuserid")
     private String headuserid;
     /**
-     * 资产总价
+     * 采购单价
      */
     @TableField("buy_price")
     private BigDecimal buyPrice;
@@ -421,6 +421,33 @@ public class Res extends BaseModel<Res> {
     private Date fd2;
     @TableField("fd3")
     private Date fd3;
+    /**
+     * 资产残值
+     */
+    @TableField("residualvalue")
+    private BigDecimal residualvalue;
+    /**
+     * 资产使用年限
+     */
+    @TableField("usefullife")
+    private String usefullife;
+    /**
+     * 最近一次折旧时间
+     */
+    @TableField("lastdepreciationdate")
+    private Date lastdepreciationdate;
+    /**
+     * 累计折旧
+     */
+    @TableField("accumulateddepreciation")
+    private BigDecimal accumulateddepreciation;
+    /**
+     * 计量单位
+     */
+    @TableField("unit")
+    private String unit;
+    @TableField("isscrap")
+    private String isscrap;
 
 
     public String getId() {
@@ -1255,6 +1282,54 @@ public class Res extends BaseModel<Res> {
         this.fd3 = fd3;
     }
 
+    public BigDecimal getResidualvalue() {
+        return residualvalue;
+    }
+
+    public void setResidualvalue(BigDecimal residualvalue) {
+        this.residualvalue = residualvalue;
+    }
+
+    public String getUsefullife() {
+        return usefullife;
+    }
+
+    public void setUsefullife(String usefullife) {
+        this.usefullife = usefullife;
+    }
+
+    public Date getLastdepreciationdate() {
+        return lastdepreciationdate;
+    }
+
+    public void setLastdepreciationdate(Date lastdepreciationdate) {
+        this.lastdepreciationdate = lastdepreciationdate;
+    }
+
+    public BigDecimal getAccumulateddepreciation() {
+        return accumulateddepreciation;
+    }
+
+    public void setAccumulateddepreciation(BigDecimal accumulateddepreciation) {
+        this.accumulateddepreciation = accumulateddepreciation;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getIsscrap() {
+        return isscrap;
+    }
+
+    public void setIsscrap(String isscrap) {
+        this.isscrap = isscrap;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -1335,17 +1410,17 @@ public class Res extends BaseModel<Res> {
                 ", fs9=" + fs9 +
                 ", fs10=" + fs10 +
                 ", fs11=" + fs11 +
-        ", fs12=" + fs12 +
-        ", fs13=" + fs13 +
-        ", fs14=" + fs14 +
-        ", fs15=" + fs15 +
-        ", fs16=" + fs16 +
-        ", fs17=" + fs17 +
-        ", fs18=" + fs18 +
-        ", fs19=" + fs19 +
-        ", fs20=" + fs20 +
-        ", fi1=" + fi1 +
-        ", fi2=" + fi2 +
+                ", fs12=" + fs12 +
+                ", fs13=" + fs13 +
+                ", fs14=" + fs14 +
+                ", fs15=" + fs15 +
+                ", fs16=" + fs16 +
+                ", fs17=" + fs17 +
+                ", fs18=" + fs18 +
+                ", fs19=" + fs19 +
+                ", fs20=" + fs20 +
+                ", fi1=" + fi1 +
+                ", fi2=" + fi2 +
         ", fi3=" + fi3 +
         ", fi4=" + fi4 +
         ", fi5=" + fi5 +
@@ -1357,16 +1432,22 @@ public class Res extends BaseModel<Res> {
         ", fi11=" + fi11 +
         ", fi12=" + fi12 +
         ", fi13=" + fi13 +
-        ", fi14=" + fi14 +
-        ", fi15=" + fi15 +
-        ", fi16=" + fi16 +
-        ", fi17=" + fi17 +
-        ", fi18=" + fi18 +
-        ", fi19=" + fi19 +
-        ", fi20=" + fi20 +
-        ", fd1=" + fd1 +
-        ", fd2=" + fd2 +
-        ", fd3=" + fd3 +
-        "}";
+                ", fi14=" + fi14 +
+                ", fi15=" + fi15 +
+                ", fi16=" + fi16 +
+                ", fi17=" + fi17 +
+                ", fi18=" + fi18 +
+                ", fi19=" + fi19 +
+                ", fi20=" + fi20 +
+                ", fd1=" + fd1 +
+                ", fd2=" + fd2 +
+                ", fd3=" + fd3 +
+                ", residualvalue=" + residualvalue +
+                ", usefullife=" + usefullife +
+                ", lastdepreciationdate=" + lastdepreciationdate +
+                ", accumulateddepreciation=" + accumulateddepreciation +
+                ", unit=" + unit +
+                ", isscrap=" + isscrap +
+                "}";
     }
 }

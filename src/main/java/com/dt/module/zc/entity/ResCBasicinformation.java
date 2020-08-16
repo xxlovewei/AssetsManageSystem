@@ -1,16 +1,11 @@
 package com.dt.module.zc.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.math.BigDecimal;
-
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
@@ -20,9 +15,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-13
+ * @since 2020-08-16
  */
-
+ 
 @TableName("res_c_basicinformation")
 
 public class ResCBasicinformation extends BaseModel<ResCBasicinformation> {
@@ -95,6 +90,22 @@ public class ResCBasicinformation extends BaseModel<ResCBasicinformation> {
     private String tpartidstatus;
     @TableField("tuseduseridstatus")
     private String tuseduseridstatus;
+    @TableField("tlabel1")
+    private String tlabel1;
+    @TableField("tunit")
+    private String tunit;
+    @TableField("tconfdesc")
+    private String tconfdesc;
+    @TableField("tlocdtl")
+    private String tlocdtl;
+    @TableField("tlabel1status")
+    private String tlabel1status;
+    @TableField("tunitstatus")
+    private String tunitstatus;
+    @TableField("tconfdescstatus")
+    private String tconfdescstatus;
+    @TableField("tlocdtlstatus")
+    private String tlocdtlstatus;
 
 
     public String getId() {
@@ -361,6 +372,70 @@ public class ResCBasicinformation extends BaseModel<ResCBasicinformation> {
         this.tuseduseridstatus = tuseduseridstatus;
     }
 
+    public String getTlabel1() {
+        return tlabel1;
+    }
+
+    public void setTlabel1(String tlabel1) {
+        this.tlabel1 = tlabel1;
+    }
+
+    public String getTunit() {
+        return tunit;
+    }
+
+    public void setTunit(String tunit) {
+        this.tunit = tunit;
+    }
+
+    public String getTconfdesc() {
+        return tconfdesc;
+    }
+
+    public void setTconfdesc(String tconfdesc) {
+        this.tconfdesc = tconfdesc;
+    }
+
+    public String getTlocdtl() {
+        return tlocdtl;
+    }
+
+    public void setTlocdtl(String tlocdtl) {
+        this.tlocdtl = tlocdtl;
+    }
+
+    public String getTlabel1status() {
+        return tlabel1status;
+    }
+
+    public void setTlabel1status(String tlabel1status) {
+        this.tlabel1status = tlabel1status;
+    }
+
+    public String getTunitstatus() {
+        return tunitstatus;
+    }
+
+    public void setTunitstatus(String tunitstatus) {
+        this.tunitstatus = tunitstatus;
+    }
+
+    public String getTconfdescstatus() {
+        return tconfdescstatus;
+    }
+
+    public void setTconfdescstatus(String tconfdescstatus) {
+        this.tconfdescstatus = tconfdescstatus;
+    }
+
+    public String getTlocdtlstatus() {
+        return tlocdtlstatus;
+    }
+
+    public void setTlocdtlstatus(String tlocdtlstatus) {
+        this.tlocdtlstatus = tlocdtlstatus;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -402,6 +477,14 @@ public class ResCBasicinformation extends BaseModel<ResCBasicinformation> {
                 ", tusedcompanyidstatus=" + tusedcompanyidstatus +
                 ", tpartidstatus=" + tpartidstatus +
                 ", tuseduseridstatus=" + tuseduseridstatus +
+                ", tlabel1=" + tlabel1 +
+                ", tunit=" + tunit +
+                ", tconfdesc=" + tconfdesc +
+                ", tlocdtl=" + tlocdtl +
+                ", tlabel1status=" + tlabel1status +
+                ", tunitstatus=" + tunitstatus +
+                ", tconfdescstatus=" + tconfdescstatus +
+                ", tlocdtlstatus=" + tlocdtlstatus +
                 "}";
     }
 }

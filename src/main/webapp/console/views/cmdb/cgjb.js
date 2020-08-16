@@ -154,6 +154,50 @@ function rendercnt(data, type, full) {
     }
 }
 
+function renderunit(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = "";
+    }
+    if (full.tunitstatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function renderfs1(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = "";
+    }
+    if (full.tlabel1status == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function renderlocdtl(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = "";
+    }
+    if (full.tlocdtlstatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function renderconfdesc(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = "";
+    }
+    if (full.tconfdescstatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
 function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
                      $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                      DTColumnBuilder, $compile) {
@@ -233,6 +277,10 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tsn').withTitle('序列(变更后)').withOption(
             'sDefaultContent', '').renderWith(rendersn),
+        DTColumnBuilder.newColumn('tunit').withTitle('计量单位(变更前)').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
+        DTColumnBuilder.newColumn('tunit').withTitle('计量单位(变更后)').withOption(
+            'sDefaultContent', '').renderWith(renderunit),
         DTColumnBuilder.newColumn('fzccnt').withTitle('数量(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tzccnt').withTitle('数量(变更后)').withOption(
@@ -253,6 +301,10 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tlocstr').withTitle('区域(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderloc),
+        DTColumnBuilder.newColumn('flocdtl').withTitle('位置(变更前)').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
+        DTColumnBuilder.newColumn('tlocdtl').withTitle('位置(变更后)').withOption(
+            'sDefaultContent', '').renderWith(renderlocdtl),
         DTColumnBuilder.newColumn('fusefullifestr').withTitle('使用期限(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tusefullifestr').withTitle('使用期限(变更后)').withOption(
@@ -261,6 +313,10 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tbuytimestr').withTitle('采购日期(变更后)').withOption(
             'sDefaultContent', '').renderWith(rendercbuytime),
+        DTColumnBuilder.newColumn('fconfdesc').withTitle('配置描述(变更前)').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
+        DTColumnBuilder.newColumn('tconfdesc').withTitle('配置描述(变更后)').withOption(
+            'sDefaultContent', '').renderWith(renderconfdesc),
         DTColumnBuilder.newColumn('fusedcompanynamestr').withTitle('使用公司(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tusedcompanynamestr').withTitle('使用公司(变更后)').withOption(
@@ -273,6 +329,10 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tusedusernamestr').withTitle('使用人(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderuser),
+        DTColumnBuilder.newColumn('flabel1').withTitle('标签1(变更前)').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
+        DTColumnBuilder.newColumn('tlabel1').withTitle('标签1(变更后)').withOption(
+            'sDefaultContent', '').renderWith(renderfs1),
         DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
             'sDefaultContent', '')]
 
@@ -316,6 +376,10 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.tpartidstatus = false;
         $scope.item.tuseduseridstatus = false;
         $scope.item.tsnstatus = false;
+        $scope.item.tlabel1status = false;
+        $scope.item.tunitstatus = false;
+        $scope.item.tconfdescstatus = false;
+        $scope.item.tlocdtlstatus = false;
     }
 
     function selectall() {
@@ -333,6 +397,10 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.tpartidstatus = true;
         $scope.item.tuseduseridstatus = true;
         $scope.item.tsnstatus = true;
+        $scope.item.tlabel1status = true;
+        $scope.item.tunitstatus = true;
+        $scope.item.tconfdescstatus = true;
+        $scope.item.tlocdtlstatus = true;
     }
 
     selectnall();
@@ -446,7 +514,7 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         }
         $scope.dtOptions.aaData.splice(del, 1);
     }
-    dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
         'sDefaultContent', '').withOption("width", '100').renderWith(renderZCAction));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
@@ -564,7 +632,7 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         var mdata = {};
         mdata.id = "";
         mdata.type = "many";
-        mdata.datarange = "ZJ";
+        mdata.datarange = "CG";
         mdata.showusefullife = "true";
         var modalInstance = $uibModal.open({
             backdrop: true,
@@ -602,6 +670,22 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.useduserSel = "";
         $scope.item.tsn = ""
         $scope.item.tmodel = "";
+        $scope.item.tlabel1 = "";
+        $scope.item.tunit = "";
+        $scope.item.tconfdesc = "";
+        $scope.item.tlocdtl = "";
+        if (angular.isDefined(data.locdtl)) {
+            $scope.item.tlocdtl = data.locdtl;
+        }
+        if (angular.isDefined(data.unit)) {
+            $scope.item.tunit = data.unit;
+        }
+        if (angular.isDefined(data.confdesc)) {
+            $scope.item.tconfdesc = data.confdesc;
+        }
+        if (angular.isDefined(data.fs1)) {
+            $scope.item.tlabel1 = data.fs1;
+        }
         if (angular.isDefined(data.sn)) {
             $scope.item.tsn = data.sn;
         }
@@ -787,7 +871,7 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         var acthtml = " <div class=\"btn-group\"> ";
         acthtml = acthtml + " <button ng-click=\"detail('"
             + full.busuuid
-            + "','" + full.status + "')\" class=\"btn-white btn btn-xs\">资产列表</button>   ";
+            + "','" + full.status + "')\" class=\"btn-white btn btn-xs\">变更明细</button>   ";
         acthtml = acthtml + "</div>"
         return acthtml;
     }
@@ -798,6 +882,8 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
+        DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
+            'sDefaultContent', '').renderWith(renderAction),
         DTColumnBuilder.newColumn('busuuid').withTitle('变更单号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('status').withTitle('变更状态').withOption(
@@ -810,6 +896,8 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(rendermodel),
         DTColumnBuilder.newColumn('tsn').withTitle('序列').withOption(
             'sDefaultContent', '').renderWith(rendersn),
+        DTColumnBuilder.newColumn('tunit').withTitle('计量单位').withOption(
+            'sDefaultContent', '').renderWith(renderunit),
         DTColumnBuilder.newColumn('tzccnt').withTitle('数量').withOption(
             'sDefaultContent', '').renderWith(rendercnt),
         DTColumnBuilder.newColumn('tsupplierstr').withTitle('供应商').withOption(
@@ -820,24 +908,28 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(rendersource),
         DTColumnBuilder.newColumn('tlocstr').withTitle('区域').withOption(
             'sDefaultContent', '').renderWith(renderloc),
+        DTColumnBuilder.newColumn('tlocdtl').withTitle('位置').withOption(
+            'sDefaultContent', '').renderWith(renderlocdtl),
         DTColumnBuilder.newColumn('tusefullifestr').withTitle('使用期限').withOption(
             'sDefaultContent', '').renderWith(renderusefullife),
         DTColumnBuilder.newColumn('tbuytimestr').withTitle('采购日期').withOption(
             'sDefaultContent', '').renderWith(rendercbuytime),
+        DTColumnBuilder.newColumn('tconfdesc').withTitle('配置描述').withOption(
+            'sDefaultContent', '').renderWith(renderconfdesc),
         DTColumnBuilder.newColumn('tusedcompanynamestr').withTitle('使用公司').withOption(
             'sDefaultContent', '').renderWith(rendercomp),
         DTColumnBuilder.newColumn('tpartnamestr').withTitle('使用部门').withOption(
             'sDefaultContent', '').renderWith(renderpart),
         DTColumnBuilder.newColumn('tusedusernamestr').withTitle('使用人').withOption(
             'sDefaultContent', '').renderWith(renderuser),
+        DTColumnBuilder.newColumn('tlabel1').withTitle('标签1').withOption(
+            'sDefaultContent', '').renderWith(renderfs1),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('createusername').withTitle('操作人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
-            'sDefaultContent', '').renderWith(renderAction)
+            'sDefaultContent', '')
     ]
     $scope.query = function () {
         flush();

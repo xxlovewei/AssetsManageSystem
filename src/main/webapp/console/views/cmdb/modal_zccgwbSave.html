@@ -45,11 +45,16 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
-                        <span style="margin-right:5px"><span
-                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
-                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
-                               ng-model="item.twbstatus"></span>
-                        <span style="font-weight:bold">维保状态:</span>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="text-align: left">
+                                     <span style="margin-right:5px"><span
+                                             style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input icheck ng-model="item.twbstatus"
+                               type="checkbox"></span>
+                                </td>
+                                <td style="text-align: right"><span style="font-weight:bold">维保状态:</span></td>
+                        </table>
                     </label>
                     <div class="col-sm-10">
                         <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
@@ -64,11 +69,14 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
-                        <span style="margin-right:5px"><span
-                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
-                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
-                               ng-model="item.twbsupplierstatus"></span>
-                        <span style="font-weight:bold">维保商:</span>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="text-align:left"> <span style="margin-right:5px"><span
+                                        style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input icheck ng-model="item.twbsupplierstatus"
+                               type="checkbox"></span></td>
+                                <td style="text-align:right"><span style="font-weight:bold">维保商:</span></td>
+                        </table>
                     </label>
                     <div class="col-sm-10">
                         <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
@@ -83,11 +91,15 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
-                        <span style="margin-right:5px"><span
-                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
-                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
-                               ng-model="item.twboutdatestatus"></span>
-                        <span style="font-weight:bold">脱保时间:</span>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="text-align: left">
+                                     <span style="margin-right:5px"><span
+                                             style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input icheck ng-model="item.twboutdatestatus"
+                               type="checkbox"></span></td>
+                                <td style="text-align: right"><span style="font-weight:bold">脱保时间:</span></td>
+                        </table>
                     </label>
                     <div class="col-sm-10">
                         <input auto-close="true" class="form-control" date-change="datachange"
@@ -99,11 +111,16 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
-                        <span style="margin-right:5px"><span
-                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
-                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
-                               ng-model="item.twbctstatus"></span>
-                        <span style="font-weight:bold">维保说明:</span>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="text-align: left">
+                                    <span style="margin-right:5px"><span
+                                            style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input icheck ng-model="item.twbctstatus"
+                               type="checkbox"></span>
+                                </td>
+                                <td style="text-align: right"><span style="font-weight:bold">维保说明:</span></td>
+                        </table>
                     </label>
                     <div class="col-sm-10">
                         <input class="form-control "

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-13
+ * @since 2020-08-16
  */
 @Service
 public class ResCBasicinformationItemServiceImpl extends ServiceImpl<ResCBasicinformationItemMapper, ResCBasicinformationItem> implements IResCBasicinformationItemService {

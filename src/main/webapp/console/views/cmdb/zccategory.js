@@ -454,7 +454,7 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', '').renderWith(renderIfNeed),
         DTColumnBuilder.newColumn('sort').withTitle('排序').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+        DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
             'sDefaultContent', '').renderWith(renderAction)]
     $scope.dtInstance = {}
     //以下扩展属性相关

@@ -607,7 +607,7 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
-        DTColumnBuilder.newColumn('batchid').withTitle('盘点单号').withOption(
+        DTColumnBuilder.newColumn('batchid').withTitle('盘点单据').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
             'sDefaultContent', ''),
@@ -633,7 +633,7 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('id').withTitle('盘点资产').withOption(
             'sDefaultContent', '').renderWith(renderDownload),
-        DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+        DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
             'sDefaultContent', '').withOption(
             'width', '300px').renderWith(renderAction)
     ]

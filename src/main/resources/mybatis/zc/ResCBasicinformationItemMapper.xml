@@ -51,6 +51,18 @@
         <result column="tusedcompanyidstatus" property="tusedcompanyidstatus"/>
         <result column="tpartidstatus" property="tpartidstatus"/>
         <result column="tuseduseridstatus" property="tuseduseridstatus"/>
+        <result column="tlabel1" property="tlabel1"/>
+        <result column="tunit" property="tunit"/>
+        <result column="tconfdesc" property="tconfdesc"/>
+        <result column="tlocdtl" property="tlocdtl"/>
+        <result column="flabel1" property="flabel1"/>
+        <result column="funit" property="funit"/>
+        <result column="fconfdesc" property="fconfdesc"/>
+        <result column="flocdtl" property="flocdtl"/>
+        <result column="tlabel1status" property="tlabel1status"/>
+        <result column="tunitstatus" property="tunitstatus"/>
+        <result column="tconfdescstatus" property="tconfdescstatus"/>
+        <result column="tlocdtlstatus" property="tlocdtlstatus"/>
     </resultMap>
 
 </mapper>

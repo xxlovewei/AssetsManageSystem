@@ -113,7 +113,7 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     var dtColumns = [];
     if (angular.isDefined(meta.type) && meta.type == "dtl") {
     } else {
-        dtColumns.push(DTColumnBuilder.newColumn('lid').withTitle('动作').withOption(
+        dtColumns.push(DTColumnBuilder.newColumn('lid').withTitle('操作').withOption(
             'sDefaultContent', '').withOption("name", '30').renderWith(renderAction));
     }
     dtColumns.push(DTColumnBuilder.newColumn('class_name').withTitle('物品类型').withOption(

@@ -37,13 +37,14 @@ public class ZcReportController extends BaseController {
     @Transactional
     public R dashboard(String search) {
 
-        String sql="select\n" +
-                "  (select count(1) from sys_process_data where dr='0' and bustype='LY' and pstatus='running') lywait_cnt,\n" +
-                " (select count(1) from sys_process_data where dr='0' and bustype='JY' and pstatus='running')  jywait_cnt,\n" +
-                " (select count(1) from sys_process_data where dr='0' and bustype='DB' and pstatus='running') dbwait_cnt,\n" +
-                "  (select count(1) from res where dr='0' and  wbout_date<curdate()) wbout_cnt,\n" +
-                "  (select count(1) from res_repair where dr='0' and fstatus='wait' ) bx_cnt,\n" +
-                "  (select count(1) from res where dr='0') zc_cnt\n";
+        String sql = "select\n" +
+                "  (select count(1) from sys_process_data where dr='0' and bustype='LY' and pstatus='running') lywaitcnt,\n" +
+                "  (select count(1) from sys_process_data where dr='0' and bustype='JY' and pstatus='running') jywaitcnt,\n" +
+                "  (select count(1) from sys_process_data where dr='0' and bustype='DB' and pstatus='running') dbwaitcnt,\n" +
+                "  (select count(1) from res where dr='0' and wbout_date<curdate()) wboutcnt,\n" +
+                "  (select count(1) from res_repair where dr='0' and fstatus='wait') bxcnt,\n" +
+                "  (select count(1) from res where dr='0' and category='" + ZcCommonService.CATEGORY_ZC + "') zccnt,\n" +
+                "  (select sum(net_worth) from res where dr='0' and recycle<>'scrap' and category='" + ZcCommonService.CATEGORY_ZC + "') zcnetworth\n";
 
         JSONObject res=ConvertUtil.OtherJSONObjectToFastJSONObject(db.uniqueRecord(sql).toJsonObject());
         //资产状态
@@ -62,8 +63,8 @@ public class ZcReportController extends BaseController {
                 "              select\n" +
                 "                recycle,\n" +
                 "                count(1) cnt\n" +
-                "              from res\n" +
-                "              where dr = '0'\n" +
+                "              from res \n" +
+                "              where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "'\n" +
                 "              group by recycle) t  order by 2 desc\n" +
                 "     ) tab";
         RcdSet s3 = db.query(sql3);
@@ -101,7 +102,7 @@ public class ZcReportController extends BaseController {
                 "                part_id,\n" +
                 "                count(1) cnt\n" +
                 "              from res\n" +
-                "              where dr = '0'\n" +
+                "              where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "'\n" +
                 "              group by part_id) t) tab order by 2 desc";
         RcdSet s4 = db.query(sql4);
         JSONArray partmeta_arr = new JSONArray();
@@ -139,7 +140,7 @@ public class ZcReportController extends BaseController {
                 "                class_id,\n" +
                 "                count(1) cnt\n" +
                 "              from res\n" +
-                "              where dr = '0'\n" +
+                "              where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "'\n" +
                 "              group by class_id) t) tab order by 2 desc";
         RcdSet s5 = db.query(sql5);
         JSONArray catmeta_arr = new JSONArray();
@@ -173,8 +174,8 @@ public class ZcReportController extends BaseController {
     @Transactional
     public R queryPartUsedByPart() {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        String part_id=ps.getString("part_id");
-        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0'";
+        String part_id = ps.getString("part_id");
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and category='" + ZcCommonService.CATEGORY_ZC + "'";
         if ("-1".equals(part_id)) {
             sql = sql + " and part_id not in (select node_id from hrm_org_part where org_id='1') or part_id is null";
         } else {
@@ -184,6 +185,7 @@ public class ZcReportController extends BaseController {
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
 
+    //资产总值汇总表,报废不计入
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_ALLOW)
     @RequestMapping(value = "/queryZcTotalAssets.do")
@@ -202,13 +204,14 @@ public class ZcReportController extends BaseController {
                 "    sum(net_worth * zc_cnt)               tnetworth,\n" +
                 "    sum(accumulateddepreciation * zc_cnt) taccumulateddepreciation\n" +
                 "  from res\n" +
-                "  where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "'\n" +
+                "  where dr = '0' and recycle<>'scrap' and category='" + ZcCommonService.CATEGORY_ZC + "'\n" +
                 "  group by class_id\n" +
                 ")t order by 1";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
 
 
+    //公司部门汇总表
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     @RequestMapping(value = "/queryPartUsedReport.do")
@@ -268,8 +271,8 @@ public class ZcReportController extends BaseController {
     @RequestMapping(value = "/queryEmployeeUsedByUser.do")
     public R queryEmployeeUsedByUser() {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        String userid=ps.getString("userid");
-        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0'";
+        String userid = ps.getString("userid");
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and category='" + ZcCommonService.CATEGORY_ZC + "'";
         if(ToolUtil.isNotEmpty(userid)){
             sql=sql+" and used_userid='"+userid+"'";
         }

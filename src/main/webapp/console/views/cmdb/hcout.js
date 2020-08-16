@@ -239,7 +239,7 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.dtColumns = [];
     if (angular.isDefined(meta.type) && meta.type == "dtl") {
     } else {
-        dtColumns.push(DTColumnBuilder.newColumn('lid').withTitle('动作').withOption(
+        dtColumns.push(DTColumnBuilder.newColumn('lid').withTitle('操作').withOption(
             'sDefaultContent', '').withOption("name", '30').renderWith(renderAction));
     }
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(

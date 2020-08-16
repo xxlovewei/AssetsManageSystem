@@ -58,9 +58,7 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     }
 
     $scope.dtColumns = [
-        DTColumnBuilder.newColumn('part_name').withTitle('使用部门')
-            .withOption('sDefaultContent', ''),
-        DTColumnBuilder.newColumn('part_fullname').withTitle('使用部门路径')
+        DTColumnBuilder.newColumn('part_fullname').withTitle('使用部门')
             .withOption('sDefaultContent', ''),
         DTColumnBuilder.newColumn('zc_cnt').withTitle('数量').withOption(
             'sDefaultContent', ''),

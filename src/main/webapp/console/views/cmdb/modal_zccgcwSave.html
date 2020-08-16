@@ -37,12 +37,24 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-2 control-label">备注:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="mark"
+                               ng-model="item.mark" placeholder="请输入内容" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-2 control-label">
-                        <span style="margin-right:5px"><span
-                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
-                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
-                               ng-model="item.tbelongcompstatus"></span>
-                        <span style="font-weight:bold">所属公司:</span>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="text-align: left">
+                                   <span style="margin-right:5px"><span
+                                           style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input icheck ng-model="item.tbelongcompstatus"
+                               type="checkbox"></span>
+                                </td>
+                                <td style="text-align: right"><span style="font-weight:bold">所属公司:</span></td>
+                        </table>
                     </label>
                     <div class="col-sm-10">
                         <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
@@ -57,17 +69,23 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
-                        <span style="margin-right:5px"><span
-                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
-                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
-                               ng-model="item.tbuypricestatus"></span>
-                        <span class="text-danger">*</span>采购单价:</label>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="text-align: left">
+                                  <span style="margin-right:5px"><span
+                                          style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input icheck ng-model="item.tbuypricestatus"
+                               type="checkbox"></span>
+                                </td>
+                                <td style="text-align: right"><span class="text-danger">*</span>采购单价:</td>
+                        </table>
+                    </label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-                               name="tbuyprice"
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="tbuyprice"
                                ng-maxlength="100"
                                ng-model="item.tbuyprice"
-                               placeholder="请输入内容">
+                               placeholder="请输入内容"
+                               type="number">
                         <div class="text-danger"
                              ng-if="myForm.tbuyprice.$dirty && myForm.tbuyprice.$invalid">
                             <span ng-if="myForm.tbuyprice.$error.required"> 输入不能为空 </span> <span
@@ -77,17 +95,23 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
-                        <span style="margin-right:5px"><span
-                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
-                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
-                               ng-model="item.tnetworthstatus"></span>
-                        <span class="text-danger">*</span>资产净值:</label>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="text-align: left">
+                                   <span style="margin-right:5px"><span
+                                           style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input icheck ng-model="item.tnetworthstatus"
+                               type="checkbox"></span>
+                                </td>
+                                <td style="text-align: right"><span class="text-danger">*</span>资产净值:</td>
+                        </table>
+                    </label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-                               name="tnetworth"
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="tnetworth"
                                ng-maxlength="100"
                                ng-model="item.tnetworth"
-                               placeholder="请输入内容">
+                               placeholder="请输入内容"
+                               type="number">
                         <div class="text-danger"
                              ng-if="myForm.tnetworth.$dirty && myForm.tnetworth.$invalid">
                             <span ng-if="myForm.tnetworth.$error.required"> 输入不能为空 </span> <span
@@ -97,17 +121,24 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
-                        <span style="margin-right:5px"><span
-                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
-                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
-                               ng-model="item.taccumulatedstatus"></span>
-                        <span class="text-danger">*</span>累计折旧:</label>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="text-align: left">
+                                 <span style="margin-right:5px"><span
+                                         style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input icheck ng-model="item.taccumulatedstatus"
+                               type="checkbox"></span>
+                                </td>
+                                <td style="text-align: right"><span class="text-danger">*</span>累计折旧:</td>
+                        </table>
+                    </label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty"
                                name="taccumulateddepreciation"
                                ng-maxlength="100"
                                ng-model="item.taccumulateddepreciation"
-                               placeholder="请输入内容">
+                               placeholder="请输入内容"
+                               type="number">
                         <div class="text-danger"
                              ng-if="myForm.taccumulateddepreciation.$dirty && myForm.taccumulateddepreciation.$invalid">
                             <span ng-if="myForm.taccumulateddepreciation.$error.required"> 输入不能为空 </span> <span
@@ -117,29 +148,28 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
-                        <span style="margin-right:5px"><span
-                                style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
-                        <input ng-change="change(dish,item.time)" icheck type="checkbox"
-                               ng-model="item.tresidualvaluestatus"></span>
-                        <span class="text-danger">*</span>设置残值:</label>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="text-align: left">
+                                   <span style="margin-right:5px"><span
+                                           style="font-weight:bold;color:green;margin-right:2px">是否更新</span>
+                        <input icheck ng-model="item.tresidualvaluestatus"
+                               type="checkbox"></span>
+                                </td>
+                                <td style="text-align: right"><span class="text-danger">*</span>设置残值:</td>
+                        </table>
+                    </label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-                               name="tresidualvalue"
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="tresidualvalue"
                                ng-maxlength="100"
                                ng-model="item.tresidualvalue"
-                               placeholder="请输入内容">
+                               placeholder="请输入内容"
+                               type="number">
                         <div class="text-danger"
                              ng-if="myForm.tresidualvalue.$dirty && myForm.tresidualvalue.$invalid">
                             <span ng-if="myForm.tresidualvalue.$error.required"> 输入不能为空 </span> <span
                                 ng-show="myForm.tresidualvalue.$error.maxlength">不能超过100个字符 </span>
                         </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">备注:</label>
-                    <div class="col-sm-10">
-                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="mark"
-                               ng-model="item.mark" placeholder="请输入内容" type="text">
                     </div>
                 </div>
                 <div class="form-group">

@@ -498,11 +498,21 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
             name: 'zc_cnt',
             ng_model: "zc_cnt"
         });
-
-
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcunit,
+            sub_type: "text",
+            required: false,
+            maxlength: "50",
+            placeholder: "",
+            label: "计量单位",
+            need: false,
+            name: 'unit',
+            ng_model: "unit"
+        });
+        items.push({
+            type: "input",
+            disabled: zcconfdesc,
             sub_type: "text",
             required: false,
             maxlength: "200",
@@ -526,7 +536,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zclabel1,
             sub_type: "text",
             required: false,
             maxlength: "50",
@@ -605,7 +615,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zclocdtl,
             sub_type: "text",
             required: false,
             maxlength: "50",
@@ -692,7 +702,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcwbct,
             sub_type: "text",
             required: false,
             maxlength: "100",
@@ -1043,6 +1053,11 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
     var zcwbsupper = "false";
     var zcwboutdate = "false";
     var zcwb = "false";
+    var zcunit = "false";
+    var zclabel1 = "false";
+    var zcconfdesc = "false";
+    var zclocdtl = "false";
+    var zcwbct = "false";
     $scope.save = function (type) {
         var id;
         zcrecycle = "false";
@@ -1073,6 +1088,11 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
                 zcwbsupper = "true";
                 zcwboutdate = "true";
                 zcwb = "true";
+                zcunit = "true";
+                zclabel1 = "true";
+                zcconfdesc = "true";
+                zclocdtl = "true";
+                zcwbct = "true";
             } else {
                 return;
             }
@@ -1111,6 +1131,11 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
             zcwbsupper = "false";
             zcwboutdate = "false";
             zcwb = "false";
+            zcunit = "false";
+            zclabel1 = "false";
+            zcconfdesc = "false";
+            zclocdtl = "false";
+            zcwbct = "false";
             openWindow({});
         }
     }

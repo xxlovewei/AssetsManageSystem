@@ -15,17 +15,24 @@ public class ResEntity implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Excel(name = "资产编号", width = 16)
+    @Excel(name = "资产编号", width = 25)
     private String uuid;
 
-    @Excel(name = "资产类型", width = 15)
+    @Excel(name = "资产类别", width = 15)
     private String classname;
 
-    @Excel(name = "类型明细(必需)", width = 20)
+    @Excel(name = "类型明细(必需)", width = 25)
     private String classfullname;
 
     @Excel(name = "资产名称(不支持)", width = 15)
     private String name;
+
+    @Excel(name = "规格型号", width = 20)
+    private String model;
+
+
+    @Excel(name = "资产状态", width = 10)
+    private String recyclestr;
 
     @Excel(name = "资产供应商", width = 15)
     private String supplierstr;
@@ -33,26 +40,24 @@ public class ResEntity implements java.io.Serializable {
     @Excel(name = "品牌", width = 10)
     private String brandstr;
 
-    @Excel(name = "型号", width = 20)
-    private String model;
-
-    @Excel(name = "序列号", width = 25)
+    @Excel(name = "序列", width = 25)
     private String sn;
 
-    @Excel(name = "资产状态", width = 10)
-    private String recyclestr;
+    @Excel(name = "使用期限", width = 8)
+    private String usefullifestr;
 
 
+    @Excel(name = "计量单位", width = 8)
+    private String unit;
 
-    @Excel(name = "资产来源", width = 8)
+    @Excel(name = "来源", width = 8)
     private String zcsourcestr;
 
     @Excel(name = "配置描述", width = 15)
     private String confdesc;
 
-    @Excel(name = "其他资产编号", width = 12)
+    @Excel(name = "其他编号", width = 12)
     private String fs20;
-
 
 
     @Excel(name = "备注", width = 20)
@@ -66,7 +71,7 @@ public class ResEntity implements java.io.Serializable {
 
 
     //位置
-    @Excel(name = "资产区域", width = 15)
+    @Excel(name = "区域", width = 15)
     private String locstr;
 
     @Excel(name = "机柜", width = 10)
@@ -75,9 +80,50 @@ public class ResEntity implements java.io.Serializable {
     @Excel(name = "机架", width = 10)
     private String frame;
 
-    @Excel(name = "位置详情", width = 10)
+    @Excel(name = "位置", width = 10)
     private String locdtl;
 
+
+
+
+    //组织
+    @Excel(name = "所属公司", width = 20)
+    private String belongcom_fullname;
+
+    @Excel(name = "使用公司", width = 20)
+    private String comp_fullname ;
+
+    @Excel(name = "使用部门", width = 20)
+    private String part_fullname;
+
+    @Excel(name = "使用人(不支持)", width = 10)
+    private String used_username;
+
+
+
+    //财务
+    @Excel(name = "采购日期", width = 15)
+    private String buy_timestr;
+
+    @Excel(name = "采购单价", width = 10)
+    private String buy_price;
+
+    @Excel(name = "资产净值", width = 10)
+    private String net_worth;
+
+
+    //维保
+    @Excel(name = "维保商", width = 10)
+    private String wbsupplierstr;
+
+    @Excel(name = "维保状态", width = 10)
+    private String wbstr;
+
+    @Excel(name = "脱保日期", width = 15)
+    private String wbout_datestr;
+
+    @Excel(name = "维保计算", width = 8)
+    private String wb_autostr;
 
 
     //IT资产
@@ -90,46 +136,8 @@ public class ResEntity implements java.io.Serializable {
     @Excel(name = "ip", width = 20)
     private String ip;
 
-
-    //组织
-    @Excel(name = "所属公司", width = 20)
-    private String belongcom_fullname;
-
-    @Excel(name = "使用公司", width = 20)
-    private String comp_fullname ;
-
-
-    @Excel(name = "使用部门", width = 20)
-    private String part_fullname;
-
-    @Excel(name = "使用人(不支持)", width = 10)
-    private String used_username;
-
-
-
-    //财务
-    @Excel(name = "采购时间", width = 15)
-    private String buy_timestr;
-
-    @Excel(name = "原值", width = 10)
-    private String buy_price;
-
-    @Excel(name = "净值", width = 10)
-    private String net_worth;
-
-
-    //维保
-    @Excel(name = "维保供应商", width = 10)
-    private String wbsupplierstr;
-
-    @Excel(name = "维保情况", width = 10)
-    private String wbstr;
-
-    @Excel(name = "脱保时间", width = 15)
-    private String wbout_datestr;
-
-    @Excel(name = "维保计算", width = 8)
-    private String wb_autostr;
+    public ResEntity() {
+    }
 
 
     /**
@@ -545,6 +553,8 @@ public class ResEntity implements java.io.Serializable {
         this.zcsourcestr = obj.getString("zcsourcestr");
         this.comp_fullname = obj.getString("comp_fullname");
         this.belongcom_fullname = obj.getString("belongcom_fullname");
+        this.usefullifestr = obj.getString("usefullifestr");
+        this.unit = obj.getString("unit");
 
 
     }
@@ -634,5 +644,21 @@ public class ResEntity implements java.io.Serializable {
         this.belongcom_fullname = belongcom_fullname;
     }
 
+
+    public String getUsefullifestr() {
+        return usefullifestr;
+    }
+
+    public void setUsefullifestr(String usefullifestr) {
+        this.usefullifestr = usefullifestr;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 
 }

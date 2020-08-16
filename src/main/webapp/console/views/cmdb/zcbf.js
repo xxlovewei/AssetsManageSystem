@@ -54,7 +54,7 @@ function modalzcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
     if (angular.isDefined(meta.type) && meta.type == "dtl") {
     } else {
-        $scope.dtColumns.push(DTColumnBuilder.newColumn('lid').withTitle('动作').withOption(
+        $scope.dtColumns.push(DTColumnBuilder.newColumn('lid').withTitle('操作').withOption(
             'sDefaultContent', '').withOption("name", '30').renderWith(renderAction));
     }
     $scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(

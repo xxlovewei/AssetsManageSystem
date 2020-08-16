@@ -106,7 +106,7 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
     }
     if (angular.isDefined(meta.status) && meta.status == "success") {
     } else {
-        dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+        dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
             'sDefaultContent', '').withOption("width", '30').renderWith(renderZCAction));
     }
     dtColumns.push(DTColumnBuilder.newColumn('checkstatus').withTitle('校验').withOption(
@@ -262,7 +262,7 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         }
         $scope.dtOptions.aaData.splice(del, 1);
     }
-    dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
         'sDefaultContent', '').withOption("width", '30').renderWith(renderZCAction));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
@@ -488,7 +488,7 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('createTime').withTitle('创建时间').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+        DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
             'sDefaultContent', '').renderWith(renderAction)
     ]
     $scope.query = function () {

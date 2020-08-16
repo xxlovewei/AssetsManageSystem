@@ -92,11 +92,11 @@ public class ResScrapeExtController extends BaseController {
 		}
 		JSONArray itemsarr=JSONArray.parseArray(items);
 		for(int i=0;i<itemsarr.size();i++){
-			UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-			ups.set("recycle",ZcCommonService.RECYCLE_SCRAP);
-			ups.eq("id", itemsarr.getJSONObject(i).getString("id"));
-			ResServiceImpl.update(ups);
-
+            UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
+            ups.set("recycle", ZcCommonService.RECYCLE_SCRAP);
+            ups.set("isscrap", "1");
+            ups.eq("id", itemsarr.getJSONObject(i).getString("id"));
+            ResServiceImpl.update(ups);
             ResScrapeItem e = new ResScrapeItem();
             e.setUuid(uuid);
             e.setResid(itemsarr.getJSONObject(i).getString("id"));

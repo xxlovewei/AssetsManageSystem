@@ -695,7 +695,19 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcunit,
+            sub_type: "text",
+            required: false,
+            maxlength: "50",
+            placeholder: "",
+            label: "计量单位",
+            need: false,
+            name: 'unit',
+            ng_model: "unit"
+        });
+        items.push({
+            type: "input",
+            disabled: zcconfdesc,
             sub_type: "text",
             required: false,
             maxlength: "100",
@@ -719,7 +731,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zclabel1,
             sub_type: "text",
             required: false,
             maxlength: "50",
@@ -853,7 +865,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zclocdtl,
             sub_type: "text",
             required: false,
             maxlength: "50",
@@ -941,7 +953,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcwbct,
             sub_type: "text",
             required: false,
             maxlength: "100",
@@ -1327,6 +1339,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
     var zcwboutdate = "false";
     var zcwb = "false";
     var zccycel = "false";
+    var zcunit = "false";
+    var zclabel1 = "false";
+    var zcconfdesc = "false";
+    var zclocdtl = "false";
+    var zcwbct = "false";
     var f = $location.search()['force'];
     $scope.save = function (type) {
         var id = "-1";
@@ -1335,9 +1352,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             if (angular.isDefined(selrow)) {
                 id = selrow.id;
                 zcclass = "true";
-                console.log(111111)
-                console.log(f);
-                console.log(111111)
                 if (angular.isDefined(f) && f == "y") {
                 } else {
                     zcbuyprice = "true";
@@ -1359,6 +1373,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                     zcwboutdate = "true";
                     zcwb = "true";
                     zccycel = "true";
+                    zcunit = "true";
+                    zclabel1 = "true";
+                    zcconfdesc = "true";
+                    zclocdtl = "true";
+                    zcwbct = "true";
                 }
             } else {
                 return;
@@ -1398,6 +1417,11 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             zcwboutdate = "false";
             zcwb = "false";
             zccycel = "false";
+            zcunit = "false";
+            zclabel1 = "false";
+            zcconfdesc = "false";
+            zclocdtl = "false";
+            zcwbct = "false";
             openWindow({});
         }
     }

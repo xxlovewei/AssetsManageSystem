@@ -175,7 +175,7 @@ function cgcwlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
 
 function zccgcwSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                        $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
-                       DTColumnBuilder, $compile) {
+                       DTColumnBuilder, $compile, $confirm) {
     $scope.ctl = {};
     $scope.item = {};
 
@@ -301,7 +301,7 @@ function zccgcwSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         }
         $scope.dtOptions.aaData.splice(del, 1);
     }
-    dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
         'sDefaultContent', '').withOption("width", '100').renderWith(renderZCAction));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
@@ -383,21 +383,26 @@ function zccgcwSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                 return;
             }
         }
-        $http.post($rootScope.project + "/api/zc/resCFinance/ext/insert.do",
-            $scope.item).success(function (res) {
-            if (res.success) {
-                $uibModalInstance.close('OK');
-            }
-            notify({
-                message: res.message
+        $confirm({
+            text: '是否确定变更?'
+        }).then(
+            function () {
+                $http.post($rootScope.project + "/api/zc/resCFinance/ext/insert.do",
+                    $scope.item).success(function (res) {
+                    if (res.success) {
+                        $uibModalInstance.close('OK');
+                    }
+                    notify({
+                        message: res.message
+                    });
+                })
             });
-        })
     }
     $scope.review = function () {
         var mdata = {};
         mdata.id = "";
         mdata.type = "many";
-        mdata.datarange = "ZJ";
+        mdata.datarange = "CG";
         mdata.showusefullife = "true";
         var modalInstance = $uibModal.open({
             backdrop: true,
@@ -516,7 +521,7 @@ function zccgcwCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         var acthtml = " <div class=\"btn-group\"> ";
         acthtml = acthtml + " <button ng-click=\"detail('"
             + full.busuuid
-            + "','" + full.status + "')\" class=\"btn-white btn btn-xs\">资产列表</button>   ";
+            + "','" + full.status + "')\" class=\"btn-white btn btn-xs\">变更明细</button>   ";
         acthtml = acthtml + "</div>"
         return acthtml;
     }
@@ -527,6 +532,8 @@ function zccgcwCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
+        DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
+            'sDefaultContent', '').renderWith(renderAction),
         DTColumnBuilder.newColumn('busuuid').withTitle('变更单号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('status').withTitle('变更状态').withOption(
@@ -546,9 +553,7 @@ function zccgcwCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         DTColumnBuilder.newColumn('createusername').withTitle('创建人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('id').withTitle('动作').withOption(
-            'sDefaultContent', '').renderWith(renderAction)
+            'sDefaultContent', '')
     ]
     $scope.query = function () {
         flush();

@@ -141,7 +141,7 @@ public class ResExtController extends BaseController {
     @Transactional
     public R batchUpdateRes() {
         TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>) HttpKit.getRequestParameters();
-        return zcService.batchUpdateRes(ps);
+        return R.SUCCESS_OPER();
     }
 
     @ResponseBody

@@ -3,7 +3,6 @@ package com.dt.module.zc.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.dt.core.cache.CacheConfig;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
@@ -23,8 +22,8 @@ import com.dt.module.ct.service.ICtCategoryService;
 import com.dt.module.zc.entity.ResAllocate;
 import com.dt.module.zc.service.IResAllocateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -246,6 +245,7 @@ public class ZcService extends BaseService{
     public String buildQueryResAllGetdatalSql(String belongcomp,String comp,String part,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps){
 
         // 获取属性数据
+        String isscrap = ps.getString("isscrap");
         String attrsql = "select * from res_attrs where catid=? and dr='0'";
         RcdSet attrs_rs = db.query(attrsql, class_id);
         String sql = "select";
@@ -267,7 +267,7 @@ public class ZcService extends BaseService{
                         + "\",  ";
             }
         }
-        sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0  ";
+        sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0 ";
 
         if (ToolUtil.isNotEmpty(classroot)) {
             //获取多个类型
@@ -279,31 +279,38 @@ public class ZcService extends BaseService{
             sql = sql + " and class_id in (select id from ct_category where 1=1 and (id='" + class_id_parents + "' or route like '%" + class_id_parents + "-%'))";
         }
 
+        //类别
         if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
             sql = sql + " and class_id in (select id from ct_category  where dr='0' and (id='" + class_id
                     + "' or parent_id='" + class_id + "')) ";
         }
 
+        //区域
         if (ToolUtil.isNotEmpty(loc) && !"all".equals(loc)) {
             sql = sql + " and loc='" + loc + "'";
         }
 
+        //环境
         if (ToolUtil.isNotEmpty(env) && !"all".equals(env)) {
             sql = sql + " and env='" + env + "'";
         }
 
+        //维保
         if (ToolUtil.isNotEmpty(wb) && !"all".equals(wb)) {
             sql = sql + " and wb='" + wb + "'";
         }
 
+        //状态
         if (ToolUtil.isNotEmpty(recycle) && !"all".equals(recycle)) {
             sql = sql + " and recycle='" + recycle + "'";
         }
 
+        //使用公司
         if(ToolUtil.isNotEmpty(comp)){
             sql = sql + " and used_company_id='" + comp + "'";
         }
 
+        //所属公司
         if (ToolUtil.isNotEmpty(belongcomp)) {
             sql = sql + " and belong_company_id='" + belongcomp + "'";
         }
@@ -318,22 +325,32 @@ public class ZcService extends BaseService{
             sql = sql + " and part_id in (select node_id from hrm_org_part where (node_id='" + part_parents + "' or route like '%" + part_parents + "-%'))";
         }
 
+        //仓库
         if (ToolUtil.isNotEmpty(ps.getString("warehouse"))) {
             sql = sql + " and warehouse='" + ps.getString("warehouse") + "'";
         }
 
+        //资产数
         if (ToolUtil.isNotEmpty(ps.getString("zcnumber"))) {
             sql = sql + " and zc_cnt>" + ps.getString("zcnumber");
         }
 
+        //类目
         if (ToolUtil.isNotEmpty(ps.getString("category"))) {
             sql = sql + " and category='" + ps.getString("category") + "'";
         }
 
+        //机架
         if (ToolUtil.isNotEmpty(ps.getString("rack"))) {
             sql = sql + " and rack='" + ps.getString("rack") + "'";
         }
 
+        //默认不显示报废数据,报废数据则,isscrap=1
+        if (ToolUtil.isNotEmpty(isscrap) && "1".equals(isscrap)) {
+            sql = sql + " and isscrap='1'";
+        } else {
+            sql = sql + " and isscrap='0'";
+        }
 
         //idle,inuse,scrap,borrow,repair,stopuse,allocation
         if (ToolUtil.isNotEmpty(datarange)) {
@@ -343,14 +360,15 @@ public class ZcService extends BaseService{
                 sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "')";
             } else if (ZcCommonService.DATARANGE_JY.equals(datarange)) {
                 sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
-            }else if(ZcCommonService.DATARANGE_DB.equals(datarange)){
+            } else if (ZcCommonService.DATARANGE_DB.equals(datarange)) {
                 sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             }else if (ZcCommonService.DATARANGE_BF.equals(datarange)) {
                 sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             } else if (ZcCommonService.DATARANGE_ZJ.equals(datarange)) {
                 sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' ";
+            } else if (ZcCommonService.DATARANGE_CG.equals(datarange)) {
+                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' ";
             }
-
         }
 
         String ressql="";
@@ -365,8 +383,6 @@ public class ZcService extends BaseService{
         return  ressql;
     }
 
-
-
     // 根据ClassId获取数据,优先判断multiclassroot,在获取class_id
     public R queryResAllGetData(String belongcomp,String comp,String part,String datarange,String classroot, String class_id, String wb, String env, String recycle, String loc, String search,TypedHashMap<String, Object> ps) {
         String sql = this.buildQueryResAllGetdatalSql(belongcomp, comp, part, datarange, classroot, class_id, wb, env, recycle, loc, search, ps);
@@ -374,82 +390,6 @@ public class ZcService extends BaseService{
         return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
     }
 
-    public R batchUpdateRes(TypedHashMap<String, Object> ps) {
-        Date date = new Date(); // 获取一个Date对象
-        DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
-        String nowtime = simpleDateFormat.format(date);
-
-        String ids = ps.getString("ids");
-        JSONArray ids_arr = JSONArray.parseArray(ids);
-        List<SQL> sqls = new ArrayList<SQL>();
-        for (int i = 0; i < ids_arr.size(); i++) {
-            Update me = new Update("res");
-
-            if (ToolUtil.isNotEmpty(ps.getString("ifrecycleSel")) && "Y".equals(ps.getString("ifrecycleSel"))) {
-                me.setIf("recycle", ps.getString("recycleSel"));
-            }
-
-            if (ToolUtil.isNotEmpty(ps.getString("ifriskSel")) && "Y".equals(ps.getString("ifriskSel"))) {
-                me.setIf("risk", ps.getString("riskSel"));
-            }
-
-            if (ToolUtil.isNotEmpty(ps.getString("ifenvSel")) && "Y".equals(ps.getString("ifenvSel"))) {
-                me.setIf("env", ps.getString("envSel"));
-            }
-
-            if (ToolUtil.isNotEmpty(ps.getString("ifwbSel")) && "Y".equals(ps.getString("ifwbSel"))) {
-                me.setIf("wb", ps.getString("wbSel"));
-            }
-
-            if (ToolUtil.isNotEmpty(ps.getString("ifusedPartSel")) && "Y".equals(ps.getString("ifusedPartSel"))) {
-                me.setIf("part_id", ps.getString("partSel"));
-            }
-
-            if (ToolUtil.isNotEmpty(ps.getString("ifusedUserSel")) && "Y".equals(ps.getString("ifusedUserSel"))) {
-                me.setIf("used_userid", ps.getString("usedunameSel"));
-            }
-
-            if (ToolUtil.isNotEmpty(ps.getString("iftbComputeSel")) && "Y".equals(ps.getString("iftbComputeSel"))) {
-                me.setIf("wb_auto", ps.getString("tbSel"));
-            }
-
-            if (ToolUtil.isNotEmpty(ps.getString("iflocSel")) && "Y".equals(ps.getString("iflocSel"))) {
-                me.setIf("loc", ps.getString("locSel"));
-            }
-
-            if (ToolUtil.isNotEmpty(ps.getString("ifbuySel")) && "Y".equals(ps.getString("ifbuySel"))) {
-                me.setIf("buy_time",
-                        ps.getString("buy_time_f") == null ? null : ps.getString("buy_time_f") + " 01:00:00");
-            }
-
-            if (ToolUtil.isNotEmpty(ps.getString("ifTbSel")) && "Y".equals(ps.getString("ifTbSel"))) {
-                me.setIf("wbout_date",
-                        ps.getString("wbout_date_f") == null ? null : ps.getString("wbout_date_f") + " 01:00:00");
-
-            }
-
-            me.setIf("changestate", "updated");
-            me.setIf("update_time", nowtime);
-            me.setIf("update_by", this.getUserId());
-            me.where().and("id=?", ids_arr.getString(i));
-            sqls.add(me);
-
-            Insert ins = new Insert("res_history");
-            ins.set("oper_type", "批量更新");
-            ins.set("id", db.getUUID());
-            ins.set("res_id", ids_arr.getString(i));
-            ins.set("oper_time", nowtime);
-            ins.set("oper_user", this.getUserId());
-            ins.set("fullct", "略");
-            sqls.add(ins);
-        }
-
-        // 批量计算
-        db.executeSQLList(sqls);
-        checkWbMethod();
-        return R.SUCCESS_OPER();
-
-    }
 
     public void checkWbMethod() {
         // 转脱保
@@ -674,8 +614,9 @@ public class ZcService extends BaseService{
             me.setIf("unit_price", ps.getString("unit_price"));
             me.setIf("warehouse", ps.getString("warehouse"));
             me.setIf("batchno", ps.getString("batchno"));
-
             me.setIf("usefullife", ps.getString("usefullife"));
+            me.setIf("unit", ps.getString("unit"));
+            me.setIf("isscrap", ps.getString("isscrap"));
 
             sql = me.getSQL();
         } else {
@@ -733,6 +674,7 @@ public class ZcService extends BaseService{
             me.setIf("warehouse", ps.getString("warehouse"));
             me.setIf("batchno", ps.getString("batchno"));
             me.setIf("usefullife", ps.getString("usefullife"));
+            me.setIf("unit", ps.getString("unit"));
             me.where().and("id=?", id);
             sql = me.getSQL();
 
@@ -746,7 +688,7 @@ public class ZcService extends BaseService{
                     String act = db
                             .uniqueRecord(" select name,dict_item_id from sys_dict_item where dict_item_id=? ", recycle)
                             .getString("name");
-                    ins.set("oper_type", "动作-" + act);
+                    ins.set("oper_type", "操作-" + act);
                 }
 
             } else {

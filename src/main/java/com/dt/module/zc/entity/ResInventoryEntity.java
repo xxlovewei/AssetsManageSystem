@@ -55,10 +55,10 @@ public class ResInventoryEntity implements java.io.Serializable {
     @Excel(name = "其他资产编号", width = 12)
     private String fs20;
 
-    @Excel(name = "资产区域", width = 15)
+    @Excel(name = "区域", width = 15)
     private String locstr;
 
-    @Excel(name = "位置详情", width = 10)
+    @Excel(name = "位置", width = 10)
     private String locdtl;
 
 

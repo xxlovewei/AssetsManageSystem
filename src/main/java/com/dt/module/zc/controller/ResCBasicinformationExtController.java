@@ -82,6 +82,10 @@ public class ResCBasicinformationExtController extends BaseController {
             e.setTzccnt(entity.getTzccnt());
             e.setTzcsource(entity.getTzcsource());
 
+            e.setTlabel1(entity.getTlabel1());
+            e.setTunit(entity.getTunit());
+            e.setTconfdesc(entity.getTconfdesc());
+            e.setTlocdtl(entity.getTlocdtl());
 
             e.setTclassidstatus(entity.getTclassidstatus());
             e.setTmodelstatus(entity.getTmodelstatus());
@@ -96,6 +100,11 @@ public class ResCBasicinformationExtController extends BaseController {
             e.setTusedcompanyidstatus(entity.getTusedcompanyidstatus());
             e.setTpartidstatus(entity.getTpartidstatus());
             e.setTuseduseridstatus(entity.getTuseduseridstatus());
+
+            e.setTlabel1status(entity.getTlabel1status());
+            e.setTlocdtlstatus(entity.getTlocdtlstatus());
+            e.setTunitstatus(entity.getTunitstatus());
+            e.setTconfdescstatus(entity.getTconfdescstatus());
 
             list.add(e);
         }

@@ -1,16 +1,11 @@
 package com.dt.module.zc.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.math.BigDecimal;
-
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
@@ -20,9 +15,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-13
+ * @since 2020-08-16
  */
-
+ 
 @TableName("res_c_basicinformation_item")
 
 public class ResCBasicinformationItem extends BaseModel<ResCBasicinformationItem> {
@@ -113,6 +108,30 @@ public class ResCBasicinformationItem extends BaseModel<ResCBasicinformationItem
     private String tpartidstatus;
     @TableField("tuseduseridstatus")
     private String tuseduseridstatus;
+    @TableField("tlabel1")
+    private String tlabel1;
+    @TableField("tunit")
+    private String tunit;
+    @TableField("tconfdesc")
+    private String tconfdesc;
+    @TableField("tlocdtl")
+    private String tlocdtl;
+    @TableField("flabel1")
+    private String flabel1;
+    @TableField("funit")
+    private String funit;
+    @TableField("fconfdesc")
+    private String fconfdesc;
+    @TableField("flocdtl")
+    private String flocdtl;
+    @TableField("tlabel1status")
+    private String tlabel1status;
+    @TableField("tunitstatus")
+    private String tunitstatus;
+    @TableField("tconfdescstatus")
+    private String tconfdescstatus;
+    @TableField("tlocdtlstatus")
+    private String tlocdtlstatus;
 
 
     public String getId() {
@@ -451,6 +470,102 @@ public class ResCBasicinformationItem extends BaseModel<ResCBasicinformationItem
         this.tuseduseridstatus = tuseduseridstatus;
     }
 
+    public String getTlabel1() {
+        return tlabel1;
+    }
+
+    public void setTlabel1(String tlabel1) {
+        this.tlabel1 = tlabel1;
+    }
+
+    public String getTunit() {
+        return tunit;
+    }
+
+    public void setTunit(String tunit) {
+        this.tunit = tunit;
+    }
+
+    public String getTconfdesc() {
+        return tconfdesc;
+    }
+
+    public void setTconfdesc(String tconfdesc) {
+        this.tconfdesc = tconfdesc;
+    }
+
+    public String getTlocdtl() {
+        return tlocdtl;
+    }
+
+    public void setTlocdtl(String tlocdtl) {
+        this.tlocdtl = tlocdtl;
+    }
+
+    public String getFlabel1() {
+        return flabel1;
+    }
+
+    public void setFlabel1(String flabel1) {
+        this.flabel1 = flabel1;
+    }
+
+    public String getFunit() {
+        return funit;
+    }
+
+    public void setFunit(String funit) {
+        this.funit = funit;
+    }
+
+    public String getFconfdesc() {
+        return fconfdesc;
+    }
+
+    public void setFconfdesc(String fconfdesc) {
+        this.fconfdesc = fconfdesc;
+    }
+
+    public String getFlocdtl() {
+        return flocdtl;
+    }
+
+    public void setFlocdtl(String flocdtl) {
+        this.flocdtl = flocdtl;
+    }
+
+    public String getTlabel1status() {
+        return tlabel1status;
+    }
+
+    public void setTlabel1status(String tlabel1status) {
+        this.tlabel1status = tlabel1status;
+    }
+
+    public String getTunitstatus() {
+        return tunitstatus;
+    }
+
+    public void setTunitstatus(String tunitstatus) {
+        this.tunitstatus = tunitstatus;
+    }
+
+    public String getTconfdescstatus() {
+        return tconfdescstatus;
+    }
+
+    public void setTconfdescstatus(String tconfdescstatus) {
+        this.tconfdescstatus = tconfdescstatus;
+    }
+
+    public String getTlocdtlstatus() {
+        return tlocdtlstatus;
+    }
+
+    public void setTlocdtlstatus(String tlocdtlstatus) {
+        this.tlocdtlstatus = tlocdtlstatus;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -501,6 +616,18 @@ public class ResCBasicinformationItem extends BaseModel<ResCBasicinformationItem
                 ", tusedcompanyidstatus=" + tusedcompanyidstatus +
                 ", tpartidstatus=" + tpartidstatus +
                 ", tuseduseridstatus=" + tuseduseridstatus +
+                ", tlabel1=" + tlabel1 +
+                ", tunit=" + tunit +
+                ", tconfdesc=" + tconfdesc +
+                ", tlocdtl=" + tlocdtl +
+                ", flabel1=" + flabel1 +
+                ", funit=" + funit +
+                ", fconfdesc=" + fconfdesc +
+                ", flocdtl=" + flocdtl +
+                ", tlabel1status=" + tlabel1status +
+                ", tunitstatus=" + tunitstatus +
+                ", tconfdescstatus=" + tconfdescstatus +
+                ", tlocdtlstatus=" + tlocdtlstatus +
                 "}";
     }
 }

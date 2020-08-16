@@ -12,12 +12,12 @@ import java.util.HashMap;
 
 
 @Service
-public class ZcReportService extends BaseService{
+public class ZcReportService extends BaseService {
 
     //公司部门汇总
-    public R queryPartUsedReport(String catid){
+    public R queryPartUsedReport(String catid) {
 
-        String sql="select\n" +
+        String sql = "select\n" +
                 "  node_id        part_id,\n" +
                 "  route_name     part_fullname,\n" +
                 "  node_name      part_name,\n" +
@@ -30,7 +30,7 @@ public class ZcReportService extends BaseService{
                 "                                                      part_id,\n" +
                 "                                                      count(1) cnt\n" +
                 "                                                    from <#RES#> r\n" +
-                "                                                    where dr = '0'\n" +
+                "                                                    where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "' \n" +
                 "                                                    group by part_id) b on a.node_id = b.part_id\n" +
                 "union all\n" +
                 "select\n" +
@@ -39,22 +39,22 @@ public class ZcReportService extends BaseService{
                 "  '未设置组织或组织异常' part_name,\n" +
                 "  count(1)     zc_cnt\n" +
                 "from <#RES#> r\n" +
-                "where dr='0' and part_id not in (select node_id\n" +
+                "where dr='0' and category='" + ZcCommonService.CATEGORY_ZC + "' and part_id not in (select node_id\n" +
                 "                      from hrm_org_part\n" +
-                "                      where org_id = '1' and dr = '0') or part_id is null\n" ;
+                "                      where org_id = '1' and dr = '0') or part_id is null\n";
 
-        String rssql="";
-        if(ToolUtil.isNotEmpty(catid)){
-            rssql=sql.replaceAll("<#RES#>","(select a.*,b.id catid from res a,ct_category b where a.class_id=b.id and b.id='"+catid+"'  ) ");
-        }else{
-            rssql=sql.replaceAll("<#RES#>","res");
+        String rssql = "";
+        if (ToolUtil.isNotEmpty(catid)) {
+            rssql = sql.replaceAll("<#RES#>", "(select a.*,b.id catid from res a,ct_category b where a.class_id=b.id and b.id='" + catid + "'  ) ");
+        } else {
+            rssql = sql.replaceAll("<#RES#>", "res");
         }
-        return R.SUCCESS_OPER(db.query(rssql).toJsonArrayWithJsonObject());
+        return R.SUCCESS_OPER(db.query("select * from (" + rssql + ")tab order by part_fullname ").toJsonArrayWithJsonObject());
     }
 
     //分类使用
-    public R queryCatReport(){
-        String sql="select\n" +
+    public R queryCatReport() {
+        String sql = "select\n" +
                 "  (select route_name\n" +
                 "   from ct_category\n" +
                 "   where id = t.class_id) catname,\n" +
@@ -70,17 +70,17 @@ public class ZcReportService extends BaseService{
                 "         class_id,\n" +
                 "         count(1) cnt\n" +
                 "       from res\n" +
-                "       where dr = '0'\n" +
+                "       where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "' \n" +
                 "       group by class_id\n" +
                 "     ) t order by 1,2";
 
-        return R.SUCCESS_OPER( db.query(sql).toJsonArrayWithJsonObject());
+        return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
 
     //资产分类
-    public R queryCatUsedReport(){
+    public R queryCatUsedReport() {
 
-        String sql="select\n" +
+        String sql = "select\n" +
                 "  t.*,\n" +
                 "  (select code\n" +
                 "   from sys_dict_item\n" +
@@ -96,34 +96,34 @@ public class ZcReportService extends BaseService{
                 "         class_id,\n" +
                 "         recycle,\n" +
                 "         count(1) cnt\n" +
-                "       from res t\n" +
-                "       where dr = '0'\n" +
-                "       group by class_id, recycle) t\n" ;
-        RcdSet rs= db.query(sql);
+                "       from res t \n" +
+                "       where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "' \n" +
+                "       group by class_id, recycle) t\n";
+        System.out.println(sql);
+        RcdSet rs = db.query(sql);
 
-        HashMap<String, JSONObject> map=new HashMap<String, JSONObject>();
-        for(int i=0;i<rs.size();i++){
-            String class_id=rs.getRcd(i).getString("class_id");
-            JSONObject obj=null;
-            if(map.containsKey(class_id)){
-                 obj=map.get(class_id);
-            }else{
-                obj=new JSONObject();
-
-                obj.put("catname",rs.getRcd(i).getString("catname"));
-                obj.put("catrootname",rs.getRcd(i).getString("catrootname"));
-                obj.put(ZcCommonService.RECYCLE_INUSE,"0");
-                obj.put(ZcCommonService.RECYCLE_ALLOCATION,"0");
-                obj.put(ZcCommonService.RECYCLE_BORROW,"0");
-                obj.put(ZcCommonService.RECYCLE_IDLE,"0");
-                obj.put(ZcCommonService.RECYCLE_REPAIR,"0");
-                obj.put(ZcCommonService.RECYCLE_SCRAP,"0");
-                obj.put(ZcCommonService.RECYCLE_STOPUSE,"0");
+        HashMap<String, JSONObject> map = new HashMap<String, JSONObject>();
+        for (int i = 0; i < rs.size(); i++) {
+            String class_id = rs.getRcd(i).getString("class_id");
+            JSONObject obj = null;
+            if (map.containsKey(class_id)) {
+                obj = map.get(class_id);
+            } else {
+                obj = new JSONObject();
+                obj.put("catname", rs.getRcd(i).getString("catname"));
+                obj.put("catrootname", rs.getRcd(i).getString("catrootname"));
+                obj.put(ZcCommonService.RECYCLE_INUSE, "0");
+                obj.put(ZcCommonService.RECYCLE_ALLOCATION, "0");
+                obj.put(ZcCommonService.RECYCLE_BORROW, "0");
+                obj.put(ZcCommonService.RECYCLE_IDLE, "0");
+                obj.put(ZcCommonService.RECYCLE_REPAIR, "0");
+                obj.put(ZcCommonService.RECYCLE_SCRAP, "0");
+                obj.put(ZcCommonService.RECYCLE_STOPUSE, "0");
             }
-            obj.put(rs.getRcd(i).getString("code"),rs.getRcd(i).getString("cnt"));
-            map.put(class_id,obj);
+            obj.put(rs.getRcd(i).getString("code"), rs.getRcd(i).getString("cnt"));
+            map.put(class_id, obj);
         }
-        JSONArray arr=new JSONArray();
+        JSONArray arr = new JSONArray();
         for (String key : map.keySet()) {
             arr.add(map.get(key));
         }
@@ -131,28 +131,28 @@ public class ZcReportService extends BaseService{
     }
 
     //到期
-    public R queryExpredReport(String catid){
+    public R queryExpredReport(String catid) {
 
         return R.SUCCESS_OPER();
     }
 
     //清理清单
-    public R queryCleaninglistReport(String catid){
+    public R queryCleaninglistReport(String catid) {
 
         return R.SUCCESS_OPER();
     }
 
     //维保到期
-    public R queryWbExpredReport(String day){
+    public R queryWbExpredReport(String day) {
 
-        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and wbout_date<= date_add(curdate(), INTERVAL "+day+" DAY)";
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and category='" + ZcCommonService.CATEGORY_ZC + "' and wbout_date<= date_add(curdate(), INTERVAL " + day + " DAY)";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
 
 
     //维保到期
-    public R queryEmployeeUsedReport(){
-        String sql=" select\n" +
+    public R queryEmployeeUsedReport() {
+        String sql = " select\n" +
                 "                (select name from sys_user_info where user_id=t.used_userid) username,\n" +
                 "                (select mail from sys_user_info where user_id=t.used_userid) usermail,\n" +
                 "                (select tel from sys_user_info where user_id=t.used_userid) usertel,\n" +
@@ -163,7 +163,7 @@ public class ZcReportService extends BaseService{
                 "                                used_userid,\n" +
                 "                                count(1) cnt\n" +
                 "                                from res a\n" +
-                "                                where dr = '0'\n" +
+                "                                where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "'\n" +
                 "                                group by used_userid\n" +
                 "                        ) t";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());

@@ -53,6 +53,7 @@ public class ZcCommonService extends BaseService {
     public static String DATARANGE_ZJ = "ZJ";
     public static String DATARANGE_ALL = "all";
 
+    public static String DATARANGE_CG = "CG";
 
     public static String UUID_ZC = "ZC";
     public static String UUID_LY = "LY";

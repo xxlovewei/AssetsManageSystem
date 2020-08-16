@@ -1035,7 +1035,7 @@ function zcBaseColsCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('unit').withTitle('计量单位').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
         .withOption('sDefaultContent', ''));
