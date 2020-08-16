@@ -6,13 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="常规更新操作">
-      <change afterPath="$PROJECT_DIR$/dt.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dt.sql.zip" beforeDir="false" />
+    <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/footer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/版本升级2.2.11-2.2.12.txt" beforeDir="false" afterPath="$PROJECT_DIR$/版本升级2.2.11-2.2.12.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,15 +114,15 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.JavaScript" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/console/img/bg_img" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/console/vendor/datatables/media/js" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/console/vendor/datatables/media/css" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/console/js" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dc" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.dt.module.zc.controller" />
@@ -136,12 +131,12 @@
       <recent name="com.dt.module.zbx.service.impl" />
       <recent name="com.dt.module.om.controller" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/console/img/bg_img" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/console/vendor/datatables/media/js" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/console/vendor/datatables/media/css" />
       <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/console/js" />
-      <recent name="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/dc" />
     </key>
   </component>
   <component name="RunManager" selected="Application.DeployZcDevMac">
@@ -534,14 +529,7 @@
       <workItem from="1597009964497" duration="70995000" />
       <workItem from="1597375042595" duration="29207000" />
       <workItem from="1597553357172" duration="3366000" />
-      <workItem from="1597566840017" duration="6024000" />
-    </task>
-    <task id="LOCAL-00119" summary="常规更新操作">
-      <created>1593049270892</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1593049270893</updated>
+      <workItem from="1597566840017" duration="6047000" />
     </task>
     <task id="LOCAL-00120" summary="常规更新操作">
       <created>1593101567757</created>
@@ -879,7 +867,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597573104094</updated>
     </task>
-    <option name="localTasksCounter" value="168" />
+    <task id="LOCAL-00168" summary="常规更新操作">
+      <created>1597573543647</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1597573543647</updated>
+    </task>
+    <option name="localTasksCounter" value="169" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -981,7 +976,7 @@
     </state>
     <state x="349" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/40.23.1240.777@40.23.1240.777" timestamp="1589272592550" />
     <state x="353" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/45.23.1235.777@45.23.1235.777" timestamp="1592522940651" />
-    <state x="125" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1597573103224">
+    <state x="125" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1597573543302">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state x="36" y="23" width="833" height="777" key="CommitChangelistDialog2/36.23.1244.777@36.23.1244.777" timestamp="1590670297315" />
@@ -991,7 +986,7 @@
     <state x="174" y="37" width="833" height="617" key="CommitChangelistDialog2/41.23.1239.777@41.23.1239.777" timestamp="1590622241157" />
     <state x="192" y="70" width="761" height="592" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1591002752233" />
     <state x="333" y="23" width="833" height="777" key="CommitChangelistDialog2/44.23.1236.777@44.23.1236.777" timestamp="1595840921775" />
-    <state x="125" y="23" width="833" height="731" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1597573103224" />
+    <state x="125" y="23" width="833" height="731" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1597573543302" />
     <state x="428" y="23" key="CommitChangelistDialog2/45.23.1635.1027@45.23.1635.1027" timestamp="1594547269947" />
     <state x="53" y="90" width="1227" height="614" key="DiffContextDialog" timestamp="1596977646904">
       <screen x="45" y="23" width="1235" height="777" />
