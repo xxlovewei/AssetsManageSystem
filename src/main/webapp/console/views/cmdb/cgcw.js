@@ -128,9 +128,9 @@ function cgcwlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
-    dtColumns.push(DTColumnBuilder.newColumn('fbelongcom_fullname').withTitle('所属公司(变更前)').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('fbelongcompfullname').withTitle('所属公司(变更前)').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('tbelongcom_fullname').withTitle('所属公司(变更后)').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('tbelongcompfullname').withTitle('所属公司(变更后)').withOption(
         'sDefaultContent', '').renderWith(renderbcomp));
     dtColumns.push(DTColumnBuilder.newColumn('fbuyprice').withTitle('采购单价(变更前)')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
@@ -526,6 +526,14 @@ function zccgcwCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         return acthtml;
     }
 
+    function renderprocess(data, type, full) {
+        if (angular.isDefined(data) && data.length() > 0) {
+            return "申请详情"
+        } else {
+            return "无审批"
+        }
+    }
+
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
     $scope.dtColumns = [
         DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
@@ -538,9 +546,11 @@ function zccgcwCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
             'sDefaultContent', '').renderWith(renderCGStatus),
+        DTColumnBuilder.newColumn('pinst').withTitle('流程详情').withOption(
+            'sDefaultContent', '').renderWith(renderprocess),
         DTColumnBuilder.newColumn('processusername').withTitle('处理人').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tbelongcom_fullname').withTitle('所属公司').withOption(
+        DTColumnBuilder.newColumn('tbelongcompfullname').withTitle('所属公司').withOption(
             'sDefaultContent', '').renderWith(renderbcomp),
         DTColumnBuilder.newColumn('tbuyprice').withTitle('采购单价').withOption(
             'sDefaultContent', '').renderWith(renderbuyprice),
@@ -567,7 +577,7 @@ function zccgcwCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
                 type: "btn",
                 show: true,
                 priv: "select",
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">刷新</button>'
+                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
                 id: "btn3",

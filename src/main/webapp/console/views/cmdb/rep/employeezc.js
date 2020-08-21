@@ -60,7 +60,7 @@ function employeezcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     }
 
     $scope.dtColumns = [
-        DTColumnBuilder.newColumn('part_fullname').withTitle('部门')
+        DTColumnBuilder.newColumn('part_fullname').withTitle('使用部门')
             .withOption('sDefaultContent', ''),
         DTColumnBuilder.newColumn('username').withTitle('姓名')
             .withOption('sDefaultContent', ''),

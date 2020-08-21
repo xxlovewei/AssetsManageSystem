@@ -54,6 +54,8 @@ public class ZcChangeService extends BaseService {
     IResCFinanceService ResCFinanceServiceImpl;
     @Autowired
     IResCFinanceItemService ResCFinanceItemServiceImpl;
+    @Autowired
+    IResCollectionreturnItemService ResCollectionreturnItemServiceImpl;
 
     public R zcSureChange(String uuid, String type) {
         if (type.equals(ZcCommonService.ZC_BUS_TYPE_LY)) {
@@ -90,6 +92,99 @@ public class ZcChangeService extends BaseService {
 
     //**************************领用/退库************************//
     //领用确认
+    public R zcLyConfirm(String uuid) {
+        //保存变更前数据
+        String sql = " update res_collectionreturn_item a,res b set \n" +
+                "   a.fusedcompanyid=b.used_company_id\n" +
+                " , a.fpartid=b.part_id\n" +
+                " , a.fuseduserid=b.used_userid\n" +
+                " , a.floc=b.loc\n" +
+                " , a.flocdtl=b.locdtl\n" +
+                "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql, uuid);
+
+        //更新数据
+        String sql2 = " update res_collectionreturn_item a,res b set \n" +
+                "b.loc=a.tloc," +
+                "b.used_company_id=a.tusedcompanyid," +
+                "b.part_id=a.tpartid," +
+                "b.used_userid=a.tuseduserid," +
+                "b.locdtl=a.tlocdtl," +
+                "b.recycle='" + ZcCommonService.RECYCLE_INUSE + "'," +
+                "b.inprocess='0'," +
+                "b.inprocessuuid=''," +
+                "b.inprocesstype='', " +
+                "b.uuidly=a.busuuid " +
+                "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql2, uuid);
+        //记录资产变更
+        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
+        QueryWrapper<ResCollectionreturnItem> ew = new QueryWrapper<ResCollectionreturnItem>();
+        ew.and(i -> i.eq("busuuid", uuid));
+        List<ResCollectionreturnItem> items = ResCollectionreturnItemServiceImpl.list(ew);
+        for (int i = 0; i < items.size(); i++) {
+            ResChangeItem e = new ResChangeItem();
+            e.setBusuuid(uuid);
+            e.setResid(items.get(i).getResid());
+            e.setType(ZcCommonService.ZC_BUS_TYPE_LY);
+            e.setMark("资产领用");
+            cols.add(e);
+        }
+        ResChangeItemServiceImpl.saveBatch(cols);
+        return R.SUCCESS_OPER();
+    }
+
+
+    //领用确认
+    public R zcTkConfirm(String uuid) {
+        //保存变更前数据
+        String sql = " update res_collectionreturn_item a,res b set \n" +
+                "   a.fusedcompanyid=b.used_company_id\n" +
+                " , a.fpartid=b.part_id\n" +
+                " , a.fuseduserid=b.used_userid\n" +
+                " , a.floc=b.loc\n" +
+                " , a.flocdtl=b.locdtl\n" +
+                "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql, uuid);
+
+        //更新数据
+        String sql2 = " update res_collectionreturn_item a,res b set \n" +
+                "b.loc=a.tloc," +
+                "b.used_company_id=a.tusedcompanyid," +
+                "b.part_id=a.tpartid," +
+                "b.used_userid=a.tuseduserid," +
+                "b.locdtl=a.tlocdtl," +
+                "b.recycle='" + ZcCommonService.RECYCLE_IDLE + "'," +
+                "b.inprocess='0'," +
+                "b.inprocessuuid=''," +
+                "b.inprocesstype='', " +
+                "b.uuidly=a.busuuid " +
+                "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql2, uuid);
+        String sql3 = " update res_collectionreturn_item a,res_collectionreturn_item b set " +
+                " a.returnuuid=b.busuuid," +
+                " a.rreturndate=b.rreturndate," +
+                " a.isreturn='1'" +
+                " where a.resid=b.resid and b.busuuid=? and b.dr='0'";
+        db.execute(sql3, uuid);
+        //记录资产变更
+        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
+        QueryWrapper<ResCollectionreturnItem> ew = new QueryWrapper<ResCollectionreturnItem>();
+        ew.and(i -> i.eq("busuuid", uuid));
+        List<ResCollectionreturnItem> items = ResCollectionreturnItemServiceImpl.list(ew);
+        for (int i = 0; i < items.size(); i++) {
+            ResChangeItem e = new ResChangeItem();
+            e.setBusuuid(uuid);
+            e.setResid(items.get(i).getResid());
+            e.setType(ZcCommonService.ZC_BUS_TYPE_TK);
+            e.setMark("资产退库");
+            cols.add(e);
+        }
+        ResChangeItemServiceImpl.saveBatch(cols);
+        return R.SUCCESS_OPER();
+    }
+
+    //领用确认
     public R zcLySureChange(String uuid) {
         UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
         ups.inSql("id", "select resid from res_action_item where dr='0' and busuuid='" + uuid + "'");
@@ -112,8 +207,6 @@ public class ZcChangeService extends BaseService {
         }
         ResChangeItemServiceImpl.saveBatch(cols);
         return R.SUCCESS_OPER();
-
-
     }
 
     //领用申请
@@ -423,6 +516,7 @@ public class ZcChangeService extends BaseService {
                 " , a.fbrand=b.brand\n" +
                 " , a.fbuytime=b.buy_time\n" +
                 " , a.floc=b.loc\n" +
+                " , a.fconfdesc=b.confdesc\n" +
                 " , a.fusefullife=b.usefullife\n" +
                 " , a.fusedcompanyid=b.used_company_id\n" +
                 " , a.fpartid=b.part_id\n" +

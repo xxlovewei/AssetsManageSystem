@@ -81,8 +81,8 @@ public class ResCFinanceExtController extends BaseController {
     public R selectList() {
         String sql = "select\n" +
                 " (select name from sys_user_info where user_id=b.create_by) createusername," +
-                "(select route_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcom_fullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcom_name,\n" +
+                "(select route_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompfullname,\n" +
+                "(select node_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompname,\n" +
                 "b.*\n" +
                 "from  res_c_finance b where dr='0' order by create_time desc";
         RcdSet rs = db.query(sql);
@@ -95,10 +95,10 @@ public class ResCFinanceExtController extends BaseController {
     public R selectByUuid(String uuid) {
 
         String sql = "select " + ZcCommonService.resSqlbody + " t.* ,b.*,\n" +
-                "(select route_name from hrm_org_part where node_id=b.fbelongcomp) fbelongcom_fullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.fbelongcomp) fbelongcom_name,\n" +
-                "(select route_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcom_fullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcom_name\n" +
+                "(select route_name from hrm_org_part where node_id=b.fbelongcomp) fbelongcompfullname,\n" +
+                "(select node_name from hrm_org_part where node_id=b.fbelongcomp) fbelongcompname,\n" +
+                "(select route_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompfullname,\n" +
+                "(select node_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompname\n" +
                 "from res t, res_c_finance_item b where t.id=b.resid and t.dr='0' and b.dr='0' and b.busuuid=?";
         RcdSet rs = db.query(sql, uuid);
         return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());

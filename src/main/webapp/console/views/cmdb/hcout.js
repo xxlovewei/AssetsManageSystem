@@ -246,11 +246,11 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('ctid').withTitle('物品编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('物品类型').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('物品类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('ctmodel').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push(DTColumnBuilder.newColumn('ctunit').withTitle('单位').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('ctunit').withTitle('计量单位').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('ctbrandmark').withTitle('品牌:').withOption(
         'sDefaultContent', '').withOption('width', '50'));
@@ -480,7 +480,7 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             return data;
         }
     }));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('cnt').withTitle('物品类型数量').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('cnt').withTitle('数量').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('outbelongcompname').withTitle('出库所属公司')
         .withOption('sDefaultContent', ''));

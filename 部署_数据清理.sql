@@ -35,7 +35,12 @@ truncate table sys_process_data;
 truncate table sys_process_data_kv;
 truncate table res_residual_item;
 truncate table res_residual;
-
+truncate table res_c_basicinformation;
+truncate table res_c_basicinformation_item;
+truncate table res_c_finance;
+truncate table res_c_finance_item;
+truncate table res_c_maintenance;
+truncate table res_c_maintenance_item;
 
 #clear ops table
 truncate table ops_node;

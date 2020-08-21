@@ -13,11 +13,11 @@ function hcsecStoreCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 $compile(angular.element(row).contents())($scope);
             });
     $scope.dtColumns = [];
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('route_name').withTitle('物品类型').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('route_name').withTitle('物品类别').withOption(
         'sDefaultContent', '').withOption('width', '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('unit').withTitle('单位').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('unit').withTitle('计量单位').withOption(
         'sDefaultContent', '').withOption('width', '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('brandmark').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));

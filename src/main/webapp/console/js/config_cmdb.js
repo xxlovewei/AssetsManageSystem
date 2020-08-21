@@ -555,17 +555,42 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                     }]);
             }
         }
-    }).state('zcchange.jygh', {
-        url: "/zcchange_jygh",
-        data: {pageTitle: '资产借用归还', actiontype: "JY", datatype: "full"},
-        templateUrl: "views/cmdb/zcaction.html?v=" + version,
+    }).state('zcchange.collectionreturn', {
+        url: "zcchange_collectionreturn",
+        data: {pageTitle: '资产领用&退库'},
+        templateUrl: "views/cmdb/collectionreturn.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
-                return $ocLazyLoad.load([
-                    {
-                        serie: true,
-                        files: ['vendor/basket/basket.0.5.2.full.min.js', 'plugin/form/k-form-design.css']
-                    }, {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/collectionreturn.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('zcchange.loanreturn', {
+        url: "loanreturn",
+        data: {pageTitle: '资产借用&归还'},
+        templateUrl: "views/cmdb/loanreturn.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/loanreturn.js?v=' + version]
+                }]);
+            }
+        }
+    })
+        .state('zcchange.jygh', {
+            url: "/zcchange_jygh",
+            data: {pageTitle: '资产借用归还', actiontype: "JY", datatype: "full"},
+            templateUrl: "views/cmdb/zcaction.html?v=" + version,
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['vendor/basket/basket.0.5.2.full.min.js', 'plugin/form/k-form-design.css']
+                        }, {
                         serie: true,
                         files: ['views/cmdb/zcaction.js?v=' + version]
                     }]);
@@ -845,6 +870,19 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('report.tkwarntab', {
+        url: "/tkwarntab",
+        data: {pageTitle: '到期退库预警表'},
+        // templateUrl: "views/cmdb/rep/catreport.html?v=" + version,
+        template: '<div ng-controller="tkwarnCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/rep/tkwarn.js?v=' + version]
+                }]);
+            }
+        }
     });
 }
 
@@ -892,7 +930,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 //                     return data;
 //                 }
 //     }));
-//     dtColumns.push(DTColumnBuilder.newColumn('cnt').withTitle('物品类型数量').withOption(
+//     dtColumns.push(DTColumnBuilder.newColumn('cnt').withTitle('数量').withOption(
 //         'sDefaultContent', '').withOption("width", '30'));
 //
 //     dtColumns.push(DTColumnBuilder.newColumn('suppliername').withTitle('供应商').withOption(
@@ -922,13 +960,15 @@ function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
+        'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push(DTColumnBuilder.newColumn('ctid').withTitle('物品编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('物品类型').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('物品类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('ctmodel').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push(DTColumnBuilder.newColumn('ctunit').withTitle('单位').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('ctunit').withTitle('计量单位').withOption(
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('ctbrandmark').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '50'));
@@ -938,8 +978,7 @@ function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('ctupcnt').withTitle('安全库存上限').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
-        'sDefaultContent', '').withOption('width', '30'));
+
     // dtColumns.push(DTColumnBuilder.newColumn('crkstatus').withTitle('单据状态').withOption(
     //     'sDefaultContent', '').withOption("width", '30').renderWith( function(data, type, full) {
     //     if(data=="none"){
@@ -980,6 +1019,9 @@ function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
 }
 
 function renderZcRecycle(data, type, full) {
+    if (full.inprocess == "1") {
+        data = data + "(流程中)";
+    }
     if (full.recycle == "inuse") {
         return "<span style=\"color:green;font-weight:bold\">" + data + "</span>";
     } else if (full.recycle == "idle") {
@@ -1023,12 +1065,14 @@ function zcBaseColsCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
         'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
+        'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
     dtColumns.push(DTColumnBuilder.newColumn('classfullname').withTitle('资产类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
-        'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
+    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
+        'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('zcsourcestr').withTitle('来源').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
@@ -1805,17 +1849,21 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
         if (data == "DB") {
             return "资产调拨";
         } else if (data == "LY") {
-            return "资产领用/退库"
+            return "资产领用"
+        } else if (data == "TK") {
+            return "资产退库"
         } else if (data == "JY") {
-            return "资产借用/归还"
+            return "资产借用"
+        } else if (data == "GH") {
+            return "资产归还"
         } else if (data == "ZJ") {
             return "资产折旧"
         } else if (data == "BF") {
             return "资产报废"
         } else if (data == "CGCW") {
-            return "财务变更"
+            return "财务信息变更"
         } else if (data == "CGWB") {
-            return "维保变更"
+            return "维保信息变更"
         } else if (data == "CGJB") {
             return "基本信息变更"
         } else {

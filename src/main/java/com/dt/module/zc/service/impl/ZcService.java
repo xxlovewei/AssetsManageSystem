@@ -214,7 +214,7 @@ public class ZcService extends BaseService {
         } else if (type.equals(ZcCommonService.UUID_ZJ)) {
             id = createUuid5();
             return type + id;
-        } else if (type.equals(ZcCommonService.UUID_LY) || type.equals(ZcCommonService.UUID_JY)
+        } else if (type.equals(ZcCommonService.UUID_LY) || type.equals(ZcCommonService.UUID_TK) || type.equals(ZcCommonService.UUID_JY)
                 || type.equals(ZcCommonService.UUID_ZY)) {
             for (i = 0; i < cnt; i++) {
                 QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
@@ -337,25 +337,28 @@ public class ZcService extends BaseService {
         if (ToolUtil.isNotEmpty(datarange)) {
             if (ZcCommonService.DATARANGE_REPAIR.equals(datarange)) {
                 //维修:闲置,在用
-                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
+                sql = sql + "and inprocess='0' and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             } else if (ZcCommonService.DATARANGE_LY.equals(datarange)) {
                 //领用:闲置
-                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "')";
+                sql = sql + "and inprocess='0' and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "')";
+            } else if (ZcCommonService.DATARANGE_TK.equals(datarange)) {
+                //退库:在用
+                sql = sql + "and inprocess='0' and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_INUSE + "')";
             } else if (ZcCommonService.DATARANGE_JY.equals(datarange)) {
                 //借用:闲置,在用
-                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
+                sql = sql + "and inprocess='0' and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             } else if (ZcCommonService.DATARANGE_DB.equals(datarange)) {
                 //调拨:闲置,在用
-                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
+                sql = sql + "and inprocess='0' and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             } else if (ZcCommonService.DATARANGE_BF.equals(datarange)) {
                 //报废:闲置,在用
-                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
+                sql = sql + "and inprocess='0' and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle in ('" + ZcCommonService.RECYCLE_IDLE + "','" + ZcCommonService.RECYCLE_INUSE + "')";
             } else if (ZcCommonService.DATARANGE_ZJ.equals(datarange)) {
                 //折旧:不选报废
-                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle<>'scrap'";
+                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle<>'" + ZcCommonService.RECYCLE_SCRAP + "'";
             } else if (ZcCommonService.DATARANGE_CG.equals(datarange)) {
                 //变更:不选报废
-                sql = sql + "and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle<>'scrap'";
+                sql = sql + "and inprocess='0' and category='" + ZcCommonService.CATEGORY_ZC + "' and recycle<>'" + ZcCommonService.RECYCLE_SCRAP + "'";
             }
         }
         String ressql = "";

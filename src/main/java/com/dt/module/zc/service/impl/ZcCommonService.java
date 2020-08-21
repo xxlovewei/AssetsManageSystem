@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ZcCommonService extends BaseService {
 
-
+    /*****资产状态,必须为上述选择项****/
     public static String RECYCLE_IDLE = "idle";
     public static String RECYCLE_BORROW = "borrow";
     public static String RECYCLE_ALLOCATION = "allocation";
@@ -24,13 +24,17 @@ public class ZcCommonService extends BaseService {
     public static String RECYCLE_SCRAP = "scrap";
 
 
+    /*****资产状态,资产数据范围****/
+    //维修
     public static String DATARANGE_REPAIR = "repair";
     //领用
     public static String DATARANGE_LY = "LY";
     //退库
-    public static String DATARANGE_TK = "Tk";
+    public static String DATARANGE_TK = "TK";
     //借用
     public static String DATARANGE_JY = "JY";
+    //归还
+    public static String DATARANGE_GH = "GH";
     //调拨
     public static String DATARANGE_DB = "DB";
     //报废
@@ -42,10 +46,12 @@ public class ZcCommonService extends BaseService {
     //所有
     public static String DATARANGE_ALL = "all";
 
+    /*****UUID*****/
     public static String UUID_ZC = "ZC";
     public static String UUID_LY = "LY";
     public static String UUID_TK = "TK";
     public static String UUID_JY = "JY";
+    public static String UUID_GH = "GH";
     public static String UUID_ZY = "ZY";
     public static String UUID_BF = "BF";
     public static String UUID_BX = "BX";
@@ -61,7 +67,6 @@ public class ZcCommonService extends BaseService {
     public static String UUID_BJRK = "BJRK";
     //备件出库
     public static String UUID_BJCK = "BJCK";
-
     //财务变更
     public static String UUID_CGCW = "CGCW";
     //维保比昂
@@ -69,12 +74,15 @@ public class ZcCommonService extends BaseService {
     //基本信息变更
     public static String UUID_CGJB = "CGJB";
 
+    /*****业务编号*****/
     //领用
     public static String ZC_BUS_TYPE_LY = "LY";
     //退库
     public static String ZC_BUS_TYPE_TK = "TK";
     //借用
     public static String ZC_BUS_TYPE_JY = "JY";
+    //归还
+    public static String ZC_BUS_TYPE_GH = "GH";
     //转移
     public static String ZC_BUS_TYPE_ZY = "ZY";
     //调拨
@@ -90,7 +98,7 @@ public class ZcCommonService extends BaseService {
     //基本变更
     public static String ZC_BUS_TYPE_CGJB = "CGJB";
 
-
+    /*****其他状态****/
     //维修状态:维修中、维修结束、报废
     public static String BX_STATUS_UNDERREPAIR = "underrepair";
     public static String BX_STATUS_FINSH = "finish";
@@ -99,6 +107,7 @@ public class ZcCommonService extends BaseService {
     public static String CATEGORY_ZC = "3";
     public static String CATEGORY_HC = "7";
     public static String CATEGORY_BJ = "8";
+
     public static String resHcSqlbody = " (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) locstr,"
 
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.env) envstr,"
@@ -173,10 +182,6 @@ public class ZcCommonService extends BaseService {
             + "  date_format(wbout_date,'%Y-%m-%d')  wbout_datestr,"
             + "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
             + "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
-    @Autowired
-    IResService ResServiceImpl;
-    @Autowired
-    IResActionItemService ResActionItemServiceImpl;
 
 
 }

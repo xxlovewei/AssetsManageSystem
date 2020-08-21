@@ -17,11 +17,11 @@ function modalHcTjCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.dtColumns = [];
     $scope.dtColumns.push(DTColumnBuilder.newColumn('ctid').withTitle('物品编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('ctname').withTitle('物品类型').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('ctname').withTitle('物品类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('ctmodel').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('ctunit').withTitle('单位').withOption(
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('ctunit').withTitle('计量单位').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('ctunitprice').withTitle('默认单价').withOption(
         'sDefaultContent', '').withOption("width", '30'));
@@ -506,7 +506,7 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                     items.push({
                         type: "select",
                         disabled: "true",
-                        label: "物品类型",
+                        label: "物品类别",
                         need: false,
                         disable_search: "false",
                         dataOpt: "classOpt",
@@ -530,8 +530,8 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                         sub_type: "text",
                         required: false,
                         maxlength: "50",
-                        placeholder: "单位",
-                        label: "单位",
+                        placeholder: "计量单位",
+                        label: "计量单位",
                         need: false,
                         name: 'ctunit',
                         ng_model: "ctunit"

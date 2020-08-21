@@ -317,17 +317,17 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tconfdesc').withTitle('配置描述(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderconfdesc),
-        DTColumnBuilder.newColumn('fusedcompanynamestr').withTitle('使用公司(变更前)').withOption(
+        DTColumnBuilder.newColumn('fusedcompanyname').withTitle('使用公司(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tusedcompanynamestr').withTitle('使用公司(变更后)').withOption(
+        DTColumnBuilder.newColumn('tusedcompanyname').withTitle('使用公司(变更后)').withOption(
             'sDefaultContent', '').renderWith(rendercomp),
-        DTColumnBuilder.newColumn('fpartnamestr').withTitle('使用部门(变更前)').withOption(
+        DTColumnBuilder.newColumn('fpartname').withTitle('使用部门(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tpartnamestr').withTitle('使用部门(变更后)').withOption(
+        DTColumnBuilder.newColumn('tpartname').withTitle('使用部门(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderpart),
-        DTColumnBuilder.newColumn('fusedusernamestr').withTitle('使用人(变更前)').withOption(
+        DTColumnBuilder.newColumn('fusedusername').withTitle('使用人(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tusedusernamestr').withTitle('使用人(变更后)').withOption(
+        DTColumnBuilder.newColumn('tusedusername').withTitle('使用人(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderuser),
         DTColumnBuilder.newColumn('flabel1').withTitle('标签1(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
@@ -584,7 +584,7 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         }
         $scope.item.processuserid = $scope.adminuserSel.user_id;
         $scope.item.processusername = $scope.adminuserSel.name;
-        $scope.item.tbuytimestr = $scope.date.buytime.format('YYYY-MM-DD');
+        $scope.item.tbuytime = $scope.date.buytime.format('YYYY-MM-DD');
         $scope.item.items = angular.toJson($scope.dtOptions.aaData);
         if (angular.isDefined($scope.zcsourceSel.dict_item_id)) {
             $scope.item.tzcsource = $scope.zcsourceSel.dict_item_id;
@@ -876,6 +876,14 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         return acthtml;
     }
 
+    function renderprocess(data, type, full) {
+        if (angular.isDefined(data) && data.length() > 0) {
+            return "申请详情"
+        } else {
+            return "无审批"
+        }
+    }
+
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
     $scope.dtColumns = [
         DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
@@ -888,6 +896,8 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
             'sDefaultContent', '').renderWith(renderCGStatus),
+        DTColumnBuilder.newColumn('pinst').withTitle('流程详情').withOption(
+            'sDefaultContent', '').renderWith(renderprocess),
         DTColumnBuilder.newColumn('processusername').withTitle('处理人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tclassfullname').withTitle('资产类别').withOption(
@@ -916,11 +926,11 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(rendercbuytime),
         DTColumnBuilder.newColumn('tconfdesc').withTitle('配置描述').withOption(
             'sDefaultContent', '').renderWith(renderconfdesc),
-        DTColumnBuilder.newColumn('tusedcompanynamestr').withTitle('使用公司').withOption(
+        DTColumnBuilder.newColumn('tusedcompanyname').withTitle('使用公司').withOption(
             'sDefaultContent', '').renderWith(rendercomp),
-        DTColumnBuilder.newColumn('tpartnamestr').withTitle('使用部门').withOption(
+        DTColumnBuilder.newColumn('tpartname').withTitle('使用部门').withOption(
             'sDefaultContent', '').renderWith(renderpart),
-        DTColumnBuilder.newColumn('tusedusernamestr').withTitle('使用人').withOption(
+        DTColumnBuilder.newColumn('tusedusername').withTitle('使用人').withOption(
             'sDefaultContent', '').renderWith(renderuser),
         DTColumnBuilder.newColumn('tlabel1').withTitle('标签1').withOption(
             'sDefaultContent', '').renderWith(renderfs1),
@@ -943,7 +953,7 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
                 type: "btn",
                 show: true,
                 priv: "select",
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">刷新</button>'
+                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
                 id: "btn3",

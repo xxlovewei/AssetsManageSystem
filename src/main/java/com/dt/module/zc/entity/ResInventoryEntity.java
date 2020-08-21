@@ -25,10 +25,10 @@ public class ResInventoryEntity implements java.io.Serializable {
     @Excel(name = "资产编号", width = 16)
     private String uuid;
 
-    @Excel(name = "资产类型", width = 15)
+    @Excel(name = "资产类别", width = 15)
     private String classname;
 
-    @Excel(name = "类型明细(必需)", width = 20)
+    @Excel(name = "类别明细(必需)", width = 20)
     private String classfullname;
 
     @Excel(name = "资产供应商", width = 15)
@@ -46,13 +46,13 @@ public class ResInventoryEntity implements java.io.Serializable {
     @Excel(name = "资产状态", width = 10)
     private String recyclestr;
 
-    @Excel(name = "资产来源", width = 8)
+    @Excel(name = "来源", width = 8)
     private String zcsourcestr;
 
     @Excel(name = "配置描述", width = 15)
     private String confdesc;
 
-    @Excel(name = "其他资产编号", width = 12)
+    @Excel(name = "其他编号", width = 12)
     private String fs20;
 
     @Excel(name = "区域", width = 15)
@@ -73,7 +73,7 @@ public class ResInventoryEntity implements java.io.Serializable {
     private String part_fullname;
 
     //财务
-    @Excel(name = "采购时间", width = 15)
+    @Excel(name = "采购日期", width = 15)
     private String buy_timestr;
 
     @Excel(name = "原值", width = 10)

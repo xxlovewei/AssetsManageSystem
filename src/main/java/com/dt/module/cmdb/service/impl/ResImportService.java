@@ -121,7 +121,7 @@ public class ResImportService extends BaseService {
         }
         Rcd rs = db.uniqueRecord("select node_id from hrm_org_part where dr='0' and type=? and route_name=?", type, name);
         if (rs == null) {
-            return R.FAILURE("无法匹配到公司或部门,名称:" + name);
+            return R.FAILURE("无法匹配到组织,名称:" + name);
         }
         return R.SUCCESS_OPER(rs.toJsonObject());
     }

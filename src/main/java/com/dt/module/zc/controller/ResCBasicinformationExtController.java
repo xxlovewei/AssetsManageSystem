@@ -12,15 +12,11 @@ import com.dt.module.zc.entity.ResCBasicinformation;
 import com.dt.module.zc.entity.ResCBasicinformationItem;
 import com.dt.module.zc.service.IResCBasicinformationItemService;
 import com.dt.module.zc.service.IResCBasicinformationService;
-import com.dt.module.zc.service.impl.ResCFinanceService;
-import com.dt.module.zc.service.impl.ZcChangeService;
-import com.dt.module.zc.service.impl.ZcCommonService;
-import com.dt.module.zc.service.impl.ZcService;
+import com.dt.module.zc.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,12 +46,8 @@ public class ResCBasicinformationExtController extends BaseController {
     @RequestMapping(value = "/insert.do")
     public R insert(ResCBasicinformation entity, String items) throws ParseException {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        String buytimestr = ps.getString("tbuytimestr");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = simpleDateFormat.parse(buytimestr);
-        entity.setTbuytime(date);
         String uuid = zcService.createUuid(ZcCommonService.ZC_BUS_TYPE_CGJB);
-        entity.setStatus(ResCFinanceService.STATUS_SUCCESS);
+        entity.setStatus(ResCBasicinformationService.STATUS_SUCCESS);
         entity.setBusuuid(uuid);
         ArrayList<ResCBasicinformationItem> list = new ArrayList<ResCBasicinformationItem>();
         ArrayList<Res> reslist = new ArrayList<Res>();
@@ -77,12 +69,10 @@ public class ResCBasicinformationExtController extends BaseController {
             e.setTuseduserid(entity.getTuseduserid());
             e.setTzccnt(entity.getTzccnt());
             e.setTzcsource(entity.getTzcsource());
-
             e.setTlabel1(entity.getTlabel1());
             e.setTunit(entity.getTunit());
             e.setTconfdesc(entity.getTconfdesc());
             e.setTlocdtl(entity.getTlocdtl());
-
             e.setTclassidstatus(entity.getTclassidstatus());
             e.setTmodelstatus(entity.getTmodelstatus());
             e.setTsnstatus(entity.getTsnstatus());
@@ -96,12 +86,10 @@ public class ResCBasicinformationExtController extends BaseController {
             e.setTusedcompanyidstatus(entity.getTusedcompanyidstatus());
             e.setTpartidstatus(entity.getTpartidstatus());
             e.setTuseduseridstatus(entity.getTuseduseridstatus());
-
             e.setTlabel1status(entity.getTlabel1status());
             e.setTlocdtlstatus(entity.getTlocdtlstatus());
             e.setTunitstatus(entity.getTunitstatus());
             e.setTconfdescstatus(entity.getTconfdescstatus());
-
             list.add(e);
         }
         System.out.println(entity);
@@ -122,10 +110,9 @@ public class ResCBasicinformationExtController extends BaseController {
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.tusefullife) tusefullifestr,\n" +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,\n" +
 
-                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartnamestr," +
-                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tusedcompanynamestr," +
-                "(select name from sys_user_info where user_id=b.tuseduserid) tusedusernamestr," +
-
+                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname," +
+                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tusedcompanyname," +
+                "(select name from sys_user_info where user_id=b.tuseduserid) tusedusername," +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.tbrand) tbrandstr,\n" +
                 "(select route_name from ct_category where dr='0' and id=b.tclassid) tclassfullname,\n" +
                 "date_format(tbuytime,'%Y-%m-%d') tbuytimestr,b.* \n" +
@@ -145,11 +132,9 @@ public class ResCBasicinformationExtController extends BaseController {
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.tsupplier) tsupplierstr,\n" +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.tusefullife) tusefullifestr,\n" +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,\n" +
-
-                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartnamestr," +
-                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tusedcompanynamestr," +
-                "(select name from sys_user_info where user_id=b.tuseduserid) tusedusernamestr," +
-
+                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname," +
+                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tusedcompanyname," +
+                "(select name from sys_user_info where user_id=b.tuseduserid) tusedusername," +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.tbrand) tbrandstr,\n" +
                 "(select route_name from ct_category where dr='0' and id=b.tclassid) tclassfullname,\n" +
                 "date_format(tbuytime,'%Y-%m-%d') tbuytimestr ,\n" +
@@ -157,11 +142,9 @@ public class ResCBasicinformationExtController extends BaseController {
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.fsupplier) fsupplierstr,\n" +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.fusefullife) fusefullifestr,\n" +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.floc) flocstr,\n" +
-
-                "(select node_name from hrm_org_part where node_id=b.fpartid) fpartnamestr," +
-                "(select node_name from hrm_org_part where node_id=b.fusedcompanyid) fusedcompanynamestr," +
-                "(select name from sys_user_info where user_id=b.fuseduserid) fusedusernamestr," +
-
+                "(select node_name from hrm_org_part where node_id=b.fpartid) fpartname," +
+                "(select node_name from hrm_org_part where node_id=b.fusedcompanyid) fusedcompanyname," +
+                "(select name from sys_user_info where user_id=b.fuseduserid) fusedusername," +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.fbrand) fbrandstr,\n" +
                 "(select route_name from ct_category where dr='0' and id=b.fclassid) fclassfullname,\n" +
                 "date_format(fbuytime,'%Y-%m-%d') fbuytimestr \n" +

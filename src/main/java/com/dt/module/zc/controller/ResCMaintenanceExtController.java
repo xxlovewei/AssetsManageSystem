@@ -50,11 +50,7 @@ public class ResCMaintenanceExtController extends BaseController {
     @RequestMapping(value = "/insert.do")
     public R insert(ResCMaintenance entity, String items) throws ParseException {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        String wboutdatestr = ps.getString("twboutdatestr");
         String uuid = zcService.createUuid(ZcCommonService.ZC_BUS_TYPE_CGWB);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = simpleDateFormat.parse(wboutdatestr);
-        entity.setTwboutdate(date);
         entity.setStatus(ResCMaintenanceService.STATUS_SUCCESS);
         entity.setBusuuid(uuid);
         ArrayList<ResCMaintenanceItem> list = new ArrayList<ResCMaintenanceItem>();

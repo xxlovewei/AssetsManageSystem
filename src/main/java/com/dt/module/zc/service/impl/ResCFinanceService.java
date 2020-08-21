@@ -6,9 +6,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ResCFinanceService extends BaseService {
 
-    public static String STATUS_CANCEL = "cancel";
     public static String STATUS_SUCCESS = "success";
     public static String STATUS_FAILED = "failed";
-    public static String STATUS_INIT = "init";
+    public static String STATUS_CANCEL = "cancel";
+    public static String STATUS_APPLY = "apply";
+    public static String STATUS_APPROVAL = "approval";
 
 }

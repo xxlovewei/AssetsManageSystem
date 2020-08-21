@@ -1,2 +1,120 @@
 1.表结构字段变化
 ALTER TABLE res ADD scrapdate date NULL;
+ALTER TABLE res ADD inprocess varchar(1) NULL;
+ALTER TABLE res ADD inprocessuuid varchar(50) NULL;
+ALTER TABLE res ADD inprocesstype varchar(10) NULL;
+ALTER TABLE res ALTER COLUMN inprocess SET DEFAULT 0;
+ALTER TABLE res ADD uuidly varchar(50) NULL;
+ALTER TABLE res ADD uuidjy varchar(50) NULL;
+ALTER TABLE res_c_basicinformation ADD pinst varchar(50) NULL;
+ALTER TABLE res_c_finance ADD pinst varchar(50) NULL;
+ALTER TABLE res_c_maintenance ADD pinst varchar(50) NULL;
+update res set inprocess='0';
+
+
+2.新增表
+create table res_collectionreturn
+(
+  id              varchar(50)  not null
+    primary key,
+  busuuid         varchar(50)  null
+  comment '单据',
+  bustype         varchar(50)  null
+  comment '类型',
+  busdate         date         null
+  comment '领用时间',
+  status          varchar(50)  null
+  comment '办理状态',
+  pinst           varchar(50)  null
+  comment '流程审批',
+  cruserid        varchar(50)  null
+  comment '领用人ID/退库人ID',
+  crusername      varchar(100) null
+  comment '领用人/退库人',
+  processuserid   varchar(50)  null
+  comment '处理人ID',
+  processusername varchar(100) null
+  comment '处理人',
+  tusedcompanyid  varchar(50)  null
+  comment '使用公司',
+  tpartid         varchar(50)  null
+  comment '部门',
+  tuseduserid     varchar(50)  null
+  comment '领用人ID',
+  tloc            varchar(50)  null
+  comment '区域',
+  tlocdtl         varchar(50)  null
+  comment '位置',
+  returndate      date         null
+  comment '预计退还时间',
+  rreturndate     date         null
+  comment '实际退还时间',
+  mark            varchar(100) null,
+  dr              varchar(1)   null,
+  create_time     datetime     null,
+  create_by       varchar(50)  null,
+  update_time     datetime     null,
+  update_by       varchar(50)  null
+);
+
+
+-- auto-generated definition
+create table res_collectionreturn_item
+(
+  id              varchar(50)  not null
+    primary key,
+  busuuid         varchar(50)  null
+  comment '单据',
+  busdate         date         null
+  comment '领用时间',
+  resid           varchar(50)  null,
+  cruserid        varchar(50)  null
+  comment '领用人ID/退库人ID',
+  crusername      varchar(100) null
+  comment '领用人/退库人',
+  processuserid   varchar(50)  null
+  comment '处理人ID',
+  processusername varchar(100) null
+  comment '处理人',
+  fusedcompanyid  varchar(50)  null
+  comment '使用公司',
+  fpartid         varchar(50)  null
+  comment '部门',
+  fuseduserid     varchar(50)  null
+  comment '领用人',
+  floc            varchar(50)  null
+  comment '区域',
+  flocdtl         varchar(50)  null
+  comment '位置',
+  tusedcompanyid  varchar(50)  null
+  comment '公司',
+  tpartid         varchar(50)  null
+  comment '部门',
+  tuseduserid     varchar(50)  null
+  comment '使用人',
+  tloc            varchar(50)  null
+  comment '区域',
+  tlocdtl         varchar(50)  null
+  comment '位置',
+  returndate      date         null
+  comment '预计退库时间',
+  rreturndate     date         null
+  comment '实际退库实际',
+  isreturn        varchar(2)   null
+  comment '是否退库',
+  returnuuid      varchar(50)  null
+  comment '退库单据',
+  mark            varchar(100) null
+  comment '备注',
+  dr              varchar(1)   null,
+  create_time     datetime     null,
+  create_by       varchar(50)  null,
+  update_time     datetime     null,
+  update_by       varchar(50)  null
+);
+
+
+
+
+
+

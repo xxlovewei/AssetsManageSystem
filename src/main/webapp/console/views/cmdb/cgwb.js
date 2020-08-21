@@ -342,7 +342,7 @@ function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
             });
             return;
         }
-        $scope.item.twboutdatestr = $scope.date.wboutdate.format('YYYY-MM-DD');
+        $scope.item.twboutdate = $scope.date.wboutdate.format('YYYY-MM-DD');
         $scope.item.twbsupplier = $scope.compSel.dict_item_id;
         $scope.item.twb = $scope.statusSel.dict_item_id;
         $scope.item.processuserid = $scope.adminuserSel.user_id;
@@ -491,6 +491,14 @@ function zccgwbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         return acthtml;
     }
 
+    function renderprocess(data, type, full) {
+        if (angular.isDefined(data) && data.length() > 0) {
+            return "申请详情"
+        } else {
+            return "无审批"
+        }
+    }
+
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
     $scope.dtColumns = [
         DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
@@ -503,6 +511,8 @@ function zccgwbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
             'sDefaultContent', '').renderWith(renderCGStatus),
+        DTColumnBuilder.newColumn('pinst').withTitle('流程详情').withOption(
+            'sDefaultContent', '').renderWith(renderprocess),
         DTColumnBuilder.newColumn('processusername').withTitle('处理人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('twbstr').withTitle('维保状态').withOption(
@@ -532,7 +542,7 @@ function zccgwbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
                 type: "btn",
                 show: true,
                 priv: "select",
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">刷新</button>'
+                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
                 id: "btn3",
