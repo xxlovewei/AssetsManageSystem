@@ -128,8 +128,10 @@ function cgcwlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
-    dtColumns.push(DTColumnBuilder.newColumn('fbelongcompfullname').withTitle('所属公司(变更前)').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
+        'sDefaultContent', '').withOption('width', '50'),
+        dtColumns.push(DTColumnBuilder.newColumn('fbelongcompfullname').withTitle('所属公司(变更前)').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('tbelongcompfullname').withTitle('所属公司(变更后)').withOption(
         'sDefaultContent', '').renderWith(renderbcomp));
     dtColumns.push(DTColumnBuilder.newColumn('fbuyprice').withTitle('采购单价(变更前)')

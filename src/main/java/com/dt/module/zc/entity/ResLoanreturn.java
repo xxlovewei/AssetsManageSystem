@@ -1,13 +1,10 @@
 package com.dt.module.zc.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
@@ -17,9 +14,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-21
+ * @since 2020-08-22
  */
-
+ 
 @TableName("res_loanreturn")
 
 public class ResLoanreturn extends BaseModel<ResLoanreturn> {
@@ -33,11 +30,6 @@ public class ResLoanreturn extends BaseModel<ResLoanreturn> {
      */
     @TableField("busuuid")
     private String busuuid;
-    /**
-     * 类型
-     */
-    @TableField("bustype")
-    private String bustype;
     /**
      * 借用时间
      */
@@ -66,13 +58,13 @@ public class ResLoanreturn extends BaseModel<ResLoanreturn> {
     /**
      * 处理人ID
      */
-    @TableField("processuserid")
-    private String processuserid;
+    @TableField("lprocessuserid")
+    private String lprocessuserid;
     /**
      * 处理人
      */
-    @TableField("processusername")
-    private String processusername;
+    @TableField("lprocessusername")
+    private String lprocessusername;
     /**
      * 使用公司
      */
@@ -109,6 +101,12 @@ public class ResLoanreturn extends BaseModel<ResLoanreturn> {
     private String returnuuid;
     @TableField("mark")
     private String mark;
+    @TableField("busstatus")
+    private String busstatus;
+    @TableField("rprocessuserid")
+    private String rprocessuserid;
+    @TableField("rprocessusername")
+    private String rprocessusername;
 
 
     public String getId() {
@@ -125,14 +123,6 @@ public class ResLoanreturn extends BaseModel<ResLoanreturn> {
 
     public void setBusuuid(String busuuid) {
         this.busuuid = busuuid;
-    }
-
-    public String getBustype() {
-        return bustype;
-    }
-
-    public void setBustype(String bustype) {
-        this.bustype = bustype;
     }
 
     public Date getBusdate() {
@@ -175,20 +165,20 @@ public class ResLoanreturn extends BaseModel<ResLoanreturn> {
         this.lrusername = lrusername;
     }
 
-    public String getProcessuserid() {
-        return processuserid;
+    public String getLprocessuserid() {
+        return lprocessuserid;
     }
 
-    public void setProcessuserid(String processuserid) {
-        this.processuserid = processuserid;
+    public void setLprocessuserid(String lprocessuserid) {
+        this.lprocessuserid = lprocessuserid;
     }
 
-    public String getProcessusername() {
-        return processusername;
+    public String getLprocessusername() {
+        return lprocessusername;
     }
 
-    public void setProcessusername(String processusername) {
-        this.processusername = processusername;
+    public void setLprocessusername(String lprocessusername) {
+        this.lprocessusername = lprocessusername;
     }
 
     public String getTusedcompanyid() {
@@ -263,6 +253,30 @@ public class ResLoanreturn extends BaseModel<ResLoanreturn> {
         this.mark = mark;
     }
 
+    public String getBusstatus() {
+        return busstatus;
+    }
+
+    public void setBusstatus(String busstatus) {
+        this.busstatus = busstatus;
+    }
+
+    public String getRprocessuserid() {
+        return rprocessuserid;
+    }
+
+    public void setRprocessuserid(String rprocessuserid) {
+        this.rprocessuserid = rprocessuserid;
+    }
+
+    public String getRprocessusername() {
+        return rprocessusername;
+    }
+
+    public void setRprocessusername(String rprocessusername) {
+        this.rprocessusername = rprocessusername;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -273,14 +287,13 @@ public class ResLoanreturn extends BaseModel<ResLoanreturn> {
         return "ResLoanreturn{" +
                 "id=" + id +
                 ", busuuid=" + busuuid +
-                ", bustype=" + bustype +
                 ", busdate=" + busdate +
                 ", status=" + status +
                 ", pinst=" + pinst +
                 ", lruserid=" + lruserid +
                 ", lrusername=" + lrusername +
-                ", processuserid=" + processuserid +
-                ", processusername=" + processusername +
+                ", lprocessuserid=" + lprocessuserid +
+                ", lprocessusername=" + lprocessusername +
                 ", tusedcompanyid=" + tusedcompanyid +
                 ", tpartid=" + tpartid +
                 ", tloc=" + tloc +
@@ -290,6 +303,9 @@ public class ResLoanreturn extends BaseModel<ResLoanreturn> {
                 ", isreturn=" + isreturn +
                 ", returnuuid=" + returnuuid +
                 ", mark=" + mark +
+                ", busstatus=" + busstatus +
+                ", rprocessuserid=" + rprocessuserid +
+                ", rprocessusername=" + rprocessusername +
                 "}";
     }
 }

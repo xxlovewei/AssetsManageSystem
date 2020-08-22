@@ -105,6 +105,10 @@ function modalzcActionSaveCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         })
     }, 1000);
     $scope.sure = function () {
+        notify({
+            message: "该功能已不在使用,请删除对应的菜单。"
+        });
+        return;
         $scope.data.bustype = meta.flowtype;
         if ($scope.dtOptions.aaData.length == 0) {
             alert("请先选择资产");
@@ -499,6 +503,10 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     }
     // //////////////////////////save/////////////////////
     $scope.save = function (id) {
+        notify({
+            message: "该功能已不在使用,请删除对应的菜单。"
+        });
+        return;
         var ps = {};
         ps.id = id;
         ps.flowtype = flowtype;
@@ -550,6 +558,10 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
     }
     $scope.ss = function () {
+        notify({
+            message: "该功能已不在使用,请删除对应的菜单。"
+        });
+        return;
         var item = getSelectRow();
         if (angular.isDefined(item)) {
             item.flowtype = flowtype;
@@ -610,6 +622,10 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         }
     }
     $scope.actback = function () {
+        notify({
+            message: "该功能已不在使用,请删除对应的菜单。"
+        });
+        return;
         var selrows = getSelectRow();
         if (angular.isDefined(selrows)) {
             if (flowtype == "LY") {

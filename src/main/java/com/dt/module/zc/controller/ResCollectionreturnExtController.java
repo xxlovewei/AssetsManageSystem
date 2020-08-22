@@ -34,8 +34,8 @@ public class ResCollectionreturnExtController extends BaseController {
     @ResponseBody
     @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
     @RequestMapping(value = "/insertOrUpdate.do")
-    public R insertOrUpdate(ResCollectionreturn entity, String items, String type) {
-        return resCollectionreturnService.insertOrUpdate(entity, items, type);
+    public R insertOrUpdate(ResCollectionreturn entity, String items) {
+        return resCollectionreturnService.insertOrUpdate(entity, items);
     }
 
 
@@ -85,7 +85,6 @@ public class ResCollectionreturnExtController extends BaseController {
                 "from res_collectionreturn_item b,res t where b.dr='0' and t.dr='0' " +
                 "and t.id=b.resid\n" +
                 "and b.busuuid=?";
-        System.out.println(sql2);
         RcdSet rs = db.query(sql2, uuid);
         return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
     }

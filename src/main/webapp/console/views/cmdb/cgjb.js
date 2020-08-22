@@ -265,6 +265,8 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
     $scope.dtColumns = [
         DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
             'sDefaultContent', '').withOption("width", '30'),
+        DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
+            'sDefaultContent', '').withOption('width', '50'),
         DTColumnBuilder.newColumn('fclassfullname').withTitle('资产类别(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tclassfullname').withTitle('资产类别(变更后)').withOption(

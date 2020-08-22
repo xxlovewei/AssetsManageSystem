@@ -10,7 +10,7 @@
         <button class="close" ng-click="cancel()" type="button">
             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
-        <h4 class="modal-title">领用信息</h4>
+        <h4 class="modal-title">借用信息</h4>
     </div>
     <div class="modal-body">
         <div class="wrapper wrapper-content animated fadeInRight">
@@ -18,7 +18,7 @@
                   novalidate>
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><span
-                            class="text-danger">*</span>领用人:</label>
+                            class="text-danger">*</span>借用人:</label>
                     <div class="col-sm-10">
                         <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
                                 disable-search="true"
@@ -30,8 +30,21 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-2 control-label"><span
+                            class="text-danger">*</span>借用处理人:</label>
+                    <div class="col-sm-10">
+                        <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                                disable-search="true"
+                                ng-model="processuserSel"
+                                ng-options="item.name for item in processuserOpt"
+                                no-results-text="'没有找到相应条目'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-2 control-label">
-                        领用时间:
+                        借用时间:
                     </label>
                     <div class="col-sm-10">
                         <input auto-close="true" class="form-control" date-change="datachange"
@@ -43,7 +56,7 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
-                        预计退库时间:
+                        预计借用时间:
                     </label>
                     <div class="col-sm-10">
                         <input auto-close="true" class="form-control" date-change="datachange"
@@ -51,49 +64,6 @@
                                min-view="date" ng-model="date.returndate" time-zone="Asia/Hong_Kong"
                                type="datetime" view="year">
                         </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">领用后使用公司:</label>
-                    <div class="col-sm-10">
-                        <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
-                                disable-search="true"
-                                ng-model="compSel"
-                                ng-options="item.name for item in compOpt"
-                                no-results-text="'没有找到相应条目'">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">领用后使用部门:</label>
-                    <div class="col-sm-10">
-                        <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
-                                disable-search="true"
-                                ng-model="partSel"
-                                ng-options="item.name for item in partOpt"
-                                no-results-text="'没有找到相应条目'">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">领用后区域:</label>
-                    <div class="col-sm-10">
-                        <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
-                                disable-search="true"
-                                ng-model="locSel"
-                                ng-options="item.name for item in locOpt"
-                                no-results-text="'没有找到相应条目'">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">领用后位置:</label>
-                    <div class="col-sm-10">
-                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-                               ng-model="item.tlocdtl" placeholder="请输入内容" type="text">
                     </div>
                 </div>
                 <div class="form-group">

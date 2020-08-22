@@ -41,7 +41,8 @@ public class ResCollectionreturnService extends BaseService {
     @Autowired
     ZcChangeService zcChangeService;
 
-    public R insertOrUpdate(ResCollectionreturn entity, String items, String type) {
+    public R insertOrUpdate(ResCollectionreturn entity, String items) {
+        String type = entity.getBustype();
         if (TYPE_LY.equals(type)) {
             return this.lyinsertOrUpdate(entity, items);
         } else if (TYPE_TK.equals(type)) {
@@ -107,7 +108,7 @@ public class ResCollectionreturnService extends BaseService {
         //临时锁定
         if (!ResCollectionreturnService.STATUS_SUCCESS.equals(entity.getStatus())) {
             String sql3 = " update res_collectionreturn_item a,res b set \n" +
-                    "  b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + TYPE_LY + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+                    "  b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + ZcCommonService.ZC_BUS_TYPE_LY + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
             db.execute(sql3, uuid);
         }
 
@@ -174,7 +175,7 @@ public class ResCollectionreturnService extends BaseService {
         //临时锁定
         if (!ResCollectionreturnService.STATUS_SUCCESS.equals(entity.getStatus())) {
             String sql3 = " update res_collectionreturn_item a,res b set \n" +
-                    "  b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + TYPE_TK + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+                    "  b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + ZcCommonService.ZC_BUS_TYPE_TK + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
             db.execute(sql3, uuid);
         }
 

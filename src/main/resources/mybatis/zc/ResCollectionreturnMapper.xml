@@ -11,6 +11,8 @@
         <result column="update_time" property="updateTime"/>
         <result column="update_by" property="updateBy"/>
         <result column="busuuid" property="busuuid"/>
+        <result column="bustype" property="bustype"/>
+        <result column="busdate" property="busdate"/>
         <result column="status" property="status"/>
         <result column="pinst" property="pinst"/>
         <result column="cruserid" property="cruserid"/>
@@ -22,11 +24,9 @@
         <result column="tuseduserid" property="tuseduserid"/>
         <result column="tloc" property="tloc"/>
         <result column="tlocdtl" property="tlocdtl"/>
-        <result column="busdate" property="busdate"/>
         <result column="returndate" property="returndate"/>
-        <result column="mark" property="mark"/>
-        <result column="bustype" property="bustype"/>
         <result column="rreturndate" property="rreturndate"/>
+        <result column="mark" property="mark"/>
     </resultMap>
 
 </mapper>

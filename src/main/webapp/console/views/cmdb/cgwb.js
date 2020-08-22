@@ -121,7 +121,6 @@ function cgwblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
         return acthtml;
     }
 
-
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('classname').withTitle('资产类别').withOption(
@@ -130,8 +129,10 @@ function cgwblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
-    dtColumns.push(DTColumnBuilder.newColumn('fwbstr').withTitle('维保状态(变更前)').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
+        'sDefaultContent', '').withOption('width', '50'),
+        dtColumns.push(DTColumnBuilder.newColumn('fwbstr').withTitle('维保状态(变更前)').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('twbstr').withTitle('维保状态(变更后)').withOption(
         'sDefaultContent', '').renderWith(renderwb));
     dtColumns.push(DTColumnBuilder.newColumn('fwbsupplierstr').withTitle('维保商(变更前)').withOption(

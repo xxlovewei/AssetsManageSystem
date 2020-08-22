@@ -1,13 +1,10 @@
 package com.dt.module.zc.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
@@ -17,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-20
+ * @since 2020-08-22
  */
 
 @TableName("res_collectionreturn")
@@ -28,40 +25,88 @@ public class ResCollectionreturn extends BaseModel<ResCollectionreturn> {
 
     @TableId("id")
     private String id;
+    /**
+     * 单据
+     */
     @TableField("busuuid")
     private String busuuid;
-    @TableField("status")
-    private String status;
-    @TableField("pinst")
-    private String pinst;
-    @TableField("cruserid")
-    private String cruserid;
-    @TableField("crusername")
-    private String crusername;
-    @TableField("processuserid")
-    private String processuserid;
-    @TableField("processusername")
-    private String processusername;
-    @TableField("tusedcompanyid")
-    private String tusedcompanyid;
-    @TableField("tpartid")
-    private String tpartid;
-    @TableField("tuseduserid")
-    private String tuseduserid;
-    @TableField("tloc")
-    private String tloc;
-    @TableField("tlocdtl")
-    private String tlocdtl;
-    @TableField("busdate")
-    private Date busdate;
-    @TableField("returndate")
-    private Date returndate;
-    @TableField("mark")
-    private String mark;
+    /**
+     * 类型
+     */
     @TableField("bustype")
     private String bustype;
+    /**
+     * 领用时间
+     */
+    @TableField("busdate")
+    private Date busdate;
+    /**
+     * 办理状态
+     */
+    @TableField("status")
+    private String status;
+    /**
+     * 流程审批
+     */
+    @TableField("pinst")
+    private String pinst;
+    /**
+     * 领用人ID/退库人ID
+     */
+    @TableField("cruserid")
+    private String cruserid;
+    /**
+     * 领用人/退库人
+     */
+    @TableField("crusername")
+    private String crusername;
+    /**
+     * 处理人ID
+     */
+    @TableField("processuserid")
+    private String processuserid;
+    /**
+     * 处理人
+     */
+    @TableField("processusername")
+    private String processusername;
+    /**
+     * 使用公司
+     */
+    @TableField("tusedcompanyid")
+    private String tusedcompanyid;
+    /**
+     * 部门
+     */
+    @TableField("tpartid")
+    private String tpartid;
+    /**
+     * 领用人ID
+     */
+    @TableField("tuseduserid")
+    private String tuseduserid;
+    /**
+     * 区域
+     */
+    @TableField("tloc")
+    private String tloc;
+    /**
+     * 位置
+     */
+    @TableField("tlocdtl")
+    private String tlocdtl;
+    /**
+     * 预计退还时间
+     */
+    @TableField("returndate")
+    private Date returndate;
+    /**
+     * 实际退还时间
+     */
     @TableField("rreturndate")
     private Date rreturndate;
+    @TableField("mark")
+    private String mark;
 
 
     public String getId() {
@@ -78,6 +123,22 @@ public class ResCollectionreturn extends BaseModel<ResCollectionreturn> {
 
     public void setBusuuid(String busuuid) {
         this.busuuid = busuuid;
+    }
+
+    public String getBustype() {
+        return bustype;
+    }
+
+    public void setBustype(String bustype) {
+        this.bustype = bustype;
+    }
+
+    public Date getBusdate() {
+        return busdate;
+    }
+
+    public void setBusdate(Date busdate) {
+        this.busdate = busdate;
     }
 
     public String getStatus() {
@@ -168,14 +229,6 @@ public class ResCollectionreturn extends BaseModel<ResCollectionreturn> {
         this.tlocdtl = tlocdtl;
     }
 
-    public Date getBusdate() {
-        return busdate;
-    }
-
-    public void setBusdate(Date busdate) {
-        this.busdate = busdate;
-    }
-
     public Date getReturndate() {
         return returndate;
     }
@@ -184,28 +237,20 @@ public class ResCollectionreturn extends BaseModel<ResCollectionreturn> {
         this.returndate = returndate;
     }
 
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
-
-    public String getBustype() {
-        return bustype;
-    }
-
-    public void setBustype(String bustype) {
-        this.bustype = bustype;
-    }
-
     public Date getRreturndate() {
         return rreturndate;
     }
 
     public void setRreturndate(Date rreturndate) {
         this.rreturndate = rreturndate;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 
     @Override
@@ -218,6 +263,8 @@ public class ResCollectionreturn extends BaseModel<ResCollectionreturn> {
         return "ResCollectionreturn{" +
                 "id=" + id +
                 ", busuuid=" + busuuid +
+                ", bustype=" + bustype +
+                ", busdate=" + busdate +
                 ", status=" + status +
                 ", pinst=" + pinst +
                 ", cruserid=" + cruserid +
@@ -229,11 +276,9 @@ public class ResCollectionreturn extends BaseModel<ResCollectionreturn> {
                 ", tuseduserid=" + tuseduserid +
                 ", tloc=" + tloc +
                 ", tlocdtl=" + tlocdtl +
-                ", busdate=" + busdate +
                 ", returndate=" + returndate +
-                ", mark=" + mark +
-                ", bustype=" + bustype +
                 ", rreturndate=" + rreturndate +
+                ", mark=" + mark +
                 "}";
     }
 }

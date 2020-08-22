@@ -94,6 +94,8 @@ function zclylistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').withOption('width', '50'),
         DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
             'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle),
+        DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
+            'sDefaultContent', '').withOption('width', '50'),
         DTColumnBuilder.newColumn('busdatestr').withTitle('领用时间').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('returndatestr').withTitle('预计退库时间').withOption(
@@ -392,7 +394,7 @@ function tkSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.tpartid = ""
         $scope.item.tuseduserid = ""
         $scope.item.tloc = $scope.locSel.dict_item_id;
-        $scope.item.type = "tk";
+        $scope.item.bustype = "tk";
         $scope.item.items = angular.toJson($scope.dtOptions.aaData);
         $confirm({
             text: '是否确定退库?'
@@ -557,7 +559,7 @@ function collectionSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.tpartid = $scope.partSel.partid;
         $scope.item.tuseduserid = $scope.useduserSel.user_id;
         $scope.item.tloc = $scope.locSel.dict_item_id;
-        $scope.item.type = "ly";
+        $scope.item.bustype = "ly";
         $scope.item.items = angular.toJson($scope.dtOptions.aaData);
         $confirm({
             text: '是否确定领用?'

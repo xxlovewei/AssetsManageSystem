@@ -41,6 +41,8 @@ truncate table res_c_finance;
 truncate table res_c_finance_item;
 truncate table res_c_maintenance;
 truncate table res_c_maintenance_item;
+truncate table res_collectionreturn;
+truncate table res_collectionreturn_item;
 
 #clear ops table
 truncate table ops_node;

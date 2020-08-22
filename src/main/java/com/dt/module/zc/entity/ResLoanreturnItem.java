@@ -1,13 +1,10 @@
 package com.dt.module.zc.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
@@ -17,9 +14,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-21
+ * @since 2020-08-22
  */
-
+ 
 @TableName("res_loanreturn_item")
 
 public class ResLoanreturnItem extends BaseModel<ResLoanreturnItem> {
@@ -61,16 +58,6 @@ public class ResLoanreturnItem extends BaseModel<ResLoanreturnItem> {
     @TableField("lrusername")
     private String lrusername;
     /**
-     * 处理人ID
-     */
-    @TableField("processuserid")
-    private String processuserid;
-    /**
-     * 处理人
-     */
-    @TableField("processusername")
-    private String processusername;
-    /**
      * 使用公司
      */
     @TableField("tusedcompanyid")
@@ -106,6 +93,8 @@ public class ResLoanreturnItem extends BaseModel<ResLoanreturnItem> {
     private String returnuuid;
     @TableField("mark")
     private String mark;
+    @TableField("frecycle")
+    private String frecycle;
 
 
     public String getId() {
@@ -170,22 +159,6 @@ public class ResLoanreturnItem extends BaseModel<ResLoanreturnItem> {
 
     public void setLrusername(String lrusername) {
         this.lrusername = lrusername;
-    }
-
-    public String getProcessuserid() {
-        return processuserid;
-    }
-
-    public void setProcessuserid(String processuserid) {
-        this.processuserid = processuserid;
-    }
-
-    public String getProcessusername() {
-        return processusername;
-    }
-
-    public void setProcessusername(String processusername) {
-        this.processusername = processusername;
     }
 
     public String getTusedcompanyid() {
@@ -260,6 +233,14 @@ public class ResLoanreturnItem extends BaseModel<ResLoanreturnItem> {
         this.mark = mark;
     }
 
+    public String getFrecycle() {
+        return frecycle;
+    }
+
+    public void setFrecycle(String frecycle) {
+        this.frecycle = frecycle;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -276,8 +257,6 @@ public class ResLoanreturnItem extends BaseModel<ResLoanreturnItem> {
                 ", pinst=" + pinst +
                 ", lruserid=" + lruserid +
                 ", lrusername=" + lrusername +
-                ", processuserid=" + processuserid +
-                ", processusername=" + processusername +
                 ", tusedcompanyid=" + tusedcompanyid +
                 ", tpartid=" + tpartid +
                 ", tloc=" + tloc +
@@ -287,6 +266,7 @@ public class ResLoanreturnItem extends BaseModel<ResLoanreturnItem> {
                 ", isreturn=" + isreturn +
                 ", returnuuid=" + returnuuid +
                 ", mark=" + mark +
+                ", frecycle=" + frecycle +
                 "}";
     }
 }
