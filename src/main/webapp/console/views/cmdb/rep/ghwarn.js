@@ -66,6 +66,10 @@ function ghwarnCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('lrusername').withTitle('借用人').withOption(
         'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('lruserorginfo').withTitle('借用人所属组织').withOption(
+        'sDefaultContent', '')),
+        dtColumns.push(DTColumnBuilder.newColumn('busdate').withTitle('借用时间').withOption(
+            'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('returndate').withTitle('预计归还时间').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
@@ -144,8 +148,8 @@ function ghwarnCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.meta.tools[0].dataOpt = [{id: "0", name: "今日"}, {id: "15", name: "15天"}, {id: "30", name: "30天"}, {
         id: "90",
         name: "90天"
-    }, {id: "365", name: "365天"}]
-    $scope.meta.tools[0].dataSel = $scope.meta.tools[0].dataOpt[0];
+    }, {id: "365", name: "1年"}, {id: "1825", name: "5年"}, {id: "3650", name: "10年"}]
+    $scope.meta.tools[0].dataSel = $scope.meta.tools[0].dataOpt[1];
 
     function flush() {
         var ps = {}

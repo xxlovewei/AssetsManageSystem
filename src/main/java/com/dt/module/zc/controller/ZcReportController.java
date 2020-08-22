@@ -293,8 +293,10 @@ public class ZcReportController extends BaseController {
     @RequestMapping(value = "/queryGhZcExpire.do")
     public R queryGhZcExpire(String day) {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        String sql = "select " + ZcCommonService.resSqlbody + " b.lrusername,b.returndate,b.isreturn,t.* from res t ,res_loanreturn_item b where t.recycle='" + ZcCommonService.RECYCLE_BORROW + "' and t.dr='0'\n" +
-                "and t.id=b.resid and b.dr='0' " +
+        String sql = "select " + ZcCommonService.resSqlbody + "b.busdate, b.lrusername,b.returndate,b.isreturn," +
+                " (select route_name from hrm_org_employee aa,hrm_org_part bb where aa.node_id=bb.node_id and empl_id=(select empl_id from sys_user_info where user_id=b.lruserid) limit 1 ) lruserorginfo," +
+                " t.* from res t ,res_loanreturn_item b where t.recycle='" + ZcCommonService.RECYCLE_BORROW + "' and t.dr='0'\n" +
+                " and t.id=b.resid and b.dr='0' " +
                 " and b.returndate<= date_add(curdate(), INTERVAL " + day + " DAY)" +
                 " order by b.returndate ";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());

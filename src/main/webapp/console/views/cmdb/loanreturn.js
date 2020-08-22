@@ -87,6 +87,10 @@ function zcjyghlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModa
             'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle),
         DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
             'sDefaultContent', '').withOption('width', '50'),
+        DTColumnBuilder.newColumn('lrusername').withTitle('借用人').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('lruserorginfo').withTitle('借用人所属组织').withOption(
+            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('busdatestr').withTitle('借用时间').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('returndatestr').withTitle('预计归还时间').withOption(
@@ -469,6 +473,8 @@ function loanreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         DTColumnBuilder.newColumn('pinst').withTitle('流程详情').withOption(
             'sDefaultContent', '').renderWith(renderprocess),
         DTColumnBuilder.newColumn('lrusername').withTitle('借用人').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('lruserorginfo').withTitle('借用人所属组织').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('busdatestr').withTitle('借用时间').withOption(
             'sDefaultContent', ''),

@@ -144,8 +144,8 @@ function tkwarnCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.meta.tools[0].dataOpt = [{id: "0", name: "今日"}, {id: "15", name: "15天"}, {id: "30", name: "30天"}, {
         id: "90",
         name: "90天"
-    }, {id: "365", name: "365天"}]
-    $scope.meta.tools[0].dataSel = $scope.meta.tools[0].dataOpt[0];
+    }, {id: "365", name: "1年"}, {id: "1825", name: "5年"}]
+    $scope.meta.tools[0].dataSel = $scope.meta.tools[0].dataOpt[1];
 
     function flush() {
         var ps = {}

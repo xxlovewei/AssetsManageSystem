@@ -53,6 +53,7 @@ public class ResLoanreturnExtController extends BaseController {
                 "date_format(busdate,'%Y-%m-%d') busdatestr,\n" +
                 "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,\n" +
                 "date_format(returndate,'%Y-%m-%d') returndatestr,\n" +
+                "(select route_name from hrm_org_employee aa,hrm_org_part bb where aa.node_id=bb.node_id and empl_id=(select empl_id from sys_user_info where user_id=b.lruserid) limit 1 ) lruserorginfo," +
                 "b.*" +
                 "from res_loanreturn b where dr='0' order by create_time desc";
         RcdSet rs = db.query(sql);
@@ -68,6 +69,7 @@ public class ResLoanreturnExtController extends BaseController {
                 "date_format(busdate,'%Y-%m-%d') busdatestr,\n" +
                 "date_format(returndate,'%Y-%m-%d') returndatestr,\n" +
                 "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,\n" +
+                "(select route_name from hrm_org_employee aa,hrm_org_part bb where aa.node_id=bb.node_id and empl_id=(select empl_id from sys_user_info where user_id=b.lruserid) limit 1 ) lruserorginfo," +
                 "b.*\n" +
                 "from res_loanreturn_item b,res t where b.dr='0' and t.dr='0' " +
                 "and t.id=b.resid\n" +

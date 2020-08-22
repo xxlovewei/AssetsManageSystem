@@ -84,7 +84,7 @@ function wbexpireCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         id: "90",
         name: "90天"
     }, {id: "365", name: "365天"}]
-    $scope.meta.tools[0].dataSel = $scope.meta.tools[0].dataOpt[0];
+    $scope.meta.tools[0].dataSel = $scope.meta.tools[0].dataOpt[1];
 
     function flush() {
         var ps = {}
