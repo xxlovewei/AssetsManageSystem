@@ -883,6 +883,19 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('report.returnwarntab', {
+        url: "/returnwarntab",
+        data: {pageTitle: '到期归还预警表'},
+        // templateUrl: "views/cmdb/rep/catreport.html?v=" + version,
+        template: '<div ng-controller="ghwarnCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/rep/ghwarn.js?v=' + version]
+                }]);
+            }
+        }
     });
 }
 

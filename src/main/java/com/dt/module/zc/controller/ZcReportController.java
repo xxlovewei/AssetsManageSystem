@@ -281,10 +281,22 @@ public class ZcReportController extends BaseController {
     @RequestMapping(value = "/queryTkZcExpire.do")
     public R queryTkZcExpire(String day) {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        String sql = "select " + ZcCommonService.resSqlbody + " b.crusername,b.processuserid,b.processusername,b.returndate,b.isreturn,t.* from res t ,res_collectionreturn_item b where t.recycle='inuse' and t.dr='0'\n" +
+        String sql = "select " + ZcCommonService.resSqlbody + " b.crusername,b.processuserid,b.processusername,b.returndate,b.isreturn,t.* from res t ,res_collectionreturn_item b where t.recycle='" + ZcCommonService.RECYCLE_INUSE + "' and t.dr='0'\n" +
                 "and t.id=b.resid and b.dr='0' " +
                 " and returndate<= date_add(curdate(), INTERVAL " + day + " DAY)" +
                 " order by returndate ";
+        return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+    }
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/queryGhZcExpire.do")
+    public R queryGhZcExpire(String day) {
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+        String sql = "select " + ZcCommonService.resSqlbody + " b.lrusername,b.returndate,b.isreturn,t.* from res t ,res_loanreturn_item b where t.recycle='" + ZcCommonService.RECYCLE_BORROW + "' and t.dr='0'\n" +
+                "and t.id=b.resid and b.dr='0' " +
+                " and b.returndate<= date_add(curdate(), INTERVAL " + day + " DAY)" +
+                " order by b.returndate ";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
 

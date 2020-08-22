@@ -77,6 +77,7 @@ public class ResLoanreturnService extends BaseService {
             e.setTpartid(entity.getTpartid());
             e.setTloc(entity.getTloc());
             e.setTlocdtl(entity.getTlocdtl());
+            e.setReturndate(entity.getReturndate());
             e.setIsreturn("0");
             list.add(e);
         }

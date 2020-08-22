@@ -1,4 +1,4 @@
-function tkwarnCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+function ghwarnCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                    $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window, $stateParams) {
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
@@ -62,9 +62,9 @@ function tkwarnCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('classfullname').withTitle('资产类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('uuidly').withTitle('领用单据').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('uuidjy').withTitle('借用单据').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('crusername').withTitle('领用人').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('lrusername').withTitle('借用人').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('returndate').withTitle('预计归还时间').withOption(
         'sDefaultContent', ''));
@@ -150,7 +150,7 @@ function tkwarnCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     function flush() {
         var ps = {}
         ps.day = $scope.meta.tools[0].dataSel.id;
-        $http.post($rootScope.project + "/api/zc/report/queryTkZcExpire.do",
+        $http.post($rootScope.project + "/api/zc/report/queryGhZcExpire.do",
             ps).success(function (res) {
             if (res.success) {
                 $scope.dtOptions.aaData = res.data;
@@ -167,4 +167,4 @@ function tkwarnCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         flush();
     }
 };
-app.register.controller('tkwarnCtl', tkwarnCtl);
+app.register.controller('ghwarnCtl', ghwarnCtl);

@@ -114,6 +114,98 @@ create table res_collectionreturn_item
 );
 
 
+create table res_loanreturn
+(
+  id               varchar(50)  not null
+    primary key,
+  busuuid          varchar(50)  null
+  comment '单据',
+  busdate          date         null
+  comment '借用时间',
+  status           varchar(50)  null
+  comment '办理状态',
+  pinst            varchar(50)  null
+  comment '流程审批',
+  lruserid         varchar(50)  null
+  comment '借用人ID',
+  lrusername       varchar(100) null
+  comment '借用人',
+  lprocessuserid   varchar(50)  null
+  comment '借用处理人ID',
+  lprocessusername varchar(100) null
+  comment '借用处理人',
+  tusedcompanyid   varchar(50)  null
+  comment '使用公司',
+  tpartid          varchar(50)  null
+  comment '部门',
+  tloc             varchar(50)  null
+  comment '区域',
+  tlocdtl          varchar(50)  null
+  comment '位置',
+  returndate       date         null
+  comment '预计归还时间',
+  rreturndate      date         null
+  comment '实际归还时间',
+  isreturn         varchar(1)   null,
+  returnuuid       varchar(50)  null,
+  mark             varchar(100) null,
+  dr               varchar(1)   null,
+  create_time      datetime     null,
+  create_by        varchar(50)  null,
+  update_time      datetime     null,
+  update_by        varchar(50)  null,
+  busstatus        varchar(50)  null,
+  rprocessuserid   varchar(50)  null
+  comment '归还处理人ID',
+  rprocessusername varchar(100) null
+  comment '归还处理人'
+);
+
+create table res_loanreturn_item
+(
+  id             varchar(50)  not null
+    primary key,
+  busuuid        varchar(50)  null
+  comment '单据',
+  resid          varchar(50)  null,
+  busdate        date         null
+  comment '借用时间',
+  status         varchar(50)  null
+  comment '办理状态',
+  pinst          varchar(50)  null
+  comment '流程审批',
+  lruserid       varchar(50)  null
+  comment '借用人ID/归还人ID',
+  lrusername     varchar(100) null
+  comment '借用人/归还人',
+  tusedcompanyid varchar(50)  null
+  comment '使用公司',
+  tpartid        varchar(50)  null
+  comment '部门',
+  tloc           varchar(50)  null
+  comment '区域',
+  tlocdtl        varchar(50)  null
+  comment '位置',
+  returndate     date         null
+  comment '预计归还时间',
+  rreturndate    date         null
+  comment '实际归还时间',
+  isreturn       varchar(1)   null,
+  returnuuid     varchar(50)  null,
+  mark           varchar(100) null,
+  dr             varchar(1)   null,
+  create_time    datetime     null,
+  create_by      varchar(50)  null,
+  update_time    datetime     null,
+  update_by      varchar(50)  null,
+  frecycle       varchar(50)  null
+);
+
+
+
+
+
+
 
 
 
