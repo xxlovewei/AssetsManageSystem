@@ -1,10 +1,14 @@
 package com.dt.module.zc.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.Rcd;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.busenum.ZcRecycleEnum;
 import com.dt.module.cmdb.entity.Res;
 import com.dt.module.cmdb.entity.ResActionItem;
 import com.dt.module.cmdb.service.IResActionItemService;
@@ -14,32 +18,37 @@ import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.zc.entity.*;
 import com.dt.module.zc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class ZcChangeService extends BaseService {
 
+
+    @Autowired
+    @Lazy
+    ResLoanreturnService resLoanreturnService;
+
+    @Autowired
+    @Lazy
+    ResCollectionreturnService resCollectionreturnService;
+
     @Autowired
     IResAllocateItemService ResAllocateItemServiceImpl;
-
     @Autowired
     IResActionItemService ResActionItemServiceImpl;
-
     @Autowired
     ISysProcessDataService SysProcessDataServiceImpl;
-
     @Autowired
     IResService ResServiceImpl;
-
     @Autowired
     IResChangeItemService ResChangeItemServiceImpl;
-
     @Autowired
     IResScrapeItemService ResScrapeItemServiceImpl;
-
     @Autowired
     IResAllocateService ResAllocateServiceImpl;
     @Autowired
@@ -58,6 +67,17 @@ public class ZcChangeService extends BaseService {
     IResCollectionreturnItemService ResCollectionreturnItemServiceImpl;
     @Autowired
     IResLoanreturnItemService ResLoanreturnItemServiceImpl;
+    @Autowired
+    IResResidualItemService ResResidualItemServiceImpl;
+    @Autowired
+    IResResidualService ResResidualServiceImpl;
+    @Autowired
+    ResCMaintenanceService resCMaintenanceService;
+    @Autowired
+    ResCFinanceService resCFinanceService;
+    @Autowired
+    ResCBasicinformationService resCBasicinformationService;
+
 
     public R zcSureChange(String uuid, String type) {
         if (type.equals(ZcCommonService.ZC_BUS_TYPE_LY)) {
@@ -77,8 +97,6 @@ public class ZcChangeService extends BaseService {
             return zcLyStartChange(uuid);
         } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_JY)) {
             return zcJyStartChange(uuid);
-        } else {
-
         }
         return R.SUCCESS();
     }
@@ -90,6 +108,64 @@ public class ZcChangeService extends BaseService {
             return zcJyCancelChange(uuid);
         }
         return R.SUCCESS();
+    }
+
+
+    public R zcRkConfirm(String uuid) {
+        QueryWrapper<Res> ew = new QueryWrapper<Res>();
+        ew.eq("uuid", uuid);
+        Res entity = ResServiceImpl.getOne(ew);
+        ResChangeItem e = new ResChangeItem();
+        e.setBusuuid(uuid);
+        e.setResid(entity.getId());
+        e.setFillct("1");
+        e.setCt("资产入库");
+        e.setMark("资产入库");
+        e.setType(ZcCommonService.ZC_BUS_TYPE_RK);
+        ResChangeItemServiceImpl.saveOrUpdate(e);
+        return R.SUCCESS_OPER();
+    }
+
+    //折旧
+    public R zcZjConfirm(String uuid) {
+        //保存更新前的数据
+        String sql = " update res_residual_item a,res b set \n" +
+                "   a.buyprice=b.buy_price\n" +
+                " , a.bnetworth=b.net_worth\n" +
+                " , a.baccumulateddepreciation=b.accumulateddepreciation\n" +
+                "   where a.resid=b.id and a.uuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql, uuid);
+
+        QueryWrapper<ResResidualItem> ew = new QueryWrapper<ResResidualItem>();
+        ew.eq("uuid", uuid);
+        List<ResResidualItem> list = ResResidualItemServiceImpl.list(ew);
+
+        List<Res> list2 = new ArrayList<Res>();
+        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
+        for (int i = 0; i < list.size(); i++) {
+            ResResidualItem item = list.get(i);
+            UpdateWrapper<Res> resups = new UpdateWrapper<Res>();
+            resups.set("net_worth", item.getAnetworth());
+            resups.setSql("accumulateddepreciation=accumulateddepreciation+" + item.getLossprice());
+            resups.setSql("lastdepreciationdate=now()");
+            resups.eq("id", item.getResid());
+            ResServiceImpl.update(resups);
+
+            ResChangeItem e = new ResChangeItem();
+            e.setBusuuid(uuid);
+            e.setResid(item.getResid());
+            e.setType(ZcCommonService.ZC_BUS_TYPE_ZJ);
+            e.setMark("资产折旧");
+            cols.add(e);
+        }
+
+        UpdateWrapper<ResResidual> ups = new UpdateWrapper<ResResidual>();
+        ups.set("status", ResResidualExtService.STATUS_SUCCESS);
+        ups.eq("uuid", uuid);
+        ResResidualServiceImpl.update(ups);
+        ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
+        return R.SUCCESS_OPER();
     }
 
     //**************************领用/退库************************//
@@ -112,7 +188,7 @@ public class ZcChangeService extends BaseService {
                 "b.part_id=a.tpartid," +
                 "b.used_userid=a.tuseduserid," +
                 "b.locdtl=a.tlocdtl," +
-                "b.recycle='" + ZcCommonService.RECYCLE_INUSE + "'," +
+                "b.recycle='" + ZcRecycleEnum.RECYCLE_INUSE.getValue() + "'," +
                 "b.inprocess='0'," +
                 "b.inprocessuuid=''," +
                 "b.inprocesstype='', " +
@@ -130,9 +206,12 @@ public class ZcChangeService extends BaseService {
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_LY);
             e.setMark("资产领用");
+            e.setFillct("0");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -156,7 +235,7 @@ public class ZcChangeService extends BaseService {
                 "b.part_id=a.tpartid," +
                 "b.used_userid=a.tuseduserid," +
                 "b.locdtl=a.tlocdtl," +
-                "b.recycle='" + ZcCommonService.RECYCLE_IDLE + "'," +
+                "b.recycle='" + ZcRecycleEnum.RECYCLE_IDLE.getValue() + "'," +
                 "b.inprocess='0'," +
                 "b.inprocessuuid=''," +
                 "b.inprocesstype='', " +
@@ -179,10 +258,13 @@ public class ZcChangeService extends BaseService {
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_TK);
+            e.setFillct("0");
+            e.setCdate(new Date());
             e.setMark("资产退库");
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -194,7 +276,7 @@ public class ZcChangeService extends BaseService {
         db.execute(sql, uuid);
         //更新数据
         String sql2 = "update res_loanreturn_item a,res b set \n" +
-                "b.recycle='" + ZcCommonService.RECYCLE_BORROW + "'," +
+                "b.recycle='" + ZcRecycleEnum.RECYCLE_BORROW.getValue() + "'," +
                 "b.inprocess='0'," +
                 "b.inprocessuuid=''," +
                 "b.inprocesstype='', " +
@@ -212,10 +294,13 @@ public class ZcChangeService extends BaseService {
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
+            e.setFillct("0");
+            e.setCdate(new Date());
             e.setMark("资产借用");
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -245,10 +330,13 @@ public class ZcChangeService extends BaseService {
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_GH);
+            e.setFillct("0");
+            e.setCdate(new Date());
             e.setMark("资产归还");
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -258,7 +346,7 @@ public class ZcChangeService extends BaseService {
         UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
         ups.inSql("id", "select resid from res_action_item where dr='0' and busuuid='" + uuid + "'");
         ups.set("prerecycle", "");
-        ups.set("recycle", ZcCommonService.RECYCLE_INUSE);
+        ups.set("recycle", ZcRecycleEnum.RECYCLE_INUSE.getValue());
         ResServiceImpl.update(ups);
 
         //记录资产变更
@@ -271,10 +359,13 @@ public class ZcChangeService extends BaseService {
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_LY);
+            e.setFillct("0");
+            e.setCdate(new Date());
             e.setMark("资产领用");
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -290,10 +381,13 @@ public class ZcChangeService extends BaseService {
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_LY);
+            e.setFillct("0");
+            e.setCdate(new Date());
             e.setMark("发起领用申请,等待审批");
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -309,10 +403,13 @@ public class ZcChangeService extends BaseService {
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_LY);
+            e.setFillct("0");
+            e.setCdate(new Date());
             e.setMark("领用申请取消");
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -321,7 +418,7 @@ public class ZcChangeService extends BaseService {
         UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
         ups.inSql("id", "select resid from res_action_item where dr='0' and busuuid='" + uuid + "'");
         ups.set("prerecycle", "");
-        ups.set("recycle", ZcCommonService.RECYCLE_IDLE);
+        ups.set("recycle", ZcRecycleEnum.RECYCLE_IDLE.getValue());
         ResServiceImpl.update(ups);
 
         UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
@@ -340,12 +437,13 @@ public class ZcChangeService extends BaseService {
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_LY);
+            e.setFillct("0");
+            e.setCdate(new Date());
             e.setMark("资产退还");
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
-
-
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -355,7 +453,7 @@ public class ZcChangeService extends BaseService {
         UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
         ups.inSql("id", "select resid from res_action_item where dr='0' and busuuid='" + uuid + "'");
         ups.setSql("prerecycle=recycle");
-        ups.set("recycle", ZcCommonService.RECYCLE_BORROW);
+        ups.set("recycle", ZcRecycleEnum.RECYCLE_BORROW.getValue());
         ResServiceImpl.update(ups);
 
         //记录资产变更
@@ -369,9 +467,12 @@ public class ZcChangeService extends BaseService {
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
             e.setMark("资产借用");
+            e.setFillct("0");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -388,9 +489,12 @@ public class ZcChangeService extends BaseService {
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
             e.setMark("发起借用申请,等待审批");
+            e.setFillct("0");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -407,9 +511,12 @@ public class ZcChangeService extends BaseService {
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
             e.setMark("取消借用审批");
+            e.setFillct("0");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -437,19 +544,29 @@ public class ZcChangeService extends BaseService {
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
             e.setMark("资产归还");
+            e.setFillct("0");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
     //**************************调拨************************//
     public R zcDBChange(String uuid) {
+        //保存之前数据
+        String sql = " update res_allocate_item a,res b set \n" +
+                "   a.frecycle=b.recycle\n" +
+                " , a.floc=b.loc\n" +
+                " , a.flocdtl=b.locdtl\n" +
+                "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql, uuid);
+
         //修改资产
         UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
         ups.inSql("id", "select resid from res_allocate_item where dr='0' and busuuid='" + uuid + "'");
-        ups.setSql("prerecycle =recycle");
-        ups.set("recycle", ZcCommonService.RECYCLE_ALLOCATION);
+        ups.set("recycle", ZcRecycleEnum.RECYCLE_ALLOCATION.getValue());
         ResServiceImpl.update(ups);
 
         //记录资产变更
@@ -462,52 +579,32 @@ public class ZcChangeService extends BaseService {
             e.setBusuuid(uuid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_DB);
-            e.setMark("发起调拨");
+            e.setMark("开始调拨");
+            e.setFillct("1");
+            e.setCt("开始调拨!【状态】由\"闲置\"变更为\"调拨中\"");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
     //资产调拨确认
     public R zcDBSureChange(String uuid) {
 
-        QueryWrapper<ResAllocate> ew = new QueryWrapper<ResAllocate>();
-        ew.and(i -> i.eq("uuid", uuid));
-        ResAllocate obj = ResAllocateServiceImpl.getOne(ew);
+        String sql2 = "update res_allocate_item a,res b set a.update_by='" + this.getUserId() + "'";
+        sql2 = sql2 + ",b.recycle=a.frecycle";
+        sql2 = sql2 + ",b.locdtl=a.tolocdtl";
+        sql2 = sql2 + ",b.loc=a.toloc";
+        sql2 = sql2 + ",b.used_company_id=a.tousedcompid";
+        sql2 = sql2 + " where a.resid=b.id and a.busuuid=? and a.dr='0'";
+        db.execute(sql2, uuid);
 
-        UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-        ups.inSql("id", "select resid from res_allocate_item where dr='0' and busuuid='" + uuid + "'");
-        ups.setSql("recycle=prerecycle");
-        ups.set("prerecycle", "");
-        ups.set("used_userid", "");
-        if (ToolUtil.isNotEmpty(obj.getToloc())) {
-            ups.set("loc", obj.getToloc());
-        } else {
-            ups.set("loc", "");
-        }
-
-        if (ToolUtil.isNotEmpty(obj.getTolocdtl())) {
-            ups.set("locdtl", obj.getTolocdtl());
-        } else {
-            ups.set("locdtl", "");
-        }
-
-        if (ToolUtil.isNotEmpty(obj.getTobelongcompid())) {
-            ups.set("belong_company_id", obj.getTobelongcompid());
-            ups.set("used_company_id", obj.getTobelongcompid());
-        } else {
-            ups.set("belong_company_id", "");
-            ups.set("used_company_id", "");
-        }
-
-        if (ToolUtil.isNotEmpty(obj.getTousedpartid())) {
-            ups.set("part_id", obj.getTousedpartid());
-        } else {
-            ups.set("part_id", "");
-        }
-        ResServiceImpl.update(ups);
-
+        String sql3 = "update res_allocate_item a set acttime=now() where busuuid=?";
+        String sql4 = "update res_allocate a set acttime=now() where uuid=?";
+        db.execute(sql3, uuid);
+        db.execute(sql4, uuid);
 
         //记录资产变更
         ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
@@ -520,19 +617,23 @@ public class ZcChangeService extends BaseService {
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_DB);
             e.setMark("确认调拨");
+            e.setFillct("0");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
     //资产调拨取消
     public R zcDBCancelChange(String uuid) {
-        UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-        ups.inSql("id", "select resid from res_allocate_item where dr='0' and busuuid='" + uuid + "'");
-        ups.setSql("recycle=prerecycle");
-        ups.set("prerecycle", "");
-        ResServiceImpl.update(ups);
+
+        //更新之前数据
+        String sql = " update res_allocate_item a,res b set \n" +
+                "   b.recycle =a.frecycle\n" +
+                "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql, uuid);
 
         //记录资产变更
         ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
@@ -545,9 +646,13 @@ public class ZcChangeService extends BaseService {
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_DB);
             e.setMark("取消调拨");
+            e.setFillct("1");
+            e.setCt("取消调拨!【状态】由\"调拨中\"变更为\"闲置\"");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
+        fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -564,10 +669,13 @@ public class ZcChangeService extends BaseService {
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_BF);
             e.setMark("资产报废");
+            e.setFillct("0");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
-        return R.FAILURE_OPER();
+        fillChangeCt();
+        return R.SUCCESS_OPER();
     }
 
     //资产变更
@@ -608,7 +716,7 @@ public class ZcChangeService extends BaseService {
         if ("true".equals(entity.getTzcsourcestatus())) {
             sql2 = sql2 + ",a.zcsource=b.tzcsource";
         }
-        if ("true".equals(entity.getTzccnt())) {
+        if ("true".equals(entity.getTzccntstatus())) {
             sql2 = sql2 + ",a.zc_cnt=b.tzccnt";
         }
         if ("true".equals(entity.getTsupplierstatus())) {
@@ -661,10 +769,13 @@ public class ZcChangeService extends BaseService {
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_CGJB);
             e.setMark("实体信息变更");
+            e.setFillct("0");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
-        return R.FAILURE_OPER();
+        fillChangeCt();
+        return R.SUCCESS_OPER();
     }
 
     public R zcCGWBSureChange(String uuid) {
@@ -710,10 +821,13 @@ public class ZcChangeService extends BaseService {
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_CGWB);
             e.setMark("维保信息变更");
+            e.setFillct("0");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
-        return R.FAILURE_OPER();
+        fillChangeCt();
+        return R.SUCCESS_OPER();
     }
 
     //资产变更
@@ -751,7 +865,6 @@ public class ZcChangeService extends BaseService {
             sql2 = sql2 + ",b.residualvalue=a.tresidualvalue";
         }
         sql2 = sql2 + " where a.resid=b.id and a.busuuid=? and a.dr='0'";
-        System.out.println(sql2);
         db.execute(sql2, uuid);
         //记录资产变更
         ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
@@ -764,10 +877,474 @@ public class ZcChangeService extends BaseService {
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_CGCW);
             e.setMark("财务信息变更");
+            e.setFillct("0");
+            e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
-        return R.FAILURE_OPER();
+        fillChangeCt();
+        return R.SUCCESS_OPER();
+    }
+
+
+    public R fillChangeCt() {
+        QueryWrapper<ResChangeItem> ew = new QueryWrapper<ResChangeItem>();
+        ew.and(i -> i.eq("fillct", "0"));
+        List<ResChangeItem> list = ResChangeItemServiceImpl.list(ew);
+
+        for (int i = 0; i < list.size(); i++) {
+            ResChangeItem entity = list.get(i);
+            if (ToolUtil.isNotEmpty(entity.getType())) {
+                if (ZcCommonService.ZC_BUS_TYPE_TK.equals(entity.getType())) {
+                    fillChangeTypeTK(entity);
+                } else if (ZcCommonService.ZC_BUS_TYPE_LY.equals(entity.getType())) {
+                    fillChangeTypeLY(entity);
+                } else if (ZcCommonService.ZC_BUS_TYPE_JY.equals(entity.getType())) {
+                    fillChangeTypeJY(entity);
+                } else if (ZcCommonService.ZC_BUS_TYPE_GH.equals(entity.getType())) {
+                    fillChangeTypeGH(entity);
+                } else if (ZcCommonService.ZC_BUS_TYPE_CGJB.equals(entity.getType())) {
+                    fillChangeTypeCGJB(entity);
+                } else if (ZcCommonService.ZC_BUS_TYPE_CGWB.equals(entity.getType())) {
+                    fillChangeTypeCGWB(entity);
+                } else if (ZcCommonService.ZC_BUS_TYPE_CGCW.equals(entity.getType())) {
+                    fillChangeTypeCGCW(entity);
+                } else if (ZcCommonService.ZC_BUS_TYPE_ZJ.equals(entity.getType())) {
+                    fillChangeTypeZJ(entity);
+                } else if (ZcCommonService.ZC_BUS_TYPE_BF.equals(entity.getType())) {
+                    fillChangeTypeBF(entity);
+                } else if (ZcCommonService.ZC_BUS_TYPE_DB.equals(entity.getType())) {
+                    fillChangeTypeDB(entity);
+                } else if (ZcCommonService.ZC_BUS_TYPE_ZY.equals(entity.getType())) {
+                    fillChangeTypeZY(entity);
+                }
+
+            }
+        }
+
+        return R.SUCCESS_OPER();
+    }
+
+
+    public R fillChangeTypeCGCW(ResChangeItem entity) {
+        String ct = "无";
+        String busuuid = entity.getBusuuid();
+        String resid = entity.getResid();
+        R res = resCFinanceService.selectData(busuuid, resid);
+        JSONArray res_arr = res.queryDataToJSONArray();
+        if (res_arr.size() == 1) {
+            JSONObject item = res_arr.getJSONObject(0);
+            ct = "";
+            String tbelongcompstatus = item.getString("tbelongcompstatus");
+            String tbelongpartstatus = item.getString("tbelongpartstatus");
+            String tbuypricestatus = item.getString("tbuypricestatus");
+            String tnetworthstatus = item.getString("tnetworthstatus");
+            String tresidualvaluestatus = item.getString("tresidualvaluestatus");
+            String taccumulatedstatus = item.getString("taccumulatedstatus");
+
+            String fbelongcompfullname = item.getString("fbelongcompfullname");
+            String tbelongcompfullname = item.getString("tbelongcompfullname");
+            String fbuyprice = item.getString("fbuyprice");
+            String tbuyprice = item.getString("tbuyprice");
+            String fnetworth = item.getString("fnetworth");
+            String tnetworth = item.getString("tnetworth");
+            String faccumulateddepreciation = item.getString("faccumulateddepreciation");
+            String taccumulateddepreciation = item.getString("taccumulateddepreciation");
+            String fresidualvalue = item.getString("fresidualvalue");
+            String tresidualvalue = item.getString("tresidualvalue");
+
+            if (ToolUtil.isNotEmpty(tbelongcompstatus) && "true".equals(tbelongcompstatus)) {
+                ct = ct + "【所属公司】字段由 \"" + fbelongcompfullname + "\" 变更为 \"" + tbelongcompfullname + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tbuypricestatus) && "true".equals(tbuypricestatus)) {
+                ct = ct + "【采购单价】字段由 \"" + fbuyprice + "\" 变更为 \"" + tbuyprice + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tnetworthstatus) && "true".equals(tnetworthstatus)) {
+                ct = ct + "【资产净值】字段由 \"" + fnetworth + "\" 变更为 \"" + tnetworth + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tresidualvaluestatus) && "true".equals(tresidualvaluestatus)) {
+                ct = ct + "【设置残值】字段由 \"" + fresidualvalue + "\" 变更为 \"" + tresidualvalue + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(taccumulatedstatus) && "true".equals(taccumulatedstatus)) {
+                ct = ct + "【累计折旧】字段由 \"" + faccumulateddepreciation + "\" 变更为 \"" + taccumulateddepreciation + "\" ;";
+            }
+        }
+        entity.setFillct("1");
+        entity.setCt(ct);
+        ResChangeItemServiceImpl.saveOrUpdate(entity);
+        return R.SUCCESS_OPER();
+    }
+
+    public R fillChangeTypeCGWB(ResChangeItem entity) {
+        String ct = "无";
+        String busuuid = entity.getBusuuid();
+        String resid = entity.getResid();
+
+        R res = resCMaintenanceService.selectData(busuuid, resid);
+
+        JSONArray res_arr = res.queryDataToJSONArray();
+        if (res_arr.size() == 1) {
+            ct = "";
+            JSONObject item = res_arr.getJSONObject(0);
+            String twbstatus = item.getString("twbstatus");
+            String twbsupplierstatus = item.getString("twbsupplierstatus");
+            String twbautostatus = item.getString("twbautostatus");
+            String twbctstatus = item.getString("twbctstatus");
+            String twboutdatestatus = item.getString("twboutdatestatus");
+
+            String fwbstr = item.getString("fwbstr");
+            String twbstr = item.getString("twbstr");
+            String fwbsupplierstr = item.getString("fwbsupplierstr");
+            String twbsupplierstr = item.getString("twbsupplierstr");
+            String fwboutdatestr = item.getString("fwboutdatestr");
+            String twboutdatestr = item.getString("twboutdatestr");
+            String fwbct = item.getString("fwbct");
+            String twbct = item.getString("twbct");
+            if (ToolUtil.isNotEmpty(twbstatus) && "true".equals(twbstatus)) {
+                ct = ct + "【维保状态】字段由 \"" + fwbstr + "\" 变更为 \"" + twbstr + "\" ;";
+            }
+            if (ToolUtil.isNotEmpty(twbsupplierstatus) && "true".equals(twbsupplierstatus)) {
+                ct = ct + "【维保商】字段由 \"" + fwbsupplierstr + "\" 变更为 \"" + twbsupplierstr + "\" ;";
+            }
+            if (ToolUtil.isNotEmpty(twboutdatestatus) && "true".equals(twboutdatestatus)) {
+                ct = ct + "【脱保日期】字段由 \"" + fwboutdatestr + "\" 变更为 \"" + twboutdatestr + "\" ;";
+            }
+            if (ToolUtil.isNotEmpty(twbctstatus) && "true".equals(twbctstatus)) {
+                ct = ct + "【维保说明】字段由 \"" + fwbct + "\" 变更为 \"" + twbct + "\" ;";
+            }
+        }
+        entity.setFillct("1");
+        entity.setCt(ct);
+        ResChangeItemServiceImpl.saveOrUpdate(entity);
+        return R.SUCCESS_OPER();
+    }
+
+    public R fillChangeTypeCGJB(ResChangeItem entity) {
+        String ct = "无";
+        String busuuid = entity.getBusuuid();
+        String resid = entity.getResid();
+        R res = resCBasicinformationService.selectData(busuuid, resid);
+        JSONArray res_arr = res.queryDataToJSONArray();
+        if (res_arr.size() == 1) {
+            JSONObject item = res_arr.getJSONObject(0);
+            ct = "";
+            String tclassidstatus = item.getString("tclassidstatus");
+            String tmodelstatus = item.getString("tmodelstatus");
+            String tsnstatus = item.getString("tsnstatus");
+            String tzcsourcestatus = item.getString("tzcsourcestatus");
+            String tzccntstatus = item.getString("tzccntstatus");
+            String tsupplierstatus = item.getString("tsupplierstatus");
+            String tbrandstatus = item.getString("tbrandstatus");
+            String tbuytimestatus = item.getString("tbuytimestatus");
+            String tlocstatus = item.getString("tlocstatus");
+            String tusefullifestatus = item.getString("tusefullifestatus");
+            String tusedcompanyidstatus = item.getString("tusedcompanyidstatus");
+            String tpartidstatus = item.getString("tpartidstatus");
+            String tuseduseridstatus = item.getString("tuseduseridstatus");
+            String tlabel1status = item.getString("tlabel1status");
+            String tconfdescstatus = item.getString("tconfdescstatus");
+            String tlocdtlstatus = item.getString("tlocdtlstatus");
+            String tunitstatus = item.getString("tunitstatus");
+
+            String fclassfullname = item.getString("fclassfullname");
+            String tclassfullname = item.getString("tclassfullname");
+            String fmodel = item.getString("fmodel");
+            String tmodel = item.getString("tmodel");
+            String fsn = item.getString("fsn");
+            String tsn = item.getString("tsn");
+            String funit = item.getString("funit");
+            String tunit = item.getString("tunit");
+            String fzccnt = item.getString("fzccnt");
+            String tzccnt = item.getString("tzccnt");
+            String fsupplierstr = item.getString("fsupplierstr");
+            String tsupplierstr = item.getString("tsupplierstr");
+            String fbrandstr = item.getString("fbrandstr");
+            String tbrandstr = item.getString("tbrandstr");
+            String fzcsourcestr = item.getString("fzcsourcestr");
+            String tzcsourcestr = item.getString("tzcsourcestr");
+            String flocstr = item.getString("flocstr");
+            String tlocstr = item.getString("tlocstr");
+            String flocdtl = item.getString("flocdtl");
+            String tlocdtl = item.getString("tlocdtl");
+            String fusefullifestr = item.getString("fusefullifestr");
+            String tusefullifestr = item.getString("tusefullifestr");
+            String fbuytimestr = item.getString("fbuytimestr");
+            String tbuytimestr = item.getString("tbuytimestr");
+            String fconfdesc = item.getString("fconfdesc");
+            String tconfdesc = item.getString("tconfdesc");
+            String fusedcompanyname = item.getString("fusedcompanyname");
+            String tusedcompanyname = item.getString("tusedcompanyname");
+            String fpartname = item.getString("fpartname");
+            String tpartname = item.getString("tpartname");
+            String fusedusername = item.getString("fusedusername");
+            String tusedusername = item.getString("tusedusername");
+            String flabel1 = item.getString("flabel1");
+            String tlabel1 = item.getString("tlabel1");
+
+            if (ToolUtil.isNotEmpty(tclassidstatus) && "true".equals(tclassidstatus)) {
+                ct = ct + "【资产类别】字段由 \"" + fclassfullname + "\" 变更为 \"" + tclassfullname + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tmodelstatus) && "true".equals(tmodelstatus)) {
+                ct = ct + "【规格类型】字段由 \"" + fmodel + "\" 变更为 \"" + tmodel + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tsnstatus) && "true".equals(tsnstatus)) {
+                ct = ct + "【序列】字段由 \"" + fsn + "\" 变更为 \"" + tsn + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tzcsourcestatus) && "true".equals(tzcsourcestatus)) {
+                ct = ct + "【来源】字段由 \"" + fzcsourcestr + "\" 变更为 \"" + tzcsourcestr + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tzccntstatus) && "true".equals(tzccntstatus)) {
+                ct = ct + "【数量】字段由 \"" + fzccnt + "\" 变更为 \"" + tzccnt + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tsupplierstatus) && "true".equals(tsupplierstatus)) {
+                ct = ct + "【供应商】字段由 \"" + fsupplierstr + "\" 变更为 \"" + tsupplierstr + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tbrandstatus) && "true".equals(tbrandstatus)) {
+                ct = ct + "【品牌】字段由 \"" + fbrandstr + "\" 变更为 \"" + tbrandstr + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tbuytimestatus) && "true".equals(tbuytimestatus)) {
+                ct = ct + "【采购日期】字段由 \"" + fbuytimestr + "\" 变更为 \"" + tbuytimestr + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tlocstatus) && "true".equals(tlocstatus)) {
+                ct = ct + "【区域】字段由 \"" + flocstr + "\" 变更为 \"" + tlocstr + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tusefullifestatus) && "true".equals(tusefullifestatus)) {
+                ct = ct + "【使用周期】字段由 \"" + fusefullifestr + "\" 变更为 \"" + tusefullifestr + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tusefullifestatus) && "true".equals(tusefullifestatus)) {
+                ct = ct + "【使用周期】字段由 \"" + fusefullifestr + "\" 变更为 \"" + tusefullifestr + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tusedcompanyidstatus) && "true".equals(tusedcompanyidstatus)) {
+                ct = ct + "【使用公司】字段由 \"" + fusedcompanyname + "\" 变更为 \"" + tusedcompanyname + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tpartidstatus) && "true".equals(tpartidstatus)) {
+                ct = ct + "【使用部门】字段由 \"" + fpartname + "\" 变更为 \"" + tpartname + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tuseduseridstatus) && "true".equals(tuseduseridstatus)) {
+                ct = ct + "【使用人】字段由 \"" + fusedusername + "\" 变更为 \"" + tusedusername + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tlabel1status) && "true".equals(tlabel1status)) {
+                ct = ct + "【标签1】字段由 \"" + flabel1 + "\" 变更为 \"" + tlabel1 + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tconfdescstatus) && "true".equals(tconfdescstatus)) {
+                ct = ct + "【配置描述】字段由 \"" + fconfdesc + "\" 变更为 \"" + tconfdesc + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tlocdtlstatus) && "true".equals(tlocdtlstatus)) {
+                ct = ct + "【位置】字段由 \"" + flocdtl + "\" 变更为 \"" + tlocdtl + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tunitstatus) && "true".equals(tunitstatus)) {
+                ct = ct + "【计量单位】字段由 \"" + funit + "\" 变更为 \"" + tunit + "\" ;";
+            }
+
+        }
+        entity.setFillct("1");
+        entity.setCt(ct);
+        ResChangeItemServiceImpl.saveOrUpdate(entity);
+        return R.SUCCESS_OPER();
+    }
+
+
+    public R fillChangeTypeZJ(ResChangeItem entity) {
+        String ct = "无";
+        String busuuid = entity.getBusuuid();
+        String resid = entity.getResid();
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* , item.*,t.uuid zcuuid from res t,res_residual_item item where item.dr='0' and t.id=item.resid and item.uuid=? and item.resid=? ";
+        Rcd rs = db.uniqueRecord(sql, busuuid, resid);
+        if (rs != null) {
+            String bnetworth = rs.getString("bnetworth");
+            String anetworth = rs.getString("anetworth");
+            String lossprice = rs.getString("lossprice");
+            String buyprice = rs.getString("buyprice");
+            String baccumulateddepreciation = rs.getString("baccumulateddepreciation");
+            ct = "【资产净值】字段由 \"" + bnetworth + "\" 变更为 \"" + anetworth + "\";";
+            ct = ct + "采购单价:" + buyprice + ";变更前累计折旧:" + baccumulateddepreciation + ";本次折旧价:" + lossprice;
+        }
+        entity.setFillct("1");
+        entity.setCt(ct);
+        ResChangeItemServiceImpl.saveOrUpdate(entity);
+        return R.SUCCESS_OPER();
+    }
+
+    public R fillChangeTypeBF(ResChangeItem entity) {
+
+        String busuuid = entity.getBusuuid();
+        String ct = "";
+        ct = "【状态】变更为 \"报废\"";
+        entity.setFillct("1");
+        entity.setCt(ct);
+        ResChangeItemServiceImpl.saveOrUpdate(entity);
+        return R.SUCCESS_OPER();
+    }
+
+    public R fillChangeTypeDB(ResChangeItem entity) {
+        String ct = "无";
+        String busuuid = entity.getBusuuid();
+        String resid = entity.getResid();
+
+        String sql = "select\n" +
+                "(select route_name from hrm_org_part where node_id=b.fcompid) fusedcompanyname,\n" +
+                "(select route_name from hrm_org_part where node_id=b.tousedcompid) tusedcompanyname,\n" +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.floc) flocstr,\n" +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.toloc) tlocstr,\n" +
+                "  b.*\n" +
+                "from res_allocate_item b where dr='0' and b.busuuid=? and b.resid=?";
+        Rcd rs = db.uniqueRecord(sql, busuuid, resid);
+        if (rs != null) {
+            String fusedcompanyname = rs.getString("fusedcompanyname");
+            String tusedcompanyname = rs.getString("tusedcompanyname");
+            String flocstr = rs.getString("flocstr");
+            String tlocstr = rs.getString("tlocstr");
+            String flocdtl = rs.getString("flocdtl");
+            String tolocdtl = rs.getString("tolocdtl");
+            ct = "确认调拨!【使用公司】字段由 \"" + fusedcompanyname + "\" 变更为 \"" + tusedcompanyname + "\"";
+            ct = ct + ";【区域】字段由 \"" + flocstr + "\" 变更为 \"" + tlocstr + "\"";
+            ct = ct + ";【位置】字段由 \"" + flocdtl + "\" 变更为 \"" + tolocdtl + "\"";
+            ct = ct + ";【状态】字段由 \"调拨中\" 变更为 \"闲置\"";
+        }
+        entity.setFillct("1");
+        entity.setCt(ct);
+        ResChangeItemServiceImpl.saveOrUpdate(entity);
+        return R.SUCCESS_OPER();
+    }
+
+
+    public R fillChangeTypeZY(ResChangeItem entity) {
+        String ct = "";
+        String busuuid = entity.getBusuuid();
+        String resid = entity.getResid();
+
+        entity.setFillct("1");
+        entity.setCt(ct);
+        // ResChangeItemServiceImpl.saveOrUpdate(entity);
+        return R.SUCCESS_OPER();
+    }
+
+
+    public R fillChangeTypeLY(ResChangeItem entity) {
+        String ct = "无";
+        String busuuid = entity.getBusuuid();
+        String resid = entity.getResid();
+
+        R res = resCollectionreturnService.selectData(busuuid, resid);
+        JSONArray res_arr = res.queryDataToJSONArray();
+        if (res_arr.size() == 1) {
+            ct = "";
+            JSONObject item = res_arr.getJSONObject(0);
+            String fusedcomp = item.getString("fcompfullname");
+            String tusedcomp = item.getString("tcompfullname");
+            String fpart = item.getString("fpartfullame");
+            String tpart = item.getString("tpartfullame");
+            String fuser = item.getString("fusedusername");
+            String tuser = item.getString("tusedusername");
+            String floc = item.getString("flocstr");
+            String tloc = item.getString("tlocstr");
+            String flocdtl = item.getString("flocdtl");
+            String tlocdtl = item.getString("tlocdtl");
+
+            ct = "【使用公司】字段由 \"" + fusedcomp + "\" 变更为 \"" + tusedcomp + "\"";
+            ct = ct + ";【使用部门】字段由 \"" + fpart + "\" 变更为 \"" + tpart + "\"";
+            ct = ct + ";【使用人】字段由 \"" + fuser + "\" 变更为 \"" + tuser + "\"";
+            ct = ct + ";【区域】字段由 \"" + floc + "\" 变更为 \"" + tloc + "\"";
+            ct = ct + ";【位置】字段由 \"" + flocdtl + "\" 变更为 \"" + tlocdtl + "\"";
+            ct = ct + ";【状态】字段由 \"闲置\" 变更为 \"在用\"";
+        }
+        entity.setFillct("1");
+        entity.setCt(ct);
+        ResChangeItemServiceImpl.saveOrUpdate(entity);
+        return R.SUCCESS_OPER();
+    }
+
+
+    public R fillChangeTypeTK(ResChangeItem entity) {
+
+        String ct = "无";
+        String busuuid = entity.getBusuuid();
+        String resid = entity.getResid();
+
+        R res = resCollectionreturnService.selectData(busuuid, resid);
+        JSONArray res_arr = res.queryDataToJSONArray();
+        if (res_arr.size() == 1) {
+            ct = "";
+            JSONObject item = res_arr.getJSONObject(0);
+            String fusedcomp = item.getString("fcompfullname");
+            String tusedcomp = item.getString("tcompfullname");
+            String fpart = item.getString("fpartfullame");
+            String tpart = item.getString("tpartfullame");
+            String fuser = item.getString("fusedusername");
+            String tuser = item.getString("tusedusername");
+            String floc = item.getString("flocstr");
+            String tloc = item.getString("tlocstr");
+            String flocdtl = item.getString("flocdtl");
+            String tlocdtl = item.getString("tlocdtl");
+
+            ct = "【使用公司】字段由 \"" + fusedcomp + "\" 变更为 \"" + tusedcomp + "\"";
+            ct = ct + ";【使用部门】字段由 \"" + fpart + "\" 变更为 \"" + tpart + "\"";
+            ct = ct + ";【使用人】字段由 \"" + fuser + "\" 变更为 \"" + tuser + "\"";
+            ct = ct + ";【区域】字段由 \"" + floc + "\" 变更为 \"" + tloc + "\"";
+            ct = ct + ";【位置】字段由 \"" + flocdtl + "\" 变更为 \"" + tlocdtl + "\"";
+            ct = ct + ";【状态】字段由 \"在用\" 变更为 \"退库\"";
+        }
+        entity.setFillct("1");
+        entity.setCt(ct);
+        ResChangeItemServiceImpl.saveOrUpdate(entity);
+        return R.SUCCESS_OPER();
+    }
+
+
+    public R fillChangeTypeJY(ResChangeItem entity) {
+        String busuuid = entity.getBusuuid();
+        QueryWrapper<ResLoanreturnItem> ew = new QueryWrapper<ResLoanreturnItem>();
+        ew.and(i -> i.eq("busuuid", busuuid).eq("resid", entity.getResid()));
+        ResLoanreturnItem item = ResLoanreturnItemServiceImpl.getOne(ew);
+        String ct = "无";
+        if (item != null) {
+            String recycle = item.getFrecycle();
+            String recyclestr = ZcRecycleEnum.parseCode(recycle);
+            ct = "【状态】由 \"" + recyclestr + "\" 变更为 \"借用\"";
+        }
+        entity.setFillct("1");
+        entity.setCt(ct);
+        ResChangeItemServiceImpl.saveOrUpdate(entity);
+        return R.SUCCESS_OPER();
+    }
+
+    public R fillChangeTypeGH(ResChangeItem entity) {
+
+        String busuuid = entity.getBusuuid();
+        QueryWrapper<ResLoanreturnItem> ew = new QueryWrapper<ResLoanreturnItem>();
+        ew.and(i -> i.eq("busuuid", busuuid).eq("resid", entity.getResid()));
+        ResLoanreturnItem item = ResLoanreturnItemServiceImpl.getOne(ew);
+        String ct = "无";
+        if (item != null) {
+            String recycle = item.getFrecycle();
+            String recyclestr = ZcRecycleEnum.parseCode(recycle);
+            ct = "【状态】由 \"借用\" 变更为 \"" + recyclestr + "\"";
+        }
+        entity.setFillct("1");
+        entity.setCt(ct);
+        ResChangeItemServiceImpl.saveOrUpdate(entity);
+        return R.SUCCESS_OPER();
     }
 
 }

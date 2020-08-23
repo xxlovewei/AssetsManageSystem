@@ -66,6 +66,8 @@ function tkwarnCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('crusername').withTitle('领用人').withOption(
         'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('busdate').withTitle('领用时间').withOption(
+        'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('returndate').withTitle('预计归还时间').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(

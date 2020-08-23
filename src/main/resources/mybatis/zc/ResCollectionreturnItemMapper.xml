@@ -11,6 +11,7 @@
         <result column="update_time" property="updateTime"/>
         <result column="update_by" property="updateBy"/>
         <result column="busuuid" property="busuuid"/>
+        <result column="busdate" property="busdate"/>
         <result column="resid" property="resid"/>
         <result column="cruserid" property="cruserid"/>
         <result column="crusername" property="crusername"/>
@@ -29,9 +30,8 @@
         <result column="returndate" property="returndate"/>
         <result column="rreturndate" property="rreturndate"/>
         <result column="isreturn" property="isreturn"/>
-        <result column="busdate" property="busdate"/>
-        <result column="mark" property="mark"/>
         <result column="returnuuid" property="returnuuid"/>
+        <result column="mark" property="mark"/>
     </resultMap>
 
 </mapper>

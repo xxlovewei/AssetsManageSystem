@@ -279,7 +279,7 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tsn').withTitle('序列(变更后)').withOption(
             'sDefaultContent', '').renderWith(rendersn),
-        DTColumnBuilder.newColumn('tunit').withTitle('计量单位(变更前)').withOption(
+        DTColumnBuilder.newColumn('funit').withTitle('计量单位(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tunit').withTitle('计量单位(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderunit),

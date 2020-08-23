@@ -116,17 +116,19 @@ public class ResAllocateExtController extends BaseController {
     @RequestMapping(value = "/insertOrUpdate.do")
     public R insertOrUpdate(ResAllocate entity, String items) {
         String id = "";
+        String uuid = "";
         if (ToolUtil.isNotEmpty(entity.getId())) {
-            //保存
             id = entity.getId();
+            uuid = entity.getUuid();
         } else {
             ArrayList<ResAllocateItem> cols = new ArrayList<ResAllocateItem>();
-            String uuid = zcService.createUuid(ZcCommonService.UUID_DB);
+            uuid = zcService.createUuid(ZcCommonService.UUID_DB);
             entity.setUuid(uuid);
-            entity.setStatus("doing");
+            entity.setStatus(ResAllocateExtService.STATUS_DOING);
             ResAllocateServiceImpl.saveOrUpdate(entity);
             QueryWrapper<ResAllocate> ew = new QueryWrapper<ResAllocate>();
-            ew.and(i -> i.eq("uuid", uuid));
+            String finalUuid = uuid;
+            ew.and(i -> i.eq("uuid", finalUuid));
             ResAllocate dbobj = ResAllocateServiceImpl.getOne(ew);
             JSONArray arr = JSONArray.parseArray(items);
             for (int i = 0; i < arr.size(); i++) {
@@ -134,6 +136,21 @@ public class ResAllocateExtController extends BaseController {
                 e.setBusuuid(uuid);
                 e.setResid(arr.getJSONObject(i).getString("id"));
                 e.setAllocateid(dbobj.getId());
+
+                e.setFcompid(entity.getFcompid());
+                e.setFcompname(entity.getFcompname());
+                e.setBusdate(entity.getBusdate());
+
+//                e.setFloc(entity.getFloc());
+//                e.setFlocname(entity.getFlocname());
+//                e.setFlocdtl(entity.getFlocdtl());
+
+                e.setTousedcompid(entity.getTousedcompid());
+                e.setTousedcompname(entity.getTousedcompname());
+                e.setToloc(entity.getToloc());
+                e.setTolocname(entity.getTolocname());
+                e.setTolocdtl(entity.getTolocdtl());
+
                 cols.add(e);
             }
             ResAllocateItemServiceImpl.saveBatch(cols);

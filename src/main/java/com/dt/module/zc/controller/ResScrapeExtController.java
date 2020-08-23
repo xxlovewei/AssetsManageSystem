@@ -12,6 +12,7 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.busenum.ZcRecycleEnum;
 import com.dt.module.cmdb.entity.Res;
 import com.dt.module.cmdb.service.IResService;
 import com.dt.module.zc.entity.ResScrape;
@@ -94,7 +95,7 @@ public class ResScrapeExtController extends BaseController {
         JSONArray itemsarr = JSONArray.parseArray(items);
         for (int i = 0; i < itemsarr.size(); i++) {
             UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-            ups.set("recycle", ZcCommonService.RECYCLE_SCRAP);
+            ups.set("recycle", ZcRecycleEnum.RECYCLE_SCRAP.getValue());
             ups.set("isscrap", "1");
             ups.eq("id", itemsarr.getJSONObject(i).getString("id"));
             ResServiceImpl.update(ups);

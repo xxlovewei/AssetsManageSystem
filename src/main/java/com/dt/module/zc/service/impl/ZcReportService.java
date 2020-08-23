@@ -6,6 +6,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.busenum.ZcRecycleEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -112,13 +113,13 @@ public class ZcReportService extends BaseService {
                 obj = new JSONObject();
                 obj.put("catname", rs.getRcd(i).getString("catname"));
                 obj.put("catrootname", rs.getRcd(i).getString("catrootname"));
-                obj.put(ZcCommonService.RECYCLE_INUSE, "0");
-                obj.put(ZcCommonService.RECYCLE_ALLOCATION, "0");
-                obj.put(ZcCommonService.RECYCLE_BORROW, "0");
-                obj.put(ZcCommonService.RECYCLE_IDLE, "0");
-                obj.put(ZcCommonService.RECYCLE_REPAIR, "0");
-                obj.put(ZcCommonService.RECYCLE_SCRAP, "0");
-                obj.put(ZcCommonService.RECYCLE_STOPUSE, "0");
+                obj.put(ZcRecycleEnum.RECYCLE_INUSE.getValue(), "0");
+                obj.put(ZcRecycleEnum.RECYCLE_ALLOCATION.getValue(), "0");
+                obj.put(ZcRecycleEnum.RECYCLE_BORROW.getValue(), "0");
+                obj.put(ZcRecycleEnum.RECYCLE_IDLE.getValue(), "0");
+                obj.put(ZcRecycleEnum.RECYCLE_REPAIR.getValue(), "0");
+                obj.put(ZcRecycleEnum.RECYCLE_SCRAP.getValue(), "0");
+                obj.put(ZcRecycleEnum.RECYCLE_STOPUSE.getValue(), "0");
             }
             obj.put(rs.getRcd(i).getString("code"), rs.getRcd(i).getString("cnt"));
             map.put(class_id, obj);

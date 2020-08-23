@@ -1851,11 +1851,26 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
             'sDefaultContent', '').withOption('width', '30')
     ]
-    $scope.dtOptions2 = DTOptionsBuilder.fromFnPromise().withOption(
-        'createdRow', function (row) {
-            // Recompiling so we can bind Angular,directive to the
+    $scope.dtOptions2 = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
+        .withPaginationType('full_numbers').withDisplayLength(100)
+        .withOption("ordering", false).withOption("responsive", false)
+        .withOption("searching", true).withOption('scrollY', 600)
+        .withOption('scrollX', true).withOption('bAutoWidth', true)
+        .withOption('scrollCollapse', true).withOption('paging', true)
+        .withOption('bStateSave', true).withOption('bProcessing', false)
+        .withOption('bFilter', false).withOption('bInfo', false)
+        .withOption('serverSide', false).withOption('createdRow', function (row) {
             $compile(angular.element(row).contents())($scope);
-        });
+        }).withOption(
+            'headerCallback',
+            function (header) {
+                if ((!angular.isDefined($scope.headerCompiled))
+                    || $scope.headerCompiled) {
+                    $scope.headerCompiled = true;
+                    $compile(angular.element(header).contents())
+                    ($scope);
+                }
+            })
     $scope.dtInstance2 = {}
 
     function renderType(data, type, full) {
@@ -1889,10 +1904,13 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
             .withOption('sDefaultContent', '').withOption('width', '30'),
         DTColumnBuilder.newColumn('busuuid').withTitle('单据编号').withOption(
             'sDefaultContent', '').withOption('width', '30').renderWith(renderType),
-        DTColumnBuilder.newColumn('type').withTitle('变更类型').withOption(
+        DTColumnBuilder.newColumn('type').withTitle('处理类型').withOption(
             'sDefaultContent', '').withOption('width', '30').renderWith(renderType),
-        DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
-            'sDefaultContent', '')]
+        DTColumnBuilder.newColumn('ct').withTitle('处理内容').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('operusername').withTitle('操作人').withOption(
+            'sDefaultContent', '')
+    ]
     if (angular.isDefined(meta.id)) {
         // 加载数据
         $http.post($rootScope.project + "/api/base/res/queryResAllById.do", {
@@ -1934,6 +1952,7 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
                                 DTColumnBuilder, $compile, data) {
     // type:one|many
     // datatype: LY|
+    // usedcompid
     $scope.data = data;
     $scope.ctl = {"showusefullife": false};
     if (angular.isDefined(data.showusefullife)) {
@@ -2061,7 +2080,6 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
         if (angular.isDefined($scope.compSel.id) && $scope.compSel.id != 'all') {
             ps.comp = $scope.compSel.id;
         }
-        console.log($scope.partSel);
         if (angular.isDefined($scope.partSel.partid) && $scope.partSel.partid != 'all') {
             ps.part = $scope.partSel.partid;
         }
@@ -2072,6 +2090,10 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
             ps.loc = $scope.areaSel.dict_item_id;
         }
         ps.category = 3;
+        //如果传入使用公司,则强制使用传入的参数
+        if (angular.isDefined(data.usedcompid)) {
+            ps.comp = data.usedcompid;
+        }
         $http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
             .success(function (res) {
                 if (res.success) {

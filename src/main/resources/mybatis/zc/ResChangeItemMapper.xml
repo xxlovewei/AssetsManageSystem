@@ -6,16 +6,19 @@
     <resultMap id="BaseResultMap" type="com.dt.module.zc.entity.ResChangeItem">
     <result column="create_time" property="createTime" />
     <result column="update_by" property="updateBy" />
-    <result column="update_time" property="updateTime" />
-    <result column="create_by" property="createBy" />
-    <result column="dr" property="dr" />
-        <result column="id" property="id" />
-        <result column="resid" property="resid" />
-        <result column="busuuid" property="busuuid" />
-        <result column="type" property="type" />
-        <result column="mark" property="mark" />
-        <result column="fct" property="fct" />
-        <result column="tct" property="tct" />
+        <result column="update_time" property="updateTime"/>
+        <result column="create_by" property="createBy"/>
+        <result column="dr" property="dr"/>
+        <result column="id" property="id"/>
+        <result column="resid" property="resid"/>
+        <result column="busuuid" property="busuuid"/>
+        <result column="type" property="type"/>
+        <result column="mark" property="mark"/>
+        <result column="fct" property="fct"/>
+        <result column="tct" property="tct"/>
+        <result column="fillct" property="fillct"/>
+        <result column="ct" property="ct"/>
+        <result column="cdate" property="cdate"/>
     </resultMap>
 
 </mapper>

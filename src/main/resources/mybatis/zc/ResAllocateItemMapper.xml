@@ -18,16 +18,22 @@
         <result column="tousedpartid" property="tousedpartid" />
         <result column="tousedpartname" property="tousedpartname" />
         <result column="tousedcompid" property="tousedcompid" />
-        <result column="tousedcompname" property="tousedcompname" />
-        <result column="tobelongcompid" property="tobelongcompid" />
-        <result column="tobelongcompname" property="tobelongcompname" />
-        <result column="tobelongpartid" property="tobelongpartid" />
-        <result column="tobelongpartname" property="tobelongpartname" />
-        <result column="toloc" property="toloc" />
-        <result column="tolocname" property="tolocname" />
-        <result column="tolocdtl" property="tolocdtl" />
-        <result column="status" property="status" />
-        <result column="busuuid" property="busuuid" />
+        <result column="tousedcompname" property="tousedcompname"/>
+        <result column="tobelongcompid" property="tobelongcompid"/>
+        <result column="tobelongcompname" property="tobelongcompname"/>
+        <result column="tobelongpartid" property="tobelongpartid"/>
+        <result column="tobelongpartname" property="tobelongpartname"/>
+        <result column="toloc" property="toloc"/>
+        <result column="tolocname" property="tolocname"/>
+        <result column="tolocdtl" property="tolocdtl"/>
+        <result column="status" property="status"/>
+        <result column="busuuid" property="busuuid"/>
+        <result column="fcompid" property="fcompid"/>
+        <result column="fcompname" property="fcompname"/>
+        <result column="floc" property="floc"/>
+        <result column="flocname" property="flocname"/>
+        <result column="flocdtl" property="flocdtl"/>
+        <result column="busdate" property="busdate"/>
     </resultMap>
 
 </mapper>

@@ -14,16 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class ZcCommonService extends BaseService {
 
-    /*****资产状态,必须为上述选择项****/
-    public static String RECYCLE_IDLE = "idle";
-    public static String RECYCLE_BORROW = "borrow";
-    public static String RECYCLE_ALLOCATION = "allocation";
-    public static String RECYCLE_REPAIR = "repair";
-    public static String RECYCLE_INUSE = "inuse";
-    public static String RECYCLE_STOPUSE = "stopuse";
-    public static String RECYCLE_SCRAP = "scrap";
-
-
     /*****资产状态,资产数据范围****/
     //维修
     public static String DATARANGE_REPAIR = "repair";
@@ -75,6 +65,8 @@ public class ZcCommonService extends BaseService {
     public static String UUID_CGJB = "CGJB";
 
     /*****业务编号*****/
+    //领用
+    public static String ZC_BUS_TYPE_RK = "RK";
     //领用
     public static String ZC_BUS_TYPE_LY = "LY";
     //退库

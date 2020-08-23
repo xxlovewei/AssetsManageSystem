@@ -1,10 +1,14 @@
 package com.dt.module.zc.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 
-import java.io.Serializable;
+import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -12,9 +16,9 @@ import java.io.Serializable;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-26
+ * @since 2020-08-23
  */
-
+ 
 @TableName("res_change_item")
 
 public class ResChangeItem extends BaseModel<ResChangeItem> {
@@ -35,6 +39,12 @@ public class ResChangeItem extends BaseModel<ResChangeItem> {
     private String fct;
     @TableField("tct")
     private String tct;
+    @TableField("fillct")
+    private String fillct;
+    @TableField("ct")
+    private String ct;
+    @TableField("cdate")
+    private Date cdate;
 
 
     public String getId() {
@@ -93,6 +103,30 @@ public class ResChangeItem extends BaseModel<ResChangeItem> {
         this.tct = tct;
     }
 
+    public String getFillct() {
+        return fillct;
+    }
+
+    public void setFillct(String fillct) {
+        this.fillct = fillct;
+    }
+
+    public String getCt() {
+        return ct;
+    }
+
+    public void setCt(String ct) {
+        this.ct = ct;
+    }
+
+    public Date getCdate() {
+        return cdate;
+    }
+
+    public void setCdate(Date cdate) {
+        this.cdate = cdate;
+    }
+
     @Override
     protected Serializable pkVal() {
         return null;
@@ -108,6 +142,9 @@ public class ResChangeItem extends BaseModel<ResChangeItem> {
                 ", mark=" + mark +
                 ", fct=" + fct +
                 ", tct=" + tct +
+                ", fillct=" + fillct +
+                ", ct=" + ct +
+                ", cdate=" + cdate +
                 "}";
     }
 }

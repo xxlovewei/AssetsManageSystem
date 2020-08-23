@@ -6,33 +6,39 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.ctl.inuserSel = false;
     $scope.ctl.outcompSel = false;
     $scope.ctl.incompSel = false;
-    $scope.ctl.inpartSel = false;
+    // $scope.ctl.inpartSel = false;
     $scope.ctl.locSel = false;
     $scope.ctl.tolocdtl = false;
     $scope.ctl.mark = false;
     $scope.ctl.chosenzcbtn = false;
     $scope.ctl.surebtn = false;
+    $scope.ctl.busdate = false;
     if (meta.actiontype == "detail") {
         $scope.ctl.inuserSel = true;
         $scope.ctl.outcompSel = true;
         $scope.ctl.incompSel = true;
-        $scope.ctl.inpartSel = true;
+        // $scope.ctl.inpartSel = true;
         $scope.ctl.locSel = true;
         $scope.ctl.tolocdtl = true;
         $scope.ctl.mark = true;
         $scope.ctl.chosenzcbtn = true;
         $scope.ctl.surebtn = true;
+        $scope.ctl.busdate = true;
     } else if (meta.actiontype == "sure") {
         $scope.ctl.inuserSel = true;
         $scope.ctl.outcompSel = true;
         $scope.ctl.incompSel = true;
-        $scope.ctl.inpartSel = true;
+        // $scope.ctl.inpartSel = true;
         $scope.ctl.locSel = true;
         $scope.ctl.tolocdtl = true;
         $scope.ctl.mark = true;
         $scope.ctl.chosenzcbtn = true;
         $scope.ctl.surebtn = true;
+        $scope.ctl.busdate = true;
     } else if (meta.actiontype == "add") {
+    }
+    $scope.date = {
+        busdate: moment()
     }
     $scope.outcompOpt = [];
     $scope.outcompSel = "";
@@ -42,8 +48,8 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.inuserSel = "";
     $scope.locOpt = [];
     $scope.locSel = "";
-    $scope.inpartOpt = [];
-    $scope.inpartSel = "";
+    // $scope.inpartOpt = [];
+    // $scope.inpartSel = "";
     $scope.outcompOpt = meta.gdict.comp;
     if (meta.gdict.length > 0) {
         $scope.outcompSel = $scope.outcompOpt[0];
@@ -54,14 +60,7 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
     if (meta.gdict.devdc.length > 0) {
         $scope.locSel = $scope.locOpt[0];
     }
-    $scope.$watch('incompSel', function (newValue, oldValue) {
-        if (angular.isDefined($scope.incompSel.id)) {
-            $scope.inpartOpt = meta.gdict.comppart[$scope.incompSel.id];
-            if ($scope.inpartOpt.length > 0) {
-                $scope.inpartSel = $scope.inpartOpt[0];
-            }
-        }
-    });
+
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
         .withOption("ordering", false).withOption("responsive", false)
@@ -90,8 +89,7 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
             });
             return;
         }
-        mdata.belongcomp = $scope.outcompSel.id;
-        //    mdata.belong_company_id=$scope.outcompSel.id;
+        mdata.usedcompid = $scope.outcompSel.id;
         var modalInstance = $uibModal.open({
             backdrop: true,
             templateUrl: 'views/cmdb/modal_common_zclist.html',
@@ -116,30 +114,23 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
             if (res.success) {
                 $scope.dtOptions.aaData = res.data.items;
                 $scope.data = res.data;
-                if (angular.isDefined(res.data.frombelongcompid)) {
+                if (angular.isDefined(res.data.fcompid)) {
                     for (var i = 0; i < $scope.outcompOpt.length; i++) {
-                        if ($scope.outcompOpt[i].id == res.data.frombelongcompid) {
+                        if ($scope.outcompOpt[i].id == res.data.fcompid) {
                             $scope.outcompSel = $scope.outcompOpt[i];
                             break;
                         }
                     }
                 }
-                if (angular.isDefined(res.data.tobelongcompid)) {
+                if (angular.isDefined(res.data.tousedcompid)) {
                     for (var i = 0; i < $scope.incompOpt.length; i++) {
-                        if ($scope.incompOpt[i].id == res.data.tobelongcompid) {
+                        if ($scope.incompOpt[i].id == res.data.tousedcompid) {
                             $scope.incompSel = $scope.incompOpt[i];
                             break;
                         }
                     }
                 }
-                if (angular.isDefined(res.data.tousedpartid)) {
-                    for (var i = 0; i < $scope.inpartOpt.length; i++) {
-                        if ($scope.inpartOpt[i].id == res.data.tousedpartid) {
-                            $scope.inpartSel = $scope.inpartOpt[i];
-                            break;
-                        }
-                    }
-                }
+
                 if (angular.isDefined(res.data.toloc)) {
                     for (var i = 0; i < $scope.locOpt.length; i++) {
                         if ($scope.locOpt[i].id == res.data.toloc) {
@@ -192,12 +183,6 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
             });
             return
         }
-        if (angular.isUndefined($scope.inpartSel.partid)) {
-            notify({
-                message: "请选择调入部门"
-            });
-            return
-        }
         if (angular.isUndefined($scope.locSel.dict_id)) {
             notify({
                 message: "请选择调入区域"
@@ -207,16 +192,13 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.data.items = angular.toJson($scope.dtOptions.aaData);
         $scope.data.allocateuserid = $scope.inuserSel.user_id;
         $scope.data.allocateusername = $scope.inuserSel.name;
-        $scope.data.frombelongcompid = $scope.outcompSel.id;
-        $scope.data.frombelongcompname = $scope.outcompSel.name;
-        $scope.data.tobelongcompid = $scope.incompSel.id;
-        $scope.data.tobelongcompname = $scope.incompSel.name;
+        $scope.data.fcompid = $scope.outcompSel.id;
+        $scope.data.fcompname = $scope.outcompSel.name;
         $scope.data.tousedcompid = $scope.incompSel.id;
         $scope.data.tousedcompname = $scope.incompSel.name;
-        $scope.data.tousedpartid = $scope.inpartSel.partid;
-        $scope.data.tousedpartname = $scope.inpartSel.name;
         $scope.data.toloc = $scope.locSel.dict_item_id;
         $scope.data.tolocname = $scope.locSel.name;
+        $scope.data.busdate = $scope.date.busdate.format('YYYY-MM-DD');
         $http.post($rootScope.project + "/api/zc/resAllocate/ext/insertOrUpdate.do",
             $scope.data).success(function (res) {
             if (res.success) {
@@ -307,17 +289,17 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
             'sDefaultContent', '').renderWith(renderStatus),
-        DTColumnBuilder.newColumn('frombelongcompname').withTitle('调出公司').withOption(
-            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('allocateusername').withTitle('调入管理员').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tobelongcompname').withTitle('调入公司').withOption(
+        DTColumnBuilder.newColumn('fcompname').withTitle('调出公司').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tousedpartname').withTitle('调入部门').withOption(
+        DTColumnBuilder.newColumn('tousedcompname').withTitle('调入公司').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tolocname').withTitle('调入区域').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tolocdtl').withTitle('位置').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('busdate').withTitle('调出日期').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('acttime').withTitle('调入日期').withOption(
             'sDefaultContent', ''),

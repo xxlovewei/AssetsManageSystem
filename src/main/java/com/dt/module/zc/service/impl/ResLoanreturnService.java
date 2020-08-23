@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.cmdb.entity.Res;
 import com.dt.module.zc.entity.ResLoanreturn;
@@ -12,6 +13,7 @@ import com.dt.module.zc.entity.ResLoanreturnItem;
 import com.dt.module.zc.service.IResLoanreturnItemService;
 import com.dt.module.zc.service.IResLoanreturnService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -42,6 +44,7 @@ public class ResLoanreturnService extends BaseService {
     ZcService zcService;
 
     @Autowired
+    @Lazy
     ZcChangeService zcChangeService;
 
 
@@ -137,11 +140,32 @@ public class ResLoanreturnService extends BaseService {
         ups.set("rreturndate", rreturndate);
         ups.eq("busuuid", entity.getBusuuid());
         ResLoanreturnItemServiceImpl.update(ups);
-
         zcChangeService.zcGhConfirm(entity.getBusuuid());
         return R.SUCCESS_OPER();
 
     }
 
+
+    public R selectByUuid(String uuid) {
+        return selectData(uuid, null);
+    }
+
+    public R selectData(String uuid, String resid) {
+        String sql2 = "select " + ZcCommonService.resSqlbody + " t.*," +
+                "(select name from sys_user_info where user_id=b.create_by) createusername,\n" +
+                "date_format(busdate,'%Y-%m-%d') busdatestr,\n" +
+                "date_format(returndate,'%Y-%m-%d') returndatestr,\n" +
+                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,\n" +
+                "(select route_name from hrm_org_employee aa,hrm_org_part bb where aa.node_id=bb.node_id and empl_id=(select empl_id from sys_user_info where user_id=b.lruserid) limit 1 ) lruserorginfo," +
+                "b.*\n" +
+                "from res_loanreturn_item b,res t where b.dr='0' and t.dr='0' " +
+                "and t.id=b.resid\n" +
+                "and b.busuuid=?";
+        if (ToolUtil.isNotEmpty(resid)) {
+            sql2 = sql2 + " and resid='" + resid + "'";
+        }
+        RcdSet rs = db.query(sql2, uuid);
+        return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+    }
 
 }

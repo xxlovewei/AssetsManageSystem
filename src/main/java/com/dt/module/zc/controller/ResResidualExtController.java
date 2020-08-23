@@ -20,6 +20,7 @@ import com.dt.module.zc.service.IResResidualItemService;
 import com.dt.module.zc.service.IResResidualService;
 import com.dt.module.zc.service.IResResidualStrategyService;
 import com.dt.module.zc.service.impl.ResResidualExtService;
+import com.dt.module.zc.service.impl.ZcChangeService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.zc.service.impl.ZcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,9 @@ public class ResResidualExtController extends BaseController {
 
     @Autowired
     ZcService zcService;
+
+    @Autowired
+    ZcChangeService zcChangeService;
 
     @Autowired
     IResResidualItemService ResResidualItemServiceImpl;
@@ -132,33 +136,7 @@ public class ResResidualExtController extends BaseController {
     public R actionSysData(String id) {
         ResResidual obj = ResResidualServiceImpl.getById(id);
         if (ResResidualExtService.STATUS_WAIT.equals(obj.getStatus()) && ResResidualExtService.CKSTATUS_SUCCESS.equals(obj.getCheckstatus())) {
-            QueryWrapper<ResResidualItem> ew = new QueryWrapper<ResResidualItem>();
-            ew.eq("uuid", obj.getUuid());
-            List<ResResidualItem> list = ResResidualItemServiceImpl.list(ew);
-
-            List<Res> list2 = new ArrayList<Res>();
-            ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
-            for (int i = 0; i < list.size(); i++) {
-                ResResidualItem item = list.get(i);
-                UpdateWrapper<Res> resups = new UpdateWrapper<Res>();
-                resups.set("net_worth", item.getAnetworth());
-                resups.setSql("accumulateddepreciation=accumulateddepreciation+" + item.getLossprice());
-                resups.setSql("lastdepreciationdate=now()");
-                resups.eq("id", item.getResid());
-                ResServiceImpl.update(resups);
-
-                ResChangeItem e = new ResChangeItem();
-                e.setBusuuid(obj.getUuid());
-                e.setResid(item.getResid());
-                e.setType(ZcCommonService.ZC_BUS_TYPE_ZJ);
-                e.setMark(obj.getMark());
-                cols.add(e);
-            }
-            UpdateWrapper<ResResidual> ups = new UpdateWrapper<ResResidual>();
-            ups.set("status", ResResidualExtService.STATUS_SUCCESS);
-            ups.eq("id", obj.getId());
-            ResResidualServiceImpl.update(ups);
-            ResChangeItemServiceImpl.saveBatch(cols);
+            zcChangeService.zcZjConfirm(obj.getUuid());
         } else {
             return R.FAILURE("当前状态异常,无法操作");
         }

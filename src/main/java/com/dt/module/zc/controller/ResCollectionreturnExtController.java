@@ -64,29 +64,7 @@ public class ResCollectionreturnExtController extends BaseController {
     @Acl(info = "查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectByUuid.do")
     public R selectByUuid(String uuid) {
-        String sql2 = "select " + ZcCommonService.resSqlbody + " t.*," +
-                "(select name from sys_user_info where user_id=b.create_by) createusername,\n" +
-                "(select route_name from hrm_org_part where node_id=b.tusedcompanyid) tcompfullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tcompname,\n" +
-                "(select route_name from hrm_org_part where node_id=b.tpartid) tpartfullame,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname,\n" +
-                "(select name from sys_user_info where user_id=b.tuseduserid) tusedusername,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,\n" +
-                "(select route_name from hrm_org_part where node_id=b.fusedcompanyid) fcompfullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.fusedcompanyid) fcompname,\n" +
-                "(select route_name from hrm_org_part where node_id=b.fpartid) fpartfullame,\n" +
-                "(select node_name from hrm_org_part where node_id=b.fpartid) fpartname,\n" +
-                "(select name from sys_user_info where user_id=b.fuseduserid) fusedusername,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.floc) flocstr,\n" +
-                "date_format(busdate,'%Y-%m-%d') busdatestr,\n" +
-                "date_format(returndate,'%Y-%m-%d') returndatestr,\n" +
-                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,\n" +
-                "b.*\n" +
-                "from res_collectionreturn_item b,res t where b.dr='0' and t.dr='0' " +
-                "and t.id=b.resid\n" +
-                "and b.busuuid=?";
-        RcdSet rs = db.query(sql2, uuid);
-        return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+       return resCollectionreturnService.selectByUuid(uuid);
     }
 
 

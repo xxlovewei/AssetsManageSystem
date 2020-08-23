@@ -8,6 +8,7 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.busenum.ZcRecycleEnum;
 import com.dt.module.cmdb.entity.Res;
 import com.dt.module.cmdb.service.IResService;
 import com.dt.module.zc.entity.ResInout;
@@ -82,7 +83,7 @@ public class ResInoutExtController extends BaseController {
                 e.setUuid(uuid);
                 e.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
                 e.setCrkstatus("none");
-                e.setRecycle(ZcCommonService.RECYCLE_IDLE);
+                e.setRecycle(ZcRecycleEnum.RECYCLE_IDLE.getValue());
                 e.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
                 e.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
                 e.setLoc(items_arr.getJSONObject(i).getString("loc"));
@@ -150,7 +151,7 @@ public class ResInoutExtController extends BaseController {
                 e.setUuid(uuid);
                 e.setBatchno(items_arr.getJSONObject(i).getString("batchno"));
                 e.setCrkstatus("none");
-                e.setRecycle(ZcCommonService.RECYCLE_IDLE);
+                e.setRecycle(ZcRecycleEnum.RECYCLE_IDLE.getValue());
                 e.setZcCnt(new BigDecimal(items_arr.getJSONObject(i).getString("zc_cnt")));
                 e.setBuyPrice(new BigDecimal(items_arr.getJSONObject(i).getString("buy_price")));
                 e.setSupplier(items_arr.getJSONObject(i).getString("supplier"));

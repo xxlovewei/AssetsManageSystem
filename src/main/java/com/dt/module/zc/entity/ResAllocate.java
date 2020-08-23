@@ -1,12 +1,15 @@
 package com.dt.module.zc.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 
-import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -14,9 +17,9 @@ import java.util.Date;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-25
+ * @since 2020-08-23
  */
-
+ 
 @TableName("res_allocate")
 
 public class ResAllocate extends BaseModel<ResAllocate> {
@@ -59,6 +62,9 @@ public class ResAllocate extends BaseModel<ResAllocate> {
     private String toloc;
     @TableField("tolocname")
     private String tolocname;
+    /**
+     * 未完成 doing，已完成 finish，已取消 cancel
+     */
     @TableField("status")
     private String status;
     @TableField("acttime")
@@ -67,6 +73,18 @@ public class ResAllocate extends BaseModel<ResAllocate> {
     private String tolocdtl;
     @TableField("mark")
     private String mark;
+    @TableField("fcompid")
+    private String fcompid;
+    @TableField("fcompname")
+    private String fcompname;
+    @TableField("floc")
+    private String floc;
+    @TableField("flocname")
+    private String flocname;
+    @TableField("flocdtl")
+    private String flocdtl;
+    @TableField("busdate")
+    private Date busdate;
 
 
     public String getId() {
@@ -245,6 +263,54 @@ public class ResAllocate extends BaseModel<ResAllocate> {
         this.mark = mark;
     }
 
+    public String getFcompid() {
+        return fcompid;
+    }
+
+    public void setFcompid(String fcompid) {
+        this.fcompid = fcompid;
+    }
+
+    public String getFcompname() {
+        return fcompname;
+    }
+
+    public void setFcompname(String fcompname) {
+        this.fcompname = fcompname;
+    }
+
+    public String getFloc() {
+        return floc;
+    }
+
+    public void setFloc(String floc) {
+        this.floc = floc;
+    }
+
+    public String getFlocname() {
+        return flocname;
+    }
+
+    public void setFlocname(String flocname) {
+        this.flocname = flocname;
+    }
+
+    public String getFlocdtl() {
+        return flocdtl;
+    }
+
+    public void setFlocdtl(String flocdtl) {
+        this.flocdtl = flocdtl;
+    }
+
+    public Date getBusdate() {
+        return busdate;
+    }
+
+    public void setBusdate(Date busdate) {
+        this.busdate = busdate;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -275,6 +341,12 @@ public class ResAllocate extends BaseModel<ResAllocate> {
                 ", acttime=" + acttime +
                 ", tolocdtl=" + tolocdtl +
                 ", mark=" + mark +
+                ", fcompid=" + fcompid +
+                ", fcompname=" + fcompname +
+                ", floc=" + floc +
+                ", flocname=" + flocname +
+                ", flocdtl=" + flocdtl +
+                ", busdate=" + busdate +
                 "}";
     }
 }

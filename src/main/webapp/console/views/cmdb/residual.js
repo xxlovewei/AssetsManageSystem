@@ -121,7 +121,7 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
         'sDefaultContent', '').withOption('width', '50'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
-    dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('采购单价')
+    dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('当前采购单价')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('net_worth').withTitle('当前资产净值')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
@@ -130,6 +130,8 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
     dtColumns.push(DTColumnBuilder.newColumn('buyprice').withTitle('本期单价')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('curresidualvalue').withTitle('本期设置残值')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    dtColumns.push(DTColumnBuilder.newColumn('baccumulateddepreciation').withTitle('本期累计折旧')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('bnetworth').withTitle('本期资产净值(折旧前)')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));

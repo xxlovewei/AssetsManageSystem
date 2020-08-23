@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-22
+ * @since 2020-08-23
  */
  
 @TableName("res_loanreturn")
@@ -46,22 +46,22 @@ public class ResLoanreturn extends BaseModel<ResLoanreturn> {
     @TableField("pinst")
     private String pinst;
     /**
-     * 借用人ID/归还人ID
+     * 借用人ID
      */
     @TableField("lruserid")
     private String lruserid;
     /**
-     * 借用人/归还人
+     * 借用人
      */
     @TableField("lrusername")
     private String lrusername;
     /**
-     * 处理人ID
+     * 借用处理人ID
      */
     @TableField("lprocessuserid")
     private String lprocessuserid;
     /**
-     * 处理人
+     * 借用处理人
      */
     @TableField("lprocessusername")
     private String lprocessusername;
@@ -95,16 +95,34 @@ public class ResLoanreturn extends BaseModel<ResLoanreturn> {
      */
     @TableField("rreturndate")
     private Date rreturndate;
+    /**
+     * 是否归还
+     */
     @TableField("isreturn")
     private String isreturn;
+    /**
+     * 归还单据号
+     */
     @TableField("returnuuid")
     private String returnuuid;
+    /**
+     * 备注
+     */
     @TableField("mark")
     private String mark;
+    /**
+     * 业务状态
+     */
     @TableField("busstatus")
     private String busstatus;
+    /**
+     * 归还处理人ID
+     */
     @TableField("rprocessuserid")
     private String rprocessuserid;
+    /**
+     * 归还处理人
+     */
     @TableField("rprocessusername")
     private String rprocessusername;
 

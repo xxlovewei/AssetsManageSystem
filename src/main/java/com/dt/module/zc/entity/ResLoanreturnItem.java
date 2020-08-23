@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-22
+ * @since 2020-08-23
  */
  
 @TableName("res_loanreturn_item")
@@ -30,6 +30,9 @@ public class ResLoanreturnItem extends BaseModel<ResLoanreturnItem> {
      */
     @TableField("busuuid")
     private String busuuid;
+    /**
+     * 资产ID
+     */
     @TableField("resid")
     private String resid;
     /**
@@ -87,12 +90,24 @@ public class ResLoanreturnItem extends BaseModel<ResLoanreturnItem> {
      */
     @TableField("rreturndate")
     private Date rreturndate;
+    /**
+     * 是否归还
+     */
     @TableField("isreturn")
     private String isreturn;
+    /**
+     * 归还单据
+     */
     @TableField("returnuuid")
     private String returnuuid;
+    /**
+     * 备注
+     */
     @TableField("mark")
     private String mark;
+    /**
+     * 资产变更前状态
+     */
     @TableField("frecycle")
     private String frecycle;
 

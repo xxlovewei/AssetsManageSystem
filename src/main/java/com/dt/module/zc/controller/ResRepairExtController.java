@@ -14,6 +14,7 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.busenum.ZcRecycleEnum;
 import com.dt.module.cmdb.entity.Res;
 import com.dt.module.cmdb.service.IResService;
 import com.dt.module.zc.entity.ResRepair;
@@ -143,7 +144,7 @@ public class ResRepairExtController extends BaseController {
                 UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
                 ups.inSql("id", "select resid from res_repair_item where dr='0' and repairid='" + id + "'");
                 ups.setSql("prerecycle=recycle");
-                ups.set("recycle", ZcCommonService.RECYCLE_REPAIR);
+                ups.set("recycle", ZcRecycleEnum.RECYCLE_REPAIR.getValue());
                 ResServiceImpl.update(ups);
             }
         }

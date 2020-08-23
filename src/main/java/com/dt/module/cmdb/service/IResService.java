@@ -13,4 +13,5 @@ import com.dt.module.cmdb.entity.Res;
  */
 public interface IResService extends IService<Res> {
 
+
 }

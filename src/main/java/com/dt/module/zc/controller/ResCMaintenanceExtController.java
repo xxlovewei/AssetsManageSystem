@@ -44,6 +44,8 @@ public class ResCMaintenanceExtController extends BaseController {
     @Autowired
     ZcChangeService zcChangeService;
 
+    @Autowired
+    ResCMaintenanceService resCMaintenanceService;
 
     @ResponseBody
     @Acl(info = "插入", value = Acl.ACL_USER)
@@ -97,17 +99,7 @@ public class ResCMaintenanceExtController extends BaseController {
     @Acl(info = "查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectByUuid.do")
     public R selectByUuid(String uuid) {
-
-        String sql = "select " + ZcCommonService.resSqlbody + " t.*,b.*,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.fwb)fwbstr," +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.twb)twbstr," +
-                "date_format(b.twboutdate,'%Y-%m-%d') twboutdatestr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.twbsupplier) twbsupplierstr,\n" +
-                "date_format(b.fwboutdate,'%Y-%m-%d') fwboutdatestr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.fwbsupplier) fwbsupplierstr\n" +
-                "from res_c_maintenance_item b ,res t where t.id=b.resid and t.dr='0' and b.dr='0' and b.busuuid=?";
-        RcdSet rs = db.query(sql, uuid);
-        return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+        return resCMaintenanceService.selectByUuid(uuid);
     }
 
 }

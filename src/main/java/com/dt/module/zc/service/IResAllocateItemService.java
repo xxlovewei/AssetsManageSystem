@@ -1,7 +1,7 @@
 package com.dt.module.zc.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.dt.module.zc.entity.ResAllocateItem;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.dt.module.zc.entity.ResAllocateItem;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-25
+ * @since 2020-08-23
  */
 public interface IResAllocateItemService extends IService<ResAllocateItem> {
 

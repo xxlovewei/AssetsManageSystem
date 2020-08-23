@@ -388,8 +388,8 @@ function tkSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.rreturndate = $scope.date.rreturndate.format('YYYY-MM-DD');
         $scope.item.cruserid = $scope.userSel.user_id;
         $scope.item.crusername = $scope.userSel.name;
-        $scope.item.processuserid = $scope.userSel.user_id;
-        $scope.item.processusername = $scope.userSel.name;
+        // $scope.item.processuserid = $scope.userSel.user_id;
+        // $scope.item.processusername = $scope.userSel.name;
         $scope.item.tusedcompanyid = $scope.compSel.id;
         $scope.item.tpartid = ""
         $scope.item.tuseduserid = ""
@@ -553,8 +553,8 @@ function collectionSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.returndate = $scope.date.returndate.format('YYYY-MM-DD');
         $scope.item.cruserid = $scope.useduserSel.user_id;
         $scope.item.crusername = $scope.useduserSel.name;
-        $scope.item.processuserid = $scope.useduserSel.user_id;
-        $scope.item.processusername = $scope.useduserSel.name;
+        // $scope.item.processuserid = $scope.useduserSel.user_id;
+        // $scope.item.processusername = $scope.useduserSel.name;
         $scope.item.tusedcompanyid = $scope.compSel.id;
         $scope.item.tpartid = $scope.partSel.partid;
         $scope.item.tuseduserid = $scope.useduserSel.user_id;
@@ -754,9 +754,9 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tlocdtl').withTitle('领用/退库后位置').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+        DTColumnBuilder.newColumn('processusername').withTitle('领用处理人/退库处理人').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('createusername').withTitle('创建人').withOption(
+        DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
             'sDefaultContent', '')

@@ -14,9 +14,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-22
+ * @since 2020-08-23
  */
-
+ 
 @TableName("res_collectionreturn")
 
 public class ResCollectionreturn extends BaseModel<ResCollectionreturn> {

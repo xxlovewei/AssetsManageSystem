@@ -18,9 +18,9 @@ public enum ctCategoryTypeEnum implements IEnum<Serializable> {
 
     @Override
     public Serializable getValue() {
-
         return this.code;
     }
+
 
     @JsonValue
     public String getDesc() {

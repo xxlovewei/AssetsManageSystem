@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ResAllocateExtService extends BaseService {
 
+    public static String STATUS_DOING = "doing";
     public R cancelAllocationById(String id) {
         return R.SUCCESS_OPER();
     }

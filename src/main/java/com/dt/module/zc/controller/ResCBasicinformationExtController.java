@@ -41,6 +41,9 @@ public class ResCBasicinformationExtController extends BaseController {
     @Autowired
     IResCBasicinformationItemService ResCBasicinformationItemServiceImpl;
 
+    @Autowired
+    ResCBasicinformationService resCBasicinformationService;
+
     @ResponseBody
     @Acl(info = "插入", value = Acl.ACL_USER)
     @RequestMapping(value = "/insert.do")
@@ -126,30 +129,6 @@ public class ResCBasicinformationExtController extends BaseController {
     @Acl(info = "查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectByUuid.do")
     public R selectByUuid(String uuid) {
-
-        String sql = "select " + ZcCommonService.resSqlbody + " t.* ,b.*,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tzcsource) tzcsourcestr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tsupplier) tsupplierstr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tusefullife) tusefullifestr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname," +
-                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tusedcompanyname," +
-                "(select name from sys_user_info where user_id=b.tuseduserid) tusedusername," +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tbrand) tbrandstr,\n" +
-                "(select route_name from ct_category where dr='0' and id=b.tclassid) tclassfullname,\n" +
-                "date_format(tbuytime,'%Y-%m-%d') tbuytimestr ,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.fzcsource) fzcsourcestr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.fsupplier) fsupplierstr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.fusefullife) fusefullifestr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.floc) flocstr,\n" +
-                "(select node_name from hrm_org_part where node_id=b.fpartid) fpartname," +
-                "(select node_name from hrm_org_part where node_id=b.fusedcompanyid) fusedcompanyname," +
-                "(select name from sys_user_info where user_id=b.fuseduserid) fusedusername," +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.fbrand) fbrandstr,\n" +
-                "(select route_name from ct_category where dr='0' and id=b.fclassid) fclassfullname,\n" +
-                "date_format(fbuytime,'%Y-%m-%d') fbuytimestr \n" +
-                "from res t,res_c_basicinformation_item b where t.id=b.resid and t.dr='0' and b.dr='0' and b.busuuid=?";
-        RcdSet rs = db.query(sql, uuid);
-        return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+        return resCBasicinformationService.selectByUuid(uuid);
     }
 }

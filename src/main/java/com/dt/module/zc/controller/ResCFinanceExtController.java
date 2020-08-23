@@ -39,6 +39,9 @@ public class ResCFinanceExtController extends BaseController {
     @Autowired
     ZcChangeService zcChangeService;
 
+    @Autowired
+    ResCFinanceService resCFinanceService;
+
     @ResponseBody
     @Acl(info = "插入", value = Acl.ACL_USER)
     @RequestMapping(value = "/insert.do")
@@ -93,15 +96,7 @@ public class ResCFinanceExtController extends BaseController {
     @Acl(info = "查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectByUuid.do")
     public R selectByUuid(String uuid) {
-
-        String sql = "select " + ZcCommonService.resSqlbody + " t.* ,b.*,\n" +
-                "(select route_name from hrm_org_part where node_id=b.fbelongcomp) fbelongcompfullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.fbelongcomp) fbelongcompname,\n" +
-                "(select route_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompfullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompname\n" +
-                "from res t, res_c_finance_item b where t.id=b.resid and t.dr='0' and b.dr='0' and b.busuuid=?";
-        RcdSet rs = db.query(sql, uuid);
-        return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+        return resCFinanceService.selectByUuid(uuid);
     }
 
 }

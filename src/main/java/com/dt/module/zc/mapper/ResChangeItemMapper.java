@@ -1,7 +1,7 @@
 package com.dt.module.zc.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dt.module.zc.entity.ResChangeItem;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.dt.module.zc.entity.ResChangeItem;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-26
+ * @since 2020-08-23
  */
 public interface ResChangeItemMapper extends BaseMapper<ResChangeItem> {
 
