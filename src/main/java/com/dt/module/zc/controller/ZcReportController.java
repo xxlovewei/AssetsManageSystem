@@ -303,5 +303,15 @@ public class ZcReportController extends BaseController {
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
 
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/queryZcBfReport.do")
+    public R queryZcBfReport() {
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+        String sql = "select " + ZcCommonService.resSqlbody +
+                " t.* from res t where t.dr='0' and t.recycle='" + ZcRecycleEnum.RECYCLE_SCRAP.getValue() + "'";
+        return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+    }
+
 
 }
