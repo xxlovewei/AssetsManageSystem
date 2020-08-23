@@ -7,90 +7,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="常规更新操作">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/busenum/ZcRecycleEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResChangeItemExtController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcChangeDetailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/版本升级2.2.13-2.2.15.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResScrapeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/zcBfreport.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Project_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Project_war_exploded.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dev/CustomGeneratorMysql.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dev/CustomGeneratorMysql.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/busenum/ctCategoryTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/busenum/ctCategoryTypeEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/IResService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateItemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCBasicinformationExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCBasicinformationExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCFinanceExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCFinanceExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCMaintenanceExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCMaintenanceExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResChangeItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResChangeItemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCollectionreturnController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCollectionreturnController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCollectionreturnExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCollectionreturnExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCollectionreturnItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResCollectionreturnItemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInoutExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInoutExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResLoanreturnController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResLoanreturnController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResLoanreturnExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResLoanreturnExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResLoanreturnItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResLoanreturnItemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResRepairExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResRepairExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResResidualExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResScrapeExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResScrapeExtController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocateItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocateItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResChangeItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResChangeItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCollectionreturn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCollectionreturn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCollectionreturnItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCollectionreturnItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResLoanreturn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResLoanreturn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResLoanreturnItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResLoanreturnItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResAllocateItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResAllocateItemMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResAllocateMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResAllocateMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResChangeItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResChangeItemMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCollectionreturnItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCollectionreturnItemMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCollectionreturnMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResCollectionreturnMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResLoanreturnItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResLoanreturnItemMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResLoanreturnMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/mapper/ResLoanreturnMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResAllocateItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResAllocateItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResAllocateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResAllocateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResChangeItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResChangeItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCollectionreturnItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCollectionreturnItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCollectionreturnService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResCollectionreturnService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResLoanreturnItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResLoanreturnItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResLoanreturnService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/IResLoanreturnService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateExtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateExtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateItemServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCBasicinformationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCBasicinformationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCFinanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCFinanceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCMaintenanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCMaintenanceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResChangeItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResChangeItemServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCollectionreturnItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCollectionreturnItemServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCollectionreturnService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCollectionreturnService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCollectionreturnServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCollectionreturnServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResLoanreturnItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResLoanreturnItemServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResLoanreturnService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResLoanreturnService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResLoanreturnServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResLoanreturnServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcChangeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcChangeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcCommonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcCommonService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcReportService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResAllocateItemMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResAllocateItemMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResAllocateMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResAllocateMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResChangeItemMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResChangeItemMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResCollectionreturnItemMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResCollectionreturnItemMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResCollectionreturnMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResCollectionreturnMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResLoanreturnItemMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResLoanreturnItemMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResLoanreturnMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResLoanreturnMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/cgjb.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/cgjb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/collectionreturn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/collectionreturn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_collectionSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_collectionSave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_ghSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_ghSave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_loanreturnSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_loanreturnSave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_tkSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_tkSave.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcallocation.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcallocation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/tkwarn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/rep/tkwarn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/residual.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/residual.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcallocation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcallocation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/版本升级2.2.13-2.2.14.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbf.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbf.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/common/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/common/footer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/版本升级2.2.13-2.2.15.txt" beforeDir="false" afterPath="$PROJECT_DIR$/版本升级2.2.13-2.2.15.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -435,14 +366,14 @@
       <item itemvalue="Application.CustomGeneratorMysql" />
       <item itemvalue="Application.MySQLDatabaseBackupService" />
       <item itemvalue="Application.Demo" />
+      <item itemvalue="Application.aa" />
       <item itemvalue="Maven.dt [install]" />
       <item itemvalue="Tomcat Server.Tomcat 9.0.31" />
-      <item itemvalue="Application.aa" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.CustomGeneratorMysql" />
         <item itemvalue="Maven.dt [install]" />
+        <item itemvalue="Application.CustomGeneratorMysql" />
         <item itemvalue="Application.aa" />
         <item itemvalue="Application.MySQLDatabaseBackupService" />
         <item itemvalue="Application.Demo" />
@@ -601,14 +532,8 @@
       <workItem from="1597911818177" duration="5300000" />
       <workItem from="1597970771663" duration="22685000" />
       <workItem from="1598097774829" duration="1922000" />
-      <workItem from="1598141481792" duration="35279000" />
-    </task>
-    <task id="LOCAL-00128" summary="常规更新操作">
-      <created>1593412671047</created>
-      <option name="number" value="00128" />
-      <option name="presentableId" value="LOCAL-00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1593412671047</updated>
+      <workItem from="1598141481792" duration="35628000" />
+      <workItem from="1598217988737" duration="1546000" />
     </task>
     <task id="LOCAL-00129" summary="常规更新操作">
       <created>1593530785702</created>
@@ -946,7 +871,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598100149252</updated>
     </task>
-    <option name="localTasksCounter" value="177" />
+    <task id="LOCAL-00177" summary="常规更新操作">
+      <created>1598192991984</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1598192991985</updated>
+    </task>
+    <option name="localTasksCounter" value="178" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1035,7 +967,6 @@
     <state x="374" y="134" key="#com.intellij.ide.util.MemberChooser" timestamp="1597572847645">
       <screen x="45" y="23" width="1235" height="777" />
     </state>
-    <state x="373" y="134" key="#com.intellij.ide.util.MemberChooser/43.23.1237.777@43.23.1237.777" timestamp="1589544179602" />
     <state x="374" y="134" key="#com.intellij.ide.util.MemberChooser/45.23.1235.777@45.23.1235.777" timestamp="1597572847645" />
     <state x="400" y="164" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1592643747757">
       <screen x="45" y="23" width="1235" height="777" />
@@ -1046,26 +977,27 @@
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state x="353" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/45.23.1235.777@45.23.1235.777" timestamp="1592522940651" />
-    <state x="333" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1598163708794">
-      <screen x="44" y="23" width="1236" height="777" />
+    <state x="192" y="70" width="833" height="777" key="CommitChangelistDialog2" timestamp="1598192998039">
+      <screen x="43" y="23" width="1237" height="777" />
     </state>
     <state x="36" y="23" width="833" height="777" key="CommitChangelistDialog2/36.23.1244.777@36.23.1244.777" timestamp="1590670297315" />
     <state x="233" y="23" width="833" height="777" key="CommitChangelistDialog2/38.23.1242.777@38.23.1242.777" timestamp="1590638998285" />
     <state x="39" y="23" width="924" height="777" key="CommitChangelistDialog2/39.23.1241.777@39.23.1241.777" timestamp="1593361230010" />
     <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1590673712633" />
     <state x="174" y="37" width="833" height="617" key="CommitChangelistDialog2/41.23.1239.777@41.23.1239.777" timestamp="1590622241157" />
-    <state x="192" y="70" width="761" height="592" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1598100148890" />
+    <state x="192" y="70" width="761" height="592" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1598192998039" />
     <state x="333" y="23" width="833" height="777" key="CommitChangelistDialog2/44.23.1236.777@44.23.1236.777" timestamp="1598163708794" />
     <state x="125" y="23" width="833" height="731" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1597630017717" />
     <state x="428" y="23" key="CommitChangelistDialog2/45.23.1635.1027@45.23.1635.1027" timestamp="1594547269947" />
     <state x="126" y="23" width="833" height="777" key="CommitChangelistDialog2/46.23.1234.777@46.23.1234.777" timestamp="1598068023900" />
     <state x="127" y="23" key="CommitChangelistDialog2/47.23.1233.777@47.23.1233.777" timestamp="1597973844593" />
-    <state x="53" y="90" width="1227" height="614" key="DiffContextDialog" timestamp="1596977646904">
-      <screen x="45" y="23" width="1235" height="777" />
-    </state>
-    <state x="53" y="90" width="1227" height="614" key="DiffContextDialog/45.23.1235.777@45.23.1235.777" timestamp="1596977646904" />
-    <state width="1337" height="10" key="GridCell.Tab.0.bottom" timestamp="1598192664894">
+    <state x="51" y="90" width="1227" height="614" key="DiffContextDialog" timestamp="1598192967957">
       <screen x="43" y="23" width="1237" height="777" />
+    </state>
+    <state x="51" y="90" key="DiffContextDialog/43.23.1237.777@43.23.1237.777" timestamp="1598192967957" />
+    <state x="53" y="90" width="1227" height="614" key="DiffContextDialog/45.23.1235.777@45.23.1235.777" timestamp="1596977646904" />
+    <state width="1284" height="4" key="GridCell.Tab.0.bottom" timestamp="1598219338820">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="83" key="GridCell.Tab.0.bottom/35.23.1245.777@35.23.1245.777" timestamp="1590670072117" />
     <state width="1266" height="12" key="GridCell.Tab.0.bottom/36.23.1244.777@36.23.1244.777" timestamp="1590667130486" />
@@ -1075,13 +1007,13 @@
     <state width="1193" height="268" key="GridCell.Tab.0.bottom/40.23.1240.777@40.23.1240.777" timestamp="1593352554475" />
     <state width="1174" height="93" key="GridCell.Tab.0.bottom/41.23.1239.777@41.23.1239.777" timestamp="1598169496155" />
     <state width="1337" height="10" key="GridCell.Tab.0.bottom/43.23.1237.777@43.23.1237.777" timestamp="1598192664894" />
-    <state width="1337" height="35" key="GridCell.Tab.0.bottom/44.23.1236.777@44.23.1236.777" timestamp="1598190920337" />
+    <state width="1284" height="4" key="GridCell.Tab.0.bottom/44.23.1236.777@44.23.1236.777" timestamp="1598219338820" />
     <state width="1193" height="254" key="GridCell.Tab.0.bottom/45.23.1235.777@45.23.1235.777" timestamp="1597614596240" />
     <state width="1446" height="102" key="GridCell.Tab.0.bottom/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272700" />
     <state width="1301" height="151" key="GridCell.Tab.0.bottom/46.23.1234.777@46.23.1234.777" timestamp="1598067515909" />
     <state width="1174" height="142" key="GridCell.Tab.0.bottom/47.23.1233.777@47.23.1233.777" timestamp="1597973718693" />
-    <state width="1337" height="10" key="GridCell.Tab.0.center" timestamp="1598192664893">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.0.center" timestamp="1598219338819">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="83" key="GridCell.Tab.0.center/35.23.1245.777@35.23.1245.777" timestamp="1590670072116" />
     <state width="1266" height="12" key="GridCell.Tab.0.center/36.23.1244.777@36.23.1244.777" timestamp="1590667130485" />
@@ -1091,13 +1023,13 @@
     <state width="1193" height="268" key="GridCell.Tab.0.center/40.23.1240.777@40.23.1240.777" timestamp="1593352554473" />
     <state width="1174" height="93" key="GridCell.Tab.0.center/41.23.1239.777@41.23.1239.777" timestamp="1598169496154" />
     <state width="1337" height="10" key="GridCell.Tab.0.center/43.23.1237.777@43.23.1237.777" timestamp="1598192664893" />
-    <state width="1337" height="35" key="GridCell.Tab.0.center/44.23.1236.777@44.23.1236.777" timestamp="1598190920334" />
+    <state width="1284" height="4" key="GridCell.Tab.0.center/44.23.1236.777@44.23.1236.777" timestamp="1598219338819" />
     <state width="1193" height="254" key="GridCell.Tab.0.center/45.23.1235.777@45.23.1235.777" timestamp="1597614596239" />
     <state width="1446" height="102" key="GridCell.Tab.0.center/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272700" />
     <state width="1301" height="151" key="GridCell.Tab.0.center/46.23.1234.777@46.23.1234.777" timestamp="1598067515908" />
     <state width="1174" height="142" key="GridCell.Tab.0.center/47.23.1233.777@47.23.1233.777" timestamp="1597973718691" />
-    <state width="1337" height="10" key="GridCell.Tab.0.left" timestamp="1598192664892">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.0.left" timestamp="1598219338819">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="83" key="GridCell.Tab.0.left/35.23.1245.777@35.23.1245.777" timestamp="1590670072116" />
     <state width="1266" height="12" key="GridCell.Tab.0.left/36.23.1244.777@36.23.1244.777" timestamp="1590667130485" />
@@ -1107,13 +1039,13 @@
     <state width="1193" height="268" key="GridCell.Tab.0.left/40.23.1240.777@40.23.1240.777" timestamp="1593352554470" />
     <state width="1174" height="93" key="GridCell.Tab.0.left/41.23.1239.777@41.23.1239.777" timestamp="1598169496153" />
     <state width="1337" height="10" key="GridCell.Tab.0.left/43.23.1237.777@43.23.1237.777" timestamp="1598192664892" />
-    <state width="1337" height="35" key="GridCell.Tab.0.left/44.23.1236.777@44.23.1236.777" timestamp="1598190920331" />
+    <state width="1284" height="4" key="GridCell.Tab.0.left/44.23.1236.777@44.23.1236.777" timestamp="1598219338819" />
     <state width="1193" height="254" key="GridCell.Tab.0.left/45.23.1235.777@45.23.1235.777" timestamp="1597614596238" />
     <state width="1446" height="102" key="GridCell.Tab.0.left/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272699" />
     <state width="1301" height="151" key="GridCell.Tab.0.left/46.23.1234.777@46.23.1234.777" timestamp="1598067515907" />
     <state width="1174" height="142" key="GridCell.Tab.0.left/47.23.1233.777@47.23.1233.777" timestamp="1597973718690" />
-    <state width="1337" height="10" key="GridCell.Tab.0.right" timestamp="1598192664894">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.0.right" timestamp="1598219338820">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="83" key="GridCell.Tab.0.right/35.23.1245.777@35.23.1245.777" timestamp="1590670072116" />
     <state width="1266" height="12" key="GridCell.Tab.0.right/36.23.1244.777@36.23.1244.777" timestamp="1590667130486" />
@@ -1123,13 +1055,13 @@
     <state width="1193" height="268" key="GridCell.Tab.0.right/40.23.1240.777@40.23.1240.777" timestamp="1593352554474" />
     <state width="1174" height="93" key="GridCell.Tab.0.right/41.23.1239.777@41.23.1239.777" timestamp="1598169496155" />
     <state width="1337" height="10" key="GridCell.Tab.0.right/43.23.1237.777@43.23.1237.777" timestamp="1598192664894" />
-    <state width="1337" height="35" key="GridCell.Tab.0.right/44.23.1236.777@44.23.1236.777" timestamp="1598190920336" />
+    <state width="1284" height="4" key="GridCell.Tab.0.right/44.23.1236.777@44.23.1236.777" timestamp="1598219338820" />
     <state width="1193" height="254" key="GridCell.Tab.0.right/45.23.1235.777@45.23.1235.777" timestamp="1597614596239" />
     <state width="1446" height="102" key="GridCell.Tab.0.right/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272700" />
     <state width="1301" height="151" key="GridCell.Tab.0.right/46.23.1234.777@46.23.1234.777" timestamp="1598067515909" />
     <state width="1174" height="142" key="GridCell.Tab.0.right/47.23.1233.777@47.23.1233.777" timestamp="1597973718692" />
-    <state width="1337" height="10" key="GridCell.Tab.1.bottom" timestamp="1598192664896">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.1.bottom" timestamp="1598219338822">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.1.bottom/35.23.1245.777@35.23.1245.777" timestamp="1590669849977" />
     <state width="1266" height="12" key="GridCell.Tab.1.bottom/36.23.1244.777@36.23.1244.777" timestamp="1590667130351" />
@@ -1139,13 +1071,13 @@
     <state width="1183" height="273" key="GridCell.Tab.1.bottom/40.23.1240.777@40.23.1240.777" timestamp="1590673653024" />
     <state width="1174" height="93" key="GridCell.Tab.1.bottom/41.23.1239.777@41.23.1239.777" timestamp="1598169495823" />
     <state width="1337" height="10" key="GridCell.Tab.1.bottom/43.23.1237.777@43.23.1237.777" timestamp="1598192664896" />
-    <state width="1337" height="35" key="GridCell.Tab.1.bottom/44.23.1236.777@44.23.1236.777" timestamp="1598190920104" />
+    <state width="1284" height="4" key="GridCell.Tab.1.bottom/44.23.1236.777@44.23.1236.777" timestamp="1598219338822" />
     <state width="1193" height="254" key="GridCell.Tab.1.bottom/45.23.1235.777@45.23.1235.777" timestamp="1597614596241" />
     <state width="1446" height="102" key="GridCell.Tab.1.bottom/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272702" />
     <state width="1301" height="151" key="GridCell.Tab.1.bottom/46.23.1234.777@46.23.1234.777" timestamp="1598067515911" />
     <state width="1174" height="142" key="GridCell.Tab.1.bottom/47.23.1233.777@47.23.1233.777" timestamp="1597973718700" />
-    <state width="1337" height="10" key="GridCell.Tab.1.center" timestamp="1598192664895">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.1.center" timestamp="1598219338821">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.1.center/35.23.1245.777@35.23.1245.777" timestamp="1590669849976" />
     <state width="1266" height="12" key="GridCell.Tab.1.center/36.23.1244.777@36.23.1244.777" timestamp="1590667130350" />
@@ -1155,13 +1087,13 @@
     <state width="1183" height="273" key="GridCell.Tab.1.center/40.23.1240.777@40.23.1240.777" timestamp="1590673653023" />
     <state width="1174" height="93" key="GridCell.Tab.1.center/41.23.1239.777@41.23.1239.777" timestamp="1598169495821" />
     <state width="1337" height="10" key="GridCell.Tab.1.center/43.23.1237.777@43.23.1237.777" timestamp="1598192664895" />
-    <state width="1337" height="35" key="GridCell.Tab.1.center/44.23.1236.777@44.23.1236.777" timestamp="1598190920103" />
+    <state width="1284" height="4" key="GridCell.Tab.1.center/44.23.1236.777@44.23.1236.777" timestamp="1598219338821" />
     <state width="1193" height="254" key="GridCell.Tab.1.center/45.23.1235.777@45.23.1235.777" timestamp="1597614596241" />
     <state width="1446" height="102" key="GridCell.Tab.1.center/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272701" />
     <state width="1301" height="151" key="GridCell.Tab.1.center/46.23.1234.777@46.23.1234.777" timestamp="1598067515910" />
     <state width="1174" height="142" key="GridCell.Tab.1.center/47.23.1233.777@47.23.1233.777" timestamp="1597973718699" />
-    <state width="1337" height="10" key="GridCell.Tab.1.left" timestamp="1598192664895">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.1.left" timestamp="1598219338821">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.1.left/35.23.1245.777@35.23.1245.777" timestamp="1590669849975" />
     <state width="1266" height="12" key="GridCell.Tab.1.left/36.23.1244.777@36.23.1244.777" timestamp="1590667130348" />
@@ -1171,13 +1103,13 @@
     <state width="1183" height="273" key="GridCell.Tab.1.left/40.23.1240.777@40.23.1240.777" timestamp="1590673653023" />
     <state width="1174" height="93" key="GridCell.Tab.1.left/41.23.1239.777@41.23.1239.777" timestamp="1598169495820" />
     <state width="1337" height="10" key="GridCell.Tab.1.left/43.23.1237.777@43.23.1237.777" timestamp="1598192664895" />
-    <state width="1337" height="35" key="GridCell.Tab.1.left/44.23.1236.777@44.23.1236.777" timestamp="1598190920102" />
+    <state width="1284" height="4" key="GridCell.Tab.1.left/44.23.1236.777@44.23.1236.777" timestamp="1598219338821" />
     <state width="1193" height="254" key="GridCell.Tab.1.left/45.23.1235.777@45.23.1235.777" timestamp="1597614596240" />
     <state width="1446" height="102" key="GridCell.Tab.1.left/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272701" />
     <state width="1301" height="151" key="GridCell.Tab.1.left/46.23.1234.777@46.23.1234.777" timestamp="1598067515909" />
     <state width="1174" height="142" key="GridCell.Tab.1.left/47.23.1233.777@47.23.1233.777" timestamp="1597973718696" />
-    <state width="1337" height="10" key="GridCell.Tab.1.right" timestamp="1598192664896">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.1.right" timestamp="1598219338821">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.1.right/35.23.1245.777@35.23.1245.777" timestamp="1590669849976" />
     <state width="1266" height="12" key="GridCell.Tab.1.right/36.23.1244.777@36.23.1244.777" timestamp="1590667130350" />
@@ -1187,13 +1119,13 @@
     <state width="1183" height="273" key="GridCell.Tab.1.right/40.23.1240.777@40.23.1240.777" timestamp="1590673653024" />
     <state width="1174" height="93" key="GridCell.Tab.1.right/41.23.1239.777@41.23.1239.777" timestamp="1598169495822" />
     <state width="1337" height="10" key="GridCell.Tab.1.right/43.23.1237.777@43.23.1237.777" timestamp="1598192664896" />
-    <state width="1337" height="35" key="GridCell.Tab.1.right/44.23.1236.777@44.23.1236.777" timestamp="1598190920103" />
+    <state width="1284" height="4" key="GridCell.Tab.1.right/44.23.1236.777@44.23.1236.777" timestamp="1598219338821" />
     <state width="1193" height="254" key="GridCell.Tab.1.right/45.23.1235.777@45.23.1235.777" timestamp="1597614596241" />
     <state width="1446" height="102" key="GridCell.Tab.1.right/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272701" />
     <state width="1301" height="151" key="GridCell.Tab.1.right/46.23.1234.777@46.23.1234.777" timestamp="1598067515910" />
     <state width="1174" height="142" key="GridCell.Tab.1.right/47.23.1233.777@47.23.1233.777" timestamp="1597973718699" />
-    <state width="1337" height="10" key="GridCell.Tab.2.bottom" timestamp="1598192664900">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.2.bottom" timestamp="1598219338827">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.2.bottom/35.23.1245.777@35.23.1245.777" timestamp="1590669849978" />
     <state width="1266" height="12" key="GridCell.Tab.2.bottom/36.23.1244.777@36.23.1244.777" timestamp="1590667130353" />
@@ -1203,13 +1135,13 @@
     <state width="1183" height="273" key="GridCell.Tab.2.bottom/40.23.1240.777@40.23.1240.777" timestamp="1590673532608" />
     <state width="1174" height="93" key="GridCell.Tab.2.bottom/41.23.1239.777@41.23.1239.777" timestamp="1598169495829" />
     <state width="1337" height="10" key="GridCell.Tab.2.bottom/43.23.1237.777@43.23.1237.777" timestamp="1598192664900" />
-    <state width="1337" height="326" key="GridCell.Tab.2.bottom/44.23.1236.777@44.23.1236.777" timestamp="1598190059869" />
+    <state width="1284" height="4" key="GridCell.Tab.2.bottom/44.23.1236.777@44.23.1236.777" timestamp="1598219338827" />
     <state width="1193" height="69" key="GridCell.Tab.2.bottom/45.23.1235.777@45.23.1235.777" timestamp="1597585852391" />
     <state width="1446" height="102" key="GridCell.Tab.2.bottom/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272703" />
     <state width="1301" height="2" key="GridCell.Tab.2.bottom/46.23.1234.777@46.23.1234.777" timestamp="1598059304428" />
     <state width="1170" height="2" key="GridCell.Tab.2.bottom/47.23.1233.777@47.23.1233.777" timestamp="1597716095949" />
-    <state width="1337" height="10" key="GridCell.Tab.2.center" timestamp="1598192664899">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.2.center" timestamp="1598219338826">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.2.center/35.23.1245.777@35.23.1245.777" timestamp="1590669849978" />
     <state width="1266" height="12" key="GridCell.Tab.2.center/36.23.1244.777@36.23.1244.777" timestamp="1590667130352" />
@@ -1219,13 +1151,13 @@
     <state width="1183" height="273" key="GridCell.Tab.2.center/40.23.1240.777@40.23.1240.777" timestamp="1590673532606" />
     <state width="1174" height="93" key="GridCell.Tab.2.center/41.23.1239.777@41.23.1239.777" timestamp="1598169495827" />
     <state width="1337" height="10" key="GridCell.Tab.2.center/43.23.1237.777@43.23.1237.777" timestamp="1598192664899" />
-    <state width="1337" height="326" key="GridCell.Tab.2.center/44.23.1236.777@44.23.1236.777" timestamp="1598190059868" />
+    <state width="1284" height="4" key="GridCell.Tab.2.center/44.23.1236.777@44.23.1236.777" timestamp="1598219338826" />
     <state width="1193" height="69" key="GridCell.Tab.2.center/45.23.1235.777@45.23.1235.777" timestamp="1597585852389" />
     <state width="1446" height="102" key="GridCell.Tab.2.center/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272703" />
     <state width="1301" height="2" key="GridCell.Tab.2.center/46.23.1234.777@46.23.1234.777" timestamp="1598059304427" />
     <state width="1170" height="2" key="GridCell.Tab.2.center/47.23.1233.777@47.23.1233.777" timestamp="1597716095948" />
-    <state width="1337" height="10" key="GridCell.Tab.2.left" timestamp="1598192664898">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.2.left" timestamp="1598219338824">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.2.left/35.23.1245.777@35.23.1245.777" timestamp="1590669849977" />
     <state width="1266" height="12" key="GridCell.Tab.2.left/36.23.1244.777@36.23.1244.777" timestamp="1590667130351" />
@@ -1235,13 +1167,13 @@
     <state width="1183" height="273" key="GridCell.Tab.2.left/40.23.1240.777@40.23.1240.777" timestamp="1590673532605" />
     <state width="1174" height="93" key="GridCell.Tab.2.left/41.23.1239.777@41.23.1239.777" timestamp="1598169495826" />
     <state width="1337" height="10" key="GridCell.Tab.2.left/43.23.1237.777@43.23.1237.777" timestamp="1598192664898" />
-    <state width="1337" height="326" key="GridCell.Tab.2.left/44.23.1236.777@44.23.1236.777" timestamp="1598190059867" />
+    <state width="1284" height="4" key="GridCell.Tab.2.left/44.23.1236.777@44.23.1236.777" timestamp="1598219338824" />
     <state width="1193" height="69" key="GridCell.Tab.2.left/45.23.1235.777@45.23.1235.777" timestamp="1597585852388" />
     <state width="1446" height="102" key="GridCell.Tab.2.left/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272703" />
     <state width="1301" height="2" key="GridCell.Tab.2.left/46.23.1234.777@46.23.1234.777" timestamp="1598059304427" />
     <state width="1170" height="2" key="GridCell.Tab.2.left/47.23.1233.777@47.23.1233.777" timestamp="1597716095947" />
-    <state width="1337" height="10" key="GridCell.Tab.2.right" timestamp="1598192664899">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.2.right" timestamp="1598219338826">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.2.right/35.23.1245.777@35.23.1245.777" timestamp="1590669849978" />
     <state width="1266" height="12" key="GridCell.Tab.2.right/36.23.1244.777@36.23.1244.777" timestamp="1590667130352" />
@@ -1251,13 +1183,13 @@
     <state width="1183" height="273" key="GridCell.Tab.2.right/40.23.1240.777@40.23.1240.777" timestamp="1590673532607" />
     <state width="1174" height="93" key="GridCell.Tab.2.right/41.23.1239.777@41.23.1239.777" timestamp="1598169495828" />
     <state width="1337" height="10" key="GridCell.Tab.2.right/43.23.1237.777@43.23.1237.777" timestamp="1598192664899" />
-    <state width="1337" height="326" key="GridCell.Tab.2.right/44.23.1236.777@44.23.1236.777" timestamp="1598190059868" />
+    <state width="1284" height="4" key="GridCell.Tab.2.right/44.23.1236.777@44.23.1236.777" timestamp="1598219338826" />
     <state width="1193" height="69" key="GridCell.Tab.2.right/45.23.1235.777@45.23.1235.777" timestamp="1597585852390" />
     <state width="1446" height="102" key="GridCell.Tab.2.right/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272703" />
     <state width="1301" height="2" key="GridCell.Tab.2.right/46.23.1234.777@46.23.1234.777" timestamp="1598059304428" />
     <state width="1170" height="2" key="GridCell.Tab.2.right/47.23.1233.777@47.23.1233.777" timestamp="1597716095948" />
-    <state width="1337" height="10" key="GridCell.Tab.3.bottom" timestamp="1598192664898">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.3.bottom" timestamp="1598219338824">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.3.bottom/35.23.1245.777@35.23.1245.777" timestamp="1590669849980" />
     <state width="1266" height="12" key="GridCell.Tab.3.bottom/36.23.1244.777@36.23.1244.777" timestamp="1590667130354" />
@@ -1267,13 +1199,13 @@
     <state width="1183" height="273" key="GridCell.Tab.3.bottom/40.23.1240.777@40.23.1240.777" timestamp="1590673532610" />
     <state width="1174" height="93" key="GridCell.Tab.3.bottom/41.23.1239.777@41.23.1239.777" timestamp="1598169495825" />
     <state width="1337" height="10" key="GridCell.Tab.3.bottom/43.23.1237.777@43.23.1237.777" timestamp="1598192664898" />
-    <state width="1337" height="326" key="GridCell.Tab.3.bottom/44.23.1236.777@44.23.1236.777" timestamp="1598190059866" />
+    <state width="1284" height="4" key="GridCell.Tab.3.bottom/44.23.1236.777@44.23.1236.777" timestamp="1598219338824" />
     <state width="1193" height="69" key="GridCell.Tab.3.bottom/45.23.1235.777@45.23.1235.777" timestamp="1597585852392" />
     <state width="1446" height="102" key="GridCell.Tab.3.bottom/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272703" />
     <state width="1301" height="2" key="GridCell.Tab.3.bottom/46.23.1234.777@46.23.1234.777" timestamp="1598059304430" />
     <state width="1170" height="2" key="GridCell.Tab.3.bottom/47.23.1233.777@47.23.1233.777" timestamp="1597716095954" />
-    <state width="1337" height="10" key="GridCell.Tab.3.center" timestamp="1598192664897">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.3.center" timestamp="1598219338823">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.3.center/35.23.1245.777@35.23.1245.777" timestamp="1590669849979" />
     <state width="1266" height="12" key="GridCell.Tab.3.center/36.23.1244.777@36.23.1244.777" timestamp="1590667130353" />
@@ -1283,13 +1215,13 @@
     <state width="1183" height="273" key="GridCell.Tab.3.center/40.23.1240.777@40.23.1240.777" timestamp="1590673532609" />
     <state width="1174" height="93" key="GridCell.Tab.3.center/41.23.1239.777@41.23.1239.777" timestamp="1598169495824" />
     <state width="1337" height="10" key="GridCell.Tab.3.center/43.23.1237.777@43.23.1237.777" timestamp="1598192664897" />
-    <state width="1337" height="326" key="GridCell.Tab.3.center/44.23.1236.777@44.23.1236.777" timestamp="1598190059862" />
+    <state width="1284" height="4" key="GridCell.Tab.3.center/44.23.1236.777@44.23.1236.777" timestamp="1598219338823" />
     <state width="1193" height="69" key="GridCell.Tab.3.center/45.23.1235.777@45.23.1235.777" timestamp="1597585852392" />
     <state width="1446" height="102" key="GridCell.Tab.3.center/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272702" />
     <state width="1301" height="2" key="GridCell.Tab.3.center/46.23.1234.777@46.23.1234.777" timestamp="1598059304429" />
     <state width="1170" height="2" key="GridCell.Tab.3.center/47.23.1233.777@47.23.1233.777" timestamp="1597716095951" />
-    <state width="1337" height="10" key="GridCell.Tab.3.left" timestamp="1598192664897">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.3.left" timestamp="1598219338822">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.3.left/35.23.1245.777@35.23.1245.777" timestamp="1590669849979" />
     <state width="1266" height="12" key="GridCell.Tab.3.left/36.23.1244.777@36.23.1244.777" timestamp="1590667130353" />
@@ -1299,13 +1231,13 @@
     <state width="1183" height="273" key="GridCell.Tab.3.left/40.23.1240.777@40.23.1240.777" timestamp="1590673532609" />
     <state width="1174" height="93" key="GridCell.Tab.3.left/41.23.1239.777@41.23.1239.777" timestamp="1598169495823" />
     <state width="1337" height="10" key="GridCell.Tab.3.left/43.23.1237.777@43.23.1237.777" timestamp="1598192664897" />
-    <state width="1337" height="326" key="GridCell.Tab.3.left/44.23.1236.777@44.23.1236.777" timestamp="1598190059862" />
+    <state width="1284" height="4" key="GridCell.Tab.3.left/44.23.1236.777@44.23.1236.777" timestamp="1598219338822" />
     <state width="1193" height="69" key="GridCell.Tab.3.left/45.23.1235.777@45.23.1235.777" timestamp="1597585852391" />
     <state width="1446" height="102" key="GridCell.Tab.3.left/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272702" />
     <state width="1301" height="2" key="GridCell.Tab.3.left/46.23.1234.777@46.23.1234.777" timestamp="1598059304429" />
     <state width="1170" height="2" key="GridCell.Tab.3.left/47.23.1233.777@47.23.1233.777" timestamp="1597716095951" />
-    <state width="1337" height="10" key="GridCell.Tab.3.right" timestamp="1598192664898">
-      <screen x="43" y="23" width="1237" height="777" />
+    <state width="1284" height="4" key="GridCell.Tab.3.right" timestamp="1598219338823">
+      <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state width="1183" height="162" key="GridCell.Tab.3.right/35.23.1245.777@35.23.1245.777" timestamp="1590669849980" />
     <state width="1266" height="12" key="GridCell.Tab.3.right/36.23.1244.777@36.23.1244.777" timestamp="1590667130354" />
@@ -1315,7 +1247,7 @@
     <state width="1183" height="273" key="GridCell.Tab.3.right/40.23.1240.777@40.23.1240.777" timestamp="1590673532610" />
     <state width="1174" height="93" key="GridCell.Tab.3.right/41.23.1239.777@41.23.1239.777" timestamp="1598169495825" />
     <state width="1337" height="10" key="GridCell.Tab.3.right/43.23.1237.777@43.23.1237.777" timestamp="1598192664898" />
-    <state width="1337" height="326" key="GridCell.Tab.3.right/44.23.1236.777@44.23.1236.777" timestamp="1598190059863" />
+    <state width="1284" height="4" key="GridCell.Tab.3.right/44.23.1236.777@44.23.1236.777" timestamp="1598219338823" />
     <state width="1193" height="69" key="GridCell.Tab.3.right/45.23.1235.777@45.23.1235.777" timestamp="1597585852392" />
     <state width="1446" height="102" key="GridCell.Tab.3.right/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272702" />
     <state width="1301" height="2" key="GridCell.Tab.3.right/46.23.1234.777@46.23.1234.777" timestamp="1598059304429" />
@@ -1330,14 +1262,14 @@
     <state x="123" y="23" key="SettingsEditor/43.23.1237.777@43.23.1237.777" timestamp="1598089326382" />
     <state x="187" y="23" key="SettingsEditor/45.23.1235.777@45.23.1235.777" timestamp="1597364352917" />
     <state x="121" y="23" key="SettingsEditor/46.23.1234.777@46.23.1234.777" timestamp="1598000629403" />
-    <state x="276" y="131" key="Vcs.Push.Dialog.v2" timestamp="1598100157025">
+    <state x="276" y="131" key="Vcs.Push.Dialog.v2" timestamp="1598193011943">
       <screen x="43" y="23" width="1237" height="777" />
     </state>
     <state x="269" y="131" key="Vcs.Push.Dialog.v2/36.23.1244.777@36.23.1244.777" timestamp="1590670304032" />
     <state x="271" y="131" key="Vcs.Push.Dialog.v2/38.23.1242.777@38.23.1242.777" timestamp="1590639005179" />
     <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1590673722745" />
     <state x="274" y="131" key="Vcs.Push.Dialog.v2/41.23.1239.777@41.23.1239.777" timestamp="1590622247785" />
-    <state x="276" y="131" key="Vcs.Push.Dialog.v2/43.23.1237.777@43.23.1237.777" timestamp="1598100157025" />
+    <state x="276" y="131" key="Vcs.Push.Dialog.v2/43.23.1237.777@43.23.1237.777" timestamp="1598193011943" />
     <state x="277" y="131" key="Vcs.Push.Dialog.v2/44.23.1236.777@44.23.1236.777" timestamp="1595840937228" />
     <state x="278" y="131" key="Vcs.Push.Dialog.v2/45.23.1235.777@45.23.1235.777" timestamp="1597585838665" />
     <state x="279" y="131" key="Vcs.Push.Dialog.v2/46.23.1234.777@46.23.1234.777" timestamp="1598059394570" />

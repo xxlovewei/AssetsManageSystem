@@ -1,4 +1,5 @@
 1.表结构修改
+ALTER TABLE res ADD uuidbf varchar(50) NULL;
 ALTER TABLE res_change_item ADD fillct varchar(1) DEFAULT 0 NULL;
 ALTER TABLE res_change_item ADD ct varchar(1000) NULL;
 ALTER TABLE res_change_item ADD cdate datetime NULL;
@@ -38,6 +39,8 @@ ALTER TABLE res_allocate_item ADD flocname varchar(500) NULL;
 ALTER TABLE res_allocate_item ADD flocdtl varchar(500) NULL;
 ALTER TABLE res_allocate_item ADD frecycle varchar(50) NULL;
 ALTER TABLE res_allocate_item ADD acttime datetime NULL;
+
+
 2.新增表
 
 

@@ -128,19 +128,19 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.0.17.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.0.17.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.0.17.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-core:1.5.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-lang:1.5.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-cache:1.5.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-hash:1.5.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-core:1.5.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-cipher:1.5.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-config-core:1.5.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-config-ogdl:1.5.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-event:1.5.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-web:1.5.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-core:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-lang:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-cache:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-hash:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-core:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-cipher:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-config-core:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-config-ogdl:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-event:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-web:1.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.owasp.encoder:encoder:1.2.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-spring:1.5.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-ehcache:1.5.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-spring:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-ehcache:1.6.0" level="project" />
     <orderEntry type="library" name="Maven: net.sf.ehcache:ehcache-core:2.6.11" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.20" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.6.1" level="project" />
@@ -165,7 +165,7 @@
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.5" level="project" />
     <orderEntry type="library" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.6" level="project" />
-    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.71" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.73" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20160212" level="project" />
     <orderEntry type="library" name="Maven: io.github.hengyunabc:zabbix-api:0.0.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.6" level="project" />

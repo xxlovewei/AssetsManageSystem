@@ -19,6 +19,7 @@ import com.dt.module.zc.entity.ResScrape;
 import com.dt.module.zc.entity.ResScrapeItem;
 import com.dt.module.zc.service.IResScrapeItemService;
 import com.dt.module.zc.service.IResScrapeService;
+import com.dt.module.zc.service.impl.ResScrapeService;
 import com.dt.module.zc.service.impl.ZcChangeService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.zc.service.impl.ZcService;
@@ -83,7 +84,7 @@ public class ResScrapeExtController extends BaseController {
         ArrayList<ResScrapeItem> cols = new ArrayList<ResScrapeItem>();
         String uuid = zcService.createUuid(ZcCommonService.UUID_BF);
         entity.setUuid(uuid);
-        entity.setStatus("none");
+        entity.setStatus(ResScrapeService.STATUS_SUCCESS);
         Date date = new SimpleDateFormat("yyyy-MM-dd").parse(busitimestr);
         entity.setBusidate(date);
         if (ToolUtil.isEmpty(entity.getProcessuserid())) {
@@ -97,6 +98,8 @@ public class ResScrapeExtController extends BaseController {
             UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
             ups.set("recycle", ZcRecycleEnum.RECYCLE_SCRAP.getValue());
             ups.set("isscrap", "1");
+            ups.set("uuidbf", uuid);
+            ups.set("scrapdate", busitimestr);
             ups.eq("id", itemsarr.getJSONObject(i).getString("id"));
             ResServiceImpl.update(ups);
             ResScrapeItem e = new ResScrapeItem();

@@ -240,16 +240,8 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         'sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
         'sDefaultContent', '').withOption("width", '30').renderWith(function (data, type, full) {
-        if (data == "none") {
-            return "无需审批"
-        } else if (data == "back") {
-            data == "打回"
-        } else if (data == "deny") {
-            data == "拒绝"
-        } else if (data == "agreen") {
-            data == "同意"
-        } else if (data == "wait") {
-            data == "待审批"
+        if (data == "success") {
+            return "完成"
         } else {
             return data;
         }

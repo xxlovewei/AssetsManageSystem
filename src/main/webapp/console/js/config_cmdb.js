@@ -796,6 +796,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('report.zcbfrep', {
+        url: "/report_zcbfrep",
+        data: {pageTitle: '资产报废汇总表'},
+        template: '<div ng-controller="zcbfrepCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/rep/zcBfreport.js?v=' + version]
+                }]);
+            }
+        }
     }).state('report.departsummary', {
         url: "/report_departsummary",
         data: {pageTitle: '部门资产汇总'},
