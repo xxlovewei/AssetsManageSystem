@@ -966,15 +966,15 @@
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state x="353" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/45.23.1235.777@45.23.1235.777" timestamp="1592522940651" />
-    <state x="333" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1598219869865">
-      <screen x="44" y="23" width="1236" height="777" />
+    <state x="192" y="70" width="833" height="777" key="CommitChangelistDialog2" timestamp="1598321970044">
+      <screen x="43" y="23" width="1237" height="777" />
     </state>
     <state x="36" y="23" width="833" height="777" key="CommitChangelistDialog2/36.23.1244.777@36.23.1244.777" timestamp="1590670297315" />
     <state x="233" y="23" width="833" height="777" key="CommitChangelistDialog2/38.23.1242.777@38.23.1242.777" timestamp="1590638998285" />
     <state x="39" y="23" width="924" height="777" key="CommitChangelistDialog2/39.23.1241.777@39.23.1241.777" timestamp="1593361230010" />
     <state x="40" y="23" width="1240" height="777" key="CommitChangelistDialog2/40.23.1240.777@40.23.1240.777" timestamp="1590673712633" />
     <state x="174" y="37" width="833" height="617" key="CommitChangelistDialog2/41.23.1239.777@41.23.1239.777" timestamp="1590622241157" />
-    <state x="192" y="70" width="761" height="592" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1598192998039" />
+    <state x="192" y="70" width="761" height="592" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1598321970044" />
     <state x="333" y="23" width="833" height="777" key="CommitChangelistDialog2/44.23.1236.777@44.23.1236.777" timestamp="1598219869865" />
     <state x="125" y="23" width="833" height="731" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1597630017717" />
     <state x="428" y="23" key="CommitChangelistDialog2/45.23.1635.1027@45.23.1635.1027" timestamp="1594547269947" />
@@ -1251,14 +1251,14 @@
     <state x="123" y="23" key="SettingsEditor/43.23.1237.777@43.23.1237.777" timestamp="1598089326382" />
     <state x="187" y="23" key="SettingsEditor/45.23.1235.777@45.23.1235.777" timestamp="1597364352917" />
     <state x="121" y="23" key="SettingsEditor/46.23.1234.777@46.23.1234.777" timestamp="1598000629403" />
-    <state x="277" y="131" key="Vcs.Push.Dialog.v2" timestamp="1598219876625">
-      <screen x="44" y="23" width="1236" height="777" />
+    <state x="276" y="131" key="Vcs.Push.Dialog.v2" timestamp="1598321978994">
+      <screen x="43" y="23" width="1237" height="777" />
     </state>
     <state x="269" y="131" key="Vcs.Push.Dialog.v2/36.23.1244.777@36.23.1244.777" timestamp="1590670304032" />
     <state x="271" y="131" key="Vcs.Push.Dialog.v2/38.23.1242.777@38.23.1242.777" timestamp="1590639005179" />
     <state x="273" y="131" key="Vcs.Push.Dialog.v2/40.23.1240.777@40.23.1240.777" timestamp="1590673722745" />
     <state x="274" y="131" key="Vcs.Push.Dialog.v2/41.23.1239.777@41.23.1239.777" timestamp="1590622247785" />
-    <state x="276" y="131" key="Vcs.Push.Dialog.v2/43.23.1237.777@43.23.1237.777" timestamp="1598193011943" />
+    <state x="276" y="131" key="Vcs.Push.Dialog.v2/43.23.1237.777@43.23.1237.777" timestamp="1598321978994" />
     <state x="277" y="131" key="Vcs.Push.Dialog.v2/44.23.1236.777@44.23.1236.777" timestamp="1598219876625" />
     <state x="278" y="131" key="Vcs.Push.Dialog.v2/45.23.1235.777@45.23.1235.777" timestamp="1597585838665" />
     <state x="279" y="131" key="Vcs.Push.Dialog.v2/46.23.1234.777@46.23.1234.777" timestamp="1598059394570" />
