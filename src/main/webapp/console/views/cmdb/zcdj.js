@@ -76,7 +76,8 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
         }
     }
     if (angular.isUndefined($rootScope.zccolctl) || angular.isUndefined($rootScope.zccolctl.value)) {
-        $rootScope.zccolctl.value = "{}";
+        var coldata = {value: "{}"};
+        $rootScope.zccolctl = coldata;
     }
     $scope.dtColumns = [];
     $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withselect', $rootScope.zccolctl.value);

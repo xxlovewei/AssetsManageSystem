@@ -392,7 +392,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
     }
     // $scope.dtColumns.push();
     if (angular.isUndefined($rootScope.zccolctlcommon) || angular.isUndefined($rootScope.zccolctlcommon.value)) {
-        $rootScope.zccolctlcommon.value = "{}";
+        var coldata = {value: "{}"};
+        $rootScope.zccolctlcommon = coldata;
     }
     var cols = zcBaseColsCreate(DTColumnBuilder, 'withselect', $rootScope.zccolctlcommon.value);
     var e = DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
