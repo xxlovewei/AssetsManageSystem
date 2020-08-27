@@ -1,0 +1,3 @@
+ALTER TABLE sys_params MODIFY value varchar(1000) COMMENT '属性值';
+insert into sys_params(id,name,value,dr) values('zccolctl','前端入库资产列显示','{}','0');
+insert into sys_params(id,name,value,dr) values('zccolctlcommon','前端常用资产列显示','{}','0');

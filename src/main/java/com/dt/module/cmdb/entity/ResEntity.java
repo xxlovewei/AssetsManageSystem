@@ -107,6 +107,9 @@ public class ResEntity implements java.io.Serializable {
     @Excel(name = "资产净值", width = 10)
     private String net_worth;
 
+    @Excel(name = "累计折旧", width = 10)
+    private String accumulateddepreciation;
+
 
     //维保
     @Excel(name = "维保商", width = 10)
@@ -131,6 +134,8 @@ public class ResEntity implements java.io.Serializable {
 
     @Excel(name = "ip", width = 20)
     private String ip;
+
+
     private String processmsg = "";
 
 
@@ -545,6 +550,7 @@ public class ResEntity implements java.io.Serializable {
         this.belongcom_fullname = obj.getString("belongcom_fullname");
         this.usefullifestr = obj.getString("usefullifestr");
         this.unit = obj.getString("unit");
+        this.accumulateddepreciation = obj.getString("accumulateddepreciation");
 
 
     }
@@ -649,4 +655,11 @@ public class ResEntity implements java.io.Serializable {
         this.unit = unit;
     }
 
+    public String getAccumulateddepreciation() {
+        return accumulateddepreciation;
+    }
+
+    public void setAccumulateddepreciation(String accumulateddepreciation) {
+        this.accumulateddepreciation = accumulateddepreciation;
+    }
 }

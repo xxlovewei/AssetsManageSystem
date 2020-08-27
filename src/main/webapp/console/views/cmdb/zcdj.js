@@ -75,8 +75,11 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
             $scope.dtInstance.DataTable.rows().deselect();
         }
     }
+    if (angular.isUndefined($rootScope.zccolctl.value)) {
+        $rootScope.zccolctl.value = "{}";
+    }
     $scope.dtColumns = [];
-    $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withselect');
+    $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withselect', $rootScope.zccolctl.value);
     $scope.query = function () {
         flush();
     }

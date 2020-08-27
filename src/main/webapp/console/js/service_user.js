@@ -82,6 +82,22 @@ app.service('userService', function ($http, $q, $log, $rootScope, $localStorage)
             $http.post($rootScope.project + "/api/user/login.do", e).success(function (res) {
                 $log.warn("service login return", res);
                 if (res.success) {
+                    $http.post($rootScope.project + "/api/zc/queryZcColCtlById.do", {
+                        id: "zccolctl"
+                    }).success(function (rscolctl1) {
+                        if (rscolctl1.success) {
+                            $rootScope.zccolctl = rscolctl1.data;
+                            $localStorage.put('zccolctl', rscolctl1.data);
+                        }
+                    });
+                    $http.post($rootScope.project + "/api/zc/queryZcColCtlById.do", {
+                        id: "zccolctlcommon"
+                    }).success(function (rscolctl2) {
+                        if (rscolctl2.success) {
+                            $rootScope.zccolctlcommon = rscolctl2.data;
+                            $localStorage.put('zccolctlcommon', rscolctl2.data);
+                        }
+                    });
                     if (angular.isDefined(res.data.token)) {
                         // 用户token
                         $log.warn("set token to $rootScope")
@@ -166,6 +182,18 @@ app.service('userService', function ($http, $q, $log, $rootScope, $localStorage)
                     $rootScope.dt_sys_menus = rs.data;
                     $localStorage.put('dt_sys_menus', rs.data);
                     $localStorage.put('dt_cur_systemId', id);
+                }
+                deferred.resolve(rs);
+            });
+            return deferred.promise;
+        },
+        getZcColCtl: function (id) {
+            var deferred = $q.defer();
+            $http.post($rootScope.project + "/api/zc/queryZcColCtlById.do", {
+                id: id
+            }).success(function (rs) {
+                if (rs.success) {
+                    $rootScope.zccolctlcommon = rs.data;
                 }
                 deferred.resolve(rs);
             });

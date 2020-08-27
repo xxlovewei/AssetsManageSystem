@@ -115,11 +115,19 @@ function sysParamsCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         return acthtml;
     }
 
+    function renderValue(data, type, full) {
+        if (angular.isDefined(data) && data.length > 35) {
+            return data.substr(0, 30) + '...';
+        } else {
+            return data;
+        }
+    }
+
     $scope.dtColumns = [
         DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('value').withTitle('编码').withOption(
-            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('value').withTitle('值').withOption(
+            'sDefaultContent', '').renderWith(renderValue),
         DTColumnBuilder.newColumn('type').withTitle('类型').withOption(
             'sDefaultContent', '').renderWith(renderStatus),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(

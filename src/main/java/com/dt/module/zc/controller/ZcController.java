@@ -258,5 +258,28 @@ public class ZcController extends BaseController {
         return R.SUCCESS_OPER();
     }
 
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/queryZcColCtlShow.do")
+    public R queryZcColCtlShow() {
+        return zcService.queryZcColCtlShow();
+    }
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/modifyZcColCtlShow.do")
+    public R modifyZcColCtlShow(String id, String json) {
+        return zcService.modifyZcColCtlShow(id, json);
+
+    }
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/queryZcColCtlById.do")
+    public R queryZcColCtlById(String id) {
+        return zcService.queryZcColCtlById(id);
+
+    }
+
 
 }

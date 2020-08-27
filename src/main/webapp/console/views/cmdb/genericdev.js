@@ -142,6 +142,7 @@ function modalresBatchUpdateCtl($confirm, $timeout, $localStorage, notify, $log,
 function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $location,
                        $log, notify, $scope, $http, $rootScope, $uibModal, $window, $state, $timeout) {
     var pbtns = $rootScope.curMemuBtns;
+    console.log('22222222222222', $rootScope.zccolctlcommon)
     var gclass_id = "";
     var gdicts = {};
     $http.post($rootScope.project + "/api/sysParams/selectById.do", {id: $state.router.globals.current.data.classid})
@@ -300,7 +301,10 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         }
     }
     // $scope.dtColumns.push();
-    var cols = zcBaseColsCreate(DTColumnBuilder, 'withselect');
+    if (angular.isUndefined($rootScope.zccolctlcommon.value)) {
+        $rootScope.zccolctlcommon.value = "{}";
+    }
+    var cols = zcBaseColsCreate(DTColumnBuilder, 'withselect', $rootScope.zccolctlcommon.value);
     var e = DTColumnBuilder.newColumn('ip').withTitle('IP').withOption(
         'sDefaultContent', '').withOption('width', '50');
     cols.splice(1, 0, e);

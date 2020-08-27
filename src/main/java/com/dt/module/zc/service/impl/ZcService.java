@@ -581,6 +581,7 @@ public class ZcService extends BaseService {
             me.setIf("changestate", "insert");
             me.setIf("net_worth", ps.getString("net_worth", "0"));
             me.setIf("buy_price", ps.getString("buy_price", "0"));
+
             me.setIf("part_id", "none".equals(ps.getString("part_id")) ? 0 : ps.getString("part_id"));
             me.setIf("mgr_part_id", "none".equals(ps.getString("mgr_part_id")) ? 0 : ps.getString("mgr_part_id"));
             me.setIf("used_userid", ps.getString("used_userid"));
@@ -723,6 +724,59 @@ public class ZcService extends BaseService {
         }
 
         return R.SUCCESS_OPER();
+    }
+
+    public R queryZcColCtlShow() {
+        JSONArray res = new JSONArray();
+        //zccolctl,zccolctlcommon
+        Rcd rs1 = db.uniqueRecord("select * from sys_params where id='zccolctl'");
+        Rcd rs2 = db.uniqueRecord("select * from sys_params where id='zccolctlcommon'");
+        if (rs1 == null) {
+            Insert ins1 = new Insert("sys_params");
+            ins1.set("dr", "0");
+            ins1.set("type", "system");
+            ins1.set("id", "zccolctl");
+            ins1.set("name", "前端入库资产列显示");
+            ins1.set("value", "{}");
+            db.execute(ins1);
+            rs1 = db.uniqueRecord("select * from sys_params where id='zccolctl'");
+        }
+        if (rs2 == null) {
+            Insert ins2 = new Insert("sys_params");
+            ins2.set("dr", "0");
+            ins2.set("type", "system");
+            ins2.set("id", "zccolctlcommon");
+            ins2.set("name", "前端常用资产列显示");
+            ins2.set("value", "{}");
+            db.execute(ins2);
+            rs2 = db.uniqueRecord("select * from sys_params where id='zccolctlcommon'");
+        }
+        String rs1ct = rs1.getString("value");
+        JSONObject rs1obj = JSONObject.parseObject(rs1ct);
+        rs1obj.put("zccolparname", rs1.getString("name"));
+        rs1obj.put("zccolparid", rs1.getString("id"));
+        res.add(rs1obj);
+
+        String rs2ct = rs2.getString("value");
+        JSONObject rs2obj = JSONObject.parseObject(rs2ct);
+        rs2obj.put("zccolparname", rs2.getString("name"));
+        rs2obj.put("zccolparid", rs2.getString("id"));
+        res.add(rs2obj);
+        return R.SUCCESS_OPER(res);
+    }
+
+    public R modifyZcColCtlShow(String id, String json) {
+        Update ups = new Update("sys_params");
+        ups.set("dr", "0");
+        ups.setIf("value", json);
+        ups.where().andIf("id=?", id);
+        db.execute(ups);
+        return R.SUCCESS_OPER();
+    }
+
+    public R queryZcColCtlById(String id) {
+        Rcd rs2 = db.uniqueRecord("select * from sys_params where id=?", id);
+        return R.SUCCESS_OPER(rs2.toJsonObject());
     }
 
 }

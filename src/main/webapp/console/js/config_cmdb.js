@@ -206,6 +206,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('cmsetting.colctl', {
+        url: "/cmsetting_colctl?psBtns",
+        data: {pageTitle: '字段显示',},
+        templateUrl: "views/cmdb/colctl.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/colctl.js?v=' + version]
+                }]);
+            }
+        }
     }).state('cmsetting.zjstrategy', {
         url: "/cmsetting_zjstrategy",
         data: {pageTitle: '折旧策略'},
@@ -911,65 +923,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
     });
 }
 
-//
-//
-// function zcBaseInOutColsCreate(DTColumnBuilder,selectype){
-// //selectype:withoutselect,withselect
-//     dtColumns=[];
-//     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
-//     dtColumns = [];
-//     if(selectype=="withselect"){
-//         dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
-//             'select-checkbox checkbox_center').renderWith(function() {
-//             return ""
-//         }));
-//     }
-//     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
-//         'sDefaultContent', '').withOption("width", '30'));
-//     dtColumns.push(DTColumnBuilder.newColumn('title').withTitle('标题').withOption(
-//         'sDefaultContent', '').withOption("width", '30'));
-//     dtColumns.push(DTColumnBuilder.newColumn('action').withTitle('出入库').withOption(
-//         'sDefaultContent', '').withOption("width", '30').renderWith( function(data, type, full) {
-//             if(data=="HCRK"){
-//                 return "入库"
-//             }else if(data=="HCCK"){
-//                 return "出库"
-//             }
-//             else{
-//                 return data;
-//             }
-//     }));
-//     dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('状态').withOption(
-//         'sDefaultContent', '').withOption("width", '30').renderWith( function(data, type, full) {
-//                 if(data=="none"){
-//                     return "无需审批"
-//                 }else if(data=="back"){
-//                     data=="打回"
-//                 }else if(data=="deny"){
-//                     data=="拒绝"
-//                 }else if(data=="agreen"){
-//                     data=="同意"
-//                 }else if(data=="wait"){
-//                     data=="待审批"
-//                 }else{
-//                     return data;
-//                 }
-//     }));
-//     dtColumns.push(DTColumnBuilder.newColumn('cnt').withTitle('数量').withOption(
-//         'sDefaultContent', '').withOption("width", '30'));
-//
-//     dtColumns.push(DTColumnBuilder.newColumn('suppliername').withTitle('供应商').withOption(
-//         'sDefaultContent', '').withOption("width", '30'));
-//     dtColumns.push( DTColumnBuilder.newColumn('buytime').withTitle('采购日期')
-//         .withOption('sDefaultContent', ''));
-//     dtColumns.push( DTColumnBuilder.newColumn('createTime').withTitle('创建时间')
-//         .withOption('sDefaultContent', ''));
-//     dtColumns.push( DTColumnBuilder.newColumn('operusername').withTitle('制单人')
-//         .withOption('sDefaultContent', ''));
-//     dtColumns.push(  DTColumnBuilder.newColumn('remark').withTitle('备注').withOption(
-//         'sDefaultContent', ''));
-//     return dtColumns;
-// }
 function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
 //selectype:withoutselect,withselect
     dtColumns = [];
@@ -1004,22 +957,6 @@ function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
     dtColumns.push(DTColumnBuilder.newColumn('ctupcnt').withTitle('安全库存上限').withOption(
         'sDefaultContent', '').withOption("width", '30'));
 
-    // dtColumns.push(DTColumnBuilder.newColumn('crkstatus').withTitle('单据状态').withOption(
-    //     'sDefaultContent', '').withOption("width", '30').renderWith( function(data, type, full) {
-    //     if(data=="none"){
-    //         return "无需审批"
-    //     }else if(data=="back"){
-    //         data=="打回"
-    //     }else if(data=="deny"){
-    //         data=="拒绝"
-    //     }else if(data=="agreen"){
-    //         data=="同意"
-    //     }else if(data=="wait"){
-    //         data=="待审批"
-    //     }else{
-    //         return data;
-    //     }
-    // }));
     dtColumns.push(DTColumnBuilder.newColumn('batchno').withTitle('批次号').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
@@ -1075,11 +1012,15 @@ function renderZcLoc(data, type, full) {
     return "<span style=\"color:purple;font-weight:bold\">" + html + "</span>"
 }
 
-function zcBaseColsCreate(DTColumnBuilder, selectype) {
+function zcBaseColsCreate(DTColumnBuilder, selectype, colctl) {
 //selectype:withoutselect,withselect
-    dtColumns = [];
+    //colctl
+    var colctlobj = angular.fromJson(colctl);
+    if (angular.isUndefined(colctlobj)) {
+        colctlobj = {};
+    }
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
-    dtColumns = [];
+    var dtColumns = [];
     if (selectype == "withselect") {
         dtColumns.push(DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
             'select-checkbox checkbox_center').renderWith(function () {
@@ -1088,68 +1029,152 @@ function zcBaseColsCreate(DTColumnBuilder, selectype) {
     }
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
-        'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
     dtColumns.push(DTColumnBuilder.newColumn('classfullname').withTitle('资产类别').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
         'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
-        'sDefaultContent', '').withOption('width', '50'));
-    dtColumns.push(DTColumnBuilder.newColumn('zcsourcestr').withTitle('来源').withOption(
-        'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
-        'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
-        'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('unit').withTitle('计量单位').withOption(
-        'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
-        'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('part_fullname').withTitle('使用部门').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
-        'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('locdtl').withTitle('位置').withOption(
-        'sDefaultContent', '').renderWith(renderZcLoc));
-    dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购日期')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('采购单价')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('net_worth').withTitle('资产净值')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('accumulateddepreciation').withTitle('累计折旧')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('wbsupplierstr').withTitle('维保商').withOption(
-        'sDefaultContent', '').withOption('width', '30').renderWith(renderDTFontColoBluerH));
-    dtColumns.push(DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
-        'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));
-    dtColumns.push(DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保日期')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
-    dtColumns.push(DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
-        .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
-    dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
-        'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('fs1').withTitle('标签1').withOption(
-        'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('fs2').withTitle('标签2').withOption(
-        'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
-        .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
-        'sDefaultContent', '').withOption("width", '30'));
+    if (angular.isDefined(colctlobj.fs20) && colctlobj.fs20 == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
+            'sDefaultContent', ''));
+    }
+    if (angular.isDefined(colctlobj.sn) && colctlobj.sn == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
+            'sDefaultContent', '').withOption('width', '50'));
+    }
+    if (angular.isDefined(colctlobj.zcsourcestr) && colctlobj.zcsourcestr == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('zcsourcestr').withTitle('来源').withOption(
+            'sDefaultContent', '').withOption("width", '30'));
+    }
+    if (angular.isDefined(colctlobj.supplierstr) && colctlobj.supplierstr == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
+            'sDefaultContent', '').withOption("width", '30'));
+    }
+    if (angular.isDefined(colctlobj.brandstr) && colctlobj.brandstr == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('').withTitle('品牌').withOption(
+            'sDefaultContent', '').withOption('width', '30'));
+    }
+    if (angular.isDefined(colctlobj.unit) && colctlobj.unit == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('').withTitle('计量单位').withOption(
+            'sDefaultContent', ''));
+    }
+    if (angular.isDefined(colctlobj.zc_cnt) && colctlobj.zc_cnt == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
+            .withOption('sDefaultContent', ''));
+    }
+    if (angular.isDefined(colctlobj.confdesc) && colctlobj.confdesc == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
+            'sDefaultContent', ''));
+    }
+    if (angular.isDefined(colctlobj.belongcom_name) && colctlobj.belongcom_name == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+    }
+    if (angular.isDefined(colctlobj.comp_name) && colctlobj.comp_name == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+    }
+    if (angular.isDefined(colctlobj.part_fullname) && colctlobj.part_fullname == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('part_fullname').withTitle('使用部门').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+    }
+    if (angular.isDefined(colctlobj.used_username) && colctlobj.used_username == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+    }
+    if (angular.isDefined(colctlobj.locstr) && colctlobj.locstr == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+    }
+    if (angular.isDefined(colctlobj.locdtl) && colctlobj.locdtl == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('locdtl').withTitle('位置').withOption(
+            'sDefaultContent', '').renderWith(renderZcLoc));
+    }
+    if (angular.isDefined(colctlobj.usefullifestr) && colctlobj.usefullifestr == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('').withTitle('使用年限')
+            .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    }
+    if (angular.isDefined(colctlobj.buy_timestr) && colctlobj.buy_timestr == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购日期')
+            .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    }
+    if (angular.isDefined(colctlobj.buy_price) && colctlobj.buy_price == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('buy_price').withTitle('采购单价')
+            .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    }
+    if (angular.isDefined(colctlobj.net_worth) && colctlobj.net_worth == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('net_worth').withTitle('资产净值')
+            .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    }
+    if (angular.isDefined(colctlobj.accumulateddepreciation) && colctlobj.accumulateddepreciation == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('accumulateddepreciation').withTitle('累计折旧')
+            .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
+    }
+    if (angular.isDefined(colctlobj.wbsupplierstr) && colctlobj.wbsupplierstr == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('wbsupplierstr').withTitle('维保商').withOption(
+            'sDefaultContent', '').withOption('width', '30').renderWith(renderDTFontColoBluerH));
+    }
+    if (angular.isDefined(colctlobj.wbstr) && colctlobj.wbstr == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
+            'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));
+    }
+    if (angular.isDefined(colctlobj.wbout_datestr) && colctlobj.wbout_datestr == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保日期')
+            .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
+    }
+    if (angular.isDefined(colctlobj.wb_autostr) && colctlobj.wb_autostr == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
+            .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
+    }
+    if (angular.isDefined(colctlobj.mark) && colctlobj.mark == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+            'sDefaultContent', ''));
+    }
+    if (angular.isDefined(colctlobj.fs1) && colctlobj.fs1 == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('fs1').withTitle('标签1').withOption(
+            'sDefaultContent', ''));
+    }
+    if (angular.isDefined(colctlobj.fs2) && colctlobj.fs2 == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('fs2').withTitle('标签2').withOption(
+            'sDefaultContent', ''));
+    }
+    if (angular.isDefined(colctlobj.lastinventorytimestr) && colctlobj.lastinventorytimestr == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
+            .withOption('sDefaultContent', ''));
+    }
+    if (angular.isDefined(colctlobj.classrootname) && colctlobj.classrootname == "N") {
+    } else {
+        dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
+            'sDefaultContent', '').withOption("width", '30'));
+    }
     return dtColumns;
 }
 

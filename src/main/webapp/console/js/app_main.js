@@ -12,6 +12,7 @@ function getContextPath() {
     var result = pathName.substr(0, index + 1);
     return result;
 }
+var gct = getContextPath();
 
 var version = new Date().getTime();
 app.factory('sessionInjector', [

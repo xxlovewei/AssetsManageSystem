@@ -120,6 +120,13 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
         $log.warn("user_info load from localstorage", sys_user_info);
         $scope.sys_user_info = sys_user_info;
     }
+    //资产列显示控制
+    if (angular.isUndefined($rootScope.zccolctl)) {
+        $rootScope.zccolctl = $localStorage.get("zccolctl")
+    }
+    if (angular.isUndefined($rootScope.zccolctlcommon)) {
+        $rootScope.zccolctlcommon = $localStorage.get("zccolctlcommon")
+    }
     // 列举系统
     $scope.$watch(function () {
         return $rootScope.dt_systems;
