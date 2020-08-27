@@ -75,7 +75,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
             $scope.dtInstance.DataTable.rows().deselect();
         }
     }
-    if (angular.isUndefined($rootScope.zccolctl.value)) {
+    if (angular.isUndefined($rootScope.zccolctl) || angular.isUndefined($rootScope.zccolctl.value)) {
         $rootScope.zccolctl.value = "{}";
     }
     $scope.dtColumns = [];
@@ -231,13 +231,17 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
                         name: "全部"
                     });
                     $scope.meta.tools[0].dataOpt = tloc;
-                    $scope.meta.tools[0].dataSel = tloc[0];
+                    if (angular.isDefined(tloc) && tloc.length > 0) {
+                        $scope.meta.tools[0].dataSel = tloc[0];
+                    }
                     trecycle.unshift({
                         dict_item_id: "all",
                         name: "全部"
                     });
                     $scope.meta.tools[1].dataOpt = trecycle;
-                    $scope.meta.tools[1].dataSel = trecycle[0];
+                    if (angular.isDefined(trecycle) && trecycle.length > 0) {
+                        $scope.meta.tools[1].dataSel = trecycle[0];
+                    }
                     flush();
                 } else {
                     notify({

@@ -145,6 +145,94 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
     console.log('22222222222222', $rootScope.zccolctlcommon)
     var gclass_id = "";
     var gdicts = {};
+    var meta = {
+        tablehide: false,
+        toolsbtn: [
+            {
+                id: "btn",
+                label: "",
+                type: "btn",
+                show: true,
+                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
+            },
+            {
+                id: "btn2",
+                label: "",
+                type: "btn",
+                show: false,
+                priv: "insert",
+                template: ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">入库</button>'
+            },
+            {
+                id: "btn3",
+                label: "",
+                type: "btn",
+                show: false,
+                priv: "update",
+                template: ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新</button>'
+            },
+            {
+                id: "btn5",
+                label: "",
+                type: "btn",
+                show: false,
+                priv: "detail",
+                template: ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
+            },
+            {
+                id: "btn6",
+                label: "",
+                type: "btn",
+                show: false,
+                priv: "remove",
+                template: ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
+            },
+            {
+                id: "btn7",
+                label: "",
+                type: "btn",
+                show: false,
+                priv: "exportfile",
+                template: ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">全部导出(Excel)</button>'
+            }],
+        tools: [{
+            id: "select",
+            label: "区域",
+            type: "select",
+            width: "200",
+            disablesearch: true,
+            show: true,
+            dataOpt: [],
+            dataSel: ""
+        }, {
+            id: "select",
+            label: "环境",
+            type: "select",
+            disablesearch: true,
+            show: true,
+            dataOpt: [],
+            dataSel: ""
+        }, {
+            id: "select",
+            label: "维保",
+            type: "select",
+            disablesearch: true,
+            show: true,
+            dataOpt: [],
+            dataSel: ""
+        }, {
+            id: "select",
+            label: "状态",
+            type: "select",
+            disablesearch: true,
+            show: true,
+            dataOpt: [],
+            dataSel: ""
+        }
+        ]
+    };
+    $scope.meta = meta;
+    privNormalCompute($scope.meta.toolsbtn, pbtns);
     $http.post($rootScope.project + "/api/sysParams/selectById.do", {id: $state.router.globals.current.data.classid})
         .success(function (res) {
             if (res.success) {
@@ -202,7 +290,9 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                                     name: "全部"
                                 });
                                 $scope.meta.tools[0].dataOpt = tloc;
-                                $scope.meta.tools[0].dataSel = tloc[0];
+                                if (angular.isDefined(tloc) && tloc.length > 0) {
+                                    $scope.meta.tools[0].dataSel = tloc[0];
+                                }
                                 tenv.unshift({
                                     dict_item_id: "all",
                                     name: "全部"
@@ -301,7 +391,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         }
     }
     // $scope.dtColumns.push();
-    if (angular.isUndefined($rootScope.zccolctlcommon.value)) {
+    if (angular.isUndefined($rootScope.zccolctlcommon) || angular.isUndefined($rootScope.zccolctlcommon.value)) {
         $rootScope.zccolctlcommon.value = "{}";
     }
     var cols = zcBaseColsCreate(DTColumnBuilder, 'withselect', $rootScope.zccolctlcommon.value);
@@ -317,94 +407,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
     $scope.query = function () {
         flush();
     }
-    var meta = {
-        tablehide: false,
-        toolsbtn: [
-            {
-                id: "btn",
-                label: "",
-                type: "btn",
-                show: true,
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
-            },
-            {
-                id: "btn2",
-                label: "",
-                type: "btn",
-                show: false,
-                priv: "insert",
-                template: ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">入库</button>'
-            },
-            {
-                id: "btn3",
-                label: "",
-                type: "btn",
-                show: false,
-                priv: "update",
-                template: ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新</button>'
-            },
-            {
-                id: "btn5",
-                label: "",
-                type: "btn",
-                show: false,
-                priv: "detail",
-                template: ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详情</button>'
-            },
-            {
-                id: "btn6",
-                label: "",
-                type: "btn",
-                show: false,
-                priv: "remove",
-                template: ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
-            },
-            {
-                id: "btn7",
-                label: "",
-                type: "btn",
-                show: false,
-                priv: "exportfile",
-                template: ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">全部导出(Excel)</button>'
-            }],
-        tools: [{
-            id: "select",
-            label: "区域",
-            type: "select",
-            width: "200",
-            disablesearch: true,
-            show: true,
-            dataOpt: [],
-            dataSel: ""
-        }, {
-            id: "select",
-            label: "环境",
-            type: "select",
-            disablesearch: true,
-            show: true,
-            dataOpt: [],
-            dataSel: ""
-        }, {
-            id: "select",
-            label: "维保",
-            type: "select",
-            disablesearch: true,
-            show: true,
-            dataOpt: [],
-            dataSel: ""
-        }, {
-            id: "select",
-            label: "状态",
-            type: "select",
-            disablesearch: true,
-            show: true,
-            dataOpt: [],
-            dataSel: ""
-        }
-        ]
-    };
-    $scope.meta = meta;
-    privNormalCompute($scope.meta.toolsbtn, pbtns);
 
     function flush() {
         var ps = {}
