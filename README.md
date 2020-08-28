@@ -1,6 +1,6 @@
 
 ## 测试Demo
-- http://39.105.191.22:3037/dt/console
+- http://39.105.191.22:8080/dt/console
 - 账户:guest 密码:oracle
 - 账户:user1 密码:oracle
 - 账户:user2 密码:oracle
