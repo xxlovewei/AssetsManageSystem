@@ -96,9 +96,6 @@ public class ZcCommonService extends BaseService {
     public static String BX_STATUS_FINSH = "finish";
     public static String BX_STATUS_CANCEL = "cancel";
 
-    public static String CATEGORY_ZC = "3";
-    public static String CATEGORY_HC = "7";
-    public static String CATEGORY_BJ = "8";
 
     public static String resHcSqlbody = " (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) locstr,"
 

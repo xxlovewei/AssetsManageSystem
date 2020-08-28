@@ -10,6 +10,7 @@ import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.dao.sql.Update;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.busenum.ZcCategoryEnum;
 import com.dt.module.cmdb.entity.ResEntity;
 import com.dt.module.cmdb.entity.ResImportResultEntity;
 import com.dt.module.zc.service.impl.ZcCommonService;
@@ -276,7 +277,7 @@ public class ResImportService extends BaseService {
             me.setIf("create_by", this.getUserId());
             me.setIf("update_time", nowtime);
             me.setIf("update_by", this.getUserId());
-            me.setIf("category", ZcCommonService.CATEGORY_ZC);
+            me.setIf("category", ZcCategoryEnum.CATEGORY_ZC.getValue());
             /////////////// 开始处理///////////
             me.setIf("fs1", re.getFs1() == null ? "" : re.getFs1());
             me.setIf("fs2", re.getFs2() == null ? "" : re.getFs2());
@@ -372,9 +373,7 @@ public class ResImportService extends BaseService {
             me.setIf("part_id", partR.queryDataToJSONObject().getString("node_id"));
 
             me.setIf("usefullife", uselifeR.queryDataToJSONObject().getString("dict_item_id"));
-
-
-            me.setIf("", ZcCommonService.CATEGORY_ZC);
+//            me.setIf("", ZcCategoryEnum.CATEGORY_ZC.getValue());
             // 处理资产编号,必需一条
             if (uuidR == 1) {
                 me.set("uuid", re.getUuid());

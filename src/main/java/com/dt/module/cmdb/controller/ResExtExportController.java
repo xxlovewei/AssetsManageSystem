@@ -10,6 +10,7 @@ import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.support.HttpKit;
+import com.dt.module.base.busenum.ZcCategoryEnum;
 import com.dt.module.cmdb.entity.DictItemEntity;
 import com.dt.module.cmdb.entity.ResEntity;
 import com.dt.module.zc.service.impl.ZcCommonService;
@@ -55,7 +56,7 @@ public class ResExtExportController extends BaseController {
                 "    '资产类型明细'   name,\n" +
                 "    route_name item_name\n" +
                 "  from ct_category\n" +
-                "  where root = '" + ZcCommonService.CATEGORY_ZC + "' and dr='0'\n" +
+                "  where root = '" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' and dr='0'\n" +
                 "  union all\n" +
                 "  select\n" +
                 "    '公司' name,\n" +

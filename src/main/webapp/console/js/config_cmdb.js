@@ -1057,7 +1057,7 @@ function zcBaseColsCreate(DTColumnBuilder, selectype, colctl) {
     }
     if (angular.isDefined(colctlobj.brandstr) && colctlobj.brandstr == "N") {
     } else {
-        dtColumns.push(DTColumnBuilder.newColumn('').withTitle('品牌').withOption(
+        dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
             'sDefaultContent', '').withOption('width', '30'));
     }
     if (angular.isDefined(colctlobj.unit) && colctlobj.unit == "N") {

@@ -8,6 +8,7 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.busenum.ZcCategoryEnum;
 import com.dt.module.zc.entity.ResInout;
 import com.dt.module.zc.service.IResInoutService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class ResInoutExtService extends BaseService {
                 "         class_id,\n" +
                 "         sum(zc_cnt) zc_cnt\n" +
                 "       from res\n" +
-                "       where dr = '0' and category = '" + ZcCommonService.CATEGORY_HC + "'\n" +
+                "       where dr = '0' and category = '" + ZcCategoryEnum.CATEGORY_HC.getValue() + "'\n" +
                 "       group by class_id) t,\n" +
                 "  ct_category b\n" +
                 "where t.class_id = b.id and upcnt > 0 and downcnt > 0\n" +
@@ -235,7 +236,7 @@ public class ResInoutExtService extends BaseService {
                 "         warehouse,\n" +
                 "         sum(zc_cnt) zc_cnt\n" +
                 "       from res\n" +
-                "       where dr = '0' and category = '" + ZcCommonService.CATEGORY_HC + "'\n" +
+                "       where dr = '0' and category = '" + ZcCategoryEnum.CATEGORY_HC.getValue() + "'\n" +
                 "       group by class_id, loc, warehouse\n" +
                 "       order by 1, 2, 3) t where 1=1 ";
         if (ToolUtil.isNotEmpty(loc)) {

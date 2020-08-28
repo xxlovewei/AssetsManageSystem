@@ -6,6 +6,7 @@ import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.busenum.ZcCategoryEnum;
 import com.dt.module.base.busenum.ZcRecycleEnum;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class ZcReportService extends BaseService {
                 "                                                      part_id,\n" +
                 "                                                      count(1) cnt\n" +
                 "                                                    from <#RES#> r\n" +
-                "                                                    where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "' \n" +
+                "                                                    where dr = '0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' \n" +
                 "                                                    group by part_id) b on a.node_id = b.part_id\n" +
                 "union all\n" +
                 "select\n" +
@@ -40,7 +41,7 @@ public class ZcReportService extends BaseService {
                 "  '未设置组织或组织异常' part_name,\n" +
                 "  count(1)     zc_cnt\n" +
                 "from <#RES#> r\n" +
-                "where dr='0' and category='" + ZcCommonService.CATEGORY_ZC + "' and part_id not in (select node_id\n" +
+                "where dr='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' and part_id not in (select node_id\n" +
                 "                      from hrm_org_part\n" +
                 "                      where org_id = '1' and dr = '0') or part_id is null\n";
 
@@ -71,7 +72,7 @@ public class ZcReportService extends BaseService {
                 "         class_id,\n" +
                 "         count(1) cnt\n" +
                 "       from res\n" +
-                "       where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "' \n" +
+                "       where dr = '0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' \n" +
                 "       group by class_id\n" +
                 "     ) t order by 1,2";
 
@@ -98,7 +99,7 @@ public class ZcReportService extends BaseService {
                 "         recycle,\n" +
                 "         count(1) cnt\n" +
                 "       from res t \n" +
-                "       where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "' \n" +
+                "       where dr = '0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' \n" +
                 "       group by class_id, recycle) t\n";
         System.out.println(sql);
         RcdSet rs = db.query(sql);
@@ -146,7 +147,7 @@ public class ZcReportService extends BaseService {
     //维保到期
     public R queryWbExpredReport(String day) {
 
-        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and category='" + ZcCommonService.CATEGORY_ZC + "' and wbout_date<= date_add(curdate(), INTERVAL " + day + " DAY)";
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' and wbout_date<= date_add(curdate(), INTERVAL " + day + " DAY)";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
 
@@ -164,7 +165,7 @@ public class ZcReportService extends BaseService {
                 "                                used_userid,\n" +
                 "                                count(1) cnt\n" +
                 "                                from res a\n" +
-                "                                where dr = '0' and category='" + ZcCommonService.CATEGORY_ZC + "'\n" +
+                "                                where dr = '0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "'\n" +
                 "                                group by used_userid\n" +
                 "                        ) t";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
