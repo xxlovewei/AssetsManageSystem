@@ -220,15 +220,17 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 show: true,
                 priv: "insert",
                 template: ' <button ng-click="hctj()" class="btn btn-sm btn-primary" type="submit">耗材统计</button>'
-            },
-            {
-                id: "btn6",
-                label: "",
-                type: "btn",
-                show: false,
-                priv: "exportfile",
-                template: ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">全部导出(Excel)</button>'
-            }],
+            }
+            // ,
+            // {
+            //     id: "btn6",
+            //     label: "",
+            //     type: "btn",
+            //     show: false,
+            //     priv: "exportfile",
+            //     template: ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">全部导出(Excel)</button>'
+            // }
+        ],
         tools: [{
             id: "select",
             label: "区域",

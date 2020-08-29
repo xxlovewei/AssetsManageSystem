@@ -124,7 +124,6 @@ public class ResEntity implements java.io.Serializable {
     @Excel(name = "维保计算", width = 8)
     private String wb_autostr;
 
-
     //IT资产
     @Excel(name = "运行环境", width = 18)
     private String envstr;

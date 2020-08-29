@@ -156,7 +156,6 @@ public class ResImportService extends BaseService {
         String nowtime = simpleDateFormat.format(date);
         String sql = "";
         int uuidR = checkUUid(re.getUuid());
-
         R buypriceR = checkBuyPrice(re.getBuy_price());
         if (buypriceR.isFailed()) {
             return R.FAILURE(buypriceR.getMessage());
@@ -294,7 +293,6 @@ public class ResImportService extends BaseService {
             me.setIf("buy_price", re.getBuy_price() == null ? "0" : re.getBuy_price());
             me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
             me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
-
             // 数据字典匹配
             me.setIf("class_id", classR.queryDataToJSONObject().getString("id"));
             me.setIf("rack", rackR.queryDataToJSONObject().getString("dict_item_id"));
@@ -305,17 +303,13 @@ public class ResImportService extends BaseService {
             me.setIf("loc", locR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("env", envR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("wb_auto", zcwbcomouteR.queryDataToJSONObject().getString("dict_item_id"));
-
             me.setIf("zcsource", zcsourceR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("supplier", zcsupperR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("wbsupplier", wbsupplierR.queryDataToJSONObject().getString("dict_item_id"));
-
-
             me.setIf("belong_company_id", belongcompR.queryDataToJSONObject().getString("node_id"));
             me.setIf("used_company_id", compR.queryDataToJSONObject().getString("node_id"));
             me.setIf("part_id", partR.queryDataToJSONObject().getString("node_id"));
             me.setIf("usefullife", uselifeR.queryDataToJSONObject().getString("dict_item_id"));
-
             // 处理资产编号,必需不存在
             if (ToolUtil.isEmpty(re.getUuid())) {
                 // 插入时候，无编号自动生产
@@ -352,7 +346,6 @@ public class ResImportService extends BaseService {
             me.setIf("accumulateddepreciation", re.getAccumulateddepreciation() == null ? "0" : re.getAccumulateddepreciation());
             me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
             me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
-
             // 数据字典匹配
             me.setIf("class_id", classR.queryDataToJSONObject().getString("id"));
             me.setIf("rack", rackR.queryDataToJSONObject().getString("dict_item_id"));
@@ -363,17 +356,13 @@ public class ResImportService extends BaseService {
             me.setIf("loc", locR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("env", envR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("wb_auto", zcwbcomouteR.queryDataToJSONObject().getString("dict_item_id"));
-
             me.setIf("zcsource", zcsourceR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("supplier", zcsupperR.queryDataToJSONObject().getString("dict_item_id"));
             me.setIf("wbsupplier", wbsupplierR.queryDataToJSONObject().getString("dict_item_id"));
-
             me.setIf("belong_company_id", belongcompR.queryDataToJSONObject().getString("node_id"));
             me.setIf("used_company_id", compR.queryDataToJSONObject().getString("node_id"));
             me.setIf("part_id", partR.queryDataToJSONObject().getString("node_id"));
-
             me.setIf("usefullife", uselifeR.queryDataToJSONObject().getString("dict_item_id"));
-//            me.setIf("", ZcCategoryEnum.CATEGORY_ZC.getValue());
             // 处理资产编号,必需一条
             if (uuidR == 1) {
                 me.set("uuid", re.getUuid());

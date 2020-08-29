@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Expires" content="0">
@@ -19,11 +19,6 @@
     <link href="css/application-ie9-part2.css" rel="stylesheet">
     <![endif]-->
 </head>
-<script>
-	if (window.navigator.userAgent.indexOf("MSIE") >= 1) {
-		window.location.href = "./BrowserInfo.html";
-	}
-</script>
 <body ng-controller="MainCtrl as main" ng-class="cur_skin"
 	  landing-scrollspy id="page-top">
 <div id="beforePage" class="preloader">
@@ -122,6 +117,11 @@
 <script type="text/javascript" src="js/directives.js?v=667"></script>
 <script type="text/javascript" src="js/controllers.js?v=667"></script>
 </body>
+<script>
+    if (window.navigator.userAgent.indexOf("MSIE") >= 1) {
+        window.location.href = "./BrowserInfo.html";
+    }
+</script>
 <script>
 	setTimeout(function () {
 		basket.require({ url:'./plugin/form/vue.min.js',key:'vue',execute:false})
