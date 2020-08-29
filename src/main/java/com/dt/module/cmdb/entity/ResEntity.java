@@ -93,9 +93,11 @@ public class ResEntity implements java.io.Serializable {
     @Excel(name = "使用部门", width = 20)
     private String part_fullname;
 
-    @Excel(name = "使用人(不支持)", width = 10)
+    @Excel(name = "使用人(不支持)", width = 18)
     private String used_username;
 
+    @Excel(name = "使用人工号", width = 15)
+    private String emplid;
 
     //财务
     @Excel(name = "采购日期", width = 15)
@@ -549,8 +551,8 @@ public class ResEntity implements java.io.Serializable {
         this.belongcom_fullname = obj.getString("belongcom_fullname");
         this.usefullifestr = obj.getString("usefullifestr");
         this.unit = obj.getString("unit");
+        this.emplid = obj.getString("emplid");
         this.accumulateddepreciation = obj.getString("accumulateddepreciation");
-
 
     }
 
@@ -660,5 +662,13 @@ public class ResEntity implements java.io.Serializable {
 
     public void setAccumulateddepreciation(String accumulateddepreciation) {
         this.accumulateddepreciation = accumulateddepreciation;
+    }
+
+    public String getEmplid() {
+        return emplid;
+    }
+
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
     }
 }

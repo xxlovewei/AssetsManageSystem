@@ -247,6 +247,19 @@ public class ResImportService extends BaseService {
             return R.FAILURE(partR.getMessage());
         }
 
+        String emplid = re.getEmplid();
+        String useduserid = "";
+        if (ToolUtil.isNotEmpty(emplid)) {
+            Rcd userrs = db.uniqueRecord("select user_id from sys_user_info where dr='0' and empl_id=?", emplid);
+            if (userrs != null) {
+                useduserid = userrs.getString("user_id");
+            }
+        }
+
+        if (partR.isFailed()) {
+            return R.FAILURE(partR.getMessage());
+        }
+
         R uselifeR = checkDictItem("zcusefullife", re.getUsefullifestr());
         if (uselifeR.isFailed()) {
             return R.FAILURE(uselifeR.getMessage());
@@ -293,6 +306,8 @@ public class ResImportService extends BaseService {
             me.setIf("buy_price", re.getBuy_price() == null ? "0" : re.getBuy_price());
             me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
             me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
+            me.setIf("used_userid", useduserid);
+
             // 数据字典匹配
             me.setIf("class_id", classR.queryDataToJSONObject().getString("id"));
             me.setIf("rack", rackR.queryDataToJSONObject().getString("dict_item_id"));
@@ -310,6 +325,7 @@ public class ResImportService extends BaseService {
             me.setIf("used_company_id", compR.queryDataToJSONObject().getString("node_id"));
             me.setIf("part_id", partR.queryDataToJSONObject().getString("node_id"));
             me.setIf("usefullife", uselifeR.queryDataToJSONObject().getString("dict_item_id"));
+
             // 处理资产编号,必需不存在
             if (ToolUtil.isEmpty(re.getUuid())) {
                 // 插入时候，无编号自动生产
@@ -346,6 +362,7 @@ public class ResImportService extends BaseService {
             me.setIf("accumulateddepreciation", re.getAccumulateddepreciation() == null ? "0" : re.getAccumulateddepreciation());
             me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
             me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
+            me.setIf("used_userid", useduserid);
             // 数据字典匹配
             me.setIf("class_id", classR.queryDataToJSONObject().getString("id"));
             me.setIf("rack", rackR.queryDataToJSONObject().getString("dict_item_id"));
