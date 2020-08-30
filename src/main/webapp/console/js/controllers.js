@@ -127,6 +127,10 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
     if (angular.isUndefined($rootScope.zccolctlcommon)) {
         $rootScope.zccolctlcommon = $localStorage.get("zccolctlcommon")
     }
+    //当前登陆用户数据
+    if (angular.isUndefined($rootScope.dt_sys_user_info)) {
+        $rootScope.dt_sys_user_info = $localStorage.get("dt_sys_user_info")
+    }
     // 列举系统
     $scope.$watch(function () {
         return $rootScope.dt_systems;

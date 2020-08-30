@@ -27,7 +27,8 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">处理人:</label>
                     <div class="col-sm-10">
-                        <select chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
+                        <select ng-disabled="ctl.processuser" chosen class="chosen-select"
+                                data-placeholder-text-single="'请选择...'"
                                 disable-search="true"
                                 ng-model="adminuserSel"
                                 ng-options="item.name for item in adminuserOpt"

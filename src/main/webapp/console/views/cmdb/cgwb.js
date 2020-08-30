@@ -175,7 +175,7 @@ function cgwblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
 function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                        $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                        DTColumnBuilder, $compile, $confirm) {
-    $scope.ctl = {};
+    $scope.ctl = {processuser: false};
     $scope.item = {};
     $scope.adminuserOpt = meta.dict.partusers;
     $scope.adminuserSel = "";
@@ -208,6 +208,15 @@ function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     }
     if ($scope.adminuserOpt.length > 0) {
         $scope.adminuserSel = $scope.adminuserOpt[0];
+        if (angular.isDefined($rootScope.dt_sys_user_info)) {
+            for (var i = 0; i < $scope.adminuserOpt.length; i++) {
+                if ($rootScope.dt_sys_user_info.userId == $scope.adminuserOpt[i].user_id) {
+                    $scope.adminuserSel = $scope.adminuserOpt[i];
+                    $scope.ctl.processuser = true;
+                    break;
+                }
+            }
+        }
     }
     $scope.compOpt = meta.dict.zcwbsupper;
     $scope.compSel = "";

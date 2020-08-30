@@ -490,7 +490,18 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             dataOpt: "pinpOpt",
             dataSel: "pinpSel"
         });
-
+        items.push({
+            type: "input",
+            disabled: "false",
+            sub_type: "text",
+            required: false,
+            maxlength: "50",
+            placeholder: "",
+            label: "计量单位",
+            need: false,
+            name: 'unit',
+            ng_model: "unit"
+        });
         items.push({
             type: "input",
             disabled: "false",

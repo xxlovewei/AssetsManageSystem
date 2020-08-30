@@ -127,13 +127,23 @@ function ghSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                    $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                    DTColumnBuilder, $compile, $confirm) {
     $scope.item = {};
+    $scope.ctl = {ghprocessuser: false};
     $scope.processuserOpt = meta.dict.partusers;
     $scope.processuserSel = "";
-    $scope.date = {
-        rreturndate: moment()
-    }
     if ($scope.processuserOpt.length > 0) {
         $scope.processuserSel = $scope.processuserOpt[0];
+        if (angular.isDefined($rootScope.dt_sys_user_info)) {
+            for (var i = 0; i < $scope.processuserOpt.length; i++) {
+                if ($rootScope.dt_sys_user_info.userId == $scope.processuserOpt[i].user_id) {
+                    $scope.processuserSel = $scope.processuserOpt[i];
+                    $scope.ctl.ghprocessuser = true;
+                    break;
+                }
+            }
+        }
+    }
+    $scope.date = {
+        rreturndate: moment()
     }
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
@@ -187,6 +197,7 @@ function loanSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                      $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                      DTColumnBuilder, $compile, $confirm) {
     $scope.item = {};
+    $scope.ctl = {jyprocessuser: false};
     $scope.useduserOpt = meta.dict.partusers;
     $scope.useduserSel = "";
     if ($scope.useduserOpt.length > 0) {
@@ -196,6 +207,15 @@ function loanSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.processuserSel = "";
     if ($scope.processuserOpt.length > 0) {
         $scope.processuserSel = $scope.processuserOpt[0];
+        if (angular.isDefined($rootScope.dt_sys_user_info)) {
+            for (var i = 0; i < $scope.processuserOpt.length; i++) {
+                if ($rootScope.dt_sys_user_info.userId == $scope.processuserOpt[i].user_id) {
+                    $scope.processuserSel = $scope.processuserOpt[i];
+                    $scope.ctl.jyprocessuser = true;
+                    break;
+                }
+            }
+        }
     }
     $scope.date = {
         busdate: moment(),

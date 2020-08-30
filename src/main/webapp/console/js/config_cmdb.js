@@ -1062,7 +1062,7 @@ function zcBaseColsCreate(DTColumnBuilder, selectype, colctl) {
     }
     if (angular.isDefined(colctlobj.unit) && colctlobj.unit == "N") {
     } else {
-        dtColumns.push(DTColumnBuilder.newColumn('').withTitle('计量单位').withOption(
+        dtColumns.push(DTColumnBuilder.newColumn('unit').withTitle('计量单位').withOption(
             'sDefaultContent', ''));
     }
     if (angular.isDefined(colctlobj.zc_cnt) && colctlobj.zc_cnt == "N") {
@@ -1107,7 +1107,7 @@ function zcBaseColsCreate(DTColumnBuilder, selectype, colctl) {
     }
     if (angular.isDefined(colctlobj.usefullifestr) && colctlobj.usefullifestr == "N") {
     } else {
-        dtColumns.push(DTColumnBuilder.newColumn('').withTitle('使用年限')
+        dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
             .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     }
     if (angular.isDefined(colctlobj.buy_timestr) && colctlobj.buy_timestr == "N") {

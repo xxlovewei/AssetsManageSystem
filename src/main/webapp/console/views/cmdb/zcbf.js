@@ -161,6 +161,7 @@ function modalzcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                  $log, notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
     var pbtns = $rootScope.curMemuBtns;
+    console.log('11111111', $rootScope);
     var gclassroot = '7';
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers')
