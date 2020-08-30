@@ -1984,6 +1984,7 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
     };
 }
 
+//##########################################资产选择##########################################//
 function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal,
                                 $uibModalInstance, $scope, $http, $rootScope, DTOptionsBuilder,
                                 DTColumnBuilder, $compile, data) {
@@ -2670,5 +2671,633 @@ function modalFlowInstanceListSelCtl($timeout, $localStorage, notify, $log, $uib
         if (angular.isDefined(id)) {
             $uibModalInstance.close(id);
         }
+    }
+}
+
+//##########################################报修处理窗口##########################################//
+function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
+                          $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
+                          DTColumnBuilder, $compile) {
+    //type:detail,modify,add
+    $scope.ctl = {};
+    $scope.ctl.fprocessuser = false;
+    $scope.ctl.fprocesstime = false;
+    $scope.ctl.status = false;
+    $scope.ctl.fmoney = false;
+    $scope.ctl.freason = false;
+    $scope.ctl.ffile = false;
+    $scope.ctl.fmark = false;
+    $scope.ctl.chosenzcbtn = false;
+    $scope.ctl.surebtn = false;
+    if (meta.actiontype == "detail") {
+        $scope.ctl.fprocessuser = true;
+        $scope.ctl.fprocesstime = true;
+        $scope.ctl.status = true;
+        $scope.ctl.fmoney = true;
+        $scope.ctl.freason = true;
+        $scope.ctl.fmark = true;
+        $scope.ctl.ffile = true;
+        $scope.ctl.chosenzcbtn = true;
+        $scope.ctl.surebtn = true;
+    } else if (meta.actiontype == "modify") {
+        $scope.ctl.status = true;
+        $scope.ctl.chosenzcbtn = true;
+    }
+    $scope.statusOpt = [{id: "underrepair", name: "维修中"}, {id: "finish", name: "已完成"}];
+    $scope.statusSel = $scope.statusOpt[0];
+    $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
+        .withPaginationType('full_numbers').withDisplayLength(100)
+        .withOption("ordering", false).withOption("responsive", false)
+        .withOption("searching", true).withOption('scrollY', 600)
+        .withOption('scrollX', true).withOption('bAutoWidth', true)
+        .withOption('scrollCollapse', true).withOption('paging', false)
+        .withOption('bStateSave', true).withOption('bProcessing', false)
+        .withOption('bFilter', false).withOption('bInfo', false)
+        .withOption('serverSide', false).withOption('createdRow', function (row) {
+            $compile(angular.element(row).contents())($scope);
+        })
+    $scope.dtColumns = [];
+    $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withoutselect');
+    $scope.dtOptions.aaData = [];
+    $scope.data = {};
+    $scope.data.mark = "";
+    $scope.data.reason = "";
+    $scope.dzconfig = {
+        url: 'fileupload.do',
+        maxFilesize: 20000,
+        paramName: "file",
+        maxThumbnailFilesize: 5,
+        // 一个请求上传多个文件
+        uploadMultiple: true,
+        // 当多文件上传,需要设置parallelUploads>=maxFiles
+        parallelUploads: 5,
+        maxFiles: 5,
+        dictDefaultMessage: "点击上传图片",
+        acceptedFiles: "image/jpeg,image/png,image/gif,.xls,.zip,.rar,.doc,.pdf,.docx,.txt,.xlsx",
+        // 添加上传取消和删除预览图片的链接，默认不添加
+        addRemoveLinks: true,
+        // 关闭自动上传功能，默认会true会自动上传
+        // 也就是添加一张图片向服务器发送一次请求
+        autoProcessQueue: false,
+        init: function () {
+            $scope.myDropzone = this; // closure
+        }
+    };
+    $scope.selectzc = function () {
+        var mdata = {};
+        mdata.id = "";
+        mdata.type = "many";
+        mdata.datarange = "repair";
+        var modalInstance = $uibModal.open({
+            backdrop: true,
+            templateUrl: 'views/cmdb/modal_common_zclist.html',
+            controller: modal_common_ZcListCtl,
+            size: 'blg',
+            resolve: {
+                data: function () {
+                    return mdata
+                }
+            }
+        });
+        modalInstance.result.then(function (result) {
+            $scope.dtOptions.aaData = result;
+        }, function (reason) {
+            $log.log("reason", reason)
+        });
+    }
+    if (angular.isDefined(meta.id)) {
+        //获取数据
+        $http.post($rootScope.project + "/api/zc/resRepair/ext/selectById.do",
+            {id: meta.id}).success(function (res) {
+            if (res.success) {
+                $scope.dtOptions.aaData = res.data.items;
+                $scope.data = res.data;
+                if (res.data.fstatus == "cancel") {
+                    $scope.statusOpt.push({id: "underrepair", name: "作废"});
+                    $scope.statusSel = $scope.statusOpt[2];
+                } else {
+                    for (var i = 0; i < $scope.statusOpt.length; i++) {
+                        if (res.data.fstatus == $scope.statusOpt[i].id) {
+                            $scope.statusSel = $scope.statusOpt[i];
+                        }
+                    }
+                }
+                $timeout(function () {
+                    var files = res.data.files;
+                    for (var i = 0; i < files.length; i++) {
+                        var iid = files[i].fileid
+                        var mockFile = {
+                            name: "主图",
+                            uuid: iid,
+                            href: $rootScope.project
+                                + "/api/file/imagedown.do?id="
+                                + iid,
+                            url: $rootScope.project
+                                + "/api/file/imagedown.do?id="
+                                + iid,
+                            status: "success",
+                            accepted: true,
+                            type: 'image/png'
+                        };
+                        $scope.myDropzone.emit("addedfile", mockFile);
+                        $scope.myDropzone.files.push(mockFile);
+                        // manually
+                        $scope.myDropzone.createThumbnailFromUrl(
+                            mockFile, $rootScope.project
+                            + "/api/file/imagedown.do?id="
+                            + iid);
+                        $scope.myDropzone.emit("complete", mockFile);
+                    }
+                }, 500);
+            } else {
+                notify({
+                    message: res.message
+                });
+            }
+        })
+    }
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+    $scope.sure = function () {
+        if ($scope.dtOptions.aaData.length == 0) {
+            notify({
+                message: "请选择资产"
+            });
+            return;
+        }
+        // 产品图片
+        var file = "";
+        for (var i = 0; i < $scope.myDropzone.files.length; i++) {
+            var id = getUuid();
+            // 判断,已经上传的不在上传
+            if (typeof ($scope.myDropzone.files[i].uuid) == "undefined") {
+                $scope.myDropzone.options.url = $rootScope.project
+                    + '/api/file/fileupload.do?uuid=' + id
+                    + '&bus=file&interval=10000&bus=file';
+                $scope.myDropzone.uploadFile($scope.myDropzone.files[i])
+            } else {
+                id = $scope.myDropzone.files[i].uuid;
+            }
+            file = file + id + "#";
+        }
+        $scope.data.files = file
+        $scope.data.items = angular.toJson($scope.dtOptions.aaData);
+        $scope.data.fstatus = $scope.statusSel.id;
+        $http.post($rootScope.project + "/api/zc/resRepair/ext/insertOrUpdate.do",
+            $scope.data).success(function (res) {
+            if (res.success) {
+                $uibModalInstance.close('OK');
+            }
+            notify({
+                message: res.message
+            });
+        })
+    }
+    //是否ids传入
+    if (angular.isDefined(meta.ids)) {
+        var ps = {};
+        ps.ids = meta.ids;
+        ps.datarange = "all";
+        ps.category = 3;
+        $http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
+            .success(function (res) {
+                if (res.success) {
+                    $scope.dtOptions.aaData = res.data;
+                } else {
+                    notify({
+                        message: res.message
+                    });
+                }
+            })
+    }
+}
+
+//##########################################报废处理窗口##########################################//
+function modalzcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
+                      $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
+                      $uibModalInstance, $window, $stateParams, $timeout) {
+    $scope.ctl = {}
+    $scope.ctl.remark = false;
+    $scope.ctl.ywtime = false;
+    $scope.ctl.title = false;
+    $scope.ctl.range = false;
+    $scope.ctl.selectlist = false;
+    $scope.ctl.footer = false;
+    $scope.ctl.ct = false;
+    $scope.data = {};
+    $scope.data.zc_cnt = 0;
+    $scope.data.ywtime = moment();
+    var dicts = "devdc,zcsupper,warehouse";
+    $http.post($rootScope.project + "/api/zc/queryDictFast.do",
+        {
+            uid: "hcoutdicts",
+            zchccat: "Y",
+            comp: "Y",
+            parts: "Y",
+            partusers: "Y",
+            belongcomp: "Y",
+            dicts: dicts
+        }).success(function (res) {
+        if (res.success) {
+        } else {
+            notify({
+                message: res.message
+            });
+        }
+    })
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+    $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
+        .withPaginationType('full_numbers').withDisplayLength(100)
+        .withOption("ordering", false).withOption("responsive", false)
+        .withOption("searching", true).withOption('scrollY', 600)
+        .withOption('scrollX', true).withOption('bAutoWidth', true)
+        .withOption('scrollCollapse', true).withOption('paging', false)
+        .withOption('bStateSave', true).withOption('bProcessing', false)
+        .withOption('bFilter', false).withOption('bInfo', false)
+        .withOption('serverSide', false).withOption('createdRow', function (row) {
+            $compile(angular.element(row).contents())($scope);
+        })
+    $scope.dtColumns = [];
+    $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withoutselect');
+
+    function renderAction(data, type, full) {
+        var acthtml = " <a href=\"javascript:void(0)\" style=\"margin-top: 3px;\" ng-click=\"modify('" + full.id + "'," + full.zc_cnt + ")\" class=\"btn-white btn btn-xs\">修改</a>";
+        return acthtml;
+    }
+
+    if (angular.isDefined(meta.type) && meta.type == "dtl") {
+    } else {
+        $scope.dtColumns.push(DTColumnBuilder.newColumn('lid').withTitle('操作').withOption(
+            'sDefaultContent', '').withOption("name", '30').renderWith(renderAction));
+    }
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    $scope.dtOptions.aaData = [];
+    $scope.zcselect = function () {
+        var mdata = {};
+        mdata.id = "";
+        mdata.type = "many";
+        mdata.datarange = "BF";
+        var modalInstance = $uibModal.open({
+            backdrop: true,
+            templateUrl: 'views/cmdb/modal_common_zclist.html',
+            controller: modal_common_ZcListCtl,
+            size: 'blg',
+            resolve: {
+                data: function () {
+                    return mdata
+                }
+            }
+        });
+        modalInstance.result.then(function (result) {
+            $scope.dtOptions.aaData = result;
+        }, function (reason) {
+            $log.log("reason", reason)
+        });
+    }
+    $scope.modify = function (id, zc_cnt) {
+        var meta = {};
+        meta.zc_cnt = zc_cnt;
+        var modalInstance = $uibModal.open({
+            backdrop: true,
+            templateUrl: 'views/cmdb/modal_hcout_cnt.html',
+            controller: modalhcoutcntCtl,
+            size: 'blg',
+            resolve: {
+                meta: function () {
+                    return meta;
+                }
+            }
+        });
+        modalInstance.result.then(function (result) {
+            for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
+                if ($scope.dtOptions.aaData[i].id == id) {
+                    $scope.dtOptions.aaData[i].zc_cnt = result.zc_cnt;
+                }
+            }
+        }, function (reason) {
+            $log.log("reason", reason)
+        });
+    }
+    if (angular.isDefined(meta.type) && meta.type == "dtl") {
+        $scope.ctl.remark = true;
+        $scope.ctl.ywtime = true;
+        $scope.ctl.title = true;
+        $scope.ctl.range = true;
+        $scope.ctl.selectlist = true;
+        $scope.ctl.footer = true;
+        $scope.ctl.ct = true;
+        $http.post($rootScope.project + "/api/zc/resScrape/ext/selectById.do",
+            meta).success(function (res) {
+            if (res.success) {
+                $scope.data = res.data;
+                $scope.dtOptions.aaData = res.data.items;
+                $scope.data.ywtime = moment(res.data.busidate);
+            } else {
+                notify({
+                    message: res.message
+                });
+            }
+        })
+    }
+    $scope.remove = function (id) {
+        var del = 0;
+        for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
+            if ($scope.dtOptions.aaData[i].lid == id) {
+                del = i;
+            }
+        }
+        $scope.dtOptions.aaData.splice(del, 1);
+    }
+    $scope.sure = function () {
+        if ($scope.dtOptions.aaData == 0) {
+            notify({
+                message: "请选择物品"
+            });
+            return;
+        }
+        $scope.data.items = angular.toJson($scope.dtOptions.aaData)
+        $scope.data.busitimestr = $scope.data.ywtime.format('YYYY-MM-DD');
+        $http.post($rootScope.project + "/api/zc/resScrape/ext/insert.do",
+            $scope.data).success(function (res) {
+            if (res.success) {
+                $uibModalInstance.close("OK");
+            } else {
+            }
+            notify({
+                message: res.message
+            });
+        })
+    }
+    //是否ids传入
+    if (angular.isDefined(meta.ids)) {
+        var ps = {};
+        ps.ids = meta.ids;
+        ps.datarange = "all";
+        ps.category = 3;
+        $http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
+            .success(function (res) {
+                if (res.success) {
+                    $scope.dtOptions.aaData = res.data;
+                } else {
+                    notify({
+                        message: res.message
+                    });
+                }
+            })
+    }
+}
+
+//##########################################维保变更处理窗口##########################################//
+function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
+                       $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
+                       DTColumnBuilder, $compile, $confirm) {
+    $scope.ctl = {processuser: false};
+    $scope.item = {};
+    $scope.adminuserOpt = meta.dict.partusers;
+    $scope.adminuserSel = "";
+
+    function selectnall() {
+        $scope.item.twbstatus = false;
+        $scope.item.twbsupplierstatus = false;
+        $scope.item.twbautostatus = false;
+        $scope.item.twbctstatus = false;
+        $scope.item.twboutdatestatus = false;
+    }
+
+    function selectall() {
+        $scope.item.twbstatus = true;
+        $scope.item.twbsupplierstatus = true;
+        $scope.item.twbautostatus = true;
+        $scope.item.twbctstatus = true;
+        $scope.item.twboutdatestatus = true;
+    }
+
+    selectnall();
+    $scope.selectall = function () {
+        selectall();
+    }
+    $scope.selectnall = function () {
+        selectnall();
+    }
+    $scope.date = {
+        wboutdate: moment()
+    }
+    if ($scope.adminuserOpt.length > 0) {
+        $scope.adminuserSel = $scope.adminuserOpt[0];
+        if (angular.isDefined($rootScope.dt_sys_user_info)) {
+            for (var i = 0; i < $scope.adminuserOpt.length; i++) {
+                if ($rootScope.dt_sys_user_info.userId == $scope.adminuserOpt[i].user_id) {
+                    $scope.adminuserSel = $scope.adminuserOpt[i];
+                    $scope.ctl.processuser = true;
+                    break;
+                }
+            }
+        }
+    }
+    $scope.compOpt = meta.dict.zcwbsupper;
+    $scope.compSel = "";
+    if ($scope.compOpt.length > 0) {
+        $scope.compSel = $scope.compOpt[0];
+    }
+    $scope.statusOpt = meta.dict.devwb;
+    $scope.statusSel = "";
+    if ($scope.statusOpt.length > 0) {
+        $scope.statusSel = $scope.statusOpt[0];
+    }
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+    $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
+        .withPaginationType('full_numbers').withDisplayLength(100)
+        .withOption("ordering", false).withOption("responsive", false)
+        .withOption("searching", true).withOption('scrollY', 600)
+        .withOption('scrollX', true).withOption('bAutoWidth', true)
+        .withOption('scrollCollapse', true).withOption('paging', true)
+        .withOption('bStateSave', true).withOption('bProcessing', false)
+        .withOption('bFilter', false).withOption('bInfo', false)
+        .withOption('serverSide', false).withOption('createdRow', function (row) {
+            $compile(angular.element(row).contents())($scope);
+        }).withOption(
+            'headerCallback',
+            function (header) {
+                if ((!angular.isDefined($scope.headerCompiled))
+                    || $scope.headerCompiled) {
+                    $scope.headerCompiled = true;
+                    $compile(angular.element(header).contents())
+                    ($scope);
+                }
+            }).withOption("select", {
+            style: 'multi',
+            selector: 'td:first-child'
+        });
+    $scope.dtInstance = {}
+    var dtColumns = [];
+
+    function renderZCAction(data, type, full) {
+        var acthtml = " <div class=\"btn-group\"> ";
+        acthtml = acthtml + " <span ng-click=\"delitem('"
+            + full.id
+            + "')\" class=\"btn-white btn btn-xs\">删除</span>   ";
+        acthtml = acthtml + " <span ng-click=\"filldata('"
+            + full.id
+            + "')\" class=\"btn-white btn btn-xs\">填充</span>   ";
+        acthtml = acthtml + "</div>"
+        return acthtml;
+    }
+
+    function fillresdata(id) {
+        var data = {};
+        for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
+            if ($scope.dtOptions.aaData[i].id == id) {
+                data = $scope.dtOptions.aaData[i];
+                break;
+            }
+        }
+        $scope.compSel = "";
+        $scope.statusSel = "";
+        $scope.item.twbct = "";
+        if (angular.isDefined(data.wbct)) {
+            $scope.item.twbct = data.wbct;
+        }
+        if (angular.isDefined(data.wbout_datestr)) {
+            $scope.date.wboutdate = moment(data.wbout_datestr);
+        }
+        if (angular.isDefined(data.wbsupplier)) {
+            for (var i = 0; i < $scope.compOpt.length; i++) {
+                if (data.wbsupplier == $scope.compOpt[i].dict_item_id) {
+                    $scope.compSel = $scope.compOpt[i];
+                    break;
+                }
+            }
+        }
+        if (angular.isDefined(data.wb)) {
+            for (var i = 0; i < $scope.statusOpt.length; i++) {
+                if (data.wb == $scope.statusOpt[i].dict_item_id) {
+                    $scope.statusSel = $scope.statusOpt[i];
+                    break;
+                }
+            }
+        }
+    }
+
+    $scope.delitem = function (id) {
+        var del = 0;
+        for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
+            if ($scope.dtOptions.aaData[i].id == id) {
+                del = i;
+                break;
+            }
+        }
+        $scope.dtOptions.aaData.splice(del, 1);
+    }
+    dtColumns.push(DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
+        'sDefaultContent', '').withOption("width", '100').renderWith(renderZCAction));
+    dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
+        'sDefaultContent', '').withOption("width", '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
+        'sDefaultContent', '').withOption('width', '50'));
+    dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
+        'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
+    dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('usefullifestr').withTitle('使用年限')
+        .withOption('sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('wbsupplierstr').withTitle('维保供应商').withOption(
+        'sDefaultContent', '').withOption('width', '30').renderWith(renderDTFontColoBluerH));
+    dtColumns.push(DTColumnBuilder.newColumn('wbstr').withTitle('维保状态').withOption(
+        'sDefaultContent', '').withOption('width', '30').renderWith(renderWb));
+    dtColumns.push(DTColumnBuilder.newColumn('wbout_datestr').withTitle('脱保日期')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
+    dtColumns.push(DTColumnBuilder.newColumn('wb_autostr').withTitle('脱保计算')
+        .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
+    dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
+        'sDefaultContent', '').withOption('width', '30'));
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+        'sDefaultContent', ''));
+    $scope.dtColumns = dtColumns;
+    $scope.dtOptions.aaData = [];
+    $scope.sure = function () {
+        if ($scope.dtOptions.aaData.length == 0) {
+            notify({
+                message: "请选择资产"
+            });
+            return;
+        }
+        $scope.item.twboutdate = $scope.date.wboutdate.format('YYYY-MM-DD');
+        $scope.item.twbsupplier = $scope.compSel.dict_item_id;
+        $scope.item.twb = $scope.statusSel.dict_item_id;
+        $scope.item.processuserid = $scope.adminuserSel.user_id;
+        $scope.item.processusername = $scope.adminuserSel.name;
+        $scope.item.items = angular.toJson($scope.dtOptions.aaData);
+        $confirm({
+            text: '是否确定变更?'
+        }).then(
+            function () {
+                $http.post($rootScope.project + "/api/zc/resCMaintenance/ext/insert.do",
+                    $scope.item).success(function (res) {
+                    if (res.success) {
+                        $uibModalInstance.close('OK');
+                    }
+                    notify({
+                        message: res.message
+                    });
+                })
+            });
+    }
+    $scope.review = function () {
+        var mdata = {};
+        mdata.id = "";
+        mdata.type = "many";
+        mdata.datarange = "CG";
+        mdata.showusefullife = "true";
+        var modalInstance = $uibModal.open({
+            backdrop: true,
+            templateUrl: 'views/cmdb/modal_common_zclist.html',
+            controller: modal_common_ZcListCtl,
+            size: 'blg',
+            resolve: {
+                data: function () {
+                    return mdata
+                }
+            }
+        });
+        modalInstance.result.then(function (result) {
+            $scope.dtOptions.aaData = result;
+        }, function (reason) {
+            $log.log("reason", reason)
+        });
+    }
+    $scope.filldata = function (id) {
+        fillresdata(id);
+    };
+    //是否ids传入
+    if (angular.isDefined(meta.ids)) {
+        var ps = {};
+        ps.ids = meta.ids;
+        ps.datarange = "all";
+        ps.category = 3;
+        $http.post($rootScope.project + "/api/base/res/queryResAll.do", ps)
+            .success(function (res) {
+                if (res.success) {
+                    $scope.dtOptions.aaData = res.data;
+                    if (res.data.length == 1) {
+                        fillresdata(res.data[0].id);
+                    }
+                } else {
+                    notify({
+                        message: res.message
+                    });
+                }
+            })
     }
 }

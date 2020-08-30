@@ -83,6 +83,8 @@ public class ZcCommonService extends BaseService {
     public static String ZC_BUS_TYPE_BF = "BF";
     //折旧
     public static String ZC_BUS_TYPE_ZJ = "ZJ";
+    //报修
+    public static String ZC_BUS_TYPE_BX = "BX";
     //财务变更
     public static String ZC_BUS_TYPE_CGCW = "CGCW";
     //维保变更

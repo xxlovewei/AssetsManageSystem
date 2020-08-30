@@ -142,9 +142,24 @@ function modalresBatchUpdateCtl($confirm, $timeout, $localStorage, notify, $log,
 function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $location,
                        $log, notify, $scope, $http, $rootScope, $uibModal, $window, $state, $timeout) {
     var pbtns = $rootScope.curMemuBtns;
-    console.log('22222222222222', $rootScope.zccolctlcommon)
     var gclass_id = "";
     var gdicts = {};
+    var fastbtn = "<div class=\"btn-group\" role=\"group\">\n" +
+        "    <button type=\"button\" class=\"btn btn-sm btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
+        "      快速处理\n" +
+        "      <span class=\"caret\"></span>\n" +
+        "    </button>\n" +
+        "    <ul class=\"dropdown-menu\">\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('TK')\">退库</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('JY')\">借用</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('DB')\">调拨</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('CGJB')\">实物信息变更</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('CGCW')\">财务信息变更</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('CGWB')\">维保信息变更</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('BX')\">维修登记</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('BF')\">报废处理</a></li>\n" +
+        "    </ul>\n" +
+        "  </div>";
     var meta = {
         tablehide: false,
         toolsbtn: [
@@ -154,6 +169,13 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                 type: "btn",
                 show: true,
                 template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
+            },
+            {
+                id: "btn8",
+                label: "",
+                type: "btn",
+                show: true,
+                template: fastbtn
             },
             {
                 id: "btn2",
@@ -171,6 +193,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                 priv: "update",
                 template: ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新</button>'
             },
+
             {
                 id: "btn5",
                 label: "",
@@ -194,7 +217,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                 show: false,
                 priv: "exportfile",
                 template: ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">全部导出(Excel)</button>'
-            }],
+            }
+        ],
         tools: [{
             id: "select",
             label: "区域",
@@ -465,30 +489,128 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         }
     }
 
-    $scope.batchupate = function () {
+    //
+    // $scope.batchupate = function () {
+    //     var selrows = getSelectRows();
+    //     var ps = {};
+    //     if (angular.isDefined(selrows)) {
+    //         ps.selrows = selrows;
+    //         ps.gdicts = gdicts;
+    //         var modalInstance = $uibModal.open({
+    //             backdrop: true,
+    //             templateUrl: 'views/cmdb/modal_batchUpdateRes.html',
+    //             controller: modalresBatchUpdateCtl,
+    //             size: 'blg',
+    //             resolve: {
+    //                 meta: function () {
+    //                     return ps;
+    //                 }
+    //             }
+    //         });
+    //         modalInstance.result.then(function (result) {
+    //             if (result == "OK") {
+    //                 flush();
+    //             }
+    //         }, function (reason) {
+    //             $log.log("reason", reason)
+    //         });
+    //     }
+    // }
+    //####################################快速处理##########################################################
+    var gdict = {};
+    var dicts = "devwb,zcwbsupper";
+    $http
+        .post($rootScope.project + "/api/zc/queryDictFast.do", {
+            dicts: dicts,
+            parts: "N",
+            partusers: "Y",
+            comp: "N",
+            belongcomp: "Y",
+            zccatused: "Y",
+            uid: "fast"
+        })
+        .success(
+            function (res) {
+                if (res.success) {
+                    gdict = res.data;
+                } else {
+                    notify({
+                        message: res.message
+                    });
+                }
+            })
+    $scope.fastProcess = function (type) {
         var selrows = getSelectRows();
-        var ps = {};
         if (angular.isDefined(selrows)) {
-            ps.selrows = selrows;
-            ps.gdicts = gdicts;
-            var modalInstance = $uibModal.open({
-                backdrop: true,
-                templateUrl: 'views/cmdb/modal_batchUpdateRes.html',
-                controller: modalresBatchUpdateCtl,
-                size: 'blg',
-                resolve: {
-                    meta: function () {
-                        return ps;
+            if (angular.fromJson(selrows).length > 50) {
+                notify({
+                    message: "选择项超过50个,请重新进行筛选！"
+                });
+                return;
+            }
+            //检查
+            //快速处理按钮
+            var meta = {};
+            meta.ids = selrows;
+            if (type == "BX") {
+                meta.actiontype = "add";
+                var modalInstance = $uibModal.open({
+                    backdrop: true,
+                    templateUrl: 'views/cmdb/modal_zcfault.html',
+                    controller: modaldevfaultCtl,
+                    size: 'lg',
+                    resolve: {
+                        meta: function () {
+                            return meta;
+                        }
                     }
-                }
-            });
-            modalInstance.result.then(function (result) {
-                if (result == "OK") {
+                });
+                modalInstance.result.then(function (result) {
                     flush();
-                }
-            }, function (reason) {
-                $log.log("reason", reason)
-            });
+                }, function (reason) {
+                });
+            } else if (type == "TK") {
+            } else if (type == "JY") {
+            } else if (type == "CGJB") {
+            } else if (type == "CGCW") {
+            } else if (type == "CGWB") {
+                meta.dict = gdict;
+                var modalInstance = $uibModal.open({
+                    backdrop: true,
+                    templateUrl: 'views/cmdb/modal_zccgwbSave.html',
+                    controller: zccgwbSaveCtl,
+                    size: 'blg',
+                    resolve: {
+                        meta: function () {
+                            return meta;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (result) {
+                    flush();
+                }, function (reason) {
+                });
+            } else if (type == "BF") {
+                var modalInstance = $uibModal.open({
+                    backdrop: true,
+                    templateUrl: 'views/cmdb/modal_zcbf.html',
+                    controller: modalzcbfCtl,
+                    size: 'blg',
+                    resolve: {
+                        meta: function () {
+                            return meta
+                        }
+                    }
+                });
+                modalInstance.result.then(function (result) {
+                    if (result == "OK") {
+                        flush();
+                    }
+                }, function (reason) {
+                });
+            } else {
+                alert("该功能暂未实现!");
+            }
         }
     }
     $scope.del = function () {

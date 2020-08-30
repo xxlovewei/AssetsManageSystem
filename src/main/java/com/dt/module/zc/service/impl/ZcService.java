@@ -25,6 +25,7 @@ import com.dt.module.zc.service.IResAllocateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.tools.Tool;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -249,7 +250,10 @@ public class ZcService extends BaseService {
         String isscrap = ps.getString("isscrap");
         String attrsql = "select * from res_attrs where catid=? and dr='0'";
         RcdSet attrs_rs = db.query(attrsql, class_id);
+        String ids = ps.getString("ids");
+
         String sql = "select";
+        //扩展属性
         if (attrs_rs != null) {
             for (int i = 0; i < attrs_rs.size(); i++) {
                 // 拼接sql
@@ -269,6 +273,7 @@ public class ZcService extends BaseService {
             }
         }
         sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0 ";
+
         if (ToolUtil.isNotEmpty(classroot)) {
             //获取多个类型
             sql = sql + " and class_id in (select id from ct_category t where t.dr='0' and t.root='" + classroot + "' and t.node_level>1)";
@@ -338,6 +343,18 @@ public class ZcService extends BaseService {
         } else {
             sql = sql + " and isscrap='0'";
         }
+
+        //ids
+        JSONArray ids_arr = JSONArray.parseArray(ids);
+        if (ToolUtil.isNotEmpty(ids_arr) && ids_arr.size() > 0) {
+            String idsstr = " and t.id in (";
+            for (int i = 0; i < ids_arr.size(); i++) {
+                idsstr = idsstr + "'" + ids_arr.getString(i) + "',";
+            }
+            idsstr = idsstr + "',-1')";
+            sql = sql + idsstr;
+        }
+
         //idle,inuse,scrap,borrow,repair,stopuse,allocation
         if (ToolUtil.isNotEmpty(datarange)) {
             if (ZcCommonService.DATARANGE_REPAIR.equals(datarange)) {
@@ -364,6 +381,8 @@ public class ZcService extends BaseService {
             } else if (ZcCommonService.DATARANGE_CG.equals(datarange)) {
                 //变更:不选报废
                 sql = sql + "and inprocess='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' and recycle<>'" + ZcRecycleEnum.RECYCLE_SCRAP.getValue() + "'";
+            } else if (ZcCommonService.DATARANGE_ALL.equals(datarange)) {
+
             }
         }
         String ressql = "";
