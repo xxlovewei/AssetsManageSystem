@@ -59,9 +59,9 @@ public class ZcController extends BaseController {
 
     @Autowired
     ISysProcessDataService SysProcessDataServiceImpl;
+
     @Autowired
     ISysProcessFormService SysProcessFormServiceImpl;
-
 
     @Autowired
     ISysFormService SysFormServiceImpl;
@@ -75,10 +75,16 @@ public class ZcController extends BaseController {
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;
 
-
     @Autowired
     ICtCategoryRootService CtCategoryRootServiceImpl;
 
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/fastProcessItemCheck.do")
+    public R fastProcessItemCheck(String type, String items) {
+        return zcService.fastProcessItemCheck(type, items);
+    }
 
     //uid 每组加缓存
     @ResponseBody

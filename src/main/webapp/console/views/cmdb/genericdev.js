@@ -150,6 +150,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         "      <span class=\"caret\"></span>\n" +
         "    </button>\n" +
         "    <ul class=\"dropdown-menu\">\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('LY')\">领用</a></li>\n" +
         "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('TK')\">退库</a></li>\n" +
         "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('JY')\">借用</a></li>\n" +
         "      <li><a href=\"javascript:void(0)\" ng-click=\"fastProcess('DB')\">调拨</a></li>\n" +
@@ -348,6 +349,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                 });
             }
         })
+
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
         .withOption("ordering", false).withOption("responsive", false)
@@ -489,50 +491,24 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         }
     }
 
-    //
-    // $scope.batchupate = function () {
-    //     var selrows = getSelectRows();
-    //     var ps = {};
-    //     if (angular.isDefined(selrows)) {
-    //         ps.selrows = selrows;
-    //         ps.gdicts = gdicts;
-    //         var modalInstance = $uibModal.open({
-    //             backdrop: true,
-    //             templateUrl: 'views/cmdb/modal_batchUpdateRes.html',
-    //             controller: modalresBatchUpdateCtl,
-    //             size: 'blg',
-    //             resolve: {
-    //                 meta: function () {
-    //                     return ps;
-    //                 }
-    //             }
-    //         });
-    //         modalInstance.result.then(function (result) {
-    //             if (result == "OK") {
-    //                 flush();
-    //             }
-    //         }, function (reason) {
-    //             $log.log("reason", reason)
-    //         });
-    //     }
-    // }
     //####################################快速处理##########################################################
-    var gdict = {};
-    var dicts = "devwb,zcwbsupper";
+    var gfastdict = {};
+    var dicts = "devwb,zcwbsupper,zcusefullife,devbrand,devdc,zcsource,zcsupper";
     $http
         .post($rootScope.project + "/api/zc/queryDictFast.do", {
             dicts: dicts,
-            parts: "N",
+            parts: "Y",
             partusers: "Y",
-            comp: "N",
+            comp: "Y",
             belongcomp: "Y",
             zccatused: "Y",
-            uid: "fast"
+            classroot: "3",
+            uid: "fastprocessid"
         })
         .success(
             function (res) {
                 if (res.success) {
-                    gdict = res.data;
+                    gfastdict = res.data;
                 } else {
                     notify({
                         message: res.message
@@ -548,71 +524,186 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                 });
                 return;
             }
-            //检查
-            //快速处理按钮
-            var meta = {};
-            meta.ids = selrows;
-            if (type == "BX") {
-                meta.actiontype = "add";
-                var modalInstance = $uibModal.open({
-                    backdrop: true,
-                    templateUrl: 'views/cmdb/modal_zcfault.html',
-                    controller: modaldevfaultCtl,
-                    size: 'lg',
-                    resolve: {
-                        meta: function () {
-                            return meta;
+            $http
+                .post($rootScope.project + "/api/zc/fastProcessItemCheck.do", {
+                    type: type,
+                    items: selrows
+                })
+                .success(
+                    function (res) {
+                        if (res.success) {
+                            //检查
+                            //快速处理按钮
+                            var meta = {};
+                            meta.ids = selrows;
+                            if (type == "BX") {
+                                meta.actiontype = "add";
+                                var modalInstance = $uibModal.open({
+                                    backdrop: true,
+                                    templateUrl: 'views/cmdb/modal_zcfault.html',
+                                    controller: modaldevfaultCtl,
+                                    size: 'lg',
+                                    resolve: {
+                                        meta: function () {
+                                            return meta;
+                                        }
+                                    }
+                                });
+                                modalInstance.result.then(function (result) {
+                                    flush();
+                                }, function (reason) {
+                                });
+                            } else if (type == "LY") {
+                                meta.dict = gfastdict;
+                                var modalInstance = $uibModal.open({
+                                    backdrop: true,
+                                    templateUrl: 'views/cmdb/modal_collectionSave.html',
+                                    controller: collectionSaveCtl,
+                                    size: 'blg',
+                                    resolve: {
+                                        meta: function () {
+                                            return meta;
+                                        }
+                                    }
+                                });
+                                modalInstance.result.then(function (result) {
+                                    flush();
+                                }, function (reason) {
+                                });
+                            } else if (type == "TK") {
+                                meta.dict = gfastdict;
+                                var modalInstance = $uibModal.open({
+                                    backdrop: true,
+                                    templateUrl: 'views/cmdb/modal_tkSave.html',
+                                    controller: tkSaveCtl,
+                                    size: 'blg',
+                                    resolve: {
+                                        meta: function () {
+                                            return meta;
+                                        }
+                                    }
+                                });
+                                modalInstance.result.then(function (result) {
+                                    flush();
+                                }, function (reason) {
+                                });
+                            } else if (type == "JY") {
+                                meta.dict = gfastdict;
+                                var modalInstance = $uibModal.open({
+                                    backdrop: true,
+                                    templateUrl: 'views/cmdb/modal_loanreturnSave.html',
+                                    controller: loanSaveCtl,
+                                    size: 'blg',
+                                    resolve: {
+                                        meta: function () {
+                                            return meta;
+                                        }
+                                    }
+                                });
+                                modalInstance.result.then(function (result) {
+                                    flush();
+                                }, function (reason) {
+                                });
+                            } else if (type == "CGJB") {
+                                meta.dict = gfastdict;
+                                var modalInstance = $uibModal.open({
+                                    backdrop: true,
+                                    templateUrl: 'views/cmdb/modal_zccgjbSave.html',
+                                    controller: zccgjbSaveCtl,
+                                    size: 'blg',
+                                    resolve: {
+                                        meta: function () {
+                                            return meta;
+                                        }
+                                    }
+                                });
+                                modalInstance.result.then(function (result) {
+                                    flush();
+                                }, function (reason) {
+                                });
+                            } else if (type == "CGCW") {
+                                meta.dict = gfastdict;
+                                var modalInstance = $uibModal.open({
+                                    backdrop: true,
+                                    templateUrl: 'views/cmdb/modal_zccgcwSave.html',
+                                    controller: zccgcwSaveCtl,
+                                    size: 'blg',
+                                    resolve: {
+                                        meta: function () {
+                                            return meta;
+                                        }
+                                    }
+                                });
+                                modalInstance.result.then(function (result) {
+                                    flush();
+                                }, function (reason) {
+                                });
+                            } else if (type == "CGWB") {
+                                meta.dict = gfastdict;
+                                var modalInstance = $uibModal.open({
+                                    backdrop: true,
+                                    templateUrl: 'views/cmdb/modal_zccgwbSave.html',
+                                    controller: zccgwbSaveCtl,
+                                    size: 'blg',
+                                    resolve: {
+                                        meta: function () {
+                                            return meta;
+                                        }
+                                    }
+                                });
+                                modalInstance.result.then(function (result) {
+                                    flush();
+                                }, function (reason) {
+                                });
+                            } else if (type == "BF") {
+                                var modalInstance = $uibModal.open({
+                                    backdrop: true,
+                                    templateUrl: 'views/cmdb/modal_zcbf.html',
+                                    controller: modalzcbfCtl,
+                                    size: 'blg',
+                                    resolve: {
+                                        meta: function () {
+                                            return meta
+                                        }
+                                    }
+                                });
+                                modalInstance.result.then(function (result) {
+                                    if (result == "OK") {
+                                        flush();
+                                    }
+                                }, function (reason) {
+                                });
+                            } else if (type == "DB") {
+                                meta.actiontype = "add";
+                                meta.gdict = gfastdict;
+                                var modalInstance = $uibModal.open({
+                                    backdrop: true,
+                                    templateUrl: 'views/cmdb/modal_zcallocation.html',
+                                    controller: modalzcallocationCtl,
+                                    size: 'lg',
+                                    resolve: {
+                                        meta: function () {
+                                            return meta;
+                                        }
+                                    }
+                                });
+                                modalInstance.result.then(function (result) {
+                                    flush();
+                                }, function (reason) {
+                                    $log.log("reason", reason)
+                                });
+                            } else {
+                                alert("该功能暂未实现!");
+                            }
+                        } else {
+                            notify({
+                                message: res.message
+                            });
                         }
-                    }
-                });
-                modalInstance.result.then(function (result) {
-                    flush();
-                }, function (reason) {
-                });
-            } else if (type == "TK") {
-            } else if (type == "JY") {
-            } else if (type == "CGJB") {
-            } else if (type == "CGCW") {
-            } else if (type == "CGWB") {
-                meta.dict = gdict;
-                var modalInstance = $uibModal.open({
-                    backdrop: true,
-                    templateUrl: 'views/cmdb/modal_zccgwbSave.html',
-                    controller: zccgwbSaveCtl,
-                    size: 'blg',
-                    resolve: {
-                        meta: function () {
-                            return meta;
-                        }
-                    }
-                });
-                modalInstance.result.then(function (result) {
-                    flush();
-                }, function (reason) {
-                });
-            } else if (type == "BF") {
-                var modalInstance = $uibModal.open({
-                    backdrop: true,
-                    templateUrl: 'views/cmdb/modal_zcbf.html',
-                    controller: modalzcbfCtl,
-                    size: 'blg',
-                    resolve: {
-                        meta: function () {
-                            return meta
-                        }
-                    }
-                });
-                modalInstance.result.then(function (result) {
-                    if (result == "OK") {
-                        flush();
-                    }
-                }, function (reason) {
-                });
-            } else {
-                alert("该功能暂未实现!");
-            }
+                    })
         }
     }
+    //####################################快速结束##########################################################
     $scope.del = function () {
         var selrows = getSelectRows();
         if (angular.isDefined(selrows)) {

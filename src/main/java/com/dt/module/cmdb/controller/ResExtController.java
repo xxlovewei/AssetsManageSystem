@@ -131,15 +131,6 @@ public class ResExtController extends BaseController {
 
 
     @ResponseBody
-    @Acl(info = "批量新增Res", value = Acl.ACL_USER)
-    @RequestMapping(value = "/res/batchUpdateRes.do")
-    @Transactional
-    public R batchUpdateRes() {
-        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        return R.SUCCESS_OPER();
-    }
-
-    @ResponseBody
     @Acl(info = "新增Res", value = Acl.ACL_USER)
     @RequestMapping(value = "/res/addResCustom.do")
     @Transactional
