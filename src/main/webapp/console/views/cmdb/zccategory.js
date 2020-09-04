@@ -483,7 +483,6 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 flushAttr($scope.item.id);
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.attrmodify = function (id) {
@@ -505,7 +504,6 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 flushAttr($scope.item.id);
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.attrremove = function (id) {

@@ -188,7 +188,6 @@ function sysFlowGroupCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 };

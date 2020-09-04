@@ -195,7 +195,6 @@ function resAttrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.flush = function () {

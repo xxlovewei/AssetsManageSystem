@@ -241,7 +241,6 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                             }, function (reason) {
                                 // 点击空白区域，总会输出backdrop
                                 // click，点击取消，则会cancel
-                                $log.log("reason", reason)
                             });
                         } else {
                             notify({

@@ -125,7 +125,6 @@ function sysModuleCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $lo
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 };

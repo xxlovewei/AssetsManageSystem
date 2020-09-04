@@ -418,6 +418,18 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('org.positionmgr', {
+        url: "/org_positionmgr?psBtns",
+        data: {pageTitle: '职位管理'},
+        template: '<div ng-controller="positionCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/org/position.js?v=' + version]
+                }]);
+            }
+        }
     });
     // 任务设置
     $stateProvider.state('task', {

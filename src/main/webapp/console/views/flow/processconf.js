@@ -40,7 +40,6 @@ function modalFlowConfSaveCtl($timeout, $localStorage, notify, $log, $uibModal, 
             $scope.data.form = result.id;
             $scope.data.formname = result.name;
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.sure = function () {
@@ -66,7 +65,6 @@ function modalFlowConfSaveCtl($timeout, $localStorage, notify, $log, $uibModal, 
             $scope.data.processdefid = result.id;
             $scope.data.processdefname = result.name;
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 }
@@ -229,7 +227,6 @@ function processConfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 

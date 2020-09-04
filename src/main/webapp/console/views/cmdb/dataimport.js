@@ -76,7 +76,6 @@ function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         $scope.myDropzone.removeAllFiles(true);
         modalInstance.result.then(function (result) {
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.ok = function () {
@@ -120,7 +119,6 @@ function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                     $scope.myDropzone.removeAllFiles(true);
                     modalInstance.result.then(function (result) {
                     }, function (reason) {
-                        $log.log("reason", reason)
                     });
                 }
             })

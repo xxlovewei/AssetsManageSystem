@@ -345,7 +345,6 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         modalInstance.result.then(function (result) {
             $scope.dtOptions.aaData = result;
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 }
@@ -595,7 +594,6 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         modalInstance.result.then(function (result) {
             flush();
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 
@@ -617,7 +615,6 @@ function zcresidualCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         modalInstance.result.then(function (result) {
             flush();
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 

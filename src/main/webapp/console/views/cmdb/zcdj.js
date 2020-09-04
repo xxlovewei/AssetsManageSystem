@@ -109,7 +109,7 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
                 label: "",
                 type: "btn",
                 show: true,
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
+                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             }, {
                 id: "btn8",
                 label: "",
@@ -320,7 +320,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
                     flush();
                 }
             }, function (reason) {
-                $log.log("reason", reason)
             });
         }
     }
@@ -372,7 +371,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
             if (result == "OK") {
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 
@@ -1060,7 +1058,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 
@@ -1369,7 +1366,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
                                 modalInstance.result.then(function (result) {
                                     flush();
                                 }, function (reason) {
-                                    $log.log("reason", reason)
                                 });
                             } else {
                                 alert("该功能暂未实现!");

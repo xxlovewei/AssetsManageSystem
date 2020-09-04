@@ -144,7 +144,6 @@ function cmdbrepPartZcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             if (result == "OK") {
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 };

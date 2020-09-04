@@ -57,6 +57,25 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
+    // 文档管理
+    $stateProvider.state('docmgr', {
+        abstract: true,
+        url: "/docmgr",
+        templateUrl: "views/common/content.html?v=" + version
+    }).state('docmgr.doclist', {
+        url: "/docmgr_doclist",
+        data: {pageTitle: '文档管理'},
+        // templateUrl: "views/cmdb/doclist.html?v=" + version,
+        template: '<div ng-controller="doclistCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/doclist.js?v=' + version]
+                }]);
+            }
+        }
+    })
     // 盘点管理
     $stateProvider.state('pandian', {
         abstract: true,
@@ -531,6 +550,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 return $ocLazyLoad.load([{
                     serie: true,
                     files: ['views/cmdb/zcquerycat.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('zcmgr.zcqueryloc', {
+        url: "/zcmgr_zcqueryloc",
+        data: {pageTitle: '资产查询(位置)'},
+        templateUrl: "views/cmdb/zcqueryloc.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/zcqueryloc.js?v=' + version]
                 }]);
             }
         }

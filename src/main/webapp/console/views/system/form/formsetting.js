@@ -257,7 +257,6 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 

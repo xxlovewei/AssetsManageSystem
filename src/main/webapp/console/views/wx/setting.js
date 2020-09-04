@@ -197,7 +197,6 @@ function wxmsgsettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.deleterow = function (id) {

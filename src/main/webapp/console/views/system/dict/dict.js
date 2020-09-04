@@ -225,7 +225,6 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 
@@ -403,7 +402,6 @@ function sysDictSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 flushSubtab();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.row_dtl = function (id) {

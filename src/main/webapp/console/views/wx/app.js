@@ -101,7 +101,6 @@ function wxappCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.syncToWx = function (id) {

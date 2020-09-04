@@ -125,7 +125,6 @@ function employeezcCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             if (result == "OK") {
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 };

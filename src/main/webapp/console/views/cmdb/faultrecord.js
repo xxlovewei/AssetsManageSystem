@@ -90,7 +90,7 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 type: "btn",
                 show: false,
                 priv: "select",
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
+                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
                 id: "btn3",
@@ -199,7 +199,6 @@ function cmdbfaultrecordCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         modalInstance.result.then(function (result) {
             flush();
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 

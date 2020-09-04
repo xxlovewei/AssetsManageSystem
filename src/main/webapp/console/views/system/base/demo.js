@@ -173,7 +173,6 @@ function demoCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
             if (result == "OK") {
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.btn_del = function () {
@@ -393,7 +392,6 @@ function demoCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 };

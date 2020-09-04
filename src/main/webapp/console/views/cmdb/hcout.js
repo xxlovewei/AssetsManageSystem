@@ -293,7 +293,7 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             console.log("result", result);
             $scope.dtOptions.aaData = result;
         }, function (reason) {
-            $log.log("reason", reason)
+
         });
     }
     $scope.modify = function (id, zc_cnt) {
@@ -317,7 +317,6 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 }
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     if (angular.isDefined(meta.type) && meta.type == "dtl") {
@@ -539,7 +538,7 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 label: "",
                 type: "btn",
                 show: true,
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
+                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
                 id: "btn2",
@@ -706,7 +705,6 @@ function zcHcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     flush();

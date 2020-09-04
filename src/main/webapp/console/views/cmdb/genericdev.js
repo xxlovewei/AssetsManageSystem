@@ -169,7 +169,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                 label: "",
                 type: "btn",
                 show: true,
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
+                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
                 id: "btn8",
@@ -690,7 +690,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                                 modalInstance.result.then(function (result) {
                                     flush();
                                 }, function (reason) {
-                                    $log.log("reason", reason)
                                 });
                             } else {
                                 alert("该功能暂未实现!");
@@ -752,7 +751,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             if (result == "OK") {
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 
@@ -1534,7 +1532,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 

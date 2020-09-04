@@ -212,7 +212,6 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 
@@ -269,7 +268,6 @@ function sysFormSettingCtl($window, $stateParams, DTOptionsBuilder,
             });
             modalInstance.result.then(function (result) {
             }, function (reason) {
-                $log.log("reason", reason)
             });
         }
     }

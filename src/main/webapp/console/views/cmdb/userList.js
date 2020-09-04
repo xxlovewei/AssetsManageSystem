@@ -86,7 +86,6 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
                 queryUsers();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.addNode = function (id) {
@@ -169,7 +168,6 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
                 queryUsers();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.search = "";
@@ -616,7 +614,6 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
                 queryUsers();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     queryUsers();
@@ -657,7 +654,6 @@ function cmdbUserListCtl($sce, DTOptionsBuilder, DTColumnBuilder, $compile,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 };

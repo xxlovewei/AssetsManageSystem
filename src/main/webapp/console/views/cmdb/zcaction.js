@@ -291,7 +291,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 type: "btn",
                 show: false,
                 priv: "search",
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
+                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
                 id: "btn2",

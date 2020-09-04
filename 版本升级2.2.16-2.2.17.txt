@@ -1,0 +1,43 @@
+1.新增表
+create table hrm_position
+(
+  id          varchar(50)  not null
+  comment '主键'
+    primary key,
+  name        varchar(100) null
+  comment '岗位名称',
+  type        varchar(50)  null
+  comment '类型',
+  mark        varchar(100) null
+  comment '备注',
+  dr          char         null,
+  create_by   varchar(50)  null,
+  update_by   varchar(50)  null,
+  create_time datetime     null,
+  update_time datetime     null
+);
+
+-- auto-generated definition
+create table hrm_position_type
+(
+  id          varchar(50)  not null
+  comment '主键'
+    primary key,
+  name        varchar(100) null
+  comment '名称',
+  mark        varchar(100) null
+  comment '备注',
+  dr          char         null,
+  create_by   varchar(50)  null,
+  update_by   varchar(50)  null,
+  create_time datetime     null,
+  update_time datetime     null
+);
+
+
+
+INSERT INTO `dt`.`sys_dict` (`dict_id`, `name`, `dict_level`, `status`, `dr`, `mark`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES ('zcdoctype', '资产_文档类型', 'system', 'Y', '0', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL')
+
+
+
+

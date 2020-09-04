@@ -211,7 +211,6 @@ function hrmOrgEmployeeCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm
                 flushEmployee();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 };

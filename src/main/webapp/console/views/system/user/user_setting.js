@@ -367,7 +367,6 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         });
         modalInstance.result.then(function (result) {
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.update = function () {
@@ -403,7 +402,6 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.updateRole = function () {
@@ -438,7 +436,6 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.detail = function () {
@@ -466,7 +463,6 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 };

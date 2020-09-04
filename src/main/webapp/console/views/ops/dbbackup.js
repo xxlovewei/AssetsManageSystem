@@ -502,7 +502,6 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 flushSubtab();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.del = function () {
@@ -548,7 +547,6 @@ function opsdbbackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         modalInstance.result.then(function (result) {
             // flush();
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 };

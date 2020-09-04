@@ -67,7 +67,7 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
                 label: "",
                 type: "btn",
                 show: true,
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
+                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
                 id: "btn",
@@ -127,7 +127,6 @@ function reviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log,
             if (result == "OK") {
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 

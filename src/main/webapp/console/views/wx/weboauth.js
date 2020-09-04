@@ -131,7 +131,6 @@ function weboauthCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.del = function (id) {

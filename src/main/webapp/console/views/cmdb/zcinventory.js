@@ -100,7 +100,7 @@ function zcinventoryPdCtl($timeout, $localStorage, notify, $log, $uibModal,
                         $scope.myDropzone.removeAllFiles(true);
                         modalInstance.result.then(function (result) {
                         }, function (reason) {
-                            $log.log("reason", reason)
+
                         });
                     } else {
                         notify({
@@ -444,7 +444,7 @@ function zcinventorySaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         });
         modalInstance.result.then(function (result) {
         }, function (reason) {
-            $log.log("reason", reason)
+
         });
     }
 }
@@ -646,7 +646,7 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             {
                 id: "input",
                 label: "内容",
-                placeholder: "请输入搜索内容",
+                placeholder: "请输入查询内容",
                 type: "input",
                 show: true,
                 ct: ""
@@ -657,7 +657,7 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
                 type: "btn",
                 show: true,
                 priv: "select",
-                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">搜索</button>'
+                template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
                 id: "btn3",
@@ -737,7 +737,6 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         modalInstance.result.then(function (result) {
             flush();
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 
@@ -785,7 +784,6 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         modalInstance.result.then(function (result) {
             flush();
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.download = function (id) {
@@ -809,7 +807,6 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         modalInstance.result.then(function (result) {
             flush();
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.cancel = function (id) {

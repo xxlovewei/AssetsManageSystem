@@ -103,8 +103,8 @@ public class CustomGeneratorMysql {
         // "","sys_qud_qux"
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
-        String busRoute = "zc";
-        strategy.setInclude("res_allocate_item"); // 需要生成的表
+        String busRoute = "ct";
+        strategy.setInclude("doc_mgr"); // 需要生成的表
 
 
         strategy.setTableFillList(tableFillList);

@@ -61,7 +61,6 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
             $scope.data.ptplname = result.name;
             $scope.data.ptplkey = result.key;
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.selectform = function () {
@@ -79,7 +78,6 @@ function modalflowmatchsaveCtl($timeout, $localStorage, notify, $log,
             $scope.data.form = result.id;
             $scope.data.formname = result.name;
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.sure = function () {
@@ -352,7 +350,6 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 
@@ -423,7 +420,6 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
             });
             modalInstance.result.then(function (result) {
             }, function (reason) {
-                $log.log("reason", reason)
             });
         }
     }

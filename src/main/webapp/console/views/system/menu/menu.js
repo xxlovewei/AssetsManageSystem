@@ -575,7 +575,6 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
                             // flush();
                         }
                     }, function (reason) {
-                        $log.log("reason", reason)
                     });
                 },
                 add: function (data) { // this works too:
@@ -599,7 +598,6 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
                             flush();
                         }
                     }, function (reason) {
-                        $log.log("reason", reason)
                     });
                 },
                 del: function (data) { // this works too:
@@ -658,7 +656,6 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
                         if (result == "OK") {
                         }
                     }, function (reason) {
-                        $log.log("reason", reason)
                     });
                 },
                 batchadd: function (data) {
@@ -681,7 +678,6 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
                                 flush();
                             }
                         }, function (reason) {
-                            $log.log("reason", reason)
                         });
                     } else {
                         notify({
@@ -710,7 +706,6 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
                             flush();
                         }
                     }, function (reason) {
-                        $log.log("reason", reason)
                     });
                 }
             }
@@ -761,7 +756,6 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.my_tree_handler = function (branch) {

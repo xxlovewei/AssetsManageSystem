@@ -116,7 +116,6 @@ function cmdbouterContactListCtl($sce, DTOptionsBuilder, DTColumnBuilder,
                 queryUsers();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.search = "";
@@ -480,7 +479,6 @@ function cmdbouterContactListCtl($sce, DTOptionsBuilder, DTColumnBuilder,
                 queryUsers();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     queryUsers();
@@ -521,7 +519,6 @@ function cmdbouterContactListCtl($sce, DTOptionsBuilder, DTColumnBuilder,
                 flush();
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
 };
