@@ -44,15 +44,15 @@ function doclistSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                                         name: "附件",
                                         // 需要显示给用户的图片名
                                         uuid: $scope.item.files,
-                                        href: $rootScope.project + "/file/imagedown.do?id=" + $scope.item.files,
-                                        url: $rootScope.project + "/file/imagedown.do?id=" + $scope.item.files,
+                                        href: $rootScope.project + "/api/file/filedown.do?id=" + $scope.item.files,
+                                        url: $rootScope.project + "/api/file/filedown.do?id=" + $scope.item.files,
                                         status: "success",
                                         accepted: true
                                     };
                                     $scope.myDropzone.emit("addedfile", mockFile);
                                     $scope.myDropzone.files.push(mockFile); // file must be added
                                     // manually
-                                    $scope.myDropzone.createThumbnailFromUrl(mockFile, $rootScope.project + "/file/imagedown.do?id=" + $scope.item.files);
+                                    $scope.myDropzone.createThumbnailFromUrl(mockFile, $rootScope.project + "/api/file/filedown.do?id=" + $scope.item.files);
                                     $scope.myDropzone.emit("complete", mockFile);
                                 }, 500)
                             } else {
@@ -68,26 +68,6 @@ function doclistSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                     });
                 }
             })
-    // $http.post($rootScope.project + "/api/hrm/hrmPositionType/selectList.do", {
-    // }).success(function (res) {
-    //     if (res.success) {
-    //         if(res.data.length>0){
-    //             $scope.typeOpt=res.data;
-    //             if(res.data.length>0){
-    //                 $scope.typeSel=$scope.typeOpt[0];
-    //             }
-    //             if (angular.isDefined(id)) {
-    //
-    //             } else {
-    //                 // 新增
-    //             }
-    //         }
-    //     } else {
-    //         notify({
-    //             message: res.message
-    //         });
-    //     }
-    // })
     $scope.dzconfig = {
         url: 'fileupload.do',
         maxFilesize: 10000,

@@ -76,6 +76,48 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
+    // 文档管理
+    $stateProvider.state('purchase', {
+        abstract: true,
+        url: "/purchase",
+        templateUrl: "views/common/content.html?v=" + version
+    }).state('purchase.company', {
+        url: "/purchase_company",
+        data: {pageTitle: '合同单位及联系人'},
+        templateUrl: "views/purchase/company.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/purchase/company.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('purchase.contractmgr', {
+        url: "/purchase_contractmgr",
+        data: {pageTitle: '合同'},
+        templateUrl: "views/purchase/contractmgr.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/purchase/contractmgr.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('purchase.purchaselist', {
+        url: "/purchase_purchaselist",
+        data: {pageTitle: '采购'},
+        templateUrl: "views/purchase/purchaselist.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/purchase/purchaselist.js?v=' + version]
+                }]);
+            }
+        }
+    })
     // 盘点管理
     $stateProvider.state('pandian', {
         abstract: true,
