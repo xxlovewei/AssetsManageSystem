@@ -12,7 +12,7 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         .withOption("searching", true).withOption('scrollY', 420)
         .withOption('scrollX', true).withOption('bAutoWidth', true)
         .withOption('scrollCollapse', true).withOption('paging', true)
-        .withOption('bStateSave', true).ithOption('bProcessing', true)
+        .withOption('bStateSave', true).withOption('bProcessing', true)
         .withOption('bFilter', false).withOption('bInfo', false)
         .withOption('serverSide', false).withOption('createdRow', function (row) {
             $compile(angular.element(row).contents())($scope);
