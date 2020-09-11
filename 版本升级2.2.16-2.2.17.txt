@@ -121,6 +121,22 @@ create table contract_entity_contacts
   update_time datetime     null
 );
 
+create table doc_mgr
+(
+  id          varchar(50)   not null
+    primary key,
+  name        varchar(100)  null,
+  type        varchar(100)  null,
+  ct          varchar(1000) null,
+  files       varchar(500)  null,
+  mark        varchar(100)  null,
+  dr          char          null,
+  create_by   varchar(50)   null,
+  update_by   varchar(50)   null,
+  create_time datetime      null,
+  update_time datetime      null
+);
+
 
 
 INSERT INTO sys_dict (`dict_id`, `name`, `dict_level`, `status`, `dr`, `mark`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES ('zcdoctype', '资产_文档类型', 'system', 'Y', '0', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL')
