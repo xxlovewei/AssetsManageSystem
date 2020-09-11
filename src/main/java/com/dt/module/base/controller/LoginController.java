@@ -41,6 +41,16 @@ public class LoginController extends BaseController {
     @Autowired
     ISysMenusService SysMenusServiceImpl;
 
+    @Acl(value = Acl.ACL_ALLOW, info = "版本")
+    @RequestMapping(value = "/user/queryVersion.do")
+    @ResponseBody
+    public R queryVersion() {
+        JSONObject res = new JSONObject();
+        res.put("version", "2.2.17");
+        res.put("msg", " 开源版本地址:https://gitee.com/lank/zcdevmgr");
+        return R.SUCCESS_OPER(res);
+    }
+
     /**
      * @Description: user, pwd, type, client必须部不为空
      */
@@ -91,6 +101,8 @@ public class LoginController extends BaseController {
         // 覆盖重要信息
         u.put("pwd", "********");
         r.put("user_info", u);
+        r.put("dtversion", "2.2.17");
+        r.put("dtmsg", " 开源版本地址:https://gitee.com/lank/zcdevmgr");
         // 菜单列表
         JSONArray systems = null;
         if (BaseCommon.isSuperAdmin(shiroUser.id)) {

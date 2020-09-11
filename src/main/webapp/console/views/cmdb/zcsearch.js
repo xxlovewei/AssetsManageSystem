@@ -1,6 +1,17 @@
 function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                           $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, $window) {
     // 分类
+    var printbtn = "<div class=\"btn-group\" role=\"group\">\n" +
+        "    <button type=\"button\" class=\"btn btn-sm btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
+        "      打印\n" +
+        "      <span class=\"caret\"></span>\n" +
+        "    </button>\n" +
+        "    <ul class=\"dropdown-menu\">\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"print('TK')\">下载二维码</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"print('LY')\">打印资产卡片</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"print('TK')\">打印资产标签</a></li>\n" +
+        "    </ul>\n" +
+        "  </div>";
     $scope.URL = $rootScope.project + "/api/base/res/queryPageResAll.do";
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withOption('ajax', {
@@ -97,6 +108,12 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 show: true,
                 priv: "export",
                 template: ' <button ng-click="exportfile()" class="btn btn-sm btn-primary" type="submit">导出</button>'
+            }, {
+                id: "btn8",
+                label: "",
+                type: "btn",
+                show: true,
+                template: printbtn
             }],
         tools: [{
             id: "select",
@@ -301,5 +318,8 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         });
     }
     flush();
+    $scope.print = function () {
+        alert("检测到当前环境不支持,请先后台配置");
+    }
 };
 app.register.controller('cmdbdevsearchCtl', cmdbdevsearchCtl);

@@ -109,6 +109,13 @@ app.service('userService', function ($http, $q, $log, $rootScope, $localStorage)
                         // 用户拥有的系统资源
                         $rootScope.dt_systems = res.data.systems;
                         $localStorage.put('dt_systems', res.data.systems);
+                        if (angular.isUndefined(res.data.dtmsg)) {
+                            $rootScope.dt_sys_user_info = {};
+                            $localStorage.put('dt_systems', []);
+                        } else {
+                            $rootScope.dt_msg = res.data.dtmsg;
+                            $localStorage.put('dt_msg', res.data.dtmsg);
+                        }
                         //初始化菜单,当前默认可能存在Id为1的系统,默认获取该资源
                         var menuid = "";
                         if (angular.isDefined(res.data.cur_system) && res.data.cur_system.length > 0) {

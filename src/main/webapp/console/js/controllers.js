@@ -3,6 +3,9 @@ var app = {}
 function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
                   userService, notify, $timeout) {
     // 修改主题
+    if (angular.isUndefined($rootScope.dt_msg)) {
+        $rootScope.dt_msg = $localStorage.get("dt_msg")
+    }
     var cur_theme = $localStorage.get("cur_theme");
     if (angular.isDefined(cur_theme)) {
         $scope.cur_skin = cur_theme;
@@ -127,9 +130,12 @@ function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
     if (angular.isUndefined($rootScope.zccolctlcommon)) {
         $rootScope.zccolctlcommon = $localStorage.get("zccolctlcommon")
     }
+
     //当前登陆用户数据
     if (angular.isUndefined($rootScope.dt_sys_user_info)) {
-        $rootScope.dt_sys_user_info = $localStorage.get("dt_sys_user_info")
+        if (angular.isDefined($rootScope.dt_msg)) {
+            $rootScope.dt_sys_user_info = $localStorage.get("dt_sys_user_info")
+        }
     }
     // 列举系统
     $scope.$watch(function () {
