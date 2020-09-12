@@ -7,462 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2adefd3-8a78-4725-ad0f-7bd0258726e0" name="Default Changelist" comment="常规更新操作">
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/App.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/common/classify.data.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/common/demo.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/common/http.api.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/common/http.interceptor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/common/index.list.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/common/locales/en.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/common/locales/zh.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/common/vue-i18n.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/components/page-nav/page-nav.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/i18n.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/avatar/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/avatarCropper/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/backTop/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/calendar/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/empty/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/field/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/form/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/fullScreen/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/icon/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/indexList/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/keyboard/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/lazyLoad/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/modal/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/navbar/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/noNetwork/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/parse/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/select/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/slider/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/tabs/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/tag/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/test/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/timeLine/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/toast/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/topTips/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/verificationCode/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/card/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/checkbox/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/divider/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/dropdown/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/image/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/line/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/loading/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/noticeBar/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/picker/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/radio/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/rate/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/readMore/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/search/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/skeleton/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/steps/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/sticky/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/swipeAction/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/swiper/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/switch/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/tabbar/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/table/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/upload/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/waterfall/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/actionSheet/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/alertTips/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/badge/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/button/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/cell/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/circleProgress/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/collapse/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/color/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/countDown/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/countTo/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/gap/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/grid/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/layout/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/link/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/loadmore/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/mask/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/messageInput/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/numberBox/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/popup/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/progress/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/section/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/subsection/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/test/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/example/components.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/example/components.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/example/js.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/example/js.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/example/template.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/example/template.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/color/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/colorSwitch/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/debounce/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/deepClone/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/deepMerge/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/getRect/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/globalVariable/globalData.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/globalVariable/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/globalVariable/prototype.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/globalVariable/vuex.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/guid/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/http/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/md5/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/mpShare/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/queryParams/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/random/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/randomArray/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/route/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/route/routeTo.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/test/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/timeFormat/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/timeFrom/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/library/trim/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/address/addSite.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/address/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/citySelect/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/citySelect/u-city-select.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/comment/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/comment/reply.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/coupon/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/douyin/index.nvue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/keyboardPay/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/login/code.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/login/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/mallMenu/index1.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/mallMenu/index2.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/order/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/submitBar/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/pages/template/wxCenter/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/common/js/touch-emulator.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/common/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/common/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/component.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/component_select.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/js.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/js_bak.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/js_select.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/js_select_bak.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/min_button.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/min_button_select.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/template.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/template_select.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/store/$u.mixin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/store/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/template.h5.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/.eslintignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/App.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/pages.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/pages/center/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/pages/index/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/center-selected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/center.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/index-selected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/index.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/template.h5.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uni.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-action-sheet/u-action-sheet.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-alert-tips/u-alert-tips.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-avatar-cropper/u-avatar-cropper.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-avatar-cropper/weCropper.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-avatar/u-avatar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-back-top/u-back-top.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-badge/u-badge.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-button/u-button.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-calendar/u-calendar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-car-keyboard/u-car-keyboard.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-card/u-card.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-cell-group/u-cell-group.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-cell-item/u-cell-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-checkbox-group/u-checkbox-group.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-checkbox/u-checkbox.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-circle-progress/u-circle-progress.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-col/u-col.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-collapse-item/u-collapse-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-collapse/u-collapse.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-column-notice/u-column-notice.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-count-down/u-count-down.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-count-to/u-count-to.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-divider/u-divider.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-dropdown-item/u-dropdown-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-dropdown/u-dropdown.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-empty/u-empty.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-field/u-field.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-form-item/u-form-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-form/u-form.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-full-screen/u-full-screen.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-gap/u-gap.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-grid-item/u-grid-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-grid/u-grid.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-icon/u-icon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-image/u-image.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-index-anchor/u-index-anchor.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-index-list/u-index-list.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-input/u-input.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-keyboard/u-keyboard.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-lazy-load/u-lazy-load.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-line-progress/u-line-progress.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-line/u-line.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-link/u-link.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-loading-page/u-loading-page.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-loading/u-loading.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-loadmore/u-loadmore.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-mask/u-mask.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-message-input/u-message-input.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-modal/u-modal.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-navbar/u-navbar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-no-network/u-no-network.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-notice-bar/u-notice-bar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-number-box/u-number-box.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-number-keyboard/u-number-keyboard.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/libs/CssHandler.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/libs/MpHtmlParser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/libs/config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/libs/handler.wxs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/libs/trees.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/u-parse.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-picker/u-picker.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-popup/u-popup.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-radio-group/u-radio-group.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-radio/u-radio.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-rate/u-rate.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-read-more/u-read-more.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-row-notice/u-row-notice.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-row/u-row.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-search/u-search.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-section/u-section.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-select/u-select.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-skeleton/u-skeleton.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-slider/u-slider.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-steps/u-steps.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-sticky/u-sticky.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-subsection/u-subsection.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-swipe-action/u-swipe-action.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-swiper/u-swiper.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-switch/u-switch.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-tabbar/u-tabbar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-table/u-table.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-tabs/u-tabs.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-tag/u-tag.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-td/u-td.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-th/u-th.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-time-line-item/u-time-line-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-time-line/u-time-line.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-toast/u-toast.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-top-tips/u-top-tips.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-tr/u-tr.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-upload/u-upload.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-verification-code/u-verification-code.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-waterfall/u-waterfall.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/iconfont.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/index.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/config/config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/config/zIndex.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/color.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/common.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/style.components.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/style.h5.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/style.mp.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/style.nvue.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/style.vue.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/$parent.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/addUnit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/bem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/color.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/colorGradient.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/debounce.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/deepClone.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/deepMerge.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/getParent.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/guid.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/md5.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/queryParams.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/random.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/randomArray.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/route.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/sys.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/throttle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/timeFormat.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/timeFrom.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/toast.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/trim.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/type2icon.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/mixin/mixin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/mixin/mpShare.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/request/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/store/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/util/area.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/util/async-validator.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/util/city.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/util/emitter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/util/province.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/theme.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uView_default/vue.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uni.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-action-sheet/u-action-sheet.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-alert-tips/u-alert-tips.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-avatar-cropper/u-avatar-cropper.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-avatar-cropper/weCropper.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-avatar/u-avatar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-back-top/u-back-top.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-badge/u-badge.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-button/u-button.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-calendar/u-calendar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-car-keyboard/u-car-keyboard.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-card/u-card.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-cell-group/u-cell-group.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-cell-item/u-cell-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-checkbox-group/u-checkbox-group.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-checkbox/u-checkbox.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-circle-progress/u-circle-progress.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-col/u-col.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-collapse-item/u-collapse-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-collapse/u-collapse.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-column-notice/u-column-notice.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-count-down/u-count-down.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-count-to/u-count-to.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-divider/u-divider.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-dropdown-item/u-dropdown-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-dropdown/u-dropdown.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-empty/u-empty.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-field/u-field.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-form-item/u-form-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-form/u-form.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-full-screen/u-full-screen.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-gap/u-gap.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-grid-item/u-grid-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-grid/u-grid.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-icon/u-icon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-image/u-image.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-index-anchor/u-index-anchor.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-index-list/u-index-list.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-input/u-input.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-keyboard/u-keyboard.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-lazy-load/u-lazy-load.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-line-progress/u-line-progress.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-line/u-line.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-link/u-link.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-loading-page/u-loading-page.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-loading/u-loading.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-loadmore/u-loadmore.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-mask/u-mask.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-message-input/u-message-input.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-modal/u-modal.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-navbar/u-navbar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-no-network/u-no-network.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-notice-bar/u-notice-bar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-number-box/u-number-box.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-number-keyboard/u-number-keyboard.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/libs/CssHandler.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/libs/MpHtmlParser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/libs/config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/libs/handler.wxs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/libs/trees.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/u-parse.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-picker/u-picker.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-popup/u-popup.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-radio-group/u-radio-group.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-radio/u-radio.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-rate/u-rate.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-read-more/u-read-more.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-row-notice/u-row-notice.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-row/u-row.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-search/u-search.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-section/u-section.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-select/u-select.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-skeleton/u-skeleton.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-slider/u-slider.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-steps/u-steps.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-sticky/u-sticky.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-subsection/u-subsection.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-swipe-action/u-swipe-action.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-swiper/u-swiper.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-switch/u-switch.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-tabbar/u-tabbar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-table/u-table.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-tabs/u-tabs.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-tag/u-tag.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-td/u-td.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-th/u-th.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-time-line-item/u-time-line-item.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-time-line/u-time-line.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-toast/u-toast.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-top-tips/u-top-tips.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-tr/u-tr.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-upload/u-upload.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-verification-code/u-verification-code.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-waterfall/u-waterfall.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/iconfont.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/index.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/config/config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/config/zIndex.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/color.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/common.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/style.components.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/style.h5.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/style.mp.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/style.nvue.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/style.vue.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/$parent.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/addUnit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/bem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/color.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/colorGradient.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/debounce.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/deepClone.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/deepMerge.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/getParent.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/guid.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/md5.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/queryParams.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/random.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/randomArray.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/route.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/sys.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/throttle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/timeFormat.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/timeFrom.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/toast.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/trim.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/type2icon.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/mixin/mixin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/mixin/mpShare.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/request/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/store/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/util/area.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/util/async-validator.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/util/city.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/util/emitter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/util/province.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/theme.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/vue.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/移动端/dtmgr/空白项目.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/移动端/dtmgr/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -992,14 +539,7 @@
       <workItem from="1599823612603" duration="2417000" />
       <workItem from="1599826162893" duration="2199000" />
       <workItem from="1599832381814" duration="1795000" />
-      <workItem from="1599873923911" duration="73000" />
-    </task>
-    <task id="LOCAL-00150" summary="常规更新操作">
-      <created>1596334373934</created>
-      <option name="number" value="00150" />
-      <option name="presentableId" value="LOCAL-00150" />
-      <option name="project" value="LOCAL" />
-      <updated>1596334373937</updated>
+      <workItem from="1599873923911" duration="147000" />
     </task>
     <task id="LOCAL-00151" summary="常规更新操作">
       <created>1596334390233</created>
@@ -1337,7 +877,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599833800135</updated>
     </task>
-    <option name="localTasksCounter" value="199" />
+    <task id="LOCAL-00199" summary="常规更新操作">
+      <created>1599874038421</created>
+      <option name="number" value="00199" />
+      <option name="presentableId" value="LOCAL-00199" />
+      <option name="project" value="LOCAL" />
+      <updated>1599874038423</updated>
+    </task>
+    <option name="localTasksCounter" value="200" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1432,13 +979,13 @@
       <screen x="45" y="23" width="1235" height="777" />
     </state>
     <state x="353" y="262" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/45.23.1235.777@45.23.1235.777" timestamp="1592522940651" />
-    <state x="182" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1599833799353">
+    <state x="182" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1599874035997">
       <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state x="187" y="23" width="833" height="777" key="CommitChangelistDialog2/37.23.1243.777@37.23.1243.777" timestamp="1599453774111" />
     <state x="39" y="23" width="924" height="777" key="CommitChangelistDialog2/39.23.1241.777@39.23.1241.777" timestamp="1593361230010" />
     <state x="192" y="70" width="761" height="592" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1599352510370" />
-    <state x="182" y="23" width="833" height="777" key="CommitChangelistDialog2/44.23.1236.777@44.23.1236.777" timestamp="1599833799353" />
+    <state x="182" y="23" width="833" height="777" key="CommitChangelistDialog2/44.23.1236.777@44.23.1236.777" timestamp="1599874035997" />
     <state x="125" y="23" width="833" height="731" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1599815386646" />
     <state x="428" y="23" key="CommitChangelistDialog2/45.23.1635.1027@45.23.1635.1027" timestamp="1594547269947" />
     <state x="126" y="23" width="833" height="777" key="CommitChangelistDialog2/46.23.1234.777@46.23.1234.777" timestamp="1598068023900" />
@@ -1643,12 +1190,12 @@
     <state x="81" y="23" key="SettingsEditor/43.23.1237.777@43.23.1237.777" timestamp="1599529235325" />
     <state x="187" y="23" key="SettingsEditor/45.23.1235.777@45.23.1235.777" timestamp="1597364352917" />
     <state x="121" y="23" key="SettingsEditor/46.23.1234.777@46.23.1234.777" timestamp="1598000629403" />
-    <state x="277" y="131" key="Vcs.Push.Dialog.v2" timestamp="1599833817606">
+    <state x="277" y="131" key="Vcs.Push.Dialog.v2" timestamp="1599874044062">
       <screen x="44" y="23" width="1236" height="777" />
     </state>
     <state x="271" y="131" key="Vcs.Push.Dialog.v2/37.23.1243.777@37.23.1243.777" timestamp="1599453798969" />
     <state x="276" y="131" key="Vcs.Push.Dialog.v2/43.23.1237.777@43.23.1237.777" timestamp="1599212081344" />
-    <state x="277" y="131" key="Vcs.Push.Dialog.v2/44.23.1236.777@44.23.1236.777" timestamp="1599833817606" />
+    <state x="277" y="131" key="Vcs.Push.Dialog.v2/44.23.1236.777@44.23.1236.777" timestamp="1599874044062" />
     <state x="278" y="131" key="Vcs.Push.Dialog.v2/45.23.1235.777@45.23.1235.777" timestamp="1599815574761" />
     <state x="279" y="131" key="Vcs.Push.Dialog.v2/46.23.1234.777@46.23.1234.777" timestamp="1598059394570" />
     <state x="280" y="131" key="Vcs.Push.Dialog.v2/47.23.1233.777@47.23.1233.777" timestamp="1597973851680" />
