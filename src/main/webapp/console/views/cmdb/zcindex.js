@@ -73,7 +73,7 @@ function zcindexCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 var part_ticks = res.data.part_chart_meta;
                 var part_data = res.data.part_chart_data;
                 var part_dataset = [{
-                    label: "部门资产统计",
+                    label: "资产统计",
                     data: part_data,
                     color: "#5482FF"
                 }];

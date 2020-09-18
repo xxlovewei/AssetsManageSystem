@@ -1,7 +1,27 @@
 var app = {}
 
-function MainCtrl($log, $http, $scope, $rootScope, $state, $localStorage,
+function MainCtrl($translate, $log, $http, $scope, $rootScope, $state, $localStorage,
                   userService, notify, $timeout) {
+    $rootScope.BELONGCOMP = $translate.instant('BELONGCOMP');
+    $rootScope.BELONGCOMP_B = $translate.instant('BELONGCOMP_B');
+    $rootScope.BELONGCOMP_A = $translate.instant('BELONGCOMP_A');
+    $rootScope.BELONGCOMP_OUT = $translate.instant('BELONGCOMP_OUT');
+    $rootScope.BELONGCOMP_IN = $translate.instant('BELONGCOMP_IN');
+    $rootScope.USEDCOMP = $translate.instant('USEDCOMP');
+    $rootScope.USEDCOMP_B = $translate.instant('USEDCOMP_B');
+    $rootScope.USEDCOMP_A = $translate.instant('USEDCOMP_A');
+    $rootScope.USEDCOMP_IN = $translate.instant('USEDCOMP_IN');
+    $rootScope.USEDCOMP_LYTK = $translate.instant('USEDCOMP_LYTK');
+    $rootScope.USEDCOMP_LY = $translate.instant('USEDCOMP_LY');
+    $rootScope.USEDCOMP_TK = $translate.instant('USEDCOMP_TK');
+    $rootScope.COMP_DC = $translate.instant('COMP_DC');
+    $rootScope.COMP_DL = $translate.instant('COMP_DL');
+    $rootScope.USEDPART = $translate.instant('USEDPART');
+    $rootScope.USEDPART_B = $translate.instant('USEDPART_B');
+    $rootScope.USEDPART_A = $translate.instant('USEDPART_A');
+    $rootScope.USEDPART_IN = $translate.instant('USEDPART_IN');
+    $rootScope.USEDPART_LYTK = $translate.instant('USEDPART_LYTK');
+    $rootScope.USEDUSER = $translate.instant('USEDUSER');
     // 修改主题
     if (angular.isUndefined($rootScope.dt_msg)) {
         $rootScope.dt_msg = $localStorage.get("dt_msg")

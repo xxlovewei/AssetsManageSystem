@@ -106,9 +106,9 @@ function zclylistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderZcReturn),
         DTColumnBuilder.newColumn('returnuuid').withTitle('退库编号').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tcompfullname').withTitle('使用公司(变更后)').withOption(
+        DTColumnBuilder.newColumn('tcompfullname').withTitle($rootScope.USEDCOMP_A).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tpartfullame').withTitle('使用部门(变更后)').withOption(
+        DTColumnBuilder.newColumn('tpartfullame').withTitle($rootScope.USEDPART_A).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tusedusername').withTitle('使用人(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
@@ -116,9 +116,9 @@ function zclylistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tlocdtl').withTitle('位置(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('fcompfullname').withTitle('使用公司(变更前)').withOption(
+        DTColumnBuilder.newColumn('fcompfullname').withTitle($rootScope.USEDCOMP_B).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('fpartfullame').withTitle('使用部门(变更前)').withOption(
+        DTColumnBuilder.newColumn('fpartfullame').withTitle($rootScope.USEDPART_B).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
         DTColumnBuilder.newColumn('fusedusername').withTitle('使用人(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
@@ -233,9 +233,9 @@ function zctklistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle),
         DTColumnBuilder.newColumn('rreturndatestr').withTitle('实际退库时间').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tcompfullname').withTitle('使用公司(变更后)').withOption(
+        DTColumnBuilder.newColumn('tcompfullname').withTitle($rootScope.USEDCOMP_A).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tpartfullame').withTitle('使用部门(变更后)').withOption(
+        DTColumnBuilder.newColumn('tpartfullame').withTitle($rootScope.USEDPART_A).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tusedusername').withTitle('使用人(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
@@ -243,9 +243,9 @@ function zctklistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tlocdtl').withTitle('位置(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('fcompfullname').withTitle('使用公司(变更前)').withOption(
+        DTColumnBuilder.newColumn('fcompfullname').withTitle($rootScope.USEDCOMP_B).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('fpartfullame').withTitle('使用部门(变更前)').withOption(
+        DTColumnBuilder.newColumn('fpartfullame').withTitle($rootScope.USEDPART_B).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
         DTColumnBuilder.newColumn('fusedusername').withTitle('使用人(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
@@ -419,9 +419,9 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('rreturndatestr').withTitle('实际退库时间').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tcompfullname').withTitle('领用/退库后使用公司').withOption(
+        DTColumnBuilder.newColumn('tcompfullname').withTitle($rootScope.USEDCOMP_LYTK).withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tpartname').withTitle('领用/退库后使用部门').withOption(
+        DTColumnBuilder.newColumn('tpartname').withTitle($rootScope.USEDPART_LYTK).withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tlocstr').withTitle('领用/退库后区域').withOption(
             'sDefaultContent', ''),

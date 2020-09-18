@@ -130,9 +130,9 @@ function cgcwlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle));
     DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
         'sDefaultContent', '').withOption('width', '50'),
-        dtColumns.push(DTColumnBuilder.newColumn('fbelongcompfullname').withTitle('所属公司(变更前)').withOption(
+        dtColumns.push(DTColumnBuilder.newColumn('fbelongcompfullname').withTitle($rootScope.BELONGCOMP_B).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
-    dtColumns.push(DTColumnBuilder.newColumn('tbelongcompfullname').withTitle('所属公司(变更后)').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('tbelongcompfullname').withTitle($rootScope.BELONGCOMP_A).withOption(
         'sDefaultContent', '').renderWith(renderbcomp));
     dtColumns.push(DTColumnBuilder.newColumn('fbuyprice').withTitle('采购单价(变更前)')
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
@@ -150,9 +150,9 @@ function cgcwlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('tresidualvalue').withTitle('设置残值(变更后)')
         .withOption('sDefaultContent', '').renderWith(renderesidualvalue));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle($rootScope.USEDPART).withOption(
         'sDefaultContent', ''));
     $scope.dtColumns = dtColumns;
 
@@ -303,7 +303,7 @@ function zccgcwCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(renderprocess),
         DTColumnBuilder.newColumn('processusername').withTitle('处理人').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tbelongcompfullname').withTitle('所属公司').withOption(
+        DTColumnBuilder.newColumn('tbelongcompfullname').withTitle($rootScope.BELONGCOMP).withOption(
             'sDefaultContent', '').renderWith(renderbcomp),
         DTColumnBuilder.newColumn('tbuyprice').withTitle('采购单价').withOption(
             'sDefaultContent', '').renderWith(renderbuyprice),

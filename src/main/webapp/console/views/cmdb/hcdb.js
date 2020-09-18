@@ -252,7 +252,7 @@ function modalhcdbCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('batchno').withTitle('批次号').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').withOption('width', '30'));
@@ -467,19 +467,19 @@ function zcHcDbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     }));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('cnt').withTitle('数量').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('outbelongcompname').withTitle('出库所属公司')
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('outbelongcompname').withTitle($rootScope.BELONGCOMP_OUT)
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('outlocstr').withTitle('出库区域')
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('outwarehousestr').withTitle('出库仓库')
         .withOption('sDefaultContent', ''));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('inbelongcompname').withTitle('进库所属公司')
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('inbelongcompname').withTitle($rootScope.BELONGCOMP_IN)
         .withOption('sDefaultContent', ''));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('inlocstr').withTitle('进库区域')
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('inlocstr').withTitle('入库区域')
         .withOption('sDefaultContent', ''));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('inwarehousestr').withTitle('进库仓库')
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('inwarehousestr').withTitle('入库仓库')
         .withOption('sDefaultContent', ''));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('inusername').withTitle('进库使用人')
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('inusername').withTitle('入库使用人')
         .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('operusername').withTitle('制单人')
         .withOption('sDefaultContent', ''));

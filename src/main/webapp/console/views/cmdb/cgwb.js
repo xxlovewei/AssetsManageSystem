@@ -147,9 +147,9 @@ function cgwblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').renderWith(renderDTFontColorGreenH));
     dtColumns.push(DTColumnBuilder.newColumn('twbct').withTitle('维保说明(变更后)').withOption(
         'sDefaultContent', '').renderWith(renderwbct));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle($rootScope.USEDPART).withOption(
         'sDefaultContent', ''));
     $scope.dtColumns = dtColumns;
 

@@ -3291,13 +3291,13 @@ function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle($rootScope.USEDPART).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle($rootScope.USEDUSER).withOption(
         'sDefaultContent', ''));
     $scope.dtColumns = dtColumns;
     $scope.dtOptions.aaData = [];
@@ -3543,13 +3543,13 @@ function zccgcwSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle($rootScope.USEDPART).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle($rootScope.USEDUSER).withOption(
         'sDefaultContent', ''));
     $scope.dtColumns = dtColumns;
     $scope.dtOptions.aaData = [];
@@ -3853,13 +3853,13 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('part_fullname').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_fullname').withTitle($rootScope.USEDPART).withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
-    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle($rootScope.USEDUSER).withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
     dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
@@ -4211,13 +4211,13 @@ function loanSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle($rootScope.USEDPART).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle($rootScope.USEDUSER).withOption(
         'sDefaultContent', ''));
     $scope.dtColumns = dtColumns;
     $scope.dtOptions.aaData = [];
@@ -4391,13 +4391,13 @@ function collectionSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle($rootScope.USEDUSER).withOption(
         'sDefaultContent', ''));
     $scope.dtColumns = dtColumns;
     $scope.dtOptions.aaData = [];
@@ -4570,13 +4570,13 @@ function tkSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle($rootScope.USEDPART).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle($rootScope.USEDPART).withOption(
         'sDefaultContent', ''));
     $scope.dtColumns = dtColumns;
     $scope.dtOptions.aaData = [];
@@ -4740,7 +4740,7 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
         mdata.datarange = "DB";
         if (angular.isUndefined($scope.outcompSel.id)) {
             notify({
-                message: "请选择调出公司"
+                message: "请选择调出组织"
             });
             return;
         }
@@ -4827,13 +4827,13 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
         }
         if (angular.isUndefined($scope.outcompSel.id)) {
             notify({
-                message: "请选择调出公司"
+                message: "请选择调出组织"
             });
             return
         }
         if (angular.isUndefined($scope.incompSel.id)) {
             notify({
-                message: "请选择调入公司"
+                message: "请选择调入组织"
             });
             return
         }

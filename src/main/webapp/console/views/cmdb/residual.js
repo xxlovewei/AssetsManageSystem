@@ -151,11 +151,11 @@ function residualitemlistCtl($confirm, $timeout, $localStorage, notify, $log, $u
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push(DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle($rootScope.USEDPART).withOption(
         'sDefaultContent', ''));
     $scope.dtColumns = dtColumns;
 
@@ -292,13 +292,13 @@ function zcresidualSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', '').withOption('width', '30'));
     dtColumns.push(DTColumnBuilder.newColumn('fs20').withTitle('其他编号').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_name').withTitle($rootScope.USEDPART).withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle($rootScope.USEDUSER).withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('buy_timestr').withTitle('采购时间')
         .withOption('sDefaultContent', ''));

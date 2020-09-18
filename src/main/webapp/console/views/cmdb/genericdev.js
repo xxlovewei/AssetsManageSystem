@@ -978,7 +978,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         items.push({
             type: "select",
             disabled: zcbelongcomp,
-            label: "所属公司",
+            label: $rootScope.BELONGCOMP,
             need: true,
             disable_search: "false",
             dataOpt: "belongcompOpt",
@@ -987,7 +987,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         items.push({
             type: "select",
             disabled: zccomp,
-            label: "使用公司",
+            label: $rootScope.USEDCOMP,
             need: true,
             disable_search: "false",
             dataOpt: "compOpt",
@@ -996,7 +996,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         items.push({
             type: "select",
             disabled: zcpart,
-            label: "使用部门",
+            label: $rootScope.USEDPART,
             need: false,
             disable_search: "false",
             dataOpt: "partOpt",
@@ -1005,7 +1005,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         items.push({
             type: "select",
             disabled: zcuseduser,
-            label: "使用人",
+            label: $rootScope.USEDUSER,
             need: false,
             disable_search: "false",
             dataOpt: "usedunameOpt",

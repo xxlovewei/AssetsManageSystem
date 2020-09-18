@@ -372,13 +372,13 @@ function zccolctlCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log
         .withOption('sDefaultContent', '').renderWith(renderColParse));
     dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
         'sDefaultContent', '').renderWith(renderColParse));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', '').renderWith(renderColParse));
-    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle('使用公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', '').renderWith(renderColParse));
-    dtColumns.push(DTColumnBuilder.newColumn('part_fullname').withTitle('使用部门').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('part_fullname').withTitle($rootScope.USEDPART).withOption(
         'sDefaultContent', '').renderWith(renderColParse));
-    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle('使用人').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('used_username').withTitle($rootScope.USEDUSER).withOption(
         'sDefaultContent', '').renderWith(renderColParse));
     dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').renderWith(renderColParse));
@@ -410,8 +410,8 @@ function zccolctlCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log
         'sDefaultContent', '').renderWith(renderColParse));
     dtColumns.push(DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
         .withOption('sDefaultContent', '').renderWith(renderColParse));
-    dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
-        'sDefaultContent', '').withOption("width", '30').renderWith(renderColParse));
+    // dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
+    //     'sDefaultContent', '').withOption("width", '30').renderWith(renderColParse));
     $scope.dtColumns = dtColumns;
     $scope.query = function () {
         flush();

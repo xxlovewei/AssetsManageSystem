@@ -416,9 +416,7 @@ function contractCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', ''),
         // DTColumnBuilder.newColumn('stratedesc').withTitle('已完成金额').withOption(
         //     'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('belongcompname').withTitle('所属公司').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('belongpartname').withTitle('所属部门').withOption(
+        DTColumnBuilder.newColumn('belongcompname').withTitle($rootScope.BELONGCOMP).withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('effectivedate').withTitle('生效日期').withOption(
             'sDefaultContent', ''),

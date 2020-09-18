@@ -109,7 +109,7 @@ function purchasecompCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 })
         } else {
             notify({
-                message: "请先选择公司"
+                message: "请先选择组织"
             });
         }
     }

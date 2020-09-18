@@ -319,13 +319,13 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tconfdesc').withTitle('配置描述(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderconfdesc),
-        DTColumnBuilder.newColumn('fusedcompanyname').withTitle('使用公司(变更前)').withOption(
+        DTColumnBuilder.newColumn('fusedcompanyname').withTitle($rootScope.USEDCOMP_B).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tusedcompanyname').withTitle('使用公司(变更后)').withOption(
+        DTColumnBuilder.newColumn('tusedcompanyname').withTitle($rootScope.USEDCOMP_A).withOption(
             'sDefaultContent', '').renderWith(rendercomp),
-        DTColumnBuilder.newColumn('fpartname').withTitle('使用部门(变更前)').withOption(
+        DTColumnBuilder.newColumn('fpartname').withTitle($rootScope.USEDPART_B).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tpartname').withTitle('使用部门(变更后)').withOption(
+        DTColumnBuilder.newColumn('tpartname').withTitle($rootScope.USEDPART_A).withOption(
             'sDefaultContent', '').renderWith(renderpart),
         DTColumnBuilder.newColumn('fusedusername').withTitle('使用人(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
@@ -510,11 +510,11 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(rendercbuytime),
         DTColumnBuilder.newColumn('tconfdesc').withTitle('配置描述').withOption(
             'sDefaultContent', '').renderWith(renderconfdesc),
-        DTColumnBuilder.newColumn('tusedcompanyname').withTitle('使用公司').withOption(
+        DTColumnBuilder.newColumn('tusedcompanyname').withTitle($rootScope.USEDCOMP).withOption(
             'sDefaultContent', '').renderWith(rendercomp),
-        DTColumnBuilder.newColumn('tpartname').withTitle('使用部门').withOption(
+        DTColumnBuilder.newColumn('tpartname').withTitle($rootScope.USEDPART).withOption(
             'sDefaultContent', '').renderWith(renderpart),
-        DTColumnBuilder.newColumn('tusedusername').withTitle('使用人').withOption(
+        DTColumnBuilder.newColumn('tusedusername').withTitle($rootScope.USEDUSER).withOption(
             'sDefaultContent', '').renderWith(renderuser),
         DTColumnBuilder.newColumn('tlabel1').withTitle('标签1').withOption(
             'sDefaultContent', '').renderWith(renderfs1),

@@ -625,7 +625,7 @@ function zcHcCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                     items.push({
                         type: "select",
                         disabled: "false",
-                        label: "使用公司",
+                        label: $rootScope.USEDCOMP,
                         need: true,
                         disable_search: "false",
                         dataOpt: "compOpt",

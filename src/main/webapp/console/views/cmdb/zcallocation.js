@@ -79,9 +79,9 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             'sDefaultContent', '').renderWith(renderStatus),
         DTColumnBuilder.newColumn('allocateusername').withTitle('调入管理员').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('fcompname').withTitle('调出公司').withOption(
+        DTColumnBuilder.newColumn('fcompname').withTitle($rootScope.COMP_DC).withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tousedcompname').withTitle('调入公司').withOption(
+        DTColumnBuilder.newColumn('tousedcompname').withTitle($rootScope.COMP_DL).withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tolocname').withTitle('调入区域').withOption(
             'sDefaultContent', ''),

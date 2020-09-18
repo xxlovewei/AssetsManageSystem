@@ -1,8 +1,10 @@
-function hrmOrgPartCtl($confirm, $log, notify, $scope, $http, $rootScope,
+function hrmOrgPartCtl($translate, $confirm, $log, notify, $scope, $http, $rootScope,
                        $uibModal) {
     $scope.topMenuOpt = []
     $scope.topMenuSel = "";
-    $scope.typeOpt = [{id: "comp", name: "公司"}, {id: "part", name: "部门"}];
+    var comp = $translate.instant("DICT_COMP");
+    var part = $translate.instant("DICT_PART");
+    $scope.typeOpt = [{id: "comp", name: comp}, {id: "part", name: part}];
     $scope.typeSel = $scope.typeOpt[0];
     $scope.item = {};
     var org_id = "";

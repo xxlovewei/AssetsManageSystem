@@ -621,9 +621,9 @@ function zcPdCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('syncstatus').withTitle('数据同步').withOption(
             'sDefaultContent', '').renderWith(renderDataStatus),
-        DTColumnBuilder.newColumn('belongcompname').withTitle('所属公司').withOption(
+        DTColumnBuilder.newColumn('belongcompname').withTitle($rootScope.BELONGCOMP).withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('usedcompname').withTitle('使用公司').withOption(
+        DTColumnBuilder.newColumn('usedcompname').withTitle($rootScope.USEDCOMP).withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
             'sDefaultContent', ''),
