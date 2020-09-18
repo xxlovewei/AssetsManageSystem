@@ -889,7 +889,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             dataOpt: "pinpOpt",
             dataSel: "pinpSel"
         });
-
         items.push({
             type: "select",
             disabled: zcuselife,
@@ -899,18 +898,18 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             dataOpt: "uselifeOpt",
             dataSel: "uselifeSel"
         });
-        items.push({
-            type: "input",
-            disabled: zccnt,
-            sub_type: "number",
-            required: false,
-            maxlength: "50",
-            placeholder: "",
-            label: "数量",
-            need: false,
-            name: 'zc_cnt',
-            ng_model: "zc_cnt"
-        });
+        // items.push({
+        //     type: "input",
+        //     disabled: zccnt,
+        //     sub_type: "number",
+        //     required: false,
+        //     maxlength: "50",
+        //     placeholder: "",
+        //     label: "数量",
+        //     need: false,
+        //     name: 'zc_cnt',
+        //     ng_model: "zc_cnt"
+        // });
         items.push({
             type: "input",
             disabled: zcunit,

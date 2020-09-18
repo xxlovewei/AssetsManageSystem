@@ -1007,8 +1007,8 @@ function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
             return ""
         }));
     }
-    dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
-        'sDefaultContent', '').withOption("width", '30'));
+    // dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
+    //     'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
@@ -1138,11 +1138,12 @@ function zcBaseColsCreate(DTColumnBuilder, selectype, colctl) {
         dtColumns.push(DTColumnBuilder.newColumn('unit').withTitle('计量单位').withOption(
             'sDefaultContent', ''));
     }
-    if (angular.isDefined(colctlobj.zc_cnt) && colctlobj.zc_cnt == "N") {
-    } else {
-        dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
-            .withOption('sDefaultContent', ''));
-    }
+    // if (angular.isDefined(colctlobj.zc_cnt) && colctlobj.zc_cnt == "N") {
+    // } else {
+    //     dtColumns.push(DTColumnBuilder.newColumn('zc_cnt').withTitle('数量')
+    //         .withOption('sDefaultContent', ''));
+    // }
+    //
     if (angular.isDefined(colctlobj.confdesc) && colctlobj.confdesc == "N") {
     } else {
         dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
@@ -1152,6 +1153,7 @@ function zcBaseColsCreate(DTColumnBuilder, selectype, colctl) {
     } else {
         dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
+
     }
     if (angular.isDefined(colctlobj.comp_name) && colctlobj.comp_name == "N") {
     } else {
@@ -1243,11 +1245,11 @@ function zcBaseColsCreate(DTColumnBuilder, selectype, colctl) {
         dtColumns.push(DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
             .withOption('sDefaultContent', ''));
     }
-    if (angular.isDefined(colctlobj.classrootname) && colctlobj.classrootname == "N") {
-    } else {
-        dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
-            'sDefaultContent', '').withOption("width", '30'));
-    }
+    // if (angular.isDefined(colctlobj.classrootname) && colctlobj.classrootname == "N") {
+    // } else {
+    //     dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
+    //         'sDefaultContent', '').withOption("width", '30'));
+    // }
     return dtColumns;
 }
 
@@ -3875,8 +3877,8 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
         .withOption('sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
-        'sDefaultContent', '').withOption("width", '30'));
+    // dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
+    //     'sDefaultContent', '').withOption("width", '30'));
     $scope.dtColumns = dtColumns;
     $scope.dtOptions.aaData = [];
     $scope.sure = function () {

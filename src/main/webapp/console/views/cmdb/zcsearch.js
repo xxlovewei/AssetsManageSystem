@@ -7,7 +7,8 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         "      <span class=\"caret\"></span>\n" +
         "    </button>\n" +
         "    <ul class=\"dropdown-menu\">\n" +
-        "      <li><a href=\"javascript:void(0)\" ng-click=\"print('TK')\">下载二维码</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"print('rwm')\">下载二维码</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"print('txm')\">下载条形码</a></li>\n" +
         "      <li><a href=\"javascript:void(0)\" ng-click=\"print('LY')\">打印资产卡片</a></li>\n" +
         "      <li><a href=\"javascript:void(0)\" ng-click=\"print('TK')\">打印资产标签</a></li>\n" +
         "    </ul>\n" +
@@ -318,8 +319,69 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         });
     }
     flush();
-    $scope.print = function () {
-        alert("检测到当前环境不支持,请先后台配置");
+
+    function getSelectRowsUUID() {
+        var data = $scope.dtInstance.DataTable.rows({
+            selected: true
+        })[0];
+        if (data.length == 0) {
+            notify({
+                message: "请至少选择一项"
+            });
+            return;
+        } else if (data.length > 1000) {
+            notify({
+                message: "不允许超过1000个"
+            });
+            return;
+        } else {
+            var res = [];
+            var d = $scope.dtInstance.DataTable.context[0].json.data;
+            for (var i = 0; i < data.length; i++) {
+                res.push(d[data[i]].uuid)
+            }
+            return angular.toJson(res);
+        }
+    }
+
+    function downloadFile(file) {
+        var a = document.createElement('a');
+        a.id = 'tempId';
+        document.body.appendChild(a);
+        a.download = "rwm-" + moment().format('L') + '.zip';
+        a.href = URL.createObjectURL(file);
+        a.click();
+        const tempA = document.getElementById('tempId');
+        if (tempA) {
+            tempA.parentNode.removeChild(tempA);
+        }
+    }
+
+    $scope.print = function (type) {
+        var selrows = getSelectRowsUUID();
+        if (angular.isDefined(selrows)) {
+            var ps = {}
+            ps.data = selrows;
+            if (type == "rwm" || type == "txm") {
+                $http.post($rootScope.project + "/api/zc/downloadZcImage.do", {
+                    data: selrows,
+                    type: type
+                }, {
+                    responseType: 'arraybuffer'
+                }).success(function (data) {
+                    var blob = new Blob([data], {
+                        type: "application/vnd.ms-excel"
+                    });
+                    downloadFile(blob);
+                })
+            } else {
+                notify({
+                    message: "请先后台配置"
+                });
+            }
+        } else {
+            return;
+        }
     }
 };
 app.register.controller('cmdbdevsearchCtl', cmdbdevsearchCtl);

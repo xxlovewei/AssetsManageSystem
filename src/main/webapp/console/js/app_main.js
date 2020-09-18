@@ -76,10 +76,36 @@ app.factory('sessionInjector', [
         return sessionInjector;
     }]);
 
-function config_main(cfpLoadingBarProvider, $locationProvider,
+function config_main($translateProvider, cfpLoadingBarProvider, $locationProvider,
                      $controllerProvider, $compileProvider, $stateProvider, $filterProvider,
                      $provide, $urlRouterProvider, $ocLazyLoadProvider, IdleProvider,
                      KeepaliveProvider, $httpProvider) {
+    //国际
+    //{{ 'BELONGCOMP' | translate }}
+    //var BELONGCOMP = $translate.instant('BELONGCOMP');
+    $translateProvider
+        .translations(
+            'zh',
+            {
+                // Define all menu elements
+                BELONGCOMP: '所属公司',
+                BELONGCOMP_B: '所属公司(变更前)',
+                BELONGCOMP_A: '所属公司(变更后)',
+                BELONGCOMP_OUT: '出库所属公司',
+                BELONGCOMP_IN: '入库所属公司',
+                USEDCOMP: '使用公司',
+                USEDCOMP_B: '使用公司(变更前)',
+                USEDCOM_A: '使用公司(变更后)',
+                USEDCOMP_IN: '入库使用公司',
+                USEDCOMP_LYTK: '领用/退库后使用公司',
+                USEDCOMP_LY: '领用后使用公司',
+                USEDCOMP_TK: '退库后使用公司',
+                USEDPART: "使用部门",
+                DICT_COMP: "公司",
+                DICT_PART: "部门",
+                END: 'ee'
+            });
+    $translateProvider.preferredLanguage('zh');
     // 圈圈延迟出现控制
     console.log("App main config");
     cfpLoadingBarProvider.latencyThreshold = 1500;

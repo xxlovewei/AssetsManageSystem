@@ -1,4 +1,4 @@
-function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $timeout,
+function genericzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $timeout,
                         $log, notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
     var pbtns = $rootScope.curMemuBtns;
     var gclassroot = '3';
@@ -505,7 +505,6 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
             dataOpt: "zcsourceOpt",
             dataSel: "zcsourceSel"
         });
-
         items.push({
             type: "select",
             disabled: zcuselife,
@@ -515,18 +514,18 @@ function genericzcdjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $
             dataOpt: "uselifeOpt",
             dataSel: "uselifeSel"
         });
-        items.push({
-            type: "input",
-            disabled: zccnt,
-            sub_type: "number",
-            required: false,
-            maxlength: "50",
-            placeholder: "",
-            label: "数量",
-            need: false,
-            name: 'zc_cnt',
-            ng_model: "zc_cnt"
-        });
+        // items.push({
+        //     type: "input",
+        //     disabled: zccnt,
+        //     sub_type: "number",
+        //     required: false,
+        //     maxlength: "50",
+        //     placeholder: "",
+        //     label: "数量",
+        //     need: false,
+        //     name: 'zc_cnt',
+        //     ng_model: "zc_cnt"
+        // });
         items.push({
             type: "input",
             disabled: zcunit,
