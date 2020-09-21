@@ -1,7 +1,7 @@
 package com.dt.module.zc.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.dt.module.zc.entity.ResCBasicinformationItem;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.dt.module.zc.entity.ResCBasicinformationItem;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-16
+ * @since 2020-09-21
  */
 public interface IResCBasicinformationItemService extends IService<ResCBasicinformationItem> {
 

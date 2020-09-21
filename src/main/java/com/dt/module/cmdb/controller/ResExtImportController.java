@@ -39,12 +39,12 @@ public class ResExtImportController extends BaseController {
     @RequestMapping("/importResData.do")
     @Acl(value = Acl.ACL_USER)
     @ResponseBody
-    public R importResData(String type, String id, HttpServletRequest request, HttpServletResponse response)
+    public R importResData(String category, String type, String id, HttpServletRequest request, HttpServletResponse response)
             throws UnsupportedEncodingException {
         SysFiles fileobj = SysFilesServiceImpl.getById(id);
         String fileurl = fileobj.getPath();
         String filePath = FileUpDownController.getWebRootDir() + ".." + File.separatorChar + fileurl;
-        return resImportService.importResNormal(filePath, type);
+        return resImportService.importResNormal(filePath, type, category);
 
     }
 

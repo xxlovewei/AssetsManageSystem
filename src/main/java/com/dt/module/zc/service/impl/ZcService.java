@@ -405,6 +405,7 @@ public class ZcService extends BaseService {
     // 根据ClassId获取数据,优先判断multiclassroot,在获取class_id
     public R queryResAllGetData(String belongcomp, String comp, String part, String datarange, String classroot, String class_id, String wb, String env, String recycle, String loc, String search, TypedHashMap<String, Object> ps) {
         String sql = this.buildQueryResAllGetdatalSql(belongcomp, comp, part, datarange, classroot, class_id, wb, env, recycle, loc, search, ps);
+        System.out.println(sql);
         RcdSet rs2 = db.query(sql);
         return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
     }
@@ -643,6 +644,10 @@ public class ZcService extends BaseService {
             me.setIf("unit", ps.getString("unit"));
             me.setIf("isscrap", ps.getString("isscrap"));
 
+            //生产日期
+            me.setIf("fd1", ps.getString("fd1str") == null ? null : ps.getString("fd1str") + " 00:00:00");
+
+
             sql = me.getSQL();
         } else {
             Update me = new Update("res");
@@ -700,6 +705,8 @@ public class ZcService extends BaseService {
             me.setIf("batchno", ps.getString("batchno"));
             me.setIf("usefullife", ps.getString("usefullife"));
             me.setIf("unit", ps.getString("unit"));
+
+            me.setIf("fd1", ps.getString("fd1str") == null ? null : ps.getString("fd1str") + " 00:00:00");
             me.where().and("id=?", id);
             sql = me.getSQL();
 

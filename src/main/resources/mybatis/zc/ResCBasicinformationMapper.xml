@@ -50,6 +50,13 @@
         <result column="tunitstatus" property="tunitstatus"/>
         <result column="tconfdescstatus" property="tconfdescstatus"/>
         <result column="tlocdtlstatus" property="tlocdtlstatus"/>
+        <result column="pinst" property="pinst"/>
+        <result column="tfs20" property="tfs20"/>
+        <result column="tfd1" property="tfd1"/>
+        <result column="tmark" property="tmark"/>
+        <result column="tfs20status" property="tfs20status"/>
+        <result column="tfd1status" property="tfd1status"/>
+        <result column="tmarkstatus" property="tmarkstatus"/>
     </resultMap>
 
 </mapper>

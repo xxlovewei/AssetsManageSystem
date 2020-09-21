@@ -692,6 +692,9 @@ public class ZcChangeService extends BaseService {
                 " , a.fsupplier=b.supplier\n" +
                 " , a.fbrand=b.brand\n" +
                 " , a.fbuytime=b.buy_time\n" +
+                " , a.ffd1=b.fd1\n" +
+                " , a.ffs20=b.fs20\n" +
+                " , a.fmark=b.mark\n" +
                 " , a.floc=b.loc\n" +
                 " , a.fconfdesc=b.confdesc\n" +
                 " , a.fusefullife=b.usefullife\n" +
@@ -746,6 +749,18 @@ public class ZcChangeService extends BaseService {
         if ("true".equals(entity.getTlabel1status())) {
             sql2 = sql2 + ",a.fs1=b.tlabel1";
         }
+
+        if ("true".equals(entity.getTmarkstatus())) {
+            sql2 = sql2 + ",a.mark=b.tmark";
+        }
+
+        if ("true".equals(entity.getTfd1status())) {
+            sql2 = sql2 + ",a.fd1=b.tfd1";
+        }
+        if ("true".equals(entity.getTfs20status())) {
+            sql2 = sql2 + ",a.fs20=b.tfs20";
+        }
+
         if ("true".equals(entity.getTlocdtlstatus())) {
             sql2 = sql2 + ",a.locdtl=b.tlocdtl";
         }
@@ -1050,6 +1065,11 @@ public class ZcChangeService extends BaseService {
             String tlocdtlstatus = item.getString("tlocdtlstatus");
             String tunitstatus = item.getString("tunitstatus");
 
+            String tfd1status = item.getString("tfd1status");
+            String tmarkstatus = item.getString("tmarkstatus");
+            String tfs20status = item.getString("tfs20status");
+
+
             String fclassfullname = item.getString("fclassfullname");
             String tclassfullname = item.getString("tclassfullname");
             String fmodel = item.getString("fmodel");
@@ -1084,6 +1104,28 @@ public class ZcChangeService extends BaseService {
             String tusedusername = item.getString("tusedusername");
             String flabel1 = item.getString("flabel1");
             String tlabel1 = item.getString("tlabel1");
+
+
+            String ffs20 = item.getString("ffs20");
+            String tfs20 = item.getString("tfs20");
+
+            String fmark = item.getString("fmark");
+            String tmark = item.getString("tmark");
+
+            String ffd1str = item.getString("ffd1str");
+            String tfd1str = item.getString("tfd1str");
+            if (ToolUtil.isNotEmpty(tfd1status) && "true".equals(tfd1status)) {
+                ct = ct + "【生产日期】字段由 \"" + ffd1str + "\" 变更为 \"" + tfd1str + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tmarkstatus) && "true".equals(tmarkstatus)) {
+                ct = ct + "【备注】字段由 \"" + fmark + "\" 变更为 \"" + tmark + "\" ;";
+            }
+
+            if (ToolUtil.isNotEmpty(tfs20status) && "true".equals(tfs20status)) {
+                ct = ct + "【其他编号】字段由 \"" + ffs20 + "\" 变更为 \"" + tfs20 + "\" ;";
+            }
+
 
             if (ToolUtil.isNotEmpty(tclassidstatus) && "true".equals(tclassidstatus)) {
                 ct = ct + "【资产类别】字段由 \"" + fclassfullname + "\" 变更为 \"" + tclassfullname + "\" ;";

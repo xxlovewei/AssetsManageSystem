@@ -44,7 +44,7 @@ public class ResImportService extends BaseService {
 
     }
 
-    public R importResNormal(String file, String type) {
+    public R importResNormal(String file, String type, String category) {
         R r = R.SUCCESS_OPER();
         try {
             ImportParams params = new ImportParams();
@@ -52,7 +52,7 @@ public class ResImportService extends BaseService {
             params.setTitleRows(0);
             params.setStartSheetIndex(0);
             List<ResEntity> result = ExcelImportUtil.importExcel(new File(file), ResEntity.class, params);
-            r = executeEntitysImport(result, type);
+            r = executeEntitysImport(result, type, category);
         } catch (Exception e) {
             e.printStackTrace();
             return R.FAILURE("导入数据异常");
@@ -150,7 +150,7 @@ public class ResImportService extends BaseService {
     }
 
 
-    public R checkResEntity(ResEntity re, String type, String importlabel) {
+    public R checkResEntity(ResEntity re, String type, String importlabel, String category) {
         Date date = new Date(); // 获取一个Date对象
         DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
         String nowtime = simpleDateFormat.format(date);
@@ -289,7 +289,7 @@ public class ResImportService extends BaseService {
             me.setIf("create_by", this.getUserId());
             me.setIf("update_time", nowtime);
             me.setIf("update_by", this.getUserId());
-            me.setIf("category", ZcCategoryEnum.CATEGORY_ZC.getValue());
+            me.setIf("category", category);
             /////////////// 开始处理///////////
             me.setIf("fs1", re.getFs1() == null ? "" : re.getFs1());
             me.setIf("fs2", re.getFs2() == null ? "" : re.getFs2());
@@ -306,6 +306,9 @@ public class ResImportService extends BaseService {
             me.setIf("buy_price", re.getBuy_price() == null ? "0" : re.getBuy_price());
             me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
             me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
+            me.setIf("fd1", re.getFd1str() == null ? null : re.getFd1str() + " 00:00:00");
+
+
             me.setIf("used_userid", useduserid);
 
             // 数据字典匹配
@@ -362,6 +365,7 @@ public class ResImportService extends BaseService {
             me.setIf("accumulateddepreciation", re.getAccumulateddepreciation() == null ? "0" : re.getAccumulateddepreciation());
             me.setIf("buy_time", re.getBuy_timestr() == null ? null : re.getBuy_timestr() + " 01:00:00");
             me.setIf("wbout_date", re.getWbout_datestr() == null ? null : re.getWbout_datestr() + " 01:00:00");
+            me.setIf("fd1", re.getFd1str() == null ? null : re.getFd1str() + " 00:00:00");
             me.setIf("used_userid", useduserid);
             // 数据字典匹配
             me.setIf("class_id", classR.queryDataToJSONObject().getString("id"));
@@ -392,11 +396,11 @@ public class ResImportService extends BaseService {
         return R.SUCCESS_OPER(sql);
     }
 
-    private ResImportResultEntity checkResEntitys(List<ResEntity> result, String type) {
+    private ResImportResultEntity checkResEntitys(List<ResEntity> result, String type, String category) {
         String importlabel = ToolUtil.getUUID();
         ResImportResultEntity cres = new ResImportResultEntity();
         for (int i = 0; i < result.size(); i++) {
-            R r = checkResEntity(result.get(i), type, importlabel);
+            R r = checkResEntity(result.get(i), type, importlabel, category);
             if (r.isSuccess()) {
                 cres.addSuccess(r.getData().toString());
             } else {
@@ -407,8 +411,8 @@ public class ResImportService extends BaseService {
         return cres;
     }
 
-    public R executeEntitysImport(List<ResEntity> resultdata, String type) {
-        ResImportResultEntity result = checkResEntitys(resultdata, type);
+    public R executeEntitysImport(List<ResEntity> resultdata, String type, String category) {
+        ResImportResultEntity result = checkResEntitys(resultdata, type, category);
         result.printResult();
         if (!result.is_success_all) {
             return R.FAILURE("操作失败", result.covertJSONObjectResult());

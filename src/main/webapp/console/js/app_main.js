@@ -5,7 +5,6 @@ var app = angular.module('app', ['ui.router', 'oc.lazyLoad', 'ui.bootstrap',
     'localytics.directives', 'swxLocalStorage', 'angular-loading-bar',
     'ng.ueditor', 'datePicker', 'treeGrid'])
 var $injector = angular.injector();
-
 function getContextPath() {
     var pathName = document.location.pathname;
     var index = pathName.substr(1).indexOf("/");
@@ -13,7 +12,6 @@ function getContextPath() {
     return result;
 }
 var gct = getContextPath();
-
 var version = new Date().getTime();
 app.factory('sessionInjector', [
     '$log',
@@ -27,7 +25,7 @@ app.factory('sessionInjector', [
             var userService = $injector.get('userService');
             var tokenstr = userService.getToken();
             if (angular.isDefined(tokenstr) && tokenstr.length > 5) {
-                config.headers['dt-token'] = tokenstr;
+                config.headers['_token'] = tokenstr;
             }
             // 禁止HTML缓存
             if (config.url.indexOf('.html') > -1

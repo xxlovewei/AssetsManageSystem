@@ -132,6 +132,8 @@ public class ZcCommonService extends BaseService {
             + " (select route_name from hrm_org_part where node_id=t.mgr_part_id) mgr_part_name,"
             + " (select name from sys_user_info where user_id=t.used_userid) used_username,"
             + " (select empl_id from sys_user_info where user_id=t.used_userid) emplid,"
+            + "  date_format(fd1,'%Y-%m-%d') fd1str ,"
+            + "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
             + "  date_format(lastdepreciationdate,'%Y-%m-%d %H:%i') lastdepreciationdatestr,";
 
     public static String resSqlbody = " (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) locstr,"
@@ -175,6 +177,7 @@ public class ZcCommonService extends BaseService {
             + "  date_format(lastinventorytime,'%Y-%m-%d %H:%i') lastinventorytimestr,"
             + "  date_format(wbout_date,'%Y-%m-%d')  wbout_datestr,"
             + "  date_format(buy_time,'%Y-%m-%d') buy_timestr ,"
+            + "  date_format(fd1,'%Y-%m-%d') fd1str ,"
             + "  case when t.changestate = 'reviewed' then '已复核' when t.changestate = 'insert' then '待核(录入)' when t.changestate = 'updated'  then '待核(已更新)' else '未知' end reviewstr ,";
 
 

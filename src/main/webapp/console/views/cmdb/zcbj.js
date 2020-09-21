@@ -179,12 +179,13 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     $scope.filedown = function () {
         var ps = {}
         ps.classroot = gclassroot;
+
         ps.loc = $scope.meta.tools[0].dataSel.dict_item_id;
         ps.recycle = $scope.meta.tools[1].dataSel.dict_item_id;
         ps.search = $scope.meta.tools[2].ct;
         $window.open($rootScope.project
-            + "/api/base/res/exportServerData.do?id=" + ps.id + "&loc="
-            + ps.loc + "&env=" + ps.env + "&wb=" + ps.wb + "&recycle="
+            + "/api/base/res/exportServerData.do?category=8&loc="
+            + ps.loc + "&recycle="
             + ps.recycle + "&search=" + ps.search);
     }
     var gdicts = {};
@@ -272,31 +273,6 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         }
     }
 
-    $scope.batchupate = function () {
-        var selrows = getSelectRows();
-        var ps = {};
-        if (angular.isDefined(selrows)) {
-            ps.selrows = selrows;
-            ps.gdicts = gdicts;
-            var modalInstance = $uibModal.open({
-                backdrop: true,
-                templateUrl: 'views/cmdb/modal_batchUpdateRes.html',
-                controller: modalresBatchUpdateCtl,
-                size: 'blg',
-                resolve: {
-                    meta: function () {
-                        return ps;
-                    }
-                }
-            });
-            modalInstance.result.then(function (result) {
-                if (result == "OK") {
-                    flush();
-                }
-            }, function (reason) {
-            });
-        }
-    }
     $scope.del = function () {
         var selrows = getSelectRows();
         if (angular.isDefined(selrows)) {
@@ -448,7 +424,6 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             dataOpt: "zcsourceOpt",
             dataSel: "zcsourceSel"
         });
-
         items.push({
             type: "select",
             disabled: "false",
@@ -457,6 +432,20 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             disable_search: "false",
             dataOpt: "uselifeOpt",
             dataSel: "uselifeSel"
+        });
+        items.push({
+            type: "datetime",
+            disabled: "false",
+            label: "生产日期",
+            need: false,
+            ng_model: "productiontime"
+        });
+        items.push({
+            type: "datetime",
+            disabled: "false",
+            label: "采购日期",
+            false: true,
+            ng_model: "buytime"
         });
         items.push({
             type: "input",
@@ -621,13 +610,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             name: 'model',
             label: "财务信息"
         });
-        items.push({
-            type: "datetime",
-            disabled: "false",
-            label: "采购日期",
-            false: true,
-            ng_model: "buytime"
-        });
+
         items.push({
             type: "input",
             disabled: zcbuyprice,
@@ -705,6 +688,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         var bt = moment().subtract(1, "days");
         var tbtime = moment();
+        var pt = moment().subtract(1, "days");
         if (angular.isDefined(res)
             && angular.isDefined(res.data)
             && angular
@@ -717,12 +701,18 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 .isDefined(res.data.wbout_datestr)) {
             tbtime = moment(res.data.wbout_datestr);
         }
+        if (angular.isDefined(res.data)
+            && angular
+                .isDefined(res.data.fd1str)) {
+            pt = moment(res.data.fd1str);
+        }
         $scope.gmeta = {
             classroot: gclassroot,
             footer_hide: false,
             title: "资产-" + $state.router.globals.current.data.pageTitle,
             item: {zc_cnt: 1},
             buytime: bt,
+            productiontime: pt,
             typeOpt: [],
             typeSel: "",
             belongcompSel: "",
@@ -801,6 +791,8 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
                     .format('YYYY-MM-DD');
                 modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
+                    .format('YYYY-MM-DD');
+                modal_meta.meta.item.fd1str = modal_meta.meta.productiontime
                     .format('YYYY-MM-DD');
                 // 动态参数
                 // if (angular.isDefined(modal_meta.meta.attr)

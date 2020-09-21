@@ -1,143 +1,4 @@
-function modalresBatchUpdateCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
-                                $uibModalInstance, $scope, meta, $http, $rootScope,
-                                $compile) {
-    var tgdict = meta.gdicts;
-    $scope.item = {};
-    $scope.item.ids = meta.selrows;
-    $scope.date = {
-        buytime2: moment().subtract(15, "days"),
-        wboutdate2: moment().add(1, 'days')
-    }
-    $scope.ifrecycleOpt = [{id: "N", name: "不更"}, {id: "Y", name: "更新"}];
-    $scope.ifrecycleSel = $scope.ifrecycleOpt[0];
-    $scope.recycleOpt = [];
-    $scope.recycleSel = "";
-    if (angular.isDefined(tgdict.devrecycle)) {
-        $scope.recycleOpt = tgdict.devrecycle;
-        if (tgdict.devrecycle.length > 0) {
-            $scope.recycleSel = tgdict.devrecycle[0];
-        }
-    }
-    $scope.ifriskOpt = [{id: "N", name: "不更"}, {id: "Y", name: "更新"}];
-    $scope.ifriskSel = $scope.ifriskOpt[0];
-    $scope.riskOpt = [];
-    $scope.riskSel = "";
-    if (angular.isDefined(tgdict.devrisk)) {
-        $scope.riskOpt = tgdict.devrisk;
-        if (tgdict.devrisk.length > 0) {
-            $scope.riskSel = tgdict.devrisk[0];
-        }
-    }
-    $scope.ifenvOpt = [{id: "N", name: "不更"}, {id: "Y", name: "更新"}];
-    $scope.ifenvSel = $scope.ifenvOpt[0];
-    $scope.envOpt = [];
-    $scope.envSel = "";
-    if (angular.isDefined(tgdict.devenv)) {
-        $scope.envOpt = tgdict.devenv;
-        if (tgdict.devenv.length > 0) {
-            $scope.envSel = tgdict.devenv[0];
-        }
-    }
-    $scope.ifwbOpt = [{id: "N", name: "不更"}, {id: "Y", name: "更新"}];
-    $scope.ifwbSel = $scope.ifwbOpt[0];
-    $scope.wbOpt = [];
-    $scope.wbSel = "";
-    if (angular.isDefined(tgdict.devwb)) {
-        $scope.wbOpt = tgdict.devwb;
-        if (tgdict.devwb.length > 0) {
-            $scope.wbSel = tgdict.devwb[0];
-        }
-    }
-    $scope.ifusedPartOpt = [{id: "N", name: "不更"}, {id: "Y", name: "更新"}];
-    $scope.ifusedPartSel = $scope.ifusedPartOpt[0];
-    $scope.partOpt = [];
-    $scope.partSel = "";
-    if (angular.isDefined(tgdict.parts)) {
-        $scope.partOpt = tgdict.parts;
-        if (tgdict.parts.length > 0) {
-            $scope.partSel = tgdict.parts[0];
-        }
-    }
-    $scope.ifusedUserOpt = [{id: "N", name: "不更"}, {id: "Y", name: "更新"}];
-    $scope.ifusedUserSel = $scope.ifusedUserOpt[0];
-    $scope.usedunameOpt = [];
-    $scope.usedunameSel = "";
-    if (angular.isDefined(tgdict.partusers)) {
-        $scope.usedunameOpt = tgdict.partusers;
-        if (tgdict.partusers.length > 0) {
-            $scope.usedunameSel = tgdict.partusers[0];
-        }
-    }
-    $scope.iflocOpt = [{id: "N", name: "不更"}, {id: "Y", name: "更新"}];
-    $scope.iflocSel = $scope.iflocOpt[0];
-    $scope.locOpt = [];
-    $scope.locSel = "";
-    if (angular.isDefined(tgdict.devdc)) {
-        $scope.locOpt = tgdict.devdc;
-        if (tgdict.devdc.length > 0) {
-            $scope.locSel = tgdict.devdc[0];
-        }
-    }
-    $scope.ifbuyOpt = [{id: "N", name: "不更"}, {id: "Y", name: "更新"}];
-    $scope.ifbuySel = $scope.ifbuyOpt[0];
-    $scope.ifTbOpt = [{id: "N", name: "不更"}, {id: "Y", name: "更新"}];
-    $scope.ifTbSel = $scope.ifTbOpt[0];
-    $scope.iftbComputeOpt = [{id: "N", name: "不更"}, {id: "Y", name: "更新"}];
-    $scope.iftbComputeSel = $scope.iftbComputeOpt[0];
-    $scope.tbOpt = [];
-    $scope.tbSel = "";
-    if (angular.isDefined(tgdict.zcwbcomoute)) {
-        $scope.tbOpt = tgdict.zcwbcomoute;
-        if (tgdict.zcwbcomoute.length > 0) {
-            $scope.tbSel = tgdict.zcwbcomoute[0];
-        }
-    }
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-    $scope.sure = function () {
-        $scope.item.ifrecycleSel = $scope.ifrecycleSel.id;
-        $scope.item.recycleSel = $scope.recycleSel.dict_item_id;
-        $scope.item.ifriskSel = $scope.ifriskSel.id;
-        $scope.item.riskSel = $scope.riskSel.dict_item_id;
-        $scope.item.ifenvSel = $scope.ifenvSel.id;
-        $scope.item.envSel = $scope.envSel.dict_item_id;
-        $scope.item.ifwbSel = $scope.ifwbSel.id;
-        $scope.item.wbSel = $scope.wbSel.dict_item_id;
-        $scope.item.ifusedPartSel = $scope.ifusedPartSel.id;
-        $scope.item.partSel = $scope.partSel.partid;
-        $scope.item.ifusedUserSel = $scope.ifusedUserSel.id;
-        $scope.item.usedunameSel = $scope.usedunameSel.user_id;
-        $scope.item.ifbuySel = $scope.ifbuySel.id;
-        $scope.item.buy_time_f = $scope.date.buytime2.format('YYYY-MM-DD');
-        $scope.item.ifTbSel = $scope.ifTbSel.id;
-        $scope.item.wbout_date_f = $scope.date.wboutdate2.format('YYYY-MM-DD');
-        $scope.item.iftbComputeSel = $scope.iftbComputeSel.id;
-        $scope.item.tbSel = $scope.tbSel.dict_item_id;
-        $scope.item.iflocSel = $scope.iflocSel.id;
-        $scope.item.locSel = $scope.locSel.dict_item_id;
-        $confirm({
-            title: "资产修改确认",
-            text: '修改功能不保存变更记录是否确认使用修改功能?'
-        }).then(
-            function () {
-                $http
-                    .post(
-                        $rootScope.project
-                        + "/api/base/res/batchUpdateRes.do",
-                        $scope.item)
-                    .success(function (res) {
-                        if (res.success) {
-                            $uibModalInstance.close('OK');
-                        } else {
-                            notify({
-                                message: res.message
-                            });
-                        }
-                    });
-            });
-    }
-}
+
 
 function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $location,
                        $log, notify, $scope, $http, $rootScope, $uibModal, $window, $state, $timeout) {
@@ -805,7 +666,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcfs20,
             sub_type: "text",
             required: false,
             maxlength: "50",
@@ -898,6 +759,20 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             dataOpt: "uselifeOpt",
             dataSel: "uselifeSel"
         });
+        items.push({
+            type: "datetime",
+            disabled: zcproductiontime,
+            label: "生产日期",
+            need: false,
+            ng_model: "productiontime"
+        });
+        items.push({
+            type: "datetime",
+            disabled: zcbuytime,
+            label: "采购日期",
+            need: false,
+            ng_model: "buytime"
+        });
         // items.push({
         //     type: "input",
         //     disabled: zccnt,
@@ -936,7 +811,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         });
         items.push({
             type: "input",
-            disabled: "false",
+            disabled: zcmark,
             sub_type: "text",
             required: false,
             maxlength: "500",
@@ -1011,6 +886,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             dataOpt: "usedunameOpt",
             dataSel: "usedunameSel"
         });
+
         items.push({
             type: "dashed",
             name: 'model'
@@ -1096,13 +972,6 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             type: "dashedword",
             name: 'model',
             label: "财务信息"
-        });
-        items.push({
-            type: "datetime",
-            disabled: zcbuytime,
-            label: "采购日期",
-            need: false,
-            ng_model: "buytime"
         });
 
         items.push({
@@ -1201,18 +1070,22 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             conf: "attachconfig"
         });
         var bt = moment().subtract(1, "days");
+        var pt = moment().subtract(1, "days");
         var tbtime = moment();
-        if (angular.isDefined(res)
-            && angular.isDefined(res.data)
+        if (angular.isDefined(res.data)
             && angular
                 .isDefined(res.data.buy_timestr)) {
             bt = moment(res.data.buy_timestr);
         }
-        if (angular.isDefined(res)
-            && angular.isDefined(res.data)
+        if (angular.isDefined(res.data)
             && angular
                 .isDefined(res.data.wbout_datestr)) {
             tbtime = moment(res.data.wbout_datestr);
+        }
+        if (angular.isDefined(res.data)
+            && angular
+                .isDefined(res.data.fd1str)) {
+            pt = moment(res.data.fd1str);
         }
         Dropzone.autoDiscover = false;
         $scope.gmeta = {
@@ -1221,6 +1094,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             title: "资产-" + $state.router.globals.current.data.pageTitle,
             item: {zc_cnt: 1},
             buytime: bt,
+            productiontime: pt,
             typeOpt: [],
             typeSel: "",
             belongcompSel: "",
@@ -1399,6 +1273,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                 if (angular.isDefined(modal_meta.meta.compSel.id)) {
                     modal_meta.meta.item.used_company_id = modal_meta.meta.compSel.id;
                 }
+                modal_meta.meta.item.fd1str = modal_meta.meta.productiontime
+                    .format('YYYY-MM-DD');
                 modal_meta.meta.item.buy_time_f = modal_meta.meta.buytime
                     .format('YYYY-MM-DD');
                 modal_meta.meta.item.wbout_date_f = modal_meta.meta.wboutdate
@@ -1551,6 +1427,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
     var zcuseduser = "false";
     var zcloc = "false";
     var zcbuytime = "false";
+    var zcproductiontime = "false";
     var zcwbsupper = "false";
     var zcwboutdate = "false";
     var zcwb = "false";
@@ -1560,6 +1437,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
     var zcconfdesc = "false";
     var zclocdtl = "false";
     var zcwbct = "false";
+    var zcfs20 = "false"
+    var zcmark = "false"
     var f = $location.search()['force'];
     $scope.save = function (type) {
         var id = "-1";
@@ -1585,6 +1464,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                     zcuseduser = "true";
                     zcloc = "true";
                     zcbuytime = "true";
+                    zcproductiontime = "true";
                     zcwbsupper = "true";
                     zcwboutdate = "true";
                     zcwb = "true";
@@ -1594,6 +1474,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                     zcconfdesc = "true";
                     zclocdtl = "true";
                     zcwbct = "true";
+                    zcmark = "true"
+                    zcfs20 = "true"
                 }
             } else {
                 return;
@@ -1629,6 +1511,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             zcuseduser = "false";
             zcloc = "false";
             zcbuytime = "false";
+            zcproductiontime = "false";
             zcwbsupper = "false";
             zcwboutdate = "false";
             zcwb = "false";
@@ -1638,6 +1521,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             zcconfdesc = "false";
             zclocdtl = "false";
             zcwbct = "false";
+            zcmark = "false"
+            zcfs20 = "false"
             openWindow({});
         }
     }

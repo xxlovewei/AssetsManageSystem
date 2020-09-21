@@ -110,6 +110,17 @@ function rendercbuytime(data, type, full) {
     }
 }
 
+function renderptime(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = "";
+    }
+    if (full.tfd1status == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
 function rendercomp(data, type, full) {
     if (angular.isUndefined(data)) {
         data = "";
@@ -170,6 +181,28 @@ function renderfs1(data, type, full) {
         data = "";
     }
     if (full.tlabel1status == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function rendermark(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = "";
+    }
+    if (full.tmarkstatus == "true") {
+        return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
+    } else {
+        return "<span style=\"color:red;font-weight:bold\">不变更</span>"
+    }
+}
+
+function renderfs20(data, type, full) {
+    if (angular.isUndefined(data)) {
+        data = "";
+    }
+    if (full.tfs20status == "true") {
         return "<span style=\"color:purple;font-weight:bold\">" + data + "</span>"
     } else {
         return "<span style=\"color:red;font-weight:bold\">不变更</span>"
@@ -279,6 +312,10 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tsn').withTitle('序列(变更后)').withOption(
             'sDefaultContent', '').renderWith(rendersn),
+        DTColumnBuilder.newColumn('ffs20').withTitle('其他编号(变更前)').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
+        DTColumnBuilder.newColumn('tfs20').withTitle('其他编号(变更后)').withOption(
+            'sDefaultContent', '').renderWith(rendersn),
         DTColumnBuilder.newColumn('funit').withTitle('计量单位(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tunit').withTitle('计量单位(变更后)').withOption(
@@ -311,6 +348,10 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tusefullifestr').withTitle('使用期限(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderusefullife),
+        DTColumnBuilder.newColumn('ffd1str').withTitle('生产日期(变更前)').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
+        DTColumnBuilder.newColumn('tfd1str').withTitle('生产日期(变更后)').withOption(
+            'sDefaultContent', '').renderWith(renderptime),
         DTColumnBuilder.newColumn('fbuytimestr').withTitle('采购日期(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tbuytimestr').withTitle('采购日期(变更后)').withOption(
@@ -319,6 +360,10 @@ function cgjblistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tconfdesc').withTitle('配置描述(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderconfdesc),
+        DTColumnBuilder.newColumn('fmark').withTitle('备注(变更前)').withOption(
+            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
+        DTColumnBuilder.newColumn('tmark').withTitle('备注(变更后)').withOption(
+            'sDefaultContent', '').renderWith(rendermark),
         DTColumnBuilder.newColumn('fusedcompanyname').withTitle($rootScope.USEDCOMP_B).withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tusedcompanyname').withTitle($rootScope.USEDCOMP_A).withOption(
@@ -490,6 +535,8 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(rendermodel),
         DTColumnBuilder.newColumn('tsn').withTitle('序列').withOption(
             'sDefaultContent', '').renderWith(rendersn),
+        DTColumnBuilder.newColumn('tfs20').withTitle('其他编号').withOption(
+            'sDefaultContent', '').renderWith(renderfs20),
         DTColumnBuilder.newColumn('tunit').withTitle('计量单位').withOption(
             'sDefaultContent', '').renderWith(renderunit),
         DTColumnBuilder.newColumn('tzccnt').withTitle('数量').withOption(
@@ -506,10 +553,14 @@ function zccgjbCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(renderlocdtl),
         DTColumnBuilder.newColumn('tusefullifestr').withTitle('使用期限').withOption(
             'sDefaultContent', '').renderWith(renderusefullife),
+        DTColumnBuilder.newColumn('tfd1str').withTitle('生产日期').withOption(
+            'sDefaultContent', '').renderWith(renderptime),
         DTColumnBuilder.newColumn('tbuytimestr').withTitle('采购日期').withOption(
             'sDefaultContent', '').renderWith(rendercbuytime),
         DTColumnBuilder.newColumn('tconfdesc').withTitle('配置描述').withOption(
             'sDefaultContent', '').renderWith(renderconfdesc),
+        DTColumnBuilder.newColumn('tmark').withTitle('备注').withOption(
+            'sDefaultContent', '').renderWith(rendermark),
         DTColumnBuilder.newColumn('tusedcompanyname').withTitle($rootScope.USEDCOMP).withOption(
             'sDefaultContent', '').renderWith(rendercomp),
         DTColumnBuilder.newColumn('tpartname').withTitle($rootScope.USEDPART).withOption(

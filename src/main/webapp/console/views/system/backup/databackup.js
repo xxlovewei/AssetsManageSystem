@@ -46,29 +46,71 @@ function databackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             });
     $scope.dtInstance = {}
 
-    function renderName(data, type, full) {
+    function renderAction(data, type, full) {
         var html = full.model;
         return html;
     }
 
-    function renderJg(data, type, full) {
-        var html = full.rackstr + "-" + full.frame;
-        return html;
+    function renderAction(data, type, full) {
+        var acthtml = " <div class=\"btn-group\"> ";
+        acthtml = acthtml + " <button ng-click=\"download('" + full.id
+            + "')\" class=\"btn-white btn btn-xs\">下载</button>   ";
+        acthtml = acthtml + "</div>"
+        return acthtml;
     }
 
+    function downloadFile(file) {
+        var a = document.createElement('a');
+        a.id = 'tempId';
+        document.body.appendChild(a);
+        a.download = "backupfile-" + moment().format('L') + '.zip';
+        a.href = URL.createObjectURL(file);
+        a.click();
+        const tempA = document.getElementById('tempId');
+        if (tempA) {
+            tempA.parentNode.removeChild(tempA);
+        }
+    }
+
+    $scope.download = function (id) {
+        $http.post($rootScope.project + "/api/sysDbbackupRec/downFile.do", {
+            id: id
+        }, {
+            responseType: 'arraybuffer'
+        }).success(function (data) {
+            if (data.byteLength < 80) {
+                var st1 = String.fromCharCode.apply(null, new Uint8Array(data))
+                var st2 = decodeURIComponent(escape(st1));//没有这一步中文会乱码
+                var st2json = angular.fromJson(st2);
+                if (angular.isDefined(st2json.message)) {
+                    notify({
+                        message: st2json.message
+                    });
+                }
+            } else {
+                var blob = new Blob([data], {
+                    type: "application/vnd.ms-excel"
+                });
+                downloadFile(blob);
+            }
+        })
+    }
     $scope.dtColumns = [
+        DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
+            'sDefaultContent', '').renderWith(renderAction),
         DTColumnBuilder.newColumn('dbname').withTitle('数据库').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('result').withTitle('备份结果').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('duration').withTitle('备份时间').withOption(
+        DTColumnBuilder.newColumn('createTime').withTitle('备份时间')
+            .withOption('sDefaultContent', ''),
+        DTColumnBuilder.newColumn('duration').withTitle('备份耗时').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('filesize').withTitle('文件大小').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('filepath').withTitle('文件路径').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('createTime').withTitle('创建时间')
-            .withOption('sDefaultContent', '')]
+            'sDefaultContent', '')
+    ]
     $scope.query = function () {
         flush();
     }

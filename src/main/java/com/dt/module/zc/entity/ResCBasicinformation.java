@@ -1,13 +1,18 @@
 package com.dt.module.zc.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.dt.core.common.base.BaseModel;
-
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.math.BigDecimal;
+
+import com.dt.core.common.base.BaseModel;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
@@ -15,7 +20,7 @@ import java.util.Date;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-16
+ * @since 2020-09-21
  */
 
 @TableName("res_c_basicinformation")
@@ -24,6 +29,9 @@ public class ResCBasicinformation extends BaseModel<ResCBasicinformation> {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键
+     */
     @TableId("id")
     private String id;
     @TableField("busuuid")
@@ -106,6 +114,20 @@ public class ResCBasicinformation extends BaseModel<ResCBasicinformation> {
     private String tconfdescstatus;
     @TableField("tlocdtlstatus")
     private String tlocdtlstatus;
+    @TableField("pinst")
+    private String pinst;
+    @TableField("tfs20")
+    private String tfs20;
+    @TableField("tfd1")
+    private Date tfd1;
+    @TableField("tmark")
+    private String tmark;
+    @TableField("tfs20status")
+    private String tfs20status;
+    @TableField("tfd1status")
+    private String tfd1status;
+    @TableField("tmarkstatus")
+    private String tmarkstatus;
 
 
     public String getId() {
@@ -436,6 +458,62 @@ public class ResCBasicinformation extends BaseModel<ResCBasicinformation> {
         this.tlocdtlstatus = tlocdtlstatus;
     }
 
+    public String getPinst() {
+        return pinst;
+    }
+
+    public void setPinst(String pinst) {
+        this.pinst = pinst;
+    }
+
+    public String getTfs20() {
+        return tfs20;
+    }
+
+    public void setTfs20(String tfs20) {
+        this.tfs20 = tfs20;
+    }
+
+    public Date getTfd1() {
+        return tfd1;
+    }
+
+    public void setTfd1(Date tfd1) {
+        this.tfd1 = tfd1;
+    }
+
+    public String getTmark() {
+        return tmark;
+    }
+
+    public void setTmark(String tmark) {
+        this.tmark = tmark;
+    }
+
+    public String getTfs20status() {
+        return tfs20status;
+    }
+
+    public void setTfs20status(String tfs20status) {
+        this.tfs20status = tfs20status;
+    }
+
+    public String getTfd1status() {
+        return tfd1status;
+    }
+
+    public void setTfd1status(String tfd1status) {
+        this.tfd1status = tfd1status;
+    }
+
+    public String getTmarkstatus() {
+        return tmarkstatus;
+    }
+
+    public void setTmarkstatus(String tmarkstatus) {
+        this.tmarkstatus = tmarkstatus;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -485,6 +563,13 @@ public class ResCBasicinformation extends BaseModel<ResCBasicinformation> {
                 ", tunitstatus=" + tunitstatus +
                 ", tconfdescstatus=" + tconfdescstatus +
                 ", tlocdtlstatus=" + tlocdtlstatus +
+                ", pinst=" + pinst +
+                ", tfs20=" + tfs20 +
+                ", tfd1=" + tfd1 +
+                ", tmark=" + tmark +
+                ", tfs20status=" + tfs20status +
+                ", tfd1status=" + tfd1status +
+                ", tmarkstatus=" + tmarkstatus +
                 "}";
     }
 }

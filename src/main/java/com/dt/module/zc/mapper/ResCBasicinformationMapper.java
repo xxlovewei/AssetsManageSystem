@@ -1,7 +1,7 @@
 package com.dt.module.zc.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dt.module.zc.entity.ResCBasicinformation;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.dt.module.zc.entity.ResCBasicinformation;
  * </p>
  *
  * @author algernonking
- * @since 2020-08-16
+ * @since 2020-09-21
  */
 public interface ResCBasicinformationMapper extends BaseMapper<ResCBasicinformation> {
 

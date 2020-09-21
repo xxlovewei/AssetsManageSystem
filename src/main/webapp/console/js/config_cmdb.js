@@ -177,31 +177,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    }).state('maintain.dataimport', {
-        url: "/maintain_dataimport?psBtns",
-        data: {pageTitle: '资产导入'},
-        templateUrl: "views/cmdb/dataimport.html?v=" + version,
-        resolve: {
-            loadPlugin: function ($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    serie: true,
-                    files: ['views/cmdb/dataimport.js?v=' + version]
-                }]);
-            }
-        }
-    }).state('maintain.dataexport', {
-        url: "/maintain_dataexport",
-        data: {pageTitle: '资产导出'},
-        templateUrl: "views/cmdb/dataexport.html?v=" + version,
-        resolve: {
-            loadPlugin: function ($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    serie: true,
-                    files: ['views/cmdb/dataexport.js?v=' + version]
-                }]);
-            }
-        }
-    })
+    });
 
     // 报表
     $stateProvider.state('cmdbresp', {
@@ -327,7 +303,20 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    }).state('cmsetting.labeltpl', {
+    })
+        .state('cmsetting.bjimport', {
+            url: "/cmsetting_bjimport",
+            data: {pageTitle: '备件导入', type: 'bj', category: '8'},
+            templateUrl: "views/cmdb/dataimport.html?v=" + version,
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        serie: true,
+                        files: ['views/cmdb/dataimport.js?v=' + version]
+                    }]);
+                }
+            }
+        }).state('cmsetting.labeltpl', {
         url: "/cmsetting_labeltpl",
         data: {pageTitle: '资产标签'},
         templateUrl: "views/cmdb/labeltpl.html?v=" + version,
@@ -3686,6 +3675,9 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.tunitstatus = false;
         $scope.item.tconfdescstatus = false;
         $scope.item.tlocdtlstatus = false;
+        $scope.item.tmarkstatus = false;
+        $scope.item.tfd1status = false;
+        $scope.item.tfs20status = false;
     }
 
     function selectall() {
@@ -3707,6 +3699,9 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.tunitstatus = true;
         $scope.item.tconfdescstatus = true;
         $scope.item.tlocdtlstatus = true;
+        $scope.item.tmarkstatus = true;
+        $scope.item.tfd1status = true;
+        $scope.item.tfs20status = true;
     }
 
     selectnall();
@@ -3776,7 +3771,8 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         }
     }
     $scope.date = {
-        buytime: moment()
+        buytime: moment(),
+        fd1time: moment()
     }
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
@@ -3900,6 +3896,7 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.processuserid = $scope.adminuserSel.user_id;
         $scope.item.processusername = $scope.adminuserSel.name;
         $scope.item.tbuytime = $scope.date.buytime.format('YYYY-MM-DD');
+        $scope.item.tfd1 = $scope.date.fd1time.format('YYYY-MM-DD');
         $scope.item.items = angular.toJson($scope.dtOptions.aaData);
         if (angular.isDefined($scope.zcsourceSel.dict_item_id)) {
             $scope.item.tzcsource = $scope.zcsourceSel.dict_item_id;
@@ -3990,6 +3987,14 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.tunit = "";
         $scope.item.tconfdesc = "";
         $scope.item.tlocdtl = "";
+        $scope.item.tmark = "";
+        $scope.item.tfs20 = "";
+        if (angular.isDefined(data.fs20)) {
+            $scope.item.tfs20 = data.fs20;
+        }
+        if (angular.isDefined(data.mark)) {
+            $scope.item.tmark = data.mark;
+        }
         if (angular.isDefined(data.locdtl)) {
             $scope.item.tlocdtl = data.locdtl;
         }
@@ -4013,6 +4018,9 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         }
         if (angular.isDefined(data.buy_timestr)) {
             $scope.date.buytime = moment(data.buy_timestr);
+        }
+        if (angular.isDefined(data.fd1str)) {
+            $scope.date.fd1time = moment(data.fd1str);
         }
         if (angular.isDefined(data.zcsource)) {
             for (var i = 0; i < $scope.zcsourceOpt.length; i++) {

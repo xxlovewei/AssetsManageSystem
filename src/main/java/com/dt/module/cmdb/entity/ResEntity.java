@@ -45,6 +45,8 @@ public class ResEntity implements java.io.Serializable {
     @Excel(name = "使用期限", width = 8)
     private String usefullifestr;
 
+    @Excel(name = "生产日期", width = 15)
+    private String fd1str;
 
     @Excel(name = "计量单位", width = 8)
     private String unit;
@@ -55,8 +57,10 @@ public class ResEntity implements java.io.Serializable {
     @Excel(name = "配置描述", width = 15)
     private String confdesc;
 
+
     @Excel(name = "其他编号", width = 12)
     private String fs20;
+
 
 
     @Excel(name = "备注", width = 20)
@@ -552,6 +556,7 @@ public class ResEntity implements java.io.Serializable {
         this.usefullifestr = obj.getString("usefullifestr");
         this.unit = obj.getString("unit");
         this.emplid = obj.getString("emplid");
+        this.fd1str = obj.getString("fd1str");
         this.accumulateddepreciation = obj.getString("accumulateddepreciation");
 
     }
@@ -670,5 +675,13 @@ public class ResEntity implements java.io.Serializable {
 
     public void setEmplid(String emplid) {
         this.emplid = emplid;
+    }
+
+    public String getFd1str() {
+        return fd1str;
+    }
+
+    public void setFd1str(String fd1str) {
+        this.fd1str = fd1str;
     }
 }

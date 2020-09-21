@@ -21,6 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
 /**
  * <p>
  * 前端控制器
@@ -36,6 +40,58 @@ public class SysDbbackupRecController extends BaseController {
 
     @Autowired
     ISysDbbackupRecService SysDbbackupRecServiceImpl;
+
+    @ResponseBody
+    @Acl(info = "下载", value = Acl.ACL_USER)
+    @RequestMapping(value = "/downFile.do")
+    public R downFile(HttpServletResponse response, @RequestParam(value = "id", required = true, defaultValue = "") String id) throws Exception {
+
+        SysDbbackupRec rec = SysDbbackupRecServiceImpl.getById(id);
+        if (rec == null) {
+            return R.FAILURE("数据条目不存在");
+        }
+        String filepath = rec.getFilepath();
+        File file = new File(filepath);
+        if (file.exists()) {
+            response.setHeader("content-type", "application/octet-stream");
+            response.setContentType("application/zip");
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + new String("backupfile".getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+            byte[] buffer = new byte[1024];
+            FileInputStream fis = null;
+            BufferedInputStream bis = null;
+            try {
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+                OutputStream os = response.getOutputStream();
+                int i = bis.read(buffer);
+                while (i != -1) {
+                    os.write(buffer, 0, i);
+                    i = bis.read(buffer);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (bis != null) {
+                    try {
+                        bis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } else {
+            return R.FAILURE("文件不存在");
+        }
+        return R.SUCCESS_OPER();
+    }
 
 
     @ResponseBody

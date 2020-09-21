@@ -93,9 +93,14 @@ public class ResCBasicinformationExtController extends BaseController {
             e.setTlocdtlstatus(entity.getTlocdtlstatus());
             e.setTunitstatus(entity.getTunitstatus());
             e.setTconfdescstatus(entity.getTconfdescstatus());
+            e.setTmarkstatus(entity.getTmarkstatus());
+            e.setTfd1status(entity.getTfd1status());
+            e.setTfs20status(entity.getTfs20status());
+            e.setTfd1(entity.getTfd1());
+            e.setTmark(entity.getTmark());
+            e.setTfs20(entity.getTfs20());
             list.add(e);
         }
-        System.out.println(entity);
         ResCBasicinformationServiceImpl.save(entity);
         ResCBasicinformationItemServiceImpl.saveBatch(list);
         zcChangeService.zcCGJBSureChange(uuid);
@@ -112,15 +117,14 @@ public class ResCBasicinformationExtController extends BaseController {
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.tsupplier) tsupplierstr,\n" +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.tusefullife) tusefullifestr,\n" +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,\n" +
-
                 "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname," +
                 "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tusedcompanyname," +
                 "(select name from sys_user_info where user_id=b.tuseduserid) tusedusername," +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.tbrand) tbrandstr,\n" +
                 "(select route_name from ct_category where dr='0' and id=b.tclassid) tclassfullname,\n" +
+                "date_format(tfd1,'%Y-%m-%d') tfd1str,\n" +
                 "date_format(tbuytime,'%Y-%m-%d') tbuytimestr,b.* \n" +
                 "from res_c_basicinformation b where dr='0' order by create_time desc";
-        System.out.println(sql);
         RcdSet rs = db.query(sql);
         return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
     }

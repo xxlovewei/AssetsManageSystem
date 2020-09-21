@@ -29,8 +29,9 @@ function modalimpordocCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     }
 }
 
-function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
+function zcdataImportCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                          $log, notify, $scope, $http, $rootScope, $uibModal, $window, $timeout) {
+    var category = $state.router.globals.current.data.category;
     $scope.okbtnstatus = false;
     $scope.importOpt = [{
         id: "insert",
@@ -96,6 +97,7 @@ function zcdataImportCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         $timeout(function () {
             $http.post($rootScope.project + "/api/base/res/importResData.do", {
                 type: $scope.importSel.id,
+                category: category,
                 id: id
             }).success(function (res) {
                 $scope.okbtnstatus = false;

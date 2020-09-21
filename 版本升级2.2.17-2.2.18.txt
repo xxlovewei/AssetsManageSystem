@@ -1,0 +1,31 @@
+1.新增备份下载
+2.前端修改组织定义
+3.支持备件批量导入
+4.新增生产日期字段
+5.修改备件导出导入bug
+6.修复物品档案无法新增问题
+
+
+
+--表结构变化
+
+ALTER TABLE res_c_basicinformation ADD tfs20 varchar(50) NULL;
+ALTER TABLE res_c_basicinformation ADD tfd1 date NULL;
+ALTER TABLE res_c_basicinformation ADD tmark varchar(500) NULL;
+
+ALTER TABLE res_c_basicinformation ADD tfs20status varchar(50) NULL;
+ALTER TABLE res_c_basicinformation ADD tfd1status varchar(50) NULL;
+ALTER TABLE res_c_basicinformation ADD tmarkstatus varchar(50) NULL;
+
+
+ALTER TABLE res_c_basicinformation_item ADD tfs20 varchar(50) NULL;
+ALTER TABLE res_c_basicinformation_item ADD tfd1 date NULL;
+ALTER TABLE res_c_basicinformation_item ADD tmark varchar(500) NULL;
+
+ALTER TABLE res_c_basicinformation_item ADD ffs20 varchar(50) NULL;
+ALTER TABLE res_c_basicinformation_item ADD ffd1 date NULL;
+ALTER TABLE res_c_basicinformation_item ADD fmark varchar(500) NULL;
+
+ALTER TABLE res_c_basicinformation_item ADD tfs20status varchar(50) NULL;
+ALTER TABLE res_c_basicinformation_item ADD tfd1status varchar(50) NULL;
+ALTER TABLE res_c_basicinformation_item ADD tmarkstatus varchar(50) NULL;
