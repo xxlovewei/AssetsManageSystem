@@ -10,10 +10,10 @@
 
 ## 所用框架
 - Spring 5.0.17
-- Shiro 1.5.3
+- Shiro 1.6.0
 - MyBatis-Plus 3.0.7.1
 - MyBatis 3.4.6
-- Druid 1.1.22
+- Druid 1.1.23
 - Easypoi 4.1.3
 - Quartz 2.3.2
 - UFLO 2.1.5(流程引擎)

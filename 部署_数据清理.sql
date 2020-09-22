@@ -43,11 +43,17 @@ truncate table res_c_maintenance;
 truncate table res_c_maintenance_item;
 truncate table res_collectionreturn;
 truncate table res_collectionreturn_item;
+truncate table res_loanreturn;
+truncate table res_loanreturn_item;
+truncate table doc_mgr;
+truncate table contract;
 
 #clear ops table
 truncate table ops_node;
 truncate table ops_node_infosys;
 truncate table ops_node_item;
+
+
 
 #clear others
 delete from sys_user_info where dr='1'
