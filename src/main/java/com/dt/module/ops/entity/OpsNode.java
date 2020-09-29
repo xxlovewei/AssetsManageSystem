@@ -97,6 +97,8 @@ public class OpsNode extends BaseModel<OpsNode> {
     @TableField("nodebackupdtl")
     private String nodebackupdtl;
 
+    @TableField("arch")
+    private String arch;
 
     public String getId() {
         return id;
@@ -440,5 +442,13 @@ public class OpsNode extends BaseModel<OpsNode> {
                 ", userdbused=" + userdbused +
                 ", nodebackupdtl=" + nodebackupdtl +
                 "}";
+    }
+
+    public String getArch() {
+        return arch;
+    }
+
+    public void setArch(String arch) {
+        this.arch = arch;
     }
 }

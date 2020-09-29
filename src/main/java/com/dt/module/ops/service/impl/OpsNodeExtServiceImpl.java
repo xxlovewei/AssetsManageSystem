@@ -48,7 +48,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
             + "t.*\n" + "from ops_node t where dr=0 ";
 
     public R selecList(String search) {
-        String sql = OpsNodeExtServiceImpl.sql;
+        String sql = OpsNodeExtServiceImpl.sql + " and arch='0'";
         if (ToolUtil.isNotEmpty(search)) {
             sql = sql + " and (name like '%" + search + "%' or ip like '%" + search + "%' or leader like '%" + search
                     + "%' or mark like '%" + search + "%')";
@@ -59,7 +59,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 
     public R validMiddlewareData() {
         String sql = "select t.*,\n" + "(length(middleware)-length(replace(middleware, ',','')) ) +1 cnt\n"
-                + "from ops_node t where dr='0' and middleware<>'[]'";
+                + "from ops_node t where arch='0' and dr='0' and middleware<>'[]'";
         RcdSet rs = db.query(sql);
         List<String> sqls = new ArrayList<String>();
         sqls.add("delete from ops_node_item where type='middleware'");
@@ -272,6 +272,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
 
             me.setIf("middleware", mid_ids.toJSONString());
             me.setIf("middlewarestr", mid_str);
+            me.set("arch", "0");
             sql = me.getSQL();
         } else if (type.equals("update")) {
             Update me = new Update("ops_node");

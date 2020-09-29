@@ -13,7 +13,9 @@ import com.dt.core.shiro.ShiroKit;
 import com.dt.core.shiro.ShiroUser;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.entity.SysParams;
 import com.dt.module.base.service.ISysMenusService;
+import com.dt.module.base.service.ISysParamsService;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.base.service.impl.LoginService;
 import org.apache.shiro.authc.*;
@@ -39,6 +41,9 @@ public class LoginController extends BaseController {
     ISysUserInfoService SysUserInfoServiceImpl;
 
     @Autowired
+    ISysParamsService SysParamsServiceImpl;
+
+    @Autowired
     ISysMenusService SysMenusServiceImpl;
 
     @Acl(value = Acl.ACL_ALLOW, info = "版本")
@@ -46,8 +51,10 @@ public class LoginController extends BaseController {
     @ResponseBody
     public R queryVersion() {
         JSONObject res = new JSONObject();
-        res.put("version", "2.2.17");
-        res.put("msg", " 开源版本地址:https://gitee.com/lank/zcdevmgr");
+        SysParams parms_version = SysParamsServiceImpl.getById("version");
+        if (parms_version != null) {
+            res.put("version", parms_version.getName());
+        }
         return R.SUCCESS_OPER(res);
     }
 
@@ -101,8 +108,15 @@ public class LoginController extends BaseController {
         // 覆盖重要信息
         u.put("pwd", "********");
         r.put("user_info", u);
-        r.put("dtversion", "2.2.17");
-        r.put("dtmsg", " 开源版本地址:https://gitee.com/lank/zcdevmgr");
+        SysParams parms_version = SysParamsServiceImpl.getById("version");
+        if (parms_version != null) {
+            r.put("dtversion", parms_version.getName());
+        }
+        SysParams parms_app = SysParamsServiceImpl.getById("app");
+        if (parms_app != null) {
+            r.put("dtmsg", parms_app.getName());
+        }
+
         // 菜单列表
         JSONArray systems = null;
         if (BaseCommon.isSuperAdmin(shiroUser.id)) {

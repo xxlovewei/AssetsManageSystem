@@ -201,9 +201,9 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
     public R getEmplNextId() {
 
         Rcd seqrs = db.uniqueRecord(
-                "select case when value is null then '50' else value end seq from sys_params where id='sys_empl_no'");
+                "select case when value is null then '50' else value end seq from sys_params where id='sys_empl_no' and dr ='0'");
         if (ToolUtil.isEmpty(seqrs)) {
-            return R.FAILURE("获取员工编号错误,无法生成员工.");
+            return R.FAILURE("未获取员工编号,创建员工失败。");
         }
         String empl_id = (ConvertUtil.toInt(seqrs.getString("seq")) + 1) + "";
         Update me = new Update("sys_params");

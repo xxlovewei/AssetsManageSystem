@@ -1,4 +1,4 @@
-package com.dt.module.hrm.service;
+package com.dt.module.hrm.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -59,10 +59,16 @@ public class EmplService extends BaseService {
         user.setUserType(userTypeEnum.EMPL.getValue().toString());
         user.setName(ps.getString("name", ""));
         R user_rs = sysUserInfoServiceImpl.addUser(user);
-
-        String empl_id = ((SysUserInfo) user_rs.getData()).getEmplId();
+        if (user_rs.isFailed()) {
+            return user_rs;
+        }
+        SysUserInfo s = ((SysUserInfo) user_rs.getData());
+        String empl_id = s.getEmplId();
         for (int i = 0; i < nodes_arr.size(); i++) {
             String node_id = nodes_arr.getJSONObject(i).getString("node_id");
+            if (db.uniqueRecord("select * from hrm_org_part where dr='0' and node_id=?", node_id) == null) {
+                return R.FAILURE("组织不存在");
+            }
             Insert ins3 = new Insert("hrm_org_employee");
             ins3.set("id", ToolUtil.getUUID());
             ins3.set("node_id", node_id);
@@ -172,16 +178,17 @@ public class EmplService extends BaseService {
                 return R.FAILURE("该节点不存在");
             }
             // String route = routev.getString("route").replaceAll("-", ",");
-            bsql = "select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+            bsql = "select b.*,c.node_name,c.route_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
             // 不级联获取人员数据
             bsql = bsql + " and a.node_id= '" + node_id + "'";
         } else {
-            bsql = "select b.*,c.node_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+            bsql = "select b.*,c.node_name,c.route_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
         }
         if (name != null && (!name.trim().equals(""))) {
             bsql = bsql + " and b.name like '%" + name + "%'";
         }
         bsql = bsql + " order by name";
+        System.out.println(bsql);
         return R.SUCCESS_OPER(db.query(bsql).toJsonArrayWithJsonObject());
     }
 

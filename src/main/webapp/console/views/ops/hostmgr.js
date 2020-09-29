@@ -463,6 +463,14 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             // btn-primary" type="submit">详情</button>'
             // },
             {
+                id: "btn4",
+                label: "",
+                type: "btn",
+                show: true,
+                priv: "importfile",
+                template: ' <button ng-click="arch()" class="btn btn-sm btn-primary" type="submit">归档</button>'
+            },
+            {
                 id: "btn2",
                 label: "",
                 type: "btn",
@@ -565,6 +573,30 @@ function syshostmgrCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                         }
                     });
                 });
+        }
+    }
+    $scope.arch = function () {
+        var selrows = getSelectRows();
+        if (angular.isDefined(selrows)) {
+            $confirm({
+                text: '是否归档?'
+            }).then(
+                function () {
+                    $http.post(
+                        $rootScope.project
+                        + "/api/ops/opsNode/ext/archAction.do", {
+                            ids: selrows
+                        }).success(function (res) {
+                        if (res.success) {
+                            flush();
+                        }
+                        notify({
+                            message: res.message
+                        });
+                    });
+                });
+        } else {
+            return;
         }
     }
     $scope.detail = function () {

@@ -46,6 +46,7 @@
         <result column="usermid" property="usermid" />
         <result column="userdbused" property="userdbused" />
         <result column="nodebackupdtl" property="nodebackupdtl" />
+        <result column="arch" property="arch"/>
     </resultMap>
 
 </mapper>

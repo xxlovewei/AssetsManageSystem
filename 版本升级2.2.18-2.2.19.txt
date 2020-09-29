@@ -1,0 +1,5 @@
+ALTER TABLE ops_node ADD arch varchar(1) NULL;
+update ops_node set arch='0';
+INSERT INTO sys_params (`id`, `name`, `value`, `type`, `dr`, `mark`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES ('app', 'NULL', '开源版本地址:https://gitee.com/lank/zcdevmgr', 'system', '0', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL');
+ALTER TABLE res ADD rfid varchar(50) NULL;
+
