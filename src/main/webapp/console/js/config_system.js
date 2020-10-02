@@ -418,9 +418,9 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    }).state('org.positionmgr', {
+    }).state('org.position', {
         url: "/org_positionmgr?psBtns",
-        data: {pageTitle: '职位管理'},
+        data: {pageTitle: '岗位管理'},
         template: '<div ng-controller="positionCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
         resolve: {
             loadPlugin: function ($ocLazyLoad) {

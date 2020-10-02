@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author algernonking
- * @since 2020-09-03
+ * @since 2020-09-30
  */
 public interface HrmPositionTypeMapper extends BaseMapper<HrmPositionType> {
 

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author algernonking
- * @since 2020-09-03
+ * @since 2020-09-30
  */
 @Service
 public class HrmPositionTypeServiceImpl extends ServiceImpl<HrmPositionTypeMapper, HrmPositionType> implements IHrmPositionTypeService {

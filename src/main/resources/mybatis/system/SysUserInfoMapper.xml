@@ -43,18 +43,22 @@
         <result column="TIXAMOUNT" property="tixamount" />
         <result column="CREDIT_SCORE" property="creditScore" />
         <result column="IDENTITY_CARD" property="identityCard" />
-        <result column="DRIVER_CARD" property="driverCard" />
-        <result column="UPDATE_TIME" property="updateTime" />
-        <result column="NATION" property="nation" />
-        <result column="NATIVE_PLACE" property="nativePlace" />
-        <result column="SELF_EVALUATE" property="selfEvaluate" />
-        <result column="ALI_PAY_USERNAME" property="aliPayUsername" />
-        <result column="ALI_PAY_ACCOUNT" property="aliPayAccount" />
-        <result column="SHORTMOBILE" property="shortmobile" />
-        <result column="CREATE_BY" property="createBy" />
-        <result column="UPDATE_BY" property="updateBy" />
- 
-         
+        <result column="DRIVER_CARD" property="driverCard"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="NATION" property="nation"/>
+        <result column="NATIVE_PLACE" property="nativePlace"/>
+        <result column="SELF_EVALUATE" property="selfEvaluate"/>
+        <result column="ALI_PAY_USERNAME" property="aliPayUsername"/>
+        <result column="ALI_PAY_ACCOUNT" property="aliPayAccount"/>
+        <result column="SHORTMOBILE" property="shortmobile"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+
+        <result column="sposition" property="sposition"/>
+        <result column="fposition" property="fposition"/>
+        <result column="hrmstatus" property="hrmstatus"/>
+
+
     </resultMap>
     
      <!--  select a.*,b.url from ( select * from sys_user_info where user_id= #{USER_ID}) a left join sys_log_access b on a.user_id=b.user_id

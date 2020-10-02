@@ -55,6 +55,11 @@ public class EmplService extends BaseService {
 
         SysUserInfo user = new SysUserInfo();
         user.setLocked("N");
+
+        user.setHrmstatus(ps.getString("hrmstatus", ""));
+        user.setFposition(ps.getString("fposition", ""));
+        user.setSposition(ps.getString("sposition", ""));
+        user.setMail(ps.getString("mail", ""));
         user.setTel(ps.getString("tel", ""));
         user.setUserType(userTypeEnum.EMPL.getValue().toString());
         user.setName(ps.getString("name", ""));
@@ -108,13 +113,15 @@ public class EmplService extends BaseService {
 
         ArrayList<SQL> exeSqls = new ArrayList<SQL>();
 
-
         if (ToolUtil.isOneEmpty(user_id, empl_id, nodes)) {
             return R.FAILURE_REQ_PARAM_ERROR();
         }
 
         Update u = new Update("sys_user_info");
-        u.set("tel", ps.getString("tel", ""));
+        u.setIf("fposition", ps.getString("fposition"));
+        u.setIf("hrmstatus", ps.getString("hrmstatus"));
+        u.setIf("mail", ps.getString("mail"));
+        u.setIf("tel", ps.getString("tel", ""));
         u.set("name", ps.getString("name", ""));
         u.where().and("user_id=?", user_id);
 
@@ -178,16 +185,16 @@ public class EmplService extends BaseService {
                 return R.FAILURE("该节点不存在");
             }
             // String route = routev.getString("route").replaceAll("-", ",");
-            bsql = "select b.*,c.node_name,c.route_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+            bsql = "select (select name from hrm_position where id=b.fposition) fposname,b.*,c.node_name,c.route_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
             // 不级联获取人员数据
             bsql = bsql + " and a.node_id= '" + node_id + "'";
         } else {
-            bsql = "select b.*,c.node_name,c.route_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+            bsql = "select (select name from hrm_position where id=b.fposition) fposname,b.*,c.node_name,c.route_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
         }
         if (name != null && (!name.trim().equals(""))) {
             bsql = bsql + " and b.name like '%" + name + "%'";
         }
-        bsql = bsql + " order by name";
+        bsql = bsql + " order by create_time desc";
         System.out.println(bsql);
         return R.SUCCESS_OPER(db.query(bsql).toJsonArrayWithJsonObject());
     }

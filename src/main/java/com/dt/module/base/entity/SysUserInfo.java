@@ -202,6 +202,18 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
     private String shortmobile;
 
 
+    @TableField("fposition")
+    private String fposition;
+
+
+    @TableField("sposition")
+    private String sposition;
+
+
+    @TableField("hrmstatus")
+    private String hrmstatus;
+
+
     public String getUserId() {
         return userId;
     }
@@ -610,5 +622,29 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
                 ", aliPayAccount=" + aliPayAccount +
                 ", shortmobile=" + shortmobile +
                 "}";
+    }
+
+    public String getFposition() {
+        return fposition;
+    }
+
+    public void setFposition(String fposition) {
+        this.fposition = fposition;
+    }
+
+    public String getHrmstatus() {
+        return hrmstatus;
+    }
+
+    public void setHrmstatus(String hrmstatus) {
+        this.hrmstatus = hrmstatus;
+    }
+
+    public String getSposition() {
+        return sposition;
+    }
+
+    public void setSposition(String sposition) {
+        this.sposition = sposition;
     }
 }

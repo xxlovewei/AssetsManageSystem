@@ -1,7 +1,6 @@
 package com.dt.module.hrm.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -14,9 +13,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-09-03
+ * @since 2020-09-30
  */
-
+ 
 @TableName("hrm_position_type")
 
 public class HrmPositionType extends BaseModel<HrmPositionType> {

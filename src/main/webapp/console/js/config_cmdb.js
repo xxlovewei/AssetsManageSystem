@@ -293,7 +293,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         }
     }).state('cmsetting.dataimport', {
         url: "/cmsetting_dataimport?psBtns",
-        data: {pageTitle: '资产导入'},
+        data: {pageTitle: '资产导入', category: 3},
         templateUrl: "views/cmdb/dataimport.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {

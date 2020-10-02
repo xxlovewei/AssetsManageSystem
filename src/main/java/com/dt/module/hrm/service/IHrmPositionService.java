@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author algernonking
- * @since 2020-09-04
+ * @since 2020-09-30
  */
 public interface IHrmPositionService extends IService<HrmPosition> {
 

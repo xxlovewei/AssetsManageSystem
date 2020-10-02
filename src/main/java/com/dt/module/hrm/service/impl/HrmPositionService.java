@@ -10,7 +10,7 @@ public class HrmPositionService extends BaseService {
 
 
     public R listPositions() {
-        RcdSet rs = db.query("select t.*,(select ptname from hrm_position_type where id=t.type) typestr from hrm_position  t where dr='0'");
+        RcdSet rs = db.query("select t.*,(select ptname from hrm_position_type where id=t.type) typestr from hrm_position t where dr='0' ");
         return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
     }
 

@@ -62,7 +62,11 @@ function importEmployeeCtl($log, $uibModalInstance, notify, $scope, $http,
     }
 }
 
-function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
+// function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
+//
+// }
+function orgEmpSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
+                       $uibModalInstance, $scope, id, $http, $rootScope, partOpt, $timeout) {
     $scope.partOpt = []
     $scope.partSel = []
     $scope.$watch('partSel', function () {
@@ -108,46 +112,71 @@ function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
             }
         }
     }, true);
-}
-
-function orgEmpSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
-                       $uibModalInstance, $scope, id, $http, $rootScope, partOpt, $timeout) {
     $scope.data = {};
+    $scope.hrmstatusOpt = [{id: "online", name: "在职"}, {id: "offline", name: "离职"}];
+    $scope.hrmstatusSel = $scope.hrmstatusOpt[0];
+    $scope.posOpt = [];
+    $scope.posSel = {}
     $timeout(function () {
         var d = angular.copy(partOpt)
         d.splice(0, 1);
         $rootScope.sys_partOpt = d;
     }, 800);
     $rootScope.sys_partSel;
-    if (angular.isDefined(id)) {
-        // 加载数据
-        $http.post($rootScope.project + "/api/hrm/employeeQueryById.do", {
-            empl_id: id
-        }).success(function (res) {
-            if (res.success) {
-                $scope.data = res.data;
-                $scope.data.OLD_PARTS = res.data.PARTS;
-                $timeout(function () {
-                    $rootScope.sys_partSelItem = res.data.PARTS
-                }, 810);
-            } else {
-                notify({
-                    message: res.message
-                });
+    $http.post($rootScope.project + "/api/hrm/hrmPosition/listPositions.do", {}).success(function (res) {
+        $scope.posOpt = res.data;
+        if (angular.isDefined(id)) {
+            // 加载数据
+            $http.post($rootScope.project + "/api/hrm/employeeQueryById.do", {
+                empl_id: id
+            }).success(function (res) {
+                if (res.success) {
+                    $scope.data = res.data;
+                    $scope.data.OLD_PARTS = res.data.PARTS;
+                    $timeout(function () {
+                        $rootScope.sys_partSelItem = res.data.PARTS
+                    }, 500);
+                    if (res.data.hrmstatus) {
+                        if (res.data.hrmstatus == "online") {
+                            $scope.hrmstatusSel = $scope.hrmstatusOpt[0];
+                        } else if (res.data.hrmstatus == "offline") {
+                            $scope.hrmstatusSel = $scope.hrmstatusOpt[1];
+                        }
+                    }
+                    for (var i = 0; i < $scope.posOpt.length; i++) {
+                        if ($scope.posOpt[i].id == res.data.fposition) {
+                            $scope.posSel = $scope.posOpt[i];
+                            break;
+                        }
+                    }
+                    if (!angular.isDefined($scope.posSel.id)) {
+                        if (res.data.length > 0) {
+                            $scope.posSel = $scope.posOpt[0];
+                        }
+                    }
+                } else {
+                    notify({
+                        message: res.message
+                    });
+                }
+            })
+        } else {
+            if (res.data.length > 0) {
+                $scope.posSel = $scope.posOpt[0];
             }
-        })
-    } else {
-        $rootScope.sys_partSelItem = [];
-    }
-    $timeout(function () {
-        var modal = document.getElementsByClassName('modal-body');
-        for (var i = 0; i < modal.length; i++) {
-            var adom = modal[i].getElementsByClassName('chosen-container');
-            for (var j = 0; j < adom.length; j++) {
-                adom[i].style.width = "100%";
-            }
+            $rootScope.sys_partSelItem = [];
         }
-    }, 200);
+    });
+    // $timeout(function () {
+    //     var modal = document.getElementsByClassName('modal-body');
+    //     for (var i = 0; i < modal.length; i++) {
+    //         var adom = modal[i].getElementsByClassName('chosen-container');
+    //         for (var j = 0; j < adom.length; j++) {
+    //             console.log(j);
+    //             adom[i].style.width = "100%";
+    //         }
+    //     }
+    // }, 200);
     $scope.sure = function () {
         // 跨越controller获取数据数据
         if (!angular.isDefined($rootScope.sys_partSel)) {
@@ -175,7 +204,9 @@ function orgEmpSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
             });
             return;
         }
+        $scope.data.hrmstatus = $scope.hrmstatusSel.id;
         $scope.data.nodes = angular.toJson($rootScope.sys_partSel);
+        $scope.data.fposition = $scope.posSel.id;
         var cmd = "";
         if (angular.isDefined($scope.data.empl_id)) {
             cmd = "/api/hrm/employeeUpdate.do"
@@ -196,6 +227,16 @@ function orgEmpSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+    $timeout(function () {
+        var modal = document.getElementsByClassName('modal-body');
+        for (var i = 0; i < modal.length; i++) {
+            var adom = modal[i].getElementsByClassName('chosen-container');
+            for (var j = 0; j < adom.length; j++) {
+                console.log(j);
+                adom[i].style.width = "100%";
+            }
+        }
+    }, 100);
 }
 
 function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
@@ -263,6 +304,18 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
         return res;
     }
 
+    function renderHrmstatus(data, type, full) {
+        var res = "在职";
+        if (data == "online") {
+            res = "在职";
+        } else if (data == "offline") {
+            res = "离职";
+        } else {
+            res = "";
+        }
+        return res;
+    }
+
     $scope.dtColumns = [
         DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption(
             'sDefaultContent', ''),
@@ -270,6 +323,10 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tel').withTitle('手机号').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('fposname').withTitle('岗位').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('hrmstatus').withTitle('状态').withOption(
+            'sDefaultContent', '').renderWith(renderHrmstatus),
         DTColumnBuilder.newColumn('route_name').withTitle('所属组织').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption(
@@ -354,4 +411,4 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
     }
 };
 app.register.controller('orgEmpAdjustCtl', orgEmpAdjustCtl);
-app.register.controller('orgEmpSavePartCtl', orgEmpSavePartCtl);
+// app.register.controller('orgEmpSavePartCtl', orgEmpSavePartCtl);
