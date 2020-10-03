@@ -298,31 +298,32 @@ function genericzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile,
         }
     }
 
-    $scope.batchupate = function () {
-        var selrows = getSelectRows();
-        var ps = {};
-        if (angular.isDefined(selrows)) {
-            ps.selrows = selrows;
-            ps.gdicts = gdicts;
-            var modalInstance = $uibModal.open({
-                backdrop: true,
-                templateUrl: 'views/cmdb/modal_batchUpdateRes.html',
-                controller: modalresBatchUpdateCtl,
-                size: 'blg',
-                resolve: {
-                    meta: function () {
-                        return ps;
-                    }
-                }
-            });
-            modalInstance.result.then(function (result) {
-                if (result == "OK") {
-                    flush();
-                }
-            }, function (reason) {
-            });
-        }
-    }
+    //
+    // $scope.batchupate = function () {
+    //     var selrows = getSelectRows();
+    //     var ps = {};
+    //     if (angular.isDefined(selrows)) {
+    //         ps.selrows = selrows;
+    //         ps.gdicts = gdicts;
+    //         var modalInstance = $uibModal.open({
+    //             backdrop: true,
+    //             templateUrl: 'views/cmdb/modal_batchUpdateRes.html',
+    //             controller: modalresBatchUpdateCtl,
+    //             size: 'blg',
+    //             resolve: {
+    //                 meta: function () {
+    //                     return ps;
+    //                 }
+    //             }
+    //         });
+    //         modalInstance.result.then(function (result) {
+    //             if (result == "OK") {
+    //                 flush();
+    //             }
+    //         }, function (reason) {
+    //         });
+    //     }
+    // }
     $scope.del = function () {
         var selrows = getSelectRows();
         if (angular.isDefined(selrows)) {

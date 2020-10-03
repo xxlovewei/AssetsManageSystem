@@ -384,7 +384,7 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
         items.push({
             type: "select",
-            disabled: zcrecycle,
+            disabled: "false",
             label: "资产状态",
             need: true,
             disable_search: "true",
@@ -906,6 +906,10 @@ function zcBjCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                         openWindow(res.data);
                     })
         } else {
+            zcbuyprice = "false";
+            zcnetworth = "false";
+            zcrecycle = "false";
+            zcclass = "false";
             openWindow({});
         }
     }

@@ -48,7 +48,7 @@ function modalAttrSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.data.ifinheritable = $scope.jcSel.id;
         $http.post(
             $rootScope.project
-            + "/api/cmdb/resAttrs/insertOrUpdate.do", $scope.data).success(function (res) {
+            + "/api/cmdb/resAttrs/ext/insertOrUpdate.do", $scope.data).success(function (res) {
             if (res.success) {
                 $uibModalInstance.close('OK');
             }

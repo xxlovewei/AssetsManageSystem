@@ -7,6 +7,7 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ConvertUtil;
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.cmdb.entity.ResAttrs;
 import com.dt.module.cmdb.service.IResAttrsService;
 import com.dt.module.ct.entity.CtCategory;
@@ -57,6 +58,18 @@ public class ResAttrsExtController extends BaseController {
         String sql = "select t.* from res_attrs t where ifinheritable='1' and dr='0' and catid<>? and catid in (" + route.replaceAll("-", ",") + ") union all (select * from res_attrs where dr='0' and catid=? order by sort)";
         JSONArray res = ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, catid, catid).toJsonArrayWithJsonObject());
         return R.SUCCESS_OPER(res);
+    }
+
+    @ResponseBody
+    @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
+    @RequestMapping(value = "/insertOrUpdate.do")
+    public R insertOrUpdate(ResAttrs entity) {
+
+        if (ToolUtil.isEmpty(entity.getAttrcode())) {
+            return R.FAILURE_REQ_PARAM_ERROR();
+        }
+        entity.setAttrcode(entity.getAttrcode().trim().toLowerCase());
+        return R.SUCCESS_OPER(ResAttrsServiceImpl.saveOrUpdate(entity));
     }
 
 

@@ -499,21 +499,20 @@ public class ZcService extends BaseService {
         // 获取res数据
         if (ToolUtil.isNotEmpty(id)) {
             String sql = "select";
-            JSONArray attrs_rs = queryZcAttrWithValue(class_id, id);
-            for (int i = 0; i < attrs_rs.size(); i++) {
+            for (int i = 0; i < attrs.size(); i++) {
                 // 拼接sql
                 String valsql = "";
                 if ("inputint".equals(attrs.getJSONObject(i).getString("inputtype"))) {
                     // valsql = " cast( attrvalue as signed integer)";
                     valsql = " attrvalue+0";
-                } else if ("inputstr".equals(attrs_rs.getJSONObject(i).getString("inputtype"))) {
+                } else if ("inputstr".equals(attrs.getJSONObject(i).getString("inputtype"))) {
                     valsql = "attrvalue";
                 } else {
                     valsql = "attrvalue";
                 }
                 sql = sql + " (select " + valsql
                         + " from res_attr_value i where i.dr=0 and i.resid=t.id and i.attrid='"
-                        + attrs_rs.getJSONObject(i).getString("id") + "') \"" + attrs_rs.getJSONObject(i).getString("attrcode")
+                        + attrs.getJSONObject(i).getString("id") + "') \"" + attrs.getJSONObject(i).getString("attrcode")
                         + "\",  ";
             }
             sql = sql + ZcCommonService.resSqlbody + " t.* from res t where dr=0 and id=?";
@@ -527,7 +526,7 @@ public class ZcService extends BaseService {
                 " select * from (\n" +
                         "select\n" +
                         "  (select name from sys_user_info where user_id=t.create_by)create_uname,\n" +
-                        "  t.* from  res_change_item t where dr='0' and t.resid=? order by create_time desc) tab limit 300\n",
+                        "  t.* from res_change_item t where dr='0' and t.resid=? order by create_time desc) tab limit 300\n",
                 id);
         data.put("updatadata", ConvertUtil.OtherJSONObjectToFastJSONArray(urs.toJsonArrayWithJsonObject()));
 

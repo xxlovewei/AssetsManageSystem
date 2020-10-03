@@ -474,7 +474,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
     }, 30);
     //########################################################本段为资产管理所需########################################################
     $scope.$watch('meta.extitems', function (newValue, oldValue) {
-        var extitemshtml = " <form id=\"formct\" class=\"form-horizontal m-t-md\" name=\"myForm2\" novalidate compile=\"template\" action=\"\">";
+        var extitemshtml = " <form id=\"formctcust\" class=\"form-horizontal m-t-md\" name=\"myForm2\" novalidate compile=\"template\" action=\"\">";
         var extitems = newValue;
         extitemshtml = extitemshtml + "<div><table style=\"width:100%\">";
         extitemshtml = extitemshtml + "<tr><td style=\"width:50%\"><div class=\"hr-line-dashed\"></div></td>   ";
@@ -568,6 +568,8 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     var tplhtml2 = $compile(extitemshtml);
                     var $dom2 = tplhtml2($scope);
                     var ct2 = document.getElementById('formitem');
+                    var ct3 = document.getElementById('formctcust');
+                    angular.element(ct3).remove();
                     angular.element(ct2).append($dom2);
                 }, 20);
             }
