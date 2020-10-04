@@ -53,7 +53,7 @@ public class ZcService extends BaseService {
 
 
     //@Cacheable(value = CacheConfig.CACHE_PUBLIC_80_10,key="'qf'+#uid")
-    public R queryDictFast(String uid, String zchccat, String comppart, String comp, String belongcomp, String dicts, String parts, String partusers, String subclass, String classroot, String zccatused) {
+    public R queryDictFast(String uid, String zchccat, String comppart, String comp, String belongcomp, String dicts, String parts, String partusers, String classid, String classroot, String zccatused) {
 
         JSONObject res = new JSONObject();
         String[] dict_arr = dicts.split(",");
@@ -68,9 +68,10 @@ public class ZcService extends BaseService {
             res.put(dict_arr[i], ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
         }
 
-        if (ToolUtil.isNotEmpty(subclass)) {
+        System.out.println(classid);
+        if (ToolUtil.isNotEmpty(classid)) {
             RcdSet partrs = db.query(
-                    "select id dict_item_id,name from ct_category where dr='0' and parent_id=? and type='goods' order by od", subclass);
+                    "select id dict_item_id,name from ct_category where dr='0' and parent_id=? and type='goods' order by od", classid);
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 

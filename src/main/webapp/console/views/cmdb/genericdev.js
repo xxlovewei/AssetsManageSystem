@@ -1,9 +1,10 @@
 
 
-function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $location,
+function genericdevCtl($stateParams, DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $location,
                        $log, notify, $scope, $http, $rootScope, $uibModal, $window, $state, $timeout) {
     var pbtns = $rootScope.curMemuBtns;
-    var gclass_id = "";
+    console.log($state, $stateParams);
+    var gclass_id = $stateParams.categoryid;
     var gdicts = {};
     var fastbtn = "<div class=\"btn-group\" role=\"group\">\n" +
         "    <button type=\"button\" class=\"btn btn-sm btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
@@ -119,98 +120,76 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
     };
     $scope.meta = meta;
     privNormalCompute($scope.meta.toolsbtn, pbtns);
-    $http.post($rootScope.project + "/api/sysParams/selectById.do", {id: $state.router.globals.current.data.classid})
-        .success(function (res) {
-            if (res.success) {
-                if (!angular.isDefined(res.data)) {
+    var dicts = "zcusefullife,zcwbcomoute,devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack,zcsource,zcwbsupper,zcsupper";
+    $http
+        .post($rootScope.project + "/api/zc/queryDictFast.do", {
+            uid: "generic" + gclass_id,
+            dicts: dicts,
+            parts: "Y",
+            partusers: "Y",
+            comp: "Y",
+            belongcomp: "Y",
+            classid: gclass_id
+        })
+        .success(
+            function (res) {
+                if (res.success) {
+                    gdicts = res.data;
+                    // // 资产大类
+                    // if (!angular
+                    //     .isDefined(subclass)) {
+                    //
+                    // } else {
+                    // }
+                    //   gdicts.btype = [];
+                    // 未使用
+                    gdicts.stype = [];
+                    // 填充行数据
+                    var tenv = [];
+                    angular.copy(gdicts.devenv, tenv);
+                    var twb = [];
+                    angular.copy(gdicts.devwb, twb);
+                    var tloc = [];
+                    angular.copy(gdicts.devdc, tloc);
+                    var trecycle = [];
+                    angular.copy(gdicts.devrecycle, trecycle);
+                    var parts = [];
+                    angular.copy(gdicts.parts, parts);
+                    var partusers = [];
+                    angular.copy(gdicts.partusers, partusers);
+                    tloc.unshift({
+                        dict_item_id: "all",
+                        name: "全部"
+                    });
+                    $scope.meta.tools[0].dataOpt = tloc;
+                    if (angular.isDefined(tloc) && tloc.length > 0) {
+                        $scope.meta.tools[0].dataSel = tloc[0];
+                    }
+                    tenv.unshift({
+                        dict_item_id: "all",
+                        name: "全部"
+                    });
+                    $scope.meta.tools[1].dataOpt = tenv;
+                    $scope.meta.tools[1].dataSel = tenv[0];
+                    twb.unshift({
+                        dict_item_id: "all",
+                        name: "全部"
+                    });
+                    $scope.meta.tools[2].dataOpt = twb;
+                    $scope.meta.tools[2].dataSel = twb[0];
+                    trecycle.unshift({
+                        dict_item_id: "all",
+                        name: "全部"
+                    });
+                    $scope.meta.tools[3].dataOpt = trecycle;
+                    $scope.meta.tools[3].dataSel = trecycle[0];
+                    flush();
+                } else {
                     notify({
-                        message: "未成功获取大类编码,请先设置参数"
+                        message: res.message
                     });
                 }
-                gclass_id = res.data.value;
-                var dicts = "zcusefullife,zcwbcomoute,devbrand,devrisk,devenv,devrecycle,devwb,devdc,devrack,zcsource,zcwbsupper,zcsupper";
-                // 判断输入框
-                var subclass = "N";
-                if (angular.isDefined($state.router.globals.current.data.subclass)) {
-                    subclass = gclass_id;
-                }
-                var t = $state.router.globals.current.data.classid;
-                var t2 = t.replace("_", "");
-                $http
-                    .post($rootScope.project + "/api/zc/queryDictFast.do", {
-                        uid: "generic" + t2,
-                        dicts: dicts,
-                        parts: "Y",
-                        partusers: "Y",
-                        comp: "Y",
-                        belongcomp: "Y",
-                        subclass: subclass
-                    })
-                    .success(
-                        function (res) {
-                            if (res.success) {
-                                gdicts = res.data;
-                                // 资产大类
-                                if (!angular
-                                    .isDefined($state.router.globals.current.data.subclass)) {
-                                    gdicts.btype = [];
-                                } else {
-                                }
-                                // 未使用
-                                gdicts.stype = [];
-                                // 填充行数据
-                                var tenv = [];
-                                angular.copy(gdicts.devenv, tenv);
-                                var twb = [];
-                                angular.copy(gdicts.devwb, twb);
-                                var tloc = [];
-                                angular.copy(gdicts.devdc, tloc);
-                                var trecycle = [];
-                                angular.copy(gdicts.devrecycle, trecycle);
-                                var parts = [];
-                                angular.copy(gdicts.parts, parts);
-                                var partusers = [];
-                                angular.copy(gdicts.partusers, partusers);
-                                tloc.unshift({
-                                    dict_item_id: "all",
-                                    name: "全部"
-                                });
-                                $scope.meta.tools[0].dataOpt = tloc;
-                                if (angular.isDefined(tloc) && tloc.length > 0) {
-                                    $scope.meta.tools[0].dataSel = tloc[0];
-                                }
-                                tenv.unshift({
-                                    dict_item_id: "all",
-                                    name: "全部"
-                                });
-                                $scope.meta.tools[1].dataOpt = tenv;
-                                $scope.meta.tools[1].dataSel = tenv[0];
-                                twb.unshift({
-                                    dict_item_id: "all",
-                                    name: "全部"
-                                });
-                                $scope.meta.tools[2].dataOpt = twb;
-                                $scope.meta.tools[2].dataSel = twb[0];
-                                trecycle.unshift({
-                                    dict_item_id: "all",
-                                    name: "全部"
-                                });
-                                $scope.meta.tools[3].dataOpt = trecycle;
-                                $scope.meta.tools[3].dataSel = trecycle[0];
-                                flush();
-                            } else {
-                                notify({
-                                    message: res.message
-                                });
-                            }
-                        })
-            } else {
-                notify({
-                    message: res.message
-                });
-            }
-        })
-
+            })
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
         .withOption("ordering", false).withOption("responsive", false)
@@ -677,18 +656,18 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             ng_model: "fs20"
         });
         // 资产大类
-        if (angular
-            .isDefined($state.router.globals.current.data.subclass) || $state.router.globals.current.data.classid == "zcotherhard") {
-            items.push({
-                type: "select",
-                disabled: zcclass,
-                label: "资产类别",
-                need: true,
-                disable_search: "true",
-                dataOpt: "classOpt",
-                dataSel: "classSel"
-            });
-        }
+        // if (angular
+        //     .isDefined(subclass)) {
+        items.push({
+            type: "select",
+            disabled: zcclass,
+            label: "资产类别",
+            need: true,
+            disable_search: "true",
+            dataOpt: "classOpt",
+            dataSel: "classSel"
+        });
+        // }
         items.push({
             type: "select",
             disabled: zccycel,
@@ -1091,7 +1070,7 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         $scope.gmeta = {
             class_id: gclass_id,
             footer_hide: false,
-            title: "资产-" + $state.router.globals.current.data.pageTitle,
+            title: "资产",
             item: {zc_cnt: 1},
             buytime: bt,
             productiontime: pt,
@@ -1207,10 +1186,8 @@ function genericdevCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                     modal_meta.meta.item.attach = id;
                 }
                 if (angular
-                    .isDefined($state.router.globals.current.data.subclass)) {
+                    .isDefined(modal_meta.meta.classSel.dict_item_id)) {
                     modal_meta.meta.item.class_id = modal_meta.meta.classSel.dict_item_id;
-                } else {
-                    modal_meta.meta.item.class_id = gclass_id;
                 }
                 if (angular.isDefined(modal_meta.meta.typeSel.dict_item_id)) {
                     modal_meta.meta.item.type = modal_meta.meta.typeSel.dict_item_id;

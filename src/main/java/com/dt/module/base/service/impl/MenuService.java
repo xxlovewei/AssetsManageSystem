@@ -95,6 +95,7 @@ public class MenuService extends BaseService {
         ins.set("is_g_show", ps.getString("is_g_show"));
         ins.setIf("logo", logo);
         ins.setIf("mark", mark);
+        ins.setIf("params", ps.getString("params"));
         ins.setIf("type", validType(ps.getString("type")));
         db.execute(ins);
         updateRouteName(nodeid, node_name);
@@ -140,6 +141,7 @@ public class MenuService extends BaseService {
         ups.setIf("sort", sort);
         ups.setIf("logo", logo);
         ups.setIf("mark", mark);
+        ups.setIf("params", ps.getString("params"));
         ups.setIf("module_id", module_id);
         ups.setIf("is_action", ps.getString("is_action"));
         ups.setIf("is_g_show", ps.getString("is_g_show"));

@@ -75,6 +75,8 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         id: "goods",
         name: "物品"
     }]
+    $scope.categorylevelOpt = [{id: "normal", name: "常规"}, {id: "low", name: "低价值"}, {id: "high", name: "高价值"}];
+    $scope.categorylevelSel = $scope.categorylevelOpt[0];
     $scope.typeSel = $scope.typeOpt[0];
     $scope.actionSel = $scope.actionOpt[0];
     $scope.catRootOpt = [];
@@ -171,7 +173,8 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                             + "/api/ctCategroy/addCategory.do", {
                                 old_node_type: obj.type,
                                 name: "新节点",
-                                old_id: obj.id
+                                old_id: obj.id,
+                                categorylevel: $scope.categorylevelSel.id
                             }).success(function (res) {
                             if (res.success) {
                                 $timeout(function () {
@@ -327,6 +330,17 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                                 } else {
                                     $scope.typeSel = $scope.typeOpt[0];
                                 }
+                                if (angular.isDefined($scope.item.categorylevel)) {
+                                    if ($scope.item.categorylevel == "normal") {
+                                        $scope.categorylevelSel = $scope.categorylevelOpt[0];
+                                    } else if ($scope.item.categorylevel == "low") {
+                                        $scope.categorylevelSel = $scope.categorylevelOpt[1];
+                                    } else if ($scope.item.categorylevel == "high") {
+                                        $scope.categorylevelSel = $scope.categorylevelOpt[2];
+                                    }
+                                } else {
+                                    $scope.categorylevelSel = $scope.categorylevelOpt[0];
+                                }
                             }
                         } else {
                             notify({
@@ -378,6 +392,7 @@ function cmdbzcCateSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
 
     $scope.saveItem = function () {
         $scope.item.isaction = $scope.actionSel.id;
+        $scope.item.categorylevel = $scope.categorylevelSel.id;
         if (angular.isDefined($scope.typeSel.id)) {
             $scope.item.type = $scope.typeSel.id;
         }

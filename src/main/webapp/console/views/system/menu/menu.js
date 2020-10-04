@@ -527,6 +527,12 @@ function sysmenuCtl($compile, $timeout, $confirm, $log, notify, $scope, $http,
             sortingType: "string"
         },
         {
+            field: "params",
+            sortable: false,
+            displayName: "参数",
+            sortingType: "string"
+        },
+        {
             field: "typetext",
             sortable: false,
             displayName: "类型",

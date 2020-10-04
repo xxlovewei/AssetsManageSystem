@@ -67,12 +67,24 @@ ng-maxlength="20"
                 <div class="form-group">
                     <label class="col-sm-2 control-label">路径:</label>
                     <div class="col-sm-10">
-                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="key"
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="keyvalue"
                                ng-maxlength="30"
                                ng-model="item.keyvalue" placeholder="请输入内容" type="text">
                         <div class="text-danger"
-                             ng-if="myForm.key.$dirty && myForm.key.$invalid">
-                            <span ng-if="myForm.key.$error.maxlength">不能超过30个字符 </span>
+                             ng-if="myForm.keyvalue.$dirty && myForm.keyvalue.$invalid">
+                            <span ng-if="myForm.keyvalue.$error.maxlength">不能超过30个字符 </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">参数:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" name="params"
+                               ng-maxlength="500"
+                               ng-model="item.params" placeholder="请输入参数" type="text">
+                        <div class="text-danger"
+                             ng-if="myForm.params.$dirty && myForm.params.$invalid">
+                            <span ng-if="myForm.params.$error.maxlength">不能超过500个字符 </span>
                         </div>
                     </div>
                 </div>

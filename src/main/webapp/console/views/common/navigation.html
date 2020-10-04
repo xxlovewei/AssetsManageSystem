@@ -13,9 +13,9 @@
                     ng-if="first.children_cnt>0">
                     <li ng-class="{active: $state.includes('{{second.state}}')}"
                         ng-repeat="second in first.children"><a
-                            id="menu_{{second.state}}" ui-sref="{{second.state}}"
-                            ui-sref-opts="{reload: true, notify: true ,custom:{ btns:'{{second.btn}}' } }"
-                            ui-state-params="link.params">{{second.node_name}} <span
+                            id="menu_{{second.state}}" ui-sref="{{second.state}}{{second.params}}"
+                            ui-sref-opts="{reload: true, notify: true ,custom:{btns:'{{second.btn}}'} }"
+                    >{{second.node_name}} <span
                             class="fa arrow" ng-if="second.children_cnt>0"></span>
                     </a>
                         <ul class="nav nav-third-level collapse "

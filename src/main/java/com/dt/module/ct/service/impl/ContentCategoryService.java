@@ -119,6 +119,7 @@ public class ContentCategoryService extends BaseService {
         String name = ps.getString("name", "idle");
         Update ups = new Update("ct_category");
         ups.setIf("name", name);
+        ups.setIf("categorylevel", ps.getString("categorylevel"));
         ups.setIf("mpic", ps.getString("mpic"));
         ups.setIf("mark", ps.getString("mark"));
         ups.setIf("od", ps.getString("od"));
@@ -199,6 +200,7 @@ public class ContentCategoryService extends BaseService {
         }
         me.set("id", id);
         me.set("dr", "0");
+        me.setIf("categorylevel", ps.getString("categorylevel"));
         me.setIf("code", ps.getString("code"));
         me.setIf("mark", ps.getString("mark"));
         me.setIf("mpic", ps.getString("mpic"));

@@ -53,7 +53,7 @@ public class LoginController extends BaseController {
         JSONObject res = new JSONObject();
         SysParams parms_version = SysParamsServiceImpl.getById("version");
         if (parms_version != null) {
-            res.put("version", parms_version.getName());
+            res.put("version", parms_version.getValue());
         }
         return R.SUCCESS_OPER(res);
     }
@@ -110,11 +110,11 @@ public class LoginController extends BaseController {
         r.put("user_info", u);
         SysParams parms_version = SysParamsServiceImpl.getById("version");
         if (parms_version != null) {
-            r.put("dtversion", parms_version.getName());
+            r.put("dtversion", parms_version.getValue());
         }
         SysParams parms_app = SysParamsServiceImpl.getById("app");
         if (parms_app != null) {
-            r.put("dtmsg", parms_app.getName());
+            r.put("dtmsg", parms_app.getValue());
         }
 
         // 菜单列表

@@ -46,15 +46,24 @@ function databackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             });
     $scope.dtInstance = {}
 
-    function renderAction(data, type, full) {
-        var html = full.model;
-        return html;
+    function renderResult(data, type, full) {
+        if (angular.isDefined(data)) {
+            if (data.length < 15) {
+                return data;
+            } else {
+                return "备份失败";
+            }
+        }
+        return "";
     }
 
     function renderAction(data, type, full) {
+        var fp = full.filepath;
         var acthtml = " <div class=\"btn-group\"> ";
+        // if(fp.indexOf("a")!=-1){
         acthtml = acthtml + " <button ng-click=\"download('" + full.id
             + "')\" class=\"btn-white btn btn-xs\">下载</button>   ";
+        // }
         acthtml = acthtml + "</div>"
         return acthtml;
     }
@@ -101,7 +110,7 @@ function databackupCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         DTColumnBuilder.newColumn('dbname').withTitle('数据库').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('result').withTitle('备份结果').withOption(
-            'sDefaultContent', ''),
+            'sDefaultContent', '').renderWith(renderResult),
         DTColumnBuilder.newColumn('createTime').withTitle('备份时间')
             .withOption('sDefaultContent', ''),
         DTColumnBuilder.newColumn('duration').withTitle('备份耗时').withOption(

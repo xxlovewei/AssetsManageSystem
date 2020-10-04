@@ -9,18 +9,18 @@
 - 系统包含admin 管理用户
 
 ## 所用框架
-- Spring 5.0.17
+- Spring 5.0.19
 - Shiro 1.6.0
 - MyBatis-Plus 3.0.7.1
 - MyBatis 3.4.6
-- Druid 1.1.23
+- Druid 1.1.24
 - Easypoi 4.1.3
 - Quartz 2.3.2
 - UFLO 2.1.5(流程引擎)
 - K-form-design 3.x(表单)
 - Angular 1.x
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0729/221313_49392c48_448530.jpeg "1596031886493.jpg")/
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0729/221313_49392c48_448530.jpeg "1596031886493.jpg")
 
 ## 联系方式
 - Mail:maillank@qq.com
