@@ -27,11 +27,11 @@ public class DeployZcDevMac {
         String dir = "/opt/tomcat/tomcat_shopuat/webapps";
         String filename = "dt-2.1.0";
         String rfile = dir + "/" + filename + ".war";
-        String fstr = "/Users/algernonking/.m2/repository/com/dt/dt/2.1.0/" + filename + ".war";
+        String fstr = "/Users/lank/.m2/repository/com/dt/dt/2.1.0/" + filename + ".war";
         PropertiesUtil p;
         String pwd = "";
         try {
-            p = new PropertiesUtil("/opt/autologin/conf.properties");
+            p = new PropertiesUtil("/tmp/conf.properties");
             pwd = p.readValue("zc.rootpwd");
         } catch (IOException e1) {
             // TODO Auto-generated catch block
@@ -39,7 +39,7 @@ public class DeployZcDevMac {
         }
 
         SftpClient sftp = new SftpClient();
-        Machine m = new Machine("localhost", "127.0.0.1", "root", pwd, 9091);
+        Machine m = new Machine("localhost", "127.0.0.1", "root", pwd, 12500);
         sftp.connect(m, "upload");
         sftp.changeDirectory("/tmp");
         File f = new File(fstr);
@@ -50,7 +50,7 @@ public class DeployZcDevMac {
             e.printStackTrace();
         }
 
-        RemoteShellExecutor executor = new RemoteShellExecutor("127.0.0.1", "root", pwd, 9091);
+        RemoteShellExecutor executor = new RemoteShellExecutor("127.0.0.1", "root", pwd, 12500);
         // executor.exec("/usr/bin/cp " + rfile + " /tmp/shop." + filename + ".bak
         // --backup").print();
 

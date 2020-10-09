@@ -38,7 +38,7 @@ public class PropertiesUtil {
     public static void main(String[] args) {
         PropertiesUtil p;
         try {
-            p = new PropertiesUtil("/opt/autologin/conf.properties");
+            p = new PropertiesUtil("/tmp/conf.properties");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
