@@ -1,17 +1,54 @@
 package com.dev;
 
 
+import com.dt.core.tool.util.support.HttpKit;
+import com.dt.module.base.service.impl.ServerMonitorService;
 import com.dt.module.om.term.entity.Machine;
 import com.dt.module.om.term.websocket.SftpClient;
+import oshi.SystemInfo;
+import oshi.hardware.Baseboard;
+import oshi.hardware.ComputerSystem;
+import oshi.hardware.Firmware;
+import oshi.hardware.HardwareAbstractionLayer;
+import oshi.util.FormatUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 
 public class Demo {
 
+    private static void printComputerSystem(final ComputerSystem computerSystem) {
+
+    }
 
     public static void main(String[] args) {
+
+        String name = null;
+        try {
+            name = java.net.URLEncoder.encode("&a=12&adf=1212&c=测试", "UTF-8");
+            System.out.println(name);
+            name = java.net.URLEncoder.encode(name, "UTF-8");
+            System.out.println(name);
+            name = java.net.URLDecoder.decode(name, "UTF-8");
+            System.out.println(name);
+            System.out.println(java.net.URLDecoder.decode(name, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
+        // System.out.println(ServerMonitorService.createUniqueSn());
+//        StringBuffer params = new StringBuffer();
+//        try {
+//            // 字符数据最好encoding以下;这样一来，某些特殊字符才能传过去(如:某人的名字就是“&”,不encoding的话,传不过去)
+////            params.append("name=" + URLEncoder.encode("&", "utf-8"));
+////            params.append("&");
+//            params.append("age=24");
+//        } catch (UnsupportedEncodingException e1) {
+//            e1.printStackTrace();
+//        }
 
 //
 

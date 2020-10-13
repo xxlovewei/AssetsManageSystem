@@ -10,6 +10,7 @@ import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.impl.ScheduleMangerService;
+import com.dt.module.base.service.impl.SysInfoService;
 import com.dt.module.db.DB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * spring容器初始化完成事件 Spring框架加载完成后会publishContextRefreshedEvent事件
@@ -113,6 +116,10 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 
                 }
             }
+            //加载当前配置
+
+            SysInfoService.me().uploadSysInfo();
+
 
             // 预热
             ThreadTaskHelper.run(new Runnable() {

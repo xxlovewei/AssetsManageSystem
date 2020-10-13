@@ -3,11 +3,12 @@ package com.dt.module.base.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.core.common.base.BaseService;
+import com.dt.core.tool.encrypt.MD5Util;
 import com.dt.core.tool.net.IpUtils;
+import com.dt.core.tool.util.ToolUtil;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
-import oshi.hardware.CentralProcessor;
-import oshi.hardware.GlobalMemory;
+import oshi.hardware.*;
 import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
@@ -78,6 +79,34 @@ public class ServerMonitorService extends BaseService {
         r.put("aliable", formatByte(acaliableByte));
         r.put("usage", new DecimalFormat("#.##%").format((totalByte - acaliableByte) * 1.0 / totalByte));
         return r;
+    }
+
+    public static String createUniqueSn() {
+        String uid = "";
+        SystemInfo si = new SystemInfo();
+        HardwareAbstractionLayer hal = si.getHardware();
+        ComputerSystem computerSystem = hal.getComputerSystem();
+        String str = "";
+//        System.out.println("manufacturer: " + computerSystem.getManufacturer());
+//        System.out.println("model: " + computerSystem.getModel());
+//        System.out.println("serialnumber: " + computerSystem.getSerialNumber());
+        str = str + computerSystem.getManufacturer() + computerSystem.getSerialNumber();
+        final Firmware firmware = computerSystem.getFirmware();
+//        System.out.println("firmware:");
+//        System.out.println("  manufacturer: " + firmware.getManufacturer());
+//        System.out.println("  name: " + firmware.getName());
+//        System.out.println("  description: " + firmware.getDescription());
+//        System.out.println("  version: " + firmware.getVersion());
+        str = str + firmware.getName();
+        final Baseboard baseboard = computerSystem.getBaseboard();
+//        System.out.println("baseboard:");
+//        System.out.println("  manufacturer: " + baseboard.getManufacturer());
+//        System.out.println("  model: " + baseboard.getModel());
+//        System.out.println("  version: " + baseboard.getVersion());
+//        System.out.println("  serialnumber: " + baseboard.getSerialNumber());
+        str = str + baseboard.getSerialNumber();
+        uid = MD5Util.encrypt(str);
+        return uid;
     }
 
     public static JSONObject getSysInfo() {

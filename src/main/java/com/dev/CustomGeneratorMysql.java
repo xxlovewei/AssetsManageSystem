@@ -44,7 +44,7 @@ public class CustomGeneratorMysql {
 
         AutoGenerator mpg = new AutoGenerator();
         // String dir = "/Users/algernonking/git/zcdevmgr/src/main";
-        String dir = "/Users/algernonking/Project/src/main";
+        String dir = "/Users/lank/IdeaProjects/zcdevmgr/src/main";
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
 
@@ -80,7 +80,9 @@ public class CustomGeneratorMysql {
         });
 
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/dt?useUnicode=true&characterEncoding=utf8&useSSL=false");
+        //47.92.240.43:10050
+        //127.0.0.1:3306
+        dsc.setUrl("jdbc:mysql://47.92.240.43:10050/dt?useUnicode=true&characterEncoding=utf8&useSSL=false");
         dsc.setUsername("root");
         dsc.setPassword("root_pwd");
         mpg.setDataSource(dsc);
@@ -102,8 +104,8 @@ public class CustomGeneratorMysql {
         // "","sys_qud_qux"
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
-        String busRoute = "hrm";
-        strategy.setInclude("hrm_position"); // 需要生成的表
+        String busRoute = "base";
+        strategy.setInclude("sys_info"); // 需要生成的表
 
 
         strategy.setTableFillList(tableFillList);

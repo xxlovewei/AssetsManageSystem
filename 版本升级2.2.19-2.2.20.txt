@@ -1,0 +1,15 @@
+create table sys_info(
+    id varchar(50),
+    ip varchar(500),
+    hostname varchar(500),
+    version varchar(500),
+    ct varchar(1000),
+    dr          varchar(1)              null,
+    mark        varchar(200)            null comment '备注',
+    create_time datetime                null,
+    create_by   varchar(50)             null,
+    update_time datetime                null,
+    update_by   varchar(50)             null,
+    primary key (id)
+);
+

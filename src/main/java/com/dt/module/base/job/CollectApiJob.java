@@ -7,6 +7,7 @@ import com.dt.core.tool.lang.SpringContextUtil;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.service.impl.JobService;
+import com.dt.module.base.service.impl.SysInfoService;
 import com.dt.module.db.DB;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -71,6 +72,7 @@ public class CollectApiJob implements Job {
         } else {
             _log.info("Save collect Api failed.");
         }
+
         JobService.me().finishedJobUpdate(jc);
     }
 }
