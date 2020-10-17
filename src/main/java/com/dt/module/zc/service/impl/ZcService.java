@@ -68,7 +68,6 @@ public class ZcService extends BaseService {
             res.put(dict_arr[i], ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
         }
 
-        System.out.println(classid);
         if (ToolUtil.isNotEmpty(classid)) {
             RcdSet partrs = db.query(
                     "select id dict_item_id,name from ct_category where dr='0' and parent_id=? and type='goods' order by od", classid);
@@ -87,7 +86,7 @@ public class ZcService extends BaseService {
         if (ToolUtil.isNotEmpty(partusers) && "Y".equals(partusers)) {
             RcdSet partuserrs = db
                     .query("select a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n"
-                            + "  a.empl_id=b.empl_id and a.dr='0' and b.dr='0' and c.node_id=b.node_id");
+                            + "  a.islogoff='0' and a.empl_id=b.empl_id and a.dr='0' and b.dr='0' and c.node_id=b.node_id");
             res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
         }
 

@@ -214,6 +214,19 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
     private String hrmstatus;
 
 
+    @TableField("islogoff")
+    private String islogoff;
+
+
+    public String getIslogoff() {
+        return islogoff;
+    }
+
+    public void setIslogoff(String islogoff) {
+        this.islogoff = islogoff;
+    }
+
+
     public String getUserId() {
         return userId;
     }

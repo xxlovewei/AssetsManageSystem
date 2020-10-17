@@ -55,7 +55,7 @@ public class EmplService extends BaseService {
 
         SysUserInfo user = new SysUserInfo();
         user.setLocked("N");
-
+        user.setIslogoff("0");
         user.setHrmstatus(ps.getString("hrmstatus", ""));
         user.setFposition(ps.getString("fposition", ""));
         user.setSposition(ps.getString("sposition", ""));
@@ -96,6 +96,14 @@ public class EmplService extends BaseService {
     public R delEmployee(String empl_id) {
         Update ups = new Update("sys_user_info");
         ups.set("dr", "1");
+        ups.where().and("empl_id=?", empl_id);
+        db.execute(ups);
+        return R.SUCCESS_OPER();
+    }
+
+    public R logoffEmployee(String empl_id) {
+        Update ups = new Update("sys_user_info");
+        ups.set("islogoff", "1");
         ups.where().and("empl_id=?", empl_id);
         db.execute(ups);
         return R.SUCCESS_OPER();
@@ -163,7 +171,7 @@ public class EmplService extends BaseService {
         if (ToolUtil.isEmpty(node_id)) {
             return R.FAILURE("无节点");
         }
-        String sql = "select c.* from hrm_org_employee a,sys_user_info c where a.empl_id=c.empl_id and c.user_type= ? and a.node_id=? and c.dr='0'";
+        String sql = "select c.* from hrm_org_employee a,sys_user_info c where c.islogoff='0' and a.empl_id=c.empl_id and c.user_type= ? and a.node_id=? and c.dr='0'";
         RcdSet rs = db.query(sql, userTypeEnum.EMPL.getValue().toString(), node_id);
         return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
     }
@@ -185,17 +193,16 @@ public class EmplService extends BaseService {
                 return R.FAILURE("该节点不存在");
             }
             // String route = routev.getString("route").replaceAll("-", ",");
-            bsql = "select (select name from hrm_position where id=b.fposition) fposname,b.*,c.node_name,c.route_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+            bsql = "select (select name from hrm_position where id=b.fposition) fposname,b.*,c.node_name,c.route_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.islogoff='0' and b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
             // 不级联获取人员数据
             bsql = bsql + " and a.node_id= '" + node_id + "'";
         } else {
-            bsql = "select (select name from hrm_position where id=b.fposition) fposname,b.*,c.node_name,c.route_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
+            bsql = "select (select name from hrm_position where id=b.fposition) fposname,b.*,c.node_name,c.route_name from hrm_org_employee a,sys_user_info b,hrm_org_part c where b.islogoff='0' and b.dr='0' and a.empl_id = b.empl_id and c.node_id=a.node_id ";
         }
         if (name != null && (!name.trim().equals(""))) {
             bsql = bsql + " and b.name like '%" + name + "%'";
         }
         bsql = bsql + " order by create_time desc";
-        System.out.println(bsql);
         return R.SUCCESS_OPER(db.query(bsql).toJsonArrayWithJsonObject());
     }
 

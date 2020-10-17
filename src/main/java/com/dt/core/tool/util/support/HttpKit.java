@@ -218,7 +218,7 @@ public class HttpKit {
         } catch (ParseException e) {
             //  e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
         } catch (IOException e) {
             // e.printStackTrace();
         } finally {

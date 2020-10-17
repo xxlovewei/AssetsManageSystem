@@ -1,15 +1,4 @@
-create table sys_info(
-    id varchar(50),
-    ip varchar(500),
-    hostname varchar(500),
-    version varchar(500),
-    ct varchar(1000),
-    dr          varchar(1)              null,
-    mark        varchar(200)            null comment '备注',
-    create_time datetime                null,
-    create_by   varchar(50)             null,
-    update_time datetime                null,
-    update_by   varchar(50)             null,
-    primary key (id)
-);
-
+alter table sys_user_info add islogoff varchar(1) null;
+update sys_user_info set islogoff='0' where user_id<>'0';
+INSERT INTO sys_modules_item (module_item_id, module_id, ct, status, type) VALUES ('f5099129-6042-4fc2-b0e4-078d29a01123', '136', '/api/sysUserInfo/logoffByIds.do', 'Y', 'url');
+update sys_params set value='2.2.20' where id='version';

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dt.core.annotion.Acl;
@@ -58,6 +59,20 @@ public class SysUserInfoController extends BaseController {
         JSONArray res = JSONArray.parseArray(ids);
         for (int i = 0; i < res.size(); i++) {
             SysUserInfoServiceImpl.removeById(res.getString(i));
+        }
+        return R.SUCCESS_OPER();
+    }
+
+    @ResponseBody
+    @Acl(info = "根据注销删除", value = Acl.ACL_DENY)
+    @RequestMapping(value = "/logOffByIds.do")
+    public R logOffByIds(@RequestParam(value = "ids", required = true, defaultValue = "[]") String ids) {
+        JSONArray res = JSONArray.parseArray(ids);
+        for (int i = 0; i < res.size(); i++) {
+            UpdateWrapper<SysUserInfo> ups = new UpdateWrapper<SysUserInfo>();
+            ups.set("islogoff", "1");
+            ups.eq("user_id", res.getString(i));
+            SysUserInfoServiceImpl.update(ups);
         }
         return R.SUCCESS_OPER();
     }

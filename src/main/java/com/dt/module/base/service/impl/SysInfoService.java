@@ -6,20 +6,22 @@ import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.sql.Insert;
 import com.dt.core.tool.lang.SpringContextUtil;
-import com.dt.core.tool.net.HttpClient;
 import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.db.DB;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
+
 
 
 @Service
+
 public class SysInfoService extends BaseService {
 
     public static SysInfoService me() {
@@ -43,7 +45,8 @@ public class SysInfoService extends BaseService {
         return R.SUCCESS_OPER();
     }
 
-    public void uploadSysInfo() {
+
+    public R uploadSysInfo() {
         JSONObject info = ServerMonitorService.getSysInfo();
         String version = "";
         String app = "";
@@ -70,23 +73,23 @@ public class SysInfoService extends BaseService {
         try {
             params.append("&os=" + java.net.URLEncoder.encode(os, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
         params.append("&uid=" + uid);
         try {
             params.append("&app=" + java.net.URLEncoder.encode(app, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
         try {
             params.append("&version=" + java.net.URLEncoder.encode(version, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
-        params.append("&ct=" + "ct");
+        params.append("&ct=" + "");
         URI uri = URI.create(url + "?" + params);
-        System.out.println(uri.toString());
         HttpKit.sendPost(uri);
+        return R.SUCCESS_OPER();
     }
 
 }

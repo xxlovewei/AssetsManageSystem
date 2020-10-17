@@ -235,6 +235,10 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     }
 
     function renderStatus(data, type, full) {
+
+        if (angular.isDefined(full.islogoff) && full.islogoff == "1") {
+            return "已注销";
+        }
         var res = "正常";
         if (full.locked == "Y") {
             res = "锁定";
@@ -301,6 +305,44 @@ function sysUserSettingCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         notify({
             message: "待开发"
         });
+    }
+
+    $scope.logoff = function () {
+
+        var data = $scope.dtInstance.DataTable.rows({
+            selected: true
+        })[0];
+        if (data.length == 0) {
+            notify({
+                message: "请至少选择一个用户"
+            });
+            return;
+        }
+        var d = $scope.dtInstance.DataTable.context[0].json.data;
+        // 批量删除
+        var userids = [];
+        for (var i = 0; i < data.length; i++) {
+            // alert($scope.dtOptions.aaData[data[i]].USER_NO)
+            userids.push(d[data[i]].userId);
+        }
+        $confirm({
+            text: '是否注销中的用户?'
+        }).then(
+            function () {
+                $http.post(
+                    $rootScope.project
+                    + "/api/sysUserInfo/logOffByIds.do", {
+                        ids: angular.toJson(userids)
+                    }).success(function (res) {
+                    if (res.success) {
+                        flush();
+                    }
+                    notify({
+                        message: res.message
+                    });
+                });
+            });
+
     }
     $scope.del = function () {
         var data = $scope.dtInstance.DataTable.rows({

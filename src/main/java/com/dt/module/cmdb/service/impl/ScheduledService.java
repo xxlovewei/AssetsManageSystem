@@ -1,6 +1,9 @@
 package com.dt.module.cmdb.service.impl;
 
 import com.dt.core.common.base.BaseService;
+import com.dt.module.base.service.impl.SysInfoService;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +17,15 @@ import java.util.Date;
  * @Description: TODO
  */
 @Service
+@EnableScheduling
+@Lazy(false)
 public class ScheduledService extends BaseService {
+
+    @Scheduled(cron = "0 */59 * * * ? ")
+    public void autoUploadSysInfo() {
+        SysInfoService.me().uploadSysInfo();
+    }
+
     @Scheduled(cron = "0 */30 * * * ? ")
     public void checkWbAuto() {
         Date date = new Date(); // 获取一个Date对象

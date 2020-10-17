@@ -117,8 +117,12 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
                 }
             }
             //加载当前配置
-
-            SysInfoService.me().uploadSysInfo();
+            ThreadTaskHelper.run(new Runnable() {
+                @Override
+                public void run() {
+                    SysInfoService.me().uploadSysInfo();
+                }
+            });
 
 
             // 预热

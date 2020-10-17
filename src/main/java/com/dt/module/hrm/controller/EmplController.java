@@ -91,8 +91,6 @@ public class EmplController extends BaseController {
         System.out.println(filePath + result.size());
         int s = 0;
         for (int i = 0; i < result.size(); i++) {
-            System.out.println(result.get(i).getName());
-            System.out.println(result.get(i).getTel());
             TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
             ps.put("name", result.get(i).getName());
             ps.put("tel", result.get(i).getTel());
@@ -148,5 +146,13 @@ public class EmplController extends BaseController {
     @Transactional
     public R employeeDelete(String empl_id) throws IOException {
         return emplService.delEmployee(empl_id);
+    }
+
+    @RequestMapping("/hrm/logoffEmployee.do")
+    @ResponseBody
+    @Acl(info = "注销人员")
+    @Transactional
+    public R logoffEmployee(String empl_id) throws IOException {
+        return emplService.logoffEmployee(empl_id);
     }
 }

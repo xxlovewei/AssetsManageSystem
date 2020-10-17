@@ -31,7 +31,7 @@ public class DeployZcDevMac {
         PropertiesUtil p;
         String pwd = "";
         try {
-            p = new PropertiesUtil("/tmp/conf.properties");
+            p = new PropertiesUtil("/Users/lank/conf.properties");
             pwd = p.readValue("zc.rootpwd");
         } catch (IOException e1) {
             // TODO Auto-generated catch block

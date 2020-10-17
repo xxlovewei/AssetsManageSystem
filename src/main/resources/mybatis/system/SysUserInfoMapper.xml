@@ -57,7 +57,7 @@
         <result column="sposition" property="sposition"/>
         <result column="fposition" property="fposition"/>
         <result column="hrmstatus" property="hrmstatus"/>
-
+        <result column="islogoff" property="islogoff"/>
 
     </resultMap>
     

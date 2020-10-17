@@ -23,4 +23,11 @@ public class SysInfoExtController extends BaseController {
     public R upload(String ip, String hostname, String ct, String version, String app, String os, String uid) {
         return sysInfoService.uploadSysInfo(ip, hostname, version, app, ct, os, uid);
     }
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/check.do")
+    public R check() {
+        return sysInfoService.uploadSysInfo();
+    }
 }
