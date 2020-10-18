@@ -322,9 +322,9 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                 tmp_tpl = tmp_tpl
                     + "	<select ng-disabled=\"" + obj.disabled + "\" class=\"dt_select\"  style=\"width:100%\" id=\""
                     + uid
-                    + "\"   chosen disable-search=\""
+                    + "\"  chosen disable-search=\""
                     + obj.disable_search
-                    + "\" class=\"chosen-select\" no-results-text=\"'没有找到相应条目'\" ng-model=\"meta."
+                    + "\"  search_contains=\"true\"  class=\"chosen-select\" no-results-text=\"'没有找到相应条目'\" ng-model=\"meta."
                     + obj.dataSel
                     + "\"  data-placeholder-text-single=\"'请选择...'\" ng-options=\"item.name for item in meta."
                     + obj.dataOpt + "\"> ";
@@ -345,7 +345,7 @@ function modal_simpleFormCtl($timeout, $localStorage, notify, $log, $uibModal,
                     + uid
                     + "\"   multiple chosen  data-placeholder-text-multiple=\"'请选择...'\"    disable-search=\""
                     + obj.disable_search
-                    + "\" class=\"chosen-select\" no-results-text=\"'没有找到相应条目'\" ng-model=\"meta."
+                    + "\" search_contains=\"true\"  class=\"chosen-select\" no-results-text=\"'没有找到相应条目'\" ng-model=\"meta."
                     + obj.dataSel
                     + "\"  data-placeholder-text-single=\"'请选择...'\" ng-options=\"item.name for item in meta."
                     + obj.dataOpt + "\"> ";

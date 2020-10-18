@@ -30,6 +30,7 @@
                         <!--                        <div ng-controller="orgEmpSavePartCtl">-->
                         <select chosen class="chosen-select" data-placeholder-text-multiple="'请选择...'"
                                 data-placeholder-text-single="'请选择...'"
+                                search_contains="true"
                                 disable-search="false" multiple
                                 ng-model="partSel" ng-options="item.routename for item in partOpt"
                                 no-results-text="'没有找到相应条目'"
@@ -58,6 +59,7 @@
                         <select chosen class="chosen-select"
                                 data-placeholder-text-single="'请选择...'"
                                 disable-search="false"
+                                search_contains="true"
                                 ng-model="posSel"
                                 ng-options="item.name for item in posOpt"
                                 no-results-text="'没有找到相应条目'">

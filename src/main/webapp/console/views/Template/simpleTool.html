@@ -58,7 +58,9 @@
                                   ng-switch-when="select" style="line-height: 30px; padding-right: 4px">
 								<label ng-hide="item.label_hide">{{item.label}}:</label> <select
                                     chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
-                                    disable-search="{{item.disablesearch}}" ng-model="item.dataSel"
+                                    disable-search="{{item.disablesearch}}"
+                                    search_contains="true"
+                                    ng-model="item.dataSel"
                                     ng-options="i.name for i in item.dataOpt" no-results-text="'没有找到相应条目'"
                                     width={{item.width||125}}>
 									<option value=""></option>
@@ -108,7 +110,9 @@
                                       ng-switch-when="select" style="line-height: 30px; padding-right: 4px">
 								<label ng-hide="item.label_hide">{{item.label}}:</label> <select
                             chosen class="chosen-select" data-placeholder-text-single="'请选择...'"
-                            disable-search="{{item.disablesearch}}" ng-model="item.dataSel"
+                            disable-search="{{item.disablesearch}}"
+                            search_contains="true"
+                            ng-model="item.dataSel"
                             ng-options="i.name for i in item.dataOpt" no-results-text="'没有找到相应条目'"
                             width={{item.width||125}}>
 									<option value=""></option>
