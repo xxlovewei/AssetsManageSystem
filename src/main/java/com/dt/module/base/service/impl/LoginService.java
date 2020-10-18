@@ -96,7 +96,7 @@ public class LoginService extends BaseService {
                 return R.FAILURE("用户不存在");
             }
             if ("1".equals(s.getIslogoff())) {
-                return R.FAILURE("用户不存在");
+                return R.FAILURE("此用户不存在");
             }
             return R.SUCCESS_OPER(s.getUserId());
 

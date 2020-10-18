@@ -249,7 +249,7 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
         if (lists.size() == 0) {
             return R.FAILURE("不存在该用户");
         } else {
-            if ("0".equals(lists.get(0).getIslogoff())) {
+            if ("1".equals(lists.get(0).getIslogoff())) {
                 return R.FAILURE("不存在该用户");
             } else {
                 return R.SUCCESS_OPER(lists.get(0).getUserId());
