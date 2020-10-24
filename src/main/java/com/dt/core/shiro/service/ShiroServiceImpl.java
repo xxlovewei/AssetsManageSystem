@@ -43,6 +43,7 @@ public class ShiroServiceImpl implements IShiro {
         shiroUser.setId(user.getUserId()); // 账号id
         shiroUser.setAccount(user.getAccount());// 账号
         shiroUser.setName(user.getName());
+        shiroUser.setUsername(user.getUsername());
         List<String> roleList = new ArrayList<String>();
         List<String> roleNameList = new ArrayList<String>();
         // 角色集合

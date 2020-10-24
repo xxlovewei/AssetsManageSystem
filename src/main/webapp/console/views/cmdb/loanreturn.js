@@ -291,7 +291,7 @@ function loanreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         var acthtml = " <div class=\"btn-group\"> ";
         acthtml = acthtml + " <button ng-click=\"detail('"
             + full.busuuid
-            + "','" + full.status + "','" + full.bustype + "')\" class=\"btn-white btn btn-xs\">单据明细</button>   ";
+            + "','" + full.status + "','" + full.bustype + "')\" class=\"btn-white btn btn-xs\">单据详请</button>   ";
         acthtml = acthtml + "</div>"
         return acthtml;
     }

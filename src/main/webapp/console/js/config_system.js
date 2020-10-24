@@ -503,6 +503,18 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('flow.flowtree', {
+        url: "/flow_flowtree",
+        data: {pageTitle: '流程树', code: "5"},
+        templateUrl: "views/flow/flowtree.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/flow/flowtree.js?v=' + version]
+                }]);
+            }
+        }
     }).state('flow.pgroup', {
         url: "/flow_pgroup?psBtns",
         data: {pageTitle: '流程分组'},

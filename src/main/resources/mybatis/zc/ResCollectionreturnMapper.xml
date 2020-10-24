@@ -27,6 +27,7 @@
         <result column="returndate" property="returndate"/>
         <result column="rreturndate" property="rreturndate"/>
         <result column="mark" property="mark"/>
+        <result column="name" property="name"/>
     </resultMap>
 
 </mapper>

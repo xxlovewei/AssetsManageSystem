@@ -44,15 +44,12 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
         .withOption('bStateSave', true).withOption('bProcessing', false)
         .withOption('bFilter', false).withOption('bInfo', false)
         .withOption('serverSide', false).withOption('createdRow', function (row) {
-            // Recompiling so we can bind Angular,directive to the
             $compile(angular.element(row).contents())($scope);
         }).withOption(
             'headerCallback',
             function (header) {
                 if ((!angular.isDefined($scope.headerCompiled))
                     || $scope.headerCompiled) {
-                    // Use this headerCompiled field to only compile
-                    // header once
                     $scope.headerCompiled = true;
                     $compile(angular.element(header).contents())
                     ($scope);
@@ -62,17 +59,6 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
             selector: 'td:first-child'
         });
     $scope.dtInstance = {}
-
-    function renderName(data, type, full) {
-        var html = full.model;
-        return html;
-    }
-
-    function renderJg(data, type, full) {
-        var html = full.rackstr + "-" + full.frame;
-        return html;
-    }
-
     $scope.selectCheckBoxAll = function (selected) {
         if (selected) {
             $scope.dtInstance.DataTable.rows().select();
@@ -88,20 +74,20 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
         }),
         DTColumnBuilder.newColumn('id').withTitle('任务编号').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('rootProcessInstanceId').withTitle('流程编号').withOption(
+        DTColumnBuilder.newColumn('businessId').withTitle('业务编号').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('businessId').withTitle('单据编号').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('subject').withTitle('标题').withOption(
+        DTColumnBuilder.newColumn('subject').withTitle('主题').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('opinion').withTitle('处理意见').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('state').withTitle('任务状态').withOption(
             'sDefaultContent', '').renderWith(renderUfloTaskStatus),
-        DTColumnBuilder.newColumn('nodeName').withTitle('任务名称').withOption(
+        DTColumnBuilder.newColumn('taskName').withTitle('任务名称').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('description').withTitle('任务描述')
             .withOption('sDefaultContent', ''),
+        DTColumnBuilder.newColumn('rootProcessInstanceId').withTitle('流程实例').withOption(
+            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('createDate').withTitle('发起时间')
             .withOption('sDefaultContent', ''),
         DTColumnBuilder.newColumn('endDate').withTitle('处理时间').withOption(
@@ -109,7 +95,6 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.query = function () {
         flush();
     }
-
     function flush() {
         var ps = {}
         if ($scope.meta.tools[1].time - $scope.meta.tools[0].time >= 0) {
@@ -131,9 +116,7 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
                 $scope.dtOptions.aaData = res.data
             })
     }
-
     flush();
-
     function getSelectRow() {
         var data = $scope.dtInstance.DataTable.rows({
             selected: true
@@ -152,7 +135,6 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
             return $scope.dtOptions.aaData[data[0]];
         }
     }
-
     function getSelectRows() {
         var data = $scope.dtInstance.DataTable.rows({
             selected: true
@@ -175,30 +157,37 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
             return angular.toJson(res);
         }
     }
-
     $scope.detail = function () {
         var item = getSelectRow();
         if (angular.isDefined(item) && angular.isDefined(item.businessId)) {
-            $http
-                .post(
-                    $rootScope.project
-                    + "/api/flow/sysProcessDataExt/selectByBusinessId.do", {
-                        businessid: item.businessId
-                    })
-                .success(
-                    function (res) {
-                        if (res.success) {
-                            var url = "#/fullpage/fullpage_flowdetail?id=" + res.data.id + "&pagetype=lookup";
-                            var win = $window.open(url, "_bank", "fullscreen:yes,menubar:no,status:no,location:no,menubar:no")
-                        } else {
-                            notify({
-                                message: res.message
-                            });
-                        }
-                    })
+            var meta = {};
+            meta.busid = item.businessId;
+            meta.flowpagetype = "lookup";
+            meta.taskid = item.id;
+            //  if(item.ptype=="LY"){
+            var modalInstance = $uibModal.open({
+                backdrop: true,
+                templateUrl: 'views/cmdb/modal_lytklist.html',
+                controller: zclylistCtl,
+                size: 'blg',
+                resolve: {
+                    meta: function () {
+                        return meta;
+                    }
+                }
+            });
+            modalInstance.result.then(function (result) {
+                if (result == "OK") {
+                    flush();
+                }
+            }, function (reason) {
+            });
+            //  }
         } else {
             return;
         }
     }
 };
+app.register.controller('flowapprovalCommonCtl', flowapprovalCommonCtl);
+app.register.controller('flowsuggestCommonCtl', flowsuggestCommonCtl);
 app.register.controller('myProcessfinishCtl', myProcessfinishCtl);

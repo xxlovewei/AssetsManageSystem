@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.bstek.uflo.command.impl.jump.JumpNode;
 import com.bstek.uflo.model.HistoryTask;
 import com.bstek.uflo.model.ProcessDefinition;
 import com.bstek.uflo.model.ProcessInstance;
@@ -15,10 +16,7 @@ import com.bstek.uflo.process.flow.SequenceFlowImpl;
 import com.bstek.uflo.process.node.Node;
 import com.bstek.uflo.query.HistoryTaskQuery;
 import com.bstek.uflo.query.TaskQuery;
-import com.bstek.uflo.service.HistoryService;
-import com.bstek.uflo.service.ProcessService;
-import com.bstek.uflo.service.StartProcessInfo;
-import com.bstek.uflo.service.TaskService;
+import com.bstek.uflo.service.*;
 import com.bstek.uflo.utils.EnvironmentUtils;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
@@ -36,9 +34,14 @@ import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.flow.service.ISysProcessDefService;
 import com.dt.module.flow.service.ISysProcessFormService;
 import com.dt.module.flow.service.ISysProcessSettingService;
+import com.dt.module.flow.service.impl.SysProcessDataService;
 import com.dt.module.flow.service.impl.SysUfloProcessService;
 import com.dt.module.form.service.ISysFormService;
 import com.dt.module.form.service.impl.FormServiceImpl;
+import com.dt.module.zc.entity.ResCollectionreturn;
+import com.dt.module.zc.service.IResCollectionreturnItemService;
+import com.dt.module.zc.service.IResCollectionreturnService;
+import com.dt.module.zc.service.impl.FlowDataService;
 import com.dt.module.zc.service.impl.ZcChangeService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import org.apache.commons.lang.StringUtils;
@@ -68,6 +71,13 @@ public class ZcProcessFlowController extends BaseController {
 
     @Autowired
     ZcChangeService zcChangeService;
+
+    @Autowired
+    FlowDataService flowDataService;
+
+    @Autowired
+    IResCollectionreturnService ResCollectionreturnServiceImpl;
+
 
     @Autowired
     SysUfloProcessService sysUfloProcessService;
@@ -101,6 +111,22 @@ public class ZcProcessFlowController extends BaseController {
 
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/queryFlowTaskInfoByBusid.do")
+    public R queryFlowTaskInfo(String busid) {
+        return flowDataService.queryFlowTaskInfoByBusid(busid);
+    }
+
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/queryFlowDataByBusid.do")
+    public R queryFlowDataByBusid(String busid) {
+        return flowDataService.queryFlowDataByBusid(busid);
+    }
+
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
     @RequestMapping(value = "/myProcessTodo.do")
     public R loadTodo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String loginUsername = EnvironmentUtils.getEnvironment().getLoginUser();
@@ -124,6 +150,7 @@ public class ZcProcessFlowController extends BaseController {
         return R.SUCCESS_OPER(JSONArray.parseArray(JSON.toJSONString(tasks, SerializerFeature.WriteDateUseDateFormat,
                 SerializerFeature.DisableCircularReferenceDetect)));
     }
+
 
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
@@ -159,48 +186,90 @@ public class ZcProcessFlowController extends BaseController {
         retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(tasks, SerializerFeature.WriteDateUseDateFormat,
                 SerializerFeature.DisableCircularReferenceDetect)));
         return R.clearAttachDirect(retrunObject);
+
+
     }
+
 
     @ResponseBody
     @Acl(info = "发起流程", value = Acl.ACL_USER)
-    @RequestMapping(value = "/startProcess.do")
-    public R startProcess(String id, String jsonvalue, String processdefid) {
+    @RequestMapping(value = "/startAssetFlow.do")
+    public R startProcess(String formtype, String ifsp, String title, String busid, String bustype, String ptype, String psubtype, String processdefid) {
 
         SysProcessDef pdef = SysProcessDefServiceImpl.getById(processdefid);
-        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        SysProcessData pd = SysProcessDataServiceImpl.getById(ps.getString("id"));
-        if (pd == null) {
-            return R.FAILURE("不存在流程数据");
+        String pinst = "";
+        if ("1".equals(ifsp)) {
+            // 需要审批,发起流程
+            StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
+            startProcessInfo.setCompleteStartTask(true);
+            startProcessInfo.setBusinessId(busid);
+
+            //startProcessInfo.setTag(SysProcessDataService.PTYPE_ASSET);
+            startProcessInfo.setSubject(title == null ? "" : title);
+            startProcessInfo.setPromoter(this.getUserName());
+            startProcessInfo.setCompleteStartTaskOpinion(this.getUserName() + "开始发起流程");
+            ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
+            pinst = Long.toString(inst.getId());
+            // 插入流程数据
+            SysProcessData pd = new SysProcessData();
+            pd.setBusid(busid);
+            pd.setBustype(bustype);
+            pd.setPtitle(title);
+            pd.setPtype(ptype);
+            pd.setPsubtype(psubtype);
+            pd.setPstatus(SysProcessDataService.PSTATUS_INAPPROVAL);
+            pd.setPstatusdtl(SysProcessDataService.PSTATUS_DTL_INAPPROVAL);
+            pd.setIfsp(ifsp);
+            pd.setPstartuserid(this.getUserId());
+            pd.setPstartusername(this.getUserName());
+            pd.setProcesskey(pdef.getPtplkey());
+            pd.setProcessinstanceid(Long.toString(inst.getId()));
+            pd.setFormtype(formtype);
+            SysProcessDataServiceImpl.saveOrUpdate(pd);
         }
-
-        //获取表单数据
-        QueryWrapper<SysProcessForm> ew = new QueryWrapper<SysProcessForm>();
-        ew.and(i -> i.eq("processdataid", id));
-        SysProcessForm formdata = SysProcessFormServiceImpl.getOne(ew);
-
-        // 需要审批
-        StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
-        startProcessInfo.setCompleteStartTask(true);
-        startProcessInfo.setBusinessId(pd.getBusid());
-        startProcessInfo.setTag("zc");
-        startProcessInfo.setSubject(formdata.getDtitle() == null ? "" : formdata.getDtitle());
-        startProcessInfo.setCompleteStartTaskOpinion("发起流程");
-        ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
-
-        // 插入流程数据
-        pd.setPstatus(SysUfloProcessService.P_STATUS_RUNNING);
-        pd.setPstartuserid(this.getUserId());
-        pd.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
-        pd.setProcesskey(pdef.getPtplkey());
-        pd.setProcessinstanceid(inst.getId() + "");
-        pd.setFormid(formdata.getId());
-        pd.setFormtype(pdef.getType());
-        SysProcessDataServiceImpl.saveOrUpdate(pd);
-
-        zcChangeService.ZcStartChange(pd.getBusid(), pd.getBustype());
-
+        //修改原状态
+        zcChangeService.zcStartFlow(pinst, busid, ptype, ifsp, new JSONObject());
         return R.SUCCESS_OPER();
     }
+
+//
+//    @ResponseBody
+//    @Acl(info = "发起流程", value = Acl.ACL_USER)
+//    @RequestMapping(value = "/startProcess.do")
+//    public R startProcess(String id, String jsonvalue, String processdefid) {
+//
+//        SysProcessDef pdef = SysProcessDefServiceImpl.getById(processdefid);
+//        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+//        SysProcessData pd = SysProcessDataServiceImpl.getById(ps.getString("id"));
+//        if (pd == null) {
+//            return R.FAILURE("不存在流程数据");
+//        }
+//
+//        //获取表单数据
+//        QueryWrapper<SysProcessForm> ew = new QueryWrapper<SysProcessForm>();
+//        ew.and(i -> i.eq("processdataid", id));
+//        SysProcessForm formdata = SysProcessFormServiceImpl.getOne(ew);
+//
+//        // 需要审批
+//        StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
+//        startProcessInfo.setCompleteStartTask(true);
+//        startProcessInfo.setBusinessId(pd.getBusid());
+//        startProcessInfo.setTag("zc");
+//        startProcessInfo.setSubject(formdata.getDtitle() == null ? "" : formdata.getDtitle());
+//        startProcessInfo.setCompleteStartTaskOpinion("发起流程");
+//        ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
+//
+//        // 插入流程数据
+//        pd.setPstatus(SysUfloProcessService.P_STATUS_RUNNING);
+//        pd.setPstartuserid(this.getUserId());
+//        pd.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
+//        pd.setProcesskey(pdef.getPtplkey());
+//        pd.setProcessinstanceid(inst.getId() + "");
+//        pd.setFormid(formdata.getId());
+//        pd.setFormtype(pdef.getType());
+//        SysProcessDataServiceImpl.saveOrUpdate(pd);
+//        return R.SUCCESS_OPER();
+//    }
 
     @RequestMapping("/queryTask.do")
     @ResponseBody
@@ -231,21 +300,20 @@ public class ZcProcessFlowController extends BaseController {
                     QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
                     qw.eq("busid", tsk.getBusinessId());
                     SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
-                    String busType = sd.getBustype();
                     Date date = new Date(); // 获取一个Date对象
                     DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
                     String nowtime = simpleDateFormat.format(date);
-                    uw.set("pstatus", SysUfloProcessService.P_STATUS_FINISH);
-                    uw.set("pstatusdtl", SysUfloProcessService.P_DTL_STATUS_SUCCESS);
+                    uw.set("pstatus", SysProcessDataService.PSTATUS_FINISH);
+                    uw.set("pstatusdtl", SysProcessDataService.PSTATUS_DTL_SUCCESS);
                     uw.set("pendtime", nowtime);
                     // 流程类型处理
-                    if (busType != null) {
-                        if (busType.equals("LY") || busType.equals("JY") || busType.equals("DB") || busType.equals("ZY")) {
-                            uw.set("busstatus", "out");
-                        }
-                    }
+//                    if (busType != null) {
+//                        if (busType.equals("LY") || busType.equals("JY") || busType.equals("DB") || busType.equals("ZY")) {
+//                            uw.set("busstatus", "out");
+//                        }
+//                    }
                     SysProcessDataServiceImpl.update(uw);
-                    zcChangeService.zcSureChange(tsk.getBusinessId(), sd.getBustype());
+                    zcChangeService.zcfinishFlow(sd.getProcessinstanceid());
                 }
             }
         }
@@ -253,20 +321,43 @@ public class ZcProcessFlowController extends BaseController {
         return r;
     }
 
+//    @RequestMapping("/refuseTask.do")
+//    @ResponseBody
+//    @Acl(info = "", value = Acl.ACL_USER)
+//    public R refuseTask(String taskId, String opinion) {
+//        R r = sysUfloProcessService.refuseTask(taskId, opinion);
+//        return r;
+//    }
+
     @RequestMapping("/refuseTask.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R refuseTask(String taskId, String opinion) {
-        R r = sysUfloProcessService.refuseTask(taskId, opinion);
-        return r;
-    }
+        //流程跳转到最后节点
+        TaskOpinion op = new TaskOpinion(opinion);
+        long taskId_l = ConvertUtil.toLong(taskId);
+        Task tsk = taskService.getTask(taskId_l);
+        String instid = Long.toString(tsk.getProcessInstanceId());
 
-    @RequestMapping("/refuseTask2.do")
-    @ResponseBody
-    @Acl(info = "", value = Acl.ACL_USER)
-    public R refuseTask2(String taskId, String opinion) {
-        R r = sysUfloProcessService.refuseTask(taskId, opinion);
-        return r;
+        List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
+        if (nodes.size() == 0) {
+            return R.FAILURE("无法跳转至结束流程");
+        }
+        JumpNode jn = nodes.get(nodes.size() - 1);
+        if (jn.isTask()) {
+            return R.FAILURE("获取的最后一个节点不是结束流程");
+        }
+        taskService.forward(taskId_l, jn.getName(), op);
+
+        //修改状态
+        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+        uw.eq("processInstanceId", instid);
+        uw.set("pstatus", SysProcessDataService.PSTATUS_FINISH);
+        uw.set("pstatusdtl", SysProcessDataService.PSTATUS_DTL_FAILED);
+        SysProcessDataServiceImpl.update(uw);
+
+        //修改单据
+        return zcChangeService.zcfinishFlow(instid);
     }
 
     @RequestMapping("/getAvaliableForwardTaskNodes.do")

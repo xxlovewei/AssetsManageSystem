@@ -38,7 +38,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         _log.info("cache:" + this.getAuthenticationCacheName());
         _log.info("###################Action 登录认证#################");
-        _log.info("Username:" + token.getUsername());
+        _log.info("userid:" + token.getUsername());
         // 从数据库中获取密码
         UserShiro user = SysUserInfoServiceImpl.listUserForShiro(token.getUsername());
         if (ToolUtil.isEmpty(user.userId)) {

@@ -78,7 +78,7 @@ public class SysUfloProcessService extends BaseService {
     @Autowired
     private HistoryService historyService;
 
-    public R loadProcessInstanceData(String processInstanceId) {
+    public R loadProcessTaskinfo(String processInstanceId) {
         TaskQuery query = taskService.createTaskQuery();
         long processInstanceIdl = ConvertUtil.toLong(processInstanceId);
         query.rootProcessInstanceId(processInstanceIdl);
@@ -328,12 +328,6 @@ public class SysUfloProcessService extends BaseService {
             return R.FAILURE("获取的最后一个节点不是结束流程");
         }
         taskService.forward(taskId_l, jn.getName(), op);
-        // 更新状态
-        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-        uw.eq("processInstanceId", instid);
-        uw.set("pstatus", SysUfloProcessService.P_STATUS_FINISH);
-        uw.set("pstatusdtl", SysUfloProcessService.P_DTL_STATUS_FAILED);
-        SysProcessDataServiceImpl.update(uw);
         return R.SUCCESS_OPER();
     }
 

@@ -8,6 +8,9 @@ public class ShiroUser implements Serializable {
     public String id; // 主键ID
     public String account; // 账号
     public String name; // 姓名
+    public String username;
+
+
     public List<String> roleList; // 角色集
     public List<String> roleNames; // 角色名称集
 
@@ -43,6 +46,16 @@ public class ShiroUser implements Serializable {
         this.name = name;
     }
 
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
     public List<String> getRoleList() {
         return roleList;
     }
@@ -57,6 +70,7 @@ public class ShiroUser implements Serializable {
                 "id='" + id + '\'' +
                 ", account='" + account + '\'' +
                 ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
                 ", roleList=" + roleList +
                 ", roleNames=" + roleNames +
                 '}';

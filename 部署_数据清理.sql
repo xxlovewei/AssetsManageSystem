@@ -13,7 +13,7 @@ truncate table sys_session;
 truncate table res;
 truncate table res_action_item;
 truncate table res_allocate;
-truncate table res_allocate_item
+truncate table res_allocate_item;
 truncate table res_attr_value;
 truncate table res_change_item;
 truncate table res_class;
@@ -85,7 +85,8 @@ update sys_user_info set pwd='oracle';
 truncate table uflo_task_participator;
 truncate table uflo_task_appointor;
 truncate table uflo_task_reminder;
-delete from uflo_task;
-truncate table uflo_his_task
+delete from uflo_task where ASSIGNEE_<>'ufo';
+truncate table uflo_his_task;
+truncate table uflo_his_task;
 
 

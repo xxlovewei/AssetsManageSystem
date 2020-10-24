@@ -56,7 +56,14 @@ public class SysUfloProcessExtController extends BaseController {
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R loadProcessInstanceData(String processInstanceId) {
-        return sysUfloProcessService.loadProcessInstanceData(processInstanceId);
+        return sysUfloProcessService.loadProcessTaskinfo(processInstanceId);
+    }
+
+    @RequestMapping("/flow/loadProcessTaskinfo.do")
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    public R loadProcessTaskinfo(String processInstanceId) {
+        return sysUfloProcessService.loadProcessTaskinfo(processInstanceId);
     }
 
     @RequestMapping("/flow/query.do")

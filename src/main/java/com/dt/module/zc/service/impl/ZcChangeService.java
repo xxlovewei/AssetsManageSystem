@@ -15,6 +15,7 @@ import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.service.IResService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;
+import com.dt.module.flow.service.impl.SysProcessDataService;
 import com.dt.module.zc.entity.*;
 import com.dt.module.zc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +93,29 @@ public class ZcChangeService extends BaseService {
         return R.SUCCESS();
     }
 
-    public R ZcStartChange(String uuid, String type) {
+
+    public R zcStartFlow(String pinst, String uuid, String type, String ifsp, JSONObject data) {
+        if (type.equals(ZcCommonService.ZC_BUS_TYPE_LY)) {
+            return resCollectionreturnService.startFlow(pinst, uuid, ifsp);
+        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_JY)) {
+            return zcJyStartChange(uuid);
+        }
+        return R.SUCCESS();
+    }
+
+    public R zcfinishFlow(String instid) {
+        QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
+        qw.eq("processinstanceid", instid);
+        SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
+        if (ZcCommonService.ZC_BUS_TYPE_LY.equals(sd.getPtype())) {
+            return resCollectionreturnService.finishFlow(sd.getBusid(), sd.getPstatusdtl());
+        }
+        fillChangeCt();
+        return R.SUCCESS();
+    }
+
+
+    public R zcStartChange(String uuid, String type) {
         if (type.equals(ZcCommonService.ZC_BUS_TYPE_LY)) {
             return zcLyStartChange(uuid);
         } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_JY)) {
@@ -170,50 +193,9 @@ public class ZcChangeService extends BaseService {
 
     //**************************领用/退库************************//
     //领用确认
-    public R zcLyConfirm(String uuid) {
-        //保存变更前数据
-        String sql = " update res_collectionreturn_item a,res b set \n" +
-                "   a.fusedcompanyid=b.used_company_id\n" +
-                " , a.fpartid=b.part_id\n" +
-                " , a.fuseduserid=b.used_userid\n" +
-                " , a.floc=b.loc\n" +
-                " , a.flocdtl=b.locdtl\n" +
-                "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
-        db.execute(sql, uuid);
-
-        //更新数据
-        String sql2 = " update res_collectionreturn_item a,res b set \n" +
-                "b.loc=a.tloc," +
-                "b.used_company_id=a.tusedcompanyid," +
-                "b.part_id=a.tpartid," +
-                "b.used_userid=a.tuseduserid," +
-                "b.locdtl=a.tlocdtl," +
-                "b.recycle='" + ZcRecycleEnum.RECYCLE_INUSE.getValue() + "'," +
-                "b.inprocess='0'," +
-                "b.inprocessuuid=''," +
-                "b.inprocesstype='', " +
-                "b.uuidly=a.busuuid " +
-                "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
-        db.execute(sql2, uuid);
-        //记录资产变更
-        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
-        QueryWrapper<ResCollectionreturnItem> ew = new QueryWrapper<ResCollectionreturnItem>();
-        ew.and(i -> i.eq("busuuid", uuid));
-        List<ResCollectionreturnItem> items = ResCollectionreturnItemServiceImpl.list(ew);
-        for (int i = 0; i < items.size(); i++) {
-            ResChangeItem e = new ResChangeItem();
-            e.setBusuuid(uuid);
-            e.setResid(items.get(i).getResid());
-            e.setType(ZcCommonService.ZC_BUS_TYPE_LY);
-            e.setMark("资产领用");
-            e.setFillct("0");
-            e.setCdate(new Date());
-            cols.add(e);
-        }
-        ResChangeItemServiceImpl.saveBatch(cols);
-        fillChangeCt();
-        return R.SUCCESS_OPER();
-    }
+//    public R zcLyConfirm(String uuid) {
+//
+//    }
 
 
     //领用退库确认
@@ -369,7 +351,10 @@ public class ZcChangeService extends BaseService {
         return R.SUCCESS_OPER();
     }
 
-    //领用申请
+    //    //领用申请
+//    public R zcLyStartFlow(String pinstString uuid,String ifsp) {
+//        return
+//    }
     public R zcLyStartChange(String uuid) {
         //记录资产变更
         ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();

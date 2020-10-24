@@ -10,6 +10,8 @@ public class UserShiro {
 
     public String name; // 姓名
 
+    public String username; //
+
     public String password;
 
     public Boolean isLocked = true;
@@ -87,12 +89,21 @@ public class UserShiro {
         this.salt = salt;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "UserShiro{" +
                 "userId='" + userId + '\'' +
                 ", account='" + account + '\'' +
                 ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", isLocked=" + isLocked +
                 ", isAdmin=" + isAdmin +

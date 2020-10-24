@@ -105,8 +105,21 @@ public class ResCollectionreturn extends BaseModel<ResCollectionreturn> {
      */
     @TableField("rreturndate")
     private Date rreturndate;
+
     @TableField("mark")
     private String mark;
+
+
+    @TableField("name")
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 
     public String getId() {

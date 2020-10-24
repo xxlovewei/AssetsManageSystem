@@ -62,10 +62,6 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
     $scope.dtInstance = {}
 
-    function renderName(data, type, full) {
-        var html = full.model;
-        return html;
-    }
 
     $scope.selectCheckBoxAll = function (selected) {
         if (selected) {
@@ -74,29 +70,7 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             $scope.dtInstance.DataTable.rows().deselect();
         }
     }
-    // function renderStatusDtl(data, type, full) {
-    // 	var html = data;
-    // 	if (angular.isDefined(data)) {
-    // 		if (data == "submitforapproval") {
-    // 			html = "<span style='color:#33FFFF; font-weight:bold'>待送审</span>";
-    // 		} else if (data == "inreview") {
-    // 			html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
-    // 		} else if (data == "running") {
-    // 			html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
-    // 		} else if (data == "success") {
-    // 			html = "<span style='color:green; font-weight:bold'>审批成功</span>";
-    // 		} else if (data == "failed") {
-    // 			html = "<span style='color:red;font-weight:bold'>审批失败</span>";
-    // 		} else if (data == "cancel") {
-    // 			html = "<span style='color:red;font-weight:bold'>审批取消</span>"
-    // 		} else if (data == "rollback") {
-    // 			html = "<span style='color:red;font-weight:bold'>审批退回</span>";
-    // 		} else {
-    // 			html = data;
-    // 		}
-    // 	}
-    // 	return html;
-    // }
+
     function renderType(data, type, full) {
         var html = data;
         if (angular.isDefined(data)) {
@@ -121,15 +95,13 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
-        // DTColumnBuilder.newColumn('processInstanceId').withTitle('流程编号')
-        // .withOption('sDefaultContent', ''),
-        DTColumnBuilder.newColumn('duuid').withTitle('单据编号').withOption(
+        DTColumnBuilder.newColumn('duuid').withTitle('业务编号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('pstartusername').withTitle('发起人')
             .withOption('sDefaultContent', ''),
         DTColumnBuilder.newColumn('pstatus').withTitle('状态').withOption(
             'sDefaultContent', '').renderWith(renderZCSPStatus),
-        DTColumnBuilder.newColumn('ptitle').withTitle('标题').withOption(
+        DTColumnBuilder.newColumn('ptitle').withTitle('主题').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('ptype').withTitle('类型').withOption(
             'sDefaultContent', '').renderWith(renderType),
@@ -160,9 +132,7 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 $scope.dtOptions.aaData = res.data
             })
     }
-
     flush();
-
     function getSelectRow() {
         var data = $scope.dtInstance.DataTable.rows({
             selected: true
@@ -181,7 +151,6 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             return $scope.dtOptions.aaData[data[0]];
         }
     }
-
     function getSelectRows() {
         var data = $scope.dtInstance.DataTable.rows({
             selected: true
@@ -204,7 +173,6 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             return angular.toJson(res);
         }
     }
-
     $scope.oper = function () {
         var item = getSelectRow();
         if (angular.isDefined(item)) {

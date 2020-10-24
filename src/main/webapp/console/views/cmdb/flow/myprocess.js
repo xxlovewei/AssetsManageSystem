@@ -74,28 +74,17 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             $scope.dtInstance.DataTable.rows().deselect();
         }
     }
-    // function renderStatusDtl(data, type, full) {
-    // 	var html = data;
-    // 	if (angular.isDefined(data)) {
-    // 		if (data == "submitforapproval") {
-    // 			html = "<span style='color:#33FFFF; font-weight:bold'>待送审</span>";
-    // 		} else if (data == "inreview") {
-    // 			html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
-    // 		} else if (data == "success") {
-    // 			html = "<span style='color:green; font-weight:bold'>审批成功</span>";
-    // 		} else if (data == "failed") {
-    //
-    // 			html = "<span style='color:red;font-weight:bold'>审批失败</span>";
-    // 		} else if (data == "cancel") {
-    // 			html = "<span style='color:red;font-weight:bold'>审批取消</span>"
-    // 		} else if (data == "rollback") {
-    // 			html = "<span style='color:red;font-weight:bold'>审批退回</span>";
-    // 		}else{
-    // 			html=data;
-    // 		}
-    // 	}
-    // 	return html;
-    // }
+
+    function renderBusType(data, type, full) {
+        var html = data;
+        if (angular.isDefined(data)) {
+            if (data == "asset") {
+                html = "资产管理";
+            }
+        }
+        return html;
+    }
+
     function renderType(data, type, full) {
         var html = data;
         if (angular.isDefined(data)) {
@@ -128,7 +117,9 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             'sDefaultContent', '').renderWith(renderZCSPStatus),
         DTColumnBuilder.newColumn('ptitle').withTitle('标题').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('bustype').withTitle('类型').withOption(
+        DTColumnBuilder.newColumn('bustype').withTitle('业务类型').withOption(
+            'sDefaultContent', '').renderWith(renderBusType),
+        DTColumnBuilder.newColumn('ptype').withTitle('流程分类').withOption(
             'sDefaultContent', '').renderWith(renderType),
         DTColumnBuilder.newColumn('pstartusername').withTitle('发起人').withOption(
             'sDefaultContent', ''),
@@ -206,26 +197,35 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     $scope.detail = function () {
         var item = getSelectRow();
         if (angular.isDefined(item)) {
-            $http
-                .post(
-                    $rootScope.project
-                    + "/api/flow/sysProcessDataExt/selectByBusinessId.do",
-                    {
-                        businessid: item.busid
-                    })
-                .success(
-                    function (res) {
-                        if (res.success) {
-                            var url = "#/fullpage/fullpage_flowdetail?id=" + res.data.id + "&pagetype=lookup";
-                            var win = $window.open(url, "_bank", "fullscreen:yes,menubar:no,status:no,location:no,menubar:no")
-                        } else {
-                            notify({
-                                message: res.message
-                            });
+            var meta = {};
+            meta.busid = item.busid;
+            meta.flowpagetype = "lookup";
+            if (item.ptype == "LY") {
+                var modalInstance = $uibModal.open({
+                    backdrop: true,
+                    templateUrl: 'views/cmdb/modal_lytklist.html',
+                    controller: zclylistCtl,
+                    size: 'blg',
+                    resolve: {
+                        meta: function () {
+                            return meta;
                         }
-                    })
+                    }
+                });
+                modalInstance.result.then(function (result) {
+                    if (result == "OK") {
+                        flush();
+                    }
+                }, function (reason) {
+                    $log.log("reason", reason)
+                });
+
+            }
+
         } else {
         }
     }
 };
+app.register.controller('flowapprovalCommonCtl', flowapprovalCommonCtl);
+app.register.controller('flowsuggestCommonCtl', flowsuggestCommonCtl);
 app.register.controller('myProcessCtl', myProcessCtl);

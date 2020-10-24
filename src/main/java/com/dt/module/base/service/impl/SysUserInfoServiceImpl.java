@@ -179,7 +179,6 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
         if (userTypeEnum.SYSTEM.getValue().equals(user_type)) {
             // 无动作
         } else if (userTypeEnum.EMPL.getValue().equals(user_type)) {
-
             R r = getEmplNextId();
             if (r.isFailed()) {
                 return r;
@@ -225,7 +224,9 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
         user.setUserId(u_rs.getString("user_id"));
         user.setPassword(u_rs.getString("pwd"));
         user.setAccount(u_rs.getString("user_name"));
-        user.setName(u_rs.getString("user_name"));
+        user.setName(u_rs.getString("name"));
+        user.setUsername(u_rs.getString("user_name"));
+
         user.setSalt(MD5Util.encrypt(u_rs.getString("user_id")));
         if (ToolUtil.isNotEmpty(u_rs.getString("locked")) && u_rs.getString("locked").equals("N")) {
             user.setIsLocked(false);

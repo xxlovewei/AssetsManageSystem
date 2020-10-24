@@ -25,9 +25,9 @@ public class DeployZcDevMac {
 
         String tomcatOnlyPort = "3037";
         String dir = "/opt/tomcat/tomcat_shopuat/webapps";
-        String filename = "dt-2.1.0";
+        String filename = "dt-2.1.20";
         String rfile = dir + "/" + filename + ".war";
-        String fstr = "/Users/lank/.m2/repository/com/dt/dt/2.1.0/" + filename + ".war";
+        String fstr = "/Users/lank/.m2/repository/com/dt/dt/2.1.20/" + filename + ".war";
         PropertiesUtil p;
         String pwd = "";
         try {
@@ -39,7 +39,7 @@ public class DeployZcDevMac {
         }
 
         SftpClient sftp = new SftpClient();
-        Machine m = new Machine("localhost", "39.105.191.22", "root", pwd, 12500);
+        Machine m = new Machine("localhost", "39.105.191.22", "root", pwd, 22);
         sftp.connect(m, "upload");
         sftp.changeDirectory("/tmp");
         File f = new File(fstr);
@@ -50,7 +50,7 @@ public class DeployZcDevMac {
             e.printStackTrace();
         }
 
-        RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root", pwd, 12500);
+        RemoteShellExecutor executor = new RemoteShellExecutor("39.105.191.22", "root", pwd, 22);
         // executor.exec("/usr/bin/cp " + rfile + " /tmp/shop." + filename + ".bak
         // --backup").print();
 

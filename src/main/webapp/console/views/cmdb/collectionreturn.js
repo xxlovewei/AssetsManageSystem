@@ -11,142 +11,7 @@ function GetDateNowId() {
     return sNow;
 }
 
-function zclylistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
-                     $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
-                     DTColumnBuilder, $compile) {
-    var item = meta;
-    $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
-        .withPaginationType('full_numbers').withDisplayLength(100)
-        .withOption("ordering", false).withOption("responsive", false)
-        .withOption("searching", true).withOption('scrollY', 600)
-        .withOption('scrollX', true).withOption('bAutoWidth', true)
-        .withOption('scrollCollapse', true).withOption('paging', true)
-        .withOption('bStateSave', true).withOption('bProcessing', false)
-        .withOption('bFilter', false).withOption('bInfo', false)
-        .withOption('serverSide', false).withOption('createdRow', function (row) {
-            $compile(angular.element(row).contents())($scope);
-        }).withOption(
-            'headerCallback',
-            function (header) {
-                if ((!angular.isDefined($scope.headerCompiled))
-                    || $scope.headerCompiled) {
-                    $scope.headerCompiled = true;
-                    $compile(angular.element(header).contents())
-                    ($scope);
-                }
-            }).withOption("select", {
-            style: 'multi',
-            selector: 'td:first-child'
-        }).withButtons([
-            {
-                extend: 'csv',
-                text: 'Excel(当前页)',
-                exportOptions: {
-                    columns: ':visible',
-                    trim: true,
-                    modifier: {
-                        page: 'current'
-                    }
-                }
-            },
-            {
-                extend: 'print',
-                text: '打印(当前页)',
-                exportOptions: {
-                    columns: ':visible',
-                    stripHtml: false,
-                    columns: ':visible',
-                    modifier: {
-                        page: 'current'
-                    }
-                }
-            }
-        ]);
-    $scope.dtInstance = {}
-    $scope.dtColumns = [];
-    var dtColumns = [];
 
-    function renderZCAction(data, type, full) {
-        var acthtml = " <div class=\"btn-group\"> ";
-        acthtml = acthtml + " <button ng-click=\"delitem('"
-            + full.id
-            + "')\" class=\"btn-white btn btn-xs\">删除</button>   ";
-        acthtml = acthtml + "</div>"
-        return acthtml;
-    }
-
-    function renderZcReturn(data, type, full) {
-        if (data == "1") {
-            return "已退库"
-        } else if (data == "0") {
-            return "未退库"
-        } else {
-            return data;
-        }
-    }
-
-    $scope.dtColumns = [
-        DTColumnBuilder.newColumn('busuuid').withTitle('单据编号').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
-            'sDefaultContent', '').withOption("width", '30'),
-        DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
-            'sDefaultContent', '').withOption('width', '50'),
-        DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
-            'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle),
-        DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
-            'sDefaultContent', '').withOption('width', '50'),
-        DTColumnBuilder.newColumn('busdatestr').withTitle('领用时间').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('returndatestr').withTitle('预计退库时间').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('rreturndatestr').withTitle('实际退库时间').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('isreturn').withTitle('是否退库').withOption(
-            'sDefaultContent', '').renderWith(renderZcReturn),
-        DTColumnBuilder.newColumn('returnuuid').withTitle('退库编号').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tcompfullname').withTitle($rootScope.USEDCOMP_A).withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tpartfullame').withTitle($rootScope.USEDPART_A).withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tusedusername').withTitle('使用人(变更后)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tlocstr').withTitle('区域(变更后)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tlocdtl').withTitle('位置(变更后)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('fcompfullname').withTitle($rootScope.USEDCOMP_B).withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('fpartfullame').withTitle($rootScope.USEDPART_B).withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('fusedusername').withTitle('使用人(变更前)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('flocstr').withTitle('区域(变更前)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('flocdtl').withTitle('位置(变更前)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
-            'sDefaultContent', '')]
-
-    function flush() {
-        $http.post($rootScope.project + "/api/zc/resCollectionreturn/ext/selectByUuid.do",
-            item).success(function (res) {
-            if (res.success) {
-                $scope.dtOptions.aaData = res.data;
-            } else {
-                notify({
-                    message: res.message
-                });
-            }
-        })
-    }
-
-    flush();
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-}
 
 function zctklistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
                      $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
@@ -331,16 +196,7 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
         }
     }
 
-    function renderAction(data, type, full) {
-        //分配，删除，详情
-        if (data == "wait") {
-            return "维修中"
-        } else if (data == "finish") {
-            return "已完成"
-        } else {
-            return data;
-        }
-    }
+
 
     function renderCheckStatus(data, type, full) {
         if (data == "init") {
@@ -354,41 +210,22 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
         }
     }
 
-    function renderCGStatus(data, type, full) {
-        if (data == "wait") {
-            return "未处理"
-        } else if (data == "cancel") {
-            return "取消"
-        } else if (data == "success") {
-            return "完成"
-        } else if (data == "failed") {
-            return "失败"
-        } else {
-            return data;
-        }
-    }
 
     function renderAction(data, type, full) {
         var acthtml = " <div class=\"btn-group\"> ";
         acthtml = acthtml + " <button ng-click=\"detail('"
             + full.busuuid
-            + "','" + full.status + "','" + full.bustype + "')\" class=\"btn-white btn btn-xs\">单据明细</button>   ";
+            + "','" + full.status + "','" + full.bustype + "')\" class=\"btn-white btn btn-xs\">单据详情</button>   ";
         acthtml = acthtml + "</div>"
         return acthtml;
     }
 
-    function renderprocess(data, type, full) {
-        if (angular.isDefined(data) && data.length() > 0) {
-            return "申请详情"
-        } else {
-            return "无审批"
-        }
-    }
+
 
     function renderType(data, type, full) {
-        if (data == "ly") {
+        if (data == "LY") {
             return "领用"
-        } else if (data == "tk") {
+        } else if (data == "TK") {
             return "退库"
         } else {
             return data;
@@ -403,14 +240,15 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
         }),
         DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
             'sDefaultContent', '').renderWith(renderAction),
+
         DTColumnBuilder.newColumn('busuuid').withTitle('单据编号').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('name').withTitle('单据名称').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('bustype').withTitle('单据类型').withOption(
             'sDefaultContent', '').renderWith(renderType),
         DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
-            'sDefaultContent', '').renderWith(renderCGStatus),
-        DTColumnBuilder.newColumn('pinst').withTitle('流程详情').withOption(
-            'sDefaultContent', '').renderWith(renderprocess),
+            'sDefaultContent', '').renderWith(renderZcBLStatus),
         DTColumnBuilder.newColumn('crusername').withTitle('领用人/退库人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('busdatestr').withTitle('领用时间').withOption(
@@ -463,6 +301,14 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
                 show: true,
                 priv: "insert",
                 template: ' <button ng-click="tk()" class="btn btn-sm btn-primary" type="submit">退库</button>'
+            },
+            {
+                id: "btn3",
+                label: "",
+                type: "btn",
+                show: true,
+                priv: "insert",
+                template: ' <button ng-click="approval()" class="btn btn-sm btn-primary" type="submit">送审</button>'
             }]
     }
     $scope.meta = meta;
@@ -502,9 +348,10 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
     }
 
     $scope.detail = function (uuid, status, type) {
-        meta.uuid = uuid;
+        meta.busid = uuid;
         meta.status = status;
-        if (type == "ly") {
+        meta.flowpagetype = "lookup";
+        if (type == "LY") {
             var modalInstance = $uibModal.open({
                 backdrop: true,
                 templateUrl: 'views/cmdb/modal_lytklist.html',
@@ -516,7 +363,7 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
                     }
                 }
             });
-        } else if (type == "tk") {
+        } else if (type == "TK") {
             var modalInstance = $uibModal.open({
                 backdrop: true,
                 templateUrl: 'views/cmdb/modal_lytklist.html',
@@ -577,5 +424,96 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
         });
     }
     flush();
+
+    $scope.approval = function () {
+        var item = getSelectRow();
+        if (angular.isDefined(item)) {
+
+            if (item.status != "apply") {
+                notify({
+                    message: "该状态不允许送审"
+                });
+                return;
+            }
+            var modalInstance = $uibModal.open({
+                backdrop: true,
+                templateUrl: 'views/cmdb/modal_chosenFlowTreeView.html',
+                controller: chosenFlowTreeCtl,
+                size: 'blg',
+                resolve: {
+                    meta: function () {
+                        return item;
+                    }
+                }
+            });
+            modalInstance.result.then(function (result) {
+                if (result == "OK") {
+                    flush();
+                }
+            }, function (reason) {
+                $log.log("reason", reason)
+            });
+            // item.flowtype = flowtype;
+            //  if (item.pstatus != "submitforapproval") {
+            //      notify({
+            //          message: "该状态不允许送审"
+            //      });
+            //      return;
+            //  }
+            //  if (item.ifsp != "1") {
+            //      notify({
+            //          message: "该状态不允许送审"
+            //      });
+            //      return;
+            //  }
+            //  if (item.flowtype == "LY") {
+            //      item.flowcode = "process_zcly";
+            //  } else if (item.flowtype == "JY") {
+            //      item.flowcode = "process_zcjy";
+            //  } else if (item.flowtype == "ZY") {
+            //      item.flowcode = "process_zczy";
+            //  }
+            //  $http.post($rootScope.project + "/api/flow/sysProcessSetting/ext/selectByCode.do",
+            //      {code: item.flowcode}).success(function (res) {
+            //      if (!res.success) {
+            //          notify({
+            //              message: "未定义流程"
+            //          });
+            //          return;
+            //      }
+            //      item.flowform = res.data;
+            //      if (!angular.isDefined(res.data.processdefid)) {
+            //          notify({
+            //              message: "未定义流程"
+            //          });
+            //      }
+            //      item.processdefid = res.data.processdefid;
+            //      item.pk = res.data.processKey;
+            //      var modalInstance = $uibModal.open({
+            //          backdrop: true,
+            //          templateUrl: 'views/cmdb/modal_zcActionSP.html',
+            //          controller: modalzcActionSPCtl,
+            //          size: 'blg',
+            //          resolve: {
+            //              meta: function () {
+            //                  return item;
+            //              }
+            //          }
+            //      });
+            //      modalInstance.result.then(function (result) {
+            //          if (result == "OK") {
+            //              flush();
+            //          }
+            //      }, function (reason) {
+            //          $log.log("reason", reason)
+            //      });
+            //  });
+
+
+        }
+    }
 };
+
+app.register.controller('flowapprovalCommonCtl', flowapprovalCommonCtl);
+app.register.controller('flowsuggestCommonCtl', flowsuggestCommonCtl);
 app.register.controller('collectionreturnCtl', collectionreturnCtl);

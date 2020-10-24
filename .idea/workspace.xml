@@ -29,39 +29,549 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="57d29cc9-a8c4-4ffe-8fe7-90f49f6ef723" name="Default Changelist" comment="常规更新操作">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/BaseActionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/BaseTaskListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysProcessDataService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/FlowDataService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/flow.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/assetflowdetail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/flow_part_approval.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/flow_part_suggest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_chosenFlowTreeView.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/flowtree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/console/views/flow/flowtree.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/版本升级2.2.20-2.2.21.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Project_war.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Project_war.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Project_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Project_war_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jackson_jackson_core_asl_1_9_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jackson_jackson_mapper_asl_1_9_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_4_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_spring_1_3_2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/LoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dev/DeployZcDevMac.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dev/DeployZcDevMac.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseSC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/common/base/BaseSC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/ShiroDbRealm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/ShiroDbRealm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/ShiroUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/ShiroUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/ShiroServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/ShiroServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/SimpleFilterChainDefinitionsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/core/shiro/service/SimpleFilterChainDefinitionsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/UserShiro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/entity/UserShiro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/base/service/impl/SysUserInfoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloNodeEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/BaseNodeEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/UfloProcessEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/BaseProcessEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysUfloProcessExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/controller/SysUfloProcessExtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysUfloProcessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysUfloProcessService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcProcessFlowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcProcessFlowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCollectionreturn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResCollectionreturn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCollectionreturnService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResCollectionreturnService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcChangeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcChangeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/applicationContext.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/applicationContext.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResCollectionreturnMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResCollectionreturnMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/config_system.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_system.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/collectionreturn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/collectionreturn.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/allprocess.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/allprocess.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/myprocess.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/myprocess.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/processfinish.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/processfinish.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/todo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/todo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/loanreturn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/loanreturn.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_collectionSave.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_collectionSave.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_lytklist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_lytklist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/base/do.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/common/classify.data.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/common/demo.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/common/http.api.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/common/http.interceptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/common/index.list.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/common/locales/en.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/common/locales/zh.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/common/vue-i18n.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/components/page-nav/page-nav.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/i18n.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/decls/i18n.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/decls/module.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/dist/vue-i18n.common.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/dist/vue-i18n.esm.browser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/dist/vue-i18n.esm.browser.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/dist/vue-i18n.esm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/dist/vue-i18n.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/dist/vue-i18n.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/src/components/interpolation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/src/components/number.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/src/directive.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/src/extend.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/src/format.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/src/install.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/src/mixin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/src/path.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/src/util.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/types/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/vetur/attributes.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/node_modules/vue-i18n/vetur/tags.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/avatar/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/avatarCropper/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/backTop/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/calendar/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/empty/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/field/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/form/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/fullScreen/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/icon/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/indexList/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/keyboard/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/lazyLoad/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/modal/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/navbar/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/noNetwork/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/parse/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/select/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/slider/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/tabs/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/tag/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/test/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/timeLine/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/toast/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/topTips/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsA/verificationCode/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/card/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/checkbox/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/divider/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/dropdown/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/image/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/line/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/loading/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/noticeBar/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/picker/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/radio/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/rate/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/readMore/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/search/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/skeleton/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/steps/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/sticky/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/swipeAction/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/swiper/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/switch/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/tabbar/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/table/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/upload/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsB/waterfall/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/actionSheet/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/alertTips/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/badge/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/button/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/cell/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/circleProgress/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/collapse/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/color/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/countDown/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/countTo/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/gap/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/grid/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/layout/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/link/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/loadmore/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/mask/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/messageInput/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/numberBox/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/popup/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/progress/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/section/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/subsection/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/componentsC/test/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/example/components.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/example/components.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/example/js.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/example/js.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/example/template.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/example/template.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/color/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/colorSwitch/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/debounce/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/deepClone/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/deepMerge/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/getRect/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/globalVariable/globalData.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/globalVariable/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/globalVariable/prototype.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/globalVariable/vuex.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/guid/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/http/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/md5/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/mpShare/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/queryParams/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/random/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/randomArray/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/route/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/route/routeTo.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/test/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/timeFormat/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/timeFrom/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/library/trim/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/address/addSite.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/address/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/citySelect/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/citySelect/u-city-select.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/comment/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/comment/reply.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/coupon/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/douyin/index.nvue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/keyboardPay/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/login/code.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/login/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/mallMenu/index1.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/mallMenu/index2.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/order/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/submitBar/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/pages/template/wxCenter/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/common/js/touch-emulator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/common/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/common/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/component.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/component_select.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/js.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/js_bak.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/js_select.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/js_select_bak.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/min_button.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/min_button_select.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/template.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/static/uview/example/template_select.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/store/$u.mixin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/store/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/template.h5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/pages.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/pages/center/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/pages/index/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/center-selected.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/center.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/index-selected.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/index.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/static/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/template.h5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uni.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-action-sheet/u-action-sheet.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-alert-tips/u-alert-tips.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-avatar-cropper/u-avatar-cropper.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-avatar-cropper/weCropper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-avatar/u-avatar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-back-top/u-back-top.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-badge/u-badge.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-button/u-button.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-calendar/u-calendar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-car-keyboard/u-car-keyboard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-card/u-card.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-cell-group/u-cell-group.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-cell-item/u-cell-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-checkbox-group/u-checkbox-group.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-checkbox/u-checkbox.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-circle-progress/u-circle-progress.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-col/u-col.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-collapse-item/u-collapse-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-collapse/u-collapse.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-column-notice/u-column-notice.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-count-down/u-count-down.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-count-to/u-count-to.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-divider/u-divider.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-dropdown-item/u-dropdown-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-dropdown/u-dropdown.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-empty/u-empty.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-field/u-field.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-form-item/u-form-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-form/u-form.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-full-screen/u-full-screen.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-gap/u-gap.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-grid-item/u-grid-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-grid/u-grid.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-icon/u-icon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-image/u-image.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-index-anchor/u-index-anchor.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-index-list/u-index-list.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-input/u-input.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-keyboard/u-keyboard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-lazy-load/u-lazy-load.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-line-progress/u-line-progress.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-line/u-line.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-link/u-link.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-loading-page/u-loading-page.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-loading/u-loading.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-loadmore/u-loadmore.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-mask/u-mask.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-message-input/u-message-input.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-modal/u-modal.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-navbar/u-navbar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-no-network/u-no-network.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-notice-bar/u-notice-bar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-number-box/u-number-box.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-number-keyboard/u-number-keyboard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/libs/CssHandler.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/libs/MpHtmlParser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/libs/config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/libs/handler.wxs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/libs/trees.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-parse/u-parse.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-picker/u-picker.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-popup/u-popup.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-radio-group/u-radio-group.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-radio/u-radio.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-rate/u-rate.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-read-more/u-read-more.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-row-notice/u-row-notice.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-row/u-row.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-search/u-search.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-section/u-section.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-select/u-select.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-skeleton/u-skeleton.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-slider/u-slider.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-steps/u-steps.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-sticky/u-sticky.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-subsection/u-subsection.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-swipe-action/u-swipe-action.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-swiper/u-swiper.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-switch/u-switch.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-tabbar/u-tabbar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-table/u-table.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-tabs/u-tabs.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-tag/u-tag.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-td/u-td.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-th/u-th.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-time-line-item/u-time-line-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-time-line/u-time-line.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-toast/u-toast.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-top-tips/u-top-tips.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-tr/u-tr.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-upload/u-upload.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-verification-code/u-verification-code.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/components/u-waterfall/u-waterfall.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/iconfont.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/config/config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/config/zIndex.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/color.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/common.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/style.components.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/style.h5.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/style.mp.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/style.nvue.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/css/style.vue.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/$parent.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/addUnit.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/bem.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/color.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/colorGradient.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/debounce.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/deepClone.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/deepMerge.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/getParent.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/guid.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/md5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/queryParams.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/random.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/randomArray.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/route.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/sys.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/throttle.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/timeFormat.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/timeFrom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/toast.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/trim.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/function/type2icon.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/mixin/mixin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/mixin/mpShare.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/request/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/store/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/util/area.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/util/async-validator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/util/city.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/util/emitter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/libs/util/province.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/uview-ui/theme.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uView_default/vue.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uni.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-action-sheet/u-action-sheet.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-alert-tips/u-alert-tips.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-avatar-cropper/u-avatar-cropper.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-avatar-cropper/weCropper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-avatar/u-avatar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-back-top/u-back-top.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-badge/u-badge.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-button/u-button.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-calendar/u-calendar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-car-keyboard/u-car-keyboard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-card/u-card.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-cell-group/u-cell-group.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-cell-item/u-cell-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-checkbox-group/u-checkbox-group.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-checkbox/u-checkbox.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-circle-progress/u-circle-progress.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-col/u-col.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-collapse-item/u-collapse-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-collapse/u-collapse.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-column-notice/u-column-notice.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-count-down/u-count-down.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-count-to/u-count-to.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-divider/u-divider.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-dropdown-item/u-dropdown-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-dropdown/u-dropdown.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-empty/u-empty.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-field/u-field.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-form-item/u-form-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-form/u-form.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-full-screen/u-full-screen.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-gap/u-gap.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-grid-item/u-grid-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-grid/u-grid.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-icon/u-icon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-image/u-image.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-index-anchor/u-index-anchor.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-index-list/u-index-list.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-input/u-input.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-keyboard/u-keyboard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-lazy-load/u-lazy-load.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-line-progress/u-line-progress.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-line/u-line.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-link/u-link.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-loading-page/u-loading-page.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-loading/u-loading.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-loadmore/u-loadmore.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-mask/u-mask.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-message-input/u-message-input.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-modal/u-modal.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-navbar/u-navbar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-no-network/u-no-network.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-notice-bar/u-notice-bar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-number-box/u-number-box.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-number-keyboard/u-number-keyboard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/libs/CssHandler.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/libs/MpHtmlParser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/libs/config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/libs/handler.wxs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/libs/trees.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-parse/u-parse.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-picker/u-picker.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-popup/u-popup.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-radio-group/u-radio-group.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-radio/u-radio.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-rate/u-rate.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-read-more/u-read-more.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-row-notice/u-row-notice.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-row/u-row.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-search/u-search.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-section/u-section.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-select/u-select.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-skeleton/u-skeleton.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-slider/u-slider.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-steps/u-steps.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-sticky/u-sticky.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-subsection/u-subsection.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-swipe-action/u-swipe-action.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-swiper/u-swiper.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-switch/u-switch.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-tabbar/u-tabbar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-table/u-table.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-tabs/u-tabs.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-tag/u-tag.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-td/u-td.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-th/u-th.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-time-line-item/u-time-line-item.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-time-line/u-time-line.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-toast/u-toast.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-top-tips/u-top-tips.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-tr/u-tr.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-upload/u-upload.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-verification-code/u-verification-code.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/components/u-waterfall/u-waterfall.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/iconfont.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/config/config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/config/zIndex.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/color.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/common.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/style.components.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/style.h5.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/style.mp.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/style.nvue.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/css/style.vue.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/$parent.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/addUnit.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/bem.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/color.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/colorGradient.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/debounce.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/deepClone.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/deepMerge.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/getParent.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/guid.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/md5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/queryParams.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/random.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/randomArray.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/route.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/sys.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/throttle.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/timeFormat.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/timeFrom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/toast.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/trim.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/function/type2icon.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/mixin/mixin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/mixin/mpShare.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/request/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/store/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/util/area.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/util/async-validator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/util/city.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/util/emitter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/libs/util/province.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/uview-ui/theme.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/vue.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/移动端/dtmgr/空白项目.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/部署_数据清理.sql" beforeDir="false" afterPath="$PROJECT_DIR$/部署_数据清理.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="MySQL - dt@127.0.0.1" type="feb32156:DbDataSourceImpl" />
-      </path>
-    </expand>
-    <select />
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
         <option value="HTML4 File" />
+        <option value="Kotlin File" />
         <option value="Class" />
       </list>
     </option>
@@ -995,31 +1505,35 @@
       <screen x="32" y="23" width="1248" height="777" />
     </state>
     <state x="390" y="297" key="#Tomcat_Server/32.23.1248.777@32.23.1248.777" timestamp="1602029744176" />
-    <state x="201" y="23" width="1079" height="777" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602908918720">
+    <state x="201" y="23" width="1079" height="777" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603355545556">
       <screen x="32" y="23" width="1248" height="777" />
     </state>
     <state x="76" y="23" width="1106" height="691" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.709@0.23.1280.709" timestamp="1602017457707" />
-    <state x="201" y="23" width="1079" height="777" key="#com.intellij.execution.impl.EditConfigurationsDialog/32.23.1248.777@32.23.1248.777" timestamp="1602908918720" />
+    <state x="201" y="23" width="1079" height="777" key="#com.intellij.execution.impl.EditConfigurationsDialog/32.23.1248.777@32.23.1248.777" timestamp="1603355545556" />
     <state x="43" y="23" key="#com.intellij.execution.impl.EditConfigurationsDialog/34.23.1246.777@34.23.1246.777" timestamp="1602219117372" />
     <state x="114" y="23" key="#com.intellij.execution.impl.EditConfigurationsDialog/40.23.1240.777@40.23.1240.777" timestamp="1599532659201" />
     <state x="117" y="23" key="#com.intellij.execution.impl.EditConfigurationsDialog/43.23.1237.777@43.23.1237.777" timestamp="1599529702192" />
-    <state x="565" y="211" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1602556434427">
+    <state x="565" y="211" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1603365266653">
       <screen x="32" y="23" width="1248" height="777" />
     </state>
-    <state x="565" y="211" key="#com.intellij.fileTypes.FileTypeChooser/32.23.1248.777@32.23.1248.777" timestamp="1602556434427" />
+    <state x="565" y="211" key="#com.intellij.fileTypes.FileTypeChooser/32.23.1248.777@32.23.1248.777" timestamp="1603365266653" />
     <state x="569" y="211" key="#com.intellij.fileTypes.FileTypeChooser/39.23.1241.777@39.23.1241.777" timestamp="1601252540411" />
     <state x="570" y="211" key="#com.intellij.fileTypes.FileTypeChooser/40.23.1240.777@40.23.1240.777" timestamp="1601123358793" />
     <state x="572" y="211" key="#com.intellij.fileTypes.FileTypeChooser/43.23.1237.777@43.23.1237.777" timestamp="1599140135563" />
     <state x="573" y="211" key="#com.intellij.fileTypes.FileTypeChooser/45.23.1235.777@45.23.1235.777" timestamp="1597533421884" />
-    <state x="250" y="23" key="#com.intellij.ide.util.MemberChooser" timestamp="1602906272635">
+    <state x="250" y="23" key="#com.intellij.ide.util.MemberChooser" timestamp="1603431511594">
       <screen x="32" y="23" width="1248" height="777" />
     </state>
-    <state x="250" y="23" key="#com.intellij.ide.util.MemberChooser/32.23.1248.777@32.23.1248.777" timestamp="1602906272635" />
+    <state x="250" y="23" key="#com.intellij.ide.util.MemberChooser/32.23.1248.777@32.23.1248.777" timestamp="1603431511594" />
     <state x="374" y="134" key="#com.intellij.ide.util.MemberChooser/45.23.1235.777@45.23.1235.777" timestamp="1597572847645" />
     <state x="346" y="57" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable" timestamp="1602114511192">
       <screen x="32" y="23" width="1248" height="777" />
     </state>
     <state x="346" y="57" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable/32.23.1248.777@32.23.1248.777" timestamp="1602114511192" />
+    <state x="337" y="264" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1603493328643">
+      <screen x="30" y="23" width="1250" height="777" />
+    </state>
+    <state x="337" y="264" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/30.23.1250.777@30.23.1250.777" timestamp="1603493328643" />
     <state x="174" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1601792435768">
       <screen x="36" y="23" width="1244" height="777" />
     </state>
@@ -1035,22 +1549,24 @@
     <state x="192" y="70" width="761" height="592" key="CommitChangelistDialog2/43.23.1237.777@43.23.1237.777" timestamp="1599352510370" />
     <state x="182" y="23" width="833" height="777" key="CommitChangelistDialog2/44.23.1236.777@44.23.1236.777" timestamp="1599874083387" />
     <state x="125" y="23" width="833" height="731" key="CommitChangelistDialog2/45.23.1235.777@45.23.1235.777" timestamp="1599815386646" />
-    <state x="428" y="23" key="CommitChangelistDialog2/45.23.1635.1027@45.23.1635.1027" timestamp="1594547269947" />
     <state x="126" y="23" width="833" height="777" key="CommitChangelistDialog2/46.23.1234.777@46.23.1234.777" timestamp="1598068023900" />
     <state x="127" y="23" key="CommitChangelistDialog2/47.23.1233.777@47.23.1233.777" timestamp="1597973844593" />
-    <state x="46" y="90" width="993" height="621" key="DiffContextDialog" timestamp="1601682403480">
-      <screen x="38" y="23" width="1242" height="777" />
+    <state x="287" y="198" width="1000" height="621" key="DiffContextDialog" timestamp="1603497164809">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
+    <state x="287" y="198" width="1000" height="621" key="DiffContextDialog/30.23.1250.777@30.23.1250.777" timestamp="1603497164809" />
     <state x="46" y="90" width="993" height="621" key="DiffContextDialog/38.23.1242.777@38.23.1242.777" timestamp="1601682403480" />
     <state x="51" y="90" key="DiffContextDialog/43.23.1237.777@43.23.1237.777" timestamp="1598192967957" />
     <state x="53" y="90" width="1227" height="614" key="DiffContextDialog/45.23.1235.777@45.23.1235.777" timestamp="1596977646904" />
-    <state width="1206" height="441" key="GridCell.Tab.0.bottom" timestamp="1603014623543">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="453" key="GridCell.Tab.0.bottom" timestamp="1603507948779">
+      <screen x="29" y="23" width="1251" height="777" />
     </state>
     <state width="1218" height="147" key="GridCell.Tab.0.bottom/0.23.1280.709@0.23.1280.709" timestamp="1602017460314" />
-    <state width="1206" height="441" key="GridCell.Tab.0.bottom/32.23.1248.777@32.23.1248.777" timestamp="1603014623543" />
-    <state width="1185" height="328" key="GridCell.Tab.0.bottom/33.23.1247.777@33.23.1247.777" timestamp="1600493640931" />
-    <state width="1206" height="258" key="GridCell.Tab.0.bottom/34.23.1246.777@34.23.1246.777" timestamp="1602208499081" />
+    <state width="1234" height="453" key="GridCell.Tab.0.bottom/29.23.1251.777@29.23.1251.777" timestamp="1603507948779" />
+    <state width="1234" height="453" key="GridCell.Tab.0.bottom/30.23.1250.777@30.23.1250.777" timestamp="1603507897331" />
+    <state width="1206" height="3" key="GridCell.Tab.0.bottom/32.23.1248.777@32.23.1248.777" timestamp="1603432155949" />
+    <state width="1204" height="181" key="GridCell.Tab.0.bottom/33.23.1247.777@33.23.1247.777" timestamp="1603453229864" />
+    <state width="1204" height="181" key="GridCell.Tab.0.bottom/34.23.1246.777@34.23.1246.777" timestamp="1603452086522" />
     <state width="1183" height="39" key="GridCell.Tab.0.bottom/35.23.1245.777@35.23.1245.777" timestamp="1601792322475" />
     <state width="1183" height="334" key="GridCell.Tab.0.bottom/36.23.1244.777@36.23.1244.777" timestamp="1601792390816" />
     <state width="1183" height="36" key="GridCell.Tab.0.bottom/37.23.1243.777@37.23.1243.777" timestamp="1601793084523" />
@@ -1061,16 +1577,17 @@
     <state width="1173" height="201" key="GridCell.Tab.0.bottom/43.23.1237.777@43.23.1237.777" timestamp="1600259714041" />
     <state width="1173" height="52" key="GridCell.Tab.0.bottom/44.23.1236.777@44.23.1236.777" timestamp="1600295980860" />
     <state width="1193" height="206" key="GridCell.Tab.0.bottom/45.23.1235.777@45.23.1235.777" timestamp="1599977446503" />
-    <state width="1446" height="102" key="GridCell.Tab.0.bottom/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272700" />
     <state width="1301" height="151" key="GridCell.Tab.0.bottom/46.23.1234.777@46.23.1234.777" timestamp="1598067515909" />
     <state width="1174" height="142" key="GridCell.Tab.0.bottom/47.23.1233.777@47.23.1233.777" timestamp="1597973718693" />
-    <state width="1206" height="441" key="GridCell.Tab.0.center" timestamp="1603014623542">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="453" key="GridCell.Tab.0.center" timestamp="1603507948778">
+      <screen x="29" y="23" width="1251" height="777" />
     </state>
     <state width="1218" height="147" key="GridCell.Tab.0.center/0.23.1280.709@0.23.1280.709" timestamp="1602017460313" />
-    <state width="1206" height="441" key="GridCell.Tab.0.center/32.23.1248.777@32.23.1248.777" timestamp="1603014623542" />
-    <state width="1185" height="328" key="GridCell.Tab.0.center/33.23.1247.777@33.23.1247.777" timestamp="1600493640930" />
-    <state width="1206" height="258" key="GridCell.Tab.0.center/34.23.1246.777@34.23.1246.777" timestamp="1602208499081" />
+    <state width="1234" height="453" key="GridCell.Tab.0.center/29.23.1251.777@29.23.1251.777" timestamp="1603507948778" />
+    <state width="1234" height="453" key="GridCell.Tab.0.center/30.23.1250.777@30.23.1250.777" timestamp="1603507897322" />
+    <state width="1206" height="3" key="GridCell.Tab.0.center/32.23.1248.777@32.23.1248.777" timestamp="1603432155946" />
+    <state width="1204" height="181" key="GridCell.Tab.0.center/33.23.1247.777@33.23.1247.777" timestamp="1603453229861" />
+    <state width="1204" height="181" key="GridCell.Tab.0.center/34.23.1246.777@34.23.1246.777" timestamp="1603452086520" />
     <state width="1183" height="39" key="GridCell.Tab.0.center/35.23.1245.777@35.23.1245.777" timestamp="1601792322471" />
     <state width="1183" height="334" key="GridCell.Tab.0.center/36.23.1244.777@36.23.1244.777" timestamp="1601792390814" />
     <state width="1183" height="36" key="GridCell.Tab.0.center/37.23.1243.777@37.23.1243.777" timestamp="1601793084523" />
@@ -1081,16 +1598,17 @@
     <state width="1173" height="201" key="GridCell.Tab.0.center/43.23.1237.777@43.23.1237.777" timestamp="1600259714040" />
     <state width="1173" height="52" key="GridCell.Tab.0.center/44.23.1236.777@44.23.1236.777" timestamp="1600295980857" />
     <state width="1193" height="206" key="GridCell.Tab.0.center/45.23.1235.777@45.23.1235.777" timestamp="1599977446502" />
-    <state width="1446" height="102" key="GridCell.Tab.0.center/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272700" />
     <state width="1301" height="151" key="GridCell.Tab.0.center/46.23.1234.777@46.23.1234.777" timestamp="1598067515908" />
     <state width="1174" height="142" key="GridCell.Tab.0.center/47.23.1233.777@47.23.1233.777" timestamp="1597973718691" />
-    <state width="1206" height="441" key="GridCell.Tab.0.left" timestamp="1603014623541">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="453" key="GridCell.Tab.0.left" timestamp="1603507948778">
+      <screen x="29" y="23" width="1251" height="777" />
     </state>
     <state width="1218" height="147" key="GridCell.Tab.0.left/0.23.1280.709@0.23.1280.709" timestamp="1602017460313" />
-    <state width="1206" height="441" key="GridCell.Tab.0.left/32.23.1248.777@32.23.1248.777" timestamp="1603014623541" />
-    <state width="1185" height="328" key="GridCell.Tab.0.left/33.23.1247.777@33.23.1247.777" timestamp="1600493640929" />
-    <state width="1206" height="258" key="GridCell.Tab.0.left/34.23.1246.777@34.23.1246.777" timestamp="1602208499080" />
+    <state width="1234" height="453" key="GridCell.Tab.0.left/29.23.1251.777@29.23.1251.777" timestamp="1603507948778" />
+    <state width="1234" height="453" key="GridCell.Tab.0.left/30.23.1250.777@30.23.1250.777" timestamp="1603507897318" />
+    <state width="1206" height="3" key="GridCell.Tab.0.left/32.23.1248.777@32.23.1248.777" timestamp="1603432155945" />
+    <state width="1204" height="181" key="GridCell.Tab.0.left/33.23.1247.777@33.23.1247.777" timestamp="1603453229860" />
+    <state width="1204" height="181" key="GridCell.Tab.0.left/34.23.1246.777@34.23.1246.777" timestamp="1603452086520" />
     <state width="1183" height="39" key="GridCell.Tab.0.left/35.23.1245.777@35.23.1245.777" timestamp="1601792322470" />
     <state width="1183" height="334" key="GridCell.Tab.0.left/36.23.1244.777@36.23.1244.777" timestamp="1601792390813" />
     <state width="1183" height="36" key="GridCell.Tab.0.left/37.23.1243.777@37.23.1243.777" timestamp="1601793084522" />
@@ -1101,16 +1619,17 @@
     <state width="1173" height="201" key="GridCell.Tab.0.left/43.23.1237.777@43.23.1237.777" timestamp="1600259714040" />
     <state width="1173" height="52" key="GridCell.Tab.0.left/44.23.1236.777@44.23.1236.777" timestamp="1600295980856" />
     <state width="1193" height="206" key="GridCell.Tab.0.left/45.23.1235.777@45.23.1235.777" timestamp="1599977446502" />
-    <state width="1446" height="102" key="GridCell.Tab.0.left/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272699" />
     <state width="1301" height="151" key="GridCell.Tab.0.left/46.23.1234.777@46.23.1234.777" timestamp="1598067515907" />
     <state width="1174" height="142" key="GridCell.Tab.0.left/47.23.1233.777@47.23.1233.777" timestamp="1597973718690" />
-    <state width="1206" height="441" key="GridCell.Tab.0.right" timestamp="1603014623542">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="453" key="GridCell.Tab.0.right" timestamp="1603507948779">
+      <screen x="29" y="23" width="1251" height="777" />
     </state>
     <state width="1218" height="147" key="GridCell.Tab.0.right/0.23.1280.709@0.23.1280.709" timestamp="1602017460314" />
-    <state width="1206" height="441" key="GridCell.Tab.0.right/32.23.1248.777@32.23.1248.777" timestamp="1603014623542" />
-    <state width="1185" height="328" key="GridCell.Tab.0.right/33.23.1247.777@33.23.1247.777" timestamp="1600493640931" />
-    <state width="1206" height="258" key="GridCell.Tab.0.right/34.23.1246.777@34.23.1246.777" timestamp="1602208499081" />
+    <state width="1234" height="453" key="GridCell.Tab.0.right/29.23.1251.777@29.23.1251.777" timestamp="1603507948779" />
+    <state width="1234" height="453" key="GridCell.Tab.0.right/30.23.1250.777@30.23.1250.777" timestamp="1603507897325" />
+    <state width="1206" height="3" key="GridCell.Tab.0.right/32.23.1248.777@32.23.1248.777" timestamp="1603432155947" />
+    <state width="1204" height="181" key="GridCell.Tab.0.right/33.23.1247.777@33.23.1247.777" timestamp="1603453229862" />
+    <state width="1204" height="181" key="GridCell.Tab.0.right/34.23.1246.777@34.23.1246.777" timestamp="1603452086521" />
     <state width="1183" height="39" key="GridCell.Tab.0.right/35.23.1245.777@35.23.1245.777" timestamp="1601792322474" />
     <state width="1183" height="334" key="GridCell.Tab.0.right/36.23.1244.777@36.23.1244.777" timestamp="1601792390815" />
     <state width="1183" height="36" key="GridCell.Tab.0.right/37.23.1243.777@37.23.1243.777" timestamp="1601793084523" />
@@ -1121,16 +1640,17 @@
     <state width="1173" height="201" key="GridCell.Tab.0.right/43.23.1237.777@43.23.1237.777" timestamp="1600259714041" />
     <state width="1173" height="52" key="GridCell.Tab.0.right/44.23.1236.777@44.23.1236.777" timestamp="1600295980859" />
     <state width="1193" height="206" key="GridCell.Tab.0.right/45.23.1235.777@45.23.1235.777" timestamp="1599977446503" />
-    <state width="1446" height="102" key="GridCell.Tab.0.right/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272700" />
     <state width="1301" height="151" key="GridCell.Tab.0.right/46.23.1234.777@46.23.1234.777" timestamp="1598067515909" />
     <state width="1174" height="142" key="GridCell.Tab.0.right/47.23.1233.777@47.23.1233.777" timestamp="1597973718692" />
-    <state width="1206" height="218" key="GridCell.Tab.1.bottom" timestamp="1603014504763">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="453" key="GridCell.Tab.1.bottom" timestamp="1603507948500">
+      <screen x="29" y="23" width="1251" height="777" />
     </state>
     <state width="1218" height="147" key="GridCell.Tab.1.bottom/0.23.1280.709@0.23.1280.709" timestamp="1602017460316" />
-    <state width="1206" height="218" key="GridCell.Tab.1.bottom/32.23.1248.777@32.23.1248.777" timestamp="1603014504763" />
-    <state width="1185" height="328" key="GridCell.Tab.1.bottom/33.23.1247.777@33.23.1247.777" timestamp="1600493640480" />
-    <state width="1206" height="258" key="GridCell.Tab.1.bottom/34.23.1246.777@34.23.1246.777" timestamp="1602208499082" />
+    <state width="1234" height="453" key="GridCell.Tab.1.bottom/29.23.1251.777@29.23.1251.777" timestamp="1603507948500" />
+    <state width="1234" height="453" key="GridCell.Tab.1.bottom/30.23.1250.777@30.23.1250.777" timestamp="1603507896886" />
+    <state width="1204" height="4" key="GridCell.Tab.1.bottom/32.23.1248.777@32.23.1248.777" timestamp="1603432155429" />
+    <state width="1204" height="181" key="GridCell.Tab.1.bottom/33.23.1247.777@33.23.1247.777" timestamp="1603453229040" />
+    <state width="1204" height="181" key="GridCell.Tab.1.bottom/34.23.1246.777@34.23.1246.777" timestamp="1603452086525" />
     <state width="1183" height="39" key="GridCell.Tab.1.bottom/35.23.1245.777@35.23.1245.777" timestamp="1601792322255" />
     <state width="1183" height="334" key="GridCell.Tab.1.bottom/36.23.1244.777@36.23.1244.777" timestamp="1601792390532" />
     <state width="1183" height="36" key="GridCell.Tab.1.bottom/37.23.1243.777@37.23.1243.777" timestamp="1601793084524" />
@@ -1141,16 +1661,17 @@
     <state width="1175" height="53" key="GridCell.Tab.1.bottom/43.23.1237.777@43.23.1237.777" timestamp="1600259714017" />
     <state width="1193" height="236" key="GridCell.Tab.1.bottom/44.23.1236.777@44.23.1236.777" timestamp="1599834189621" />
     <state width="1193" height="206" key="GridCell.Tab.1.bottom/45.23.1235.777@45.23.1235.777" timestamp="1599977446507" />
-    <state width="1446" height="102" key="GridCell.Tab.1.bottom/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272702" />
     <state width="1301" height="151" key="GridCell.Tab.1.bottom/46.23.1234.777@46.23.1234.777" timestamp="1598067515911" />
     <state width="1174" height="142" key="GridCell.Tab.1.bottom/47.23.1233.777@47.23.1233.777" timestamp="1597973718700" />
-    <state width="1206" height="218" key="GridCell.Tab.1.center" timestamp="1603014504762">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="453" key="GridCell.Tab.1.center" timestamp="1603507948499">
+      <screen x="29" y="23" width="1251" height="777" />
     </state>
     <state width="1218" height="147" key="GridCell.Tab.1.center/0.23.1280.709@0.23.1280.709" timestamp="1602017460315" />
-    <state width="1206" height="218" key="GridCell.Tab.1.center/32.23.1248.777@32.23.1248.777" timestamp="1603014504762" />
-    <state width="1185" height="328" key="GridCell.Tab.1.center/33.23.1247.777@33.23.1247.777" timestamp="1600493640477" />
-    <state width="1206" height="258" key="GridCell.Tab.1.center/34.23.1246.777@34.23.1246.777" timestamp="1602208499082" />
+    <state width="1234" height="453" key="GridCell.Tab.1.center/29.23.1251.777@29.23.1251.777" timestamp="1603507948499" />
+    <state width="1234" height="453" key="GridCell.Tab.1.center/30.23.1250.777@30.23.1250.777" timestamp="1603507896885" />
+    <state width="1204" height="4" key="GridCell.Tab.1.center/32.23.1248.777@32.23.1248.777" timestamp="1603432155428" />
+    <state width="1204" height="181" key="GridCell.Tab.1.center/33.23.1247.777@33.23.1247.777" timestamp="1603453229039" />
+    <state width="1204" height="181" key="GridCell.Tab.1.center/34.23.1246.777@34.23.1246.777" timestamp="1603452086523" />
     <state width="1183" height="39" key="GridCell.Tab.1.center/35.23.1245.777@35.23.1245.777" timestamp="1601792322254" />
     <state width="1183" height="334" key="GridCell.Tab.1.center/36.23.1244.777@36.23.1244.777" timestamp="1601792390530" />
     <state width="1183" height="36" key="GridCell.Tab.1.center/37.23.1243.777@37.23.1243.777" timestamp="1601793084524" />
@@ -1161,16 +1682,17 @@
     <state width="1175" height="53" key="GridCell.Tab.1.center/43.23.1237.777@43.23.1237.777" timestamp="1600259714017" />
     <state width="1193" height="236" key="GridCell.Tab.1.center/44.23.1236.777@44.23.1236.777" timestamp="1599834189620" />
     <state width="1193" height="206" key="GridCell.Tab.1.center/45.23.1235.777@45.23.1235.777" timestamp="1599977446505" />
-    <state width="1446" height="102" key="GridCell.Tab.1.center/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272701" />
     <state width="1301" height="151" key="GridCell.Tab.1.center/46.23.1234.777@46.23.1234.777" timestamp="1598067515910" />
     <state width="1174" height="142" key="GridCell.Tab.1.center/47.23.1233.777@47.23.1233.777" timestamp="1597973718699" />
-    <state width="1206" height="218" key="GridCell.Tab.1.left" timestamp="1603014504761">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="453" key="GridCell.Tab.1.left" timestamp="1603507948498">
+      <screen x="29" y="23" width="1251" height="777" />
     </state>
     <state width="1218" height="147" key="GridCell.Tab.1.left/0.23.1280.709@0.23.1280.709" timestamp="1602017460315" />
-    <state width="1206" height="218" key="GridCell.Tab.1.left/32.23.1248.777@32.23.1248.777" timestamp="1603014504761" />
-    <state width="1185" height="328" key="GridCell.Tab.1.left/33.23.1247.777@33.23.1247.777" timestamp="1600493640474" />
-    <state width="1206" height="258" key="GridCell.Tab.1.left/34.23.1246.777@34.23.1246.777" timestamp="1602208499082" />
+    <state width="1234" height="453" key="GridCell.Tab.1.left/29.23.1251.777@29.23.1251.777" timestamp="1603507948498" />
+    <state width="1234" height="453" key="GridCell.Tab.1.left/30.23.1250.777@30.23.1250.777" timestamp="1603507896884" />
+    <state width="1204" height="4" key="GridCell.Tab.1.left/32.23.1248.777@32.23.1248.777" timestamp="1603432155427" />
+    <state width="1204" height="181" key="GridCell.Tab.1.left/33.23.1247.777@33.23.1247.777" timestamp="1603453229038" />
+    <state width="1204" height="181" key="GridCell.Tab.1.left/34.23.1246.777@34.23.1246.777" timestamp="1603452086522" />
     <state width="1183" height="39" key="GridCell.Tab.1.left/35.23.1245.777@35.23.1245.777" timestamp="1601792322254" />
     <state width="1183" height="334" key="GridCell.Tab.1.left/36.23.1244.777@36.23.1244.777" timestamp="1601792390525" />
     <state width="1183" height="36" key="GridCell.Tab.1.left/37.23.1243.777@37.23.1243.777" timestamp="1601793084524" />
@@ -1181,16 +1703,17 @@
     <state width="1175" height="53" key="GridCell.Tab.1.left/43.23.1237.777@43.23.1237.777" timestamp="1600259714016" />
     <state width="1193" height="236" key="GridCell.Tab.1.left/44.23.1236.777@44.23.1236.777" timestamp="1599834189620" />
     <state width="1193" height="206" key="GridCell.Tab.1.left/45.23.1235.777@45.23.1235.777" timestamp="1599977446504" />
-    <state width="1446" height="102" key="GridCell.Tab.1.left/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272701" />
     <state width="1301" height="151" key="GridCell.Tab.1.left/46.23.1234.777@46.23.1234.777" timestamp="1598067515909" />
     <state width="1174" height="142" key="GridCell.Tab.1.left/47.23.1233.777@47.23.1233.777" timestamp="1597973718696" />
-    <state width="1206" height="218" key="GridCell.Tab.1.right" timestamp="1603014504762">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="453" key="GridCell.Tab.1.right" timestamp="1603507948499">
+      <screen x="29" y="23" width="1251" height="777" />
     </state>
     <state width="1218" height="147" key="GridCell.Tab.1.right/0.23.1280.709@0.23.1280.709" timestamp="1602017460316" />
-    <state width="1206" height="218" key="GridCell.Tab.1.right/32.23.1248.777@32.23.1248.777" timestamp="1603014504762" />
-    <state width="1185" height="328" key="GridCell.Tab.1.right/33.23.1247.777@33.23.1247.777" timestamp="1600493640479" />
-    <state width="1206" height="258" key="GridCell.Tab.1.right/34.23.1246.777@34.23.1246.777" timestamp="1602208499082" />
+    <state width="1234" height="453" key="GridCell.Tab.1.right/29.23.1251.777@29.23.1251.777" timestamp="1603507948499" />
+    <state width="1234" height="453" key="GridCell.Tab.1.right/30.23.1250.777@30.23.1250.777" timestamp="1603507896886" />
+    <state width="1204" height="4" key="GridCell.Tab.1.right/32.23.1248.777@32.23.1248.777" timestamp="1603432155429" />
+    <state width="1204" height="181" key="GridCell.Tab.1.right/33.23.1247.777@33.23.1247.777" timestamp="1603453229040" />
+    <state width="1204" height="181" key="GridCell.Tab.1.right/34.23.1246.777@34.23.1246.777" timestamp="1603452086524" />
     <state width="1183" height="39" key="GridCell.Tab.1.right/35.23.1245.777@35.23.1245.777" timestamp="1601792322255" />
     <state width="1183" height="334" key="GridCell.Tab.1.right/36.23.1244.777@36.23.1244.777" timestamp="1601792390531" />
     <state width="1183" height="36" key="GridCell.Tab.1.right/37.23.1243.777@37.23.1243.777" timestamp="1601793084524" />
@@ -1201,15 +1724,15 @@
     <state width="1175" height="53" key="GridCell.Tab.1.right/43.23.1237.777@43.23.1237.777" timestamp="1600259714017" />
     <state width="1193" height="236" key="GridCell.Tab.1.right/44.23.1236.777@44.23.1236.777" timestamp="1599834189621" />
     <state width="1193" height="206" key="GridCell.Tab.1.right/45.23.1235.777@45.23.1235.777" timestamp="1599977446506" />
-    <state width="1446" height="102" key="GridCell.Tab.1.right/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272701" />
     <state width="1301" height="151" key="GridCell.Tab.1.right/46.23.1234.777@46.23.1234.777" timestamp="1598067515910" />
     <state width="1174" height="142" key="GridCell.Tab.1.right/47.23.1233.777@47.23.1233.777" timestamp="1597973718699" />
-    <state width="1206" height="218" key="GridCell.Tab.2.bottom" timestamp="1603014347200">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.2.bottom" timestamp="1603507664884">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.2.bottom/32.23.1248.777@32.23.1248.777" timestamp="1603014347200" />
-    <state width="1185" height="328" key="GridCell.Tab.2.bottom/33.23.1247.777@33.23.1247.777" timestamp="1600493640494" />
-    <state width="1300" height="193" key="GridCell.Tab.2.bottom/34.23.1246.777@34.23.1246.777" timestamp="1601025333357" />
+    <state width="1234" height="10" key="GridCell.Tab.2.bottom/30.23.1250.777@30.23.1250.777" timestamp="1603507664884" />
+    <state width="1204" height="4" key="GridCell.Tab.2.bottom/32.23.1248.777@32.23.1248.777" timestamp="1603432155432" />
+    <state width="1204" height="181" key="GridCell.Tab.2.bottom/33.23.1247.777@33.23.1247.777" timestamp="1603453229041" />
+    <state width="1204" height="181" key="GridCell.Tab.2.bottom/34.23.1246.777@34.23.1246.777" timestamp="1603452086527" />
     <state width="1183" height="39" key="GridCell.Tab.2.bottom/35.23.1245.777@35.23.1245.777" timestamp="1601792322258" />
     <state width="1181" height="2" key="GridCell.Tab.2.bottom/36.23.1244.777@36.23.1244.777" timestamp="1601788406788" />
     <state width="1180" height="2" key="GridCell.Tab.2.bottom/37.23.1243.777@37.23.1243.777" timestamp="1601698607470" />
@@ -1220,15 +1743,15 @@
     <state width="1175" height="53" key="GridCell.Tab.2.bottom/43.23.1237.777@43.23.1237.777" timestamp="1600259714019" />
     <state width="1193" height="236" key="GridCell.Tab.2.bottom/44.23.1236.777@44.23.1236.777" timestamp="1599833770399" />
     <state width="1193" height="206" key="GridCell.Tab.2.bottom/45.23.1235.777@45.23.1235.777" timestamp="1599977285324" />
-    <state width="1446" height="102" key="GridCell.Tab.2.bottom/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272703" />
     <state width="1301" height="2" key="GridCell.Tab.2.bottom/46.23.1234.777@46.23.1234.777" timestamp="1598059304428" />
     <state width="1170" height="2" key="GridCell.Tab.2.bottom/47.23.1233.777@47.23.1233.777" timestamp="1597716095949" />
-    <state width="1206" height="218" key="GridCell.Tab.2.center" timestamp="1603014347199">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.2.center" timestamp="1603507664883">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.2.center/32.23.1248.777@32.23.1248.777" timestamp="1603014347199" />
-    <state width="1185" height="328" key="GridCell.Tab.2.center/33.23.1247.777@33.23.1247.777" timestamp="1600493640488" />
-    <state width="1300" height="193" key="GridCell.Tab.2.center/34.23.1246.777@34.23.1246.777" timestamp="1601025333356" />
+    <state width="1234" height="10" key="GridCell.Tab.2.center/30.23.1250.777@30.23.1250.777" timestamp="1603507664883" />
+    <state width="1204" height="4" key="GridCell.Tab.2.center/32.23.1248.777@32.23.1248.777" timestamp="1603432155431" />
+    <state width="1204" height="181" key="GridCell.Tab.2.center/33.23.1247.777@33.23.1247.777" timestamp="1603453229041" />
+    <state width="1204" height="181" key="GridCell.Tab.2.center/34.23.1246.777@34.23.1246.777" timestamp="1603452086526" />
     <state width="1183" height="39" key="GridCell.Tab.2.center/35.23.1245.777@35.23.1245.777" timestamp="1601792322257" />
     <state width="1181" height="2" key="GridCell.Tab.2.center/36.23.1244.777@36.23.1244.777" timestamp="1601788406787" />
     <state width="1180" height="2" key="GridCell.Tab.2.center/37.23.1243.777@37.23.1243.777" timestamp="1601698607469" />
@@ -1239,15 +1762,15 @@
     <state width="1175" height="53" key="GridCell.Tab.2.center/43.23.1237.777@43.23.1237.777" timestamp="1600259714018" />
     <state width="1193" height="236" key="GridCell.Tab.2.center/44.23.1236.777@44.23.1236.777" timestamp="1599833770399" />
     <state width="1193" height="206" key="GridCell.Tab.2.center/45.23.1235.777@45.23.1235.777" timestamp="1599977285323" />
-    <state width="1446" height="102" key="GridCell.Tab.2.center/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272703" />
     <state width="1301" height="2" key="GridCell.Tab.2.center/46.23.1234.777@46.23.1234.777" timestamp="1598059304427" />
     <state width="1170" height="2" key="GridCell.Tab.2.center/47.23.1233.777@47.23.1233.777" timestamp="1597716095948" />
-    <state width="1206" height="218" key="GridCell.Tab.2.left" timestamp="1603014347199">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.2.left" timestamp="1603507664882">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.2.left/32.23.1248.777@32.23.1248.777" timestamp="1603014347199" />
-    <state width="1185" height="328" key="GridCell.Tab.2.left/33.23.1247.777@33.23.1247.777" timestamp="1600493640487" />
-    <state width="1300" height="193" key="GridCell.Tab.2.left/34.23.1246.777@34.23.1246.777" timestamp="1601025333355" />
+    <state width="1234" height="10" key="GridCell.Tab.2.left/30.23.1250.777@30.23.1250.777" timestamp="1603507664882" />
+    <state width="1204" height="4" key="GridCell.Tab.2.left/32.23.1248.777@32.23.1248.777" timestamp="1603432155430" />
+    <state width="1204" height="181" key="GridCell.Tab.2.left/33.23.1247.777@33.23.1247.777" timestamp="1603453229041" />
+    <state width="1204" height="181" key="GridCell.Tab.2.left/34.23.1246.777@34.23.1246.777" timestamp="1603452086525" />
     <state width="1183" height="39" key="GridCell.Tab.2.left/35.23.1245.777@35.23.1245.777" timestamp="1601792322257" />
     <state width="1181" height="2" key="GridCell.Tab.2.left/36.23.1244.777@36.23.1244.777" timestamp="1601788406786" />
     <state width="1180" height="2" key="GridCell.Tab.2.left/37.23.1243.777@37.23.1243.777" timestamp="1601698607468" />
@@ -1258,15 +1781,15 @@
     <state width="1175" height="53" key="GridCell.Tab.2.left/43.23.1237.777@43.23.1237.777" timestamp="1600259714017" />
     <state width="1193" height="236" key="GridCell.Tab.2.left/44.23.1236.777@44.23.1236.777" timestamp="1599833770398" />
     <state width="1193" height="206" key="GridCell.Tab.2.left/45.23.1235.777@45.23.1235.777" timestamp="1599977285322" />
-    <state width="1446" height="102" key="GridCell.Tab.2.left/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272703" />
     <state width="1301" height="2" key="GridCell.Tab.2.left/46.23.1234.777@46.23.1234.777" timestamp="1598059304427" />
     <state width="1170" height="2" key="GridCell.Tab.2.left/47.23.1233.777@47.23.1233.777" timestamp="1597716095947" />
-    <state width="1206" height="218" key="GridCell.Tab.2.right" timestamp="1603014347199">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.2.right" timestamp="1603507664883">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.2.right/32.23.1248.777@32.23.1248.777" timestamp="1603014347199" />
-    <state width="1185" height="328" key="GridCell.Tab.2.right/33.23.1247.777@33.23.1247.777" timestamp="1600493640488" />
-    <state width="1300" height="193" key="GridCell.Tab.2.right/34.23.1246.777@34.23.1246.777" timestamp="1601025333356" />
+    <state width="1234" height="10" key="GridCell.Tab.2.right/30.23.1250.777@30.23.1250.777" timestamp="1603507664883" />
+    <state width="1204" height="4" key="GridCell.Tab.2.right/32.23.1248.777@32.23.1248.777" timestamp="1603432155431" />
+    <state width="1204" height="181" key="GridCell.Tab.2.right/33.23.1247.777@33.23.1247.777" timestamp="1603453229041" />
+    <state width="1204" height="181" key="GridCell.Tab.2.right/34.23.1246.777@34.23.1246.777" timestamp="1603452086526" />
     <state width="1183" height="39" key="GridCell.Tab.2.right/35.23.1245.777@35.23.1245.777" timestamp="1601792322257" />
     <state width="1181" height="2" key="GridCell.Tab.2.right/36.23.1244.777@36.23.1244.777" timestamp="1601788406788" />
     <state width="1180" height="2" key="GridCell.Tab.2.right/37.23.1243.777@37.23.1243.777" timestamp="1601698607470" />
@@ -1277,15 +1800,15 @@
     <state width="1175" height="53" key="GridCell.Tab.2.right/43.23.1237.777@43.23.1237.777" timestamp="1600259714018" />
     <state width="1193" height="236" key="GridCell.Tab.2.right/44.23.1236.777@44.23.1236.777" timestamp="1599833770399" />
     <state width="1193" height="206" key="GridCell.Tab.2.right/45.23.1235.777@45.23.1235.777" timestamp="1599977285324" />
-    <state width="1446" height="102" key="GridCell.Tab.2.right/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272703" />
     <state width="1301" height="2" key="GridCell.Tab.2.right/46.23.1234.777@46.23.1234.777" timestamp="1598059304428" />
     <state width="1170" height="2" key="GridCell.Tab.2.right/47.23.1233.777@47.23.1233.777" timestamp="1597716095948" />
-    <state width="1206" height="218" key="GridCell.Tab.3.bottom" timestamp="1603014347203">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.3.bottom" timestamp="1603507664890">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.3.bottom/32.23.1248.777@32.23.1248.777" timestamp="1603014347203" />
-    <state width="1185" height="328" key="GridCell.Tab.3.bottom/33.23.1247.777@33.23.1247.777" timestamp="1600493640508" />
-    <state width="1300" height="193" key="GridCell.Tab.3.bottom/34.23.1246.777@34.23.1246.777" timestamp="1601025332448" />
+    <state width="1234" height="10" key="GridCell.Tab.3.bottom/30.23.1250.777@30.23.1250.777" timestamp="1603507664890" />
+    <state width="1204" height="4" key="GridCell.Tab.3.bottom/32.23.1248.777@32.23.1248.777" timestamp="1603432155435" />
+    <state width="1204" height="181" key="GridCell.Tab.3.bottom/33.23.1247.777@33.23.1247.777" timestamp="1603453229043" />
+    <state width="1204" height="181" key="GridCell.Tab.3.bottom/34.23.1246.777@34.23.1246.777" timestamp="1603452086529" />
     <state width="1183" height="39" key="GridCell.Tab.3.bottom/35.23.1245.777@35.23.1245.777" timestamp="1601792322256" />
     <state width="1181" height="2" key="GridCell.Tab.3.bottom/36.23.1244.777@36.23.1244.777" timestamp="1601788406791" />
     <state width="1180" height="2" key="GridCell.Tab.3.bottom/37.23.1243.777@37.23.1243.777" timestamp="1601698607467" />
@@ -1296,15 +1819,15 @@
     <state width="1175" height="53" key="GridCell.Tab.3.bottom/43.23.1237.777@43.23.1237.777" timestamp="1600259714021" />
     <state width="1193" height="236" key="GridCell.Tab.3.bottom/44.23.1236.777@44.23.1236.777" timestamp="1599833770398" />
     <state width="1193" height="206" key="GridCell.Tab.3.bottom/45.23.1235.777@45.23.1235.777" timestamp="1599977285322" />
-    <state width="1446" height="102" key="GridCell.Tab.3.bottom/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272703" />
     <state width="1301" height="2" key="GridCell.Tab.3.bottom/46.23.1234.777@46.23.1234.777" timestamp="1598059304430" />
     <state width="1170" height="2" key="GridCell.Tab.3.bottom/47.23.1233.777@47.23.1233.777" timestamp="1597716095954" />
-    <state width="1206" height="218" key="GridCell.Tab.3.center" timestamp="1603014347202">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.3.center" timestamp="1603507664889">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.3.center/32.23.1248.777@32.23.1248.777" timestamp="1603014347202" />
-    <state width="1185" height="328" key="GridCell.Tab.3.center/33.23.1247.777@33.23.1247.777" timestamp="1600493640497" />
-    <state width="1300" height="193" key="GridCell.Tab.3.center/34.23.1246.777@34.23.1246.777" timestamp="1601025332443" />
+    <state width="1234" height="10" key="GridCell.Tab.3.center/30.23.1250.777@30.23.1250.777" timestamp="1603507664889" />
+    <state width="1204" height="4" key="GridCell.Tab.3.center/32.23.1248.777@32.23.1248.777" timestamp="1603432155434" />
+    <state width="1204" height="181" key="GridCell.Tab.3.center/33.23.1247.777@33.23.1247.777" timestamp="1603453229042" />
+    <state width="1204" height="181" key="GridCell.Tab.3.center/34.23.1246.777@34.23.1246.777" timestamp="1603452086527" />
     <state width="1183" height="39" key="GridCell.Tab.3.center/35.23.1245.777@35.23.1245.777" timestamp="1601792322256" />
     <state width="1181" height="2" key="GridCell.Tab.3.center/36.23.1244.777@36.23.1244.777" timestamp="1601788406789" />
     <state width="1180" height="2" key="GridCell.Tab.3.center/37.23.1243.777@37.23.1243.777" timestamp="1601698607456" />
@@ -1315,15 +1838,15 @@
     <state width="1175" height="53" key="GridCell.Tab.3.center/43.23.1237.777@43.23.1237.777" timestamp="1600259714020" />
     <state width="1193" height="236" key="GridCell.Tab.3.center/44.23.1236.777@44.23.1236.777" timestamp="1599833770397" />
     <state width="1193" height="206" key="GridCell.Tab.3.center/45.23.1235.777@45.23.1235.777" timestamp="1599977285321" />
-    <state width="1446" height="102" key="GridCell.Tab.3.center/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272702" />
     <state width="1301" height="2" key="GridCell.Tab.3.center/46.23.1234.777@46.23.1234.777" timestamp="1598059304429" />
     <state width="1170" height="2" key="GridCell.Tab.3.center/47.23.1233.777@47.23.1233.777" timestamp="1597716095951" />
-    <state width="1206" height="218" key="GridCell.Tab.3.left" timestamp="1603014347202">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.3.left" timestamp="1603507664888">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.3.left/32.23.1248.777@32.23.1248.777" timestamp="1603014347202" />
-    <state width="1185" height="328" key="GridCell.Tab.3.left/33.23.1247.777@33.23.1247.777" timestamp="1600493640497" />
-    <state width="1300" height="193" key="GridCell.Tab.3.left/34.23.1246.777@34.23.1246.777" timestamp="1601025332442" />
+    <state width="1234" height="10" key="GridCell.Tab.3.left/30.23.1250.777@30.23.1250.777" timestamp="1603507664888" />
+    <state width="1204" height="4" key="GridCell.Tab.3.left/32.23.1248.777@32.23.1248.777" timestamp="1603432155433" />
+    <state width="1204" height="181" key="GridCell.Tab.3.left/33.23.1247.777@33.23.1247.777" timestamp="1603453229042" />
+    <state width="1204" height="181" key="GridCell.Tab.3.left/34.23.1246.777@34.23.1246.777" timestamp="1603452086527" />
     <state width="1183" height="39" key="GridCell.Tab.3.left/35.23.1245.777@35.23.1245.777" timestamp="1601792322255" />
     <state width="1181" height="2" key="GridCell.Tab.3.left/36.23.1244.777@36.23.1244.777" timestamp="1601788406789" />
     <state width="1180" height="2" key="GridCell.Tab.3.left/37.23.1243.777@37.23.1243.777" timestamp="1601698607455" />
@@ -1334,15 +1857,15 @@
     <state width="1175" height="53" key="GridCell.Tab.3.left/43.23.1237.777@43.23.1237.777" timestamp="1600259714019" />
     <state width="1193" height="236" key="GridCell.Tab.3.left/44.23.1236.777@44.23.1236.777" timestamp="1599833770396" />
     <state width="1193" height="206" key="GridCell.Tab.3.left/45.23.1235.777@45.23.1235.777" timestamp="1599977285321" />
-    <state width="1446" height="102" key="GridCell.Tab.3.left/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272702" />
     <state width="1301" height="2" key="GridCell.Tab.3.left/46.23.1234.777@46.23.1234.777" timestamp="1598059304429" />
     <state width="1170" height="2" key="GridCell.Tab.3.left/47.23.1233.777@47.23.1233.777" timestamp="1597716095951" />
-    <state width="1206" height="218" key="GridCell.Tab.3.right" timestamp="1603014347202">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.3.right" timestamp="1603507664889">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.3.right/32.23.1248.777@32.23.1248.777" timestamp="1603014347202" />
-    <state width="1185" height="328" key="GridCell.Tab.3.right/33.23.1247.777@33.23.1247.777" timestamp="1600493640498" />
-    <state width="1300" height="193" key="GridCell.Tab.3.right/34.23.1246.777@34.23.1246.777" timestamp="1601025332444" />
+    <state width="1234" height="10" key="GridCell.Tab.3.right/30.23.1250.777@30.23.1250.777" timestamp="1603507664889" />
+    <state width="1204" height="4" key="GridCell.Tab.3.right/32.23.1248.777@32.23.1248.777" timestamp="1603432155434" />
+    <state width="1204" height="181" key="GridCell.Tab.3.right/33.23.1247.777@33.23.1247.777" timestamp="1603453229043" />
+    <state width="1204" height="181" key="GridCell.Tab.3.right/34.23.1246.777@34.23.1246.777" timestamp="1603452086528" />
     <state width="1183" height="39" key="GridCell.Tab.3.right/35.23.1245.777@35.23.1245.777" timestamp="1601792322256" />
     <state width="1181" height="2" key="GridCell.Tab.3.right/36.23.1244.777@36.23.1244.777" timestamp="1601788406790" />
     <state width="1180" height="2" key="GridCell.Tab.3.right/37.23.1243.777@37.23.1243.777" timestamp="1601698607458" />
@@ -1353,25 +1876,36 @@
     <state width="1175" height="53" key="GridCell.Tab.3.right/43.23.1237.777@43.23.1237.777" timestamp="1600259714021" />
     <state width="1193" height="236" key="GridCell.Tab.3.right/44.23.1236.777@44.23.1236.777" timestamp="1599833770397" />
     <state width="1193" height="206" key="GridCell.Tab.3.right/45.23.1235.777@45.23.1235.777" timestamp="1599977285322" />
-    <state width="1446" height="102" key="GridCell.Tab.3.right/45.23.1635.1027@45.23.1635.1027" timestamp="1594547272702" />
     <state width="1301" height="2" key="GridCell.Tab.3.right/46.23.1234.777@46.23.1234.777" timestamp="1598059304429" />
     <state width="1170" height="2" key="GridCell.Tab.3.right/47.23.1233.777@47.23.1233.777" timestamp="1597716095953" />
-    <state width="1206" height="218" key="GridCell.Tab.4.bottom" timestamp="1603014347201">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.4.bottom" timestamp="1603507664886">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.4.bottom/32.23.1248.777@32.23.1248.777" timestamp="1603014347201" />
-    <state width="1206" height="218" key="GridCell.Tab.4.center" timestamp="1603014347201">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.4.bottom/30.23.1250.777@30.23.1250.777" timestamp="1603507664886" />
+    <state width="1204" height="4" key="GridCell.Tab.4.bottom/32.23.1248.777@32.23.1248.777" timestamp="1603432155438" />
+    <state width="1204" height="181" key="GridCell.Tab.4.bottom/33.23.1247.777@33.23.1247.777" timestamp="1603453229044" />
+    <state width="1204" height="181" key="GridCell.Tab.4.bottom/34.23.1246.777@34.23.1246.777" timestamp="1603452086531" />
+    <state width="1234" height="10" key="GridCell.Tab.4.center" timestamp="1603507664885">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.4.center/32.23.1248.777@32.23.1248.777" timestamp="1603014347201" />
-    <state width="1206" height="218" key="GridCell.Tab.4.left" timestamp="1603014347200">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.4.center/30.23.1250.777@30.23.1250.777" timestamp="1603507664885" />
+    <state width="1204" height="4" key="GridCell.Tab.4.center/32.23.1248.777@32.23.1248.777" timestamp="1603432155437" />
+    <state width="1204" height="181" key="GridCell.Tab.4.center/33.23.1247.777@33.23.1247.777" timestamp="1603453229044" />
+    <state width="1204" height="181" key="GridCell.Tab.4.center/34.23.1246.777@34.23.1246.777" timestamp="1603452086530" />
+    <state width="1234" height="10" key="GridCell.Tab.4.left" timestamp="1603507664884">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.4.left/32.23.1248.777@32.23.1248.777" timestamp="1603014347200" />
-    <state width="1206" height="218" key="GridCell.Tab.4.right" timestamp="1603014347201">
-      <screen x="32" y="23" width="1248" height="777" />
+    <state width="1234" height="10" key="GridCell.Tab.4.left/30.23.1250.777@30.23.1250.777" timestamp="1603507664884" />
+    <state width="1204" height="4" key="GridCell.Tab.4.left/32.23.1248.777@32.23.1248.777" timestamp="1603432155436" />
+    <state width="1204" height="181" key="GridCell.Tab.4.left/33.23.1247.777@33.23.1247.777" timestamp="1603453229043" />
+    <state width="1204" height="181" key="GridCell.Tab.4.left/34.23.1246.777@34.23.1246.777" timestamp="1603452086529" />
+    <state width="1234" height="10" key="GridCell.Tab.4.right" timestamp="1603507664885">
+      <screen x="30" y="23" width="1250" height="777" />
     </state>
-    <state width="1206" height="218" key="GridCell.Tab.4.right/32.23.1248.777@32.23.1248.777" timestamp="1603014347201" />
+    <state width="1234" height="10" key="GridCell.Tab.4.right/30.23.1250.777@30.23.1250.777" timestamp="1603507664885" />
+    <state width="1204" height="4" key="GridCell.Tab.4.right/32.23.1248.777@32.23.1248.777" timestamp="1603432155437" />
+    <state width="1204" height="181" key="GridCell.Tab.4.right/33.23.1247.777@33.23.1247.777" timestamp="1603453229044" />
+    <state width="1204" height="181" key="GridCell.Tab.4.right/34.23.1246.777@34.23.1246.777" timestamp="1603452086530" />
     <state width="1300" height="193" key="GridCell.Tab.8.bottom" timestamp="1601025330769">
       <screen x="34" y="23" width="1246" height="777" />
     </state>
@@ -1401,10 +1935,10 @@
     <state x="81" y="23" key="SettingsEditor/43.23.1237.777@43.23.1237.777" timestamp="1599529235325" />
     <state x="187" y="23" key="SettingsEditor/45.23.1235.777@45.23.1235.777" timestamp="1599976655085" />
     <state x="121" y="23" key="SettingsEditor/46.23.1234.777@46.23.1234.777" timestamp="1598000629403" />
-    <state x="267" y="131" key="Vcs.Push.Dialog.v2" timestamp="1603080526305">
+    <state x="267" y="131" key="Vcs.Push.Dialog.v2" timestamp="1603080778931">
       <screen x="32" y="23" width="1248" height="777" />
     </state>
-    <state x="267" y="131" key="Vcs.Push.Dialog.v2/32.23.1248.777@32.23.1248.777" timestamp="1603080526305" />
+    <state x="267" y="131" key="Vcs.Push.Dialog.v2/32.23.1248.777@32.23.1248.777" timestamp="1603080778931" />
     <state x="268" y="131" key="Vcs.Push.Dialog.v2/33.23.1247.777@33.23.1247.777" timestamp="1600436119885" />
     <state x="269" y="131" key="Vcs.Push.Dialog.v2/34.23.1246.777@34.23.1246.777" timestamp="1600993195298" />
     <state x="270" y="131" key="Vcs.Push.Dialog.v2/36.23.1244.777@36.23.1244.777" timestamp="1601792450078" />
@@ -1428,12 +1962,16 @@
       <screen x="43" y="23" width="1237" height="777" />
     </state>
     <state x="178" y="154" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/43.23.1237.777@43.23.1237.777" timestamp="1599296109398" />
-    <state x="87" y="23" width="735" height="777" key="find.popup" timestamp="1603014323223">
+    <state x="311" y="167" key="extract.method.dialog" timestamp="1603284942167">
       <screen x="32" y="23" width="1248" height="777" />
     </state>
-    <state x="264" y="159" width="788" height="641" key="find.popup/30.23.1250.777@30.23.1250.777" timestamp="1600423460263" />
-    <state x="87" y="23" width="735" height="777" key="find.popup/32.23.1248.777@32.23.1248.777" timestamp="1603014323223" />
-    <state x="430" y="23" width="788" height="777" key="find.popup/33.23.1247.777@33.23.1247.777" timestamp="1600494824771" />
+    <state x="311" y="167" key="extract.method.dialog/32.23.1248.777@32.23.1248.777" timestamp="1603284942167" />
+    <state x="264" y="159" width="788" height="641" key="find.popup" timestamp="1603499352225">
+      <screen x="30" y="23" width="1250" height="777" />
+    </state>
+    <state x="264" y="159" width="788" height="641" key="find.popup/30.23.1250.777@30.23.1250.777" timestamp="1603499352225" />
+    <state x="362" y="23" width="735" height="777" key="find.popup/32.23.1248.777@32.23.1248.777" timestamp="1603404853925" />
+    <state x="86" y="23" width="574" height="777" key="find.popup/33.23.1247.777@33.23.1247.777" timestamp="1603442182028" />
     <state x="492" y="23" width="788" height="777" key="find.popup/34.23.1246.777@34.23.1246.777" timestamp="1600488191167" />
     <state x="220" y="23" width="787" height="777" key="find.popup/35.23.1245.777@35.23.1245.777" timestamp="1601792283745" />
     <state x="186" y="23" width="786" height="777" key="find.popup/36.23.1244.777@36.23.1244.777" timestamp="1601790639899" />
