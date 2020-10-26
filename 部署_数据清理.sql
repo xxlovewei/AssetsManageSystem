@@ -85,7 +85,7 @@ update sys_user_info set pwd='oracle';
 truncate table uflo_task_participator;
 truncate table uflo_task_appointor;
 truncate table uflo_task_reminder;
-delete from uflo_task where ASSIGNEE_<>'ufo';
+delete from  uflo_task where ID_<>1
 truncate table uflo_his_task;
 truncate table uflo_his_task;
 

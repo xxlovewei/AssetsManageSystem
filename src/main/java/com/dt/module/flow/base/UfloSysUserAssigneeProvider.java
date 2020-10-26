@@ -32,7 +32,7 @@ public class UfloSysUserAssigneeProvider extends AbstractAssigneeProvider {
      * @return 返回当前任务处理人提供者名称，比如员工列表，部门列表等
      */
     public String getName() {
-        return "用户";
+        return "所有用户列表";
     }
 
     /**

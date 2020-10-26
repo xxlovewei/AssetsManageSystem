@@ -10,135 +10,6 @@ function GetDateNowId() {
     sNow += String(vNow.getMilliseconds());
     return sNow;
 }
-
-
-
-function zctklistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
-                     $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
-                     DTColumnBuilder, $compile) {
-    var item = meta;
-    $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
-        .withPaginationType('full_numbers').withDisplayLength(100)
-        .withOption("ordering", false).withOption("responsive", false)
-        .withOption("searching", true).withOption('scrollY', 600)
-        .withOption('scrollX', true).withOption('bAutoWidth', true)
-        .withOption('scrollCollapse', true).withOption('paging', true)
-        .withOption('bStateSave', true).withOption('bProcessing', false)
-        .withOption('bFilter', false).withOption('bInfo', false)
-        .withOption('serverSide', false).withOption('createdRow', function (row) {
-            $compile(angular.element(row).contents())($scope);
-        }).withOption(
-            'headerCallback',
-            function (header) {
-                if ((!angular.isDefined($scope.headerCompiled))
-                    || $scope.headerCompiled) {
-                    $scope.headerCompiled = true;
-                    $compile(angular.element(header).contents())
-                    ($scope);
-                }
-            }).withOption("select", {
-            style: 'multi',
-            selector: 'td:first-child'
-        }).withButtons([
-            {
-                extend: 'csv',
-                text: 'Excel(当前页)',
-                exportOptions: {
-                    columns: ':visible',
-                    trim: true,
-                    modifier: {
-                        page: 'current'
-                    }
-                }
-            },
-            {
-                extend: 'print',
-                text: '打印(当前页)',
-                exportOptions: {
-                    columns: ':visible',
-                    stripHtml: false,
-                    columns: ':visible',
-                    modifier: {
-                        page: 'current'
-                    }
-                }
-            }
-        ]);
-    $scope.dtInstance = {}
-    $scope.dtColumns = [];
-    var dtColumns = [];
-
-    function renderZCAction(data, type, full) {
-        var acthtml = " <div class=\"btn-group\"> ";
-        acthtml = acthtml + " <button ng-click=\"delitem('"
-            + full.id
-            + "')\" class=\"btn-white btn btn-xs\">删除</button>   ";
-        acthtml = acthtml + "</div>"
-        return acthtml;
-    }
-
-    function renderZcReturn(data, type, full) {
-        if (data == "1") {
-            return "已退库"
-        } else if (data == "0") {
-            return "未退库"
-        } else {
-            return data;
-        }
-    }
-
-    $scope.dtColumns = [
-        DTColumnBuilder.newColumn('busuuid').withTitle('单据编号').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
-            'sDefaultContent', '').withOption("width", '30'),
-        DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
-            'sDefaultContent', '').withOption('width', '50'),
-        DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
-            'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle),
-        DTColumnBuilder.newColumn('rreturndatestr').withTitle('实际退库时间').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tcompfullname').withTitle($rootScope.USEDCOMP_A).withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tpartfullame').withTitle($rootScope.USEDPART_A).withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tusedusername').withTitle('使用人(变更后)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tlocstr').withTitle('区域(变更后)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tlocdtl').withTitle('位置(变更后)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('fcompfullname').withTitle($rootScope.USEDCOMP_B).withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('fpartfullame').withTitle($rootScope.USEDPART_B).withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('fusedusername').withTitle('使用人(变更前)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('flocstr').withTitle('区域(变更前)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('flocdtl').withTitle('位置(变更前)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
-            'sDefaultContent', '')]
-
-    function flush() {
-        $http.post($rootScope.project + "/api/zc/resCollectionreturn/ext/selectByUuid.do",
-            item).success(function (res) {
-            if (res.success) {
-                $scope.dtOptions.aaData = res.data;
-            } else {
-                notify({
-                    message: res.message
-                });
-            }
-        })
-    }
-
-    flush();
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-}
 function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
                              $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
     var gdict = {};
@@ -151,7 +22,7 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             comp: "Y",
             belongcomp: "N",
             zccatused: "N",
-            uid: "zclydata"
+            uid: "zclytkdata"
         })
         .success(
             function (res) {
@@ -195,9 +66,6 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             $scope.dtInstance.DataTable.rows().deselect();
         }
     }
-
-
-
     function renderCheckStatus(data, type, full) {
         if (data == "init") {
             return "等待校验"
@@ -209,8 +77,6 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             return data;
         }
     }
-
-
     function renderAction(data, type, full) {
         var acthtml = " <div class=\"btn-group\"> ";
         acthtml = acthtml + " <button ng-click=\"detail('"
@@ -219,9 +85,6 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
         acthtml = acthtml + "</div>"
         return acthtml;
     }
-
-
-
     function renderType(data, type, full) {
         if (data == "LY") {
             return "领用"
@@ -231,7 +94,6 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             return data;
         }
     }
-
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
     $scope.dtColumns = [
         DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
@@ -240,7 +102,6 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
         }),
         DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
             'sDefaultContent', '').renderWith(renderAction),
-
         DTColumnBuilder.newColumn('busuuid').withTitle('单据编号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('name').withTitle('单据名称').withOption(
@@ -248,7 +109,7 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
         DTColumnBuilder.newColumn('bustype').withTitle('单据类型').withOption(
             'sDefaultContent', '').renderWith(renderType),
         DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
-            'sDefaultContent', '').renderWith(renderZcBLStatus),
+            'sDefaultContent', '').renderWith(renderZCSPStatus),
         DTColumnBuilder.newColumn('crusername').withTitle('领用人/退库人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('busdatestr').withTitle('领用时间').withOption(
@@ -287,7 +148,7 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
                 template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
-                id: "btn3",
+                id: "btn2",
                 label: "",
                 type: "btn",
                 show: true,
@@ -303,7 +164,7 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
                 template: ' <button ng-click="tk()" class="btn btn-sm btn-primary" type="submit">退库</button>'
             },
             {
-                id: "btn3",
+                id: "btn4",
                 label: "",
                 type: "btn",
                 show: true,
@@ -312,7 +173,6 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             }]
     }
     $scope.meta = meta;
-
     function flush() {
         var ps = {};
         $http
@@ -327,7 +187,6 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             }
         })
     }
-
     function getSelectRow() {
         var data = $scope.dtInstance.DataTable.rows({
             selected: true
@@ -346,11 +205,11 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             return $scope.dtOptions.aaData[data[0]];
         }
     }
-
     $scope.detail = function (uuid, status, type) {
-        meta.busid = uuid;
-        meta.status = status;
-        meta.flowpagetype = "lookup";
+        var ps = {}
+        ps.busid = uuid;
+        ps.status = status;
+        ps.flowpagetype = "lookup";
         if (type == "LY") {
             var modalInstance = $uibModal.open({
                 backdrop: true,
@@ -359,7 +218,7 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
                 size: 'blg',
                 resolve: {
                     meta: function () {
-                        return meta;
+                        return ps;
                     }
                 }
             });
@@ -371,17 +230,16 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
                 size: 'blg',
                 resolve: {
                     meta: function () {
-                        return meta;
+                        return ps;
                     }
                 }
             });
         }
     }
-
     function action(id) {
-        var meta = {};
-        meta.id = id;
-        meta.dict = gdict;
+        var ps = {};
+        ps.id = id;
+        ps.dict = gdict;
         var modalInstance = $uibModal.open({
             backdrop: true,
             templateUrl: 'views/cmdb/modal_collectionSave.html',
@@ -389,23 +247,21 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             size: 'blg',
             resolve: {
                 meta: function () {
-                    return meta;
+                    return ps;
                 }
             }
         });
         modalInstance.result.then(function (result) {
             flush();
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
-
     $scope.add = function () {
         action();
     }
     $scope.tk = function () {
-        var meta = {};
-        meta.dict = gdict;
+        var ps = {};
+        ps.dict = gdict;
         var modalInstance = $uibModal.open({
             backdrop: true,
             templateUrl: 'views/cmdb/modal_tkSave.html',
@@ -413,22 +269,20 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             size: 'blg',
             resolve: {
                 meta: function () {
-                    return meta;
+                    return ps;
                 }
             }
         });
         modalInstance.result.then(function (result) {
             flush();
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     flush();
-
     $scope.approval = function () {
         var item = getSelectRow();
         if (angular.isDefined(item)) {
-
+            item.ptype = item.bustype;
             if (item.status != "apply") {
                 notify({
                     message: "该状态不允许送审"
@@ -437,7 +291,7 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             }
             var modalInstance = $uibModal.open({
                 backdrop: true,
-                templateUrl: 'views/cmdb/modal_chosenFlowTreeView.html',
+                templateUrl: 'views/cmdb/flow/modal_chosenFlowTreeView.html',
                 controller: chosenFlowTreeCtl,
                 size: 'blg',
                 resolve: {
@@ -451,69 +305,10 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
                     flush();
                 }
             }, function (reason) {
-                $log.log("reason", reason)
             });
-            // item.flowtype = flowtype;
-            //  if (item.pstatus != "submitforapproval") {
-            //      notify({
-            //          message: "该状态不允许送审"
-            //      });
-            //      return;
-            //  }
-            //  if (item.ifsp != "1") {
-            //      notify({
-            //          message: "该状态不允许送审"
-            //      });
-            //      return;
-            //  }
-            //  if (item.flowtype == "LY") {
-            //      item.flowcode = "process_zcly";
-            //  } else if (item.flowtype == "JY") {
-            //      item.flowcode = "process_zcjy";
-            //  } else if (item.flowtype == "ZY") {
-            //      item.flowcode = "process_zczy";
-            //  }
-            //  $http.post($rootScope.project + "/api/flow/sysProcessSetting/ext/selectByCode.do",
-            //      {code: item.flowcode}).success(function (res) {
-            //      if (!res.success) {
-            //          notify({
-            //              message: "未定义流程"
-            //          });
-            //          return;
-            //      }
-            //      item.flowform = res.data;
-            //      if (!angular.isDefined(res.data.processdefid)) {
-            //          notify({
-            //              message: "未定义流程"
-            //          });
-            //      }
-            //      item.processdefid = res.data.processdefid;
-            //      item.pk = res.data.processKey;
-            //      var modalInstance = $uibModal.open({
-            //          backdrop: true,
-            //          templateUrl: 'views/cmdb/modal_zcActionSP.html',
-            //          controller: modalzcActionSPCtl,
-            //          size: 'blg',
-            //          resolve: {
-            //              meta: function () {
-            //                  return item;
-            //              }
-            //          }
-            //      });
-            //      modalInstance.result.then(function (result) {
-            //          if (result == "OK") {
-            //              flush();
-            //          }
-            //      }, function (reason) {
-            //          $log.log("reason", reason)
-            //      });
-            //  });
-
-
         }
     }
 };
-
 app.register.controller('flowapprovalCommonCtl', flowapprovalCommonCtl);
 app.register.controller('flowsuggestCommonCtl', flowsuggestCommonCtl);
 app.register.controller('collectionreturnCtl', collectionreturnCtl);

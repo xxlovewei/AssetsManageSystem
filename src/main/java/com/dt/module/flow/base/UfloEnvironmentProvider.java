@@ -47,12 +47,12 @@ public class UfloEnvironmentProvider implements EnvironmentProvider {
     public String getLoginUser() {
 //    	//返回当前系统的登录用户
         ShiroUser u = ShiroKit.getUser();
-        String userId = "anonymous";
+        String user = "anonymous";
         if (u != null) {
-            userId = u.getId();
+            user = u.getId();
         }
-        System.out.println("getLoginUser:" + userId);
-        return userId;
+        System.out.println("getLoginUser:" + user);
+        return user;
     }
 
 }

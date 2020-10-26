@@ -36,9 +36,9 @@ import java.util.List;
 public class ResCollectionreturnService extends BaseService {
 
 
-    public static String STATUS_SUCCESS = "success";
-    public static String STATUS_FAILED = "failed";
-    public static String STATUS_CANCEL = "cancel";
+//    public static String STATUS_SUCCESS = "success";
+//    public static String STATUS_FAILED = "failed";
+//    public static String STATUS_CANCEL = "cancel";
 
     @Autowired
     IResChangeItemService ResChangeItemServiceImpl;
@@ -64,7 +64,7 @@ public class ResCollectionreturnService extends BaseService {
     ZcChangeService zcChangeService;
 
     //开始流程
-    public R startFlow(String pinst, String uuid, String ifsp) {
+    public R startLyFlow(String pinst, String uuid, String ifsp) {
         if ("1".equals(ifsp)) {
             UpdateWrapper<ResCollectionreturn> ups = new UpdateWrapper<ResCollectionreturn>();
             ups.set("pinst", pinst);
@@ -76,20 +76,51 @@ public class ResCollectionreturnService extends BaseService {
             ups.set("status", SysProcessDataService.PSTATUS_DTL_FINISH_NO_APPROVAL);
             ups.eq("busuuid", uuid);
             ResCollectionreturnServiceImpl.update(ups);
+            sureLY(uuid, SysProcessDataService.PSTATUS_DTL_FINISH_NO_APPROVAL);
+        }
+        return R.SUCCESS_OPER();
+    }
+
+    //开始流程
+    public R startTkFlow(String pinst, String uuid, String ifsp) {
+        if ("1".equals(ifsp)) {
+            UpdateWrapper<ResCollectionreturn> ups = new UpdateWrapper<ResCollectionreturn>();
+            ups.set("pinst", pinst);
+            ups.set("status", SysProcessDataService.PSTATUS_DTL_INAPPROVAL);
+            ups.eq("busuuid", uuid);
+            ResCollectionreturnServiceImpl.update(ups);
+        } else if ("0".equals(ifsp)) {
+            UpdateWrapper<ResCollectionreturn> ups = new UpdateWrapper<ResCollectionreturn>();
+            ups.set("status", SysProcessDataService.PSTATUS_DTL_FINISH_NO_APPROVAL);
+            ups.eq("busuuid", uuid);
+            ResCollectionreturnServiceImpl.update(ups);
+            sureTk(uuid, SysProcessDataService.PSTATUS_DTL_FINISH_NO_APPROVAL);
         }
         return R.SUCCESS_OPER();
     }
 
     //结束流程
-    public R finishFlow(String busid, String status) {
+    public R finishLyFlow(String busid, String status) {
         if (SysProcessDataService.PSTATUS_DTL_FAILED.equals(status)) {
             return cancelLy(busid, SysProcessDataService.PSTATUS_DTL_FAILED);
         } else if (SysProcessDataService.PSTATUS_DTL_SUCCESS.equals(status)) {
-            return sureLY(busid);
+            return sureLY(busid, SysProcessDataService.PSTATUS_DTL_SUCCESS);
         } else {
             return R.FAILURE_NO_DATA();
         }
     }
+
+    //结束流程
+    public R finishTkFlow(String busid, String status) {
+        if (SysProcessDataService.PSTATUS_DTL_FAILED.equals(status)) {
+            return cancelTk(busid, SysProcessDataService.PSTATUS_DTL_FAILED);
+        } else if (SysProcessDataService.PSTATUS_DTL_SUCCESS.equals(status)) {
+            return sureTk(busid, SysProcessDataService.PSTATUS_DTL_SUCCESS);
+        } else {
+            return R.FAILURE_NO_DATA();
+        }
+    }
+
 
     //取消领用,流程失败，或者取消
     public R cancelLy(String busid, String status) {
@@ -113,15 +144,35 @@ public class ResCollectionreturnService extends BaseService {
         return R.SUCCESS_OPER();
     }
 
-    //确认领用
-    public R sureLY(String busid) {
+    public R cancelTk(String busid, String status) {
+        //更新RES数据
+        String sql2 = "update res_collectionreturn_item a,res b set \n" +
+                "b.loc=a.tloc," +
+                "b.used_company_id=a.tusedcompanyid," +
+                "b.part_id=a.tpartid," +
+                "b.used_userid=a.tuseduserid," +
+                "b.locdtl=a.tlocdtl," +
+                "b.inprocess='0'," +
+                "b.inprocessuuid=''," +
+                "b.inprocesstype='', " +
+                "b.uuidly=a.busuuid " +
+                "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql2, busid);
         UpdateWrapper<ResCollectionreturn> ups = new UpdateWrapper<ResCollectionreturn>();
-        ups.set("status", SysProcessDataService.PSTATUS_DTL_SUCCESS);
+        ups.set("status", status);
         ups.eq("busuuid", busid);
         ResCollectionreturnServiceImpl.update(ups);
+        return R.SUCCESS_OPER();
+    }
 
+    //确认领用
+    public R sureLY(String busid, String status) {
+        UpdateWrapper<ResCollectionreturn> ups = new UpdateWrapper<ResCollectionreturn>();
+        ups.set("status", status);
+        ups.eq("busuuid", busid);
+        ResCollectionreturnServiceImpl.update(ups);
         //保存变更前RES数据
-        String sql = " update res_collectionreturn_item a,res b set \n" +
+        String sql = "update res_collectionreturn_item a,res b set \n" +
                 "   a.fusedcompanyid=b.used_company_id\n" +
                 " , a.fpartid=b.part_id\n" +
                 " , a.fuseduserid=b.used_userid\n" +
@@ -131,7 +182,7 @@ public class ResCollectionreturnService extends BaseService {
         db.execute(sql, busid);
 
         //更新RES数据
-        String sql2 = " update res_collectionreturn_item a,res b set \n" +
+        String sql2 = "update res_collectionreturn_item a,res b set \n" +
                 "b.loc=a.tloc," +
                 "b.used_company_id=a.tusedcompanyid," +
                 "b.part_id=a.tpartid," +
@@ -165,6 +216,61 @@ public class ResCollectionreturnService extends BaseService {
         return R.SUCCESS_OPER();
     }
 
+    //确认领用
+    public R sureTk(String busid, String status) {
+        UpdateWrapper<ResCollectionreturn> ups = new UpdateWrapper<ResCollectionreturn>();
+        ups.set("status", status);
+        ups.eq("busuuid", busid);
+        ResCollectionreturnServiceImpl.update(ups);
+        //保存变更前数据
+        String sql = "update res_collectionreturn_item a,res b set \n" +
+                "   a.fusedcompanyid=b.used_company_id\n" +
+                " , a.fpartid=b.part_id\n" +
+                " , a.fuseduserid=b.used_userid\n" +
+                " , a.floc=b.loc\n" +
+                " , a.flocdtl=b.locdtl\n" +
+                "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql, busid);
+
+        //更新数据
+        String sql2 = "update res_collectionreturn_item a,res b set \n" +
+                "b.loc=a.tloc," +
+                "b.used_company_id=a.tusedcompanyid," +
+                "b.part_id=a.tpartid," +
+                "b.used_userid=a.tuseduserid," +
+                "b.locdtl=a.tlocdtl," +
+                "b.recycle='" + ZcRecycleEnum.RECYCLE_IDLE.getValue() + "'," +
+                "b.inprocess='0'," +
+                "b.inprocessuuid=''," +
+                "b.inprocesstype='', " +
+                "b.uuidly='' " +
+                "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql2, busid);
+        String sql3 = "update res_collectionreturn_item a,res_collectionreturn_item b set " +
+                " a.returnuuid=b.busuuid," +
+                " a.rreturndate=b.rreturndate," +
+                " a.isreturn='1'" +
+                " where a.resid=b.resid and b.busuuid=? and b.dr='0'";
+        db.execute(sql3, busid);
+        //记录资产变更
+        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
+        QueryWrapper<ResCollectionreturnItem> ew = new QueryWrapper<ResCollectionreturnItem>();
+        ew.and(i -> i.eq("busuuid", busid));
+        List<ResCollectionreturnItem> items = ResCollectionreturnItemServiceImpl.list(ew);
+        for (int i = 0; i < items.size(); i++) {
+            ResChangeItem e = new ResChangeItem();
+            e.setBusuuid(busid);
+            e.setResid(items.get(i).getResid());
+            e.setType(ZcCommonService.ZC_BUS_TYPE_TK);
+            e.setFillct("0");
+            e.setCdate(new Date());
+            e.setMark("资产退库");
+            cols.add(e);
+        }
+        ResChangeItemServiceImpl.saveBatch(cols);
+        return R.SUCCESS_OPER();
+    }
+
     //插入领用/退库
     public R insertOrUpdate(ResCollectionreturn entity, String items) {
         String type = entity.getBustype();
@@ -195,16 +301,13 @@ public class ResCollectionreturnService extends BaseService {
         } else {
             //生产单据
             uuid = zcService.createUuid(ZcCommonService.UUID_LY);
-            entity.setProcessuserid(this.getUserId());
-            entity.setProcessusername(this.getUserName());
-
+            entity.setProcessuserid(getUserId());
+            entity.setProcessusername(getName());
             //设置流程申请
             entity.setBusuuid(uuid);
             //等待申请
             entity.setStatus(SysProcessDataService.PSTATUS_APPLY);
         }
-
-
         JSONArray items_arr = JSONArray.parseArray(items);
         ArrayList<ResCollectionreturnItem> list = new ArrayList<ResCollectionreturnItem>();
         for (int i = 0; i < items_arr.size(); i++) {
@@ -225,7 +328,6 @@ public class ResCollectionreturnService extends BaseService {
             e.setIsreturn("0");
             list.add(e);
         }
-
         //删除item数据,重新保存
         QueryWrapper<ResCollectionreturnItem> qw = new QueryWrapper<ResCollectionreturnItem>();
         String finalUuid = uuid;
@@ -233,18 +335,8 @@ public class ResCollectionreturnService extends BaseService {
         ResCollectionreturnItemServiceImpl.remove(qw);
         ResCollectionreturnItemServiceImpl.saveOrUpdateBatch(list);
         ResCollectionreturnServiceImpl.saveOrUpdate(entity);
-        //可能数据有变动，先解锁当前的数据,后面会重新加锁,
-//        String sql2 = "update res_collectionreturn_item a,res b set b.inprocess='0',b.inprocessuuid='',b.inprocesstype='' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
-//        db.execute(sql2, uuid);
-
-        String sql3 = " update res_collectionreturn_item a,res b set b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + ZcCommonService.ZC_BUS_TYPE_LY + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        String sql3 = "update res_collectionreturn_item a,res b set b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + ZcCommonService.ZC_BUS_TYPE_LY + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql3, uuid);
-//        //临时锁定
-//        if (!ResCollectionreturnService.STATUS_SUCCESS.equals(entity.getStatus())) {
-//        }
-//        if (ResCollectionreturnService.STATUS_SUCCESS.equals(entity.getStatus())) {
-        //    zcChangeService.zcLyConfirm(uuid);
-//        }
         return R.SUCCESS_OPER();
     }
 
@@ -253,21 +345,18 @@ public class ResCollectionreturnService extends BaseService {
         String id = entity.getId();
         String uuid = "";
         entity.setBustype(ZcCommonService.ZC_BUS_TYPE_TK);
-
         //获取UUID
         if (ToolUtil.isNotEmpty(id)) {
             uuid = entity.getBusuuid();
             //解锁之前的数据,
-            String sql2 = "update res_collectionreturn_item a,res b set \n" +
-                    "  b.inprocess='0',b.inprocessuuid='',b.inprocesstype='' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+            String sql2 = "update res_collectionreturn_item a,res b set b.inprocess='0',b.inprocessuuid='',b.inprocesstype='' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
             db.execute(sql2, uuid);
         } else {
             uuid = zcService.createUuid(ZcCommonService.UUID_TK);
-            //当前方案设置结束流程
-            entity.setProcessuserid(this.getUserId());
-            entity.setProcessusername(this.getUserName());
+            entity.setProcessuserid(getUserId());
+            entity.setProcessusername(getName());
             entity.setBusuuid(uuid);
-            entity.setStatus(ResCollectionreturnService.STATUS_SUCCESS);
+            entity.setStatus(SysProcessDataService.PSTATUS_APPLY);
         }
         JSONArray items_arr = JSONArray.parseArray(items);
         ArrayList<ResCollectionreturnItem> list = new ArrayList<ResCollectionreturnItem>();
@@ -288,7 +377,6 @@ public class ResCollectionreturnService extends BaseService {
             e.setTloc(entity.getTloc());
             e.setTlocdtl(entity.getTlocdtl());
             e.setIsreturn("1");
-
             list.add(e);
         }
 
@@ -298,24 +386,9 @@ public class ResCollectionreturnService extends BaseService {
         qw.and(i -> i.eq("busuuid", finalUuid));
         ResCollectionreturnItemServiceImpl.remove(qw);
         ResCollectionreturnItemServiceImpl.saveOrUpdateBatch(list);
-        //保存单据数据
-        //锁定单据中的数据
-        String sql2 = "update res_collectionreturn_item a,res b set \n" +
-                "  b.inprocess='0',b.inprocessuuid='',b.inprocesstype='' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
-        db.execute(sql2, uuid);
         ResCollectionreturnServiceImpl.saveOrUpdate(entity);
-
-
-        //临时锁定
-        if (!ResCollectionreturnService.STATUS_SUCCESS.equals(entity.getStatus())) {
-            String sql3 = " update res_collectionreturn_item a,res b set \n" +
-                    "  b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + ZcCommonService.ZC_BUS_TYPE_TK + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
-            db.execute(sql3, uuid);
-        }
-
-        if (ResCollectionreturnService.STATUS_SUCCESS.equals(entity.getStatus())) {
-            zcChangeService.zcTkConfirm(uuid);
-        }
+        String sql3 = "update res_collectionreturn_item a,res b set b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + ZcCommonService.ZC_BUS_TYPE_TK + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql3, uuid);
         return R.SUCCESS_OPER();
 
     }
@@ -323,7 +396,6 @@ public class ResCollectionreturnService extends BaseService {
     public R selectByUuid(String uuid) {
         return selectData(uuid, null);
     }
-
 
     public R selectData(String uuid, String resid) {
         JSONObject res = new JSONObject();

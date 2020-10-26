@@ -58,7 +58,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: algernonking
@@ -194,7 +196,7 @@ public class ZcProcessFlowController extends BaseController {
     @ResponseBody
     @Acl(info = "发起流程", value = Acl.ACL_USER)
     @RequestMapping(value = "/startAssetFlow.do")
-    public R startProcess(String formtype, String ifsp, String title, String busid, String bustype, String ptype, String psubtype, String processdefid) {
+    public R startProcess(String formtype, String ifsp, String title, String busid, String ptype, String psubtype, String processdefid) {
 
         SysProcessDef pdef = SysProcessDefServiceImpl.getById(processdefid);
         String pinst = "";
@@ -203,17 +205,21 @@ public class ZcProcessFlowController extends BaseController {
             StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
             startProcessInfo.setCompleteStartTask(true);
             startProcessInfo.setBusinessId(busid);
-
+            startProcessInfo.setPromoter(this.getUserId());
             //startProcessInfo.setTag(SysProcessDataService.PTYPE_ASSET);
             startProcessInfo.setSubject(title == null ? "" : title);
-            startProcessInfo.setPromoter(this.getUserName());
-            startProcessInfo.setCompleteStartTaskOpinion(this.getUserName() + "开始发起流程");
+            startProcessInfo.setCompleteStartTaskOpinion(getName() + "开始发起流程");
+
+            Map<String, Object> variables = new HashMap<>();
+            variables.put("eluser", "superman");
+            variables.put("begin", "beginTask");
+            startProcessInfo.setVariables(variables);
             ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
             pinst = Long.toString(inst.getId());
             // 插入流程数据
             SysProcessData pd = new SysProcessData();
             pd.setBusid(busid);
-            pd.setBustype(bustype);
+            pd.setBustype(SysProcessDataService.BUSTYPE_ASSET);
             pd.setPtitle(title);
             pd.setPtype(ptype);
             pd.setPsubtype(psubtype);
@@ -221,7 +227,7 @@ public class ZcProcessFlowController extends BaseController {
             pd.setPstatusdtl(SysProcessDataService.PSTATUS_DTL_INAPPROVAL);
             pd.setIfsp(ifsp);
             pd.setPstartuserid(this.getUserId());
-            pd.setPstartusername(this.getUserName());
+            pd.setPstartusername(this.getName());
             pd.setProcesskey(pdef.getPtplkey());
             pd.setProcessinstanceid(Long.toString(inst.getId()));
             pd.setFormtype(formtype);
@@ -232,44 +238,6 @@ public class ZcProcessFlowController extends BaseController {
         return R.SUCCESS_OPER();
     }
 
-//
-//    @ResponseBody
-//    @Acl(info = "发起流程", value = Acl.ACL_USER)
-//    @RequestMapping(value = "/startProcess.do")
-//    public R startProcess(String id, String jsonvalue, String processdefid) {
-//
-//        SysProcessDef pdef = SysProcessDefServiceImpl.getById(processdefid);
-//        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-//        SysProcessData pd = SysProcessDataServiceImpl.getById(ps.getString("id"));
-//        if (pd == null) {
-//            return R.FAILURE("不存在流程数据");
-//        }
-//
-//        //获取表单数据
-//        QueryWrapper<SysProcessForm> ew = new QueryWrapper<SysProcessForm>();
-//        ew.and(i -> i.eq("processdataid", id));
-//        SysProcessForm formdata = SysProcessFormServiceImpl.getOne(ew);
-//
-//        // 需要审批
-//        StartProcessInfo startProcessInfo = new StartProcessInfo(EnvironmentUtils.getEnvironment().getLoginUser());
-//        startProcessInfo.setCompleteStartTask(true);
-//        startProcessInfo.setBusinessId(pd.getBusid());
-//        startProcessInfo.setTag("zc");
-//        startProcessInfo.setSubject(formdata.getDtitle() == null ? "" : formdata.getDtitle());
-//        startProcessInfo.setCompleteStartTaskOpinion("发起流程");
-//        ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
-//
-//        // 插入流程数据
-//        pd.setPstatus(SysUfloProcessService.P_STATUS_RUNNING);
-//        pd.setPstartuserid(this.getUserId());
-//        pd.setPstartusername(SysUserInfoServiceImpl.getById(this.getUserId()).getName());
-//        pd.setProcesskey(pdef.getPtplkey());
-//        pd.setProcessinstanceid(inst.getId() + "");
-//        pd.setFormid(formdata.getId());
-//        pd.setFormtype(pdef.getType());
-//        SysProcessDataServiceImpl.saveOrUpdate(pd);
-//        return R.SUCCESS_OPER();
-//    }
 
     @RequestMapping("/queryTask.do")
     @ResponseBody
@@ -285,40 +253,40 @@ public class ZcProcessFlowController extends BaseController {
     public R completeTask(String variables, String taskId, String opinion) {
 
         long taskId_l = ConvertUtil.toLong(taskId);
-        System.out.println(taskId_l);
         Task tsk = taskService.getTask(taskId_l);
-        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-        ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
-        Node node = process.getNode(tsk.getNodeName());
-        List<SequenceFlowImpl> flows = node.getSequenceFlows();
-        if (flows.size() > 0) {
-            SequenceFlowImpl flowimpl = flows.get(0);
-            String toNode = flowimpl.getToNode();
-            if (toNode != null) {
-                if (toNode.startsWith("结束") || toNode.startsWith("流程结束") || toNode.toLowerCase().startsWith("end")) {
-                    //盘点为最后一个节点
-                    QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
-                    qw.eq("busid", tsk.getBusinessId());
-                    SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
-                    Date date = new Date(); // 获取一个Date对象
-                    DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
-                    String nowtime = simpleDateFormat.format(date);
-                    uw.set("pstatus", SysProcessDataService.PSTATUS_FINISH);
-                    uw.set("pstatusdtl", SysProcessDataService.PSTATUS_DTL_SUCCESS);
-                    uw.set("pendtime", nowtime);
-                    // 流程类型处理
+        R r = sysUfloProcessService.completeTask(variables, taskId, opinion);
+        return r;
+//        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+//        ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
+        //       Node node = process.getNode(tsk.getNodeName());
+//        List<SequenceFlowImpl> flows = node.getSequenceFlows();
+//        if (flows.size() > 0) {
+//            SequenceFlowImpl flowimpl = flows.get(0);
+//            String toNode = flowimpl.getToNode();
+//            if (toNode != null) {
+//                if (toNode.startsWith("结束") || toNode.startsWith("流程结束") || toNode.toLowerCase().startsWith("end")) {
+//                    //盘点为最后一个节点
+//                    QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
+//                    qw.eq("busid", tsk.getBusinessId());
+//                    SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
+//                    Date date = new Date(); // 获取一个Date对象
+//                    DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+//                    String nowtime = simpleDateFormat.format(date);
+//                    uw.set("pstatus", SysProcessDataService.PSTATUS_FINISH);
+//                    uw.set("pstatusdtl", SysProcessDataService.PSTATUS_DTL_SUCCESS);
+//                    uw.set("pendtime", nowtime);
+        // 流程类型处理
 //                    if (busType != null) {
 //                        if (busType.equals("LY") || busType.equals("JY") || busType.equals("DB") || busType.equals("ZY")) {
 //                            uw.set("busstatus", "out");
 //                        }
 //                    }
-                    SysProcessDataServiceImpl.update(uw);
-                    zcChangeService.zcfinishFlow(sd.getProcessinstanceid());
-                }
-            }
-        }
-        R r = sysUfloProcessService.completeTask(variables, taskId, opinion);
-        return r;
+//                    SysProcessDataServiceImpl.update(uw);
+//                    zcChangeService.zcfinishFlow(sd.getProcessinstanceid());
+//                }
+//            }
+//        }
+
     }
 
 //    @RequestMapping("/refuseTask.do")
@@ -356,8 +324,9 @@ public class ZcProcessFlowController extends BaseController {
         uw.set("pstatusdtl", SysProcessDataService.PSTATUS_DTL_FAILED);
         SysProcessDataServiceImpl.update(uw);
 
+        return R.SUCCESS_OPER();
         //修改单据
-        return zcChangeService.zcfinishFlow(instid);
+        // return zcChangeService.zcfinishFlow(instid);
     }
 
     @RequestMapping("/getAvaliableForwardTaskNodes.do")

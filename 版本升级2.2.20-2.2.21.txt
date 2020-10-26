@@ -1,4 +1,3 @@
-
 alter table res_collectionreturn add name varchar(500) null;
 update res_collectionreturn set bustype='LY' where bustype='ly';
 update res_collectionreturn set bustype='TK' where bustype='tk';

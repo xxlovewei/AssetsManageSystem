@@ -26,7 +26,7 @@ import java.util.List;
  * @since 2019-12-03
  */
 @Controller
-@RequestMapping("/api/flow/sysProcessDataExt")
+@RequestMapping("/api/flow/sysProcessData/ext")
 public class SysProcessDataExtController extends BaseController {
 
     @Autowired
@@ -60,6 +60,7 @@ public class SysProcessDataExtController extends BaseController {
     @RequestMapping(value = "/selectListByMy.do")
     public R selectListByMy(String sdate, String edate, String type) {
         QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
+        System.out.println(this.getUserId());
         qw.eq("pstartuserid", this.getUserId());
         qw.isNotNull("ptype");
         if (ToolUtil.isNotEmpty(sdate)) {

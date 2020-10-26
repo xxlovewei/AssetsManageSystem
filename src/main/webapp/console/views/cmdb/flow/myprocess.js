@@ -4,7 +4,7 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         tablehide: false,
         tools: [
             {
-                id: "2",
+                id: "1",
                 label: "开始时间",
                 type: "datetime",
                 time: moment().subtract(30, "days"),
@@ -18,7 +18,7 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 show: true,
             },
             {
-                id: "1",
+                id: "3",
                 label: "查询",
                 type: "btn",
                 show: true,
@@ -26,7 +26,7 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
-                id: "1",
+                id: "4",
                 priv: "act1",
                 label: "详情",
                 type: "btn",
@@ -43,15 +43,12 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         .withOption('bStateSave', true).withOption('bProcessing', false)
         .withOption('bFilter', false).withOption('bInfo', false)
         .withOption('serverSide', false).withOption('createdRow', function (row) {
-            // Recompiling so we can bind Angular,directive to the
             $compile(angular.element(row).contents())($scope);
         }).withOption(
             'headerCallback',
             function (header) {
                 if ((!angular.isDefined($scope.headerCompiled))
                     || $scope.headerCompiled) {
-                    // Use this headerCompiled field to only compile
-                    // header once
                     $scope.headerCompiled = true;
                     $compile(angular.element(header).contents())
                     ($scope);
@@ -61,12 +58,6 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             selector: 'td:first-child'
         });
     $scope.dtInstance = {}
-
-    function renderName(data, type, full) {
-        var html = full.model;
-        return html;
-    }
-
     $scope.selectCheckBoxAll = function (selected) {
         if (selected) {
             $scope.dtInstance.DataTable.rows().select();
@@ -74,7 +65,6 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             $scope.dtInstance.DataTable.rows().deselect();
         }
     }
-
     function renderBusType(data, type, full) {
         var html = data;
         if (angular.isDefined(data)) {
@@ -90,6 +80,8 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         if (angular.isDefined(data)) {
             if (data == "LY") {
                 html = "资产领用";
+            } else if (data == "TK") {
+                html = "资产退库"
             } else if (data == "JY") {
                 html = "资产借用"
             } else if (data == "BX") {
@@ -111,11 +103,11 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         }),
         DTColumnBuilder.newColumn('processinstanceid').withTitle('流程编号')
             .withOption('sDefaultContent', ''),
-        DTColumnBuilder.newColumn('busid').withTitle('单据编号').withOption(
+        DTColumnBuilder.newColumn('busid').withTitle('业务编号').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('pstatus').withTitle('状态').withOption(
+        DTColumnBuilder.newColumn('pstatus').withTitle('流程状态').withOption(
             'sDefaultContent', '').renderWith(renderZCSPStatus),
-        DTColumnBuilder.newColumn('ptitle').withTitle('标题').withOption(
+        DTColumnBuilder.newColumn('ptitle').withTitle('主题').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('bustype').withTitle('业务类型').withOption(
             'sDefaultContent', '').renderWith(renderBusType),
@@ -144,14 +136,12 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         ps.edate = $scope.meta.tools[1].time.format('YYYY-MM-DD');
         $http.post(
             $rootScope.project
-            + "/api/flow/sysProcessDataExt/selectListByMy.do", ps)
+            + "/api/flow/sysProcessData/ext/selectListByMy.do", ps)
             .success(function (res) {
                 $scope.dtOptions.aaData = res.data
             })
     }
-
     flush();
-
     function getSelectRow() {
         var data = $scope.dtInstance.DataTable.rows({
             selected: true
@@ -170,59 +160,34 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             return $scope.dtOptions.aaData[data[0]];
         }
     }
-
-    function getSelectRows() {
-        var data = $scope.dtInstance.DataTable.rows({
-            selected: true
-        })[0];
-        if (data.length == 0) {
-            notify({
-                message: "请至少选择一项"
-            });
-            return;
-        } else if (data.length > 100) {
-            notify({
-                message: "不允许超过500个"
-            });
-            return;
-        } else {
-            var res = [];
-            for (var i = 0; i < data.length; i++) {
-                res.push($scope.dtOptions.aaData[data[i]].id)
-            }
-            return angular.toJson(res);
-        }
-    }
-
     $scope.detail = function () {
         var item = getSelectRow();
+        console.log(item);
         if (angular.isDefined(item)) {
             var meta = {};
             meta.busid = item.busid;
             meta.flowpagetype = "lookup";
-            if (item.ptype == "LY") {
-                var modalInstance = $uibModal.open({
-                    backdrop: true,
-                    templateUrl: 'views/cmdb/modal_lytklist.html',
-                    controller: zclylistCtl,
-                    size: 'blg',
-                    resolve: {
-                        meta: function () {
-                            return meta;
-                        }
-                    }
-                });
-                modalInstance.result.then(function (result) {
-                    if (result == "OK") {
-                        flush();
-                    }
-                }, function (reason) {
-                    $log.log("reason", reason)
-                });
-
+            var flowhtml = "";
+            var flowctl;
+            var ptype = item.ptype;
+            if (ptype == "LY") {
+                flowhtml = 'views/cmdb/modal_lytklist.html';
+                flowctl = zclylistCtl;
+            } else if (ptype == "TK") {
+                flowhtml = 'views/cmdb/modal_lytklist.html';
+                flowctl = zctklistCtl;
             }
-
-        } else {
+            var modalInstance = $uibModal.open({
+                backdrop: true,
+                templateUrl: flowhtml,
+                controller: flowctl,
+                size: 'blg',
+                resolve: {
+                    meta: function () {
+                        return meta;
+                    }
+                }
+            });
         }
     }
 };

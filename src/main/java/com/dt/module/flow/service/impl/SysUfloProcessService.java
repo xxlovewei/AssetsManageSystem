@@ -88,21 +88,25 @@ public class SysUfloProcessService extends BaseService {
         query.addTaskState(TaskState.Ready);
         query.addTaskState(TaskState.Suspended);
         query.addTaskState(TaskState.Reserved);
-        List<Task> tasks = query.list();
-        List<TaskInfo> taskinfo = buildTaskInfos(tasks);
+
+
         HistoryTaskQuery historyTaskQuery = historyService.createHistoryTaskQuery();
         historyTaskQuery.rootProcessInstanceId(processInstanceIdl);
         List<HistoryTask> historyTasks = historyTaskQuery.list();
         List<TaskInfo> histaskinfo = buildHistoryTaskInfos(historyTasks);
         JSONArray data = new JSONArray();
-        if (taskinfo.size() > 0) {
-            data = JSONArray.parseArray(JSON.toJSONString(taskinfo, SerializerFeature.WriteDateUseDateFormat,
-                    SerializerFeature.DisableCircularReferenceDetect));
-        }
         if (histaskinfo.size() > 0) {
             data = JSONArray.parseArray(JSON.toJSONString(histaskinfo, SerializerFeature.WriteDateUseDateFormat,
                     SerializerFeature.DisableCircularReferenceDetect));
         }
+
+
+        List<Task> tasks = query.list();
+        List<TaskInfo> taskinfo = buildTaskInfos(tasks);
+        System.out.println("taskinfo" + JSONArray.parseArray(JSON.toJSONString(taskinfo, SerializerFeature.WriteDateUseDateFormat,
+                SerializerFeature.DisableCircularReferenceDetect)).toJSONString());
+        System.out.println("histaskinfo" + JSONArray.parseArray(JSON.toJSONString(histaskinfo, SerializerFeature.WriteDateUseDateFormat,
+                SerializerFeature.DisableCircularReferenceDetect)).toJSONString());
 
         return R.SUCCESS_OPER(data);
     }

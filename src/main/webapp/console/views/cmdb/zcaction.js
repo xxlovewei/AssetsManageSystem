@@ -481,7 +481,7 @@ function zcactionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                             $http
                                 .post(
                                     $rootScope.project
-                                    + "/api/flow/sysProcessDataExt/deleteById.do",
+                                    + "/api/flow/sysProcessData/ext/deleteById.do",
                                     {
                                         id: selrows.id
                                     }).success(function (res) {

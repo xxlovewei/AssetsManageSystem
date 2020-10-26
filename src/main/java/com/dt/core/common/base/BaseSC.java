@@ -17,6 +17,10 @@ public class BaseSC {
     public DB db = null;
 
     public String getUserId() {
+        System.out.println("session:" + (String) HttpKit.getRequest().getSession().getAttribute("user_id"));
+        ShiroUser shiroUser2 = ShiroKit.getUser();
+        System.out.println("shiro:" + shiroUser2.getId());
+
         String user_id = (String) HttpKit.getRequest().getSession().getAttribute("user_id");
         if (ToolUtil.isEmpty(user_id)) {
             ShiroUser shiroUser = ShiroKit.getUser();
@@ -33,7 +37,7 @@ public class BaseSC {
         if (ToolUtil.isEmpty(name)) {
             ShiroUser shiroUser = ShiroKit.getUser();
             if (shiroUser != null) {
-                HttpKit.getRequest().getSession().setAttribute("user_id", shiroUser.getName());
+                HttpKit.getRequest().getSession().setAttribute("name", shiroUser.getName());
                 return shiroUser.getName();
             }
         }
@@ -45,7 +49,7 @@ public class BaseSC {
         if (ToolUtil.isEmpty(name)) {
             ShiroUser shiroUser = ShiroKit.getUser();
             if (shiroUser != null) {
-                HttpKit.getRequest().getSession().setAttribute("user_id", shiroUser.getUsername());
+                HttpKit.getRequest().getSession().setAttribute("username", shiroUser.getUsername());
                 return shiroUser.getName();
             }
         }

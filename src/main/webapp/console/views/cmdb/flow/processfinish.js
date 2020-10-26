@@ -4,7 +4,7 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
         tablehide: false,
         tools: [
             {
-                id: "2",
+                id: "1",
                 label: "开始时间",
                 type: "datetime",
                 time: moment().subtract(30, "days"),
@@ -18,7 +18,7 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
                 show: true,
             },
             {
-                id: "1",
+                id: "3",
                 label: "查询",
                 type: "btn",
                 show: true,
@@ -26,7 +26,7 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
                 template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
-                id: "1",
+                id: "4",
                 priv: "act1",
                 label: "详情",
                 type: "btn",
@@ -135,56 +135,42 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
             return $scope.dtOptions.aaData[data[0]];
         }
     }
-    function getSelectRows() {
-        var data = $scope.dtInstance.DataTable.rows({
-            selected: true
-        })[0];
-        if (data.length == 0) {
-            notify({
-                message: "请至少选择一项"
-            });
-            return;
-        } else if (data.length > 100) {
-            notify({
-                message: "不允许超过500个"
-            });
-            return;
-        } else {
-            var res = [];
-            for (var i = 0; i < data.length; i++) {
-                res.push($scope.dtOptions.aaData[data[i]].id)
-            }
-            return angular.toJson(res);
-        }
-    }
+
     $scope.detail = function () {
         var item = getSelectRow();
         if (angular.isDefined(item) && angular.isDefined(item.businessId)) {
+            console.log(item);
             var meta = {};
             meta.busid = item.businessId;
             meta.flowpagetype = "lookup";
             meta.taskid = item.id;
-            //  if(item.ptype=="LY"){
-            var modalInstance = $uibModal.open({
-                backdrop: true,
-                templateUrl: 'views/cmdb/modal_lytklist.html',
-                controller: zclylistCtl,
-                size: 'blg',
-                resolve: {
-                    meta: function () {
-                        return meta;
+            var flowhtml = "";
+            var flowctl;
+            $http.post(
+                $rootScope.project
+                + "/api/flow/sysProcessData/ext/selectByBusinessId.do", {businessid: item.businessId})
+                .success(function (res) {
+                    var ptype = res.data.ptype;
+                    if (ptype == "LY") {
+                        flowhtml = 'views/cmdb/modal_lytklist.html';
+                        flowctl = zclylistCtl;
+                    } else if (ptype == "TK") {
+                        flowhtml = 'views/cmdb/modal_lytklist.html';
+                        flowctl = zctklistCtl;
                     }
-                }
-            });
-            modalInstance.result.then(function (result) {
-                if (result == "OK") {
-                    flush();
-                }
-            }, function (reason) {
-            });
-            //  }
+                    var modalInstance = $uibModal.open({
+                        backdrop: true,
+                        templateUrl: flowhtml,
+                        controller: flowctl,
+                        size: 'blg',
+                        resolve: {
+                            meta: function () {
+                                return meta;
+                            }
+                        }
+                    });
+                })
         } else {
-            return;
         }
     }
 };

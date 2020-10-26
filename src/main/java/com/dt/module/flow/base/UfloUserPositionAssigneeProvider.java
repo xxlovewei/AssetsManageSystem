@@ -24,7 +24,7 @@ import java.util.List;
 
 //指定流程参与人
 @Component
-public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
+public class UfloUserPositionAssigneeProvider implements AssigneeProvider {
 
     @Autowired
     private ISysUserInfoService SysUserInfoServiceImpl;
@@ -47,7 +47,7 @@ public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
 
     @Override
     public String getName() {
-        return "所有用户列表";
+        return "岗位列表";
     }
 
     /*
@@ -76,9 +76,13 @@ public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
         int pageindex = index;
         IPage<SysUserInfo> pdata = SysUserInfoServiceImpl.page(new Page<SysUserInfo>(pageindex, pagesize));
         List<Entity> entitys = new ArrayList<Entity>();
-        for (SysUserInfo userinfo : pdata.getRecords()) {
-            entitys.add(new Entity(userinfo.getUserId(), userinfo.getName()));
-        }
+
+        entitys.add(new Entity("CreditLeader", "信审组长"));
+        entitys.add(new Entity("QADirector", "质检主管"));
+        entitys.add(new Entity("CreditDirector", "信审主管"));
+        entitys.add(new Entity("QAManager", "质检经理"));
+        entitys.add(new Entity("CreditManager", "信审经理"));
+
         pageQuery.setResult(entitys);
         pageQuery.setRecordCount(entitys.size());
 

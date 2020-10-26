@@ -127,7 +127,7 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         ps.type = angular.toJson(["LY"]);
         $http.post(
             $rootScope.project
-            + "/api/flow/sysProcessDataExt/selectList.do", ps)
+            + "/api/flow/sysProcessData/ext/selectList.do", ps)
             .success(function (res) {
                 $scope.dtOptions.aaData = res.data
             })
@@ -179,7 +179,7 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             $http
                 .post(
                     $rootScope.project
-                    + "/api/flow/sysProcessDataExt/selectByBusinessId.do",
+                    + "/api/flow/sysProcessData/ext/selectByBusinessId.do",
                     {
                         businessid: item.busid
                     })

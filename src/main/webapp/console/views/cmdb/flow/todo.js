@@ -114,54 +114,44 @@ function myProcessTodoCtl($window, $state, DTOptionsBuilder, DTColumnBuilder, $c
             return $scope.dtOptions.aaData[data[0]];
         }
     }
-    function getSelectRows() {
-        var data = $scope.dtInstance.DataTable.rows({
-            selected: true
-        })[0];
-        if (data.length == 0) {
-            notify({
-                message: "请至少选择一项"
-            });
-            return;
-        } else if (data.length > 100) {
-            notify({
-                message: "不允许超过500个"
-            });
-            return;
-        } else {
-            var res = [];
-            for (var i = 0; i < data.length; i++) {
-                res.push($scope.dtOptions.aaData[data[i]].id)
-            }
-            return angular.toJson(res);
-        }
-    }
     $scope.oper = function () {
         var item = getSelectRow();
         if (angular.isDefined(item) && angular.isDefined(item.businessId)) {
+            console.log(item);
             var meta = {};
             meta.busid = item.businessId;
             meta.flowpagetype = "approval";
             meta.taskid = item.id;
-            //  if(item.ptype=="LY"){
-            var modalInstance = $uibModal.open({
-                backdrop: true,
-                templateUrl: 'views/cmdb/modal_lytklist.html',
-                controller: zclylistCtl,
-                size: 'blg',
-                resolve: {
-                    meta: function () {
-                        return meta;
+            $http.post(
+                $rootScope.project
+                + "/api/flow/sysProcessData/ext/selectByBusinessId.do", {businessid: item.businessId})
+                .success(function (res) {
+                    var ptype = res.data.ptype;
+                    if (ptype == "LY") {
+                        flowhtml = 'views/cmdb/modal_lytklist.html';
+                        flowctl = zclylistCtl;
+                    } else if (ptype == "TK") {
+                        flowhtml = 'views/cmdb/modal_lytklist.html';
+                        flowctl = zctklistCtl;
                     }
-                }
-            });
-            modalInstance.result.then(function (result) {
-                if (result == "OK") {
-                    flush();
-                }
-            }, function (reason) {
-            });
-            //  }
+                    var modalInstance = $uibModal.open({
+                        backdrop: true,
+                        templateUrl: flowhtml,
+                        controller: flowctl,
+                        size: 'blg',
+                        resolve: {
+                            meta: function () {
+                                return meta;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (result) {
+                        if (result == "OK") {
+                            flush();
+                        }
+                    }, function (reason) {
+                    });
+                })
         } else {
         }
     }
