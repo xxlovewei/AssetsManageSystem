@@ -101,38 +101,38 @@ public class SysUserInfoService extends BaseService {
                 // instr(route, '-', 1, 3) 用case when
                 // substring_index(route,'-',4)=substring_index(route,'-',3)then
                 // 0 else length(substring_index(route,'-',3))+1 end
-                basesql = "select distinct level1 node_id " + "from (select * " + "from (select b.module_id, "
-                        + "c.route, " + "c.node_name, " + "case instr(route, '-') " + "when 0 then route " + "else "
-                        + "substr(route, 1, instr(route, '-') - 1) " + "end level1 "
+                basesql = "select distinct level1 node_id  from (select *  from (select b.module_id, "
+                        + "c.route,  c.node_name,  case instr(route, '-')  when 0 then route  else "
+                        + "substr(route, 1, instr(route, '-') - 1)  end level1 "
                         + "from sys_user_role a, sys_role_module b, sys_menus_node c "
-                        + "where c.node_id = b.module_id " + "and a.role_id = b.role_id "
-                        + "and user_id = '<#USER_ID#>') a " + "union all " + "select * " + "from ( " + " "
-                        + "select b.module_id, " + "c.route, " + "c.node_name, "
-                        + "case length(route) - length(replace(route, '-', '')) " + "when 0 then '-1' " + "when 1 then "
-                        + "substr(route, " + "locate('-',route)+ 1, " + "length(route) - locate('-',route)) " + "else "
-                        + "substr(route, " + "locate('-',route) + 1, "
+                        + "where c.node_id = b.module_id and a.role_id = b.role_id "
+                        + "and user_id = '<#USER_ID#>') a  union all  select *  from (   "
+                        + "select b.module_id,  c.route,  c.node_name, "
+                        + "case length(route) - length(replace(route, '-', ''))  when 0 then '-1'  when 1 then "
+                        + "substr(route,  locate('-',route)+ 1,  length(route) - locate('-',route))  else "
+                        + "substr(route,  locate('-',route) + 1, "
                         + "case when substring_index(route,'-',3)=substring_index(route,'-',2)then 0 else length(substring_index(route,'-',2))+1 end "
-                        + "- " + "locate('-',route) - 1) " + "end level2 "
+                        + "- locate('-',route) - 1)  end level2 "
                         + "from sys_user_role a, sys_role_module b, sys_menus_node c "
-                        + "where c.node_id = b.module_id " + "and a.role_id = b.role_id "
-                        + "and user_id = '<#USER_ID#>' " + ")  b " + "union all " + "select * " + "from ( "
-                        + "select b.module_id, " + "c.route, " + "c.node_name, "
-                        + "case length(route) - length(replace(route, '-', '')) " + "when  0 then '-1' "
-                        + "when 1 then '-1' " + "when 2 then " + "substr(route, "
+                        + "where c.node_id = b.module_id  and a.role_id = b.role_id "
+                        + "and user_id = '<#USER_ID#>'  )  b  union all  select *  from ( "
+                        + "select b.module_id,  c.route,  c.node_name, "
+                        + "case length(route) - length(replace(route, '-', ''))  when  0 then '-1' "
+                        + "when 1 then '-1'  when 2 then  substr(route, "
                         + "case when substring_index(route,'-',3)=substring_index(route,'-',2)then 0 else length(substring_index(route,'-',2))+1 end + 1, "
                         + "length(route) - case when substring_index(route,'-',3)=substring_index(route,'-',2)then 0 else length(substring_index(route,'-',2))+1 end) "
-                        + "else " + "substr(route, "
+                        + "else  substr(route, "
                         + "case when substring_index(route,'-',3)=substring_index(route,'-',2)then 0 else length(substring_index(route,'-',2))+1 end + 1, "
                         + "case when substring_index(route,'-',4)=substring_index(route,'-',3)then 0 else length(substring_index(route,'-',3))+1 end - "
                         + "case when substring_index(route,'-',3)=substring_index(route,'-',2)then 0 else length(substring_index(route,'-',2))+1 end - 1) end level3 "
                         + "from sys_user_role a, sys_role_module b, sys_menus_node c "
-                        + "where c.type<>'btn' and c.node_id = b.module_id " + "and a.role_id = b.role_id "
-                        + "and user_id = '<#USER_ID#>' " + ") c) d " + "where level1 <> '-1'";
+                        + "where c.type<>'btn' and c.node_id = b.module_id  and a.role_id = b.role_id "
+                        + "and user_id = '<#USER_ID#>'  ) c) d  where level1 <> '-1'";
             }
 
             basesql = "select a.* from sys_menus_node a, (" + basesql + ") b "
                     + "where a.type<>'btn' and a.dr='0' and a.node_id = b.node_id and menu_id = '" + menu_id
-                    + "' and parent_id = ? " + "order by sort ";
+                    + "' and parent_id = ?  order by sort ";
             basesql = basesql.replaceAll("<#USER_ID#>", user_id);
 
         }

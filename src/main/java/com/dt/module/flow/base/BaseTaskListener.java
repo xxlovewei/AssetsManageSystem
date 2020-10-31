@@ -22,7 +22,7 @@ public class BaseTaskListener implements TaskListener {
         System.out.println("processInstance.getTag()" + processInstance.getTag());
         System.out.println("processInstance.getState()" + processInstance.getState());
 
-
+        processInstance.getMetadata("");
         System.out.println("taskNode.getProcessId()" + taskNode.getProcessId());
         System.out.println("taskNode.getLabel()" + taskNode.getLabel());
         System.out.println("taskNode.getName()" + taskNode.getName());
@@ -34,7 +34,7 @@ public class BaseTaskListener implements TaskListener {
         System.out.println("taskNode.getAssignmentType()" + taskNode.getAssignmentType());
         System.out.println("taskNode.getTaskType()" + taskNode.getTaskType());
         System.out.println("taskNode.getDescription()" + taskNode.getDescription());
-
+        System.out.println("taskNode.getUserData()" + taskNode.getUserData().toString());
         System.out.println("---------------------------------\n\n");
         return false;
     }

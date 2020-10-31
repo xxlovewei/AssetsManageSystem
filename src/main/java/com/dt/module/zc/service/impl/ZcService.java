@@ -85,7 +85,7 @@ public class ZcService extends BaseService {
         // 所有用户
         if (ToolUtil.isNotEmpty(partusers) && "Y".equals(partusers)) {
             RcdSet partuserrs = db
-                    .query("select a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where\n"
+                    .query("select a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where   "
                             + "  a.islogoff='0' and a.empl_id=b.empl_id and a.dr='0' and b.dr='0' and c.node_id=b.node_id");
             res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
         }
@@ -121,7 +121,7 @@ public class ZcService extends BaseService {
 
         if (ToolUtil.isNotEmpty(zccatused) && "Y".equals(zccatused)) {
             RcdSet partrs = db
-                    .query("select a.id,concat(b.name,'/',a.route_name) name from ct_category a,ct_category_root b where a.type='goods' and a.root=b.id and a.dr='0' and a.id in (select distinct class_id from res where dr='0')\n" +
+                    .query("select a.id,concat(b.name,'/',a.route_name) name from ct_category a,ct_category_root b where a.type='goods' and a.root=b.id and a.dr='0' and a.id in (select distinct class_id from res where dr='0')   " +
                             "order by a.root ,a.route_name");
             res.put("zccatused", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
@@ -413,16 +413,16 @@ public class ZcService extends BaseService {
 
     public void checkWbMethod() {
         // 转脱保
-        String sql1 = "update  res set wb='invalid' where id in (\n" + "    select t.id from (\n" + "      select id\n"
-                + "      from res\n"
-                + "      where wbout_date is not null and dr = 0 and    (wb <> 'invalid' or wb is null)   and wb_auto = '1'\n"
-                + "            and wbout_date < now()\n" + "    ) t\n" + ")";
+        String sql1 = "update  res set wb='invalid' where id in (        select t.id from (       select id   "
+                + "      from res   "
+                + "      where wbout_date is not null and dr = 0 and    (wb <> 'invalid' or wb is null)   and wb_auto = '1'   "
+                + "            and wbout_date < now()       ) t   )";
         db.execute(sql1);
         // 转在保
-        String sql2 = "update  res set wb='valid' where id in (\n" + "    select t.id from (\n" + "  select id\n"
-                + "  from res\n"
-                + "  where wbout_date is not null and dr = 0 and (wb <> 'valid' or wb is null)  and wb_auto = '1'\n"
-                + "        and wbout_date > now())t\n" + "\n" + ")";
+        String sql2 = "update  res set wb='valid' where id in (      select t.id from (    select id   "
+                + "  from res   "
+                + "  where wbout_date is not null and dr = 0 and (wb <> 'valid' or wb is null)  and wb_auto = '1'   "
+                + "        and wbout_date > now())t   )";
         db.execute(sql2);
 
     }
@@ -468,20 +468,20 @@ public class ZcService extends BaseService {
             return res;
         }
         String route = ct.getRoute();
-        String attrsql = "select\n" +
-                "  a.*,\n" +
-                "  b.attrvalue\n" +
-                "from (\n" +
-                "       select t.*\n" +
-                "       from res_attrs t\n" +
-                "       where ifinheritable = '1' and dr = '0' and catid <> ? and catid in (" + route.replaceAll("-", ",") + ")\n" +
-                "       union all (select *\n" +
-                "                  from res_attrs\n" +
-                "                  where dr = '0' and catid = ?\n" +
-                "                  order by sort)\n" +
-                "     ) a left join (select *\n" +
-                "                    from res_attr_value\n" +
-                "                    where resid = ? and dr = '0') b on a.id = b.attrid\n";
+        String attrsql = "select   " +
+                "  a.*,   " +
+                "  b.attrvalue   " +
+                "from (   " +
+                "       select t.*   " +
+                "       from res_attrs t   " +
+                "       where ifinheritable = '1' and dr = '0' and catid <> ? and catid in (" + route.replaceAll("-", ",") + ")   " +
+                "       union all (select *   " +
+                "                  from res_attrs   " +
+                "                  where dr = '0' and catid = ?   " +
+                "                  order by sort)   " +
+                "     ) a left join (select *   " +
+                "                    from res_attr_value   " +
+                "                    where resid = ? and dr = '0') b on a.id = b.attrid   ";
         RcdSet attrs = db.query(attrsql, catid, catid, resid);
         return ConvertUtil.OtherJSONObjectToFastJSONArray(attrs.toJsonArrayWithJsonObject());
     }
@@ -523,17 +523,17 @@ public class ZcService extends BaseService {
         }
         // 获取更新记录
         RcdSet urs = db.query(
-                " select * from (\n" +
-                        "select\n" +
-                        "  (select name from sys_user_info where user_id=t.create_by)create_uname,\n" +
-                        "  t.* from res_change_item t where dr='0' and t.resid=? order by create_time desc) tab limit 300\n",
+                " select * from (   " +
+                        "select   " +
+                        "  (select name from sys_user_info where user_id=t.create_by)create_uname,   " +
+                        "  t.* from res_change_item t where dr='0' and t.resid=? order by create_time desc) tab limit 300   ",
                 id);
         data.put("updatadata", ConvertUtil.OtherJSONObjectToFastJSONArray(urs.toJsonArrayWithJsonObject()));
 
         // 获取故障登记表
         RcdSet grs = db.query(
-                " select * from (\n" +
-                        "select b.* from res_repair_item a ,res_repair b where a.repairid=b.id and a.dr='0' and a.resid=? and b.dr='0'\n" +
+                " select * from (   " +
+                        "select b.* from res_repair_item a ,res_repair b where a.repairid=b.id and a.dr='0' and a.resid=? and b.dr='0'   " +
                         "  order by create_time desc)tab limit 300",
                 id);
         data.put("faultdata", ConvertUtil.OtherJSONObjectToFastJSONArray(grs.toJsonArrayWithJsonObject()));

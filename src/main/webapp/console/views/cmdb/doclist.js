@@ -203,7 +203,7 @@ function doclistCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
     }
     $scope.row_del = function (id) {
         $confirm({
-            text: '是否删除功能?'
+            text: '是否删除?'
         }).then(function () {
             $http.post($rootScope.project + "/api/ct/docMgr/deleteById.do", {
                 id: id

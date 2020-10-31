@@ -42,7 +42,7 @@ public class SysUfloProcessExtController extends BaseController {
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R computeTask(String variables, String taskId, String opinion) {
-        return sysUfloProcessService.completeTask(variables, taskId, opinion);
+        return sysUfloProcessService.completeTask(taskId, opinion);
     }
 
     @RequestMapping("/flow/cancelTask.do")

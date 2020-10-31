@@ -45,31 +45,31 @@ public class ResExtExportController extends BaseController {
     public void exportDictItems(HttpServletRequest request, HttpServletResponse response)
             throws UnsupportedEncodingException {
 
-        String sql = "select * from (\n" +
-                "  select\n" +
-                "    b.name,\n" +
-                "    a.name item_name\n" +
-                "  from sys_dict_item a, sys_dict b\n" +
-                "  where a.dict_id = b.dict_id and a.dr = '0' and b.dr = '0'\n" +
-                "  union all\n" +
-                "  select\n" +
-                "    '资产类型明细'   name,\n" +
-                "    route_name item_name\n" +
-                "  from ct_category\n" +
-                "  where root = '" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' and dr='0'\n" +
-                "  union all\n" +
-                "  select\n" +
-                "    '公司' name,\n" +
-                "    route_name\n" +
-                "  from hrm_org_part\n" +
-                "  where type = 'comp' and dr='0'\n" +
-                "  union all\n" +
-                "  select\n" +
-                "    '部门' name,\n" +
-                "    route_name\n" +
-                "  from hrm_org_part\n" +
-                "  where type = 'part' and dr='0'\n" +
-                ") tab order by 1\n";
+        String sql = "select * from (   " +
+                "  select   " +
+                "    b.name,   " +
+                "    a.name item_name   " +
+                "  from sys_dict_item a, sys_dict b   " +
+                "  where a.dict_id = b.dict_id and a.dr = '0' and b.dr = '0'   " +
+                "  union all   " +
+                "  select   " +
+                "    '资产类型明细'   name,   " +
+                "    route_name item_name   " +
+                "  from ct_category   " +
+                "  where root = '" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' and dr='0'   " +
+                "  union all   " +
+                "  select   " +
+                "    '公司' name,   " +
+                "    route_name   " +
+                "  from hrm_org_part   " +
+                "  where type = 'comp' and dr='0'   " +
+                "  union all   " +
+                "  select   " +
+                "    '部门' name,   " +
+                "    route_name   " +
+                "  from hrm_org_part   " +
+                "  where type = 'part' and dr='0'   " +
+                ") tab order by 1   ";
 
         RcdSet rs = db.query(sql);
 

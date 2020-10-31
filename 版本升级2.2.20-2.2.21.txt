@@ -2,3 +2,7 @@ alter table res_collectionreturn add name varchar(500) null;
 update res_collectionreturn set bustype='LY' where bustype='ly';
 update res_collectionreturn set bustype='TK' where bustype='tk';
 update res_collectionreturn set status='finish_na' where status='success';
+
+alter table res_loanreturn add name varchar(500) null;
+
+

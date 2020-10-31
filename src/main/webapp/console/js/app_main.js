@@ -227,7 +227,7 @@ app
                 $log.warn("to", to);
                 $log.warn("from", from);
                 $log.warn("injector", injector);
-                alert("未开发完成.");
+                alert("当前菜单配置有误.");
             });
             // 替换了之前的$stateChangeStart
             $transitions

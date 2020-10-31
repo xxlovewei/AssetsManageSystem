@@ -209,10 +209,8 @@ public class ZcProcessFlowController extends BaseController {
             //startProcessInfo.setTag(SysProcessDataService.PTYPE_ASSET);
             startProcessInfo.setSubject(title == null ? "" : title);
             startProcessInfo.setCompleteStartTaskOpinion(getName() + "开始发起流程");
-
             Map<String, Object> variables = new HashMap<>();
-            variables.put("eluser", "superman");
-            variables.put("begin", "beginTask");
+            variables.put("flowstartusername", this.getName());
             startProcessInfo.setVariables(variables);
             ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
             pinst = Long.toString(inst.getId());
@@ -226,8 +224,8 @@ public class ZcProcessFlowController extends BaseController {
             pd.setPstatus(SysProcessDataService.PSTATUS_INAPPROVAL);
             pd.setPstatusdtl(SysProcessDataService.PSTATUS_DTL_INAPPROVAL);
             pd.setIfsp(ifsp);
-            pd.setPstartuserid(this.getUserId());
-            pd.setPstartusername(this.getName());
+            pd.setPstartuserid(getUserId());
+            pd.setPstartusername(getName());
             pd.setProcesskey(pdef.getPtplkey());
             pd.setProcessinstanceid(Long.toString(inst.getId()));
             pd.setFormtype(formtype);
@@ -251,10 +249,10 @@ public class ZcProcessFlowController extends BaseController {
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R completeTask(String variables, String taskId, String opinion) {
-
         long taskId_l = ConvertUtil.toLong(taskId);
         Task tsk = taskService.getTask(taskId_l);
-        R r = sysUfloProcessService.completeTask(variables, taskId, opinion);
+        sysUfloProcessService.addVariablesInProcessInstance(tsk.getProcessInstanceId(), "pstatusdtl", SysProcessDataService.PSTATUS_DTL_SUCCESS);
+        R r = sysUfloProcessService.completeTask(taskId, opinion);
         return r;
 //        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
 //        ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
@@ -297,16 +295,15 @@ public class ZcProcessFlowController extends BaseController {
 //        return r;
 //    }
 
-    @RequestMapping("/refuseTask.do")
+    @RequestMapping("/refuseTaskForwardEnd.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
-    public R refuseTask(String taskId, String opinion) {
+    public R refuseTaskForwardEnd(String taskId, String opinion) {
         //流程跳转到最后节点
         TaskOpinion op = new TaskOpinion(opinion);
         long taskId_l = ConvertUtil.toLong(taskId);
         Task tsk = taskService.getTask(taskId_l);
         String instid = Long.toString(tsk.getProcessInstanceId());
-
         List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
         if (nodes.size() == 0) {
             return R.FAILURE("无法跳转至结束流程");
@@ -315,18 +312,9 @@ public class ZcProcessFlowController extends BaseController {
         if (jn.isTask()) {
             return R.FAILURE("获取的最后一个节点不是结束流程");
         }
+        sysUfloProcessService.addVariablesInProcessInstance(tsk.getProcessInstanceId(), "pstatusdtl", SysProcessDataService.PSTATUS_DTL_FAILED);
         taskService.forward(taskId_l, jn.getName(), op);
-
-        //修改状态
-        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-        uw.eq("processInstanceId", instid);
-        uw.set("pstatus", SysProcessDataService.PSTATUS_FINISH);
-        uw.set("pstatusdtl", SysProcessDataService.PSTATUS_DTL_FAILED);
-        SysProcessDataServiceImpl.update(uw);
-
         return R.SUCCESS_OPER();
-        //修改单据
-        // return zcChangeService.zcfinishFlow(instid);
     }
 
     @RequestMapping("/getAvaliableForwardTaskNodes.do")
@@ -385,8 +373,7 @@ public class ZcProcessFlowController extends BaseController {
         long taskId_l = ConvertUtil.toLong(taskId);
         // 修改流程标记
         Task tsk = taskService.getTask(taskId_l);
-        String instid = tsk.getProcessInstanceId() + "";
-
+        String instid = Long.toString(tsk.getProcessInstanceId());
         // 更新状态
         UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
         uw.eq("processInstanceId", instid);
@@ -398,7 +385,7 @@ public class ZcProcessFlowController extends BaseController {
         uw.set("df2", ps.getString("df2", " "));
         uw.set("dct", ps.getString("dct", " "));
         SysProcessDataServiceImpl.update(uw);
-        R r = sysUfloProcessService.completeTask(null, taskId, ps.getString("opinion"));
+        R r = sysUfloProcessService.completeTask(taskId, ps.getString("opinion"));
         return r;
     }
 

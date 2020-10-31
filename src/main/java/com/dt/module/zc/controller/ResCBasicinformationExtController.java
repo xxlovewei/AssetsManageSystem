@@ -111,19 +111,19 @@ public class ResCBasicinformationExtController extends BaseController {
     @Acl(info = "查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
-        String sql = "select\n" +
+        String sql = "select   " +
                 " (select name from sys_user_info where user_id=b.create_by) createusername," +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tzcsource) tzcsourcestr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tsupplier) tsupplierstr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tusefullife) tusefullifestr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,\n" +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tzcsource) tzcsourcestr,   " +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tsupplier) tsupplierstr,   " +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tusefullife) tusefullifestr,   " +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,   " +
                 "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname," +
                 "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tusedcompanyname," +
                 "(select name from sys_user_info where user_id=b.tuseduserid) tusedusername," +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tbrand) tbrandstr,\n" +
-                "(select route_name from ct_category where dr='0' and id=b.tclassid) tclassfullname,\n" +
-                "date_format(tfd1,'%Y-%m-%d') tfd1str,\n" +
-                "date_format(tbuytime,'%Y-%m-%d') tbuytimestr,b.* \n" +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tbrand) tbrandstr,   " +
+                "(select route_name from ct_category where dr='0' and id=b.tclassid) tclassfullname,   " +
+                "date_format(tfd1,'%Y-%m-%d') tfd1str,   " +
+                "date_format(tbuytime,'%Y-%m-%d') tbuytimestr,b.*    " +
                 "from res_c_basicinformation b where dr='0' order by create_time desc";
         RcdSet rs = db.query(sql);
         return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());

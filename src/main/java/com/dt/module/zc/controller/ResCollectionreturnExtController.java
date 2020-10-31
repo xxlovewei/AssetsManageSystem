@@ -43,17 +43,17 @@ public class ResCollectionreturnExtController extends BaseController {
     @Acl(info = "查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
-        String sql = "select\n" +
-                "(select name from sys_user_info where user_id=b.create_by) createusername,\n" +
-                "(select route_name from hrm_org_part where node_id=b.tusedcompanyid) tcompfullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tcompname,\n" +
-                "(select route_name from hrm_org_part where node_id=b.tpartid) tpartfullame,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname,\n" +
-                "(select name from sys_user_info where user_id=b.tuseduserid) usedusername,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,\n" +
-                "date_format(busdate,'%Y-%m-%d') busdatestr,\n" +
-                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,\n" +
-                "date_format(returndate,'%Y-%m-%d') returndatestr,\n" +
+        String sql = "select   " +
+                "(select name from sys_user_info where user_id=b.create_by) createusername,   " +
+                "(select route_name from hrm_org_part where node_id=b.tusedcompanyid) tcompfullname,   " +
+                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tcompname,   " +
+                "(select route_name from hrm_org_part where node_id=b.tpartid) tpartfullame,   " +
+                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname,   " +
+                "(select name from sys_user_info where user_id=b.tuseduserid) usedusername,   " +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,   " +
+                "date_format(busdate,'%Y-%m-%d') busdatestr,   " +
+                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,   " +
+                "date_format(returndate,'%Y-%m-%d') returndatestr,   " +
                 "b.*" +
                 "from res_collectionreturn b where dr='0' order by create_time desc";
         RcdSet rs = db.query(sql);

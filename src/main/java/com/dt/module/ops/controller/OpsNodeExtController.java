@@ -277,9 +277,9 @@ public class OpsNodeExtController extends BaseController {
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectDBListSimple.do")
     public R selectDBListSimple() {
-        String sql = "select concat(dbtype,\"_\",name,\"_\",\"(\",cnt,\")\") dbname,id from (\n" + "select name,id,\n"
-                + "  (select name from sys_dict_item where dict_item_id=db) dbtype,\n"
-                + "  (select count(1) from ops_node_item where nid=t.id and type='dbinstance') cnt\n"
+        String sql = "select concat(dbtype,\"_\",name,\"_\",\"(\",cnt,\")\") dbname,id from (select name,id,"
+                + "  (select name from sys_dict_item where dict_item_id=db) dbtype,"
+                + "  (select count(1) from ops_node_item where nid=t.id and type='dbinstance') cnt"
                 + "from ops_node t where arch='0' and dr='0' and db is not null) end order by 1";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }

@@ -31,21 +31,21 @@ import java.util.List;
 @Service
 public class OpsNodeExtServiceImpl extends BaseService {
 
-    public static String sql = "select\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.nodebackup and dict_id = 'nodebak' )   nodebackupstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.runenv and dict_id = 'sysenv' )   sysenvstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.syslevel and dict_id = 'syslevel' ) syslevelstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.busitype and dict_id = 'systype' ) systypestr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.loc and dict_id = 'sysloc' ) syslocstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.os and dict_id = 'sysos' ) sysosstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.osdtl and dict_id = 'sysosdtl' ) sysosdtlstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.db and dict_id = 'sysdb' ) sysdbstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.dbdtl and dict_id = 'sysdbdtl' ) sysdbdtlstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.execenv and dict_id = 'sysexecenv' ) sysexecenvstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.monitor and dict_id = 'sysmonitor' ) sysmonitorstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.status and dict_id = 'sysstatus' ) statusstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.pwdstrategy and dict_id = 'syspwdstrategy' ) syspwdstrategystr,\n"
-            + "t.*\n" + "from ops_node t where dr=0 ";
+    public static String sql = "select  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.nodebackup and dict_id = 'nodebak' )   nodebackupstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.runenv and dict_id = 'sysenv' )   sysenvstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.syslevel and dict_id = 'syslevel' ) syslevelstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.busitype and dict_id = 'systype' ) systypestr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.loc and dict_id = 'sysloc' ) syslocstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.os and dict_id = 'sysos' ) sysosstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.osdtl and dict_id = 'sysosdtl' ) sysosdtlstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.db and dict_id = 'sysdb' ) sysdbstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.dbdtl and dict_id = 'sysdbdtl' ) sysdbdtlstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.execenv and dict_id = 'sysexecenv' ) sysexecenvstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.monitor and dict_id = 'sysmonitor' ) sysmonitorstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.status and dict_id = 'sysstatus' ) statusstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.pwdstrategy and dict_id = 'syspwdstrategy' ) syspwdstrategystr,  "
+            + "t.* from ops_node t where dr=0 ";
 
     public R selecList(String search) {
         String sql = OpsNodeExtServiceImpl.sql + " and arch='0'";
@@ -58,7 +58,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
     }
 
     public R validMiddlewareData() {
-        String sql = "select t.*,\n" + "(length(middleware)-length(replace(middleware, ',','')) ) +1 cnt\n"
+        String sql = "select t.*,(length(middleware)-length(replace(middleware, ',','')) ) +1 cnt  "
                 + "from ops_node t where arch='0' and dr='0' and middleware<>'[]'";
         RcdSet rs = db.query(sql);
         List<String> sqls = new ArrayList<String>();
@@ -325,17 +325,17 @@ public class OpsNodeExtServiceImpl extends BaseService {
     }
 
     public R selectDBList(String dbinstid, String nodeid) {
-        String sql = "select\n"
-                + "  (select name from sys_dict_item where dr='0' and dict_item_id=b.db and dict_id = 'sysdb' ) sysdbstr,\n"
-                + "  (select name from sys_dict_item where dr='0' and dict_item_id=b.nodebackup and dict_id = 'nodebak' ) nodebackupstr,\n"
-                + "	(select name from sys_dict_item where dr='0' and dict_item_id=b.dbdtl and dict_id = 'sysdbdtl' ) sysdbdtlstr,\n"
-                + "	(select name from sys_dict_item where dr='0' and dict_item_id=b.status and dict_id = 'sysstatus' ) sysstatusstr,\n"
-                + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.archtype and dict_id = 'dbbkarchtype' ) dbbkarchtypestr,\n"
-                + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkmethod and dict_id = 'dbbkmethod' ) dbbkmethodstr,\n"
-                + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkstatus and dict_id = 'dbbkstatus' ) dbbkstatusstr,\n"
-                + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bktype and dict_id = 'dbbktype' ) dbbktypestr,\n"
-                + "  a.*,b.name xtname,b.ip,b.db ,b.dbdtl from ops_node_item a, ops_node b where a.nid=b.id\n"
-                + "and a.dr='0' and b.dr='0' and a.type='dbinstance'\n";
+        String sql = "select  "
+                + "  (select name from sys_dict_item where dr='0' and dict_item_id=b.db and dict_id = 'sysdb' ) sysdbstr,  "
+                + "  (select name from sys_dict_item where dr='0' and dict_item_id=b.nodebackup and dict_id = 'nodebak' ) nodebackupstr,  "
+                + "	(select name from sys_dict_item where dr='0' and dict_item_id=b.dbdtl and dict_id = 'sysdbdtl' ) sysdbdtlstr,  "
+                + "	(select name from sys_dict_item where dr='0' and dict_item_id=b.status and dict_id = 'sysstatus' ) sysstatusstr,  "
+                + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.archtype and dict_id = 'dbbkarchtype' ) dbbkarchtypestr,  "
+                + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkmethod and dict_id = 'dbbkmethod' ) dbbkmethodstr,  "
+                + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bkstatus and dict_id = 'dbbkstatus' ) dbbkstatusstr,  "
+                + "  (select name from sys_dict_item where dr='0' and dict_item_id=a.bktype and dict_id = 'dbbktype' ) dbbktypestr,  "
+                + "  a.*,b.name xtname,b.ip,b.db ,b.dbdtl from ops_node_item a, ops_node b where a.nid=b.id  "
+                + "and a.dr='0' and b.dr='0' and a.type='dbinstance'  ";
 
         if (ToolUtil.isNotEmpty(dbinstid)) {
             sql = sql + " and a.id='" + dbinstid + "' ";

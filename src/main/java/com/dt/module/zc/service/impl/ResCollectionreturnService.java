@@ -35,14 +35,8 @@ import java.util.List;
 @Service
 public class ResCollectionreturnService extends BaseService {
 
-
-//    public static String STATUS_SUCCESS = "success";
-//    public static String STATUS_FAILED = "failed";
-//    public static String STATUS_CANCEL = "cancel";
-
     @Autowired
     IResChangeItemService ResChangeItemServiceImpl;
-
 
     @Autowired
     FlowDataService flowDataService;
@@ -125,16 +119,16 @@ public class ResCollectionreturnService extends BaseService {
     //取消领用,流程失败，或者取消
     public R cancelLy(String busid, String status) {
         //更新RES数据
-        String sql2 = "update res_collectionreturn_item a,res b set \n" +
-                "b.loc=a.tloc," +
-                "b.used_company_id=a.tusedcompanyid," +
-                "b.part_id=a.tpartid," +
-                "b.used_userid=a.tuseduserid," +
-                "b.locdtl=a.tlocdtl," +
+        String sql2 = "update res_collectionreturn_item a,res b set " +
+//                "b.loc=a.tloc," +
+//                "b.used_company_id=a.tusedcompanyid," +
+//                "b.part_id=a.tpartid," +
+//                "b.used_userid=a.tuseduserid," +
+//                "b.locdtl=a.tlocdtl," +
                 "b.inprocess='0'," +
                 "b.inprocessuuid=''," +
-                "b.inprocesstype='', " +
-                "b.uuidly=a.busuuid " +
+                "b.inprocesstype='' " +
+                //         "b.uuidly=a.busuuid " +
                 "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql2, busid);
         UpdateWrapper<ResCollectionreturn> ups = new UpdateWrapper<ResCollectionreturn>();
@@ -146,16 +140,16 @@ public class ResCollectionreturnService extends BaseService {
 
     public R cancelTk(String busid, String status) {
         //更新RES数据
-        String sql2 = "update res_collectionreturn_item a,res b set \n" +
-                "b.loc=a.tloc," +
-                "b.used_company_id=a.tusedcompanyid," +
-                "b.part_id=a.tpartid," +
-                "b.used_userid=a.tuseduserid," +
-                "b.locdtl=a.tlocdtl," +
+        String sql2 = "update res_collectionreturn_item a,res b set    " +
+//                "b.loc=a.tloc," +
+//                "b.used_company_id=a.tusedcompanyid," +
+//                "b.part_id=a.tpartid," +
+//                "b.used_userid=a.tuseduserid," +
+//                "b.locdtl=a.tlocdtl," +
                 "b.inprocess='0'," +
                 "b.inprocessuuid=''," +
-                "b.inprocesstype='', " +
-                "b.uuidly=a.busuuid " +
+                "b.inprocesstype='' " +
+//                "b.uuidly=a.busuuid " +
                 "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql2, busid);
         UpdateWrapper<ResCollectionreturn> ups = new UpdateWrapper<ResCollectionreturn>();
@@ -172,17 +166,17 @@ public class ResCollectionreturnService extends BaseService {
         ups.eq("busuuid", busid);
         ResCollectionreturnServiceImpl.update(ups);
         //保存变更前RES数据
-        String sql = "update res_collectionreturn_item a,res b set \n" +
-                "   a.fusedcompanyid=b.used_company_id\n" +
-                " , a.fpartid=b.part_id\n" +
-                " , a.fuseduserid=b.used_userid\n" +
-                " , a.floc=b.loc\n" +
-                " , a.flocdtl=b.locdtl\n" +
+        String sql = "update res_collectionreturn_item a,res b set    " +
+                "   a.fusedcompanyid=b.used_company_id   " +
+                " , a.fpartid=b.part_id   " +
+                " , a.fuseduserid=b.used_userid   " +
+                " , a.floc=b.loc   " +
+                " , a.flocdtl=b.locdtl   " +
                 "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql, busid);
 
         //更新RES数据
-        String sql2 = "update res_collectionreturn_item a,res b set \n" +
+        String sql2 = "update res_collectionreturn_item a,res b set    " +
                 "b.loc=a.tloc," +
                 "b.used_company_id=a.tusedcompanyid," +
                 "b.part_id=a.tpartid," +
@@ -223,17 +217,17 @@ public class ResCollectionreturnService extends BaseService {
         ups.eq("busuuid", busid);
         ResCollectionreturnServiceImpl.update(ups);
         //保存变更前数据
-        String sql = "update res_collectionreturn_item a,res b set \n" +
-                "   a.fusedcompanyid=b.used_company_id\n" +
-                " , a.fpartid=b.part_id\n" +
-                " , a.fuseduserid=b.used_userid\n" +
-                " , a.floc=b.loc\n" +
-                " , a.flocdtl=b.locdtl\n" +
+        String sql = "update res_collectionreturn_item a,res b set    " +
+                "   a.fusedcompanyid=b.used_company_id   " +
+                " , a.fpartid=b.part_id   " +
+                " , a.fuseduserid=b.used_userid   " +
+                " , a.floc=b.loc   " +
+                " , a.flocdtl=b.locdtl   " +
                 "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql, busid);
 
         //更新数据
-        String sql2 = "update res_collectionreturn_item a,res b set \n" +
+        String sql2 = "update res_collectionreturn_item a,res b set " +
                 "b.loc=a.tloc," +
                 "b.used_company_id=a.tusedcompanyid," +
                 "b.part_id=a.tpartid," +
@@ -400,25 +394,25 @@ public class ResCollectionreturnService extends BaseService {
     public R selectData(String uuid, String resid) {
         JSONObject res = new JSONObject();
         String sql2 = "select " + ZcCommonService.resSqlbody + " t.*," +
-                "(select name from sys_user_info where user_id=b.create_by) createusername,\n" +
-                "(select route_name from hrm_org_part where node_id=b.tusedcompanyid) tcompfullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tcompname,\n" +
-                "(select route_name from hrm_org_part where node_id=b.tpartid) tpartfullame,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname,\n" +
-                "(select name from sys_user_info where user_id=b.tuseduserid) tusedusername,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,\n" +
-                "(select route_name from hrm_org_part where node_id=b.fusedcompanyid) fcompfullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.fusedcompanyid) fcompname,\n" +
-                "(select route_name from hrm_org_part where node_id=b.fpartid) fpartfullame,\n" +
-                "(select node_name from hrm_org_part where node_id=b.fpartid) fpartname,\n" +
-                "(select name from sys_user_info where user_id=b.fuseduserid) fusedusername,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.floc) flocstr,\n" +
-                "date_format(busdate,'%Y-%m-%d') busdatestr,\n" +
-                "date_format(returndate,'%Y-%m-%d') returndatestr,\n" +
-                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,\n" +
-                "b.*\n" +
+                "(select name from sys_user_info where user_id=b.create_by) createusername,   " +
+                "(select route_name from hrm_org_part where node_id=b.tusedcompanyid) tcompfullname,   " +
+                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tcompname,   " +
+                "(select route_name from hrm_org_part where node_id=b.tpartid) tpartfullame,   " +
+                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname,   " +
+                "(select name from sys_user_info where user_id=b.tuseduserid) tusedusername,   " +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,   " +
+                "(select route_name from hrm_org_part where node_id=b.fusedcompanyid) fcompfullname,   " +
+                "(select node_name from hrm_org_part where node_id=b.fusedcompanyid) fcompname,   " +
+                "(select route_name from hrm_org_part where node_id=b.fpartid) fpartfullame,   " +
+                "(select node_name from hrm_org_part where node_id=b.fpartid) fpartname,   " +
+                "(select name from sys_user_info where user_id=b.fuseduserid) fusedusername,   " +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.floc) flocstr,   " +
+                "date_format(busdate,'%Y-%m-%d') busdatestr,   " +
+                "date_format(returndate,'%Y-%m-%d') returndatestr,   " +
+                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,   " +
+                "b.*   " +
                 "from res_collectionreturn_item b,res t where b.dr='0' and t.dr='0' " +
-                "and t.id=b.resid\n" +
+                "and t.id=b.resid   " +
                 "and b.busuuid=?";
         if (ToolUtil.isNotEmpty(resid)) {
             sql2 = sql2 + " and resid='" + resid + "'";

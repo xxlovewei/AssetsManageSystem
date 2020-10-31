@@ -52,13 +52,13 @@ public class MenuRoleMapService extends BaseService {
             return R.FAILURE_REQ_PARAM_ERROR();
         }
         JSONArray resarr = new JSONArray();
-        String sql = "select\n" + "  t.*,\n" + "  (select count(1)\n" + "   from sys_menus_node\n"
-                + "   where parent_id = t.node_id and dr='0')     children_cnt,\n" + "  (select count(1)\n"
-                + "   from sys_role_module\n" + "   where role_id = ? and module_id = t.node_id) checked,\n"
-                + "  ( select count(distinct a.module_id)\n" + "   from sys_role_module a,sys_menus_node b\n"
-                + "   where role_id = ?\n"
-                + "  and  a.module_id=b.node_id and b.parent_id=t.node_id and dr='0') role_children_cnt\n"
-                + "from sys_menus_node t\n" + "where menu_id = ? and dr = '0'\n" + "order by type";
+        String sql = "select    t.*,     (select count(1)      from sys_menus_node   "
+                + "   where parent_id = t.node_id and dr='0')     children_cnt,     (select count(1)   "
+                + "   from sys_role_module       where role_id = ? and module_id = t.node_id) checked,   "
+                + "  ( select count(distinct a.module_id)       from sys_role_module a,sys_menus_node b   "
+                + "   where role_id = ?   "
+                + "  and  a.module_id=b.node_id and b.parent_id=t.node_id and dr='0') role_children_cnt   "
+                + "from sys_menus_node t    where menu_id = ? and dr = '0'    order by type";
 
         RcdSet res = db.query(sql, role_id, role_id, menu_id);
         JSONObject e;

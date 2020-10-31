@@ -29,17 +29,6 @@ public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
     @Autowired
     private ISysUserInfoService SysUserInfoServiceImpl;
 
-    /*
-     * (non Javadoc)
-     *
-     * @Title: isTree
-     *
-     * @Description: TODO
-     *
-     * @return
-     *
-     * @see com.bstek.uflo.process.assign.AssigneeProvider#isTree()
-     */
     @Override
     public boolean isTree() {
         return false;
@@ -50,21 +39,7 @@ public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
         return "所有用户列表";
     }
 
-    /*
-     * (non Javadoc)
-     *
-     * @Title: queryEntities
-     *
-     * @Description: TODO
-     *
-     * @param pageQuery
-     *
-     * @param parentId
-     *
-     * @see
-     * com.bstek.uflo.process.assign.AssigneeProvider#queryEntities(com.bstek.uflo.
-     * process.assign.PageQuery, java.lang.String)
-     */
+
     @Override
     public void queryEntities(PageQuery<Entity> pageQuery, String parentId) {
 

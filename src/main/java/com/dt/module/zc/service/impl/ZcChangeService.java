@@ -34,6 +34,7 @@ public class ZcChangeService extends BaseService {
     @Lazy
     ResLoanreturnService resLoanreturnService;
 
+
     @Autowired
     @Lazy
     ResCollectionreturnService resCollectionreturnService;
@@ -82,7 +83,7 @@ public class ZcChangeService extends BaseService {
 
     public R zcSureChange(String uuid, String type) {
         if (type.equals(ZcCommonService.ZC_BUS_TYPE_LY)) {
-            return zcLySureChange(uuid);
+          //  return zcLySureChange(uuid);
         } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_JY)) {
             return zcJySureChange(uuid);
         } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_DB)) {
@@ -100,6 +101,8 @@ public class ZcChangeService extends BaseService {
             return resCollectionreturnService.startLyFlow(pinst, uuid, ifsp);
         } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_TK)) {
             return resCollectionreturnService.startTkFlow(pinst, uuid, ifsp);
+        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_JY)) {
+            return resLoanreturnService.startLyFlow(pinst, uuid, ifsp);
         }
         return R.SUCCESS();
     }
@@ -113,6 +116,8 @@ public class ZcChangeService extends BaseService {
             return resCollectionreturnService.finishLyFlow(sd.getBusid(), sd.getPstatusdtl());
         } else if (ZcCommonService.ZC_BUS_TYPE_TK.equals(sd.getPtype())) {
             return resCollectionreturnService.finishTkFlow(sd.getBusid(), sd.getPstatusdtl());
+        } else if (ZcCommonService.ZC_BUS_TYPE_JY.equals(sd.getPtype())) {
+            return resLoanreturnService.finishJyFlow(sd.getBusid(), sd.getPstatusdtl());
         }
         fillChangeCt();
         return R.SUCCESS();
@@ -137,10 +142,10 @@ public class ZcChangeService extends BaseService {
     //折旧
     public R zcZjConfirm(String uuid) {
         //保存更新前的数据
-        String sql = " update res_residual_item a,res b set \n" +
-                "   a.buyprice=b.buy_price\n" +
-                " , a.bnetworth=b.net_worth\n" +
-                " , a.baccumulateddepreciation=b.accumulateddepreciation\n" +
+        String sql = " update res_residual_item a,res b set   " +
+                "   a.buyprice=b.buy_price  " +
+                " , a.bnetworth=b.net_worth  " +
+                " , a.baccumulateddepreciation=b.accumulateddepreciation  " +
                 "   where a.resid=b.id and a.uuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql, uuid);
 
@@ -177,46 +182,45 @@ public class ZcChangeService extends BaseService {
     }
 
 
-
-    public R zcJyConfirm(String uuid) {
-        //保存变更前数据
-        String sql = " update res_loanreturn_item a,res b set \n" +
-                "   a.frecycle=b.recycle\n" +
-                "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
-        db.execute(sql, uuid);
-        //更新数据
-        String sql2 = "update res_loanreturn_item a,res b set \n" +
-                "b.recycle='" + ZcRecycleEnum.RECYCLE_BORROW.getValue() + "'," +
-                "b.inprocess='0'," +
-                "b.inprocessuuid=''," +
-                "b.inprocesstype='', " +
-                "b.uuidjy=a.busuuid " +
-                "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
-        db.execute(sql2, uuid);
-
-        //记录资产变更
-        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
-        QueryWrapper<ResLoanreturnItem> ew = new QueryWrapper<ResLoanreturnItem>();
-        ew.and(i -> i.eq("busuuid", uuid));
-        List<ResLoanreturnItem> items = ResLoanreturnItemServiceImpl.list(ew);
-        for (int i = 0; i < items.size(); i++) {
-            ResChangeItem e = new ResChangeItem();
-            e.setBusuuid(uuid);
-            e.setResid(items.get(i).getResid());
-            e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
-            e.setFillct("0");
-            e.setCdate(new Date());
-            e.setMark("资产借用");
-            cols.add(e);
-        }
-        ResChangeItemServiceImpl.saveBatch(cols);
-        fillChangeCt();
-        return R.SUCCESS_OPER();
-    }
+    //   public R zcJyConfirm(String uuid) {
+//        //保存变更前数据
+//        String sql = " update res_loanreturn_item a,res b set   " +
+//                "   a.frecycle=b.recycle  " +
+//                "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+//        db.execute(sql, uuid);
+//        //更新数据
+//        String sql2 = "update res_loanreturn_item a,res b set   " +
+//                "b.recycle='" + ZcRecycleEnum.RECYCLE_BORROW.getValue() + "'," +
+//                "b.inprocess='0'," +
+//                "b.inprocessuuid=''," +
+//                "b.inprocesstype='', " +
+//                "b.uuidjy=a.busuuid " +
+//                "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+//        db.execute(sql2, uuid);
+//
+//        //记录资产变更
+//        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
+//        QueryWrapper<ResLoanreturnItem> ew = new QueryWrapper<ResLoanreturnItem>();
+//        ew.and(i -> i.eq("busuuid", uuid));
+//        List<ResLoanreturnItem> items = ResLoanreturnItemServiceImpl.list(ew);
+//        for (int i = 0; i < items.size(); i++) {
+//            ResChangeItem e = new ResChangeItem();
+//            e.setBusuuid(uuid);
+//            e.setResid(items.get(i).getResid());
+//            e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
+//            e.setFillct("0");
+//            e.setCdate(new Date());
+//            e.setMark("资产借用");
+//            cols.add(e);
+//        }
+//        ResChangeItemServiceImpl.saveBatch(cols);
+//        fillChangeCt();
+//        return R.SUCCESS_OPER();
+//    }
 
     public R zcGhConfirm(String uuid) {
         //更新数据
-        String sql2 = " update res_loanreturn_item a,res b set \n" +
+        String sql2 = " update res_loanreturn_item a,res b set   " +
                 "b.recycle=a.frecycle," +
                 "b.inprocess='0'," +
                 "b.inprocessuuid=''," +
@@ -252,7 +256,7 @@ public class ZcChangeService extends BaseService {
 
 
     //领用确认
-    public R zcLySureChange(String uuid) {
+//    public R zcLySureChange(String uuid) {
 //        UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
 //        ups.inSql("id", "select resid from res_action_item where dr='0' and busuuid='" + uuid + "'");
 //        ups.set("prerecycle", "");
@@ -275,9 +279,9 @@ public class ZcChangeService extends BaseService {
 //            cols.add(e);
 //        }
 //        ResChangeItemServiceImpl.saveBatch(cols);
-        fillChangeCt();
-        return R.SUCCESS_OPER();
-    }
+//        fillChangeCt();
+//        return R.SUCCESS_OPER();
+//    }
 
     //    //领用申请
 //    public R zcLyStartFlow(String pinstString uuid,String ifsp) {
@@ -305,8 +309,8 @@ public class ZcChangeService extends BaseService {
 //    }
 
     //领用取消
-    public R zcLyCancelChange(String uuid) {
-        //记录资产变更
+    //   public R zcLyCancelChange(String uuid) {
+    //记录资产变更
 //        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
 //        QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
 //        ew.and(i -> i.eq("busuuid", uuid));
@@ -323,11 +327,11 @@ public class ZcChangeService extends BaseService {
 //        }
 //        ResChangeItemServiceImpl.saveBatch(cols);
 //        fillChangeCt();
-        return R.SUCCESS_OPER();
-    }
+//        return R.SUCCESS_OPER();
+//    }
 
     //退库
-    public R zcTkSureChange(String uuid) {
+//    public R zcTkSureChange(String uuid) {
 //        UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
 //        ups.inSql("id", "select resid from res_action_item where dr='0' and busuuid='" + uuid + "'");
 //        ups.set("prerecycle", "");
@@ -357,8 +361,8 @@ public class ZcChangeService extends BaseService {
 //        }
 //        ResChangeItemServiceImpl.saveBatch(cols);
 //        fillChangeCt();
-        return R.SUCCESS_OPER();
-    }
+//        return R.SUCCESS_OPER();
+//    }
 
     //**************************借用/归还************************//
     //借用确认
@@ -411,27 +415,6 @@ public class ZcChangeService extends BaseService {
         return R.SUCCESS_OPER();
     }
 
-    //借用取消
-    public R zcJyCancelChange(String uuid) {
-        //记录资产变更
-        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
-        QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
-        ew.and(i -> i.eq("busuuid", uuid));
-        List<ResActionItem> items = ResActionItemServiceImpl.list(ew);
-        for (int i = 0; i < items.size(); i++) {
-            ResChangeItem e = new ResChangeItem();
-            e.setBusuuid(uuid);
-            e.setResid(items.get(i).getResid());
-            e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
-            e.setMark("取消借用审批");
-            e.setFillct("0");
-            e.setCdate(new Date());
-            cols.add(e);
-        }
-        ResChangeItemServiceImpl.saveBatch(cols);
-        fillChangeCt();
-        return R.SUCCESS_OPER();
-    }
 
     //资产借用归还
     public R zcGhChange(String uuid) {
@@ -444,7 +427,6 @@ public class ZcChangeService extends BaseService {
         uw.eq("busid", uuid);
         uw.set("busstatus", "in");
         SysProcessDataServiceImpl.update(uw);
-
 
         //记录资产变更
         ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
@@ -469,10 +451,10 @@ public class ZcChangeService extends BaseService {
     //**************************调拨************************//
     public R zcDBChange(String uuid) {
         //保存之前数据
-        String sql = " update res_allocate_item a,res b set \n" +
-                "   a.frecycle=b.recycle\n" +
-                " , a.floc=b.loc\n" +
-                " , a.flocdtl=b.locdtl\n" +
+        String sql = " update res_allocate_item a,res b set   " +
+                "   a.frecycle=b.recycle  " +
+                " , a.floc=b.loc  " +
+                " , a.flocdtl=b.locdtl  " +
                 "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql, uuid);
 
@@ -543,8 +525,8 @@ public class ZcChangeService extends BaseService {
     public R zcDBCancelChange(String uuid) {
 
         //更新之前数据
-        String sql = " update res_allocate_item a,res b set \n" +
-                "   b.recycle =a.frecycle\n" +
+        String sql = " update res_allocate_item a,res b set   " +
+                "   b.recycle =a.frecycle  " +
                 "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql, uuid);
 
@@ -596,24 +578,24 @@ public class ZcChangeService extends BaseService {
         QueryWrapper<ResCBasicinformation> qw = new QueryWrapper<ResCBasicinformation>();
         qw.and(i -> i.eq("busuuid", uuid));
         ResCBasicinformation entity = ResCBasicinformationServiceImpl.getOne(qw);
-        String sql = " update res_c_basicinformation_item a,res b set \n" +
-                "   a.fclassid=b.class_id\n" +
-                " , a.fmodel=b.model\n" +
-                " , a.fsn=b.sn\n" +
-                " , a.fzcsource=b.zcsource\n" +
-                " , a.fzccnt=b.zc_cnt\n" +
-                " , a.fsupplier=b.supplier\n" +
-                " , a.fbrand=b.brand\n" +
-                " , a.fbuytime=b.buy_time\n" +
-                " , a.ffd1=b.fd1\n" +
-                " , a.ffs20=b.fs20\n" +
-                " , a.fmark=b.mark\n" +
-                " , a.floc=b.loc\n" +
-                " , a.fconfdesc=b.confdesc\n" +
-                " , a.fusefullife=b.usefullife\n" +
-                " , a.fusedcompanyid=b.used_company_id\n" +
-                " , a.fpartid=b.part_id\n" +
-                " , a.fuseduserid=b.used_userid\n" +
+        String sql = " update res_c_basicinformation_item a,res b set   " +
+                "   a.fclassid=b.class_id  " +
+                " , a.fmodel=b.model  " +
+                " , a.fsn=b.sn  " +
+                " , a.fzcsource=b.zcsource  " +
+                " , a.fzccnt=b.zc_cnt  " +
+                " , a.fsupplier=b.supplier  " +
+                " , a.fbrand=b.brand  " +
+                " , a.fbuytime=b.buy_time  " +
+                " , a.ffd1=b.fd1  " +
+                " , a.ffs20=b.fs20  " +
+                " , a.fmark=b.mark  " +
+                " , a.floc=b.loc  " +
+                " , a.fconfdesc=b.confdesc  " +
+                " , a.fusefullife=b.usefullife  " +
+                " , a.fusedcompanyid=b.used_company_id  " +
+                " , a.fpartid=b.part_id  " +
+                " , a.fuseduserid=b.used_userid  " +
                 " where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql, uuid);
         String sql2 = "update res_c_basicinformation_item b,res a set a.update_by='" + this.getUserId() + "'";
@@ -711,11 +693,11 @@ public class ZcChangeService extends BaseService {
         qw.and(i -> i.eq("busuuid", uuid));
         ResCMaintenance entity = ResCMaintenanceServiceImpl.getOne(qw);
 
-        String sql = "update res_c_maintenance_item a,res b set a.fwb=b.wb,\n" +
-                "  a.fwbsupplier=b.wbsupplier,\n" +
-                "  a.fwbauto=b.wb_auto,\n" +
-                "  a.fwbct=b.wbct,\n" +
-                "  a.fwboutdate=b.wbout_date\n" +
+        String sql = "update res_c_maintenance_item a,res b set a.fwb=b.wb,  " +
+                "  a.fwbsupplier=b.wbsupplier,  " +
+                "  a.fwbauto=b.wb_auto,  " +
+                "  a.fwbct=b.wbct,  " +
+                "  a.fwboutdate=b.wbout_date  " +
                 " where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql, uuid);
         System.out.println(entity);
@@ -764,12 +746,12 @@ public class ZcChangeService extends BaseService {
         qw.and(i -> i.eq("busuuid", uuid));
         ResCFinance entity = ResCFinanceServiceImpl.getOne(qw);
 
-        String sql = "update res_c_finance_item a,res b set a.fbuyprice=b.buy_price,\n" +
-                "  a.fbelongcomp=b.belong_company_id,\n" +
-                "  a.fbelongpart=b.belong_part_id,\n" +
-                "  a.faccumulateddepreciation=b.accumulateddepreciation,\n" +
-                "  a.fnetworth=b.net_worth,\n" +
-                "  a.fresidualvalue=b.residualvalue\n" +
+        String sql = "update res_c_finance_item a,res b set a.fbuyprice=b.buy_price,  " +
+                "  a.fbelongcomp=b.belong_company_id,  " +
+                "  a.fbelongpart=b.belong_part_id,  " +
+                "  a.faccumulateddepreciation=b.accumulateddepreciation,  " +
+                "  a.fnetworth=b.net_worth,  " +
+                "  a.fresidualvalue=b.residualvalue  " +
                 " where a.resid=b.id and a.busuuid=? and a.dr='0'";
         db.execute(sql, uuid);
 
@@ -1157,12 +1139,12 @@ public class ZcChangeService extends BaseService {
         String busuuid = entity.getBusuuid();
         String resid = entity.getResid();
 
-        String sql = "select\n" +
-                "(select route_name from hrm_org_part where node_id=b.fcompid) fusedcompanyname,\n" +
-                "(select route_name from hrm_org_part where node_id=b.tousedcompid) tusedcompanyname,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.floc) flocstr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.toloc) tlocstr,\n" +
-                "  b.*\n" +
+        String sql = "select  " +
+                "(select route_name from hrm_org_part where node_id=b.fcompid) fusedcompanyname,  " +
+                "(select route_name from hrm_org_part where node_id=b.tousedcompid) tusedcompanyname,  " +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.floc) flocstr,  " +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.toloc) tlocstr,  " +
+                "  b.*  " +
                 "from res_allocate_item b where dr='0' and b.busuuid=? and b.resid=?";
         Rcd rs = db.uniqueRecord(sql, busuuid, resid);
         if (rs != null) {

@@ -113,7 +113,7 @@ public class ResImportService extends BaseService {
 
 
     // 检查组织ID
-    // @Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkOrgItem'+#type+'_'+#name")
+    //@Cacheable(value = CacheConfig.CACHE_PUBLIC_5_2, key = "'checkOrgItem'+#type+'_'+#name")
     public R checkOrgItem(String type, String name) {
         if (ToolUtil.isEmpty(name)) {
             JSONObject e = new JSONObject();
@@ -122,7 +122,7 @@ public class ResImportService extends BaseService {
         }
         Rcd rs = db.uniqueRecord("select node_id from hrm_org_part where dr='0' and type=? and route_name=?", type, name);
         if (rs == null) {
-            return R.FAILURE("无法匹配到组织,名称:" + name);
+            return R.FAILURE("无法匹配到组织,类型" + type + ",名称:" + name);
         }
         return R.SUCCESS_OPER(rs.toJsonObject());
     }

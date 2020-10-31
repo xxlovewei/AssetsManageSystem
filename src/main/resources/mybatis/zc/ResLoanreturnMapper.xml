@@ -30,6 +30,7 @@
         <result column="busstatus" property="busstatus"/>
         <result column="rprocessuserid" property="rprocessuserid"/>
         <result column="rprocessusername" property="rprocessusername"/>
+        <result column="name" property="name"/>
     </resultMap>
 
 </mapper>

@@ -10,6 +10,7 @@ import com.bstek.uflo.model.ProcessDefinition;
 import com.bstek.uflo.model.ProcessInstance;
 import com.bstek.uflo.model.task.Task;
 import com.bstek.uflo.model.task.TaskState;
+import com.bstek.uflo.model.variable.Variable;
 import com.bstek.uflo.process.flow.SequenceFlowImpl;
 import com.bstek.uflo.process.node.Node;
 import com.bstek.uflo.query.HistoryTaskQuery;
@@ -75,8 +76,10 @@ public class SysUfloProcessService extends BaseService {
     //
     @Autowired
     private TaskService taskService;
+
     @Autowired
     private HistoryService historyService;
+
 
     public R loadProcessTaskinfo(String processInstanceId) {
         TaskQuery query = taskService.createTaskQuery();
@@ -172,6 +175,22 @@ public class SysUfloProcessService extends BaseService {
         return R.SUCCESS_OPER();
     }
 
+
+    public Object queryVariableInProcessInstance(Long inst, String key) {
+        return processService.getProcessVariable(key, inst);
+    }
+
+    public void addVariablesInProcessInstance(Long inst, String key, Object obj) {
+        List<Variable> vars = processService.getProcessVariables(inst);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        for (int i = 0; i < vars.size(); i++) {
+            map.put(vars.get(i).getKey(), vars.get(i).getValue());
+        }
+        map.put(key, obj);
+        processService.saveProcessVariables(inst, map);
+    }
+
+
     public Map<String, Object> buildVariables(String variables) {
         if (StringUtils.isBlank(variables)) {
             return null;
@@ -232,14 +251,23 @@ public class SysUfloProcessService extends BaseService {
     }
 
     // 同意任务
-    public R completeTask(String variables, String taskId, String opinion) {
+    public R completeTask(String taskId, String opinion) {
         // 修改流程标记
         TaskOpinion op = new TaskOpinion(opinion);
         long taskId_l = ConvertUtil.toLong(taskId);
-        Task tsk = taskService.getTask(taskId_l);
-        String instid = tsk.getProcessInstanceId() + "";
+        //    Task tsk = taskService.getTask(taskId_l);
         taskService.start(taskId_l);
         taskService.complete(taskId_l, op);
+        return R.SUCCESS_OPER();
+    }
+
+    public R completeTask(String taskId, HashMap<String, Object> map, String opinion) {
+        // 修改流程标记
+        TaskOpinion op = new TaskOpinion(opinion);
+        long taskId_l = ConvertUtil.toLong(taskId);
+        //   Task tsk = taskService.getTask(taskId_l);
+        taskService.start(taskId_l);
+        taskService.complete(taskId_l, map, op);
         return R.SUCCESS_OPER();
     }
 

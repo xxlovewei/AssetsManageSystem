@@ -20,13 +20,13 @@ public class ResCMaintenanceService extends BaseService {
     }
 
     public R selectData(String uuid, String resid) {
-        String sql2 = "select " + ZcCommonService.resSqlbody + " t.*,b.*,\n" +
+        String sql2 = "select " + ZcCommonService.resSqlbody + " t.*,b.*,   " +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.fwb)fwbstr," +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=b.twb)twbstr," +
-                "date_format(b.twboutdate,'%Y-%m-%d') twboutdatestr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.twbsupplier) twbsupplierstr,\n" +
-                "date_format(b.fwboutdate,'%Y-%m-%d') fwboutdatestr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.fwbsupplier) fwbsupplierstr\n" +
+                "date_format(b.twboutdate,'%Y-%m-%d') twboutdatestr,   " +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.twbsupplier) twbsupplierstr,   " +
+                "date_format(b.fwboutdate,'%Y-%m-%d') fwboutdatestr,   " +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=b.fwbsupplier) fwbsupplierstr   " +
                 "from res_c_maintenance_item b ,res t where t.id=b.resid and t.dr='0' and b.dr='0' and b.busuuid=?";
         if (ToolUtil.isNotEmpty(resid)) {
             sql2 = sql2 + " and resid='" + resid + "'";

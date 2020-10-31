@@ -33,16 +33,16 @@ public class ScheduledService extends BaseService {
         String nowtime = simpleDateFormat.format(date);
 
         // 转脱保
-        String sql1 = "update  res set wb='invalid' where id in (\n" + "    select t.id from (\n" + "      select id\n"
-                + "      from res\n"
-                + "      where wbout_date is not null and dr = 0 and    (wb <> 'invalid' or wb is null)   and wb_auto = '1'\n"
-                + "            and wbout_date < now()\n" + "    ) t\n" + ")";
+        String sql1 = "update  res set wb='invalid' where id in (       select t.id from (         select id   "
+                + "      from res   "
+                + "      where wbout_date is not null and dr = 0 and    (wb <> 'invalid' or wb is null)   and wb_auto = '1'   "
+                + "            and wbout_date < now()       ) t    )";
         int invalid = db.execute(sql1);
         // 转在保
-        String sql2 = "update  res set wb='valid' where id in (\n" + "    select t.id from (\n" + "  select id\n"
-                + "  from res\n"
-                + "  where wbout_date is not null and dr = 0 and (wb <> 'valid' or wb is null)  and wb_auto = '1'\n"
-                + "        and wbout_date > now())t\n" + "\n" + ")";
+        String sql2 = "update  res set wb='valid' where id in (       select t.id from (      select id   "
+                + "  from res   "
+                + "  where wbout_date is not null and dr = 0 and (wb <> 'valid' or wb is null)  and wb_auto = '1'   "
+                + "        and wbout_date > now())t      )";
         int valid = db.execute(sql2);
 
 

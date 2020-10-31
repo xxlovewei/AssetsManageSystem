@@ -82,11 +82,11 @@ public class ResCFinanceExtController extends BaseController {
     @Acl(info = "查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
-        String sql = "select\n" +
+        String sql = "select   " +
                 " (select name from sys_user_info where user_id=b.create_by) createusername," +
-                "(select route_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompfullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompname,\n" +
-                "b.*\n" +
+                "(select route_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompfullname,   " +
+                "(select node_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompname,   " +
+                "b.*   " +
                 "from  res_c_finance b where dr='0' order by create_time desc";
         RcdSet rs = db.query(sql);
         return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());

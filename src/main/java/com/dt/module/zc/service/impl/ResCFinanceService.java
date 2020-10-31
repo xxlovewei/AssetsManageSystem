@@ -20,11 +20,11 @@ public class ResCFinanceService extends BaseService {
     }
 
     public R selectData(String uuid, String resid) {
-        String sql2 = "select " + ZcCommonService.resSqlbody + " t.* ,b.*,\n" +
-                "(select route_name from hrm_org_part where node_id=b.fbelongcomp) fbelongcompfullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.fbelongcomp) fbelongcompname,\n" +
-                "(select route_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompfullname,\n" +
-                "(select node_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompname\n" +
+        String sql2 = "select " + ZcCommonService.resSqlbody + " t.* ,b.*,   " +
+                "(select route_name from hrm_org_part where node_id=b.fbelongcomp) fbelongcompfullname,   " +
+                "(select node_name from hrm_org_part where node_id=b.fbelongcomp) fbelongcompname,   " +
+                "(select route_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompfullname,   " +
+                "(select node_name from hrm_org_part where node_id=b.tbelongcomp) tbelongcompname   " +
                 "from res t, res_c_finance_item b where t.id=b.resid and t.dr='0' and b.dr='0' and b.busuuid=?";
         if (ToolUtil.isNotEmpty(resid)) {
             sql2 = sql2 + " and resid='" + resid + "'";

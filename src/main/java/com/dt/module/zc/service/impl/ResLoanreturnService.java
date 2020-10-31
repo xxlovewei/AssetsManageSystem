@@ -1,15 +1,23 @@
 package com.dt.module.zc.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
+import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.busenum.ZcRecycleEnum;
 import com.dt.module.cmdb.entity.Res;
+import com.dt.module.flow.service.impl.SysProcessDataService;
+import com.dt.module.zc.entity.ResChangeItem;
+import com.dt.module.zc.entity.ResCollectionreturn;
 import com.dt.module.zc.entity.ResLoanreturn;
 import com.dt.module.zc.entity.ResLoanreturnItem;
+import com.dt.module.zc.service.IResChangeItemService;
 import com.dt.module.zc.service.IResLoanreturnItemService;
 import com.dt.module.zc.service.IResLoanreturnService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +28,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Service
 public class ResLoanreturnService extends BaseService {
-    public static String STATUS_SUCCESS = "success";
-    public static String STATUS_FAILED = "failed";
-    public static String STATUS_CANCEL = "cancel";
-    public static String STATUS_APPLY = "apply";
-    public static String STATUS_APPROVAL = "approval";
 
     public static String BUS_STATUS_JY = "JY";
     public static String BUS_STATUS_GH = "GH";
 
+
+    @Autowired
+    IResChangeItemService ResChangeItemServiceImpl;
 
     @Autowired
     IResLoanreturnService ResLoanreturnServiceImpl;
@@ -47,24 +54,123 @@ public class ResLoanreturnService extends BaseService {
     @Lazy
     ZcChangeService zcChangeService;
 
+    //开始流程
+    public R startLyFlow(String pinst, String uuid, String ifsp) {
+        if ("1".equals(ifsp)) {
+            UpdateWrapper<ResLoanreturn> ups = new UpdateWrapper<ResLoanreturn>();
+            ups.set("pinst", pinst);
+            ups.set("status", SysProcessDataService.PSTATUS_DTL_INAPPROVAL);
+            ups.eq("busuuid", uuid);
+            ResLoanreturnServiceImpl.update(ups);
+        } else if ("0".equals(ifsp)) {
+            UpdateWrapper<ResLoanreturn> ups = new UpdateWrapper<ResLoanreturn>();
+            ups.set("status", SysProcessDataService.PSTATUS_DTL_FINISH_NO_APPROVAL);
+            ups.eq("busuuid", uuid);
+            ResLoanreturnServiceImpl.update(ups);
+            sureJy(uuid, SysProcessDataService.PSTATUS_DTL_FINISH_NO_APPROVAL);
+        }
+        return R.SUCCESS_OPER();
+    }
 
+
+    //取消领用,流程失败，或者取消
+    public R cancelJy(String busid, String status) {
+
+        //更新RES数据
+        String sql2 = "update res_loanreturn_item a,res b set " +
+//                "b.loc=a.tloc," +
+//                "b.used_company_id=a.tusedcompanyid," +
+//                "b.part_id=a.tpartid," +
+//                "b.used_userid=a.tuseduserid," +
+//                "b.locdtl=a.tlocdtl," +
+                "b.inprocess='0'," +
+                "b.inprocessuuid=''," +
+                "b.inprocesstype='' " +
+//                "b.uuidly=a.busuuid " +
+                "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql2, busid);
+        UpdateWrapper<ResLoanreturn> ups = new UpdateWrapper<ResLoanreturn>();
+        ups.set("status", status);
+        ups.eq("busuuid", busid);
+        ResLoanreturnServiceImpl.update(ups);
+        return R.SUCCESS_OPER();
+    }
+
+    //确认领用
+    public R sureJy(String busid, String status) {
+        //保存变更前数据
+        UpdateWrapper<ResLoanreturn> ups = new UpdateWrapper<ResLoanreturn>();
+        ups.set("status", status);
+        ups.eq("busuuid", busid);
+        ResLoanreturnServiceImpl.update(ups);
+
+        String sql = "update res_loanreturn_item a,res b set " +
+                "   a.frecycle=b.recycle " +
+                "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql, busid);
+
+        //更新数据
+        String sql2 = "update res_loanreturn_item a,res b set " +
+                "b.recycle='" + ZcRecycleEnum.RECYCLE_BORROW.getValue() + "'," +
+                "b.inprocess='0'," +
+                "b.inprocessuuid=''," +
+                "b.inprocesstype='', " +
+                "b.uuidjy=a.busuuid " +
+                "where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql2, busid);
+
+        //记录资产变更
+        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
+        QueryWrapper<ResLoanreturnItem> ew = new QueryWrapper<ResLoanreturnItem>();
+        ew.and(i -> i.eq("busuuid", busid));
+        List<ResLoanreturnItem> items = ResLoanreturnItemServiceImpl.list(ew);
+        for (int i = 0; i < items.size(); i++) {
+            ResChangeItem e = new ResChangeItem();
+            e.setBusuuid(busid);
+            e.setResid(items.get(i).getResid());
+            e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
+            e.setFillct("0");
+            e.setCdate(new Date());
+            e.setMark("资产借用");
+            cols.add(e);
+        }
+        ResChangeItemServiceImpl.saveBatch(cols);
+        return R.SUCCESS_OPER();
+    }
+
+
+    //结束流程
+    public R finishJyFlow(String busid, String status) {
+        if (SysProcessDataService.PSTATUS_DTL_FAILED.equals(status)) {
+            return cancelJy(busid, SysProcessDataService.PSTATUS_DTL_FAILED);
+        } else if (SysProcessDataService.PSTATUS_DTL_SUCCESS.equals(status)) {
+            return sureJy(busid, SysProcessDataService.PSTATUS_DTL_SUCCESS);
+        } else {
+            return R.FAILURE_NO_DATA();
+        }
+    }
+
+    //资产借用生产单据
     public R zcJy(ResLoanreturn entity, String items) {
 
         String id = entity.getId();
         String uuid = "";
         entity.setBusstatus(this.BUS_STATUS_JY);
+
         //获取UUID
         if (ToolUtil.isNotEmpty(id)) {
             uuid = entity.getBusuuid();
-            //解锁之前的数据,
-            String sql2 = "update res_loanreturn_item a,res b set \n" +
-                    "  b.inprocess='0',b.inprocessuuid='',b.inprocesstype='' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+            if (!SysProcessDataService.PSTATUS_APPLY.equals(entity.getStatus())) {
+                return R.FAILURE("当前状态不允许修改");
+            }
+            //可能数据有变动，先解锁当前的数据,后面会重新加锁
+            String sql2 = "update res_loanreturn_item a,res b set b.inprocess='0',b.inprocessuuid='',b.inprocesstype='' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
             db.execute(sql2, uuid);
         } else {
             uuid = zcService.createUuid(ZcCommonService.UUID_JY);
             //当前方案设置结束流程
             entity.setBusuuid(uuid);
-            entity.setStatus(ResLoanreturnService.STATUS_SUCCESS);
+            entity.setStatus(SysProcessDataService.PSTATUS_APPLY);
         }
         JSONArray items_arr = JSONArray.parseArray(items);
         ArrayList<ResLoanreturnItem> list = new ArrayList<ResLoanreturnItem>();
@@ -91,24 +197,12 @@ public class ResLoanreturnService extends BaseService {
         qw.and(i -> i.eq("busuuid", finalUuid));
         ResLoanreturnItemServiceImpl.remove(qw);
         ResLoanreturnItemServiceImpl.saveOrUpdateBatch(list);
-
-        //锁定单据中的数据
-        String sql2 = "update res_loanreturn_item a,res b set \n" +
-                "  b.inprocess='0',b.inprocessuuid='',b.inprocesstype='' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
-        db.execute(sql2, uuid);
         ResLoanreturnServiceImpl.saveOrUpdate(entity);
+        //锁定单据中的数据
+        String sql2 = "update res_loanreturn_item a,res b set b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + ZcCommonService.ZC_BUS_TYPE_JY + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
+        db.execute(sql2, uuid);
 
 
-        //临时锁定
-        if (!ResLoanreturnService.STATUS_SUCCESS.equals(entity.getStatus())) {
-            String sql3 = " update res_loanreturn_item a,res b set \n" +
-                    "  b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + ZcCommonService.ZC_BUS_TYPE_JY + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
-            db.execute(sql3, uuid);
-        }
-
-        if (ResLoanreturnService.STATUS_SUCCESS.equals(entity.getStatus())) {
-            zcChangeService.zcJyConfirm(uuid);
-        }
         return R.SUCCESS_OPER();
     }
 
@@ -116,13 +210,11 @@ public class ResLoanreturnService extends BaseService {
         ResLoanreturn entity = ResLoanreturnServiceImpl.getById(id);
         String status = entity.getStatus();
         String busstatus = entity.getBusstatus();
-        if (!STATUS_SUCCESS.equals(status)) {
+        if (BUS_STATUS_GH.equals(busstatus) || SysProcessDataService.PSTATUS_DTL_SUCCESS.equals(status) || SysProcessDataService.PSTATUS_DTL_FINISH_NO_APPROVAL.equals(status)) {
+        } else {
             return R.FAILURE("当前单据办理状态不可做归还操作");
         }
-        if (BUS_STATUS_GH.equals(busstatus)) {
-            return R.FAILURE("当前单据业务状态不可做归还操作");
-        }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         try {
             date = simpleDateFormat.parse(rreturndate);
@@ -151,21 +243,25 @@ public class ResLoanreturnService extends BaseService {
     }
 
     public R selectData(String uuid, String resid) {
+        JSONObject res = new JSONObject();
         String sql2 = "select " + ZcCommonService.resSqlbody + " t.*," +
-                "(select name from sys_user_info where user_id=b.create_by) createusername,\n" +
-                "date_format(busdate,'%Y-%m-%d') busdatestr,\n" +
-                "date_format(returndate,'%Y-%m-%d') returndatestr,\n" +
-                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,\n" +
+                "(select name from sys_user_info where user_id=b.create_by) createusername, " +
+                "date_format(busdate,'%Y-%m-%d') busdatestr, " +
+                "date_format(returndate,'%Y-%m-%d') returndatestr, " +
+                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr, " +
                 "(select route_name from hrm_org_employee aa,hrm_org_part bb where aa.node_id=bb.node_id and empl_id=(select empl_id from sys_user_info where user_id=b.lruserid) limit 1 ) lruserorginfo," +
-                "b.*\n" +
+                "b.* " +
                 "from res_loanreturn_item b,res t where b.dr='0' and t.dr='0' " +
-                "and t.id=b.resid\n" +
+                "and t.id=b.resid " +
                 "and b.busuuid=?";
         if (ToolUtil.isNotEmpty(resid)) {
             sql2 = sql2 + " and resid='" + resid + "'";
         }
+        Rcd rsone = db.uniqueRecord("select * from res_loanreturn where dr='0' and busuuid=?", uuid);
+        res = ConvertUtil.OtherJSONObjectToFastJSONObject(rsone.toJsonObject());
         RcdSet rs = db.query(sql2, uuid);
-        return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+        res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
+        return R.SUCCESS_OPER(res);
     }
 
 }

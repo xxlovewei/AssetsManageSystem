@@ -31,23 +31,23 @@ public class RackInfoExtController extends BaseController {
     @RequestMapping(value = "/queryRackInfoTreeByDcId.do")
     public R queryRackInfoTreeByDcId(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
 
-        String sql = "select\n" +
-                "  b.name         text,\n" +
-                "  b.dict_item_id id,\n" +
-                "  'rack'         type,\n" +
-                "  '1'            parent,\n" +
-                "  a.loc          dc,\n" +
-                "  a.cnt          cnt\n" +
-                "from (select\n" +
-                "        rack,\n" +
-                "        loc,\n" +
-                "        count(1) cnt\n" +
-                "      from res\n" +
-                "      where dr = '0' and loc = ?\n" +
-                "      group by rack, loc) a,\n" +
-                "  sys_dict_item b\n" +
-                "where a.rack = b.dict_item_id\n" +
-                "order by 1\n";
+        String sql = "select   " +
+                "  b.name         text,   " +
+                "  b.dict_item_id id,   " +
+                "  'rack'         type,   " +
+                "  '1'            parent,   " +
+                "  a.loc          dc,   " +
+                "  a.cnt          cnt   " +
+                "from (select   " +
+                "        rack,   " +
+                "        loc,   " +
+                "        count(1) cnt   " +
+                "      from res   " +
+                "      where dr = '0' and loc = ?   " +
+                "      group by rack, loc) a,   " +
+                "  sys_dict_item b   " +
+                "where a.rack = b.dict_item_id   " +
+                "order by 1   ";
         return R.SUCCESS_OPER(db.query(sql, id).toJsonArrayWithJsonObject());
     }
 

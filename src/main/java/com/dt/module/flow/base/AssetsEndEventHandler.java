@@ -9,6 +9,7 @@ import com.bstek.uflo.process.node.Node;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;
 import com.dt.module.flow.service.impl.SysProcessDataService;
+import com.dt.module.flow.service.impl.SysUfloProcessService;
 import com.dt.module.zc.service.impl.ZcChangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,27 +38,34 @@ public class AssetsEndEventHandler extends BaseNodeEventHandler {
     @Autowired
     ZcChangeService zcChangeService;
 
+    @Autowired
+    SysUfloProcessService sysUfloProcessService;
 
     @Override
     public void leave(Node node, ProcessInstance processInstance, Context context) {
-        System.out.println("###AssetsEndEventHandler Leave Node###");
-        QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
-        qw.eq("busid", processInstance.getBusinessId());
-        SysProcessData r = SysProcessDataServiceImpl.getOne(qw);
-        if (SysProcessDataService.PSTATUS_FINISH.equals(r.getPstatus())) {
-            //流程已经结束
-        } else {
-            //流程正常结束
-            Date date = new Date(); // 获取一个Date对象
-            DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
-            String nowtime = simpleDateFormat.format(date);
-            UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-            uw.set("pstatus", SysProcessDataService.PSTATUS_FINISH);
+        System.out.println("###AssetsEndEventHandler Leave Node###" + processInstance.getProcessId());
+        String dtlstatus = "";
+        dtlstatus = context.getProcessService().getProcessVariable("pstatusdtl", processInstance.getId()).toString();
+        Date date = new Date(); // 获取一个Date对象
+        DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
+        String nowtime = simpleDateFormat.format(date);
+        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
+        uw.set("pstatus", SysProcessDataService.PSTATUS_FINISH);
+        uw.set("pendtime", nowtime);
+        if (SysProcessDataService.PSTATUS_DTL_SUCCESS.equals(dtlstatus)) {
+            System.out.println("调用流程正常结束");
             uw.set("pstatusdtl", SysProcessDataService.PSTATUS_DTL_SUCCESS);
-            uw.set("pendtime", nowtime);
-            SysProcessDataServiceImpl.update(uw);
+        } else if (SysProcessDataService.PSTATUS_DTL_FAILED.equals(dtlstatus)) {
+            System.out.println("调用流程-拒绝");
+            uw.set("pstatusdtl", SysProcessDataService.PSTATUS_DTL_FAILED);
+        } else {
+            dtlstatus = "";
+            System.out.println("调用流程-结束状态未知。" + processInstance.getId());
         }
-        zcChangeService.zcfinishFlow(r.getProcessinstanceid());
+        if (!"".equals(dtlstatus)) {
+            SysProcessDataServiceImpl.update(uw);
+            zcChangeService.zcfinishFlow(Long.toString(processInstance.getId()));
+        }
         System.out.println("流程结束\n\n");
     }
 

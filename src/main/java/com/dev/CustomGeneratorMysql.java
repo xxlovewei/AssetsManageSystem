@@ -104,8 +104,8 @@ public class CustomGeneratorMysql {
         // "","sys_qud_qux"
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
-        String busRoute = "base";
-        strategy.setInclude("sys_info"); // 需要生成的表
+        String busRoute = "zc";
+        strategy.setInclude("res_approvalnode"); // 需要生成的表
 
 
         strategy.setTableFillList(tableFillList);
@@ -115,7 +115,6 @@ public class CustomGeneratorMysql {
         mpg.setStrategy(strategy);
 
         // 包配置
-
         PackageConfig pc = new PackageConfig();
         pc.setParent("com.dt.module");
         pc.setModuleName(busRoute);

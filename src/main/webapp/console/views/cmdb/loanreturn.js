@@ -11,117 +11,7 @@ function GetDateNowId() {
     return sNow;
 }
 
-function zcjyghlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
-                       $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
-                       DTColumnBuilder, $compile) {
-    var item = meta;
-    $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
-        .withPaginationType('full_numbers').withDisplayLength(100)
-        .withOption("ordering", false).withOption("responsive", false)
-        .withOption("searching", true).withOption('scrollY', 600)
-        .withOption('scrollX', true).withOption('bAutoWidth', true)
-        .withOption('scrollCollapse', true).withOption('paging', true)
-        .withOption('bStateSave', true).withOption('bProcessing', false)
-        .withOption('bFilter', false).withOption('bInfo', false)
-        .withOption('serverSide', false).withOption('createdRow', function (row) {
-            $compile(angular.element(row).contents())($scope);
-        }).withOption(
-            'headerCallback',
-            function (header) {
-                if ((!angular.isDefined($scope.headerCompiled))
-                    || $scope.headerCompiled) {
-                    $scope.headerCompiled = true;
-                    $compile(angular.element(header).contents())
-                    ($scope);
-                }
-            }).withOption("select", {
-            style: 'multi',
-            selector: 'td:first-child'
-        }).withButtons([
-            {
-                extend: 'csv',
-                text: 'Excel(当前页)',
-                exportOptions: {
-                    columns: ':visible',
-                    trim: true,
-                    modifier: {
-                        page: 'current'
-                    }
-                }
-            },
-            {
-                extend: 'print',
-                text: '打印(当前页)',
-                exportOptions: {
-                    columns: ':visible',
-                    stripHtml: false,
-                    columns: ':visible',
-                    modifier: {
-                        page: 'current'
-                    }
-                }
-            }
-        ]);
-    $scope.dtInstance = {}
-    $scope.dtColumns = [];
-    var dtColumns = [];
 
-    function renderZcReturn(data, type, full) {
-        if (data == "1") {
-            return "已归还"
-        } else if (data == "0") {
-            return "未归还"
-        } else {
-            return data;
-        }
-    }
-
-    $scope.dtColumns = [
-        DTColumnBuilder.newColumn('busuuid').withTitle('单据编号').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
-            'sDefaultContent', '').withOption("width", '30'),
-        DTColumnBuilder.newColumn('model').withTitle('规格型号').withOption(
-            'sDefaultContent', '').withOption('width', '50'),
-        DTColumnBuilder.newColumn('recyclestr').withTitle('资产状态').withOption(
-            'sDefaultContent', '').withOption('width', '30').renderWith(renderZcRecycle),
-        DTColumnBuilder.newColumn('sn').withTitle('序列').withOption(
-            'sDefaultContent', '').withOption('width', '50'),
-        DTColumnBuilder.newColumn('lrusername').withTitle('借用人').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('lruserorginfo').withTitle('借用人所属组织').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('busdatestr').withTitle('借用时间').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('returndatestr').withTitle('预计归还时间').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('rreturndatestr').withTitle('实际归还时间').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('isreturn').withTitle('是否归还').withOption(
-            'sDefaultContent', '').renderWith(renderZcReturn),
-        DTColumnBuilder.newColumn('returnuuid').withTitle('归还单据号').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
-            'sDefaultContent', '')]
-
-    function flush() {
-        $http.post($rootScope.project + "/api/zc/resLoanreturn/ext/selectByUuid.do",
-            item).success(function (res) {
-            if (res.success) {
-                $scope.dtOptions.aaData = res.data;
-            } else {
-                notify({
-                    message: res.message
-                });
-            }
-        })
-    }
-
-    flush();
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-}
 
 function ghSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                    $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
@@ -296,13 +186,7 @@ function loanreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         return acthtml;
     }
 
-    function renderprocess(data, type, full) {
-        if (angular.isDefined(data) && data.length() > 0) {
-            return "申请详情"
-        } else {
-            return "无审批"
-        }
-    }
+
 
     function renderBusStatus(data, type, full) {
         if (data == "JY") {
@@ -324,12 +208,12 @@ function loanreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', '').renderWith(renderAction),
         DTColumnBuilder.newColumn('busuuid').withTitle('单据编号').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('name').withTitle('单据名称').withOption(
+            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
-            'sDefaultContent', '').renderWith(renderCGStatus),
+            'sDefaultContent', '').renderWith(renderZCSPStatus),
         DTColumnBuilder.newColumn('busstatus').withTitle('业务状态').withOption(
             'sDefaultContent', '').renderWith(renderBusStatus),
-        DTColumnBuilder.newColumn('pinst').withTitle('流程详情').withOption(
-            'sDefaultContent', '').renderWith(renderprocess),
         DTColumnBuilder.newColumn('lrusername').withTitle('借用人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('lruserorginfo').withTitle('借用人所属组织').withOption(
@@ -358,7 +242,7 @@ function loanreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         tablehide: false,
         tools: [
             {
-                id: "btn",
+                id: "btn1",
                 label: "",
                 type: "btn",
                 show: true,
@@ -366,7 +250,7 @@ function loanreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
                 template: ' <button ng-click="query()" class="btn btn-sm btn-primary" type="submit">查询</button>'
             },
             {
-                id: "btn3",
+                id: "btn2",
                 label: "",
                 type: "btn",
                 show: true,
@@ -380,6 +264,13 @@ function loanreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
                 show: true,
                 priv: "insert",
                 template: ' <button ng-click="gh()" class="btn btn-sm btn-primary" type="submit">归还</button>'
+            }, {
+                id: "btn4",
+                label: "",
+                type: "btn",
+                show: true,
+                priv: "insert",
+                template: ' <button ng-click="approval()" class="btn btn-sm btn-primary" type="submit">送审</button>'
             }]
     }
     $scope.meta = meta;
@@ -420,6 +311,11 @@ function loanreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
 
     $scope.detail = function (uuid, status, type) {
         meta.uuid = uuid;
+        var ps = {}
+        ps.busid = uuid;
+        ps.status = status;
+        ps.type = type;
+        ps.flowpagetype = "lookup";
         var modalInstance = $uibModal.open({
             backdrop: true,
             templateUrl: 'views/cmdb/modal_jyghlist.html',
@@ -427,7 +323,7 @@ function loanreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             size: 'blg',
             resolve: {
                 meta: function () {
-                    return meta;
+                    return ps;
                 }
             }
         });
@@ -483,5 +379,39 @@ function loanreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
         }
     }
     flush();
+
+
+    $scope.approval = function () {
+        var item = getSelectRow();
+        if (angular.isDefined(item)) {
+            console.log(item);
+            item.ptype = item.busstatus;
+            if (item.status != "apply") {
+                notify({
+                    message: "该状态不允许送审"
+                });
+                return;
+            }
+            var modalInstance = $uibModal.open({
+                backdrop: true,
+                templateUrl: 'views/cmdb/flow/modal_chosenFlowTreeView.html',
+                controller: chosenFlowTreeCtl,
+                size: 'blg',
+                resolve: {
+                    meta: function () {
+                        return item;
+                    }
+                }
+            });
+            modalInstance.result.then(function (result) {
+                if (result == "OK") {
+                    flush();
+                }
+            }, function (reason) {
+            });
+        }
+    }
 };
+app.register.controller('flowapprovalCommonCtl', flowapprovalCommonCtl);
+app.register.controller('flowsuggestCommonCtl', flowsuggestCommonCtl);
 app.register.controller('loanreturnCtl', loanreturnCtl);

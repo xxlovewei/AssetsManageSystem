@@ -157,18 +157,29 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
                     } else if (ptype == "TK") {
                         flowhtml = 'views/cmdb/modal_lytklist.html';
                         flowctl = zctklistCtl;
+                    } else if (ptype == "JY") {
+                        flowhtml = 'views/cmdb/modal_jyghlist.html';
+                        flowctl = zcjyghlistCtl;
+                    } else {
+                        ptype = "";
                     }
-                    var modalInstance = $uibModal.open({
-                        backdrop: true,
-                        templateUrl: flowhtml,
-                        controller: flowctl,
-                        size: 'blg',
-                        resolve: {
-                            meta: function () {
-                                return meta;
+                    if (angular.isDefined(ptype) && ptype != "") {
+                        var modalInstance = $uibModal.open({
+                            backdrop: true,
+                            templateUrl: flowhtml,
+                            controller: flowctl,
+                            size: 'blg',
+                            resolve: {
+                                meta: function () {
+                                    return meta;
+                                }
                             }
-                        }
-                    });
+                        });
+                    } else {
+                        notify({
+                            message: "未配置流程页"
+                        });
+                    }
                 })
         } else {
         }

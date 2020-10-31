@@ -38,35 +38,35 @@ public class ZcReportController extends BaseController {
     @Transactional
     public R dashboard(String search) {
 
-        String sql = "select\n" +
-                "  (select count(1) from sys_process_data where dr='0' and bustype='LY' and pstatus='running') lywaitcnt,\n" +
-                "  (select count(1) from sys_process_data where dr='0' and bustype='JY' and pstatus='running') jywaitcnt,\n" +
-                "  (select count(1) from sys_process_data where dr='0' and bustype='DB' and pstatus='running') dbwaitcnt,\n" +
-                "  (select count(1) from res where dr='0' and wbout_date<curdate()) wboutcnt,\n" +
-                "  (select count(1) from res_repair where dr='0' and fstatus='wait') bxcnt,\n" +
-                "  (select count(1) from res where dr='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "') zccnt,\n" +
-                "  (select sum(net_worth) from res where dr='0' and recycle<>'scrap' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "') zcnetworth\n";
+        String sql = "select   " +
+                "  (select count(1) from sys_process_data where dr='0' and bustype='LY' and pstatus='running') lywaitcnt,   " +
+                "  (select count(1) from sys_process_data where dr='0' and bustype='JY' and pstatus='running') jywaitcnt,   " +
+                "  (select count(1) from sys_process_data where dr='0' and bustype='DB' and pstatus='running') dbwaitcnt,   " +
+                "  (select count(1) from res where dr='0' and wbout_date<curdate()) wboutcnt,   " +
+                "  (select count(1) from res_repair where dr='0' and fstatus='wait') bxcnt,   " +
+                "  (select count(1) from res where dr='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "') zccnt,   " +
+                "  (select sum(net_worth) from res where dr='0' and recycle<>'scrap' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "') zcnetworth   ";
 
         JSONObject res = ConvertUtil.OtherJSONObjectToFastJSONObject(db.uniqueRecord(sql).toJsonObject());
         //资产状态
-        String sql3 = "select\n" +
-                "  tab.*,\n" +
-                "  case when name2 is null\n" +
-                "    then '未知'\n" +
-                "  else name2 end name\n" +
-                "from (\n" +
-                "       select\n" +
-                "         t.*,\n" +
-                "         (select name\n" +
-                "          from sys_dict_item\n" +
-                "          where dict_item_id = t.recycle) name2\n" +
-                "       from (\n" +
-                "              select\n" +
-                "                recycle,\n" +
-                "                count(1) cnt\n" +
-                "              from res \n" +
-                "              where dr = '0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "'\n" +
-                "              group by recycle) t  order by 2 desc\n" +
+        String sql3 = "select   " +
+                "  tab.*,   " +
+                "  case when name2 is null   " +
+                "    then '未知'   " +
+                "  else name2 end name   " +
+                "from (   " +
+                "       select   " +
+                "         t.*,   " +
+                "         (select name   " +
+                "          from sys_dict_item   " +
+                "          where dict_item_id = t.recycle) name2   " +
+                "       from (   " +
+                "              select   " +
+                "                recycle,   " +
+                "                count(1) cnt   " +
+                "              from res    " +
+                "              where dr = '0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "'   " +
+                "              group by recycle) t  order by 2 desc   " +
                 "     ) tab";
         RcdSet s3 = db.query(sql3);
         JSONArray meta_arr = new JSONArray();
@@ -87,23 +87,23 @@ public class ZcReportController extends BaseController {
         res.put("chart_data", data_arr);
 
         //部门
-        String sql4 = "select\n" +
-                "  tab.*,\n" +
-                "  case when name2 is null\n" +
-                "    then '未设置'\n" +
-                "  else name2 end name\n" +
-                "from (\n" +
-                "       select\n" +
-                "         t.*,\n" +
-                "         (select node_name\n" +
-                "          from hrm_org_part\n" +
-                "          where node_id = t.part_id) name2\n" +
-                "       from (\n" +
-                "              select\n" +
-                "                part_id,\n" +
-                "                count(1) cnt\n" +
-                "              from res\n" +
-                "              where dr = '0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "'\n" +
+        String sql4 = "select   " +
+                "  tab.*,   " +
+                "  case when name2 is null   " +
+                "    then '未设置'   " +
+                "  else name2 end name   " +
+                "from (   " +
+                "       select   " +
+                "         t.*,   " +
+                "         (select node_name   " +
+                "          from hrm_org_part   " +
+                "          where node_id = t.part_id) name2   " +
+                "       from (   " +
+                "              select   " +
+                "                part_id,   " +
+                "                count(1) cnt   " +
+                "              from res   " +
+                "              where dr = '0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "'   " +
                 "              group by part_id) t) tab order by 2 desc";
         RcdSet s4 = db.query(sql4);
         JSONArray partmeta_arr = new JSONArray();
@@ -125,23 +125,23 @@ public class ZcReportController extends BaseController {
 
 
         //资产分类
-        String sql5 = "select\n" +
-                "  tab.*,\n" +
-                "  case when name2 is null\n" +
-                "    then '未设置'\n" +
-                "  else name2 end name\n" +
-                "from (\n" +
-                "       select\n" +
-                "         t.*,\n" +
-                "         (select  name\n" +
-                "          from ct_category\n" +
-                "          where id = t.class_id) name2\n" +
-                "       from (\n" +
-                "              select\n" +
-                "                class_id,\n" +
-                "                count(1) cnt\n" +
-                "              from res\n" +
-                "              where dr = '0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "'\n" +
+        String sql5 = "select   " +
+                "  tab.*,   " +
+                "  case when name2 is null   " +
+                "    then '未设置'   " +
+                "  else name2 end name   " +
+                "from (   " +
+                "       select   " +
+                "         t.*,   " +
+                "         (select  name   " +
+                "          from ct_category   " +
+                "          where id = t.class_id) name2   " +
+                "       from (   " +
+                "              select   " +
+                "                class_id,   " +
+                "                count(1) cnt   " +
+                "              from res   " +
+                "              where dr = '0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "'   " +
                 "              group by class_id) t) tab order by 2 desc";
         RcdSet s5 = db.query(sql5);
         JSONArray catmeta_arr = new JSONArray();
@@ -188,21 +188,21 @@ public class ZcReportController extends BaseController {
     @RequestMapping(value = "/queryZcTotalAssets.do")
     @Transactional
     public R queryZcTotalAssets() {
-        String sql = "\n" +
-                "select\n" +
-                "  (select route_name from ct_category where dr='0' and id=t.class_id) classname,\n" +
-                "   t.*\n" +
-                "from (\n" +
-                "  select\n" +
-                "\n" +
-                "    class_id,\n" +
-                "    sum(zc_cnt)                           tcnt,\n" +
-                "    sum(buy_price * zc_cnt)               tbuyprice,\n" +
-                "    sum(net_worth * zc_cnt)               tnetworth,\n" +
-                "    sum(accumulateddepreciation * zc_cnt) taccumulateddepreciation\n" +
-                "  from res\n" +
-                "  where dr = '0' and recycle<>'scrap' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "'\n" +
-                "  group by class_id\n" +
+        String sql = "   " +
+                "select   " +
+                "  (select route_name from ct_category where dr='0' and id=t.class_id) classname,   " +
+                "   t.*   " +
+                "from (   " +
+                "  select   " +
+                "   " +
+                "    class_id,   " +
+                "    sum(zc_cnt)                           tcnt,   " +
+                "    sum(buy_price * zc_cnt)               tbuyprice,   " +
+                "    sum(net_worth * zc_cnt)               tnetworth,   " +
+                "    sum(accumulateddepreciation * zc_cnt) taccumulateddepreciation   " +
+                "  from res   " +
+                "  where dr = '0' and recycle<>'scrap' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "'   " +
+                "  group by class_id   " +
                 ")t order by 1";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
@@ -283,7 +283,7 @@ public class ZcReportController extends BaseController {
     @RequestMapping(value = "/queryTkZcExpire.do")
     public R queryTkZcExpire(String day) {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        String sql = "select " + ZcCommonService.resSqlbody + "b.busdate,b.crusername,b.processuserid,b.processusername,b.returndate,b.isreturn,t.* from res t ,res_collectionreturn_item b where t.recycle='" + ZcRecycleEnum.RECYCLE_INUSE.getValue() + "' and t.dr='0'\n" +
+        String sql = "select " + ZcCommonService.resSqlbody + "b.busdate,b.crusername,b.processuserid,b.processusername,b.returndate,b.isreturn,t.* from res t ,res_collectionreturn_item b where t.recycle='" + ZcRecycleEnum.RECYCLE_INUSE.getValue() + "' and t.dr='0'   " +
                 " and b.isreturn='0' and t.id=b.resid and b.dr='0' " +
                 " and returndate<= date_add(curdate(), INTERVAL " + day + " DAY)" +
                 " order by returndate ";
@@ -297,7 +297,7 @@ public class ZcReportController extends BaseController {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
         String sql = "select " + ZcCommonService.resSqlbody + "b.busdate, b.lrusername,b.returndate,b.isreturn," +
                 " (select route_name from hrm_org_employee aa,hrm_org_part bb where aa.node_id=bb.node_id and empl_id=(select empl_id from sys_user_info where user_id=b.lruserid) limit 1 ) lruserorginfo," +
-                " t.* from res t ,res_loanreturn_item b where b.isreturn='0' and t.recycle='" + ZcRecycleEnum.RECYCLE_BORROW.getValue() + "' and t.dr='0'\n" +
+                " t.* from res t ,res_loanreturn_item b where b.isreturn='0' and t.recycle='" + ZcRecycleEnum.RECYCLE_BORROW.getValue() + "' and t.dr='0'   " +
                 " and t.id=b.resid and b.dr='0' " +
                 " and b.returndate<= date_add(curdate(), INTERVAL " + day + " DAY)" +
                 " order by b.returndate ";

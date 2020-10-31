@@ -85,11 +85,11 @@ public class ResCMaintenanceExtController extends BaseController {
     @Acl(info = "查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
-        String sql = "select t.*,\n" +
+        String sql = "select t.*,  " +
                 "(select name from sys_user_info where user_id=t.create_by) createusername," +
                 "(select name from sys_dict_item where dr='0' and dict_item_id=t.twb)twbstr," +
-                "date_format(twboutdate,'%Y-%m-%d') twboutdatestr,\n" +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=t.twbsupplier) twbsupplierstr\n" +
+                "date_format(twboutdate,'%Y-%m-%d') twboutdatestr,  " +
+                "(select name from sys_dict_item where dr='0' and dict_item_id=t.twbsupplier) twbsupplierstr  " +
                 "from res_c_maintenance t where dr='0' order by create_time desc";
         RcdSet rs = db.query(sql);
         return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());

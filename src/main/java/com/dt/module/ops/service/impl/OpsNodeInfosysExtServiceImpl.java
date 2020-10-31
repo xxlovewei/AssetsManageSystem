@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class OpsNodeInfosysExtServiceImpl extends BaseService {
 
-    public static String sql = "select\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.type and dict_id = 'sysinfotype' ) typestr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.opsmethod and dict_id = 'sysinfoops' )   opsmethodstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.devmethod and dict_id = 'sysinfodev' ) devmethodstr,\n"
-            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.grade and dict_id = 'sysinfograde' ) gradestr,\n"
+    public static String sql = "select  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.type and dict_id = 'sysinfotype' ) typestr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.opsmethod and dict_id = 'sysinfoops' )   opsmethodstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.devmethod and dict_id = 'sysinfodev' ) devmethodstr,  "
+            + "(select name from sys_dict_item where dr='0' and dict_item_id=t.grade and dict_id = 'sysinfograde' ) gradestr,  "
             + "t.* from ops_node_infosys t where dr=0 ";
 
 

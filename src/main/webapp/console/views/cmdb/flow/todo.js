@@ -133,25 +133,37 @@ function myProcessTodoCtl($window, $state, DTOptionsBuilder, DTColumnBuilder, $c
                     } else if (ptype == "TK") {
                         flowhtml = 'views/cmdb/modal_lytklist.html';
                         flowctl = zctklistCtl;
+                    } else if (ptype == "JY") {
+                        flowhtml = 'views/cmdb/modal_jyghlist.html';
+                        flowctl = zcjyghlistCtl;
+                    } else {
+                        ptype = "";
                     }
-                    var modalInstance = $uibModal.open({
-                        backdrop: true,
-                        templateUrl: flowhtml,
-                        controller: flowctl,
-                        size: 'blg',
-                        resolve: {
-                            meta: function () {
-                                return meta;
+                    if (angular.isDefined(ptype) && ptype != "") {
+                        var modalInstance = $uibModal.open({
+                            backdrop: true,
+                            templateUrl: flowhtml,
+                            controller: flowctl,
+                            size: 'blg',
+                            resolve: {
+                                meta: function () {
+                                    return meta;
+                                }
                             }
-                        }
-                    });
-                    modalInstance.result.then(function (result) {
-                        if (result == "OK") {
-                            flush();
-                        }
-                    }, function (reason) {
-                    });
+                        });
+                        modalInstance.result.then(function (result) {
+                            if (result == "OK") {
+                                flush();
+                            }
+                        }, function (reason) {
+                        });
+                    } else {
+                        notify({
+                            message: "未配置流程页"
+                        });
+                    }
                 })
+
         } else {
         }
     }
