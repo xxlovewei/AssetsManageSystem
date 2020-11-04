@@ -75,6 +75,17 @@ public class ResRepair extends BaseModel<ResRepair> {
     @TableField("fmoney")
     private String fmoney;
 
+    @TableField("pinst")
+    private String pinst;
+
+    public String getPinst() {
+        return pinst;
+    }
+
+    public void setPinst(String pinst) {
+        this.pinst = pinst;
+    }
+
 
     public String getId() {
         return id;

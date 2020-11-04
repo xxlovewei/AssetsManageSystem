@@ -46,7 +46,12 @@ truncate table res_collectionreturn_item;
 truncate table res_loanreturn;
 truncate table res_loanreturn_item;
 truncate table doc_mgr;
+truncate table ct_content;
+truncate table ct_store_sql;
+truncate table ct_uri;
 truncate table contract;
+truncate table contract_entity;
+truncate table contract_entity_contacts;
 
 #clear ops table
 truncate table ops_node;

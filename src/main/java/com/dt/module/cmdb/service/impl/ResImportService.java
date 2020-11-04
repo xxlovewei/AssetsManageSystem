@@ -17,6 +17,7 @@ import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.zc.service.impl.ZcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -35,6 +36,7 @@ import java.util.List;
 public class ResImportService extends BaseService {
 
     @Autowired
+    @Lazy
     ZcService zcService;
 
     public static void main(String[] args) {

@@ -21,6 +21,7 @@
         <result column="flevel" property="flevel" />
         <result column="frepairtype" property="frepairtype" />
         <result column="fmoney" property="fmoney" />
+        <result column="pinst" property="pinst"/>
     </resultMap>
 
 </mapper>

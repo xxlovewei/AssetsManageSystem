@@ -47,6 +47,16 @@ public class ResScrape extends BaseModel<ResScrape> {
     @TableField("cnt")
     private BigDecimal cnt;
 
+    @TableField("pinst")
+    private String pinst;
+
+    public String getPinst() {
+        return pinst;
+    }
+
+    public void setPinst(String pinst) {
+        this.pinst = pinst;
+    }
 
     public String getId() {
         return id;

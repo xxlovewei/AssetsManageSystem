@@ -3,7 +3,6 @@
 function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                  $log, notify, $scope, $http, $rootScope, $uibModal, $window, $state) {
     var pbtns = $rootScope.curMemuBtns;
-    console.log('11111111', $rootScope);
     var gclassroot = '7';
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers')
@@ -81,16 +80,10 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     }));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    $scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
-        'sDefaultContent', '').withOption("width", '30').renderWith(function (data, type, full) {
-        if (data == "success") {
-            return "完成"
-        } else {
-            return data;
-        }
-    }));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('title').withTitle('标题').withOption(
         'sDefaultContent', '').withOption("width", '30'));
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
+        'sDefaultContent', '').withOption("width", '30').renderWith(renderZCSPStatus));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('ct').withTitle('报废原因').withOption(
         'sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
@@ -144,14 +137,14 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 priv: "insert",
                 template: ' <button ng-click="save(0)" class="btn btn-sm btn-primary" type="submit">报废</button>'
             },
-            {
-                id: "btn3",
-                label: "",
-                type: "btn",
-                show: false,
-                priv: "update",
-                template: ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新</button>'
-            },
+            // {
+            //     id: "btn3",
+            //     label: "",
+            //     type: "btn",
+            //     show: false,
+            //     priv: "update",
+            //     template: ' <button ng-click="save(1)" class="btn btn-sm btn-primary" type="submit">更新</button>'
+            // },
             {
                 id: "btn4",
                 label: "",
@@ -167,15 +160,23 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
                 show: false,
                 priv: "remove",
                 template: ' <button ng-click="del()" class="btn btn-sm btn-primary" type="submit">删除</button>'
-            },
-            {
+            }, {
                 id: "btn6",
                 label: "",
                 type: "btn",
-                show: false,
-                priv: "exportfile",
-                template: ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">全部导出(Excel)</button>'
-            }],
+                show: true,
+                priv: "remove",
+                template: ' <button ng-click="approval()" class="btn btn-sm btn-primary" type="submit">送审</button>'
+            },
+            // {
+            //     id: "btn6",
+            //     label: "",
+            //     type: "btn",
+            //     show: false,
+            //     priv: "exportfile",
+            //     template: ' <button ng-click="filedown()" class="btn btn-sm btn-primary" type="submit">全部导出(Excel)</button>'
+            // }
+        ],
         tools: [
             {
                 id: "input",
@@ -207,7 +208,6 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     function callback(json) {
         console.log(json)
     }
-
     function getSelectRows() {
         var data = $scope.dtInstance.DataTable.rows({
             selected: true
@@ -231,7 +231,6 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             return angular.toJson(res);
         }
     }
-
     $scope.del = function () {
         var selrows = getSelectRows();
         if (angular.isDefined(selrows)) {
@@ -302,5 +301,34 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         });
     }
     flush();
+    $scope.approval = function () {
+        var item = getSelectRow();
+        if (angular.isDefined(item)) {
+            item.ptype = item.bustype;
+            if (item.status != "apply") {
+                notify({
+                    message: "该状态不允许送审"
+                });
+                return;
+            }
+            var modalInstance = $uibModal.open({
+                backdrop: true,
+                templateUrl: 'views/cmdb/flow/modal_chosenFlowTreeView.html',
+                controller: chosenFlowTreeCtl,
+                size: 'blg',
+                resolve: {
+                    meta: function () {
+                        return item;
+                    }
+                }
+            });
+            modalInstance.result.then(function (result) {
+                if (result == "OK") {
+                    flush();
+                }
+            }, function (reason) {
+            });
+        }
+    }
 };
 app.register.controller('zcbfCtl', zcbfCtl);

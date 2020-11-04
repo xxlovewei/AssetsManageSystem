@@ -20,6 +20,7 @@
         <result column="busidate" property="busidate" />
         <result column="mark" property="mark" />
         <result column="cnt" property="cnt" />
+        <result column="pinst" property="pinst"/>
     </resultMap>
 
 </mapper>

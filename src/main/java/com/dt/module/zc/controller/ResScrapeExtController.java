@@ -51,6 +51,9 @@ public class ResScrapeExtController extends BaseController {
     IResScrapeItemService ResScrapeItemServiceImpl;
 
     @Autowired
+    ResScrapeService resScrapeService;
+
+    @Autowired
     ZcService zcService;
 
     @Autowired
@@ -66,7 +69,6 @@ public class ResScrapeExtController extends BaseController {
     @Acl(info = "根据Id查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectById.do")
     public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-
         ResScrape in = ResScrapeServiceImpl.getById(id);
         String uuid = in.getUuid();
         JSONObject res = JSONObject.parseObject(JSON.toJSONString(in, SerializerFeature.WriteDateUseDateFormat));
@@ -80,39 +82,7 @@ public class ResScrapeExtController extends BaseController {
     @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
     @RequestMapping(value = "/insert.do")
     public R insertOrUpdate(ResScrape entity, String busitimestr, String items) throws ParseException {
-
-        ArrayList<ResScrapeItem> cols = new ArrayList<ResScrapeItem>();
-        String uuid = zcService.createUuid(ZcCommonService.UUID_BF);
-        entity.setUuid(uuid);
-        entity.setStatus(ResScrapeService.STATUS_SUCCESS);
-        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(busitimestr);
-        entity.setBusidate(date);
-        if (ToolUtil.isEmpty(entity.getProcessuserid())) {
-            entity.setProcessuserid(this.getUserId());
-        }
-        if (ToolUtil.isEmpty(entity.getProcessusername())) {
-            entity.setProcessusername(this.getUserName());
-        }
-        JSONArray itemsarr = JSONArray.parseArray(items);
-        for (int i = 0; i < itemsarr.size(); i++) {
-            UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-            ups.set("recycle", ZcRecycleEnum.RECYCLE_SCRAP.getValue());
-            ups.set("isscrap", "1");
-            ups.set("uuidbf", uuid);
-            ups.set("scrapdate", busitimestr);
-            ups.eq("id", itemsarr.getJSONObject(i).getString("id"));
-            ResServiceImpl.update(ups);
-            ResScrapeItem e = new ResScrapeItem();
-            e.setUuid(uuid);
-            e.setResid(itemsarr.getJSONObject(i).getString("id"));
-            e.setPrestatus(itemsarr.getJSONObject(i).getString("status"));
-            cols.add(e);
-        }
-        entity.setCnt(new BigDecimal(cols.size()));
-        ResScrapeItemServiceImpl.saveBatch(cols);
-        ResScrapeServiceImpl.save(entity);
-
-        zcChangeService.zcSureChange(uuid, ZcCommonService.ZC_BUS_TYPE_BF);
+        resScrapeService.createBf(entity, busitimestr, items);
         return R.SUCCESS_OPER();
     }
 

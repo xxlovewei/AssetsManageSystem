@@ -381,36 +381,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    }).state('myprocess.myjy', {
-        url: "/myprocess_myjy",
-        data: {pageTitle: '我的借用归还', actiontype: "JY", datatype: "self"},
-        templateUrl: "views/cmdb/zcaction.html?v=" + version,
-        resolve: {
-            loadPlugin: function ($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    serie: true,
-                    files: ['vendor/basket/basket.0.5.2.full.min.js', 'plugin/form/k-form-design.css']
-                }, {
-                    serie: true,
-                    files: ['views/cmdb/zcaction.js?v=' + version]
-                }]);
-            }
-        }
-    }).state('myprocess.myly', {
-        url: "/myprocess_myly",
-        data: {pageTitle: '我的领用退库', actiontype: "LY", datatype: "self"},
-        templateUrl: "views/cmdb/zcaction.html?v=" + version,
-        resolve: {
-            loadPlugin: function ($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    serie: true,
-                    files: ['vendor/basket/basket.0.5.2.full.min.js', 'plugin/form/k-form-design.css']
-                }, {
-                    serie: true,
-                    files: ['views/cmdb/zcaction.js?v=' + version]
-                }]);
-            }
-        }
     }).state('myprocess.mybx', {
         url: "/myprocess_mybx",
         data: {pageTitle: '我的报修', datatype: "self"},
@@ -625,22 +595,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         abstract: true,
         url: "/zcchange",
         templateUrl: "views/common/content.html?v=" + version
-    }).state('zcchange.lygh', {
-        url: "zcchange_lygh",
-        data: {pageTitle: '资产领用归还', actiontype: "LY"},
-        templateUrl: "views/cmdb/zcaction.html?v=" + version,
-        resolve: {
-            loadPlugin: function ($ocLazyLoad) {
-                return $ocLazyLoad.load([
-                    {
-                        serie: true,
-                        files: ['vendor/basket/basket.0.5.2.full.min.js', 'plugin/form/k-form-design.css']
-                    }, {
-                        serie: true,
-                        files: ['views/cmdb/zcaction.js?v=' + version]
-                    }]);
-            }
-        }
     }).state('zcchange.collectionreturn', {
         url: "zcchange_collectionreturn",
         data: {pageTitle: '资产领用&退库'},
@@ -666,33 +620,17 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
-        .state('zcchange.jygh', {
-            url: "/zcchange_jygh",
-            data: {pageTitle: '资产借用归还', actiontype: "JY", datatype: "full"},
-            templateUrl: "views/cmdb/zcaction.html?v=" + version,
+        .state('zcchange.zczy', {
+            url: "/zcchange_zczy",
+            data: {pageTitle: '资产调拨'},
+            templateUrl: "views/cmdb/zcallocation.html?v=" + version,
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {
                     return $ocLazyLoad.load([
                         {
                             serie: true,
-                            files: ['vendor/basket/basket.0.5.2.full.min.js', 'plugin/form/k-form-design.css']
-                        }, {
-                        serie: true,
-                        files: ['views/cmdb/zcaction.js?v=' + version]
-                    }]);
-            }
-        }
-    }).state('zcchange.zczy', {
-        url: "/zcchange_zczy",
-        data: {pageTitle: '资产调拨'},
-        templateUrl: "views/cmdb/zcallocation.html?v=" + version,
-        resolve: {
-            loadPlugin: function ($ocLazyLoad) {
-                return $ocLazyLoad.load([
-                    {
-                        serie: true,
-                        files: ['views/cmdb/zcallocation.js?v=' + version]
-                    }]);
+                            files: ['views/cmdb/zcallocation.js?v=' + version]
+                        }]);
             }
         }
     }).state('zcchange.zcbf', {
@@ -1020,7 +958,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
 }
 
 function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
-//selectype:withoutselect,withselect
+    //selectype:withoutselect,withselect
     dtColumns = [];
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
     dtColumns = [];
@@ -1052,7 +990,6 @@ function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('ctupcnt').withTitle('安全库存上限').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-
     dtColumns.push(DTColumnBuilder.newColumn('batchno').withTitle('批次号').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
@@ -1091,7 +1028,6 @@ function renderZcRecycle(data, type, full) {
     } else {
         return data;
     }
-    console.log(full);
 }
 
 function renderZcLoc(data, type, full) {
@@ -1268,11 +1204,6 @@ function zcBaseColsCreate(DTColumnBuilder, selectype, colctl) {
         dtColumns.push(DTColumnBuilder.newColumn('lastinventorytimestr').withTitle('最近盘点')
             .withOption('sDefaultContent', ''));
     }
-    // if (angular.isDefined(colctlobj.classrootname) && colctlobj.classrootname == "N") {
-    // } else {
-    //     dtColumns.push(DTColumnBuilder.newColumn('classrootname').withTitle('类目').withOption(
-    //         'sDefaultContent', '').withOption("width", '30'));
-    // }
     return dtColumns;
 }
 
@@ -1280,6 +1211,39 @@ function renderName(data, type, full) {
     var html = full.model;
     return html;
 }
+
+function renderZCSPStatus(data, type, full) {
+    var html = data;
+    if (angular.isDefined(data)) {
+        if (data == "submitforapproval" || data == "apply") {
+            html = "<span style='color:#33FFFF; font-weight:bold'>待送审</span>";
+        } else if (data == "inapproval") {
+            html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
+        } else if (data == "running") {
+            html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
+        } else if (data == "success") {
+            html = "<span style='color:green; font-weight:bold'>审批成功</span>";
+        } else if (data == "failed") {
+            html = "<span style='color:red;font-weight:bold'>审批失败</span>";
+        } else if (data == "cancel") {
+            html = "<span style='color:red;font-weight:bold'>取消</span>";
+        } else if (data == "cancel") {
+            html = "<span style='color:red;font-weight:bold'>审批取消</span>"
+        } else if (data == "finish") {
+            html = "<span style='color:green;font-weight:bold'>流程结束</span>"
+        } else if (data == "finish_na") {
+            html = "<span style='color:green;font-weight:bold'>办理完成(未审批)</span>"
+        } else if (data == "rollback") {
+            html = "<span style='color:red;font-weight:bold'>审批退回</span>";
+        } else if (data == "finish") {
+            html = "<span style='color:red;font-weight:bold'>流程结束</span>";
+        } else {
+            html = data;
+        }
+    }
+    return html;
+}
+
 
 function renderJg(data, type, full) {
     var html = "";
@@ -1312,23 +1276,6 @@ function renderWb(data, type, full) {
     }
 }
 
-// function renderZcBLStatus(data, type, full) {
-//     if (data == "apply") {
-//         return "待送审";
-//     } else if (data == "inapproval") {
-//         return "审批中"
-//     } else if (data == "success") {
-//         return "审批成功"
-//     } else if (data == "failed") {
-//         return "审批失败"
-//     } else if (data == "finish_na") {
-//         return "办理完成(无审批)"
-//     } else if (data == "cancel") {
-//         return "取消"
-//     } else {
-//         return data;
-//     }
-// }
 
 function renderUfloTaskStatus(data, type, full) {
     if (data == "Created") {
@@ -1760,7 +1707,6 @@ function flowsuggestCommonCtl($rootScope, $scope, $http, notify, $window) {
         })
     }
     $scope.flowreview = function () {
-        console.log(1)
         var url = $rootScope.project + "uflo/diagram?processInstanceId=" + processinstanceid;
         var win = $window.open(url, "_bank", "fullscreen:no,menubar:no,status:no,location:no,menubar:no,height=500, width=800")
     }
@@ -1830,245 +1776,6 @@ function modalreviewProcessCtl(meta, $rootScope, $window, $scope, $http, $timeou
     };
 }
 
-function renderZCSPStatus(data, type, full) {
-    var html = data;
-    if (angular.isDefined(data)) {
-        if (data == "submitforapproval" || data == "apply") {
-            html = "<span style='color:#33FFFF; font-weight:bold'>待送审</span>";
-        } else if (data == "inapproval") {
-            html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
-        } else if (data == "running") {
-            html = "<span style='color:#00F; font-weight:bold'>审批中</span>";
-        } else if (data == "success") {
-            html = "<span style='color:green; font-weight:bold'>审批成功</span>";
-        } else if (data == "failed") {
-            html = "<span style='color:red;font-weight:bold'>审批失败</span>";
-        } else if (data == "cancel") {
-            html = "<span style='color:red;font-weight:bold'>取消</span>";
-        } else if (data == "cancel") {
-            html = "<span style='color:red;font-weight:bold'>审批取消</span>"
-        } else if (data == "finish") {
-            html = "<span style='color:green;font-weight:bold'>流程结束</span>"
-        } else if (data == "finish_na") {
-            html = "<span style='color:green;font-weight:bold'>办理完成(未审批)</span>"
-        } else if (data == "rollback") {
-            html = "<span style='color:red;font-weight:bold'>审批退回</span>";
-        } else if (data == "finish") {
-            html = "<span style='color:red;font-weight:bold'>流程结束</span>";
-        } else {
-            html = data;
-        }
-    }
-    return html;
-}
-
-//
-// function modalzcActionDtlCtl($timeout, DTOptionsBuilder, DTColumnBuilder, $compile,
-//                              $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta, pagetype, task,
-//                              $uibModalInstance) {
-//     console.log(meta, pagetype, task);
-//     //pagetype:sp,query
-//     //审批流程，已审批意见，审批意见,默认隐藏
-//     $scope.hidectl = {"pagespbtnhide": true, "flowchart": true, "flowsuggestlist": true, "flowsuggest": true};
-//     $scope.cancel = function () {
-//         $uibModalInstance.dismiss('cancel');
-//     };
-//     $scope.url = "";
-//     //审批已经
-//     $scope.spsugguest = [];
-//     $scope.spsuggest = "";
-//     //页面是否审批类型打开
-//     $scope.pagetype = pagetype;
-//     if ($scope.pagetype == "sp") {
-//         $scope.hidectl.pagespbtnhide = false;
-//     } else {
-//         $scope.hidectl.pagespbtnhide = true;
-//     }
-//
-//     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
-//         .withDOM('frtlip').withPaginationType('simple').withDisplayLength(
-//             50).withOption("ordering", false).withOption("responsive",
-//             false).withOption("searching", false).withOption('scrollY',
-//             300).withOption('scrollX', true).withOption(
-//             'bAutoWidth', true).withOption('scrollCollapse', true)
-//         .withOption('paging', false).withOption('bStateSave', true).withOption('bProcessing', false)
-//         .withOption('bFilter', false).withOption('bInfo', false)
-//         .withOption('serverSide', false).withOption('createdRow', function (row) {
-//             $compile(angular.element(row).contents())($scope);
-//         });
-//     $scope.dtColumns = [];
-//     $scope.dtColumns = zcBaseColsCreate(DTColumnBuilder, 'withoutselect');
-//     $scope.dtOptions.aaData = [];
-//     // 显示审批页面
-//     $http
-//         .post($rootScope.project + "/api/zc/selectBillById.do",
-//             {
-//                 id: meta.id
-//             })
-//         .success(
-//             function (res) {
-//                 if (res.success) {
-//                     $scope.data = res.data;
-//                     $scope.dtOptions.aaData = res.data.items;
-//                     if (res.data.ifsp == "1") {
-//                         //需要审批的单据
-//                         $scope.hidectl.flowchart = false;
-//                         $scope.hidectl.flowsuggestlist = false;
-//                         $scope.hidectl.flowsuggest = false;
-//                     } else {
-//                         $scope.hidectl.pagespbtnhide = true;
-//                     }
-//                     //获取审批
-//                     if (angular.isDefined(res.data.processinstanceid) && res.data.processinstanceid != "") {
-//                         $http
-//                             .post(
-//                                 $rootScope.project
-//                                 + "/api/flow/loadProcessInstanceData.do",
-//                                 {
-//                                     processInstanceId: res.data.processinstanceid
-//                                 })
-//                             .success(
-//                                 function (res) {
-//                                     if (res.success) {
-//                                         $scope.spsugguest = res.data;
-//                                     } else {
-//                                         notify({
-//                                             message: res.message
-//                                         });
-//                                     }
-//                                 })
-//                         //获取审批
-//                         $scope.url = $rootScope.project
-//                             + "uflo/diagram?processInstanceId="
-//                             + res.data.processinstanceid;
-//                     }
-//                     var dynamicData = res.data.formdata;
-//                     let vm;
-//                     $timeout(function () {
-//                         var jd = decodeURI(res.data.formconf);
-//                         if (angular.isDefined(jd) && jd != "undefined" && jd != "") {
-//                             let jsonData = angular.fromJson(jd);
-//                             vm = new Vue({
-//                                 el: '#app',
-//                                 data: {
-//                                     jsonData,
-//                                     dynamicData
-//                                 },
-//                                 mounted() {
-//                                     this.init()
-//                                 },
-//                                 methods: {
-//                                     init() {
-//                                         this.$refs.kfb.setData(angular.fromJson(res.data.formdata));
-//                                     },
-//                                     handleSubmit(p) {
-//                                     },
-//                                     getData() {
-//                                     }
-//                                 }
-//                             })
-//                         }
-//                     }, 1000)
-//                 } else {
-//                     notify({
-//                         message: res.message
-//                     });
-//                 }
-//             })
-//     $scope.cancel = function () {
-//         $uibModalInstance.dismiss('cancel');
-//     };
-//     $scope.agreen = function () {
-//         if ($scope.spsuggest.length == 0) {
-//             $scope.spsuggest = "同意";
-//         }
-//         if ($scope.spsuggest.length > 248) {
-//             notify({
-//                 message: "已超过248,请缩减字数。"
-//             });
-//             return;
-//         }
-//         $http
-//             .post($rootScope.project + "/api/zc/flow/completeTask.do",
-//                 {taskId: task.id, opinion: $scope.spsuggest}).success(function (res) {
-//             if (res.success) {
-//                 $uibModalInstance.close('OK');
-//             } else {
-//                 notify({
-//                     message: res.message
-//                 });
-//             }
-//         })
-//     }
-//     $scope.rollback = function () {
-//         if ($scope.spsuggest.length == 0) {
-//             $scope.spsuggest = "退回";
-//         }
-//         if ($scope.spsuggest.length > 248) {
-//             notify({
-//                 message: "已超过248,请缩减字数。"
-//             });
-//             return;
-//         }
-//         $http
-//             .post($rootScope.project + "/api/zc/flow/rollback.do",
-//                 {taskId: task.id, opinion: $scope.spsuggest}).success(function (res) {
-//             if (res.success) {
-//                 $uibModalInstance.close('OK');
-//             } else {
-//                 notify({
-//                     message: res.message
-//                 });
-//             }
-//         })
-//     }
-//     $scope.refuse = function () {
-//         if ($scope.spsuggest.length == 0) {
-//             $scope.spsuggest = "拒绝";
-//         }
-//         if ($scope.spsuggest.length > 248) {
-//             notify({
-//                 message: "已超过248,请缩减字数。"
-//             });
-//             return;
-//         }
-//         $http
-//             .post($rootScope.project + "/api/zc/flow/refuseTask.do",
-//                 {taskId: task.id, opinion: $scope.spsuggest}).success(function (res) {
-//             if (res.success) {
-//                 $uibModalInstance.close('OK');
-//             } else {
-//                 notify({
-//                     message: res.message
-//                 });
-//             }
-//         })
-//     }
-//     $scope.submit = function () {
-//         if ($scope.spsuggest.length == 0) {
-//             $scope.spsuggest = "重新提交审批";
-//         }
-//         if ($scope.spsuggest.length > 248) {
-//             notify({
-//                 message: "已超过248,请缩减字数。"
-//             });
-//             return;
-//         }
-//         $scope.data.taskId = task.id;
-//         $scope.data.opinion = $scope.spsuggest;
-//         $http
-//             .post($rootScope.project + "/api/cmdb/flow/zc/completeStartTask.do",
-//                 $scope.data).success(function (res) {
-//             if (res.success) {
-//                 $uibModalInstance.close('OK');
-//             } else {
-//                 notify({
-//                     message: res.message
-//                 });
-//             }
-//         })
-//     }
-// }
 
 function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
                          $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
@@ -2076,21 +1783,9 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.item = {};
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withOption(
         'createdRow', function (row) {
-            // Recompiling so we can bind Angular,directive to the
             $compile(angular.element(row).contents())($scope);
         });
     $scope.dtInstance = {}
-
-    function renderAttach(data, type, full) {
-        if (data > 0) {
-            var acthtml = " <button ng-click=\"attachdown('" + full.id
-                + "')\" class=\"btn-white btn btn-xs\">下载(" + data + ")</button>   ";
-            return acthtml;
-        } else {
-            return data;
-        }
-    }
-
     $scope.attachdown = function (faultid) {
         $http.post($rootScope.project + "/api/base/res/queryResFaultById.do", {
             id: faultid
@@ -5567,7 +5262,6 @@ function zcjyghlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModa
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
             'sDefaultContent', '')]
-
     function flush() {
         $http.post($rootScope.project + "/api/zc/resLoanreturn/ext/selectByUuid.do",
             {uuid: meta.busid}).success(function (res) {
@@ -5581,16 +5275,13 @@ function zcjyghlistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModa
             }
         })
     }
-
     flush();
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
     function close() {
         $uibModalInstance.close('OK');
     }
-
     $scope.windowclose = function () {
         $uibModalInstance.close('OK');
     }
