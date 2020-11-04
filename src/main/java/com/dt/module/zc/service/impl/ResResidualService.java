@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-08-04
  */
 @Service
-public class ResResidualExtService extends BaseService {
+public class ResResidualService extends BaseService {
 
 
     public static String ITEMCHECKSTATUS_INIT = "init";

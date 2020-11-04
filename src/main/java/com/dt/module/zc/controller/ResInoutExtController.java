@@ -15,7 +15,7 @@ import com.dt.module.zc.entity.ResInout;
 import com.dt.module.zc.entity.ResInoutItem;
 import com.dt.module.zc.service.IResInoutItemService;
 import com.dt.module.zc.service.IResInoutService;
-import com.dt.module.zc.service.impl.ResInoutExtService;
+import com.dt.module.zc.service.impl.ResInoutService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.zc.service.impl.ZcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class ResInoutExtController extends BaseController {
     IResInoutService ResInoutServiceImpl;
 
     @Autowired
-    ResInoutExtService resInoutExtService;
+    ResInoutService resInoutExtService;
 
     @Autowired
     IResService ResServiceImpl;

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-03-06
  */
 @Service
-public class OpsNodeInfosysExtServiceImpl extends BaseService {
+public class OpsNodeInfosysService extends BaseService {
 
     public static String sql = "select  "
             + "(select name from sys_dict_item where dr='0' and dict_item_id=t.type and dict_id = 'sysinfotype' ) typestr,  "
@@ -25,7 +25,7 @@ public class OpsNodeInfosysExtServiceImpl extends BaseService {
 
 
     public R selecList(String search) {
-        String sql = OpsNodeInfosysExtServiceImpl.sql;
+        String sql = OpsNodeInfosysService.sql;
         if (ToolUtil.isNotEmpty(search)) {
         }
         sql = sql + " order by name";

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-08-01
  */
 @Service
-public class ZbxObjectGroupExtServiceImpl {
+public class ZbxObjectGroupService {
 
 
 }

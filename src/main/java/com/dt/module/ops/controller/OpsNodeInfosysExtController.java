@@ -12,7 +12,7 @@ import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.ops.entity.OpsNodeInfosys;
 import com.dt.module.ops.entity.OpsNodeInfosysEntity;
 import com.dt.module.ops.service.IOpsNodeInfosysService;
-import com.dt.module.ops.service.impl.OpsNodeInfosysExtServiceImpl;
+import com.dt.module.ops.service.impl.OpsNodeInfosysService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +44,7 @@ public class OpsNodeInfosysExtController extends BaseController {
     IOpsNodeInfosysService OpsNodeInfosysServiceImpl;
 
     @Autowired
-    OpsNodeInfosysExtServiceImpl opsNodeInfosysExtServiceImpl;
+    OpsNodeInfosysService opsNodeInfosysExtServiceImpl;
 
     @ResponseBody
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)

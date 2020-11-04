@@ -15,7 +15,6 @@ import com.dt.module.cmdb.service.IResActionItemService;
 import com.dt.module.cmdb.service.IResService;
 import com.dt.module.flow.entity.SysProcessData;
 import com.dt.module.flow.service.ISysProcessDataService;
-import com.dt.module.flow.service.impl.SysProcessDataService;
 import com.dt.module.zc.entity.*;
 import com.dt.module.zc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,47 +32,67 @@ public class ZcChangeService extends BaseService {
     @Autowired
     @Lazy
     ResLoanreturnService resLoanreturnService;
+
     @Autowired
-    @Lazy
     ResCollectionreturnService resCollectionreturnService;
+
     @Autowired
     IResAllocateItemService ResAllocateItemServiceImpl;
+
     @Autowired
     IResActionItemService ResActionItemServiceImpl;
+
     @Autowired
     ISysProcessDataService SysProcessDataServiceImpl;
+
     @Autowired
     IResService ResServiceImpl;
+
     @Autowired
     IResChangeItemService ResChangeItemServiceImpl;
+
     @Autowired
     IResScrapeItemService ResScrapeItemServiceImpl;
+
     @Autowired
     IResAllocateService ResAllocateServiceImpl;
+
     @Autowired
     IResCBasicinformationService ResCBasicinformationServiceImpl;
+
     @Autowired
     IResCBasicinformationItemService ResCBasicinformationItemServiceImpl;
+
     @Autowired
     IResCMaintenanceService ResCMaintenanceServiceImpl;
+
     @Autowired
     IResCMaintenanceItemService ResCMaintenanceItemServiceImpl;
+
     @Autowired
     IResCFinanceService ResCFinanceServiceImpl;
+
     @Autowired
     IResCFinanceItemService ResCFinanceItemServiceImpl;
+
     @Autowired
     IResCollectionreturnItemService ResCollectionreturnItemServiceImpl;
+
     @Autowired
     IResLoanreturnItemService ResLoanreturnItemServiceImpl;
+
     @Autowired
     IResResidualItemService ResResidualItemServiceImpl;
+
     @Autowired
     IResResidualService ResResidualServiceImpl;
+
     @Autowired
     ResCMaintenanceService resCMaintenanceService;
+
     @Autowired
     ResCFinanceService resCFinanceService;
+
     @Autowired
     ResCBasicinformationService resCBasicinformationService;
 
@@ -179,7 +198,7 @@ public class ZcChangeService extends BaseService {
         }
 
         UpdateWrapper<ResResidual> ups = new UpdateWrapper<ResResidual>();
-        ups.set("status", ResResidualExtService.STATUS_SUCCESS);
+        ups.set("status", ResResidualService.STATUS_SUCCESS);
         ups.eq("uuid", uuid);
         ResResidualServiceImpl.update(ups);
         ResChangeItemServiceImpl.saveBatch(cols);

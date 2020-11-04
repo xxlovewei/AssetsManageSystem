@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service;
  * @since 2020-04-25
  */
 @Service
-public class ResAllocateExtService extends BaseService {
+public class ResAllocateService extends BaseService {
 
     public static String STATUS_DOING = "doing";
+
     public R cancelAllocationById(String id) {
         return R.SUCCESS_OPER();
     }

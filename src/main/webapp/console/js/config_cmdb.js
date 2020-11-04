@@ -1212,6 +1212,28 @@ function renderName(data, type, full) {
     return html;
 }
 
+function renderBusCat(data, type, full) {
+    var html = data;
+    if (angular.isDefined(data)) {
+        if (data == "LY") {
+            html = "资产领用";
+        } else if (data == "TK") {
+            html = "资产退库"
+        } else if (data == "JY") {
+            html = "资产借用"
+        } else if (data == "BX") {
+            html = "资产报销"
+        } else if (data == "ZY") {
+            html = "资产转移"
+        } else if (data == "WX") {
+            html = "资产维修"
+        } else if (data == "BF") {
+            html = "资产报废"
+        }
+    }
+    return html;
+}
+
 function renderZCSPStatus(data, type, full) {
     var html = data;
     if (angular.isDefined(data)) {
@@ -2802,6 +2824,11 @@ function modaldevfaultCtl($timeout, $localStorage, notify, $log, $uibModal,
 function modalzcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                       $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
                       $uibModalInstance, $window, $stateParams, $timeout) {
+    console.log(meta);
+    $rootScope.flowpagetype = meta.flowpagetype;
+    $rootScope.flowbusid = meta.busid;
+    $rootScope.flowtaskid = meta.taskid;
+
     $scope.ctl = {}
     $scope.ctl.remark = false;
     $scope.ctl.ywtime = false;
@@ -2834,6 +2861,14 @@ function modalzcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+    function close() {
+        $uibModalInstance.close('OK');
+    }
+
+    $scope.windowclose = function () {
+        $uibModalInstance.close('OK');
+    }
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
         .withOption("ordering", false).withOption("responsive", false)
@@ -2853,7 +2888,7 @@ function modalzcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         return acthtml;
     }
 
-    if (angular.isDefined(meta.type) && meta.type == "dtl") {
+    if (angular.isDefined(meta.flowpagetype) && meta.flowpagetype == "lookup") {
     } else {
         $scope.dtColumns.push(DTColumnBuilder.newColumn('lid').withTitle('操作').withOption(
             'sDefaultContent', '').withOption("name", '30').renderWith(renderAction));
@@ -2880,7 +2915,6 @@ function modalzcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         modalInstance.result.then(function (result) {
             $scope.dtOptions.aaData = result;
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
     $scope.modify = function (id, zc_cnt) {
@@ -2904,10 +2938,9 @@ function modalzcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 }
             }
         }, function (reason) {
-            $log.log("reason", reason)
         });
     }
-    if (angular.isDefined(meta.type) && meta.type == "dtl") {
+    if (meta.flowpagetype == "lookup" || meta.flowpagetype == "approval") {
         $scope.ctl.remark = true;
         $scope.ctl.ywtime = true;
         $scope.ctl.title = true;
@@ -2915,8 +2948,10 @@ function modalzcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         $scope.ctl.selectlist = true;
         $scope.ctl.footer = true;
         $scope.ctl.ct = true;
-        $http.post($rootScope.project + "/api/zc/resScrape/ext/selectById.do",
-            meta).success(function (res) {
+    }
+    if (angular.isDefined(meta.busid)) {
+        $http.post($rootScope.project + "/api/zc/resScrape/ext/selectByBusid.do",
+            {busid: meta.busid}).success(function (res) {
             if (res.success) {
                 $scope.data = res.data;
                 $scope.dtOptions.aaData = res.data.items;
@@ -2928,6 +2963,8 @@ function modalzcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             }
         })
     }
+
+
     $scope.remove = function (id) {
         var del = 0;
         for (var i = 0; i < $scope.dtOptions.aaData.length; i++) {
@@ -3036,6 +3073,8 @@ function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
         .withOption("ordering", false).withOption("responsive", false)
@@ -3225,6 +3264,8 @@ function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                 }
             })
     }
+
+
 }
 
 //##########################################财务变更处理窗口##########################################//
@@ -4751,11 +4792,16 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
     }
 }
 
-//选择流程,输入参数，bustype，ptype
+//选择流程,输入参数ptype
+//   ps.title = meta.name;
+//   ps.busid = meta.busuuid;
+//
+//
 function chosenFlowTreeCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                            $confirm, $log, notify, $scope, $http, $rootScope, $uibModal, meta,
                            $uibModalInstance, $window, $stateParams, $timeout) {
-    console.log(meta);
+    console.log("need parameter:ptype,name,busuuid");
+    console.log("flowdata", meta);
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
         .withDOM('frtlip').withPaginationType('simple').withDisplayLength(
             50).withOption("ordering", false).withOption("responsive",

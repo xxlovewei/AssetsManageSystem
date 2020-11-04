@@ -160,6 +160,9 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
                     } else if (ptype == "JY") {
                         flowhtml = 'views/cmdb/modal_jyghlist.html';
                         flowctl = zcjyghlistCtl;
+                    } else if (ptype == "BF") {
+                        flowhtml = 'views/cmdb/modal_zcbf.html';
+                        flowctl = modalzcbfCtl;
                     } else {
                         ptype = "";
                     }

@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-05-25
  */
 @Service
-public class ResInoutExtService extends BaseService {
+public class ResInoutService extends BaseService {
 
 
     @Autowired

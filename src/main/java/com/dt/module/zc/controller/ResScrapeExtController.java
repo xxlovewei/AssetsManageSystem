@@ -77,6 +77,20 @@ public class ResScrapeExtController extends BaseController {
         return R.SUCCESS_OPER(res);
     }
 
+    @ResponseBody
+    @Acl(info = "根据Id查询", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectByBusid.do")
+    public R selectByBusid(@RequestParam(value = "busid", required = true, defaultValue = "") String busid) {
+        QueryWrapper<ResScrape> qw = new QueryWrapper<ResScrape>();
+        qw.and(i -> i.eq("uuid", busid));
+        ResScrape in = ResScrapeServiceImpl.getOne(qw);
+        String uuid = in.getUuid();
+        JSONObject res = JSONObject.parseObject(JSON.toJSONString(in, SerializerFeature.WriteDateUseDateFormat));
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and id in (select resid from res_scrape_item where uuid=? and dr='0')";
+        res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, uuid).toJsonArrayWithJsonObject()));
+        return R.SUCCESS_OPER(res);
+    }
+
 
     @ResponseBody
     @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)

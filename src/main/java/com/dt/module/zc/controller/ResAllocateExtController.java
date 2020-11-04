@@ -15,7 +15,7 @@ import com.dt.module.zc.entity.ResAllocate;
 import com.dt.module.zc.entity.ResAllocateItem;
 import com.dt.module.zc.service.IResAllocateItemService;
 import com.dt.module.zc.service.IResAllocateService;
-import com.dt.module.zc.service.impl.ResAllocateExtService;
+import com.dt.module.zc.service.impl.ResAllocateService;
 import com.dt.module.zc.service.impl.ZcChangeService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.zc.service.impl.ZcService;
@@ -52,7 +52,7 @@ public class ResAllocateExtController extends BaseController {
     IResAllocateService ResAllocateServiceImpl;
 
     @Autowired
-    ResAllocateExtService resAllocateExtService;
+    ResAllocateService resAllocateExtService;
 
 
     @ResponseBody
@@ -124,7 +124,7 @@ public class ResAllocateExtController extends BaseController {
             ArrayList<ResAllocateItem> cols = new ArrayList<ResAllocateItem>();
             uuid = zcService.createUuid(ZcCommonService.UUID_DB);
             entity.setUuid(uuid);
-            entity.setStatus(ResAllocateExtService.STATUS_DOING);
+            entity.setStatus(ResAllocateService.STATUS_DOING);
             ResAllocateServiceImpl.saveOrUpdate(entity);
             QueryWrapper<ResAllocate> ew = new QueryWrapper<ResAllocate>();
             String finalUuid = uuid;

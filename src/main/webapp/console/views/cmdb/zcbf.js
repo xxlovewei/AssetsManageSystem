@@ -263,8 +263,11 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             return;
         }
         var meta = {};
-        meta.type = "dtl";
+        //  meta.type = "dtl";
         meta.id = id;
+        meta.busid = selrow.uuid;
+        meta.status = selrow.status;
+        meta.flowpagetype = "lookup";
         var modalInstance = $uibModal.open({
             backdrop: true,
             templateUrl: 'views/cmdb/modal_zcbf.html',
@@ -280,7 +283,7 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         }, function (reason) {
         });
     }
-    // //////////////////////////save/////////////////////
+    ////////////////////////////save/////////////////////
     $scope.save = function (type) {
         var modalInstance = $uibModal.open({
             backdrop: true,
@@ -304,7 +307,10 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
     $scope.approval = function () {
         var item = getSelectRow();
         if (angular.isDefined(item)) {
-            item.ptype = item.bustype;
+            console.log(item);
+            item.ptype = "BF";
+            item.name = item.title;
+            item.busuuid = item.uuid;
             if (item.status != "apply") {
                 notify({
                     message: "该状态不允许送审"
@@ -331,4 +337,7 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         }
     }
 };
+
+app.register.controller('flowapprovalCommonCtl', flowapprovalCommonCtl);
+app.register.controller('flowsuggestCommonCtl', flowsuggestCommonCtl);
 app.register.controller('zcbfCtl', zcbfCtl);

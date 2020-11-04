@@ -48,8 +48,8 @@ public class ZcService extends BaseService {
     @Autowired
     ICtCategoryService CtCategoryServiceImpl;
 
-    @Autowired
-    ZcChangeService zcChangeService;
+//    @Autowired
+//    ZcChangeService zcChangeService;
 
 
     //@Cacheable(value = CacheConfig.CACHE_PUBLIC_80_10,key="'qf'+#uid")
@@ -754,9 +754,9 @@ public class ZcService extends BaseService {
             }
         }
 
-        if (ToolUtil.isEmpty(id)) {
-            zcChangeService.zcRkConfirm(uuid);
-        }
+//        if (ToolUtil.isEmpty(id)) {
+//            zcChangeService.zcRkConfirm(uuid);
+//        }
 
         return R.SUCCESS_OPER();
     }

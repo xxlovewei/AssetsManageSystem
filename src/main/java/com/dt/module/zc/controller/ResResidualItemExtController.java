@@ -10,7 +10,7 @@ import com.dt.module.zc.entity.ResResidual;
 import com.dt.module.zc.entity.ResResidualItem;
 import com.dt.module.zc.service.IResResidualItemService;
 import com.dt.module.zc.service.IResResidualService;
-import com.dt.module.zc.service.impl.ResResidualExtService;
+import com.dt.module.zc.service.impl.ResResidualService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,7 +45,7 @@ public class ResResidualItemExtController extends BaseController {
         QueryWrapper<ResResidual> ew = new QueryWrapper<ResResidual>();
         ew.and(i -> i.eq("uuid", item.getUuid()));
         ResResidual obj = ResResidualServiceImpl.getOne(ew);
-        if (ResResidualExtService.STATUS_SUCCESS.equals(obj.getStatus())) {
+        if (ResResidualService.STATUS_SUCCESS.equals(obj.getStatus())) {
             return R.FAILURE("当前状态已完成,不允许删除");
         }
         //删除

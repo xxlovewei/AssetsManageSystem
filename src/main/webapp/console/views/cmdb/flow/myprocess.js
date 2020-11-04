@@ -75,25 +75,6 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         return html;
     }
 
-    function renderType(data, type, full) {
-        var html = data;
-        if (angular.isDefined(data)) {
-            if (data == "LY") {
-                html = "资产领用";
-            } else if (data == "TK") {
-                html = "资产退库"
-            } else if (data == "JY") {
-                html = "资产借用"
-            } else if (data == "BX") {
-                html = "资产报销"
-            } else if (data == "ZY") {
-                html = "资产转移"
-            } else if (data == "WX") {
-                html = "资产维修"
-            }
-        }
-        return html;
-    }
 
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
     $scope.dtColumns = [
@@ -112,7 +93,7 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         DTColumnBuilder.newColumn('bustype').withTitle('业务类型').withOption(
             'sDefaultContent', '').renderWith(renderBusType),
         DTColumnBuilder.newColumn('ptype').withTitle('流程分类').withOption(
-            'sDefaultContent', '').renderWith(renderType),
+            'sDefaultContent', '').renderWith(renderBusCat),
         DTColumnBuilder.newColumn('pstartusername').withTitle('发起人').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('createTime').withTitle('发起时间')
@@ -179,6 +160,9 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             } else if (ptype == "JY") {
                 flowhtml = 'views/cmdb/modal_jyghlist.html';
                 flowctl = zcjyghlistCtl;
+            } else if (ptype == "BF") {
+                flowhtml = 'views/cmdb/modal_zcbf.html';
+                flowctl = modalzcbfCtl;
             } else {
                 ptype = "";
             }

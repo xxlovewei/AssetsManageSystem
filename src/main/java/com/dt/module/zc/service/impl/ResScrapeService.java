@@ -16,7 +16,6 @@ import com.dt.module.zc.service.IResScrapeItemService;
 import com.dt.module.zc.service.IResScrapeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,11 +26,6 @@ import java.util.List;
 @Service
 public class ResScrapeService extends BaseService {
 
-    public static String STATUS_SUCCESS = "success";
-    public static String STATUS_FAILED = "failed";
-    public static String STATUS_CANCEL = "cancel";
-
-
     @Autowired
     ZcService zcService;
 
@@ -41,8 +35,6 @@ public class ResScrapeService extends BaseService {
     @Autowired
     IResChangeItemService ResChangeItemServiceImpl;
 
-
-    //开始流程
     @Autowired
     IResScrapeService ResScrapeServiceImpl;
 
@@ -65,8 +57,6 @@ public class ResScrapeService extends BaseService {
         }
         return R.SUCCESS_OPER();
     }
-
-
     public R cancelBf(String busid, String status) {
         //更新RES数据
         String sql2 = "update res_scrape_item a,res b set " +
@@ -83,7 +73,6 @@ public class ResScrapeService extends BaseService {
     }
 
     public R createBf(ResScrape entity, String busitimestr, String items) throws ParseException {
-
         ArrayList<ResScrapeItem> cols = new ArrayList<ResScrapeItem>();
         String id = entity.getId();
         String uuid = "";
@@ -130,6 +119,7 @@ public class ResScrapeService extends BaseService {
         ups.set("status", status);
         ups.eq("uuid", busid);
         ResScrapeServiceImpl.update(ups);
+
         //更新数据
         String sql2 = "update res_scrape_item a,res b set " +
                 "b.recycle='" + ZcRecycleEnum.RECYCLE_SCRAP.getValue() + "'," +
@@ -171,5 +161,4 @@ public class ResScrapeService extends BaseService {
             return R.FAILURE_NO_DATA();
         }
     }
-
 }

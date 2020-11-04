@@ -9,9 +9,7 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ConvertUtil;
-import com.dt.module.cmdb.entity.Res;
 import com.dt.module.cmdb.service.IResService;
-import com.dt.module.zc.entity.ResChangeItem;
 import com.dt.module.zc.entity.ResResidual;
 import com.dt.module.zc.entity.ResResidualItem;
 import com.dt.module.zc.entity.ResResidualStrategy;
@@ -19,7 +17,7 @@ import com.dt.module.zc.service.IResChangeItemService;
 import com.dt.module.zc.service.IResResidualItemService;
 import com.dt.module.zc.service.IResResidualService;
 import com.dt.module.zc.service.IResResidualStrategyService;
-import com.dt.module.zc.service.impl.ResResidualExtService;
+import com.dt.module.zc.service.impl.ResResidualService;
 import com.dt.module.zc.service.impl.ZcChangeService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.zc.service.impl.ZcService;
@@ -75,7 +73,7 @@ public class ResResidualExtController extends BaseController {
     @RequestMapping(value = "/deleteById.do")
     public R deleteById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
         ResResidual obj = ResResidualServiceImpl.getById(id);
-        if (ResResidualExtService.STATUS_SUCCESS.equals(obj.getStatus())) {
+        if (ResResidualService.STATUS_SUCCESS.equals(obj.getStatus())) {
             return R.FAILURE("当前状态无法删除");
         } else {
             return R.SUCCESS_OPER(ResResidualServiceImpl.removeById(id));
@@ -102,8 +100,8 @@ public class ResResidualExtController extends BaseController {
         entity.setDepreciationrate(stragegy.getDepreciationrate());
         entity.setResidualvaluerate(stragegy.getResidualvaluerate());
         entity.setCnt(new BigDecimal(items_arr.size()));
-        entity.setCheckstatus(ResResidualExtService.CKSTATUS_INIT);
-        entity.setStatus(ResResidualExtService.STATUS_WAIT);
+        entity.setCheckstatus(ResResidualService.CKSTATUS_INIT);
+        entity.setStatus(ResResidualService.STATUS_WAIT);
         entity.setBusidate(new Date());
         String uuid = zcService.createUuid(ZcCommonService.UUID_ZJ);
         entity.setUuid(uuid);
@@ -122,7 +120,7 @@ public class ResResidualExtController extends BaseController {
             e.setAnetworth(new BigDecimal(dep.getString("networth")));
             e.setLossprice(new BigDecimal(dep.getString("lossprice")));
             e.setCurresidualvalue(new BigDecimal(dep.getString("residualvalue")));
-            e.setCheckstatus(ResResidualExtService.ITEMCHECKSTATUS_INIT);
+            e.setCheckstatus(ResResidualService.ITEMCHECKSTATUS_INIT);
             list.add(e);
         }
         ResResidualServiceImpl.save(entity);
@@ -135,7 +133,7 @@ public class ResResidualExtController extends BaseController {
     @RequestMapping(value = "/actionSysData.do")
     public R actionSysData(String id) {
         ResResidual obj = ResResidualServiceImpl.getById(id);
-        if (ResResidualExtService.STATUS_WAIT.equals(obj.getStatus()) && ResResidualExtService.CKSTATUS_SUCCESS.equals(obj.getCheckstatus())) {
+        if (ResResidualService.STATUS_WAIT.equals(obj.getStatus()) && ResResidualService.CKSTATUS_SUCCESS.equals(obj.getCheckstatus())) {
             zcChangeService.zcZjConfirm(obj.getUuid());
         } else {
             return R.FAILURE("当前状态异常,无法操作");
@@ -153,14 +151,14 @@ public class ResResidualExtController extends BaseController {
         ew.eq("uuid", obj.getUuid());
         List<ResResidualItem> list = ResResidualItemServiceImpl.list(ew);
         List<ResResidualItem> list2 = new ArrayList<ResResidualItem>();
-        String ckstatus = ResResidualExtService.CKSTATUS_SUCCESS;
+        String ckstatus = ResResidualService.CKSTATUS_SUCCESS;
         for (int i = 0; i < list.size(); i++) {
             ResResidualItem e = list.get(i);
             if (e.getLossprice().compareTo(new BigDecimal("0")) >= 0 && e.getAnetworth().compareTo(new BigDecimal("0")) >= 0) {
-                e.setCheckstatus(ResResidualExtService.ITEMCHECKSTATUS_SUCCESS);
+                e.setCheckstatus(ResResidualService.ITEMCHECKSTATUS_SUCCESS);
             } else {
-                e.setCheckstatus(ResResidualExtService.ITEMCHECKSTATUS_FAILED);
-                ckstatus = ResResidualExtService.CKSTATUS_FAILED;
+                e.setCheckstatus(ResResidualService.ITEMCHECKSTATUS_FAILED);
+                ckstatus = ResResidualService.CKSTATUS_FAILED;
             }
             list2.add(e);
         }
