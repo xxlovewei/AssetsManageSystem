@@ -73,7 +73,7 @@ mysqldump -uroot -proot_pwd  --databases  dt >dt.sql
 
 
 #进入容器
-docker exec -it 8aa56c24ab28 bash
+docker exec -it 0412854ebb86 bash
 
 $DB_PORT_3306_TCP_ADDR
 
@@ -85,7 +85,7 @@ docker cp  e5a79f19b37e:/usr/local/tomcat/bin/catalina.sh /tmp
 docker cp /tmp/catalina.sh e5a79f19b37e:/usr/local/tomcat/bin/
 docker cp /tmp/dt/dt.tar d0c451d7214a:/usr/local/tomcat/webapps/
 
-docker cp /tmp/dt.sql a77fb43d55ac:/tmp/dt.sql
+docker cp /tmp/dt.sql 0412854ebb86:/tmp/dt.sql
 
 #容器转为镜像
 docker commit -m "Added Mysql database Version 2.2.10"  -a "algernonking" a77fb43d55ac docker.io/algernonking/dtmysql:2.2.10

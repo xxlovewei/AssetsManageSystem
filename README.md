@@ -32,6 +32,7 @@
 
 | 系统版本         |   应用镜像       | 数据库镜像 |  
 | ----------   | ------------- | ----------- |  
+| 2.2.21 | 2.2.12 |   2.2.21|   
 | 2.2.17 | 2.2.17 |   2.2.17|   
 | 2.2.9 | 2.2.9 |   2.2.9|   
 | 2.2.8       | 2.2.8          |   2.2.8     |      
@@ -46,7 +47,7 @@ docker run --name dt-db -t \
 -e MYSQL_ROOT_PASSWORD=root_pwd \
 -v /data/mysql:/var/lib/mysql  \
 -p 3306:3306 \
--d docker.io/algernonking/dtmysql:2.2.17 \
+-d docker.io/algernonking/dtmysql:2.2.21 \
 --character-set-server=utf8 \
 --lower_case_table_names=1
 
@@ -55,7 +56,7 @@ docker run --name dt-app -t \
 -v /data/upload:/usr/local/tomcat/webapps/upload \
 --link=dt-db:db \
 -p 8080:8080  \
--d docker.io/algernonking/dtapp:2.2.17
+-d docker.io/algernonking/dtapp:2.2.21
 ```
 
 
@@ -119,14 +120,16 @@ docker run --name dt-app -t \
 ## 商业说明
 - 本项目完全开源,也欢迎为您量身定制，专属开发。
 
-
-
 ## 开发计划
 - 优化打印标签
 - 设备巡检
 - 添加数据权限:用户可以选择数据的资产范围、组织范围、资产区域和资产仓库
 - 移动端计划延后
 
+## 项目支持
+支付宝
+<img width="200" height="200" src="https://images.gitee.com/uploads/images/2020/1105/135552_037eeb5c_448530.png" />
+ 
 
 
 

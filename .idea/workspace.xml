@@ -29,41 +29,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="57d29cc9-a8c4-4ffe-8fe7-90f49f6ef723" name="Default Changelist" comment="常规更新操作">
-      <change afterPath="$PROJECT_DIR$/dt.sql.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResActionExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResActionExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResExtImportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/controller/ResExtImportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResHistoryExtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/cmdb/service/impl/ResHistoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/flow/service/impl/SysProcessDataExtService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeInfosysExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/controller/OpsNodeInfosysExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeExtServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/ops/service/impl/OpsNodeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResAllocateExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInoutExtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ResInoutExtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcProcessFlowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/controller/ZcProcessFlowController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocateItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/entity/ResAllocateItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ResAllocateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcChangeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcChangeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcCommonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dt/module/zc/service/impl/ZcCommonService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResAllocateItemMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResAllocateItemMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResAllocateMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/zc/ResAllocateMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/js/config_cmdb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/spa_index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/allprocess.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/allprocess.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/myprocess.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/myprocess.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/processfinish.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/processfinish.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/todo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow/todo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcallocation.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcallocation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcbf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/modal_zcbf.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcallocation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcallocation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbf.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/zcbf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/版本升级.txt" beforeDir="false" afterPath="$PROJECT_DIR$/版本升级.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/版本升级2.2.20-2.2.21.txt" beforeDir="false" afterPath="$PROJECT_DIR$/版本升级2.2.20-2.2.21.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/部署_数据清理.sql" beforeDir="false" afterPath="$PROJECT_DIR$/部署_数据清理.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docker.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dt.sql.zip" beforeDir="false" afterPath="$PROJECT_DIR$/dt.sql.zip" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,15 +114,15 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/console/img/bg_img" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/console/vendor/datatables/media/js" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/移动端" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/console/js" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.dt.module.flow.base" />
@@ -162,12 +131,12 @@
       <recent name="com.dt.module.zbx.controller" />
       <recent name="com.dt.module.zbx.service.impl" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/移动端" />
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/console/js" />
-      <recent name="$PROJECT_DIR$/src/main/java/com/dt/module/zbx/controller" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/console/views/cmdb/flow" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/console/img/bg_img" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/console/vendor/datatables/media/js" />
     </key>
   </component>
   <component name="RunManager" selected="Application.DeployZcDevMac">
@@ -1446,12 +1415,12 @@
     <state x="81" y="23" key="SettingsEditor/43.23.1237.777@43.23.1237.777" timestamp="1599529235325" />
     <state x="187" y="23" key="SettingsEditor/45.23.1235.777@45.23.1235.777" timestamp="1599976655085" />
     <state x="121" y="23" key="SettingsEditor/46.23.1234.777@46.23.1234.777" timestamp="1598000629403" />
-    <state x="269" y="131" key="Vcs.Push.Dialog.v2" timestamp="1604467378481">
+    <state x="269" y="131" key="Vcs.Push.Dialog.v2" timestamp="1604552453723">
       <screen x="34" y="23" width="1246" height="777" />
     </state>
     <state x="267" y="131" key="Vcs.Push.Dialog.v2/32.23.1248.777@32.23.1248.777" timestamp="1604140982259" />
     <state x="268" y="131" key="Vcs.Push.Dialog.v2/33.23.1247.777@33.23.1247.777" timestamp="1600436119885" />
-    <state x="269" y="131" key="Vcs.Push.Dialog.v2/34.23.1246.777@34.23.1246.777" timestamp="1604467378481" />
+    <state x="269" y="131" key="Vcs.Push.Dialog.v2/34.23.1246.777@34.23.1246.777" timestamp="1604552453723" />
     <state x="270" y="131" key="Vcs.Push.Dialog.v2/36.23.1244.777@36.23.1244.777" timestamp="1601792450078" />
     <state x="271" y="131" key="Vcs.Push.Dialog.v2/37.23.1243.777@37.23.1243.777" timestamp="1601698601418" />
     <state x="272" y="131" key="Vcs.Push.Dialog.v2/38.23.1242.777@38.23.1242.777" timestamp="1601700174816" />
