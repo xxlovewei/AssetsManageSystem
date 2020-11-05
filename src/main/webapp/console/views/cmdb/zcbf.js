@@ -265,8 +265,8 @@ function zcbfCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         var meta = {};
         //  meta.type = "dtl";
         meta.id = id;
-        meta.busid = selrow.uuid;
         meta.status = selrow.status;
+        meta.busid = selrow.uuid;
         meta.flowpagetype = "lookup";
         var modalInstance = $uibModal.open({
             backdrop: true,

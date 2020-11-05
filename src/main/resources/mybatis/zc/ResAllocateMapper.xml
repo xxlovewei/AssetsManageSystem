@@ -37,6 +37,8 @@
         <result column="flocname" property="flocname"/>
         <result column="flocdtl" property="flocdtl"/>
         <result column="busdate" property="busdate"/>
+        <result column="pinst" property="pinst"/>
+        <result column="name" property="name"/>
     </resultMap>
 
 </mapper>

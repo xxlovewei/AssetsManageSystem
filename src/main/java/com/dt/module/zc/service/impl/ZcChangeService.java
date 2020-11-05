@@ -30,6 +30,9 @@ public class ZcChangeService extends BaseService {
 
 
     @Autowired
+    ResAllocateService resAllocateService;
+
+    @Autowired
     @Lazy
     ResLoanreturnService resLoanreturnService;
 
@@ -100,18 +103,18 @@ public class ZcChangeService extends BaseService {
     ResScrapeService resScrapeService;
 
 
-    public R zcSureChange(String uuid, String type) {
-        if (type.equals(ZcCommonService.ZC_BUS_TYPE_LY)) {
-            //  return zcLySureChange(uuid);
-        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_JY)) {
-            return zcJySureChange(uuid);
-        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_DB)) {
-        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_BF)) {
-            return zcBFSureChange(uuid);
-        } else {
-        }
-        return R.SUCCESS();
-    }
+//    public R zcSureChange(String uuid, String type) {
+//        if (type.equals(ZcCommonService.ZC_BUS_TYPE_LY)) {
+//            //  return zcLySureChange(uuid);
+//        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_JY)) {
+//            return zcJySureChange(uuid);
+//        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_DB)) {
+//        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_BF)) {
+//            return zcBFSureChange(uuid);
+//        } else {
+//        }
+//        return R.SUCCESS();
+//    }
 
 
     //启动流程
@@ -125,7 +128,7 @@ public class ZcChangeService extends BaseService {
         } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_BF)) {
             return resScrapeService.startBfFlow(pinst, uuid, ifsp);
         } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_DB)) {
-            return resScrapeService.startBfFlow(pinst, uuid, ifsp);
+            return resAllocateService.startDbFlow(pinst, uuid, ifsp);
         }
         return R.SUCCESS();
     }
@@ -143,6 +146,8 @@ public class ZcChangeService extends BaseService {
             return resLoanreturnService.finishJyFlow(sd.getBusid(), sd.getPstatusdtl());
         } else if (ZcCommonService.ZC_BUS_TYPE_BF.equals(sd.getPtype())) {
             return resScrapeService.finishBfFlow(sd.getBusid(), sd.getPstatusdtl());
+        } else if (ZcCommonService.ZC_BUS_TYPE_DB.equals(sd.getPtype())) {
+            return resAllocateService.finishDbFlow(sd.getBusid(), sd.getPstatusdtl());
         }
         fillChangeCt();
         return R.SUCCESS();
@@ -243,57 +248,56 @@ public class ZcChangeService extends BaseService {
     }
 
 
-
     //**************************借用/归还************************//
     //借用确认
-    public R zcJySureChange(String uuid) {
-        UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
-        ups.inSql("id", "select resid from res_action_item where dr='0' and busuuid='" + uuid + "'");
-        ups.setSql("prerecycle=recycle");
-        ups.set("recycle", ZcRecycleEnum.RECYCLE_BORROW.getValue());
-        ResServiceImpl.update(ups);
-
-        //记录资产变更
-        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
-        QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
-        ew.and(i -> i.eq("busuuid", uuid));
-        List<ResActionItem> items = ResActionItemServiceImpl.list(ew);
-        for (int i = 0; i < items.size(); i++) {
-            ResChangeItem e = new ResChangeItem();
-            e.setBusuuid(uuid);
-            e.setResid(items.get(i).getResid());
-            e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
-            e.setMark("资产借用");
-            e.setFillct("0");
-            e.setCdate(new Date());
-            cols.add(e);
-        }
-        ResChangeItemServiceImpl.saveBatch(cols);
-        fillChangeCt();
-        return R.SUCCESS_OPER();
-    }
+//    public R zcJySureChange(String uuid) {
+//        UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
+//        ups.inSql("id", "select resid from res_action_item where dr='0' and busuuid='" + uuid + "'");
+//        ups.setSql("prerecycle=recycle");
+//        ups.set("recycle", ZcRecycleEnum.RECYCLE_BORROW.getValue());
+//        ResServiceImpl.update(ups);
+//
+//        //记录资产变更
+//        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
+//        QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
+//        ew.and(i -> i.eq("busuuid", uuid));
+//        List<ResActionItem> items = ResActionItemServiceImpl.list(ew);
+//        for (int i = 0; i < items.size(); i++) {
+//            ResChangeItem e = new ResChangeItem();
+//            e.setBusuuid(uuid);
+//            e.setResid(items.get(i).getResid());
+//            e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
+//            e.setMark("资产借用");
+//            e.setFillct("0");
+//            e.setCdate(new Date());
+//            cols.add(e);
+//        }
+//        ResChangeItemServiceImpl.saveBatch(cols);
+//        fillChangeCt();
+//        return R.SUCCESS_OPER();
+//    }
 
     //借用申请
-    public R zcJyStartChange(String uuid) {
-        //记录资产变更
-        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
-        QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
-        ew.and(i -> i.eq("busuuid", uuid));
-        List<ResActionItem> items = ResActionItemServiceImpl.list(ew);
-        for (int i = 0; i < items.size(); i++) {
-            ResChangeItem e = new ResChangeItem();
-            e.setBusuuid(uuid);
-            e.setResid(items.get(i).getResid());
-            e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
-            e.setMark("发起借用申请,等待审批");
-            e.setFillct("0");
-            e.setCdate(new Date());
-            cols.add(e);
-        }
-        ResChangeItemServiceImpl.saveBatch(cols);
-        fillChangeCt();
-        return R.SUCCESS_OPER();
-    }
+//    public R zcJyStartChange(String uuid) {
+//        //记录资产变更
+//        ArrayList<ResChangeItem> cols = new ArrayList<ResChangeItem>();
+//        QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
+//        ew.and(i -> i.eq("busuuid", uuid));
+//        List<ResActionItem> items = ResActionItemServiceImpl.list(ew);
+//        for (int i = 0; i < items.size(); i++) {
+//            ResChangeItem e = new ResChangeItem();
+//            e.setBusuuid(uuid);
+//            e.setResid(items.get(i).getResid());
+//            e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
+//            e.setMark("发起借用申请,等待审批");
+//            e.setFillct("0");
+//            e.setCdate(new Date());
+//            cols.add(e);
+//        }
+//        ResChangeItemServiceImpl.saveBatch(cols);
+//        fillChangeCt();
+//        return R.SUCCESS_OPER();
+//    }
 
 
     //资产借用归还
@@ -1049,7 +1053,6 @@ public class ZcChangeService extends BaseService {
         String ct = "";
         String busuuid = entity.getBusuuid();
         String resid = entity.getResid();
-
         entity.setFillct("1");
         entity.setCt(ct);
         // ResChangeItemServiceImpl.saveOrUpdate(entity);

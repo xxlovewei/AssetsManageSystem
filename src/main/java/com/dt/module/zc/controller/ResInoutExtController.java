@@ -46,7 +46,7 @@ public class ResInoutExtController extends BaseController {
     IResInoutService ResInoutServiceImpl;
 
     @Autowired
-    ResInoutService resInoutExtService;
+    ResInoutService resInoutService;
 
     @Autowired
     IResService ResServiceImpl;
@@ -196,7 +196,7 @@ public class ResInoutExtController extends BaseController {
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectHcTj.do")
     public R selectHcTj(String loc) {
-        return resInoutExtService.selectHcTj(loc);
+        return resInoutService.selectHcTj(loc);
     }
 
 
@@ -205,7 +205,7 @@ public class ResInoutExtController extends BaseController {
     @RequestMapping(value = "/selectList.do")
     public R selectList(String type, String action) {
         if (ZcCommonService.UUID_HCCK.equals(action) || ZcCommonService.UUID_HCDB.equals(action)) {
-            return resInoutExtService.selectHcCk(action);
+            return resInoutService.selectHcCk(action);
         } else if (ZcCommonService.UUID_HCRK.equals(action)) {
             QueryWrapper<ResInout> qw = new QueryWrapper<ResInout>();
             qw.and(i -> i.eq("type", type));
@@ -228,7 +228,7 @@ public class ResInoutExtController extends BaseController {
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectSafetyStore.do")
     public R selectSafetyStore() {
-        return resInoutExtService.selectSafetyStore();
+        return resInoutService.selectSafetyStore();
     }
 
 
@@ -236,7 +236,7 @@ public class ResInoutExtController extends BaseController {
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectHcInDataById.do")
     public R selectHcInDataById(String id) {
-        return resInoutExtService.selectHcInDataById(id);
+        return resInoutService.selectHcInDataById(id);
     }
 
 
@@ -244,14 +244,14 @@ public class ResInoutExtController extends BaseController {
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectHcOutDataById.do")
     public R selectHcOutDataById(String id) {
-        return resInoutExtService.selectHcOutDataById(id);
+        return resInoutService.selectHcOutDataById(id);
     }
 
     @ResponseBody
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectHcDbDataById.do")
     public R selectHcDbDataById(String id) {
-        return resInoutExtService.selectHcDbDataById(id);
+        return resInoutService.selectHcDbDataById(id);
     }
 
 

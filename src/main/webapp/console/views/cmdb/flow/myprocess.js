@@ -163,6 +163,10 @@ function myProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             } else if (ptype == "BF") {
                 flowhtml = 'views/cmdb/modal_zcbf.html';
                 flowctl = modalzcbfCtl;
+            } else if (ptype == "DB") {
+                meta.actiontype = 'detail';
+                flowhtml = 'views/cmdb/modal_zcallocation.html';
+                flowctl = modalzcallocationCtl;
             } else {
                 ptype = "";
             }

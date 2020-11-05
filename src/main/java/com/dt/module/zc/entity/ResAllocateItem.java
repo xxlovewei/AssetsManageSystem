@@ -30,8 +30,11 @@ public class ResAllocateItem extends BaseModel<ResAllocateItem> {
     private String id;
     @TableField("allocateid")
     private String allocateid;
-    @TableField("residprerecycle")
-    private String residprerecycle;
+
+
+    @TableField("frecycle")
+    private String frecycle;
+
     @TableField("resid")
     private String resid;
     @TableField("touseduserid")
@@ -92,14 +95,6 @@ public class ResAllocateItem extends BaseModel<ResAllocateItem> {
 
     public void setAllocateid(String allocateid) {
         this.allocateid = allocateid;
-    }
-
-    public String getResidprerecycle() {
-        return residprerecycle;
-    }
-
-    public void setResidprerecycle(String residprerecycle) {
-        this.residprerecycle = residprerecycle;
     }
 
     public String getResid() {
@@ -278,6 +273,15 @@ public class ResAllocateItem extends BaseModel<ResAllocateItem> {
         this.busdate = busdate;
     }
 
+
+    public String getFrecycle() {
+        return frecycle;
+    }
+
+    public void setFrecycle(String frecycle) {
+        this.frecycle = frecycle;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -288,7 +292,7 @@ public class ResAllocateItem extends BaseModel<ResAllocateItem> {
         return "ResAllocateItem{" +
                 "id=" + id +
                 ", allocateid=" + allocateid +
-                ", residprerecycle=" + residprerecycle +
+                ", frecycle=" + frecycle +
                 ", resid=" + resid +
                 ", touseduserid=" + touseduserid +
                 ", tousedusername=" + tousedusername +

@@ -21,12 +21,11 @@ import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.controller.FileUpDownController;
 import com.dt.module.base.entity.SysFiles;
 import com.dt.module.base.service.ISysFilesService;
-import com.dt.module.cmdb.entity.Res;
 import com.dt.module.ops.entity.OpsNode;
 import com.dt.module.ops.entity.OpsNodeDBEntity;
 import com.dt.module.ops.entity.OpsNodeEntity;
 import com.dt.module.ops.service.IOpsNodeService;
-import com.dt.module.ops.service.impl.OpsNodeExtServiceImpl;
+import com.dt.module.ops.service.impl.OpsNodeService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,7 +61,7 @@ public class OpsNodeExtController extends BaseController {
 
 
     @Autowired
-    OpsNodeExtServiceImpl opsNodeExtServiceImpl;
+    OpsNodeService opsNodeService;
 
     @ResponseBody
     @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
@@ -132,7 +131,7 @@ public class OpsNodeExtController extends BaseController {
     @Acl(info = " ", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList(String search) {
-        return opsNodeExtServiceImpl.selecList(search);
+        return opsNodeService.selecList(search);
     }
 
     @ResponseBody
@@ -226,7 +225,7 @@ public class OpsNodeExtController extends BaseController {
             params.setTitleRows(0);
             params.setStartSheetIndex(0);
             List<OpsNodeEntity> result = ExcelImportUtil.importExcel(new File(filePath), OpsNodeEntity.class, params);
-            r = opsNodeExtServiceImpl.executeOpsNodeEntitysImport(result);
+            r = opsNodeService.executeOpsNodeEntitysImport(result);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -242,7 +241,7 @@ public class OpsNodeExtController extends BaseController {
             throws UnsupportedEncodingException {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 
-        R res = opsNodeExtServiceImpl.selecList(ps.getString("search"));
+        R res = opsNodeService.selecList(ps.getString("search"));
 
         JSONArray data = res.queryDataToJSONArray();
         List<OpsNodeEntity> data_excel = new ArrayList<OpsNodeEntity>();
@@ -280,7 +279,8 @@ public class OpsNodeExtController extends BaseController {
         String sql = "select concat(dbtype,\"_\",name,\"_\",\"(\",cnt,\")\") dbname,id from (select name,id,"
                 + "  (select name from sys_dict_item where dict_item_id=db) dbtype,"
                 + "  (select count(1) from ops_node_item where nid=t.id and type='dbinstance') cnt"
-                + "from ops_node t where arch='0' and dr='0' and db is not null) end order by 1";
+                + "  from ops_node t where arch='0' and dr='0' and db is not null) end order by 1";
+
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
 
@@ -288,7 +288,7 @@ public class OpsNodeExtController extends BaseController {
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectDBList.do")
     public R selectDBList(String dbinstid, String nodeid) {
-        return opsNodeExtServiceImpl.selectDBList(dbinstid, nodeid);
+        return opsNodeService.selectDBList(dbinstid, nodeid);
     }
 
     @ResponseBody
@@ -306,7 +306,7 @@ public class OpsNodeExtController extends BaseController {
             params.setStartSheetIndex(0);
             List<OpsNodeDBEntity> result = ExcelImportUtil.importExcel(new File(filePath), OpsNodeDBEntity.class,
                     params);
-            r = opsNodeExtServiceImpl.executeOpsNodeDBEntitysImport(result);
+            r = opsNodeService.executeOpsNodeDBEntitysImport(result);
         } catch (Exception e) {
             e.printStackTrace();
             return R.FAILURE("导入数据异常");
@@ -322,7 +322,7 @@ public class OpsNodeExtController extends BaseController {
         // TypedHashMap<String, Object> ps = (TypedHashMap<String, Object>)
         // HttpKit.getRequestParameters();
 
-        R res = opsNodeExtServiceImpl.selectDBList(null, null);
+        R res = opsNodeService.selectDBList(null, null);
 
         JSONArray data = res.queryDataToJSONArray();
         List<OpsNodeDBEntity> data_excel = new ArrayList<OpsNodeDBEntity>();

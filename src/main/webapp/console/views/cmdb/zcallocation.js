@@ -75,8 +75,10 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }),
         DTColumnBuilder.newColumn('uuid').withTitle('单据编号').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
+            'sDefaultContent', '').withOption("width", '30'),
         DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
-            'sDefaultContent', '').renderWith(renderStatus),
+            'sDefaultContent', '').renderWith(renderZCSPStatus),
         DTColumnBuilder.newColumn('allocateusername').withTitle('调入管理员').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('fcompname').withTitle($rootScope.COMP_DC).withOption(
@@ -125,21 +127,29 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 priv: "insert",
                 template: ' <button ng-click="add()" class="btn btn-sm btn-primary" type="submit">申请调拨</button>'
             },
-            {
-                id: "btn4",
-                label: "",
-                type: "btn",
-                show: false,
-                priv: "act1",
-                template: ' <button ng-click="finish()" class="btn btn-sm btn-primary" type="submit">确认调拨</button>'
-            },
+            // {
+            //     id: "btn4",
+            //     label: "",
+            //     type: "btn",
+            //     show: false,
+            //     priv: "act1",
+            //     template: ' <button ng-click="finish()" class="btn btn-sm btn-primary" type="submit">确认调拨</button>'
+            //  },
+            // {
+            //     id: "btn4",
+            //     label: "",
+            //     type: "btn",
+            //     show: false,
+            //     priv: "remove",
+            //     template: ' <button ng-click="cancel()" class="btn btn-sm btn-primary" type="submit">取消调拨</button>'
+            // },
             {
                 id: "btn4",
                 label: "",
                 type: "btn",
                 show: false,
                 priv: "remove",
-                template: ' <button ng-click="cancel()" class="btn btn-sm btn-primary" type="submit">取消调拨</button>'
+                template: ' <button ng-click="approval()" class="btn btn-sm btn-primary" type="submit">送审</button>'
             },
             {
                 id: "btn5",
@@ -188,11 +198,14 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }
     }
 
-    function action(actiontype, id) {
+    function action(actiontype, id, uuid, status) {
         var meta = {};
         meta.actiontype = actiontype;
         meta.id = id;
         meta.gdict = gdict;
+        meta.status = status;
+        meta.busid = uuid;
+        meta.flowpagetype = "lookup";
         var modalInstance = $uibModal.open({
             backdrop: true,
             templateUrl: 'views/cmdb/modal_zcallocation.html',
@@ -277,7 +290,7 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.detail = function () {
         var selrow = getSelectRow();
         if (angular.isDefined(selrow) && angular.isDefined(selrow.id)) {
-            action('detail', selrow.id);
+            action('detail', selrow.id, selrow.uuid, selrow.status);
         } else {
             return;
         }
@@ -286,5 +299,39 @@ function zcallocationCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         action('add');
     }
     flush();
+
+    $scope.approval = function () {
+        var item = getSelectRow();
+        if (angular.isDefined(item)) {
+            console.log(item);
+            item.ptype = "DB";
+            item.busuuid = item.uuid;
+            if (item.status != "apply") {
+                notify({
+                    message: "该状态不允许送审"
+                });
+                return;
+            }
+            var modalInstance = $uibModal.open({
+                backdrop: true,
+                templateUrl: 'views/cmdb/flow/modal_chosenFlowTreeView.html',
+                controller: chosenFlowTreeCtl,
+                size: 'blg',
+                resolve: {
+                    meta: function () {
+                        return item;
+                    }
+                }
+            });
+            modalInstance.result.then(function (result) {
+                if (result == "OK") {
+                    flush();
+                }
+            }, function (reason) {
+            });
+        }
+    }
 };
+app.register.controller('flowapprovalCommonCtl', flowapprovalCommonCtl);
+app.register.controller('flowsuggestCommonCtl', flowsuggestCommonCtl);
 app.register.controller('zcallocationCtl', zcallocationCtl);

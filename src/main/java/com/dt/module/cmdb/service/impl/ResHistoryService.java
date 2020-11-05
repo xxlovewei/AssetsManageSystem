@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-04-16
  */
 @Service
-public class ResHistoryExtService extends BaseService {
+public class ResHistoryService extends BaseService {
 
 
     public static String OPER_CHANGE = "变更";

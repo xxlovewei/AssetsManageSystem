@@ -44,13 +44,13 @@ public class OpsNodeInfosysExtController extends BaseController {
     IOpsNodeInfosysService OpsNodeInfosysServiceImpl;
 
     @Autowired
-    OpsNodeInfosysService opsNodeInfosysExtServiceImpl;
+    OpsNodeInfosysService opsNodeInfosysService;
 
     @ResponseBody
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
-        return opsNodeInfosysExtServiceImpl.selecList("");
+        return opsNodeInfosysService.selecList("");
     }
 
     @ResponseBody
@@ -68,7 +68,7 @@ public class OpsNodeInfosysExtController extends BaseController {
             throws UnsupportedEncodingException {
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 
-        R res = opsNodeInfosysExtServiceImpl.selecList(ps.getString("search"));
+        R res = opsNodeInfosysService.selecList(ps.getString("search"));
 
         JSONArray data = res.queryDataToJSONArray();
         List<OpsNodeInfosysEntity> data_excel = new ArrayList<OpsNodeInfosysEntity>();

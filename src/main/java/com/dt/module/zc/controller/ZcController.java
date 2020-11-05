@@ -111,7 +111,6 @@ public class ZcController extends BaseController {
 
     }
 
-
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     @RequestMapping(value = "/downloadZcImage.do")
@@ -129,7 +128,6 @@ public class ZcController extends BaseController {
             h = 180;
             w = 450;
         }
-
         httpServletResponse.setContentType("application/zip");
         httpServletResponse.setHeader("Content-disposition",
                 "attachment; filename=" + new String("erm".getBytes(),
@@ -186,38 +184,6 @@ public class ZcController extends BaseController {
     }
 
 
-//    @ResponseBody
-//    @Acl(info = "zc", value = Acl.ACL_USER)
-//    @RequestMapping(value = "/zcghById.do")
-//    public R zcghById(String id) {
-//
-//        SysProcessData obj = SysProcessDataServiceImpl.getById(id);
-//        String busstatus = obj.getBusstatus();
-//        String pstatus = obj.getPstatus();
-//        if (SysUfloProcessService.P_STATUS_FINISH.equals(pstatus) && "out".equals(busstatus)) {
-//            return zcChangeService.zcGhChange(obj.getBusid());
-//        } else {
-//            return R.FAILURE("当前状态不允许归还!");
-//        }
-//    }
-
-//    @ResponseBody
-//    @Acl(info = "zc", value = Acl.ACL_USER)
-//    @RequestMapping(value = "/zctkById.do")
-//    public R zctkById(String id) {
-//
-//        SysProcessData obj = SysProcessDataServiceImpl.getById(id);
-//        String busstatus = obj.getBusstatus();
-//        String pstatus = obj.getPstatus();
-//        if (SysUfloProcessService.P_STATUS_FINISH.equals(pstatus) && "out".equals(busstatus)) {
-//          //  return zcChangeService.zcTkSureChange(obj.getBusid());
-//        } else {
-//            return R.FAILURE("当前状态不允许退款!");
-//        }
-//        return R.SUCCESS_OPER();
-//
-//    }
-
     @ResponseBody
     @Acl(info = "获取后台类目", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectZcCats.do")
@@ -226,26 +192,6 @@ public class ZcController extends BaseController {
         ew.in("id", '8', '3', '7');
         return R.SUCCESS_OPER(CtCategoryRootServiceImpl.list(ew));
     }
-
-//    @ResponseBody
-//    @Acl(info = "查询单据", value = Acl.ACL_USER)
-//    @RequestMapping(value = "/selectListBills.do")
-//    public R selectListBills(String bustype) {
-//        QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
-//        ew.and(i -> i.eq("bustype", bustype));
-//        ew.orderByDesc("create_time");
-//        return R.SUCCESS_OPER(SysProcessDataServiceImpl.list(ew));
-//    }
-
-//    @ResponseBody
-//    @Acl(info = "查询单据", value = Acl.ACL_USER)
-//    @RequestMapping(value = "/selectMyListBills.do")
-//    public R selectMyListBills(String bustype) {
-//        QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
-//        ew.and(i -> i.eq("bustype", bustype).eq("create_by", this.getUserId()));
-//        ew.orderByDesc("create_time");
-//        return R.SUCCESS_OPER(SysProcessDataServiceImpl.list(ew));
-//    }
 
 
     @ResponseBody
@@ -267,61 +213,6 @@ public class ZcController extends BaseController {
         return R.SUCCESS_OPER(res);
     }
 
-//
-//    @ResponseBody
-//    @Acl(info = "创建单据", value = Acl.ACL_USER)
-//    @RequestMapping(value = "/insertBill.do")
-//    public R insertBill(SysProcessData entity, String items, String jsonvalue, String processdefid) {
-//        JSONObject jsonvalueobj = JSONObject.parseObject(jsonvalue);
-//        String uuid = zcService.createUuid(entity.getBustype());
-//
-//
-//        //填充资产数据
-//        JSONArray items_arr = JSONArray.parseArray(items);
-//        List<ResActionItem> entityList = new ArrayList<ResActionItem>();
-//        for (int i = 0; i < items_arr.size(); i++) {
-//            ResActionItem e = new ResActionItem();
-//            e.setBusuuid(uuid);
-//            e.setResid(items_arr.getJSONObject(i).getString("id"));
-//            e.setStatus("out");
-//            entityList.add(e);
-//        }
-//        ResActionItemServiceImpl.saveBatch(entityList);
-//
-//        //创建单据
-//        entity.setBusid(uuid);
-//        entity.setPtitle(jsonvalueobj.getString("dtitle"));
-//        entity.setPtype(SysUfloProcessService.P_TYPE_FLOW);
-//        //entity.setFormid(pdef.getForm());
-//        if ("0".equals(entity.getIfsp())) {
-//            //不需要审批
-//            entity.setPstatus(SysUfloProcessService.P_STATUS_FINISH);
-//            entity.setPstatusdtl(SysUfloProcessService.P_DTL_STATUS_SUCCESS);
-//            entity.setBusstatus("out");
-//            //变更资产数据状态
-//            zcChangeService.zcSureChange(uuid, entity.getBustype());
-//        } else {
-//            //需要送审
-//            entity.setPstatus(SysUfloProcessService.P_STATUS_SFA);
-//            entity.setPstatusdtl(SysUfloProcessService.P_DTL_STATUS_SFA);
-//        }
-//        SysProcessDataServiceImpl.save(entity);
-//
-//        //获取流程配置数据
-//        QueryWrapper<SysProcessData> ew = new QueryWrapper<SysProcessData>();
-//        ew.and(i -> i.eq("busid", uuid));
-//        String id = SysProcessDataServiceImpl.getOne(ew).getId();
-//        SysProcessDef pdef = SysProcessDefServiceImpl.getById(processdefid);
-//
-//        //填充表单数据
-//        SysForm sf = SysFormServiceImpl.getById(pdef.getForm());
-//        if (ToolUtil.isNotEmpty(jsonvalue)) {
-//            R r = formServiceImpl.parseFromJsonToSqlTpl(sf.getCt(), jsonvalue, FormServiceImpl.OPER_TYPE_INSERT, id, "");
-//            JSONObject fr = r.queryDataToJSONObject();
-//            db.execute(fr.getString("out"));
-//        }
-//        return R.SUCCESS_OPER();
-//    }
 
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_ALLOW)
@@ -343,8 +234,6 @@ public class ZcController extends BaseController {
     @RequestMapping(value = "/queryZcColCtlById.do")
     public R queryZcColCtlById(String id) {
         return zcService.queryZcColCtlById(id);
-
     }
-
 
 }

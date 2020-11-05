@@ -10,8 +10,7 @@
     <result column="create_time" property="createTime" />
     <result column="create_by" property="createBy" />
     <result column="update_by" property="updateBy" />
-        <result column="allocateid" property="allocateid" />
-        <result column="residprerecycle" property="residprerecycle" />
+        <result column="frecycle" property="frecycle"/>
         <result column="resid" property="resid" />
         <result column="touseduserid" property="touseduserid" />
         <result column="tousedusername" property="tousedusername" />

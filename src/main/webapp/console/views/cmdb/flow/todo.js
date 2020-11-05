@@ -139,6 +139,10 @@ function myProcessTodoCtl($window, $state, DTOptionsBuilder, DTColumnBuilder, $c
                     } else if (ptype == "BF") {
                         flowhtml = 'views/cmdb/modal_zcbf.html';
                         flowctl = modalzcbfCtl;
+                    } else if (ptype == "DB") {
+                        meta.actiontype = 'detail';
+                        flowhtml = 'views/cmdb/modal_zcallocation.html';
+                        flowctl = modalzcallocationCtl;
                     } else {
                         ptype = "";
                     }

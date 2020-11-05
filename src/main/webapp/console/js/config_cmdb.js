@@ -1229,6 +1229,8 @@ function renderBusCat(data, type, full) {
             html = "资产维修"
         } else if (data == "BF") {
             html = "资产报废"
+        } else if (data == "DB") {
+            html = "资产调拨"
         }
     }
     return html;
@@ -4569,7 +4571,12 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
                               $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                               DTColumnBuilder, $compile) {
     //type:detail,sure,add
+    $rootScope.flowpagetype = meta.flowpagetype;
+    $rootScope.flowbusid = meta.busid;
+    $rootScope.flowtaskid = meta.taskid;
+
     $scope.ctl = {};
+    $scope.ctl.name = false;
     $scope.ctl.inuserSel = false;
     $scope.ctl.outcompSel = false;
     $scope.ctl.incompSel = false;
@@ -4581,6 +4588,7 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.ctl.surebtn = false;
     $scope.ctl.busdate = false;
     if (meta.actiontype == "detail") {
+        $scope.ctl.name = true;
         $scope.ctl.inuserSel = true;
         $scope.ctl.outcompSel = true;
         $scope.ctl.incompSel = true;
@@ -4592,6 +4600,7 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.ctl.surebtn = true;
         $scope.ctl.busdate = true;
     } else if (meta.actiontype == "sure") {
+        $scope.ctl.name = true;
         $scope.ctl.inuserSel = true;
         $scope.ctl.outcompSel = true;
         $scope.ctl.incompSel = true;
@@ -4617,16 +4626,16 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.locSel = "";
     // $scope.inpartOpt = [];
     // $scope.inpartSel = "";
-    $scope.outcompOpt = meta.gdict.comp;
-    if (meta.gdict.length > 0) {
-        $scope.outcompSel = $scope.outcompOpt[0];
-    }
-    $scope.inuserOpt = meta.gdict.partusers;
-    $scope.incompOpt = meta.gdict.comp;
-    $scope.locOpt = meta.gdict.devdc;
-    if (meta.gdict.devdc.length > 0) {
-        $scope.locSel = $scope.locOpt[0];
-    }
+    $scope.outcompOpt = [];
+    $scope.outcompSel = "";
+
+    $scope.inuserOpt = [];
+    $scope.incompOpt = [];
+
+    $scope.locOpt = [];
+    $scope.locSe = "";
+
+
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
         .withOption("ordering", false).withOption("responsive", false)
@@ -4673,56 +4682,102 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
             $log.log("reason", reason)
         });
     }
-    if (angular.isDefined(meta.id)) {
-        //获取数据
-        $http.post($rootScope.project + "/api/zc/resAllocate/ext/selectById.do",
-            {id: meta.id}).success(function (res) {
-            if (res.success) {
-                $scope.dtOptions.aaData = res.data.items;
-                $scope.data = res.data;
-                if (angular.isDefined(res.data.fcompid)) {
-                    for (var i = 0; i < $scope.outcompOpt.length; i++) {
-                        if ($scope.outcompOpt[i].id == res.data.fcompid) {
-                            $scope.outcompSel = $scope.outcompOpt[i];
-                            break;
-                        }
-                    }
-                }
-                if (angular.isDefined(res.data.tousedcompid)) {
-                    for (var i = 0; i < $scope.incompOpt.length; i++) {
-                        if ($scope.incompOpt[i].id == res.data.tousedcompid) {
-                            $scope.incompSel = $scope.incompOpt[i];
-                            break;
-                        }
-                    }
-                }
-                if (angular.isDefined(res.data.toloc)) {
-                    for (var i = 0; i < $scope.locOpt.length; i++) {
-                        if ($scope.locOpt[i].id == res.data.toloc) {
-                            $scope.locSel = $scope.locOpt[i];
-                            break;
-                        }
-                    }
-                }
-                if (angular.isDefined(res.data.allocateuserid)) {
-                    var e = {};
-                    e.user_id = $scope.data.allocateuserid;
-                    e.name = $scope.data.allocateusername;
-                    var arr = [];
-                    arr.push(e);
-                    $scope.inuserOpt = arr;
-                    $scope.inuserSel = $scope.inuserOpt[0];
-                }
-            } else {
-                notify({
-                    message: res.message
-                });
+
+
+    var dicts = "devdc"
+    $http
+        .post($rootScope.project + "/api/zc/queryDictFast.do",
+            {
+                dicts: dicts,
+                parts: "Y",
+                partusers: "Y",
+                comp: "Y",
+                belongcomp: "Y",
+                comppart: "Y",
+                uid: "allocation"
+            }).success(function (rs) {
+        if (rs.success) {
+            meta.gdict = rs.data;
+            $scope.outcompOpt = meta.gdict.comp;
+            if (meta.gdict.length > 0) {
+                $scope.outcompSel = $scope.outcompOpt[0];
             }
-        })
-    }
+            $scope.inuserOpt = meta.gdict.partusers;
+            $scope.incompOpt = meta.gdict.comp;
+            $scope.locOpt = meta.gdict.devdc;
+            if (meta.gdict.devdc.length > 0) {
+                $scope.locSel = $scope.locOpt[0];
+            }
+
+
+            if (angular.isDefined(meta.busid)) {
+                //获取数据
+                $http.post($rootScope.project + "/api/zc/resAllocate/ext/selectByBusid.do",
+                    {busid: meta.busid}).success(function (res) {
+                    if (res.success) {
+                        $scope.dtOptions.aaData = res.data.items;
+                        $scope.data = res.data;
+                        if (angular.isDefined(res.data.fcompid)) {
+                            for (var i = 0; i < $scope.outcompOpt.length; i++) {
+                                if ($scope.outcompOpt[i].id == res.data.fcompid) {
+                                    $scope.outcompSel = $scope.outcompOpt[i];
+                                    break;
+                                }
+                            }
+                        }
+                        if (angular.isDefined(res.data.tousedcompid)) {
+                            for (var i = 0; i < $scope.incompOpt.length; i++) {
+                                if ($scope.incompOpt[i].id == res.data.tousedcompid) {
+                                    $scope.incompSel = $scope.incompOpt[i];
+                                    break;
+                                }
+                            }
+                        }
+                        if (angular.isDefined(res.data.toloc)) {
+                            for (var i = 0; i < $scope.locOpt.length; i++) {
+                                if ($scope.locOpt[i].id == res.data.toloc) {
+                                    $scope.locSel = $scope.locOpt[i];
+                                    break;
+                                }
+                            }
+                        }
+                        if (angular.isDefined(res.data.allocateuserid)) {
+                            var e = {};
+                            e.user_id = $scope.data.allocateuserid;
+                            e.name = $scope.data.allocateusername;
+                            var arr = [];
+                            arr.push(e);
+                            $scope.inuserOpt = arr;
+                            $scope.inuserSel = $scope.inuserOpt[0];
+                        }
+                    } else {
+                        notify({
+                            message: res.message
+                        });
+                    }
+                })
+            }
+
+
+        } else {
+            notify({
+                message: rs.message
+            });
+        }
+    })
+
+
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+    function close() {
+        $uibModalInstance.close('OK');
+    }
+
+    $scope.windowclose = function () {
+        $uibModalInstance.close('OK');
+    }
     $scope.sure = function () {
         if ($scope.dtOptions.aaData.length == 0) {
             notify({
@@ -4764,7 +4819,7 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.data.toloc = $scope.locSel.dict_item_id;
         $scope.data.tolocname = $scope.locSel.name;
         $scope.data.busdate = $scope.date.busdate.format('YYYY-MM-DD');
-        $http.post($rootScope.project + "/api/zc/resAllocate/ext/insertOrUpdate.do",
+        $http.post($rootScope.project + "/api/zc/resAllocate/ext/createDb.do",
             $scope.data).success(function (res) {
             if (res.success) {
                 $uibModalInstance.close('OK');

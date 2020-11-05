@@ -86,6 +86,28 @@ public class ResAllocate extends BaseModel<ResAllocate> {
     @TableField("busdate")
     private Date busdate;
 
+    @TableField("name")
+    private String name;
+
+    @TableField("pinst")
+    private String pinst;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPinst() {
+        return pinst;
+    }
+
+    public void setPinst(String pinst) {
+        this.pinst = pinst;
+    }
+
 
     public String getId() {
         return id;

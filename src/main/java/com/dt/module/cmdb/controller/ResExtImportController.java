@@ -28,9 +28,6 @@ import java.io.UnsupportedEncodingException;
 public class ResExtImportController extends BaseController {
 
     @Autowired
-    ZcCommonService resExtService;
-
-    @Autowired
     ISysFilesService SysFilesServiceImpl;
 
     @Autowired

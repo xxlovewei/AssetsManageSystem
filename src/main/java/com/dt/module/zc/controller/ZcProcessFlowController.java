@@ -88,26 +88,32 @@ public class ZcProcessFlowController extends BaseController {
     FormServiceImpl formServiceImpl;
 
     @Autowired
-    ZcCommonService resExtService;
+    ISysUserInfoService SysUserInfoServiceImpl;
 
     @Autowired
-    ISysUserInfoService SysUserInfoServiceImpl;
-    @Autowired
     ISysProcessDefService SysProcessDefServiceImpl;
+
     @Autowired
     IResActionItemService ResActionItemServiceImpl;
+
     @Autowired
     ISysProcessDataService SysProcessDataServiceImpl;
+
     @Autowired
     ISysProcessSettingService SysProcessSettingServiceImpl;
+
     @Autowired
     ISysFormService SysFormServiceImpl;
+
     @Autowired
     ISysProcessFormService SysProcessFormServiceImpl;
+
     @Autowired
     private ProcessService processService;
+
     @Autowired
     private TaskService taskService;
+
     @Autowired
     private HistoryService historyService;
 
@@ -117,7 +123,6 @@ public class ZcProcessFlowController extends BaseController {
     public R queryFlowTaskInfo(String busid) {
         return flowDataService.queryFlowTaskInfoByBusid(busid);
     }
-
 
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
@@ -254,46 +259,9 @@ public class ZcProcessFlowController extends BaseController {
         sysUfloProcessService.addVariablesInProcessInstance(tsk.getProcessInstanceId(), "pstatusdtl", SysProcessDataService.PSTATUS_DTL_SUCCESS);
         R r = sysUfloProcessService.completeTask(taskId, opinion);
         return r;
-//        UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
-//        ProcessDefinition process = processService.getProcessById(tsk.getProcessId());
-        //       Node node = process.getNode(tsk.getNodeName());
-//        List<SequenceFlowImpl> flows = node.getSequenceFlows();
-//        if (flows.size() > 0) {
-//            SequenceFlowImpl flowimpl = flows.get(0);
-//            String toNode = flowimpl.getToNode();
-//            if (toNode != null) {
-//                if (toNode.startsWith("结束") || toNode.startsWith("流程结束") || toNode.toLowerCase().startsWith("end")) {
-//                    //盘点为最后一个节点
-//                    QueryWrapper<SysProcessData> qw = new QueryWrapper<SysProcessData>();
-//                    qw.eq("busid", tsk.getBusinessId());
-//                    SysProcessData sd = SysProcessDataServiceImpl.getOne(qw);
-//                    Date date = new Date(); // 获取一个Date对象
-//                    DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
-//                    String nowtime = simpleDateFormat.format(date);
-//                    uw.set("pstatus", SysProcessDataService.PSTATUS_FINISH);
-//                    uw.set("pstatusdtl", SysProcessDataService.PSTATUS_DTL_SUCCESS);
-//                    uw.set("pendtime", nowtime);
-        // 流程类型处理
-//                    if (busType != null) {
-//                        if (busType.equals("LY") || busType.equals("JY") || busType.equals("DB") || busType.equals("ZY")) {
-//                            uw.set("busstatus", "out");
-//                        }
-//                    }
-//                    SysProcessDataServiceImpl.update(uw);
-//                    zcChangeService.zcfinishFlow(sd.getProcessinstanceid());
-//                }
-//            }
-//        }
 
     }
 
-//    @RequestMapping("/refuseTask.do")
-//    @ResponseBody
-//    @Acl(info = "", value = Acl.ACL_USER)
-//    public R refuseTask(String taskId, String opinion) {
-//        R r = sysUfloProcessService.refuseTask(taskId, opinion);
-//        return r;
-//    }
 
     @RequestMapping("/refuseTaskForwardEnd.do")
     @ResponseBody

@@ -71,24 +71,6 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         }
     }
 
-    function renderType(data, type, full) {
-        var html = data;
-        if (angular.isDefined(data)) {
-            if (data == "LY") {
-                html = "资产领用流程";
-            } else if (data == "JY") {
-                html = "资产借用流程"
-            } else if (data == "BX") {
-                html = "资产报销流程"
-            } else if (data == "ZY") {
-                html = "资产转移流程"
-            } else if (data == "WX") {
-                html = "资产维修流程"
-            }
-        }
-        return html;
-    }
-
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
     $scope.dtColumns = [
         DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
@@ -104,7 +86,7 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
         DTColumnBuilder.newColumn('ptitle').withTitle('主题').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('ptype').withTitle('类型').withOption(
-            'sDefaultContent', '').renderWith(renderType),
+            'sDefaultContent', '').renderWith(renderBusCat),
         DTColumnBuilder.newColumn('createTime').withTitle('发起时间')
             .withOption('sDefaultContent', ''),
         DTColumnBuilder.newColumn('pendtime').withTitle('结束时间').withOption(

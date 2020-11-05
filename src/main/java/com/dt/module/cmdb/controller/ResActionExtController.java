@@ -29,9 +29,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/api/cmdb/resActionExt")
 public class ResActionExtController extends BaseController {
-
-    @Autowired
-    ZcCommonService resExtService;
+//
+//    @Autowired
+//    ZcCommonService resService;
 
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;

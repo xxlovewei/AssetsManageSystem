@@ -52,7 +52,7 @@ public class ResAllocateExtController extends BaseController {
     IResAllocateService ResAllocateServiceImpl;
 
     @Autowired
-    ResAllocateService resAllocateExtService;
+    ResAllocateService resAllocateService;
 
 
     @ResponseBody
@@ -64,40 +64,40 @@ public class ResAllocateExtController extends BaseController {
         return R.SUCCESS_OPER(ResAllocateServiceImpl.list(ew));
     }
 
-    @ResponseBody
-    @Acl(info = "sure", value = Acl.ACL_USER)
-    @RequestMapping(value = "/sureAllocationById.do")
-    public R sureAllocationById(@RequestParam(value = "id", required = true, defaultValue = "") String id, String items) {
-        ResAllocate obj = ResAllocateServiceImpl.getById(id);
-        String status = obj.getStatus();
-        if ("doing".equals(status)) {
-            UpdateWrapper<ResAllocate> ups = new UpdateWrapper<ResAllocate>();
-            ups.set("status", "finish");
-            ups.and(i -> i.eq("id", obj.getId()));
-            ResAllocateServiceImpl.update(ups);
-            return zcChangeService.zcDBSureChange(obj.getUuid());
-        } else {
-            return R.FAILURE("当前状态不允许确认");
-        }
-    }
+//    @ResponseBody
+//    @Acl(info = "sure", value = Acl.ACL_USER)
+//    @RequestMapping(value = "/sureAllocationById.do")
+//    public R sureAllocationById(@RequestParam(value = "id", required = true, defaultValue = "") String id, String items) {
+//        //        ResAllocate obj = ResAllocateServiceImpl.getById(id);
+////        String status = obj.getStatus();
+////        if ("doing".equals(status)) {
+////            UpdateWrapper<ResAllocate> ups = new UpdateWrapper<ResAllocate>();
+////            ups.set("status", "finish");
+////            ups.and(i -> i.eq("id", obj.getId()));
+////            ResAllocateServiceImpl.update(ups);
+////            return zcChangeService.zcDBSureChange(obj.getUuid());
+////        } else {
+////            return R.FAILURE("当前状态不允许确认");
+////        }
+//    }
 
     //status:doing,finish,cancel
-    @ResponseBody
-    @Acl(info = "cancel", value = Acl.ACL_USER)
-    @RequestMapping(value = "/cancelAllocationById.do")
-    public R cancelAllocationById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-        ResAllocate obj = ResAllocateServiceImpl.getById(id);
-        String status = obj.getStatus();
-        if ("cancel".equals(status) || "finish".equals(status)) {
-            return R.FAILURE("当前状态不允许取消");
-        } else {
-            UpdateWrapper<ResAllocate> ups = new UpdateWrapper<ResAllocate>();
-            ups.set("status", "cancel");
-            ups.and(i -> i.eq("id", obj.getId()));
-            ResAllocateServiceImpl.update(ups);
-            return zcChangeService.zcDBCancelChange(obj.getUuid());
-        }
-    }
+//    @ResponseBody
+//    @Acl(info = "cancel", value = Acl.ACL_USER)
+//    @RequestMapping(value = "/cancelAllocationById.do")
+//    public R cancelAllocationById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
+//        ResAllocate obj = ResAllocateServiceImpl.getById(id);
+//        String status = obj.getStatus();
+//        if ("cancel".equals(status) || "finish".equals(status)) {
+//            return R.FAILURE("当前状态不允许取消");
+//        } else {
+//            UpdateWrapper<ResAllocate> ups = new UpdateWrapper<ResAllocate>();
+//            ups.set("status", "cancel");
+//            ups.and(i -> i.eq("id", obj.getId()));
+//            ResAllocateServiceImpl.update(ups);
+//            return zcChangeService.zcDBCancelChange(obj.getUuid());
+//        }
+//    }
 
 
     @ResponseBody
@@ -112,51 +112,23 @@ public class ResAllocateExtController extends BaseController {
     }
 
     @ResponseBody
+    @Acl(info = "根据Id查询", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectByBusid.do")
+    public R selectByBusid(@RequestParam(value = "busid", required = true, defaultValue = "") String busid) {
+        QueryWrapper<ResAllocate> qw = new QueryWrapper<ResAllocate>();
+        qw.and(i -> i.eq("uuid", busid));
+        ResAllocate obj = ResAllocateServiceImpl.getOne(qw);
+        JSONObject res = JSONObject.parseObject(JSON.toJSONString(obj, SerializerFeature.WriteDateUseDateFormat));
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t,res_allocate_item b where t.id=b.resid and b.dr='0' and b.busuuid=?";
+        res.put("items", db.query(sql, busid).toJsonArrayWithJsonObject());
+        return R.SUCCESS_OPER(res);
+    }
+
+    @ResponseBody
     @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
-    @RequestMapping(value = "/insertOrUpdate.do")
-    public R insertOrUpdate(ResAllocate entity, String items) {
-        String id = "";
-        String uuid = "";
-        if (ToolUtil.isNotEmpty(entity.getId())) {
-            id = entity.getId();
-            uuid = entity.getUuid();
-        } else {
-            ArrayList<ResAllocateItem> cols = new ArrayList<ResAllocateItem>();
-            uuid = zcService.createUuid(ZcCommonService.UUID_DB);
-            entity.setUuid(uuid);
-            entity.setStatus(ResAllocateService.STATUS_DOING);
-            ResAllocateServiceImpl.saveOrUpdate(entity);
-            QueryWrapper<ResAllocate> ew = new QueryWrapper<ResAllocate>();
-            String finalUuid = uuid;
-            ew.and(i -> i.eq("uuid", finalUuid));
-            ResAllocate dbobj = ResAllocateServiceImpl.getOne(ew);
-            JSONArray arr = JSONArray.parseArray(items);
-            for (int i = 0; i < arr.size(); i++) {
-                ResAllocateItem e = new ResAllocateItem();
-                e.setBusuuid(uuid);
-                e.setResid(arr.getJSONObject(i).getString("id"));
-                e.setAllocateid(dbobj.getId());
-
-                e.setFcompid(entity.getFcompid());
-                e.setFcompname(entity.getFcompname());
-                e.setBusdate(entity.getBusdate());
-
-//                e.setFloc(entity.getFloc());
-//                e.setFlocname(entity.getFlocname());
-//                e.setFlocdtl(entity.getFlocdtl());
-
-                e.setTousedcompid(entity.getTousedcompid());
-                e.setTousedcompname(entity.getTousedcompname());
-                e.setToloc(entity.getToloc());
-                e.setTolocname(entity.getTolocname());
-                e.setTolocdtl(entity.getTolocdtl());
-
-                cols.add(e);
-            }
-            ResAllocateItemServiceImpl.saveBatch(cols);
-            zcChangeService.zcDBChange(uuid);
-        }
-        return R.SUCCESS_OPER();
+    @RequestMapping(value = "/createDb.do")
+    public R createDb(ResAllocate entity, String items) {
+        return resAllocateService.createDb(entity, items);
     }
 
 

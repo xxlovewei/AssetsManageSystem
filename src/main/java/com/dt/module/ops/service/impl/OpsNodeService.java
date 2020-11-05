@@ -29,7 +29,7 @@ import java.util.List;
  */
 
 @Service
-public class OpsNodeExtServiceImpl extends BaseService {
+public class OpsNodeService extends BaseService {
 
     public static String sql = "select  "
             + "(select name from sys_dict_item where dr='0' and dict_item_id=t.nodebackup and dict_id = 'nodebak' )   nodebackupstr,  "
@@ -48,7 +48,7 @@ public class OpsNodeExtServiceImpl extends BaseService {
             + "t.* from ops_node t where dr=0 ";
 
     public R selecList(String search) {
-        String sql = OpsNodeExtServiceImpl.sql + " and arch='0'";
+        String sql = OpsNodeService.sql + " and arch='0'";
         if (ToolUtil.isNotEmpty(search)) {
             sql = sql + " and (name like '%" + search + "%' or ip like '%" + search + "%' or leader like '%" + search
                     + "%' or mark like '%" + search + "%')";

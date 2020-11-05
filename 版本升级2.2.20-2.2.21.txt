@@ -1,3 +1,20 @@
+-- auto-generated definition
+create table res_approvalnode
+(
+    id          varchar(50)  not null comment '主键'
+        primary key,
+    name        varchar(500) null,
+    code        varchar(50)  null,
+    userid      varchar(500) null,
+    username    varchar(500) null,
+    dr          varchar(1)   null,
+    update_by   varchar(50)  null,
+    create_by   varchar(50)  null,
+    create_time datetime     null,
+    update_time datetime     null,
+    status      varchar(50)  null
+);
+
 alter table res_collectionreturn add name varchar(500) null;
 update res_collectionreturn set bustype='LY' where bustype='ly';
 update res_collectionreturn set bustype='TK' where bustype='tk';
@@ -7,6 +24,15 @@ alter table res_scrape add pinst varchar(50) null;
 alter table res_repair add pinst varchar(50) null;
 alter table res add uuidrk varchar(50) null;
 alter table res add runstatus varchar(50) null;
+alter table res_allocate add name varchar(50) null;
+alter table res_allocate add pinst varchar(50) null;
+alter table res_allocate_item drop column residprerecycle;
+
+
+
+
+
+
 
 
 
