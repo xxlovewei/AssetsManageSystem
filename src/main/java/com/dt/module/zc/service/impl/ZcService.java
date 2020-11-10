@@ -309,10 +309,18 @@ public class ZcService extends BaseService {
             //获取多个类型
             sql = sql + " and class_id in (select id from ct_category t where t.dr='0' and t.root='" + classroot + "' and t.node_level>1)";
         }
-        //获取分类以下全部数据
+
+        //获取分类以下全部数据,按照分类取数
         String class_id_parents = ps.getString("class_id_parents");
         if (ToolUtil.isNotEmpty(class_id_parents) && !"all".equals(class_id_parents)) {
-            sql = sql + " and class_id in (select id from ct_category where 1=1 and (id='" + class_id_parents + "' or route like '%" + class_id_parents + "-%'))";
+            Rcd ciprs = db.uniqueRecord("select node_level from ct_category where id=?", class_id_parents);
+            String psql = "";
+            if ("1".equals(ciprs.getString("node_level"))) {
+                psql = "select id from ct_category where 1=1 and (id='" + class_id_parents + "' or route like '" + class_id_parents + "-%')";
+            } else {
+                psql = "select id from ct_category where 1=1 and (id='" + class_id_parents + "' or route like '%-" + class_id_parents + "-%')";
+            }
+            sql = sql + " and class_id in (" + psql + ")";
         }
         //类别
         if (ToolUtil.isNotEmpty(class_id) && !"all".equals(class_id)) {
@@ -610,7 +618,6 @@ public class ZcService extends BaseService {
             me.setIf("changestate", "insert");
             me.setIf("net_worth", ps.getString("net_worth", "0"));
             me.setIf("buy_price", ps.getString("buy_price", "0"));
-
             me.setIf("part_id", "none".equals(ps.getString("part_id")) ? 0 : ps.getString("part_id"));
             me.setIf("mgr_part_id", "none".equals(ps.getString("mgr_part_id")) ? 0 : ps.getString("mgr_part_id"));
             me.setIf("used_userid", ps.getString("used_userid"));
@@ -625,6 +632,8 @@ public class ZcService extends BaseService {
             me.setIf("fs5", ps.getString("fs5"));
             me.setIf("fs6", ps.getString("fs6"));
             me.setIf("fs7", ps.getString("fs7"));
+            me.setIf("fs18", ps.getString("fs18"));
+            me.setIf("fs19", ps.getString("fs19"));
             me.setIf("fs20", ps.getString("fs20"));
             me.setIf("zc_cnt", ps.getString("zc_cnt", "1"));
             me.setIf("img", ps.getString("img"));
@@ -642,7 +651,7 @@ public class ZcService extends BaseService {
             me.setIf("usefullife", ps.getString("usefullife"));
             me.setIf("unit", ps.getString("unit"));
             me.setIf("isscrap", ps.getString("isscrap"));
-
+            me.setIf("name", ps.getString("name"));
             //生产日期
             me.setIf("fd1", ps.getString("fd1str") == null ? null : ps.getString("fd1str") + " 00:00:00");
 
@@ -688,6 +697,8 @@ public class ZcService extends BaseService {
             me.setIf("fs5", ps.getString("fs5"));
             me.setIf("fs6", ps.getString("fs6"));
             me.setIf("fs7", ps.getString("fs7"));
+            me.setIf("fs18", ps.getString("fs18"));
+            me.setIf("fs19", ps.getString("fs19"));
             me.setIf("fs20", ps.getString("fs20"));
             me.setIf("zc_cnt", ps.getString("zc_cnt"));
             me.setIf("img", ps.getString("img"));
@@ -704,8 +715,8 @@ public class ZcService extends BaseService {
             me.setIf("batchno", ps.getString("batchno"));
             me.setIf("usefullife", ps.getString("usefullife"));
             me.setIf("unit", ps.getString("unit"));
-
             me.setIf("fd1", ps.getString("fd1str") == null ? null : ps.getString("fd1str") + " 00:00:00");
+            me.setIf("name", ps.getString("name"));
             me.where().and("id=?", id);
             sql = me.getSQL();
 

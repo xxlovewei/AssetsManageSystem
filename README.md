@@ -127,6 +127,7 @@ docker run --name dt-app -t \
 - 移动端计划延后
 
 ## 项目支持
+如果喜欢这个项目，请随意打赏，支持项目发展。
 支付宝
 <img width="200" height="200" src="https://images.gitee.com/uploads/images/2020/1105/135552_037eeb5c_448530.png" />
  

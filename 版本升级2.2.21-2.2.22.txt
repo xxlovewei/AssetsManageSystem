@@ -1,0 +1,1 @@
+insert into ct_category_root(id,name,dr)values('12','软件资产',0);

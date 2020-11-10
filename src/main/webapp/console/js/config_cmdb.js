@@ -3,6 +3,40 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
         debug: true
     });
+
+
+    // 软件
+    $stateProvider.state('softzc', {
+        abstract: true,
+        url: "/softzc",
+        templateUrl: "views/common/content.html?v=" + version
+    }).state('softzc.softzcdj', {
+        url: "/softzcdj",
+        data: {pageTitle: '资产登记'},
+        templateUrl: "views/cmdb/softzcdj.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/softzcdj.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('softzc.softlegalization', {
+        url: "/softlegalization",
+        data: {pageTitle: '软件正版化'},
+        templateUrl: "views/cmdb/softlegalization.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/softlegalization.js?v=' + version]
+                }]);
+            }
+        }
+    });
+
+
     $stateProvider.state('zcindex', {
         url: "/zcindex",
         templateUrl: "views/cmdb/zcindex.html?v=" + version,
@@ -240,6 +274,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 return $ocLazyLoad.load([{
                     serie: true,
                     files: ['views/cmdb/zccategory.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('cmsetting.softcat', {
+        url: "/cmsetting_softcat",
+        data: {pageTitle: '软件分类', code: "12"},
+        templateUrl: "views/cmdb/softcategory.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/softcategory.js?v=' + version]
                 }]);
             }
         }
@@ -681,7 +727,8 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    })
+    });
+
 
     // cmdb
     $stateProvider.state('cf', {
@@ -809,23 +856,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
             }
         }
     })
-    $stateProvider.state('softzc', {
-        abstract: true,
-        url: "/softzc",
-        templateUrl: "views/common/content.html?v=" + version
-    }).state('softzc.soft', {
-        url: "/softzc.soft",
-        data: {pageTitle: '软件资产', classid: "softzc", input_type: "zcsofttype"},
-        templateUrl: "views/cmdb/genericdev.html?v=" + version,
-        resolve: {
-            loadPlugin: function ($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    serie: true,
-                    files: ['views/cmdb/genericdev.js?v=' + version]
-                }]);
-            }
-        }
-    })
+
     $stateProvider.state('report', {
         abstract: true,
         url: "/report",

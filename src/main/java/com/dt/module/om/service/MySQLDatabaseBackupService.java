@@ -13,6 +13,8 @@ import com.dt.module.db.DB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -25,9 +27,11 @@ import java.util.zip.ZipOutputStream;
 
 
 @Service
-
+@PropertySource(value = "classpath:config.properties")
 public class MySQLDatabaseBackupService extends BaseService {
 
+    @Value("${tool.mysqldump}")
+    public String tool_mysqldump;
 
     private static Logger log = LoggerFactory.getLogger(MySQLDatabaseBackupService.class);
     @Autowired
@@ -79,7 +83,6 @@ public class MySQLDatabaseBackupService extends BaseService {
         ins.set("dbname", dbName);
         ins.setSE("create_time", "now()");
         DB.instance().execute(ins.getSQL());
-
         Update ups = new Update("sys_dbbackup_rec");
         ups.where().and("id=?", id);
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -124,6 +127,14 @@ public class MySQLDatabaseBackupService extends BaseService {
         return R.SUCCESS();
     }
 
+    private String getBackupToolmysqldump() {
+        String res = "mysqldump";
+        if (ToolUtil.isNotEmpty(tool_mysqldump)) {
+            return tool_mysqldump;
+        }
+        return res;
+    }
+
     private String decideMysqldumpColumnStatistics() {
         StringBuilder result = new StringBuilder();
         Process process = null;
@@ -139,7 +150,8 @@ public class MySQLDatabaseBackupService extends BaseService {
                 commands[0] = "/bin/sh";
                 commands[1] = "-c";
             }
-            commands[2] = "mysqldump --help";
+
+            commands[2] = getBackupToolmysqldump() + " --help";
             // 执行命令, 返回一个子进程对象（命令在子进程中执行）
             process = Runtime.getRuntime().exec(commands, null);
             // 方法阻塞, 等待命令执行完成（成功会返回0）
@@ -188,7 +200,7 @@ public class MySQLDatabaseBackupService extends BaseService {
                 commands[1] = "-c";
             }
             StringBuilder mysqldump = new StringBuilder();
-            mysqldump.append("mysqldump");
+            mysqldump.append(getBackupToolmysqldump());
             mysqldump.append(" " + decideMysqldumpColumnStatistics() + " ");
             mysqldump.append("  --opt");
 
