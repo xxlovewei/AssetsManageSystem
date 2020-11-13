@@ -35,14 +35,14 @@ public class AssetsApprovalNodeAssigneeProvider implements AssigneeProvider {
     @Override
     public void queryEntities(PageQuery<Entity> pageQuery, String s) {
         List<Entity> list = new ArrayList<Entity>();
-        pageQuery.setPageIndex(1);
-        pageQuery.setPageSize(30);
-        pageQuery.setResult(list);
+        //  pageQuery.setPageIndex(1);
+        pageQuery.setPageSize(50);
         List<ResApprovalnode> dlist = ResApprovalnodeServiceImpl.list(null);
         for (int i = 0; i < dlist.size(); i++) {
             list.add(new Entity(dlist.get(i).getId(), dlist.get(i).getName() + "-" + dlist.get(i).getUsername()));
         }
-        pageQuery.setRecordCount(list.size());
+        pageQuery.setResult(list);
+        pageQuery.setRecordCount(ResApprovalnodeServiceImpl.count());
     }
 
     @Override

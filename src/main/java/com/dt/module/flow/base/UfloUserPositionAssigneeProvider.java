@@ -68,21 +68,18 @@ public class UfloUserPositionAssigneeProvider implements AssigneeProvider {
     @Override
     public void queryEntities(PageQuery<Entity> pageQuery, String parentId) {
 
-        pageQuery.setPageIndex(1);
+//        pageQuery.setPageIndex(1);
         pageQuery.setPageSize(50);
         int index = pageQuery.getPageIndex();
         int size = pageQuery.getPageSize();
         int pagesize = size;
         int pageindex = index;
-        IPage<SysUserInfo> pdata = SysUserInfoServiceImpl.page(new Page<SysUserInfo>(pageindex, pagesize));
         List<Entity> entitys = new ArrayList<Entity>();
-
         entitys.add(new Entity("CreditLeader", "信审组长"));
         entitys.add(new Entity("QADirector", "质检主管"));
         entitys.add(new Entity("CreditDirector", "信审主管"));
         entitys.add(new Entity("QAManager", "质检经理"));
         entitys.add(new Entity("CreditManager", "信审经理"));
-
         pageQuery.setResult(entitys);
         pageQuery.setRecordCount(entitys.size());
 

@@ -22,6 +22,12 @@ public class TypedHashMap<K, V> extends HashMap<K, V> {
         }
     }
 
+    public void printData() {
+        for (Entry<K, V> e : this.entrySet()) {
+            System.out.println(e.getKey() + ":" + e.getValue());
+        }
+    }
+
     /**
      * 名值对转换
      */

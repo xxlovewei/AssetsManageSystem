@@ -4,10 +4,10 @@ function softzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile, $c
     //opensource  开源
     //business    商业
     //selfresearch  自研
-    var softdistributionOpt = [{id: "opensource", name: "开源"}, {id: "business", name: "商业"}, {
-        id: "selfresearch",
-        name: "自研"
-    }];
+    var softdistributionOpt = [
+        {id: "business", name: "商业"},
+        {id: "opensource", name: "开源"},
+        {id: "selfresearch", name: "自研"}];
     var pbtns = $rootScope.curMemuBtns;
     var gclassroot = '12';
     $scope.URL = $rootScope.project + "/api/base/res/queryPageResAllByClass.do";
@@ -84,6 +84,16 @@ function softzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile, $c
         }
     }
 
+    function renderAttach(data, type, full) {
+        if (angular.isDefined(data) && data.length > 0) {
+            var html = " <span><a href=\"../api/file/filedown.do?id=" + data + "\">下载</a></span> ";
+            return html;
+        } else {
+            return "";
+        }
+    }
+
+
     function renderFxfs(data, type, full) {
         if (angular.isDefined(data)) {
             if (data == "opensource") {
@@ -135,6 +145,8 @@ function softzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile, $c
         'sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('fs2').withTitle('标签2').withOption(
         'sDefaultContent', ''));
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('attach').withTitle('附件').withOption(
+        'sDefaultContent', '').renderWith(renderAttach));
     $scope.query = function () {
         flush();
     }
@@ -526,15 +538,6 @@ function softzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile, $c
             ng_model: "fs2"
         });
 
-
-        items.push({
-            type: "picupload",
-            disabled: "false",
-            required: false,
-            label: "图片",
-            need: false,
-            conf: "picconfig"
-        });
         items.push({
             type: "fileupload",
             disabled: "false",
@@ -601,28 +604,6 @@ function softzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile, $c
             jgSel: "",
             riskOpt: [],
             riskSel: "",
-            picconfig: {
-                url: 'fileupload.do',
-                maxFilesize: 10000,
-                paramName: "file",
-                maxThumbnailFilesize: 6,
-                // 一个请求上传多个文件
-                uploadMultiple: true,
-                // 当多文件上传,需要设置parallelUploads>=maxFiles
-                parallelUploads: 6,
-                maxFiles: 6,
-                dictDefaultMessage: "点击上传图片",
-                acceptedFiles: "image/jpeg,image/png,image/gif",
-                // 添加上传取消和删除预览图片的链接，默认不添加
-                addRemoveLinks: true,
-                // 关闭自动上传功能，默认会true会自动上传
-                // 也就是添加一张图片向服务器发送一次请求
-                autoProcessQueue: false,
-                init: function () {
-                    Dropzone.autoDiscover = false;
-                    $scope.myDropzonepic = this;
-                }
-            },
             attachconfig: {
                 url: 'fileupload.do',
                 maxFilesize: 10000,
@@ -634,7 +615,7 @@ function softzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile, $c
                 parallelUploads: 1,
                 maxFiles: 1,
                 dictDefaultMessage: "点击上传附件",
-                acceptedFiles: "image/jpeg,image/png,image/gif",
+                acceptedFiles: "image/jpeg,image/png,image/gif,.xls,.zip,.rar,.doc,.pdf,.docx,.txt,.xlsx",
                 // 添加上传取消和删除预览图片的链接，默认不添加
                 addRemoveLinks: true,
                 // 关闭自动上传功能，默认会true会自动上传
@@ -642,28 +623,12 @@ function softzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile, $c
                 autoProcessQueue: false,
                 init: function () {
                     Dropzone.autoDiscover = false;
-                    //	console.log('111111',$scope);
                     $scope.myDropzonefile = this;
                 }
             },
             items: items,
             sure: function (modalInstance, modal_meta) {
-                //处理图片
-                // 只允许传一张图片
-                modal_meta.meta.item.img = "";
-                if ($scope.myDropzonepic.files.length > 0 && $scope.myDropzonepic.files.length == 1) {
-                    var id = getUuid();
-                    if (typeof ($scope.myDropzonepic.files[0].uuid) == "undefined") {
-                        // 需要上传
-                        $scope.myDropzonepic.options.url = $rootScope.project
-                            + '/api/file/fileupload.do?uuid=' + id
-                            + '&bus=file&interval=10000&bus=file';
-                        $scope.myDropzonepic.uploadFile($scope.myDropzonepic.files[0])
-                    } else {
-                        id = $scope.myDropzonepic.files[0].uuid;
-                    }
-                    modal_meta.meta.item.img = id;
-                }
+
                 // 只允许传一张附件
                 modal_meta.meta.item.attach = "";
                 if ($scope.myDropzonefile.files.length > 0 && $scope.myDropzonefile.files.length == 1) {
@@ -746,32 +711,6 @@ function softzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile, $c
                 var tt = {};
                 angular.copy(gdicts, tt)
                 loadOpt(modal_meta, tt);
-                var iid = modal_meta.meta.item.img;
-                if (angular.isDefined(iid) && iid.length > 0) {
-                    $timeout(function () {
-                        var mockFile = {
-                            name: "主图",
-                            uuid: iid,
-                            href: $rootScope.project
-                                + "/api/file/imagedown.do?id="
-                                + iid,
-                            url: $rootScope.project
-                                + "/api/file/imagedown.do?id="
-                                + iid,
-                            status: "success",
-                            accepted: true,
-                            type: 'image/png'
-                        };
-                        $scope.myDropzonepic.emit("addedfile", mockFile);
-                        $scope.myDropzonepic.files.push(mockFile);
-                        // manually
-                        $scope.myDropzonepic.createThumbnailFromUrl(
-                            mockFile, $rootScope.project
-                            + "/api/file/imagedown.do?id="
-                            + iid);
-                        $scope.myDropzonepic.emit("complete", mockFile);
-                    }, 300);
-                }
                 var iidf = modal_meta.meta.item.attach;
                 if (angular.isDefined(iidf) && iidf.length > 0) {
                     $timeout(function () {
@@ -914,16 +853,6 @@ function softzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile, $c
                             });
                             return;
                         }
-                        //if(angular.isDefined(res.data.data.fs18)){
-                        // console.log($scope.gmeta);
-                        // for(var i=0;i<$scope.gmeta.softdistributionOpt.length;i++){
-                        //  console.log(res.data.fs18,$scope.gmeta.softdistributionOpt[i].id);
-                        // if(res.data.data.fs18==$scope.gmeta.softdistributionOpt[i].id){
-                        //     $scope.gmeta.softdistributionSel=$scope.gmeta.softdistributionOpt[i];
-                        //     break;
-                        // }
-                        // }
-                        //}
                         openWindow(res.data);
                     })
         } else {

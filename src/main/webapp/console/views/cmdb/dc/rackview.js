@@ -153,7 +153,7 @@ function rackviewCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         $http.post(
             $rootScope.project
             + "/api/zc/rack/ext/queryZcByRackId.do", {
-                rack: rack, dcid: dc
+                rack: rack, loc: dc
             }).success(function (res) {
             if (res.success) {
                 $scope.dtOptions.aaData = res.data;

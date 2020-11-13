@@ -200,13 +200,13 @@ public class ResCollectionreturnService extends BaseService {
             e.setBusuuid(busid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_LY);
-            e.setMark("资产领用");
-            e.setFillct("0");
+            e.setCreateBy(this.getUserId());
+            e.setCt("资产领用,领用人:" + items.get(i).getCrusername());
+            e.setFillct("1");
             e.setCdate(new Date());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
-        //  fillChangeCt();
         return R.SUCCESS_OPER();
     }
 
@@ -256,9 +256,10 @@ public class ResCollectionreturnService extends BaseService {
             e.setBusuuid(busid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_TK);
-            e.setFillct("0");
+            e.setFillct("1");
+            e.setCt("资产退库,退库人:" + items.get(i).getCrusername());
             e.setCdate(new Date());
-            e.setMark("资产退库");
+            e.setCreateBy(this.getUserId());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);

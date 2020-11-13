@@ -12,8 +12,8 @@ public class ResCBasicinformationService extends BaseService {
     public static String STATUS_SUCCESS = "success";
     public static String STATUS_FAILED = "failed";
     public static String STATUS_CANCEL = "cancel";
-    public static String STATUS_APPLY = "apply";
-    public static String STATUS_APPROVAL = "approval";
+//    public static String STATUS_APPLY = "apply";
+//    public static String STATUS_APPROVAL = "approval";
 
     public R selectByUuid(String uuid) {
         return selectData(uuid, null);

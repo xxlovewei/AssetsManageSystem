@@ -98,7 +98,6 @@ public class ResAllocateService extends BaseService {
         sql2 = sql2 + " where a.resid=b.id and a.busuuid=? and a.dr='0'";
         db.execute(sql2, busid);
 
-//        String sql3 = "update res_allocate_item a set acttime=now() where busuuid=?";
         String sql4 = "update res_allocate a set acttime=now() where uuid=?";
 //        db.execute(sql3, busid);
         db.execute(sql4, busid);
@@ -113,8 +112,9 @@ public class ResAllocateService extends BaseService {
             e.setBusuuid(busid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_DB);
-            e.setMark("确认调拨");
-            e.setFillct("0");
+            e.setCt("资产调拨");
+            e.setFillct("1");
+            e.setCreateBy(this.getUserId());
             e.setCdate(new Date());
             cols.add(e);
         }

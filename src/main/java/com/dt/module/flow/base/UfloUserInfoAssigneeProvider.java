@@ -43,7 +43,6 @@ public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
     @Override
     public void queryEntities(PageQuery<Entity> pageQuery, String parentId) {
 
-        pageQuery.setPageIndex(1);
         pageQuery.setPageSize(50);
         int index = pageQuery.getPageIndex();
         int size = pageQuery.getPageSize();
@@ -54,8 +53,10 @@ public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
         for (SysUserInfo userinfo : pdata.getRecords()) {
             entitys.add(new Entity(userinfo.getUserId(), userinfo.getName()));
         }
+        System.out.println("pageindex" + pageindex + ",pagesize" + pagesize);
+
         pageQuery.setResult(entitys);
-        pageQuery.setRecordCount(entitys.size());
+        pageQuery.setRecordCount(SysUserInfoServiceImpl.count());
 
     }
 

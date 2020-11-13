@@ -103,20 +103,6 @@ public class ZcChangeService extends BaseService {
     ResScrapeService resScrapeService;
 
 
-//    public R zcSureChange(String uuid, String type) {
-//        if (type.equals(ZcCommonService.ZC_BUS_TYPE_LY)) {
-//            //  return zcLySureChange(uuid);
-//        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_JY)) {
-//            return zcJySureChange(uuid);
-//        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_DB)) {
-//        } else if (type.equals(ZcCommonService.ZC_BUS_TYPE_BF)) {
-//            return zcBFSureChange(uuid);
-//        } else {
-//        }
-//        return R.SUCCESS();
-//    }
-
-
     //启动流程
     public R zcStartFlow(String pinst, String uuid, String type, String ifsp, JSONObject data) {
         if (type.equals(ZcCommonService.ZC_BUS_TYPE_LY)) {
@@ -153,21 +139,6 @@ public class ZcChangeService extends BaseService {
         return R.SUCCESS();
     }
 
-
-    public R zcRkConfirm(String uuid) {
-        QueryWrapper<Res> ew = new QueryWrapper<Res>();
-        ew.eq("uuid", uuid);
-        Res entity = ResServiceImpl.getOne(ew);
-        ResChangeItem e = new ResChangeItem();
-        e.setBusuuid(uuid);
-        e.setResid(entity.getId());
-        e.setFillct("1");
-        e.setCt("资产入库");
-        e.setMark("资产入库");
-        e.setType(ZcCommonService.ZC_BUS_TYPE_RK);
-        ResChangeItemServiceImpl.saveOrUpdate(e);
-        return R.SUCCESS_OPER();
-    }
 
     //折旧
     public R zcZjConfirm(String uuid) {

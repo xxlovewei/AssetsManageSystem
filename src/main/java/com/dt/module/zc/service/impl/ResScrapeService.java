@@ -142,9 +142,10 @@ public class ResScrapeService extends BaseService {
             e.setBusuuid(busid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_BF);
-            e.setFillct("0");
+            e.setFillct("1");
             e.setCdate(new Date());
-            e.setMark("资产报废");
+            e.setCt("资产报废");
+            e.setCreateBy(this.getUserId());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);

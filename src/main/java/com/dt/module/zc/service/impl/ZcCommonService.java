@@ -65,11 +65,18 @@ public class ZcCommonService extends BaseService {
     public static String UUID_CGJB = "CGJB";
 
     /*****业务编号*****/
-    //领用
+    //新增
+    public static String ZC_BUS_TYPE_ADD = "ADD";
+    //更新
+    public static String ZC_BUS_TYPE_UPDATE = "UPDATE";
+
+    //入库
     public static String ZC_BUS_TYPE_RK = "RK";
+
     //领用
     public static String ZC_BUS_TYPE_LY = "LY";
-    //退库
+    //退还
+
     public static String ZC_BUS_TYPE_TK = "TK";
     //借用
     public static String ZC_BUS_TYPE_JY = "JY";
@@ -99,7 +106,6 @@ public class ZcCommonService extends BaseService {
     public static String BX_STATUS_CANCEL = "cancel";
 
     public static String resHcSqlbody = " (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) locstr,"
-
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.env) envstr,"
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.risk) riskstr,"
             + " (select name from sys_dict_item where dr='0' and dict_item_id=t.brand) brandstr,"

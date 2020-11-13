@@ -108,8 +108,7 @@ public class ResExtExportController extends BaseController {
             throws UnsupportedEncodingException {
 
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        R res = zcService.queryResAllGetData(null, null, null, ps.getString("datarange"), ps.getString("classroot"), ps.getString("id"), ps.getString("wb"), ps.getString("env"),
-                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"), ps);
+        R res = zcService.queryResAllGetData(ps);
 
         JSONArray data = res.queryDataToJSONArray();
         List<ResEntity> data_excel = new ArrayList<ResEntity>();
@@ -148,8 +147,7 @@ public class ResExtExportController extends BaseController {
 
         TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
 
-        R res = zcService.queryResAllGetData(null, null, null, ps.getString("datarange"), ps.getString("classroot"), ps.getString("id"), ps.getString("wb"), ps.getString("env"),
-                ps.getString("recycle"), ps.getString("loc"), ps.getString("search"), ps);
+        R res = zcService.queryResAllGetData(ps);
 
         JSONArray data = res.queryDataToJSONArray();
         List<ResEntity> data_excel = new ArrayList<ResEntity>();

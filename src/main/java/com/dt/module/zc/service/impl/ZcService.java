@@ -21,7 +21,9 @@ import com.dt.module.cmdb.service.IResService;
 import com.dt.module.ct.entity.CtCategory;
 import com.dt.module.ct.service.ICtCategoryService;
 import com.dt.module.zc.entity.ResAllocate;
+import com.dt.module.zc.entity.ResChangeItem;
 import com.dt.module.zc.service.IResAllocateService;
+import com.dt.module.zc.service.IResChangeItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,9 +50,8 @@ public class ZcService extends BaseService {
     @Autowired
     ICtCategoryService CtCategoryServiceImpl;
 
-//    @Autowired
-//    ZcChangeService zcChangeService;
-
+    @Autowired
+    IResChangeItemService ResChangeItemServiceImpl;
 
     //@Cacheable(value = CacheConfig.CACHE_PUBLIC_80_10,key="'qf'+#uid")
     public R queryDictFast(String uid, String zchccat, String comppart, String comp, String belongcomp, String dicts, String parts, String partusers, String classid, String classroot, String zccatused) {
@@ -80,7 +81,6 @@ public class ZcService extends BaseService {
                     + subsql + " order by route", classroot);
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
-
 
         // 所有用户
         if (ToolUtil.isNotEmpty(partusers) && "Y".equals(partusers)) {
@@ -131,7 +131,6 @@ public class ZcService extends BaseService {
                     .query("select * from ct_category where root='" + ZcCategoryEnum.CATEGORY_HC.getValue() + "' and dr='0' and type='goods'");
             res.put("zchccat", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
-
 
         return R.SUCCESS_OPER(res);
     }
@@ -275,13 +274,33 @@ public class ZcService extends BaseService {
         return sql;
     }
 
-    public String buildQueryResAllGetdatalSql(String belongcomp, String comp, String part, String datarange, String classroot, String class_id, String wb, String env, String recycle, String loc, String search, TypedHashMap<String, Object> ps) {
-
+    public String buildQueryResAllGetdatalSql(TypedHashMap<String, Object> ps) {
         // 获取属性数据
+        ps.printData();
+        String belongcomp = ps.getString("belongcomp");
+        String comp = ps.getString("comp");
+        String part = ps.getString("part");
+        String datarange = ps.getString("datarange");
+        String classroot = ps.getString("classroot");
+        String class_id = ps.getString("class_id");
+        String wb = ps.getString("wb");
+        String env = ps.getString("env");
+        String recycle = ps.getString("recycle");
+        String loc = ps.getString("loc");
+        String search = ps.getString("search");
         String isscrap = ps.getString("isscrap");
-        String attrsql = "select * from res_attrs where catid=? and dr='0'";
-        RcdSet attrs_rs = db.query(attrsql, class_id);
+        String class_id_parents = ps.getString("class_id_parents");
+        String part_parents = ps.getString("part_parents");
         String ids = ps.getString("ids");
+        String warehouse = ps.getString("warehouse");
+        String zcnumber = ps.getString("zcnumber");
+        String category = ps.getString("category");
+        String rack = ps.getString("rack");
+        String used_userid = ps.getString("used_userid");
+        String attrsql = "select * from res_attrs where catid=? and dr='0'";
+
+
+        RcdSet attrs_rs = db.query(attrsql, class_id);
 
         String sql = "select";
         //扩展属性
@@ -311,7 +330,7 @@ public class ZcService extends BaseService {
         }
 
         //获取分类以下全部数据,按照分类取数
-        String class_id_parents = ps.getString("class_id_parents");
+
         if (ToolUtil.isNotEmpty(class_id_parents) && !"all".equals(class_id_parents)) {
             Rcd ciprs = db.uniqueRecord("select node_level from ct_category where id=?", class_id_parents);
             String psql = "";
@@ -356,25 +375,24 @@ public class ZcService extends BaseService {
             sql = sql + " and part_id='" + part + "'";
         }
         //使用部门组织以下全部数据
-        String part_parents = ps.getString("part_parents");
         if (ToolUtil.isNotEmpty(part_parents)) {
             sql = sql + " and part_id in (select node_id from hrm_org_part where (node_id='" + part_parents + "' or route like '%" + part_parents + "-%'))";
         }
         //仓库
-        if (ToolUtil.isNotEmpty(ps.getString("warehouse"))) {
-            sql = sql + " and warehouse='" + ps.getString("warehouse") + "'";
+        if (ToolUtil.isNotEmpty(warehouse)) {
+            sql = sql + " and warehouse='" + warehouse + "'";
         }
         //资产数
-        if (ToolUtil.isNotEmpty(ps.getString("zcnumber"))) {
-            sql = sql + " and zc_cnt>" + ps.getString("zcnumber");
+        if (ToolUtil.isNotEmpty(zcnumber)) {
+            sql = sql + " and zc_cnt>" + zcnumber;
         }
         //类目
-        if (ToolUtil.isNotEmpty(ps.getString("category"))) {
-            sql = sql + " and category='" + ps.getString("category") + "'";
+        if (ToolUtil.isNotEmpty(category)) {
+            sql = sql + " and category='" + category + "'";
         }
         //机架
-        if (ToolUtil.isNotEmpty(ps.getString("rack"))) {
-            sql = sql + " and rack='" + ps.getString("rack") + "'";
+        if (ToolUtil.isNotEmpty(rack)) {
+            sql = sql + " and rack='" + rack + "'";
         }
         //默认不显示报废数据,报废数据则,isscrap=1
         if (ToolUtil.isNotEmpty(isscrap) && "1".equals(isscrap)) {
@@ -382,7 +400,9 @@ public class ZcService extends BaseService {
         } else {
             sql = sql + " and isscrap='0'";
         }
-
+        if (ToolUtil.isNotEmpty(used_userid)) {
+            sql = sql + " and used_userid='" + used_userid + "'";
+        }
         //ids
         JSONArray ids_arr = JSONArray.parseArray(ids);
         if (ToolUtil.isNotEmpty(ids_arr) && ids_arr.size() > 0) {
@@ -411,9 +431,8 @@ public class ZcService extends BaseService {
     }
 
     // 根据ClassId获取数据,优先判断multiclassroot,在获取class_id
-    public R queryResAllGetData(String belongcomp, String comp, String part, String datarange, String classroot, String class_id, String wb, String env, String recycle, String loc, String search, TypedHashMap<String, Object> ps) {
-        String sql = this.buildQueryResAllGetdatalSql(belongcomp, comp, part, datarange, classroot, class_id, wb, env, recycle, loc, search, ps);
-        System.out.println(sql);
+    public R queryResAllGetData(TypedHashMap<String, Object> ps) {
+        String sql = this.buildQueryResAllGetdatalSql(ps);
         RcdSet rs2 = db.query(sql);
         return R.SUCCESS_OPER(rs2.toJsonArrayWithJsonObject());
     }
@@ -555,13 +574,10 @@ public class ZcService extends BaseService {
         Date date = new Date(); // 获取一个Date对象
         DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
         String nowtime = simpleDateFormat.format(date);
-
-        String recycle = ps.getString("recycle");
         String id = ps.getString("id");
         String class_id = ps.getString("class_id");
-
         String sql = "";
-        Insert ins = new Insert("res_history");
+        String atype = ZcCommonService.ZC_BUS_TYPE_ADD;
 
         //判断资产编码是否正确
         Rcd rs = null;
@@ -578,12 +594,11 @@ public class ZcService extends BaseService {
         String wbcompute = computeWb(ps.getString("wb"), ps.getString("wb_auto"), ps.getString("wbout_date_f"));
         String uuid = "";
         if (ToolUtil.isEmpty(id)) {
-            ins.set("oper_type", "入库");
+            atype = ZcCommonService.ZC_BUS_TYPE_ADD;
             Insert me = new Insert("res");
             id = db.getUUID();
             me.set("id", id);
             uuid = createUuid(ZcCommonService.UUID_ZC);
-
             if (ToolUtil.isEmpty(uuid)) {
                 return R.FAILURE("未生产有效编号,请稍后重新重试!");
             }
@@ -654,10 +669,9 @@ public class ZcService extends BaseService {
             me.setIf("name", ps.getString("name"));
             //生产日期
             me.setIf("fd1", ps.getString("fd1str") == null ? null : ps.getString("fd1str") + " 00:00:00");
-
-
             sql = me.getSQL();
         } else {
+            atype = ZcCommonService.ZC_BUS_TYPE_UPDATE;
             Update me = new Update("res");
             me.set("class_id", class_id);
             me.setIf("sn", ps.getString("sn"));
@@ -719,32 +733,11 @@ public class ZcService extends BaseService {
             me.setIf("name", ps.getString("name"));
             me.where().and("id=?", id);
             sql = me.getSQL();
-
-            Rcd source_recycle_rs = db.uniqueRecord(" select recycle from res where id=?", id);
-            if (ToolUtil.isNotEmpty(recycle) && source_recycle_rs != null) {
-                // 获取当前的recycle
-                String source_recycle = source_recycle_rs.getString("recycle");
-                if (source_recycle == null || source_recycle.equals(recycle)) {
-                    ins.set("oper_type", "更新");
-                } else {
-                    String act = db
-                            .uniqueRecord(" select name,dict_item_id from sys_dict_item where dict_item_id=? ", recycle)
-                            .getString("name");
-                    ins.set("oper_type", "操作-" + act);
-                }
-
-            } else {
-                ins.set("oper_type", "更新");
-            }
         }
+
         db.execute(sql);
         // 更新记录表
-        ins.set("id", db.getUUID());
-        ins.set("res_id", id);
-        ins.set("oper_time", nowtime);
-        ins.set("oper_user", this.getUserId());
-        ins.set("fullct", ps.toString());
-        db.execute(ins);
+
 
         // 更新其他属性，属性值、
         String attrvals = ps.getString("attrvals");
@@ -764,11 +757,22 @@ public class ZcService extends BaseService {
                 db.execute(me);
             }
         }
+        //记录变化
+        ResChangeItem e = new ResChangeItem();
+        e.setFillct("1");
+        e.setCreateTime(new Date());
+        e.setCreateBy(getUserId());
+        e.setResid(id);
+        e.setType(atype);
+        if (atype.equals(ZcCommonService.ZC_BUS_TYPE_ADD)) {
+            e.setCt("资产入库,操作人员:" + getName());
+            e.setMark("资产入库");
+        } else {
 
-//        if (ToolUtil.isEmpty(id)) {
-//            zcChangeService.zcRkConfirm(uuid);
-//        }
-
+            e.setCt("直接更新数据,操作人员:" + getName());
+            e.setMark("直接更新数据");
+        }
+        ResChangeItemServiceImpl.saveOrUpdate(e);
         return R.SUCCESS_OPER();
     }
 

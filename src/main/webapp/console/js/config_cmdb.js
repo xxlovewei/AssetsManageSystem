@@ -12,7 +12,7 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
         templateUrl: "views/common/content.html?v=" + version
     }).state('softzc.softzcdj', {
         url: "/softzcdj",
-        data: {pageTitle: '资产登记'},
+        data: {pageTitle: '软件资产登记'},
         templateUrl: "views/cmdb/softzcdj.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
@@ -34,7 +34,20 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('softzc.softzcquerycat', {
+        url: "/softzcquerycat",
+        data: {pageTitle: '资产查询'},
+        templateUrl: "views/cmdb/softzcquerycat.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/softzcquerycat.js?v=' + version]
+                }]);
+            }
+        }
     });
+    ;
 
 
     $stateProvider.state('zcindex', {
@@ -439,7 +452,20 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('myprocess.myassets', {
+        url: "/myassets",
+        data: {pageTitle: '我的资产'},
+        templateUrl: "views/cmdb/myassets.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/myassets.js?v=' + version]
+                }]);
+            }
+        }
     });
+
     $stateProvider.state('datacenter', {
         abstract: true,
         url: "/datacenter",
@@ -1895,6 +1921,10 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
             return "资产调拨";
         } else if (data == "LY") {
             return "资产领用"
+        } else if (data == "ADD") {
+            return "资产新增"
+        } else if (data == "UPDATE") {
+            return "资产更新"
         } else if (data == "TK") {
             return "资产退库"
         } else if (data == "JY") {
@@ -1920,12 +1950,12 @@ function modalcmdbdtlCtl($timeout, $localStorage, notify, $log, $uibModal,
         DTColumnBuilder.newColumn('create_time').withTitle('操作时间')
             .withOption('sDefaultContent', '').withOption('width', '30'),
         DTColumnBuilder.newColumn('busuuid').withTitle('单据编号').withOption(
-            'sDefaultContent', '').withOption('width', '30').renderWith(renderType),
+            'sDefaultContent', '').withOption('width', '30'),
         DTColumnBuilder.newColumn('type').withTitle('处理类型').withOption(
             'sDefaultContent', '').withOption('width', '30').renderWith(renderType),
         DTColumnBuilder.newColumn('ct').withTitle('处理内容').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('operusername').withTitle('操作人').withOption(
+        DTColumnBuilder.newColumn('create_uname').withTitle('操作人').withOption(
             'sDefaultContent', '')
     ]
     if (angular.isDefined(meta.id)) {

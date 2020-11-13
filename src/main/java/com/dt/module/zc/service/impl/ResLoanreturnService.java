@@ -129,9 +129,10 @@ public class ResLoanreturnService extends BaseService {
             e.setBusuuid(busid);
             e.setResid(items.get(i).getResid());
             e.setType(ZcCommonService.ZC_BUS_TYPE_JY);
-            e.setFillct("0");
+            e.setFillct("1");
             e.setCdate(new Date());
-            e.setMark("资产借用");
+            e.setCreateBy(this.getUserId());
+            e.setCt("资产借用,借用人:" + items.get(i).getLrusername());
             cols.add(e);
         }
         ResChangeItemServiceImpl.saveBatch(cols);
