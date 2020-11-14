@@ -1049,7 +1049,7 @@ function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('batchno').withTitle('批次号').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcomp_name').withTitle('所属公司').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').withOption('width', '30'));
@@ -1071,8 +1071,20 @@ function zcBaseColsHCCreate(DTColumnBuilder, selectype) {
 }
 
 function renderZcRecycle(data, type, full) {
-    if (full.inprocess == "1") {
-        data = data + "(流程中)";
+    if (full.inprocess == "1" && angular.isDefined(full.inprocesstype)) {
+        if (full.inprocesstype == "LY") {
+            data = data + "(领用流程中)";
+        } else if (full.inprocesstype == "TK") {
+            data = data + "(退库流程中)";
+        } else if (full.inprocesstype == "JY") {
+            data = data + "(借用流程中)";
+        } else if (full.inprocesstype == "BF") {
+            data = data + "(报废流程中)";
+        } else if (full.inprocesstype == "DB") {
+            data = data + "(调拨流程中)";
+        } else {
+            data = data + "(流程中)";
+        }
     }
     if (full.recycle == "inuse") {
         return "<span style=\"color:green;font-weight:bold\">" + data + "</span>";
@@ -1165,9 +1177,9 @@ function zcBaseColsCreate(DTColumnBuilder, selectype, colctl) {
         dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
             'sDefaultContent', ''));
     }
-    if (angular.isDefined(colctlobj.belongcom_name) && colctlobj.belongcom_name == "N") {
+    if (angular.isDefined(colctlobj.belongcomp_name) && colctlobj.belongcomp_name == "N") {
     } else {
-        dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle('所属公司').withOption(
+        dtColumns.push(DTColumnBuilder.newColumn('belongcomp_name').withTitle('所属公司').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
 
     }
@@ -2075,7 +2087,7 @@ function modal_common_ZcListCtl($timeout, $localStorage, notify, $log, $uibModal
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data')
         .withPaginationType('full_numbers').withDisplayLength(100)
         .withOption("ordering", false).withOption("responsive", false)
-        .withOption("searching", true).withOption('scrollY', 200)
+        .withOption("searching", true).withOption('scrollY', 500)
         .withOption('scrollX', true).withOption('bAutoWidth', true)
         .withOption('scrollCollapse', true).withOption('paging', true)
         .withOption('bStateSave', true).withOption('bProcessing', false)
@@ -3243,7 +3255,7 @@ function zccgwbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcomp_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
@@ -3497,7 +3509,7 @@ function zccgcwSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcomp_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
@@ -3814,7 +3826,7 @@ function zccgjbSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcomp_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', '').renderWith(renderDTFontColoPurpleH));
@@ -4184,7 +4196,7 @@ function loanSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcomp_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
@@ -4365,7 +4377,7 @@ function collectionSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcomp_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));
@@ -4544,7 +4556,7 @@ function tkSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         .withOption('sDefaultContent', '').renderWith(renderDTFontColoBluerH));
     dtColumns.push(DTColumnBuilder.newColumn('brandstr').withTitle('品牌').withOption(
         'sDefaultContent', '').withOption('width', '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcomp_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', ''));

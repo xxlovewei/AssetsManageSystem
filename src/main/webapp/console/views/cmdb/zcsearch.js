@@ -9,8 +9,9 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         "    <ul class=\"dropdown-menu\">\n" +
         "      <li><a href=\"javascript:void(0)\" ng-click=\"print('rwm')\">下载二维码</a></li>\n" +
         "      <li><a href=\"javascript:void(0)\" ng-click=\"print('txm')\">下载条形码</a></li>\n" +
-        "      <li><a href=\"javascript:void(0)\" ng-click=\"print('LY')\">打印资产卡片</a></li>\n" +
-        "      <li><a href=\"javascript:void(0)\" ng-click=\"print('TK')\">打印资产标签</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"print('lb')\">打印资产标签</a></li>\n" +
+        "      <li><a href=\"javascript:void(0)\" ng-click=\"print('card')\">打印资产卡片</a></li>\n" +
+
         "    </ul>\n" +
         "  </div>";
     $scope.URL = $rootScope.project + "/api/base/res/queryPageResAll.do";
@@ -348,7 +349,7 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         var a = document.createElement('a');
         a.id = 'tempId';
         document.body.appendChild(a);
-        a.download = "rwm-" + moment().format('L') + '.zip';
+        a.download = "assets-" + moment().format('L') + '.zip';
         a.href = URL.createObjectURL(file);
         a.click();
         const tempA = document.getElementById('tempId');
@@ -366,6 +367,28 @@ function cmdbdevsearchCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 $http.post($rootScope.project + "/api/zc/downloadZcImage.do", {
                     data: selrows,
                     type: type
+                }, {
+                    responseType: 'arraybuffer'
+                }).success(function (data) {
+                    var blob = new Blob([data], {
+                        type: "application/vnd.ms-excel"
+                    });
+                    downloadFile(blob);
+                })
+            } else if (type == "lb") {
+                $http.post($rootScope.project + "/api/zc/downloadLabel.do", {
+                    data: selrows
+                }, {
+                    responseType: 'arraybuffer'
+                }).success(function (data) {
+                    var blob = new Blob([data], {
+                        type: "application/vnd.ms-excel"
+                    });
+                    downloadFile(blob);
+                })
+            } else if (type == "card") {
+                $http.post($rootScope.project + "/api/zc/downloadCard.do", {
+                    data: selrows
                 }, {
                     responseType: 'arraybuffer'
                 }).success(function (data) {

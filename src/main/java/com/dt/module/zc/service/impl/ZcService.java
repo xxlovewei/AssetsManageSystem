@@ -276,7 +276,7 @@ public class ZcService extends BaseService {
 
     public String buildQueryResAllGetdatalSql(TypedHashMap<String, Object> ps) {
         // 获取属性数据
-        ps.printData();
+//        ps.printData();
         String belongcomp = ps.getString("belongcomp");
         String comp = ps.getString("comp");
         String part = ps.getString("part");

@@ -1,7 +1,7 @@
 package com.dt.module.cmdb.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dt.module.cmdb.entity.ResLabelTpl;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.dt.module.cmdb.entity.ResLabelTpl;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-20
+ * @since 2020-11-14
  */
 public interface ResLabelTplMapper extends BaseMapper<ResLabelTpl> {
 

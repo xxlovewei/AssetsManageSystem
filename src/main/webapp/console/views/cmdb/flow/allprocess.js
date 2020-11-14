@@ -155,54 +155,6 @@ function allProcessCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm,
             return angular.toJson(res);
         }
     }
-    $scope.oper = function () {
-        var item = getSelectRow();
-        if (angular.isDefined(item)) {
-            $http
-                .post(
-                    $rootScope.project
-                    + "/api/flow/sysProcessData/ext/selectByBusinessId.do",
-                    {
-                        businessid: item.busid
-                    })
-                .success(
-                    function (res) {
-                        if (res.success) {
-                            // 资产领用
-                            var modalInstance = $uibModal
-                                .open({
-                                    backdrop: true,
-                                    templateUrl: 'views/cmdb/modal_zcActionDtl.html',
-                                    controller: modalzcActionDtlCtl,
-                                    size: 'blg',
-                                    resolve: {
-                                        meta: function () {
-                                            return res.data;
-                                        },
-                                        task: function () {
-                                            return item;
-                                        },
-                                        pagetype: function () {
-                                            return "query";
-                                        }
-                                    }
-                                });
-                            modalInstance.result.then(function (result) {
-                            }, function (reason) {
-                                // 点击空白区域，总会输出backdrop
-                                // click，点击取消，则会cancel
-                            });
-                        } else {
-                            notify({
-                                message: res.message
-                            });
-                        }
-                    })
-        } else {
-            // notify({
-            // message : "该流程不存在"
-            // });
-        }
-    }
+
 };
 app.register.controller('allProcessCtl', allProcessCtl);

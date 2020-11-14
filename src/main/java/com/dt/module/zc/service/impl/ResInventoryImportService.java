@@ -164,7 +164,7 @@ public class ResInventoryImportService extends BaseService {
         }
 
         //组织信息
-        R belongcompR = checkOrgItem("comp", re.getBelongcom_fullname());
+        R belongcompR = checkOrgItem("comp", re.getBelongcomp_fullname());
         if (belongcompR.isFailed()) {
             return R.FAILURE(belongcompR.getMessage());
         }

@@ -14,7 +14,7 @@ function colctlSaveCtl($confirm, $timeout, $localStorage, notify, $log, $uibModa
     $scope.unitOpt = item;
     $scope.zc_cntOpt = item;
     $scope.confdescOpt = item;
-    $scope.belongcom_nameOpt = item;
+    $scope.belongcomp_nameOpt = item;
     $scope.comp_nameOpt = item;
     $scope.part_fullnameOpt = item;
     $scope.used_usernameOpt = item;
@@ -46,7 +46,7 @@ function colctlSaveCtl($confirm, $timeout, $localStorage, notify, $log, $uibModa
     $scope.unitSel = $scope.unitOpt[0]
     $scope.zc_cntSel = $scope.zc_cntOpt[0]
     $scope.confdescSel = $scope.confdescOpt[0]
-    $scope.belongcom_nameSel = $scope.belongcom_nameOpt[0]
+    $scope.belongcomp_nameSel = $scope.belongcomp_nameOpt[0]
     $scope.comp_nameSel = $scope.comp_nameOpt[0]
     $scope.part_fullnameSel = $scope.part_fullnameOpt[0]
     $scope.used_usernameSel = $scope.used_usernameOpt[0]
@@ -136,10 +136,10 @@ function colctlSaveCtl($confirm, $timeout, $localStorage, notify, $log, $uibModa
                     } else {
                         $scope.confdescSel = $scope.confdescOpt[0];
                     }
-                    if (angular.isDefined(confjson.belongcom_name) && confjson.belongcom_name == "N") {
-                        $scope.belongcom_nameSel = $scope.belongcom_nameOpt[1];
+                    if (angular.isDefined(confjson.belongcomp_name) && confjson.belongcomp_name == "N") {
+                        $scope.belongcomp_nameSel = $scope.belongcomp_nameOpt[1];
                     } else {
-                        $scope.belongcom_nameSel = $scope.belongcom_nameOpt[0];
+                        $scope.belongcomp_nameSel = $scope.belongcomp_nameOpt[0];
                     }
                     if (angular.isDefined(confjson.comp_name) && confjson.comp_name == "N") {
                         $scope.comp_nameSel = $scope.comp_nameOpt[1];
@@ -258,7 +258,7 @@ function colctlSaveCtl($confirm, $timeout, $localStorage, notify, $log, $uibModa
         $scope.item.unit = $scope.unitSel.id;
         $scope.item.zc_cnt = $scope.zc_cntSel.id;
         $scope.item.confdesc = $scope.confdescSel.id;
-        $scope.item.belongcom_name = $scope.belongcom_nameSel.id;
+        $scope.item.belongcomp_name = $scope.belongcomp_nameSel.id;
         $scope.item.comp_name = $scope.comp_nameSel.id;
         $scope.item.part_fullname = $scope.part_fullnameSel.id;
         $scope.item.used_username = $scope.used_usernameSel.id;
@@ -372,7 +372,7 @@ function zccolctlCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $log
         .withOption('sDefaultContent', '').renderWith(renderColParse));
     dtColumns.push(DTColumnBuilder.newColumn('confdesc').withTitle('配置描述').withOption(
         'sDefaultContent', '').renderWith(renderColParse));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcomp_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', '').renderWith(renderColParse));
     dtColumns.push(DTColumnBuilder.newColumn('comp_name').withTitle($rootScope.USEDCOMP).withOption(
         'sDefaultContent', '').renderWith(renderColParse));

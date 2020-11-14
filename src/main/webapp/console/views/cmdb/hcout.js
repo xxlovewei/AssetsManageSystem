@@ -264,7 +264,7 @@ function modalhcoutCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         .withOption('sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('batchno').withTitle('批次号').withOption(
         'sDefaultContent', ''));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcomp_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').withOption('width', '30'));

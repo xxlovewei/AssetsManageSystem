@@ -1,1 +1,9 @@
 insert into ct_category_root(id,name,dr)values('12','软件资产',0);
+alter table res_label_tpl add conf varchar(500) null;
+alter table res_label_tpl add tplfileid varchar(50) null;
+alter table res_label_tpl add name varchar(100) null;
+alter table res_label_tpl add mark varchar(100) null;
+
+
+
+

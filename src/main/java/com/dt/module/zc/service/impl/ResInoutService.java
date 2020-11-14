@@ -89,7 +89,7 @@ public class ResInoutService extends BaseService {
         JSONObject r = ConvertUtil.OtherJSONObjectToFastJSONObject(rcd.toJsonObject());
         String sql2 = "   " +
                 "select   " +
-                "  (select node_name from hrm_org_part where node_id=t.belong_company_id) belongcom_name,   " +
+                "  (select node_name from hrm_org_part where node_id=t.belong_company_id) belongcomp_name,   " +
                 "  (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) locstr,   " +
                 "  (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) warehousestr,   " +
                 "  (select id from ct_category where dr='0' and id=t.class_id) ctid,   " +
@@ -126,7 +126,7 @@ public class ResInoutService extends BaseService {
         JSONObject r = ConvertUtil.OtherJSONObjectToFastJSONObject(rcd.toJsonObject());
         String sql2 = "   " +
                 "select   " +
-                "  (select node_name from hrm_org_part where node_id=t.belong_company_id) belongcom_name,   " +
+                "  (select node_name from hrm_org_part where node_id=t.belong_company_id) belongcomp_name,   " +
                 "  (select name from sys_dict_item where dr='0' and dict_item_id=t.loc) locstr,   " +
                 "  (select name from sys_dict_item where dr='0' and dict_item_id=t.warehouse) warehousestr,   " +
                 "  (select id from ct_category where dr='0' and id=t.class_id) ctid,   " +
@@ -152,7 +152,7 @@ public class ResInoutService extends BaseService {
         JSONObject res = JSONObject.parseObject(JSON.toJSONString(in, SerializerFeature.WriteDateUseDateFormat));
         String sql = "select   " +
                 "   " +
-                "   (select node_name from hrm_org_part where node_id=t.belong_company_id) belongcom_name,   " +
+                "   (select node_name from hrm_org_part where node_id=t.belong_company_id) belongcomp_name,   " +
                 "  (select name   " +
                 "   from sys_dict_item   " +
                 "   where dr = '0' and dict_item_id = t.warehouse) warehousestr,   " +

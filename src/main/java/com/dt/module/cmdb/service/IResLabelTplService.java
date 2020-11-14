@@ -1,7 +1,7 @@
 package com.dt.module.cmdb.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.dt.module.cmdb.entity.ResLabelTpl;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.dt.module.cmdb.entity.ResLabelTpl;
  * </p>
  *
  * @author algernonking
- * @since 2020-04-20
+ * @since 2020-11-14
  */
 public interface IResLabelTplService extends IService<ResLabelTpl> {
 

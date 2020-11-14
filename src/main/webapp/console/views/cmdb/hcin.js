@@ -126,7 +126,7 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         'sDefaultContent', '').withOption("width", '30'));
     dtColumns.push(DTColumnBuilder.newColumn('supplierstr').withTitle('供应商').withOption(
         'sDefaultContent', '').withOption("width", '30'));
-    dtColumns.push(DTColumnBuilder.newColumn('belongcom_name').withTitle($rootScope.BELONGCOMP).withOption(
+    dtColumns.push(DTColumnBuilder.newColumn('belongcomp_name').withTitle($rootScope.BELONGCOMP).withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('locstr').withTitle('区域').withOption(
         'sDefaultContent', '').withOption('width', '30'));
@@ -167,7 +167,7 @@ function modalhcinCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }
         if (angular.isDefined($scope.compSel.id)) {
             $scope.data.belong_company_id = $scope.compSel.id;
-            $scope.data.belongcom_name = $scope.compSel.name;
+            $scope.data.belongcomp_name = $scope.compSel.name;
         }
         $scope.data.busitimestr = $scope.data.ywtime.format('YYYY-MM-DD')
         $scope.data.class_id = $scope.catSel.id;

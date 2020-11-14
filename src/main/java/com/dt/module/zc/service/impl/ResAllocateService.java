@@ -163,7 +163,7 @@ public class ResAllocateService extends BaseService {
                 UpdateWrapper<Res> ups = new UpdateWrapper<Res>();
                 ups.set("inprocess", "1");
                 ups.set("inprocessuuid", uuid);
-                ups.set("inprocesstype", ZcCommonService.DATARANGE_DB);
+                ups.set("inprocesstype", ZcCommonService.ZC_BUS_TYPE_DB);
                 ups.eq("id", arr.getJSONObject(i).getString("id"));
                 ResServiceImpl.update(ups);
             }

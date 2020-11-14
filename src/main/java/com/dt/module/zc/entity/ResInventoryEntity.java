@@ -64,7 +64,7 @@ public class ResInventoryEntity implements java.io.Serializable {
 
     //组织
     @Excel(name = "所属公司", width = 20)
-    private String belongcom_fullname;
+    private String belongcomp_fullname;
 
     @Excel(name = "使用公司", width = 20)
     private String comp_fullname;
@@ -299,7 +299,7 @@ public class ResInventoryEntity implements java.io.Serializable {
         this.net_worth = obj.getString("net_worth");
         this.zcsourcestr = obj.getString("zcsourcestr");
         this.comp_fullname = obj.getString("comp_fullname");
-        this.belongcom_fullname = obj.getString("belongcom_fullname");
+        this.belongcomp_fullname = obj.getString("belongcomp_fullname");
 
         this.pdbatchid = obj.getString("pdbatchid");
         this.pdstatusstr = obj.getString("pdstatusstr");
@@ -375,12 +375,12 @@ public class ResInventoryEntity implements java.io.Serializable {
         this.comp_fullname = comp_fullname;
     }
 
-    public String getBelongcom_fullname() {
-        return belongcom_fullname;
+    public String getBelongcomp_fullname() {
+        return belongcomp_fullname;
     }
 
-    public void setBelongcom_fullname(String belongcom_fullname) {
-        this.belongcom_fullname = belongcom_fullname;
+    public void setBelongcomp_fullname(String belongcomp_fullname) {
+        this.belongcomp_fullname = belongcomp_fullname;
     }
 
 

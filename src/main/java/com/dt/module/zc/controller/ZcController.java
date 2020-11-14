@@ -5,11 +5,19 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.deepoove.poi.XWPFTemplate;
+import com.deepoove.poi.config.Configure;
+import com.deepoove.poi.data.PictureRenderData;
+import com.deepoove.poi.policy.HackLoopTableRenderPolicy;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.Rcd;
+import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.base.entity.SysFiles;
+import com.dt.module.base.service.ISysFilesService;
 import com.dt.module.base.service.ISysUserInfoService;
 import com.dt.module.cmdb.entity.ResActionItem;
 import com.dt.module.cmdb.service.IResActionItemService;
@@ -25,6 +33,8 @@ import com.dt.module.flow.service.impl.SysUfloProcessService;
 import com.dt.module.form.entity.SysForm;
 import com.dt.module.form.service.ISysFormService;
 import com.dt.module.form.service.impl.FormServiceImpl;
+import com.dt.module.zc.entity.ResChangeItem;
+import com.dt.module.zc.service.IResChangeItemService;
 import com.dt.module.zc.service.impl.ZcChangeService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.zc.service.impl.ZcService;
@@ -44,9 +54,8 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.HashMap;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -63,13 +72,14 @@ public class ZcController extends BaseController {
     @Autowired
     FormServiceImpl formServiceImpl;
 
+    @Autowired
+    ISysFilesService SysFilesServiceImpl;
 
     @Autowired
     ZcChangeService zcChangeService;
 
     @Autowired
     ISysProcessDefService SysProcessDefServiceImpl;
-
 
     @Autowired
     ISysProcessDataService SysProcessDataServiceImpl;
@@ -79,6 +89,9 @@ public class ZcController extends BaseController {
 
     @Autowired
     ISysFormService SysFormServiceImpl;
+
+    @Autowired
+    IResChangeItemService ResChangeItemServiceImpl;
 
     @Autowired
     IResActionItemService ResActionItemServiceImpl;
@@ -106,8 +119,179 @@ public class ZcController extends BaseController {
     @RequestMapping(value = "/queryDictFast.do")
     @Transactional
     public R queryDictFast(String uid, String zchccat, String comppart, String comp, String belongcomp, String dicts, String parts, String partusers, String classid, String classroot, String zccatused) {
-
         return zcService.queryDictFast(uid, zchccat, comppart, comp, belongcomp, dicts, parts, partusers, classid, classroot, zccatused);
+    }
+
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/downloadLabel.do")
+    public void downloadLabel(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, @RequestParam("data") String data) throws IOException, WriterException {
+        OutputStream outputStream = httpServletResponse.getOutputStream();
+        ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream);
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where t.dr='0' and t.uuid in (#<UUID>#)";
+        JSONArray data_arr = JSONArray.parseArray(data);
+        String struuid = "";
+        for (int i = 0; i < data_arr.size(); i++) {
+            struuid = struuid + "'" + data_arr.getString(i) + "',";
+        }
+        struuid = struuid + "'-1'";
+        RcdSet datars = db.query(sql.replaceFirst("#<UUID>#", struuid));
+        int rwmh = 100;
+        int rwmw = 100;
+        int txmh = 80;
+        int txmw = 200;
+        Rcd rs = db.uniqueRecord("select * from res_label_tpl where dr='0' and ifdef='1'");
+        if (rs != null) {
+            String confstr = rs.getString("conf");
+            JSONObject confobj = JSONObject.parseObject(confstr);
+            if (confobj != null) {
+                if (confobj.containsKey("rwm")) {
+                    JSONObject rwm = confobj.getJSONObject("rwm");
+                    if (rwm.containsKey("h")) {
+                        rwmh = rwm.getIntValue("h");
+                    }
+                    if (rwm.containsKey("w")) {
+                        rwmw = rwm.getIntValue("w");
+                    }
+                }
+                if (confobj.containsKey("txm")) {
+                    JSONObject txm = confobj.getJSONObject("txm");
+                    if (txm.containsKey("h")) {
+                        txmh = txm.getIntValue("h");
+                    }
+                    if (txm.containsKey("w")) {
+                        txmw = txm.getIntValue("w");
+                    }
+                }
+            }
+            SysFiles fileobj = SysFilesServiceImpl.getById(rs.getString("tplfileid"));
+            String fileurl = fileobj.getPath();
+            String filename = ToolUtil.isEmpty(fileobj.getFilenameO()) ? "unknow.file" : fileobj.getFilenameO();
+            String filePath = ToolUtil.getRealPathInWebApp("") + ".." + File.separatorChar + fileurl;
+            File file = new File(filePath);
+            System.out.println("Use Tpl File:" + ToolUtil.getRealPathInWebApp("") + ".." + File.separatorChar + fileurl);
+            if (file.exists()) {
+                for (int i = 0; i < datars.size(); i++) {
+                    try {
+                        HashMap<String, Object> m = new HashMap<String, Object>();
+                        System.out.println("covert data:" + datars.getRcd(i).toJsonObject().toString());
+                        m.put("model", datars.getRcd(i).getString("model"));
+                        m.put("usedusername", datars.getRcd(i).getString("used_username"));
+                        m.put("partname", datars.getRcd(i).getString("part_name"));
+                        m.put("buytime", datars.getRcd(i).getString("buy_timestr"));
+                        m.put("classname", datars.getRcd(i).getString("classname"));
+                        m.put("uuid", datars.getRcd(i).getString("uuid"));
+                        m.put("txm", new PictureRenderData(txmw, txmh, ".png", createAssetsPic("txm", datars.getRcd(i).getString("uuid"))));
+                        m.put("rwm", new PictureRenderData(rwmw, rwmh, ".png", createAssetsPic("rwm", datars.getRcd(i).getString("uuid"))));
+                        XWPFTemplate tpl = XWPFTemplate.compile(ToolUtil.getRealPathInWebApp("") + ".." + File.separatorChar + fileurl).render(m);
+                        ZipEntry entry = new ZipEntry(datars.getRcd(i).getString("uuid") + ".docx");
+                        zipOutputStream.putNextEntry(entry);
+                        tpl.write(zipOutputStream);
+                        zipOutputStream.flush();
+                        tpl.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        zipOutputStream.close();
+        outputStream.flush();
+        outputStream.close();
+
+    }
+
+    private BufferedImage createAssetsPic(String type, String data) {
+        BarcodeFormat format = BarcodeFormat.QR_CODE;
+        int w = 500;
+        int h = 500;
+        if ("rwm".equals(type)) {
+            format = BarcodeFormat.QR_CODE;
+            w = 450;
+            h = 450;
+        } else if ("txm".equals(type)) {
+            format = BarcodeFormat.CODE_128;
+            h = 180;
+            w = 450;
+        }
+        BitMatrix bitMatrix = null;
+        try {
+            bitMatrix = new MultiFormatWriter().encode(data, format, w, h);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+        BufferedImage buffImg = MatrixToImageWriter.toBufferedImage(bitMatrix);
+        return buffImg;
+    }
+
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_USER)
+    @RequestMapping(value = "/downloadCard.do")
+    public void downloadCard(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, @RequestParam("data") String data) throws IOException, WriterException {
+
+        System.out.println(data);
+        OutputStream outputStream = httpServletResponse.getOutputStream();
+        ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream);
+        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where t.dr='0' and t.uuid in (#<UUID>#)";
+        JSONArray data_arr = JSONArray.parseArray(data);
+        String struuid = "";
+        for (int i = 0; i < data_arr.size(); i++) {
+            struuid = struuid + "'" + data_arr.getString(i) + "',";
+        }
+        struuid = struuid + "'-1'";
+        String fname = "assetscard.docx";
+        RcdSet datars = db.query(sql.replaceFirst("#<UUID>#", struuid));
+        String filePath = ToolUtil.getRealPathInWebApp("") + "tpl" + File.separatorChar + fname;
+        File file = new File(filePath);
+        if (file.exists()) {
+            for (int i = 0; i < datars.size(); i++) {
+                try {
+                    HashMap<String, Object> m = new HashMap<String, Object>();
+                    System.out.println("covert data:" + datars.getRcd(i).toJsonObject().toString());
+                    m.put("uuid", datars.getRcd(i).getString("uuid"));
+                    m.put("classname", datars.getRcd(i).getString("classname"));
+                    m.put("model", datars.getRcd(i).getString("model"));
+                    m.put("sn", datars.getRcd(i).getString("sn"));
+                    m.put("recycel", datars.getRcd(i).getString("recyclestr"));
+                    m.put("unit", datars.getRcd(i).getString("unit"));
+                    m.put("brand", datars.getRcd(i).getString("brandstr"));
+                    m.put("supplier", datars.getRcd(i).getString("supplierstr"));
+                    m.put("otheruuid", datars.getRcd(i).getString("fs20"));
+                    m.put("buymoney", datars.getRcd(i).getString("buy_price"));
+                    m.put("buytime", datars.getRcd(i).getString("buy_timestr"));
+                    m.put("belongcompname", datars.getRcd(i).getString("belongcomp_name"));
+                    m.put("compname", datars.getRcd(i).getString("comp_name"));
+                    m.put("partname", datars.getRcd(i).getString("part_name"));
+                    m.put("usedusername", datars.getRcd(i).getString("used_username"));
+                    m.put("usefullife", datars.getRcd(i).getString("usefullifestr"));
+                    m.put("conf", datars.getRcd(i).getString("confdesc"));
+                    m.put("mark", datars.getRcd(i).getString("mark"));
+                    m.put("loc", datars.getRcd(i).getString("locstr"));
+                    m.put("source", datars.getRcd(i).getString("zcsourcestr"));
+                    QueryWrapper<ResChangeItem> qw = new QueryWrapper<ResChangeItem>();
+                    qw.eq("resid", datars.getRcd(i).getString("id"));
+                    qw.last("limit 5");
+                    qw.orderByDesc("create_time");
+                    List<ResChangeItem> cis = ResChangeItemServiceImpl.list(qw);
+                    m.put("assetshistory", cis);
+                    HackLoopTableRenderPolicy hackLoopTableRenderPolicy = new HackLoopTableRenderPolicy();
+                    Configure config = Configure.newBuilder().bind("assetshistory", hackLoopTableRenderPolicy).build();
+                    XWPFTemplate tpl = XWPFTemplate.compile(ToolUtil.getRealPathInWebApp("") + "tpl" + File.separatorChar + fname, config).render(m);
+                    ZipEntry entry = new ZipEntry(datars.getRcd(i).getString("uuid") + ".docx");
+                    zipOutputStream.putNextEntry(entry);
+                    tpl.write(zipOutputStream);
+                    zipOutputStream.flush();
+                    tpl.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        zipOutputStream.close();
+        outputStream.flush();
+        outputStream.close();
 
     }
 
@@ -133,12 +317,12 @@ public class ZcController extends BaseController {
                 "attachment; filename=" + new String("erm".getBytes(),
                         "ISO-8859-1") + ".zip");
 
+
         OutputStream outputStream = httpServletResponse.getOutputStream();
         ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream);
 
         JSONArray data_arr = JSONArray.parseArray(data);
         for (int i = 0; i < data_arr.size(); i++) {
-
             BitMatrix bitMatrix = new MultiFormatWriter().encode(data_arr.getString(i), format, w, h);
             BufferedImage buffImg = MatrixToImageWriter.toBufferedImage(bitMatrix);
             ZipEntry entry = new ZipEntry(data_arr.getString(i) + ".jpg");
@@ -148,7 +332,6 @@ public class ZcController extends BaseController {
         }
 
         zipOutputStream.close();
-
         outputStream.flush();
         outputStream.close();
     }

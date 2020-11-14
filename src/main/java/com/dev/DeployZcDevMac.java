@@ -23,7 +23,7 @@ public class DeployZcDevMac {
 
     public static void main(String[] args) {
 
-        String tomcatOnlyPort = "3037";
+        String tomcatOnlyPort = "8080";
         String dir = "/opt/tomcat/tomcat_shopuat/webapps";
         String filename = "dt-2.1.20";
         String rfile = dir + "/" + filename + ".war";

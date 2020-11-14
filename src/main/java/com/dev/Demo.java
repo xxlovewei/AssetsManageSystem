@@ -1,6 +1,8 @@
 package com.dev;
 
 
+import com.deepoove.poi.XWPFTemplate;
+import com.deepoove.poi.data.PictureRenderData;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.impl.ServerMonitorService;
 import com.dt.module.om.term.entity.Machine;
@@ -12,9 +14,8 @@ import oshi.hardware.Firmware;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.util.FormatUtil;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.util.HashMap;
 
 
 public class Demo {
@@ -24,19 +25,36 @@ public class Demo {
     }
 
     public static void main(String[] args) {
+        System.out.println("hello world");
 
-        String name = null;
         try {
-            name = java.net.URLEncoder.encode("&a=12&adf=1212&c=测试", "UTF-8");
-            System.out.println(name);
-            name = java.net.URLEncoder.encode(name, "UTF-8");
-            System.out.println(name);
-            name = java.net.URLDecoder.decode(name, "UTF-8");
-            System.out.println(name);
-            System.out.println(java.net.URLDecoder.decode(name, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
+            HashMap<String, Object> m = new HashMap<String, Object>();
+            m.put("name", "poi-tl 模板引擎gh");
+            m.put("abcd", "poi-tl 模板引擎");
+            m.put("localbyte", new PictureRenderData(80, 100, ".png", new FileInputStream("/Users/lank/Desktop/abc.jpg")));
+            XWPFTemplate tpl = XWPFTemplate.compile("/Users/lank/Desktop/labeltpl.docx").render(m);
+            FileOutputStream out = new FileOutputStream("/Users/lank/Desktop/output2.docx");
+            tpl.write(out);
+            out.flush();
+            out.close();
+            tpl.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
+//
+//        String name = null;
+//        try {
+//            name = java.net.URLEncoder.encode("&a=12&adf=1212&c=测试", "UTF-8");
+//            System.out.println(name);
+//            name = java.net.URLEncoder.encode(name, "UTF-8");
+//            System.out.println(name);
+//            name = java.net.URLDecoder.decode(name, "UTF-8");
+//            System.out.println(name);
+//            System.out.println(java.net.URLDecoder.decode(name, "UTF-8"));
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 
 
         // System.out.println(ServerMonitorService.createUniqueSn());

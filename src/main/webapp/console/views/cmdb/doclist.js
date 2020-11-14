@@ -38,23 +38,26 @@ function doclistSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                                 }
                                 //附件
                                 // 初始化太快,延迟1000ms
-                                setTimeout(function () {
-                                    var mockFile = {
-                                        size: 0,
-                                        name: "附件",
-                                        // 需要显示给用户的图片名
-                                        uuid: $scope.item.files,
-                                        href: $rootScope.project + "/api/file/filedown.do?id=" + $scope.item.files,
-                                        url: $rootScope.project + "/api/file/filedown.do?id=" + $scope.item.files,
-                                        status: "success",
-                                        accepted: true
-                                    };
-                                    $scope.myDropzone.emit("addedfile", mockFile);
-                                    $scope.myDropzone.files.push(mockFile); // file must be added
-                                    // manually
-                                    $scope.myDropzone.createThumbnailFromUrl(mockFile, $rootScope.project + "/api/file/filedown.do?id=" + $scope.item.files);
-                                    $scope.myDropzone.emit("complete", mockFile);
-                                }, 500)
+                                if (angular.isDefined($scope.item.files) && $scope.item.files.length > 0) {
+                                    setTimeout(function () {
+                                        var mockFile = {
+                                            size: 0,
+                                            name: "附件",
+                                            // 需要显示给用户的图片名
+                                            uuid: $scope.item.files,
+                                            href: $rootScope.project + "/api/file/filedown.do?id=" + $scope.item.files,
+                                            url: $rootScope.project + "/api/file/filedown.do?id=" + $scope.item.files,
+                                            status: "success",
+                                            accepted: true
+                                        };
+                                        $scope.myDropzone.emit("addedfile", mockFile);
+                                        $scope.myDropzone.files.push(mockFile); // file must be added
+                                        // manually
+                                        $scope.myDropzone.createThumbnailFromUrl(mockFile, $rootScope.project + "/api/file/filedown.do?id=" + $scope.item.files);
+                                        $scope.myDropzone.emit("complete", mockFile);
+                                    }, 500)
+                                }
+
                             } else {
                                 notify({
                                     message: rs.message
@@ -160,7 +163,7 @@ function doclistCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
     }
 
     function renderFile(data, type, full) {
-        if (angular.isDefined(data)) {
+        if (angular.isDefined(data) && data.length > 0) {
             var html = " <span><a href=\"../api/file/filedown.do?id=" + data + "\">下载</a></span> ";
             return html;
         }
