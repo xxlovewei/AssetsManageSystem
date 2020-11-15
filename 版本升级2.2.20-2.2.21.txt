@@ -27,6 +27,7 @@ alter table res add runstatus varchar(50) null;
 alter table res_allocate add name varchar(50) null;
 alter table res_allocate add pinst varchar(50) null;
 alter table res_allocate_item drop column residprerecycle;
+update sys_params set value='2.2.21' where id='version';
 
 
 

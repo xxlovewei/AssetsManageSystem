@@ -21,3 +21,4 @@ ALTER TABLE res_c_basicinformation_item ADD fmark varchar(500) NULL;
 ALTER TABLE res_c_basicinformation_item ADD tfs20status varchar(50) NULL;
 ALTER TABLE res_c_basicinformation_item ADD tfd1status varchar(50) NULL;
 ALTER TABLE res_c_basicinformation_item ADD tmarkstatus varchar(50) NULL;
+update sys_params set value='2.2.18' where id='version';

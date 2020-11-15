@@ -15,4 +15,5 @@ ALTER TABLE sys_user_info ADD sposition varchar(50) NULL;
 
 ALTER TABLE ct_category ADD categorylevel varchar(50) NULL;
 update ct_category set categorylevel='normal' where root='3'
+update sys_params set value='2.2.19' where id='version';
 

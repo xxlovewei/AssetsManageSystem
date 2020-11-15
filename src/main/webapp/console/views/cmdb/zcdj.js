@@ -1406,4 +1406,6 @@ function genericzcdjCtl($translate, DTOptionsBuilder, DTColumnBuilder, $compile,
     }
     //####################################快速结束##########################################################
 };
+app.register.controller('flowapprovalCommonCtl', flowapprovalCommonCtl);
+app.register.controller('flowsuggestCommonCtl', flowsuggestCommonCtl);
 app.register.controller('genericzcdjCtl', genericzcdjCtl);

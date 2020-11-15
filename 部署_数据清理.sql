@@ -83,7 +83,7 @@ delete from sys_role_module where role_id not in  (select role_id from sys_role_
 delete from sys_role_module where module_id not in  (select node_id from sys_menus_node)
 truncate table sys_process_form;
 delete from sys_process_setting where dr='1';
-update sys_user_info set pwd='oracle';
+update sys_user_info set pwd='oracle' where user_id<>'1';
 
 --truncate table uflo_process;
 --truncate table uflo_process_instance;

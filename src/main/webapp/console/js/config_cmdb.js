@@ -1706,6 +1706,9 @@ function loadOpt(modal_meta, gdicts) {
 //$rootScope.flowbusid
 //$rootScope.flowtaskid
 function flowapprovalCommonCtl($rootScope, $scope, $http, notify) {
+    console.log($rootScope.flowpagetype)
+    console.log($rootScope.flowbusid)
+    console.log($rootScope.flowtaskid)
     $scope.hideapproval = true;
     $scope.spsuggest = "";
     if (angular.isDefined($rootScope.flowpagetype) && $rootScope.flowpagetype == "approval") {
@@ -4644,6 +4647,7 @@ function modalzcallocationCtl($timeout, $localStorage, notify, $log, $uibModal,
                               $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
                               DTColumnBuilder, $compile) {
     //type:detail,sure,add
+
     $rootScope.flowpagetype = meta.flowpagetype;
     $rootScope.flowbusid = meta.busid;
     $rootScope.flowtaskid = meta.taskid;

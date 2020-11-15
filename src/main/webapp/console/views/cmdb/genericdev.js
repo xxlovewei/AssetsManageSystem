@@ -1504,4 +1504,6 @@ function genericdevCtl($stateParams, DTOptionsBuilder, DTColumnBuilder, $compile
         }
     }
 };
+app.register.controller('flowapprovalCommonCtl', flowapprovalCommonCtl);
+app.register.controller('flowsuggestCommonCtl', flowsuggestCommonCtl);
 app.register.controller('genericdevCtl', genericdevCtl);

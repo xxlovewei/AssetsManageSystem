@@ -3,7 +3,7 @@ alter table res_label_tpl add conf varchar(500) null;
 alter table res_label_tpl add tplfileid varchar(50) null;
 alter table res_label_tpl add name varchar(100) null;
 alter table res_label_tpl add mark varchar(100) null;
-
+update sys_params set value='2.2.22' where id='version';
 
 
 
