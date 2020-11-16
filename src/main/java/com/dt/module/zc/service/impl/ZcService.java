@@ -295,6 +295,7 @@ public class ZcService extends BaseService {
         String warehouse = ps.getString("warehouse");
         String zcnumber = ps.getString("zcnumber");
         String category = ps.getString("category");
+        String uuid = ps.getString("uuid");
         String rack = ps.getString("rack");
         String used_userid = ps.getString("used_userid");
         String attrsql = "select * from res_attrs where catid=? and dr='0'";
@@ -390,6 +391,12 @@ public class ZcService extends BaseService {
         if (ToolUtil.isNotEmpty(category)) {
             sql = sql + " and category='" + category + "'";
         }
+
+        //编号
+        if (ToolUtil.isNotEmpty(uuid)) {
+            sql = sql + " and uuid='" + uuid + "'";
+        }
+
         //机架
         if (ToolUtil.isNotEmpty(rack)) {
             sql = sql + " and rack='" + rack + "'";

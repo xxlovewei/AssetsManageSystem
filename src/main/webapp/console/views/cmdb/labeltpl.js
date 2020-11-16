@@ -102,7 +102,7 @@ function labeltplSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         } else {
             $scope.item.tplfileid = "";
         }
-        if (angular.isDefined(id)) {
+        if (!angular.isDefined(id)) {
             $scope.item.ifdef = "0";
         }
 
