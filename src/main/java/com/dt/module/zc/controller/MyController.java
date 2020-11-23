@@ -10,11 +10,16 @@ import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.zc.service.impl.ZcService;
+import org.apache.commons.lang3.time.DateUtils;
+import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @Controller
 @RequestMapping("/api/zc/my")
@@ -22,6 +27,7 @@ public class MyController extends BaseController {
 
     @Autowired
     ZcService zcService;
+
 
     @ResponseBody
     @Acl(info = "查询Res", value = Acl.ACL_USER)

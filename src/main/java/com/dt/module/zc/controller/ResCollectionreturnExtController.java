@@ -1,11 +1,15 @@
 package com.dt.module.zc.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.RcdSet;
+import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.flow.service.impl.SysProcessDataService;
 import com.dt.module.zc.entity.ResCollectionreturn;
+import com.dt.module.zc.entity.ResCollectionreturnItem;
 import com.dt.module.zc.service.IResCollectionreturnItemService;
 import com.dt.module.zc.service.IResCollectionreturnService;
 import com.dt.module.zc.service.impl.ResCollectionreturnService;
@@ -43,28 +47,22 @@ public class ResCollectionreturnExtController extends BaseController {
     @Acl(info = "查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
-        String sql = "select   " +
-                "(select name from sys_user_info where user_id=b.create_by) createusername,   " +
-                "(select route_name from hrm_org_part where node_id=b.tusedcompanyid) tcompfullname,   " +
-                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tcompname,   " +
-                "(select route_name from hrm_org_part where node_id=b.tpartid) tpartfullame,   " +
-                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname,   " +
-                "(select name from sys_user_info where user_id=b.tuseduserid) usedusername,   " +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,   " +
-                "date_format(busdate,'%Y-%m-%d') busdatestr,   " +
-                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,   " +
-                "date_format(returndate,'%Y-%m-%d') returndatestr,   " +
-                "b.*" +
-                "from res_collectionreturn b where dr='0' order by create_time desc";
-        RcdSet rs = db.query(sql);
-        return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+        return resCollectionreturnService.selectList(null, null, null);
+    }
+
+
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/myList.do")
+    public R myList(String statustype, String bustype) {
+        return resCollectionreturnService.selectList(getUserId(), statustype, bustype);
     }
 
     @ResponseBody
     @Acl(info = "查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectByUuid.do")
     public R selectByUuid(String uuid) {
-       return resCollectionreturnService.selectByUuid(uuid);
+        return resCollectionreturnService.selectByUuid(uuid);
     }
 
 

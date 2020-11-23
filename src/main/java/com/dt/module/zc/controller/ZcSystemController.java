@@ -67,7 +67,7 @@ import java.util.zip.ZipOutputStream;
  */
 @Controller
 @RequestMapping("/api/zc")
-public class ZcController extends BaseController {
+public class ZcSystemController extends BaseController {
 
     @Autowired
     FormServiceImpl formServiceImpl;
@@ -113,14 +113,6 @@ public class ZcController extends BaseController {
         return zcService.fastProcessItemCheck(type, items);
     }
 
-    //uid 每组加缓存
-    @ResponseBody
-    @Acl(info = "", value = Acl.ACL_ALLOW)
-    @RequestMapping(value = "/queryDictFast.do")
-    @Transactional
-    public R queryDictFast(String uid, String zchccat, String comppart, String comp, String belongcomp, String dicts, String parts, String partusers, String classid, String classroot, String zccatused) {
-        return zcService.queryDictFast(uid, zchccat, comppart, comp, belongcomp, dicts, parts, partusers, classid, classroot, zccatused);
-    }
 
 
     @ResponseBody
@@ -337,44 +329,8 @@ public class ZcController extends BaseController {
     }
 
 
-    @ResponseBody
-    @Acl(info = "zc", value = Acl.ACL_USER)
-    @RequestMapping(value = "/queryzclabelcols.do")
-    public R queryzclabelcols() {
-
-        JSONArray res = new JSONArray();
-        JSONObject e1 = new JSONObject();
-        e1.put("name", "资产名称");
-        res.add(e1);
-
-        JSONObject e2 = new JSONObject();
-        e2.put("model", "资产型号");
-        res.add(e2);
-
-        JSONObject e3 = new JSONObject();
-        e3.put("buy_time", "采购日期");
-        res.add(e3);
-
-        JSONObject e4 = new JSONObject();
-        e4.put("part_id", "使用部门");
-        res.add(e4);
-
-        JSONObject e5 = new JSONObject();
-        e5.put("loc", "存放区域");
-        res.add(e5);
-        return R.SUCCESS_OPER(res);
-
-    }
 
 
-    @ResponseBody
-    @Acl(info = "获取后台类目", value = Acl.ACL_USER)
-    @RequestMapping(value = "/selectZcCats.do")
-    public R selectZcCats() {
-        QueryWrapper<CtCategoryRoot> ew = new QueryWrapper<CtCategoryRoot>();
-        ew.in("id", '8', '3', '7');
-        return R.SUCCESS_OPER(CtCategoryRootServiceImpl.list(ew));
-    }
 
 
     @ResponseBody
@@ -397,26 +353,6 @@ public class ZcController extends BaseController {
     }
 
 
-    @ResponseBody
-    @Acl(info = "", value = Acl.ACL_ALLOW)
-    @RequestMapping(value = "/queryZcColCtlShow.do")
-    public R queryZcColCtlShow() {
-        return zcService.queryZcColCtlShow();
-    }
 
-    @ResponseBody
-    @Acl(info = "", value = Acl.ACL_ALLOW)
-    @RequestMapping(value = "/modifyZcColCtlShow.do")
-    public R modifyZcColCtlShow(String id, String json) {
-        return zcService.modifyZcColCtlShow(id, json);
-
-    }
-
-    @ResponseBody
-    @Acl(info = "", value = Acl.ACL_USER)
-    @RequestMapping(value = "/queryZcColCtlById.do")
-    public R queryZcColCtlById(String id) {
-        return zcService.queryZcColCtlById(id);
-    }
 
 }

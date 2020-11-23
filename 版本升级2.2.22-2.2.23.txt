@@ -1,1 +1,60 @@
-update sys_params set value='2.2.22' where id='version';
+update sys_params set value='2.2.23' where id='version';
+
+-- auto-generated definition
+create table res_inspection_pitem
+(
+    id             varchar(50)  not null
+        primary key,
+    busid          varchar(50)  null,
+    type           varchar(50)  null,
+    resid          varchar(50)  null,
+    status         varchar(50)  null,
+    mark           varchar(50)  null,
+    actionuserid   varchar(50)  null,
+    actionusername varchar(50)  null,
+    actiontime     date         null,
+    pics           varchar(500) null,
+    loc            varchar(100) null,
+    od             decimal      null,
+    create_by      varchar(50)  null,
+    create_time    datetime     null,
+    update_by      varchar(50)  null,
+    update_time    datetime     null,
+    dr             varchar(1)   null
+);
+
+
+-- auto-generated definition
+create table res_inspection_plan
+(
+    id          varchar(50)  not null
+        primary key,
+    name        varchar(50)  null,
+    status      varchar(50)  null,
+    cron        varchar(100) null,
+    actionusers varchar(500) null,
+    mark        varchar(50)  null,
+    create_by   varchar(50)  null,
+    create_time datetime     null,
+    update_by   varchar(50)  null,
+    update_time datetime     null,
+    dr          varchar(1)   null,
+    busid       varchar(50)  null,
+    retention   decimal      null
+);
+
+-- auto-generated definition
+create table res_inspection_user
+(
+    id          varchar(50) not null
+        primary key,
+    busid       varchar(50) null,
+    userid      varchar(50) null,
+    create_by   varchar(50) null,
+    create_time datetime    null,
+    update_by   varchar(50) null,
+    update_time datetime    null,
+    dr          varchar(1)  null
+);
+
+

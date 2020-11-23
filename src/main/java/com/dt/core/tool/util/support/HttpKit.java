@@ -189,7 +189,7 @@ public class HttpKit {
         return result;
     }
 
-    public static void sendPost(URI uri) {
+    public static void sendPost(URI uri) throws java.net.SocketException {
         // 获得Http客户端(可以理解为:你得先有一个浏览器;注意:实际上HttpClient与浏览器是不一样的)
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 

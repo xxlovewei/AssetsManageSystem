@@ -220,7 +220,7 @@ public class ZcService extends BaseService {
             id = createUuid5();
             return type + id;
         } else if (type.equals(ZcCommonService.UUID_LY) || type.equals(ZcCommonService.UUID_TK) || type.equals(ZcCommonService.UUID_JY)
-                || type.equals(ZcCommonService.UUID_ZY)) {
+                || type.equals(ZcCommonService.UUID_ZY) || type.equals(ZcCommonService.UUID_XJ)) {
             for (i = 0; i < cnt; i++) {
                 QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
                 String finalId = type + id;
@@ -269,7 +269,11 @@ public class ZcService extends BaseService {
         } else if (ZcCommonService.DATARANGE_CG.equals(datarange)) {
             //变更:不选报废
             sql = sql + " and inprocess='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' and recycle<>'" + ZcRecycleEnum.RECYCLE_SCRAP.getValue() + "'";
+        } else if (ZcCommonService.DATARANGE_XJ.equals(datarange)) {
+            //巡检
+            sql = sql + "and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' ";
         } else if (ZcCommonService.DATARANGE_ALL.equals(datarange)) {
+
         }
         return sql;
     }
@@ -857,6 +861,8 @@ public class ZcService extends BaseService {
             sql = sql + buildZcDataRange(ZcCommonService.DATARANGE_TK);
         } else if (ZcCommonService.ZC_BUS_TYPE_JY.equals(type)) {
             sql = sql + buildZcDataRange(ZcCommonService.DATARANGE_JY);
+        } else if (ZcCommonService.ZC_BUS_TYPE_XJ.equals(type)) {
+            sql = sql + buildZcDataRange(ZcCommonService.DATARANGE_XJ);
         }
         JSONArray items_arr = JSONArray.parseArray(items);
         if (ToolUtil.isNotEmpty(items_arr) && items_arr.size() > 0) {

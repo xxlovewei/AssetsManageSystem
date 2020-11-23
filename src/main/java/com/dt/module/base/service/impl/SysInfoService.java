@@ -16,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.net.SocketException;
 import java.net.URI;
 
 
@@ -88,7 +89,11 @@ public class SysInfoService extends BaseService {
         }
         params.append("&ct=" + "");
         URI uri = URI.create(url + "?" + params);
-        HttpKit.sendPost(uri);
+        try {
+            HttpKit.sendPost(uri);
+        } catch (SocketException e) {
+
+        }
         return R.SUCCESS_OPER();
     }
 

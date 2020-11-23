@@ -34,8 +34,6 @@ public class ZcReportController extends BaseController {
 
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_ALLOW)
-    @RequestMapping(value = "/dashboard.do")
-    @Transactional
     public R dashboard(String search) {
 
         String sql = "select   " +
@@ -167,26 +165,84 @@ public class ZcReportController extends BaseController {
 
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_ALLOW)
-    @RequestMapping(value = "/queryPartUsedByPart.do")
-    @Transactional
-    public R queryPartUsedByPart() {
-        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
-        String part_id = ps.getString("part_id");
-        String sql = "select " + ZcCommonService.resSqlbody + " t.* from res t where dr='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "'";
-        if ("-1".equals(part_id)) {
-            sql = sql + " and part_id not in (select node_id from hrm_org_part where org_id='1') or part_id is null";
-        } else {
-            sql = sql + " and part_id='" + part_id + "'";
-        }
-        sql = sql + " order by class_id";
+    @RequestMapping(value = "/queryUsedPartReport.do")
+    public R queryUsedPartReport() {
+        String sql = "\n" +
+                "select\n" +
+                "part_id,\n" +
+                "case\n" +
+                "when part_id is  null\n" +
+                "then '未分配'\n" +
+                "else part_fullname end part_fullname,\n" +
+                "case\n" +
+                "when part_id is  null\n" +
+                "then '未分配'\n" +
+                "else part_name end part_name,\n" +
+                "zc_cnt\n" +
+                "from (\n" +
+                "select\n" +
+                "(select route_name from hrm_org_part where node_id=t.part_id) part_fullname,\n" +
+                "(select node_name from hrm_org_part where node_id=t.part_id) part_name,\n" +
+                "t.*\n" +
+                "from (select part_id,count(1) zc_cnt from res where dr='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' group by part_id) t\n" +
+                "order by 1) end";
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/queryUsedCompReport.do")
+    public R queryUsedCompReport() {
+        String sql = "select\n" +
+                "case\n" +
+                "when used_company_id is  null\n" +
+                "then '未分配'\n" +
+                "else comp_fullname end comp_fullname,\n" +
+                "case\n" +
+                "when used_company_id is  null\n" +
+                "then '未分配'\n" +
+                "else comp_name end comp_name,\n" +
+                "zc_cnt\n" +
+                "from (\n" +
+                "select\n" +
+                "(select route_name from hrm_org_part where node_id=t.used_company_id) comp_fullname,\n" +
+                "(select node_name from hrm_org_part where node_id=t.used_company_id) comp_name,\n" +
+                "t.*\n" +
+                "from (select used_company_id,count(1) zc_cnt from res where dr='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' group by used_company_id) t\n" +
+                "order by 1) end\n";
+        return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+    }
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/queryBelongCompReport.do")
+    @Transactional
+    public R queryBelongCompReport() {
+        String sql = "select\n" +
+                "case\n" +
+                "when belong_company_id is  null\n" +
+                "then '未分配'\n" +
+                "else belongcomp_fullname end belongcomp_fullname,\n" +
+                "case\n" +
+                "when belong_company_id is  null\n" +
+                "then '未分配'\n" +
+                "else belongcomp_name end belongcomp_name,\n" +
+                "zc_cnt\n" +
+                "from (\n" +
+                "select\n" +
+                "(select route_name from hrm_org_part where node_id=t.belong_company_id) belongcomp_fullname,\n" +
+                "(select node_name from hrm_org_part where node_id=t.belong_company_id)  belongcomp_name,\n" +
+                "t.*\n" +
+                "from (select belong_company_id,count(1) zc_cnt from res where dr='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' group by belong_company_id) t\n" +
+                "order by 1) end\n";
+        return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+    }
+
 
     //资产总值汇总表,报废不计入
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_ALLOW)
     @RequestMapping(value = "/queryZcTotalAssets.do")
-    @Transactional
     public R queryZcTotalAssets() {
         String sql = "   " +
                 "select   " +
@@ -207,6 +263,20 @@ public class ZcReportController extends BaseController {
         return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
     }
 
+
+    @ResponseBody
+    @Acl(info = "", value = Acl.ACL_ALLOW)
+    @RequestMapping(value = "/queryAssetsCategory.do")
+    public R queryAssetsCategory() {
+        String sql = "\n" +
+                "select\n" +
+                "(select a.name from ct_category_root a,ct_category b where a.id=b.root and b.id=t.class_id) classrootname,\n" +
+                "(select route_name from ct_category where  dr='0' and id=t.class_id) classfullname,\n" +
+                "t.*\n" +
+                "from (select class_id,count(1) zc_cnt from res where dr='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' group by class_id) t\n" +
+                "order by 2";
+        return R.SUCCESS_OPER(db.query(sql).toJsonArrayWithJsonObject());
+    }
 
     //公司部门汇总表
     @ResponseBody

@@ -170,14 +170,14 @@ public class ResCollectionreturnService extends BaseService {
                 "   a.fusedcompanyid=b.used_company_id   " +
                 " , a.fpartid=b.part_id   " +
                 " , a.fuseduserid=b.used_userid   " +
-                " , a.floc=b.loc   " +
+         //       " , a.floc=b.loc   " +
                 " , a.flocdtl=b.locdtl   " +
                 "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql, busid);
 
         //更新RES数据
         String sql2 = "update res_collectionreturn_item a,res b set    " +
-                "b.loc=a.tloc," +
+                //      "b.loc=a.tloc," +
                 "b.used_company_id=a.tusedcompanyid," +
                 "b.part_id=a.tpartid," +
                 "b.used_userid=a.tuseduserid," +
@@ -221,14 +221,14 @@ public class ResCollectionreturnService extends BaseService {
                 "   a.fusedcompanyid=b.used_company_id   " +
                 " , a.fpartid=b.part_id   " +
                 " , a.fuseduserid=b.used_userid   " +
-                " , a.floc=b.loc   " +
+                //       " , a.floc=b.loc   " +
                 " , a.flocdtl=b.locdtl   " +
                 "   where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql, busid);
 
         //更新数据
         String sql2 = "update res_collectionreturn_item a,res b set " +
-                "b.loc=a.tloc," +
+                //        "b.loc=a.tloc," +
                 "b.used_company_id=a.tusedcompanyid," +
                 "b.part_id=a.tpartid," +
                 "b.used_userid=a.tuseduserid," +
@@ -332,7 +332,9 @@ public class ResCollectionreturnService extends BaseService {
         ResCollectionreturnServiceImpl.saveOrUpdate(entity);
         String sql3 = "update res_collectionreturn_item a,res b set b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + ZcCommonService.ZC_BUS_TYPE_LY + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql3, uuid);
-        return R.SUCCESS_OPER();
+        JSONObject res = new JSONObject();
+        res.put("busid", uuid);
+        return R.SUCCESS_OPER(res);
     }
 
     //插入退库
@@ -384,8 +386,9 @@ public class ResCollectionreturnService extends BaseService {
         ResCollectionreturnServiceImpl.saveOrUpdate(entity);
         String sql3 = "update res_collectionreturn_item a,res b set b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + ZcCommonService.ZC_BUS_TYPE_TK + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql3, uuid);
-        return R.SUCCESS_OPER();
-
+        JSONObject res = new JSONObject();
+        res.put("busid", uuid);
+        return R.SUCCESS_OPER(res);
     }
 
     public R selectByUuid(String uuid) {
@@ -401,13 +404,13 @@ public class ResCollectionreturnService extends BaseService {
                 "(select route_name from hrm_org_part where node_id=b.tpartid) tpartfullame,   " +
                 "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname,   " +
                 "(select name from sys_user_info where user_id=b.tuseduserid) tusedusername,   " +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,   " +
+                //       "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,   " +
                 "(select route_name from hrm_org_part where node_id=b.fusedcompanyid) fcompfullname,   " +
                 "(select node_name from hrm_org_part where node_id=b.fusedcompanyid) fcompname,   " +
                 "(select route_name from hrm_org_part where node_id=b.fpartid) fpartfullame,   " +
                 "(select node_name from hrm_org_part where node_id=b.fpartid) fpartname,   " +
                 "(select name from sys_user_info where user_id=b.fuseduserid) fusedusername,   " +
-                "(select name from sys_dict_item where dr='0' and dict_item_id=b.floc) flocstr,   " +
+                //      "(select name from sys_dict_item where dr='0' and dict_item_id=b.floc) flocstr,   " +
                 "date_format(busdate,'%Y-%m-%d') busdatestr,   " +
                 "date_format(returndate,'%Y-%m-%d') returndatestr,   " +
                 "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,   " +
@@ -423,6 +426,38 @@ public class ResCollectionreturnService extends BaseService {
         RcdSet rs = db.query(sql2, uuid);
         res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
         return R.SUCCESS_OPER(res);
+    }
+
+    public R selectList(String user_id, String statustype, String bustype) {
+        String sql = "select   " +
+                "(select name from sys_user_info where user_id=b.create_by) createusername,   " +
+                "(select route_name from hrm_org_part where node_id=b.tusedcompanyid) tcompfullname,   " +
+                "(select node_name from hrm_org_part where node_id=b.tusedcompanyid) tcompname,   " +
+                "(select route_name from hrm_org_part where node_id=b.tpartid) tpartfullame,   " +
+                "(select node_name from hrm_org_part where node_id=b.tpartid) tpartname,   " +
+                "(select name from sys_user_info where user_id=b.tuseduserid) usedusername,   " +
+                //       "(select name from sys_dict_item where dr='0' and dict_item_id=b.tloc) tlocstr,   " +
+                "date_format(busdate,'%Y-%m-%d') busdatestr,   " +
+                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,   " +
+                "date_format(returndate,'%Y-%m-%d') returndatestr,   " +
+                "b.*" +
+                "from res_collectionreturn b where dr='0'";
+        if (ToolUtil.isNotEmpty(user_id)) {
+            sql = sql + " and b.create_by='" + this.getUserId() + "'";
+        }
+        if (ToolUtil.isNotEmpty(bustype)) {
+            sql = sql + " and b.bustype='" + bustype + "'";
+        }
+        if (ToolUtil.isNotEmpty(statustype)) {
+            if ("finish".equals(statustype)) {
+                sql = sql + " and b.status in ('" + SysProcessDataService.PSTATUS_FINISH + "','" + SysProcessDataService.PSTATUS_CANCEL + "','" + SysProcessDataService.PSTATUS_FINISH_NO_APPROVAL + "')";
+            } else if ("inprogress".equals(statustype)) {
+                sql = sql + " and b.status not in ('" + SysProcessDataService.PSTATUS_FINISH + "','" + SysProcessDataService.PSTATUS_CANCEL + "','" + SysProcessDataService.PSTATUS_FINISH_NO_APPROVAL + "')";
+            }
+        }
+        sql = sql + " order by create_time desc";
+        RcdSet rs = db.query(sql);
+        return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
     }
 
 }

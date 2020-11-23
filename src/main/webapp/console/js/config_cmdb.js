@@ -200,18 +200,6 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    }).state('maintain.devsearch', {
-        url: "/maintain_devsearch?psBtns",
-        data: {pageTitle: '设备查询'},
-        templateUrl: "views/cmdb/devsearch.html?v=" + version,
-        resolve: {
-            loadPlugin: function ($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    serie: true,
-                    files: ['views/cmdb/devsearch.js?v=' + version]
-                }]);
-            }
-        }
     }).state('maintain.review', {
         url: "/maintain_review?psBtns",
         data: {pageTitle: '资产复核'},
@@ -221,6 +209,30 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 return $ocLazyLoad.load([{
                     serie: true,
                     files: ['views/cmdb/review.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('maintain.inspectionplan', {
+        url: "/maintain_inspectionplan",
+        data: {pageTitle: '巡检计划表'},
+        templateUrl: "views/cmdb/inspectionplan.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/inspectionplan.js?v=' + version]
+                }]);
+            }
+        }
+    }).state('maintain.inspection', {
+        url: "/maintain_inspection",
+        data: {pageTitle: '巡检'},
+        templateUrl: "views/cmdb/inspection.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/inspection.js?v=' + version]
                 }]);
             }
         }
@@ -4292,8 +4304,8 @@ function collectionSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.compSel = "";
     $scope.partOpt = meta.dict.parts;
     $scope.partSel = "";
-    $scope.locOpt = meta.dict.devdc
-    $scope.locSel = "";
+    // $scope.locOpt = meta.dict.devdc
+    // $scope.locSel = "";
 
     $scope.date = {
         busdate: moment(),
@@ -4308,9 +4320,9 @@ function collectionSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     if ($scope.partOpt.length > 0) {
         $scope.partSel = $scope.partOpt[0];
     }
-    if ($scope.locOpt.length > 0) {
-        $scope.locSel = $scope.locOpt[0];
-    }
+    // if ($scope.locOpt.length > 0) {
+    //     $scope.locSel = $scope.locOpt[0];
+    // }
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
@@ -4406,7 +4418,7 @@ function collectionSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.tusedcompanyid = $scope.compSel.id;
         $scope.item.tpartid = $scope.partSel.partid;
         $scope.item.tuseduserid = $scope.useduserSel.user_id;
-        $scope.item.tloc = $scope.locSel.dict_item_id;
+        // $scope.item.tloc = $scope.locSel.dict_item_id;
         $scope.item.bustype = "LY";
         $scope.item.items = angular.toJson($scope.dtOptions.aaData);
         $confirm({
@@ -4476,8 +4488,8 @@ function tkSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     $scope.compSel = "";
     // $scope.partOpt=meta.dict.parts;
     // $scope.partSel="";
-    $scope.locOpt = meta.dict.devdc
-    $scope.locSel = "";
+    // $scope.locOpt = meta.dict.devdc
+    // $scope.locSel = "";
     $scope.date = {
         rreturndate: moment()
     }
@@ -4487,9 +4499,9 @@ function tkSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
     if ($scope.compOpt.length > 0) {
         $scope.compSel = $scope.compOpt[0];
     }
-    if ($scope.locOpt.length > 0) {
-        $scope.locSel = $scope.locOpt[0];
-    }
+    // if ($scope.locOpt.length > 0) {
+    //     $scope.locSel = $scope.locOpt[0];
+    // }
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
@@ -4584,7 +4596,7 @@ function tkSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.item.tusedcompanyid = $scope.compSel.id;
         $scope.item.tpartid = ""
         $scope.item.tuseduserid = ""
-        $scope.item.tloc = $scope.locSel.dict_item_id;
+        //  $scope.item.tloc = $scope.locSel.dict_item_id;
         $scope.item.bustype = "TK";
         $scope.item.items = angular.toJson($scope.dtOptions.aaData);
         $confirm({
@@ -5229,8 +5241,8 @@ function zctklistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tusedusername').withTitle('使用人(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tlocstr').withTitle('区域(变更后)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
+        // DTColumnBuilder.newColumn('tlocstr').withTitle('区域(变更后)').withOption(
+        //     'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tlocdtl').withTitle('位置(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('fcompfullname').withTitle($rootScope.USEDCOMP_B).withOption(
@@ -5239,8 +5251,8 @@ function zctklistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
         DTColumnBuilder.newColumn('fusedusername').withTitle('使用人(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('flocstr').withTitle('区域(变更前)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
+        // DTColumnBuilder.newColumn('flocstr').withTitle('区域(变更前)').withOption(
+        //     'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
         DTColumnBuilder.newColumn('flocdtl').withTitle('位置(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
         DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(
@@ -5331,8 +5343,8 @@ function zclylistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tusedusername').withTitle('使用人(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
-        DTColumnBuilder.newColumn('tlocstr').withTitle('区域(变更后)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
+        // DTColumnBuilder.newColumn('tlocstr').withTitle('区域(变更后)').withOption(
+        //     'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('tlocdtl').withTitle('位置(变更后)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColorGreenH),
         DTColumnBuilder.newColumn('fcompfullname').withTitle($rootScope.USEDCOMP_B).withOption(
@@ -5341,8 +5353,8 @@ function zclylistCtl($confirm, $timeout, $localStorage, notify, $log, $uibModal,
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
         DTColumnBuilder.newColumn('fusedusername').withTitle('使用人(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
-        DTColumnBuilder.newColumn('flocstr').withTitle('区域(变更前)').withOption(
-            'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
+        // DTColumnBuilder.newColumn('flocstr').withTitle('区域(变更前)').withOption(
+        //     'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
         DTColumnBuilder.newColumn('flocdtl').withTitle('位置(变更前)').withOption(
             'sDefaultContent', '').renderWith(renderDTFontColoBluerH),
         DTColumnBuilder.newColumn('create_time').withTitle('创建时间').withOption(

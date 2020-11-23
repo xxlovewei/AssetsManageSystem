@@ -7,6 +7,7 @@ import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.base.service.impl.ServerMonitorService;
 import com.dt.module.om.term.entity.Machine;
 import com.dt.module.om.term.websocket.SftpClient;
+import org.quartz.CronExpression;
 import oshi.SystemInfo;
 import oshi.hardware.Baseboard;
 import oshi.hardware.ComputerSystem;
@@ -15,6 +16,8 @@ import oshi.hardware.HardwareAbstractionLayer;
 import oshi.util.FormatUtil;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 
@@ -24,23 +27,36 @@ public class Demo {
 
     }
 
-    public static void main(String[] args) {
-        System.out.println("hello world");
+    private static Boolean filterWithCronTime(String cron, String format) throws ParseException {
+        //分，小时，月，月份，周(0-7)
+        CronExpression cronExpression = new CronExpression("* 0/1 7-23 * * ?");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        boolean resCron = cronExpression.isSatisfiedBy(simpleDateFormat.parse("2018-04-27 16:00:00"));
+        return resCron;
+    }
 
+    public static void main(String[] args) {
+        String c = "* * * * 0-7 ?";
         try {
-            HashMap<String, Object> m = new HashMap<String, Object>();
-            m.put("name", "poi-tl 模板引擎gh");
-            m.put("abcd", "poi-tl 模板引擎");
-            m.put("localbyte", new PictureRenderData(80, 100, ".png", new FileInputStream("/Users/lank/Desktop/abc.jpg")));
-            XWPFTemplate tpl = XWPFTemplate.compile("/Users/lank/Desktop/labeltpl.docx").render(m);
-            FileOutputStream out = new FileOutputStream("/Users/lank/Desktop/output2.docx");
-            tpl.write(out);
-            out.flush();
-            out.close();
-            tpl.close();
-        } catch (IOException e) {
+            System.out.println(filterWithCronTime(c, null));
+        } catch (ParseException e) {
             e.printStackTrace();
         }
+//
+//        try {
+//            HashMap<String, Object> m = new HashMap<String, Object>();
+//            m.put("name", "poi-tl 模板引擎gh");
+//            m.put("abcd", "poi-tl 模板引擎");
+//            m.put("localbyte", new PictureRenderData(80, 100, ".png", new FileInputStream("/Users/lank/Desktop/abc.jpg")));
+//            XWPFTemplate tpl = XWPFTemplate.compile("/Users/lank/Desktop/labeltpl.docx").render(m);
+//            FileOutputStream out = new FileOutputStream("/Users/lank/Desktop/output2.docx");
+//            tpl.write(out);
+//            out.flush();
+//            out.close();
+//            tpl.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 //
 //        String name = null;

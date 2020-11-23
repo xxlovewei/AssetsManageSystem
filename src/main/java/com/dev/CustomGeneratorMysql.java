@@ -104,8 +104,8 @@ public class CustomGeneratorMysql {
         // "","sys_qud_qux"
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
-        String busRoute = "cmdb";
-        strategy.setInclude("res_label_tpl"); // 需要生成的表
+        String busRoute = "zc";
+        strategy.setInclude("res_inspection_plan"); // 需要生成的表
 
         strategy.setTableFillList(tableFillList);
         strategy.setSuperEntityClass("com.dt.core.common.base.BaseModel");
