@@ -104,9 +104,14 @@ public class ResScrapeExtController extends BaseController {
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
-        QueryWrapper<ResScrape> ew = new QueryWrapper<ResScrape>();
-        ew.orderByDesc("create_time");
-        return R.SUCCESS_OPER(ResScrapeServiceImpl.list(ew));
+        return resScrapeService.selectList(null, null);
+    }
+
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/myList.do")
+    public R myList(String statustype) {
+        return resScrapeService.selectList(this.getUserId(), statustype);
     }
 
 }

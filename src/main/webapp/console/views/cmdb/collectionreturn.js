@@ -122,8 +122,8 @@ function collectionreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $windo
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tpartname').withTitle($rootScope.USEDPART_LYTK).withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('tlocstr').withTitle('领用/退库后区域').withOption(
-            'sDefaultContent', ''),
+        // DTColumnBuilder.newColumn('tlocstr').withTitle('领用/退库后区域').withOption(
+        //     'sDefaultContent', ''),
         DTColumnBuilder.newColumn('tlocdtl').withTitle('领用/退库后位置').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('processusername').withTitle('领用处理人/退库处理人').withOption(

@@ -1,6 +1,7 @@
 package com.dt.module.zc.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dt.core.common.base.BaseService;
@@ -108,7 +109,9 @@ public class ResScrapeService extends BaseService {
         } else {
             return R.FAILURE("参数有误");
         }
-        return R.SUCCESS_OPER();
+        JSONObject res = new JSONObject();
+        res.put("busid", uuid);
+        return R.SUCCESS_OPER(res);
     }
 
 
@@ -162,4 +165,20 @@ public class ResScrapeService extends BaseService {
             return R.FAILURE_NO_DATA();
         }
     }
+
+    public R selectList(String user_id, String statustype) {
+        QueryWrapper<ResScrape> ew = new QueryWrapper<ResScrape>();
+        if (ToolUtil.isNotEmpty(user_id)) {
+            ew.eq("create_by", user_id);
+        }
+        if ("finish".equals(statustype)) {
+            ew.in("status", SysProcessDataService.PSTATUS_FINISH, SysProcessDataService.PSTATUS_FINISH_NO_APPROVAL, SysProcessDataService.PSTATUS_CANCEL);
+        } else if ("inprogress".equals(statustype)) {
+            ew.notIn("status", SysProcessDataService.PSTATUS_FINISH, SysProcessDataService.PSTATUS_FINISH_NO_APPROVAL, SysProcessDataService.PSTATUS_CANCEL);
+        }
+        ew.orderByDesc("create_time");
+        return R.SUCCESS_OPER(ResScrapeServiceImpl.list(ew));
+    }
+
+
 }

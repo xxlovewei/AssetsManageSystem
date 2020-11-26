@@ -1,6 +1,7 @@
 package com.dt.module.zc.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dt.core.common.base.BaseService;
@@ -169,7 +170,9 @@ public class ResAllocateService extends BaseService {
             }
             ResAllocateItemServiceImpl.saveBatch(cols);
         }
-        return R.SUCCESS_OPER();
+        JSONObject r = new JSONObject();
+        r.put("busid", uuid);
+        return R.SUCCESS_OPER(r);
 
     }
 
@@ -183,6 +186,20 @@ public class ResAllocateService extends BaseService {
         } else {
             return R.FAILURE_NO_DATA();
         }
+    }
+
+    public R selectList(String user_id, String statustype) {
+        QueryWrapper<ResAllocate> ew = new QueryWrapper<ResAllocate>();
+        if (ToolUtil.isNotEmpty(user_id)) {
+            ew.eq("create_by", user_id);
+        }
+        if ("finish".equals(statustype)) {
+            ew.in("status", SysProcessDataService.PSTATUS_FINISH, SysProcessDataService.PSTATUS_FINISH_NO_APPROVAL, SysProcessDataService.PSTATUS_CANCEL);
+        } else if ("inprogress".equals(statustype)) {
+            ew.notIn("status", SysProcessDataService.PSTATUS_FINISH, SysProcessDataService.PSTATUS_FINISH_NO_APPROVAL, SysProcessDataService.PSTATUS_CANCEL);
+        }
+        ew.orderByDesc("create_time");
+        return R.SUCCESS_OPER(ResAllocateServiceImpl.list(ew));
     }
 
 

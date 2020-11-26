@@ -203,8 +203,9 @@ public class ResLoanreturnService extends BaseService {
         String sql2 = "update res_loanreturn_item a,res b set b.inprocess='1',b.inprocessuuid='" + uuid + "',b.inprocesstype='" + ZcCommonService.ZC_BUS_TYPE_JY + "' where a.resid=b.id and a.busuuid=? and b.dr='0' and a.dr='0'";
         db.execute(sql2, uuid);
 
-
-        return R.SUCCESS_OPER();
+        JSONObject res = new JSONObject();
+        res.put("busid", uuid);
+        return R.SUCCESS_OPER(res);
     }
 
     public R zcGh(String id, String rreturndate, String rprocessuserid, String rprocessusername) {
@@ -264,5 +265,33 @@ public class ResLoanreturnService extends BaseService {
         res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(rs.toJsonArrayWithJsonObject()));
         return R.SUCCESS_OPER(res);
     }
+
+    public R selectList(String user_id, String statustype, String bustype) {
+        String sql = "select " +
+                "(select name from sys_user_info where user_id=b.create_by) createusername,  " +
+                "date_format(busdate,'%Y-%m-%d') busdatestr,  " +
+                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,  " +
+                "date_format(returndate,'%Y-%m-%d') returndatestr,  " +
+                "(select route_name from hrm_org_employee aa,hrm_org_part bb where aa.node_id=bb.node_id and empl_id=(select empl_id from sys_user_info where user_id=b.lruserid) limit 1 ) lruserorginfo," +
+                "b.*" +
+                "from res_loanreturn b where dr='0' ";
+        if (ToolUtil.isNotEmpty(user_id)) {
+            sql = sql + " and b.create_by='" + this.getUserId() + "'";
+        }
+        if (ToolUtil.isNotEmpty(bustype)) {
+            sql = sql + " and b.busstatus='" + bustype + "'";
+        }
+        if (ToolUtil.isNotEmpty(statustype)) {
+            if ("finish".equals(statustype)) {
+                sql = sql + " and b.status in ('" + SysProcessDataService.PSTATUS_FINISH + "','" + SysProcessDataService.PSTATUS_CANCEL + "','" + SysProcessDataService.PSTATUS_FINISH_NO_APPROVAL + "')";
+            } else if ("inprogress".equals(statustype)) {
+                sql = sql + " and b.status not in ('" + SysProcessDataService.PSTATUS_FINISH + "','" + SysProcessDataService.PSTATUS_CANCEL + "','" + SysProcessDataService.PSTATUS_FINISH_NO_APPROVAL + "')";
+            }
+        }
+        sql = sql + " order by create_time desc";
+        RcdSet rs = db.query(sql);
+        return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+    }
+
 
 }

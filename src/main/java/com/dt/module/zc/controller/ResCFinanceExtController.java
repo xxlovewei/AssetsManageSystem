@@ -1,6 +1,7 @@
 package com.dt.module.zc.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
@@ -75,7 +76,9 @@ public class ResCFinanceExtController extends BaseController {
         ResCFinanceServiceImpl.save(entity);
         ResCFinanceItemServiceImpl.saveBatch(list);
         zcChangeService.zcCGCWSureChange(uuid);
-        return R.SUCCESS_OPER();
+        JSONObject r = new JSONObject();
+        r.put("busid", uuid);
+        return R.SUCCESS_OPER(r);
     }
 
     @ResponseBody

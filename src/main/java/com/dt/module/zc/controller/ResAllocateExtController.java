@@ -59,9 +59,14 @@ public class ResAllocateExtController extends BaseController {
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
-        QueryWrapper<ResAllocate> ew = new QueryWrapper<ResAllocate>();
-        ew.orderByDesc("create_time");
-        return R.SUCCESS_OPER(ResAllocateServiceImpl.list(ew));
+        return resAllocateService.selectList(null, null);
+    }
+
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/myList.do")
+    public R myList(String statustype) {
+        return resAllocateService.selectList(this.getUserId(), statustype);
     }
 
 //    @ResponseBody

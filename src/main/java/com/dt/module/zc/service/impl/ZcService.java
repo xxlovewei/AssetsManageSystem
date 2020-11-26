@@ -59,10 +59,10 @@ public class ZcService extends BaseService {
         JSONObject res = new JSONObject();
         String[] dict_arr = dicts.split(",");
         for (int i = 0; i < dict_arr.length; i++) {
-            String sql = "select * from sys_dict_item where dict_id=? and dr='0' order by sort";
+            String sql = "select t.*,t.dict_item_id value,t.name label from sys_dict_item t where dict_id=? and dr='0' order by sort";
             String cls = dict_arr[i];
             if ("zcother".equals(dict_arr[i])) {
-                sql = "select * from sys_dict_item where dict_id=? and dr='0' and code<>'menu' order by sort";
+                sql = "select t.*,t.dict_item_id value,t.name label from sys_dict_item t where dict_id=? and dr='0' and code<>'menu' order by sort";
                 cls = "devclass";
             }
             RcdSet rs = db.query(sql, cls);
@@ -71,13 +71,13 @@ public class ZcService extends BaseService {
 
         if (ToolUtil.isNotEmpty(classid)) {
             RcdSet partrs = db.query(
-                    "select id dict_item_id,name from ct_category where dr='0' and parent_id=? and type='goods' order by od", classid);
+                    "select id dict_item_id,name,id value,name label from ct_category where dr='0' and parent_id=? and type='goods' order by od", classid);
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
         if (ToolUtil.isNotEmpty(classroot)) {
             String subsql = " t.type='goods' and isaction='Y' and t.dr='0' and t.root=? and t.node_level>1 ";
-            RcdSet partrs = db.query("select id dict_item_id,route_name name,name sname from ct_category t where  "
+            RcdSet partrs = db.query("select id dict_item_id,route_name name,name sname,id value,route_name label from ct_category t where  "
                     + subsql + " order by route", classroot);
             res.put("btype", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
@@ -85,12 +85,12 @@ public class ZcService extends BaseService {
         // 所有用户
         if (ToolUtil.isNotEmpty(partusers) && "Y".equals(partusers)) {
             RcdSet partuserrs = db
-                    .query("select a.user_id,a.name from sys_user_info a,hrm_org_employee b ,hrm_org_part c where   "
+                    .query("select a.user_id,a.name,a.user_id value,a.name label from sys_user_info a,hrm_org_employee b ,hrm_org_part c where   "
                             + "  a.islogoff='0' and a.empl_id=b.empl_id and a.dr='0' and b.dr='0' and c.node_id=b.node_id");
             res.put("partusers", ConvertUtil.OtherJSONObjectToFastJSONArray(partuserrs.toJsonArrayWithJsonObject()));
         }
 
-        RcdSet comprs = db.query("select node_id id, route_name name from hrm_org_part where dr='0' and type='comp' order by node_id");
+        RcdSet comprs = db.query("select node_id id, route_name name,node_id value,route_name label from hrm_org_part where dr='0' and type='comp' order by node_id");
 
 
         if (ToolUtil.isNotEmpty(comp) && "Y".equals(comp)) {
@@ -106,7 +106,7 @@ public class ZcService extends BaseService {
             JSONObject tmp = new JSONObject();
             for (int i = 0; i < comprs.size(); i++) {
                 RcdSet partrs = db
-                        .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and parent_id=? order by route", comprs.getRcd(i).getString("id"));
+                        .query("select node_id partid,route_name name, node_id value,route_name label from hrm_org_part where org_id=1 and dr='0' and parent_id=? order by route", comprs.getRcd(i).getString("id"));
                 tmp.put(comprs.getRcd(i).getString("id"), ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
             }
             res.put("comppart", tmp);
@@ -115,13 +115,13 @@ public class ZcService extends BaseService {
 
         if (ToolUtil.isNotEmpty(parts) && "Y".equals(parts)) {
             RcdSet partrs = db
-                    .query("select node_id partid,route_name name from hrm_org_part where org_id=1 and dr='0' and type='part' order by route");
+                    .query("select node_id partid,route_name name , node_id value, route_name label from hrm_org_part where org_id=1 and dr='0' and type='part' order by route");
             res.put("parts", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
 
         if (ToolUtil.isNotEmpty(zccatused) && "Y".equals(zccatused)) {
             RcdSet partrs = db
-                    .query("select a.id,concat(b.name,'/',a.route_name) name from ct_category a,ct_category_root b where a.type='goods' and a.root=b.id and a.dr='0' and a.id in (select distinct class_id from res where dr='0')   " +
+                    .query("select a.id,concat(b.name,'/',a.route_name) name,a.id value,concat(b.name,'/',a.route_name) label from ct_category a,ct_category_root b where a.type='goods' and a.root=b.id and a.dr='0' and a.id in (select distinct class_id from res where dr='0')   " +
                             "order by a.root ,a.route_name");
             res.put("zccatused", ConvertUtil.OtherJSONObjectToFastJSONArray(partrs.toJsonArrayWithJsonObject()));
         }
@@ -874,7 +874,7 @@ public class ZcService extends BaseService {
             sql = sql + idsstr;
         }
         if (!db.uniqueRecord(sql).getString("cnt").equals(items_arr.size() + "")) {
-            return R.FAILURE("所选项中要包含不符合要求的数据");
+            return R.FAILURE("所选数据中可能部分数据不符合要求!");
         }
         return R.SUCCESS_OPER();
     }

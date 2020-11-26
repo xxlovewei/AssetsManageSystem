@@ -48,16 +48,16 @@ public class ResLoanreturnExtController extends BaseController {
     @Acl(info = "查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectList.do")
     public R selectList() {
-        String sql = "select " +
-                "(select name from sys_user_info where user_id=b.create_by) createusername,  " +
-                "date_format(busdate,'%Y-%m-%d') busdatestr,  " +
-                "date_format(rreturndate,'%Y-%m-%d') rreturndatestr,  " +
-                "date_format(returndate,'%Y-%m-%d') returndatestr,  " +
-                "(select route_name from hrm_org_employee aa,hrm_org_part bb where aa.node_id=bb.node_id and empl_id=(select empl_id from sys_user_info where user_id=b.lruserid) limit 1 ) lruserorginfo," +
-                "b.*" +
-                "from res_loanreturn b where dr='0' order by create_time desc";
-        RcdSet rs = db.query(sql);
-        return R.SUCCESS_OPER(rs.toJsonArrayWithJsonObject());
+        return resLoanreturnService.selectList(null, null, null);
+    }
+
+
+    @ResponseBody
+    @Acl(info = "查询", value = Acl.ACL_USER)
+    @RequestMapping(value = "/myList.do")
+    public R myList(String statustype, String bustype) {
+        return resLoanreturnService.selectList(this.getUserId(), statustype, bustype);
+
     }
 
     @ResponseBody

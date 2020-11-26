@@ -1,6 +1,7 @@
 package com.dt.module.zc.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
@@ -104,7 +105,9 @@ public class ResCBasicinformationExtController extends BaseController {
         ResCBasicinformationServiceImpl.save(entity);
         ResCBasicinformationItemServiceImpl.saveBatch(list);
         zcChangeService.zcCGJBSureChange(uuid);
-        return R.SUCCESS_OPER();
+        JSONObject r = new JSONObject();
+        r.put("busid", uuid);
+        return R.SUCCESS_OPER(r);
     }
 
     @ResponseBody

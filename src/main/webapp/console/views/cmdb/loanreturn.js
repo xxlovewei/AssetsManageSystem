@@ -224,10 +224,10 @@ function loanreturnCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $window,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('rreturndatestr').withTitle('实际归还时间').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('lprocessusername').withTitle('借用处理人').withOption(
-            'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('rprocessusername').withTitle('归还处理人').withOption(
-            'sDefaultContent', ''),
+        // DTColumnBuilder.newColumn('lprocessusername').withTitle('借用处理人').withOption(
+        //     'sDefaultContent', ''),
+        // DTColumnBuilder.newColumn('rprocessusername').withTitle('归还处理人').withOption(
+        //     'sDefaultContent', ''),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('createusername').withTitle('创建人').withOption(
