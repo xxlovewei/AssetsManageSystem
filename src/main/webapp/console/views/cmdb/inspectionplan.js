@@ -5,6 +5,8 @@ function inspectionplanSaveCtl(DTColumnBuilder, DTOptionsBuilder, $timeout, $loc
     $scope.userOpt = [];
     $scope.userSel = [];
     $scope.item = {};
+    $scope.methodOpt=[{id:"fix",name:"固定模式"},{id:"free",name:"自由模式"}];
+    $scope.methodSel=$scope.methodOpt[0];
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise().withDataProp('data').withDOM('frtlip')
         .withPaginationType('full_numbers').withDisplayLength(100)
         .withOption("ordering", false).withOption("responsive", false)
@@ -93,6 +95,12 @@ function inspectionplanSaveCtl(DTColumnBuilder, DTOptionsBuilder, $timeout, $loc
                                     $scope.statusSel = $scope.statusOpt[0];
                                 }
 
+                                if ($scope.data.method == "fix") {
+                                    $scope.methodSel=$scope.methodOpt[0];
+                                } else if ($scope.data.method == "free") {
+                                    $scope.methodSel=$scope.methodOpt[1];
+                                }
+
                                 $scope.dtOptions.aaData = $scope.data.items;
 
                                 var actionusers = angular.fromJson(rs.data.actionusers);
@@ -134,6 +142,7 @@ function inspectionplanSaveCtl(DTColumnBuilder, DTOptionsBuilder, $timeout, $loc
         $scope.data.status = $scope.statusSel.id;
         $scope.data.actionusers = angular.toJson($scope.userSel);
         $scope.data.items = angular.toJson($scope.dtOptions.aaData);
+        $scope.data.method= $scope.methodSel.id;
         $http.post($rootScope.project + "/api/zc/resInspectionPlan/ext/create.do",
             $scope.data).success(function (res) {
             if (res.success) {
@@ -227,8 +236,19 @@ function inspectionplanCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm
         return html;
     }
 
+    function renderMethod(data, type, full) {
+        if (data == "free") {
+            return "自由模式";
+        } else if (data == "fix") {
+            return "固定模式";
+        } else {
+            return data;
+        }
+    }
+
+
     function renderStatus(data, type, full) {
-        console.log(data);
+
         if (data == "stop") {
             return "停用";
         } else if (data == "start") {
@@ -242,6 +262,8 @@ function inspectionplanCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm
     $scope.dtColumns = [
         DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('method').withTitle('巡检方式').withOption(
+            'sDefaultContent', '').renderWith(renderMethod),
         DTColumnBuilder.newColumn('status').withTitle('状态').withOption(
             'sDefaultContent', '').renderWith(renderStatus),
         DTColumnBuilder.newColumn('cron').withTitle('周期').withOption(

@@ -23,11 +23,11 @@ import com.dt.core.common.base.BaseController;
 
 /**
  * <p>
- * 前端控制器
+ *  前端控制器
  * </p>
  *
  * @author algernonking
- * @since 2020-11-19
+ * @since 2020-11-26
  */
 @Controller
 @RequestMapping("/api/zc/resInspection")
@@ -83,7 +83,7 @@ public class ResInspectionController extends BaseController {
 	@ResponseBody
 	@Acl(info = "查询所有,有分页", value = Acl.ACL_USER)
 	@RequestMapping(value = "/selectPage.do")
-	public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10") String pageSize, @RequestParam(value = "pageIndex", required = true, defaultValue = "1") String pageIndex) {
+	public R selectPage(String start, String length, @RequestParam(value = "pageSize", required = true, defaultValue = "10")  String pageSize,@RequestParam(value = "pageIndex", required = true, defaultValue = "1")  String pageIndex) {
 		JSONObject respar = DbUtil.formatPageParameter(start, length, pageSize, pageIndex);
 		if (ToolUtil.isEmpty(respar)) {
 			return R.FAILURE_REQ_PARAM_ERROR();
@@ -96,7 +96,7 @@ public class ResInspectionController extends BaseController {
 		JSONObject retrunObject = new JSONObject();
 		retrunObject.put("iTotalRecords", pdata.getTotal());
 		retrunObject.put("iTotalDisplayRecords", pdata.getTotal());
-		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(), SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
+		retrunObject.put("data", JSONArray.parseArray(JSON.toJSONString(pdata.getRecords(),SerializerFeature.WriteDateUseDateFormat, SerializerFeature.DisableCircularReferenceDetect)));
 		return R.clearAttachDirect(retrunObject);
 	}
 

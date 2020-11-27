@@ -1,30 +1,25 @@
 package com.dt.module.zc.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.math.BigDecimal;
-
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author algernonking
- * @since 2020-11-19
+ * @since 2020-11-26
  */
-
+ 
 @TableName("res_inspection")
-
+ 
 public class ResInspection extends BaseModel<ResInspection> {
 
     private static final long serialVersionUID = 1L;
@@ -51,6 +46,8 @@ public class ResInspection extends BaseModel<ResInspection> {
     private BigDecimal faultcnt;
     @TableField("retention")
     private BigDecimal retention;
+    @TableField("method")
+    private String method;
 
 
     public String getId() {
@@ -141,6 +138,14 @@ public class ResInspection extends BaseModel<ResInspection> {
         this.retention = retention;
     }
 
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -149,17 +154,18 @@ public class ResInspection extends BaseModel<ResInspection> {
     @Override
     public String toString() {
         return "ResInspection{" +
-                "id=" + id +
-                ", name=" + name +
-                ", busid=" + busid +
-                ", status=" + status +
-                ", sdate=" + sdate +
-                ", edate=" + edate +
-                ", mark=" + mark +
-                ", actionusers=" + actionusers +
-                ", normalcnt=" + normalcnt +
-                ", faultcnt=" + faultcnt +
-                ", retention=" + retention +
-                "}";
+        "id=" + id +
+        ", name=" + name +
+        ", busid=" + busid +
+        ", status=" + status +
+        ", sdate=" + sdate +
+        ", edate=" + edate +
+        ", mark=" + mark +
+        ", actionusers=" + actionusers +
+        ", normalcnt=" + normalcnt +
+        ", faultcnt=" + faultcnt +
+        ", retention=" + retention +
+        ", method=" + method +
+        "}";
     }
 }

@@ -4,7 +4,6 @@ function inspectionlistCtl(DTColumnBuilder, DTOptionsBuilder, $timeout, $localSt
         $uibModalInstance.dismiss('cancel');
     };
 
-
     function renderStatus(data, type, full) {
         if (data == "wait") {
             return "未巡检";
@@ -109,8 +108,8 @@ function inspectionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
                     ($scope);
                 }
             });
-    $scope.dtInstance = {}
 
+    $scope.dtInstance = {};
 
     function renderAction(data, type, full) {
         var acthtml = " <div class=\"btn-group\"> ";
@@ -138,7 +137,6 @@ function inspectionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
     }
 
     function renderStatus(data, type, full) {
-        console.log(data);
         if (data == "wait") {
             return "未开始";
         } else if (data == "wait") {
@@ -148,7 +146,16 @@ function inspectionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
         } else {
             return data;
         }
+    }
 
+    function renderMethod(data, type, full) {
+        if (data == "free") {
+            return "自由模式";
+        } else if (data == "fix") {
+            return "固定模式";
+        } else {
+            return data;
+        }
     }
 
     $scope.dtColumns = [
@@ -156,6 +163,8 @@ function inspectionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('method').withTitle('巡检方式').withOption(
+            'sDefaultContent', '').renderWith(renderMethod),
         DTColumnBuilder.newColumn('status').withTitle('状态').withOption(
             'sDefaultContent', '').renderWith(renderStatus),
         DTColumnBuilder.newColumn('sdate').withTitle('开始时间').withOption(

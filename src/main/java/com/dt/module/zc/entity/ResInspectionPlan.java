@@ -1,11 +1,8 @@
 package com.dt.module.zc.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.math.BigDecimal;
-
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -13,15 +10,15 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author algernonking
- * @since 2020-11-19
+ * @since 2020-11-26
  */
-
+ 
 @TableName("res_inspection_plan")
-
+ 
 public class ResInspectionPlan extends BaseModel<ResInspectionPlan> {
 
     private static final long serialVersionUID = 1L;
@@ -42,6 +39,11 @@ public class ResInspectionPlan extends BaseModel<ResInspectionPlan> {
     private String busid;
     @TableField("retention")
     private BigDecimal retention;
+    /**
+     * 自由巡检 free 固定巡检 fix
+     */
+    @TableField("method")
+    private String method;
 
 
     public String getId() {
@@ -108,6 +110,14 @@ public class ResInspectionPlan extends BaseModel<ResInspectionPlan> {
         this.retention = retention;
     }
 
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -116,14 +126,15 @@ public class ResInspectionPlan extends BaseModel<ResInspectionPlan> {
     @Override
     public String toString() {
         return "ResInspectionPlan{" +
-                "id=" + id +
-                ", name=" + name +
-                ", status=" + status +
-                ", cron=" + cron +
-                ", actionusers=" + actionusers +
-                ", mark=" + mark +
-                ", busid=" + busid +
-                ", retention=" + retention +
-                "}";
+        "id=" + id +
+        ", name=" + name +
+        ", status=" + status +
+        ", cron=" + cron +
+        ", actionusers=" + actionusers +
+        ", mark=" + mark +
+        ", busid=" + busid +
+        ", retention=" + retention +
+        ", method=" + method +
+        "}";
     }
 }

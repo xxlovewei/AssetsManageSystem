@@ -59,23 +59,23 @@ public class ResInspectPlanService extends BaseService {
         }
 
 
-        //保存资产数据
+        //获取原有对资产数据
         QueryWrapper<ResInspectionPitem> qw2 = new QueryWrapper<ResInspectionPitem>();
         qw2.eq("busid", busid);
         List<ResInspectionPitem> list = ResInspectionPitemServiceImpl.list(qw2);
-        if (list.size() == 0) {
-            return R.FAILURE("没有资产数据");
-        }
+
         List<ResInspectionPitem> newlist = new ArrayList<ResInspectionPitem>();
         for (int i = 0; i < list.size(); i++) {
             ResInspectionPitem e = list.get(i);
             e.setId(null);
             e.setBusid(newbusid);
             e.setStatus("wait");
-            e.setType("plan");
+            e.setResid(e.getResid());
+            e.setType("instance");
             newlist.add(e);
         }
         ResInspection inspection = new ResInspection();
+        inspection.setMethod(obj.getMethod());
         inspection.setBusid(newbusid);
         inspection.setActionusers(obj.getActionusers());
         inspection.setMark(obj.getMark());
@@ -85,7 +85,9 @@ public class ResInspectPlanService extends BaseService {
         inspection.setFaultcnt(new BigDecimal("0"));
         ResInspectionServiceImpl.save(inspection);
         ResInspectionUserServiceImpl.saveBatch(list2);
-        ResInspectionPitemServiceImpl.saveBatch(newlist);
+        if(newlist.size()>0&&"fix".equals(obj.getMethod())){
+            ResInspectionPitemServiceImpl.saveBatch(newlist);
+        }
         return R.SUCCESS_OPER();
     }
 }

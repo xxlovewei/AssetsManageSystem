@@ -51,9 +51,12 @@ public class ResInspectionPlanExtController extends BaseController {
     @RequestMapping(value = "/create.do")
     public R create(ResInspectionPlan entity, String items) {
         JSONArray itemarr = JSONArray.parseArray(items);
-        if (itemarr == null || itemarr.size() == 0) {
-            return R.FAILURE_NO_DATA();
+        if("fix".equals(entity.getMethod())){
+            if (itemarr == null || itemarr.size() == 0) {
+                return R.FAILURE_NO_DATA();
+            }
         }
+
         String busid;
         if (ToolUtil.isEmpty(entity.getId())) {
             busid = zcService.createUuid(ZcCommonService.UUID_XJ);
@@ -62,18 +65,21 @@ public class ResInspectionPlanExtController extends BaseController {
             busid = entity.getBusid();
         }
         List<ResInspectionPitem> list = new ArrayList<ResInspectionPitem>();
-        for (int i = 0; i < itemarr.size(); i++) {
-            ResInspectionPitem e = new ResInspectionPitem();
-            e.setType("plan");
-            e.setBusid(busid);
-            e.setResid(itemarr.getJSONObject(i).getString("id"));
-            list.add(e);
-        }
+
         QueryWrapper<ResInspectionPitem> qw = new QueryWrapper<ResInspectionPitem>();
         qw.eq("busid", busid);
         ResInspectionPitemServiceImpl.remove(qw);
-        ResInspectionPitemServiceImpl.saveBatch(list);
-
+        if("fix".equals(entity.getMethod())) {
+            for (int i = 0; i < itemarr.size(); i++) {
+                ResInspectionPitem e = new ResInspectionPitem();
+                e.setType("plan");
+                e.setMethod(entity.getMethod());
+                e.setBusid(busid);
+                e.setResid(itemarr.getJSONObject(i).getString("id"));
+                list.add(e);
+            }
+            ResInspectionPitemServiceImpl.saveBatch(list);
+        }
         JSONArray userarr = JSONArray.parseArray(entity.getActionusers());
         List<ResInspectionUser> list2 = new ArrayList<ResInspectionUser>();
         for (int j = 0; j < userarr.size(); j++) {

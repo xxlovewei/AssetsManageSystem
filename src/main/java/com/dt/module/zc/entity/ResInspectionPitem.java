@@ -1,30 +1,25 @@
 package com.dt.module.zc.entity;
 
 import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.math.BigDecimal;
-
 import com.dt.core.common.base.BaseModel;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author algernonking
- * @since 2020-11-18
+ * @since 2020-11-26
  */
-
+ 
 @TableName("res_inspection_pitem")
-
+ 
 public class ResInspectionPitem extends BaseModel<ResInspectionPitem> {
 
     private static final long serialVersionUID = 1L;
@@ -53,6 +48,8 @@ public class ResInspectionPitem extends BaseModel<ResInspectionPitem> {
     private String loc;
     @TableField("od")
     private BigDecimal od;
+    @TableField("method")
+    private String method;
 
 
     public String getId() {
@@ -151,6 +148,14 @@ public class ResInspectionPitem extends BaseModel<ResInspectionPitem> {
         this.od = od;
     }
 
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -159,18 +164,19 @@ public class ResInspectionPitem extends BaseModel<ResInspectionPitem> {
     @Override
     public String toString() {
         return "ResInspectionPitem{" +
-                "id=" + id +
-                ", busid=" + busid +
-                ", type=" + type +
-                ", resid=" + resid +
-                ", status=" + status +
-                ", mark=" + mark +
-                ", actionuserid=" + actionuserid +
-                ", actionusername=" + actionusername +
-                ", actiontime=" + actiontime +
-                ", pics=" + pics +
-                ", loc=" + loc +
-                ", od=" + od +
-                "}";
+        "id=" + id +
+        ", busid=" + busid +
+        ", type=" + type +
+        ", resid=" + resid +
+        ", status=" + status +
+        ", mark=" + mark +
+        ", actionuserid=" + actionuserid +
+        ", actionusername=" + actionusername +
+        ", actiontime=" + actiontime +
+        ", pics=" + pics +
+        ", loc=" + loc +
+        ", od=" + od +
+        ", method=" + method +
+        "}";
     }
 }
