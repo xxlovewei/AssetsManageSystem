@@ -10,7 +10,9 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.tool.util.ConvertUtil;
+import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.cmdb.entity.Res;
+import com.dt.module.cmdb.service.IResService;
 import com.dt.module.zc.entity.ResInspection;
 import com.dt.module.zc.entity.ResInspectionPitem;
 import com.dt.module.zc.service.IResInspectionPitemService;
@@ -31,6 +33,9 @@ public class ResInspectionExtController extends BaseController {
 
     @Autowired
     IResInspectionService ResInspectionServiceImpl;
+
+    @Autowired
+    IResService ResServiceImpl;
 
     @Autowired
     IResInspectionPitemService ResInspectionPitemServiceImpl;
@@ -54,9 +59,16 @@ public class ResInspectionExtController extends BaseController {
     @ResponseBody
     @Acl(info = "根据Id查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/myList.do")
-    public R myList() {
+    public R myList(String statustype) {
         QueryWrapper<ResInspection> qw = new QueryWrapper<ResInspection>();
         qw.inSql("busid","select busid from res_inspection_user where userid='"+this.getUserId()+"'");
+        if (ToolUtil.isNotEmpty(statustype)) {
+            if ("finish".equals(statustype)) {
+                qw.eq("status","finish");
+            } else if ("inprogress".equals(statustype)) {
+                qw.ne("status", "finish");
+            }
+        }
         qw.orderByDesc("create_time");
         List<ResInspection> list = ResInspectionServiceImpl.list(qw);
         return R.SUCCESS_OPER(list);
@@ -116,18 +128,25 @@ public class ResInspectionExtController extends BaseController {
     @ResponseBody
     @Acl(info = "根据Id查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/actionInspect.do")
-    public R actionInspect(String busid,String resid,String status,String mark,String pics,String loc) {
+    public R actionInspect(String busid,String uuid,String status,String mark,String pics,String loc) {
 
         QueryWrapper<ResInspection> inspectqw = new QueryWrapper<ResInspection>();
         inspectqw.eq("busid",busid);
         ResInspection resinspectorder=ResInspectionServiceImpl.getOne(inspectqw);
         ResInspectionPitem obj=new ResInspectionPitem();
 
+        QueryWrapper<Res> resqw = new QueryWrapper<Res>();
+        resqw.eq("uuid",uuid);
+        Res res=ResServiceImpl.getOne(resqw);
+        if(res==null){
+            return R.FAILURE("无该资产信息");
+        }
+        String resid=res.getId();
         //status: success,failed
         if("free".equals(resinspectorder.getMethod())){
             QueryWrapper<ResInspectionPitem> itemqw = new QueryWrapper<ResInspectionPitem>();
             itemqw.eq("busid",busid);
-            itemqw.eq("resid",resid);
+            itemqw.eq("resid",uuid);
             if(ResInspectionPitemServiceImpl.getOne(itemqw)!=null){
                 return R.FAILURE("本批次所选资产已做过巡检");
             }

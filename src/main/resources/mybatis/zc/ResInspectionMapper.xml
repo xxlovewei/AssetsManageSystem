@@ -21,6 +21,8 @@
         <result column="faultcnt" property="faultcnt" />
         <result column="retention" property="retention" />
         <result column="method" property="method" />
+        <result column="actingcnt" property="actingcnt" />
+        <result column="cnt" property="cnt" />
     </resultMap>
 
 </mapper>

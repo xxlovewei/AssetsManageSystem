@@ -80,6 +80,7 @@ public class ResInspectPlanService extends BaseService {
         inspection.setActionusers(obj.getActionusers());
         inspection.setMark(obj.getMark());
         inspection.setName(obj.getName());
+        inspection.setCnt(new BigDecimal(newlist.size()));
         inspection.setStatus("wait");
         inspection.setNormalcnt(new BigDecimal("0"));
         inspection.setFaultcnt(new BigDecimal("0"));

@@ -171,9 +171,13 @@ function inspectionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('edate').withTitle('结束时间').withOption(
             'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('cnt').withTitle('总数').withOption(
+            'sDefaultContent', ''),
         DTColumnBuilder.newColumn('normalcnt').withTitle('正常数量').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('faultcnt').withTitle('故障数量').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('actingcnt').withTitle('未巡检数').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('actionusers').withTitle('人员').withOption(
             'sDefaultContent', '').renderWith(renderUsers),

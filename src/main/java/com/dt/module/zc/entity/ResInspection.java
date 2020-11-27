@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * </p>
  *
  * @author algernonking
- * @since 2020-11-26
+ * @since 2020-11-27
  */
  
 @TableName("res_inspection")
@@ -48,6 +48,10 @@ public class ResInspection extends BaseModel<ResInspection> {
     private BigDecimal retention;
     @TableField("method")
     private String method;
+    @TableField("actingcnt")
+    private BigDecimal actingcnt;
+    @TableField("cnt")
+    private BigDecimal cnt;
 
 
     public String getId() {
@@ -146,6 +150,22 @@ public class ResInspection extends BaseModel<ResInspection> {
         this.method = method;
     }
 
+    public BigDecimal getActingcnt() {
+        return actingcnt;
+    }
+
+    public void setActingcnt(BigDecimal actingcnt) {
+        this.actingcnt = actingcnt;
+    }
+
+    public BigDecimal getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(BigDecimal cnt) {
+        this.cnt = cnt;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -166,6 +186,8 @@ public class ResInspection extends BaseModel<ResInspection> {
         ", faultcnt=" + faultcnt +
         ", retention=" + retention +
         ", method=" + method +
+        ", actingcnt=" + actingcnt +
+        ", cnt=" + cnt +
         "}";
     }
 }
