@@ -260,7 +260,7 @@ function inspectionplanCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm
     }
 
     $scope.dtColumns = [
-        DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
+        DTColumnBuilder.newColumn('name').withTitle('巡检名称').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('method').withTitle('巡检方式').withOption(
             'sDefaultContent', '').renderWith(renderMethod),
@@ -271,6 +271,8 @@ function inspectionplanCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm
         DTColumnBuilder.newColumn('actionusers').withTitle('人员').withOption(
             'sDefaultContent', '').renderWith(renderUsers),
         DTColumnBuilder.newColumn('mark').withTitle('备注').withOption(
+            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('createTime').withTitle('创建时间').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
             'sDefaultContent', '').withOption("width", '150').renderWith(renderAction)
@@ -303,7 +305,7 @@ function inspectionplanCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm
 
     function flush() {
         var ps = {}
-        $http.post($rootScope.project + "/api/zc/resInspectionPlan/selectList.do", ps)
+        $http.post($rootScope.project + "/api/zc/resInspectionPlan/ext/selectList.do", ps)
             .success(function (res) {
                 if (res.success) {
                     $scope.dtOptions.aaData = res.data;

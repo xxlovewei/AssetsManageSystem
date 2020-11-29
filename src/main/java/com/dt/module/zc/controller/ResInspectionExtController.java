@@ -9,8 +9,10 @@ import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
+import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.cmdb.entity.Res;
 import com.dt.module.cmdb.service.IResService;
 import com.dt.module.zc.entity.ResInspection;
@@ -44,17 +46,38 @@ public class ResInspectionExtController extends BaseController {
     @Acl(info = "根据Id查询", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectById.do")
     public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-        ResInspection obj = ResInspectionServiceImpl.getById(id);
+        TypedHashMap<String, Object> ps = HttpKit.getRequestParameters();
+        String busid = ps.getString("busid");
+        ResInspection obj=null;
+        if(ToolUtil.isEmpty(busid)){
+            obj = ResInspectionServiceImpl.getById(id);
+            busid=obj.getBusid();
+        }else{
+            QueryWrapper<ResInspection> qw=new QueryWrapper<ResInspection>();
+            qw.eq("busid",busid);
+            obj=ResInspectionServiceImpl.getOne(qw);
+        }
         JSONObject res = JSONObject.parseObject(JSON.toJSONString(obj, SerializerFeature.WriteDateUseDateFormat));
-        String sql = "select b.status inspectstatus,b.mark inspectmark," + ZcCommonService.resSqlbody + " t.* from res t,res_inspection_pitem b where t.id=b.resid and t.dr='0' and b.dr='0' and b.busid=?";
+        String sql = "select  b.actiontime inspectactiontime,b.actionusername inspectusername, b.pics inspectpics,b.status inspectstatus,b.mark inspectmark," + ZcCommonService.resSqlbody + " t.* from res t,res_inspection_pitem b where t.id=b.resid and t.dr='0' and b.dr='0' and b.busid=?";
         String sql2="select (select count(1) cnt from res_inspection_pitem where dr='0' and busid=?) cnt,\n" +
                 "(select count(1) cnt from res_inspection_pitem where dr = '0' and busid = ? and status = 'success')success_cnt,\n" +
                 "(select count(1) cnt from res_inspection_pitem where dr = '0' and busid = ? and status = 'wait')wait_cnt,\n" +
                 "(select count(1) cnt from res_inspection_pitem where dr = '0' and busid = ? and status = 'failed')failed_cnt";
-        res.put("statistics",ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql2,obj.getBusid(),obj.getBusid(),obj.getBusid())));
-        res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, obj.getBusid()).toJsonArrayWithJsonObject()));
+        res.put("statistics",ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql2,busid,busid,busid,busid)));
+        res.put("items", ConvertUtil.OtherJSONObjectToFastJSONArray(db.query(sql, busid).toJsonArrayWithJsonObject()));
         return R.SUCCESS_OPER(res);
     }
+
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList() {
+        QueryWrapper<ResInspection> qw = new QueryWrapper<ResInspection>();
+        qw.orderByDesc("create_time");
+        return R.SUCCESS_OPER(ResInspectionServiceImpl.list(qw));
+    }
+
+
 
     @ResponseBody
     @Acl(info = "根据Id查询", value = Acl.ACL_USER)
@@ -86,8 +109,10 @@ public class ResInspectionExtController extends BaseController {
             order.setSql("sdate=now()");
             order.eq("busid", busid);
             ResInspectionServiceImpl.update(order);
+        }else if("finish".equals(resinspectorder.getStatus())){
+            return R.FAILURE("当前巡检已结束");
         }else{
-            return R.FAILURE("当前巡检单状态异常");
+            return R.SUCCESS_OPER(resinspectorder.getStatus());
         }
         return R.SUCCESS_OPER();
     }
@@ -99,22 +124,30 @@ public class ResInspectionExtController extends BaseController {
         QueryWrapper<ResInspection> inspectqw = new QueryWrapper<ResInspection>();
         inspectqw.eq("busid",busid);
         ResInspection resinspectorder=ResInspectionServiceImpl.getOne(inspectqw);
-        if("finish".equals(resinspectorder.getStatus())){
-            return R.SUCCESS_OPER("巡检已结束");
+        if("wait".equals(resinspectorder.getStatus())){
+            return R.FAILURE("未开始巡检");
         }
+        if("finish".equals(resinspectorder.getStatus())){
+            return R.FAILURE("已结束巡检");
+        }
+        if(!"acting".equals(resinspectorder.getStatus())){
+            return R.FAILURE("单据状态异常");
+        }
+
         ResInspectionPitem obj=new ResInspectionPitem();
         String sql2="select (select count(1) cnt from res_inspection_pitem where dr='0' and busid=?) cnt,\n" +
                 "(select count(1) cnt from res_inspection_pitem where dr = '0' and busid = ? and status = 'success')success_cnt,\n" +
                 "(select count(1) cnt from res_inspection_pitem where dr = '0' and busid = ? and status = 'wait')wait_cnt,\n" +
                 "(select count(1) cnt from res_inspection_pitem where dr = '0' and busid = ? and status = 'failed')failed_cnt";
-        Rcd rs=db.uniqueRecord(sql2,busid,busid,busid);
-        if("fix".equals(obj.getMethod())){
+        Rcd rs=db.uniqueRecord(sql2,busid,busid,busid,busid);
+        if("fix".equals(resinspectorder.getMethod())){
            if(rs.getInteger("wait_cnt")>0){
                return R.FAILURE("请先完成剩下部分资产巡检!");
            }
         }
         UpdateWrapper<ResInspection> order = new UpdateWrapper<ResInspection>();
         order.set("status", "finish");
+        order.set("cnt", rs.getString("cnt"));
         order.set("normalcnt", rs.getString("success_cnt"));
         order.set("faultcnt", rs.getString("failed_cnt"));
         order.set("actingcnt", rs.getString("wait_cnt"));
@@ -146,9 +179,9 @@ public class ResInspectionExtController extends BaseController {
         if("free".equals(resinspectorder.getMethod())){
             QueryWrapper<ResInspectionPitem> itemqw = new QueryWrapper<ResInspectionPitem>();
             itemqw.eq("busid",busid);
-            itemqw.eq("resid",uuid);
+            itemqw.eq("resid",resid);
             if(ResInspectionPitemServiceImpl.getOne(itemqw)!=null){
-                return R.FAILURE("本批次所选资产已做过巡检");
+                return R.FAILURE("本批次所选的当前资产已做过巡检");
             }
             obj.setBusid(busid);
             obj.setType("instance");
@@ -165,8 +198,12 @@ public class ResInspectionExtController extends BaseController {
             itemqw.eq("busid",busid);
             itemqw.eq("resid",resid);
             obj=ResInspectionPitemServiceImpl.getOne(itemqw);
-            if("wait".equals(obj.getStatus())){
-                return R.FAILURE("本批次所选资产已做过巡检");
+            if (obj==null){
+                return R.FAILURE("本批次巡检资产清单中不包含该资产");
+            }
+
+            if(!"wait".equals(obj.getStatus())){
+                return R.FAILURE("本批次所选的当前资产已做过巡检");
             }
             obj.setMark(mark);
             obj.setLoc(loc);

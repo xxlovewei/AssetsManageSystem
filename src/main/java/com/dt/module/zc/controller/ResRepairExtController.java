@@ -221,15 +221,17 @@ public class ResRepairExtController extends BaseController {
     @ResponseBody
     @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
     @RequestMapping(value = "/selectMyList.do")
-    public R selectMyList(String statuscode) {
+    public R selectMyList(String statustype) {
 
         QueryWrapper<ResRepair> ew = new QueryWrapper<ResRepair>();
         ew.and(i -> i.eq("create_by", this.getUserId()));
-        if (ToolUtil.isNotEmpty(statuscode)) {
-            if ("doing".equals(statuscode)) {
-                ew.and(i -> i.eq("fstatus", "wait"));
-            } else {
-                ew.and(i -> i.ne("fstatus", "wait"));
+        if (ToolUtil.isNotEmpty(statustype)) {
+            if ("inprogress".equals(statustype)) {
+                ew.notIn("fstatus","finish","cancel");
+            } else if("finish".equals(statustype)){
+                ew.in("fstatus","finish","cancel");
+            }else {
+
             }
         }
         ew.orderByDesc("create_time");

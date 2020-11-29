@@ -10,6 +10,7 @@ import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
+import com.dt.module.zc.entity.ResInspection;
 import com.dt.module.zc.entity.ResInspectionPitem;
 import com.dt.module.zc.entity.ResInspectionPlan;
 import com.dt.module.zc.entity.ResInspectionUser;
@@ -95,6 +96,17 @@ public class ResInspectionPlanExtController extends BaseController {
 
         return R.SUCCESS_OPER(ResInspectionPlanServiceImpl.saveOrUpdate(entity));
     }
+
+
+    @ResponseBody
+    @Acl(info = "查询所有,无分页", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectList.do")
+    public R selectList() {
+        QueryWrapper<ResInspectionPlan> qw = new QueryWrapper<ResInspectionPlan>();
+        qw.orderByDesc("create_time");
+        return R.SUCCESS_OPER(ResInspectionPlanServiceImpl.list(qw));
+    }
+
 
     @ResponseBody
     @Acl(info = "根据Id查询", value = Acl.ACL_USER)

@@ -7,9 +7,9 @@ function inspectionlistCtl(DTColumnBuilder, DTOptionsBuilder, $timeout, $localSt
     function renderStatus(data, type, full) {
         if (data == "wait") {
             return "未巡检";
-        } else if (data == "normal") {
+        } else if (data == "success") {
             return "正常";
-        } else if (data == "fault") {
+        } else if (data == "failed") {
             return "故障";
         } else {
             return data;
@@ -41,6 +41,12 @@ function inspectionlistCtl(DTColumnBuilder, DTOptionsBuilder, $timeout, $localSt
     dtColumns.push(DTColumnBuilder.newColumn('inspectstatus').withTitle('巡检状态').withOption(
         'sDefaultContent', '').renderWith(renderStatus));
     dtColumns.push(DTColumnBuilder.newColumn('inspectmark').withTitle('巡检备注').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('inspectpics').withTitle('巡检图片').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('inspectusername').withTitle('巡检人员').withOption(
+        'sDefaultContent', ''));
+    dtColumns.push(DTColumnBuilder.newColumn('inspectactiontime').withTitle('巡检时间').withOption(
         'sDefaultContent', ''));
     dtColumns.push(DTColumnBuilder.newColumn('uuid').withTitle('资产编号').withOption(
         'sDefaultContent', '').withOption("width", '30'));
@@ -114,7 +120,7 @@ function inspectionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
     function renderAction(data, type, full) {
         var acthtml = " <div class=\"btn-group\"> ";
         acthtml = acthtml + " <button ng-click=\"rowlist('" + full.id
-            + "')\" class=\"btn-white btn btn-xs\">设备列表</button>";
+            + "')\" class=\"btn-white btn btn-xs\">资产列表</button>";
         acthtml = acthtml + " <button ng-click=\"row_del('" + full.id
             + "')\" class=\"btn-white btn btn-xs\">删除</button>";
         acthtml = acthtml + "</div>";
@@ -139,7 +145,7 @@ function inspectionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
     function renderStatus(data, type, full) {
         if (data == "wait") {
             return "未开始";
-        } else if (data == "wait") {
+        } else if (data == "acting") {
             return "进行中";
         } else if (data == "finish") {
             return "结束";
@@ -161,7 +167,7 @@ function inspectionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
     $scope.dtColumns = [
         DTColumnBuilder.newColumn('busid').withTitle('单据编号').withOption(
             'sDefaultContent', ''),
-        DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
+        DTColumnBuilder.newColumn('name').withTitle('巡检名称').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('method').withTitle('巡检方式').withOption(
             'sDefaultContent', '').renderWith(renderMethod),
@@ -210,7 +216,7 @@ function inspectionCtl(DTOptionsBuilder, DTColumnBuilder, $compile, $confirm, $l
 
     function flush() {
         var ps = {}
-        $http.post($rootScope.project + "/api/zc/resInspection/selectList.do", ps)
+        $http.post($rootScope.project + "/api/zc/resInspection/ext/selectList.do", ps)
             .success(function (res) {
                 if (res.success) {
                     $scope.dtOptions.aaData = res.data;
