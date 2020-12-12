@@ -36,6 +36,8 @@ public class BaseNodeEventHandler implements NodeEventHandler {
         System.out.println("node.getType()" + node.getType());
         System.out.println("node.getLabel()" + node.getLabel());
         System.out.println("node.getDescription()" + node.getDescription());
+
+        processInstance.getCurrentTask();
         System.out.println("---------------------------------\n\n");
     }
 

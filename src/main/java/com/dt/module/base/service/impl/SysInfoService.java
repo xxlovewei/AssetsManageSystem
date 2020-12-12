@@ -10,9 +10,6 @@ import com.dt.core.tool.util.DbUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.db.DB;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -22,7 +19,6 @@ import java.net.URI;
 
 
 @Service
-
 public class SysInfoService extends BaseService {
 
     public static SysInfoService me() {

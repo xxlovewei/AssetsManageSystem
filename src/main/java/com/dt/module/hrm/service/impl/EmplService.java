@@ -2,25 +2,29 @@ package com.dt.module.hrm.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dt.core.common.base.BaseService;
 import com.dt.core.common.base.R;
 import com.dt.core.dao.Rcd;
 import com.dt.core.dao.RcdSet;
-import com.dt.core.dao.sql.Delete;
-import com.dt.core.dao.sql.Insert;
-import com.dt.core.dao.sql.SQL;
-import com.dt.core.dao.sql.Update;
+import com.dt.core.dao.sql.*;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.base.busenum.userTypeEnum;
+import com.dt.module.base.entity.SysApprovalNode;
+import com.dt.module.base.entity.SysUserApproval;
 import com.dt.module.base.entity.SysUserInfo;
+import com.dt.module.base.service.ISysApprovalNodeService;
+import com.dt.module.base.service.ISysUserApprovalService;
 import com.dt.module.base.service.impl.SysUserInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: algernonking
@@ -33,6 +37,9 @@ public class EmplService extends BaseService {
     @Autowired
     SysUserInfoServiceImpl sysUserInfoServiceImpl;
 
+    @Autowired
+    ISysUserApprovalService SysUserApprovalServiceImpl;
+
     /**
      * @Description: 添加员工
      */
@@ -44,7 +51,8 @@ public class EmplService extends BaseService {
         if (ToolUtil.isEmpty(nodes)) {
             return R.FAILURE_REQ_PARAM_ERROR();
         }
-
+        String user_id = ps.getString("user_id");
+        String approval=ps.getString("approval","[]");
         JSONArray nodes_arr = (JSONArray) JSONArray.parse(nodes);
         String emplpartCtl = ifEmplCanMultiPart();
         if (emplpartCtl.equals("Y")) {
@@ -56,6 +64,7 @@ public class EmplService extends BaseService {
         SysUserInfo user = new SysUserInfo();
         user.setLocked("N");
         user.setIslogoff("0");
+        user.setApproval(approval);
         user.setHrmstatus(ps.getString("hrmstatus", ""));
         user.setFposition(ps.getString("fposition", ""));
         user.setSposition(ps.getString("sposition", ""));
@@ -83,6 +92,7 @@ public class EmplService extends BaseService {
         }
         if (user_rs.isSuccess()) {
             db.executeSQLList(exeSqls);
+            updateUserApproval(empl_id,JSONArray.parseArray(approval));
         } else {
             return user_rs;
         }
@@ -109,15 +119,40 @@ public class EmplService extends BaseService {
         return R.SUCCESS_OPER();
     }
 
+    public R updateUserApproval(String emplid,JSONArray approval){
+
+        String node=this.getUserNodeByEmpld(emplid);
+        QueryWrapper<SysUserInfo> userq=new QueryWrapper<>();
+        userq.eq("empl_id",emplid);
+        String userid=sysUserInfoServiceImpl.getOne(userq).getUserId();
+
+        List<SysUserApproval> list=new ArrayList<SysUserApproval>();
+        for(int i=0;i<approval.size();i++){
+            SysUserApproval obj=new SysUserApproval();
+            obj.setNodeid(node);
+            obj.setUserid(userid);
+            obj.setApprovalid(approval.getJSONObject(i).getString("id"));
+            obj.setApprovalcode(approval.getJSONObject(i).getString("code"));
+            list.add(obj);
+        }
+
+        QueryWrapper<SysUserApproval> q=new QueryWrapper<SysUserApproval>();
+        q.eq("userid",userid);
+        SysUserApprovalServiceImpl.remove(q);
+        if(list.size()>0){
+            SysUserApprovalServiceImpl.saveOrUpdateBatch(list);
+        }
+        return R.SUCCESS_OPER();
+    }
     /**
      * @Description: 根据empl_id更新员工
      */
     public R updateEmployee(TypedHashMap<String, Object> ps) {
 
         String nodes = ps.getString("nodes");
-        String user_id = ps.getString("user_id");
         String empl_id = ps.getString("empl_id");
-
+        String user_id = ps.getString("user_id");
+        String approval=ps.getString("approval","[]");
 
         ArrayList<SQL> exeSqls = new ArrayList<SQL>();
 
@@ -126,6 +161,7 @@ public class EmplService extends BaseService {
         }
 
         Update u = new Update("sys_user_info");
+        u.setIf("approval", approval);
         u.setIf("fposition", ps.getString("fposition"));
         u.setIf("hrmstatus", ps.getString("hrmstatus"));
         u.setIf("mail", ps.getString("mail"));
@@ -159,7 +195,7 @@ public class EmplService extends BaseService {
 
         db.execute(u);
         db.executeSQLList(exeSqls);
-
+        updateUserApproval(empl_id,JSONArray.parseArray(approval));
 
         return R.SUCCESS_OPER();
     }

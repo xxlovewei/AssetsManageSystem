@@ -91,6 +91,7 @@ public class CtCategoryController extends BaseController {
         int pagesize = respar.getIntValue("pagesize");
         int pageindex = respar.getIntValue("pageindex");
         QueryWrapper<CtCategory> ew = new QueryWrapper<CtCategory>();
+
         //ew.and(i -> i.eq("user_id", getUserId()).apply(pagesize>10, "rtime>sysdate-1","23"));
         IPage<CtCategory> pdata = CtCategoryServiceImpl.page(new Page<CtCategory>(pageindex, pagesize), ew);
         JSONObject retrunObject = new JSONObject();

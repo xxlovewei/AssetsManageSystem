@@ -430,6 +430,18 @@ function config_system($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('org.approvalnode', {
+        url: "/org_approvalnode",
+        data: {pageTitle: '审批节点'},
+        template: '<div ng-controller="approvalnodeCtl" ng-include="\'views/Template/simpleToolTableTempl.html\'"></div>',
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/org/approvalnode.js?v=' + version]
+                }]);
+            }
+        }
     });
     // 任务设置
     $stateProvider.state('task', {

@@ -53,11 +53,12 @@
         <result column="SHORTMOBILE" property="shortmobile"/>
         <result column="CREATE_BY" property="createBy"/>
         <result column="UPDATE_BY" property="updateBy"/>
-
         <result column="sposition" property="sposition"/>
         <result column="fposition" property="fposition"/>
         <result column="hrmstatus" property="hrmstatus"/>
         <result column="islogoff" property="islogoff"/>
+        <result column="approval" property="approval"/>
+
 
     </resultMap>
     

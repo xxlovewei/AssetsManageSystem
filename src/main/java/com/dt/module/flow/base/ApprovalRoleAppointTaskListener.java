@@ -6,56 +6,61 @@ import com.bstek.uflo.model.task.Task;
 import com.bstek.uflo.process.assign.Assignee;
 import com.bstek.uflo.process.listener.TaskListener;
 import com.bstek.uflo.process.node.TaskNode;
+import com.dt.module.base.service.ISysUserInfoService;
+import com.dt.module.flow.service.impl.BaseFlowService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class BaseTaskListener implements TaskListener {
+public class ApprovalRoleAppointTaskListener implements TaskListener {
+
+
+
+    @Autowired
+    BaseFlowService baseFlowService;
 
     @Override
     public boolean beforeTaskCreate(Context context, ProcessInstance processInstance, TaskNode taskNode) {
         System.out.println("###BaseTaskListener beforeTaskCreate###");
-        System.out.println("processInstance.getId()" + processInstance.getId());
-        System.out.println("processInstance.getProcessId()" + processInstance.getProcessId());
-        System.out.println("processInstance.getBusinessId()" + processInstance.getBusinessId());
-        System.out.println("processInstance.getSubject()" + processInstance.getSubject());
-        System.out.println("processInstance.getCurrentNode()" + processInstance.getCurrentNode());
-        System.out.println("processInstance.getCurrentTask()" + processInstance.getCurrentTask());
-        System.out.println("processInstance.getTag()" + processInstance.getTag());
-        System.out.println("processInstance.getState()" + processInstance.getState());
+//        System.out.println("processInstance.getId()" + processInstance.getId());
+//        System.out.println("processInstance.getProcessId()" + processInstance.getProcessId());
+//        System.out.println("processInstance.getBusinessId()" + processInstance.getBusinessId());
+//        System.out.println("processInstance.getSubject()" + processInstance.getSubject());
+//        System.out.println("processInstance.getCurrentNode()" + processInstance.getCurrentNode());
+//        System.out.println("processInstance.getCurrentTask()" + processInstance.getCurrentTask());
+//        System.out.println("processInstance.getTag()" + processInstance.getTag());
+//        System.out.println("processInstance.getState()" + processInstance.getState());
 
-        processInstance.getMetadata("");
-        System.out.println("taskNode.getProcessId()" + taskNode.getProcessId());
-        System.out.println("taskNode.getLabel()" + taskNode.getLabel());
-        System.out.println("taskNode.getName()" + taskNode.getName());
-        System.out.println("taskNode.getType()" + taskNode.getType());
-        System.out.println("taskNode.getTaskName()" + taskNode.getTaskName());
-        System.out.println("taskNode.getFormTemplate()" + taskNode.getFormTemplate());
-        System.out.println("taskNode.getUrl()" + taskNode.getUrl());
-        System.out.println("taskNode.getAssignees().size()" + taskNode.getAssignees().size());
-        List<Assignee> newdata=new ArrayList<Assignee>();
+//        processInstance.getMetadata("");
+//        System.out.println("taskNode.getProcessId()" + taskNode.getProcessId());
+//        System.out.println("taskNode.getLabel()" + taskNode.getLabel());
+//        System.out.println("taskNode.getName()" + taskNode.getName());
+//        System.out.println("taskNode.getType()" + taskNode.getType());
+//        System.out.println("taskNode.getTaskName()" + taskNode.getTaskName());
+//        System.out.println("taskNode.getFormTemplate()" + taskNode.getFormTemplate());
+//        System.out.println("taskNode.getUrl()" + taskNode.getUrl());
+//        System.out.println("taskNode.getAssignees().size()" + taskNode.getAssignees().size());
+        List<Assignee> newassignee=new ArrayList<Assignee>();
         if(taskNode.getAssignees().size()>0){
             for(int i=0;i< taskNode.getAssignees().size();i++){
-                Assignee  as=taskNode.getAssignees().get(i);
-                as.setId("1310090019822751746");
-                as.setProviderId("ufloUserInfoAssigneeProvider");
-                newdata.add(as);
+                newassignee.add(baseFlowService.queryAssignee(processInstance.getBusinessId(),taskNode.getAssignees().get(i),processInstance.getPromoter(), "49"));
                 System.out.println("assignees:" + taskNode.getAssignees().get(i).getId()+" "+taskNode.getAssignees().get(i).getName()+" "+taskNode.getAssignees().get(i).getProviderId());
             }
-       }
-        taskNode.setAssignees(newdata);
+        }
+        taskNode.setAssignees(newassignee);
         if(taskNode.getAssignees().size()>0){
             for(int i=0;i< taskNode.getAssignees().size();i++){
                 System.out.println("assignees:" + taskNode.getAssignees().get(i).getId()+" "+taskNode.getAssignees().get(i).getName()+" "+taskNode.getAssignees().get(i).getProviderId());
             }
         }
-
-        System.out.println("taskNode.getAssignmentType()" + taskNode.getAssignmentType());
-        System.out.println("taskNode.getTaskType()" + taskNode.getTaskType());
-        System.out.println("taskNode.getDescription()" + taskNode.getDescription());
-        System.out.println("taskNode.getUserData()" + taskNode.getUserData().toString());
+//
+//        System.out.println("taskNode.getAssignmentType()" + taskNode.getAssignmentType());
+//        System.out.println("taskNode.getTaskType()" + taskNode.getTaskType());
+//        System.out.println("taskNode.getDescription()" + taskNode.getDescription());
+//        System.out.println("taskNode.getUserData()" + taskNode.getUserData().toString());
         System.out.println("---------------------------------\n\n");
         return false;
     }

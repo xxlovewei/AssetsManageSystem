@@ -21,6 +21,8 @@ import java.util.Date;
 @Lazy(false)
 public class ScheduledService extends BaseService {
 
+
+
     @Scheduled(cron = "0 */59 * * * ? ")
     public void autoUploadSysInfo() {
         SysInfoService.me().uploadSysInfo();

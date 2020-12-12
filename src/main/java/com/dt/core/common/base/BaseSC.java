@@ -1,10 +1,13 @@
 package com.dt.core.common.base;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.shiro.ShiroKit;
 import com.dt.core.shiro.ShiroUser;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.core.tool.util.support.HttpKit;
 import com.dt.module.db.DB;
+import com.dt.module.hrm.entity.HrmOrgEmployee;
+import com.dt.module.hrm.service.IHrmOrgEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -13,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Description: TODO
  */
 public class BaseSC {
+
+    @Autowired
+    IHrmOrgEmployeeService HrmOrgEmployeeServiceImpl;
+
     @Autowired
     public DB db = null;
 
@@ -54,5 +61,45 @@ public class BaseSC {
             }
         }
         return name;
+    }
+
+    public String getUserNode(String userid) {
+        String result="";
+        if(userid!=null) {
+            QueryWrapper<HrmOrgEmployee> q=new QueryWrapper<HrmOrgEmployee>();
+            q.inSql("empl_id","select empl_id from sys_user_info where user_id='"+userid+"'");
+            HrmOrgEmployee e=HrmOrgEmployeeServiceImpl.getOne(q);
+            if(e!=null){
+                result=e.getNodeId();
+            }
+        }
+        return result;
+    }
+
+    public String getUserNodeByEmpld(String emplid) {
+        String result="";
+        if(emplid!=null) {
+            QueryWrapper<HrmOrgEmployee> q=new QueryWrapper<HrmOrgEmployee>();
+            q.inSql("empl_id",emplid);
+            HrmOrgEmployee e=HrmOrgEmployeeServiceImpl.getOne(q);
+            if(e!=null){
+                result=e.getNodeId();
+            }
+        }
+        return result;
+    }
+
+    public String getMyNode() {
+        String result="";
+        String userid=this.getUserId();
+        if(userid!=null) {
+            QueryWrapper<HrmOrgEmployee> q=new QueryWrapper<HrmOrgEmployee>();
+            q.inSql("empl_id","select empl_id from sys_user_info where user_id='"+userid+"'");
+            HrmOrgEmployee e=HrmOrgEmployeeServiceImpl.getOne(q);
+            if(e!=null){
+                result=e.getNodeId();
+            }
+        }
+        return result;
     }
 }

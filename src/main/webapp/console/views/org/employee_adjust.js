@@ -65,8 +65,10 @@ function importEmployeeCtl($log, $uibModalInstance, notify, $scope, $http,
 // function orgEmpSavePartCtl($rootScope, $scope, $timeout, $log) {
 //
 // }
-function orgEmpSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
+function orgEmpSaveCtl(spnode,$timeout, $localStorage, notify, $log, $uibModal,
                        $uibModalInstance, $scope, id, $http, $rootScope, partOpt, $timeout) {
+    $scope.spOpt=spnode;
+    $scope.spSel=[];
     $scope.partOpt = []
     $scope.partSel = []
     $scope.$watch('partSel', function () {
@@ -149,6 +151,16 @@ function orgEmpSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
                             break;
                         }
                     }
+
+                    var sp=angular.fromJson(res.data.approval);
+                    for(var i=0;i<$scope.spOpt.length;i++){
+                       for(var j=0;j<sp.length;j++){
+                           if(sp[j].id==$scope.spOpt[i].id){
+                               $scope.spSel.push($scope.spOpt[i]);
+                               break;
+                           }
+                       }
+                    }
                     if (!angular.isDefined($scope.posSel.id)) {
                         if (res.data.length > 0) {
                             $scope.posSel = $scope.posOpt[0];
@@ -207,6 +219,9 @@ function orgEmpSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         $scope.data.hrmstatus = $scope.hrmstatusSel.id;
         $scope.data.nodes = angular.toJson($rootScope.sys_partSel);
         $scope.data.fposition = $scope.posSel.id;
+
+
+        $scope.data.approval=angular.toJson($scope.spSel);
         var cmd = "";
         if (angular.isDefined($scope.data.empl_id)) {
             cmd = "/api/hrm/employeeUpdate.do"
@@ -214,6 +229,7 @@ function orgEmpSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
         } else {
             cmd = "/api/hrm/employeeAdd.do";
         }
+        console.log($scope.data)
         $http.post($rootScope.project + cmd, $scope.data).success(
             function (res) {
                 notify({
@@ -252,6 +268,19 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
         "remove": false
     }
     var pbtns = $rootScope.curMemuBtns;
+
+    var spnode=[];
+    $http.post($rootScope.project + "/api/base/sysApprovalNode/selectList.do", {})
+        .success(function (res) {
+            if (res.success) {
+                spnode = res.data;
+            } else {
+                notify({
+                    message: res.message
+                });
+            }
+        })
+
     privCrudCompute($scope.crud, pbtns);
     $http.post($rootScope.project + "/api/hrm/orgQueryLevelList.do", {})
         .success(function (res) {
@@ -316,6 +345,20 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
         return res;
     }
 
+    function renderApproval(data, type, full) {
+
+       var data_arr=angular.fromJson(data);
+       var html="";
+       if(angular.isDefined(data_arr)){
+           for(var i=0;i<data_arr.length;i++){
+               html=html+data_arr[i].node+ " ";
+           }
+       }
+
+       return html;
+    }
+
+
     $scope.dtColumns = [
         DTColumnBuilder.newColumn('empl_id').withTitle('员工编号').withOption(
             'sDefaultContent', ''),
@@ -327,6 +370,8 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('hrmstatus').withTitle('状态').withOption(
             'sDefaultContent', '').renderWith(renderHrmstatus),
+        DTColumnBuilder.newColumn('approval').withTitle('审批节点').withOption(
+            'sDefaultContent', '').renderWith(renderApproval),
         DTColumnBuilder.newColumn('route_name').withTitle('所属组织').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('role_id').withTitle('操作').withOption(
@@ -379,6 +424,9 @@ function orgEmpAdjustCtl($stateParams, DTOptionsBuilder, DTColumnBuilder,
             resolve: {
                 id: function () {
                     return id;
+                },
+                spnode:function () {
+                    return spnode;
                 },
                 partOpt: function () {
                     return $scope.partOpt;

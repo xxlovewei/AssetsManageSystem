@@ -42,6 +42,7 @@ public class SysUserInfoController extends BaseController {
 
     @Autowired
     ISysUserInfoService SysUserInfoServiceImpl;
+
     @Autowired
     ISysUserRoleService SysUserRoleServiceImpl;
 

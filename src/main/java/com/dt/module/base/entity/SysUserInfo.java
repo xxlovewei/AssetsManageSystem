@@ -217,6 +217,20 @@ public class SysUserInfo extends BaseModel<SysUserInfo> {
     @TableField("islogoff")
     private String islogoff;
 
+    @TableField("approval")
+    private String approval;
+
+
+    public String getApproval() {
+        return approval;
+    }
+
+    public void setApproval(String approval) {
+        this.approval = approval;
+    }
+
+
+
 
     public String getIslogoff() {
         return islogoff;

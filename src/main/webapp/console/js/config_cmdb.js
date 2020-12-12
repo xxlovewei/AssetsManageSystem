@@ -152,15 +152,15 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
-    }).state('purchase.purchaselist', {
-        url: "/purchase_purchaselist",
-        data: {pageTitle: '采购'},
-        templateUrl: "views/purchase/purchaselist.html?v=" + version,
+    }).state('purchase.purchase', {
+        url: "/purchase_purchase",
+        data: {pageTitle: '采购流程'},
+        templateUrl: "views/purchase/purchaseflow.html?v=" + version,
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([{
                     serie: true,
-                    files: ['views/purchase/purchaselist.js?v=' + version]
+                    files: ['views/purchase/purchaseflow.js?v=' + version]
                 }]);
             }
         }
@@ -1094,6 +1094,8 @@ function renderZcRecycle(data, type, full) {
             data = data + "(报废流程中)";
         } else if (full.inprocesstype == "DB") {
             data = data + "(调拨流程中)";
+        } else if (full.inprocesstype == "MYZY") {
+            data = data + "(转移流程中)";
         } else {
             data = data + "(流程中)";
         }

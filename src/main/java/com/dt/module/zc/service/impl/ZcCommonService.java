@@ -31,12 +31,16 @@ public class ZcCommonService extends BaseService {
     public static String DATARANGE_BF = "BF";
     //折旧
     public static String DATARANGE_ZJ = "ZJ";
+
     //变更
     public static String DATARANGE_CG = "CG";
     //所有
     public static String DATARANGE_ALL = "all";
     //所有
     public static String DATARANGE_XJ = "XJ";
+
+    //所有
+    public static String DATARANGE_MYZC = "MYZC";
 
     /*****UUID*****/
     public static String UUID_ZC = "ZC";
@@ -50,6 +54,8 @@ public class ZcCommonService extends BaseService {
     public static String UUID_DB = "DB";
     public static String UUID_ZJ = "ZJ";
     public static String UUID_XJ = "XJ";
+
+    public static String UUID_PURCHASE = "PC";
 
     //耗材入库
     public static String UUID_HCRK = "HCRK";
@@ -105,6 +111,11 @@ public class ZcCommonService extends BaseService {
     public static String ZC_BUS_TYPE_CGWB = "CGWB";
     //基本变更
     public static String ZC_BUS_TYPE_CGJB = "CGJB";
+
+
+    //采购
+    public static String ZC_BUS_TYPE_RES_PURCHASE = "RESPURCHASE";
+
 
     /*****其他状态****/
     //维修状态:维修中、维修结束、报废
