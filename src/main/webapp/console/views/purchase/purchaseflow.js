@@ -1,44 +1,4 @@
-function resPurchaseSaveCtl($timeout, $localStorage, notify, $log, $uibModal,
-                              $uibModalInstance, $scope, meta, $http, $rootScope, DTOptionsBuilder,
-                              DTColumnBuilder, $compile) {
 
-    //type:detail,sure,add
-    $rootScope.flowpagetype = meta.flowpagetype;
-    $rootScope.flowbusid = meta.busid;
-    $rootScope.flowtaskid = meta.taskid;
-    $scope.item={};
-    $scope.planOpt=[{id:"inside",name:"计划内"},{id:"outside",name:"计划外"}];
-    $scope.planSel=$scope.planOpt[0];
-    //save,select,
-    if(angular.isUndefined(meta.pagetype)){
-        meta.pagetype="select";
-    }
-    $scope.pagetype=meta.pagetype;
-
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-
-    function close() {
-        $uibModalInstance.close('OK');
-    }
-    $scope.windowclose = function () {
-        $uibModalInstance.close('OK');
-    }
-    $scope.sure = function () {
-        $scope.plan=$scope.planSel.id;
-        $http.post($rootScope.project + "/api/zc/resPurchase/ext/insertOrUpdate.do",
-            $scope.item).success(function (res) {
-            if (res.success) {
-                $uibModalInstance.close('OK');
-            }
-            notify({
-                message: res.message
-            });
-        })
-    }
-
-}
 
 function resPurchaseCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                          $confirm, $log, notify, $scope, $http, $rootScope, $uibModal) {
@@ -105,21 +65,28 @@ function resPurchaseCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
             return data;
         }
     }
-
+        function renderAction(data, type, full) {
+            var acthtml = " <div class=\"btn-group\"> ";
+            acthtml = acthtml + " <button ng-click=\"detail('"
+                + full.id
+                + "','" + full.busid + "','" + full.status + "')\" class=\"btn-white btn btn-xs\">单据详情</button>   ";
+            acthtml = acthtml + "</div>"
+            return acthtml;
+        }
     var ckHtml = '<input ng-model="selectCheckBoxValue" ng-click="selectCheckBoxAll(selectCheckBoxValue)" type="checkbox">';
     $scope.dtColumns = [
         DTColumnBuilder.newColumn(null).withTitle(ckHtml).withClass(
             'select-checkbox checkbox_center').renderWith(function () {
             return ""
         }),
-        DTColumnBuilder.newColumn('id').withTitle('单据详情').withOption(
-            'sDefaultContent', ''),
+        DTColumnBuilder.newColumn('id').withTitle('操作').withOption(
+            'sDefaultContent', '').renderWith(renderAction),
         DTColumnBuilder.newColumn('busid').withTitle('单据编号').withOption(
             'sDefaultContent', ''),
         DTColumnBuilder.newColumn('name').withTitle('名称').withOption(
             'sDefaultContent', '').withOption("width", '30'),
         DTColumnBuilder.newColumn('status').withTitle('办理状态').withOption(
-            'sDefaultContent', '').withOption("width", '30'),
+            'sDefaultContent', '').withOption("width", '30').renderWith(renderZCSPStatus),
         DTColumnBuilder.newColumn('plan').withTitle('计划情况').withOption(
             'sDefaultContent', '').withOption("width", '30').renderWith(renderPlan),
         DTColumnBuilder.newColumn('zcname').withTitle('资产名称').withOption(
@@ -178,15 +145,18 @@ function resPurchaseCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
                 show: true,
                 priv: "remove",
                 template: ' <button ng-click="approval()" class="btn btn-sm btn-primary" type="submit">送审</button>'
-            },
-            {
-                id: "btn5",
-                label: "",
-                type: "btn",
-                show: true,
-                priv: "detail",
-                template: ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详细</button>'
-            }]
+            }
+            // ,
+            // {
+            //     id: "btn5",
+            //     label: "",
+            //     type: "btn",
+            //     show: true,
+            //     priv: "detail",
+            //     template: ' <button ng-click="detail()" class="btn btn-sm btn-primary" type="submit">详细</button>'
+            // }
+            //
+            ]
     }
     $scope.meta = meta;
     privNormalCompute($scope.meta.tools, $rootScope.curMemuBtns);
@@ -226,7 +196,7 @@ function resPurchaseCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         }
     }
 
-    function action( id, busid, status) {
+    function action(id, busid, status) {
         var meta = {};
         meta.id = id;
         meta.status = status;
@@ -236,7 +206,7 @@ function resPurchaseCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         var modalInstance = $uibModal.open({
             backdrop: true,
             templateUrl: 'views/purchase/modal_purchaseSave.html',
-            controller: resPurchaseSaveCtl,
+            controller: resPurchaseOrderCtl,
             size: 'lg',
             resolve: {
                 meta: function () {
@@ -250,77 +220,27 @@ function resPurchaseCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         });
     }
 
-    $scope.cancel = function () {
-        // var selrow = getSelectRow();
-        // if (angular.isDefined(selrow) && angular.isDefined(selrow.id)) {
-        //     $confirm({
-        //         text: '确定要将所选单据取消?'
-        //     }).then(
-        //         function () {
-        //             $http.post(
-        //                 $rootScope.project
-        //                 + "/api/zc/resAllocate/ext/cancelAllocationById.do", {
-        //                     id: selrow.id
-        //                 }).success(function (res) {
-        //                 if (res.success) {
-        //                     flush();
-        //                 } else {
-        //                     notify({
-        //                         message: res.message
-        //                     });
-        //                 }
-        //             });
-        //         });
-        // }
-    }
-    $scope.finish = function () {
-        // var selrow = getSelectRow();
-        // if (angular.isDefined(selrow) && angular.isDefined(selrow.id)) {
-        //     $confirm({
-        //         text: '确定要将所选单据状态修改为已完成?'
-        //     }).then(
-        //         function () {
-        //             $http.post(
-        //                 $rootScope.project
-        //                 + "/api/zc/resAllocate/ext/sureAllocationById.do", {
-        //                     id: selrow.id
-        //                 }).success(function (res) {
-        //                 if (res.success) {
-        //                     flush();
-        //                 } else {
-        //                     notify({
-        //                         message: res.message
-        //                     });
-        //                 }
-        //             });
-        //         });
-        // }
-    }
-    //
-    // $scope.modify = function() {
-    //     var selrow = getSelectRow();
-    //
-    //     if (angular.isDefined(selrow)&&angular.isDefined(selrow.id)) {
-    //         if(selrow.fstatus=="finish"){
-    //             notify({
-    //                 message : "当前状态不允许修改"
-    //             });
-    //             return
-    //         }
-    //         action('modify',selrow.id);
-    //     } else {
-    //         return;
-    //     }
-    //
-    //
-    // }
-    $scope.detail = function () {
-        var selrow = getSelectRow();
-        if (angular.isDefined(selrow) && angular.isDefined(selrow.id)) {
-            action('detail', selrow.id, selrow.uuid, selrow.status);
-        } else {
-            return;
-        }
+
+    $scope.detail = function (id,busid,status) {
+        var ps={};
+        ps.busid = busid;
+        ps.status = status;
+        ps.pagetype="select";
+        ps.flowpagetype = "lookup";
+        var modalInstance = $uibModal.open({
+            backdrop: true,
+            templateUrl: 'views/purchase/modal_purchaseOrder.html',
+            controller: resPurchaseOrderCtl,
+            size: 'blg',
+            resolve: {
+                meta: function () {
+                    return ps;
+                }
+            }
+        });
+
+
+
     }
     $scope.add = function () {
         action();
@@ -330,32 +250,43 @@ function resPurchaseCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
     $scope.approval = function () {
         var item = getSelectRow();
         if (angular.isDefined(item)) {
-            console.log(item);
-            item.ptype = "MYZY";
-            item.busuuid = item.uuid;
             if (item.status != "apply") {
                 notify({
                     message: "该状态不允许送审"
                 });
                 return;
             }
-            var modalInstance = $uibModal.open({
-                backdrop: true,
-                templateUrl: 'views/cmdb/flow/modal_chosenFlowTreeView.html',
-                controller: chosenFlowTreeCtl,
-                size: 'blg',
-                resolve: {
-                    meta: function () {
-                        return item;
-                    }
-                }
-            });
-            modalInstance.result.then(function (result) {
-                if (result == "OK") {
-                    flush();
-                }
-            }, function (reason) {
-            });
+                $confirm({
+                    text: '是否确定送审?'
+                }).then(
+                    function () {
+                        $http.post(
+                            $rootScope.project
+                            + "/api/zc/resPurchase/ext/approval.do", {
+                                busid: item.busid
+                            }).success(function (res) {
+                            if (res.success) {
+                                $http.post(
+                                    $rootScope.project
+                                    + "/api/zc/flow/startAssetFlow.do", res.data).success(function (rs) {
+                                    if (rs.success) {
+                                            flush();
+                                    } else {
+
+                                    }
+                                    notify({
+                                        message: res.message
+                                    });
+
+                                });
+                            } else {
+                                notify({
+                                    message: res.message
+                                });
+                            }
+
+                        });
+                    });
         }
     }
 };

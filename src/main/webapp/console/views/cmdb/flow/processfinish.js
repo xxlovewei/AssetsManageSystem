@@ -143,6 +143,7 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
             var meta = {};
             meta.busid = item.businessId;
             meta.flowpagetype = "lookup";
+            meta.pagetype = "select";
             meta.taskid = item.id;
             var flowhtml = "";
             var flowctl;
@@ -167,6 +168,9 @@ function myProcessfinishCtl($state, DTOptionsBuilder, DTColumnBuilder, $compile,
                         meta.actiontype = 'detail';
                         flowhtml = 'views/cmdb/modal_zcallocation.html';
                         flowctl = modalzcallocationCtl;
+                    } else if (ptype == "RESPURCHASE") {
+                        flowhtml = 'views/purchase/modal_purchaseOrder.html';
+                        flowctl = resPurchaseOrderCtl;
                     } else {
                         ptype = "";
                     }

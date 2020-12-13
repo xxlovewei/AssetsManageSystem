@@ -273,12 +273,20 @@ public class ZcProcessFlowController extends BaseController {
         Task tsk = taskService.getTask(taskId_l);
         String instid = Long.toString(tsk.getProcessInstanceId());
         List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
+        JumpNode jn=null;
+        for(int i=0;i<nodes.size();i++){
+            System.out.println(i+" "+nodes.get(i).getName()+","+nodes.get(i).getLabel()+","+nodes.get(i).getLevel());
+            if(nodes.get(i).getName().contains("结束")){
+                jn=nodes.get(i);
+                break;
+            }
+        }
         if (nodes.size() == 0) {
             return R.FAILURE("无法跳转至结束流程");
         }
-        JumpNode jn = nodes.get(nodes.size() - 1);
-        if (jn.isTask()) {
-            return R.FAILURE("获取的最后一个节点不是结束流程");
+       // JumpNode jn = nodes.get(nodes.size() - 1);
+        if (jn==null||jn.isTask()) {
+            return R.FAILURE("没有获取结束节点");
         }
         sysUfloProcessService.addVariablesInProcessInstance(tsk.getProcessInstanceId(), "pstatusdtl", SysProcessDataService.PSTATUS_DTL_FAILED);
         taskService.forward(taskId_l, jn.getName(), op);

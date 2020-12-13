@@ -220,7 +220,7 @@ public class ZcService extends BaseService {
             id = createUuid5();
             return type + id;
         } else if (type.equals(ZcCommonService.UUID_LY) || type.equals(ZcCommonService.UUID_TK) || type.equals(ZcCommonService.UUID_JY)
-                || type.equals(ZcCommonService.UUID_ZY) || type.equals(ZcCommonService.UUID_XJ)) {
+                || type.equals(ZcCommonService.UUID_ZY)||type.equals(ZcCommonService.UUID_PURCHASE) || type.equals(ZcCommonService.UUID_XJ)) {
             for (i = 0; i < cnt; i++) {
                 QueryWrapper<ResActionItem> ew = new QueryWrapper<ResActionItem>();
                 String finalId = type + id;

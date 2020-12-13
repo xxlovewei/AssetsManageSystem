@@ -1725,10 +1725,13 @@ function flowapprovalCommonCtl($rootScope, $scope, $http, notify) {
     console.log($rootScope.flowtaskid)
     $scope.hideapproval = true;
     $scope.spsuggest = "";
+    $scope.tt="tog "
     if (angular.isDefined($rootScope.flowpagetype) && $rootScope.flowpagetype == "approval") {
         $scope.hideapproval = false;
     }
     $scope.agreen = function () {
+
+
         if ($scope.spsuggest.length == 0) {
             $scope.spsuggest = "同意";
         }
@@ -1738,6 +1741,8 @@ function flowapprovalCommonCtl($rootScope, $scope, $http, notify) {
             });
             return;
         }
+
+
         $http
             .post($rootScope.project + "/api/zc/flow/completeTask.do",
                 {taskId: $rootScope.flowtaskid, opinion: $scope.spsuggest}).success(function (res) {

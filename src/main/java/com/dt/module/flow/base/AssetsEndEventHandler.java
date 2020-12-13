@@ -54,6 +54,7 @@ public class AssetsEndEventHandler extends BaseNodeEventHandler {
         UpdateWrapper<SysProcessData> uw = new UpdateWrapper<SysProcessData>();
         uw.set("pstatus", SysProcessDataService.PSTATUS_FINISH);
         uw.set("pendtime", nowtime);
+
         if (SysProcessDataService.PSTATUS_DTL_SUCCESS.equals(dtlstatus)) {
             System.out.println("调用流程正常结束");
             uw.set("pstatusdtl", SysProcessDataService.PSTATUS_DTL_SUCCESS);

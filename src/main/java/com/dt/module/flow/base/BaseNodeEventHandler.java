@@ -1,11 +1,20 @@
 package com.dt.module.flow.base;
 
 import com.bstek.uflo.env.Context;
+import com.bstek.uflo.expr.ExpressionContext;
+import com.bstek.uflo.model.ProcessDefinition;
 import com.bstek.uflo.model.ProcessInstance;
+import com.bstek.uflo.model.variable.Variable;
 import com.bstek.uflo.process.handler.NodeEventHandler;
 import com.bstek.uflo.process.node.Node;
+import com.bstek.uflo.service.ProcessService;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author: algernonking
@@ -29,16 +38,41 @@ public class BaseNodeEventHandler implements NodeEventHandler {
         System.out.println("processInstance.getCurrentTask()" + processInstance.getCurrentTask());
         System.out.println("processInstance.getTag()" + processInstance.getTag());
         System.out.println("processInstance.getState()" + processInstance.getState());
-
+        System.out.println("processInstance.getParentId()" + processInstance.getParentId());
 
         System.out.println("node.getProcessId()" + node.getProcessId());
         System.out.println("node.getName()" + node.getName());
         System.out.println("node.getType()" + node.getType());
         System.out.println("node.getLabel()" + node.getLabel());
         System.out.println("node.getDescription()" + node.getDescription());
-
         processInstance.getCurrentTask();
         System.out.println("---------------------------------\n\n");
+        Session session = context.getSession();
+        long parentId = processInstance.getParentId();
+        List<ProcessInstance> noneCompleteProcessInstances = session.createCriteria(ProcessInstance.class).add(Restrictions.eq("parentId", parentId)).list();
+        System.out.println("noneCompleteProcessInstances "+noneCompleteProcessInstances.size());
+        for(int i=0;i<noneCompleteProcessInstances.size();i++){
+            System.out.println(noneCompleteProcessInstances.get(i).getCurrentNode());
+            System.out.println(noneCompleteProcessInstances.get(i).getCurrentTask());
+        }
+
+        int parallelCount = processInstance.getParallelInstanceCount();
+        int completedCount = parallelCount - noneCompleteProcessInstances.size();
+        System.out.println("parallelCount"+parallelCount+",completedCount"+completedCount);
+//        ProcessService processService = context.getProcessService();
+//        ExpressionContext expressionContext = context.getExpressionContext();
+//        Iterator var14 = noneCompleteProcessInstances.iterator();
+//        ProcessDefinition pd = processService.getProcessById(processInstance.getProcessId());
+//        while(var14.hasNext()) {
+//            ProcessInstance pi = (ProcessInstance)var14.next();
+//            Node node2 = pd.getNode(pi.getCurrentNode());
+//            node2.cancel(context, processInstance);
+//            session.createQuery("delete " + Variable.class.getName() + " where processInstanceId=:piId").setLong("piId", pi.getId()).executeUpdate();
+//            processService.deleteProcessInstance(pi);
+//            node2.completeActivityHistory(context, pi, (String)null);
+//            expressionContext.removeContext(pi);
+//        }
+
     }
 
 

@@ -4,14 +4,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.RcdSet;
 import com.dt.core.tool.util.ToolUtil;
 import com.dt.module.zc.entity.ResPurchase;
 import com.dt.module.zc.service.IResPurchaseService;
 import com.dt.module.zc.service.impl.ZcCommonService;
 import com.dt.module.zc.service.impl.ZcService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -24,6 +27,21 @@ public class ResPurchaseExtController  extends BaseController {
 
     @Autowired
     ZcService zcService;
+
+    @ResponseBody
+    @Acl(info = "根据Id查询", value = Acl.ACL_USER)
+    @RequestMapping(value = "/selectById.do")
+    public R selectById(@RequestParam(value = "id", required = true, defaultValue = "") String id,String busid) {
+
+        if(ToolUtil.isNotEmpty(busid)){
+            QueryWrapper<ResPurchase> q=new QueryWrapper<>();
+            q.eq("busid",busid);
+            return R.SUCCESS_OPER(ResPurchaseServiceImpl.getOne(q));
+        }else{
+            return R.SUCCESS_OPER(ResPurchaseServiceImpl.getById(id));
+        }
+
+    }
 
 
     @ResponseBody
@@ -52,7 +70,29 @@ public class ResPurchaseExtController  extends BaseController {
     @RequestMapping(value = "/approval.do")
     public R approval(String busid) {
 
-       return R.SUCCESS_OPER();
+        QueryWrapper<ResPurchase> q=new QueryWrapper<>();
+        q.eq("busid",busid);
+        ResPurchase obj=ResPurchaseServiceImpl.getOne(q);
+        if("apply".equals(obj.getStatus())){
+            JSONObject res=new JSONObject();
+            res.put("ifsp","1");
+            res.put("busid",busid);
+            res.put("formtype","none");
+            res.put("title",obj.getName());
+            res.put("ptype",ZcCommonService.ZC_BUS_TYPE_RES_PURCHASE);
+            res.put("psubtype",ZcCommonService.ZC_BUS_TYPE_RES_PURCHASE);
+            res.put("processdefid",obj.getName());
+            RcdSet rs=db.query("select * from sys_process_def where dr='0' and owner in (select id from ct_category where code='ZCCG' and dr='0')");
+            if(rs.size()!=1){
+                return R.FAILURE("当前流程匹配有误。");
+            }else{
+                res.put("processdefid",rs.getRcd(0).getString("id"));
+            }
+            return R.SUCCESS_OPER(res);
+        }else{
+            return R.SUCCESS_OPER("当前状态不能送审");
+        }
+
     }
 
 
