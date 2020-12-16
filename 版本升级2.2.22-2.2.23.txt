@@ -1,5 +1,7 @@
 update sys_params set value='2.2.23' where id='version';
 
+alter table sys_user_info add approval varchar(50) null;
+
 -- auto-generated definition
 create table res_inspection_pitem
 (
@@ -12,7 +14,7 @@ create table res_inspection_pitem
     mark           varchar(50)  null,
     actionuserid   varchar(50)  null,
     actionusername varchar(50)  null,
-    actiontime     date         null,
+    actiontime     datetime     null,
     pics           varchar(500) null,
     loc            varchar(100) null,
     od             decimal      null,
@@ -20,9 +22,9 @@ create table res_inspection_pitem
     create_time    datetime     null,
     update_by      varchar(50)  null,
     update_time    datetime     null,
-    dr             varchar(1)   null
+    dr             varchar(1)   null,
+    method         varchar(50)  null
 );
-
 
 -- auto-generated definition
 create table res_inspection_plan
@@ -40,21 +42,107 @@ create table res_inspection_plan
     update_time datetime     null,
     dr          varchar(1)   null,
     busid       varchar(50)  null,
-    retention   decimal      null
+    retention   decimal      null,
+    method      varchar(50)  null comment '自由巡检 free 固定巡检 fix'
+);
+
+ -- auto-generated definition
+ create table res_inspection_user
+ (
+     id          varchar(50) not null
+         primary key,
+     busid       varchar(50) null,
+     userid      varchar(50) null,
+     create_by   varchar(50) null,
+     create_time datetime    null,
+     update_by   varchar(50) null,
+     update_time datetime    null,
+     dr          varchar(1)  null
+ );
+-- auto-generated definition
+create table res_purchase
+(
+    id              varchar(50)  not null comment '主键'
+        primary key,
+    name            varchar(50)  null comment '类目主名称',
+    status          varchar(50)  null,
+    busid           varchar(50)  null,
+    pinst           varchar(50)  null,
+    plan            varchar(50)  null,
+    zcname          varchar(500) null,
+    zcmodel         varchar(500) null,
+    unit            varchar(50)  null,
+    cnt             varchar(50)  null,
+    estprice        varchar(50)  null,
+    contractamount  varchar(50)  null,
+    purpose         varchar(500) null comment '用途',
+    reason          varchar(100) null comment '原因',
+    mark            varchar(100) null comment '备注',
+    create_username varchar(500) null,
+    files           varchar(50)  null,
+    create_by       varchar(50)  null,
+    create_time     datetime     null,
+    update_by       varchar(50)  null,
+    update_time     datetime     null,
+    dr              varchar(1)   null
 );
 
 -- auto-generated definition
-create table res_inspection_user
+create table sys_approval_meta
 (
-    id          varchar(50) not null
+    id           varchar(50)  not null comment '主键'
         primary key,
-    busid       varchar(50) null,
-    userid      varchar(50) null,
-    create_by   varchar(50) null,
-    create_time datetime    null,
-    update_by   varchar(50) null,
-    update_time datetime    null,
-    dr          varchar(1)  null
+    name         varchar(500) null,
+    busid        varchar(50)  null,
+    provider     varchar(500) null,
+    type         varchar(50)  null,
+    userid       varchar(500) null,
+    nodeid       varchar(50)  null,
+    approvalid   varchar(50)  null,
+    approvalcode varchar(50)  null,
+    mark         varchar(500) null,
+    create_by    varchar(50)  null,
+    create_time  datetime     null,
+    update_time  datetime     null,
+    update_by    varchar(50)  null,
+    dr           varchar(1)   null
 );
+-- auto-generated definition
+create table sys_approval_node
+(
+    id          varchar(50)  not null comment '主键'
+        primary key,
+    node        varchar(50)  null,
+    code        varchar(50)  null,
+    cat         varchar(50)  null,
+    mark        varchar(500) null,
+    create_by   varchar(50)  null,
+    create_time datetime     null,
+    update_time datetime     null,
+    update_by   varchar(50)  null,
+    dr          varchar(1)   null,
+    constraint sanind1
+        unique (code)
+);
+
+-- auto-generated definition
+create table sys_user_approval
+(
+    id           varchar(50) not null comment '主键'
+        primary key,
+    userid       varchar(50) null,
+    nodeid       varchar(50) null,
+    approvalid   varchar(50) null,
+    approvalcode varchar(50) null,
+    dr           char        null,
+    create_by    varchar(50) null,
+    update_by    varchar(50) null,
+    create_time  datetime    null,
+    update_time  datetime    null
+);
+
+
+
+
 
 

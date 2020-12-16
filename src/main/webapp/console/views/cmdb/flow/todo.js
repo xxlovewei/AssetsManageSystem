@@ -147,7 +147,12 @@ function myProcessTodoCtl($window, $state, DTOptionsBuilder, DTColumnBuilder, $c
                     } else if (ptype == "RESPURCHASE") {
                         flowhtml = 'views/purchase/modal_purchaseOrder.html';
                         flowctl = resPurchaseOrderCtl;
-                    } else {
+                    } else if (ptype == "ZY") {
+                        flowhtml = 'views/cmdb/change/modal_tranferOrder.html';
+                        flowctl = resTranferOrderCtl;
+                    }
+
+                    else {
                         ptype = "";
                     }
                     if (angular.isDefined(ptype) && ptype != "") {

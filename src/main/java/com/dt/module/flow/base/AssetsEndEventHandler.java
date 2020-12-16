@@ -47,6 +47,8 @@ public class AssetsEndEventHandler extends BaseNodeEventHandler {
     public void leave(Node node, ProcessInstance processInstance, Context context) {
         System.out.println("###AssetsEndEventHandler Leave Node###" + processInstance.getProcessId());
         String dtlstatus = "";
+        Long id=processInstance.getId();
+        Long pid=processInstance.getParentId();
         dtlstatus = context.getProcessService().getProcessVariable("pstatusdtl", processInstance.getId()).toString();
         Date date = new Date(); // 获取一个Date对象
         DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个格式化日期对象
@@ -67,7 +69,12 @@ public class AssetsEndEventHandler extends BaseNodeEventHandler {
         }
         if (!"".equals(dtlstatus)) {
             SysProcessDataServiceImpl.update(uw);
-            zcChangeService.zcfinishFlow(Long.toString(processInstance.getId()));
+            if("0".equals(Long.toString(pid))){
+                zcChangeService.zcfinishFlow(Long.toString(id));
+            }else{
+                zcChangeService.zcfinishFlow(Long.toString(pid));
+            }
+
         }
         System.out.println("流程结束\n\n");
     }

@@ -156,7 +156,8 @@ public class SysUserInfoServiceImpl extends ServiceImpl<SysUserInfoMapper, SysUs
 
         // 如果密码为空,则随机
         if (ToolUtil.isEmpty(user.getPwd())) {
-            user.setPwd(ToolUtil.getUUID());
+           // user.setPwd(ToolUtil.getUUID());
+            user.setPwd("xn888888");
         }
 
 //		// 如果组织ID为空，则随机

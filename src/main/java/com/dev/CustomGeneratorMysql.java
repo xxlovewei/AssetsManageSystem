@@ -105,7 +105,7 @@ public class CustomGeneratorMysql {
         // "res_attr_value","res_class","res_class_attrs"
         // "res_attr_value","res_class_attrs"
         String busRoute = "zc";
-        strategy.setInclude("res_purchase"); // 需要生成的表
+        strategy.setInclude("res_tranfer"); // 需要生成的表
 
         strategy.setTableFillList(tableFillList);
         strategy.setSuperEntityClass("com.dt.core.common.base.BaseModel");

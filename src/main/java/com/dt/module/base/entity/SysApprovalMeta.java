@@ -45,6 +45,9 @@ public class SysApprovalMeta extends BaseModel<SysApprovalMeta> {
     private String mark;
 
 
+    @TableField("username")
+    private String username;
+
     public String getId() {
         return id;
     }
@@ -135,5 +138,13 @@ public class SysApprovalMeta extends BaseModel<SysApprovalMeta> {
         ", approvalcode=" + approvalcode +
         ", mark=" + mark +
         "}";
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

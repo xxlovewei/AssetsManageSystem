@@ -18,6 +18,7 @@
         <result column="approvalid" property="approvalid" />
         <result column="approvalcode" property="approvalcode" />
         <result column="mark" property="mark" />
+        <result column="username" property="username" />
     </resultMap>
 
 </mapper>

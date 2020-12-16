@@ -47,19 +47,7 @@ public class BaseNodeEventHandler implements NodeEventHandler {
         System.out.println("node.getDescription()" + node.getDescription());
         processInstance.getCurrentTask();
         System.out.println("---------------------------------\n\n");
-        Session session = context.getSession();
-        long parentId = processInstance.getParentId();
-        List<ProcessInstance> noneCompleteProcessInstances = session.createCriteria(ProcessInstance.class).add(Restrictions.eq("parentId", parentId)).list();
-        System.out.println("noneCompleteProcessInstances "+noneCompleteProcessInstances.size());
-        for(int i=0;i<noneCompleteProcessInstances.size();i++){
-            System.out.println(noneCompleteProcessInstances.get(i).getCurrentNode());
-            System.out.println(noneCompleteProcessInstances.get(i).getCurrentTask());
-        }
-
-        int parallelCount = processInstance.getParallelInstanceCount();
-        int completedCount = parallelCount - noneCompleteProcessInstances.size();
-        System.out.println("parallelCount"+parallelCount+",completedCount"+completedCount);
-//        ProcessService processService = context.getProcessService();
+       //        ProcessService processService = context.getProcessService();
 //        ExpressionContext expressionContext = context.getExpressionContext();
 //        Iterator var14 = noneCompleteProcessInstances.iterator();
 //        ProcessDefinition pd = processService.getProcessById(processInstance.getProcessId());

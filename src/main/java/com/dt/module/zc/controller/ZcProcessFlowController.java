@@ -21,6 +21,7 @@ import com.bstek.uflo.utils.EnvironmentUtils;
 import com.dt.core.annotion.Acl;
 import com.dt.core.common.base.BaseController;
 import com.dt.core.common.base.R;
+import com.dt.core.dao.RcdSet;
 import com.dt.core.dao.util.TypedHashMap;
 import com.dt.core.tool.util.ConvertUtil;
 import com.dt.core.tool.util.ToolUtil;
@@ -216,6 +217,7 @@ public class ZcProcessFlowController extends BaseController {
             startProcessInfo.setCompleteStartTaskOpinion(getName() + "开始发起流程");
             Map<String, Object> variables = new HashMap<>();
             variables.put("flowstartusername", this.getName());
+         //   variables.put("flowendnodename", this.getName());
             startProcessInfo.setVariables(variables);
             ProcessInstance inst = processService.startProcessByKey(pdef.getPtplkey(), startProcessInfo);
             pinst = Long.toString(inst.getId());
@@ -263,33 +265,62 @@ public class ZcProcessFlowController extends BaseController {
     }
 
 
+
     @RequestMapping("/refuseTaskForwardEnd.do")
     @ResponseBody
     @Acl(info = "", value = Acl.ACL_USER)
     public R refuseTaskForwardEnd(String taskId, String opinion) {
         //流程跳转到最后节点
+        String endNodeNameLabel="结束";
         TaskOpinion op = new TaskOpinion(opinion);
         long taskId_l = ConvertUtil.toLong(taskId);
         Task tsk = taskService.getTask(taskId_l);
         String instid = Long.toString(tsk.getProcessInstanceId());
         List<JumpNode> nodes = taskService.getAvaliableForwardTaskNodes(taskId_l);
         JumpNode jn=null;
-        for(int i=0;i<nodes.size();i++){
-            System.out.println(i+" "+nodes.get(i).getName()+","+nodes.get(i).getLabel()+","+nodes.get(i).getLevel());
-            if(nodes.get(i).getName().contains("结束")){
-                jn=nodes.get(i);
-                break;
-            }
+        String endNodeName="";
+        System.out.println("list nodes"+ tsk.getPrevTask());
+//        for(int i=0;i<nodes.size();i++){
+//            System.out.println(i+" "+nodes.get(i).getName()+","+nodes.get(i).getLabel()+","+nodes.get(i).getLevel());
+//            if(nodes.get(i).getName().contains(endNodeNameLabel)){
+//                if(!nodes.get(i).isTask()){
+//                    jn=nodes.get(i);
+//                    endNodeName=jn.getName();
+//                    break;
+//                }
+//            }
+//        }
+        //在分支流程跳转到主流程继续寻找
+       if (nodes.size() == 0|| jn==null||ToolUtil.isEmpty(endNodeName)) {
+
+           RcdSet rs=db.query("select * from uflo_task where ROOT_PROCESS_INSTANCE_ID_=?",tsk.getRootProcessInstanceId());
+           System.out.println("继续寻找"+rs.size());
+           for(int k=0;k<rs.size();k++){
+               List<JumpNode> n = taskService.getAvaliableForwardTaskNodes(Long.parseLong(rs.getRcd(k).getString("ID_")));
+               for(int i=0;i<n.size();i++){
+                   System.out.println(i+" "+n.get(i).getName()+","+n.get(i).getLabel()+","+n.get(i).getLevel());
+                   if(n.get(i).getName().contains(endNodeNameLabel)){
+                       if(!n.get(i).isTask()){
+                           jn=n.get(i);
+                           endNodeName=jn.getName();
+                           break;
+                       }
+                   }
+               }
+               if(ToolUtil.isNotEmpty(endNodeName)){
+                   break;
+               }
+           }
         }
-        if (nodes.size() == 0) {
-            return R.FAILURE("无法跳转至结束流程");
-        }
-       // JumpNode jn = nodes.get(nodes.size() - 1);
-        if (jn==null||jn.isTask()) {
-            return R.FAILURE("没有获取结束节点");
-        }
+
+       if(ToolUtil.isEmpty(endNodeName)){
+            return R.FAILURE("未找到结束流程节点");
+
+       }
         sysUfloProcessService.addVariablesInProcessInstance(tsk.getProcessInstanceId(), "pstatusdtl", SysProcessDataService.PSTATUS_DTL_FAILED);
-        taskService.forward(taskId_l, jn.getName(), op);
+        System.out.println("go to endNodeName "+endNodeName);
+        taskService.forward(taskId_l, endNodeName, op);
+
         return R.SUCCESS_OPER();
     }
 

@@ -765,6 +765,18 @@ function config_cmdb($stateProvider, $ocLazyLoadProvider) {
                 }]);
             }
         }
+    }).state('zcchange.zctransfer', {
+        url: "/zcchange_zctransfer",
+        data: {pageTitle: '资产转移 '},
+        templateUrl: "views/cmdb/change/tranfer.html?v=" + version,
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    serie: true,
+                    files: ['views/cmdb/change/tranfer.js?v=' + version]
+                }]);
+            }
+        }
     });
 
 

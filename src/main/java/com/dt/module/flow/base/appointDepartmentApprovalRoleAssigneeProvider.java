@@ -46,6 +46,7 @@ public class appointDepartmentApprovalRoleAssigneeProvider implements AssigneePr
 
     @Override
     public Collection<String> getUsers(String entityId, Context context, ProcessInstance processInstance) {
+        System.out.println("getusers:++++++++++++++++++");
         List<String> list = new ArrayList<String>();
         String suser=processInstance.getPromoter();
         SysUserApproval node=SysUserApprovalServiceImpl.getById(entityId);

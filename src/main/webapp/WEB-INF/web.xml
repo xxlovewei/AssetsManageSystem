@@ -53,6 +53,7 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
+
 	<filter-mapping>
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -149,6 +150,22 @@
 		<url-pattern>/druid/*</url-pattern>
 	</servlet-mapping>
 
+	<filter>
+		<filter-name>lazyLoadingFilter</filter-name>
+		<filter-class>
+			org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
+	</filter>
+	<!--mapping放在struts2过滤器mapping之前 -->
+
+	<filter-mapping>
+		<!--lazyLoadingFilter拦截action，由源码知，其在doFilter之前从sessionFactory获取Session,在doFiler之后关闭Session.
+         即在request穿透lazyLoadingFilter(此时目标Action对象尚未创建)，直到response反穿透lazyLoadingFilter时才关闭先前Session，
+         而事务范围为service接口层，这意味着lazyLoadingFilter所维护的Session生命周期长于任何一个事务存在 -->
+		<filter-name>lazyLoadingFilter</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
+
+
 	<!-- uflo2流程引擎入口 -->
 	<servlet>
 		<servlet-name>ufloServlet</servlet-name>
@@ -158,6 +175,7 @@
 		<servlet-name>ufloServlet</servlet-name>
 		<url-pattern>/uflo/*</url-pattern>
 	</servlet-mapping>
+
 
 
 </web-app>

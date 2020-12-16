@@ -177,6 +177,8 @@ function sysFlowMatchCtl($window, $stateParams, DTOptionsBuilder,
     //     .withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('name').withTitle('名称')
         .withOption('sDefaultContent', ''));
+    $scope.dtColumns.push(DTColumnBuilder.newColumn('ptplname')
+        .withTitle('流程名称').withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('ptplkey')
         .withTitle('流程实例').withOption('sDefaultContent', ''));
     $scope.dtColumns.push(DTColumnBuilder.newColumn('type').withTitle('表单类型')

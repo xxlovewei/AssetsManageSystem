@@ -64,6 +64,7 @@ public class UfloUserInfoAssigneeProvider implements AssigneeProvider {
     @Override
     public Collection<String> getUsers(String entityId, Context context, ProcessInstance processInstance) {
         List<String> list = new ArrayList<String>();
+        System.out.println("UUUUUUUU");
         list.add(entityId);
         return list;
     }

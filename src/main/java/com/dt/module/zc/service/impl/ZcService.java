@@ -271,8 +271,12 @@ public class ZcService extends BaseService {
             sql = sql + " and inprocess='0' and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' and recycle<>'" + ZcRecycleEnum.RECYCLE_SCRAP.getValue() + "'";
         } else if (ZcCommonService.DATARANGE_XJ.equals(datarange)) {
             //巡检
-            sql = sql + "and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' ";
-        } else if (ZcCommonService.DATARANGE_ALL.equals(datarange)) {
+            sql = sql + " and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' ";
+        } else if (ZcCommonService.DATARANGE_MYZY.equals(datarange)) {
+            //我的资产转移
+            sql = sql + " and inprocess='0'  and category='" + ZcCategoryEnum.CATEGORY_ZC.getValue() + "' ";
+            sql = sql+ " and used_userid= '"+this.getUserId()+"'";
+        }else if (ZcCommonService.DATARANGE_ALL.equals(datarange)) {
 
         }
         return sql;
@@ -438,6 +442,7 @@ public class ZcService extends BaseService {
             ressql = sql;
         }
         ressql = ressql + " order by update_time desc,loc,rack,frame";
+        System.out.println(sql);
         return ressql;
     }
 
@@ -863,6 +868,8 @@ public class ZcService extends BaseService {
             sql = sql + buildZcDataRange(ZcCommonService.DATARANGE_JY);
         } else if (ZcCommonService.ZC_BUS_TYPE_XJ.equals(type)) {
             sql = sql + buildZcDataRange(ZcCommonService.DATARANGE_XJ);
+        }else if (ZcCommonService.ZC_BUS_TYPE_MYZY.equals(type)) {
+            sql = sql + buildZcDataRange(ZcCommonService.ZC_BUS_TYPE_MYZY);
         }
         JSONArray items_arr = JSONArray.parseArray(items);
         if (ToolUtil.isNotEmpty(items_arr) && items_arr.size() > 0) {

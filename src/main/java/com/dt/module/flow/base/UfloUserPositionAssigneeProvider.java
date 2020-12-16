@@ -95,7 +95,7 @@ public class UfloUserPositionAssigneeProvider implements AssigneeProvider {
 
     @Override
     public boolean disable() {
-        return false;
+        return true;
     }
 
 }

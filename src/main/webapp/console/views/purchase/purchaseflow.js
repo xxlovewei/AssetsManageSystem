@@ -205,7 +205,7 @@ function resPurchaseCtl(DTOptionsBuilder, DTColumnBuilder, $compile,
         meta.flowpagetype = "lookup";
         var modalInstance = $uibModal.open({
             backdrop: true,
-            templateUrl: 'views/purchase/modal_purchaseSave.html',
+            templateUrl: 'views/purchase/modal_purchaseOrder.html',
             controller: resPurchaseOrderCtl,
             size: 'lg',
             resolve: {

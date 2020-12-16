@@ -17,46 +17,27 @@ import java.util.List;
 @Component
 public class ApprovalRoleAppointTaskListener implements TaskListener {
 
-
-
     @Autowired
     BaseFlowService baseFlowService;
 
     @Override
     public boolean beforeTaskCreate(Context context, ProcessInstance processInstance, TaskNode taskNode) {
-        System.out.println("###BaseTaskListener beforeTaskCreate###");
-//        System.out.println("processInstance.getId()" + processInstance.getId());
-//        System.out.println("processInstance.getProcessId()" + processInstance.getProcessId());
-//        System.out.println("processInstance.getBusinessId()" + processInstance.getBusinessId());
-//        System.out.println("processInstance.getSubject()" + processInstance.getSubject());
-//        System.out.println("processInstance.getCurrentNode()" + processInstance.getCurrentNode());
-//        System.out.println("processInstance.getCurrentTask()" + processInstance.getCurrentTask());
-//        System.out.println("processInstance.getTag()" + processInstance.getTag());
-//        System.out.println("processInstance.getState()" + processInstance.getState());
 
-//        processInstance.getMetadata("");
-//        System.out.println("taskNode.getProcessId()" + taskNode.getProcessId());
-//        System.out.println("taskNode.getLabel()" + taskNode.getLabel());
-//        System.out.println("taskNode.getName()" + taskNode.getName());
-//        System.out.println("taskNode.getType()" + taskNode.getType());
-//        System.out.println("taskNode.getTaskName()" + taskNode.getTaskName());
-//        System.out.println("taskNode.getFormTemplate()" + taskNode.getFormTemplate());
-//        System.out.println("taskNode.getUrl()" + taskNode.getUrl());
-//        System.out.println("taskNode.getAssignees().size()" + taskNode.getAssignees().size());
         List<Assignee> newassignee=new ArrayList<Assignee>();
         if(taskNode.getAssignees().size()>0){
             for(int i=0;i< taskNode.getAssignees().size();i++){
-                newassignee.add(baseFlowService.queryAssignee(processInstance.getBusinessId(),taskNode.getAssignees().get(i),processInstance.getPromoter(), "49"));
+                System.out.println(taskNode.getAssignees().get(i).getProviderId());
+                newassignee.add(baseFlowService.queryAssignee(processInstance.getBusinessId(),taskNode.getAssignees().get(i),processInstance.getPromoter(), null));
                 System.out.println("assignees:" + taskNode.getAssignees().get(i).getId()+" "+taskNode.getAssignees().get(i).getName()+" "+taskNode.getAssignees().get(i).getProviderId());
             }
         }
+
         taskNode.setAssignees(newassignee);
         if(taskNode.getAssignees().size()>0){
             for(int i=0;i< taskNode.getAssignees().size();i++){
                 System.out.println("assignees:" + taskNode.getAssignees().get(i).getId()+" "+taskNode.getAssignees().get(i).getName()+" "+taskNode.getAssignees().get(i).getProviderId());
             }
         }
-//
 //        System.out.println("taskNode.getAssignmentType()" + taskNode.getAssignmentType());
 //        System.out.println("taskNode.getTaskType()" + taskNode.getTaskType());
 //        System.out.println("taskNode.getDescription()" + taskNode.getDescription());
@@ -85,7 +66,6 @@ public class ApprovalRoleAppointTaskListener implements TaskListener {
         System.out.println("task.getProcessId()" + task.getProcessId());
         System.out.println("task.getPrevTask()" + task.getPrevTask());
         System.out.println("task.getPrevState()" + task.getPrevState());
-
         System.out.println("---------------------------------\n\n");
     }
 

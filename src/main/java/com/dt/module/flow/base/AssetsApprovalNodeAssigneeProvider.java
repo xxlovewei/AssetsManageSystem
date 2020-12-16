@@ -48,6 +48,7 @@ public class AssetsApprovalNodeAssigneeProvider implements AssigneeProvider {
     @Override
     public Collection<String> getUsers(String entityId, Context context, ProcessInstance processInstance) {
         List<String> list = new ArrayList<String>();
+        System.out.println("getusers:++++++++++++++++++");
         ResApprovalnode node = ResApprovalnodeServiceImpl.getById(entityId);
         if (node != null) {
             list.add(node.getUserid());
@@ -57,6 +58,6 @@ public class AssetsApprovalNodeAssigneeProvider implements AssigneeProvider {
 
     @Override
     public boolean disable() {
-        return false;
+        return true;
     }
 }

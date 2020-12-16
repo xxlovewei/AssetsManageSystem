@@ -57,7 +57,6 @@ public class ResPurchaseExtController  extends BaseController {
     @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
     @RequestMapping(value = "/insertOrUpdate.do")
     public R insertOrUpdate(ResPurchase entity) {
-
         if(ToolUtil.isEmpty(entity.getId())){
             entity.setBusid(zcService.createUuid(ZcCommonService.UUID_PURCHASE));
             entity.setStatus("apply");
@@ -69,29 +68,26 @@ public class ResPurchaseExtController  extends BaseController {
     @Acl(info = "存在则更新,否则插入", value = Acl.ACL_USER)
     @RequestMapping(value = "/approval.do")
     public R approval(String busid) {
-
         QueryWrapper<ResPurchase> q=new QueryWrapper<>();
         q.eq("busid",busid);
         ResPurchase obj=ResPurchaseServiceImpl.getOne(q);
-        if("apply".equals(obj.getStatus())){
-            JSONObject res=new JSONObject();
-            res.put("ifsp","1");
-            res.put("busid",busid);
-            res.put("formtype","none");
-            res.put("title",obj.getName());
-            res.put("ptype",ZcCommonService.ZC_BUS_TYPE_RES_PURCHASE);
-            res.put("psubtype",ZcCommonService.ZC_BUS_TYPE_RES_PURCHASE);
-            res.put("processdefid",obj.getName());
-            RcdSet rs=db.query("select * from sys_process_def where dr='0' and owner in (select id from ct_category where code='ZCCG' and dr='0')");
-            if(rs.size()!=1){
-                return R.FAILURE("当前流程匹配有误。");
-            }else{
-                res.put("processdefid",rs.getRcd(0).getString("id"));
-            }
-            return R.SUCCESS_OPER(res);
-        }else{
+        if(!"apply".equals(obj.getStatus())){
             return R.SUCCESS_OPER("当前状态不能送审");
         }
+        JSONObject res=new JSONObject();
+        res.put("ifsp","1");
+        res.put("busid",busid);
+        res.put("formtype","none");
+        res.put("title",obj.getName());
+        res.put("ptype",ZcCommonService.ZC_BUS_TYPE_RES_PURCHASE);
+        res.put("psubtype",ZcCommonService.ZC_BUS_TYPE_RES_PURCHASE);
+        res.put("processdefid",obj.getName());
+        RcdSet rs=db.query("select * from sys_process_def where dr='0' and owner in (select id from ct_category where code='ZCCG' and dr='0')");
+        if(rs.size()!=1){
+            return R.FAILURE("未找到流程模版或无法正确匹配到流程模版");
+        }
+        res.put("processdefid",rs.getRcd(0).getString("id"));
+        return R.SUCCESS_OPER(res);
 
     }
 

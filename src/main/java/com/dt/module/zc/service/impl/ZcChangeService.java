@@ -106,6 +106,9 @@ public class ZcChangeService extends BaseService {
     ResPurchaseService resPurchaseService;
 
 
+    @Autowired
+    ResTranferService ResTranferService;
+
     //启动流程
     public R zcStartFlow(String pinst, String uuid, String type, String ifsp, JSONObject data) {
         if (type.equals(ZcCommonService.ZC_BUS_TYPE_LY)) {
@@ -120,6 +123,8 @@ public class ZcChangeService extends BaseService {
             return resAllocateService.startDbFlow(pinst, uuid, ifsp);
         }else if(type.equals(ZcCommonService.ZC_BUS_TYPE_RES_PURCHASE)){
             return resPurchaseService.startFlow(pinst, uuid, ifsp);
+        }else if(type.equals(ZcCommonService.ZC_BUS_TYPE_ZY)){
+            return ResTranferService.startFlow(pinst, uuid, ifsp);
         }
         return R.SUCCESS();
     }
@@ -141,6 +146,8 @@ public class ZcChangeService extends BaseService {
             return resAllocateService.finishDbFlow(sd.getBusid(), sd.getPstatusdtl());
         }else if(ZcCommonService.ZC_BUS_TYPE_RES_PURCHASE.equals(sd.getPtype())){
             return resPurchaseService.finishFlow(sd.getBusid(), sd.getPstatusdtl());
+        }else if(ZcCommonService.ZC_BUS_TYPE_ZY.equals(sd.getPtype())){
+            return ResTranferService.finishFlow(sd.getBusid(), sd.getPstatusdtl());
         }
         fillChangeCt();
         return R.SUCCESS();

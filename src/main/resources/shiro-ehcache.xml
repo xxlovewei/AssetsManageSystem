@@ -3,11 +3,11 @@
 	<diskStore path="java.io.tmpdir"/>
 	<cache name="passwordRetryCache"
 		   eternal="false"
-		   maxElementsInMemory="20000"
-		   maxEntriesLocalHeap="20000"
-		   maxElementsOnDisk="20000"
-		   timeToIdleSeconds="60"
-		   timeToLiveSeconds="600"
+		   maxElementsInMemory="2"
+		   maxEntriesLocalHeap="2"
+		   maxElementsOnDisk="2"
+		   timeToIdleSeconds="5"
+		   timeToLiveSeconds="5"
 		   overflowToDisk="false"
 		   diskPersistent="false"
 		   statistics="true">

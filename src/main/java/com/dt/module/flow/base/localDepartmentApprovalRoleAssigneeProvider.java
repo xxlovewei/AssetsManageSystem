@@ -49,13 +49,13 @@ public class localDepartmentApprovalRoleAssigneeProvider implements AssigneeProv
     @Override
     public Collection<String> getUsers(String entityId, Context context, ProcessInstance processInstance) {
         List<String> list = new ArrayList<String>();
+        System.out.println("getusers:++++++++++++++++++");
         String suser=processInstance.getPromoter();
         System.out.println("promoter:"+suser);
         System.out.println("entityId:"+entityId);
         System.out.println("className:"+this.getName());
         System.out.println("processInstance:"+processInstance.getBusinessId());
-      //SysUserApproval node=SysUserApprovalServiceImpl.getById(entityId);
-        list.add("1310090019822751746");
+        list.add(entityId);
         return list;
     }
 

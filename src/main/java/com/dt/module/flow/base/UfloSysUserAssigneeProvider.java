@@ -66,6 +66,7 @@ public class UfloSysUserAssigneeProvider extends AbstractAssigneeProvider {
      * @return 返回一个或多个任务处理人的ID
      */
     public Collection<String> getUsers(String entityId, Context context, ProcessInstance processInstance) {
+
         List<String> users = new ArrayList<String>();
         users.add(entityId);
         return users;
