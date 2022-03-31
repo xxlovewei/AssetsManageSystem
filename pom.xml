@@ -10,7 +10,7 @@
     <url></url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>5.0.19.RELEASE</spring.version>
+        <spring.version>5.3.18</spring.version>
         <shiro.version>1.7.0</shiro.version>
     </properties>
     <dependencies>
